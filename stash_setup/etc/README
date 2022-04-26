@@ -1,0 +1,97 @@
+* Configuration files used by stash_setup.
+These are JSON files which are read by stash_setup and define its
+configuration.  Each file contains a single JSON object whose
+attributes define the configuration.  Many files can be read (-c
+argument to stash_setup) with attributes in later files overriding
+those in earlier ones.  Attributes can, finally, be overrridden on the
+command line with -s attr val.
+
+It's not very likely that you will need to override many of these
+things in practice.
+
+config.json is read by default for every run, and defines everything
+the system needs to run.
+
+cmip6-config.json should be used for CMIP6, and sets everything right
+for CMIP6.
+
+
+** Attributes & their meanings
+
+*** um_version
+This defines the UM version and is mandatory.
+
+*** STASHmaster control
+stashmaster_dir is the directory where the STASHmaster_A file lives.
+It almost certainly should be null, in which case it is defaulted as
+below.
+
+stashmaster_dir_template is a template directory in which the string
+{umvar} is replaced with the UM version (above), and which can also
+begin with a ~ to specify a user home directory in the normal way.
+Once this template is filled in, if there is a STASHmaster_A file in
+it then it is used as the value of stashmaster_dir.
+
+If the previous step fails, then stashmaster_dir_fallback is used
+(again, ~ is expanded).
+
+*** Rose metadata python library control
+The attributes rose_meta_library, rose_meta_library_template &
+rose_meta_library_fallback work the same way as the STASHmaster
+control attributes.
+
+*** rose_library
+This defines where the Rose python library lives
+
+*** Mappings control
+mappings defines where the CMIP6 spreadsheet lives: if it is null,
+then the spreadsheet is looked for in the data directory (../data from
+here by default: see below) with the file name given by
+mappings_basename.
+
+*** CMIP6 extra profiles control
+profiles & profiles_basename work the same way as for mappings.  This
+file defines extra domain profiles &c which get smashed into the
+configuration.
+
+*** Extra stash requests control
+extras and extras_basename work the same way, and together specify a
+file which should contain any extra stash requests.  This file needs
+to exist but it may be empty.
+
+extras_dict and extras_dict_basename work the same way: the file
+specified defines JSON entries for the extra stash requests.  This
+file should contain just an empty JSON object ({}) if the extra stash
+requests file is empty, but it has to contain something so it can be
+loaded.
+
+*** Corequisite stash request control
+corequisites and corequisites_basename work in the same way and
+specify a JSON file which defines sets of corequisite stash codes: if
+one code is requested on a given profile then the others are added on
+the same profile.
+
+*** Stash request template
+streq_template & streq_template_basename define a file with a template
+stash request.  This is a historical artifact of the code and it will
+probably go away soon.
+
+** Magic attributes
+root, etc, lib and data are forced into the object being built & refer
+to the absolute pathnames of the root directory (.. from here) of the
+system, the etc, lib & data directories (../etc, ../lib, ../data
+respectively).  If you want to override these do so with command-line
+options (-r, -e, -l, -d respectively).
+
+target is also forced into the object, and it's the top directory of
+the suite being stashified.  This comes from the only positional
+argument to stash_setup.
+
+verbosity is an integer which, if positive, might make the system more
+verbose.  It comes from the -v option.
+
+** Other attributes
+You can define other attributes (their names need to be legal Python
+attribute names, and can't begin or end with an underscore).  Nothing
+currently listens to them, but you could, for instance, add a comment
+field or something if the configuration is going to be dumped.

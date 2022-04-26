@@ -1,0 +1,8 @@
+[MESSAGES CONTROL]
+
+disable=logging-format-interpolation
+
+[BASIC]
+
+# Docstrings required for public functions or classes only.
+no-docstring-rgx=_.*

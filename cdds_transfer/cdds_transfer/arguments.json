@@ -1,0 +1,11 @@
+{
+  "transfer_spice": {
+    "log_name": "cdds_transfer_spice"
+  },
+  "send_to_mass": {
+    "log_name": "send_to_mass"
+  },
+  "move_in_mass": {
+    "log_name": "move_in_mass"
+  }
+}

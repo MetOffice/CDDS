@@ -1,0 +1,8 @@
+{
+    "cdds_extract": {
+        "log_name": "cdds_extract"
+    },
+    "remove_ocean_haloes": {
+        "log_name": "remove_ocean_haloes"
+    }
+}

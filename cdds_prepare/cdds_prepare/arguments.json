@@ -1,0 +1,51 @@
+{
+    "package": {
+    },
+    "create_cdds_directory_structure": {
+        "group": "cdds",
+        "log_name": "create_cdds_directory_structure"
+    },
+    "prepare_alter_variable_list": {
+        "default_priority": 1,
+        "log_name": "cdds_prepare_alter"
+    },
+    "prepare_generate_variable_list": {
+        "log_name": "prepare_generate_variable_list",
+        "mapping_status": "ok",
+        "max_priority": 2,
+        "mips": [
+            "AerChemMIP",
+            "C4MIP",
+            "CDRMIP",
+            "CFMIP",
+            "CMIP",
+            "CORDEX",
+            "DAMIP",
+            "DCPP",
+            "DynVar",
+            "FAFMIP",
+            "GeoMIP",
+            "GMMIP",
+            "HighResMIP",
+            "ISMIP6",
+            "LS3MIP",
+            "LUMIP",
+            "OMIP",
+            "PAMIP",
+            "PMIP",
+            "RFMIP",
+            "ScenarioMIP",
+            "SIMIP",
+            "VIACSAB",
+            "VolMIP"
+        ]
+
+    },
+    "prepare_select_variables": {
+        "log_name": "prepare_select_variables"
+    },
+    "create_variables_table_file": {
+        "log_name": "create_variables_csv_file"
+    }
+}
+

@@ -1,0 +1,20 @@
+#!/bin/bash
+CDDS_DIR=$PWD
+
+CDDS_PACKAGES="cdds_common cdds_configure cdds_convert cdds_prepare cdds_template cdds_transfer extract hadsdk mip_convert cdds_qc cdds_qc_plugin_cmip6 cdds_qc_plugin_cf17"
+
+source activate cdds
+
+
+for CDDS_PACKAGE in $CDDS_PACKAGES
+do
+    # Update PATH:
+    if [ -d $CDDS_DIR/$CDDS_PACKAGE/bin ]; then
+        export PATH=$CDDS_DIR/$CDDS_PACKAGE/bin:$PATH
+    fi
+   
+    # Update PYTHONPATH:
+    if [ -d $CDDS_DIR/$CDDS_PACKAGE ]; then
+        export PYTHONPATH=$CDDS_DIR/$CDDS_PACKAGE:$PYTHONPATH
+    fi
+done

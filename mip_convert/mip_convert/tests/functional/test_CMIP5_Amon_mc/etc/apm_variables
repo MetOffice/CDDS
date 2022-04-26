@@ -1,0 +1,5 @@
+[DEFAULT]
+miptable: CMIP5_Amon
+
+[mc]
+mapping_id: CMIP5 (Amon, mc)
