@@ -54,7 +54,6 @@ def _get_development_info():
     # '.devN' should be used in development mode, see PEP 440
     # (https://www.python.org/dev/peps/pep-0440/).
     development_info = '.dev0'
-    
     development_line = _get_branch_name()
     if development_line:
         development_info += development_line
@@ -64,7 +63,6 @@ def _get_development_info():
     modified = _is_modified()
     if modified:
         development_info += modified
-    
     return development_info
 
 
@@ -77,7 +75,7 @@ def _get_branch_name():
     git_command_output = process.communicate()[0].strip()
     if process.returncode == 0:
         branch_name = '+{}'.format(git_command_output)
-    
+
     return branch_name
 
 
@@ -90,8 +88,9 @@ def _get_git_short_hash():
     git_command_output = process.communicate()[0].strip()
     if process.returncode == 0:
         git_short_hash = '.g{}'.format(git_command_output)
-    
+
     return git_short_hash
+
 
 def _is_modified():
     modified = None
@@ -102,5 +101,5 @@ def _is_modified():
     git_command_output = process.communicate()[0]
     if git_command_output:
         modified = 'M'
-    
+
     return modified
