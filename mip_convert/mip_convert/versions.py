@@ -23,7 +23,7 @@ def get_version(package: str) -> str:
     ----------
     package: string
         The name of the package.
-    
+
     Returns
     -------
     version: string
