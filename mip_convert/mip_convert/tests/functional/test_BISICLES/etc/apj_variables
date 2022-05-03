@@ -1,0 +1,5 @@
+[DEFAULT]
+miptable = CMIP5_fx
+
+[areacella]
+mapping_id = CMIP5 (fx, areacella)

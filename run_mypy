@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+run_mypy() {
+  local work_dir=${1:-$PWD}
+  local package_names="cdds_common"
+  local config_file="${work_dir}/config/mypy.ini"
+
+  for package in $package_names
+  do
+      # Run mypy for current App package
+      echo "Checking types in ${package}..."
+      mypy ${work_dir}/${package} --show-error-codes --no-strict-optional --config-file $config_file
+  done
+}
+
+run_mypy

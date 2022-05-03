@@ -1,0 +1,37 @@
+#!/usr/bin/env python
+#
+# A wrapper to get paths &c right & then load the real application
+# Or: another 3% of skel.  I have now reimplemented 138% of skel.
+#
+
+from __future__ import print_function
+
+from sys import argv, path
+from os.path import basename, dirname, abspath, join
+from os import pardir, environ
+from importlib import import_module
+
+me = basename(argv[0])
+root = abspath(join(dirname(argv[0]), pardir))
+module_dir = join(root, "lib", "python")
+debug = (me.upper() + "_DEBUG") in environ
+
+# Add module_dir to the python path (after the current directory,
+# however)
+path.insert(1, module_dir)
+
+# and the environment, so we can run child processes
+environ['PYTHONPATH'] = (":".join((module_dir, environ['PYTHONPATH']))
+                         if 'PYTHONPATH' in environ
+                         else module_dir)
+
+# Now import a module with the same name as the wrapper and run its
+# main, telling it where the root is.
+#
+try:
+    import_module(me).main(root=root)
+except Exception as e:
+    if not debug:
+        exit(e)
+    else:
+        raise

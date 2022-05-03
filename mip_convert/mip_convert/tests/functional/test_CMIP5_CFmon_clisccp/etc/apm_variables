@@ -1,0 +1,6 @@
+[DEFAULT]
+miptable: CMIP5_CFmon
+lbproc = 128
+
+[clisccp]
+mapping_id = CMIP5 (CFmon, clisccp)

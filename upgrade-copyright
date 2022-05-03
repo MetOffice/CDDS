@@ -1,0 +1,75 @@
+#!/bin/bash
+
+parse_options() {
+  # Parse all arguments/options of the command
+  for i in "$@"
+  do
+    case $i in
+    --year=*)
+      NEW_YEAR="${i#*=}"
+      shift
+      ;;
+    -h|--help)
+      HELP=YES
+      shift
+      ;;
+    *)
+      # unknown option
+      ;;
+    esac
+  done
+
+  # Set defaults
+  if [ -z "$NEW_YEAR" ]
+  then
+    # Get current year from system
+    NEW_YEAR=`date +'%Y'`
+  fi
+}
+
+set_work_branch() {
+  # Get URL of current branch
+  svn_info_work=$(fcm branch | grep '^URL:')
+  WORK_BRANCH=$(echo $svn_info_work | sed 's/URL: //')
+
+  # Get URL of parent branch
+  svn_info_parent=$(fcm branch | grep '^Branch Parent:')
+  PARENT_BRANCH=$(echo $svn_info_parent | sed 's/Branch Parent: //')
+}
+
+do_upgrade() {
+  echo "Working Branch URL: ${WORK_BRANCH}"
+  echo "Parent Branch URL: ${PARENT_BRANCH}"
+  echo "New year: ${NEW_YEAR}"
+
+  filesToUpdate=$(fcm diff ${WORK_BRANCH}  ${PARENT_BRANCH} | diffstat | sed 's/[ \t]*|.*$//')
+  filePaths=($(echo "$filesToUpdate" | tr ' ' '\n'))
+
+  for file in "${filePaths[@]}"
+  do
+    if test -f "$file"; then
+      echo "Upgrade copyright in $file"
+      sed -i -E "s/Copyright ([0-9]+)-[0-9]+,/Copyright \\1-${NEW_YEAR},/g" $file
+      sed -i -E "s/British Crown ([0-9]+)-[0-9]+,/British Crown \\1-${NEW_YEAR},/g" $file
+
+      sed -i -E "s/Copyright ([0-9]+),/Copyright \\1-${NEW_YEAR},/g" $file
+      sed -i -E "s/British Crown ([0-9]+),/British Crown \\1-${NEW_YEAR},/g" $file
+    fi
+  done
+}
+
+show_help() {
+    programname=$0
+    echo "Usage: $programname [-h] [--year=newyear]"
+    echo "  --year          year to upgrade to"
+    echo "  -h/--help       display help"
+}
+
+parse_options "$@"
+if [ -n "$HELP" ]
+then
+  show_help
+else
+  set_work_branch
+  do_upgrade
+fi

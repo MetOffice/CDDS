@@ -1,0 +1,10 @@
+{
+    "package": {
+        "x": "x-ray",
+        "y": "yankee",
+        "z": "zulu"
+    },
+    "my_script": {
+        "log_name": "my_log_name"
+    }
+}

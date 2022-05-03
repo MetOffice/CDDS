@@ -1,0 +1,19 @@
+# (C) British Crown Copyright 2015-2019, Met Office.
+# Please see LICENSE.rst for license details.
+
+include *.rst
+include setup.cfg
+include pylintrc
+recursive-include doc *
+recursive-include etc *
+include hadsdk/arguments.json
+include hadsdk/crem/crem.cfg
+include hadsdk/general_config/CMIP6/v1.0.1/general/CMIP6.cfg
+include hadsdk/global_arguments.json
+include hadsdk/global_arguments_jasmin.json
+include hadsdk/grids.cfg
+include hadsdk/streams.cfg
+recursive-include hadsdk/tests *
+recursive-include hadsdk/models/data *
+recursive-include hadsdk/models/data/grid *
+recursive-include hadsdk/models/data/model *

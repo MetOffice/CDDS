@@ -1,0 +1,9 @@
+# (C) British Crown Copyright 2017-2019, Met Office.
+# Please see LICENSE.rst for license details.
+
+include *.rst
+include setup.cfg
+include pylintrc
+recursive-include doc *
+include cdds_convert/arguments.json
+recursive-include cdds_convert/tests *

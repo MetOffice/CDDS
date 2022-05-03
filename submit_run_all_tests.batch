@@ -1,0 +1,16 @@
+#!/bin/bash -l
+
+# Submit this batch submission file using:
+#   sbatch --mail-user=<your_email_address> --partition=<rhel6|rhel7>
+#   submit_run_all_tests.batch
+# This will return 'Submitted batch job <JOBID>' if the submission
+# succeeded. Wait for the e-mail from 'SLURM user', then check the
+# 'slurm-<JOBID>.out' file in the current working directory.
+
+#SBATCH --mail-type=END
+#SBATCH --mem=5G
+#SBATCH --qos=normal
+#SBATCH --time=30
+#SBATCH --wckey=CDDS
+
+/usr/bin/time ./run_all_tests

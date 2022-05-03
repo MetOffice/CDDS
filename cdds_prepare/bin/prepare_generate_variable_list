@@ -1,0 +1,11 @@
+#!/usr/bin/env python3.8
+# (C) British Crown Copyright 2017-2022, Met Office.
+# Please see LICENSE.rst for license details.
+import sys
+
+from cdds_prepare import command_line
+
+
+if __name__ == "__main__":
+    sys.exit(command_line.main_generate_variable_list())
+

@@ -1,0 +1,22 @@
+{
+    "data_request_base_dir": "/home/h03/cdds/etc/data_requests/CMIP6",
+    "data_request_version": "01.00.29",
+    "log_level": "logging.INFO",
+    "mass_data_class": "crum",
+    "root_data_dir": "/project/cdds_data",
+    "root_mip_table_dir": "/home/h03/cdds/etc/mip_tables/CMIP6/",
+    "standard_names_dir": "/project/cdds/etc/standard_names/",
+    "root_proc_dir": "/project/cdds/proc",
+    "user_config_template_name": "mip_convert.cfg.{}",
+    "output_mass_suffix": "development",
+    "output_mass_root": "moose:/adhoc/projects/cdds/",
+    "root_inventory_dir": "/project/cdds/inventory/",
+    "rose_suite_branch": "trunk",
+    "root_ancil_dir": "/project/cdds/etc/ancil/",
+    "root_hybrid_heights_dir": "/project/cdds/etc/vertical_coordinates",
+    "root_replacement_coordinates_dir": "/project/cdds/etc/horizontal_coordinates/",
+    "sites_file": "/project/cdds/etc/cfmip2/cfmip2-sites-orog.txt",
+    "skip_extract": false,
+    "skip_qc": false,
+    "skip_transfer": false
+}

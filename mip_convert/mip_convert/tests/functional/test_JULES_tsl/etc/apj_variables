@@ -1,0 +1,5 @@
+[DEFAULT]
+miptable = CMIP5_Lmon
+
+[tsl]
+mapping_id = CMIP5 (Lmon, tsl)

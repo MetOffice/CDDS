@@ -1,0 +1,143 @@
+{
+    "CV":{
+        "required_global_attributes":[
+            "Conventions",
+            "activity_id",
+            "creation_date",
+            "data_specs_version",
+            "experiment",
+            "experiment_id",
+            "forcing_index",
+            "frequency",
+            "further_info_url",
+            "grid",
+            "grid_label",
+            "initialization_index",
+            "institution",
+            "institution_id",
+            "license",
+            "mip_era",
+            "nominal_resolution",
+            "physics_index",
+            "product",
+            "realization_index",
+            "realm",
+            "source",
+            "source_id",
+            "source_type",
+            "sub_experiment",
+            "sub_experiment_id",
+            "table_id",
+            "tracking_id",
+            "variable_id",
+            "variant_label"
+        ],
+        "version_metadata":{
+            "history":"Hacked about for unit testing"
+        },
+        "activity_id":{
+            "CMIP":"CMIP DECK: 1pctCO2, abrupt4xCO2, amip, esm-piControl, esm-historical, historical, and piControl experiments"
+        },
+        "institution_id":{
+            "MOHC":"Met Office Hadley Centre, Fitzroy Road, Exeter, Devon, EX1 3PB, UK"
+        },
+        "source_id":{
+            "UKESM1-0-LL":{
+                "activity_participation":[
+                    "CMIP"
+                ],
+                "cohort":[
+                    "Registered"
+                ],
+                "institution_id":[
+                    "MOHC"
+                ],
+                "source_id":"UKESM1-0-LL",
+                "source":"UKESM1.0-LL (2018): \naerosol: UKCA-GLOMAP-mode\natmos: MetUM-HadGEM3-GA7.1 (N96; 192 x 144 longitude/latitude; 85 levels; top level 85 km)\natmosChem: UKCA-StratTrop\nland: JULES-ES-1.0\nlandIce: none\nocean: NEMO-HadGEM3-GO6.0 (eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics; 360 x 330 longitude/latitude; 75 levels; top grid cell 0-1 m)\nocnBgchem: MEDUSA2\nseaIce: CICE-HadGEM3-GSI8 (eORCA1 tripolar primarily 1 deg; 360 x 330 longitude/latitude)"
+            }
+        },
+        "source_type":{
+            "history":"Hacked about for unit testing"
+        },
+        "frequency":{
+            "history":"Hacked about for unit testing"
+        },
+        "grid_label":{
+            "history":"Hacked about for unit testing"
+        },
+        "nominal_resolution":[
+            "Hacked about for unit testing"
+        ],
+        "realm":{
+            "history":"Hacked about for unit testing"
+        },
+        "table_id":[
+            "Emon"
+        ],
+        "license":[
+            "^CMIP6 model data produced by .* is licensed under a Creative Commons Attribution.*ShareAlike 4.0 International License .https://creativecommons.org/licenses.* *Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment\\. *Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file).*\\. *The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose\\. *All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law\\.$"
+        ],
+        "mip_era":[
+            "CMIP6"
+        ],
+        "sub_experiment_id":{
+            "none":"none"
+        },
+        "experiment_id":{
+            "piControl":{
+                "activity_id":[
+                    "FOO"
+                ],
+                "additional_allowed_model_components":[
+                    "BAR",
+                    "CHEM",
+                    "BGC"
+                ],
+                "experiment":"pre-industrial control",
+                "experiment_id":"piControl",
+                "parent_activity_id":[
+                    "CMIP"
+                ],
+                "parent_experiment_id":[
+                    "piControl-spinup"
+                ],
+                "required_model_components":[
+                    "AOGCM"
+                ],
+                "sub_experiment_id":[
+                    "none"
+                ]
+            }
+        },
+        "product":[
+            "model-output"
+        ],
+        "tracking_id":[
+            "hdl:21.14100/.*"
+        ],
+        "further_info_url":[
+            "https://furtherinfo.es-doc.org/.*"
+        ],
+        "realization_index":[
+            "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
+        ],
+        "variant_label":[
+            "r[[:digit:]]\\{1,\\}i[[:digit:]]\\{1,\\}p[[:digit:]]\\{1,\\}f[[:digit:]]\\{1,\\}$"
+        ],
+        "data_specs_version":[
+            "^[[:digit:]]\\{2,2\\}\\.[[:digit:]]\\{2,2\\}\\.[[:digit:]]\\{2,2\\}$"
+        ],
+        "Conventions":[
+            "^CF-1.7 CMIP-6.[0-2]\\( UGRID-1.0\\)\\{0,\\}$"
+        ],
+        "forcing_index":[
+            "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
+        ],
+        "initialization_index":[
+            "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
+        ],
+        "physics_index":[
+            "^\\[\\{0,\\}[[:digit:]]\\{1,\\}\\]\\{0,\\}$"
+        ]
+    }
+}

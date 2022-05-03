@@ -1,0 +1,9 @@
+[DEFAULT]
+miptable = CMIP5_day
+lbproc = 128
+
+[pr]
+mapping_id = CMIP3 (A1a, pr)
+valid_min = 0.0
+tol_min = -1.0e-7
+tol_min_action = SET_TO_VALID_VALUE

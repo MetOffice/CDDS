@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ -z "$*" ]
+then
+      export TEST_PACKAGES=${CDDS_PACKAGES}
+else
+      export TEST_PACKAGES=$*
+fi
+
+echo "Running tests for packages:"
+echo ${TEST_PACKAGES}
+
+nosetests -a 'style' ${TEST_PACKAGES}
+

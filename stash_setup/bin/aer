@@ -1,0 +1,86 @@
+#!/usr/bin/env python
+#
+# atmos_enabled report
+#
+
+from __future__ import print_function
+
+from sys import stdin, stdout, argv
+from json import load
+from csv import writer
+from argparse import ArgumentParser
+
+fields = ('stash', 'dom_name', 'tim_name', 'use_name',
+          'sheet_name', 'cmor', 'package')
+field_format ="{0:10} {1:10} {2:10} {3:10} {4:10} {5:10} {6:10}"
+
+def true(e): return True
+
+def json_flist(src, enabledp=True, disabledp=False,
+               element_test=true,
+               filter_test=true):
+    return filter(filter_test,
+                  sorted(tuple(e[f] for f in fields)
+                         for e in load(src).itervalues()
+                         if element_test(e)
+                         if ((enabledp and e['enabled'])
+                             or (disabledp and not e['enabled']))))
+
+def print_flist(flist, csvp=False):
+    if not csvp:
+        for f in flist:
+            print(field_format.format(*f))
+    else:
+        write = writer(stdout, lineterminator='\n').writerow
+        for f in flist:
+            write(f)
+
+def uniquely():
+    seen = set()
+    def uniquep(e):
+        if e not in seen:
+            seen.add(e)
+            return True
+        else:
+            return False
+    return uniquep
+
+if __name__ == '__main__':
+    parser = ArgumentParser(description="report on atmos_enabled.json files")
+    parser.add_argument("-c", "--csv", dest='csvp',
+                        action='store_true', default=False,
+                        help="write CSV")
+    parser.add_argument("-e", "--enabled", dest='rqtype',
+                        action='store_const', const='enabled',
+                        default='enabled',
+                        help="select enabled requests (default)")
+    parser.add_argument("-d", "--disabled", dest='rqtype',
+                        action='store_const', const='disabled',
+                        help="select disabled requests")
+    parser.add_argument("-b", "--both", dest='rqtype',
+                        action='store_const', const='both',
+                        help="select both enabled & disabled requests")
+    parser.add_argument("-u", "--uniquify", dest='uniquifyp',
+                        action='store_true', default=False,
+                        help="don't report entries which look like duplicates")
+    parser.add_argument("files", nargs='*', metavar="file",
+                        help="file or files to read")
+    args = parser.parse_args()
+    # note that this means uniquification runs across all inputs
+    maybe_uniquify = uniquely() if args.uniquifyp else true
+    enabledp = args.rqtype in {'enabled', 'both'}
+    disabledp = args.rqtype in {'disabled', 'both'}
+    if len(args.files) == 0:
+        print_flist(json_flist(stdin,
+                               enabledp=enabledp,
+                               disabledp=disabledp,
+                               filter_test=maybe_uniquify),
+                    csvp=args.csvp)
+    else:
+        for arg in args.files:
+            with open(arg) as src:
+                print_flist(json_flist(src,
+                                       enabledp=enabledp,
+                                       disabledp=disabledp,
+                                       filter_test=maybe_uniquify),
+                            csvp=args.csvp)

@@ -1,0 +1,5 @@
+[DEFAULT]
+miptable: CMIP5_Lmon
+
+[mrfso]
+mapping_id: CMIP5 (Lmon, mrfso)
