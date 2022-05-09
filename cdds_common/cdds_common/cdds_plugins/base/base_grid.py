@@ -177,6 +177,16 @@ class OceanBaseGridInfo(BaseGridInfo):
         """
         return self._halo_options
 
+    @property
+    def atmos_timestep(self) -> int:
+        """
+        Returns the atmosphere time step.
+
+        :return: 'None' because ocean grids have atmosphere time step
+        :rtype: int
+        """
+        return None
+
 
 class AtmosBaseGridInfo(BaseGridInfo):
     """
@@ -206,3 +216,13 @@ class AtmosBaseGridInfo(BaseGridInfo):
         :rtype: dict
         """
         return None
+
+    @property
+    def atmos_timestep(self) -> int:
+        """
+        Returns the atmosphere time step.
+
+        :return: Atmosphere time step
+        :rtype: int
+        """
+        return self._values['atmos_timestep']

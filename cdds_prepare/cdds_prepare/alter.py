@@ -12,6 +12,7 @@ import logging
 
 from cdds_common.common.io import read_json, write_json
 from hadsdk.common import set_checksum
+from hadsdk.streams import retrieve_stream_id, stream_overrides
 
 from cdds_prepare import __version__
 from cdds_prepare.common import retrieve_mappings
@@ -411,6 +412,7 @@ def _apply_insert(requested_variables, change_rules, timestamp, priority,
                     'manual activation.'.format(
                         rule['miptable'], rule['label'], mapping.status))
         # Populate entry with data where possible
+        stream_id, substream = retrieve_stream_id(rule['label'], rule['miptable'], mip_era, stream_overrides())
         entry['active'] = mapping.status == 'ok'
         entry['cell_methods'] = mip_table_data['cell_methods']
         entry['comments'] = ['Inserted {}'.format(timestamp)]
@@ -419,6 +421,7 @@ def _apply_insert(requested_variables, change_rules, timestamp, priority,
         entry['in_mappings'] = not mapping_error
         entry['in_model'] = ALTER_INSERT_UNKNOWN_FIELD
         entry['priority'] = priority
+        entry['stream'] = '{}/{}'.format(stream_id, substream) if substream is not None else stream_id
         # Add to requested variables list
         requested_variables['requested_variables'].append(entry)
         variables_affected[entry['miptable']].append(entry['label'])

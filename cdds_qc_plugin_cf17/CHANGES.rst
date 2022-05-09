@@ -3,6 +3,11 @@
 
 .. include:: common.txt
 
+Release 2.2.5, May 4, 2022
+============================
+
+* No changes
+
 Release 2.2.4, April 22, 2022
 =============================
 

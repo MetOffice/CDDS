@@ -140,6 +140,16 @@ class PluginStore:
             cls._instance = PluginStore()
         return cls._instance
 
+    @classmethod
+    def any_plugin_loaded(cls) -> bool:
+        """
+        Returns if any plugin is already loaded.
+
+        :return: True if a plugin is loaded, otherwise False
+        :rtype: bool
+        """
+        return cls.instance().get_plugin() is not None
+
     def register_plugin(self, plugin: CddsPlugin) -> None:
         """
         Registers a new plugin. If another plugin is already registered, it

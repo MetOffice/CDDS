@@ -40,19 +40,17 @@ def retrieve_variables_by_grid(requested_variables):
         lambda: defaultdict(lambda: defaultdict(str)))
     active_variables = requested_variables.active_variables_by_mip_table
     for mip_table_id, variable_list in active_variables.items():
-        mip_table = '{}_{}'.format(requested_variables.mip_era, mip_table_id)
         for variable in variable_list:
             variable_name, stream_id, substream = variable
             grid_info = retrieve_grid_info(
-                variable_name, mip_table_id, requested_variables.model_id,
-                requested_variables.mip_era, grid_overrides())
+                variable_name, mip_table_id, requested_variables.model_id, grid_overrides())
             if grid_info is None:
                 logger.debug('No grid information available for "{}" for "{}"'
-                             ''.format(variable_name, mip_table))
+                             ''.format(variable_name, mip_table_id))
                 continue
             if stream_id is None:
                 logger.debug('No stream identifier available for "{}" for '
-                             '"{}"'.format(variable_name, mip_table))
+                             '"{}"'.format(variable_name, mip_table_id))
                 continue
             section = 'stream_{}'.format(stream_id)
             # Still need to support substreams in MIP Convert.
@@ -63,6 +61,7 @@ def retrieve_variables_by_grid(requested_variables):
                 logger.debug('Updating grid information for substream "{}"'
                              ''.format(substream))
             grid_info = tuple(list(grid_info) + [substream])
+            mip_table = '{}_{}'.format(requested_variables.mip_era, mip_table_id)
             if variables_by_grid[grid_info][section][mip_table]:
                 variables_by_grid[grid_info][section][mip_table] += ' '
             variables_by_grid[grid_info][section][mip_table] += variable_name

@@ -120,8 +120,7 @@ def get_archive_path(mass_path_root, var_dict, request):
     _, _, grid_label, _ = retrieve_grid_info(var_dict['variable_id'],
                                              var_dict['mip_table_id'],
                                              request.model_id,
-                                             request.mip_era,
-                                             grid_overrides(),
+                                             grid_overrides()
                                              )
     facet_dict = {'grid_label': grid_label}
     facet_dict.update(var_dict)

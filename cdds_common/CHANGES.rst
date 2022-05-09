@@ -3,6 +3,13 @@
 
 .. include:: common.txt
 
+Release 2.2.5, May 4, 2022
+============================
+
+* The atmosphere timestep, used in some mappings, is now supplied via the 
+  ModelParameters class rather than a dictionary. This is only used for request 
+  JSON file creation (#2571)
+
 Release 2.2.4, April 22, 2022
 =============================
 

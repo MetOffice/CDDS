@@ -3,6 +3,12 @@
 
 .. include:: common.txt
 
+Release 2.2.5, May 4, 2022
+===========================
+
+ * When inserting variables into CMIP6 processing the correct stream information is
+   included (#2569)
+
 Release 2.2.4, April 22, 2022
 =============================
 
