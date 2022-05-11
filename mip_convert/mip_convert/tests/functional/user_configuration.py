@@ -109,6 +109,41 @@ def project_info():
         #         'child_base_date': '1978-09-01-00-00-00',
         #     },
         # },
+        'ARISE': {
+            'cmor_setup': {
+                'mip_table_dir': ('{}/etc/mip_tables/ARISE/for_functional_tests'.format(ROOT_CMIP6_MIP_TABLES_DIR)),
+                'netcdf_file_action': 'CMOR_REPLACE_4',
+            },
+            'cmor_dataset': {
+                'branch_method': 'standard',
+                'branch_date_in_child': '1850-01-01-00-00-00',
+                'branch_date_in_parent': '2250-01-01-00-00-00',
+                'experiment_id': 'arise-sai-1p5',
+                'license': (
+                    'ARISE data produced by MOHC is licensed under the Open Government License v3 '
+                    '(https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)'
+                ),
+                'mip': 'ARISE',
+                'mip_era': 'ARISE',
+                'model_id': 'UKESM1-0-LL',
+                'model_type': 'AOGCM',
+                'nominal_resolution': '250 km',
+                'sub_experiment_id': 'none',
+                'variant_label': 'r1i1p1f2',
+                'parent_base_date': '1850-01-01-00-00-00',
+                'parent_experiment_id': 'ssp245',
+                'parent_mip_era': 'CMIP6',
+                'parent_model_id': 'UKESM1-0-LL',
+                'parent_time_units': 'days since 1850-01-01',
+                'parent_variant_label': 'r1i1p1f2',
+            },
+            'request': {
+                'child_base_date': '2000-01-01-00-00-00',
+            },
+            'global_attributes': {
+                'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.historical.none.r1i1p1f2'
+            },
+        },
         'CMIP6': {
             'cmor_setup': {
                 'mip_table_dir': ('{}/etc/mip_tables/CMIP6/for_functional_tests'.format(ROOT_CMIP6_MIP_TABLES_DIR)),
@@ -616,6 +651,25 @@ def specific_info():
                 'filenames': [
                     'tasmax_Amon_UKESM1-0-LL_amip_r1i1p1f1_gn_'
                     '202101-202101.nc'],
+                'ignore_history': True,
+            },
+        },
+        ('ARISE', 'Emon', 'hussLut'): {  # (lat, lon, time, height2m)
+            'COMMON': {
+                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_ARISE_Emon_hussLut',
+            },
+            'request': {
+                'model_output_dir': '${COMMON:root_test_location}/input/set1',
+                'run_bounds': '1850-01-01-00-00-00 1850-03-01-00-00-00',
+                'suite_id': 'u-bc179',
+            },
+            'stream_ap5': {
+                'ARISE_Emon': 'hussLut',
+            },
+            'other': {
+                'filenames': [
+                    'hussLut_Emon_UKESM1-0-LL_arise-sai-1p5_r1i1p1f2_gn_185001-185002.nc'
+                ],
                 'ignore_history': True,
             },
         },
