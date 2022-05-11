@@ -1562,20 +1562,7 @@ def land_use_tile_mean(variable_cube, tile_fraction_cube):
     variable_cube = (variable_cube.extract(land_use_constraint).aggregated_by(['lut'], SUM))
     tile_fraction_cube = (tile_fraction_cube.extract(land_use_constraint).aggregated_by(['lut'], SUM))
 
-    # Some input variable_cubes have a scalar height coordinate. If the input
-    # variable_cube has this coordinate, it is required by the MIP. So we need
-    # to insert it into the output.
-    try:
-        height_coord = variable_cube.coord('height')
-    except CoordinateNotFoundError:
-        height_coord = None
     output_cube = variable_cube / tile_fraction_cube
-    if height_coord:
-        output_height_coord = output_cube.coord('height')
-        if output_height_coord:
-            output_cube.replace_coord(height_coord)
-        else:
-            output_cube.add_aux_coord(height_coord)
 
     # Finalize the lut dimension: check the length, order and naming
     return _finalize_lut_cube(output_cube)
