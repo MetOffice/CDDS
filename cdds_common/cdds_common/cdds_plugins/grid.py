@@ -222,6 +222,17 @@ class GridInfo(object, metaclass=ABCMeta):
         """
         pass
 
+    @property
+    @abstractmethod
+    def atmos_timestep(self) -> int:
+        """
+        Returns the atmosphere time step.
+
+        :return: Atmosphere time step
+        :rtype: int
+        """
+        pass
+
     @abstractmethod
     def ancil_filenames(self) -> List[str]:
         """

@@ -84,11 +84,10 @@ class TestRetrieveGridInfo(unittest.TestCase):
         variable_name = 'tas'
         mip_table_id = 'Amon'
         model = 'HadGEM3-GC31-MM'
-        mip_era = 'CMIP5'
         overrides = ''
         overrides_path = self.create_cfg_file(overrides)
         output = retrieve_grid_info(
-            variable_name, mip_table_id, model, mip_era, overrides_path)
+            variable_name, mip_table_id, model, overrides_path)
         grid_id = 'atmos-native'
         grid = 'Native N216 grid; 432 x 324 longitude/latitude'
         grid_label = Cmip6GridLabel.from_name('native').label
@@ -100,12 +99,10 @@ class TestRetrieveGridInfo(unittest.TestCase):
         variable_name = 'sitemptop'
         mip_table_id = 'SIday'
         model = 'UKESM1-0-LL'
-        mip_era = 'CMIP6'
-        overrides = '[{}_{}]\n{}: atmos regridded\n'.format(
-            mip_era, mip_table_id, variable_name)
+        overrides = '[{}]\n{}: atmos regridded\n'.format(mip_table_id, variable_name)
         overrides_path = self.create_cfg_file(overrides)
         output = retrieve_grid_info(
-            variable_name, mip_table_id, model, mip_era, overrides_path)
+            variable_name, mip_table_id, model, overrides_path)
         grid_id = 'seaice-from-atmos'
         grid = 'Native N96 grid; 192 x 144 longitude/latitude'
         grid_label = Cmip6GridLabel.from_name('regridded').label
@@ -117,10 +114,9 @@ class TestRetrieveGridInfo(unittest.TestCase):
         variable_name = 'tas'
         mip_table_id = 'Xmon'
         model = 'HadGEM3-GC31-LL'
-        mip_era = 'CMIP6'
         overrides_path = self.create_cfg_file('')
         output = retrieve_grid_info(
-            variable_name, mip_table_id, model, mip_era, overrides_path)
+            variable_name, mip_table_id, model, overrides_path)
         reference = None
         self.assertEqual(output, reference)
 
@@ -128,10 +124,9 @@ class TestRetrieveGridInfo(unittest.TestCase):
         variable_name = 'tas'
         mip_table_id = 'Amon'
         model = 'HadGEM3-GC31-XX'
-        mip_era = 'CMIP6'
         overrides_path = self.create_cfg_file('')
         output = retrieve_grid_info(
-            variable_name, mip_table_id, model, mip_era, overrides_path)
+            variable_name, mip_table_id, model, overrides_path)
         reference = None
         self.assertEqual(output, reference)
 

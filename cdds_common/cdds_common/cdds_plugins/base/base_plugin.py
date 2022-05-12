@@ -42,7 +42,7 @@ class MipEra(Enum):
         :rtype: bool
         """
         for cmip_era in MipEra:
-            if mip_era == cmip_era.value:
+            if mip_era.lower() == cmip_era.value:
                 return True
         return False
 

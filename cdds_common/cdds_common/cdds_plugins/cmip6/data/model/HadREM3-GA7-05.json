@@ -10,6 +10,7 @@
   "subdaily_streams": [],
   "grid_info": {
     "atmos": {
+      "atmos_timestep": null,
       "model_info": null,
       "nominal_resolution": null,
       "longitude": null,

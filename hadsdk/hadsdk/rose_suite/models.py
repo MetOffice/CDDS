@@ -5,13 +5,15 @@ import logging
 import os
 
 from cdds_common.common.io import read_json
+from cdds_common.cdds_plugins.plugin_loader import load_plugin
+from cdds_common.cdds_plugins.plugins import PluginStore
+from cdds_common.cdds_plugins.grid import GridType
 from hadsdk.arguments import Arguments
 from hadsdk.common import check_svn_location, determine_rose_suite_url
 from hadsdk.constants import NO_PARENT, STANDARD
 from hadsdk.request import Request
 
-from hadsdk.rose_suite.constants import (ATMOS_TIMESTEP,
-                                         BASE_DATE,
+from hadsdk.rose_suite.constants import (BASE_DATE,
                                          LICENSES,
                                          ROSE_SUITE_FILENAME,
                                          CONFIG_VERSION)
@@ -115,10 +117,12 @@ class RoseSuiteRequest(Request):
         institution_info = self._load_institution_info_from_cv(
             arguments.cv_dir, mip_era, self._suite_info['institution'])
         license = self._load_license(mip_era, institution_info)
-        model_id = self._suite_info['model-id']
+
+        plugin = self._get_plugin(mip_era, arguments)
+        grid_info = plugin.grid_info(model_id, GridType.ATMOS)
 
         base_items = {
-            'atmos_timestep': str(ATMOS_TIMESTEP[model_id]),
+            'atmos_timestep': str(grid_info.atmos_timestep),
             'branch_method': self._get_branch_method(),
             'calendar': self._suite_info['calendar'],
             'child_base_date': BASE_DATE,
@@ -164,6 +168,13 @@ class RoseSuiteRequest(Request):
                 'parent_variant_label': self._suite_info['parent-variant-id']
             }
             self._items.update(parent_items)
+
+    @staticmethod
+    def _get_plugin(mip_era, arguments):
+        plugin_loaded = PluginStore.any_plugin_loaded()
+        if not plugin_loaded:
+            load_plugin(mip_era, arguments.external_plugin)
+        return PluginStore.instance().get_plugin()
 
     def _get_branch_method(self):
         return STANDARD if self._has_parent() else NO_PARENT

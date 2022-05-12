@@ -3,6 +3,12 @@
 
 .. include:: common.txt
 
+Release 2.2.5, May 4, 2022
+============================
+
+* For non-CMIP6 projects the correct grid label and grid information is applied 
+  for variables where the grid is different to the default for that mip table (#2570)
+
 Release 2.2.4, April 22, 2022
 =============================
 

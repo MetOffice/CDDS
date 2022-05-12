@@ -141,6 +141,7 @@
   "subdaily_streams": ["ap6", "ap7", "ap8", "ap9", "apt"],
   "grid_info": {
     "atmos": {
+      "atmos_timestep": 1200,
       "model_info": "N96 grid",
       "nominal_resolution": "250 km",
       "longitude": 192,

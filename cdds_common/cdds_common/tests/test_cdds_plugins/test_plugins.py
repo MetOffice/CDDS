@@ -21,10 +21,18 @@ class TestPluginStore(TestCase):
 
     def test_register_plugin(self):
         plugin = EmptyCddsPlugin()
-        mip_era = EmptyCddsPlugin.MIP_ERA
 
         self.plugin_store.register_plugin(plugin)
         self.assertEqual(self.plugin_store.get_plugin(), plugin)
+
+    def test_no_plugin_loaded(self):
+        self.assertFalse(PluginStore.any_plugin_loaded())
+
+    def test_plugin_loaded(self):
+        plugin = EmptyCddsPlugin()
+
+        self.plugin_store.register_plugin(plugin)
+        self.assertTrue(self.plugin_store.any_plugin_loaded())
 
 
 if __name__ == '__main__':

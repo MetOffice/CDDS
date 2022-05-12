@@ -29,6 +29,7 @@ HELP_SUITE_ARG = 'The suite id.'
 HELP_MASS_DATA_CLASS = 'The root of the location of input dataset on MASS, either "crum" or "ens"'
 HELP_DATES = ('Override {0} date for processing, the default is the `{0}-date` field in the rose-suite.info '
               'file. This does not affect any branch or base dates. Format "YYYY-MM-DD"')
+HELP_EXTERNAL_PLUGIN = 'Module path to external CDDS plugin'
 DESCRIPTION_ARGUMENTS = 'Construct the request information required by CDDS from a Rose suite'
 
 KNOWN_STREAMS = ['apm',  # Atmosphere monthly mean (one or two variables)
@@ -150,6 +151,7 @@ def _read_user_arguments():
     parser.add_argument('--end_date', help=HELP_DATES.format('end'))
     parser.add_argument('--mass_data_class', default=arguments.mass_data_class, help=HELP_MASS_DATA_CLASS)
     parser.add_argument('--mass_ensemble_member', default=None)
+    parser.add_argument('--external_plugin', default='', type=str, help=HELP_EXTERNAL_PLUGIN)
     # Add arguments common to all scripts.
     common_command_line_args(parser, arguments.log_name, arguments.log_level, __version__)
     return arguments, parser

@@ -615,7 +615,8 @@ class TestMainAlterVariableList(unittest.TestCase):
             'in_model': ALTER_INSERT_UNKNOWN_FIELD,
             'label': inserted_label,
             'miptable': inserted_miptable,
-            'priority': 1  # All inserted variables get priority 1
+            'priority': 1,  # All inserted variables get priority 1,
+            'stream': 'ap5'
         }
         self.write_file()
         args = [self.test_filename, 'insert',

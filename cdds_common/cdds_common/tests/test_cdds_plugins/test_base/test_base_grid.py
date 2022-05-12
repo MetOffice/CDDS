@@ -73,6 +73,7 @@ class TestOceanGridInfo(TestCase):
 class TestAtmosGridInfo(TestCase):
     def setUp(self):
         self.json = {
+            "atmos_timestep": 1200,
             "model_info": "N96 grid",
             "nominal_resolution": "250 km",
             "longitude": 192,
@@ -109,6 +110,10 @@ class TestAtmosGridInfo(TestCase):
     def test_levels(self):
         levels = self.atmos_grid_info.levels
         self.assertEqual(levels, 85)
+
+    def test_atmos_timestep(self):
+        atmos_timestep = self.atmos_grid_info.atmos_timestep
+        self.assertEqual(atmos_timestep, 1200)
 
 
 if __name__ == '__main__':

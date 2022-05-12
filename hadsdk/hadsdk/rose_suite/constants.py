@@ -1,13 +1,6 @@
 # (C) British Crown Copyright 2020-2021, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
-ATMOS_TIMESTEP = {
-    'UKESM1-0-LL': 1200,
-    'UKESM1-ice-LL': 1200,
-    'HadGEM3-GC31-LL': 1200,
-    'HadGEM3-GC31-MM': 900,
-}
-
 UKESM_URL = 'https://ukesm.ac.uk/cmip6'
 
 BASE_DATE = '1850-01-01-00-00-00'

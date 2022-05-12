@@ -121,8 +121,7 @@ class Grid(object):
         return info
 
 
-def retrieve_grid_objects(variable_name, mip_table_id, model, mip_era,
-                          overrides_path):
+def retrieve_grid_objects(variable_name, mip_table_id, model, overrides_path):
     """
     Return the grid information (grid_id, grid, grid_label and nominal
     resolution) for the |MIP requested variable|.
@@ -140,8 +139,6 @@ def retrieve_grid_objects(variable_name, mip_table_id, model, mip_era,
         The |MIP table identifier|.
     model: str
         The |model|.
-    mip_era: str
-        The |MIP era|.
     overrides_path: str
         The full path to the configuration file containing the grid
         overrides.
@@ -152,9 +149,8 @@ def retrieve_grid_objects(variable_name, mip_table_id, model, mip_era,
         A hadsdk.grids.Grid object.
     """
     override_values = load_override_values(overrides_path)
-    mip_table = '{}_{}'.format(mip_era, mip_table_id)
     try:
-        grid_params = override_values[mip_table][variable_name].split()
+        grid_params = override_values[mip_table_id][variable_name].split()
     except KeyError:
         try:
             grid_params = default_grid_ids()[mip_table_id]
@@ -167,8 +163,7 @@ def retrieve_grid_objects(variable_name, mip_table_id, model, mip_era,
     return grid
 
 
-def retrieve_grid_info(variable_name, mip_table_id, model, mip_era,
-                       overrides_path):
+def retrieve_grid_info(variable_name, mip_table_id, model, overrides_path):
     """
     Return the grid information (grid_id, grid, grid_label and nominal
     resolution) for the |MIP requested variable|.
@@ -186,8 +181,6 @@ def retrieve_grid_info(variable_name, mip_table_id, model, mip_era,
         The |MIP table identifier|.
     model: str
         The |model|.
-    mip_era: str
-        The |MIP era|.
     overrides_path: str
         The full path to the configuration file containing the grid
         overrides.
@@ -200,7 +193,7 @@ def retrieve_grid_info(variable_name, mip_table_id, model, mip_era,
     """
     grid_info = None
     try:
-        grid = retrieve_grid_objects(variable_name, mip_table_id, model, mip_era, overrides_path)
+        grid = retrieve_grid_objects(variable_name, mip_table_id, model, overrides_path)
         if grid:
             grid_info = (grid.id, grid.description, grid.label, grid.nominal_resolution)
     except (KeyError, ValueError):
