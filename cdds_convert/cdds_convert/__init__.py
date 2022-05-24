@@ -6,6 +6,6 @@ The CDDS Convert package is a tool for managing MIP Convert processes.
 from cdds_convert.versions import get_version
 
 
-_DEV = False
+_DEV = True
 _NUMERICAL_VERSION = '2.3.0'
 __version__ = get_version('cdds_convert')

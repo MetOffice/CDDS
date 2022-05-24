@@ -8,6 +8,6 @@ download by the ESGF node run by CEDA.
 from cdds_transfer.versions import get_version
 
 
-_DEV = False
+_DEV = True
 _NUMERICAL_VERSION = '2.3.0'
 __version__ = get_version('cdds_transfer')

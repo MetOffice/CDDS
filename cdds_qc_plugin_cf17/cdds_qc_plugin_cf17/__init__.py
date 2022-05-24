@@ -7,6 +7,6 @@ some additional features and configurability.
 from cdds_qc_plugin_cf17.versions import get_version
 
 
-_DEV = False
+_DEV = True
 _NUMERICAL_VERSION = '2.3.0'
 __version__ = get_version('cdds_qc_plugin_cf17')
