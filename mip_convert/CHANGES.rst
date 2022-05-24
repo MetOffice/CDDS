@@ -3,6 +3,12 @@
 
 .. include:: common.txt
 
+Release 2.3.0, May 24, 2022
+============================
+
+* Development moved to github
+* Duplicate coordinates error rased when producing certain variables is now not raised (CDDSO-109)
+
 Release 2.2.5, May 4, 2022
 ============================
 
