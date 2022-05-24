@@ -7,5 +7,5 @@ one or more of the CDDS components.
 from hadsdk.versions import get_version
 
 _DEV = True
-_NUMERICAL_VERSION = '2.3.0'
+_NUMERICAL_VERSION = '2.3.1'
 __version__ = get_version('hadsdk')
