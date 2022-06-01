@@ -13,12 +13,15 @@ from nose.plugins.attrib import attr
 
 from cdds_common.cdds_plugins.plugin_loader import load_plugin
 from transfer.command_line import main_store, parse_args_store
+from transfer.tests.data.store_test_data import TestData, UseCase
+from transfer.tests.data.store_test_log import LogFile, LogKey
 from hadsdk.mass import mass_info
 from hadsdk.config import FullPaths
 from hadsdk.request import read_request
 
 
 @attr('slow')
+@unittest.mock.patch('hadsdk.common.get_log_datestamp', return_value='2019-11-23T1432Z')
 class TestMainStore(unittest.TestCase):
     """
     Tests for :func:`main` in :mod:`command_line.py`.
@@ -63,6 +66,22 @@ class TestMainStore(unittest.TestCase):
             if os.path.isdir(dir1):
                 shutil.rmtree(dir1)
 
+    def construct_args(self, test_data: TestData):
+        base_args = [
+            test_data.request_json_path,
+            '--use_proc_dir',
+            '--data_version', test_data.data_version,
+            '--root_proc_dir', test_data.root_proc_dir,
+            '--root_data_dir', test_data.root_data_dir,
+            '--output_mass_root', test_data.mass_root,
+            '--output_mass_suffix', test_data.mass_suffix,
+            '--log_name', test_data.log_name,
+            '--simulate',
+        ]
+        if test_data.stream:
+            base_args += ['--stream', test_data.stream]
+        return base_args
+
     def _construct_base_args(self, test_temp_dir, data_version='v20191128'):
         self.root_proc_dir = os.path.join(test_temp_dir,
                                           self.proc_dir_name)
@@ -97,154 +116,78 @@ class TestMainStore(unittest.TestCase):
             log_txt = log_file.readlines()
         return log_txt
 
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
-    def test_transfer_functional_usecase1_first_archive(
-            self, mock_log_datestamp):
-        mock_log_datestamp.return_value = self.log_datestamp
-        self.log_name = ('test_transfer_functional_'
-                         'usecase1_first_archive')
-        self.mass_root = self.mass_test_base
-        self.mass_suffix = 'use_case_first'
-        test_args = self._construct_base_args(self.temp_test_dir)
+    def test_transfer_functional_usecase1_first_archive(self, mock_log_datestamp):
+        test_data = UseCase.FIRST_ARCHIVE.data
+        test_args = self.construct_args(test_data)
+
+        exit_code = main_store(test_args)
+
+        self.assertEqual(exit_code, 0)
+        log_file = LogFile.load(test_args, test_data.log_name, self.log_datestamp)
+        self.assertSize(log_file.archive_cmds(LogKey.FIRST_PUBLICATION), test_data.number_variables)
+        self.assertSize(log_file.simulation_cmds(LogKey.MOO_TEST), 0)
+        self.assertSize(log_file.simulation_cmds(LogKey.MOO_MKDIR), test_data.number_variables)
+        self.assertSize(log_file.simulation_cmds(LogKey.MOO_PUT), test_data.number_variables)
+        self.assertSize(log_file.critical(), 0)
+
+    def assertSize(self, actual_list, expected_size):
+        self.assertEqual(len(actual_list), expected_size)
+
+    def test_transfer_functional_usecase1_first_archive_single_stream(self, mock_log_datestamp):
+        test_data = UseCase.FIRST_ARCHIVE_SINGLE_STREAM.data
+        test_args = self.construct_args(test_data)
+
+        exit_code = main_store(test_args)
+
+        self.assertEqual(exit_code, 0)
+        log_file = LogFile.load(test_args, test_data.log_name, self.log_datestamp)
+        self.assertSize(log_file.archive_cmds(LogKey.FIRST_PUBLICATION), test_data.number_variables)
+        self.assertSize(log_file.simulation_cmds(LogKey.MOO_TEST), 0)
+        self.assertSize(log_file.simulation_cmds(LogKey.MOO_MKDIR), test_data.number_variables)
+        self.assertSize(log_file.simulation_cmds(LogKey.MOO_PUT), test_data.number_variables)
+
+    def test_transfer_functional_usecase2_append_or_recover(self, mock_log_datestamp):
+        test_data = UseCase.APPEND_OR_RECOVER.data
+        test_args = self.construct_args(test_data)
+
         exit_code = main_store(test_args)
         self.assertEqual(exit_code, 0)
-        log_txt = self._get_log_file_contents(test_args)
-        num_vars = 8
-        mode_msgs = [l1 for l1 in log_txt if 'archiving mode' in l1.lower()]
-        mode_msgs = [l1 for l1 in mode_msgs if
-                     'first publication' in l1.lower()]
-        self.assertEqual(num_vars, len(mode_msgs))
-        mass_log_cmds = [l1 for l1 in log_txt if
-                         'simulating mass command' in l1]
-        mass_is_dir_cmds = [mc1 for mc1 in mass_log_cmds if 'moo test' in mc1]
-        self.assertEqual(len(mass_is_dir_cmds), 0)
-        mass_mkdir_cmds = [mc1 for mc1 in mass_log_cmds if 'moo mkdir' in mc1]
-        self.assertEqual(len(mass_mkdir_cmds), num_vars)
-        mass_put_cmds = [mc1 for mc1 in mass_log_cmds if 'moo put' in mc1]
-        self.assertEqual(len(mass_put_cmds), num_vars)
-        critical_msgs = [l1 for l1 in log_txt if 'CRITICAL' in l1]
-        self.assertEqual(0, len(critical_msgs))
+        log_file = LogFile.load(test_args, test_data.log_name, self.log_datestamp)
+        self.assertSize(log_file.archive_cmds(LogKey.CONTINUE_ABORTED), test_data.number_variables)
+        self.assertSize(log_file.simulation_cmds(LogKey.MOO_TEST), 0)
+        self.assertSize(log_file.simulation_cmds(LogKey.MOO_MKDIR), test_data.number_variables)
+        self.assertSize(log_file.simulation_cmds(LogKey.MOO_PUT), test_data.number_variables)
+        filelist = log_file.moo_put_files()
+        self.assertEqual(len(filelist), 2)
+        self.assertIn('205001-214912', filelist[0])
+        self.assertIn('215001-216912', filelist[1])
+        self.assertSize(log_file.critical(), 0)
 
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
-    def test_transfer_functional_usecase1_first_archive_single_stream(
-            self, mock_log_datestamp):
-        stream = 'ap5'
-        mock_log_datestamp.return_value = self.log_datestamp
-        self.log_name = ('test_transfer_functional_'
-                         'usecase1_first_archive_single_stream')
-        self.mass_root = self.mass_test_base
-        self.mass_suffix = 'use_case_first'
-        test_args = self._construct_base_args(self.temp_test_dir)
-        test_args += ['--stream', stream]
+    def test_transfer_functional_usecase3_extend_submitted(self, mock_log_datestamp):
+        test_data = UseCase.EXTEND_SUBMITTED.data
+        test_args = self.construct_args(test_data)
+
         exit_code = main_store(test_args)
+
         self.assertEqual(exit_code, 0)
-        log_txt = self._get_log_file_contents(test_args, stream=stream)
-        mass_log_cmds = [l1 for l1 in log_txt if
-                         'simulating mass command' in l1]
-        num_vars = 4
-        mode_msgs = [l1 for l1 in log_txt if 'archiving mode' in l1.lower()]
-        mode_msgs = [l1 for l1 in mode_msgs if
-                     'first publication' in l1.lower()]
-        self.assertEqual(num_vars, len(mode_msgs))
-        mass_is_dir_cmds = [mc1 for mc1 in mass_log_cmds if 'moo test' in mc1]
-        self.assertEqual(len(mass_is_dir_cmds), 0)
-        mass_mkdir_cmds = [mc1 for mc1 in mass_log_cmds if 'moo mkdir' in mc1]
-        self.assertEqual(len(mass_mkdir_cmds), num_vars)
-        mass_put_cmds = [mc1 for mc1 in mass_log_cmds if 'moo put' in mc1]
-        self.assertEqual(len(mass_put_cmds), num_vars)
-
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
-    def test_transfer_functional_usecase2_append_or_recover(
-            self, mock_log_datestamp):
-        mock_log_datestamp.return_value = self.log_datestamp
-        self.log_name = ('test_transfer_functional_'
-                         'usecase2_append_or_recover')
-        self.mass_root = self.mass_test_base
-        self.mass_suffix = 'use_case_continuing'
-        test_args = self._construct_base_args(self.temp_test_dir)
-        exit_code = main_store(test_args)
-        self.assertEqual(exit_code, 0)
-        log_txt = self._get_log_file_contents(test_args)
-        mass_log_cmds = [l1 for l1 in log_txt if
-                         'simulating mass command' in l1]
-        num_vars = 8
-        mode_msgs = [l1 for l1 in log_txt if 'archiving mode' in l1.lower()]
-        mode_msgs = [l1 for l1 in mode_msgs if
-                     'continue aborted' in l1.lower()]
-        self.assertEqual(num_vars, len(mode_msgs))
-        mass_is_dir_cmds = [mc1 for mc1 in mass_log_cmds if 'moo test' in mc1]
-        self.assertEqual(len(mass_is_dir_cmds), 0)
-        mass_mkdir_cmds = [mc1 for mc1 in mass_log_cmds if 'moo mkdir' in mc1]
-        self.assertEqual(len(mass_mkdir_cmds), num_vars)
-        mass_put_cmds = [mc1 for mc1 in mass_log_cmds if 'moo put' in mc1]
-        self.assertEqual(len(mass_put_cmds), num_vars)
-        for cmd1 in mass_put_cmds:
-            filelist = sorted(cmd1.split()[9:-1])
-            self.assertEqual(len(filelist), 2)
-            self.assertIn('205001-214912', filelist[0])
-            self.assertIn('215001-216912', filelist[1])
-        critical_msgs = [l1 for l1 in log_txt if 'CRITICAL' in l1]
-        # these are critical messages for the day/uas and day/vas
-        # variables, which are active in the RV file but have no
-        # data, so checking that critical messages were
-        # correctly produced.
-        self.assertEqual(0, len(critical_msgs))
-
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
-    def test_transfer_functional_usecase3_extend_submitted(
-            self, mock_log_datestamp):
-        mock_log_datestamp.return_value = self.log_datestamp
-        self.log_name = ('test_transfer_functional_'
-                         'usecase3_extend_submitted')
-        self.test_dir_root = ('/project/cdds/testdata/functional_tests/transfer/use_case3_appending')
-
-        temp_test_dir = tempfile.mkdtemp()
-        self.directories_to_delete += [temp_test_dir]
-        shutil.copytree(os.path.join(self.test_dir_root, self.proc_dir_name),
-                        os.path.join(temp_test_dir, self.proc_dir_name))
-
-        self.mass_root = self.mass_test_base
-        self.mass_suffix = 'use_case_appending'
-        test_args = self._construct_base_args(temp_test_dir)
-        exit_code = main_store(test_args)
-        self.assertEqual(exit_code, 0)
-        log_txt = self._get_log_file_contents(test_args)
-        mass_log_cmds = [l1 for l1 in log_txt if
-                         'simulating mass command' in l1]
-        num_vars = 8
-        mode_msgs = [l1 for l1 in log_txt if 'archiving mode' in l1.lower()]
-        mode_msgs = [l1 for l1 in mode_msgs if
-                     'append (in time)' in l1.lower()]
-        self.assertEqual(num_vars, len(mode_msgs))
-        mass_is_dir_cmds = [mc1 for mc1 in mass_log_cmds if 'moo test' in mc1]
-        self.assertEqual(len(mass_is_dir_cmds), num_vars * 0)
-        mass_mkdir_cmds = [mc1 for mc1 in mass_log_cmds if 'moo mkdir' in mc1]
-        self.assertEqual(len(mass_mkdir_cmds), num_vars * 3)
-        mass_put_cmds = [mc1 for mc1 in mass_log_cmds if 'moo put' in mc1]
-        self.assertEqual(len(mass_put_cmds), num_vars * 2)
-        mass_put_sup_cmds = [mc1 for mc1 in mass_put_cmds if
-                             'superseded' in mc1]
-        self.assertEqual(len(mass_put_sup_cmds), num_vars)
-        mass_put_emb_cmds = [mc1 for mc1 in mass_put_cmds if
-                             'embargoed' in mc1]
-        self.assertEqual(len(mass_put_emb_cmds), num_vars)
-        for cmd1 in mass_put_emb_cmds:
+        log_file = LogFile.load(test_args, test_data.log_name, self.log_datestamp)
+        self.assertSize(log_file.archive_cmds(LogKey.APPEND_IN_TIME), test_data.number_variables)
+        self.assertSize(log_file.simulation_cmds(LogKey.MOO_TEST), 0)
+        self.assertSize(log_file.simulation_cmds(LogKey.MOO_MKDIR), test_data.number_variables * 3)
+        self.assertSize(log_file.simulation_cmds(LogKey.MOO_PUT), test_data.number_variables * 2)
+        self.assertSize(log_file.moo_put_cmds(LogKey.SUPERSEDED), test_data.number_variables)
+        self.assertSize(log_file.moo_put_cmds(LogKey.EMBARGOED), test_data.number_variables)
+        for cmd1 in log_file.moo_put_cmds(LogKey.EMBARGOED):
             filelist = sorted(cmd1.split()[9:-1])
             self.assertEqual(len(filelist), 1)
             self.assertIn('215001-216912', filelist[0])
-        mass_mv_cmds = [mc1 for mc1 in mass_log_cmds if 'moo mv' in mc1]
-        self.assertEqual(len(mass_mv_cmds), num_vars)
-        for cmd1 in mass_mv_cmds:
+        self.assertSize(log_file.simulation_cmds(LogKey.MOO_MV), test_data.number_variables)
+        for cmd1 in log_file.simulation_cmds(LogKey.MOO_MV):
             filelist = sorted(cmd1.split()[9:-1])
             self.assertEqual(len(filelist), 2)
             self.assertIn('196001-204912', filelist[0])
             self.assertIn('205001-214912', filelist[1])
-        critical_msgs = [l1 for l1 in log_txt if 'CRITICAL' in l1]
-        # these are critical messages for the day/uas and day/vas
-        # variables, which are active in the RV file but have no
-        # data, so checking that critical messages were
-        # correctly produced.
-        self.assertEqual(0, len(critical_msgs))
+        self.assertSize(log_file.critical(), 0)
 
     @unittest.mock.patch('hadsdk.common.get_log_datestamp')
     def test_transfer_functional_usecase4_replace_withdrawn(
