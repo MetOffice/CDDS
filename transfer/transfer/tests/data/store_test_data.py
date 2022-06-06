@@ -22,7 +22,6 @@ class TestData:
     mass_root: str = ''
     mass_suffix: str = ''
     log_name: str = ''
-    log_datestamp = DEFAULT_LOG_DATESTAMP
     stream: str = ''
 
     @property

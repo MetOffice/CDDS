@@ -10,7 +10,7 @@ from nose.plugins.attrib import attr
 
 from cdds_common.cdds_plugins.plugin_loader import load_plugin
 from transfer.command_line import main_store
-from transfer.tests.data.store_test_data import UseCase, DEFAULT_LOG_DATESTAMP, TestData
+from transfer.tests.data.store_test_data import DEFAULT_LOG_DATESTAMP, TestData
 from transfer.tests.data.store_test_utils import LogFile, FileState, ArchiveMode
 from hadsdk.mass import mass_info
 
