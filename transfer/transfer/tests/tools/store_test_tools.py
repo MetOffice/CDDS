@@ -107,10 +107,10 @@ class LogFile:
         return self._simulation_cmds('moo test')
 
     def moo_mkdir_cmds(self) -> List[str]:
-        return self._simulation_cmds('moo_mkdir')
+        return self._simulation_cmds('moo mkdir')
 
     def moo_mv_cmds(self) -> List[str]:
-        return self._simulation_cmds('moo_mv')
+        return self._simulation_cmds('moo mv')
 
     def moo_mv_files(self) -> List[List[str]]:
         moo_mv_cmds = self.moo_mv_cmds()
@@ -120,7 +120,7 @@ class LogFile:
         return result
 
     def moo_put_cmds(self, state: FileState = None) -> List[str]:
-        moo_put_cmds = self._simulation_cmds('moo_put')
+        moo_put_cmds = self._simulation_cmds('moo put')
         if state:
             return [cmd for cmd in moo_put_cmds if state.value in cmd]
         return moo_put_cmds
