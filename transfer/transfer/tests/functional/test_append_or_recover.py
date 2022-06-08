@@ -8,13 +8,13 @@ from unittest import mock
 
 class TestStoreAppendOrRecover(StoreTestCase):
     """
-    USE CASE
+    USE CASE 2
         Append to embargoed data in MASS or pick up after archiving failure for variable Amon/tas
 
     INPUT
         1. nc files on disk
-            >> /project/cdds/testdata/functional_tests/transfer/use_case_various/piControl_10096_data/
-                output/ap5/Amon/tas/
+            >> /project/cdds/testdata/functional_tests/transfer/use_case_various/piControl_10096_data/CMIP6/CMIP/
+                UKESM1-0-LL/piControl/r1i1p1f2/cdds_nightly_test_piControl/output/ap5/Amon/tas/
         2. Files in embargoed state already on MASS
             >> moose:/adhoc/projects/cdds/testdata/transfer_functional/use_case_continuing/development/
                 CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/embargoed/v20190722/

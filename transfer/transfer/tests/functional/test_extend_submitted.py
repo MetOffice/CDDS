@@ -8,13 +8,13 @@ from unittest import mock
 
 class TestStoreExtendSubmitted(StoreTestCase):
     """
-    USE CASE
+    USE CASE 3
         Extending previously submitted dataset for variable Amon/tas
 
     INPUT
         1. nc files on disk
-            >> /project/cdds/testdata/functional_tests/transfer/use_case3_appending/piControl_10096_data/
-                output/ap5/Amon/tas/
+            >> /project/cdds/testdata/functional_tests/transfer/use_case3_appending/piControl_10096_data/CMIP6/CMIP/
+                UKESM1-0-LL/piControl/r1i1p1f2/cdds_nightly_test_piControl/output/ap5/Amon/tas/
         2. Files already available on MASS
             >> moose:/adhoc/projects/cdds/testdata/transfer_functional/use_case_appending/development/
                 CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/available/v20190722/

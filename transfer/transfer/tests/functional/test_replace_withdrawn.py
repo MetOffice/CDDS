@@ -8,7 +8,24 @@ from unittest import mock
 
 class TestStoreReplaceWithdrawn(StoreTestCase):
     """
-    Some description what to test
+    USE CASE 4
+        Replace previously withdrawn dataset
+
+    INPUT
+        1. nc files on disk
+            >> /project/cdds/testdata/functional_tests/transfer/use_case_various/piControl_10096_data/CMIP6/CMIP/
+                UKESM1-0-LL/piControl/r1i1p1f2/cdds_nightly_test_piControl/output/ap5/Amon/tas/
+        2. Files in withdrawn state already on MASS
+            >> moose:/adhoc/projects/cdds/testdata/transfer_functional/use_case_previously_withdrawn/development/
+                CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/withdrawn/v20190722/
+
+    OUTPUT
+        1. Output files in withdrawn state on MASS
+            >> moose:/adhoc/projects/cdds/testdata/transfer_functional/use_case_previously_withdrawn/development/
+                CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/withdrawn/v20190722/
+        2. Output files in embargoed state on MASS
+            >> moose:/adhoc/projects/cdds/testdata/transfer_functional/use_case_previously_withdrawn/development/
+                CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/embargoed/v20190726/
     """
 
     @mock.patch('hadsdk.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)

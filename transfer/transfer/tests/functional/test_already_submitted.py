@@ -8,7 +8,19 @@ from unittest import mock
 
 class TestStoreAlreadySubmitted(StoreTestCase):
     """
-    Some description what to test
+    USE CASE 5
+        Archive data that has already been (partially) submitted
+
+    INPUT
+        1. nc files on disk
+            >> /project/cdds/testdata/functional_tests/transfer/use_case_various/piControl_10096_data/CMIP6/CMIP/
+                UKESM1-0-LL/piControl/r1i1p1f2/cdds_nightly_test_piControl/output/ap5/Amon/tas/
+        2. Available files already on MASS
+            >> moose:/adhoc/projects/cdds/testdata/transfer_functional/use_case_previously_published/development/
+                CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/available/v20190722/
+
+    OUTPUT
+        Critical errors for this variable in log file
     """
 
     @mock.patch('hadsdk.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)

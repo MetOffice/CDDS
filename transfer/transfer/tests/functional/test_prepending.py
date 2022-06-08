@@ -8,7 +8,21 @@ from unittest import mock
 
 class TestStorePrepending(StoreTestCase):
     """
-    Some description what to test
+    USE CASE 9
+        Prepend to data in MASS or pick up after archiving failure for variable Amon/tas
+
+    INPUT
+        1. nc files on disk
+            >> /project/cdds/testdata/functional_tests/transfer/use_case9/piControl_10096_data/CMIP6/CMIP/
+                UKESM1-0-LL/piControl/r1i1p1f2/cdds_nightly_test_piControl/output/ap5/Amon/tas/
+        2. Available files already on MASS
+            >> moose:/adhoc/projects/cdds/testdata/transfer_functional/use_case_9/CMIP6/CMIP/MOHC/
+                UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/available/v20191120
+
+    OUTPUT
+        Output files on MASS
+            >> moose:/adhoc/projects/cdds/testdata/transfer_functional/use_case_9/CMIP6/CMIP/MOHC/
+                UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/embargoed/v20190722/
     """
 
     @mock.patch('hadsdk.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)

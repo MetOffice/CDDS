@@ -10,8 +10,18 @@ from hadsdk.mass import mass_info
 @attr('slow')
 class StoreTestCase(TestCase):
     """
-    All tests are described in details at:
-    https://metoffice.atlassian.net/wiki/spaces/GWVGF/pages/3776905225/Transfer+Archiving+Use+Cases
+    TEST DIRECTORY
+        Root test directory
+            >> /project/cdds/testdata/functional_tests/transfer/
+
+    MODEL INFORMATION
+        * All test uses the nc files created by the model ``UKESM1-0-LL`` for experiment ``piControl``
+          and variant ``r1i1p1f2`` (50 year chunk)
+        * The most tests only consider the stream ``ap5`` and the variable ``Amon/tas``
+
+    MASS
+        Root MASS location
+            >> moose:/adhoc/projects/cdds/testdata/transfer_functional
     """
 
     @classmethod

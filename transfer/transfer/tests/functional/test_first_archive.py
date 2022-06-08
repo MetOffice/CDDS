@@ -8,13 +8,13 @@ from unittest import mock
 
 class TestStoreFirstArchive(StoreTestCase):
     """
-    USE CASE
+    USE CASE 1
         First archiving of dataset for variable Amon/tas
 
     INPUT
         nc files on disk
-            >> /project/cdds/testdata/functional_tests/transfer/use_case_various/piControl_10096_data/
-            output/ap5/Amon/tas/
+            >> /project/cdds/testdata/functional_tests/transfer/use_case_various/piControl_10096_data/CMIP6/CMIP/
+                UKESM1-0-LL/piControl/r1i1p1f2/cdds_nightly_test_piControl/output/ap5/Amon/tas/
 
     OUTPUT
         Output files on MASS
