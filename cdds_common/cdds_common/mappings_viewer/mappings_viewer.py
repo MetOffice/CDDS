@@ -73,7 +73,7 @@ def get_processor_lines(arguments):
 def get_mapping_lines(arguments):
     glob_string = arguments.process_directory + '/*mappings.cfg'
     cfg_files = glob.glob(glob_string)
-    
+
     line_mappings = {}
     for cfg_file in cfg_files:
         cfg_name = cfg_file.split('/')[-1]
@@ -225,7 +225,7 @@ def format_comments(comments):
     ----------
     comments : tuple
         A tuple containing the "comment" and "notes" fields if they exist for a mapping.
-    
+
     Returns
     -------
     formatted_cell : str
@@ -295,7 +295,7 @@ def build_table(table_data, arguments):
 
 def generate_html(table, model, arguments):
     """
-    
+
     """
     html = (HEADER +
             '<h2>Variable Mappings for {} (Generated with CDDS v{})</h2>'.format(model, _NUMERICAL_VERSION) +
