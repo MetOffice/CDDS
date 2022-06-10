@@ -9,31 +9,14 @@ import unittest
 
 from cdds_transfer import config, msg, rabbit
 from cdds_transfer.tests import util
-from cdds_transfer.common import SYSTEMS_ALLOWED_TO_SEND_MESSAGES
 
 
 def config_path():
     return os.path.join(os.environ['HOME'], '.cdds_credentials')
 
 
-def check_if_rabbit_test_can_run():
-    hostname = os.uname()[1]
-    if hostname not in SYSTEMS_ALLOWED_TO_SEND_MESSAGES:
-        raise unittest.SkipTest(
-            "Host name \"{}\" not on the list of systems allowed to send "
-            "messages.".format(hostname))
-    if not os.path.exists(config_path()):
-        raise unittest.SkipTest(
-            "Please install a \".cdds_credentials\" file in your home "
-            "directory")
-
-
-@attr("slow")
+@attr("rabbitMQ")
 class TestRabbitMqManager(unittest.TestCase):
-
-    @classmethod
-    def setUpClass(cls):
-        check_if_rabbit_test_can_run()
 
     def setUp(self):
         cfg = config.Config(config_path())
@@ -92,12 +75,12 @@ class TestRabbitMqManager(unittest.TestCase):
         self.assertEqual(mock_sleep.mock_calls, expected_calls)
 
 
-@attr("slow")
+@attr("rabbitMQ")
 class TestRabbit(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        check_if_rabbit_test_can_run()
+        # check_if_rabbit_test_can_run()
 
         cfg = config.Config(config_path())
         cls.RABBIT_MANAGER = rabbit.RabbitMqManager(cfg)
@@ -203,12 +186,8 @@ class TestRabbit(unittest.TestCase):
         return
 
 
-@attr("slow")
+@attr("rabbitMQ")
 class TestPlainCredentials(unittest.TestCase):
-
-    @classmethod
-    def setUpClass(cls):
-        check_if_rabbit_test_can_run()
 
     def test_start_with_plain(self):
         cfg = config.Config(config_path())

@@ -8,8 +8,6 @@ import os
 
 from cdds_transfer import config, drs, state
 
-SYSTEMS_ALLOWED_TO_SEND_MESSAGES = ['els055', 'els056']
-
 
 def load_rabbit_mq_credentials(cfg):
     """
@@ -29,29 +27,23 @@ def load_rabbit_mq_credentials(cfg):
         True if successful
     """
     logger = logging.getLogger(__name__)
-    if os.uname()[1] not in SYSTEMS_ALLOWED_TO_SEND_MESSAGES:
-        logger.critical(
-            'Only certain the following systems are allowed to send messages: '
-            '"{}"'.format('", "'.join(SYSTEMS_ALLOWED_TO_SEND_MESSAGES)))
-        success = False
-    else:
-        credentials_file = os.path.join(
-            os.environ['HOME'], '.cdds_credentials')
-        logger.info('Looking for Rabbit MQ credentials file at "{}"'
-                    ''.format(credentials_file))
-        success = False
-        if os.path.exists(credentials_file):
-            unix_permissions = oct(os.stat(credentials_file).st_mode)[-3:]
-            if unix_permissions[1:] == '00':
-                files_read = cfg._cp.read(credentials_file)
-                logger.info('Read credentials file "{}"'.format(files_read))
-                success = True
-            else:
-                logger.critical(
-                    'Credentials file must only be readable by the owner')
+    credentials_file = os.path.join(
+        os.environ['HOME'], '.cdds_credentials')
+    logger.info('Looking for Rabbit MQ credentials file at "{}"'
+                ''.format(credentials_file))
+    success = False
+    if os.path.exists(credentials_file):
+        unix_permissions = oct(os.stat(credentials_file).st_mode)[-3:]
+        if unix_permissions[1:] == '00':
+            files_read = cfg._cp.read(credentials_file)
+            logger.info('Read credentials file "{}"'.format(files_read))
+            success = True
+        else:
+            logger.critical(
+                'Credentials file must only be readable by the owner')
 
-        if not success:
-            logger.info('Credentials file not read.')
+    if not success:
+        logger.info('Credentials file not read.')
     return success
 
 

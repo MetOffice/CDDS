@@ -9,24 +9,23 @@ import subprocess
 import sys
 
 CDDS_DIR = os.path.dirname(os.path.realpath(__file__))
-LOG_NAME = os.path.join(CDDS_DIR, 'cdds_test_failures.log')
+LOG_NAME = os.path.join(CDDS_DIR, 'cdds_rabbitmq_test_failures.log')
 ROOT_COMMAND = 'python setup.py nosetests'
 TESTS_TO_RUN = {
-    'cdds_common': ['--with-doctest'],
-    'cdds_configure': ['--with-doctest', '-a slow'],
-    'cdds_convert': ['--with-doctest', '-a integration'],
-    'cdds_prepare': ['--with-doctest', '-a slow', '-a data_request'],
-    'cdds_template': ['--with-doctest', '-a slow'],
-    'cdds_transfer': ['--with-doctest', '-a slow'],  # rabbitMQ tests are only work on els055 or els056!
-    'extract': ['--with-doctest', '-a slow'],
-    'cdds_qc': ['--with-doctest -s'],
-    'cdds_qc_plugin_cf17': ['--with-doctest'],
-    'cdds_qc_plugin_cmip6': ['--with-doctest'],
-    'hadsdk': ['--with-doctest', '-a integration', '-a slow', '-a data_request'],
-    'mip_convert': ['--with-doctest', '-a integration', '-a mappings',
-                    '-a slow'],
-    'transfer': ['--with-doctest', '-a slow'],
+    'cdds_transfer': ['-a rabbitMQ'],  # rabbitMQ tests are only work on els055 or els056!
     }
+
+
+def print_error(text):
+    print("\033[91m {}\033[00m" .format(text))
+
+
+def print_success(text):
+    print("\033[92m {}\033[00m".format(text))
+
+
+def print_warning(text):
+    print("\033[93m {}\033[00m".format(text))
 
 
 def main():
@@ -36,6 +35,7 @@ def main():
     exit_code = 0
     for package, tests in TESTS_TO_RUN.items():
         os.chdir(os.path.join(CDDS_DIR, package))
+        print_warning('WARNING: This tests will only run successfully on els055 or els056!')
         print('Executing tests for {}:'.format(package))
         for test in tests:
             command = '{} {}'.format(ROOT_COMMAND, test)
@@ -47,11 +47,10 @@ def main():
             if process.returncode == 0:
                 info = stderrdata.decode('utf-8').split('\n')
                 msg = '[{}: {}]'.format(info[-2], info[-4])
-                print('success! {}'.format(msg))
+                print_success('success! {}'.format(msg))
             else:
                 exit_code = 1
-                print('failed!\n!!! Please see "{}" for more details'.format(
-                    LOG_NAME))
+                print_error('failed!\n!!! Please see "{}" for more details'.format(LOG_NAME))
                 current_date = datetime.datetime.now()
                 msg = '{}: {}: {}\n\n'.format(current_date, package, command)
                 with open(LOG_NAME, 'a') as file_handle:
