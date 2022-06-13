@@ -80,8 +80,6 @@ class TestRabbit(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # check_if_rabbit_test_can_run()
-
         cfg = config.Config(config_path())
         cls.RABBIT_MANAGER = rabbit.RabbitMqManager(cfg)
         cls.RABBIT_MANAGER.quick_start()
