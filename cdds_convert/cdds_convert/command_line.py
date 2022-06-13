@@ -227,7 +227,7 @@ def _parse_args_concat_setup():
     parser.add_argument('--external_plugin', default='', type=str,
                         help='Module path to external CDDS plugin')
     arguments = parser.parse_args()
-    load_plugin(arguments.mip_era.lower(), arguments.external_plugin)
+    load_plugin(arguments.mip_era, arguments.external_plugin)
     return arguments.config_file, arguments.log_file, arguments.append_log
 
 

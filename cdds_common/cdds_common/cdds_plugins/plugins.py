@@ -39,12 +39,12 @@ class CddsPlugin(object, metaclass=ABCMeta):
         """
         Returns if the plugin is responsible for the project with given MIP era.
 
-        :param mip_era: MIP era to check
+        :param mip_era: MIP era to check (case-sensitive check!)
         :type mip_era: str
         :return: True if the plugin is responsible otherwise false
         :rtype: bool
         """
-        return self._mip_era.lower() == mip_era.lower()
+        return self._mip_era == mip_era
 
     def grid_info(self, model_id: str, grid_type: GridType) -> GridInfo:
         """

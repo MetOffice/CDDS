@@ -55,7 +55,7 @@ class TestParseParameters(unittest.TestCase):
                                       external_plugin='',
                                       log_level=10,
                                       log_name='output.log',
-                                      mip_era='cmip6',
+                                      mip_era='CMIP6',
                                       stream_identifiers=None)
         self.assertEqual(ret_val1, expected)
         # Use a string exactly as it would be used on the command line as the

@@ -68,7 +68,7 @@ class TestLoadGCPlugin(TestCase):
     def test_load_cdds_plugin(self):
         self.assertIsNone(self.plugin_store.get_plugin())
 
-        load_plugin('gcmodeldev')
+        load_plugin('GCModelDev')
 
         loaded_plugin = self.plugin_store.get_plugin()
 
