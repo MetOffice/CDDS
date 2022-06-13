@@ -129,16 +129,16 @@ def parse_parameters(args):
                         version=('%(prog)s {version}'.format(version=__version__))
                         )
     parser.add_argument('--mip_era',
-                        default='cmip6',
+                        default='CMIP6',
                         type=str,
-                        help='The MIP era (e.g. cmip6)')
+                        help='The MIP era (e.g. CMIP6)')
     parser.add_argument('--external_plugin',
                         default='',
                         type=str,
                         help='Module path to external CDDS plugin')
     parameters = parser.parse_args(args=args)
 
-    load_plugin(parameters.mip_era.lower(), parameters.external_plugin)
+    load_plugin(parameters.mip_era, parameters.external_plugin)
 
     # Validate the parameters.
     check_file(parameters.config_file)

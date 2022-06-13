@@ -9,7 +9,7 @@ from unittest import TestCase
 class TestMipEra(TestCase):
 
     def test_from_known_str(self):
-        mip_era = MipEra.from_str("cmip6")
+        mip_era = MipEra.from_str("CMIP6")
         self.assertEqual(mip_era, MipEra.CMIP6)
 
     def test_from_unknown_str(self):
