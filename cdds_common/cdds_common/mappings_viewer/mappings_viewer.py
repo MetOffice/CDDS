@@ -2,26 +2,31 @@
 # Please see LICENSE.rst for license details.
 import argparse
 import glob
-import os.path
+import os
 import re
 
 from configparser import ConfigParser, ExtendedInterpolation
 
-from cdds_common import _NUMERICAL_VERSION
+import cdds_common
+import mip_convert.process
+
+from cdds_common.mappings_viewer.constants import (HEADINGS, HEADER_ROW_TEMPLATE, ROW_TEMPLATE, CELL_TEMPLATE,
+                                                   TABLE_TEMPLATE, CODE_CELL_TEMPLATE, TOOLTIP_TEMPLATE, GITURL,
+                                                   GITURL_MAPPING, HYPERLINK, BGCOLORS, HEADER, FOOTER)
 from hadsdk.rose_suite.common import _load_suite_info_from_file
 from mip_convert.process.constants import constants
 
-HEADINGS = ['Variable', 'Mip Table', 'Expression', 'Comments', 'Dimensions', 'Units', 'Component', 'Status', 'File']
-HEADER_ROW_TEMPLATE = '  <thead><tr bgcolor="{}">\n{}  </tr></thead>\n'
-ROW_TEMPLATE = '  <tr bgcolor="{}">\n{}  </tr>\n'
-CELL_TEMPLATE = '   <{0}>{1}</{0}>\n'
-TABLE_TEMPLATE = '<table border=1, id="table_id", class="display">\n{}</table>\n'
-CODE_CELL_TEMPLATE = '   <td><pre><code>{}</code></pre></td>\n'
-TOOLTIP_TEMPLATE = '<div class="tooltip">{}<span class="tooltiptext">{}</span></div>'
-GITURL = 'https://github.com/MetOffice/CDDS/blob/main/mip_convert/mip_convert/process/processors.py#L{}'
-GITURL_MAPPING = 'https://github.com/MetOffice/CDDS/blob/main/mip_convert/mip_convert/process/{}#L{}'
-HYPERLINK = '<a href="{}">{}</a>'
-BGCOLORS = ['#E0EEFF', '#FFFFFF']
+
+def main():
+
+    arguments = parse_args()
+
+    models = ['UKESM1', 'HadGEM3']
+
+    for model in models:
+        mappings = get_mappings(model, arguments)
+        table = build_table(mappings, arguments)
+        generate_html(table, model, arguments)
 
 
 def parse_args():
@@ -29,15 +34,17 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-p',
                         '--process_directory',
+                        default=os.path.dirname(mip_convert.process.__file__),
                         help='The location of the process directory within CDDS.',
                         type=str)
     parser.add_argument('-s',
-                        '--stash_meta_filepath',
-                        default='/home/h01/frum/vn12.2/ctldata/STASHmaster/STASHmaster-meta.conf',
+                        '--um_version',
+                        default='12.2',
                         help='The location of stash meta file.',
                         type=str)
     parser.add_argument('-o',
                         '--output_directory',
+                        default=None,
                         help='The location of the generated html files.',
                         type=str)
     args = parser.parse_args()
@@ -45,64 +52,22 @@ def parse_args():
     return args
 
 
-def get_processor_lines(arguments):
-    """
-    Parameters
-    ----------
-    arguments : Argparse
-
-    Returns
-    -------
-    processor_line_mappings : dict
-        A dictionary of function names as keys and the corresponding line of the function in processors.py
-    """
-
-    input_file = os.path.join(arguments.process_directory, 'processors.py')
-    processor_line_mappings = {}
-
-    with open(input_file, 'r') as f:
-        lines = f.readlines()
-        for i, line in enumerate(lines):
-            if re.match('(def )[a-zA-Z]\w+[(]', line):
-                processor_name = line.split()[1].split('(')[0]
-                processor_line_mappings[processor_name] = i + 1
-
-    return processor_line_mappings
-
-
-def get_mapping_lines(arguments):
-    glob_string = arguments.process_directory + '/*mappings.cfg'
-    cfg_files = glob.glob(glob_string)
-
-    line_mappings = {}
-    for cfg_file in cfg_files:
-        cfg_name = cfg_file.split('/')[-1]
-        line_mappings[cfg_name] = {}
-        with open(cfg_file, 'r') as f:
-            lines = f.readlines()
-            for i, line in enumerate(lines):
-                if re.match('^[[][\w]+[]]', line):
-                    mapping_name = line.strip().lstrip('[').rstrip(']')
-                    line_mappings[cfg_name][mapping_name] = i + 1
-
-    return line_mappings
-
-
-def read_mappings(model, arguments):
+def get_mappings(model, arguments):
     """
     Read all of the mappings for a given model and return them as a list of lists.
 
     Parameters
     ----------
     model : str
-    arguments : Argparse
-
+        Name of model to produce mappings for.
+    arguments : argparse.Namespace
+        User arguments.
     Returns
     -------
     table_data : list
         A list of lists, where the sublists contain data matching the HEADINGS fields.
     """
-    glob_string = arguments.process_directory + '/*mappings.cfg'
+    glob_string = os.path.join(arguments.process_directory, '*mappings.cfg')
     cfg_files = glob.glob(glob_string)
 
     excluded_tables = {'UKESM1', 'HadGEM3', 'HadREM3', 'HadGEM2', 'Prim', 'GA7', 'Cres'}
@@ -136,7 +101,66 @@ def read_mappings(model, arguments):
     return table_data
 
 
-def get_stash_meta_dict(stashmaster_meta_path):
+def get_processor_lines(arguments):
+    """
+    Get the function names and their lines within the file from processors.py
+
+    Parameters
+    ----------
+    arguments : argparse.Namespace
+        User arguments.
+    Returns
+    -------
+    processor_line_mappings : dict
+        A dictionary of function names as keys and the corresponding line of the function in processors.py
+    """
+
+    input_file = os.path.join(arguments.process_directory, 'processors.py')
+    processor_line_mappings = {}
+
+    with open(input_file, 'r') as f:
+        lines = f.readlines()
+        for i, line in enumerate(lines):
+            if re.match(r'(def )[a-zA-Z]\w+[(]', line):
+                processor_name = line.split()[1].split('(')[0]
+                processor_line_mappings[processor_name] = i + 1
+
+    return processor_line_mappings
+
+
+def get_mapping_lines(arguments):
+    """
+    Reads in the .cfg mapping files from mip_convert and returns a dict of dicts where
+    each dictionary contains key:value pairs of variable_name:line_of_file.
+
+    Parameters
+    ----------
+    arguments : argparse.Namespace
+        User arguments.
+    Returns
+    -------
+    line_mappings : dict
+        Dict of dicts containing variable and line mappings pairs for each .cfg file.
+    """
+    glob_string = os.path.join(arguments.process_directory, '*mappings.cfg')
+    cfg_files = glob.glob(glob_string)
+
+    line_mappings = {}
+    for cfg_file in cfg_files:
+        cfg_name = os.path.basename(cfg_file)
+        line_mappings[cfg_name] = {}
+        with open(cfg_file, 'r') as f:
+            lines = f.readlines()
+            for i, line in enumerate(lines):
+                result = re.match(r'^[[][\w]+[]]', line)
+                if result:
+                    mapping_name = line.strip().lstrip('[').rstrip(']')
+                    line_mappings[cfg_name][mapping_name] = i + 1
+
+    return line_mappings
+
+
+def get_stash_meta_dict(um_version):
     """
     Read a STASHmaster-meta.conf file and returns a dictionary of stash codes with an associated
     dictionary containg the description and help fields if they exist.
@@ -146,16 +170,19 @@ def get_stash_meta_dict(stashmaster_meta_path):
     stash_dict_formatted : dict
         A dictionary where each key is a stash code in the format m01sXXiXXX
     """
-
+    stashmaster_meta_path = '/home/h01/frum/vn{}/ctldata/STASHmaster/STASHmaster-meta.conf'.format(um_version)
     stash_dict = _load_suite_info_from_file(stashmaster_meta_path)
-
-    stash_dict = {k: v for k, v in stash_dict.items() if 'stashmaster:code' in k}
 
     stash_dict_formatted = {}
 
-    for k, v in stash_dict.items():
+    for stash_code, options in stash_dict.items():
         # Format Keys to Reflect the "m01s00i000" Style
-        stash_code = k.split('(')[1].strip(')')
+        result = re.search(r'\((\d{1,5})\)', stash_code)
+        if not result:
+            continue
+
+        stash_code = result.group(1)
+
         if len(stash_code) > 3:
             item = stash_code[-3:]
             section = stash_code[0:-3]
@@ -167,11 +194,11 @@ def get_stash_meta_dict(stashmaster_meta_path):
         stash_dict_formatted[stash_code_formatted] = {}
 
         try:
-            stash_dict_formatted[stash_code_formatted].update({'description': v['description'].value})
+            stash_dict_formatted[stash_code_formatted].update({'description': options['description'].value})
         except KeyError:
             stash_dict_formatted[stash_code_formatted].update({'description': 'No description available'})
         try:
-            stash_dict_formatted[stash_code_formatted].update({'help': v['help'].value})
+            stash_dict_formatted[stash_code_formatted].update({'help': options['help'].value})
         except KeyError:
             stash_dict_formatted[stash_code_formatted].update({'help': 'No help entry available.'})
 
@@ -221,6 +248,8 @@ def format_mapping(expression, stash_meta_dictionary, processors):
 
 def format_comments(comments):
     """
+    Format the notes and comment fields from the mappings as a tooltip.
+
     Parameters
     ----------
     comments : tuple
@@ -245,6 +274,17 @@ def format_comments(comments):
 
 def format_mapping_link(entry, line_mappings):
     """
+    Adds a hyperlink to .cfg file name which point to the file and line of the mapping on github.
+
+    Parameters
+    ----------
+    entry : tuple
+        Tuple contining the variable name and the cfg file.
+    line_mappings : dict
+        A dict of dicts containing all line mappings.
+    Returns
+    -------
+
     """
     variable, cfg_file = entry
     if variable in line_mappings[cfg_file].keys():
@@ -258,12 +298,19 @@ def format_mapping_link(entry, line_mappings):
 def build_table(table_data, arguments):
     """
     Build the  HTML for table showing the supplied table_data
+
     Parameters
     ----------
     table_data : list
-
+        The data to populate the table with.
+    arguments : argparse.Namespace
+        User arguments.
+    Returns
+    -------
+    table_html : str
+        The table_data formatted as a html table.
     """
-    stash_meta_dictionary = get_stash_meta_dict(arguments.stash_meta_filepath)
+    stash_meta_dictionary = get_stash_meta_dict(arguments.um_version)
     processor_lines = get_processor_lines(arguments)
     mapping_lines = get_mapping_lines(arguments)
 
@@ -295,81 +342,29 @@ def build_table(table_data, arguments):
 
 def generate_html(table, model, arguments):
     """
-
+    Parameters
+    ----------
+    table : str
+        The html table
+    model : str
+        Name of the model.
+    arguments : argparse.Namespace
+        User arguments.
     """
     html = (HEADER +
-            '<h2>Variable Mappings for {} (Generated with CDDS v{})</h2>'.format(model, _NUMERICAL_VERSION) +
+            '<h2>Variable Mappings for {} (Generated with CDDS {})</h2>'.format(model, cdds_common._NUMERICAL_VERSION) +
             '<p> </p>' +
             '<p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p>' +
             table +
             FOOTER)
 
-    output_filepath = os.path.join(arguments.output_directory, 'mappings_view_{}.html'.format(model))
+    if not arguments.output_directory:
+        cdds_path = os.environ['CDDS_DIR']
+        output_directory = os.path.join(cdds_path, 'docs/mappings_viewer')
+    else:
+        output_directory = arguments.output_directory
 
-    with open(output_filepath, 'w') as fh:
-        fh.write(html)
+    output_filepath = os.path.join(output_directory, 'mappings_view_{}.html'.format(model))
 
-
-HEADER = """
-<html>
-<head>
-<link rel="stylesheet" type="text/css" charset="UTF-8" href="../src/jquery.dataTables-1.11.4.min.css" />
-<script type="text/javascript" charset="UTF-8" src="../src/jquery-3.6.0.slim.min.js"></script>
-<script type="text/javascript" charset="UTF-8" src="../src/jquery.dataTables-1.11.4.min.js"></script>
-<script type="text/javascript">
-//<![CDATA[
-$(document).ready( function () {
-    $('#table_id').DataTable({"pageLength": 100});
-    } );
-//]]>
-</script>
-</head>
-<style>
-
-
-   /* Tooltip container */
-   .tooltip {
-     position: relative;
-     display: inline-block;
-     border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
-   }
-
-   /* Tooltip text */
-   .tooltip .tooltiptext {
-     visibility: hidden;
-     bottom: 100%;
-     left: 50%;
-     width: 600;
-     background-color: #FFFFFF;
-     color: black;
-     text-align: left;
-     padding: 18px 18px 18px 18px;
-     border-radius: 4px;
-     border: 1px solid #000;
-
-     /* Position the tooltip text - see examples below! */
-     position: absolute;
-     z-index: 1;
-   }
-
-   /* Show the tooltip text when you mouse over the tooltip container */
-   .tooltip:hover .tooltiptext {
-     visibility: visible;
-   }
-   </style>
-<body>"""
-
-FOOTER = """
-</body>
-</html>"""
-
-if __name__ == '__main__':
-
-    arguments = parse_args()
-
-    models = ['UKESM1', 'HadGEM3']
-
-    for model in models:
-        mappings = read_mappings(model, arguments)
-        table = build_table(mappings, arguments)
-        html = generate_html(table, model, arguments)
+    with open(output_filepath, 'w') as f:
+        f.write(html)
