@@ -26,14 +26,32 @@ TESTS_TO_RUN = {
 
 
 def print_error(text):
+    """
+    Print error message in red.
+
+    :param text: Text that should be printed in red.
+    :type text: str
+    """
     print("\033[91m {}\033[00m" .format(text))
 
 
 def print_success(text):
+    """
+    Print succeed message in green.
+
+    :param text: Text that should be printed in green
+    :type text: str
+    """
     print("\033[92m {}\033[00m".format(text))
 
 
 def print_warning(text):
+    """
+    Print warning message in yellow.
+
+    :param text: Text that should be printed in yellow
+    :type text: str
+    """
     print("\033[93m {}\033[00m".format(text))
 
 
