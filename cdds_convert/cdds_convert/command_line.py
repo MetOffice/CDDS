@@ -222,8 +222,8 @@ def _parse_args_concat_setup():
     parser.add_argument('log_file', type=str, help='Log file')
     parser.add_argument('--append_log', action='store_true',
                         help='Append to existing log file')
-    parser.add_argument('--mip_era', default='cmip6', type=str,
-                        help='The MIP era (e.g. cmip6)')
+    parser.add_argument('--mip_era', default='CMIP6', type=str,
+                        help='The MIP era (e.g. CMIP6)')
     parser.add_argument('--external_plugin', default='', type=str,
                         help='Module path to external CDDS plugin')
     arguments = parser.parse_args()
@@ -313,9 +313,9 @@ def _parse_run_mip_convert_parameters(arguments):
     description = 'Arguments for running MIP convert'
     parser = argparse.ArgumentParser(description=description, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--mip_era',
-                        default='cmip6',
+                        default='CMIP6',
                         type=str,
-                        help='The MIP era (e.g. cmip6)')
+                        help='The MIP era (e.g. CMIP6)')
     parser.add_argument('--external_plugin',
                         default='',
                         type=str,
