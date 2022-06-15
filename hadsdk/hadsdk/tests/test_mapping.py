@@ -68,7 +68,7 @@ class TestMassFilters(unittest.TestCase):
 
     @staticmethod
     def setup_plugin(mip_era):
-        if mip_era == 'cmip6':
+        if mip_era == 'CMIP6':
             load_plugin()
         else:
             load_external_plugin(DummyCMIP5Plugin.MIP_ERA, 'hadsdk.tests.test_mapping')
@@ -283,7 +283,7 @@ thetaot300 = onm/grid-T
             self.assertEqual(mass_filters, expected)
 
     def test_single_var_nemo(self):
-        self.setup_plugin("cmip6")
+        self.setup_plugin("CMIP6")
         json_request = TestMassFilters.add_var_to_json(
             [{"name": "agessc", "table": "Omon", "stream": "onm/grid-T"}], "CMIP6")
         self.create_simple_patches(mock_streams_cfg=True)
@@ -297,7 +297,7 @@ thetaot300 = onm/grid-T
         self.assertEqual(mass_filters, expected)
 
     def test_var_with_ancil_nemo(self):
-        self.setup_plugin("cmip6")
+        self.setup_plugin("CMIP6")
         json_request = TestMassFilters.add_var_to_json(
             [{"name": "uo", "table": "Omon", "stream": "onm/grid-U"}], "CMIP6")
         self.create_simple_patches(mock_streams_cfg=True)
@@ -311,7 +311,7 @@ thetaot300 = onm/grid-T
         self.assertEqual(mass_filters, expected)
 
     def test_single_var_with_depth_nemo(self):
-        self.setup_plugin("cmip6")
+        self.setup_plugin("CMIP6")
         json_request = TestMassFilters.add_var_to_json(
             [{"name": "thetaot300", "table": "Omon", "stream": "onm/grid-T"}], "CMIP6")
         self.create_simple_patches(mock_streams_cfg=True)
@@ -328,7 +328,7 @@ thetaot300 = onm/grid-T
         self.assertEqual(mass_filters, expected)
 
     def test_single_var_pressure_level_replacement(self):
-        self.setup_plugin("cmip6")
+        self.setup_plugin("CMIP6")
         json_request = TestMassFilters.add_var_to_json(
             [{"name": "hus4", "table": "6hrPlev", "stream": "ap7"}], "CMIP6")
         self.create_simple_patches()
@@ -346,7 +346,7 @@ thetaot300 = onm/grid-T
         self.assertEqual(mass_filters, expected)
 
     def test_single_var_include_orography(self):
-        self.setup_plugin("cmip6")
+        self.setup_plugin("CMIP6")
         json_request = TestMassFilters.add_var_to_json(
             [{"name": "hur", "table": "CFday", "stream": "ap6"}], "CMIP6")
         self.create_simple_patches()
@@ -360,7 +360,7 @@ thetaot300 = onm/grid-T
         self.assertEqual(mass_filters, expected)
 
     def test_single_var_with_atmos_timestep(self):
-        self.setup_plugin("cmip6")
+        self.setup_plugin("CMIP6")
         json_request = TestMassFilters.add_var_to_json(
             [{"name": "tntr", "table": "CFmon", "stream": "ap5"}], "CMIP6")
         self.create_simple_patches(mock_streams_cfg=True)
@@ -378,7 +378,7 @@ thetaot300 = onm/grid-T
         """
         test some variables in different ocean streams including one unknown
         """
-        self.setup_plugin("cmip6")
+        self.setup_plugin("CMIP6")
         json_request = TestMassFilters.add_var_to_json(
             [{"name": "uo", "table": "Omon", "stream": "onm/grid-U"},
              {"name": "tos", "table": "Omon", "stream": "onm/grid-T"},
@@ -507,7 +507,7 @@ thetaot300 = onm/grid-T
             self.assertEqual(mass_filters, expected)
 
     def test_vtem_reverse_header_fix(self):
-        self.setup_plugin("cmip6")
+        self.setup_plugin("CMIP6")
         self.create_simple_patches()
         json_request = TestMassFilters.add_var_to_json(
             [{"name": "vtem", "table": "EmonZ", "stream": "ap5"}], "CMIP6")
@@ -527,7 +527,7 @@ thetaot300 = onm/grid-T
         self.assertEqual(actual, expected)
 
     def test_clisccp_reverse_header_fix(self):
-        self.setup_plugin("cmip6")
+        self.setup_plugin("CMIP6")
         self.maxDiff = None
         self.create_simple_patches()
         json_request = TestMassFilters.add_var_to_json(
