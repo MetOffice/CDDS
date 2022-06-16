@@ -1,6 +1,5 @@
 # (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
-import argparse
 import glob
 import os
 import re
@@ -8,48 +7,12 @@ import re
 from configparser import ConfigParser, ExtendedInterpolation
 
 import cdds_common
-import mip_convert.process
 
 from cdds_common.mappings_viewer.constants import (HEADINGS, HEADER_ROW_TEMPLATE, ROW_TEMPLATE, CELL_TEMPLATE,
                                                    TABLE_TEMPLATE, CODE_CELL_TEMPLATE, TOOLTIP_TEMPLATE, GITURL,
                                                    GITURL_MAPPING, HYPERLINK, BGCOLORS, HEADER, FOOTER)
 from hadsdk.rose_suite.common import _load_suite_info_from_file
 from mip_convert.process.constants import constants
-
-
-def main():
-
-    arguments = parse_args()
-
-    models = ['UKESM1', 'HadGEM3']
-
-    for model in models:
-        mappings = get_mappings(model, arguments)
-        table = build_table(mappings, arguments)
-        generate_html(table, model, arguments)
-
-
-def parse_args():
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-p',
-                        '--process_directory',
-                        default=os.path.dirname(mip_convert.process.__file__),
-                        help='The location of the process directory within CDDS.',
-                        type=str)
-    parser.add_argument('-s',
-                        '--um_version',
-                        default='12.2',
-                        help='The location of stash meta file.',
-                        type=str)
-    parser.add_argument('-o',
-                        '--output_directory',
-                        default=None,
-                        help='The location of the generated html files.',
-                        type=str)
-    args = parser.parse_args()
-
-    return args
 
 
 def get_mappings(model, arguments):
@@ -160,7 +123,7 @@ def get_mapping_lines(arguments):
     return line_mappings
 
 
-def get_stash_meta_dict(um_version):
+def get_stash_meta_dict(stash_meta_filepath):
     """
     Read a STASHmaster-meta.conf file and returns a dictionary of stash codes with an associated
     dictionary containg the description and help fields if they exist.
@@ -170,7 +133,7 @@ def get_stash_meta_dict(um_version):
     stash_dict_formatted : dict
         A dictionary where each key is a stash code in the format m01sXXiXXX
     """
-    stashmaster_meta_path = '/home/h01/frum/vn{}/ctldata/STASHmaster/STASHmaster-meta.conf'.format(um_version)
+    stashmaster_meta_path = stash_meta_filepath
     stash_dict = _load_suite_info_from_file(stashmaster_meta_path)
 
     stash_dict_formatted = {}
@@ -310,7 +273,7 @@ def build_table(table_data, arguments):
     table_html : str
         The table_data formatted as a html table.
     """
-    stash_meta_dictionary = get_stash_meta_dict(arguments.um_version)
+    stash_meta_dictionary = get_stash_meta_dict(arguments.stash_meta_filepath)
     processor_lines = get_processor_lines(arguments)
     mapping_lines = get_mapping_lines(arguments)
 
@@ -351,12 +314,10 @@ def generate_html(table, model, arguments):
     arguments : argparse.Namespace
         User arguments.
     """
-    html = (HEADER +
-            '<h2>Variable Mappings for {} (Generated with CDDS {})</h2>'.format(model, cdds_common._NUMERICAL_VERSION) +
-            '<p> </p>' +
-            '<p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p>' +
-            table +
-            FOOTER)
+    html = (
+        HEADER +
+        '<h2>Variable Mappings for {} (Generated with CDDS v{})</h2>'.format(model, cdds_common._NUMERICAL_VERSION) +
+        '<p> </p>' + '<p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p>' + table + FOOTER)
 
     if not arguments.output_directory:
         cdds_path = os.environ['CDDS_DIR']
