@@ -5,6 +5,7 @@ from typing import Dict, Type, List
 from cdds_common.cdds_plugins.grid import GridLabel, GridType, GridInfo
 from cdds_common.cdds_plugins.models import ModelParameters
 from cdds_common.cdds_plugins.plugins import CddsPlugin
+from cdds_common.cdds_plugins.streams import StreamInfo
 
 
 class EmptyCddsPlugin(CddsPlugin):
@@ -30,4 +31,7 @@ class EmptyCddsPlugin(CddsPlugin):
         return {}
 
     def grid_labels(self) -> GridLabel:
+        return None
+
+    def stream_info(self) -> StreamInfo:
         return None

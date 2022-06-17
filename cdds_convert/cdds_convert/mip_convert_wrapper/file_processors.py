@@ -8,7 +8,7 @@ volume of data that MIP Convert can see and attempt to read
 import calendar
 from datetime import datetime, timedelta
 
-from hadsdk.streams import get_files_per_year
+from cdds_common.cdds_plugins.plugins import PluginStore
 
 
 def construct_month_lookup():
@@ -50,11 +50,12 @@ def parse_atmos_monthly_filename(fname, stream, pattern):
         end dates.
 
     """
+    stream_info = PluginStore.instance().get_plugin().stream_info()
     file_dict = pattern.search(fname).groupdict()
     start_year = int(file_dict['year'])
     start_month = construct_month_lookup()[file_dict['month']]
     file_dict['start'] = datetime(start_year, start_month, 1)
-    files_per_year = get_files_per_year(stream)
+    files_per_year = stream_info.get_files_per_year(stream)
     days_in_period = int(360 / files_per_year)
     data_period = timedelta(days=days_in_period)
     file_dict['end'] = file_dict['start'] + data_period
@@ -83,10 +84,10 @@ def parse_atmos_submonthly_filename(fname, stream, pattern):
         end dates.
 
     """
+    stream_info = PluginStore.instance().get_plugin().stream_info()
     file_dict = pattern.search(fname).groupdict()
-    file_dict['start'] = datetime.strptime(file_dict['start_str'],
-                                           '%Y%m%d')
-    files_per_year = get_files_per_year(stream)
+    file_dict['start'] = datetime.strptime(file_dict['start_str'], '%Y%m%d')
+    files_per_year = stream_info.get_files_per_year(stream)
     days_in_period = int(360 / files_per_year)
     data_period = timedelta(days=days_in_period)
     file_dict['end'] = file_dict['start'] + data_period

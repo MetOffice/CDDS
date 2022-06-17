@@ -437,6 +437,7 @@ class TestMainAlterVariableList(unittest.TestCase):
         """
         Set up variable_list and files to be cleared out
         """
+        load_plugin()
         self.variable_list = {
             'MAX_PRIORITY': 2,
             'MIPS_RESPONDED_TO': ['CMIP'],

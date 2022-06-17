@@ -18,7 +18,6 @@ from hadsdk.constants import (APPROVED_VARS_PREFIX,
                               APPROVED_VARS_FILENAME_REGEX,
                               APPROVED_VARS_FILENAME_STREAM_REGEX, DATESTAMP_TEMPLATE, DATESTAMP_PARSER_STR)
 from hadsdk.request import read_request
-from hadsdk.streams import retrieve_stream_id, stream_overrides
 from hadsdk.variables import RequestedVariablesList
 
 from transfer.common import get_date_range
@@ -141,7 +140,6 @@ def get_variables_to_process(mip_approved_variables_path, full_paths,
             v1.update(approved_var_info)
             var_list += [v1]
 
-    so1 = stream_overrides()
     for var_dict in var_list:
         var_dict.update(
             {'stream_id': var_dict['stream'].split('/')[0] if '/' in var_dict['stream'] else var_dict['stream']}

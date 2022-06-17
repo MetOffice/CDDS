@@ -7,6 +7,7 @@ import datetime
 import unittest
 import re
 
+from cdds_common.cdds_plugins.plugin_loader import load_plugin
 from cdds_convert.constants import STREAMS_FILES_REGEX
 from cdds_convert.mip_convert_wrapper.file_processors import (
     parse_atmos_monthly_filename, parse_atmos_submonthly_filename,
@@ -165,6 +166,9 @@ OCEAN_FILENAMES = [
 
 
 class TestProcessors(unittest.TestCase):
+
+    def setUp(self):
+        load_plugin()
 
     def test_parse_atmos_monthly_filename(self):
         stream = 'ap4'

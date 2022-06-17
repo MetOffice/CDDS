@@ -15,10 +15,11 @@ import tempfile
 from xml.etree import ElementTree
 
 from cdds_common.common.io import read_json
+from cdds_common.cdds_plugins.plugins import PluginStore
+
 from hadsdk.configuration.rose_config import load as config_load
 
 from hadsdk.common import check_svn_location, determine_rose_suite_url, run_command
-from hadsdk.streams import retrieve_stream_id, stream_overrides
 
 from cdds_prepare.constants import (CICE_HISTFREQ_FOR_VALIDATION,
                                     CICE_VARIABLE_REMAP, MODEL_TYPE_MAP,
@@ -238,6 +239,7 @@ def create_ocean_enabled(model_to_mip_mappings, mip_era, suite_id, branch,
 
     logger.debug('Constructing ocean enabled information')
     ocean_enabled = {}
+    stream_info = PluginStore.instance().get_plugin().stream_info()
     # It won't be possible to determine whether a
     # 'MIP requested variable' exists in the model unless it has a
     # 'model to MIP mapping', so looping over the
@@ -247,8 +249,7 @@ def create_ocean_enabled(model_to_mip_mappings, mip_era, suite_id, branch,
             variable_key = '{}/{}'.format(mip_table_id, variable_name)
             # Retrieve the 'stream identifier' for the
             # 'MIP requested variable'.
-            stream_id, _ = retrieve_stream_id(
-                variable_name, mip_table_id, mip_era, stream_overrides())
+            stream_id, _ = stream_info.retrieve_stream_id(variable_name, mip_table_id)
             if stream_id not in OCEAN_STREAMS:
                 # No need to record if not ocean.
                 continue

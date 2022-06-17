@@ -11,11 +11,11 @@ import os
 import re
 import shutil
 
+from cdds_common.cdds_plugins.plugins import PluginStore
 from cdds_convert.constants import FILEPATH_JASMIN, FILEPATH_METOFFICE, STREAMS_FILES_REGEX, NUM_FILE_COPY_ATTEMPTS
 from cdds_convert.mip_convert_wrapper.file_processors import (
     parse_atmos_monthly_filename, parse_atmos_submonthly_filename,
     parse_ocean_seaice_filename)
-from hadsdk.streams import get_files_per_year
 
 
 def filter_streams(file_list, stream):
@@ -93,12 +93,14 @@ def get_paths(suite_name, stream, substream, start_date, end_date, input_dir,
                          symlink will be created.
 
     """
+    stream_info = PluginStore.instance().get_plugin().stream_info()
     stream_prefix = stream[:2]  # `ap`, `in` or `on`
     if stream_prefix not in ['ap', 'in', 'on']:
         raise RuntimeError('Stream "{}" not recognised'.format(stream))
 
     stream_lookup = stream_prefix
-    if stream_prefix == 'ap' and get_files_per_year(stream) > 12:
+    files_per_year = stream_info.get_files_per_year(stream)
+    if stream_prefix == 'ap' and files_per_year > 12:
         stream_lookup = 'ap_submonthly'
     # Identify files that are to be expected
 

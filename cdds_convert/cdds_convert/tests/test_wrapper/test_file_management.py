@@ -6,6 +6,8 @@ Tests of mip_convert_wrapper.file_management
 import datetime
 import os
 
+from cdds_common.cdds_plugins.plugin_loader import load_plugin
+
 from cdds_convert.mip_convert_wrapper.file_management import (
     get_paths, copy_to_staging_dir, link_data, filter_streams
 )
@@ -238,6 +240,9 @@ class TestMisc(TestCase):
     """
     Test miscellaneous helper functions in the file_management.py module.
     """
+
+    def setUp(self):
+        load_plugin()
 
     @mock.patch('os.listdir')
     def test_get_paths(self, mock_list_dir):

@@ -12,6 +12,7 @@ from cdds_common.cdds_plugins.base.base_plugin import MipEra
 from cdds_common.cdds_plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from cdds_common.cdds_plugins.attributes import DefaultGlobalAttributes
 from cdds_common.cdds_plugins.gcmodeldev.gcmodeldev_models import GCModelDevStore
+from cdds_common.cdds_plugins.streams import StreamInfo
 
 
 class GCModelDevPlugin(CddsPlugin):
@@ -53,6 +54,10 @@ class GCModelDevPlugin(CddsPlugin):
         :rtype: Cmip6GridLabel
         """
         return Cmip6GridLabel
+
+    # TODO: kerstin -> Implement
+    def stream_info(self) -> StreamInfo:
+        return None
 
     def global_attributes(self, request: Dict[str, Any]) -> DefaultGlobalAttributes:
         """

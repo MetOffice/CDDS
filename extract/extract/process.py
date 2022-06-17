@@ -11,11 +11,11 @@ import datetime
 import logging
 from operator import itemgetter
 
+from cdds_common.cdds_plugins.plugins import PluginStore
 from hadsdk.common import retry
 from hadsdk.config import FullPaths
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from hadsdk.request import read_request
-from hadsdk.streams import calculate_expected_number_of_files
 
 from extract.common import (
     build_mass_location,
@@ -70,6 +70,7 @@ class Process(object):
         self.input_data_directory = self.full_paths.input_data_directory
         self.log_directory = self.full_paths.log_directory("extract")
         self.mass_data_class = self.request_file.mass_data_class
+        self.stream_info = PluginStore.instance().get_plugin().stream_info()
         # start log
         self.start_log()
 
@@ -567,7 +568,7 @@ class Process(object):
         actual = file_count(path, extension)
         # ocean resolution
         resolution = get_model_resolution(self.request_file.model_id)[1]
-        expected = calculate_expected_number_of_files(stream, substreams, resolution == "M")
+        expected = self.stream_info.calculate_expected_number_of_files(stream, substreams, resolution == "M")
         validation_result.add_file_counts(expected, actual)
 
     def validate_pp(self, path, stash_codes, validation_result):
