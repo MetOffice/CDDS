@@ -57,7 +57,7 @@ class TestModelParameters(TestCase):
         self.model_params_dir = tempfile.mkdtemp()
 
         local_dir = os.path.dirname(os.path.abspath(__file__))
-        default_dir = os.path.join(local_dir, 'data')
+        default_dir = os.path.join(local_dir, 'data/model')
 
         self.model_params = HadGEM3_GC31_LL_Params()
         self.model_params.load_parameters(default_dir)

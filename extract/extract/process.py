@@ -12,19 +12,16 @@ import logging
 from operator import itemgetter
 
 from cdds_common.cdds_plugins.plugins import PluginStore
-from hadsdk.common import retry
 from hadsdk.config import FullPaths
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from hadsdk.request import read_request
 
 from extract.common import (
-    build_mass_location,
-    process_info, exit_nicely, create_dir,
-    check_moo_cmd, run_moo_cmd, file_accessible, file_count, byteify,
-    conv_test_name, validate_stash_fields, get_model_resolution,
-    validate_netcdf)
-from extract.constants import (
-    GROUP_FOR_DIRECTORY_CREATION, STREAMDIR_PERMISSIONS)
+    build_mass_location, process_info, exit_nicely, create_dir,
+    check_moo_cmd, run_moo_cmd, file_accessible, file_count,
+    validate_stash_fields, get_model_resolution, validate_netcdf
+)
+from extract.constants import GROUP_FOR_DIRECTORY_CREATION, STREAMDIR_PERMISSIONS
 from extract.filters import FilterFileException
 from extract.variables import Variables
 
@@ -568,6 +565,7 @@ class Process(object):
         actual = file_count(path, extension)
         # ocean resolution
         resolution = get_model_resolution(self.request_file.model_id)[1]
+        StreamAttributes(stream["stream"], stream["start_date"], stream["end_date"])
         expected = self.stream_info.calculate_expected_number_of_files(stream, substreams, resolution == "M")
         validation_result.add_file_counts(expected, actual)
 
