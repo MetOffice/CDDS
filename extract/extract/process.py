@@ -566,8 +566,8 @@ class Process(object):
         actual = file_count(path, extension)
         # ocean resolution
         resolution = get_model_resolution(self.request_file.model_id)[1]
-        StreamAttributes(stream["stream"], stream["start_date"], stream["end_date"])
-        expected = self.stream_info.calculate_expected_number_of_files(stream, substreams, resolution == "M")
+        stream_attribute = StreamAttributes(stream["stream"], stream["start_date"], stream["end_date"])
+        expected = self.stream_info.calculate_expected_number_of_files(stream_attribute, substreams, resolution == "M")
         validation_result.add_file_counts(expected, actual)
 
     def validate_pp(self, path, stash_codes, validation_result):
