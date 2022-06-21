@@ -7,12 +7,13 @@ from typing import Type, Dict, Any
 
 from cdds_common.cdds_plugins.grid import GridLabel
 from cdds_common.cdds_plugins.models import ModelParameters
+from cdds_common.cdds_plugins.streams import StreamInfo
 from cdds_common.cdds_plugins.base.base_plugin import BasePlugin, MipEra
 from cdds_common.cdds_plugins.base.base_models import BaseModelParameters
 from cdds_common.cdds_plugins.cmip6.cmip6_attributes import Cmip6GlobalAttributes
 from cdds_common.cdds_plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from cdds_common.cdds_plugins.cmip6.cmip6_models import Cmip6ModelsStore
-from cdds_common.cdds_plugins.cmip6.cmip6_streams import Cmip6StreamStore, Cmip6StreamInfo
+from cdds_common.cdds_plugins.cmip6.cmip6_streams import Cmip6StreamStore
 
 
 class Cmip6Plugin(BasePlugin):
@@ -56,7 +57,13 @@ class Cmip6Plugin(BasePlugin):
         """
         return Cmip6GridLabel
 
-    def stream_info(self) -> Cmip6StreamInfo:
+    def stream_info(self) -> StreamInfo:
+        """
+        Returns the information of streams related to CMIP6.
+
+        :return: Information of streams
+        :rtype: StreamInfo
+        """
         stream_store = Cmip6StreamStore.instance()
         return stream_store.get()
 

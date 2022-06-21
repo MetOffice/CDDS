@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 import os
 
-from cdds_common.cdds_plugins.base.base_streams import StreamAttributes
+from cdds_common.cdds_plugins.streams import StreamAttributes
 from cdds_common.cdds_plugins.gcmodeldev.gcmodeldev_streams import GCModelDevStreamInfo, GCModelDevStreamStore
 
 from datetime import datetime

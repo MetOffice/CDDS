@@ -10,6 +10,10 @@ from cdds_common.cdds_plugins.base.base_streams import BaseStreamInfo, BaseStrea
 
 
 class GCModelDevStreamInfo(BaseStreamInfo):
+    """
+    Class to store the information for streams. The information of the streams
+    are defined in a json file.
+    """
 
     def __init__(self, config_path: str = ''):
         if not config_path:
@@ -19,6 +23,11 @@ class GCModelDevStreamInfo(BaseStreamInfo):
 
 
 class GCModelDevStreamStore(BaseStreamStore):
+    """
+    Singleton class to store for the stream information.
+
+    The class is a singleton to avoid excessive loading of the stream information.
+    """
 
     def __init__(self) -> None:
         stream_info = GCModelDevStreamInfo()
@@ -26,4 +35,10 @@ class GCModelDevStreamStore(BaseStreamStore):
 
     @classmethod
     def create_instance(cls) -> 'GCModelDevStreamStore':
+        """
+        Creates a new class instance.
+
+        :return: New class instance
+        :rtype: Cmip6StreamStore
+        """
         return GCModelDevStreamStore()

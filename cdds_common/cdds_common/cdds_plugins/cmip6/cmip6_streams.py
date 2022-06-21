@@ -10,8 +10,12 @@ from cdds_common.cdds_plugins.base.base_streams import BaseStreamInfo, BaseStrea
 
 
 class Cmip6StreamInfo(BaseStreamInfo):
+    """
+    Class to store the information for streams. The information of the streams
+    are defined in a json file.
+    """
 
-    def __init__(self, config_path: str = ''):
+    def __init__(self, config_path: str = '') -> None:
         if not config_path:
             local_dir = os.path.dirname(os.path.abspath(__file__))
             config_path = os.path.join(local_dir, 'data/streams/streams_config.json')
@@ -19,6 +23,11 @@ class Cmip6StreamInfo(BaseStreamInfo):
 
 
 class Cmip6StreamStore(BaseStreamStore):
+    """
+    Singleton class to store for the stream information.
+
+    The class is a singleton to avoid excessive loading of the stream information.
+    """
 
     def __init__(self) -> None:
         stream_info = Cmip6StreamInfo()
@@ -26,4 +35,10 @@ class Cmip6StreamStore(BaseStreamStore):
 
     @classmethod
     def create_instance(cls) -> 'Cmip6StreamStore':
+        """
+        Creates a new class instance.
+
+        :return: New class instance
+        :rtype: Cmip6StreamStore
+        """
         return Cmip6StreamStore()

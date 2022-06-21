@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 import os
 
-from cdds_common.cdds_plugins.base.base_streams import StreamAttributes
+from cdds_common.cdds_plugins.streams import StreamAttributes
 from cdds_common.cdds_plugins.cmip6.cmip6_streams import Cmip6StreamStore, Cmip6StreamInfo
 
 from datetime import datetime

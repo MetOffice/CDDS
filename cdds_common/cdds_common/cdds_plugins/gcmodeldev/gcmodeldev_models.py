@@ -56,5 +56,5 @@ class GCModelDevStore(BaseModelStore):
             error_messages = [
                 template.format(model_id, path) for model_id, path in results.unloaded.items()
             ]
-            self.logger('\n'.join(error_messages))
+            self.logger.critical('\n'.join(error_messages))
             raise RuntimeError('\n'.join(error_messages))
