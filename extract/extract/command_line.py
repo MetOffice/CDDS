@@ -188,7 +188,7 @@ def main_remove_ocean_haloes(arguments=None):
     load_plugin(args.mip_era, args.plugin_module)
 
     try:
-        dehalo_multiple_files(args.filenames, args.destination, args.overwrite, args.model_id, args.mip_era)
+        dehalo_multiple_files(args.filenames, args.destination, args.overwrite, args.model_id)
         exit_code = 0
     except BaseException as exc:
         logger.critical(exc, exc_info=1)

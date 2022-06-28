@@ -100,7 +100,7 @@ def dehalo_multiple_files(filenamelist, destination, overwrite, model_id):
         If anything goes wrong
     """
     logger = logging.getLogger(__name__)
-    
+
     if not os.path.isdir(destination):
         msg = 'Destination for files must be a directory'
         logger.critical(msg)
