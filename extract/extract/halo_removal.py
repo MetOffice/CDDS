@@ -53,6 +53,7 @@ def dehalo_single_file(filename, destination_directory, overwrite, model_id):
         return
 
     plugin = PluginStore.instance().get_plugin()
+    plugin.models_parameters(model_id)
     grid_info = plugin.grid_info(model_id, GridType.OCEAN)
     substream = filename.split('_')[-1].rstrip('.nc')
 
@@ -99,6 +100,7 @@ def dehalo_multiple_files(filenamelist, destination, overwrite, model_id):
         If anything goes wrong
     """
     logger = logging.getLogger(__name__)
+    
     if not os.path.isdir(destination):
         msg = 'Destination for files must be a directory'
         logger.critical(msg)

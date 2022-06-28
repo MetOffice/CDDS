@@ -9,6 +9,7 @@ import glob
 import logging
 import os
 
+from cdds_common.cdds_plugins.plugin_loader import load_plugin
 from extract import __version__
 from extract.common import stream_file_template
 from extract.lang import set_language
@@ -154,8 +155,10 @@ def parse_remove_ocean_haloes_command_line(user_arguments):
     parser = argparse.ArgumentParser(description='Strip ocean haloes from multiple files')
     parser.add_argument('destination', help='Directory to write stripped files to')
     parser.add_argument('filenames', nargs='+', help='Files to strip haloes from')
+    parser.add_argument('model_id', help='The model_id of the model which produced the output')
     parser.add_argument('--overwrite', help='Overwrite files in target directory')
-    parser.add_argument('--model_id', help='The model_id of the model which produced the output')
+    parser.add_argument('--mip_era', default='CMIP6', help='The cdds plugin to load, "CMIP6" loaded by default')
+    parser.add_argument('--plugin_module', help='The directory of an external plugin module')
     common_command_line_args(parser, arguments.log_name, arguments.log_level, __version__)
 
     return parser.parse_args(user_arguments)
@@ -182,8 +185,10 @@ def main_remove_ocean_haloes(arguments=None):
     # Log version.
     logger.info('Using Extract version {}'.format(__version__))
 
+    load_plugin(args.mip_era, args.plugin_module)
+
     try:
-        dehalo_multiple_files(args.filenames, args.destination, args.overwrite, args.model_id)
+        dehalo_multiple_files(args.filenames, args.destination, args.overwrite, args.model_id, args.mip_era)
         exit_code = 0
     except BaseException as exc:
         logger.critical(exc, exc_info=1)
