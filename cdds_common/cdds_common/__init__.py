@@ -5,6 +5,6 @@ The CDDS Common package contains a collection of generic Python code used by one
 """
 from cdds_common.versions import get_version
 
-_DEV = True
+_DEV = False
 _NUMERICAL_VERSION = '2.3.1'
 __version__ = get_version('cdds_common')

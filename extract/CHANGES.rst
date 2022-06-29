@@ -3,6 +3,11 @@
 
 .. include:: common.txt
 
+Release 2.3.1, June 29, 2022
+============================
+
+* Fix failing halo removal script due to no plugin loaded (CDDSO-152)
+
 Release 2.3.0, May 24, 2022
 ============================
 
