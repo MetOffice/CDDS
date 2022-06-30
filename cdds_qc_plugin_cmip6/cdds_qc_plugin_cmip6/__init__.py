@@ -7,6 +7,6 @@ The CMIP6 Compliance Checker Plugin provides a suite of tests related to CMIP6
 from cdds_qc_plugin_cmip6.versions import get_version
 
 
-_DEV = False
-_NUMERICAL_VERSION = '2.3.1'
+_DEV = True
+_NUMERICAL_VERSION = '2.3.2'
 __version__ = get_version('cdds_qc_plugin_cmip6')

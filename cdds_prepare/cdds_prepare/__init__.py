@@ -7,6 +7,6 @@ The CDDS Prepare package generates and alters
 
 from cdds_prepare.versions import get_version
 
-_DEV = False
-_NUMERICAL_VERSION = '2.3.1'
+_DEV = True
+_NUMERICAL_VERSION = '2.3.2'
 __version__ = get_version('cdds_prepare')

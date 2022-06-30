@@ -7,6 +7,6 @@ MASS.
 from extract.versions import get_version
 
 
-_DEV = False
-_NUMERICAL_VERSION = '2.3.1'
+_DEV = True
+_NUMERICAL_VERSION = '2.3.2'
 __version__ = get_version('extract')
