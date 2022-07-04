@@ -9,7 +9,7 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime
 from abc import ABCMeta, abstractmethod
-from typing import Tuple, Any, List, Dict
+from typing import Tuple, List, Dict
 
 
 @dataclass

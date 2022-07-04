@@ -28,6 +28,12 @@ class StreamIdentifier:
     optionals: Dict[str, str] = field(default_factory=dict)  # key: variable, value: stream
 
     def add_optionals(self, new_optionals: Dict[str, str]) -> None:
+        """
+        Add new opptionals supported streams according MIP request variables
+
+        :param new_optionals: New optionals (key: MIP request variable, value: stream)
+        :type new_optionals: Dict[str, str]
+        """
         self.optionals.update(new_optionals)
 
     def get_stream(self, variable: str = None) -> str:

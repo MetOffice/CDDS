@@ -10,7 +10,7 @@ import logging
 from dataclasses import dataclass
 from abc import ABCMeta, abstractmethod
 from enum import Enum
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from cdds_common.common.enum_utils import ABCEnumMeta
 from cdds_common.common.io import read_json
@@ -214,7 +214,7 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
             new_sizing_info = parameters.get('sizing_info', {})
             new_grid_info = parameters.get('grid_info')
 
-            self.load_stream_file_info(parameters.get('stream_file_frequency', {}))
+            self._load_stream_file_info(parameters.get('stream_file_frequency', {}))
             self._subdaily_streams = parameters.get('subdaily_streams', [])
             self._cycle_lengths.update(new_cylc_lengths)
             self._memory.update(new_memory)
@@ -227,7 +227,7 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
             loaded = True
         return LoadResult(self._model_id.value, json_file, loaded)
 
-    def load_stream_file_info(self, json_parameters):
+    def _load_stream_file_info(self, json_parameters: Dict[str, Any]) -> None:
         file_frequencies: Dict[str, StreamFileFrequency] = {}
         for frequency, entry in json_parameters.items():
             file_frequencies.update({

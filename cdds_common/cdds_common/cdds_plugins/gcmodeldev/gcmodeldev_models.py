@@ -10,8 +10,7 @@ from typing import List
 
 from cdds_common.cdds_plugins.cmip6.cmip6_models import (
     HadGEM3_GC31_LL_Params, HadGEM3_GC31_MM_Params, UKESM1_0_LL_Params, UKESM1_1_LL_Params)
-from cdds_common.cdds_plugins.base.base_models import (BaseModelParameters,
-                                                       BaseModelStore)
+from cdds_common.cdds_plugins.base.base_models import BaseModelParameters, BaseModelStore
 from cdds_common.cdds_plugins.common import LoadResults
 
 

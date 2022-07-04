@@ -15,7 +15,7 @@ class GCModelDevStreamInfo(BaseStreamInfo):
     are defined in a json file.
     """
 
-    def __init__(self, config_path: str = ''):
+    def __init__(self, config_path: str = '') -> None:
         if not config_path:
             local_dir = os.path.dirname(os.path.abspath(__file__))
             config_path = os.path.join(local_dir, 'data/streams/streams_config.json')
@@ -39,6 +39,6 @@ class GCModelDevStreamStore(BaseStreamStore):
         Creates a new class instance.
 
         :return: New class instance
-        :rtype: Cmip6StreamStore
+        :rtype: GCModelDevStreamStore
         """
         return GCModelDevStreamStore()
