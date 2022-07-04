@@ -60,6 +60,7 @@ def run_mip_convert_wrapper(arguments):
         substream = os.environ['SUBSTREAM']
         suite_name = os.environ['SUITE_NAME']
         staging_dir = os.environ.get('STAGING_DIR', '')
+        model_id = os.environ['MODEL_ID']
     except KeyError as ke1:
         err_msg = 'Expected environment variable {var} not found.'
         err_msg = err_msg.format(var=ke1)
@@ -104,6 +105,7 @@ def run_mip_convert_wrapper(arguments):
     (expected_files,
      old_input_dir,
      new_input_dir) = get_paths(suite_name,
+                                model_id,
                                 stream,
                                 substream,
                                 start_date,

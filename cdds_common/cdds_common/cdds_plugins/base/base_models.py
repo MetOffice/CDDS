@@ -17,6 +17,7 @@ from cdds_common.common.io import read_json
 from cdds_common.cdds_plugins.common import LoadResult, LoadResults
 from cdds_common.cdds_plugins.models import ModelParameters, ModelsStore
 from cdds_common.cdds_plugins.base.base_grid import BaseGridInfo, AtmosBaseGridInfo, OceanBaseGridInfo
+from cdds_common.cdds_plugins.streams import StreamFileInfo, StreamFileFrequency
 from cdds_common.cdds_plugins.grid import GridType
 
 
@@ -117,6 +118,7 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         self._sizing: SizingInfo = SizingInfo({})
         self._grid_info: Dict[GridType, BaseGridInfo] = {}
         self._subdaily_streams: List[str] = []
+        self._stream_file_info: StreamFileInfo = None
 
     def temp_space(self, stream_id: str) -> int:
         """
@@ -184,6 +186,15 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         """
         return self._subdaily_streams
 
+    def stream_file_info(self) -> StreamFileInfo:
+        """
+        Returns information about the stream files that the model supports.
+
+        :return: Information about the stream files
+        :rtype: StreamFileInfo
+        """
+        return self._stream_file_info
+
     def load_parameters(self, dir_path: str) -> LoadResult:
         """
         Loads parameters from json files contained in the given directory.
@@ -203,17 +214,26 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
             new_sizing_info = parameters.get('sizing_info', {})
             new_grid_info = parameters.get('grid_info')
 
+            self.load_stream_file_info(parameters.get('stream_file_frequency', {}))
             self._subdaily_streams = parameters.get('subdaily_streams', [])
-
             self._cycle_lengths.update(new_cylc_lengths)
             self._memory.update(new_memory)
             self._temp_space.update(new_temp_space)
             self._sizing.update(new_sizing_info)
+
             if new_grid_info:
                 self._grid_info[GridType.ATMOS] = AtmosBaseGridInfo(new_grid_info['atmos'])
                 self._grid_info[GridType.OCEAN] = OceanBaseGridInfo(new_grid_info['ocean'])
             loaded = True
         return LoadResult(self._model_id.value, json_file, loaded)
+
+    def load_stream_file_info(self, json_parameters):
+        file_frequencies: Dict[str, StreamFileFrequency] = {}
+        for frequency, entry in json_parameters.items():
+            file_frequencies.update({
+                stream: StreamFileFrequency(frequency, stream, entry["files_per_year"]) for stream in entry["streams"]
+            })
+        self._stream_file_info = StreamFileInfo(file_frequencies)
 
     def _get_json_file(self, dir_path: str) -> str:
         file_name = self._model_id.get_json_file()
@@ -231,6 +251,14 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         return model_id.lower() == self._model_id.value.lower()
 
     def grid_info(self, grid_type: GridType) -> BaseGridInfo:
+        """
+        Returns the corresponding grid information for the given grid type.
+
+        :param grid_type: Grid type (e.g.: ATMOS, OCEAN)
+        :type grid_type: GridType
+        :return: Grid information of the given grid type
+        :rtype: BaseGridInfo
+        """
         return self._grid_info[grid_type]
 
     def all_ancil_files(self, root_directory: str) -> List[str]:

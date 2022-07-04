@@ -256,12 +256,14 @@ class TestMisc(TestCase):
         start_date = datetime.datetime(1997, 1, 1)
         length1 = 360 * 5
         end_date = datetime.datetime(1998, 1, 1)
+        model_id = 'HadGEM3-GC31-LL'
         input_dir = os.path.sep + os.path.join('path', 'to', 'input', 'dir')
         work_dir = os.path.sep + os.path.join('path', 'to', 'work', 'dir')
 
         (output_file_list,
          output_old_input,
          output_new_input,) = get_paths(suite_name,
+                                        model_id,
                                         stream,
                                         substream,
                                         start_date,
@@ -299,6 +301,7 @@ class TestMisc(TestCase):
         substream = 'grid-T'
         start_date = datetime.datetime(1997, 1, 1)
         length1 = 360 * 5
+        model_id = 'HadGEM3-GC31-LL'
         end_date = datetime.datetime(1998, 1, 1)
         input_dir = os.path.sep + os.path.join('path', 'to', 'input', 'dir')
         work_dir = os.path.sep + os.path.join('path', 'to', 'work', 'dir')
@@ -306,6 +309,7 @@ class TestMisc(TestCase):
         (output_file_list,
          output_old_input,
          output_new_input,) = get_paths(suite_name,
+                                        model_id,
                                         stream,
                                         substream,
                                         start_date,

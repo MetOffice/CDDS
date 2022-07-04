@@ -9,10 +9,10 @@ import re
 
 from abc import ABCMeta
 from dataclasses import dataclass, field
-from typing import Dict, Any, Tuple, List
+from typing import Dict, Any, Tuple
 
 from cdds_common.common.io import read_json
-from cdds_common.cdds_plugins.streams import StreamInfo, StreamStore, StreamAttributes
+from cdds_common.cdds_plugins.streams import StreamInfo, StreamStore
 
 
 @dataclass
@@ -46,28 +46,6 @@ class StreamIdentifier:
             return self.default_stream
 
 
-@dataclass
-class StreamLength:
-    """
-    Represents the length of a stream. The length can vary between
-    low resolution and high resolution.
-    """
-    stream: str = ""
-    low_resolution: int = 0
-    high_resolution: int = 0
-
-    def length(self, is_high_resolution=False) -> int:
-        """
-        Returns the length of the stream for the given resolution.
-
-        :param is_high_resolution: If true, high resolution is considered otherwise low resolution
-        :type is_high_resolution: bool
-        :return: length of stream
-        :rtype: int
-        """
-        return self.high_resolution if is_high_resolution else self.low_resolution
-
-
 class BaseStreamInfo(StreamInfo, metaclass=ABCMeta):
     """
     Abstract class to store the information for a stream.
@@ -81,44 +59,10 @@ class BaseStreamInfo(StreamInfo, metaclass=ABCMeta):
         super(BaseStreamInfo, self).__init__()
         if os.path.exists(configuration_path):
             configuration = read_json(configuration_path)
-            self._stream_lengths: Dict[str, StreamLength] = {}
             self._streams: Dict[str, StreamIdentifier] = {}
-            self._load_stream_lengths(configuration)
             self._load_streams(configuration)
         else:
             raise BaseException("No stream config json file at path: {}".format(configuration_path))
-
-    def _load_stream_lengths(self, configuration: Dict[str, Any]) -> None:
-        """
-        Loads and extracts information of the stream lengths from the given configuration dictionary.
-
-        The configuration dictionary must contain a section <stream_length> that contains the desired
-        information. The section <stream_length> contains of dictionaries where each dictionary represent
-        a single stream length. The key specifies the name of the stream and the values <low_resolution> and
-        <high_resolution> specify the length of the stream according the given resolution.
-
-        Example of a configuration dictionary:
-        {
-            "stream_length": {
-                "ap4": {
-                    "low_resolution": 12,
-                    "high_resolution": 12
-                },
-                "ap5": {
-                    "low_resolution": 12,
-                    "high_resolution": 12
-                }
-            }
-        }
-
-        :param configuration: Configuration dictionary
-        :type configuration: Dict[str, Any]
-        """
-        for stream, lengths in configuration["stream_length"].items():
-            stream_length = StreamLength(stream=stream,
-                                         low_resolution=lengths["low_resolution"],
-                                         high_resolution=lengths["high_resolution"])
-            self._stream_lengths[stream] = stream_length
 
     def _load_streams(self, configuration: Dict[str, Any]) -> None:
         """
@@ -154,41 +98,6 @@ class BaseStreamInfo(StreamInfo, metaclass=ABCMeta):
             stream_id = self._streams.get(mip_table, StreamIdentifier(mip_table=mip_table))
             stream_id.add_optionals(stream_optionals)
             self._streams[mip_table] = stream_id
-
-    def get_files_per_year(self, stream: str, high_resolution: bool = False) -> int:
-        """
-        Calculates how many files of input data are expected per year for a particular stream.
-
-        :param stream: The name of the stream to get the number of files for
-        :type stream: str
-        :param high_resolution: True if processing high resolution model data
-        :type high_resolution: bool
-        :return: Number of files per year for the specified stream
-        :rtype: int
-        """
-        return self._stream_lengths[stream].length(high_resolution)
-
-    def calculate_expected_number_of_files(
-            self, stream_attributes: StreamAttributes, substreams: List[str], high_resolution: bool = False
-    ) -> int:
-        """
-        Calculates expected number of files in a particular stream
-
-        :param stream_attributes: Attributes of the stream containing stream name, start date and end date
-        :type stream_attributes: StreamAttributes
-        :param substreams: List of sub streams
-        :type substreams: List[str]
-        :param high_resolution: True if processing high resolution model data
-        :type high_resolution: bool
-        :return: Expected number of files
-        :rtype: int
-        """
-        years = stream_attributes.end_date.year - stream_attributes.start_date.year
-        months = stream_attributes.end_date.month - stream_attributes.start_date.month
-
-        files_per_year = self.get_files_per_year(stream_attributes.stream, high_resolution)
-        expected_files = ((years * 12 + months) / 12.0 * files_per_year * len(substreams))
-        return int(expected_files)
 
     def retrieve_stream_id(self, variable: str, mip_table: str) -> Tuple[str, str]:
         """

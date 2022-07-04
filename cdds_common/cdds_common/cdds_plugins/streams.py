@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021-2022, Met Office.
+# (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`streams` module contains the code required to
@@ -6,10 +6,10 @@ handle stream information for all supported streams.
 """
 import logging
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from abc import ABCMeta, abstractmethod
-from typing import Tuple, Any, List
+from typing import Tuple, Any, List, Dict
 
 
 @dataclass
@@ -25,42 +25,61 @@ class StreamAttributes:
     end_date: datetime
 
 
-class StreamInfo(object, metaclass=ABCMeta):
+@dataclass
+class StreamFileFrequency:
     """
-    Abstract class to store the stream information data.
+    Represents the frequency of files for a stream:
+        * frequency (e.g. monthly, daily, ...)
+        * name of the stream
+        * files per year
     """
+    frequency: str = ""
+    stream: str = ""
+    file_per_year: int = 0
 
-    @abstractmethod
-    def get_files_per_year(self, stream: str, high_resolution=False) -> int:
+
+@dataclass
+class StreamFileInfo:
+    """
+    Represents the information for stream files. It stores information of
+    the file frequencies of streams.
+    """
+    file_frequencies: Dict[str, StreamFileFrequency] = field(default_factory=dict)
+
+    def get_files_per_year(self, stream: str) -> int:
         """
         Calculates how many files of input data are expected per year for a particular stream.
 
         :param stream: The name of the stream to get the number of files for
         :type stream: str
-        :param high_resolution: True if processing high resolution model data
-        :type high_resolution: bool
         :return: Number of files per year for the specified stream
         :rtype: int
         """
-        pass
+        return self.file_frequencies[stream].file_per_year
 
-    @abstractmethod
-    def calculate_expected_number_of_files(
-            self, stream_attributes: StreamAttributes, substreams: List[str], high_resolution=False
-    ) -> int:
+    def calculate_expected_number_of_files(self, stream_attributes: StreamAttributes, substreams: List[str]) -> int:
         """
         Calculates expected number of files in a particular stream
 
         :param stream_attributes: Attributes of the stream containing stream name, start date and end date
-        :type stream_attributes: Any storing stream attributes
+        :type stream_attributes: StreamAttributes
         :param substreams: List of sub streams
         :type substreams: List[str]
-        :param high_resolution: True if processing high resolution model data
-        :type high_resolution: bool
         :return: Expected number of files
         :rtype: int
         """
-        pass
+        years = stream_attributes.end_date.year - stream_attributes.start_date.year
+        months = stream_attributes.end_date.month - stream_attributes.start_date.month
+
+        files_per_year = self.get_files_per_year(stream_attributes.stream)
+        expected_files = ((years * 12 + months) / 12.0 * files_per_year * len(substreams))
+        return int(expected_files)
+
+
+class StreamInfo(object, metaclass=ABCMeta):
+    """
+    Abstract class to store the stream information data.
+    """
 
     @abstractmethod
     def retrieve_stream_id(self, variable: str, mip_table: str) -> Tuple[str, str]:

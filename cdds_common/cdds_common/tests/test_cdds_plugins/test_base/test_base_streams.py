@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 from unittest import TestCase
 
-from cdds_common.cdds_plugins.base.base_streams import StreamIdentifier, StreamLength
+from cdds_common.cdds_plugins.base.base_streams import StreamIdentifier
 
 
 class TestStreamIdentifier(TestCase):
@@ -75,12 +75,31 @@ class TestStreamIdentifier(TestCase):
         self.assertDictEqual(new_optionals, stream_identifier.optionals)
 
 
-class TestStreamLength(TestCase):
+class TestMe(TestCase):
 
-    def test_length_for_high_resolution(self):
-        stream_length = StreamLength("ond", 12, 4)
-        self.assertEqual(stream_length.length(True), 4)
-
-    def test_length_for_low_resolution(self):
-        stream_length = StreamLength("ond", 12, 4)
-        self.assertEqual(stream_length.length(False), 12)
+    def test_me(self):
+        test_data = {
+            "monthly": {
+                "streams": [
+                    "ap4",
+                    "ap5",
+                    "apm",
+                    "apu",
+                    "onm",
+                    "inm",
+                    "ind",
+                    "ond"
+                ],
+                "files_per_year": 12
+            },
+            "daily": {
+                "streams": [
+                    "ap6",
+                    "ap7",
+                    "ap8",
+                    "ap9",
+                    "apt"
+                ],
+                "files_per_year": 36
+            }
+        }
