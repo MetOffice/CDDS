@@ -73,33 +73,3 @@ class TestStreamIdentifier(TestCase):
         stream_identifier.add_optionals(new_optionals)
 
         self.assertDictEqual(new_optionals, stream_identifier.optionals)
-
-
-class TestMe(TestCase):
-
-    def test_me(self):
-        test_data = {
-            "monthly": {
-                "streams": [
-                    "ap4",
-                    "ap5",
-                    "apm",
-                    "apu",
-                    "onm",
-                    "inm",
-                    "ind",
-                    "ond"
-                ],
-                "files_per_year": 12
-            },
-            "daily": {
-                "streams": [
-                    "ap6",
-                    "ap7",
-                    "ap8",
-                    "ap9",
-                    "apt"
-                ],
-                "files_per_year": 36
-            }
-        }

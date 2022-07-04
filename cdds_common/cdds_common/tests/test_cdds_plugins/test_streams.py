@@ -14,8 +14,8 @@ class TestStreamFileInfoCalculateExpectedNumberOfFiles(TestCase):
             "ap5": StreamFileFrequency("monthly", "ap5", 12),
             "onm": StreamFileFrequency("monthly", "ap5", 12),
             "inm": StreamFileFrequency("monthly", "ap5", 12),
-            "ap6": StreamFileFrequency("daily", "ap6", 36),
-            "ap7": StreamFileFrequency("daily", "ap7", 36)
+            "ap6": StreamFileFrequency("10 day", "ap6", 36),
+            "ap7": StreamFileFrequency("10 day", "ap7", 36)
         }
         self.stream_info = StreamFileInfo(file_frequencies)
         self.start_date = datetime.strptime("1850-01-01", "%Y-%m-%d")
