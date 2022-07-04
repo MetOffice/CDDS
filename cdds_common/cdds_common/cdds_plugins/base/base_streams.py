@@ -21,20 +21,20 @@ class StreamIdentifier:
     Represents the streams for a MIP table. It contains:
         * name of the MIP table
         * the default supported stream
-        * the optionals supported streams according MIP requested variables
+        * the overrides supported streams according MIP requested variables
     """
     mip_table: str = ""
     default_stream: str = ""
-    optionals: Dict[str, str] = field(default_factory=dict)  # key: variable, value: stream
+    overrides: Dict[str, str] = field(default_factory=dict)  # key: variable, value: stream
 
-    def add_optionals(self, new_optionals: Dict[str, str]) -> None:
+    def add_overrides(self, new_overrides: Dict[str, str]) -> None:
         """
-        Add new opptionals supported streams according MIP request variables
+        Add new overrides supported streams according MIP request variables
 
-        :param new_optionals: New optionals (key: MIP request variable, value: stream)
-        :type new_optionals: Dict[str, str]
+        :param new_overrides: New overrides (key: MIP request variable, value: stream)
+        :type new_overrides: Dict[str, str]
         """
-        self.optionals.update(new_optionals)
+        self.overrides.update(new_overrides)
 
     def get_stream(self, variable: str = None) -> str:
         """
@@ -47,7 +47,7 @@ class StreamIdentifier:
         :rtype: str
         """
         if variable:
-            return self.optionals.get(variable, self.default_stream)
+            return self.overrides.get(variable, self.default_stream)
         else:
             return self.default_stream
 
@@ -74,8 +74,8 @@ class BaseStreamInfo(StreamInfo, metaclass=ABCMeta):
         """
         Loads and extracts information of the stream of the MIP tables from the given configuration dictionary.
 
-        The configuration dictionary must contain a section <default> and <optionals>. The <default> section
-        contains the default stream of a MIP table. The <optionals> section contains all streams that override
+        The configuration dictionary must contain a section <default> and <overrides>. The <default> section
+        contains the default stream of a MIP table. The <overrides> section contains all streams that override
         the default stream of a MIP table for a specific variable.
 
         Example of a configuration dictionary:
@@ -84,7 +84,7 @@ class BaseStreamInfo(StreamInfo, metaclass=ABCMeta):
                 "AERmon": "ap4",
                  "Amon": "ap5"
             },
-            "optionals": {
+            "overrides": {
                 "AERmon": {
                         "tntrl": "apu"
                 },
@@ -100,9 +100,9 @@ class BaseStreamInfo(StreamInfo, metaclass=ABCMeta):
         """
         for mip_table, stream_default in configuration["default"].items():
             self._streams[mip_table] = StreamIdentifier(mip_table=mip_table, default_stream=stream_default)
-        for mip_table, stream_optionals in configuration["optionals"].items():
+        for mip_table, stream_overrides in configuration["overrides"].items():
             stream_id = self._streams.get(mip_table, StreamIdentifier(mip_table=mip_table))
-            stream_id.add_optionals(stream_optionals)
+            stream_id.add_overrides(stream_overrides)
             self._streams[mip_table] = stream_id
 
     def retrieve_stream_id(self, variable: str, mip_table: str) -> Tuple[str, str]:

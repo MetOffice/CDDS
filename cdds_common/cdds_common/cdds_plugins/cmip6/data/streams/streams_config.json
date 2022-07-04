@@ -47,7 +47,7 @@
     "CresAERday": "ap6",
     "Cres1HrMn": "ap9"
   },
-  "optionals": {
+  "overrides": {
     "6hrPlev": {
       "prhmax": "ap9"
     },

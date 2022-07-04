@@ -8,68 +8,68 @@ from cdds_common.cdds_plugins.base.base_streams import StreamIdentifier
 class TestStreamIdentifier(TestCase):
 
     def test_default_stream_for_variable(self):
-        optionals = {
+        overrides = {
             "tntrl": "apu",
             "tntrs": "apu"
         }
 
-        stream_identifier = StreamIdentifier("AERmon", "ap4", optionals)
+        stream_identifier = StreamIdentifier("AERmon", "ap4", overrides)
         stream = stream_identifier.get_stream("tas")
 
         self.assertEqual("ap4", stream)
 
-    def test_default_stream_if_no_optionals(self):
+    def test_default_stream_if_no_overrides(self):
         stream_identifier = StreamIdentifier("AERmon", "ap4")
         stream = stream_identifier.get_stream("tas")
 
         self.assertEqual("ap4", stream)
 
-    def test_optional_stream(self):
-        optionals = {
+    def test_override_stream(self):
+        overrides = {
             "tntrl": "apu",
             "tntrs": "apu"
         }
 
-        stream_identifier = StreamIdentifier("AERmon", "ap4", optionals)
+        stream_identifier = StreamIdentifier("AERmon", "ap4", overrides)
         stream = stream_identifier.get_stream("tntrl")
 
         self.assertEqual("apu", stream)
 
-    def test_add_empty_optionals(self):
-        optionals = {
+    def test_add_empty_overrides(self):
+        overrides = {
             "tntrl": "apu",
             "tntrs": "apu"
         }
 
-        stream_identifier = StreamIdentifier("AERmon", "ap4", optionals)
-        stream_identifier.add_optionals({})
+        stream_identifier = StreamIdentifier("AERmon", "ap4", overrides)
+        stream_identifier.add_overrides({})
 
-        self.assertDictEqual(optionals, stream_identifier.optionals)
+        self.assertDictEqual(overrides, stream_identifier.overrides)
 
-    def test_add_optionals(self):
-        optionals = {
+    def test_add_overrides(self):
+        overrides = {
             "tntrl": "apu"
         }
-        new_optionals = {
+        new_overrides = {
             "tntrs": "apu"
         }
-        expected_optionals = {
+        expected_overrides = {
             "tntrl": "apu",
             "tntrs": "apu"
         }
 
-        stream_identifier = StreamIdentifier("AERmon", "ap4", optionals)
-        stream_identifier.add_optionals(new_optionals)
+        stream_identifier = StreamIdentifier("AERmon", "ap4", overrides)
+        stream_identifier.add_overrides(new_overrides)
 
-        self.assertDictEqual(expected_optionals, stream_identifier.optionals)
+        self.assertDictEqual(expected_overrides, stream_identifier.overrides)
 
-    def test_add_optionals_to_empty_optionals(self):
-        new_optionals = {
+    def test_add_overrides_to_empty_overrides(self):
+        new_overrides = {
             "tntrl": "apu",
             "tntrs": "apu"
         }
 
         stream_identifier = StreamIdentifier("AERmon", "ap4")
-        stream_identifier.add_optionals(new_optionals)
+        stream_identifier.add_overrides(new_overrides)
 
-        self.assertDictEqual(new_optionals, stream_identifier.optionals)
+        self.assertDictEqual(new_overrides, stream_identifier.overrides)

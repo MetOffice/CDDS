@@ -2,6 +2,6 @@
   "default": {
     "Amon": "apm"
   },
-  "optionals": {
+  "overrides": {
   }
 }
