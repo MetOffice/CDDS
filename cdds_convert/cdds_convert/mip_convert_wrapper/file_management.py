@@ -11,11 +11,11 @@ import os
 import re
 import shutil
 
+from cdds_common.cdds_plugins.plugins import PluginStore
 from cdds_convert.constants import FILEPATH_JASMIN, FILEPATH_METOFFICE, STREAMS_FILES_REGEX, NUM_FILE_COPY_ATTEMPTS
 from cdds_convert.mip_convert_wrapper.file_processors import (
     parse_atmos_monthly_filename, parse_atmos_submonthly_filename,
     parse_ocean_seaice_filename)
-from hadsdk.streams import get_files_per_year
 
 
 def filter_streams(file_list, stream):
@@ -56,7 +56,7 @@ def construct_processors_dict():
     return filename_processors
 
 
-def get_paths(suite_name, stream, substream, start_date, end_date, input_dir,
+def get_paths(suite_name, model_id, stream, substream, start_date, end_date, input_dir,
               work_dir, filepath_type=FILEPATH_METOFFICE):
     """
     Creates a list of paths to current input directory, directory for symlinks
@@ -67,6 +67,8 @@ def get_paths(suite_name, stream, substream, start_date, end_date, input_dir,
     ----------
     suite_name: str
         The name of the suite that the ran the model
+    model_id: str
+        ID of the considered model
     stream: str
         The model output stream to be processed
     substream: str
@@ -93,12 +95,15 @@ def get_paths(suite_name, stream, substream, start_date, end_date, input_dir,
                          symlink will be created.
 
     """
+    model_params = PluginStore.instance().get_plugin().models_parameters(model_id)
+    stream_file_info = model_params.stream_file_info()
     stream_prefix = stream[:2]  # `ap`, `in` or `on`
     if stream_prefix not in ['ap', 'in', 'on']:
         raise RuntimeError('Stream "{}" not recognised'.format(stream))
 
     stream_lookup = stream_prefix
-    if stream_prefix == 'ap' and get_files_per_year(stream) > 12:
+    files_per_year = stream_file_info.get_files_per_year(stream)
+    if stream_prefix == 'ap' and files_per_year > 12:
         stream_lookup = 'ap_submonthly'
     # Identify files that are to be expected
 
@@ -137,7 +142,7 @@ def get_paths(suite_name, stream, substream, start_date, end_date, input_dir,
     file_list = _assemble_file_dicts(all_files,
                                      cycle_dirs, filename_processor,
                                      stream, substream, file_pattern,
-                                     period_start, period_end)
+                                     period_start, period_end, model_id)
     return (file_list,
             old_input_location,
             new_input_location)
@@ -145,7 +150,7 @@ def get_paths(suite_name, stream, substream, start_date, end_date, input_dir,
 
 def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
                          stream, substream, file_pattern,
-                         period_start, period_end):
+                         period_start, period_end, model_id):
     """Assemble file dictionaries.
 
     Parameters
@@ -166,6 +171,8 @@ def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
         Beginning of the processed time chunk
     period_end : str
         End of the processed time chunk
+    model_id: str
+        ID of the considered model
 
     Returns
     -------
@@ -177,10 +184,8 @@ def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
     if not cycle_dirs:
         for stream_fname in all_files:
             try:
-                file_dict = filename_processor(stream_fname, stream,
-                                               file_pattern)
-                file_in_substream = (substream == '' or
-                                     substream in file_dict['filename'])
+                file_dict = filename_processor(stream_fname, stream, file_pattern, model_id)
+                file_in_substream = (substream == '' or substream in file_dict['filename'])
                 if (file_in_substream and
                         (period_start <= file_dict['start'] <= period_end
                          or period_start <= file_dict['end'] <= period_end)):
@@ -193,9 +198,8 @@ def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
     else:
         for stream_fname, cycle_fname in zip(all_files, cycle_dirs):
             try:
-                file_dict = filename_processor(stream_fname, stream, file_pattern)
-                file_in_substream = (substream == '' or
-                                     substream in file_dict['filename'])
+                file_dict = filename_processor(stream_fname, stream, file_pattern, model_id)
+                file_in_substream = (substream == '' or substream in file_dict['filename'])
                 if (file_in_substream and
                         (period_start <= file_dict['start'] <= period_end or
                          period_start <= file_dict['end'] <= period_end)):
