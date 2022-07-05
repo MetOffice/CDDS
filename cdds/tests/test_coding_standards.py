@@ -8,10 +8,9 @@ import os
 import re
 import unittest
 from nose.plugins.attrib import attr
+from pathlib import Path
 
 import pep8
-
-import cdds
 
 
 COPYRIGHT_TEMPLATE = ('{start_comment} (C) British Crown Copyright {years}, Met Office.'
@@ -25,7 +24,7 @@ class TestCodingStandards(unittest.TestCase):
     """
 
     def setUp(self):
-        cdds_dir = os.path.dirname(cdds.__file__)
+        cdds_dir = Path(__file__).parent.absolute()
         self.all_files = [
             os.path.join(dir, filename) for dir, _, filenames in os.walk(cdds_dir) for filename in filenames
         ]

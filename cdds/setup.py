@@ -19,7 +19,7 @@ def extract_version() -> AnyStr:
     str
         The CDDS common module version
     """
-    filename: str = os.path.join('cdds_common', '__init__.py')
+    filename: str = os.path.join('common', '__init__.py')
     imported_module = imp.load_source('__init__', filename)
     return imported_module.__version__
 
