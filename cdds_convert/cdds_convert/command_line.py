@@ -322,6 +322,7 @@ def _parse_run_mip_convert_parameters(arguments):
                         help='Module path to external CDDS plugin')
     parsed_arguments = parser.parse_args(args=user_arguments)
     arguments.add_user_args(parsed_arguments)
+    load_plugin(arguments.mip_era, arguments.external_plugin)
     return arguments
 
 

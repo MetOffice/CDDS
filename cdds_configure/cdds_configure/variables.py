@@ -8,7 +8,6 @@ from collections import defaultdict
 import logging
 
 from hadsdk.grids import retrieve_grid_info, grid_overrides
-from hadsdk.streams import retrieve_stream_id, stream_overrides
 
 
 def retrieve_variables_by_grid(requested_variables):

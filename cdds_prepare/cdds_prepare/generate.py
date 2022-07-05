@@ -14,9 +14,10 @@ from hadsdk.common import set_checksum
 from hadsdk.config import FullPaths
 from hadsdk.constants import REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST
 from hadsdk.request import read_request
-from hadsdk.streams import retrieve_stream_id, stream_overrides
 
 from hadsdk.inventory.dao import InventoryDAO, DBVariableStatus
+
+from cdds_common.cdds_plugins.plugins import PluginStore
 
 from cdds_prepare import __version__
 from cdds_prepare.auto_deactivation import run_auto_deactivate_variables
@@ -104,6 +105,7 @@ class AbstractVariablesConstructor(object, metaclass=ABCMeta):
 
     def __init__(self, config):
         self._config = config
+        self._plugin = PluginStore.instance().get_plugin()
 
     def construct_requested_variables_list(self):
         """
@@ -188,8 +190,8 @@ class AbstractVariablesConstructor(object, metaclass=ABCMeta):
 
                 producible_state = self.check_producible(variable_name, mip_table)
 
-                stream_id, substream = retrieve_stream_id(variable_name, mip_table, self._config.request_mip_era,
-                                                          stream_overrides())
+                stream_info = self._plugin.stream_info()
+                stream_id, substream = stream_info.retrieve_stream_id(variable_name, mip_table)
 
                 requested_variable = {
                     'active': active,
