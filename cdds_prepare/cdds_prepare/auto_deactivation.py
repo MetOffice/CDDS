@@ -12,7 +12,7 @@ import re
 from .alter import alter_variable_list
 from .constants import DEACTIVATION_RULE_LOCATION
 
-from cdds_common.common.io import read_json
+from common.io import read_json
 from hadsdk.common import run_command, check_svn_location
 
 

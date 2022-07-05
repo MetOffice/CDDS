@@ -11,7 +11,7 @@ import unittest
 import datetime
 from unittest.mock import patch
 
-from cdds_common.cdds_plugins.plugin_loader import load_plugin
+from common.cdds_plugins.plugin_loader import load_plugin
 from extract.filters import Filters
 from hadsdk.common import configure_logger
 

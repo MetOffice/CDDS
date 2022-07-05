@@ -2,8 +2,8 @@
 # Please see LICENSE.rst for license details.
 import os
 
-from cdds_common.cdds_plugins.plugins import PluginStore
-from cdds_common.cdds_plugins.grid import GridType
+from common.cdds_plugins.plugins import PluginStore
+from common.cdds_plugins.grid import GridType
 from hadsdk.config import FullPaths
 
 

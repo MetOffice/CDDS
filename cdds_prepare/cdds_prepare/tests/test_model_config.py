@@ -14,7 +14,7 @@ from textwrap import dedent
 
 from hadsdk.tests.common import DummyMapping
 
-from cdds_common.cdds_plugins.plugin_loader import load_plugin
+from common.cdds_plugins.plugin_loader import load_plugin
 from cdds_prepare.model_config import (
     retrieve_model_suite_variables, consolidate_atmos_enabled,
     create_ocean_enabled, _read_iodef_into_dict,

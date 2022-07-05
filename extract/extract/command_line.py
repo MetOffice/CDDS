@@ -9,7 +9,7 @@ import glob
 import logging
 import os
 
-from cdds_common.cdds_plugins.plugin_loader import load_plugin
+from common.cdds_plugins.plugin_loader import load_plugin
 from extract import __version__
 from extract.common import stream_file_template
 from extract.lang import set_language

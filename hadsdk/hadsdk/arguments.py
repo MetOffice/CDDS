@@ -9,7 +9,7 @@ import importlib
 import logging
 import os
 
-from cdds_common.common.io import read_json
+from common.io import read_json
 
 import hadsdk
 from hadsdk.constants import ARGUMENTS_FILENAME, PACKAGE_KEY_FOR_ARGUMENTS

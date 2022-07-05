@@ -9,7 +9,7 @@ import os
 import logging
 
 from abc import ABCMeta, abstractmethod
-from cdds_common.common.io import write_json
+from common.io import write_json
 from hadsdk.common import set_checksum
 from hadsdk.config import FullPaths
 from hadsdk.constants import REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST
@@ -17,7 +17,7 @@ from hadsdk.request import read_request
 
 from hadsdk.inventory.dao import InventoryDAO, DBVariableStatus
 
-from cdds_common.cdds_plugins.plugins import PluginStore
+from common.cdds_plugins.plugins import PluginStore
 
 from cdds_prepare import __version__
 from cdds_prepare.auto_deactivation import run_auto_deactivate_variables
