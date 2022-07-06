@@ -1,7 +1,7 @@
 # (C) British Crown Copyright 2021-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
-Setup script for the CDDS component.
+Setup script for CDDS.
 """
 import imp
 import os
@@ -12,7 +12,7 @@ from typing import List, AnyStr, Tuple, Union, Any
 
 def extract_version() -> AnyStr:
     """
-    Returns the version number of the CDDS component.
+    Returns the version number of CDDS.
 
     Returns
     -------
@@ -110,8 +110,8 @@ setup(
     name='cdds',
     version=extract_version(),
     description=(
-        'The CDDS package contains a collection of functionalities '
-        'to transform, deliver and publish climate data.'
+        'The cdds package contains the code behind the "Climate Data Dissemination System", '
+        'designed to process and publish data to CMIP6 and similar projects'
     ),
     long_description=extract_readme(),
     keywords='cdds',

@@ -3,7 +3,7 @@
 # Please see LICENSE.rst for license details.
 import sys
 
-from common.mappings_viewer.command_line import main
+from cdds.common.mappings_viewer.command_line import main
 
 
 if __name__ == '__main__':

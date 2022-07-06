@@ -33,7 +33,7 @@ class InventoryDAO(object):
     def _check_db_file(self):
         if self._db_file is None or self._db_file == '':
             raise IOError('Database file must be set.')
-        cdds.common.check_file(self._db_file)
+        common.check_file(self._db_file)
 
     def _check_connection(self):
         if inventory.is_expired(self._connection):
