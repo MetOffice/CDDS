@@ -3,15 +3,15 @@
 
 .. _overview:
 
-CDDS Common
-===========
+CDDS
+====
 
 .. include:: common.txt
 
-The CDDS Common package provides a collection of generic Python software libraries
-for managing and processing model data and metadata.
+The CDDS package provides a collection of Python software libraries
+for managing, processing and publishing model data and metadata.
 
-An overview of CDDS Common
---------------------------
+An overview of CDDS
+-------------------
 
 * [...]

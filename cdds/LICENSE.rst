@@ -4,7 +4,7 @@
 License
 =======
 
-CDDS Common is licensed under the BSD license.
+CDDS is licensed under the BSD license.
 
 British Crown Copyright (C) 2009-2016, Met Office.
 All rights reserved.

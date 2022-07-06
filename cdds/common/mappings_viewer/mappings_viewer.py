@@ -6,12 +6,12 @@ import re
 
 from configparser import ConfigParser, ExtendedInterpolation
 
-import cdds_common
+import common
 
-from cdds_common.mappings_viewer.constants import (HEADINGS, HEADER_ROW_TEMPLATE, ROW_TEMPLATE, CELL_TEMPLATE,
-                                                   TABLE_TEMPLATE, CODE_CELL_TEMPLATE, TOOLTIP_TEMPLATE, GITURL,
-                                                   GITURL_MAPPING, HYPERLINK, BGCOLORS, HEADER, FOOTER)
-from hadsdk.rose_suite.common import _load_suite_info_from_file
+from common.mappings_viewer.constants import (HEADINGS, HEADER_ROW_TEMPLATE, ROW_TEMPLATE, CELL_TEMPLATE,
+                                              TABLE_TEMPLATE, CODE_CELL_TEMPLATE, TOOLTIP_TEMPLATE, GITURL,
+                                              GITURL_MAPPING, HYPERLINK, BGCOLORS, HEADER, FOOTER)
+from hadsdk.rose_suite.common import load_suite_info_from_file
 from mip_convert.process.constants import constants
 
 
@@ -134,7 +134,7 @@ def get_stash_meta_dict(stash_meta_filepath):
         A dictionary where each key is a stash code in the format m01sXXiXXX
     """
     stashmaster_meta_path = stash_meta_filepath
-    stash_dict = _load_suite_info_from_file(stashmaster_meta_path)
+    stash_dict = load_suite_info_from_file(stashmaster_meta_path)
 
     stash_dict_formatted = {}
 
@@ -315,9 +315,9 @@ def generate_html(table, model, arguments):
         User arguments.
     """
     html = (
-        HEADER +
-        '<h2>Variable Mappings for {} (Generated with CDDS v{})</h2>'.format(model, cdds_common._NUMERICAL_VERSION) +
-        '<p> </p>' + '<p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p>' + table + FOOTER)
+            HEADER +
+            '<h2>Variable Mappings for {} (Generated with CDDS v{})</h2>'.format(model, common._NUMERICAL_VERSION) +
+            '<p> </p>' + '<p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p>' + table + FOOTER)
 
     if not arguments.output_directory:
         cdds_path = os.environ['CDDS_DIR']

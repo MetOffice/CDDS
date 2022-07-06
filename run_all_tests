@@ -13,7 +13,6 @@ LOG_NAME = os.path.join(CDDS_DIR, 'cdds_test_failures.log')
 ROOT_COMMAND = 'python setup.py nosetests'
 TESTS_TO_RUN = {
     'cdds': ['--with-doctest'],
-    'cdds_common': ['--with-doctest'],
     'cdds_configure': ['--with-doctest', '-a slow'],
     'cdds_convert': ['--with-doctest', '-a integration'],
     'cdds_prepare': ['--with-doctest', '-a slow', '-a data_request'],

@@ -5,7 +5,7 @@ import os
 
 import mip_convert.process
 
-from cdds_common.mappings_viewer.mappings_viewer import build_table, generate_html, get_mappings
+from common.mappings_viewer.mappings_viewer import build_table, generate_html, get_mappings
 
 
 def main():

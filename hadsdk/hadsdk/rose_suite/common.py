@@ -53,13 +53,21 @@ def load_rose_suite_info(svn_url):
     data = run_command(command)
 
     temp_file = _write_into_temp_file(data)
-    suite_info = _load_suite_info_from_file(temp_file)
+    suite_info = load_suite_info_from_file(temp_file)
 
     _delete_file(temp_file)
     return suite_info
 
 
-def _load_suite_info_from_file(file_path):
+def load_suite_info_from_file(file_path):
+    """
+    Loads the rose suite info from a file
+
+    :param file_path: Path to the rose suite info file
+    :type file_path: str
+    :return: The rose suite info as a dictionary of key :string and value :string
+    :rtype: dict
+    """
     full_suite = rose_config.load(file_path)
     suite_info = {k: v.value for k, v in full_suite.value.items() if v.state == ''}
     return suite_info

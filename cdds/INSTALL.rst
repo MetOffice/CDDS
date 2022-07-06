@@ -4,7 +4,7 @@
 Installing CDDS
 ===============
 
-CDDS Common can be installed using the following command::
+CDDS can be installed using the following command::
 
   python setup.py install 
 
