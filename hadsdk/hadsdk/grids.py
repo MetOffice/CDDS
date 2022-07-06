@@ -9,8 +9,8 @@ import os
 import hadsdk
 from hadsdk.config import load_override_values
 
-from common.cdds_plugins.plugins import PluginStore
-from common.cdds_plugins.grid import GridType
+from common.plugins.plugins import PluginStore
+from common.plugins.grid import GridType
 
 
 class Grid(object):

@@ -11,10 +11,10 @@ import unittest
 
 from unittest.mock import patch
 from nose.plugins.attrib import attr
-from common.cdds_plugins.plugin_loader import load_plugin, load_external_plugin
-from common.cdds_plugins.models import ModelParameters
-from common.cdds_plugins.streams import StreamInfo
-from tests.test_cdds_plugins.stubs import EmptyCddsPlugin
+from common.plugins.plugin_loader import load_plugin, load_external_plugin
+from common.plugins.models import ModelParameters
+from common.plugins.streams import StreamInfo
+from tests.test_plugins.stubs import EmptyCddsPlugin
 import hadsdk.mapping as mapping
 
 

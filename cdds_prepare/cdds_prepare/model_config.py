@@ -15,7 +15,7 @@ import tempfile
 from xml.etree import ElementTree
 
 from common.io import read_json
-from common.cdds_plugins.plugins import PluginStore
+from common.plugins.plugins import PluginStore
 
 from hadsdk.configuration.rose_config import load as config_load
 

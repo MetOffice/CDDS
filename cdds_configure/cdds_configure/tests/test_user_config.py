@@ -15,10 +15,10 @@ import unittest
 from unittest.mock import patch
 
 from common.io import write_json
-from common.cdds_plugins.plugins import PluginStore
-from common.cdds_plugins.plugin_loader import load_plugin
-from common.cdds_plugins.grid import GridType
-from common.cdds_plugins.cmip6.cmip6_grid import Cmip6GridLabel
+from common.plugins.plugins import PluginStore
+from common.plugins.plugin_loader import load_plugin
+from common.plugins.grid import GridType
+from common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 
 from hadsdk.arguments import read_default_arguments
 from hadsdk.common import set_checksum

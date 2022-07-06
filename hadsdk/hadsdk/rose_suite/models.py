@@ -5,9 +5,9 @@ import logging
 import os
 
 from common.io import read_json
-from common.cdds_plugins.plugin_loader import load_plugin
-from common.cdds_plugins.plugins import PluginStore
-from common.cdds_plugins.grid import GridType
+from common.plugins.plugin_loader import load_plugin
+from common.plugins.plugins import PluginStore
+from common.plugins.grid import GridType
 from hadsdk.arguments import Arguments
 from hadsdk.common import check_svn_location, determine_rose_suite_url
 from hadsdk.constants import NO_PARENT, STANDARD

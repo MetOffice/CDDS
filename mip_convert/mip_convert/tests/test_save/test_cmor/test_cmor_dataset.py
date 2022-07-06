@@ -10,7 +10,7 @@ import json
 from textwrap import dedent
 import unittest
 
-from common.cdds_plugins.plugin_loader import load_plugin
+from common.plugins.plugin_loader import load_plugin
 from hadsdk.configuration.cv_config import CVConfig
 from hadsdk.configuration.python_config import UserConfig
 from unittest.mock import patch

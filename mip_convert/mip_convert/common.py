@@ -16,8 +16,8 @@ from iris.fileformats.pp import STASH
 
 from hadsdk.common import DATE_TIME_REGEX
 from hadsdk.constants import ANCIL_VARIABLES
-from common.cdds_plugins.plugins import PluginStore
-from common.cdds_plugins.grid import GridType
+from common.plugins.plugins import PluginStore
+from common.plugins.grid import GridType
 
 TIME_TYPE = 'T'
 LANDTYPE_AXIS = 'vegtype'

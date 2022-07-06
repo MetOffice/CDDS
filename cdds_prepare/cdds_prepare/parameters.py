@@ -14,7 +14,7 @@ from cdds_prepare.model_config import retrieve_model_suite_variables
 from cdds_prepare.data_request import get_data_request_variables
 from cdds_prepare.user_variable import list_all_variables
 
-from common.cdds_plugins.plugins import PluginStore
+from common.plugins.plugins import PluginStore
 
 
 class VariableParameters(object):

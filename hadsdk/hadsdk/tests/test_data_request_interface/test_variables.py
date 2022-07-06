@@ -7,7 +7,7 @@ Tests for :mod:`variable.py`
 import unittest
 
 from nose.plugins.attrib import attr
-from common.cdds_plugins.plugin_loader import load_plugin
+from common.plugins.plugin_loader import load_plugin
 from hadsdk.arguments import read_default_arguments
 from hadsdk.data_request_interface.load import (DataRequestWrapper,
                                                 ExperimentNotFoundError)

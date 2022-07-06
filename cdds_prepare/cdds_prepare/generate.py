@@ -17,7 +17,7 @@ from hadsdk.request import read_request
 
 from hadsdk.inventory.dao import InventoryDAO, DBVariableStatus
 
-from common.cdds_plugins.plugins import PluginStore
+from common.plugins.plugins import PluginStore
 
 from cdds_prepare import __version__
 from cdds_prepare.auto_deactivation import run_auto_deactivate_variables

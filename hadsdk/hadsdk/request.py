@@ -8,7 +8,7 @@ information about the request.
 from copy import deepcopy
 import logging
 
-from common.cdds_plugins.plugin_loader import load_plugin
+from common.plugins.plugin_loader import load_plugin
 from common.io import read_json, write_json
 from hadsdk.constants import REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS
 

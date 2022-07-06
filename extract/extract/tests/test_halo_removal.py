@@ -8,7 +8,7 @@ import logging
 import unittest
 from unittest.mock import patch
 
-from common.cdds_plugins.plugin_loader import load_plugin
+from common.plugins.plugin_loader import load_plugin
 from extract.halo_removal import dehalo_single_file
 from extract.constants import DEHALO_PREFIX
 

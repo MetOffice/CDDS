@@ -13,7 +13,7 @@ import shutil
 from textwrap import dedent
 import unittest
 
-from common.cdds_plugins.plugin_loader import load_plugin
+from common.plugins.plugin_loader import load_plugin
 from common.io import write_json
 
 from hadsdk.arguments import Arguments

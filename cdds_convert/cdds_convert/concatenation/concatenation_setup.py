@@ -17,7 +17,7 @@ import os
 import re
 import sqlite3
 
-from common.cdds_plugins.plugins import PluginStore
+from common.plugins.plugins import PluginStore
 from cdds_convert.constants import (CMOR_FILENAME_PATTERN,
                                     TASK_STATUS_NOT_STARTED)
 from cdds_convert.exceptions import ArgumentError

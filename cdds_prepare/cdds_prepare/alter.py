@@ -11,7 +11,7 @@ import json
 import logging
 
 from common.io import read_json, write_json
-from common.cdds_plugins.plugins import PluginStore
+from common.plugins.plugins import PluginStore
 from hadsdk.common import set_checksum
 
 from cdds_prepare import __version__

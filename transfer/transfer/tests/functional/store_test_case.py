@@ -3,7 +3,7 @@
 from unittest import TestCase, mock
 from nose.plugins.attrib import attr
 
-from common.cdds_plugins.plugin_loader import load_plugin
+from common.plugins.plugin_loader import load_plugin
 from hadsdk.mass import mass_info
 
 
