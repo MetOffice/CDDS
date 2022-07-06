@@ -8,7 +8,7 @@ import shutil
 import tempfile
 import unittest
 
-from cdds_common.common.io import write_json
+from cdds.common.io import write_json
 from cdds_prepare.pretty_print.csv_models import CsvSheet
 from cdds_prepare.pretty_print.constants import HEADER_FIELDS
 from unittest.mock import patch

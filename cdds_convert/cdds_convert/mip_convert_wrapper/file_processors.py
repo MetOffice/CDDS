@@ -8,7 +8,7 @@ volume of data that MIP Convert can see and attempt to read
 import calendar
 from datetime import datetime, timedelta
 
-from cdds_common.cdds_plugins.plugins import PluginStore
+from cdds.common.plugins.plugins import PluginStore
 
 
 def construct_month_lookup():

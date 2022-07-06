@@ -10,7 +10,7 @@ import os
 import re
 import shutil
 
-from cdds_common.cdds_plugins.plugins import PluginStore
+from cdds.common.plugins.plugins import PluginStore
 
 from hadsdk.common import (determine_rose_suite_url, configure_logger)
 from hadsdk.config import FullPaths

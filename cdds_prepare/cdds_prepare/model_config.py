@@ -14,8 +14,8 @@ import shutil
 import tempfile
 from xml.etree import ElementTree
 
-from cdds_common.common.io import read_json
-from cdds_common.cdds_plugins.plugins import PluginStore
+from cdds.common.io import read_json
+from cdds.common.plugins.plugins import PluginStore
 
 from hadsdk.configuration.rose_config import load as config_load
 

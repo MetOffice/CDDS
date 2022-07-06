@@ -5,7 +5,7 @@ import enum
 import logging
 import os
 
-from cdds_common.common.io import read_json
+from cdds.common.io import read_json
 
 
 class ProducibleState(enum.Enum):

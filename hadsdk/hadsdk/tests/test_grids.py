@@ -8,10 +8,10 @@ import tempfile
 
 import unittest
 
-from cdds_common.cdds_plugins.plugins import PluginStore
-from cdds_common.cdds_plugins.plugin_loader import load_plugin
-from cdds_common.cdds_plugins.grid import GridType
-from cdds_common.cdds_plugins.cmip6.cmip6_grid import Cmip6GridLabel
+from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.plugins.grid import GridType
+from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 
 from hadsdk.grids import Grid, retrieve_grid_info
 

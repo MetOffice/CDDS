@@ -13,8 +13,8 @@ import shutil
 from textwrap import dedent
 import unittest
 
-from cdds_common.cdds_plugins.plugin_loader import load_plugin
-from cdds_common.common.io import write_json
+from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.io import write_json
 
 from hadsdk.arguments import Arguments
 from hadsdk.common import set_checksum

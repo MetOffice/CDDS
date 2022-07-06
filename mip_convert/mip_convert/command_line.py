@@ -10,7 +10,7 @@ import argparse
 import logging
 import sys
 
-from cdds_common.cdds_plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugin_loader import load_plugin
 from hadsdk.common import configure_logger, check_file
 from mip_convert import __version__
 from mip_convert.constants import LOG_NAME, LOG_LEVEL

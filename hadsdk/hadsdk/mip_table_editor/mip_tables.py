@@ -9,7 +9,7 @@ import tempfile
 from os import listdir, remove, environ
 from os.path import isfile, join
 
-from cdds_common.common.io import read_json, write_json
+from cdds.common.io import read_json, write_json
 from hadsdk.mip_table_editor.constants import CV_OBJECT, TABLE_OBJECT, VARIABLE_OBJECT
 
 

@@ -7,8 +7,8 @@ command line for CDDS Configure.
 """
 import os
 
-from cdds_common.cdds_plugins.grid import GridType
-from cdds_common.cdds_plugins.plugins import PluginStore
+from cdds.common.plugins.grid import GridType
+from cdds.common.plugins.plugins import PluginStore
 
 from hadsdk.arguments import read_argument_files, retrieve_script_arguments, Arguments
 

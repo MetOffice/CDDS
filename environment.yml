@@ -142,7 +142,7 @@ dependencies:
   - pip:
     - dreqpy==1.0.29
     - filelock==3.0.12
-    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds_common&subdirectory=cdds_common
+    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds
     - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds_configure&subdirectory=cdds_configure
     - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds_convert&subdirectory=cdds_convert
     - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds_prepare&subdirectory=cdds_prepare

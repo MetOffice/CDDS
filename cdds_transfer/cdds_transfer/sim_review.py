@@ -13,7 +13,7 @@ import re
 import stat
 import subprocess
 
-from cdds_common.common.io import read_json
+from cdds.common.io import read_json
 from hadsdk.common import get_most_recent_file_by_stream
 from hadsdk.constants import COMPONENT_LIST, APPROVED_VARS_DATETIME_STREAM_REGEX, APPROVED_VARS_FILENAME_TEMPLATE
 

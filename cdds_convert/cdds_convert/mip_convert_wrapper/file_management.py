@@ -11,7 +11,7 @@ import os
 import re
 import shutil
 
-from cdds_common.cdds_plugins.plugins import PluginStore
+from cdds.common.plugins.plugins import PluginStore
 from cdds_convert.constants import FILEPATH_JASMIN, FILEPATH_METOFFICE, STREAMS_FILES_REGEX, NUM_FILE_COPY_ATTEMPTS
 from cdds_convert.mip_convert_wrapper.file_processors import (
     parse_atmos_monthly_filename, parse_atmos_submonthly_filename,

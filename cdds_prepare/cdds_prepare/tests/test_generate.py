@@ -17,7 +17,7 @@ from hadsdk.tests.common import DummyMapping
 from unittest.mock import MagicMock, patch
 from nose.plugins.attrib import attr
 
-from cdds_common.cdds_plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugin_loader import load_plugin
 from cdds_prepare.data_request import (
     list_variables_for_experiment)
 from cdds_prepare.generate import BaseVariablesConstructor
