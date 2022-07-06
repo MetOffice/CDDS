@@ -7,8 +7,8 @@ import logging
 import os
 import shutil
 
-from common.plugins.plugins import PluginStore
-from common.plugins.grid import GridType
+from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.grid import GridType
 
 from extract.constants import DEHALO_PREFIX
 from extract.common import validate_netcdf

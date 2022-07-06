@@ -57,7 +57,7 @@ from hadsdk.constants import NC_CONSTRAINT_NOT_FOR_MOOSE
 from hadsdk.pp import PP_HEADER_CORRECTIONS, stash_to_int
 import mip_convert.request as mip_request
 
-from common.plugins.plugins import PluginStore
+from cdds.common.plugins.plugins import PluginStore
 
 
 def _as_constraints(mapping):

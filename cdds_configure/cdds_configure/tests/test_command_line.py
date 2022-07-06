@@ -12,11 +12,11 @@ import unittest.mock
 
 from nose.plugins.attrib import attr
 
-from common.io import write_json
-from common.plugins.plugins import PluginStore
-from common.plugins.plugin_loader import load_plugin
-from common.plugins.grid import GridType
-from common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
+from cdds.common.io import write_json
+from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.plugins.grid import GridType
+from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 
 from hadsdk.common import set_checksum
 from hadsdk.constants import TIME_UNIT_DESCRIPTION, COMMENT_FORMAT

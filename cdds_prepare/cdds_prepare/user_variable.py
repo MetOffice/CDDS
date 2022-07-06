@@ -3,7 +3,7 @@
 import logging
 from collections import defaultdict
 
-from common.plugins.plugins import PluginStore
+from cdds.common.plugins.plugins import PluginStore
 from hadsdk.mip_tables import UserMipTables
 
 

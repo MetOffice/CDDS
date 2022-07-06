@@ -17,7 +17,7 @@ import sys
 from tempfile import mkstemp
 import unittest
 
-from common.plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugin_loader import load_plugin
 import mip_convert
 from mip_convert.command_line import LOG_LEVEL, LOG_NAME, parse_parameters, main
 from mip_convert.request import get_input_files

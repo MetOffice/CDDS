@@ -1,7 +1,7 @@
 # (C) British Crown Copyright 2021-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
-Setup script for the CDDS Common component.
+Setup script for the CDDS component.
 """
 import imp
 import os
@@ -12,14 +12,14 @@ from typing import List, AnyStr, Tuple, Union, Any
 
 def extract_version() -> AnyStr:
     """
-    Returns the version number of the CDDS common component.
+    Returns the version number of the CDDS component.
 
     Returns
     -------
     str
-        The CDDS common module version
+        The CDDS module version
     """
-    filename: str = os.path.join('common', '__init__.py')
+    filename: str = os.path.join('cdds', '__init__.py')
     imported_module = imp.load_source('__init__', filename)
     return imported_module.__version__
 
@@ -56,7 +56,7 @@ def find_scripts(directories: List[str]) -> List[Union[bytes, str]]:
 
 def extract_readme() -> str:
     """
-    Returns the contents of the README.rst file in CDDS common.
+    Returns the contents of the README.rst file in CDDS.
 
     Returns
     -------

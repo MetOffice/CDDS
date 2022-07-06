@@ -15,7 +15,7 @@ from mip_convert.common import (check_values_equal,
                                 remove_extra_time_axis,
                                 eorca_resolution_to_mask_slice)
 from mip_convert.process.config import mappings_config
-from common.plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugin_loader import load_plugin
 
 
 class TestCheckValuesEqual(unittest.TestCase):

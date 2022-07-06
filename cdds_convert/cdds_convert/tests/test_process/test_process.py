@@ -15,7 +15,7 @@ from cdds_convert.constants import (NTHREADS_CONCATENATE,
                                     PARALLEL_TASKS)
 import cdds_convert.process.suite_interface as suite
 from cdds_convert.process import ConvertProcess
-from common.plugins.base.base_models import BaseModelParameters, SizingInfo
+from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
 from hadsdk.common import ROSE_URLS
 from hadsdk.config import FullPaths
 from hadsdk.request import construct_request

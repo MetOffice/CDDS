@@ -11,8 +11,8 @@ import datetime
 import logging
 from operator import itemgetter
 
-from common.plugins.plugins import PluginStore
-from common.plugins.streams import StreamAttributes
+from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.streams import StreamAttributes
 from hadsdk.config import FullPaths
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from hadsdk.request import read_request

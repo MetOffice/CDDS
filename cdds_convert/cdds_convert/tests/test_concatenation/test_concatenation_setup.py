@@ -9,9 +9,9 @@ import os
 import unittest
 from typing import Type, List
 
-from common.plugins.grid import GridLabel, GridType, GridInfo
-from common.plugins.models import ModelParameters
-from common.plugins.streams import StreamInfo
+from cdds.common.plugins.grid import GridLabel, GridType, GridInfo
+from cdds.common.plugins.models import ModelParameters
+from cdds.common.plugins.streams import StreamInfo
 
 try:
     from cftime import datetime
@@ -23,8 +23,8 @@ from cdds_convert.concatenation.concatenation_setup import (
     get_file_frequency_shape, get_reinitialisation_period,
     organise_concatenations, times_from_filename,
     load_concatenation_setup_config)
-from common.plugins.plugins import PluginStore, CddsPlugin
-from common.plugins.base.base_models import BaseModelParameters, SizingInfo
+from cdds.common.plugins.plugins import PluginStore, CddsPlugin
+from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
 from hadsdk.constants import TIME_UNIT
 
 from hadsdk.common import run_command

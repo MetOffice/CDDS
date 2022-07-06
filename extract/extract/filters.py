@@ -11,8 +11,8 @@ import json
 import logging
 import re
 
-from common.plugins.plugins import PluginStore
-from common.plugins.grid import GridType
+from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.grid import GridType
 
 from hadsdk.common import netCDF_regexp, run_command
 from hadsdk.mapping import ModelToMip

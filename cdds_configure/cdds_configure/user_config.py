@@ -13,7 +13,7 @@ from hadsdk.configuration.python_config import PythonConfig
 from hadsdk.request import read_request
 from hadsdk.variables import RequestedVariablesList
 
-from common.plugins.plugins import PluginStore
+from cdds.common.plugins.plugins import PluginStore
 
 from cdds_configure import __version__
 from cdds_configure.constants import HEADER_TEMPLATE

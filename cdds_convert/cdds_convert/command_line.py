@@ -7,8 +7,8 @@ import argparse
 from datetime import datetime
 import logging
 
-from common.plugins.plugin_loader import load_plugin
-from common.plugins.plugins import PluginStore
+from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugins import PluginStore
 
 from hadsdk.arguments import read_default_arguments
 from hadsdk.common import (configure_logger, common_command_line_args,

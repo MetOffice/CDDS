@@ -8,7 +8,7 @@ pretty print a request variables input file.
 
 from cdds_prepare.pretty_print.csv_models import CsvRow, CsvSheet, CsvValue
 from cdds_prepare.pretty_print.constants import JSONType, NOT_DEFINED, MAPPING_FIELDS, Field
-from common.io import read_json
+from cdds.common.io import read_json
 
 
 class CsvPrinter(object):
