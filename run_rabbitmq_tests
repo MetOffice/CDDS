@@ -12,6 +12,7 @@ For running the test:
 3. Source the environment script
 4. Run this script
 """
+# TODO: use pytest instead of nosetest!
 import datetime
 import os
 import subprocess

@@ -8,9 +8,9 @@ import unittest
 from header_util import BaseHeader
 from mip_convert.load.pp.pp_axis import CfmipHeightAxis, PpAxisError
 from mip_convert.load.pp.um_axes import UmL38Axis
-from mip_convert.model_date import CdDate, set_base_date
+from mip_convert.model_date import set_default_base_date
 
-set_base_date(CdDate(1859, 12, 1, 0, 0, 0, '360_day'))
+set_default_base_date()
 
 CFMIP2_COORDS_FILE = 'file:///project/cdds/etc/cfmip2/cfmip2-sites-orog.txt'
 umL38Axis = UmL38Axis()

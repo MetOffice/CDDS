@@ -7,14 +7,11 @@ from header_util import BaseHeader
 
 from mip_convert.model_date import CdDate
 from mip_convert.model_date import based_date
-from mip_convert.model_date import set_base_date
 
 from mip_convert.load.pp.pp_axis import DatedPpHeader
 
 
 class TestDatedPpHeader(unittest.TestCase):
-    def setUp(self):
-        set_base_date(CdDate(1859, 12, 1, 0, 0, 0, '360_day'))
 
     def testDate1(self):
         base_header = BaseHeader(lbyr=1877, lbmon=1, lbdat=2, lbhr=0, lbmin=0)

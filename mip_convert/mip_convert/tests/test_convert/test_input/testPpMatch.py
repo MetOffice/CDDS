@@ -8,9 +8,6 @@ from header_util import BaseHeader
 from mip_convert.load.pp.stash_code import from_header
 from mip_convert.load.pp.pp import PpMatch
 from mip_convert.load.pp.pp import PpError
-from mip_convert.model_date import set_base_date, CdDate
-
-set_base_date(CdDate(1859, 12, 1, 0, 0, 0, '360_day'))
 
 
 class TestPpMatch(unittest.TestCase):

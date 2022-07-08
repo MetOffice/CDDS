@@ -4,7 +4,7 @@
 import unittest
 from mip_convert.model_date import CdDate
 from mip_convert.model_date import based_date, CalendarError
-from mip_convert.model_date import set_base_date
+from mip_convert.model_date import set_base_date, set_default_base_date
 
 
 class TestBasedDate(unittest.TestCase):
@@ -31,6 +31,9 @@ class TestBasedDate(unittest.TestCase):
         for lbtim, wrong_calendar in ((11, '360_day'), (12, 'proleptic_gregorian')):
             set_base_date(CdDate(1990, 1, 1, 0, 0, 0, wrong_calendar))
             self.assertRaises(CalendarError, based_date, 1990, 1, 1, 0, 0, lbtim)
+
+    def tearDown(self):
+        set_default_base_date()
 
 
 if __name__ == '__main__':
