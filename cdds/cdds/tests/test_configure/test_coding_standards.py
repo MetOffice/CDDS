@@ -11,7 +11,7 @@ from nose.plugins.attrib import attr
 
 import pep8
 
-import cdds_configure
+import cdds.configure
 
 
 @attr('style')
@@ -21,10 +21,10 @@ class TestCodingStandards(unittest.TestCase):
     """
 
     def setUp(self):
-        cdds_configure_dir = os.path.dirname(cdds_configure.__file__)
+        configure_dir = os.path.dirname(cdds.configure.__file__)
         self.all_files = [
             os.path.join(dirpath, filename) for dirpath, _, filenames in
-            os.walk(cdds_configure_dir) for filename in filenames]
+            os.walk(configure_dir) for filename in filenames]
         self.exclude_patterns = ['conf.py']
 
     def test_pep8_conformance(self):

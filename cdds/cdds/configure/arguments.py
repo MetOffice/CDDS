@@ -25,11 +25,11 @@ def read_configure_arguments(script_name):
 
     Returns
     -------
-    : :class:`cdds_configure.arguments.ConfigureArguments`
+    : :class:`cdds.configure.arguments.ConfigureArguments`
         The default arguments for CDDS Configure.
     """
     default_global_args, default_package_and_script_args = read_argument_files(
-        'cdds_configure')
+        'cdds.configure')
     default_package_args, default_script_args = retrieve_script_arguments(
         script_name, default_package_and_script_args)
 

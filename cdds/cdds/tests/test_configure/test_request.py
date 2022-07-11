@@ -10,7 +10,7 @@ import unittest
 from hadsdk.arguments import read_default_arguments
 from hadsdk.request import Request
 
-from cdds_configure.request import (
+from cdds.configure.request import (
     retrieve_required_keys, validate_branch_options, retrieve_request_metadata)
 
 
@@ -26,7 +26,7 @@ class TestRetrieveRequiredKeys(unittest.TestCase):
             'suite_id', 'variant_label']
         self.template_keys = [
             'cmor_log_file', 'model_output_dir', 'output_dir', 'run_bounds']
-        arguments = read_default_arguments('cdds_configure', 'cdds_configure')
+        arguments = read_default_arguments('cdds.configure', 'cdds.configure')
         self.ignore_keys = arguments.args.keys()
 
     def test_retrieve_required_keys(self):

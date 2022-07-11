@@ -16,9 +16,9 @@ from hadsdk.common import (
     root_dir_args)
 from hadsdk.request import read_request
 
-from cdds_configure import __version__
-from cdds_configure.arguments import read_configure_arguments
-from cdds_configure.user_config import produce_user_config_files
+from cdds.configure import __version__
+from cdds.configure.arguments import read_configure_arguments
+from cdds.configure.user_config import produce_user_config_files
 
 COMPONENT = 'configure'
 
@@ -65,7 +65,7 @@ def parse_args(arguments):
 
     The output from this function can be used as the value of the
     ``arguments`` parameter in the call to
-    :func:`cdds_configure.command_line.main`.
+    :func:`cdds.configure.command_line.main`.
 
     Parameters
     ----------
@@ -74,7 +74,7 @@ def parse_args(arguments):
 
     Returns
     -------
-    : :class:`cdds_configure.arguments.ConfigureArguments` object
+    : :class:`cdds.configure.arguments.ConfigureArguments` object
         The names of the command line arguments and their validated
         values.
     """
