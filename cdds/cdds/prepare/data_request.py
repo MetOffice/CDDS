@@ -15,7 +15,7 @@ from hadsdk.data_request_interface.load import (DataRequestWrapper,
 from hadsdk.data_request_interface.variables import (
     retrieve_data_request_variables, describe_differences)
 
-from cdds_prepare.constants import (ALLOWED_POSITIVE, CRITICAL_FIELDS,
+from cdds.prepare.constants import (ALLOWED_POSITIVE, CRITICAL_FIELDS,
                                     PRIORITY_UNSET)
 
 

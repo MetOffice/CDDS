@@ -5,8 +5,8 @@ The CDDS Prepare package generates and alters
 |requested variable lists|.
 """
 
-from cdds_prepare.versions import get_version
+from cdds.prepare.versions import get_version
 
 _DEV = True
 _NUMERICAL_VERSION = '2.3.2'
-__version__ = get_version('cdds_prepare')
+__version__ = get_version('cdds.prepare')

@@ -3,9 +3,9 @@
 # pylint: disable = no-member
 import unittest
 
-from cdds_prepare.pretty_print.constants import Field, HEADER_FIELDS
-from cdds_prepare.pretty_print.csv_models import CsvSheet, CsvRow
-from cdds_prepare.pretty_print.pretty_print import CsvPrinter
+from cdds.prepare.pretty_print.constants import Field, HEADER_FIELDS
+from cdds.prepare.pretty_print.csv_models import CsvSheet, CsvRow
+from cdds.prepare.pretty_print.pretty_print import CsvPrinter
 from unittest import TestCase
 from unittest.mock import patch, call
 
@@ -65,7 +65,7 @@ class TestCsvPrinter(TestCase):
 
     @patch.object(CsvRow, 'add_entry')
     @patch.object(CsvSheet, 'write')
-    @patch('cdds_prepare.pretty_print.pretty_print.read_json')
+    @patch('cdds.prepare.pretty_print.pretty_print.read_json')
     def test_pretty_print(self, read_json_mock, sheet_write_mock, row_add_entry_mock):
         read_json_mock.return_value = self.json
 
@@ -90,7 +90,7 @@ class TestCsvPrinter(TestCase):
 
     @patch.object(CsvRow, 'add_entry')
     @patch.object(CsvSheet, 'write')
-    @patch('cdds_prepare.pretty_print.pretty_print.read_json')
+    @patch('cdds.prepare.pretty_print.pretty_print.read_json')
     def test_pretty_print(self, read_json_mock, sheet_write_mock, row_add_entry_mock):
         read_json_mock.return_value = self.json_without_producible
 
@@ -115,7 +115,7 @@ class TestCsvPrinter(TestCase):
 
     @patch.object(CsvRow, 'add_entry')
     @patch.object(CsvSheet, 'write')
-    @patch('cdds_prepare.pretty_print.pretty_print.read_json')
+    @patch('cdds.prepare.pretty_print.pretty_print.read_json')
     def test_pretty_print_no_request_variables(self, read_json_mock, sheet_write_mock, row_add_entry_mock):
         read_json_mock.return_value = {'requested_variables': []}
 

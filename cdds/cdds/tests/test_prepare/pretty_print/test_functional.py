@@ -1,7 +1,7 @@
 # (C) British Crown Copyright 2020-2021, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
-import cdds_prepare.pretty_print.command_line as under_test
+import cdds.prepare.pretty_print.command_line as under_test
 import os
 import logging
 import shutil
@@ -9,8 +9,8 @@ import tempfile
 import unittest
 
 from cdds.common.io import write_json
-from cdds_prepare.pretty_print.csv_models import CsvSheet
-from cdds_prepare.pretty_print.constants import HEADER_FIELDS
+from cdds.prepare.pretty_print.csv_models import CsvSheet
+from cdds.prepare.pretty_print.constants import HEADER_FIELDS
 from unittest.mock import patch
 from unittest import TestCase
 

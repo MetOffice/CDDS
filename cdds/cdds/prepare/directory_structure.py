@@ -11,7 +11,7 @@ from hadsdk.config import FullPaths
 from hadsdk.constants import COMPONENT_LIST, REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from hadsdk.request import read_request
 
-from cdds_prepare.constants import ARCHIVE_LOG_DIRECTORY_PERMISSIONS
+from cdds.prepare.constants import ARCHIVE_LOG_DIRECTORY_PERMISSIONS
 
 
 def create_cdds_directory_structure(arguments):

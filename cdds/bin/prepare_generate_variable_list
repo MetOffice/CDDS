@@ -3,7 +3,7 @@
 # Please see LICENSE.rst for license details.
 import sys
 
-from cdds_prepare import command_line
+from cdds.prepare import command_line
 
 
 if __name__ == "__main__":

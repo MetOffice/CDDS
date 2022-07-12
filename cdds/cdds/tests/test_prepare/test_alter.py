@@ -11,14 +11,14 @@ from datetime import datetime
 from unittest.mock import patch
 import unittest
 
-from cdds_prepare.alter import (_construct_change_rules,
+from cdds.prepare.alter import (_construct_change_rules,
                                 _apply_activate_deactivate, select_variables)
-from cdds_prepare.constants import DEACTIVATE, ACTIVATE
+from cdds.prepare.constants import DEACTIVATE, ACTIVATE
 
-from cdds_prepare.tests.common import (TEST_RV_DICT, SELECT_CHANGE_RULES,
-                                       SELECT_DEACTIVATE_HISTORY_COMMENT,
-                                       TEST_RV_VARS_AFTER_SELECT,
-                                       VARIABLE_DIRECTORY_PATH)
+from cdds.tests.test_prepare.common import (TEST_RV_DICT, SELECT_CHANGE_RULES,
+                                            SELECT_DEACTIVATE_HISTORY_COMMENT,
+                                            TEST_RV_VARS_AFTER_SELECT,
+                                            VARIABLE_DIRECTORY_PATH)
 
 
 class TestPrepareSelectAlterVariables(unittest.TestCase):
@@ -30,11 +30,11 @@ class TestPrepareSelectAlterVariables(unittest.TestCase):
     def setUp(self):
         pass
 
-    @patch('cdds_prepare.alter._get_now_iso_string')
-    @patch('cdds_prepare.alter.read_json')
-    @patch('cdds_prepare.alter._construct_change_rules')
-    @patch('cdds_prepare.alter._apply_activate_deactivate')
-    @patch('cdds_prepare.alter.write_json')
+    @patch('cdds.prepare.alter._get_now_iso_string')
+    @patch('cdds.prepare.alter.read_json')
+    @patch('cdds.prepare.alter._construct_change_rules')
+    @patch('cdds.prepare.alter._apply_activate_deactivate')
+    @patch('cdds.prepare.alter.write_json')
     def test_select_variables(self, mock_write_json, mock_apply_activate,
                               mock_construct_changes, mock_read_json,
                               mock_get_now):

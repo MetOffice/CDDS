@@ -12,7 +12,7 @@ import subprocess
 import unittest
 from nose.plugins.attrib import attr
 
-import cdds_prepare
+import cdds.prepare
 
 CHECK_LICENSE_HEADERS = False
 
@@ -24,7 +24,7 @@ class TestCodingStandards(unittest.TestCase):
     """
 
     def setUp(self):
-        cdds_prepare_dir = os.path.dirname(cdds_prepare.__file__)
+        cdds_prepare_dir = os.path.dirname(cdds.prepare.__file__)
         self.all_files = [
             os.path.join(dirpath, filename) for dirpath, _, filenames in
             os.walk(cdds_prepare_dir) for filename in filenames]

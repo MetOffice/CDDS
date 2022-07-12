@@ -15,11 +15,11 @@ from hadsdk.config import update_arguments_for_proc_dir, update_arguments_paths,
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY, INVENTORY_DB_FILENAME
 from hadsdk.request import read_request
 
-from cdds_prepare import __version__
-from cdds_prepare.alter import alter_variable_list, select_variables
-from cdds_prepare.constants import (ACTIVATE, DEACTIVATE, EPILOG, INSERT, DEACTIVATION_RULE_LOCATION)
-from cdds_prepare.directory_structure import create_cdds_directory_structure
-from cdds_prepare.generate import generate_variable_list
+from cdds.prepare import __version__
+from cdds.prepare.alter import alter_variable_list, select_variables
+from cdds.prepare.constants import (ACTIVATE, DEACTIVATE, EPILOG, INSERT, DEACTIVATION_RULE_LOCATION)
+from cdds.prepare.directory_structure import create_cdds_directory_structure
+from cdds.prepare.generate import generate_variable_list
 
 COMPONENT = 'prepare'
 
@@ -166,7 +166,7 @@ def parse_create_cdds_directory_structure_args(arguments):
 
     The output from this function can be used as the value of the
     ``arguments`` parameter in the call to
-    :func:`cdds_prepare.command_line.main_create_cdds_directory_structure`.
+    :func:`cdds.prepare.command_line.main_create_cdds_directory_structure`.
 
     Parameters
     ----------
@@ -180,7 +180,7 @@ def parse_create_cdds_directory_structure_args(arguments):
         values.
     """
     user_arguments = arguments
-    arguments = read_default_arguments('cdds_prepare',
+    arguments = read_default_arguments('cdds.prepare',
                                        'create_cdds_directory_structure')
     parser = argparse.ArgumentParser(
         description='Create the CDDS directory structure.',
@@ -217,7 +217,7 @@ def parse_generate_args(arguments):
 
     The output from this function can be used as the value of the
     ``parameters`` parameter in the call to
-    :func:`cdds_prepare.requested_variables.generate_variable_list`.
+    :func:`cdds.prepare.requested_variables.generate_variable_list`.
 
     Parameters
     ----------
@@ -231,7 +231,7 @@ def parse_generate_args(arguments):
         values.
     """
     user_arguments = arguments
-    arguments = read_default_arguments('cdds_prepare',
+    arguments = read_default_arguments('cdds.prepare',
                                        'prepare_generate_variable_list')
     parser = argparse.ArgumentParser(
         description='Generate the requested variables list.',
@@ -335,7 +335,7 @@ def parse_alter_args(arguments):
 
     The output from this function can be used as the value of the
     ``parameters`` parameter in the call to
-    :func:`cdds_prepare.alter.alter_variable_list`.
+    :func:`cdds.prepare.alter.alter_variable_list`.
 
     Parameters
     ----------
@@ -349,7 +349,7 @@ def parse_alter_args(arguments):
         values.
     """
     user_arguments = arguments
-    arguments = read_default_arguments('cdds_prepare',
+    arguments = read_default_arguments('cdds.prepare',
                                        'prepare_alter_variable_list')
     parser = argparse.ArgumentParser(
         description=('Alter a requested variables list by activating, '
@@ -394,7 +394,7 @@ def parse_alter_args(arguments):
 
 def parse_select_variables_args(arguments):
     user_arguments = arguments
-    arguments = read_default_arguments('cdds_prepare',
+    arguments = read_default_arguments('cdds.prepare',
                                        'prepare_select_variables')
     parser = argparse.ArgumentParser(
         description='Select a subset of variables to process, turning off '

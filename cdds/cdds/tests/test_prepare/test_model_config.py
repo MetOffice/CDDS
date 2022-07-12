@@ -15,13 +15,13 @@ from textwrap import dedent
 from hadsdk.tests.common import DummyMapping
 
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds_prepare.model_config import (
+from cdds.prepare.model_config import (
     retrieve_model_suite_variables, consolidate_atmos_enabled,
     create_ocean_enabled, _read_iodef_into_dict,
     _construct_enabled_var_from_iodef, export_file_from_suite,
     _read_field_def_xml_into_dict, _expand_field_groups,
     _get_iodef_filename_in_suite)
-from cdds_prepare.tests.common import ATMOS_ENABLED, OCEAN_ENABLED
+from cdds.tests.test_prepare.common import ATMOS_ENABLED, OCEAN_ENABLED
 
 
 class TestRetreiveModelSuiteVariables(unittest.TestCase):
@@ -37,8 +37,8 @@ class TestRetreiveModelSuiteVariables(unittest.TestCase):
         self.branch = 'branch'
         self.revision = 13579
 
-    @patch('cdds_prepare.model_config.create_ocean_enabled')
-    @patch('cdds_prepare.model_config.create_atmos_enabled')
+    @patch('cdds.prepare.model_config.create_ocean_enabled')
+    @patch('cdds.prepare.model_config.create_atmos_enabled')
     def test_all_variables_enabled(self, mcae, mcoe):
         mcae.return_value = ATMOS_ENABLED
         mcoe.return_value = OCEAN_ENABLED
@@ -55,8 +55,8 @@ class TestRetreiveModelSuiteVariables(unittest.TestCase):
             'disabled': []}
         self.assertEqual(output, reference)
 
-    @patch('cdds_prepare.model_config.create_ocean_enabled')
-    @patch('cdds_prepare.model_config.create_atmos_enabled')
+    @patch('cdds.prepare.model_config.create_ocean_enabled')
+    @patch('cdds.prepare.model_config.create_atmos_enabled')
     def test_single_variable_disabled(self, mcae, mcoe):
         atmos_enabled = deepcopy(ATMOS_ENABLED)
         atmos_enabled['day_pr_0_0']['enabled'] = False
@@ -72,8 +72,8 @@ class TestRetreiveModelSuiteVariables(unittest.TestCase):
             'disabled': ['day/pr']}
         self.assertEqual(output, reference)
 
-    @patch('cdds_prepare.model_config.create_ocean_enabled')
-    @patch('cdds_prepare.model_config.create_atmos_enabled')
+    @patch('cdds.prepare.model_config.create_ocean_enabled')
+    @patch('cdds.prepare.model_config.create_atmos_enabled')
     def test_multiple_variables_disabled(self, mcae, mcoe):
         atmos_enabled = deepcopy(ATMOS_ENABLED)
         atmos_enabled['day_pr_0_0']['enabled'] = False
@@ -90,8 +90,8 @@ class TestRetreiveModelSuiteVariables(unittest.TestCase):
             'disabled': ['Oday/sos', 'day/pr']}
         self.assertEqual(output, reference)
 
-    @patch('cdds_prepare.model_config.create_ocean_enabled')
-    @patch('cdds_prepare.model_config.create_atmos_enabled')
+    @patch('cdds.prepare.model_config.create_ocean_enabled')
+    @patch('cdds.prepare.model_config.create_atmos_enabled')
     def test_single_STASH_disabled(self, mcae, mcoe):
         atmos_enabled = deepcopy(ATMOS_ENABLED)
         atmos_enabled['Emon_rls_1_0']['enabled'] = False
@@ -928,8 +928,8 @@ class TestCreateOceanEnabled(unittest.TestCase):
             'SImon/siitdsnconc': {'enabled': [False]},  # missing aicen
         }
 
-    @patch('cdds_prepare.model_config._nemo_and_medusa_enabled')
-    @patch('cdds_prepare.model_config._cice_enabled')
+    @patch('cdds.prepare.model_config._nemo_and_medusa_enabled')
+    @patch('cdds.prepare.model_config._cice_enabled')
     def test_create_ocean_enabled(self, mock_cice_enabled,
                                   mock_nemo_and_medusa_enabled):
         mock_cice_enabled.return_value = self.cice_variables
@@ -980,7 +980,7 @@ class TestCreateOceanEnabled(unittest.TestCase):
             output_cfg = _read_field_def_xml_into_dict(dummy_path, 0)
         self.assertEqual(FIELD_DEF_CFG, output_cfg)
 
-    @patch('cdds_prepare.model_config.export_file_from_suite')
+    @patch('cdds.prepare.model_config.export_file_from_suite')
     def test_get_iodef_filename_in_suite(self, mock_export_file):
         mock_export_file.return_value = '/path/to/temp/dir'
         dummy_path = '/dummy/path/to/field_def.xml'
@@ -1019,7 +1019,7 @@ class TestCreateOceanEnabled(unittest.TestCase):
 
         self.assertEqual(expected_iodef_dict, output_iodef_dict)
 
-    @patch('cdds_prepare.model_config.run_command')
+    @patch('cdds.prepare.model_config.run_command')
     @patch('hadsdk.common.determine_rose_suite_url')
     @patch('tempfile.mkdtemp')
     def test_export_file_from_suite(self, patch_mkdtemp, mock_det_suite_url,

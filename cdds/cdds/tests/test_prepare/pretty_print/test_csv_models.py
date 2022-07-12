@@ -6,8 +6,8 @@ import shutil
 import tempfile
 import unittest
 
-from cdds_prepare.pretty_print.csv_models import CsvSheet, CsvRow
-from cdds_prepare.pretty_print.constants import HEADER_FIELDS, Field
+from cdds.prepare.pretty_print.csv_models import CsvSheet, CsvRow
+from cdds.prepare.pretty_print.constants import HEADER_FIELDS, Field
 from unittest import TestCase
 
 

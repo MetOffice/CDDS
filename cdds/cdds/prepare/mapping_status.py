@@ -25,7 +25,7 @@ class ProducibleState(enum.Enum):
 
         Parameters
         ----------
-        state: :class: `cdds_prepare.mapping_status.ProducibleState`
+        state: :class: `cdds.prepare.mapping_status.ProducibleState`
             state that should be convert to the value that will be stored in
             the variables data file
 
@@ -95,7 +95,7 @@ class MappingStatus(object):
 
         Returns
         -------
-        :class: `cdds_prepare.mapping_status.ProducibleState`
+        :class: `cdds.prepare.mapping_status.ProducibleState`
             if the variable is producible or not
         """
         key = self.KEY_FORMAT.format(mip_table, variable_name)

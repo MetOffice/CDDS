@@ -14,9 +14,9 @@ from cdds.common.io import read_json, write_json
 from cdds.common.plugins.plugins import PluginStore
 from hadsdk.common import set_checksum
 
-from cdds_prepare import __version__
-from cdds_prepare.common import retrieve_mappings
-from cdds_prepare.constants import ACTIVATE, DEACTIVATE, INSERT
+from cdds.prepare import __version__
+from cdds.prepare.common import retrieve_mappings
+from cdds.prepare.constants import ACTIVATE, DEACTIVATE, INSERT
 
 from mip_convert.request import get_mip_table
 

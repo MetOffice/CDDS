@@ -25,12 +25,12 @@ from hadsdk.variables import RequestedVariablesList
 from unittest.mock import patch
 from nose.plugins.attrib import attr
 
-from cdds_prepare.alter import ALTER_INSERT_UNKNOWN_FIELD
-from cdds_prepare.command_line import (
+from cdds.prepare.alter import ALTER_INSERT_UNKNOWN_FIELD
+from cdds.prepare.command_line import (
     main_create_cdds_directory_structure, main_generate_variable_list,
     main_alter_variable_list, parse_alter_args, main_select_variables,
 )
-from cdds_prepare.tests.common import TEST_RV_DICT, DUMMY_DEACTIVATION_RULES
+from cdds.tests.test_prepare.common import TEST_RV_DICT, DUMMY_DEACTIVATION_RULES
 
 # The following constant can be worked out using the following code:
 # >>> from hadsdk.data_request_interface import load, network, navigation
@@ -220,7 +220,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         self._main(use_proc_dir, output_dir, max_priority, additional_parameters)
 
     @patch('hadsdk.common.get_log_datestamp')
-    @patch('cdds_prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
+    @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
     def test_main_single_mip(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
         # Required keys are REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS and
@@ -252,7 +252,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         self.compare(self.requested_variables_list, reference)
 
     @patch('hadsdk.common.get_log_datestamp')
-    @patch('cdds_prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
+    @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
     def test_main_single_mip_with_auto_deactivation(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
         # Required keys are REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS and
@@ -285,7 +285,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         self.compare(self.requested_variables_list, reference)
 
     @patch('hadsdk.common.get_log_datestamp')
-    @patch('cdds_prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
+    @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
     def test_main_alternate_experiment_id(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
         # Required keys are REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS and
@@ -320,7 +320,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         self.compare(self.requested_variables_list, reference)
 
     @patch('hadsdk.common.get_log_datestamp')
-    @patch('cdds_prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
+    @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
     def test_main_write_to_component_directory(self, mock_log_datestamp):
         # Required keys are REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS,
         # REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST and
@@ -655,7 +655,7 @@ class TestParseAlterArgs(unittest.TestCase):
         self.assertEqual(parameters.log_name, log_name)
 
     @patch('builtins.open')
-    @patch('cdds_prepare.command_line.read_default_arguments')
+    @patch('cdds.prepare.command_line.read_default_arguments')
     def test_fromfile_prefix_chars(self, mock_read_args, mopen):
         filename = 'arg_file'
         args_in_file = '{}\n{}\n{}\n{}\n{}\n'.format(

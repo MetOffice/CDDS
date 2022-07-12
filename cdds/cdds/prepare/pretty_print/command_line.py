@@ -10,8 +10,8 @@ import csv
 import logging
 import os
 
-from cdds_prepare.pretty_print.constants import HEADER_FIELDS
-from cdds_prepare.pretty_print.pretty_print import CsvPrinter
+from cdds.prepare.pretty_print.constants import HEADER_FIELDS
+from cdds.prepare.pretty_print.pretty_print import CsvPrinter
 from hadsdk import __version__
 from hadsdk.arguments import read_default_arguments
 from hadsdk.common import configure_logger, common_command_line_args, check_directory
@@ -66,7 +66,7 @@ def _parse_arguments(arguments):
         values.
     """
     user_arguments = arguments
-    arguments = read_default_arguments('cdds_prepare', 'create_variables_table_file')
+    arguments = read_default_arguments('cdds.prepare', 'create_variables_table_file')
     parser = argparse.ArgumentParser(
         description='Transform and write a requested variables list into a table',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)

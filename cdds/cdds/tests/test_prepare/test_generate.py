@@ -18,10 +18,10 @@ from unittest.mock import MagicMock, patch
 from nose.plugins.attrib import attr
 
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds_prepare.data_request import (
+from cdds.prepare.data_request import (
     list_variables_for_experiment)
-from cdds_prepare.generate import BaseVariablesConstructor
-from cdds_prepare.tests.stubs import VariableParametersStub
+from cdds.prepare.generate import BaseVariablesConstructor
+from cdds.tests.test_prepare.stubs import VariableParametersStub
 
 
 @attr('data_request')
@@ -39,7 +39,7 @@ class TestResolveRequestedVariables(unittest.TestCase):
         dim_site = ['site', 'height2m', 'time1']
         dim_mean_where_ice_sheet = ['height2m', 'time']
         template = ('No model to MIP mapping available for "tas" for "{}"')
-        arguments = read_default_arguments('cdds_prepare',
+        arguments = read_default_arguments('cdds.prepare',
                                            'prepare_generate_variable_list')
 
         self.data_request_base_dir = arguments.data_request_base_dir
@@ -473,7 +473,7 @@ class TestCheckActive(unittest.TestCase):
         self.assertListEqual(comments, [])
 
     @patch('logging.getLogger')
-    @patch('cdds_prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
+    @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
     def test_data_request_not_critical_since_mip_table_in_known_good(self, logger_mock):
         config = VariableParametersStub()
         logger = MagicMock()
@@ -494,7 +494,7 @@ class TestCheckActive(unittest.TestCase):
         self.assertListEqual(comments, expected_comments)
 
     @patch('logging.getLogger')
-    @patch('cdds_prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
+    @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
     def test_data_request_critical_since_mip_table_not_in_known_good(self, logger_mock):
         config = VariableParametersStub()
         logger = MagicMock()
@@ -516,7 +516,7 @@ class TestCheckActive(unittest.TestCase):
         self.assertListEqual(comments, [])
 
     @patch('logging.getLogger')
-    @patch('cdds_prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
+    @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
     def test_data_request_not_critical_as_not_in_model_data_request(self, logger_mock):
         config = VariableParametersStub()
         logger = MagicMock()

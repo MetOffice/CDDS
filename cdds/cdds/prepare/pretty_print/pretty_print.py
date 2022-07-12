@@ -6,8 +6,8 @@ The :mod:`pretty_print` module contains the code to
 pretty print a request variables input file.
 """
 
-from cdds_prepare.pretty_print.csv_models import CsvRow, CsvSheet, CsvValue
-from cdds_prepare.pretty_print.constants import JSONType, NOT_DEFINED, MAPPING_FIELDS, Field
+from cdds.prepare.pretty_print.csv_models import CsvRow, CsvSheet, CsvValue
+from cdds.prepare.pretty_print.constants import JSONType, NOT_DEFINED, MAPPING_FIELDS, Field
 from cdds.common.io import read_json
 
 

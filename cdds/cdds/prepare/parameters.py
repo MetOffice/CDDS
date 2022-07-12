@@ -8,11 +8,11 @@ that are deactivated.
 """
 import logging
 
-from cdds_prepare.constants import FALLBACK_EXPERIMENT_ID
-from cdds_prepare.common import retrieve_mappings
-from cdds_prepare.model_config import retrieve_model_suite_variables
-from cdds_prepare.data_request import get_data_request_variables
-from cdds_prepare.user_variable import list_all_variables
+from cdds.prepare.constants import FALLBACK_EXPERIMENT_ID
+from cdds.prepare.common import retrieve_mappings
+from cdds.prepare.model_config import retrieve_model_suite_variables
+from cdds.prepare.data_request import get_data_request_variables
+from cdds.prepare.user_variable import list_all_variables
 
 from cdds.common.plugins.plugins import PluginStore
 

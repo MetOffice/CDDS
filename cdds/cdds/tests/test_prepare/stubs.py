@@ -1,7 +1,7 @@
 # (C) British Crown Copyright 2020-2021, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
-from cdds_prepare.parameters import VariableParameters
+from cdds.prepare.parameters import VariableParameters
 from hadsdk.arguments import Arguments
 from hadsdk.request import Request
 

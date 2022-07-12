@@ -1,9 +1,9 @@
-#  (C) British Crown Copyright 2020, Met Office.
-#  Please see LICENSE.rst for license details.
-#  pylint: disable = no-member
+# (C) British Crown Copyright 2020, Met Office.
+# Please see LICENSE.rst for license details.
+# pylint: disable = no-member
 import unittest
 
-from cdds_prepare.mapping_status import MappingStatus, ProducibleState
+from cdds.prepare.mapping_status import MappingStatus, ProducibleState
 
 
 class TestMappingStatus(unittest.TestCase):

@@ -19,19 +19,19 @@ from hadsdk.inventory.dao import InventoryDAO, DBVariableStatus
 
 from cdds.common.plugins.plugins import PluginStore
 
-from cdds_prepare import __version__
-from cdds_prepare.auto_deactivation import run_auto_deactivate_variables
-from cdds_prepare.constants import (KNOWN_GOOD_VARIABLES,
+from cdds.prepare import __version__
+from cdds.prepare.auto_deactivation import run_auto_deactivate_variables
+from cdds.prepare.constants import (KNOWN_GOOD_VARIABLES,
                                     VARIABLE_IN_INVENTORY_LOG,
                                     VARIABLE_NOT_IN_INVENTORY_LOG,
                                     VARIABLE_IN_INVENTORY_COMMENT)
-from cdds_prepare.mapping_status import MappingStatus, ProducibleState
-from cdds_prepare.data_request import (check_variable_model_data_request,
+from cdds.prepare.mapping_status import MappingStatus, ProducibleState
+from cdds.prepare.data_request import (check_variable_model_data_request,
                                        check_data_request_changes,
                                        calculate_priority,
                                        check_priority,
                                        calculate_ensemble_size)
-from cdds_prepare.parameters import VariableParameters, UserDefinedVariableParameters
+from cdds.prepare.parameters import VariableParameters, UserDefinedVariableParameters
 
 
 def generate_variable_list(arguments):
@@ -430,7 +430,7 @@ class BaseVariablesConstructor(AbstractVariablesConstructor):
         """
         Parameters
         ----------
-        config: `cdds_prepare.parameters.VariableParameters` object
+        config: `cdds.prepare.parameters.VariableParameters` object
             all input parameters for constructing the list of approved variables
         """
         super(BaseVariablesConstructor, self).__init__(config)
@@ -452,7 +452,7 @@ class BypassDataRequestVariablesConstructor(AbstractVariablesConstructor):
         """
         Parameters
         ----------
-        config: `cdds_prepare.parameters.VariableParameters` object
+        config: `cdds.prepare.parameters.VariableParameters` object
             all input parameters for constructing the list of approved variables
         """
         super(BypassDataRequestVariablesConstructor, self).__init__(config)
@@ -518,7 +518,7 @@ class InventoryVariablesConstructor(AbstractVariablesConstructor):
         ----------
         db_file: str
             path to the inventory database configuration file
-        config: `cdds_prepare.parameters.VariableParameters` object
+        config: `cdds.prepare.parameters.VariableParameters` object
             all input parameters for constructing the list of approved variables
         """
         super(InventoryVariablesConstructor, self).__init__(config)

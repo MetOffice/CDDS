@@ -26,7 +26,7 @@ class CsvSheet(object):
 
         Parameters
         ----------
-        row :class:`cdds_prepare.pretty_print.csv_models.CsvRow` object
+        row :class:`cdds.prepare.pretty_print.csv_models.CsvRow` object
             row that should be added
         """
         self._rows.append(row)
@@ -69,7 +69,7 @@ class CsvSheet(object):
         -------
         : list
             The list of the fields header
-        : list of :class:`cdds_prepare.pretty_print.csv_models.CsvRow` object
+        : list of :class:`cdds.prepare.pretty_print.csv_models.CsvRow` object
             all rows of the current sheet (including the new read ones)
         """
         with open(input_file, 'rt') as file:
