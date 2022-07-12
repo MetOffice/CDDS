@@ -10,11 +10,11 @@ import unittest
 
 import collections
 
-import cdds_convert
-from cdds_convert.constants import (NTHREADS_CONCATENATE,
+import cdds.convert
+from cdds.convert.constants import (NTHREADS_CONCATENATE,
                                     PARALLEL_TASKS)
-import cdds_convert.process.suite_interface as suite
-from cdds_convert.process import ConvertProcess
+import cdds.convert.process.suite_interface as suite
+from cdds.convert.process import ConvertProcess
 from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
 from hadsdk.common import ROSE_URLS
 from hadsdk.config import FullPaths
@@ -205,7 +205,7 @@ class ConvertProcessTest(unittest.TestCase):
         self.repo2 = ROSE_URLS['u']['external']
         self.suite_id = self.process.local_suite_name
 
-    @mock.patch('cdds_convert.process.suite_interface.check_svn_location')
+    @mock.patch('cdds.convert.process.suite_interface.check_svn_location')
     def test_rose_suite_svn_location_first(self, mock_check_svn):
         mock_check_svn.return_value = True
         expected_location = self.repo1 + '/a/a/0/0/0/trunk'
@@ -214,7 +214,7 @@ class ConvertProcessTest(unittest.TestCase):
                          ('expected "{}", received "{}"'
                           '').format(expected_location, location))
 
-    @mock.patch('cdds_convert.process.suite_interface.check_svn_location')
+    @mock.patch('cdds.convert.process.suite_interface.check_svn_location')
     def test_rose_suite_svn_location_second(self, mock_check_svn):
         mock_check_svn.side_effect = [False, True]
         expected_location = self.repo2 + '/a/a/0/0/0/trunk'
@@ -223,7 +223,7 @@ class ConvertProcessTest(unittest.TestCase):
                          ('expected "{}", received "{}"'
                           '').format(expected_location, location))
 
-    @mock.patch('cdds_convert.process.suite_interface.check_svn_location')
+    @mock.patch('cdds.convert.process.suite_interface.check_svn_location')
     def test_rose_suite_svn_location_branch(self, mock_check_svn):
         mock_check_svn.return_value = True
         branch = 'branch/of/some/sort'
@@ -233,17 +233,17 @@ class ConvertProcessTest(unittest.TestCase):
                          self.process.rose_suite_svn_location)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess.suite_destination',
+        'cdds.convert.process.ConvertProcess.suite_destination',
         new_callable=mock.PropertyMock,
     )
     @mock.patch(
-        'cdds_convert.process.ConvertProcess.rose_suite_svn_location',
+        'cdds.convert.process.ConvertProcess.rose_suite_svn_location',
         new_callable=mock.PropertyMock,
     )
-    @mock.patch('cdds_convert.process.ConvertProcess.delete_convert_suite')
+    @mock.patch('cdds.convert.process.ConvertProcess.delete_convert_suite')
     @mock.patch('os.path.isdir')
-    @mock.patch('cdds_convert.process.suite_interface.checkout_url')
-    @mock.patch('cdds_convert.process.suite_interface.check_svn_location')
+    @mock.patch('cdds.convert.process.suite_interface.checkout_url')
+    @mock.patch('cdds.convert.process.suite_interface.check_svn_location')
     def test_checkout_convert_suite_url(self, mock_check_svn, mock_checkout,
                                         mock_isdir,
                                         mock_delete_suite,
@@ -263,10 +263,10 @@ class ConvertProcessTest(unittest.TestCase):
         self.assertTrue(self.process._last_suite_stage_completed == 'checkout')
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess.suite_destination',
+        'cdds.convert.process.ConvertProcess.suite_destination',
         new_callable=mock.PropertyMock,
     )
-    @mock.patch('cdds_convert.process.ConvertProcess.delete_convert_suite')
+    @mock.patch('cdds.convert.process.ConvertProcess.delete_convert_suite')
     @mock.patch('os.path.isdir')
     @mock.patch('shutil.copytree')
     def test_checkout_convert_suite_local_dir(self, mock_shutil_copytree,
@@ -284,7 +284,7 @@ class ConvertProcessTest(unittest.TestCase):
                                                      expected_suite_dest)
         self.process._rose_suite_branch = branch_value_backup
 
-    @mock.patch('cdds_convert.process.PythonConfig')
+    @mock.patch('cdds.convert.process.PythonConfig')
     @mock.patch('glob.glob')
     @mock.patch('os.path.exists')
     @mock.patch('os.path.isdir')
@@ -336,7 +336,7 @@ class ConvertProcessTest(unittest.TestCase):
                                                               'comp2']})
         self.assertEqual(output, expected_comps)
 
-    @mock.patch('cdds_convert.process.PythonConfig')
+    @mock.patch('cdds.convert.process.PythonConfig')
     @mock.patch('glob.glob')
     @mock.patch('os.path.exists')
     @mock.patch('os.path.isdir')
@@ -398,13 +398,13 @@ class ConvertProcessTest(unittest.TestCase):
     # TODO: delete mock of linux.platform_distribution when migration to
     # RHEL7 is complete
     @mock.patch(
-        'cdds_convert.process.ConvertProcess.target_suite_name',
+        'cdds.convert.process.ConvertProcess.target_suite_name',
         new_callable=mock.PropertyMock,
     )
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     @mock.patch('shutil.copy')
     @mock.patch('os.path.exists')
-    @mock.patch('cdds_convert.process.suite_interface.update_suite_conf_file')
+    @mock.patch('cdds.convert.process.suite_interface.update_suite_conf_file')
     def test_update_suite_rose_suite_conf(self, mock_update_conf,
                                           mock_exists,
                                           mock_shutil_copy,
@@ -430,8 +430,8 @@ class ConvertProcessTest(unittest.TestCase):
 
         expected_update_kwargs_suite = {
             'CDDS_CONVERT_PROC_DIR': mip_convert_proc_dir,
-            'CDDS_VERSION': cdds_convert._NUMERICAL_VERSION,
-            'DEV_MODE': cdds_convert._DEV,
+            'CDDS_VERSION': cdds.convert._NUMERICAL_VERSION,
+            'DEV_MODE': cdds.convert._DEV,
             'END_YEAR': end_year,
             'INPUT_DIR': input_dir,
             'MIP_CONVERT_CONFIG_DIR': mip_convert_config_dir,
@@ -462,27 +462,27 @@ class ConvertProcessTest(unittest.TestCase):
             **expected_update_kwargs_suite)]
         mock_update_conf.assert_has_calls(call_list)
 
-    @mock.patch('cdds_convert.process.ConvertProcess._get_required_memory')
-    @mock.patch('cdds_convert.process.ConvertProcess.mip_convert_temp_sizes')
-    @mock.patch('cdds_convert.process.ConvertProcess._stream_time_override')
-    @mock.patch('cdds_convert.process.ConvertProcess._cycling_frequency')
+    @mock.patch('cdds.convert.process.ConvertProcess._get_required_memory')
+    @mock.patch('cdds.convert.process.ConvertProcess.mip_convert_temp_sizes')
+    @mock.patch('cdds.convert.process.ConvertProcess._stream_time_override')
+    @mock.patch('cdds.convert.process.ConvertProcess._cycling_frequency')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._single_concatenation_cycle')
+        'cdds.convert.process.ConvertProcess._single_concatenation_cycle')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._first_concat_cycle_offset')
+        'cdds.convert.process.ConvertProcess._first_concat_cycle_offset')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._convert_alignment_cycle_offset')
+        'cdds.convert.process.ConvertProcess._convert_alignment_cycle_offset')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._convert_alignment_cycle_needed')
+        'cdds.convert.process.ConvertProcess._convert_alignment_cycle_needed')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._final_concatenation_cycle')
+        'cdds.convert.process.ConvertProcess._final_concatenation_cycle')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess.'
+        'cdds.convert.process.ConvertProcess.'
         '_final_concatenation_window_start')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._final_concatenation_needed')
+        'cdds.convert.process.ConvertProcess._final_concatenation_needed')
     @mock.patch('shutil.copy')
-    @mock.patch('cdds_convert.process.suite_interface.update_suite_conf_file')
+    @mock.patch('cdds.convert.process.suite_interface.update_suite_conf_file')
     def test_update_suite_opt_conf(self, mock_update_conf, mock_shutil_copy,
                                    mock_final_concat_needed,
                                    mock_final_concat_start, mock_final_concat,
@@ -574,7 +574,7 @@ class ConvertProcessTest(unittest.TestCase):
         mock_update_conf.assert_has_calls(call_list)
 
     @mock.patch('os.path.isdir')
-    @mock.patch('cdds_convert.process.suite_interface.submit_suite')
+    @mock.patch('cdds.convert.process.suite_interface.submit_suite')
     def test_submit_suite(self, mock_submit, mock_isdir):
         mock_isdir.return_value = True
         self.process._last_suite_stage_completed = 'update'
@@ -583,7 +583,7 @@ class ConvertProcessTest(unittest.TestCase):
         mock_submit.assert_called_once_with(self.process.suite_destination)
 
     @mock.patch('os.path.isdir')
-    @mock.patch('cdds_convert.process.suite_interface.submit_suite')
+    @mock.patch('cdds.convert.process.suite_interface.submit_suite')
     def test_submit_suite_fail(self, mock_submit, mock_isdir):
         mock_isdir.return_value = True
         self.process._last_suite_stage_completed = 'update'
@@ -601,7 +601,7 @@ class ConvertProcessTest(unittest.TestCase):
             output = self.process._cycling_frequency(current_stream)
             self.assertEqual(expected_frequencies[current_stream], output)
 
-    @mock.patch('cdds_convert.process.ConvertProcess.cycling_overrides')
+    @mock.patch('cdds.convert.process.ConvertProcess.cycling_overrides')
     def test_cycling_frequencies_with_overrides(self, mock_overrides):
         mock_overrides.return_value = {'stream1': 'P2M'}
         expected_frequencies = {'stream2': 'P1M',
@@ -612,7 +612,7 @@ class ConvertProcessTest(unittest.TestCase):
             output = self.process._cycling_frequency(current_stream)
             self.assertEqual(expected_frequencies[current_stream], output)
 
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_cycling_frequencies_exceed_run_bounds(self, mock_year_bounds):
         mock_year_bounds.return_value = (1982, 1984)
         expected_output = [(False, 3), (True, 3), (False, None)]
@@ -633,12 +633,12 @@ class ConvertProcessTest(unittest.TestCase):
                              'Incorrect values for cycling frequencies output')
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._final_concatenation_cycle')
+        'cdds.convert.process.ConvertProcess._final_concatenation_cycle')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._single_concatenation_cycle')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._single_concatenation_cycle')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
     def test_first_concat_cycle_offset(self, mock_cycling,
                                        mock_year_bounds,
                                        mock_single_concat,
@@ -662,10 +662,10 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected_offsets[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._single_concatenation_cycle')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._single_concatenation_cycle')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_final_concatenation_needed_with_final(self, mock_year_bounds,
                                                    mock_single_concat,
                                                    mock_cycling):
@@ -683,10 +683,10 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._single_concatenation_cycle')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._single_concatenation_cycle')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_final_concatenation_needed_end_in_final_cycle(self,
                                                            mock_year_bounds,
                                                            mock_single_concat,
@@ -708,8 +708,8 @@ class ConvertProcessTest(unittest.TestCase):
                              '{stream}'.format(stream=stream))
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._single_concatenation_cycle')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._single_concatenation_cycle')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_final_concatenation_window_start(self, mock_year_bounds,
                                               mock_single_concat):
         mock_year_bounds.return_value = (1960, 2179)
@@ -725,10 +725,10 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._single_concatenation_cycle')
+        'cdds.convert.process.ConvertProcess._single_concatenation_cycle')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_final_concatenation_cycle(self, mock_year_bounds, mock_cycling,
                                        mock_single_concat):
         mock_year_bounds.return_value = (1960, 2179)
@@ -754,8 +754,8 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_convert_alignment_cycle_needed_aligned(self, mock_year_bounds,
                                                     mock_cycling_freq):
         year_bounds = (1960, 2160)
@@ -771,8 +771,8 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_convert_alignment_cycle_needed_misaligned(self, mock_year_bounds,
                                                        mock_cycling_freq):
         year_bounds = (1963, 2167)
@@ -788,8 +788,8 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_convert_alignment_cycle_offset_aligned(self, mock_year_bounds,
                                                     mock_cycling_freq):
         year_bounds = (1960, 2160)
@@ -804,8 +804,8 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_convert_alignment_cycle_offset_misaligned(self, mock_year_bounds,
                                                        mock_cycling_freq):
         year_bounds = (1963, 2167)
@@ -823,8 +823,8 @@ class ConvertProcessTest(unittest.TestCase):
     AMIP_BOUNDS = (1979, 2014)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_convert_alignment_cycle_offset_amip(self, mock_year_bounds,
                                                  mock_cycling_freq):
         year_bounds = ConvertProcessTest.AMIP_BOUNDS
@@ -839,8 +839,8 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_convert_alignment_cycle_offset_scenario_mip(self,
                                                          mock_year_bounds,
                                                          mock_cycling_freq):
@@ -856,8 +856,8 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_convert_alignment_cycle_needed_amip(self, mock_year_bounds,
                                                  mock_cycling_freq):
         year_bounds = ConvertProcessTest.AMIP_BOUNDS
@@ -872,8 +872,8 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_convert_alignment_cycle_needed_scenario_mip(self,
                                                          mock_year_bounds,
                                                          mock_cycling_freq):
@@ -889,12 +889,12 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._final_concatenation_cycle')
+        'cdds.convert.process.ConvertProcess._final_concatenation_cycle')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._single_concatenation_cycle')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._single_concatenation_cycle')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
     def test_first_concat_cycles_offsets_amip(self,
                                               mock_cycling,
                                               mock_year_bounds,
@@ -920,12 +920,12 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected_offsets[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._final_concatenation_cycle')
+        'cdds.convert.process.ConvertProcess._final_concatenation_cycle')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._single_concatenation_cycle')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._single_concatenation_cycle')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
     def test_first_concat_cycles_offsets_scenario_mip(self,
                                                       mock_cycling,
                                                       mock_year_bounds,
@@ -951,10 +951,10 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected_offsets[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._single_concatenation_cycle')
+        'cdds.convert.process.ConvertProcess._single_concatenation_cycle')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_final_concatenation_cycle_amip(self, mock_year_bounds,
                                             mock_cycling, mock_single_concat):
         mock_year_bounds.return_value = ConvertProcessTest.AMIP_BOUNDS
@@ -971,10 +971,10 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._single_concatenation_cycle')
+        'cdds.convert.process.ConvertProcess._single_concatenation_cycle')
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._cycling_frequency_value')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._cycling_frequency_value')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_final_concatenation_cycle_scenario_mip(self, mock_year_bounds,
                                                     mock_cycling,
                                                     mock_single_concat):
@@ -992,8 +992,8 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._single_concatenation_cycle')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._single_concatenation_cycle')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_final_concatenation_window_start_amip(self, mock_year_bounds,
                                                    mock_single_concat):
         mock_year_bounds.return_value = ConvertProcessTest.AMIP_BOUNDS
@@ -1007,8 +1007,8 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._single_concatenation_cycle')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._single_concatenation_cycle')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_final_concatenation_window_start_scenario_mip(self,
                                                            mock_year_bounds,
                                                            mock_single_concat):
@@ -1025,8 +1025,8 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._single_concatenation_cycle')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._single_concatenation_cycle')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_final_concatenation_needed_amip(self, mock_year_bounds,
                                              mock_single_concat):
         mock_year_bounds.return_value = ConvertProcessTest.AMIP_BOUNDS
@@ -1039,8 +1039,8 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess._single_concatenation_cycle')
-    @mock.patch('cdds_convert.process.ConvertProcess.year_bounds')
+        'cdds.convert.process.ConvertProcess._single_concatenation_cycle')
+    @mock.patch('cdds.convert.process.ConvertProcess.year_bounds')
     def test_final_concatenation_needed_scenario_mip(self, mock_year_bounds,
                                                      mock_single_concat):
         mock_year_bounds.return_value = ConvertProcessTest.SCENARIO_MIP_BOUNDS
@@ -1058,7 +1058,7 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess.input_model_run_length',
+        'cdds.convert.process.ConvertProcess.input_model_run_length',
         new_callable=mock.PropertyMock)
     def test_single_concatenation_cycle_multiple(self, mock_run_length):
         mock_run_length.return_value = 2165 - 1960
@@ -1069,7 +1069,7 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess.input_model_run_length',
+        'cdds.convert.process.ConvertProcess.input_model_run_length',
         new_callable=mock.PropertyMock)
     def test_single_concatenation_cycle_amip(self, mock_run_length):
         mock_run_length.return_value = (ConvertProcessTest.AMIP_BOUNDS[1] -
@@ -1083,7 +1083,7 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected[stream], output)
 
     @mock.patch(
-        'cdds_convert.process.ConvertProcess.input_model_run_length',
+        'cdds.convert.process.ConvertProcess.input_model_run_length',
         new_callable=mock.PropertyMock)
     def test_single_concatenation_cycle_scenario_mip(self, mock_run_length):
         mock_run_length.return_value = (

@@ -21,13 +21,13 @@ from hadsdk.mapping import ModelToMip
 from hadsdk.request import read_request
 from hadsdk.variables import RequestedVariablesList
 
-from cdds_convert import __version__, _NUMERICAL_VERSION, _DEV
-from cdds_convert.constants import (NTHREADS_CONCATENATE, PARALLEL_TASKS,
+from cdds.convert import __version__, _NUMERICAL_VERSION, _DEV
+from cdds.convert.constants import (NTHREADS_CONCATENATE, PARALLEL_TASKS,
                                     ROSE_SUITE_ID, SECTION_TEMPLATE,
                                     RESOURCE_FACTOR)
-from cdds_convert.exceptions import StreamError
-from cdds_convert.process import suite_interface
-from cdds_convert.process.memory import scale_memory
+from cdds.convert.exceptions import StreamError
+from cdds.convert.process import suite_interface
+from cdds.convert.process.memory import scale_memory
 
 
 class ConvertProcess(object):
@@ -1177,7 +1177,7 @@ class ConvertProcess(object):
         Submit the rose suite.
 
         Keyword arguments are passed on to
-        cdds_convert.suite_interface.submit_suite.
+        cdds.convert.suite_interface.submit_suite.
         """
         assert self._last_suite_stage_completed == 'update'
         self._suite_action('submit', suite_interface.submit_suite,

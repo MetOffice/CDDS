@@ -11,7 +11,7 @@ from nose.plugins.attrib import attr
 
 import pep8
 
-import cdds_convert
+import cdds.convert
 
 
 @attr('style')
@@ -21,7 +21,7 @@ class TestCodingStandards(unittest.TestCase):
     """
 
     def setUp(self):
-        cdds_convert_dir = os.path.dirname(cdds_convert.__file__)
+        cdds_convert_dir = os.path.dirname(cdds.convert.__file__)
         self.all_files = [
             os.path.join(dirpath, filename) for dirpath, _, filenames in
             os.walk(cdds_convert_dir) for filename in filenames]

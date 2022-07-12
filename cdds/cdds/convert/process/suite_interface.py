@@ -8,7 +8,7 @@ import json
 import os
 import subprocess
 
-from cdds_convert.exceptions import (SuiteCheckoutError,
+from cdds.convert.exceptions import (SuiteCheckoutError,
                                      SuiteConfigMissingValueError,
                                      SuiteSubmissionError,
                                      SuiteShutdownError)

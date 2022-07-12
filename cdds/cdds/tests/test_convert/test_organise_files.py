@@ -7,7 +7,7 @@ import datetime
 import unittest
 
 import dateutil.relativedelta
-import cdds_convert.organise_files
+import cdds.convert.organise_files
 
 from unittest import mock
 from unittest.mock import call
@@ -100,7 +100,7 @@ class TestOrganiseFiles(unittest.TestCase):
                                                         cycle_delta)
         mock_listdir.side_effect = listdir_output
         mock_iglob.side_effect = iter(glob_list)
-        dirs, files = cdds_convert.organise_files.identify_files_to_move(
+        dirs, files = cdds.convert.organise_files.identify_files_to_move(
             root_dir,
             str(start_year),
             str(end_year), )
@@ -165,7 +165,7 @@ class TestOrganiseFiles(unittest.TestCase):
 
         mock_iglob.side_effect = iter(glob_list)
 
-        dirs, files = cdds_convert.organise_files.identify_files_to_move(
+        dirs, files = cdds.convert.organise_files.identify_files_to_move(
             root_dir,
             str(start_year),
             str(end_year),
@@ -186,7 +186,7 @@ class TestOrganiseFiles(unittest.TestCase):
                                'tas': ['tas_A_date1.nc', 'tas_A_date2.nc']},
                          'O': {'tos': ['tos_O_date1.nc', 'tos_O_date2.nc'],
                                'sos': ['sos_O_date1.nc', 'sos_O_date2.nc']}}
-        cdds_convert.organise_files.move_files(files_to_move, 'location')
+        cdds.convert.organise_files.move_files(files_to_move, 'location')
         mock_mkdir.assert_has_calls([call('location/A'),
                                      call('location/A/prw'),
                                      call('location/A/tas'),

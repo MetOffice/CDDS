@@ -3,12 +3,12 @@
 # pylint: disable = missing-docstring
 """
 Test for the memory manipulation functions in
-:mod:`cdds_convert.process.memory`.
+:mod:`cdds.convert.process.memory`.
 """
 import logging
 import unittest
 
-from cdds_convert.process.memory import scale_memory
+from cdds.convert.process.memory import scale_memory
 
 
 class ScaleMemoryTest(unittest.TestCase):

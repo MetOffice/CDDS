@@ -10,7 +10,7 @@ import tempfile
 from textwrap import dedent
 import unittest
 
-import cdds_convert.process.suite_interface as suite
+import cdds.convert.process.suite_interface as suite
 from hadsdk.common import ROSE_URLS, determine_rose_suite_url
 from unittest import mock
 

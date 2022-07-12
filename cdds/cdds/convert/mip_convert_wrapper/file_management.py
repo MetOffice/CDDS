@@ -12,8 +12,8 @@ import re
 import shutil
 
 from cdds.common.plugins.plugins import PluginStore
-from cdds_convert.constants import FILEPATH_JASMIN, FILEPATH_METOFFICE, STREAMS_FILES_REGEX, NUM_FILE_COPY_ATTEMPTS
-from cdds_convert.mip_convert_wrapper.file_processors import (
+from cdds.convert.constants import FILEPATH_JASMIN, FILEPATH_METOFFICE, STREAMS_FILES_REGEX, NUM_FILE_COPY_ATTEMPTS
+from cdds.convert.mip_convert_wrapper.file_processors import (
     parse_atmos_monthly_filename, parse_atmos_submonthly_filename,
     parse_ocean_seaice_filename)
 

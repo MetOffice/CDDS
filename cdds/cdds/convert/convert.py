@@ -4,7 +4,7 @@
 The main gateway module for the cdds_convert application.
 """
 
-import cdds_convert.process
+import cdds.convert.process
 
 from cdds_configure.user_config import read_and_validate_request, create_user_config_files
 
@@ -62,7 +62,7 @@ def run_cdds_convert(arguments, rose_args):
     if not arguments.skip_configure:
         run_generate_user_config_files(arguments)
 
-    process = cdds_convert.process.ConvertProcess(arguments)
+    process = cdds.convert.process.ConvertProcess(arguments)
 
     process.validate_streams()
     process.checkout_convert_suite()

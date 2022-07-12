@@ -7,7 +7,7 @@ Tests for :mod:`convert.py`.
 
 import unittest
 
-from cdds_convert.convert import get_rose_args_list
+from cdds.convert.convert import get_rose_args_list
 
 
 class TestGetRoseArgsList(unittest.TestCase):

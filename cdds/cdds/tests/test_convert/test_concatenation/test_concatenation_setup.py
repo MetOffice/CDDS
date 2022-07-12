@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name
 """
-Tests for the :mod:`cdds_convert.concatenation.concatenation_setup`
+Tests for the :mod:`cdds.convert.concatenation.concatenation_setup`
 module.
 """
 import os
@@ -18,8 +18,8 @@ try:
 except ImportError:
     from netcdftime import datetime
 
-import cdds_convert.concatenation.concatenation_setup
-from cdds_convert.concatenation.concatenation_setup import (
+import cdds.convert.concatenation.concatenation_setup
+from cdds.convert.concatenation.concatenation_setup import (
     get_file_frequency_shape, get_reinitialisation_period,
     organise_concatenations, times_from_filename,
     load_concatenation_setup_config)
@@ -135,13 +135,13 @@ class TestConcatenationSetup(unittest.TestCase):
     @mock.patch('os.path.exists')
     def test_get_reinitialisation_period_simple_file(self, mock_exists):
         mock_exists.return_value = True
-        cs_mod = cdds_convert.concatenation.concatenation_setup
+        cs_mod = cdds.convert.concatenation.concatenation_setup
         cs_mod.SIZING_INFO = DUMMY_SIZING
         result = get_reinitialisation_period(self.testncfilename, 'dummymodel')
         expected = DUMMY_SIZING['mon']['1-1']
         self.assertEqual(result, expected)
 
-    @mock.patch('cdds_convert.concatenation.concatenation_setup'
+    @mock.patch('cdds.convert.concatenation.concatenation_setup'
                 '.get_file_frequency_shape')
     @mock.patch('os.path.exists')
     def test_get_reinitialisation_period_2(
@@ -152,7 +152,7 @@ class TestConcatenationSetup(unittest.TestCase):
         expected = DUMMY_SIZING['arbitrary'][shape]
         self.assertEqual(result, expected)
 
-    @mock.patch('cdds_convert.concatenation.concatenation_setup'
+    @mock.patch('cdds.convert.concatenation.concatenation_setup'
                 '.get_file_frequency_shape')
     @mock.patch('os.path.exists')
     def test_get_reinitialisation_period_3(
@@ -163,7 +163,7 @@ class TestConcatenationSetup(unittest.TestCase):
         expected = DUMMY_SIZING['arbitrary']['default']
         self.assertEqual(result, expected)
 
-    @mock.patch('cdds_convert.concatenation.concatenation_setup'
+    @mock.patch('cdds.convert.concatenation.concatenation_setup'
                 '.get_file_frequency_shape')
     @mock.patch('os.path.exists')
     def test_get_reinitialisation_period_4(
@@ -178,14 +178,14 @@ class TestConcatenationSetup(unittest.TestCase):
                                        shape):
         mock_exists.return_value = True
         mock_get_shape.return_value = ('arbitrary', shape)
-        cs_mod = cdds_convert.concatenation.concatenation_setup
+        cs_mod = cdds.convert.concatenation.concatenation_setup
         cs_mod.SIZING_INFO = DUMMY_SIZING
         result = get_reinitialisation_period(
             'dummy_filename', 'dummymodel')
         mock_get_shape.assert_called_with('dummy_filename')
         return result
 
-    @mock.patch('cdds_convert.concatenation.concatenation_setup.ConfigParser')
+    @mock.patch('cdds.convert.concatenation.concatenation_setup.ConfigParser')
     def test_load_concatenation_setup_config(self, mock_cfg_parser):
         config_path = '/dummy/path/to/file.cfg'
         expected_config = {

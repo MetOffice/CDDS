@@ -10,8 +10,8 @@ import os
 import shutil
 import subprocess
 
-from cdds_convert.exceptions import MipConvertWrapperDiskUsageError
-from cdds_convert.mip_convert_wrapper.common import print_env
+from cdds.convert.exceptions import MipConvertWrapperDiskUsageError
+from cdds.convert.mip_convert_wrapper.common import print_env
 from hadsdk.constants import CDDS_DEFAULT_DIRECTORY_PERMISSIONS
 
 

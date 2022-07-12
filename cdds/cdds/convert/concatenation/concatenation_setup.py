@@ -18,10 +18,10 @@ import re
 import sqlite3
 
 from cdds.common.plugins.plugins import PluginStore
-from cdds_convert.constants import (CMOR_FILENAME_PATTERN,
+from cdds.convert.constants import (CMOR_FILENAME_PATTERN,
                                     TASK_STATUS_NOT_STARTED)
-from cdds_convert.exceptions import ArgumentError
-from cdds_convert.organise_files import construct_expected_concat_config
+from cdds.convert.exceptions import ArgumentError
+from cdds.convert.organise_files import construct_expected_concat_config
 from hadsdk.common import configure_logger
 from hadsdk.constants import LOG_TIMESTAMP_FORMAT, TIME_UNIT
 

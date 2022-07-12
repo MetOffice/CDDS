@@ -16,8 +16,8 @@ import sys
 from collections import defaultdict
 from configparser import ConfigParser
 
-from cdds_convert.constants import ORGANISE_FILES_ENV_VARS
-from cdds_convert.exceptions import (
+from cdds.convert.constants import ORGANISE_FILES_ENV_VARS
+from cdds.convert.exceptions import (
     OrganiseEnvironmentError, OrganiseTransposeError)
 from hadsdk.common import configure_logger
 

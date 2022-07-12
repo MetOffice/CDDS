@@ -6,7 +6,7 @@ Tests of mip_convert_wrapper.config_updater
 from datetime import datetime
 import unittest
 
-from cdds_convert.mip_convert_wrapper.config_updater import (
+from cdds.convert.mip_convert_wrapper.config_updater import (
     calculate_mip_convert_run_bounds, rose_date)
 
 

@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring
 """
-Tests for the :mod:`cdds_convert.concatenation` module.
+Tests for the :mod:`cdds.convert.concatenation` module.
 """
 from collections import defaultdict
 import logging
@@ -15,9 +15,9 @@ except ImportError:
     from netcdftime import datetime
 from nose.plugins.attrib import attr
 
-from cdds_convert import concatenation
-from cdds_convert.concatenation import concatenation_setup, NCRCAT
-from cdds_convert.exceptions import ConcatenationError
+from cdds.convert import concatenation
+from cdds.convert.concatenation import concatenation_setup, NCRCAT
+from cdds.convert.exceptions import ConcatenationError
 from hadsdk.constants import TIME_UNIT
 from unittest import mock
 from unittest.mock import patch
@@ -48,7 +48,7 @@ data:
 
 class TestConcatenation(unittest.TestCase):
     """
-    Tests of :mod:`cdds_convert.concatenation`
+    Tests of :mod:`cdds.convert.concatenation`
     """
     def setUp(self):
         self.testing_db = 'concatenation_testing_{}.db'.format(os.getpid())
@@ -58,7 +58,7 @@ class TestConcatenation(unittest.TestCase):
         if os.path.exists(self.testing_db):
             os.unlink(self.testing_db)
 
-    @mock.patch('cdds_convert.concatenation.os.walk')
+    @mock.patch('cdds.convert.concatenation.os.walk')
     def test_list_cmor_files(self, mock_walk):
         # 1850 file in current directory, 1851-1859 in subdirectories
         # junk.nc files littered throughout
@@ -184,7 +184,7 @@ class TestConcatenation(unittest.TestCase):
         self.assertListEqual(result, expected_result)
 
     @attr('integration')
-    @patch('cdds_convert.concatenation.concatenate_files', autospec=True)
+    @patch('cdds.convert.concatenation.concatenate_files', autospec=True)
     def test_batch_concatenation_fail(self, mock_concatenate):
         concatenation_work = {'tas_Amon_185001-185912.nc': [
             'tas_Amon_{0}01-{0}12.nc'.format(i) for i in range(1850, 1860)]}

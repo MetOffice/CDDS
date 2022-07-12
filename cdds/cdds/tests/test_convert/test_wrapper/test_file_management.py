@@ -8,10 +8,10 @@ import os
 
 from cdds.common.plugins.plugin_loader import load_plugin
 
-from cdds_convert.mip_convert_wrapper.file_management import (
+from cdds.convert.mip_convert_wrapper.file_management import (
     get_paths, copy_to_staging_dir, link_data, filter_streams
 )
-from cdds_convert.tests.test_wrapper.test_file_processors import (
+from cdds.tests.test_convert.test_wrapper.test_file_processors import (
     ATMOS_MONTHLY_FILENAMES, OCEAN_FILENAMES)
 from unittest import main, mock, TestCase
 

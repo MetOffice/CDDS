@@ -8,8 +8,8 @@ import unittest
 import re
 
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds_convert.constants import STREAMS_FILES_REGEX
-from cdds_convert.mip_convert_wrapper.file_processors import (
+from cdds.convert.constants import STREAMS_FILES_REGEX
+from cdds.convert.mip_convert_wrapper.file_processors import (
     parse_atmos_monthly_filename, parse_atmos_submonthly_filename,
     parse_ocean_seaice_filename
 )

@@ -5,8 +5,8 @@ Tests of mip_convert_wrapper.actions
 """
 import unittest
 
-from cdds_convert.exceptions import MipConvertWrapperDiskUsageError
-from cdds_convert.mip_convert_wrapper.actions import (check_disk_usage,
+from cdds.convert.exceptions import MipConvertWrapperDiskUsageError
+from cdds.convert.mip_convert_wrapper.actions import (check_disk_usage,
                                                       get_disk_usage_in_mb)
 from unittest import mock
 

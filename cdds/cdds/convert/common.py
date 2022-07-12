@@ -4,7 +4,7 @@
 import re
 import sys
 
-from cdds_convert.constants import CYLC_PATHS
+from cdds.convert.constants import CYLC_PATHS
 
 
 def fix_import_paths():

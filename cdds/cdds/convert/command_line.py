@@ -20,18 +20,18 @@ from hadsdk.constants import (REQUIRED_KEYS_FOR_PROC_DIRECTORY,
                               DATESTAMP_TEMPLATE, DATESTAMP_PARSER_STR)
 from hadsdk.request import read_request
 
-from cdds_convert import __version__, _DEV
-from cdds_convert.arguments import update_user_config_data_files
-from cdds_convert.exceptions import (OrganiseEnvironmentError,
+from cdds.convert import __version__, _DEV
+from cdds.convert.arguments import update_user_config_data_files
+from cdds.convert.exceptions import (OrganiseEnvironmentError,
                                      OrganiseTransposeError,
                                      WrapperEnvironmentError,
                                      WrapperMissingFilesError,
                                      ArgumentError)
-from cdds_convert.concatenation import batch_concatenation
-from cdds_convert.concatenation.concatenation_setup import concatenation_setup
-from cdds_convert.convert import run_cdds_convert
-from cdds_convert.mip_convert_wrapper.wrapper import run_mip_convert_wrapper
-from cdds_convert.organise_files import organise_files
+from cdds.convert.concatenation import batch_concatenation
+from cdds.convert.concatenation.concatenation_setup import concatenation_setup
+from cdds.convert.convert import run_cdds_convert
+from cdds.convert.mip_convert_wrapper.wrapper import run_mip_convert_wrapper
+from cdds.convert.organise_files import organise_files
 
 COMPONENT = 'convert'
 
@@ -62,7 +62,7 @@ def parse_args_cdds_convert():
     Command line arguments for the cdds_convert script.
 
     """
-    arguments = read_default_arguments('cdds_convert', 'cdds_convert')
+    arguments = read_default_arguments('cdds.convert', 'cdds_convert')
     description = 'CDDS convert process initiator'
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('request',
@@ -308,7 +308,7 @@ def main_run_mip_convert(arguments=None):
 
 def _parse_run_mip_convert_parameters(arguments):
     user_arguments = arguments
-    arguments = read_default_arguments('cdds_convert', 'run_mip_convert')
+    arguments = read_default_arguments('cdds.convert', 'run_mip_convert')
 
     description = 'Arguments for running MIP convert'
     parser = argparse.ArgumentParser(description=description, formatter_class=argparse.ArgumentDefaultsHelpFormatter)

@@ -9,15 +9,15 @@ import os
 import sys
 import shutil
 
-from cdds_convert.constants import FILEPATH_METOFFICE
-from cdds_convert.exceptions import (
+from cdds.convert.constants import FILEPATH_METOFFICE
+from cdds.convert.exceptions import (
     WrapperEnvironmentError, WrapperMissingFilesError)
-from cdds_convert.mip_convert_wrapper.config_updater import (
+from cdds.convert.mip_convert_wrapper.config_updater import (
     calculate_mip_convert_run_bounds, setup_cfg_file)
-from cdds_convert.mip_convert_wrapper.common import print_env
-from cdds_convert.mip_convert_wrapper.file_management import (
+from cdds.convert.mip_convert_wrapper.common import print_env
+from cdds.convert.mip_convert_wrapper.file_management import (
     link_data, get_paths, copy_to_staging_dir)
-from cdds_convert.mip_convert_wrapper.actions import (
+from cdds.convert.mip_convert_wrapper.actions import (
     run_mip_convert, manage_logs, manage_critical_issues, report_disk_usage,
     check_disk_usage)
 from hadsdk.common import configure_logger

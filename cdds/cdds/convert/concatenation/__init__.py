@@ -11,10 +11,10 @@ import time
 import multiprocessing
 
 from hadsdk.common import run_command
-from cdds_convert.constants import (DEFAULT_SQLITE_TIMEOUT, NCRCAT,
+from cdds.convert.constants import (DEFAULT_SQLITE_TIMEOUT, NCRCAT,
                                     TASK_STATUS_COMPLETE, TASK_STATUS_STARTED,
                                     TASK_STATUS_FAILED)
-from cdds_convert.exceptions import ConcatenationError
+from cdds.convert.exceptions import ConcatenationError
 
 
 def prepare_to_concatenate_files(input_files, output_file, dummy_run):

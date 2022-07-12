@@ -3,11 +3,11 @@
 # Please see LICENSE.rst for license details.
 import sys
 
-from cdds_convert.common import fix_import_paths
+from cdds.convert.common import fix_import_paths
 
 fix_import_paths()
 
-from cdds_convert.command_line import main_cdds_convert
+from cdds.convert.command_line import main_cdds_convert
 
 
 if __name__ == '__main__':
