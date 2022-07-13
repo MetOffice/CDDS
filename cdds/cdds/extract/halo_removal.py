@@ -10,8 +10,8 @@ import shutil
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
 
-from extract.constants import DEHALO_PREFIX
-from extract.common import validate_netcdf
+from cdds.extract.constants import DEHALO_PREFIX
+from cdds.extract.common import validate_netcdf
 from hadsdk.common import run_command
 
 

@@ -16,7 +16,7 @@ Author:
 """
 
 import sys
-from extract.command_line import main_cdds_extract
+from cdds.extract.command_line import main_cdds_extract
 
 
 if __name__ == "__main__":

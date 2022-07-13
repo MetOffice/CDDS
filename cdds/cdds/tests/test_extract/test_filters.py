@@ -12,7 +12,7 @@ import datetime
 from unittest.mock import patch
 
 from cdds.common.plugins.plugin_loader import load_plugin
-from extract.filters import Filters
+from cdds.extract.filters import Filters
 from hadsdk.common import configure_logger
 
 
@@ -59,8 +59,8 @@ class TestFilters(unittest.TestCase):
         load_plugin()
         self.maxDiff = None
 
-    @patch("extract.filters.Filters._create_filterfile_nc")
-    @patch("extract.filters.Filters._fetch_filelist_from_mass")
+    @patch("cdds.extract.filters.Filters._create_filterfile_nc")
+    @patch("cdds.extract.filters.Filters._fetch_filelist_from_mass")
     def test_daterange_selection(self, mock_filters_subroutine, mock_f):
         root = "moose:/crum/u-an914/inm.nc.file/"
         expected_command = (
@@ -123,9 +123,9 @@ class TestFilters(unittest.TestCase):
             )
         )
 
-    @patch("extract.filters.Filters._create_filterfile_nc")
-    @patch("extract.filters.Filters._fetch_filelist_from_mass")
-    @patch("extract.filters.MOOSE_MAX_NC_FILES", 5)
+    @patch("cdds.extract.filters.Filters._create_filterfile_nc")
+    @patch("cdds.extract.filters.Filters._fetch_filelist_from_mass")
+    @patch("cdds.extract.filters.MOOSE_MAX_NC_FILES", 5)
     def test_moo_filter_chunking_odd(self, mock_filters_subroutine, mock_f):
         root = "moose:/crum/u-an914/inm.nc.file/"
         expected_commands = [
@@ -199,9 +199,9 @@ class TestFilters(unittest.TestCase):
             ) for mass_command in mass_commands]
         )
 
-    @patch("extract.filters.Filters._create_filterfile_nc")
-    @patch("extract.filters.Filters._fetch_filelist_from_mass")
-    @patch("extract.filters.MOOSE_MAX_NC_FILES", 5)
+    @patch("cdds.extract.filters.Filters._create_filterfile_nc")
+    @patch("cdds.extract.filters.Filters._fetch_filelist_from_mass")
+    @patch("cdds.extract.filters.MOOSE_MAX_NC_FILES", 5)
     def test_moo_filter_chunking_even(self, mock_filters_subroutine, mock_f):
         root = "moose:/crum/u-an914/inm.nc.file/"
         expected_commands = [
@@ -269,9 +269,9 @@ class TestFilters(unittest.TestCase):
             ) for mass_command in mass_commands]
         )
 
-    @patch("extract.filters.ModelToMip.mass_filters")
+    @patch("cdds.extract.filters.ModelToMip.mass_filters")
     def test_embargo_response(self, mock_mass_filters):
-        # Test that extract.filters.Filters creates mass filters for
+        # Test that cdds.extract.filters.Filters creates mass filters for
         # variables which are returned with status "ok" and "embargoed",
         # but does not create any filters for an "unknown" variable.
 
@@ -336,7 +336,7 @@ class TestFilters(unittest.TestCase):
             }
         ))
 
-    @patch("extract.filters.ModelToMip.mass_filters")
+    @patch("cdds.extract.filters.ModelToMip.mass_filters")
     def test_skipping_nc_variables_in_filters(self, mock_mass_filters):
         filters = Filters(var_list=self.VAR_LIST)
         model_to_mip_response = {
@@ -445,7 +445,7 @@ class TestSubdailyFilters(unittest.TestCase):
         self.maxDiff = None
         configure_logger(None, logging.CRITICAL, False)
 
-    @patch("extract.filters.ModelToMip.mass_filters")
+    @patch("cdds.extract.filters.ModelToMip.mass_filters")
     def test_filters_for_instantaneous_variables(self, mock_mass_filters):
         filters = Filters(var_list=self.VAR_LIST, procdir=".")
         model_to_mip_response = {

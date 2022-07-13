@@ -8,7 +8,7 @@ extract process
 
 import json
 
-from extract.common import byteify
+from cdds.extract.common import byteify
 
 
 class Variables(object):
