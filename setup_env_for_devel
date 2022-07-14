@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 CDDS_DIR=${1:-$PWD}
 export CDDS_DIR
-export CDDS_PACKAGES="cdds cdds_configure cdds_convert cdds_prepare cdds_qc cdds_qc_plugin_cf17 cdds_qc_plugin_cmip6 cdds_template cdds_transfer extract hadsdk mip_convert transfer"
+export CDDS_PACKAGES="cdds cdds_configure cdds_convert cdds_prepare cdds_qc cdds_qc_plugin_cf17 cdds_qc_plugin_cmip6 cdds_template extract hadsdk mip_convert transfer"
 export CDDS_TEST_NOATTRIBUTES='!slow,!integration,!dbsql,!crem,!data_request,!mappings,!inprogress,!rabbitMQ'
 export CDDS_TEST_ATTRIBUTES="integration inprogress data_request crem dbsql mappings slow rabbitMQ"
 
