@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 import unittest
 
-from cdds_transfer import state
+from cdds.deprecated.transfer import state
 
 
 class TestState(unittest.TestCase):

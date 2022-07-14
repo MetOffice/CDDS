@@ -7,12 +7,12 @@ withdrawn).
 """
 import logging
 
-from cdds_transfer import dds, state
-from cdds_transfer.common import (
+from cdds.deprecated.transfer import dds, state
+from cdds.deprecated.transfer.common import (
     load_rabbit_mq_credentials, cfg_from_cdds_general_config,
     drs_facet_builder_from_request, log_filesets, find_mass)
-from cdds_transfer.drs import filter_filesets
-from cdds_transfer.moo_cmd import LS_ONLY
+from cdds.deprecated.transfer.drs import filter_filesets
+from cdds.deprecated.transfer.moo_cmd import LS_ONLY
 from hadsdk.request import read_request
 from hadsdk.config import CDDSConfigGeneral
 
@@ -88,7 +88,7 @@ def remove_move_in_mass_omitted_facets(drs_fixed_facet_builder):
 
     Parameters
     ----------
-    drs_fixed_facet_builder: :class:`cdds_transfer.drs.DataRefSyntax`
+    drs_fixed_facet_builder: :class:`cdds.deprecated.transfer.drs.DataRefSyntax`
         Fixed facet object
     """
     for facet in FACETS_OMITTED_FOR_MOVE_IN_MASS:
@@ -102,18 +102,18 @@ def move_in_mass(filesets, transfer_service, original_state, new_state):
 
     Parameters
     ----------
-    filesets : :class:`cdds_transfer.drs.AtomicDatasetCollection`
+    filesets : :class:`cdds.deprecated.transfer.drs.AtomicDatasetCollection`
         Sets of files to be moved.
-    transfer_service: :class:`cdds_transfer.dds.DataTransfer`
+    transfer_service: :class:`cdds.deprecated.transfer.dds.DataTransfer`
         Data transfer service.
     original_state : str
         State to move data sets from.
-    new_state : :class:`cdds_transfer.state.State`
+    new_state : :class:`cdds.deprecated.transfer.state.State`
         State to move data sets to.
 
     Notes
     -----
-    The original and new states must be in cdds_transfer.state.KNOWN,
+    The original and new states must be in cdds.deprecated.transfer.state.KNOWN,
     i.e. 'embargoed', 'available', 'withdrawn' or 'superceded'.
     """
     # Construct objects representing each state

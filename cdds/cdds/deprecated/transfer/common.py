@@ -6,7 +6,7 @@ Routines involved multiple tools within CDDS Transfer
 import logging
 import os
 
-from cdds_transfer import config, drs, state
+from cdds.deprecated.transfer import config, drs, state
 
 SYSTEMS_ALLOWED_TO_SEND_MESSAGES = ['els055', 'els056']
 
@@ -20,7 +20,7 @@ def load_rabbit_mq_credentials(cfg):
 
     Parameters
     ----------
-    cfg : :class:`cdds_transfer.config.Config`
+    cfg : :class:`cdds.deprecated.transfer.config.Config`
         Config object
 
     Returns
@@ -60,7 +60,7 @@ def cfg_from_cdds_general_config(general_config, request, mass_location):
     Return a configuration object constructed from the supplied
     CDDSGeneralConfig plus information from the request. This is a
     nasty hack, as the actual replacement of the
-    config objects within cdds_transfer will take too much work.
+    config objects within cdds.deprecated.transfer will take too much work.
 
     Parameters
     ----------
@@ -71,11 +71,11 @@ def cfg_from_cdds_general_config(general_config, request, mass_location):
     mass_location : str
         Sub directory within MASS to use for archiving. Must be either
         `PRODUCTION_MASS_DIR` or `DEVELOPMENT_MASS_DIR` from
-        :mod:`cdds_transfer.archive`.
+        :mod:`cdds.deprecated.transfer.archive`.
 
     Returns
     -------
-    : :class:`cdds_transfer.config.Config`
+    : :class:`cdds.deprecated.transfer.config.Config`
         CDDS Transfer config object
     """
     logger = logging.getLogger(__name__)
@@ -120,12 +120,12 @@ def drs_facet_builder_from_request(request, cfg):
     ----------
     request : :class:`hadsdk.request.Request`
         Request information
-    cfg : :class:`cdds_transfer.config.Config`
+    cfg : :class:`cdds.deprecated.transfer.config.Config`
         CDDS Transfer config object
 
     Returns
     -------
-    : :class:`cdds_transfer.drs.DataRefSyntax`
+    : :class:`cdds.deprecated.transfer.drs.DataRefSyntax`
         Object describing the drs fixed facets.
     """
     logger = logging.getLogger(__name__)
@@ -148,7 +148,7 @@ def log_filesets(filesets):
 
     Parameters
     ----------
-    filesets : :class:`cdds_transfer.drs.AtomicDatatsetCollection`
+    filesets : :class:`cdds.deprecated.transfer.drs.AtomicDatatsetCollection`
         Data sets to log about.
     """
     logger = logging.getLogger(__name__)
@@ -173,14 +173,14 @@ def find_local(top_dir, drs_fixed_facet_builder, transfer_service):
     ----------
     top_dir : str
         Top level data directory, e.g. `/project/cdds_data`
-    drs_fixed_facet_builder : :class:`cdds_transfer.drs.DataRefSyntax`
+    drs_fixed_facet_builder : :class:`cdds.deprecated.transfer.drs.DataRefSyntax`
         Object describing the facets to match against
-    transfer_service : :class:`cdds_transfer.dds.DataTransfer`
+    transfer_service : :class:`cdds.deprecated.transfer.dds.DataTransfer`
         Data transfer service.
 
     Returns
     -------
-    : :class:`cdds_transfer.drs.AtomicDatasetCollection`
+    : :class:`cdds.deprecated.transfer.drs.AtomicDatasetCollection`
         Object describing the file sets found in on disk which
         match the supplied facets.
 
@@ -219,17 +219,17 @@ def find_mass(drs_fixed_facet_builder, current_state, transfer_service):
 
     Parameters
     ----------
-    drs_fixed_facet_builder : :class:`cdds_transfer.drs.DataRefSyntax`
+    drs_fixed_facet_builder : :class:`cdds.deprecated.transfer.drs.DataRefSyntax`
         Object describing the facets to match against
     current_state : str
         Current state of the files to be found, e.g. `embargoed` or
         `available`.
-    transfer_service : :class:`cdds_transfer.dds.DataTransfer`
+    transfer_service : :class:`cdds.deprecated.transfer.dds.DataTransfer`
         Data transfer service.
 
     Returns
     -------
-    : :class:`cdds_transfer.drs.AtomicDatasetCollection`
+    : :class:`cdds.deprecated.transfer.drs.AtomicDatasetCollection`
         Object describing the file sets found in mass which match the
         supplied facets and state.
 

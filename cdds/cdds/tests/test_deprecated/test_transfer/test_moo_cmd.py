@@ -4,8 +4,8 @@ from nose.plugins.attrib import attr
 import unittest
 from unittest.mock import patch
 
-from cdds_transfer import moo_cmd
-from cdds_transfer.tests import util
+from cdds.deprecated.transfer import moo_cmd
+from cdds.tests.test_deprecated.test_transfer import util
 from hadsdk import mass
 
 
@@ -18,14 +18,14 @@ class TestDirExists(unittest.TestCase):
             raise RuntimeError('MASS not available. Cannot run integration tests.')
 
     @attr("slow")
-    @patch("cdds_transfer.moo.run_moo_cmd")
+    @patch("cdds.deprecated.transfer.moo.run_moo_cmd")
     def test_moo_dir_exists(self, mock_run_moo_cmd):
         mock_run_moo_cmd.return_value = ["true"]
         util.create_patch(self, "logging.error")
         self.assertTrue(moo_cmd.dir_exists("moose:crum"))
 
     @attr("slow")
-    @patch("cdds_transfer.moo.run_moo_cmd")
+    @patch("cdds.deprecated.transfer.moo.run_moo_cmd")
     def test_moo_dir_does_not_exist(self, mock_run_moo_cmd):
         mock_run_moo_cmd.return_value = ["false"]
         util.create_patch(self, "logging.error")
@@ -51,7 +51,7 @@ class TestLsFileSizes(unittest.TestCase):
             "F username         0.00 GBP          3000000 2018-11-09 "
             "15:29:08 GMT moose:/the/full/directory/structure/file_name_3.nc"]
 
-    @patch('cdds_transfer.moo.run_moo_cmd')
+    @patch('cdds.deprecated.transfer.moo.run_moo_cmd')
     def test_moo_ls_file_size(self, mock_run_moo_cmd):
         mock_run_moo_cmd.return_value = self.moo_ls_text
 

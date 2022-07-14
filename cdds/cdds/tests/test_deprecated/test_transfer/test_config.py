@@ -5,7 +5,7 @@ from textwrap import dedent
 from unittest.mock import patch
 import unittest
 
-from cdds_transfer import config
+from cdds.deprecated.transfer import config
 
 
 class TestConfig(unittest.TestCase):

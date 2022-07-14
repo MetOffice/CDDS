@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 import logging
 
-from cdds_transfer import moo
+from cdds.deprecated.transfer import moo
 
 """Simple wrappers to run some MOOSE commands. All methods will raise
 either moo.MassError or moo.RetryableMassError exception if their
@@ -87,7 +87,7 @@ def get(remote, local, transfer_threads, simulation=False, logger=None):
     files.
     simulation -- (bool) if true simulate moo command.
     logger -- (logging.Logger) Logger to use. If omitted a logger will
-    be obtained within :func:`cdds_transfer.moo.run_moo_cmd`.
+    be obtained within :func:`cdds.deprecated.transfer.moo.run_moo_cmd`.
     """
     arg = ["-f", "-j", transfer_threads, remote, local]
     moo.run_moo_cmd("get", arg, simulation=simulation, logger=logger)
@@ -103,7 +103,7 @@ def ls(moose_dir, simulation=False, logger=None):
     moose_dir -- (str) path to MASS directory to list
     simulation -- (bool) if true simulate moo command.
     logger -- (logging.Logger) Logger to use. If omitted a logger will
-    be obtained within :func:`cdds_transfer.moo.run_moo_cmd`
+    be obtained within :func:`cdds.deprecated.transfer.moo.run_moo_cmd`
     """
     if simulation == LS_ONLY:
         result = moo.run_moo_cmd("ls", ["-d"] + [moose_dir], logger=logger)
@@ -126,7 +126,7 @@ def ls_file_sizes(moose_dir, simulation=False, logger=None):
         If true simulate running the moo command
     logger: :class:`logging.Logger`, optional
         Logger to use. If omitted a logger will be obtained within
-        :func:`cdds_transfer.moo.run_moo_cmd`.
+        :func:`cdds.deprecated.transfer.moo.run_moo_cmd`.
 
     Returns
     -------
@@ -209,7 +209,7 @@ def kill_command(command_id, logger=None):
         Command id of the moose command to attempt to kill.
     logger : :class:`logging.Logger`, optional
         Logger to use. If omitted a logger will be obtained within
-        :func:`cdds_transfer.moo.run_moo_cmd`.
+        :func:`cdds.deprecated.transfer.moo.run_moo_cmd`.
 
     Returns
     -------

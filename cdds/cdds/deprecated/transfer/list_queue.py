@@ -7,7 +7,7 @@ Print a list of messages in the CMIP6 queues
 import json
 import os
 
-from cdds_transfer import config, msg
+from cdds.deprecated.transfer import config, msg
 
 
 def print_queue(queue_name, full=False):

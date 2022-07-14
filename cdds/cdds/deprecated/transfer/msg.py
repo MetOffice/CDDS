@@ -24,7 +24,7 @@ import logging
 import json
 import os
 
-from cdds_transfer import rabbit
+from cdds.deprecated.transfer import rabbit
 
 
 class Message(object):

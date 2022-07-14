@@ -16,17 +16,17 @@ from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from hadsdk.general_config import root_config
 from hadsdk.request import read_request
 
-from cdds_transfer import __version__
-from cdds_transfer.archive import run_send_to_mass, allowed_mass_locations
-from cdds_transfer.admin import send_admin_message
-from cdds_transfer.list_queue import print_queue
-from cdds_transfer.resend_failed_msgs import resend_failed_msgs
-from cdds_transfer.sim_review import do_sim_review
-from cdds_transfer.spice import run_transfer_spice_batch_job
-from cdds_transfer.state import known_states
-from cdds_transfer.state_change import run_move_in_mass
+from cdds.deprecated.transfer import __version__
+from cdds.deprecated.transfer.archive import run_send_to_mass, allowed_mass_locations
+from cdds.deprecated.transfer.admin import send_admin_message
+from cdds.deprecated.transfer.list_queue import print_queue
+from cdds.deprecated.transfer.resend_failed_msgs import resend_failed_msgs
+from cdds.deprecated.transfer.sim_review import do_sim_review
+from cdds.deprecated.transfer.spice import run_transfer_spice_batch_job
+from cdds.deprecated.transfer.state import known_states
+from cdds.deprecated.transfer.state_change import run_move_in_mass
 
-PACKAGE = 'cdds_transfer'
+PACKAGE = 'cdds.deprecated.transfer'
 COMPONENT = 'archive'
 
 
@@ -109,8 +109,8 @@ def parse_transfer_common_args(arguments, description, script_name):
 
     The output from this function can be used as the value of the
     ``arguments`` parameter in the call to
-    :func:`cdds_transfer.command_line.main_send_to_mass` and .
-    :func:`cdds_transfer.command_line.main_cdds_transfer_spice`
+    :func:`cdds.deprecated.transfer.command_line.main_send_to_mass` and .
+    :func:`cdds.deprecated.transfer.command_line.main_cdds_transfer_spice`
 
     Parameters
     ----------

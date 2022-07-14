@@ -4,8 +4,8 @@ import copy
 import os
 import unittest
 
-from cdds_transfer import config_mohc, drs, state
-from cdds_transfer.tests import util
+from cdds.deprecated.transfer import config_mohc, drs, state
+from cdds.tests.test_deprecated.test_transfer import util
 
 
 def configured_drs(cfg):
@@ -145,7 +145,7 @@ check_vocab = True
 """
         geomip = configured_drs(cfg)
         patched_check = util.create_patch(
-            self, "cdds_transfer.drs.DataRefSyntax._passes_cv_check")
+            self, "cdds.deprecated.transfer.drs.DataRefSyntax._passes_cv_check")
         geomip.fill_facets_from_drs_name("zos")
         self.assertTrue(patched_check.called)
 
@@ -157,7 +157,7 @@ project = GEOMIP
 """
         geomip = configured_drs(cfg)
         patched_check = util.create_patch(
-            self, "cdds_transfer.drs.DataRefSyntax._passes_cv_check")
+            self, "cdds.deprecated.transfer.drs.DataRefSyntax._passes_cv_check")
         geomip.fill_facets_from_drs_name("zos")
         self.assertFalse(patched_check.called)
 
@@ -363,7 +363,7 @@ valid = foo|bar
 check_vocab = True
 """
         patched_check = util.create_patch(
-            self, "cdds_transfer.drs.DataRefSyntax._passes_cv_check")
+            self, "cdds.deprecated.transfer.drs.DataRefSyntax._passes_cv_check")
         geomip = configured_drs(cfg)
         geomip.fill_facets_from_dict({"foo": "qux"})
         self.assertTrue(patched_check.called)

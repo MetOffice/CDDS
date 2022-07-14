@@ -5,7 +5,7 @@ import os
 import logging
 import re
 
-from cdds_transfer import config, state
+from cdds.deprecated.transfer import config, state
 
 
 class DrsException(Exception):
@@ -547,7 +547,7 @@ class DataRefSyntax(object):
         except KeyError:
             raise DrsException(
                 "Must define hander_lib if you supply handlers")
-        pkg = importlib.import_module('cdds_transfer.{}'.format(handler_lib))
+        pkg = importlib.import_module('cdds.deprecated.transfer.{}'.format(handler_lib))
         try:
             local_config = pkg.LocalConfig(self._cfg)
         except config.ConfigError as exc:
@@ -881,7 +881,7 @@ def filter_filesets(atomic_dataset_collection, variables_to_operate_on):
     Parameters
     ----------
     atomic_dataset_collection: \
-        :class:`cdds_transfer.drs.AtomicDatasetCollection`
+        :class:`cdds.deprecated.transfer.drs.AtomicDatasetCollection`
         Dataset collection to filter
     variables_to_operate_on : list of tuples
         Variables that should be allowed to remain in the

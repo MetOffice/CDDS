@@ -12,7 +12,7 @@ import sys
 from unittest import mock
 import unittest
 
-from cdds_transfer.command_line import main_send_to_mass
+from cdds.deprecated.transfer.command_line import main_send_to_mass
 
 CONFIG = (
     """

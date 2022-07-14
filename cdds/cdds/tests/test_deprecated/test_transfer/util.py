@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 from io import StringIO
 from textwrap import dedent
-from cdds_transfer import config
+from cdds.deprecated.transfer import config
 from unittest.mock import Mock, patch
 
 

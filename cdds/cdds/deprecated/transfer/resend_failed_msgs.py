@@ -4,7 +4,7 @@
 
 import os
 
-from cdds_transfer import config, msg
+from cdds.deprecated.transfer import config, msg
 
 
 def resend_failed_msgs(delete_msgs):

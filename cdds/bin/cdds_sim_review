@@ -3,7 +3,7 @@
 # Please see LICENSE.rst for license details.
 import sys
 
-from cdds_transfer.command_line import main_sim_review
+from cdds.deprecated.transfer.command_line import main_sim_review
 
 if __name__ == '__main__':
     sys.exit(main_sim_review())

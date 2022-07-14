@@ -6,8 +6,8 @@ import os.path
 from unittest.mock import Mock
 import unittest
 
-from cdds_transfer import msg, state
-from cdds_transfer.tests import util
+from cdds.deprecated.transfer import msg, state
+from cdds.tests.test_deprecated.test_transfer import util
 
 
 class TestQueue(unittest.TestCase):
@@ -191,10 +191,10 @@ class TestCommunication(unittest.TestCase):
         cfg = util.patch_open_config("GEOMIP")
         self.mock_channel = Mock()
         mock_channel_maker = util.create_patch(
-            self, "cdds_transfer.rabbit.RabbitMqManager._configured_channel")
+            self, "cdds.deprecated.transfer.rabbit.RabbitMqManager._configured_channel")
         mock_channel_maker.return_value = self.mock_channel
         self.mock_rabbit = util.create_patch(
-            self, "cdds_transfer.rabbit.RabbitMqManager.start")
+            self, "cdds.deprecated.transfer.rabbit.RabbitMqManager.start")
         self.comm = msg.Communication(cfg)
         self.comm._rabbit_mgr._connection = True
         self.available = state.make_state(state.AVAILABLE)
@@ -202,18 +202,18 @@ class TestCommunication(unittest.TestCase):
 
     def test_publish_message_logic(self):
         mock_publish = util.create_patch(
-            self, "cdds_transfer.rabbit.PersistentPublish.call")
+            self, "cdds.deprecated.transfer.rabbit.PersistentPublish.call")
         mock_publish.return_value = True
         self.comm.publish_message(msg.MooseMessage(
             {"state": "available", "dataset_id": "d.u.m.m.y"}))
         mock_store = util.create_patch(
-            self, "cdds_transfer.msg.Communication.store_message")
+            self, "cdds.deprecated.transfer.msg.Communication.store_message")
         mock_publish.assert_called_once_with(self.mock_channel, "dds")
         self.assertFalse(mock_store.called)
 
     def test_publish_msg_adds_published_timestamp(self):
         mock_publish = util.create_patch(
-            self, "cdds_transfer.rabbit.PersistentPublish.call")
+            self, "cdds.deprecated.transfer.rabbit.PersistentPublish.call")
         mock_publish.return_value = True
         msg_content = {"state": "available", "dataset_id": "d.u.m.m.y"}
         # Round down precision of "now" to seconds so we get the same
@@ -228,10 +228,10 @@ class TestCommunication(unittest.TestCase):
 
     def test_delivery_failures_triggers_message_store(self):
         mock_publish = util.create_patch(
-            self, "cdds_transfer.rabbit.PersistentPublish.call")
+            self, "cdds.deprecated.transfer.rabbit.PersistentPublish.call")
         mock_publish.return_value = False
         mock_store_msg = util.create_patch(
-            self, "cdds_transfer.msg.Communication.store_message")
+            self, "cdds.deprecated.transfer.msg.Communication.store_message")
         self.comm.publish_message(msg.MooseMessage(
             {"state": "available", "dataset_id": "d.u.m.m.y"}))
         self.assertTrue(mock_store_msg.called)
@@ -239,14 +239,14 @@ class TestCommunication(unittest.TestCase):
     def test_publish_without_connection_triggers_message_store(self):
         self.comm._rabbit_mgr._connection = None
         mock_store_msg = util.create_patch(
-            self, "cdds_transfer.msg.Communication.store_message")
+            self, "cdds.deprecated.transfer.msg.Communication.store_message")
         self.comm.publish_message(msg.MooseMessage(
             {"state": "available", "dataset_id": "d.u.m.m.y"}))
         self.assertTrue(mock_store_msg.called)
 
     def test_read_first_message(self):
         mock_get_first = util.create_patch(
-            self, "cdds_transfer.rabbit.GetFirst.call")
+            self, "cdds.deprecated.transfer.rabbit.GetFirst.call")
         mock_method_frame = Mock()
         mock_method_frame.delivery_tag = 1
         mock_get_first.return_value = (mock_method_frame, '{"msg": "body"}')
@@ -263,7 +263,7 @@ class TestCommunication(unittest.TestCase):
             message_body = '{"msg": "%s"}' % message_number
             messages.append((mock_method_frame, message_body))
         mock_get_all = util.create_patch(
-            self, "cdds_transfer.rabbit.GetAll.call")
+            self, "cdds.deprecated.transfer.rabbit.GetAll.call")
         mock_get_all.return_value = messages
         converted_messages = self.comm.get_all_messages(
             msg.Queue("moose", "available"))
@@ -275,7 +275,7 @@ class TestCommunication(unittest.TestCase):
 
     def test_remove_message(self):
         mock_ack = util.create_patch(
-            self, "cdds_transfer.rabbit.AckMessage.call")
+            self, "cdds.deprecated.transfer.rabbit.AckMessage.call")
         mock_message = Mock()
         mock_message.delivery_tag = 1
         self.comm.remove_message(msg.Queue("moose", "available"), mock_message)
@@ -290,10 +290,10 @@ class TestMessageStore(unittest.TestCase):
 
     def test_store_message_makes_expected_calls(self):
         mock_msg_file = util.create_patch(
-            self, "cdds_transfer.msg.MessageStore._msg_file")
+            self, "cdds.deprecated.transfer.msg.MessageStore._msg_file")
         mock_msg_file.return_value = "fake_msg_file"
         mock_save_message = util.create_patch(
-            self, "cdds_transfer.msg.MessageStore._save_message")
+            self, "cdds.deprecated.transfer.msg.MessageStore._save_message")
         fake_content = {
             "state": "available", "msg": "fake message",
             "published": "20150515T135523Z"}
@@ -345,21 +345,21 @@ class TestMessageStore(unittest.TestCase):
 
     def test_load_message_handles_moose_type(self):
         mock_read_msg = util.create_patch(
-            self, "cdds_transfer.msg.MessageStore._read_message")
+            self, "cdds.deprecated.transfer.msg.MessageStore._read_message")
         mock_read_msg.return_value = {"type": "moose"}
         message = self.msg_store.load_message("")
         self.assertIsInstance(message, msg.MooseMessage)
 
     def test_load_message_handles_admin_type(self):
         mock_read_msg = util.create_patch(
-            self, "cdds_transfer.msg.MessageStore._read_message")
+            self, "cdds.deprecated.transfer.msg.MessageStore._read_message")
         mock_read_msg.return_value = {"type": "admin"}
         message = self.msg_store.load_message("")
         self.assertIsInstance(message, msg.AdminMessage)
 
     def test_load_message_of_unknown_type(self):
         mock_read_msg = util.create_patch(
-            self, "cdds_transfer.msg.MessageStore._read_message")
+            self, "cdds.deprecated.transfer.msg.MessageStore._read_message")
         mock_read_msg.return_value = {"type": "unknown"}
         message = self.msg_store.load_message("")
         self.assertIs(message, None)

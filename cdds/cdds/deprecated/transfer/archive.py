@@ -6,9 +6,9 @@ used by the send_to_mass script
 """
 import logging
 
-from cdds_transfer import _DEV
-from cdds_transfer import state, dds
-from cdds_transfer.common import (
+from cdds.deprecated.transfer import _DEV
+from cdds.deprecated.transfer import state, dds
+from cdds.deprecated.transfer.common import (
     cfg_from_cdds_general_config, drs_facet_builder_from_request, find_local,
     log_filesets)
 
@@ -77,9 +77,9 @@ def send_to_mass(top_dir, filesets, transfer_service, mass_state):
     ----------
     top_dir : str
         Top level data directory, e.g. '/project/cdds_data'
-    filesets : :class:`cdds_transfer.drs.AtomicDatasetCollection`
+    filesets : :class:`cdds.deprecated.transfer.drs.AtomicDatasetCollection`
         Object describing the file sets found on disk
-    transfer_service : :class:`cdds_transfer.dds.DataTransfer`
+    transfer_service : :class:`cdds.deprecated.transfer.dds.DataTransfer`
         Data transfer service
     mass_state : str
         State to send data to MASS in, should be `embargoed` unless

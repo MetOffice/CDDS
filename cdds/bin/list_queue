@@ -3,7 +3,7 @@
 # Please see LICENSE.rst for license details.
 import sys
 
-from cdds_transfer.command_line import main_list_queue as main
+from cdds.deprecated.transfer.command_line import main_list_queue as main
 
 
 if __name__ == '__main__':

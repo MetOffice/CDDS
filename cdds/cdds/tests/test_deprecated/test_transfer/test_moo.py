@@ -4,7 +4,7 @@ import logging
 from nose.plugins.attrib import attr
 import unittest
 
-from cdds_transfer.moo import run_moo_cmd, MassError
+from cdds.deprecated.transfer.moo import run_moo_cmd, MassError
 from hadsdk.mass import mass_available
 
 

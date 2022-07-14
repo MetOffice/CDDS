@@ -5,7 +5,7 @@ from textwrap import dedent
 from unittest.mock import patch
 import unittest
 
-from cdds_transfer.state_change import read_variables_list_file
+from cdds.deprecated.transfer.state_change import read_variables_list_file
 
 
 class TestReadVariablesListFile(unittest.TestCase):

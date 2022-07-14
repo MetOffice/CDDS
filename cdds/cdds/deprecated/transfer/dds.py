@@ -9,7 +9,7 @@ import os
 import re
 import xml.sax
 
-from cdds_transfer import drs, moo, moo_cmd, msg
+from cdds.deprecated.transfer import drs, moo, moo_cmd, msg
 
 VERSION_FORMAT_DATETIME = "v%Y%m%d"
 VERSION_FORMAT = "v{}"
@@ -524,16 +524,16 @@ class DataTransfer(object):
 
         Parameters
         ----------
-        drs_facet_builder : :class:`cdds_transfer.drs.DataRefSyntax`
+        drs_facet_builder : :class:`cdds.deprecated.transfer.drs.DataRefSyntax`
             Facets
         mass_dir : str
             MASS URI to send in message
-        state : :class:`cdds_transfer.state.State`
+        state : :class:`cdds.deprecated.transfer.state.State`
             New state of data set
 
         Returns
         -------
-        : :class:`cdds_transfer.msg.MooseMessage`
+        : :class:`cdds.deprecated.transfer.msg.MooseMessage`
             Message to be sent.
         """
         msg_content = {
@@ -544,7 +544,7 @@ class DataTransfer(object):
         # The following is not ideal, but a signficant amount of effort
         # is needed to force all tests to use the facet "mip_era" rather than
         # "project". This should be picked up when we look at rewriting
-        # cdds_transfer.
+        # cdds.deprecated.transfer.
         if "mip_era" in drs_facet_builder.facets:
             msg_content["mip_era"] = drs_facet_builder.facets["mip_era"]
         else:
@@ -773,9 +773,9 @@ class DataTransfer(object):
 
         Parameters
         ----------
-        drs_facet_builder : :class:`cdds_transfer.drs.DataRefSyntax`
+        drs_facet_builder : :class:`cdds.deprecated.transfer.drs.DataRefSyntax`
             Facets to interpolate into mass path.
-        state : :class:`cdds_transfer.state.State`
+        state : :class:`cdds.deprecated.transfer.state.State`
             State, e.g. embargoed or available.
         timestamp : str, optional
             Timestamp to use. If not specified use today's date in form
@@ -919,7 +919,7 @@ def search_local_directories(drs_fixed_facet_builder, local_path):
 
     Parameters
     ----------
-    drs_fixed_facet_builder : :class:`cdds_transfer.drs.DataRefSyntax`
+    drs_fixed_facet_builder : :class:`cdds.deprecated.transfer.drs.DataRefSyntax`
         Facets to match.
     local_path : str
         Local directory to search

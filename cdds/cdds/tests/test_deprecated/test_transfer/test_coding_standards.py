@@ -11,7 +11,7 @@ from nose.plugins.attrib import attr
 
 import pep8
 
-import cdds_transfer
+import cdds.deprecated.transfer
 
 
 @attr('style')
@@ -21,7 +21,7 @@ class TestCodingStandards(unittest.TestCase):
     """
 
     def setUp(self):
-        cdds_transfer_dir = os.path.dirname(cdds_transfer.__file__)
+        cdds_transfer_dir = os.path.dirname(cdds.deprecated.transfer.__file__)
         self.all_files = [
             os.path.join(dirpath, filename) for dirpath, _, filenames in
             os.walk(cdds_transfer_dir) for filename in filenames]

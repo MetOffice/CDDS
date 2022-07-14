@@ -5,13 +5,13 @@ from unittest.mock import Mock, call, patch
 import os
 import unittest
 
-from cdds_transfer import dds, drs, moo, moo_cmd, msg, state
-from cdds_transfer.tests import util
-from cdds_transfer.dds import VERSION_FORMAT
+from cdds.deprecated.transfer import dds, drs, moo, moo_cmd, msg, state
+from cdds.tests.test_deprecated.test_transfer import util
+from cdds.deprecated.transfer.dds import VERSION_FORMAT
 
 
 def xfer_without_starting_comms(test_case, project):
-    util.create_patch(test_case, "cdds_transfer.rabbit.RabbitMqManager.start")
+    util.create_patch(test_case, "cdds.deprecated.transfer.rabbit.RabbitMqManager.start")
     cfg = util.patch_open_config(project)
     return cfg, dds.DataTransfer(cfg, project)
 
@@ -55,13 +55,13 @@ class TestMoosePut(unittest.TestCase):
         self.cfg, self.xfer = xfer_without_starting_comms(self, self.project)
         util.patch_mip_parser(self)
         self.mock_inform = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer.inform")
+            self, "cdds.deprecated.transfer.dds.DataTransfer.inform")
         self.ts = date.today().strftime("%Y%m%d")
         self.embargoed = state.make_state(state.EMBARGOED)
         self.available = state.make_state(state.AVAILABLE)
 
     def test_single_variable_put(self):
-        util.create_patch(self, "cdds_transfer.moo.run_moo_cmd")
+        util.create_patch(self, "cdds.deprecated.transfer.moo.run_moo_cmd")
 
         expected_local = os.path.join(
             "fake_local_top", "GEOMIP", "MOHC", "HadGEM2-ES",
@@ -84,7 +84,7 @@ class TestMoosePut(unittest.TestCase):
             "c3PftFrac")
 
         mock_put = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._put_atom")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._put_atom")
         self.xfer.send_to_mass("fake_local_top", facets, self.embargoed)
         mock_put.assert_called_once_with(
             expected_facet, expected_local, expected_moose, moo_cmd.put)
@@ -92,7 +92,7 @@ class TestMoosePut(unittest.TestCase):
             expected_facet, expected_moose, self.embargoed)
 
     def test_several_variables_put(self):
-        util.create_patch(self, "cdds_transfer.moo.run_moo_cmd")
+        util.create_patch(self, "cdds.deprecated.transfer.moo.run_moo_cmd")
 
         var = [
             "cLeaf_Lmon_HadGEM2-ES_G4seaSalt_r1i1p1_202012-204511.nc",
@@ -124,7 +124,7 @@ class TestMoosePut(unittest.TestCase):
                     call(facet, expected_moose, self.embargoed))
 
         mock_put = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._put_atom")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._put_atom")
         self.xfer.send_to_mass("fake_local_top", facets, self.embargoed)
         mock_put.has_calls(expected_puts)
         self.mock_inform.has_calls(expected_informs)
@@ -132,7 +132,7 @@ class TestMoosePut(unittest.TestCase):
     def test_valid_put_var(self):
         # Testing low-level MASS interface, so we need to patch out
         # the calls that interact with the file system or MASS.
-        mock_moo = util.create_patch(self, "cdds_transfer.moo.run_moo_cmd")
+        mock_moo = util.create_patch(self, "cdds.deprecated.transfer.moo.run_moo_cmd")
         var_file = "bsi_Omon_HadGEM2-ES_G4seaSalt_r1i1p1_202012-209012.nc"
         expected_local = [os.path.join("dir", var_file)]
         mock_glob = util.create_patch(self, "glob.glob")
@@ -155,7 +155,7 @@ class TestMoosePut(unittest.TestCase):
         self.mock_returns = [['false'], [], moo.MassError("put failed!"), []]
         mock_moo = util.mock_with_side_effects(self)
         mock_cmd = util.create_patch(
-            self, "cdds_transfer.moo.run_moo_cmd", mock_moo)
+            self, "cdds.deprecated.transfer.moo.run_moo_cmd", mock_moo)
         self.patch_local_dir_exists()
         local_path = os.path.join("local", "dir")
         expected_call = [
@@ -170,7 +170,7 @@ class TestMoosePut(unittest.TestCase):
 
     def patch_local_dir_exists(self):
         mock_exists = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._local_dir_exists")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._local_dir_exists")
         mock_exists.return_value = True
         return
 
@@ -187,7 +187,7 @@ class TestRerunMoosePut(unittest.TestCase):
     def test_rerun_when_nothing_worked(self):
         self._patch_last_successful(None, None)
         mock_send = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer.send_to_mass")
+            self, "cdds.deprecated.transfer.dds.DataTransfer.send_to_mass")
         facets = self._facets(["tas_Amon_UKESM1_historical_r1i2p3"])
         self.xfer.rerun_send_to_mass(
             "fake_local", facets, self.embargoed, self.ts)
@@ -198,7 +198,7 @@ class TestRerunMoosePut(unittest.TestCase):
         last_var = "uo"
         self._patch_last_successful(last_id, last_var)
         mock_run_put = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._run_put")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._run_put")
         drs_names = [
             "tas_Amon_UKESM1_historical_r1i2p3",
             "tas_Amon_UKESM1_rcp45_r1i2p3",
@@ -214,7 +214,7 @@ class TestRerunMoosePut(unittest.TestCase):
         last_var = "uo"
         self._patch_last_successful(last_id, last_var)
         mock_run_put = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._run_put")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._run_put")
         drs_names = [
             "tas_Amon_UKESM1_rcp45_r1i2p3",
             "uo_Amon_UKESM1_rcp45_r1i2p3",
@@ -244,7 +244,7 @@ class TestRerunMoosePut(unittest.TestCase):
         ocean_id = "CMIP6.MOHC.UKESM1.rcp45.mon.ocean.Omon.r1i2p3"
         self._patch_last_successful(last_id, last_var)
         mock_run_put = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._run_put")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._run_put")
         expected_calls = [
             self._call(facets, last_id, last_var, overwrite=True),
             self._call(facets, last_id, "vo"),
@@ -265,7 +265,7 @@ class TestRerunMoosePut(unittest.TestCase):
 
     def _patch_last_successful(self, last_id, last_var):
         mock_last_successful = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._find_last_successful")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._find_last_successful")
         mock_last_successful.return_value = (last_id, last_var)
         return
 
@@ -286,9 +286,9 @@ class TestMooseMove(unittest.TestCase):
         self.cfg, self.xfer = xfer_without_starting_comms(self, self.project)
         util.patch_mip_parser(self)
         self.mock_moo = util.create_patch(
-            self, "cdds_transfer.moo.run_moo_cmd")
+            self, "cdds.deprecated.transfer.moo.run_moo_cmd")
         self.mock_inform = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer.inform")
+            self, "cdds.deprecated.transfer.dds.DataTransfer.inform")
         self.ts = date.today().strftime("%Y%m%d")
         self.embargoed = state.make_state(state.EMBARGOED)
         self.available = state.make_state(state.AVAILABLE)
@@ -311,7 +311,7 @@ class TestMooseMove(unittest.TestCase):
         drs_names = [self._drs("tas")]
         coll = self._coll(drs_names)
         mock_move_atom = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._move_atom")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._move_atom")
 
         self.xfer.change_mass_state(coll, self.embargoed, self.available)
         mock_move_atom.assert_called_once_with(expected_old, expected_new)
@@ -338,7 +338,7 @@ class TestMooseMove(unittest.TestCase):
             call(coll.get_drs_facet_builder(self.ds_id, "tas"),
                  expected_new[1],   self.available)]
         mock_move_atom = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._move_atom")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._move_atom")
 
         self.xfer.change_mass_state(coll, self.embargoed, self.available)
         mock_move_atom.has_calls(expected_call)
@@ -352,7 +352,7 @@ class TestMooseMove(unittest.TestCase):
         drs_names = [self._drs("tas")]
         coll = self._coll(drs_names)
         mock_move_atom = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._move_atom")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._move_atom")
 
         self.xfer.change_mass_state(
             coll, self.embargoed, self.available, "20150326")
@@ -366,7 +366,7 @@ class TestMooseMove(unittest.TestCase):
         coll = self._coll(drs_names)
         self.mock_returns = [True, False]
         util.create_patch(
-            self, "cdds_transfer.moo_cmd.dir_exists",
+            self, "cdds.deprecated.transfer.moo_cmd.dir_exists",
             util.mock_with_side_effects(self))
         last_successful = self.xfer._find_last_successful(
             coll, self.embargoed, "")
@@ -383,14 +383,14 @@ class TestMooseMove(unittest.TestCase):
         drs_names = [self._drs("bar"), self._drs("foo")]
         coll = self._coll(drs_names)
         mock_dir_exists = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._find_last_successful")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._find_last_successful")
         mock_dir_exists.return_value = (self.ds_id, "bar")
         fake_dir = [
             self._mass_dir("embargoed", "foo", "20140901"),
             self._mass_dir("embargoed", "foo", "20141001")]
         self.fake_single_ls(fake_dir)
         mock_move_atom = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._move_atom")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._move_atom")
 
         self.xfer.rerun_change_mass_state(
             coll, self.embargoed, self.available, "")
@@ -404,14 +404,14 @@ class TestMooseMove(unittest.TestCase):
         drs_names = [self._drs("bar"), self._drs("foo")]
         coll = self._coll(drs_names)
         mock_dir_exists = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._find_last_successful")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._find_last_successful")
         mock_dir_exists.return_value = (self.ds_id, "bar")
         fake_dir = [
             self._mass_dir("embargoed", "foo", "20140901"),
             self._mass_dir("embargoed", "foo", "20141001")]
         self.fake_single_ls(fake_dir)
         mock_move_atom = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._move_atom")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._move_atom")
 
         self.xfer.rerun_change_mass_state(
             coll, self.embargoed, self.available, "", version="20140901")
@@ -427,7 +427,7 @@ class TestMooseMove(unittest.TestCase):
 
     def fake_single_ls(self, mock_output):
         # Mock a single ls with a single fake list of output.
-        mock_ls = util.create_patch(self, "cdds_transfer.moo_cmd.ls")
+        mock_ls = util.create_patch(self, "cdds.deprecated.transfer.moo_cmd.ls")
         mock_ls.return_value = mock_output
         return
 
@@ -439,7 +439,7 @@ class TestMooseMove(unittest.TestCase):
             # we expect a list back from each ls call.
             self.mock_returns += [[mock_out]]
         util.create_patch(
-            self, "cdds_transfer.moo_cmd.ls",
+            self, "cdds.deprecated.transfer.moo_cmd.ls",
             util.mock_with_side_effects(self))
         return
 
@@ -471,9 +471,9 @@ class TestCopyFromMoose(unittest.TestCase):
         self.cfg, self.xfer = xfer_without_starting_comms(self, self.project)
         util.patch_mip_parser(self)
         self.mock_moo = util.create_patch(
-            self, "cdds_transfer.moo.run_moo_cmd")
+            self, "cdds.deprecated.transfer.moo.run_moo_cmd")
         self.mock_local_dir_exists = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._local_dir_exists")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._local_dir_exists")
         facets = {
             "project": self.project, "variable": "bsi", "mip": "Omon",
             "model": "HadGEM2-ES", "experiment": "G4seaSalt",
@@ -500,7 +500,7 @@ class TestCopyFromMoose(unittest.TestCase):
             "G4seaSalt", "r1i1p1", "nc")
         self.mock_local_dir_exists.return_value = False
         mock_make_local_dir = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._make_local_dir")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._make_local_dir")
         self.xfer.copy_from_mass(
             "fake_local_top", "fake/moose/dir", self.facet)
         self.mock_local_dir_exists.assert_called_once_with(expected_local_dir)
@@ -517,7 +517,7 @@ class TestCopyFromMoose(unittest.TestCase):
         fake_config = """[mass]
 top_dir = fake
 max_transfer_threads = 5"""
-        util.create_patch(self, "cdds_transfer.rabbit.RabbitMqManager.start")
+        util.create_patch(self, "cdds.deprecated.transfer.rabbit.RabbitMqManager.start")
         cfg = util.patch_open_config_with_string(fake_config)
         xfer = dds.DataTransfer(cfg, "fake")
         self.assertEqual(xfer._transfer_threads(), 5)
@@ -731,7 +731,7 @@ class TestFindMassFacets(unittest.TestCase):
         self.embargoed = state.make_state(state.EMBARGOED)
         self.coll = drs.AtomicDatasetCollection()
         util.patch_mip_parser(self)
-        util.create_patch(self, "cdds_transfer.moo_cmd.ls_tree")
+        util.create_patch(self, "cdds.deprecated.transfer.moo_cmd.ls_tree")
 
     def test_spots_duplicate_include_and_exclude(self):
         include = drs.DataRefSyntax(self.cfg, self.project)
@@ -950,7 +950,7 @@ class TestFindMassFacets(unittest.TestCase):
 
     def _patch_tree_to_facets(self):
         mock_tree_to_facets = util.create_patch(
-            self, "cdds_transfer.dds.DataTransfer._mass_to_facets")
+            self, "cdds.deprecated.transfer.dds.DataTransfer._mass_to_facets")
         mock_tree_to_facets.return_value = self.coll
         return
 
@@ -1110,7 +1110,7 @@ class TestInform(unittest.TestCase):
 
     def test_message_for_available_var(self):
         mock_publish = util.create_patch(
-            self, "cdds_transfer.msg.Communication.publish_message")
+            self, "cdds.deprecated.transfer.msg.Communication.publish_message")
         available = state.make_state(state.AVAILABLE)
         expected_content = {
             "mass_dir": "fake_moo", "state": available.name(),
@@ -1124,14 +1124,14 @@ class TestInform(unittest.TestCase):
 
     def test_inform_handles_quiet_states(self):
         mock_publish = util.create_patch(
-            self, "cdds_transfer.msg.Communication.publish_message")
+            self, "cdds.deprecated.transfer.msg.Communication.publish_message")
         for quiet_state in [state.Embargoed(), state.Superseded()]:
             self.dds.inform(self.facet, "fake_moo", quiet_state)
             self.assertFalse(mock_publish.called)
 
     def test_inform_handles_noisy_states(self):
         mock_publish = util.create_patch(
-            self, "cdds_transfer.msg.Communication.publish_message")
+            self, "cdds.deprecated.transfer.msg.Communication.publish_message")
         for noisy_state in [state.Available(), state.Withdrawn()]:
             self.dds.inform(self.facet, "fake_moo", noisy_state)
             self.assertTrue(mock_publish.called)
@@ -1192,7 +1192,7 @@ class TestVersionList(unittest.TestCase):
         self.facet = drs.DataRefSyntax(cfg, project)
         self.facet.fill_facets_from_drs_name(
             "bsi_Omon_HadGEM2-ES_G4seaSalt_r1i1p1_202012-209012.nc")
-        self.mock_moo_ls = util.create_patch(self, "cdds_transfer.moo_cmd.ls")
+        self.mock_moo_ls = util.create_patch(self, "cdds.deprecated.transfer.moo_cmd.ls")
         self.fake_top = (
             "%s/geomip/output/MOHC/HadGEM2-ES/G4seaSalt/mon/ocean/"
             "Omon/r1i1p1/embargoed" % self.xfer._moo_top)

@@ -7,8 +7,8 @@ import os.path
 import pika
 import unittest
 
-from cdds_transfer import config, msg, rabbit
-from cdds_transfer.tests import util
+from cdds.deprecated.transfer import config, msg, rabbit
+from cdds.tests.test_deprecated.test_transfer import util
 
 
 def config_path():
@@ -31,7 +31,7 @@ class TestRabbitMqManager(unittest.TestCase):
 
     def patch_reconnect(self):
         return util.create_patch(
-            self, "cdds_transfer.rabbit.RabbitMqManager._polite_reconnect")
+            self, "cdds.deprecated.transfer.rabbit.RabbitMqManager._polite_reconnect")
 
     def test_start_opens_connection(self):
         mock_connection = self.patch_connection()

@@ -8,7 +8,7 @@ WARNING: This code has not been updated and WILL NOT WORK at present.
 import os
 import sys
 
-from cdds_transfer import msg, config
+from cdds.deprecated.transfer import msg, config
 
 
 def send_admin_message(args):
