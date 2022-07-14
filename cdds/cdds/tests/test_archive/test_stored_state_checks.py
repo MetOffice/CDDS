@@ -8,8 +8,8 @@ import cftime
 import os
 import unittest
 
-from transfer.constants import DATA_PUBLICATION_STATUS_DICT
-from transfer import stored_state_checks
+from cdds.archive.constants import DATA_PUBLICATION_STATUS_DICT
+from cdds.archive import stored_state_checks
 
 
 class TestStoredStateChecks(unittest.TestCase):

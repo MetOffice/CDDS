@@ -18,9 +18,9 @@ from textwrap import dedent
 
 from hadsdk.request import construct_request
 from hadsdk.common import configure_logger
-from transfer.constants import OUTPUT_FILES_REGEX
-import transfer.store
-import transfer.tests.common
+from cdds.archive.constants import OUTPUT_FILES_REGEX
+import cdds.archive.store
+import cdds.tests.test_archive.common
 
 
 class TestGetVariables(unittest.TestCase):
@@ -32,24 +32,24 @@ class TestGetVariables(unittest.TestCase):
     def setUp(self):
         pass
 
-    @unittest.mock.patch('transfer.store.RequestedVariablesList')
+    @unittest.mock.patch('cdds.archive.store.RequestedVariablesList')
     def test_get_active_variables(self, mock_rv_list):
         rv_path = 'dummy/path/to/request'
 
         DummyRVL = collections.namedtuple('DummyRVL', 'active_variables')
-        rv_active_vars = transfer.tests.common.RV_ACTIVE
+        rv_active_vars = cdds.tests.test_archive.common.RV_ACTIVE
 
-        reference_vars = transfer.tests.common.ACTIVE_VARS_REFERENCE
+        reference_vars = cdds.tests.test_archive.common.ACTIVE_VARS_REFERENCE
 
         mock_rv_list.side_effect = [DummyRVL(rv_active_vars)]
-        output_active_vars = transfer.store.get_active_variables(rv_path)
+        output_active_vars = cdds.archive.store.get_active_variables(rv_path)
 
         for ref_var, out_var in zip(reference_vars, output_active_vars):
             self.assertDictEqual(ref_var, out_var)
 
     @unittest.mock.patch('builtins.open')
     def test_read_approved_vars_from_file(self, mock_open):
-        dummy_out_root_dir = transfer.tests.common.DUMMY_VAR_OUT_DIR
+        dummy_out_root_dir = cdds.tests.test_archive.common.DUMMY_VAR_OUT_DIR
         dummy_approved_vars_file = '''Amon/tas;{dir}stream1/Amon/tas
 day/ua;{dir}stream1/day/ua
 Omon/tos;{dir}stream1/Omon/tos
@@ -58,11 +58,11 @@ Emon/hus27;{dir}stream1/Emon/hus
 
         dummy_approved_vars_path = '/path/to/dummy/approved/vars/file.txt'
         mock_open.return_value = StringIO(dedent(dummy_approved_vars_file))
-        output_approved_vars = transfer.store.read_approved_vars_from_file(
+        output_approved_vars = cdds.archive.store.read_approved_vars_from_file(
             dummy_approved_vars_path)
 
         reference_vars = (
-            transfer.tests.common.APPROVED_VARIABLES_FILE_REFERENCE)
+            cdds.tests.test_archive.common.APPROVED_VARIABLES_FILE_REFERENCE)
 
         for ref_var, out_var in zip(reference_vars, output_approved_vars):
             self.assertDictEqual(ref_var, out_var)
@@ -74,12 +74,12 @@ class TestRetrieveFilePaths(unittest.TestCase):
     """
 
     def setUp(self):
-        self.request_items = transfer.tests.common.REQUEST_ITEMS
+        self.request_items = cdds.tests.test_archive.common.REQUEST_ITEMS
 
     @unittest.mock.patch('os.path.isdir')
     @unittest.mock.patch('os.listdir')
     def test_retrieve_file_paths(self, mock_os_listdir, mock_os_isdir):
-        mip_approved_vars = transfer.tests.common.APPROVED_REF_WITH_STREAM
+        mip_approved_vars = cdds.tests.test_archive.common.APPROVED_REF_WITH_STREAM
 
         additional_ids = {'tas': {'grid': 'dummygrid',
                                   'start_date': '200101',
@@ -99,7 +99,7 @@ class TestRetrieveFilePaths(unittest.TestCase):
                                     },
                           }
 
-        output_path = transfer.tests.common.DUMMY_VAR_OUT_DIR
+        output_path = cdds.tests.test_archive.common.DUMMY_VAR_OUT_DIR
         fname_template = (
             '{out_var_name}_{mip_table_id}_{model_id}_{experiment_id}_'
             '{variant_label}_{grid}_{start_date}-{end_date}.nc')
@@ -125,7 +125,7 @@ class TestRetrieveFilePaths(unittest.TestCase):
         mock_os_isdir.return_value = True
 
         request = construct_request(self.request_items)
-        output_vars = transfer.store.retrieve_file_paths(
+        output_vars = cdds.archive.store.retrieve_file_paths(
             mip_approved_vars, request)
         self.assertEqual(len(reference_vars), len(output_vars))
         for ref_var, out_var in zip(reference_vars, output_vars):
@@ -154,7 +154,7 @@ class TestCheckVariableMatch(unittest.TestCase):
 
         self.assertRaises(
             ValueError,
-            transfer.store._check_variable_match, None, self.variable_str, self.pattern
+            cdds.archive.store._check_variable_match, None, self.variable_str, self.pattern
         )
         self.assertTrue(self.assert_critical_log())
 
@@ -164,12 +164,12 @@ class TestCheckVariableMatch(unittest.TestCase):
         mock_log_datestamp.return_value = self.log_date
         configure_logger(self.log_name, logging.INFO, False)
 
-        transfer.store._check_variable_match(match, self.variable_str, self.pattern)
+        cdds.archive.store._check_variable_match(match, self.variable_str, self.pattern)
 
         self.assertFalse(self.assert_critical_log())
 
     def assert_critical_log(self):
-        message = ('transfer.store._check_variable_match CRITICAL: The approved variables file '
+        message = ('cdds.archive.store._check_variable_match CRITICAL: The approved variables file '
                    'contains a variable "Amon/tas" that does not match expected pattern "*/*". '
                    'Please, check the approved variables file.')
 

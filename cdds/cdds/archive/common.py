@@ -2,14 +2,14 @@
 # Please see LICENSE.rst for license details.
 """
 The :mod:`common` module contains utility code that used by multiple modules
-in transfer.
+in cdds.archive
 """
 
 import cftime
 import datetime
 import re
 
-from transfer.constants import OUTPUT_FILE_DT_STR, OUTPUT_FILES_REGEX
+from cdds.archive.constants import OUTPUT_FILE_DT_STR, OUTPUT_FILES_REGEX
 
 
 def get_date_range(data_files, fname_pattern, frequency):

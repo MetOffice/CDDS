@@ -13,18 +13,18 @@ import unittest.mock
 from hadsdk.mass_record import MassRecord
 from hadsdk.request import construct_request
 
-from transfer.constants import (
+from cdds.archive.constants import (
     DATA_PUBLICATION_STATUS_DICT, SUPERSEDED_INFO_FILE_STR)
-import transfer.mass
-from transfer.tests import common
+import cdds.archive.mass
+from cdds.tests.test_archive import common
 
 
 class TestMassPaths(unittest.TestCase):
     def setUp(self):
         self.request_items = common.REQUEST_ITEMS
 
-    @unittest.mock.patch('transfer.mass.retrieve_grid_info')
-    @unittest.mock.patch('transfer.mass.grid_overrides')
+    @unittest.mock.patch('cdds.archive.mass.retrieve_grid_info')
+    @unittest.mock.patch('cdds.archive.mass.grid_overrides')
     def test_get_archive_path(self, mock_grid_or, mock_grid_info):
         mock_grid_or.return_value = []
         grid = 'dummygrid'
@@ -35,8 +35,8 @@ class TestMassPaths(unittest.TestCase):
         archive_state = 'dummystate'
         var_dict = {'mip_table_id': 'Amon', 'variable_id': 'tas',
                     'stream_id': 'ap5', 'out_var_name': 'tas'}
-        output_path = transfer.mass.get_archive_path(mass_root, var_dict,
-                                                     request)
+        output_path = cdds.archive.mass.get_archive_path(mass_root, var_dict,
+                                                         request)
         reference_path = os.path.join(mass_root, request.mip_era, request.mip,
                                       request.institution_id, request.model_id,
                                       request.experiment_id,
@@ -45,7 +45,7 @@ class TestMassPaths(unittest.TestCase):
                                       var_dict['out_var_name'], grid, )
         self.assertEqual(reference_path, output_path)
 
-    @unittest.mock.patch('transfer.mass.get_archive_path')
+    @unittest.mock.patch('cdds.archive.mass.get_archive_path')
     def test_construct_mass_paths(self, mock_mass_path):
         var_list = copy.deepcopy(common.APPROVED_REF_WITH_FILES)
         reference_vars = []
@@ -68,11 +68,11 @@ class TestMassPaths(unittest.TestCase):
 
         mock_mass_path.side_effect = path_list
         request = construct_request(self.request_items)
-        output_vars = transfer.mass.construct_mass_paths(var_list,
-                                                         request,
-                                                         mass_root,
-                                                         datestamp_str,
-                                                         new_status)
+        output_vars = cdds.archive.mass.construct_mass_paths(var_list,
+                                                             request,
+                                                             mass_root,
+                                                             datestamp_str,
+                                                             new_status)
         for ref_var, out_var in zip(reference_vars, output_vars):
             self.assertDictEqual(ref_var, out_var)
 
@@ -94,7 +94,7 @@ class TestMassPaths(unittest.TestCase):
                     'stream': 'ap5',
                     'mass_path': root_mass_path}
 
-        output_var_dict = transfer.mass.get_stored_data(var_dict, mass_records)
+        output_var_dict = cdds.archive.mass.get_stored_data(var_dict, mass_records)
 
         reference_var_dict = {
             state_id: {
@@ -112,12 +112,12 @@ class TestArchiveFiles(unittest.TestCase):
     def setUp(self):
         self.simulation = True
 
-    @unittest.mock.patch('transfer.mass.mass_mkdir')
-    @unittest.mock.patch('transfer.mass.mass_put')
-    @unittest.mock.patch('transfer.mass.mass_move')
+    @unittest.mock.patch('cdds.archive.mass.mass_mkdir')
+    @unittest.mock.patch('cdds.archive.mass.mass_put')
+    @unittest.mock.patch('cdds.archive.mass.mass_move')
     def test_archive_files_first_pub(self, mock_mass_mv, mock_mass_put, mock_mass_mkdir):
         var_list = common.APPROVED_REF_WITH_MASS
-        transfer.mass.archive_files(var_list, simulation=False)
+        cdds.archive.mass.archive_files(var_list, simulation=False)
         mkdir_calls = []
         put_calls = []
 
@@ -131,8 +131,8 @@ class TestArchiveFiles(unittest.TestCase):
         mock_mass_mkdir.assert_has_calls(mkdir_calls, any_order=True)
         mock_mass_put.assert_has_calls(put_calls, any_order=True)
 
-    @unittest.mock.patch('transfer.mass.mass_mkdir')
-    @unittest.mock.patch('transfer.mass.mass_put')
+    @unittest.mock.patch('cdds.archive.mass.mass_mkdir')
+    @unittest.mock.patch('cdds.archive.mass.mass_put')
     def test_archive_files_continuing(self, mock_mass_put, mock_mass_mkdir):
         var_list = common.APPROVED_REF_WITH_MASS
         mkdir_calls = []
@@ -154,12 +154,12 @@ class TestArchiveFiles(unittest.TestCase):
                 var1['mip_output_files'][cont_ix:], mass_dest, simulation=False, check_mass_location=False
             )]
 
-        transfer.mass.archive_files(input_vars, simulation=False)
+        cdds.archive.mass.archive_files(input_vars, simulation=False)
         mock_mass_mkdir.assert_has_calls(mkdir_calls, any_order=True)
         mock_mass_put.assert_has_calls(put_calls, any_order=True)
 
-    @unittest.mock.patch('transfer.mass.mass_mkdir')
-    @unittest.mock.patch('transfer.mass.mass_put')
+    @unittest.mock.patch('cdds.archive.mass.mass_mkdir')
+    @unittest.mock.patch('cdds.archive.mass.mass_put')
     def test_archive_files_continuing_var_complete(self, mock_mass_put, mock_mass_mkdir):
         var_list = common.APPROVED_REF_WITH_MASS
         mkdir_calls = []
@@ -175,18 +175,18 @@ class TestArchiveFiles(unittest.TestCase):
             prefilter_var['mass_status'] = 'PROCESSING_CONTINUATION'
             input_vars += [prefilter_var]
 
-        transfer.mass.archive_files(input_vars, simulation=False)
+        cdds.archive.mass.archive_files(input_vars, simulation=False)
         mock_mass_mkdir.assert_has_calls(mkdir_calls, any_order=True)
         mock_mass_put.assert_has_calls(put_calls, any_order=True)
         self.assertEqual(mock_mass_put.call_count, 0)
 
-    @unittest.mock.patch('transfer.mass._write_superseded_info_file')
+    @unittest.mock.patch('cdds.archive.mass._write_superseded_info_file')
     @unittest.mock.patch('shutil.rmtree')
     @unittest.mock.patch('tempfile.mkdtemp')
-    @unittest.mock.patch('transfer.mass.mass_mkdir')
-    @unittest.mock.patch('transfer.mass.mass_put')
-    @unittest.mock.patch('transfer.mass.mass_move')
-    @unittest.mock.patch('transfer.mass.mass_rmdir')
+    @unittest.mock.patch('cdds.archive.mass.mass_mkdir')
+    @unittest.mock.patch('cdds.archive.mass.mass_put')
+    @unittest.mock.patch('cdds.archive.mass.mass_move')
+    @unittest.mock.patch('cdds.archive.mass.mass_rmdir')
     def test_archive_files_appending(self, mock_mass_rmdir, mock_mass_mv, mock_mass_put, mock_mass_mkdir, mock_mkdtemp,
                                      mock_rmtree, mock_write_info_file):
         var_list = common.APPROVED_REF_WITH_MASS
@@ -226,15 +226,15 @@ class TestArchiveFiles(unittest.TestCase):
 
         mock_rmtree.return_value = None
         mock_mkdtemp.return_value = tmp_dir_path
-        transfer.mass.archive_files(input_var_list, simulation=False)
+        cdds.archive.mass.archive_files(input_var_list, simulation=False)
         self.assertEqual(mock_write_info_file.call_count, len(var_list))
         mock_mass_mv.assert_has_calls(move_calls, any_order=True)
         mock_mass_mkdir.assert_has_calls(mkdir_calls, any_order=True)
         mock_mass_put.assert_has_calls(put_calls, any_order=True)
         mock_mass_rmdir.assert_has_calls(rmdir_calls, any_order=True)
 
-    @unittest.mock.patch('transfer.mass.mass_mkdir')
-    @unittest.mock.patch('transfer.mass.mass_put')
+    @unittest.mock.patch('cdds.archive.mass.mass_mkdir')
+    @unittest.mock.patch('cdds.archive.mass.mass_put')
     def test_archive_files_withdrawn(self, mock_mass_put, mock_mass_mkdir):
         var_list = common.APPROVED_REF_WITH_MASS
         input_var_list = []
@@ -255,7 +255,7 @@ class TestArchiveFiles(unittest.TestCase):
                 var1['mip_output_files'], mass_dest, simulation=False, check_mass_location=False
             )]
 
-        transfer.mass.archive_files(input_var_list, simulation=False)
+        cdds.archive.mass.archive_files(input_var_list, simulation=False)
         mock_mass_mkdir.assert_has_calls(mkdir_calls, any_order=True)
         mock_mass_put.assert_has_calls(put_calls, any_order=True)
 

@@ -20,11 +20,11 @@ from hadsdk.constants import (APPROVED_VARS_PREFIX,
 from hadsdk.request import read_request
 from hadsdk.variables import RequestedVariablesList
 
-from transfer.common import get_date_range
-from transfer.constants import (DATA_PUBLICATION_STATUS_DICT,
-                                OUTPUT_FILES_REGEX)
-from transfer.mass import (archive_files, construct_mass_paths, construct_archive_dir_mass_path,
-                           check_stored_status, cleanup_archive_dir)
+from cdds.archive.common import get_date_range
+from cdds.archive.constants import (DATA_PUBLICATION_STATUS_DICT,
+                                    OUTPUT_FILES_REGEX)
+from cdds.archive.mass import (archive_files, construct_mass_paths, construct_archive_dir_mass_path,
+                               check_stored_status, cleanup_archive_dir)
 
 
 def store_mip_output_data(arguments):
