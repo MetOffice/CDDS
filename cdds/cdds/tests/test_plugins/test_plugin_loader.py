@@ -14,6 +14,9 @@ from cdds.tests.test_plugins.stubs import EmptyCddsPlugin
 
 class TestLoadCmipPlugin(TestCase):
 
+    def setUp(self):
+        PluginStore.clean_instance()
+
     def tearDown(self):
         PluginStore.clean_instance()
 
@@ -29,6 +32,7 @@ class TestLoadCmipPlugin(TestCase):
 class TestLoadPlugin(TestCase):
 
     def setUp(self):
+        PluginStore.clean_instance()
         self.plugin_store = PluginStore.instance()
 
     def tearDown(self):
