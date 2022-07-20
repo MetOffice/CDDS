@@ -14,6 +14,7 @@ import cf_units
 import iris
 from iris.time import PartialDateTime
 from iris.util import guess_coord_axis
+import numpy as np
 
 from mip_convert.common import (
     DEFAULT_FILL_VALUE, Longitudes, validate_latitudes, format_date,
@@ -132,6 +133,10 @@ class Variable(object):
         """
         self.logger = logging.getLogger(__name__)
         self.input_variables = input_variables
+        print("########################INPUT CUBES")
+        for key, input_cube in input_variables.items():
+            print(input_cube)
+            print(input_cube.data.shape)
         self._variable_metadata = variable_metadata
 
         self.variable_name = self._variable_metadata.variable_name
@@ -413,6 +418,29 @@ class Variable(object):
         self._validate_units()
         self._validate_coord_points()
         self._validate_coord_bounds()
+        print(self.cube)
+        print("removing scalar reference time")
+        self.cube.remove_coord("forecast_reference_time")
+        print(self.cube)
+        reftime_coord = iris.coords.DimCoord(10.0, standard_name='forecast_reference_time', units=cf_units.Unit('days since 1850-01-01', calendar='360_day'))
+        self._ordered_coords.append([reftime_coord, 'T'])
+        # self.cube.add_aux_coord(reftime_coord, 1)
+        self.cube.add_aux_coord(reftime_coord)
+        # iris.util.new_axis(self.cube, scalar_coord=reftime_coord)
+        #self.cube.data = self.cube.data[..., np.newaxis]
+        print("after reinserting reference time", self.cube)
+        self.cube = iris.util.new_axis(self.cube, reftime_coord)
+        print("final cube ", self.cube)
+        # old_shape = self.cube.data.shape
+        # new_shape = old_shape + (1,)
+        #try:
+        #    self.cube.add_aux_coord(reftime_coord)
+        #    iris.util.new_axis(self.cube, scalar_coord=reftime_coord)
+        #    print(self.cube)
+        #    # self.cube.data = self.cube.data[..., np.newaxis]
+        #except Exception as e:
+        #    print("my exc")
+        #    print(e)
 
     def _validate_units(self):
         # The units of the 'MIP requested variable' must always be the units from the 'model to MIP mapping'.
@@ -439,11 +467,12 @@ class Variable(object):
                 coord.points = validate_latitudes(latitude_points)
 
             # Ensure points for vertical or unnamed coordinates have values equal to those required by the 'MIP'.
-            if axis_direction not in ['X', 'Y', 'T']:
+            if axis_direction not in ['X', 'Y', 'T'] and not axis_direction.startswith('T-'):
                 self._update_points(coord, axis_direction)
 
     def _validate_coord_bounds(self):
         for (coord, axis_direction) in self.ordered_coords:
+            # print("COORD AXIS", coord, axis_direction)
             if not coord.has_bounds():
                 # Attempt to determine the bounds if they are required by the 'MIP'.
                 if self.mip_metadata.must_have_bounds(axis_direction):
@@ -535,13 +564,22 @@ class Variable(object):
             # the cube.
             matched_cube_coords = {}
             all_cube_coords = {(coord.name(), guess_coord_axis(coord)): coord for coord in self.cube.coords()}
+            # print("all cube coords")
+            # print(all_cube_coords)
+            # print("mip axes directions names")
+            # print(self._mip_axes_directions_names)
             cube_axis_directions = [axis_direction for (_, axis_direction) in list(all_cube_coords.keys())]
             self.logger.debug('All cube coordinates: {}'.format(list(all_cube_coords.keys())))
 
             for mip_axis_direction, mip_axis_name in (iter(list(self._mip_axes_directions_names.items()))):
+                # print("1. Trying to match {} in {}".format(mip_axis_name, mip_axis_direction))
                 matched_axis_direction = None
                 matching_coord_name = None
-                if mip_axis_direction in cube_axis_directions:
+                forecast_coord = self.mip_metadata._get_axis_attribute_value(mip_axis_name, 'forecast')
+                if forecast_coord == 'leadtime' or forecast_coord == 'reftime':
+                    # skipping both and reinserting reftime at later point
+                    continue
+                if mip_axis_direction in cube_axis_directions or (forecast_coord and 'T' in cube_axis_directions):
                     # Use the axis directions to determine whether a coordinate in the cube matches with an axes from
                     # the 'MIP table'.
                     (matched_axis_direction, matching_coord_name) = (
@@ -571,15 +609,17 @@ class Variable(object):
             # dimension or auxiliary coordinate, it is demoted to a scalar coordinate.
             if self.cube.ndim > len(self._matched_coords):
                 self.cube = iris.util.squeeze(self.cube)
-
+        # print(self._matched_coords)
         return self._matched_coords
 
     def _match_axis_directions(self, cube_coords, mip_axis_direction, mip_axis_name):
+        #print("trying to match {} in {}".format(mip_axis_name, mip_axis_direction))
+        forecast_coord = self.mip_metadata._get_axis_attribute_value(mip_axis_name, 'forecast')
         matched_axis_direction = None
         matching_coord_name = None
         initial_matched_coords = {
             coord_name: cube_axis_direction for coord_name, cube_axis_direction in cube_coords
-            if cube_axis_direction == mip_axis_direction
+            if cube_axis_direction == mip_axis_direction or (forecast_coord and cube_axis_direction == 'T')
         }
 
         message = 'Matched {} from cube with {} ({}) from MIP table'
@@ -589,18 +629,27 @@ class Variable(object):
             matched_axis_direction = list(initial_matched_coords.values())[0]
             matching_coord_name = list(initial_matched_coords.keys())[0]
         else:
-            # Multiple axes in the cube have the same 'axis direction' as specified in the 'MIP table';
-            # use the axis in the cube that has the same 'axis name' as specified in the 'MIP table',
-            # accounting for the fact that some axis names in the 'MIP tables' are numbered.
-            matched_coords = [
-                coord_name for coord_name in initial_matched_coords if mip_axis_name.startswith(coord_name)
-            ]
-
-            if len(matched_coords) == 1:
-                cube_axis_direction = initial_matched_coords[matched_coords[0]]
-                if cube_axis_direction == mip_axis_direction:
-                    matched_axis_direction = mip_axis_direction
-                    matching_coord_name = matched_coords[0]
+            if forecast_coord:
+                # Forecaset coordinates are another special case which needs consulting with the 'MIP table' metadata
+                # use the standard name
+                forecast_coord_standard_name = self.mip_metadata._get_axis_attribute_value(mip_axis_name,
+                                                                                           'standard_name')
+                matched_coords = [coord.name() for coord in self.cube.coords() if
+                                  coord.standard_name == forecast_coord_standard_name]
+                matched_axis_direction = 'T'
+                matching_coord_name = matched_coords[0]
+            else:
+                # Multiple axes in the cube have the same 'axis direction' as specified in the 'MIP table';
+                # use the axis in the cube that has the same 'axis name' as specified in the 'MIP table',
+                # accounting for the fact that some axis names in the 'MIP tables' are numbered.
+                matched_coords = [
+                    coord_name for coord_name in initial_matched_coords if mip_axis_name.startswith(coord_name)
+                ]
+                if len(matched_coords) == 1:
+                    cube_axis_direction = initial_matched_coords[matched_coords[0]]
+                    if cube_axis_direction == mip_axis_direction:
+                        matched_axis_direction = mip_axis_direction
+                        matching_coord_name = matched_coords[0]
             if matched_axis_direction is None or matching_coord_name is None:
                 # Either no axis or multiple axes have the same 'axis name', so use the dimension
                 # coordinate as a last resort.
@@ -611,7 +660,7 @@ class Variable(object):
                 if coord is not None:
                     matched_axis_direction = mip_axis_direction
                     matching_coord_name = coord.name()
-
+        # print("matched {} in {}".format(matched_axis_direction, matching_coord_name))
         return matched_axis_direction, matching_coord_name
 
     def _update_time_units(self):
@@ -666,10 +715,18 @@ class Variable(object):
     def _time_coord(self):
         time_coord = None
         for (coord, axis_direction) in self.ordered_coords:
+            # print(coord.standard_name)
             if axis_direction == 'T':
                 time_coord = coord
         return time_coord
 
+    @property
+    def _reftime_coord(self):
+        reftime_coord = None
+        for (coord, axis_direction) in self.ordered_coords:
+            if axis_direction == 'T-reftime':
+                reftime_coord = coord
+        return reftime_coord
 
 def _update_constraint_in_expression(expression, constraint_name):
     pattern = re.compile(r'{}(?=[^\d]|$)'.format(constraint_name))
@@ -873,11 +930,15 @@ class VariableMIPMetadata(object):
                     raise ValueError(message.format(axis_name, support_website))
 
             if axis_direction is not None:
-                all_axes_directions_names.update({axis_direction: axis_name})
+                forecast = self._get_axis_attribute_value(axis_name, 'forecast')
+                axis_name_key = '{}-{}'.format(axis_direction, forecast) if forecast else axis_direction
+                all_axes_directions_names.update({axis_name_key: axis_name})
         return all_axes_directions_names
 
     def _get_axis_attribute_value(self, axis_name, axis_attribute):
         value = None
+        # print("axis name")
+        # print(axis_name)
         if axis_attribute in self.axes[axis_name]:
             if self.axes[axis_name][axis_attribute]:
                 value = self.axes[axis_name][axis_attribute]

@@ -7,7 +7,7 @@ export CDDS_TEST_ATTRIBUTES="integration inprogress data_request crem dbsql mapp
 
 export CDDS_PACKAGES
 
-. ~cdds/software/miniconda3/bin/activate cdds-2.2_dev-1
+. ~cdds/software/miniconda3/bin/activate cdds-cmor-testing
 
 for CDDS_PACKAGE in $CDDS_PACKAGES
 do

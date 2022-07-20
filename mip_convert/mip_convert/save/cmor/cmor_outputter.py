@@ -250,6 +250,7 @@ class AbstractCmorOutputter(object):
         # Add the 'MIP requested variable name' to the global attributes to help with identification,
         # i.e. when the 'out_name' is different to the 'variable_entry' in the 'MIP table'.
         self.cmor.set_cur_dataset_attribute('variable_name', self.entry.entry)
+        print("variable shape before cmor write ", variable.getValue().shape)
         self.cmor.write(var_id, variable.getValue(), **axis_args)
 
     def _need_new_varid(self):
