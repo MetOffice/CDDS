@@ -25,8 +25,8 @@ from hadsdk.common import set_checksum
 from hadsdk.request import Request
 from hadsdk.variables import RequestedVariablesList
 
-from cdds_configure.request import required_keys_for_request
-from cdds_configure.user_config import (
+from cdds.configure.request import required_keys_for_request
+from cdds.configure.user_config import (
     produce_user_configs, validate_request_with_requested_variables_list)
 
 
@@ -36,7 +36,7 @@ class TestProduceUserConfigs(unittest.TestCase):
     """
     def setUp(self):
         load_plugin()
-        arguments = read_default_arguments('cdds_configure', 'cdds_configure')
+        arguments = read_default_arguments('cdds.configure', 'cdds.configure')
         self.user_config_template_name = arguments.user_config_template_name
         items = {key: '' for key in required_keys_for_request()}
         items['branch_method'] = 'no parent'
@@ -117,7 +117,7 @@ class TestProduceUserConfigWithGlobalAttributes(unittest.TestCase):
 
     def setUp(self):
         load_plugin()
-        arguments = read_default_arguments('cdds_configure', 'cdds_configure')
+        arguments = read_default_arguments('cdds.configure', 'cdds.configure')
         self.config_template_filename = arguments.user_config_template_name
         self.model_id = 'HadGEM3-GC31-MM'
         items = {key: '' for key in required_keys_for_request()}

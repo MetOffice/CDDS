@@ -15,10 +15,10 @@ from hadsdk.variables import RequestedVariablesList
 
 from cdds.common.plugins.plugins import PluginStore
 
-from cdds_configure import __version__
-from cdds_configure.constants import HEADER_TEMPLATE
-from cdds_configure.request import retrieve_required_keys, validate_branch_options, retrieve_request_metadata
-from cdds_configure.variables import retrieve_variables_by_grid
+from cdds.configure import __version__
+from cdds.configure.constants import HEADER_TEMPLATE
+from cdds.configure.request import retrieve_required_keys, validate_branch_options, retrieve_request_metadata
+from cdds.configure.variables import retrieve_variables_by_grid
 
 
 def produce_user_config_files(arguments):
@@ -27,8 +27,8 @@ def produce_user_config_files(arguments):
 
     Parameters
     ----------
-    arguments: :class:`cdds_configure.hadsdk.arguments.ConfigureArguments`
-        The arguments specific to the `cdds_configure` script.
+    arguments: :class:`cdds.configure.hadsdk.arguments.ConfigureArguments`
+        The arguments specific to the `configure` script.
     """
     # Read and validate the information from the request.
     request = read_and_validate_request(arguments.request, arguments.args, arguments.template)

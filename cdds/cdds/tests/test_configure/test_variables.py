@@ -14,7 +14,7 @@ from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from hadsdk.common import set_checksum
 from hadsdk.variables import RequestedVariablesList
-from cdds_configure.variables import retrieve_variables_by_grid
+from cdds.configure.variables import retrieve_variables_by_grid
 
 
 class TestRetrieveVariablesByGrid(unittest.TestCase):

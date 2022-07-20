@@ -6,7 +6,7 @@ The main gateway module for the cdds_convert application.
 
 import cdds_convert.process
 
-from cdds_configure.user_config import read_and_validate_request, create_user_config_files
+from cdds.configure.user_config import read_and_validate_request, create_user_config_files
 
 
 def get_rose_args_list(rose_args, stream_ids, request_id):

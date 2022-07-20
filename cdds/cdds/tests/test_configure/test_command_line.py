@@ -20,10 +20,10 @@ from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 
 from hadsdk.common import set_checksum
 from hadsdk.constants import TIME_UNIT_DESCRIPTION, COMMENT_FORMAT
-from cdds_configure import __version__
-from cdds_configure.arguments import read_configure_arguments
-from cdds_configure.command_line import main
-from cdds_configure.constants import HEADER_TEMPLATE
+from cdds.configure import __version__
+from cdds.configure.arguments import read_configure_arguments
+from cdds.configure.command_line import main
+from cdds.configure.constants import HEADER_TEMPLATE
 
 
 @attr('slow')

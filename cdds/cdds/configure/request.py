@@ -10,7 +10,7 @@ import logging
 
 from hadsdk.constants import USER_CONFIG_OPTIONS
 
-from cdds_configure.constants import TEMPLATE_OPTIONS
+from cdds.configure.constants import TEMPLATE_OPTIONS
 
 
 def required_keys_for_request():
