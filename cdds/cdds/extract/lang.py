@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 """
 Function to provide all text strings used in logging and user interaction
-for cdds_extract.
+for extract.
 """
 
 

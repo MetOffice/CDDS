@@ -11,7 +11,7 @@ from nose.plugins.attrib import attr
 
 import pep8
 
-import extract
+import cdds.extract
 
 
 @attr('style')
@@ -21,7 +21,7 @@ class TestCodingStandards(unittest.TestCase):
     """
 
     def setUp(self):
-        extract_dir = os.path.dirname(extract.__file__)
+        extract_dir = os.path.dirname(cdds.extract.__file__)
         self.all_files = [
             os.path.join(dirpath, filename) for dirpath, _, filenames in
             os.walk(extract_dir) for filename in filenames]

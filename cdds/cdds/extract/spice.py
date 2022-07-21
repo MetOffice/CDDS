@@ -13,8 +13,8 @@ from hadsdk.request import read_request
 from hadsdk.spice import (
     get_email_of_current_user, submit_spice_job_script,
     write_spice_job_script)
-from extract.constants import (QUEUE, EXTRACT_COMMAND, WALLTIME, MEMORY,
-                               LOGNAME, SPICE_SCRIPT_NAME)
+from cdds.extract.constants import (QUEUE, EXTRACT_COMMAND, WALLTIME, MEMORY,
+                                    LOGNAME, SPICE_SCRIPT_NAME)
 
 
 def run_extract_spice_batch_job(args):

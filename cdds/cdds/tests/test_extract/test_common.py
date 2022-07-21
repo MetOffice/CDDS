@@ -11,13 +11,13 @@ import os
 import shutil
 from nose.plugins.attrib import attr
 from unittest.mock import patch
-from extract.common import (
+from cdds.extract.common import (
     get_bounds_variables, validate_stash_fields, get_model_resolution,
     validate_netcdf, check_moo_cmd, calculate_period, FileContentError,
     StreamValidationResult, create_dir, build_mass_location)
 from hadsdk.tests.common import create_simple_netcdf_file
-from extract.tests.common import break_netcdf_file, init_defaultdict
-from extract.tests.constants import (
+from cdds.tests.test_extract.common import break_netcdf_file, init_defaultdict
+from cdds.tests.test_extract.constants import (
     TMP_DIR_FOR_NETCDF_TESTS, MINIMAL_CDL, MINIMAL_CDL_NO_DATA,
     MINIMAL_CDL_NEMO, MINIMAL_CDL_NO_DATA_NEMO)
 
@@ -45,7 +45,7 @@ class TestCommon(unittest.TestCase):
         self.assertEqual(ff, "bounds_lon,bounds_lat,time_centered_bounds,deptht_bounds,")
 
     @patch("os.walk")  # decorators are applied in reverse order :S
-    @patch("extract.common.get_stash_from_pp")
+    @patch("cdds.extract.common.get_stash_from_pp")
     def test_stash_fields_validation_ref_fail(self, mock_get_stash_from_pp,
                                               mock_walk):
         ret_dict = init_defaultdict(["1234", "5678"])
@@ -68,7 +68,7 @@ class TestCommon(unittest.TestCase):
             init_defaultdict(["1234", "2345", "2345", "5678"]),
         ]
 
-        with patch("extract.common.get_stash_from_pp", side_effect=results):
+        with patch("cdds.extract.common.get_stash_from_pp", side_effect=results):
 
             mock_walk.return_value = [
                 ("/foo", [], ["bar.pp", "baz.pp", "foobaz.pp"],), ]
@@ -82,7 +82,7 @@ class TestCommon(unittest.TestCase):
             self.assertEqual(validation_result.file_errors["foo/foobaz.pp"].stash_errors, ["2345"])
 
     @patch("os.walk")  # decorators are applied in reverse order :S
-    @patch("extract.common.get_stash_from_pp")
+    @patch("cdds.extract.common.get_stash_from_pp")
     def test_stash_fields_validation_unreadable(self, mock_get_stash_from_pp,
                                                 mock_walk):
         mock_get_stash_from_pp.return_value = None
@@ -96,7 +96,7 @@ class TestCommon(unittest.TestCase):
         self.assertEqual(validation_result.file_errors["foo/bar.pp"].error_message, "unreadable file")
 
     @patch("os.walk")
-    @patch("extract.common.get_stash_from_pp")
+    @patch("cdds.extract.common.get_stash_from_pp")
     def test_stash_fields_validation_pass(self, mock_get_stash_from_pp,
                                           mock_walk):
         ret_dict = init_defaultdict(["1234", "5678"])
@@ -110,7 +110,7 @@ class TestCommon(unittest.TestCase):
         self.assertTrue(validation_result.valid)
 
     @patch("os.walk")
-    @patch("extract.common.get_stash_from_pp")
+    @patch("cdds.extract.common.get_stash_from_pp")
     def test_stash_fields_validation_pass_ignore_unwanted_stash(
             self, mock_get_stash_from_pp, mock_walk):
         ret_dict = init_defaultdict(["1234", "5678", "9999"])

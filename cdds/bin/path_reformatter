@@ -6,7 +6,7 @@ Path reformatter script for use on JASMIN.
 """
 
 import sys
-from extract.command_line import main_path_reformatter
+from cdds.extract.command_line import main_path_reformatter
 
 
 if __name__ == "__main__":

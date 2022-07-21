@@ -10,12 +10,12 @@ import logging
 import os
 
 from cdds.common.plugins.plugin_loader import load_plugin
-from extract import __version__
-from extract.common import stream_file_template
-from extract.lang import set_language
-from extract.runner import ExtractRunner
-from extract.spice import run_extract_spice_batch_job
-from extract.halo_removal import dehalo_multiple_files
+from cdds.extract import __version__
+from cdds.extract.common import stream_file_template
+from cdds.extract.lang import set_language
+from cdds.extract.runner import ExtractRunner
+from cdds.extract.spice import run_extract_spice_batch_job
+from cdds.extract.halo_removal import dehalo_multiple_files
 from hadsdk.arguments import read_default_arguments
 from hadsdk.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
@@ -35,7 +35,7 @@ def parse_cdds_extract_command_line(user_arguments):
     Python interpreter will be terminated.
 
     The output from this function can be used as the value of the ``arguments``
-    parameter in the call to :func:`cdds_extract.command_line.main_cdds_extract_spice`.
+    parameter in the call to :func:`cdds.extract.command_line.main_cdds_extract_spice`.
 
     Parameters
     ----------

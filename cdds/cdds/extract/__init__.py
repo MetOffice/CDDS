@@ -4,9 +4,9 @@
 The Extract package enables a user to extract model output files from
 MASS.
 """
-from extract.versions import get_version
+from cdds.extract.versions import get_version
 
 
 _DEV = True
 _NUMERICAL_VERSION = '2.3.2'
-__version__ = get_version('extract')
+__version__ = get_version('cdds.extract')

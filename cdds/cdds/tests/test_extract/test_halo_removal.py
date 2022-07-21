@@ -9,12 +9,12 @@ import unittest
 from unittest.mock import patch
 
 from cdds.common.plugins.plugin_loader import load_plugin
-from extract.halo_removal import dehalo_single_file
-from extract.constants import DEHALO_PREFIX
+from cdds.extract.halo_removal import dehalo_single_file
+from cdds.extract.constants import DEHALO_PREFIX
 
 
-@patch('extract.halo_removal.validate_netcdf')
-@patch('extract.halo_removal.run_command')
+@patch('cdds.extract.halo_removal.validate_netcdf')
+@patch('cdds.extract.halo_removal.run_command')
 @patch('shutil.move')
 @patch('os.remove')
 @patch('os.path.exists')

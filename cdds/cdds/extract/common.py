@@ -14,7 +14,7 @@ import subprocess
 import re
 from collections import defaultdict
 
-from extract.constants import NUM_PP_HEADER_LINES, TIME_REGEXP
+from cdds.extract.constants import NUM_PP_HEADER_LINES, TIME_REGEXP
 from hadsdk.common import run_command, retry
 
 
@@ -800,7 +800,7 @@ class StreamValidationResult(object):
 
         Parameters
         ----------
-        file_content_error : extract.common.FileContentError
+        file_content_error : cdds.extract.common.FileContentError
             Error to be added to the stream validation results.
         """
         self.file_errors[file_content_error.filepath] = file_content_error
@@ -878,7 +878,7 @@ class ValidationResult(object):
 
         Returns
         -------
-        : extract.common.StreamValidationResult
+        : cdds.extract.common.StreamValidationResult
         """
         return self.validated_streams[stream]
 

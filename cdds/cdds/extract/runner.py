@@ -6,10 +6,10 @@ CDDS class for setting up and running Extract processes.
 
 import getpass
 import logging
-from extract.common import check_moo_cmd, exit_nicely, ValidationResult
-from extract.constants import (GROUP_FOR_DIRECTORY_CREATION, MAX_EXTRACT_BLOCKS)
-from extract.filters import Filters
-from extract.process import Process
+from cdds.extract.common import check_moo_cmd, exit_nicely, ValidationResult
+from cdds.extract.constants import (GROUP_FOR_DIRECTORY_CREATION, MAX_EXTRACT_BLOCKS)
+from cdds.extract.filters import Filters
+from cdds.extract.process import Process
 
 
 class ExtractRunner(object):

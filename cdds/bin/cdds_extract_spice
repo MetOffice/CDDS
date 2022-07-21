@@ -3,7 +3,7 @@
 # Please see LICENSE.rst for license details.
 import sys
 
-from extract.command_line import main_cdds_extract_spice
+from cdds.extract.command_line import main_cdds_extract_spice
 
 
 if __name__ == '__main__':

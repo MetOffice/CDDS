@@ -7,7 +7,7 @@ Command line tool to handle removal of halo rows and columns in ocean data
 """
 
 import sys
-from extract.command_line import main_remove_ocean_haloes
+from cdds.extract.command_line import main_remove_ocean_haloes
 
 
 if __name__ == "__main__":
