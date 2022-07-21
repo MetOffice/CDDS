@@ -20,7 +20,7 @@ class TestDataRequestVariable(unittest.TestCase):
 
     def setUp(self):
         load_plugin()
-        args = read_default_arguments('cdds_prepare',
+        args = read_default_arguments('cdds.prepare',
                                       'prepare_generate_variable_list')
         self.data_request_dir = args.data_request_base_dir
         self.data_request = DataRequestWrapper('01.00.21',
@@ -166,7 +166,7 @@ class TestDataRequestVariable(unittest.TestCase):
 
 class TestDescribeDifferences(unittest.TestCase):
     def setUp(self):
-        args = read_default_arguments('cdds_prepare',
+        args = read_default_arguments('cdds.prepare',
                                       'prepare_generate_variable_list')
         self.data_request_dir = args.data_request_base_dir
         self.data_request = DataRequestWrapper('01.00.21',
@@ -244,7 +244,7 @@ class TestRetrieveVariables(unittest.TestCase):
     def setUp(self):
         load_plugin()
         self.data_request_version = '01.00.21'
-        args = read_default_arguments('cdds_prepare',
+        args = read_default_arguments('cdds.prepare',
                                       'prepare_generate_variable_list')
         self.data_request_dir = args.data_request_base_dir
         self.data_request = DataRequestWrapper(self.data_request_version,
