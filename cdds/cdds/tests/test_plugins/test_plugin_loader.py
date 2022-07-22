@@ -32,6 +32,7 @@ class TestLoadCmipPlugin(TestCase):
 class TestLoadPlugin(TestCase):
 
     def setUp(self):
+        PluginStore.clean_instance()
         self.plugin_store = PluginStore.instance()
 
     def tearDown(self):

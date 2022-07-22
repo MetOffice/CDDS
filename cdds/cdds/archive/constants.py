@@ -3,7 +3,7 @@
 """
 The :mod:`constants` module contains constants (values that should never
 be changes by a user and exist for readability and maintainability
-purposes) for CDDS transfer.
+purposes) for CDDS archive.
 """
 
 DATA_PUBLICATION_STATUS_DICT = {

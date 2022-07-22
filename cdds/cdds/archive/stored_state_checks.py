@@ -7,9 +7,9 @@ current state of already stored data is.
 import os
 import re
 
-from transfer.common import get_date_range
-from transfer.constants import (DATA_PUBLICATION_STATUS_DICT,
-                                OUTPUT_FILES_REGEX)
+from cdds.archive.common import get_date_range
+from cdds.archive.constants import (DATA_PUBLICATION_STATUS_DICT,
+                                    OUTPUT_FILES_REGEX)
 
 
 def check_state_already_published(var_dict):

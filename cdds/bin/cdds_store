@@ -3,7 +3,7 @@
 # Please see LICENSE.rst for license details.
 import sys
 
-from transfer.command_line import main_store
+from cdds.archive.command_line import main_store
 
 if __name__ == '__main__':
     exit_code = main_store()

@@ -4,9 +4,9 @@
 The CDDS Transfer package enables a user to archive the
 |output netCDF files| in MASS.
 """
-from transfer.versions import get_version
+from cdds.archive.versions import get_version
 
 
 _DEV = True
 _NUMERICAL_VERSION = '2.3.2'
-__version__ = get_version('transfer')
+__version__ = get_version('cdds.archive')

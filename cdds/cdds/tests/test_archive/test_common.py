@@ -8,8 +8,8 @@ import re
 import cftime
 import unittest
 
-from transfer.constants import OUTPUT_FILES_REGEX
-import transfer.common
+from cdds.archive.constants import OUTPUT_FILES_REGEX
+import cdds.archive.common
 
 
 class TestGetRange(unittest.TestCase):
@@ -25,7 +25,7 @@ class TestGetRange(unittest.TestCase):
         ]
         output_fname_pattern = re.compile(OUTPUT_FILES_REGEX)
         frequency = 'day'
-        out_start, out_end = transfer.common.get_date_range(
+        out_start, out_end = cdds.archive.common.get_date_range(
             file_list,
             output_fname_pattern,
             frequency,
@@ -44,7 +44,7 @@ class TestGetRange(unittest.TestCase):
         ]
         frequency = 'day'
         output_fname_pattern = re.compile(OUTPUT_FILES_REGEX)
-        out_start, out_end = transfer.common.get_date_range(
+        out_start, out_end = cdds.archive.common.get_date_range(
             file_list,
             output_fname_pattern,
             frequency,
@@ -65,7 +65,7 @@ class TestGetRange(unittest.TestCase):
         ]
         output_fname_pattern = re.compile(OUTPUT_FILES_REGEX)
         frequency = 'yr'
-        out_start, out_end = transfer.common.get_date_range(
+        out_start, out_end = cdds.archive.common.get_date_range(
             file_list,
             output_fname_pattern,
             frequency,
@@ -86,7 +86,7 @@ class TestGetRange(unittest.TestCase):
         ]
         output_fname_pattern = re.compile(OUTPUT_FILES_REGEX)
         frequency = 'mon'
-        out_start, out_end = transfer.common.get_date_range(
+        out_start, out_end = cdds.archive.common.get_date_range(
             file_list,
             output_fname_pattern,
             frequency,
@@ -107,7 +107,7 @@ class TestGetRange(unittest.TestCase):
         ]
         output_fname_pattern = re.compile(OUTPUT_FILES_REGEX)
         frequency = '6hr'
-        out_start, out_end = transfer.common.get_date_range(
+        out_start, out_end = cdds.archive.common.get_date_range(
             file_list,
             output_fname_pattern,
             frequency,
@@ -128,7 +128,7 @@ class TestGetRange(unittest.TestCase):
         ]
         output_fname_pattern = re.compile(OUTPUT_FILES_REGEX)
         frequency = 'subhrPt'
-        out_start, out_end = transfer.common.get_date_range(
+        out_start, out_end = cdds.archive.common.get_date_range(
             file_list,
             output_fname_pattern,
             frequency,
@@ -149,7 +149,7 @@ class TestGetRange(unittest.TestCase):
         ]
         output_fname_pattern = re.compile(OUTPUT_FILES_REGEX)
         frequency = 'subhrPt'
-        out_start, out_end = transfer.common.get_date_range(
+        out_start, out_end = cdds.archive.common.get_date_range(
             file_list,
             output_fname_pattern,
             frequency,

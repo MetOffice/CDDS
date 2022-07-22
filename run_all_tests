@@ -19,7 +19,6 @@ TESTS_TO_RUN = {
     'cdds_qc_plugin_cmip6': ['--with-doctest'],
     'hadsdk': ['--with-doctest', '-a integration', '-a slow', '-a data_request'],
     'mip_convert': ['--with-doctest', '-a integration', '-a mappings', '-a slow'],
-    'transfer': ['--with-doctest', '-a slow'],
 }
 
 

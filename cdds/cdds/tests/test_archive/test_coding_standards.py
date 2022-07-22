@@ -11,7 +11,7 @@ from nose.plugins.attrib import attr
 
 import pep8
 
-import transfer
+import cdds.archive
 
 
 @attr('style')
@@ -21,10 +21,10 @@ class TestCodingStandards(unittest.TestCase):
     """
 
     def setUp(self):
-        cdds_transfer_dir = os.path.dirname(transfer.__file__)
+        archive_dir = os.path.dirname(cdds.archive.__file__)
         self.all_files = [
             os.path.join(dirpath, filename) for dirpath, _, filenames in
-            os.walk(cdds_transfer_dir) for filename in filenames]
+            os.walk(archive_dir) for filename in filenames]
         self.exclude_patterns = ['conf.py']
 
     def test_pep8_conformance(self):

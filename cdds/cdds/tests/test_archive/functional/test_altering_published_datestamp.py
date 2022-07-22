@@ -1,30 +1,30 @@
 # (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
-from transfer.command_line import main_store
-from transfer.tests.functional.store_test_tools import DEFAULT_LOG_DATESTAMP, TestData, LogFile
-from transfer.tests.functional.store_test_case import StoreTestCase
+from cdds.archive.command_line import main_store
+from cdds.tests.test_archive.functional.store_test_tools import DEFAULT_LOG_DATESTAMP, TestData, LogFile
+from cdds.tests.test_archive.functional.store_test_case import StoreTestCase
 from unittest import mock
 
 
-class TestStoreMultipleEmbargoed(StoreTestCase):
+class TestStoreAlteringPublishedDatestamp(StoreTestCase):
     """
-    USE CASE 6
-        Archive data when there is already data with a different datestamp in the embargoed state
+    USE CASE 7
+        Archive additional data for a variable with a version number that has already been used in publication
 
     INPUT
         1. nc files on disk
             >> /project/cdds/testdata/functional_tests/transfer/use_case_various/piControl_10096_data/CMIP6/CMIP/
                 UKESM1-0-LL/piControl/r1i1p1f2/cdds_nightly_test_piControl/output/ap5/Amon/tas/
         2. Available files already on MASS
-            >> moose:/adhoc/projects/cdds/testdata/transfer_functional/use_case_multiple_embargoed/development/
-                CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/available/v20190615/
+            >> moose:/adhoc/projects/cdds/testdata/transfer_functional/use_case_used_timestamp/development/
+                CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/available/v20190722/
 
     OUTPUT
         Critical errors for this variable in log file
     """
 
     @mock.patch('hadsdk.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
-    def test_transfer_functional_usecase6_multiple_embargoed(self, mock_log_datestamp):
+    def test_transfer_functional_usecase7_altering_published_datestamp(self, mock_log_datestamp):
         test_data = TestData(
             number_variables=8,
             proc_dir_name='piControl_10096_proc',
@@ -32,8 +32,8 @@ class TestStoreMultipleEmbargoed(StoreTestCase):
             data_dir_name='piControl_10096_data',
             request_filename='cdds_request_piControl_10096.json',
             mass_root='moose:/adhoc/projects/cdds/testdata/transfer_functional',
-            mass_suffix='use_case_multiple_embargoed',
-            log_name='test_transfer_functional_usecase6_multiple_embargoed'
+            mass_suffix='use_case_used_timestamp',
+            log_name='test_transfer_functional_usecase7_altering_published_datestamp'
         )
         test_args = test_data.get_arguments()
 
@@ -45,6 +45,4 @@ class TestStoreMultipleEmbargoed(StoreTestCase):
         # these are critical messages for the day/uas and day/vas variables,
         # which are active in the RV file but have no data, so checking
         # that critical messages were correctly produced.
-        self.assertMessagesContain(
-            log_file.critical(), 'embargoed state with a different datestamp', 'invalid mass state'
-        )
+        self.assertMessagesContain(log_file.critical(), 'used datestamp', 'invalid mass state')

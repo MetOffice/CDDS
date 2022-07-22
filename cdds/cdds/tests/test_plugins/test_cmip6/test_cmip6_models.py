@@ -17,6 +17,9 @@ from unittest import TestCase
 
 class TestModelsStore(TestCase):
 
+    def setUp(self):
+        Cmip6ModelsStore.clean_instance()
+
     def tearDown(self):
         Cmip6ModelsStore.clean_instance()
 

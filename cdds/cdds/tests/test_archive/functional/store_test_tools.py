@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import List
 
-from transfer.command_line import parse_args_store
+from cdds.archive.command_line import parse_args_store
 from hadsdk.config import FullPaths
 from hadsdk.request import read_request
 

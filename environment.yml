@@ -148,7 +148,6 @@ dependencies:
     - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds_qc_plugin_cmip6&subdirectory=cdds_qc_plugin_cmip6
     - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=hadsdk&subdirectory=hadsdk
     - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
-    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=transfer&subdirectory=transfer
 variables:
     LC_ALL: en_GB.UTF-8
 prefix: /home/h03/cdds/software/miniconda3/envs/cdds

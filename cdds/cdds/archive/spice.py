@@ -12,7 +12,7 @@ from hadsdk.constants import (
 from hadsdk.request import read_request
 from hadsdk.spice import submit_spice_job_script, write_spice_job_script
 
-from transfer.constants import (
+from cdds.archive.constants import (
     SPICE_STORE_MEMORY, SPICE_STORE_QUEUE,
     SPICE_STORE_SCRIPT_NAME, SPICE_STORE_WALLTIME, STORE_COMMAND)
 
