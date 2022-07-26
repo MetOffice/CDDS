@@ -19,7 +19,7 @@ from hadsdk.inventory.dao import InventoryDAO, DBVariableStatus
 
 from cdds.common.plugins.plugins import PluginStore
 
-from cdds.prepare import __version__
+from cdds import __version__
 from cdds.prepare.auto_deactivation import run_auto_deactivate_variables
 from cdds.prepare.constants import (KNOWN_GOOD_VARIABLES,
                                     VARIABLE_IN_INVENTORY_LOG,

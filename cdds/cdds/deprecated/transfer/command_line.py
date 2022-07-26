@@ -16,7 +16,7 @@ from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from hadsdk.general_config import root_config
 from hadsdk.request import read_request
 
-from cdds.deprecated.transfer import __version__
+from cdds import __version__
 from cdds.deprecated.transfer.archive import run_send_to_mass, allowed_mass_locations
 from cdds.deprecated.transfer.admin import send_admin_message
 from cdds.deprecated.transfer.list_queue import print_queue

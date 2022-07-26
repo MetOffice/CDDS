@@ -16,7 +16,7 @@ from hadsdk.config import update_arguments_for_proc_dir, update_log_dir
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY, PRINT_STACK_TRACE
 from hadsdk.request import read_request
 
-from cdds.archive import __version__
+from cdds import __version__
 from cdds.archive.store import store_mip_output_data
 from cdds.archive.spice import run_store_spice_job
 

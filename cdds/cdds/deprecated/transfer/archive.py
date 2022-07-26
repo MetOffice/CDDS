@@ -6,7 +6,7 @@ used by the send_to_mass script
 """
 import logging
 
-from cdds.deprecated.transfer import _DEV
+from cdds import _DEV
 from cdds.deprecated.transfer import state, dds
 from cdds.deprecated.transfer.common import (
     cfg_from_cdds_general_config, drs_facet_builder_from_request, find_local,
