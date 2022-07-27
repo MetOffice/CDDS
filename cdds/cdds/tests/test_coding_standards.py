@@ -12,6 +12,7 @@ from pathlib import Path
 
 import pep8
 
+import cdds
 
 COPYRIGHT_TEMPLATE = ('{start_comment} (C) British Crown Copyright {years}, Met Office.'
                       '\n{start_comment} Please see LICENSE.rst for license details.')
@@ -24,7 +25,7 @@ class TestCodingStandards(unittest.TestCase):
     """
 
     def setUp(self):
-        cdds_dir = Path(__file__).parent.absolute()
+        cdds_dir = Path(cdds.__file__).parent.absolute()
         self.all_files = [
             os.path.join(dir, filename) for dir, _, filenames in os.walk(cdds_dir) for filename in filenames
         ]
@@ -38,6 +39,7 @@ class TestCodingStandards(unittest.TestCase):
                 [exclude_pattern in filename for exclude_pattern in self.exclude_patterns]
             )
         ]
+
         pep8style = pep8.StyleGuide(quiet=False)
         # Set the maximum line length to 120.
         pep8style.options.max_line_length = 120
