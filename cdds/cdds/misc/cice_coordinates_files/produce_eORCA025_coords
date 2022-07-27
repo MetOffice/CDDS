@@ -1,3 +1,6 @@
+# (C) British Crown Copyright 2022, Met Office.
+# Please see LICENSE.rst for license details.
+
 # Variables:
 export SUITE=aq281
 export DATE=18591201-18600101

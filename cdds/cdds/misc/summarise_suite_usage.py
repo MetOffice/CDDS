@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# (C) British Crown Copyright 2022, Met Office.
+# Please see LICENSE.rst for license details.
 """
 Calculate total usage of a set of suites and present summary stats
 """

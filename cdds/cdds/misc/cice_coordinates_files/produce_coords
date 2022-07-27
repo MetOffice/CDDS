@@ -1,3 +1,6 @@
+# (C) British Crown Copyright 2022, Met Office.
+# Please see LICENSE.rst for license details.
+
 # Variables:
 NEMO_T_FILE=nemo_${SUITE}o_1m_${DATE}_grid-T.nc
 NEMO_U_FILE=nemo_${SUITE}o_1m_${DATE}_grid-U.nc

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3.8
+# (C) British Crown Copyright 2022, Met Office.
+# Please see LICENSE.rst for license details.
 """
 A helper script for data volume management. Will report sizes, ages and owners of particular simulations sitting in
 /project/cdds_data directory.
