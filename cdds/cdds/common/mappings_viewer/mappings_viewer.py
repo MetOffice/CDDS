@@ -314,10 +314,10 @@ def generate_html(table, model, arguments):
     arguments : argparse.Namespace
         User arguments.
     """
-    html = (
-            HEADER +
+    html = (HEADER +
             '<h2>Variable Mappings for {} (Generated with CDDS v{})</h2>'.format(model, cdds._NUMERICAL_VERSION) +
-            '<p> </p>' + '<p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p>' + table + FOOTER)
+            '<p> </p>' + '<p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p>' + table +
+            FOOTER)
 
     if not arguments.output_directory:
         cdds_path = os.environ['CDDS_DIR']

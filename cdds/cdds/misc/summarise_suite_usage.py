@@ -38,10 +38,10 @@ def main():
     q_data = defaultdict(list)
 
     def t(x):
-       return datetime.datetime.strptime(x, '%Y-%m-%dT%H:%M:%SZ')
+        return datetime.datetime.strptime(x, '%Y-%m-%dT%H:%M:%SZ')
 
     for suite in suite_names:
-        result = subprocess.check_output(['cylc', 'report-timings', '--raw', suite], universal_newlines=True )
+        result = subprocess.check_output(['cylc', 'report-timings', '--raw', suite], universal_newlines=True)
         for line in result.split('\n'):
             line_list = [i for i in line.split(' ') if i is not '']
             if line[:4] == 'name' or not line:
@@ -80,13 +80,14 @@ def print_data(data, suite_total, summary):
     total = 0
     for k, v in sorted(data.items()):
         if not summary:
-            print('{: <35}: min = {}, mean = {:.2f}, max = {}, sum = {} s'.format(k, min(v), sum(v)/len(v), max(v), sum(v)))
+            print('{: <35}: min = {}, mean = {:.2f}, max = {}, sum = {} s'.format(k, min(v),
+                                                                                  sum(v) / len(v), max(v), sum(v)))
         total += sum(v)
 
     for k, v in sorted(suite_total.items()):
-       print('Suite: {} total: {:.2f} hours'.format(k, v/3600))
+        print('Suite: {} total: {:.2f} hours'.format(k, v / 3600))
 
-    print('Total: {:.2f} hours'.format(total/3600))
+    print('Total: {:.2f} hours'.format(total / 3600))
 
 
 if __name__ == '__main__':

@@ -33,10 +33,8 @@ def build_u_coord_from_t(rootgrp, coord_name, bounds_name):
 
 def parse_args():
     """Collect the command line arguments"""
-    parser = argparse.ArgumentParser(
-        description="Construct ULAT and ULON values from the TLAT and TLON "
-        "coordinates within the file supplied."
-        )
+    parser = argparse.ArgumentParser(description="Construct ULAT and ULON values from the TLAT and TLON "
+                                     "coordinates within the file supplied.")
     parser.add_argument(
         "coords_file", help=("The full path to the CICE coordinates file.")
     )
