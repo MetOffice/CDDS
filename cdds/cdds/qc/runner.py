@@ -132,7 +132,7 @@ class QCRunner(object):
 
         if run_id is None:
             run_id = int(time.time())
-        self.logger.info("Starting QC test_qc")
+        self.logger.info("Starting QC tests")
         cursor = self.db.cursor()
         execute_insert_query(cursor, "qc_run", {
             "basepath": self.dataset.root,
@@ -210,7 +210,7 @@ class QCRunner(object):
                 if counter % 100 == 0:
                     self.logger.info(
                         "Completed {}/{}".format(counter, est_count))
-        self.logger.info("All test_qc completed")
+        self.logger.info("All tests completed")
         cursor.execute(
             "UPDATE qc_run "
             "SET finished = ? "

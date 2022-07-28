@@ -130,7 +130,7 @@ class ControlledVocabularyValidator(object):
     def _does_not_exist_or_valid(allowed_values, attribute_name, input_data):
         """
         Test for validity of an optional attribute. If the attribute
-        is set, it also test_qc if the attribute value is valid by checking
+        is set, it also tests if the attribute value is valid by checking
         if the attribute value is contained in the list of allowed values.
 
         Parameters

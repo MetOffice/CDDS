@@ -104,7 +104,7 @@ class CMIP6Check(BaseNCCheck):
         for mandatory_string in MANDATORY_TEXT_ATTRIBUTES:
             self._exists_and_valid(netcdf_file, mandatory_string, nonempty_string_validator)
 
-        # test_qc if optional attrbutes are non-empty or don't appear at all
+        # tests if optional attrbutes are non-empty or don't appear at all
         for optional_string in OPTIONAL_TEXT_ATTRIBUTES:
             self._does_not_exist_or_valid(netcdf_file, optional_string, nonempty_string_validator)
 

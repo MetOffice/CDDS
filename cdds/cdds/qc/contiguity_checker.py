@@ -25,7 +25,7 @@ class CMIP6CollectionsCheck(object):
 
     def perform_checks(self, ds):
         """
-        Runs test_qc on a provided dataset.
+        Runs tests on a provided dataset.
 
         Parameters
         ----------
@@ -35,7 +35,7 @@ class CMIP6CollectionsCheck(object):
         Returns
         -------
         : tuple
-            Result of the test_qc.
+            Result of the tests.
         """
         if type(ds) not in self.supported_ds:
             raise Exception("Dataset {} is not of supported type.".format(ds))
@@ -55,7 +55,7 @@ class CMIP6CollectionsCheck(object):
         Returns
         -------
         : tuple
-            Result of the test_qc.
+            Result of the tests.
         """
         aggregated = ds.get_aggregated_files(False)
 

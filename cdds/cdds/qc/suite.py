@@ -67,7 +67,7 @@ class QCSuite(CheckSuite):
         checkers = self._get_valid_checkers(ds, checker_names)
         if not checkers:
             print((
-                "No valid checkers found for test_qc '{}'".format(
+                "No valid checkers found for tests '{}'".format(
                     ",".join(checker_names))))
 
         for checker_name, checker_class in checkers:
