@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.8
 # (C) British Crown Copyright 2017-2022, Met Office.
 """
-Run all the test_qc in the CDDS packages.
+Run all the tests in the CDDS packages.
 """
 import datetime
 import os
