@@ -10,14 +10,11 @@ Compliance Test Suite for the CMIP6 project
 from compliance_checker.base import BaseCheck, BaseNCCheck, Result
 
 from hadsdk.mip_tables import MipTables
-from .validators import (ValidatorFactory as VF,
-                         ControlledVocabularyValidator as CVV,
-                         ValidationError,
-                         EXTERNAL_VARIABLES)
-from .constants import (SOURCE_REGEX, CF_CONVENTIONS,
-                        CV_ATTRIBUTES, RUN_INDEX_ATTRIBUTES,
-                        MANDATORY_TEXT_ATTRIBUTES, OPTIONAL_TEXT_ATTRIBUTES,
-                        PARENT_ATTRIBUTES, MISSING_VALUE)
+from cdds.qc.plugins.cmip6.validators import (ValidatorFactory, ControlledVocabularyValidator, ValidationError,
+                                              EXTERNAL_VARIABLES)
+from cdds.qc.plugins.cmip6.constants import (SOURCE_REGEX, CF_CONVENTIONS, CV_ATTRIBUTES, RUN_INDEX_ATTRIBUTES,
+                                             MANDATORY_TEXT_ATTRIBUTES, OPTIONAL_TEXT_ATTRIBUTES, PARENT_ATTRIBUTES,
+                                             MISSING_VALUE)
 
 
 class CMIP6Check(BaseNCCheck):
@@ -60,7 +57,7 @@ class CMIP6Check(BaseNCCheck):
 
     @classmethod
     def update_cv_valdiator(cls, cv_location):
-        cls.__cache["cv_validator"] = CVV(cv_location)
+        cls.__cache["cv_validator"] = ControlledVocabularyValidator(cv_location)
 
     @classmethod
     def update_mip_tables_cache(cls, mip_tables_dir):
@@ -89,8 +86,8 @@ class CMIP6Check(BaseNCCheck):
         self.__messages = []
 
         # create validators
-        positive_integer_validator = VF.integer_validator()
-        nonempty_string_validator = VF.string_validator()
+        positive_integer_validator = ValidatorFactory.integer_validator()
+        nonempty_string_validator = ValidatorFactory.string_validator()
 
         # test for presence and contents of attributes contained in CV
         for cv_attribute in CV_ATTRIBUTES:
@@ -107,7 +104,7 @@ class CMIP6Check(BaseNCCheck):
         for mandatory_string in MANDATORY_TEXT_ATTRIBUTES:
             self._exists_and_valid(netcdf_file, mandatory_string, nonempty_string_validator)
 
-        # tests if optional attrbutes are non-empty or don't appear at all
+        # test_qc if optional attrbutes are non-empty or don't appear at all
         for optional_string in OPTIONAL_TEXT_ATTRIBUTES:
             self._does_not_exist_or_valid(netcdf_file, optional_string, nonempty_string_validator)
 
@@ -138,13 +135,13 @@ class CMIP6Check(BaseNCCheck):
         string_dict = {
             "experiment": validator.experiment_validator(getattr(netcdf_file, "experiment_id")),
             "institution": validator.institution_validator(getattr(netcdf_file, "institution_id")),
-            "Conventions": VF.value_in_validator(CF_CONVENTIONS),
-            "creation_date": VF.date_validator("%Y-%m-%dT%H:%M:%SZ"),
-            "data_specs_version": VF.value_in_validator([self.__cache["mip_tables"].version]),
-            "license": VF.value_in_validator([self.__cache["request"].license.strip()]),
-            "mip_era": VF.value_in_validator([self.__cache["request"].mip_era]),
-            "product": VF.value_in_validator(["model-output"]),
-            "source": VF.string_validator(SOURCE_REGEX),
+            "Conventions": ValidatorFactory.value_in_validator(CF_CONVENTIONS),
+            "creation_date": ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ"),
+            "data_specs_version": ValidatorFactory.value_in_validator([self.__cache["mip_tables"].version]),
+            "license": ValidatorFactory.value_in_validator([self.__cache["request"].license.strip()]),
+            "mip_era": ValidatorFactory.value_in_validator([self.__cache["request"].mip_era]),
+            "product": ValidatorFactory.value_in_validator(["model-output"]),
+            "source": ValidatorFactory.string_validator(SOURCE_REGEX),
             "tracking_id": validator.tracking_id_validator()
         }
 
@@ -153,7 +150,7 @@ class CMIP6Check(BaseNCCheck):
 
     def _validate_external_variables(self, netcdf_file, external):
         try:
-            validator = VF.multivalue_in_validator(external)
+            validator = ValidatorFactory.multivalue_in_validator(external)
             validator(getattr(netcdf_file, "external_variables"))
         except AttributeError:
             if len(external) > 0:
@@ -212,16 +209,16 @@ class CMIP6Check(BaseNCCheck):
 
     def _validate_complex_attributes(self, netcdf_file, attr_dict):
         derived_dict = {
-            "further_info_url": VF.value_in_validator(
+            "further_info_url": ValidatorFactory.value_in_validator(
                 [
                     attr_dict["further_info_url"]
                 ]
             ),
-            "variable_id": VF.value_in_validator(
+            "variable_id": ValidatorFactory.value_in_validator(
                 self.__cache["mip_tables"].get_variables(
                     attr_dict["table_id"])
             ),
-            "variant_label": VF.value_in_validator(
+            "variant_label": ValidatorFactory.value_in_validator(
                 [
                     "r{}i{}p{}f{}".format(
                         attr_dict["realization_index"],
@@ -249,12 +246,12 @@ class CMIP6Check(BaseNCCheck):
             an open netCDF file.
         """
         parent_dict = {
-            "branch_method": VF.nonempty_validator(),
-            "branch_time_in_child": VF.float_validator(),
-            "branch_time_in_parent": VF.float_validator(),
-            "parent_mip_era": VF.value_in_validator(["CMIP6"]),
-            "parent_time_units": VF.string_validator(r"^days since"),
-            "parent_variant_label": VF.string_validator(r"^r\d+i\d+p\d+f\d+$")
+            "branch_method": ValidatorFactory.nonempty_validator(),
+            "branch_time_in_child": ValidatorFactory.float_validator(),
+            "branch_time_in_parent": ValidatorFactory.float_validator(),
+            "parent_mip_era": ValidatorFactory.value_in_validator(["CMIP6"]),
+            "parent_time_units": ValidatorFactory.string_validator(r"^days since"),
+            "parent_variant_label": ValidatorFactory.string_validator(r"^r\d+i\d+p\d+f\d+$")
         }
         for k, v in parent_dict.items():
             self._exists_and_valid(netcdf_file, k, v)
@@ -304,17 +301,17 @@ class CMIP6Check(BaseNCCheck):
             self._does_not_exist_or_valid(
                 netcdf_file,
                 "branch_time_in_child",
-                VF.value_in_validator([start_of_run])
+                ValidatorFactory.value_in_validator([start_of_run])
             )
         except (AttributeError, KeyError, ValueError):
             self._add_error_message("Unable to retrieve time variable")
         self._does_not_exist_or_valid(
             netcdf_file,
             "branch_time_in_parent",
-            VF.value_in_validator([0.0])
+            ValidatorFactory.value_in_validator([0.0])
         )
 
-        npv = VF.value_in_validator(['no parent'])
+        npv = ValidatorFactory.value_in_validator(['no parent'])
         for attr in PARENT_ATTRIBUTES:
             self._does_not_exist_or_valid(netcdf_file, attr, npv)
 

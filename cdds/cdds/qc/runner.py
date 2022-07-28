@@ -13,17 +13,17 @@ from hadsdk.constants import (
     APPROVED_VARS_FILENAME_STREAM_TEMPLATE,
 )
 from hadsdk.sqlite import execute_insert_query
-from cdds_qc.dataset import StructuredDataset
-from cdds_qc.models import (
+from cdds.qc.dataset import StructuredDataset
+from cdds.qc.models import (
     setup_db,
     get_qc_runs, get_qc_files, get_error_counts, get_aggregated_errors,
     get_validated_variables
 )
-from cdds_qc.constants import (
+from cdds.qc.constants import (
     STATUS_ERROR, STATUS_WARNING, STATUS_IGNORED,
     SUMMARY_STARTED, SUMMARY_FAILED, SUMMARY_PASSED,
     QC_REPORT_STREAM_FILENAME, QC_REPORT_FILENAME)
-from cdds_qc.contiguity_checker import CMIP6CollectionsCheck
+from cdds.qc.contiguity_checker import CMIP6CollectionsCheck
 
 
 class QCRunner(object):
@@ -132,7 +132,7 @@ class QCRunner(object):
 
         if run_id is None:
             run_id = int(time.time())
-        self.logger.info("Starting QC tests")
+        self.logger.info("Starting QC test_qc")
         cursor = self.db.cursor()
         execute_insert_query(cursor, "qc_run", {
             "basepath": self.dataset.root,
@@ -210,7 +210,7 @@ class QCRunner(object):
                 if counter % 100 == 0:
                     self.logger.info(
                         "Completed {}/{}".format(counter, est_count))
-        self.logger.info("All tests completed")
+        self.logger.info("All test_qc completed")
         cursor.execute(
             "UPDATE qc_run "
             "SET finished = ? "

@@ -4,7 +4,7 @@
 
 import sqlite3
 import os
-from cdds_qc.constants import (
+from cdds.qc.constants import (
     QC_DB_FILENAME, STATUS_WARNING, STATUS_ERROR, STATUS_IGNORED,
     DS_TYPE_SINGLE_FILE, DS_TYPE_DATASET, SUMMARY_STARTED,
     SUMMARY_FAILED, SUMMARY_PASSED

@@ -14,14 +14,14 @@ from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from hadsdk.mip_tables import MipTables
 from hadsdk.request import read_request
 
-from cdds_qc import __version__
-from cdds_qc.constants import COMPONENT, QC_DB_FILENAME
-from cdds_qc.suite import QCSuite
-from cdds_qc.runner import QCRunner
-from cdds_qc.dataset import StructuredDataset
+from cdds.qc import __version__
+from cdds.qc.constants import COMPONENT, QC_DB_FILENAME
+from cdds.qc.suite import QCSuite
+from cdds.qc.runner import QCRunner
+from cdds.qc.dataset import StructuredDataset
 
 
-def main_qc_run_and_report(arguments=None):
+def main_quality_control(arguments=None):
     """
     Check whether the |output netCDF files| conform to the WGCM CMIP
     standards.

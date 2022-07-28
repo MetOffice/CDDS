@@ -5,9 +5,9 @@
 """
 Contiguity checker.
 """
-from cdds_qc.dataset import StructuredDataset
-from cdds_qc.common import datepoint_from_date, equal_with_tolerance, strip_zeros
-from cdds_qc.constants import (FREQ_DICT, HOURLY_OFFSET, MONTHLY_OFFSET, RADIATION_TIMESTEP, SECONDS_IN_DAY,
+from cdds.qc.dataset import StructuredDataset
+from cdds.qc.common import datepoint_from_date, equal_with_tolerance, strip_zeros
+from cdds.qc.constants import (FREQ_DICT, HOURLY_OFFSET, MONTHLY_OFFSET, RADIATION_TIMESTEP, SECONDS_IN_DAY,
                                TIME_TOLERANCE)
 
 
@@ -25,7 +25,7 @@ class CMIP6CollectionsCheck(object):
 
     def perform_checks(self, ds):
         """
-        Runs tests on a provided dataset.
+        Runs test_qc on a provided dataset.
 
         Parameters
         ----------
@@ -35,7 +35,7 @@ class CMIP6CollectionsCheck(object):
         Returns
         -------
         : tuple
-            Result of the tests.
+            Result of the test_qc.
         """
         if type(ds) not in self.supported_ds:
             raise Exception("Dataset {} is not of supported type.".format(ds))
@@ -55,7 +55,7 @@ class CMIP6CollectionsCheck(object):
         Returns
         -------
         : tuple
-            Result of the tests.
+            Result of the test_qc.
         """
         aggregated = ds.get_aggregated_files(False)
 

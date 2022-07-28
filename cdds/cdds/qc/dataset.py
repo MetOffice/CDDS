@@ -3,8 +3,8 @@
 
 import re
 import os
-from cdds_qc.constants import EXCLUDE_DIRECTORIES_REGEXP, MAX_FILESIZE
-from cdds_qc_plugin_cmip6.validators import parse_date_range, ValidationError
+from cdds.qc.constants import EXCLUDE_DIRECTORIES_REGEXP, MAX_FILESIZE
+from cdds.qc.plugins.cmip6.validators import parse_date_range, ValidationError
 
 
 class StructuredDataset(object):

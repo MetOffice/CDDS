@@ -2,8 +2,8 @@
 # Please see LICENSE.rst for license details.
 
 import unittest
-from cdds_qc.dataset import StructuredDataset
-from cdds_qc_plugin_cmip6.tests.constants import MIP_TABLES_DIR
+from cdds.qc.dataset import StructuredDataset
+from cdds.tests.test_qc.plugins.constants import MIP_TABLES_DIR
 from hadsdk.mip_tables import MipTables
 from unittest.mock import patch
 import os

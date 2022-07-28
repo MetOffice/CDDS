@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.8
 # (C) British Crown Copyright 2017-2022, Met Office.
 """
-Run all the tests in the CDDS packages.
+Run all the test_qc in the CDDS packages.
 """
 import datetime
 import os
@@ -14,9 +14,6 @@ ROOT_COMMAND = 'python setup.py nosetests'
 TESTS_TO_RUN = {
     'cdds': ['--with-doctest', '-a slow', '-a integration', '-a data_request'],
     'cdds_template': ['--with-doctest', '-a slow'],
-    'cdds_qc': ['--with-doctest -s'],
-    'cdds_qc_plugin_cf17': ['--with-doctest'],
-    'cdds_qc_plugin_cmip6': ['--with-doctest'],
     'hadsdk': ['--with-doctest', '-a integration', '-a slow', '-a data_request'],
     'mip_convert': ['--with-doctest', '-a integration', '-a mappings', '-a slow'],
 }

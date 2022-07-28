@@ -1,9 +1,0 @@
-#!/usr/bin/env python3.8
-# (C) British Crown Copyright 2018-2022, Met Office.
-# Please see LICENSE.rst for license details.
-import sys
-
-from cdds_qc.command_line import main_qc_run_and_report
-
-if __name__ == '__main__':
-    sys.exit(main_qc_run_and_report())

@@ -11,7 +11,7 @@ from nose.plugins.attrib import attr
 
 import pep8
 
-import cdds_qc
+import cdds.qc as cdds_qc
 
 
 @attr('style')
