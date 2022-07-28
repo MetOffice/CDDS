@@ -25,7 +25,6 @@ from mip_convert.request import get_input_files
 from mip_convert.save.cmor.cmor_outputter import CmorGridMaker, AbstractAxisMaker
 from mip_convert.tests.functional.user_configuration import common_info, project_info, specific_info
 
-
 DEBUG = False
 NCCMP_TIMINGS = []
 
@@ -183,7 +182,8 @@ def get_test_keys():
     return test_keys
 
 
-# @attr('slow')
+@attr('slow')
+@pytest.mark.skip  # Skip for the moment because of threading problems (cmor library)
 @pytest.mark.parametrize("test_key", get_test_keys())
 def test_main(test_key):
     # If any of the tests contain the 'devel' attribute, run only those tests.
