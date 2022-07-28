@@ -183,10 +183,9 @@ def get_test_keys():
     return test_keys
 
 
-@attr('slow')
+# @attr('slow')
 @pytest.mark.parametrize("test_key", get_test_keys())
 def test_main(test_key):
-    print('Run test for:', test_key)
     # If any of the tests contain the 'devel' attribute, run only those tests.
     check_main(test_key)
 

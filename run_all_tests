@@ -15,19 +15,19 @@ CDDS_DIR = os.path.dirname(os.path.realpath(__file__))
 LOG_NAME = os.path.join(CDDS_DIR, 'cdds_test_failures.log')
 ROOT_COMMAND = 'python -m py.test'
 TESTS_TO_RUN = {
-    'cdds_common': [''],
-    'cdds_configure': ['-a not slow', '-a slow'],
-    'cdds_convert': ['-a not integration', '-a integration'],
-    'cdds_prepare': ['-a not slow and not data_request', '-a slow', '-a data_request'],
-    'cdds_template': ['-a not slow', '-a slow'],
-    'cdds_transfer': ['-a not slow and not rabbitMQ', '-a slow'],
-    'extract': ['-a not slow', '-a slow'],
-    'cdds_qc': ['-s'],
-    'cdds_qc_plugin_cf17': [''],
-    'cdds_qc_plugin_cmip6': [''],
-    'hadsdk': ['-a not data_request and not integration', '-a integration', '-a data_request'],
-    'mip_convert': ['-a not slow and not mappings and not integration', '-a integration', '-a mappings', '-a slow'],
-    'transfer': ['-a not slow', '-a slow'],
+    'cdds_common': ['--doctest-modules'],
+    'cdds_configure': ['--doctest-modules -a not slow', '-a slow'],
+    'cdds_convert': ['--doctest-modules -a not integration', '-a integration'],
+    'cdds_prepare': ['--doctest-modules -a not slow and not data_request', '-a slow', '-a data_request'],
+    'cdds_template': ['--doctest-modules -a not slow', '-a slow'],
+    'cdds_transfer': ['--doctest-modules -a not slow and not rabbitMQ', '-a slow'],
+    'extract': ['--doctest-modules -a not slow', '-a slow'],
+    'cdds_qc': ['-s --doctest-modules'],
+    'cdds_qc_plugin_cf17': ['--doctest-modules'],
+    'cdds_qc_plugin_cmip6': ['--doctest-modules'],
+    'hadsdk': ['--doctest-modules -a not data_request and not integration', '-a integration', '-a data_request'],
+    'mip_convert': ['--doctest-modules -a not slow and not mappings and not integration', '-a integration', '-a mappings', '-a slow'],
+    'transfer': ['--doctest-modules -a not slow', '-a slow'],
     }
 
 
