@@ -1,6 +1,6 @@
 {
-    "qc_run_and_report": {
-        "log_name": "qc_run_and_report",
+    "cdds_qc": {
+        "log_name": "cdds_qc",
         "standard_names_version": "latest"
     }
 }

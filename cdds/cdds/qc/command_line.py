@@ -83,7 +83,7 @@ def parse_args(arguments):
         The |Request| object.
     """
     user_arguments = arguments
-    arguments = read_default_arguments('cdds_qc', 'qc_run_and_report')
+    arguments = read_default_arguments('cdds.qc', 'cdds_qc')
     parser = argparse.ArgumentParser(
         description='Check whether the output netCDF files conform to the '
                     'WGCM CMIP standards',
