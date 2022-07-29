@@ -547,7 +547,9 @@ class CoordinateDomain(object):
         """
         @return the order of the directions of the axes in the domain
         """
-        return tuple([axis.axis for axis in self.getAxisList()])
+        # need to import it here to prevent circular imports
+        from mip_convert.load.pp.pp_axis import ReferenceTimeAxis
+        return tuple(['T-reftime' if type(axis) is ReferenceTimeAxis else axis.axis for axis in self.getAxisList()])
 
     def getAxis(self, axis_dir):
         """

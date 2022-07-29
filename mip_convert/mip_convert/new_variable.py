@@ -13,6 +13,7 @@ import regex as re
 import cf_units
 import iris
 from iris.time import PartialDateTime
+from datetime import datetime
 from iris.util import guess_coord_axis
 import numpy as np
 
@@ -34,7 +35,7 @@ class VariableMetadata(object):
 
     def __init__(self, variable_name, stream_id, substream, mip_table_name, mip_metadata, site_information,
                  hybrid_height_information, replacement_coordinates, model_to_mip_mapping, timestep, run_bounds,
-                 calendar, base_date, deflate_level, shuffle):
+                 calendar, base_date, deflate_level, shuffle, reference_time=None):
         """
         Parameters
         ----------
@@ -87,6 +88,7 @@ class VariableMetadata(object):
         self.base_date = base_date
         self.deflate_level = deflate_level
         self.shuffle = shuffle
+        self.reference_time = reference_time
         self._validate_timestep()
 
     def _validate_timestep(self):
@@ -133,10 +135,6 @@ class Variable(object):
         """
         self.logger = logging.getLogger(__name__)
         self.input_variables = input_variables
-        print("########################INPUT CUBES")
-        for key, input_cube in input_variables.items():
-            print(input_cube)
-            print(input_cube.data.shape)
         self._variable_metadata = variable_metadata
 
         self.variable_name = self._variable_metadata.variable_name
@@ -160,6 +158,7 @@ class Variable(object):
         self._history = None
         self._matched_coords = []
         self._ordered_coords = []
+        self._reference_time = self._variable_metadata.reference_time
 
     @property
     def info(self):
@@ -418,29 +417,14 @@ class Variable(object):
         self._validate_units()
         self._validate_coord_points()
         self._validate_coord_bounds()
-        print(self.cube)
-        print("removing scalar reference time")
-        self.cube.remove_coord("forecast_reference_time")
-        print(self.cube)
-        reftime_coord = iris.coords.DimCoord(10.0, standard_name='forecast_reference_time', units=cf_units.Unit('days since 1850-01-01', calendar='360_day'))
-        self._ordered_coords.append([reftime_coord, 'T'])
-        # self.cube.add_aux_coord(reftime_coord, 1)
-        self.cube.add_aux_coord(reftime_coord)
-        # iris.util.new_axis(self.cube, scalar_coord=reftime_coord)
-        #self.cube.data = self.cube.data[..., np.newaxis]
-        print("after reinserting reference time", self.cube)
-        self.cube = iris.util.new_axis(self.cube, reftime_coord)
-        print("final cube ", self.cube)
-        # old_shape = self.cube.data.shape
-        # new_shape = old_shape + (1,)
-        #try:
-        #    self.cube.add_aux_coord(reftime_coord)
-        #    iris.util.new_axis(self.cube, scalar_coord=reftime_coord)
-        #    print(self.cube)
-        #    # self.cube.data = self.cube.data[..., np.newaxis]
-        #except Exception as e:
-        #    print("my exc")
-        #    print(e)
+        if self._variable_metadata.reference_time:
+            self.cube.remove_coord("forecast_period")
+            for (coord, axis_direction) in self._matched_coords:
+                if coord.standard_name == 'forecast_reference_time':
+                    # this is populated from mip_convert config file
+                    dt = [int(v) for v in self._variable_metadata.reference_time.split('-')]
+                    coord.points = [cf_units.date2num(datetime.datetime(*dt), 'days since 1850-01-01 00:00:00', '360_day')]
+                    coord.units = cf_units.Unit('days since 1850-01-01', calendar='360_day')
 
     def _validate_units(self):
         # The units of the 'MIP requested variable' must always be the units from the 'model to MIP mapping'.
@@ -472,10 +456,12 @@ class Variable(object):
 
     def _validate_coord_bounds(self):
         for (coord, axis_direction) in self.ordered_coords:
-            # print("COORD AXIS", coord, axis_direction)
             if not coord.has_bounds():
                 # Attempt to determine the bounds if they are required by the 'MIP'.
                 if self.mip_metadata.must_have_bounds(axis_direction):
+                    # ambigious for scalar time coordinate so will be skipped
+                    if coord.standard_name == 'forecast_reference_time':
+                        continue
                     self._update_bounds(coord, axis_direction)
 
     def _mip_table_values(self, coord, axis_direction, value_type):
@@ -564,20 +550,16 @@ class Variable(object):
             # the cube.
             matched_cube_coords = {}
             all_cube_coords = {(coord.name(), guess_coord_axis(coord)): coord for coord in self.cube.coords()}
-            # print("all cube coords")
-            # print(all_cube_coords)
-            # print("mip axes directions names")
-            # print(self._mip_axes_directions_names)
+
             cube_axis_directions = [axis_direction for (_, axis_direction) in list(all_cube_coords.keys())]
             self.logger.debug('All cube coordinates: {}'.format(list(all_cube_coords.keys())))
 
             for mip_axis_direction, mip_axis_name in (iter(list(self._mip_axes_directions_names.items()))):
-                # print("1. Trying to match {} in {}".format(mip_axis_name, mip_axis_direction))
                 matched_axis_direction = None
                 matching_coord_name = None
                 forecast_coord = self.mip_metadata._get_axis_attribute_value(mip_axis_name, 'forecast')
-                if forecast_coord == 'leadtime' or forecast_coord == 'reftime':
-                    # skipping both and reinserting reftime at later point
+                if forecast_coord == 'leadtime': # or forecast_coord == 'reftime':
+                    # skipping and reinserting reftime at later point
                     continue
                 if mip_axis_direction in cube_axis_directions or (forecast_coord and 'T' in cube_axis_directions):
                     # Use the axis directions to determine whether a coordinate in the cube matches with an axes from
@@ -609,7 +591,7 @@ class Variable(object):
             # dimension or auxiliary coordinate, it is demoted to a scalar coordinate.
             if self.cube.ndim > len(self._matched_coords):
                 self.cube = iris.util.squeeze(self.cube)
-        # print(self._matched_coords)
+
         return self._matched_coords
 
     def _match_axis_directions(self, cube_coords, mip_axis_direction, mip_axis_name):
@@ -937,8 +919,6 @@ class VariableMIPMetadata(object):
 
     def _get_axis_attribute_value(self, axis_name, axis_attribute):
         value = None
-        # print("axis name")
-        # print(axis_name)
         if axis_attribute in self.axes[axis_name]:
             if self.axes[axis_name][axis_attribute]:
                 value = self.axes[axis_name][axis_attribute]
