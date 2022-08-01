@@ -11,6 +11,7 @@ from unittest.mock import call, patch
 from nose.plugins.attrib import attr
 from nose.tools import with_setup
 import os
+import pytest
 import io
 import subprocess
 import sys
@@ -23,7 +24,6 @@ from mip_convert.command_line import LOG_LEVEL, LOG_NAME, parse_parameters, main
 from mip_convert.request import get_input_files
 from mip_convert.save.cmor.cmor_outputter import CmorGridMaker, AbstractAxisMaker
 from mip_convert.tests.functional.user_configuration import common_info, project_info, specific_info
-
 
 DEBUG = False
 NCCMP_TIMINGS = []
@@ -172,17 +172,22 @@ class TestParseParameters(unittest.TestCase):
         self.assertEqual(test_output, expected_output)
 
 
-@attr('slow')
-def test_main():
+def get_test_keys():
     test_keys = list(specific_info().keys())
     # If any of the tests contain the 'devel' attribute, run only those tests.
     devel = [test_key for test_key, test_info in specific_info().items()
              if 'other' in test_info if 'devel' in test_info['other']]
     if devel:
         test_keys = devel
+    return test_keys
 
-    for test_key in test_keys:
-        yield check_main, test_key
+
+@attr('slow')
+@pytest.mark.skip  # Skip for the moment because of threading problems (cmor library)
+@pytest.mark.parametrize("test_key", get_test_keys())
+def test_main(test_key):
+    # If any of the tests contain the 'devel' attribute, run only those tests.
+    check_main(test_key)
 
 
 def teardown():

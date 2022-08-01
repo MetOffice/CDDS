@@ -13,22 +13,26 @@ from datetime import timedelta
 
 CDDS_DIR = os.path.dirname(os.path.realpath(__file__))
 LOG_NAME = os.path.join(CDDS_DIR, 'cdds_test_failures.log')
-ROOT_COMMAND = 'python -m py.test'
+ROOT_COMMAND = 'py.test -s'
 TESTS_TO_RUN = {
-    'cdds_common': [''],
-    'cdds_configure': ['-a not slow', '-a slow'],
-    'cdds_convert': ['-a not integration', '-a integration'],
-    'cdds_prepare': ['-a not slow and not data_request', '-a slow', '-a data_request'],
-    'cdds_template': ['-a not slow', '-a slow'],
-    'cdds_transfer': ['-a not slow and not rabbitMQ', '-a slow'],
-    'extract': ['-a not slow', '-a slow'],
-    'cdds_qc': ['-s'],
-    'cdds_qc_plugin_cf17': [''],
-    'cdds_qc_plugin_cmip6': [''],
-    'hadsdk': ['-a not data_request and not integration', '-a integration', '-a data_request'],
-    'mip_convert': ['-a not slow and not mappings and not integration', '-a integration', '-a mappings', '-a slow'],
-    'transfer': ['-a not slow', '-a slow'],
+    'cdds_common': ['--doctest-modules'],
+    'cdds_configure': ['--doctest-modules', '-a slow'],
+    'cdds_convert': ['--doctest-modules', '-a integration'],
+    'cdds_prepare': ['--doctest-modules', '-a slow', '-a data_request'],
+    'cdds_template': ['--doctest-modules', '-a slow'],
+    'cdds_transfer': ['', '-a slow'],
+    'extract': ['--doctest-modules', '-a slow'],
+    'cdds_qc': ['--doctest-modules'],
+    'cdds_qc_plugin_cf17': ['--doctest-modules'],
+    'cdds_qc_plugin_cmip6': ['--doctest-modules'],
+    'hadsdk': ['--doctest-modules', '-a integration', '-a data_request'],
+    'mip_convert': ['--doctest-modules', '-a integration', '-a mappings', '-a slow'],
+    'transfer': ['--doctest-modules', '-a slow'],
     }
+
+ADDITIONAL_OPTS = {
+    'cdds_transfer': ['--ignore-glob=cdds_transfer/example']
+}
 
 
 def _print_red(text):
@@ -55,6 +59,8 @@ def main():
         print('\nExecuting tests for {}:'.format(package))
         for test in tests:
             command = ROOT_COMMAND.split()
+            if package in ADDITIONAL_OPTS:
+                command.extend(ADDITIONAL_OPTS[package])
             command.append(package)
             if test:
                 command.extend(test.split(' ', 1))
