@@ -1,4 +1,6 @@
 #!/usr/bin/env python3.8
+# (C) British Crown Copyright 2022, Met Office.
+# Please see LICENSE.rst for license details.
 """
 A helper script for data volume management. Will report sizes, ages and owners of particular simulations sitting in
 /project/cdds_data directory.
@@ -32,17 +34,17 @@ def scan_datadir(root):
     """
     rval = []
 
-    def do_scan(start_dir,output,depth=0, threshold=1e6):
+    def do_scan(start_dir, output, depth=0, threshold=1e6):
         for f in os.listdir(start_dir):
-            ff = os.path.join(start_dir,f)
+            ff = os.path.join(start_dir, f)
             if os.path.isdir(ff):
-                if depth<4:
-                    do_scan(ff,output,depth+1)
+                if depth < 4:
+                    do_scan(ff, output, depth + 1)
                 else:
                     (size, dirpath, modified, user) = dir_info(ff)
                     if size >= threshold:
                         output.append((size, make_human_readable(float(size)), dirpath, modified, user))
-    do_scan(root,rval,0)
+    do_scan(root, rval, 0)
     return rval
 
 
@@ -115,7 +117,7 @@ def make_human_readable(value):
     elif exponent < 12:
         suffix = 'T'
         denominator = 1e9
-    return '{}{}'.format(round(value/denominator, 2), suffix)
+    return '{}{}'.format(round(value / denominator, 2), suffix)
 
 
 def get_largest(inventory, threshold=100e6, days=30):
@@ -151,10 +153,11 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     inventory = scan_datadir(DATA_DIR)
-    threshold_in_KB = int(args.threshold)/1000.0
+    threshold_in_KB = int(args.threshold) / 1000.0
     sorted = sorted(inventory, key=lambda k: k[0])[::-1]
     with open(args.filename, "w") as fp:
-        fp.write('DATASETS LARGER THAN {} AND OLDER THAN {} DAYS:\n'.format(make_human_readable(threshold_in_KB), args.age))
+        fp.write('DATASETS LARGER THAN {} AND OLDER THAN {} DAYS:\n'.format(make_human_readable(threshold_in_KB),
+                                                                            args.age))
         fp.write('size\t\tfilepath\tlast modified\towner\n')
         for j in get_largest(sorted, threshold_in_KB, args.age):
             fp.write('{}\t\t{}\t{}\t{}\n'.format(j[1], j[2], j[3].isoformat(), j[4]))

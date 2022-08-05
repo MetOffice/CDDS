@@ -9,8 +9,8 @@ import glob
 import logging
 import os
 
+from cdds import __version__
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.extract import __version__
 from cdds.extract.common import stream_file_template
 from cdds.extract.lang import set_language
 from cdds.extract.runner import ExtractRunner

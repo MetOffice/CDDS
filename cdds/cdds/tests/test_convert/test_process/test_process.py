@@ -10,7 +10,7 @@ import unittest
 
 import collections
 
-import cdds.convert
+from cdds import _DEV, _NUMERICAL_VERSION
 from cdds.convert.constants import (NTHREADS_CONCATENATE,
                                     PARALLEL_TASKS)
 import cdds.convert.process.suite_interface as suite
@@ -430,8 +430,8 @@ class ConvertProcessTest(unittest.TestCase):
 
         expected_update_kwargs_suite = {
             'CDDS_CONVERT_PROC_DIR': mip_convert_proc_dir,
-            'CDDS_VERSION': cdds.convert._NUMERICAL_VERSION,
-            'DEV_MODE': cdds.convert._DEV,
+            'CDDS_VERSION': _NUMERICAL_VERSION,
+            'DEV_MODE': _DEV,
             'END_YEAR': end_year,
             'INPUT_DIR': input_dir,
             'MIP_CONVERT_CONFIG_DIR': mip_convert_config_dir,

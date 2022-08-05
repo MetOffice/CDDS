@@ -20,7 +20,7 @@ from hadsdk.constants import (REQUIRED_KEYS_FOR_PROC_DIRECTORY,
                               DATESTAMP_TEMPLATE, DATESTAMP_PARSER_STR)
 from hadsdk.request import read_request
 
-from cdds.convert import __version__, _DEV
+from cdds import __version__, _DEV
 from cdds.convert.arguments import update_user_config_data_files
 from cdds.convert.exceptions import (OrganiseEnvironmentError,
                                      OrganiseTransposeError,

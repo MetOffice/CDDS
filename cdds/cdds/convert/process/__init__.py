@@ -21,7 +21,7 @@ from hadsdk.mapping import ModelToMip
 from hadsdk.request import read_request
 from hadsdk.variables import RequestedVariablesList
 
-from cdds.convert import __version__, _NUMERICAL_VERSION, _DEV
+from cdds import __version__, _NUMERICAL_VERSION, _DEV
 from cdds.convert.constants import (NTHREADS_CONCATENATE, PARALLEL_TASKS,
                                     ROSE_SUITE_ID, SECTION_TEMPLATE,
                                     RESOURCE_FACTOR)

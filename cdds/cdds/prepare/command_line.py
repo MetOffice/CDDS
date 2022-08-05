@@ -15,7 +15,7 @@ from hadsdk.config import update_arguments_for_proc_dir, update_arguments_paths,
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY, INVENTORY_DB_FILENAME
 from hadsdk.request import read_request
 
-from cdds.prepare import __version__
+from cdds import __version__
 from cdds.prepare.alter import alter_variable_list, select_variables
 from cdds.prepare.constants import (ACTIVATE, DEACTIVATE, EPILOG, INSERT, DEACTIVATION_RULE_LOCATION)
 from cdds.prepare.directory_structure import create_cdds_directory_structure

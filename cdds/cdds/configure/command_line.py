@@ -16,7 +16,7 @@ from hadsdk.common import (
     root_dir_args)
 from hadsdk.request import read_request
 
-from cdds.configure import __version__
+from cdds import __version__
 from cdds.configure.arguments import read_configure_arguments
 from cdds.configure.user_config import produce_user_config_files
 
