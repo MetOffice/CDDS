@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 
 import unittest
-from cdds_qc.common import datepoint_from_date, strip_zeros
+from cdds.qc.common import datepoint_from_date, strip_zeros
 
 
 class CommonTestCase(unittest.TestCase):

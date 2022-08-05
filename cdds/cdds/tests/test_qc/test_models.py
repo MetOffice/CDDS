@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 
 import unittest
-import cdds_qc.models as qc_models
+import cdds.qc.models as qc_models
 from hadsdk.sqlite import execute_insert_query
 
 

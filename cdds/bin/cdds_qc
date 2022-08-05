@@ -3,7 +3,7 @@
 # Please see LICENSE.rst for license details.
 import sys
 
-from cdds_qc.command_line import main_qc_run_and_report
+from cdds.qc.command_line import main_quality_control
 
 if __name__ == '__main__':
-    sys.exit(main_qc_run_and_report())
+    sys.exit(main_quality_control())

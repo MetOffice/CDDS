@@ -3,10 +3,10 @@
 
 import unittest
 import numpy as np
-from cdds_qc_plugin_cmip6.validators import (
+from cdds.qc.plugins.cmip6.validators import (
     ValidatorFactory, ControlledVocabularyValidator, parse_date_range,
     ValidationError)
-from cdds_qc_plugin_cmip6.tests.constants import CV_REPO
+from cdds.tests.test_qc.plugins.constants import CV_REPO
 
 
 class TestCVValidator(unittest.TestCase):

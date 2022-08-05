@@ -2,10 +2,8 @@
 # Please see LICENSE.rst for license details.
 
 import unittest
-from cdds_qc.contiguity_checker import CMIP6CollectionsCheck
+from cdds.qc.contiguity_checker import CMIP6CollectionsCheck
 from hadsdk.request import Request
-from unittest.mock import patch
-import os
 
 
 class CMIP6CollectionsCheckTestCase(unittest.TestCase):

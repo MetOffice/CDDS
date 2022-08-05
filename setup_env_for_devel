@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 CDDS_DIR=${1:-$PWD}
 export CDDS_DIR
-export CDDS_PACKAGES="cdds cdds_qc cdds_qc_plugin_cf17 cdds_qc_plugin_cmip6 cdds_template hadsdk mip_convert"
+export CDDS_PACKAGES="cdds cdds_template hadsdk mip_convert"
 export CDDS_TEST_NOATTRIBUTES='!slow,!integration,!dbsql,!crem,!data_request,!mappings,!inprogress,!rabbitMQ'
 export CDDS_TEST_ATTRIBUTES="integration inprogress data_request crem dbsql mappings slow rabbitMQ"
 
@@ -39,13 +39,9 @@ export CDDS_ENV_COMMAND="source $CDDS_DIR/setup_env_for_devel"
 # Awkward way to make sure qc plugins are built after setup
 MYOLDPWD=$PWD
 
-QC_PLUGINS="cdds_qc_plugin_cf17 cdds_qc_plugin_cmip6"
-for PLUGIN in $QC_PLUGINS
-do
-if [ ! -d "$CDDS_DIR/$PLUGIN/${PLUGIN}.egg-info" ]; then
-    cd $CDDS_DIR/$PLUGIN
+if [ ! -d "$CDDS_DIR/cdds/cdds.egg-info" ]; then
+    cd "$CDDS_DIR/cdds"
     python setup.py build > /dev/null 2>&1
 fi
-done
 
 cd $MYOLDPWD

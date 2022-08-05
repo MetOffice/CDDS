@@ -5,9 +5,9 @@
 """
 Contiguity checker.
 """
-from cdds_qc.dataset import StructuredDataset
-from cdds_qc.common import datepoint_from_date, equal_with_tolerance, strip_zeros
-from cdds_qc.constants import (FREQ_DICT, HOURLY_OFFSET, MONTHLY_OFFSET, RADIATION_TIMESTEP, SECONDS_IN_DAY,
+from cdds.qc.dataset import StructuredDataset
+from cdds.qc.common import datepoint_from_date, equal_with_tolerance, strip_zeros
+from cdds.qc.constants import (FREQ_DICT, HOURLY_OFFSET, MONTHLY_OFFSET, RADIATION_TIMESTEP, SECONDS_IN_DAY,
                                TIME_TOLERANCE)
 
 

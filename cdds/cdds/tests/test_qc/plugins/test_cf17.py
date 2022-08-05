@@ -3,9 +3,10 @@
 
 import unittest
 from unittest.mock import patch
-from cdds_qc_plugin_cf17.cf17 import CF17Check
-from cdds_qc_plugin_cf17.tests import (
-    STANDARD_NAMES_DIR, STANDARD_NAMES_VERSION)
+from cdds.qc.plugins.cf17 import CF17Check
+
+STANDARD_NAMES_DIR = "/project/cdds/etc/standard_names/"
+STANDARD_NAMES_VERSION = 62
 
 
 class CF17CheckTestCase(unittest.TestCase):

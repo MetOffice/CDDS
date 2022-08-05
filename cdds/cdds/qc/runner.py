@@ -13,17 +13,17 @@ from hadsdk.constants import (
     APPROVED_VARS_FILENAME_STREAM_TEMPLATE,
 )
 from hadsdk.sqlite import execute_insert_query
-from cdds_qc.dataset import StructuredDataset
-from cdds_qc.models import (
+from cdds.qc.dataset import StructuredDataset
+from cdds.qc.models import (
     setup_db,
     get_qc_runs, get_qc_files, get_error_counts, get_aggregated_errors,
     get_validated_variables
 )
-from cdds_qc.constants import (
+from cdds.qc.constants import (
     STATUS_ERROR, STATUS_WARNING, STATUS_IGNORED,
     SUMMARY_STARTED, SUMMARY_FAILED, SUMMARY_PASSED,
     QC_REPORT_STREAM_FILENAME, QC_REPORT_FILENAME)
-from cdds_qc.contiguity_checker import CMIP6CollectionsCheck
+from cdds.qc.contiguity_checker import CMIP6CollectionsCheck
 
 
 class QCRunner(object):
