@@ -95,8 +95,9 @@ class SpecificInfo:
     cmor_dataset: Dict[str, Any] = field(default_factory=dict)
     request: Dict[str, Any] = field(default_factory=dict)
     stream_id: str = ''
-    stream: Dict[str, Any] = field(default_factory=tuple)
+    stream: Dict[str, Any] = field(default_factory=dict)
     other: Dict[str, Any] = field(default_factory=dict)
+    global_attributes: Dict[str, Any] = field(default_factory=dict)
 
     def as_dict(self):
         stream_key = 'stream_{}'.format(self.stream_id)

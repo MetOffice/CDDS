@@ -9,20 +9,21 @@ from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData
 from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_DIR, ROOT_TEST_LOCATION, ROOT_ANCIL_DIR
 
 
-class TestCmip6AERmonRlutaf(AbstractFunctionalTests):
+class TestCmip6CFmonClmcalipso(AbstractFunctionalTests):
 
     def get_test_data(self):
         # maybe in specific info section
-        test_location = os.path.join(ROOT_TEST_LOCATION, 'test_cases_python3', 'test_CMIP6_AERmon_rlutaf')
+        test_location = os.path.join(ROOT_TEST_LOCATION, 'test_cases_python3', 'test_CMIP6_CFmon_clmcalipso')
         output_dir = os.path.join(test_location, 'data_out_{}'.format(os.environ['USER']))
         return Cmip6TestData(
-            mip_table='AERmon',
-            variable='rlutaf',
+            mip_table='CFmon',
+            variable='clmcalipso',
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location
                 },
                 cmor_setup={
+                    'netcdf_file_action': 'CMOR_REPLACE_3',
                     'cmor_log_file': os.path.join(test_location, 'cmor.log')
                 },
                 cmor_dataset={
@@ -30,21 +31,21 @@ class TestCmip6AERmonRlutaf(AbstractFunctionalTests):
                 },
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0', 'UKESM1-0-LL', 'qrparm.orog.pp'),
-                    'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set2'),
-                    'run_bounds': '2345-06-01-00-00-00 2345-07-01-00-00-00',
-                    'suite_id': 'u-aw310'
+                    'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set1'),
+                    'run_bounds': '1979-04-01-00-00-00 1979-05-01-00-00-00',
+                    'suite_id': 'u-an644'
                 },
-                stream_id='ap4',
+                stream_id='ap5',
                 stream={
-                    'CMIP6_AERmon': 'rlutaf'
+                    'CMIP6_CFmon': 'clmcalipso'
                 },
                 other={
-                    'filenames': ['rlutaf_AERmon_UKESM1-0-LL_amip_r1i1p1f1_gn_234506-234506.nc'],
+                    'filenames': ['clmcalipso_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_197904-197904.nc'],
                     'ignore_history': True,
                 }
             )
         )
 
     @attr('slow')
-    def test_cmip6_aermon_rlutaf(self):
+    def test_cmip6_cfmon_clmcalipso(self):
         self.check_main()

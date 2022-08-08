@@ -190,25 +190,25 @@ def specific_info():
     tests.
     """
     return {
-        ('CMIP6', 'Amon', 'tasmax'): {  # (lat, lon, time, height2m)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Amon_tasmax',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '2021-01-01-00-00-00 2021-02-01-00-00-00',
-                'suite_id': 'ajnjg',
-            },
-            'stream_apa': {
-                'CMIP6_Amon': 'tasmax',
-            },
-            'other': {
-                'filenames': [
-                    'tasmax_Amon_UKESM1-0-LL_amip_r1i1p1f1_gn_'
-                    '202101-202101.nc'],
-                'ignore_history': True,
-            },
-        },
+        # ('CMIP6', 'Amon', 'tasmax'): {  # (lat, lon, time, height2m)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Amon_tasmax',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '2021-01-01-00-00-00 2021-02-01-00-00-00',
+        #         'suite_id': 'ajnjg',
+        #     },
+        #     'stream_apa': {
+        #         'CMIP6_Amon': 'tasmax',
+        #     },
+        #     'other': {
+        #         'filenames': [
+        #             'tasmax_Amon_UKESM1-0-LL_amip_r1i1p1f1_gn_'
+        #             '202101-202101.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
         ('ARISE', 'Emon', 'hussLut'): {  # (lat, lon, time, height2m)
             'COMMON': {
                 'test_location': '${COMMON:root_test_location}/test_cases_python3/test_ARISE_Emon_hussLut',
@@ -228,162 +228,162 @@ def specific_info():
                 'ignore_history': True,
             },
         },
-        ('CMIP6', 'AERmon', 'reffclwtop'): {  # N216 (lat, lon, time)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_AERmon_reffclwtop',
-            },
-            'cmor_setup': {
-                'netcdf_file_action': 'CMOR_REPLACE_3',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1851-05-01-00-00-00 1851-06-01-00-00-00',
-                'suite_id': 'u-aq112',
-            },
-            'stream_ap4': {
-                'CMIP6_AERmon': 'reffclwtop',
-            },
-            'other': {
-                'filenames': [
-                    'reffclwtop_AERmon_UKESM1-0-LL_amip_r1i1p1f1_gn_'
-                    '185105-185105.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'AERmon', 'rlutaf'): {  # (lat, lon, time)
-            # Check multiply_cubes with optional orography.
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_AERmon_rlutaf',
-            },
-            'request': {
-                'ancil_files': '${COMMON:root_ancil_dir}/UKESM1-0/UKESM1-0-LL/qrparm.orog.pp',
-                'model_output_dir': '${COMMON:root_test_location}/input/set2',
-                'run_bounds': '2345-06-01-00-00-00 2345-07-01-00-00-00',
-                'suite_id': 'u-aw310',
-            },
-            'stream_ap4': {
-                'CMIP6_AERmon': 'rlutaf',
-            },
-            'other': {
-                'filenames': [
-                    'rlutaf_AERmon_UKESM1-0-LL_amip_r1i1p1f1_gn_'
-                    '234506-234506.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'AERmon', 'phalf'): {  # (lat, lon, hybrid_height_half, time)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_AERmon_phalf',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '2345-06-01-00-00-00 2345-07-01-00-00-00',
-                'suite_id': 'u-aw310',
-            },
-            'stream_ap4': {
-                'CMIP6_AERmon': 'phalf',
-            },
-            'other': {
-                'filenames': ['phalf_AERmon_UKESM1-0-LL_amip_r1i1p1f1_gn_234506-234506.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'CFday', 'ta700'): {  # (lat, lon, time, p700)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_CFday_ta700',
-            },
-            'cmor_setup': {
-                'netcdf_file_action': 'CMOR_REPLACE_3',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1855-05-11-00-00-00 1855-05-21-00-00-00',
-                'suite_id': 'u-ar050',
-            },
-            'stream_ap6': {
-                'CMIP6_CFday': 'ta700',
-            },
-            'other': {
-                'filenames': ['ta700_CFday_UKESM1-0-LL_amip_r1i1p1f1_gn_18550511-18550520.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'CFmon', 'clmcalipso'): {  # (lat, lon, time, p560)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_CFmon_clmcalipso',
-            },
-            'cmor_setup': {
-                'netcdf_file_action': 'CMOR_REPLACE_3',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1979-04-01-00-00-00 1979-05-01-00-00-00',
-                'suite_id': 'u-an644',
-            },
-            'stream_ap5': {
-                'CMIP6_CFmon': 'clmcalipso',
-            },
-            'other': {
-                'filenames': ['clmcalipso_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_197904-197904.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'CFmon', 'cls'): {  # (lat, lon, time, hybrid_height)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_CFmon_cls',
-            },
-            'cmor_setup': {
-                'netcdf_file_action': 'CMOR_REPLACE_3',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1979-04-01-00-00-00 1979-05-01-00-00-00',
-                'suite_id': 'u-an644',
-            },
-            'stream_ap5': {
-                'CMIP6_CFmon': 'cls',
-            },
-            'other': {
-                'filenames': ['cls_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_197904-197904.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'CFmon', 'clisccp'): {  # (lat, lon, plev7c, tau, time)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_CFmon_clisccp',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1902-04-01-00-00-00 1902-05-01-00-00-00',
-                'suite_id': 'u-ar766',
-            },
-            'stream_ap5': {
-                'CMIP6_CFmon': 'clisccp',
-            },
-            'other': {
-                'filenames': ['clisccp_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_190204-190204.nc'],
-                'ignore_history': True,
-            },
-        },
+        # ('CMIP6', 'AERmon', 'reffclwtop'): {  # N216 (lat, lon, time)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_AERmon_reffclwtop',
+        #     },
+        #     'cmor_setup': {
+        #         'netcdf_file_action': 'CMOR_REPLACE_3',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1851-05-01-00-00-00 1851-06-01-00-00-00',
+        #         'suite_id': 'u-aq112',
+        #     },
+        #     'stream_ap4': {
+        #         'CMIP6_AERmon': 'reffclwtop',
+        #     },
+        #     'other': {
+        #         'filenames': [
+        #             'reffclwtop_AERmon_UKESM1-0-LL_amip_r1i1p1f1_gn_'
+        #             '185105-185105.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'AERmon', 'rlutaf'): {  # (lat, lon, time)
+        #     # Check multiply_cubes with optional orography.
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_AERmon_rlutaf',
+        #     },
+        #     'request': {
+        #         'ancil_files': '${COMMON:root_ancil_dir}/UKESM1-0/UKESM1-0-LL/qrparm.orog.pp',
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set2',
+        #         'run_bounds': '2345-06-01-00-00-00 2345-07-01-00-00-00',
+        #         'suite_id': 'u-aw310',
+        #     },
+        #     'stream_ap4': {
+        #         'CMIP6_AERmon': 'rlutaf',
+        #     },
+        #     'other': {
+        #         'filenames': [
+        #             'rlutaf_AERmon_UKESM1-0-LL_amip_r1i1p1f1_gn_'
+        #             '234506-234506.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'AERmon', 'phalf'): {  # (lat, lon, hybrid_height_half, time)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_AERmon_phalf',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '2345-06-01-00-00-00 2345-07-01-00-00-00',
+        #         'suite_id': 'u-aw310',
+        #     },
+        #     'stream_ap4': {
+        #         'CMIP6_AERmon': 'phalf',
+        #     },
+        #     'other': {
+        #         'filenames': ['phalf_AERmon_UKESM1-0-LL_amip_r1i1p1f1_gn_234506-234506.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'CFday', 'ta700'): {  # (lat, lon, time, p700)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_CFday_ta700',
+        #     },
+        #     'cmor_setup': {
+        #         'netcdf_file_action': 'CMOR_REPLACE_3',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1855-05-11-00-00-00 1855-05-21-00-00-00',
+        #         'suite_id': 'u-ar050',
+        #     },
+        #     'stream_ap6': {
+        #         'CMIP6_CFday': 'ta700',
+        #     },
+        #     'other': {
+        #         'filenames': ['ta700_CFday_UKESM1-0-LL_amip_r1i1p1f1_gn_18550511-18550520.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'CFmon', 'clmcalipso'): {  # (lat, lon, time, p560)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_CFmon_clmcalipso',
+        #     },
+        #     'cmor_setup': {
+        #         'netcdf_file_action': 'CMOR_REPLACE_3',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1979-04-01-00-00-00 1979-05-01-00-00-00',
+        #         'suite_id': 'u-an644',
+        #     },
+        #     'stream_ap5': {
+        #         'CMIP6_CFmon': 'clmcalipso',
+        #     },
+        #     'other': {
+        #         'filenames': ['clmcalipso_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_197904-197904.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'CFmon', 'cls'): {  # (lat, lon, time, hybrid_height)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_CFmon_cls',
+        #     },
+        #     'cmor_setup': {
+        #         'netcdf_file_action': 'CMOR_REPLACE_3',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1979-04-01-00-00-00 1979-05-01-00-00-00',
+        #         'suite_id': 'u-an644',
+        #     },
+        #     'stream_ap5': {
+        #         'CMIP6_CFmon': 'cls',
+        #     },
+        #     'other': {
+        #         'filenames': ['cls_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_197904-197904.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'CFmon', 'clisccp'): {  # (lat, lon, plev7c, tau, time)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_CFmon_clisccp',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1902-04-01-00-00-00 1902-05-01-00-00-00',
+        #         'suite_id': 'u-ar766',
+        #     },
+        #     'stream_ap5': {
+        #         'CMIP6_CFmon': 'clisccp',
+        #     },
+        #     'other': {
+        #         'filenames': ['clisccp_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_190204-190204.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
 
-        ('CMIP6', 'CFmon', 'tnhus'): {  # (lat, lon, time, hybrid_height)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_CFmon_tnhus',
-            },
-            'request': {
-                'atmos_timestep': '600',
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1902-04-01-00-00-00 1902-05-01-00-00-00',
-                'suite_id': 'u-ar050',
-            },
-            'stream_apu': {
-                'CMIP6_CFmon': 'tnhus',
-            },
-            'other': {
-                'filenames': ['tnhus_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_190204-190204.nc'],
-                'ignore_history': True,
-            },
-        },
+        # ('CMIP6', 'CFmon', 'tnhus'): {  # (lat, lon, time, hybrid_height)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_CFmon_tnhus',
+        #     },
+        #     'request': {
+        #         'atmos_timestep': '600',
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1902-04-01-00-00-00 1902-05-01-00-00-00',
+        #         'suite_id': 'u-ar050',
+        #     },
+        #     'stream_apu': {
+        #         'CMIP6_CFmon': 'tnhus',
+        #     },
+        #     'other': {
+        #         'filenames': ['tnhus_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_190204-190204.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
         ('CMIP6', 'day', 'zg_deflation'): {  # (pressure, lat)
             'COMMON': {
                 'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_day_zg_deflation',
