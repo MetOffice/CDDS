@@ -1,64 +1,136 @@
 # (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
 import os.path
+
 from abc import ABC
 from dataclasses import dataclass, asdict, field
 from typing import Dict, Any
 
-
-ROOT_TEST_DIR = '/project/cdds'
-ROOT_CMIP6_MIP_TABLES_DIR = '/home/h03/cdds'
+from mip_convert.tests.test_functional.utils.constants import CMIP6_LICENSE, ROOT_TEST_DIR, ROOT_CMIP6_MIP_TABLES_DIR, ROOT_TEST_LOCATION, ROOT_ANCIL_DIR
 
 
 @dataclass
-class AbstractConfigSection(ABC):
-    section_name: ''
+class CommonInfo:
+    common: Dict[str, Any] = None
+    cmor_setup: Dict[str, Any] = None
+    cmor_dataset: Dict[str, Any] = None
 
     def as_dict(self):
-        return {
-            k: v for k, v in asdict(self).items() if v and k != 'section_name'
+        excludes = ['common']
+        items = {
+            k: v for k, v in asdict(self).items() if v and k not in excludes
         }
+        items['COMMON'] = self.common
+        return items
+
+    @classmethod
+    def default_common_info(cls):
+        return CommonInfo(
+            common={
+                'root_test_dir': ROOT_TEST_DIR,
+                'root_test_location': ROOT_TEST_LOCATION,
+                'root_ancil_dir': ROOT_ANCIL_DIR
+            },
+            cmor_setup={
+                # 'cmor_log_file': '${COMMON:test_location}/cmor.log',  # Kerstin move to specific info?
+                'create_subdirectories': '0'
+            },
+            cmor_dataset={
+                'calendar': '360_day',
+                'grid': 'not checked',
+                'grid_label': 'gn',
+                'institution_id': 'MOHC',
+            }
+        )
 
 
 @dataclass
-class CommonSection:
-    root_test_dir: str = ROOT_TEST_DIR
-    root_test_location: str = os.path.join(ROOT_TEST_DIR, 'testdata', 'diagnostics')
-    root_ancil_dir: str = os.path.join(ROOT_TEST_DIR, 'etc', 'um_ancil')
-    test_location: str = None
-
-
-@dataclass
-class AbstractTestData(ABC):
-    project: str = ''
-    mip_table: str = ''
-    variable: str = ''
-
-    common: CommonSection = None  # add default values here!
+class ProjectInfo:
+    project_id: Dict[str, Any] = None
     cmor_setup: Dict[str, Any] = None
     cmor_dataset: Dict[str, Any] = None
     request: Dict[str, Any] = None
     global_attributes: Dict[str, Any] = None
-    stream: Dict[str, Any] = None
-    other: Dict[str, Any] = None
+
+    def as_dict(self):
+        excludes = ['project_id']
+        items = {
+            k: v for k, v in asdict(self).items() if v and k not in excludes
+        }
+        return items
+
+    @classmethod
+    def cmip6_project_info(cls) -> 'ProjectInfo':
+        return ProjectInfo(
+            project_id='CMIP6',
+            cmor_setup={
+                'mip_table_dir': '{}/etc/mip_tables/CMIP6/for_functional_tests'.format(ROOT_CMIP6_MIP_TABLES_DIR),
+                'netcdf_file_action': 'CMOR_REPLACE_4',
+            },
+            cmor_dataset={
+                'branch_method': 'no parent',
+                'experiment_id': 'amip',
+                'license': CMIP6_LICENSE,
+                'mip': 'CMIP',
+                'mip_era': 'CMIP6',
+                'model_id': 'UKESM1-0-LL',
+                'model_type': 'AGCM',
+                'nominal_resolution': '5 km',
+                'sub_experiment_id': 'none',
+                'variant_label': 'r1i1p1f1'
+            },
+            request={
+                'child_base_date': '2000-01-01-00-00-00'
+            },
+            global_attributes={
+                'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
+            }
+        )
+
+
+@dataclass
+class SpecificInfo:
+    common: Dict[str, Any] = field(default_factory=dict)
+    cmor_setup: Dict[str, Any] = field(default_factory=dict)
+    cmor_dataset: Dict[str, Any] = field(default_factory=dict)
+    request: Dict[str, Any] = field(default_factory=dict)
+    stream_id: str = ''
+    stream: Dict[str, Any] = field(default_factory=tuple)
+    other: Dict[str, Any] = field(default_factory=dict)
+
+    def as_dict(self):
+        stream_key = 'stream_{}'.format(self.stream_id)
+        excludes = ['common', 'project_id', 'stream', 'stream_id']
+        items = {
+            k: v for k, v in asdict(self).items() if v and k not in excludes
+        }
+        items['COMMON'] = self.common
+        items[stream_key] = self.stream
+        return items
+
+
+@dataclass
+class AbstractTestData(ABC):
+    project_id: str = ''
+    mip_table: str = ''
+    variable: str = ''
+    common_info: CommonInfo = field(default_factory=lambda: CommonInfo())
+    project_info: ProjectInfo = None
+    specific_info: SpecificInfo = None
+
+    def as_list_dicts(self):
+        return [self.common_info.as_dict(), self.project_info.as_dict(), self.specific_info.as_dict()]
 
 
 @dataclass
 class Cmip6TestData(AbstractTestData):
-    project: str = 'CMIP6'
-
-    # add project specific settings for sections
-
-
-@dataclass
-class AriseTestData(AbstractTestData):
-    project: str = 'ARISE'
-
-    # add project specific settings for sections
+    project_id: str = field(init=False, default_factory=lambda: 'CMIP6')
+    common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
+    project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cmip6_project_info())
+    specific_info: SpecificInfo = None
 
 
-@dataclass
-class CordexTestData(AbstractTestData):
-    project: str = 'CORDEX'
+if __name__ == '__main__':
+    test_data = Cmip6TestData()
+    print(test_data.common_info.as_dict())
 
-    # add project specific settings for sections

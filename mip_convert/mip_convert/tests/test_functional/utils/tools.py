@@ -7,15 +7,8 @@ import os
 from collections import defaultdict
 from datetime import datetime
 
-from mip_convert.tests.functional.user_configuration import common_info, project_info, specific_info
-
-DEBUG = False
-NCCMP_TIMINGS = []
-
-COMPARE_NETCDF = (
-    'nccmp -dmgfbi {tolerance} {history} {options} --globalex=cmor_version,creation_date,cv_version,'
-    'data_specs_version,table_info,tracking_id,_NCProperties {output} {reference}'
-)
+from mip_convert.tests.test_functional.utils.configurations import SpecificInfo, AbstractTestData
+from mip_convert.tests.test_functional.utils.constants import DEBUG, NCCMP_TIMINGS, COMPARE_NETCDF
 
 
 def compare_command(outputs, references, tolerance_value=None, ignore_history=False, other_options=None):
@@ -77,11 +70,11 @@ def compare(compare_commands):
     assert set(stderrdata) == set(['']), message
 
 
-def write_user_configuration_file(os_handle, test_key):
+def write_user_configuration_file(os_handle, test_data: AbstractTestData):
     user_config = configparser.ConfigParser(interpolation=None)
     user_config.optionxform = str  # Preserve case.
     config = defaultdict(dict)
-    all_info = [common_info(), project_info()[test_key[0]], specific_info()[test_key]]
+    all_info = test_data.as_list_dicts()
     for info in all_info:
         for section, items in info.items():
             config[section].update(items)

@@ -20,8 +20,9 @@ from cdds_common.cdds_plugins.plugin_loader import load_plugin
 from mip_convert.command_line import main
 from mip_convert.save.cmor.cmor_outputter import CmorGridMaker, AbstractAxisMaker
 from mip_convert.tests.functional.user_configuration import common_info, project_info, specific_info
+from mip_convert.tests.test_functional.utils.configurations import AbstractTestData
 
-from abc import ABCMeta
+from abc import ABCMeta, abstractmethod
 from mip_convert.tests.test_functional.utils.tools import (compare,
                                                            compare_command,
                                                            write_user_configuration_file,
@@ -37,7 +38,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         load_plugin()
         directory_name = os.path.dirname(os.path.realpath(__file__))
         self.config_base_path = os.path.join(directory_name, 'functional')
-        self.data_base_path = ('/project/cdds/testdata/diagnostics/test_cases_python3/')
+        self.data_base_path = '/project/cdds/testdata/diagnostics/test_cases_python3/'
         self.compare_netcdf = (
             'nccmp -dmgfbi {tolerance} {history} {options} --globalex=cmor_version,creation_date,cv_version,'
             'data_specs_version,table_info,tracking_id,_NCProperties {output} {reference}'
@@ -45,10 +46,17 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         self.input_dir = 'test_{}_{}_{}'
         self.os_handle, self.config_file = mkstemp()
         self.mip_convert_log = 'mip_convert_{}.log'.format(os.environ['USER'])
+        self.test_info: AbstractTestData = self.get_test_data()
 
-    def convert(self, test_key, output_directory, reference_dir, filenames):
-        input_directory = self.input_dir.format(*test_key)
-        write_user_configuration_file(self.os_handle, test_key)
+    @abstractmethod
+    def get_test_data(self) -> AbstractTestData:
+        pass
+
+    def convert(self, output_directory, reference_dir, filenames):
+        input_directory = self.input_dir.format(
+            self.test_info.project_id, self.test_info.mip_table, self.test_info.variable
+        )
+        write_user_configuration_file(self.os_handle, self.test_info)
         data_directory = os.path.join(self.data_base_path, input_directory)
         log_name = os.path.join(data_directory, self.mip_convert_log)
         output_directory = os.path.join(data_directory, output_directory)
@@ -90,22 +98,23 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         print_outcome(outputs, output_directory, data_directory)
         return outputs, references
 
-    def check_main(self, test_key):
-        test_info = specific_info()[test_key]
-        filenames = test_info['other']['filenames']
+    def check_main(self):
+        filenames = self.test_info.specific_info.other['filenames']
         ignore_history = False
         tolerance_value = None
         other_options = None
-        if 'ignore_history' in test_info['other']:
-            ignore_history = test_info['other']['ignore_history']
-        if 'tolerance_value' in test_info['other']:
-            tolerance_value = test_info['other']['tolerance_value']
-        if 'other_options' in test_info['other']:
-            other_options = test_info['other']['other_options']
+
+        other_items = self.test_info.specific_info.other
+        if 'ignore_history' in other_items:
+            ignore_history = other_items['ignore_history']
+        if 'tolerance_value' in other_items:
+            tolerance_value = other_items['tolerance_value']
+        if 'other_options' in other_items:
+            other_options = other_items['other_options']
 
         output = 'data_out_{}'.format(os.environ['USER'])
         reference = 'reference_output'
-        outputs, references = self.convert(test_key, output, reference, filenames)
+        outputs, references = self.convert(output, reference, filenames)
         compare(
             compare_command(outputs,
                             references,
