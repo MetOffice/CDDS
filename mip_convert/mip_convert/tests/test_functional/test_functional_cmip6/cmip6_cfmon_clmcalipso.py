@@ -35,9 +35,8 @@ class TestCmip6CFmonClmcalipso(AbstractFunctionalTests):
                     'run_bounds': '1979-04-01-00-00-00 1979-05-01-00-00-00',
                     'suite_id': 'u-an644'
                 },
-                stream_id='ap5',
-                stream={
-                    'CMIP6_CFmon': 'clmcalipso'
+                streams={
+                    'ap5': {'CMIP6_CFmon': 'clmcalipso'}
                 },
                 other={
                     'filenames': ['clmcalipso_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_197904-197904.nc'],

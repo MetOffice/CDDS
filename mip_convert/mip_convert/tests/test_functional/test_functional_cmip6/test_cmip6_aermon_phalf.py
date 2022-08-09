@@ -36,9 +36,8 @@ class TestCmip6AERmonPhalf(AbstractFunctionalTests):
                     'run_bounds': '2345-06-01-00-00-00 2345-07-01-00-00-00',
                     'suite_id': 'u-aw310'
                 },
-                stream_id='ap4',
-                stream={
-                    'CMIP6_AERmon': 'phalf'
+                streams={
+                    'ap4': {'CMIP6_AERmon': 'phalf'}
                 },
                 other={
                     'filenames': ['phalf_AERmon_UKESM1-0-LL_amip_r1i1p1f1_gn_234506-234506.nc'],

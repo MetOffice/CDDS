@@ -384,349 +384,349 @@ def specific_info():
         #         'ignore_history': True,
         #     },
         # },
-        ('CMIP6', 'day', 'zg_deflation'): {  # (pressure, lat)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_day_zg_deflation',
-            },
-            'cmor_dataset': {
-                'branch_date_in_child': 'N/A',
-                'branch_date_in_parent': 'N/A',
-                'branch_method': 'standard',
-                'contact': 'enquiries@metoffice.gov.uk',
-                'experiment_id': 'highres-future',
-                'grid': 'N96',
-                'mip': 'HighResMIP',
-                'model_id': 'HadGEM3-GC31-LL',
-                'model_type': 'AOGCM',
-                'nominal_resolution': '100 km',
-                'parent_base_date': '1950-01-01-00-00-00',
-                'parent_experiment_id': 'hist-1950',
-                'parent_mip_era': 'CMIP6',
-                'parent_model_id': 'HadGEM3-GC31-LL',
-                'parent_time_units': 'days since 1950-01-01',
-                'parent_variant_label': 'r1i1p1f1',
-                'references': 'http://dx.doi.org/10.5194%2Fgmd-4-919-2011',
-            },
-            'request': {
-                'child_base_date': '1950-01-01-00-00-00',
-                'deflate_level': 3,
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
-                'shuffle': True,
-                'suite_id': 'ai674',
-            },
-            'global_attributes': {
-                'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.'
-                                    'highres-future.none.r1i1p1f1'
-            },
-            'stream_ap6': {
-                'CMIP6_day': 'zg',
-            },
-            'other': {
-                'filenames': ['zg_day_HadGEM3-GC31-LL_highres-future_r1i1p1f1_gn_19500101-19500130.nc'],
-                'ignore_history': True,
-                'other_options': '-e',
-            },
-        },
-        ('CMIP6', 'Emon', 'cfadDbze94'): {  # (lat, lon, time, alt40, dbze)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Emon_cfadDbze94',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1983-05-01-00-00-00 1983-06-01-00-00-00',
-                'suite_id': 'u-au456',
-
-            },
-            'stream_ap5': {
-                'CMIP6_Emon': 'cfadDbze94',
-            },
-            'other': {
-                'filenames': ['cfadDbze94_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_198305-198305.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'Emon', 'sconcdust'): {  # (lat, lon, time)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Emon_sconcdust',
-            },
-            'cmor_setup': {
-                'netcdf_file_action': 'CMOR_REPLACE_3',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1979-04-01-00-00-00 1979-05-01-00-00-00',
-                'suite_id': 'u-an644',
-            },
-            'stream_ap5': {
-                'CMIP6_Emon': 'sconcdust',
-            },
-            'other': {
-                'filenames': ['sconcdust_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_197904-197904.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'Emon', 'hus27'): {  # (lat, lon, plev, time)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Emon_hus27',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1960-03-01-00-00-00 1960-04-01-00-00-00',
-                'suite_id': 'u-aw310',
-            },
-            'stream_ap5': {
-                'CMIP6_Emon': 'hus27',
-            },
-            'other': {
-                'filenames': ['hus_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_196003-196003.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'Emon', 'loaddust'): {  # (lat, lon, time)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Emon_loaddust',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1960-02-01-00-00-00 1960-04-01-00-00-00',
-                'suite_id': 'u-aw310',
-            },
-            'stream_ap5': {
-                'CMIP6_Emon': 'loaddust',
-            },
-            'other': {
-                'filenames': ['loaddust_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_196002-196003.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'Eday', 'parasolRefl'): {  # (lat, lon, time, sza5)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Eday_parasolRefl',
-            },
-            'cmor_setup': {
-                'netcdf_file_action': 'CMOR_REPLACE_3',
-            },
-            'cmor_dataset': {
-                'contact': 'chris.d.jones@metoffice.gov.uk',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1979-01-01-00-00-00 1979-02-01-00-00-00',
-                'suite_id': 'u-bh859',
-            },
-            'stream_ap6': {
-                'CMIP6_Eday': 'parasolRefl',
-            },
-            'other': {
-                'filenames': ['parasolRefl_Eday_UKESM1-0-LL_amip_r1i1p1f1_gn_19790101-19790130.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'EdayZ', 'zg'): {  # zonal mean (pressure, lat)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_EdayZ_zg',
-            },
-            'cmor_dataset': {
-                'branch_date_in_child': '1970-01-01-00-00-00',
-                'branch_date_in_parent': 'N/A',
-                'branch_method': 'standard',
-                'contact': 'enquiries@metoffice.gov.uk',
-                'experiment_id': 'highres-future',
-                'grid': 'N96',
-                'grid_resolution': '250 km',
-                'mip': 'HighResMIP',
-                'model_id': 'HadGEM3-GC31-LL',
-                'model_type': 'AOGCM',
-                'nominal_resolution': '100 km',
-                'parent_base_date': '1950-01-01-00-00-00',
-                'parent_experiment_id': 'hist-1950',
-                'parent_mip_era': 'CMIP6',
-                'parent_model_id': 'HadGEM3-GC31-LL',
-                'parent_time_units': 'days since 1950-01-01',
-                'parent_variant_label': 'r1i1p1f1',
-                'references': 'http://dx.doi.org/10.5194%2Fgmd-4-919-2011',
-            },
-            'request': {
-                'child_base_date': '1950-01-01-00-00-00',
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
-                'suite_id': 'ai674',
-            },
-            'global_attributes': {
-                'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.'
-                                    'highres-future.none.r1i1p1f1'
-            },
-            'stream_ap6': {
-                'CMIP6_EdayZ': 'zg',
-            },
-            'other': {
-                'filenames': ['zg_EdayZ_HadGEM3-GC31-LL_highres-future_r1i1p1f1_gn_19500101-19500130.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'EdayZ', 'vtem'): {  # zonal mean, fix lbproc (pressure, lat)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_EdayZ_vtem',
-            },
-            'cmor_dataset': {
-                'branch_date_in_child': 'N/A',
-                'branch_date_in_parent': 'N/A',
-                'branch_method': 'standard',
-                'contact': 'enquiries@metoffice.gov.uk',
-                'experiment_id': 'highres-future',
-                'grid': 'N96',
-                'grid_resolution': '250 km',
-                'mip': 'HighResMIP',
-                'model_id': 'HadGEM3-GC31-LL',
-                'model_type': 'AOGCM',
-                'nominal_resolution': '100 km',
-                'parent_base_date': '1950-01-01-00-00-00',
-                'parent_experiment_id': 'hist-1950',
-                'parent_mip_era': 'CMIP6',
-                'parent_model_id': 'HadGEM3-GC31-LL',
-                'parent_time_units': 'days since 1950-01-01',
-                'parent_variant_label': 'r1i1p1f1',
-                'references': 'http://dx.doi.org/10.5194%2Fgmd-4-919-2011',
-            },
-            'request': {
-                'child_base_date': '1950-01-01-00-00-00',
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
-                'suite_id': 'ai674',
-            },
-            'global_attributes': {
-                'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.'
-                                    'highres-future.none.r1i1p1f1'
-            },
-            'stream_ap6': {
-                'CMIP6_EdayZ': 'vtem',
-            },
-            'other': {
-                'filenames': ['vtem_EdayZ_HadGEM3-GC31-LL_highres-future_r1i1p1f1_gn_19500101-19500130.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'Omon', 'soga'): {  # (time)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_soga',
-            },
-            'cmor_dataset': {
-                'contact': 'chris.d.jones@metoffice.gov.uk',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1851-05-01-00-00-00 1851-06-01-00-00-00',
-                'suite_id': 'u-aq112',
-            },
-            'stream_onm': {
-                'CMIP6_Omon': 'soga',
-            },
-            'other': {
-                'filenames': ['soga_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_185105-185105.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'Omon', 'tos'): {  # (lat, lon, time)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_tos',
-            },
-            'cmor_dataset': {
-                'calendar': 'noleap',
-                'contact': 'chris.d.jones@metoffice.gov.uk',
-                'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1976-01-01-00-00-00 1976-01-11-00-00-00',
-                'suite_id': 'ai022',
-            },
-            'stream_onb': {
-                'CMIP6_Omon': 'tos',
-            },
-            'other': {
-                'filenames': ['tos_Omon_UKESM1-0-LL_amip_r1i1p1f1_197601-197601.nc'],
-            },
-        },
-        ('CMIP6', 'Omon', 'thetao'): {  # (lat, lon, time, depth)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_thetao',
-            },
-            'cmor_dataset': {
-                'calendar': 'noleap',
-                'contact': 'chris.d.jones@metoffice.gov.uk',
-                'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1976-01-01-00-00-00 1976-01-11-00-00-00',
-                'suite_id': 'ai022',
-            },
-            'stream_onb': {
-                'CMIP6_Omon': 'thetao',
-            },
-            'other': {
-                'filenames': ['thetao_Omon_UKESM1-0-LL_amip_r1i1p1f1_197601-197601.nc'],
-            },
-        },
-        ('CMIP6', 'Omon', 'thkcello'): {  # (lat, lon, time, verticle T level)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_thkcello',
-            },
-            'cmor_dataset': {
-                'contact': 'chris.d.jones@metoffice.gov.uk',
-                'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
-                'model_id': 'HadGEM3-GC31-LL',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1980-01-01-00-00-00 1980-02-01-00-00-00',
-                'suite_id': 'u-ar766',
-            },
-            'global_attributes': {
-                'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.amip.none.r1i1p1f1'
-            },
-            'stream_onm_grid-T': {
-                'CMIP6_Omon': 'thkcello',
-            },
-            'other': {
-                'filenames': ['thkcello_Omon_HadGEM3-GC31-LL_amip_r1i1p1f1_198001-198001.nc'],
-            },
-        },
-        ('CMIP6', 'Omon', 'vmo'): {  # (lat, lon, time, olevel)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_vmo',
-            },
-            'request': {
-                'ancil_files': '${COMMON:root_ancil_dir}/HadGEM3-GC31/HadGEM3-GC31-LL/ocean_byte_masks.nc',
-                'model_output_dir': '${COMMON:root_test_location}/input/set2',
-                'run_bounds': '1852-03-01-00-00-00 1852-04-01-00-00-00',
-                'suite_id': 'u-ar050',
-            },
-            'stream_onm': {
-                'CMIP6_Omon': 'vmo',
-            },
-            'other': {
-                'filenames': ['vmo_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_185203-185203.nc'],
-            },
-        },
-        ('CMIP6', 'Omon', 'vo'): {  # (lat, lon, time, depth)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_vo',
-            },
-            'request': {
-                'ancil_files': '${COMMON:root_ancil_dir}/UKESM1-0/UKESM1-0-LL/ocean_byte_masks.nc',
-                'model_output_dir': '${COMMON:root_test_location}/input/set2',
-                'run_bounds': '1960-01-01-00-00-00 1960-04-01-00-00-00',
-                'suite_id': 'u-aw310',
-            },
-            'stream_onm_grid-V': {
-                'CMIP6_Omon': 'vo',
-            },
-            'other': {
-                'filenames': ['vo_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_196001-196003.nc'],
-            },
-        },
+        # ('CMIP6', 'day', 'zg_deflation'): {  # (pressure, lat)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_day_zg_deflation',
+        #     },
+        #     'cmor_dataset': {
+        #         'branch_date_in_child': 'N/A',
+        #         'branch_date_in_parent': 'N/A',
+        #         'branch_method': 'standard',
+        #         'contact': 'enquiries@metoffice.gov.uk',
+        #         'experiment_id': 'highres-future',
+        #         'grid': 'N96',
+        #         'mip': 'HighResMIP',
+        #         'model_id': 'HadGEM3-GC31-LL',
+        #         'model_type': 'AOGCM',
+        #         'nominal_resolution': '100 km',
+        #         'parent_base_date': '1950-01-01-00-00-00',
+        #         'parent_experiment_id': 'hist-1950',
+        #         'parent_mip_era': 'CMIP6',
+        #         'parent_model_id': 'HadGEM3-GC31-LL',
+        #         'parent_time_units': 'days since 1950-01-01',
+        #         'parent_variant_label': 'r1i1p1f1',
+        #         'references': 'http://dx.doi.org/10.5194%2Fgmd-4-919-2011',
+        #     },
+        #     'request': {
+        #         'child_base_date': '1950-01-01-00-00-00',
+        #         'deflate_level': 3,
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
+        #         'shuffle': True,
+        #         'suite_id': 'ai674',
+        #     },
+        #     'global_attributes': {
+        #         'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.'
+        #                             'highres-future.none.r1i1p1f1'
+        #     },
+        #     'stream_ap6': {
+        #         'CMIP6_day': 'zg',
+        #     },
+        #     'other': {
+        #         'filenames': ['zg_day_HadGEM3-GC31-LL_highres-future_r1i1p1f1_gn_19500101-19500130.nc'],
+        #         'ignore_history': True,
+        #         'other_options': '-e',
+        #     },
+        # },
+        # ('CMIP6', 'Emon', 'cfadDbze94'): {  # (lat, lon, time, alt40, dbze)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Emon_cfadDbze94',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1983-05-01-00-00-00 1983-06-01-00-00-00',
+        #         'suite_id': 'u-au456',
+        #
+        #     },
+        #     'stream_ap5': {
+        #         'CMIP6_Emon': 'cfadDbze94',
+        #     },
+        #     'other': {
+        #         'filenames': ['cfadDbze94_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_198305-198305.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'Emon', 'sconcdust'): {  # (lat, lon, time)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Emon_sconcdust',
+        #     },
+        #     'cmor_setup': {
+        #         'netcdf_file_action': 'CMOR_REPLACE_3',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1979-04-01-00-00-00 1979-05-01-00-00-00',
+        #         'suite_id': 'u-an644',
+        #     },
+        #     'stream_ap5': {
+        #         'CMIP6_Emon': 'sconcdust',
+        #     },
+        #     'other': {
+        #         'filenames': ['sconcdust_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_197904-197904.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'Emon', 'hus27'): {  # (lat, lon, plev, time)
+        #     'COMMON': {
+        #         'tes t_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Emon_hus27',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1960-03-01-00-00-00 1960-04-01-00-00-00',
+        #         'suite_id': 'u-aw310',
+        #     },
+        #     'stream_ap5': {
+        #         'CMIP6_Emon': 'hus27',
+        #     },
+        #     'other': {
+        #         'filenames': ['hus_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_196003-196003.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'Emon', 'loaddust'): {  # (lat, lon, time)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Emon_loaddust',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1960-02-01-00-00-00 1960-04-01-00-00-00',
+        #         'suite_id': 'u-aw310',
+        #     },
+        #     'stream_ap5': {
+        #         'CMIP6_Emon': 'loaddust',
+        #     },
+        #     'other': {
+        #         'filenames': ['loaddust_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_196002-196003.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'Eday', 'parasolRefl'): {  # (lat, lon, time, sza5)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Eday_parasolRefl',
+        #     },
+        #     'cmor_setup': {
+        #         'netcdf_file_action': 'CMOR_REPLACE_3',
+        #     },
+        #     'cmor_dataset': {
+        #         'contact': 'chris.d.jones@metoffice.gov.uk',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1979-01-01-00-00-00 1979-02-01-00-00-00',
+        #         'suite_id': 'u-bh859',
+        #     },
+        #     'stream_ap6': {
+        #         'CMIP6_Eday': 'parasolRefl',
+        #     },
+        #     'other': {
+        #         'filenames': ['parasolRefl_Eday_UKESM1-0-LL_amip_r1i1p1f1_gn_19790101-19790130.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'EdayZ', 'zg'): {  # zonal mean (pressure, lat)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_EdayZ_zg',
+        #     },
+        #     'cmor_dataset': {
+        #         'branch_date_in_child': '1970-01-01-00-00-00',
+        #         'branch_date_in_parent': 'N/A',
+        #         'branch_method': 'standard',
+        #         'contact': 'enquiries@metoffice.gov.uk',
+        #         'experiment_id': 'highres-future',
+        #         'grid': 'N96',
+        #         'grid_resolution': '250 km',
+        #         'mip': 'HighResMIP',
+        #         'model_id': 'HadGEM3-GC31-LL',
+        #         'model_type': 'AOGCM',
+        #         'nominal_resolution': '100 km',
+        #         'parent_base_date': '1950-01-01-00-00-00',
+        #         'parent_experiment_id': 'hist-1950',
+        #         'parent_mip_era': 'CMIP6',
+        #         'parent_model_id': 'HadGEM3-GC31-LL',
+        #         'parent_time_units': 'days since 1950-01-01',
+        #         'parent_variant_label': 'r1i1p1f1',
+        #         'references': 'http://dx.doi.org/10.5194%2Fgmd-4-919-2011',
+        #     },
+        #     'request': {
+        #         'child_base_date': '1950-01-01-00-00-00',
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
+        #         'suite_id': 'ai674',
+        #     },
+        #     'global_attributes': {
+        #         'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.'
+        #                             'highres-future.none.r1i1p1f1'
+        #     },
+        #     'stream_ap6': {
+        #         'CMIP6_EdayZ': 'zg',
+        #     },
+        #     'other': {
+        #         'filenames': ['zg_EdayZ_HadGEM3-GC31-LL_highres-future_r1i1p1f1_gn_19500101-19500130.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'EdayZ', 'vtem'): {  # zonal mean, fix lbproc (pressure, lat)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_EdayZ_vtem',
+        #     },
+        #     'cmor_dataset': {
+        #         'branch_date_in_child': 'N/A',
+        #         'branch_date_in_parent': 'N/A',
+        #         'branch_method': 'standard',
+        #         'contact': 'enquiries@metoffice.gov.uk',
+        #         'experiment_id': 'highres-future',
+        #         'grid': 'N96',
+        #         'grid_resolution': '250 km',
+        #         'mip': 'HighResMIP',
+        #         'model_id': 'HadGEM3-GC31-LL',
+        #         'model_type': 'AOGCM',
+        #         'nominal_resolution': '100 km',
+        #         'parent_base_date': '1950-01-01-00-00-00',
+        #         'parent_experiment_id': 'hist-1950',
+        #         'parent_mip_era': 'CMIP6',
+        #         'parent_model_id': 'HadGEM3-GC31-LL',
+        #         'parent_time_units': 'days since 1950-01-01',
+        #         'parent_variant_label': 'r1i1p1f1',
+        #         'references': 'http://dx.doi.org/10.5194%2Fgmd-4-919-2011',
+        #     },
+        #     'request': {
+        #         'child_base_date': '1950-01-01-00-00-00',
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
+        #         'suite_id': 'ai674',
+        #     },
+        #     'global_attributes': {
+        #         'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.'
+        #                             'highres-future.none.r1i1p1f1'
+        #     },
+        #     'stream_ap6': {
+        #         'CMIP6_EdayZ': 'vtem',
+        #     },
+        #     'other': {
+        #         'filenames': ['vtem_EdayZ_HadGEM3-GC31-LL_highres-future_r1i1p1f1_gn_19500101-19500130.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'Omon', 'soga'): {  # (time)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_soga',
+        #     },
+        #     'cmor_dataset': {
+        #         'contact': 'chris.d.jones@metoffice.gov.uk',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1851-05-01-00-00-00 1851-06-01-00-00-00',
+        #         'suite_id': 'u-aq112',
+        #     },
+        #     'stream_onm': {
+        #         'CMIP6_Omon': 'soga',
+        #     },
+        #     'other': {
+        #         'filenames': ['soga_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_185105-185105.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'Omon', 'tos'): {  # (lat, lon, time)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_tos',
+        #     },
+        #     'cmor_dataset': {
+        #         'calendar': 'noleap',
+        #         'contact': 'chris.d.jones@metoffice.gov.uk',
+        #         'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1976-01-01-00-00-00 1976-01-11-00-00-00',
+        #         'suite_id': 'ai022',
+        #     },
+        #     'stream_onb': {
+        #         'CMIP6_Omon': 'tos',
+        #     },
+        #     'other': {
+        #         'filenames': ['tos_Omon_UKESM1-0-LL_amip_r1i1p1f1_197601-197601.nc'],
+        #     },
+        # },
+        # ('CMIP6', 'Omon', 'thetao'): {  # (lat, lon, time, depth)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_thetao',
+        #     },
+        #     'cmor_dataset': {
+        #         'calendar': 'noleap',
+        #         'contact': 'chris.d.jones@metoffice.gov.uk',
+        #         'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1976-01-01-00-00-00 1976-01-11-00-00-00',
+        #         'suite_id': 'ai022',
+        #     },
+        #     'stream_onb': {
+        #         'CMIP6_Omon': 'thetao',
+        #     },
+        #     'other': {
+        #         'filenames': ['thetao_Omon_UKESM1-0-LL_amip_r1i1p1f1_197601-197601.nc'],
+        #     },
+        # },
+        # ('CMIP6', 'Omon', 'thkcello'): {  # (lat, lon, time, verticle T level)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_thkcello',
+        #     },
+        #     'cmor_dataset': {
+        #         'contact': 'chris.d.jones@metoffice.gov.uk',
+        #         'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
+        #         'model_id': 'HadGEM3-GC31-LL',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1980-01-01-00-00-00 1980-02-01-00-00-00',
+        #         'suite_id': 'u-ar766',
+        #     },
+        #     'global_attributes': {
+        #         'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.amip.none.r1i1p1f1'
+        #     },
+        #     'stream_onm_grid-T': {
+        #         'CMIP6_Omon': 'thkcello',
+        #     },
+        #     'other': {
+        #         'filenames': ['thkcello_Omon_HadGEM3-GC31-LL_amip_r1i1p1f1_198001-198001.nc'],
+        #     },
+        # },
+        # ('CMIP6', 'Omon', 'vmo'): {  # (lat, lon, time, olevel)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_vmo',
+        #     },
+        #     'request': {
+        #         'ancil_files': '${COMMON:root_ancil_dir}/HadGEM3-GC31/HadGEM3-GC31-LL/ocean_byte_masks.nc',
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set2',
+        #         'run_bounds': '1852-03-01-00-00-00 1852-04-01-00-00-00',
+        #         'suite_id': 'u-ar050',
+        #     },
+        #     'stream_onm': {
+        #         'CMIP6_Omon': 'vmo',
+        #     },
+        #     'other': {
+        #         'filenames': ['vmo_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_185203-185203.nc'],
+        #     },
+        # },
+        # ('CMIP6', 'Omon', 'vo'): {  # (lat, lon, time, depth)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_vo',
+        #     },
+        #     'request': {
+        #         'ancil_files': '${COMMON:root_ancil_dir}/UKESM1-0/UKESM1-0-LL/ocean_byte_masks.nc',
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set2',
+        #         'run_bounds': '1960-01-01-00-00-00 1960-04-01-00-00-00',
+        #         'suite_id': 'u-aw310',
+        #     },
+        #     'stream_onm_grid-V': {
+        #         'CMIP6_Omon': 'vo',
+        #     },
+        #     'other': {
+        #         'filenames': ['vo_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_196001-196003.nc'],
+        #     },
+        # },
         ('CMIP6', 'Omon', 'multiple_substreams'): {  # (lat, lon, time, depth)
             'COMMON': {
                 'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_multiple_substreams',

@@ -9,15 +9,15 @@ from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData
 from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_DIR, ROOT_TEST_LOCATION, ROOT_ANCIL_DIR
 
 
-class TestCmip6DayZgDeflation(AbstractFunctionalTests):
+class TestCmip6EdayZVtem(AbstractFunctionalTests):
 
     def get_test_data(self):
         # maybe in specific info section
-        test_location = os.path.join(ROOT_TEST_LOCATION, 'test_cases_python3', 'test_CMIP6_day_zg_deflation')
+        test_location = os.path.join(ROOT_TEST_LOCATION, 'test_cases_python3', 'test_CMIP6_EdayZ_vtem')
         output_dir = os.path.join(test_location, 'data_out_{}'.format(os.environ['USER']))
         return Cmip6TestData(
-            mip_table='day',
-            variable='zg_deflation',
+            mip_table='EdayZ',
+            variable='vtem',
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location
@@ -33,6 +33,7 @@ class TestCmip6DayZgDeflation(AbstractFunctionalTests):
                     'contact': 'enquiries@metoffice.gov.uk',
                     'experiment_id': 'highres-future',
                     'grid': 'N96',
+                    'grid_resolution': '250 km',
                     'mip': 'HighResMIP',
                     'model_id': 'HadGEM3-GC31-LL',
                     'model_type': 'AOGCM',
@@ -48,27 +49,24 @@ class TestCmip6DayZgDeflation(AbstractFunctionalTests):
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0', 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'child_base_date': '1950-01-01-00-00-00',
-                    'deflate_level': 3,
-                    'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set1'),
+                    'model_output_dir': '${COMMON:root_test_location}/input/set1',
                     'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
-                    'shuffle': True,
                     'suite_id': 'ai674',
                 },
-                global_attributes={
-                    'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.'
-                                        'highres-future.none.r1i1p1f1'
-                },
                 streams={
-                    'ap6': {'CMIP6_day': 'zg'}
+                    'ap6': {'CMIP6_EdayZ': 'vtem'}
+                },
+                global_attributes={
+                    'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.highres-future.'
+                                        'none.r1i1p1f1'
                 },
                 other={
-                    'filenames': ['zg_day_HadGEM3-GC31-LL_highres-future_r1i1p1f1_gn_19500101-19500130.nc'],
+                    'filenames': ['vtem_EdayZ_HadGEM3-GC31-LL_highres-future_r1i1p1f1_gn_19500101-19500130.nc'],
                     'ignore_history': True,
-                    'other_options': '-e'
-                }
+                },
             )
         )
 
     @attr('slow')
-    def test_cmip6_day_zg_deflation(self):
+    def test_cmip6_edayz_vtem(self):
         self.check_main()

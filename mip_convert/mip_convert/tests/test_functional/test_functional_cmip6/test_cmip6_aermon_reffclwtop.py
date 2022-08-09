@@ -35,9 +35,8 @@ class TestCmip6AERmonReffclwtop(AbstractFunctionalTests):
                     'run_bounds': '1851-05-01-00-00-00 1851-06-01-00-00-00',
                     'suite_id': 'u-aq112'
                 },
-                stream_id='ap4',
-                stream={
-                    'CMIP6_AERmon': 'reffclwtop'
+                streams={
+                    'ap4': {'CMIP6_AERmon': 'reffclwtop'}
                 },
                 other={
                     'filenames': ['reffclwtop_AERmon_UKESM1-0-LL_amip_r1i1p1f1_gn_185105-185105.nc'],

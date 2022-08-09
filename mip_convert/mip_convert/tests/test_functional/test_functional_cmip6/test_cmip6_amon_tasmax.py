@@ -35,9 +35,8 @@ class TestCmip6AmonTasmax(AbstractFunctionalTests):
                     'run_bounds': '2021-01-01-00-00-00 2021-02-01-00-00-00',
                     'suite_id': 'ajnjg'
                 },
-                stream_id='apa',
-                stream={
-                    'CMIP6_Amon': 'tasmax'
+                streams={
+                    'apa': {'CMIP6_Amon': 'tasmax'}
                 },
                 other={
                     'filenames': ['tasmax_Amon_UKESM1-0-LL_amip_r1i1p1f1_gn_202101-202101.nc'],

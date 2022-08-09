@@ -1,12 +1,11 @@
 # (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
-import os.path
-
 from abc import ABC
 from dataclasses import dataclass, asdict, field
-from typing import Dict, Any
+from typing import Dict, Any, Tuple
 
-from mip_convert.tests.test_functional.utils.constants import CMIP6_LICENSE, ROOT_TEST_DIR, ROOT_CMIP6_MIP_TABLES_DIR, ROOT_TEST_LOCATION, ROOT_ANCIL_DIR
+from mip_convert.tests.test_functional.utils.constants import (CMIP6_LICENSE, ROOT_TEST_DIR, ROOT_CMIP6_MIP_TABLES_DIR,
+                                                               ROOT_TEST_LOCATION, ROOT_ANCIL_DIR)
 
 
 @dataclass
@@ -94,19 +93,23 @@ class SpecificInfo:
     cmor_setup: Dict[str, Any] = field(default_factory=dict)
     cmor_dataset: Dict[str, Any] = field(default_factory=dict)
     request: Dict[str, Any] = field(default_factory=dict)
-    stream_id: str = ''
-    stream: Dict[str, Any] = field(default_factory=dict)
+    streams: Dict[str, Dict[str, str]] = field(default_factory=dict)
     other: Dict[str, Any] = field(default_factory=dict)
     global_attributes: Dict[str, Any] = field(default_factory=dict)
 
     def as_dict(self):
-        stream_key = 'stream_{}'.format(self.stream_id)
-        excludes = ['common', 'project_id', 'stream', 'stream_id']
+        excludes = ['common', 'project_id', 'streams']
         items = {
             k: v for k, v in asdict(self).items() if v and k not in excludes
         }
         items['COMMON'] = self.common
-        items[stream_key] = self.stream
+
+        stream_key = 'stream_{}'
+        stream_items = {
+            stream_key.format(k): v for k, v in self.streams.items()
+        }
+        items.update(stream_items)
+
         return items
 
 
@@ -134,4 +137,3 @@ class Cmip6TestData(AbstractTestData):
 if __name__ == '__main__':
     test_data = Cmip6TestData()
     print(test_data.common_info.as_dict())
-

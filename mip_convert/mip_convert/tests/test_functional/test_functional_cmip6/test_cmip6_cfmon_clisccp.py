@@ -34,9 +34,8 @@ class TestCmip6CFmonClisccp(AbstractFunctionalTests):
                     'run_bounds': '1902-04-01-00-00-00 1902-05-01-00-00-00',
                     'suite_id': 'u-ar766'
                 },
-                stream_id='ap5',
-                stream={
-                    'CMIP6_CFmon': 'clisccp'
+                streams={
+                    'ap5': {'CMIP6_CFmon': 'clisccp'}
                 },
                 other={
                     'filenames': ['clisccp_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_190204-190204.nc'],

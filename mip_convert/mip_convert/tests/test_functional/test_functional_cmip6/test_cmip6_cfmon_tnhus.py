@@ -35,9 +35,8 @@ class TestCmip6CFmonTnhus(AbstractFunctionalTests):
                     'run_bounds': '1902-04-01-00-00-00 1902-05-01-00-00-00',
                     'suite_id': 'u-ar050'
                 },
-                stream_id='apu',
-                stream={
-                    'CMIP6_CFmon': 'tnhus'
+                streams={
+                    'apu': {'CMIP6_CFmon': 'tnhus'}
                 },
                 other={
                     'filenames': ['tnhus_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_190204-190204.nc'],
