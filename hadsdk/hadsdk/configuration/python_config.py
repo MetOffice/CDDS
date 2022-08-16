@@ -206,11 +206,11 @@ class PythonConfig(AbstractConfig):
                     # Get the 'raw' value (i.e., as a string) from the
                     # configuration file.
                     raw_value = str(self.config.get(section, option).strip())
-                    print(
+                    self.logger.debug(
                         'Checking "{raw_value}" (specified by "{option}")'.format(raw_value=raw_value, option=option)
                     )
                     return_value = check_function(raw_value)
-                    self.logger.info('Validated "{raw_value}"'.format(raw_value=raw_value))
+                    self.logger.debug('Validated "{raw_value}"'.format(raw_value=raw_value))
                     if return_value is not None:
                         value = return_value
                 if value is None:
