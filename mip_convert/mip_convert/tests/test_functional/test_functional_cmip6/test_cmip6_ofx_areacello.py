@@ -2,8 +2,6 @@
 # Please see LICENSE.rst for license details.
 import os
 
-import pytest
-
 from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
@@ -11,15 +9,15 @@ from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData
 from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_DIR, ROOT_TEST_LOCATION, ROOT_ANCIL_DIR
 
 
-class TestCmip6AERmonPhalf(AbstractFunctionalTests):
+class TestCmip6OfxAreacello(AbstractFunctionalTests):
 
     def get_test_data(self):
         # maybe in specific info section
-        test_location = os.path.join(ROOT_TEST_LOCATION, 'test_cases_python3', 'test_CMIP6_AERmon_phalf')
+        test_location = os.path.join(ROOT_TEST_LOCATION, 'test_cases_python3', 'test_CMIP6_Ofx_areacello')
         output_dir = os.path.join(test_location, 'data_out_{}'.format(os.environ['USER']))
         return Cmip6TestData(
-            mip_table='AERmon',
-            variable='phalf',
+            mip_table='Ofx',
+            variable='areacello',
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location
@@ -31,20 +29,23 @@ class TestCmip6AERmonPhalf(AbstractFunctionalTests):
                     'output_dir': output_dir
                 },
                 request={
+                    'ancil_files': (os.path.join(
+                        ROOT_TEST_DIR, 'testdata', 'u-aj460', 'onf', 'u-aj460o_1ts_19760101_19760101_constants.nc'
+                    )),
                     'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set1'),
-                    'run_bounds': '2345-06-01-00-00-00 2345-07-01-00-00-00',
-                    'suite_id': 'u-aw310'
+                    'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
+                    'suite_id': 'aj460'
                 },
                 streams={
-                    'ap4': {'CMIP6_AERmon': 'phalf'}
+                    'ancil': {'CMIP6_Ofx': 'areacello'}
                 },
                 other={
-                    'filenames': ['phalf_AERmon_UKESM1-0-LL_amip_r1i1p1f1_gn_234506-234506.nc'],
+                    'filenames': ['areacello_Ofx_UKESM1-0-LL_amip_r1i1p1f1_gn.nc'],
                     'ignore_history': True,
                 }
             )
         )
 
-    @attr('slow')
-    def test_cmip6_aermon_phalf(self):
+    # @attr('slow')
+    def test_cmip6_ofx_areacello(self):
         self.check_main()

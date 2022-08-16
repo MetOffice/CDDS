@@ -30,7 +30,6 @@ class TestCmip6AmonTasmax(AbstractFunctionalTests):
                     'output_dir': output_dir
                 },
                 request={
-                    'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0', 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set1'),
                     'run_bounds': '2021-01-01-00-00-00 2021-02-01-00-00-00',
                     'suite_id': 'ajnjg'

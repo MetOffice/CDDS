@@ -31,7 +31,6 @@ class TestCmip6CFmonCls(AbstractFunctionalTests):
                     'output_dir': output_dir
                 },
                 request={
-                    'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0', 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set1'),
                     'run_bounds': '1979-04-01-00-00-00 1979-05-01-00-00-00',
                     'suite_id': 'u-an644'
@@ -47,6 +46,5 @@ class TestCmip6CFmonCls(AbstractFunctionalTests):
         )
 
     @attr('slow')
-    @pytest.mark.skip
     def test_cmip6_cfmon_cls(self):
         self.check_main()

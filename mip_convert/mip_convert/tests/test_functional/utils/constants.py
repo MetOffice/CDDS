@@ -2,12 +2,11 @@
 # Please see LICENSE.rst for license details.
 import os
 
-
 ROOT_TEST_DIR = '/project/cdds'
-ROOT_CMIP6_MIP_TABLES_DIR = '/home/h03/cdds'
+ROOT_MIP_TABLES_DIR = '/home/h03/cdds'
 
-ARIS_LICENSE = ('ARISE data produced by MOHC is licensed under the Open Government License v3 '
-                '(https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)')
+ARISE_LICENSE = ('ARISE data produced by MOHC is licensed under the Open Government License v3 '
+                 '(https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)')
 
 CMIP6_LICENSE = ('CMIP6 model data produced by MOHC is licensed '
                  'under a Creative Commons Attribution ShareAlike '
@@ -27,6 +26,19 @@ CMIP6_LICENSE = ('CMIP6 model data produced by MOHC is licensed '
                  'the supply of the information (including any '
                  'liability arising in negligence) are excluded to '
                  'the fullest extent permitted by law.')
+
+CORDEX_LICENSE = ('CORDEX model data produced by the Met Office Hadley Centre is licensed under a '
+                  'Creative Commons Attribution-ShareAlike 4.0 International License '
+                  '(https://creativecommons.org/licenses). Consult '
+                  'https://pcmdi.llnl.gov/CORDEX/TermsOfUse '
+                  'for terms of use governing CORDEX output, including citation requirements and proper '
+                  'acknowledgment. Further information about this data, including some limitations, can '
+                  'be found via the further_info_url (recorded as a global attribute in this file) and '
+                  'at https://ukesm.ac.uk/cmip6. The data producers and data providers make no warranty, '
+                  'either express or implied, including, but not limited to, warranties of '
+                  'merchantability and fitness for a particular purpose. All liabilities arising from '
+                  'the supply of the information (including any liability arising in negligence) are '
+                  'excluded to the fullest extent permitted by law.'),
 
 DEBUG = False
 NCCMP_TIMINGS = []

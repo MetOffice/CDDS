@@ -4,8 +4,9 @@ from abc import ABC
 from dataclasses import dataclass, asdict, field
 from typing import Dict, Any, Tuple
 
-from mip_convert.tests.test_functional.utils.constants import (CMIP6_LICENSE, ROOT_TEST_DIR, ROOT_CMIP6_MIP_TABLES_DIR,
-                                                               ROOT_TEST_LOCATION, ROOT_ANCIL_DIR)
+from mip_convert.tests.test_functional.utils.constants import (CMIP6_LICENSE, ROOT_TEST_DIR, ROOT_MIP_TABLES_DIR,
+                                                               ROOT_TEST_LOCATION, ROOT_ANCIL_DIR, ARISE_LICENSE,
+                                                               CORDEX_LICENSE)
 
 
 @dataclass
@@ -63,7 +64,7 @@ class ProjectInfo:
         return ProjectInfo(
             project_id='CMIP6',
             cmor_setup={
-                'mip_table_dir': '{}/etc/mip_tables/CMIP6/for_functional_tests'.format(ROOT_CMIP6_MIP_TABLES_DIR),
+                'mip_table_dir': '{}/etc/mip_tables/CMIP6/for_functional_tests'.format(ROOT_MIP_TABLES_DIR),
                 'netcdf_file_action': 'CMOR_REPLACE_4',
             },
             cmor_dataset={
@@ -83,6 +84,82 @@ class ProjectInfo:
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
+            }
+        )
+
+    @classmethod
+    def arise_project_info(cls) -> 'ProjectInfo':
+        return ProjectInfo(
+            project_id='ARISE',
+            cmor_setup={
+                'mip_table_dir': ('{}/etc/mip_tables/ARISE/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)),
+                'netcdf_file_action': 'CMOR_REPLACE_4',
+            },
+            cmor_dataset={
+                'branch_method': 'standard',
+                'branch_date_in_child': '1850-01-01-00-00-00',
+                'branch_date_in_parent': '2250-01-01-00-00-00',
+                'experiment_id': 'arise-sai-1p5',
+                'license': ARISE_LICENSE,
+                'mip': 'ARISE',
+                'mip_era': 'ARISE',
+                'model_id': 'UKESM1-0-LL',
+                'model_type': 'AOGCM',
+                'nominal_resolution': '250 km',
+                'sub_experiment_id': 'none',
+                'variant_label': 'r1i1p1f2',
+                'parent_base_date': '1850-01-01-00-00-00',
+                'parent_experiment_id': 'ssp245',
+                'parent_mip_era': 'CMIP6',
+                'parent_model_id': 'UKESM1-0-LL',
+                'parent_time_units': 'days since 1850-01-01',
+                'parent_variant_label': 'r1i1p1f2',
+            },
+            request={
+                'child_base_date': '2000-01-01-00-00-00'
+            },
+            global_attributes={
+                'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.historical.none.r1i1p1f2'
+            }
+        )
+
+    @classmethod
+    def cordex_project_info(cls) -> 'ProjectInfo':
+        return ProjectInfo(
+            project_id='CORDEX',
+            cmor_setup={
+                'mip_table_dir': ('{}/etc/mip_tables/CORDEX/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)),
+                'netcdf_file_action': 'CMOR_REPLACE_4',
+            },
+            cmor_dataset={
+                'branch_method': 'no parent',
+                'experiment_id': 'cordex1',
+                'grid': 'Model grid',
+                'grid_label': 'gn',
+                'institution_id': 'MOHC',
+                'license': CORDEX_LICENSE,
+                'mip_era': 'CORDEX',
+                'mip': 'CMIP',
+                'model_id': 'HadREM3-GA7-05',
+                'model_type': 'ARCM',
+                'nominal_resolution': '10 km',
+                'output_file_template': ('<variable_id><CORDEX_domain><driving_model_id><experiment_id>'
+                                         '<driving_model_ensemble_member><source_id><rcm_version_id><frequency>'),
+                'sub_experiment_id': 'none',
+                'variant_label': 'r1i1p1f1',
+            },
+            request={
+                'child_base_date': '2000-01-01-00-00-00'
+            },
+            global_attributes={
+                'driving_experiment': 'historical',
+                'driving_model_id': 'MOHC-HadGEM2-ES',
+                'driving_model_ensemble_member': 'r1i1p1',
+                'driving_experiment_name': 'historical',
+                'nesting_levels': 1,
+                'rcm_version_id': 'v1',
+                'project_id': 'CORDEX-FPSCONV',
+                'CORDEX_domain': 'EUR-11'
             }
         )
 
@@ -131,6 +208,22 @@ class Cmip6TestData(AbstractTestData):
     project_id: str = field(init=False, default_factory=lambda: 'CMIP6')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cmip6_project_info())
+    specific_info: SpecificInfo = None
+
+
+@dataclass
+class AriseTestData(AbstractTestData):
+    project_id: str = field(init=False, default_factory=lambda: 'ARISE')
+    common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
+    project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.arise_project_info())
+    specific_info: SpecificInfo = None
+
+
+@dataclass
+class CordexTestData(AbstractTestData):
+    project_id: str = field(init=False, default_factory=lambda: 'ARISE')
+    common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
+    project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cordex_project_info())
     specific_info: SpecificInfo = None
 
 

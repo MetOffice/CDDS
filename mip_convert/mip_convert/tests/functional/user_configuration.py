@@ -209,25 +209,25 @@ def specific_info():
         #         'ignore_history': True,
         #     },
         # },
-        ('ARISE', 'Emon', 'hussLut'): {  # (lat, lon, time, height2m)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_ARISE_Emon_hussLut',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1850-01-01-00-00-00 1850-03-01-00-00-00',
-                'suite_id': 'u-bc179',
-            },
-            'stream_ap5': {
-                'ARISE_Emon': 'hussLut',
-            },
-            'other': {
-                'filenames': [
-                    'hussLut_Emon_UKESM1-0-LL_arise-sai-1p5_r1i1p1f2_gn_185001-185002.nc'
-                ],
-                'ignore_history': True,
-            },
-        },
+        # ('ARISE', 'Emon', 'hussLut'): {  # (lat, lon, time, height2m)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_ARISE_Emon_hussLut',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1850-01-01-00-00-00 1850-03-01-00-00-00',
+        #         'suite_id': 'u-bc179',
+        #     },
+        #     'stream_ap5': {
+        #         'ARISE_Emon': 'hussLut',
+        #     },
+        #     'other': {
+        #         'filenames': [
+        #             'hussLut_Emon_UKESM1-0-LL_arise-sai-1p5_r1i1p1f2_gn_185001-185002.nc'
+        #         ],
+        #         'ignore_history': True,
+        #     },
+        # },
         # ('CMIP6', 'AERmon', 'reffclwtop'): {  # N216 (lat, lon, time)
         #     'COMMON': {
         #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_AERmon_reffclwtop',
@@ -727,277 +727,277 @@ def specific_info():
         #         'filenames': ['vo_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_196001-196003.nc'],
         #     },
         # },
-        ('CMIP6', 'Omon', 'multiple_substreams'): {  # (lat, lon, time, depth)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_multiple_substreams',
-            },
-            'request': {
-                'ancil_files': '${COMMON:root_ancil_dir}/UKESM1-0/UKESM1-0-LL/ocean_byte_masks.nc',
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1960-01-01-00-00-00 1960-02-01-00-00-00',
-                'suite_id': 'u-aw310',
-            },
-            'stream_onm_grid-T': {
-                'CMIP6_Omon': 'tos',
-            },
-            'stream_onm_grid-V': {
-                'CMIP6_Omon': 'vo',
-            },
-            'other': {
-                'filenames': [
-                    'tos_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_196001-196001.nc',
-                    'vo_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_196001-196001.nc'
-                ],
-            },
-        },
-        ('CMIP6', 'SImon', 'sndmassmelt'): {  # (lat, lon, time)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_SImon_sndmassmelt',
-            },
-            'cmor_setup': {
-                'netcdf_file_action': 'CMOR_REPLACE_3',
-            },
-            'cmor_dataset': {
-                'contact': 'chris.d.jones@metoffice.gov.uk',
-                'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set2',
-                'run_bounds': '1854-03-01-00-00-00 1854-04-01-00-00-00',
-                'suite_id': 'u-ar050',
-            },
-            'stream_inm': {
-                'CMIP6_SImon': 'sndmassmelt',
-            },
-            'other': {
-                'filenames': ['sndmassmelt_SImon_UKESM1-0-LL_amip_r1i1p1f1_185403-185403.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'SImon', 'sicompstren'): {  # (lat, lon, time)
-            # Check load ignores 'model output files' not in time constraint.
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_SImon_sicompstren',
-            },
-            'cmor_setup': {
-                'netcdf_file_action': 'CMOR_REPLACE_3',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set2',
-                'run_bounds': '1854-03-01-00-00-00 1854-04-01-00-00-00',
-                'suite_id': 'u-ar050',
-            },
-            'stream_inm': {
-                'CMIP6_SImon': 'sicompstren',
-            },
-            'other': {
-                'filenames': ['sicompstren_SImon_UKESM1-0-LL_amip_r1i1p1f1_gn_185403-185403.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'SImon', 'siitdsnthick'): {  # (lat, lon, time, iceband)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_SImon_siitdsnthick',
-            },
-            'cmor_setup': {
-                'netcdf_file_action': 'CMOR_REPLACE_3',
-            },
-            'cmor_dataset': {
-                'contact': 'chris.d.jones@metoffice.gov.uk',
-                'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set2',
-                'run_bounds': '1854-03-01-00-00-00 1854-04-01-00-00-00',
-                'suite_id': 'u-ar050',
-            },
-            'stream_inm': {
-                'CMIP6_SImon': 'siitdsnthick',
-            },
-            'other': {
-                'filenames': ['siitdsnthick_SImon_UKESM1-0-LL_amip_r1i1p1f1_185403-185403.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'SImon', 'sifllwutop'): {  # (lat, lon, time)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_SImon_sifllwutop',
-            },
-            'cmor_setup': {
-                'netcdf_file_action': 'CMOR_REPLACE_3',
-            },
-            'cmor_dataset': {
-                'contact': 'chris.d.jones@metoffice.gov.uk',
-                'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1851-05-01-00-00-00 1851-06-01-00-00-00',
-                'suite_id': 'u-ar050',
-            },
-            'stream_ap5': {
-                'CMIP6_SImon': 'sifllwutop',
-            },
-            'other': {
-                'filenames': [
-                    'sifllwutop_SImon_UKESM1-0-LL_amip_r1i1p1f1_'
-                    '185105-185105.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'SIday', 'multiple_3d'): {  # grids differ (lat, lon, time)
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_SIday_multiple_3d',
-            },
-            'cmor_setup': {
-                'netcdf_file_action': 'CMOR_REPLACE_3',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1978-10-01-00-00-00 1978-12-01-00-00-00',
-                'suite_id': 'u-al114',
-            },
-            'stream_ind': {
-                'CMIP6_SIday': 'sisnthick sispeed',
-            },
-            'other': {
-                'filenames': [
-                    'sisnthick_SIday_UKESM1-0-LL_amip_r1i1p1f1_gn_19781001-19781130.nc',
-                    'sispeed_SIday_UKESM1-0-LL_amip_r1i1p1f1_gn_19781001-19781130.nc'
-                ],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'SImon', 'siage'): {
-            # Ensure that MIP Convert can cope with inconsistent time units
-            # across a data set
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_SImon_siage',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'replacement_coordinates_file': '/project/cdds/etc/horizontal_coordinates/cice_eORCA1_coords.nc',
-                'run_bounds': '1854-03-01-00-00-00 1854-05-01-00-00-00',
-                'suite_id': 'u-ar050',
-            },
-            'stream_inm': {
-                'CMIP6_SImon': 'siage',
-            },
-            'other': {
-                'filenames': ['siage_SImon_UKESM1-0-LL_amip_r1i1p1f1_gn_185403-185404.nc'],
-                'ignore_history': True
-            },
-        },
-        ('CMIP6', 'fx', 'areacella'): {
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_fx_areacella',
-            },
-            'request': {
-                'ancil_files': (
-                    '${COMMON:root_ancil_dir}/HadGEM3-GC31/HadGEM3-GC31-LL/qrparm.orog.pp '
-                    '${COMMON:root_ancil_dir}/HadGEM3-GC31/HadGEM3-GC31-LL/qrparm.landfrac.pp'
-                ),
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
-                'suite_id': 'ai674',
-            },
-            'stream_ancil': {
-                'CMIP6_fx': 'areacella',
-            },
-            'other': {
-                'filenames': ['areacella_fx_UKESM1-0-LL_amip_r1i1p1f1_gn.nc'],
-                'ignore_history': True,
-            },
-        },
-        ('CMIP6', 'Ofx', 'areacello'): {
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Ofx_areacello',
-            },
-            'request': {
-                'ancil_files': (
-                    '${COMMON:root_test_dir}/testdata/u-aj460/onf/u-aj460o_1ts_19760101_19760101_constants.nc'
-                ),
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
-                'suite_id': 'aj460',
-            },
-            'stream_ancil': {
-                'CMIP6_Ofx': 'areacello',
-            },
-            'other': {
-                'filenames': ['areacello_Ofx_UKESM1-0-LL_amip_r1i1p1f1_gn.nc'],
-            },
-        },
-        ('CMIP6', '6hrPlevPt', 'vortmean'): {
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_6hrPlevPt_vortmean',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1950-01-01-00-00-00 1950-01-06-00-00-00',
-                'suite_id': 'ai674',
-            },
-            'stream_ap7': {
-                'CMIP6_6hrPlevPt': 'vortmean',
-            },
-            'other': {
-                'filenames': ['vortmean_6hrPlevPt_UKESM1-0-LL_amip_r1i1p1f1_gn_195001010600-195001060000.nc'],
-                'ignore_history': True
-            }
-        },
-        ('CMIP6', 'Emon', 'thetaot300'): {
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Emon_thetaot300',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1850-01-01-00-00-00 1850-02-01-00-00-00',
-                'suite_id': 'u-ar050',
-            },
-            'stream_onm': {
-                'CMIP6_Emon': 'thetaot300',
-            },
-            'other': {
-                'filenames': ['thetaot300_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_185001-185001.nc'],
-                'ignore_history': True
-            }
-        },
-        ('CMIP6', 'Omon', 'fgco2'): {
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_fgco2',
-            },
-            'request': {
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1850-01-01-00-00-00 1850-03-01-00-00-00',
-                'suite_id': 'u-bd288',
-            },
-            'stream_onm': {
-                'CMIP6_Omon': 'fgco2',
-            },
-            'other': {
-                'filenames': ['fgco2_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_185001-185002.nc'],
-                'ignore_history': True,
-                'tolerance_value': 1e-14,
-            },
-        },
-        ('CMIP6', 'Omon', 'hfbasin'): {
-            'COMMON': {
-                'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_hfbasin',
-            },
-            'request': {
-                'ancil_files': '${COMMON:root_ancil_dir}/UKESM1-0/UKESM1-0-LL/diaptr_basin_masks.nc',
-                'model_output_dir': '${COMMON:root_test_location}/input/set1',
-                'run_bounds': '1960-01-01-00-00-00 1960-03-01-00-00-00',
-                'suite_id': 'u-aw310',
-            },
-            'stream_onm': {
-                'CMIP6_Omon': 'hfbasin',
-            },
-            'other': {
-                'filenames': ['hfbasin_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_196001-196002.nc'],
-                'ignore_history': True,
-            },
-        },
+        # ('CMIP6', 'Omon', 'multiple_substreams'): {  # (lat, lon, time, depth)
+        #     'COMMON': {
+        #        'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_multiple_substreams',
+        #     },
+        #     'request': {
+        #         'ancil_files': '${COMMON:root_ancil_dir}/UKESM1-0/UKESM1-0-LL/ocean_byte_masks.nc',
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1960-01-01-00-00-00 1960-02-01-00-00-00',
+        #         'suite_id': 'u-aw310',
+        #     },
+        #     'stream_onm_grid-T': {
+        #         'CMIP6_Omon': 'tos',
+        #     },
+        #     'stream_onm_grid-V': {
+        #         'CMIP6_Omon': 'vo',
+        #     },
+        #     'other': {
+        #         'filenames': [
+        #             'tos_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_196001-196001.nc',
+        #             'vo_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_196001-196001.nc'
+        #         ],
+        #     },
+        # },
+        # ('CMIP6', 'SImon', 'sndmassmelt'): {  # (lat, lon, time)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_SImon_sndmassmelt',
+        #     },
+        #     'cmor_setup': {
+        #         'netcdf_file_action': 'CMOR_REPLACE_3',
+        #     },
+        #     'cmor_dataset': {
+        #         'contact': 'chris.d.jones@metoffice.gov.uk',
+        #         'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set2',
+        #         'run_bounds': '1854-03-01-00-00-00 1854-04-01-00-00-00',
+        #         'suite_id': 'u-ar050',
+        #     },
+        #     'stream_inm': {
+        #         'CMIP6_SImon': 'sndmassmelt',
+        #     },
+        #     'other': {
+        #         'filenames': ['sndmassmelt_SImon_UKESM1-0-LL_amip_r1i1p1f1_185403-185403.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'SImon', 'sicompstren'): {  # (lat, lon, time)
+        #     # Check load ignores 'model output files' not in time constraint.
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_SImon_sicompstren',
+        #     },
+        #     'cmor_setup': {
+        #         'netcdf_file_action': 'CMOR_REPLACE_3',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set2',
+        #         'run_bounds': '1854-03-01-00-00-00 1854-04-01-00-00-00',
+        #         'suite_id': 'u-ar050',
+        #     },
+        #     'stream_inm': {
+        #         'CMIP6_SImon': 'sicompstren',
+        #     },
+        #     'other': {
+        #         'filenames': ['sicompstren_SImon_UKESM1-0-LL_amip_r1i1p1f1_gn_185403-185403.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'SImon', 'siitdsnthick'): {  # (lat, lon, time, iceband)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_SImon_siitdsnthick',
+        #     },
+        #     'cmor_setup': {
+        #         'netcdf_file_action': 'CMOR_REPLACE_3',
+        #     },
+        #     'cmor_dataset': {
+        #         'contact': 'chris.d.jones@metoffice.gov.uk',
+        #         'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set2',
+        #         'run_bounds': '1854-03-01-00-00-00 1854-04-01-00-00-00',
+        #         'suite_id': 'u-ar050',
+        #     },
+        #     'stream_inm': {
+        #         'CMIP6_SImon': 'siitdsnthick',
+        #     },
+        #     'other': {
+        #         'filenames': ['siitdsnthick_SImon_UKESM1-0-LL_amip_r1i1p1f1_185403-185403.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'SImon', 'sifllwutop'): {  # (lat, lon, time)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_SImon_sifllwutop',
+        #     },
+        #     'cmor_setup': {
+        #         'netcdf_file_action': 'CMOR_REPLACE_3',
+        #     },
+        #     'cmor_dataset': {
+        #         'contact': 'chris.d.jones@metoffice.gov.uk',
+        #         'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1851-05-01-00-00-00 1851-06-01-00-00-00',
+        #         'suite_id': 'u-ar050',
+        #     },
+        #     'stream_ap5': {
+        #         'CMIP6_SImon': 'sifllwutop',
+        #     },
+        #     'other': {
+        #         'filenames': [
+        #             'sifllwutop_SImon_UKESM1-0-LL_amip_r1i1p1f1_'
+        #             '185105-185105.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'SIday', 'multiple_3d'): {  # grids differ (lat, lon, time)
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_SIday_multiple_3d',
+        #     },
+        #     'cmor_setup': {
+        #         'netcdf_file_action': 'CMOR_REPLACE_3',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1978-10-01-00-00-00 1978-12-01-00-00-00',
+        #         'suite_id': 'u-al114',
+        #     },
+        #     'stream_ind': {
+        #         'CMIP6_SIday': 'sisnthick sispeed',
+        #     },
+        #     'other': {
+        #         'filenames': [
+        #             'sisnthick_SIday_UKESM1-0-LL_amip_r1i1p1f1_gn_19781001-19781130.nc',
+        #             'sispeed_SIday_UKESM1-0-LL_amip_r1i1p1f1_gn_19781001-19781130.nc'
+        #         ],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'SImon', 'siage'): {
+        #     # Ensure that MIP Convert can cope with inconsistent time units
+        #     # across a data set
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_SImon_siage',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'replacement_coordinates_file': '/project/cdds/etc/horizontal_coordinates/cice_eORCA1_coords.nc',
+        #         'run_bounds': '1854-03-01-00-00-00 1854-05-01-00-00-00',
+        #         'suite_id': 'u-ar050',
+        #     },
+        #     'stream_inm': {
+        #         'CMIP6_SImon': 'siage',
+        #     },
+        #     'other': {
+        #         'filenames': ['siage_SImon_UKESM1-0-LL_amip_r1i1p1f1_gn_185403-185404.nc'],
+        #         'ignore_history': True
+        #     },
+        # },
+        # ('CMIP6', 'fx', 'areacella'): {
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_fx_areacella',
+        #     },
+        #     'request': {
+        #         'ancil_files': (
+        #             '${COMMON:root_ancil_dir}/HadGEM3-GC31/HadGEM3-GC31-LL/qrparm.orog.pp '
+        #             '${COMMON:root_ancil_dir}/HadGEM3-GC31/HadGEM3-GC31-LL/qrparm.landfrac.pp'
+        #         ),
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
+        #         'suite_id': 'ai674',
+        #     },
+        #     'stream_ancil': {
+        #         'CMIP6_fx': 'areacella',
+        #     },
+        #     'other': {
+        #         'filenames': ['areacella_fx_UKESM1-0-LL_amip_r1i1p1f1_gn.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
+        # ('CMIP6', 'Ofx', 'areacello'): {
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Ofx_areacello',
+        #     },
+        #     'request': {
+        #         'ancil_files': (
+        #             '${COMMON:root_test_dir}/testdata/u-aj460/onf/u-aj460o_1ts_19760101_19760101_constants.nc'
+        #         ),
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
+        #         'suite_id': 'aj460',
+        #     },
+        #     'stream_ancil': {
+        #         'CMIP6_Ofx': 'areacello',
+        #     },
+        #     'other': {
+        #         'filenames': ['areacello_Ofx_UKESM1-0-LL_amip_r1i1p1f1_gn.nc'],
+        #     },
+        # },
+        # ('CMIP6', '6hrPlevPt', 'vortmean'): {
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_6hrPlevPt_vortmean',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1950-01-01-00-00-00 1950-01-06-00-00-00',
+        #         'suite_id': 'ai674',
+        #     },
+        #     'stream_ap7': {
+        #         'CMIP6_6hrPlevPt': 'vortmean',
+        #     },
+        #     'other': {
+        #         'filenames': ['vortmean_6hrPlevPt_UKESM1-0-LL_amip_r1i1p1f1_gn_195001010600-195001060000.nc'],
+        #         'ignore_history': True
+        #     }
+        # },
+        # ('CMIP6', 'Emon', 'thetaot300'): {
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Emon_thetaot300',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1850-01-01-00-00-00 1850-02-01-00-00-00',
+        #         'suite_id': 'u-ar050',
+        #     },
+        #     'stream_onm': {
+        #         'CMIP6_Emon': 'thetaot300',
+        #     },
+        #     'other': {
+        #         'filenames': ['thetaot300_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_185001-185001.nc'],
+        #         'ignore_history': True
+        #     }
+        # },
+        # ('CMIP6', 'Omon', 'fgco2'): {
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_fgco2',
+        #     },
+        #     'request': {
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1850-01-01-00-00-00 1850-03-01-00-00-00',
+        #         'suite_id': 'u-bd288',
+        #     },
+        #     'stream_onm': {
+        #         'CMIP6_Omon': 'fgco2',
+        #     },
+        #     'other': {
+        #         'filenames': ['fgco2_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_185001-185002.nc'],
+        #         'ignore_history': True,
+        #         'tolerance_value': 1e-14,
+        #     },
+        # },
+        # ('CMIP6', 'Omon', 'hfbasin'): {
+        #     'COMMON': {
+        #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CMIP6_Omon_hfbasin',
+        #     },
+        #     'request': {
+        #         'ancil_files': '${COMMON:root_ancil_dir}/UKESM1-0/UKESM1-0-LL/diaptr_basin_masks.nc',
+        #         'model_output_dir': '${COMMON:root_test_location}/input/set1',
+        #         'run_bounds': '1960-01-01-00-00-00 1960-03-01-00-00-00',
+        #         'suite_id': 'u-aw310',
+        #     },
+        #     'stream_onm': {
+        #         'CMIP6_Omon': 'hfbasin',
+        #     },
+        #     'other': {
+        #         'filenames': ['hfbasin_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_196001-196002.nc'],
+        #         'ignore_history': True,
+        #     },
+        # },
         # ('CORDEX', 'mon', 'uv'): {
         #     'COMMON': {
         #         'test_location': '${COMMON:root_test_location}/test_cases_python3/test_CORDEX_mon_uv',
