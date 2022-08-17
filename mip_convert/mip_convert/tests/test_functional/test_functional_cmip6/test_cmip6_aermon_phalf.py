@@ -2,13 +2,11 @@
 # Please see LICENSE.rst for license details.
 import os
 
-import pytest
-
 from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_DIR, ROOT_TEST_LOCATION, ROOT_ANCIL_DIR
+from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION
 
 
 class TestCmip6AERmonPhalf(AbstractFunctionalTests):

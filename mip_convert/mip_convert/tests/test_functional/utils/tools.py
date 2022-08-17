@@ -1,13 +1,12 @@
 # (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
-import subprocess
 import configparser
 import os
-
+import subprocess
 from collections import defaultdict
 from datetime import datetime
 
-from mip_convert.tests.test_functional.utils.configurations import SpecificInfo, AbstractTestData
+from mip_convert.tests.test_functional.utils.configurations import AbstractTestData
 from mip_convert.tests.test_functional.utils.constants import DEBUG, NCCMP_TIMINGS, COMPARE_NETCDF
 
 
@@ -60,6 +59,7 @@ def compare(compare_commands):
 
     if len(NCCMP_TIMINGS) == number_of_tests:
         print('nccmp took {:.3}s'.format(sum(NCCMP_TIMINGS)))
+
     if DEBUG:
         stdoutdata = [output[0] for output in differences]
         print(stdoutdata)

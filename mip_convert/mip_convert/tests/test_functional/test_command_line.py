@@ -1,28 +1,19 @@
 # (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
-
-# (C) British Crown Copyright 2020-2021, Met Office.
-# Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = no-member, no-value-for-parameter
-from collections import defaultdict
-import configparser
-from datetime import datetime
-import os
 import io
-import subprocess
+import os
 import sys
-from tempfile import mkstemp
 import unittest
+from abc import ABCMeta, abstractmethod
+from tempfile import mkstemp
 from unittest import TestCase
 
 from cdds_common.cdds_plugins.plugin_loader import load_plugin
 from mip_convert.command_line import main
 from mip_convert.save.cmor.cmor_outputter import CmorGridMaker, AbstractAxisMaker
-from mip_convert.tests.functional.user_configuration import common_info, project_info, specific_info
 from mip_convert.tests.test_functional.utils.configurations import AbstractTestData
-
-from abc import ABCMeta, abstractmethod
 from mip_convert.tests.test_functional.utils.tools import (compare,
                                                            compare_command,
                                                            write_user_configuration_file,
@@ -51,6 +42,15 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
     @abstractmethod
     def get_test_data(self) -> AbstractTestData:
         pass
+
+    @property
+    def test_location(self) -> str:
+        # TODO: make abstract property
+        return ''
+
+    @property
+    def output_dir(self):
+        return os.path.join(self.test_location, 'data_out_{}'.format(os.environ['USER']))
 
     def convert(self, output_directory, reference_dir, filenames):
         input_directory = self.input_dir.format(

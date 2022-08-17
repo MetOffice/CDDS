@@ -7,7 +7,7 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import CordexTestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_DIR, ROOT_TEST_LOCATION, ROOT_ANCIL_DIR
+from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION
 
 
 class TestCordexMonUv(AbstractFunctionalTests):

@@ -1,21 +1,51 @@
 # (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
+"""
+Module to specify the classes that are needed for storing the information of the test data for
+functional tests in MIP convert
+"""
 from abc import ABC
 from dataclasses import dataclass, asdict, field
-from typing import Dict, Any, Tuple
+from typing import Dict, Any, List
 
-from mip_convert.tests.test_functional.utils.constants import (CMIP6_LICENSE, ROOT_TEST_DIR, ROOT_MIP_TABLES_DIR,
+from mip_convert.tests.test_functional.utils.constants import (CMIP6_LICENSE, ROOT_TEST_DIR, CMIP6_MIP_TABLE_DIR,
+                                                               CORDEX_MIP_TABLES_DIR, ARISE_MIP_TABLE_DIR,
                                                                ROOT_TEST_LOCATION, ROOT_ANCIL_DIR, ARISE_LICENSE,
                                                                CORDEX_LICENSE)
 
 
 @dataclass
 class CommonInfo:
+    """
+    Stores common test data information that is necessary and equal for all projects
+    It stores values (in the corresponding directory) to the chapters of the MIP configuration:
+        * cmor_setup
+        * cmor_dataset
+    Other values will be stored in the common directory
+    """
     common: Dict[str, Any] = None
     cmor_setup: Dict[str, Any] = None
     cmor_dataset: Dict[str, Any] = None
 
-    def as_dict(self):
+    def as_dict(self) -> Dict[str, Dict[str, Any]]:
+        """
+        Returns the information as a directory using the MIP configuration structure as template, e.g.:
+        {
+            'COMMON': {
+                'root_test_dir': '/path/to/root/test/dir'
+            },
+            'cmor_setup': {
+                'create_subdirectories': '0'
+            },
+            'cmor_data_set': {
+                'calendar': '360_day',
+                'grid': 'not checked'
+            }
+        }
+
+        :return: Values as directory (like Mip configuration)
+        :rtype: Dict[str, Any]
+        """
         excludes = ['common']
         items = {
             k: v for k, v in asdict(self).items() if v and k not in excludes
@@ -24,7 +54,13 @@ class CommonInfo:
         return items
 
     @classmethod
-    def default_common_info(cls):
+    def default_common_info(cls) -> 'CommonInfo':
+        """
+        Returns the default common values for the projects CMIP6, CORDEX and ARISE.
+
+        :return: Default common values
+        :rtype: CommonInfo
+        """
         return CommonInfo(
             common={
                 'root_test_dir': ROOT_TEST_DIR,
@@ -46,13 +82,41 @@ class CommonInfo:
 
 @dataclass
 class ProjectInfo:
+    """
+    Stores values that are common for a specific project. The values are stored in following
+    dictionaries following the structure of the MIP configuration:
+        * cmor_setup
+        * cmor_dataset
+        * request
+        * global_attributes
+    """
     project_id: Dict[str, Any] = None
     cmor_setup: Dict[str, Any] = None
     cmor_dataset: Dict[str, Any] = None
     request: Dict[str, Any] = None
     global_attributes: Dict[str, Any] = None
 
-    def as_dict(self):
+    def as_dict(self) -> Dict[str, Dict[str, Any]]:
+        """
+        Returns the information as a directory using the MIP configuration structure as template, e.g.:
+        {
+            'cmor_setup': {
+                'netcdf_file_action': 'CMOR_REPLACE_4'
+            },
+            'cmor_data_set': {
+                'branch_method': 'no parent'
+            },
+             'request': {
+                'child_base_date': '2000-01-01-00-00-00'
+            },
+             'global_attributes': {
+                'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
+            }
+        }
+
+        :return: Values as directory (like Mip configuration)
+        :rtype: Dict[str, Any]
+        """
         excludes = ['project_id']
         items = {
             k: v for k, v in asdict(self).items() if v and k not in excludes
@@ -61,10 +125,16 @@ class ProjectInfo:
 
     @classmethod
     def cmip6_project_info(cls) -> 'ProjectInfo':
+        """
+        Returns all common values that are specific for CMIP6 projects.
+
+        :return: Values that are specific for CMIP6 projects
+        :rtype: ProjectInfo
+        """
         return ProjectInfo(
             project_id='CMIP6',
             cmor_setup={
-                'mip_table_dir': '{}/etc/mip_tables/CMIP6/for_functional_tests'.format(ROOT_MIP_TABLES_DIR),
+                'mip_table_dir': CMIP6_MIP_TABLE_DIR,
                 'netcdf_file_action': 'CMOR_REPLACE_4',
             },
             cmor_dataset={
@@ -89,10 +159,16 @@ class ProjectInfo:
 
     @classmethod
     def arise_project_info(cls) -> 'ProjectInfo':
+        """
+        Returns all common values that are specific for ARISE projects.
+
+        :return: Values that are specific for ARISE projects
+        :rtype: ProjectInfo
+        """
         return ProjectInfo(
             project_id='ARISE',
             cmor_setup={
-                'mip_table_dir': ('{}/etc/mip_tables/ARISE/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)),
+                'mip_table_dir': ARISE_MIP_TABLE_DIR,
                 'netcdf_file_action': 'CMOR_REPLACE_4',
             },
             cmor_dataset={
@@ -125,10 +201,16 @@ class ProjectInfo:
 
     @classmethod
     def cordex_project_info(cls) -> 'ProjectInfo':
+        """
+        Returns all common values that are specific for CORDEX projects.
+
+        :return: Values that are specific for CORDEX projects
+        :rtype: ProjectInfo
+        """
         return ProjectInfo(
             project_id='CORDEX',
             cmor_setup={
-                'mip_table_dir': ('{}/etc/mip_tables/CORDEX/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)),
+                'mip_table_dir': CORDEX_MIP_TABLES_DIR,
                 'netcdf_file_action': 'CMOR_REPLACE_4',
             },
             cmor_dataset={
@@ -174,7 +256,35 @@ class SpecificInfo:
     other: Dict[str, Any] = field(default_factory=dict)
     global_attributes: Dict[str, Any] = field(default_factory=dict)
 
-    def as_dict(self):
+    def as_dict(self) -> Dict[str, Dict[str, Any]]:
+        """
+        Returns the information as a directory using the MIP configuration structure as template, e.g.:
+        {
+            'common': {
+                'test_location': '/path/to/specific/test/location'
+            }
+            'cmor_setup': {
+                'netcdf_file_action': 'CMOR_REPLACE_3'
+            },
+            'cmor_data_set': {
+                'branch_method': 'standard'
+            },
+            'request': {
+                'child_base_date': '2000-01-01-00-00-00'
+            },
+            'streams_ap4': {
+                'CMIP6_Emon': 'taxmas'
+            }
+            'global_attributes': {
+                'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
+            },
+            'other': {
+            }
+        }
+
+        :return: Values as directory (like Mip configuration)
+        :rtype: Dict[str, Any]
+        """
         excludes = ['common', 'project_id', 'streams']
         items = {
             k: v for k, v in asdict(self).items() if v and k not in excludes
@@ -192,6 +302,9 @@ class SpecificInfo:
 
 @dataclass
 class AbstractTestData(ABC):
+    """
+    Abstract class for storing test data
+    """
     project_id: str = ''
     mip_table: str = ''
     variable: str = ''
@@ -199,12 +312,23 @@ class AbstractTestData(ABC):
     project_info: ProjectInfo = None
     specific_info: SpecificInfo = None
 
-    def as_list_dicts(self):
+    def as_list_dicts(self) -> List[Dict[str, Dict[str, Any]]]:
+        """
+        Returns a list containing the dictionaries of the common information, the project specific information
+        and the specific information of the current test data.
+
+        :return: List of dictionaries containing common information, project specific information and specific
+                 information of the test data
+        :rtype: List[Dict[str, Dict[str, Any]]]
+        """
         return [self.common_info.as_dict(), self.project_info.as_dict(), self.specific_info.as_dict()]
 
 
 @dataclass
 class Cmip6TestData(AbstractTestData):
+    """
+    Stores test data for CMIP6 projects
+    """
     project_id: str = field(init=False, default_factory=lambda: 'CMIP6')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cmip6_project_info())
@@ -213,6 +337,9 @@ class Cmip6TestData(AbstractTestData):
 
 @dataclass
 class AriseTestData(AbstractTestData):
+    """
+    Stores test data for CMIP6 projects
+    """
     project_id: str = field(init=False, default_factory=lambda: 'ARISE')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.arise_project_info())
@@ -221,12 +348,10 @@ class AriseTestData(AbstractTestData):
 
 @dataclass
 class CordexTestData(AbstractTestData):
+    """
+    Stores test data for CMIP6 projects
+    """
     project_id: str = field(init=False, default_factory=lambda: 'ARISE')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cordex_project_info())
     specific_info: SpecificInfo = None
-
-
-if __name__ == '__main__':
-    test_data = Cmip6TestData()
-    print(test_data.common_info.as_dict())

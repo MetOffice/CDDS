@@ -1,13 +1,12 @@
 # (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
 import os
-import pytest
 
 from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_DIR, ROOT_TEST_LOCATION, ROOT_ANCIL_DIR
+from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION
 
 
 class TestCmip6AmonTasmax(AbstractFunctionalTests):
@@ -17,8 +16,8 @@ class TestCmip6AmonTasmax(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_TEST_LOCATION, 'test_cases_python3', 'test_CMIP6_Amon_tasmax')
         output_dir = os.path.join(test_location, 'data_out_{}'.format(os.environ['USER']))
         return Cmip6TestData(
-            mip_table='AERmon',
-            variable='rlutaf',
+            mip_table='Amon',
+            variable='tasmax',
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location
@@ -45,12 +44,5 @@ class TestCmip6AmonTasmax(AbstractFunctionalTests):
         )
 
     @attr('slow')
-    @pytest.mark.skip
     def test_cmip6_amon_tasmax(self):
-        """
-        Failed because of:
-            assert set(stderrdata) == set(['']), message ==> compare of output with reference
-        AssertionError: The following differences were present:
-            {'2022-08-08 14:36:10.077929 +0100 ERROR nccmp_state.c:156 No such file or directory'}
-        """
         self.check_main()
