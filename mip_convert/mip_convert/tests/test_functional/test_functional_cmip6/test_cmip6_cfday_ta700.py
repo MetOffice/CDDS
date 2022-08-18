@@ -6,14 +6,15 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR_NEW
+from mip_convert.tests.test_functional.utils.constants import (MODEL_OUTPUT_DIR_SET1, TEST_CASE_LOCATION,
+                                                               ROOT_ANCIL_DIR_NEW)
 
 
 class TestCmip6CFdayTa700(AbstractFunctionalTests):
 
     def get_test_data(self):
         # maybe in specific info section
-        test_location = os.path.join(ROOT_TEST_LOCATION, 'test_cases_python3', 'test_CMIP6_CFday_ta700')
+        test_location = os.path.join(TEST_CASE_LOCATION, 'test_CMIP6_CFday_ta700')
         output_dir = os.path.join(test_location, 'data_out_{}'.format(os.environ['USER']))
         return Cmip6TestData(
             mip_table='CFday',
@@ -31,7 +32,7 @@ class TestCmip6CFdayTa700(AbstractFunctionalTests):
                 },
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR_NEW, 'UKESM1-0-LL', 'qrparm.orog.pp'),
-                    'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set1'),
+                    'model_output_dir': MODEL_OUTPUT_DIR_SET1,
                     'run_bounds': '1855-05-11-00-00-00 1855-05-21-00-00-00',
                     'suite_id': 'u-ar050'
                 },

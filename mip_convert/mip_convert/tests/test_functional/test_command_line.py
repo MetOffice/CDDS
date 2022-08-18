@@ -43,15 +43,6 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
     def get_test_data(self) -> AbstractTestData:
         pass
 
-    @property
-    def test_location(self) -> str:
-        # TODO: make abstract property
-        return ''
-
-    @property
-    def output_dir(self):
-        return os.path.join(self.test_location, 'data_out_{}'.format(os.environ['USER']))
-
     def convert(self, output_directory, reference_dir, filenames):
         input_directory = self.input_dir.format(
             self.test_info.project_id, self.test_info.mip_table, self.test_info.variable

@@ -6,14 +6,14 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION
+from mip_convert.tests.test_functional.utils.constants import MODEL_OUTPUT_DIR_SET1, TEST_CASE_LOCATION
 
 
 class TestCmip6SImonSifllwutop(AbstractFunctionalTests):
 
     def get_test_data(self):
         # maybe in specific info section
-        test_location = os.path.join(ROOT_TEST_LOCATION, 'test_cases_python3', 'test_CMIP6_SImon_sifllwutop')
+        test_location = os.path.join(TEST_CASE_LOCATION, 'test_CMIP6_SImon_sifllwutop')
         output_dir = os.path.join(test_location, 'data_out_{}'.format(os.environ['USER']))
         return Cmip6TestData(
             mip_table='SImon',
@@ -32,7 +32,7 @@ class TestCmip6SImonSifllwutop(AbstractFunctionalTests):
                     'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>'
                 },
                 request={
-                    'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set1'),
+                    'model_output_dir': MODEL_OUTPUT_DIR_SET1,
                     'run_bounds': '1851-05-01-00-00-00 1851-06-01-00-00-00',
                     'suite_id': 'u-ar050'
                 },

@@ -6,14 +6,15 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR_NEW
+from mip_convert.tests.test_functional.utils.constants import (MODEL_OUTPUT_DIR_SET1, TEST_CASE_LOCATION,
+                                                               ROOT_ANCIL_DIR_NEW)
 
 
 class TestCmip6DayZgDeflation(AbstractFunctionalTests):
 
     def get_test_data(self):
         # maybe in specific info section
-        test_location = os.path.join(ROOT_TEST_LOCATION, 'test_cases_python3', 'test_CMIP6_day_zg_deflation')
+        test_location = os.path.join(TEST_CASE_LOCATION, 'test_CMIP6_day_zg_deflation')
         output_dir = os.path.join(test_location, 'data_out_{}'.format(os.environ['USER']))
         return Cmip6TestData(
             mip_table='day',
@@ -49,7 +50,7 @@ class TestCmip6DayZgDeflation(AbstractFunctionalTests):
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR_NEW, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'child_base_date': '1950-01-01-00-00-00',
                     'deflate_level': 3,
-                    'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set1'),
+                    'model_output_dir': MODEL_OUTPUT_DIR_SET1,
                     'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
                     'shuffle': True,
                     'suite_id': 'ai674',

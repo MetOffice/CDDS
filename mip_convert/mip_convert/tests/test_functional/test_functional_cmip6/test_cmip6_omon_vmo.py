@@ -6,14 +6,15 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR_NEW
+from mip_convert.tests.test_functional.utils.constants import (MODEL_OUTPUT_DIR_SET2, TEST_CASE_LOCATION,
+                                                               ROOT_ANCIL_DIR_NEW)
 
 
 class TestCmip6OmonVmo(AbstractFunctionalTests):
 
     def get_test_data(self):
         # maybe in specific info section
-        test_location = os.path.join(ROOT_TEST_LOCATION, 'test_cases_python3', 'test_CMIP6_Omon_vmo')
+        test_location = os.path.join(TEST_CASE_LOCATION, 'test_CMIP6_Omon_vmo')
         output_dir = os.path.join(test_location, 'data_out_{}'.format(os.environ['USER']))
         return Cmip6TestData(
             mip_table='Omon',
@@ -32,7 +33,7 @@ class TestCmip6OmonVmo(AbstractFunctionalTests):
                     'ancil_files': os.path.join(
                         ROOT_ANCIL_DIR_NEW, 'HadGEM3-GC31-LL', 'ocean_byte_masks.nc'
                     ),
-                    'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set2'),
+                    'model_output_dir': MODEL_OUTPUT_DIR_SET2,
                     'run_bounds': '1852-03-01-00-00-00 1852-04-01-00-00-00',
                     'suite_id': 'u-ar050',
                 },
