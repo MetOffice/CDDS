@@ -6,7 +6,7 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR
+from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR_NEW
 
 
 class TestCmip6OmonVmo(AbstractFunctionalTests):
@@ -30,7 +30,7 @@ class TestCmip6OmonVmo(AbstractFunctionalTests):
                 },
                 request={
                     'ancil_files': os.path.join(
-                        ROOT_ANCIL_DIR, 'HadGEM3-GC31', 'HadGEM3-GC31-LL', 'ocean_byte_masks.nc'
+                        ROOT_ANCIL_DIR_NEW, 'HadGEM3-GC31-LL', 'ocean_byte_masks.nc'
                     ),
                     'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set2'),
                     'run_bounds': '1852-03-01-00-00-00 1852-04-01-00-00-00',

@@ -6,7 +6,7 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR
+from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR_NEW
 
 
 class TestCmip6EdayParasolRefl(AbstractFunctionalTests):
@@ -31,7 +31,7 @@ class TestCmip6EdayParasolRefl(AbstractFunctionalTests):
                     'contact': 'chris.d.jones@metoffice.gov.uk',
                 },
                 request={
-                    'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0', 'UKESM1-0-LL', 'qrparm.orog.pp'),
+                    'ancil_files': os.path.join(ROOT_ANCIL_DIR_NEW, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set1'),
                     'run_bounds': '1979-01-01-00-00-00 1979-02-01-00-00-00',
                     'suite_id': 'u-bh859'

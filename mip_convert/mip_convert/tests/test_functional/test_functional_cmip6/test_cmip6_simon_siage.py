@@ -6,7 +6,7 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR
+from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR_NEW
 
 
 class TestCmip6SImonSiage(AbstractFunctionalTests):
@@ -29,7 +29,7 @@ class TestCmip6SImonSiage(AbstractFunctionalTests):
                     'output_dir': output_dir
                 },
                 request={
-                    'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0', 'UKESM1-0-LL', 'qrparm.orog.pp'),
+                    'ancil_files': os.path.join(ROOT_ANCIL_DIR_NEW, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set1'),
                     'replacement_coordinates_file': '/project/cdds/etc/horizontal_coordinates/cice_eORCA1_coords.nc',
                     'run_bounds': '1854-03-01-00-00-00 1854-05-01-00-00-00',

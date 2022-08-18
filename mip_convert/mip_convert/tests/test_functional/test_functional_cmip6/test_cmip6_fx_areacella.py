@@ -6,7 +6,7 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR
+from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR_NEW
 
 
 class TestCmip6FxAreacella(AbstractFunctionalTests):
@@ -30,8 +30,8 @@ class TestCmip6FxAreacella(AbstractFunctionalTests):
                 },
                 request={
                     'ancil_files': ' '.join([
-                        os.path.join(ROOT_ANCIL_DIR, 'HadGEM3-GC31', 'HadGEM3-GC31-LL', 'qrparm.orog.pp'),
-                        os.path.join(ROOT_ANCIL_DIR, 'HadGEM3-GC31', 'HadGEM3-GC31-LL', 'qrparm.landfrac.pp')
+                        os.path.join(ROOT_ANCIL_DIR_NEW, 'HadGEM3-GC31-LL', 'qrparm.orog.pp'),
+                        os.path.join(ROOT_ANCIL_DIR_NEW, 'HadGEM3-GC31-LL', 'qrparm.landfrac.pp')
                     ]),
                     'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set1'),
                     'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',

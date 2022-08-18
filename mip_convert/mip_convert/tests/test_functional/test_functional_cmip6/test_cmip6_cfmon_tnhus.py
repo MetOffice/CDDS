@@ -6,7 +6,7 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR
+from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR_NEW
 
 
 class TestCmip6CFmonTnhus(AbstractFunctionalTests):
@@ -30,7 +30,7 @@ class TestCmip6CFmonTnhus(AbstractFunctionalTests):
                 },
                 request={
                     'atmos_timestep': '600',
-                    'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0', 'UKESM1-0-LL', 'qrparm.orog.pp'),
+                    'ancil_files': os.path.join(ROOT_ANCIL_DIR_NEW, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': os.path.join(ROOT_TEST_LOCATION, 'input', 'set1'),
                     'run_bounds': '1902-04-01-00-00-00 1902-05-01-00-00-00',
                     'suite_id': 'u-ar050'

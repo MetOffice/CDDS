@@ -6,7 +6,6 @@ ROOT_TEST_DIR = '/project/cdds'
 ROOT_TEST_LOCATION = os.path.join(ROOT_TEST_DIR, 'testdata', 'diagnostics')
 
 ROOT_ANCIL_DIR_NEW = os.path.join(ROOT_TEST_DIR, 'etc', 'ancil')
-ROOT_ANCIL_DIR = os.path.join(ROOT_TEST_DIR, 'etc', 'um_ancil')
 
 ROOT_MIP_TABLES_DIR = '/home/h03/cdds/etc/mip_tables'
 CORDEX_MIP_TABLES_DIR = '{}/CORDEX/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)

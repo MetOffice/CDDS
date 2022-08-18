@@ -6,7 +6,7 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR
+from mip_convert.tests.test_functional.utils.constants import ROOT_TEST_LOCATION, ROOT_ANCIL_DIR_NEW
 
 
 class TestCmip6EdayZVtem(AbstractFunctionalTests):
@@ -47,7 +47,7 @@ class TestCmip6EdayZVtem(AbstractFunctionalTests):
                     'references': 'http://dx.doi.org/10.5194%2Fgmd-4-919-2011',
                 },
                 request={
-                    'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0', 'UKESM1-0-LL', 'qrparm.orog.pp'),
+                    'ancil_files': os.path.join(ROOT_ANCIL_DIR_NEW, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'child_base_date': '1950-01-01-00-00-00',
                     'model_output_dir': '${COMMON:root_test_location}/input/set1',
                     'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
