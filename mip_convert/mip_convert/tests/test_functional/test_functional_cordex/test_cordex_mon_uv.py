@@ -7,7 +7,8 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import CordexTestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.use_case_directories import MODEL_OUTPUT_DIR_SET1, ROOT_TEST_CASES_DIR
+from mip_convert.tests.test_functional.utils.use_case_directories import (get_output_dir, MODEL_OUTPUT_DIR_SET1,
+                                                                          ROOT_TEST_CASES_DIR)
 
 
 class TestCordexMonUv(AbstractFunctionalTests):
@@ -15,7 +16,7 @@ class TestCordexMonUv(AbstractFunctionalTests):
     def get_test_data(self):
         # maybe in specific info section
         test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CORDEX_mon_uv')
-        output_dir = os.path.join(test_location, 'data_out_{}'.format(os.environ['USER']))
+        output_dir = get_output_dir(test_location)
         return CordexTestData(
             mip_table='mon',
             variable='uv',

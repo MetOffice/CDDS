@@ -6,7 +6,8 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.use_case_directories import ROOT_TEST_CASES_DIR, ROOT_ANCIL_DIR
+from mip_convert.tests.test_functional.utils.use_case_directories import (get_output_dir, ROOT_TEST_CASES_DIR,
+                                                                          ROOT_ANCIL_DIR)
 
 
 class TestCmip6EdayZVtem(AbstractFunctionalTests):
@@ -14,7 +15,7 @@ class TestCmip6EdayZVtem(AbstractFunctionalTests):
     def get_test_data(self):
         # maybe in specific info section
         test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CMIP6_EdayZ_vtem')
-        output_dir = os.path.join(test_location, 'data_out_{}'.format(os.environ['USER']))
+        output_dir = get_output_dir(test_location)
         return Cmip6TestData(
             mip_table='EdayZ',
             variable='vtem',

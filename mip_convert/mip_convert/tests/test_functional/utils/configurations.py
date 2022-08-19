@@ -8,11 +8,11 @@ from abc import ABC
 from dataclasses import dataclass, asdict, field
 from typing import Dict, Any, List
 
+from mip_convert.tests.test_functional.utils.constants import ARISE_LICENSE, CMIP6_LICENSE, CORDEX_LICENSE
 from mip_convert.tests.test_functional.utils.use_case_directories import (PROJECT_CDDS_DIR,
                                                                           CMIP6_MIP_TABLE_DIR,
                                                                           CORDEX_MIP_TABLES_DIR, ARISE_MIP_TABLE_DIR,
                                                                           ROOT_TEST_DATA_DIR, ROOT_ANCIL_DIR)
-from mip_convert.tests.test_functional.utils.constants import ARISE_LICENSE, CMIP6_LICENSE, CORDEX_LICENSE
 
 
 @dataclass
