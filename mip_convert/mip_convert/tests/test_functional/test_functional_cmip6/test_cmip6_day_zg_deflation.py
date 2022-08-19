@@ -6,15 +6,15 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.use_case_directories import (MODEL_OUTPUT_DIR_SET1, TEST_CASE_LOCATION,
-                                                                          ROOT_ANCIL_DIR_NEW)
+from mip_convert.tests.test_functional.utils.use_case_directories import (MODEL_OUTPUT_DIR_SET1, ROOT_TEST_CASES_DIR,
+                                                                          ROOT_ANCIL_DIR)
 
 
 class TestCmip6DayZgDeflation(AbstractFunctionalTests):
 
     def get_test_data(self):
         # maybe in specific info section
-        test_location = os.path.join(TEST_CASE_LOCATION, 'test_CMIP6_day_zg_deflation')
+        test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CMIP6_day_zg_deflation')
         output_dir = os.path.join(test_location, 'data_out_{}'.format(os.environ['USER']))
         return Cmip6TestData(
             mip_table='day',
@@ -47,7 +47,7 @@ class TestCmip6DayZgDeflation(AbstractFunctionalTests):
                     'references': 'http://dx.doi.org/10.5194%2Fgmd-4-919-2011',
                 },
                 request={
-                    'ancil_files': os.path.join(ROOT_ANCIL_DIR_NEW, 'UKESM1-0-LL', 'qrparm.orog.pp'),
+                    'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'child_base_date': '1950-01-01-00-00-00',
                     'deflate_level': 3,
                     'model_output_dir': MODEL_OUTPUT_DIR_SET1,

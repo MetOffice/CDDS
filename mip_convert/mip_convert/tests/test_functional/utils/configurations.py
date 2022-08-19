@@ -8,12 +8,11 @@ from abc import ABC
 from dataclasses import dataclass, asdict, field
 from typing import Dict, Any, List
 
-from mip_convert.tests.test_functional.utils.use_case_directories import (CMIP6_LICENSE, ROOT_TEST_DIR,
+from mip_convert.tests.test_functional.utils.use_case_directories import (PROJECT_CDDS_DIR,
                                                                           CMIP6_MIP_TABLE_DIR,
                                                                           CORDEX_MIP_TABLES_DIR, ARISE_MIP_TABLE_DIR,
-                                                                          ROOT_TEST_LOCATION, ROOT_ANCIL_DIR_NEW,
-                                                                          ARISE_LICENSE,
-                                                                          CORDEX_LICENSE)
+                                                                          ROOT_TEST_DATA_DIR, ROOT_ANCIL_DIR)
+from mip_convert.tests.test_functional.utils.constants import ARISE_LICENSE, CMIP6_LICENSE, CORDEX_LICENSE
 
 
 @dataclass
@@ -65,9 +64,9 @@ class CommonInfo:
         """
         return CommonInfo(
             common={
-                'root_test_dir': ROOT_TEST_DIR,
-                'root_test_location': ROOT_TEST_LOCATION,
-                'root_ancil_dir': ROOT_ANCIL_DIR_NEW
+                'root_test_dir': PROJECT_CDDS_DIR,
+                'root_test_location': ROOT_TEST_DATA_DIR,
+                'root_ancil_dir': ROOT_ANCIL_DIR
             },
             cmor_setup={
                 # 'cmor_log_file': '${COMMON:test_location}/cmor.log',  # Kerstin move to specific info?

@@ -7,7 +7,7 @@ from collections import defaultdict
 from datetime import datetime
 
 from mip_convert.tests.test_functional.utils.configurations import AbstractTestData
-from mip_convert.tests.test_functional.utils.use_case_directories import DEBUG, NCCMP_TIMINGS, COMPARE_NETCDF
+from mip_convert.tests.test_functional.utils.constants import DEBUG, NCCMP_TIMINGS, COMPARE_NETCDF
 
 
 def compare_command(outputs, references, tolerance_value=None, ignore_history=False, other_options=None):
