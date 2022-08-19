@@ -4,7 +4,8 @@ import os
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.constants import MODEL_OUTPUT_DIR_SET1, ROOT_TEST_DIR, TEST_CASE_LOCATION
+from mip_convert.tests.test_functional.utils.use_case_directories import (MODEL_OUTPUT_DIR_SET1, ROOT_TEST_DIR,
+                                                                          TEST_CASE_LOCATION)
 
 
 class TestCmip6OfxAreacello(AbstractFunctionalTests):

@@ -6,6 +6,19 @@ ROOT_TEST_DIR = '/project/cdds'
 ROOT_TEST_LOCATION = os.path.join(ROOT_TEST_DIR, 'testdata', 'diagnostics')
 TEST_CASE_LOCATION = os.path.join(ROOT_TEST_LOCATION, 'test_cases_python3')
 
+TEST_DIR_NAME_TEMPLATE = 'test_{project}_{mip_table}_{variable}'
+
+
+def get_test_location(project: str, mip_table: str, variable: str):
+    test_dir_name = TEST_DIR_NAME_TEMPLATE.format(project=project, mip_table=mip_table, variable=variable)
+    return os.path.join(TEST_CASE_LOCATION, test_dir_name)
+
+
+def get_output_dir(project: str, mip_table: str, variable: str):
+    test_location = get_test_location(project, mip_table, variable)
+    return os.path.join(test_location, 'data_out_{}'.format(os.environ['USER']))
+
+
 ROOT_ANCIL_DIR_NEW = os.path.join(ROOT_TEST_DIR, 'etc', 'ancil')
 
 ROOT_MIP_TABLES_DIR = '/home/h03/cdds/etc/mip_tables'
