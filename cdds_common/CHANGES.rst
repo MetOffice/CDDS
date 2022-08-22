@@ -3,6 +3,12 @@
 
 .. include:: common.txt
 
+Release 2.3.1, June 29, 2022
+============================
+
+* Added auto-genereated table of CDDS variable mappings (CDDSO-120)
+* Fix inconsistency in case between mip era and plugin name (CDDSO-132)
+
 Release 2.3.0, May 24, 2022
 ============================
 

@@ -8,6 +8,7 @@ from cdds_common.common.io import write_json
 from cdds_common.cdds_plugins.models import ModelsStore
 from cdds_common.cdds_plugins.grid import GridType
 from cdds_common.cdds_plugins.base.base_grid import AtmosBaseGridInfo, OceanBaseGridInfo
+from cdds_common.cdds_plugins.streams import StreamFileInfo
 from cdds_common.cdds_plugins.cmip6.cmip6_models import Cmip6ModelsStore, HadGEM3_GC31_LL_Params, Cmip6ModelId
 
 from pathlib import Path
@@ -57,7 +58,7 @@ class TestModelParameters(TestCase):
         self.model_params_dir = tempfile.mkdtemp()
 
         local_dir = os.path.dirname(os.path.abspath(__file__))
-        default_dir = os.path.join(local_dir, 'data')
+        default_dir = os.path.join(local_dir, 'data/model')
 
         self.model_params = HadGEM3_GC31_LL_Params()
         self.model_params.load_parameters(default_dir)
@@ -101,6 +102,14 @@ class TestModelParameters(TestCase):
     def test_get_ocean_grid_info(self):
         grid_info = self.model_params.grid_info(GridType.OCEAN)
         self.assertIsInstance(grid_info, OceanBaseGridInfo)
+
+    def test_stream_file_info(self):
+        stream_file_info = self.model_params.stream_file_info()
+
+        ap4_file_info = stream_file_info.file_frequencies["ap4"]
+        self.assertEqual(ap4_file_info.frequency, "monthly")
+        self.assertEqual(ap4_file_info.stream, "ap4")
+        self.assertEqual(ap4_file_info.file_per_year, 12)
 
     def write_params_file(self, data):
         json_file = os.path.join(self.model_params_dir, 'HadGEM3-GC31-LL.json')

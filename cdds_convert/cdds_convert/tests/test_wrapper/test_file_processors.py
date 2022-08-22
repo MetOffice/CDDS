@@ -7,6 +7,7 @@ import datetime
 import unittest
 import re
 
+from cdds_common.cdds_plugins.plugin_loader import load_plugin
 from cdds_convert.constants import STREAMS_FILES_REGEX
 from cdds_convert.mip_convert_wrapper.file_processors import (
     parse_atmos_monthly_filename, parse_atmos_submonthly_filename,
@@ -166,11 +167,15 @@ OCEAN_FILENAMES = [
 
 class TestProcessors(unittest.TestCase):
 
+    def setUp(self):
+        load_plugin()
+        self.model_id = 'HadGEM3-GC31-LL'
+
     def test_parse_atmos_monthly_filename(self):
         stream = 'ap4'
         test_pattern = re.compile(STREAMS_FILES_REGEX['ap'])
         output_file_dict = parse_atmos_monthly_filename(
-            ATMOS_MONTHLY_FILENAMES[0], stream, test_pattern)
+            ATMOS_MONTHLY_FILENAMES[0], stream, test_pattern, self.model_id)
         expected_start = datetime.datetime(1997, 4, 1)
         expected_end = datetime.datetime(1997, 5, 1)
         expected_suite_id = 'aw310'
@@ -182,7 +187,7 @@ class TestProcessors(unittest.TestCase):
         stream = 'ap4'
         test_pattern = re.compile(STREAMS_FILES_REGEX['ap'])
         output_file_dict = parse_atmos_monthly_filename(
-            ATMOS_ENS_MONTHLY_FILENAMES[0], stream, test_pattern)
+            ATMOS_ENS_MONTHLY_FILENAMES[0], stream, test_pattern, self.model_id)
         expected_start = datetime.datetime(1997, 4, 1)
         expected_end = datetime.datetime(1997, 5, 1)
         expected_suite_id = 'aw310'
@@ -194,7 +199,7 @@ class TestProcessors(unittest.TestCase):
         stream = 'ap6'
         test_pattern = re.compile(STREAMS_FILES_REGEX['ap_submonthly'])
         output_file_dict = parse_atmos_submonthly_filename(
-            ATMOS_SUBMONTHLY_FILENAMES[0], stream, test_pattern)
+            ATMOS_SUBMONTHLY_FILENAMES[0], stream, test_pattern, self.model_id)
         expected_start = datetime.datetime(1997, 1, 1)
         expected_end = datetime.datetime(1997, 1, 11)
         expected_suite_id = 'aw310'
@@ -206,7 +211,7 @@ class TestProcessors(unittest.TestCase):
         stream = 'onm'
         test_pattern = re.compile(STREAMS_FILES_REGEX['on'])
         output_file_dict = parse_ocean_seaice_filename(
-            OCEAN_FILENAMES[0], stream, test_pattern)
+            OCEAN_FILENAMES[0], stream, test_pattern, self.model_id)
         expected_start = datetime.datetime(1997, 1, 1)
         expected_end = datetime.datetime(1997, 2, 1)
         expected_suite_id = 'aw310'

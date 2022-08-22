@@ -8,6 +8,7 @@ from typing import Type, Dict, Any
 
 from cdds_common.cdds_plugins.grid import GridLabel, GridType, GridInfo
 from cdds_common.cdds_plugins.models import ModelParameters
+from cdds_common.cdds_plugins.streams import StreamInfo
 from cdds_common.cdds_plugins.attributes import GlobalAttributes, DefaultGlobalAttributes
 
 
@@ -95,6 +96,10 @@ class CddsPlugin(object, metaclass=ABCMeta):
         :return: The enum of the grid labels that the plugin supports
         :rtype: GridLabel
         """
+        pass
+
+    @abstractmethod
+    def stream_info(self) -> StreamInfo:
         pass
 
     def global_attributes(self, request: Dict[str, Any]) -> GlobalAttributes:

@@ -17,7 +17,7 @@ TESTS_TO_RUN = {
     'cdds_convert': ['--with-doctest', '-a integration'],
     'cdds_prepare': ['--with-doctest', '-a slow', '-a data_request'],
     'cdds_template': ['--with-doctest', '-a slow'],
-    'cdds_transfer': ['--with-doctest', '-a slow'],
+    'cdds_transfer': ['--with-doctest -a !rabbitMQ', '-a slow'],  # rabbitMQ tests are only work on els055 or els056!
     'extract': ['--with-doctest', '-a slow'],
     'cdds_qc': ['--with-doctest -s'],
     'cdds_qc_plugin_cf17': ['--with-doctest'],
@@ -26,7 +26,25 @@ TESTS_TO_RUN = {
     'mip_convert': ['--with-doctest', '-a integration', '-a mappings',
                     '-a slow'],
     'transfer': ['--with-doctest', '-a slow'],
-    }
+}
+
+
+def red_bold(text):
+    """
+    Add unicode marker to print the given text red and bold
+    """
+    start = '\033[1m\033[91m'
+    end = '\033[00m\033[0;0m'
+    return '{}{}{}'.format(start, text, end)
+
+
+def green_bold(text):
+    """
+    Add unicode marker to print the given text green and bold
+    """
+    start = '\033[1m\033[92m'
+    end = '\033[00m\033[0;0m'
+    return '{}{}{}'.format(start, text, end)
 
 
 def main():
@@ -34,6 +52,9 @@ def main():
     Run all the tests in the CDDS packages.
     """
     exit_code = 0
+    if os.path.exists(LOG_NAME):
+        os.remove(LOG_NAME)
+
     for package, tests in TESTS_TO_RUN.items():
         os.chdir(os.path.join(CDDS_DIR, package))
         print('Executing tests for {}:'.format(package))
@@ -59,6 +80,15 @@ def main():
                     file_handle.write(stdoutdata.decode('utf-8'))
                     file_handle.write(stderrdata.decode('utf-8'))
                     file_handle.write('\n')
+
+    if exit_code == 0:
+        smiling_face = u'\U0001f604'
+        print('\n{}'.format('+' * 46))
+        print('{} {}'.format(green_bold('All tests succeed'), smiling_face))
+    else:
+        sad_face = u'\U0001F627'
+        print('\n{}'.format('+' * 46))
+        print('{} {}'.format(red_bold('Some tests failed.'), sad_face))
     return exit_code
 
 

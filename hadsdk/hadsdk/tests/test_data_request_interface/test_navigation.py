@@ -10,7 +10,7 @@ import unittest
 import warnings
 
 from hadsdk.data_request_interface.network import (
-    DataRequestNode, DATA_REQUEST_LINKAGES)
+    DataRequestNode, DATA_REQUEST_LINKAGES, IGNORED_NODE_TYPES)
 from hadsdk.data_request_interface.navigation import (
     MAX_ENSEMBLE_SIZE, get_cmorvar_for_experiment,
     get_ensemble_sizes_for_variable, get_experiments_for_cmorvar,
@@ -97,7 +97,6 @@ def target_type(object_id):
             return data_request_object_type
 
 
-@staticmethod
 def _dummy_object_type(x):
     return x.type
 
@@ -107,6 +106,21 @@ class DummyDataRequestObject(object):
         self.type = objtype
         for attrib, value in list(properties.items()):
             setattr(self, attrib, value)
+
+
+class DummyDataRequestNode(DataRequestNode):
+
+    def __init__(self, data_request_object):
+        super(DummyDataRequestNode, self).__init__(data_request_object)
+
+    def add_edge(self, other_data_request):
+        other_data_request_type = self._simple_data_request_object_type(other_data_request)
+        if other_data_request_type not in IGNORED_NODE_TYPES:
+            self.edges[other_data_request_type].append(other_data_request.uid)
+
+    @staticmethod
+    def _simple_data_request_object_type(data_request_object):
+        return _dummy_object_type(data_request_object)
 
 
 def build_dummy_network(network_items):
@@ -131,7 +145,7 @@ def build_dummy_network(network_items):
     for node_type, descriptions in list(network_items.items()):
         for node_description in descriptions:
             # create a data request node
-            node = DataRequestNode(None)
+            node = DummyDataRequestNode(None)
             # set the type, data_request_object and uid
             node.type = node_type
             node.data_request_object = DummyDataRequestObject(
@@ -155,7 +169,6 @@ def build_dummy_network(network_items):
 
 class TestNavigation(unittest.TestCase):
     def setUp(self):
-        DataRequestNode._simple_data_request_object_type = _dummy_object_type
         self.network = build_dummy_network(DUMMY_NETWORK)
         # build a second network with additional routes through for MIP3.
         dummy_network_2 = deepcopy(DUMMY_NETWORK)
@@ -217,11 +230,10 @@ class TestNavigation(unittest.TestCase):
 
 class TestDreqNode(unittest.TestCase):
     def setUp(self):
-        DataRequestNode._simple_data_request_object_type = _dummy_object_type
         self.network = build_dummy_network(DUMMY_NETWORK)
 
     def test_add_edge(self):
-        node = DataRequestNode(None)
+        node = DummyDataRequestNode(None)
         dummy_object = DummyDataRequestObject('thing', {'uid': 'random'})
         node.add_edge(dummy_object)
         expected_edges = {'thing': [dummy_object.uid]}

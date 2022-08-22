@@ -3,6 +3,11 @@
 
 .. include:: common.txt
 
+Release 2.3.1, June 29, 2022
+============================
+
+* Add extra pressure levels for UKCP (CDDSO-146)
+
 Release 2.3.0, May 24, 2022
 ============================
 

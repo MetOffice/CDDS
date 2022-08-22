@@ -11,20 +11,18 @@ import datetime
 import logging
 from operator import itemgetter
 
-from hadsdk.common import retry
+from cdds_common.cdds_plugins.plugins import PluginStore
+from cdds_common.cdds_plugins.streams import StreamAttributes
 from hadsdk.config import FullPaths
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from hadsdk.request import read_request
-from hadsdk.streams import calculate_expected_number_of_files
 
 from extract.common import (
-    build_mass_location,
-    process_info, exit_nicely, create_dir,
-    check_moo_cmd, run_moo_cmd, file_accessible, file_count, byteify,
-    conv_test_name, validate_stash_fields, get_model_resolution,
-    validate_netcdf)
-from extract.constants import (
-    GROUP_FOR_DIRECTORY_CREATION, STREAMDIR_PERMISSIONS)
+    build_mass_location, process_info, exit_nicely, create_dir,
+    check_moo_cmd, run_moo_cmd, file_accessible, file_count,
+    validate_stash_fields, get_model_resolution, validate_netcdf
+)
+from extract.constants import GROUP_FOR_DIRECTORY_CREATION, STREAMDIR_PERMISSIONS
 from extract.filters import FilterFileException
 from extract.variables import Variables
 
@@ -70,6 +68,9 @@ class Process(object):
         self.input_data_directory = self.full_paths.input_data_directory
         self.log_directory = self.full_paths.log_directory("extract")
         self.mass_data_class = self.request_file.mass_data_class
+        model_id = self.request_file.model_id
+        model_params = PluginStore.instance().get_plugin().models_parameters(model_id)
+        self.stream_file_info = model_params.stream_file_info()
         # start log
         self.start_log()
 
@@ -567,7 +568,8 @@ class Process(object):
         actual = file_count(path, extension)
         # ocean resolution
         resolution = get_model_resolution(self.request_file.model_id)[1]
-        expected = calculate_expected_number_of_files(stream, substreams, resolution == "M")
+        stream_attribute = StreamAttributes(stream["stream"], stream["start_date"], stream["end_date"])
+        expected = self.stream_file_info.calculate_expected_number_of_files(stream_attribute, substreams)
         validation_result.add_file_counts(expected, actual)
 
     def validate_pp(self, path, stash_codes, validation_result):

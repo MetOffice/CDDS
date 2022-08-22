@@ -17,6 +17,7 @@ from hadsdk.tests.common import DummyMapping
 from unittest.mock import MagicMock, patch
 from nose.plugins.attrib import attr
 
+from cdds_common.cdds_plugins.plugin_loader import load_plugin
 from cdds_prepare.data_request import (
     list_variables_for_experiment)
 from cdds_prepare.generate import BaseVariablesConstructor
@@ -26,6 +27,7 @@ from cdds_prepare.tests.stubs import VariableParametersStub
 @attr('data_request')
 class TestResolveRequestedVariables(unittest.TestCase):
     def setUp(self):
+        load_plugin()
         configure_logger(None, logging.CRITICAL, False)
         self.experiment_id = 'historical'
         self.max_priority = 1

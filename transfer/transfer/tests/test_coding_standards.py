@@ -38,7 +38,7 @@ class TestCodingStandards(unittest.TestCase):
         # Set the maximum line length to 120.
         pep8style.options.max_line_length = 120
         # Ignore 'line break occurred before a binary operator'.
-        pep8style.options.ignore = 'W503'
+        pep8style.options.ignore = tuple(['W503', 'E701'])
         result = pep8style.check_files(py_files)
         self.assertEqual(result.total_errors, 0,
                          'Found code style errors (and warnings)')

@@ -1,4 +1,19 @@
 {
+  "stream_file_frequency": {
+    "monthly": {
+      "streams": [
+        "ap4",
+        "ap5",
+        "apm",
+        "apu",
+        "onm",
+        "inm",
+        "ind",
+        "ond"
+      ],
+      "files_per_year": 12
+    }
+  },
   "cycle_length": {
   },
   "memory": {

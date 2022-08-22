@@ -8,5 +8,5 @@ from cdds_qc_plugin_cmip6.versions import get_version
 
 
 _DEV = True
-_NUMERICAL_VERSION = '2.3.1'
+_NUMERICAL_VERSION = '2.3.2'
 __version__ = get_version('cdds_qc_plugin_cmip6')

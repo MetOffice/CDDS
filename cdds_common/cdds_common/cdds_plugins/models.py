@@ -11,6 +11,7 @@ from typing import Dict, List
 
 from cdds_common.cdds_plugins.common import LoadResults
 from cdds_common.cdds_plugins.grid import GridInfo, GridType
+from cdds_common.cdds_plugins.streams import StreamFileInfo
 
 
 class ModelParameters(object, metaclass=ABCMeta):
@@ -168,6 +169,10 @@ class ModelParameters(object, metaclass=ABCMeta):
         :return: Paths to the hybrid heights files
         :rtype: List[str]
         """
+        pass
+
+    @abstractmethod
+    def stream_file_info(self) -> StreamFileInfo:
         pass
 
 

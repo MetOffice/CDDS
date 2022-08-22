@@ -55,7 +55,6 @@ from hadsdk.ancils import remove_ancils_from_mapping
 from hadsdk.common import check_file, compare_versions
 from hadsdk.constants import NC_CONSTRAINT_NOT_FOR_MOOSE
 from hadsdk.pp import PP_HEADER_CORRECTIONS, stash_to_int
-from hadsdk.streams import retrieve_stream_id
 import mip_convert.request as mip_request
 
 from cdds_common.cdds_plugins.plugins import PluginStore

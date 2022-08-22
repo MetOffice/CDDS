@@ -3,8 +3,8 @@
 import logging
 from collections import defaultdict
 
+from cdds_common.cdds_plugins.plugins import PluginStore
 from hadsdk.mip_tables import UserMipTables
-from hadsdk.streams import retrieve_stream_id, stream_overrides
 
 
 class UserDefinedVariable(object):
@@ -96,8 +96,9 @@ def validate_variable_list(mt, variables_file, mip_era):
             mip_table_variable, stream_substream = var_str.strip().split(':')
             mip_table, variable = mip_table_variable.split('/')
         else:
+            stream_info = PluginStore.instance().get_plugin().stream_info()
             mip_table, variable = var_str.strip().split('/')
-            stream_id, substream = retrieve_stream_id(variable, mip_table, mip_era, stream_overrides())
+            stream_id, substream = stream_info.retrieve_stream_id(variable, mip_table)
             stream_substream = '{}/{}'.format(stream_id, substream) if substream is not None else stream_id
         if mip_table not in mt.tables:
             err = 'Requested Mip Table "{}" not found in given Mip Tables'.format(mip_table)
