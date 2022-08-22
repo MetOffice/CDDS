@@ -3,6 +3,7 @@
 import configparser
 import os
 import subprocess
+
 from collections import defaultdict
 from datetime import datetime
 
@@ -10,6 +11,22 @@ from mip_convert.tests.test_functional.utils.constants import DEBUG, NCCMP_TIMIN
 
 
 def compare_command(outputs, references, tolerance_value=None, ignore_history=False, other_options=None):
+    """
+    Returns the compare commands for the given output files and their reference files
+
+    :param outputs: The output files that should be compared to the reference files
+    :type outputs: List[str]
+    :param references: The references files compare to
+    :type references: List[str]
+    :param tolerance_value: Compare if absolute difference > tolerance value
+    :type tolerance_value: str
+    :param ignore_history: Compare global history attribute
+    :type ignore_history: bool
+    :param other_options: Additional options for comparing
+    :type other_options: str
+    :return: Corresponding compare commands
+    :rtype: List[str]
+    """
     tolerance = '--tolerance={}'.format(tolerance_value) if tolerance_value else ''
     history = '--Attribute=history' if ignore_history else ''
     options = other_options if other_options else ''
@@ -26,6 +43,15 @@ def compare_command(outputs, references, tolerance_value=None, ignore_history=Fa
 
 
 def compare(compare_commands):
+    """
+    Runs the given compare commands and returns if the result is that the
+    compared files are equal or not.
+
+    :param compare_commands: Compare commands to run
+    :type compare_commands: List[str]
+    :return: Is equal or not and the message
+    :rtype: bool, str
+    """
     differences = []
     start_time = datetime.now()
     for command in compare_commands:
@@ -60,6 +86,14 @@ def compare(compare_commands):
 
 
 def write_user_configuration_file(config_file_handle, test_data):
+    """
+    Write the test data into the given user configuration file
+
+    :param config_file_handle: User configuration file
+    :type config_file_handle: TextIOWrapper
+    :param test_data: Test data to be written into the configuration file
+    :type test_data: AbstractTestData
+    """
     user_config = configparser.ConfigParser(interpolation=None)
     user_config.optionxform = str  # Preserve case.
     config = defaultdict(dict)
@@ -74,9 +108,19 @@ def write_user_configuration_file(config_file_handle, test_data):
         user_config.write(file_handle)
 
 
-def print_outcome(outputs, output_directory, data_directory):
-    for output in outputs:
-        if not os.path.isfile(output):
+def print_outcome(outcome_files, output_directory, data_directory):
+    """
+    Prints if expected outcome files are correctly created
+
+    :param outcome_files: Outcome file paths that should be created
+    :type outcome_files: List[str]
+    :param output_directory: Output directory that should contain the outcome files
+    :type output_directory: str
+    :param data_directory: Data directory that should contain the cmor log file
+    :type data_directory: str
+    """
+    for output_come_file in outcome_files:
+        if not os.path.isfile(output_come_file):
             output_dir_contents = os.listdir(output_directory)
             if not output_dir_contents:
                 print((

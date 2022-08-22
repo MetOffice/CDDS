@@ -5,9 +5,11 @@
 import io
 import os
 import sys
+
 from abc import ABCMeta, abstractmethod
 from pathlib import Path
 from tempfile import mkstemp
+from typing import List, Tuple
 from unittest import TestCase
 
 from cdds_common.cdds_plugins.plugin_loader import load_plugin
@@ -20,6 +22,10 @@ from mip_convert.tests.test_functional.utils.directories import REFERENCE_OUTPUT
 
 
 class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
+    """
+    Abstract test class for MIP convert functional tests. New functional tests must extend from it and implement
+    the get_test_data method what returns the test data for this test
+    """
 
     def setUp(self):
         load_plugin()
@@ -37,9 +43,15 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
 
     @abstractmethod
     def get_test_data(self) -> AbstractTestData:
+        """
+        Returns the test data for the test
+
+        :return: test data
+        :rtype: AbstractTestData
+        """
         pass
 
-    def convert(self, filenames):
+    def convert(self, filenames: List[str]) -> Tuple[List[str], List[str]]:
         input_directory = self.input_dir.format(
             self.test_info.project_id, self.test_info.mip_table, self.test_info.variable
         )
@@ -83,7 +95,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         print_outcome(output_files, output_directory, data_directory)
         return output_files, reference_files
 
-    def check_main(self):
+    def check_main(self) -> None:
         other_items = self.test_info.specific_info.other
         filenames = other_items['filenames']
 
