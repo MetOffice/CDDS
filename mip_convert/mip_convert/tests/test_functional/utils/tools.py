@@ -6,22 +6,13 @@ import subprocess
 from collections import defaultdict
 from datetime import datetime
 
-from mip_convert.tests.test_functional.utils.configurations import AbstractTestData
 from mip_convert.tests.test_functional.utils.constants import DEBUG, NCCMP_TIMINGS, COMPARE_NETCDF
 
 
 def compare_command(outputs, references, tolerance_value=None, ignore_history=False, other_options=None):
-    tolerance = ''
-    if tolerance_value is not None:
-        tolerance = '--tolerance={tolerance_value}'.format(tolerance_value=tolerance_value)
-
-    history = ''
-    if ignore_history:
-        history = '--Attribute=history'
-
-    options = ''
-    if other_options is not None:
-        options = other_options
+    tolerance = '--tolerance={}'.format(tolerance_value) if tolerance_value else ''
+    history = '--Attribute=history' if ignore_history else ''
+    options = other_options if other_options else ''
 
     compare_commands = [
         COMPARE_NETCDF.format(tolerance=tolerance,
@@ -37,10 +28,9 @@ def compare_command(outputs, references, tolerance_value=None, ignore_history=Fa
 def compare(compare_commands):
     differences = []
     start_time = datetime.now()
-    for compare_command in compare_commands:
-        print('Running compare command:', ' '.join(compare_command))
-        process = subprocess.Popen(compare_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                   universal_newlines=True)
+    for command in compare_commands:
+        print('Running compare command:', ' '.join(command))
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
         # The communicate() method returns a tuple in the form (stdoutdata, stderrdata).
         differences.append(process.communicate())
@@ -49,12 +39,11 @@ def compare(compare_commands):
         # 1 for different files, and 2 for a fatal error".
         # In addition, process.returncode = -11 when a segmentation fault occurs.
         if process.returncode < 0 or process.returncode == 2:
-            message = 'Problem running comparison command: {compare_command}'
-            raise AssertionError(message.format(compare_command=' '.join(compare_command)))
+            raise AssertionError('Problem running comparison command: {}'.format(' '.join(command)))
 
     end_time = datetime.now()
-    duration = end_time - start_time
-    NCCMP_TIMINGS.append(duration.total_seconds())
+    elapsed_time = end_time - start_time
+    NCCMP_TIMINGS.append(elapsed_time.total_seconds())
     number_of_tests = 1  # len([test for test in dir() if test.startswith('test')])  # Refactor this one
 
     if len(NCCMP_TIMINGS) == number_of_tests:
@@ -70,17 +59,18 @@ def compare(compare_commands):
     assert set(stderrdata) == set(['']), message
 
 
-def write_user_configuration_file(os_handle, test_data: AbstractTestData):
+def write_user_configuration_file(config_file_handle, test_data):
     user_config = configparser.ConfigParser(interpolation=None)
     user_config.optionxform = str  # Preserve case.
     config = defaultdict(dict)
     all_info = test_data.as_list_dicts()
+
     for info in all_info:
         for section, items in info.items():
             config[section].update(items)
 
     user_config.update(config)
-    with os.fdopen(os_handle, 'w') as file_handle:
+    with os.fdopen(config_file_handle, 'w') as file_handle:
         user_config.write(file_handle)
 
 

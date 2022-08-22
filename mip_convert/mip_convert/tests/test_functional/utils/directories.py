@@ -18,10 +18,13 @@ CMIP6_MIP_TABLE_DIR = '{}/CMIP6/for_functional_tests'.format(ROOT_MIP_TABLES_DIR
 MODEL_OUTPUT_DIR_SET1 = os.path.join(ROOT_TEST_DATA_DIR, 'input', 'set1')
 MODEL_OUTPUT_DIR_SET2 = os.path.join(ROOT_TEST_DATA_DIR, 'input', 'set2')
 
+REFERENCE_OUTPUT_DIR_NAME = 'reference_output'
+DATA_OUTPUT_DIR_NAME = 'data_out_{}'.format(os.environ['USER'])
+
 
 def get_output_dir(test_location: str):
-    return os.path.join(test_location, 'data_out_{}'.format(os.environ['USER']))
+    return os.path.join(test_location, DATA_OUTPUT_DIR_NAME)
 
 
-def cmor_log(log_dir: str):
+def get_cmor_log(log_dir: str):
     return os.path.join(log_dir, 'cmor.log')

@@ -4,17 +4,16 @@ import os
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.use_case_directories import (get_output_dir, MODEL_OUTPUT_DIR_SET1,
-                                                                          PROJECT_CDDS_DIR,
-                                                                          ROOT_TEST_CASES_DIR)
+from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
+                                                                 MODEL_OUTPUT_DIR_SET1,
+                                                                 PROJECT_CDDS_DIR,
+                                                                 ROOT_TEST_CASES_DIR)
 
 
 class TestCmip6OfxAreacello(AbstractFunctionalTests):
 
     def get_test_data(self):
-        # maybe in specific info section
         test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CMIP6_Ofx_areacello')
-        output_dir = get_output_dir(test_location)
         return Cmip6TestData(
             mip_table='Ofx',
             variable='areacello',
@@ -23,10 +22,10 @@ class TestCmip6OfxAreacello(AbstractFunctionalTests):
                     'test_location': test_location
                 },
                 cmor_setup={
-                    'cmor_log_file': os.path.join(test_location, 'cmor.log')
+                    'cmor_log_file': get_cmor_log(test_location)
                 },
                 cmor_dataset={
-                    'output_dir': output_dir
+                    'output_dir': get_output_dir(test_location)
                 },
                 request={
                     'ancil_files': (os.path.join(

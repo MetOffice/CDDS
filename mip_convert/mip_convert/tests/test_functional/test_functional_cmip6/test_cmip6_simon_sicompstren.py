@@ -6,16 +6,15 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.use_case_directories import get_output_dir, MODEL_OUTPUT_DIR_SET2, \
-    ROOT_TEST_CASES_DIR
+from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
+                                                                 MODEL_OUTPUT_DIR_SET2,
+                                                                 ROOT_TEST_CASES_DIR)
 
 
 class TestCmip6SImonSicompstren(AbstractFunctionalTests):
 
     def get_test_data(self):
-        # maybe in specific info section
         test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CMIP6_SImon_sicompstren')
-        output_dir = get_output_dir(test_location)
         return Cmip6TestData(
             mip_table='SImon',
             variable='sicompstren',
@@ -24,11 +23,11 @@ class TestCmip6SImonSicompstren(AbstractFunctionalTests):
                     'test_location': test_location
                 },
                 cmor_setup={
-                    'cmor_log_file': os.path.join(test_location, 'cmor.log'),
+                    'cmor_log_file': get_cmor_log(test_location),
                     'netcdf_file_action': 'CMOR_REPLACE_3',
                 },
                 cmor_dataset={
-                    'output_dir': output_dir
+                    'output_dir': get_output_dir(test_location)
                 },
                 request={
                     'model_output_dir': MODEL_OUTPUT_DIR_SET2,

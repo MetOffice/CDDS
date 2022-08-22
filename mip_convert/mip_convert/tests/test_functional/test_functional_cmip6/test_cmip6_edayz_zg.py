@@ -6,16 +6,15 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.use_case_directories import (get_output_dir, ROOT_TEST_CASES_DIR,
-                                                                          ROOT_ANCIL_DIR)
+from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
+                                                                 ROOT_TEST_CASES_DIR,
+                                                                 ROOT_ANCIL_DIR)
 
 
 class TestCmip6EdayZZg(AbstractFunctionalTests):
 
     def get_test_data(self):
-        # maybe in specific info section
         test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CMIP6_EdayZ_zg')
-        output_dir = get_output_dir(test_location)
         return Cmip6TestData(
             mip_table='EdayZ',
             variable='zg',
@@ -24,10 +23,10 @@ class TestCmip6EdayZZg(AbstractFunctionalTests):
                     'test_location': test_location
                 },
                 cmor_setup={
-                    'cmor_log_file': os.path.join(test_location, 'cmor.log')
+                    'cmor_log_file': get_cmor_log(test_location)
                 },
                 cmor_dataset={
-                    'output_dir': output_dir,
+                    'output_dir': get_output_dir(test_location),
                     'branch_date_in_child': '1970-01-01-00-00-00',
                     'branch_date_in_parent': 'N/A',
                     'branch_method': 'standard',

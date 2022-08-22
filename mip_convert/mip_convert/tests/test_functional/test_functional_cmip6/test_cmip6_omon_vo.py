@@ -6,17 +6,16 @@ from nose.plugins.attrib import attr
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
-from mip_convert.tests.test_functional.utils.use_case_directories import (get_output_dir, MODEL_OUTPUT_DIR_SET2,
-                                                                          ROOT_TEST_CASES_DIR,
-                                                                          ROOT_ANCIL_DIR)
+from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
+                                                                 MODEL_OUTPUT_DIR_SET2,
+                                                                 ROOT_TEST_CASES_DIR,
+                                                                 ROOT_ANCIL_DIR)
 
 
 class TestCmip6OmonVo(AbstractFunctionalTests):
 
     def get_test_data(self):
-        # maybe in specific info section
         test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CMIP6_Omon_vo')
-        output_dir = get_output_dir(test_location)
         return Cmip6TestData(
             mip_table='Omon',
             variable='vo',
@@ -25,10 +24,10 @@ class TestCmip6OmonVo(AbstractFunctionalTests):
                     'test_location': test_location
                 },
                 cmor_setup={
-                    'cmor_log_file': os.path.join(test_location, 'cmor.log')
+                    'cmor_log_file': get_cmor_log(test_location)
                 },
                 cmor_dataset={
-                    'output_dir': output_dir
+                    'output_dir': get_output_dir(test_location)
                 },
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'ocean_byte_masks.nc'),
