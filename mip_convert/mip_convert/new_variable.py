@@ -423,8 +423,15 @@ class Variable(object):
                 if coord.standard_name == 'forecast_reference_time':
                     # this is populated from mip_convert config file
                     dt = [int(v) for v in self._variable_metadata.reference_time.split('-')]
-                    coord.points = [cf_units.date2num(datetime.datetime(*dt), 'days since 1850-01-01 00:00:00', '360_day')]
-                    coord.units = cf_units.Unit('days since 1850-01-01', calendar='360_day')
+                    reftime_units = 'days since {}-{:02d}-{:02d}'.format(
+                        *[int(v) for v in self._variable_metadata.base_date.split('-')])
+                    reftime_calendar = self._variable_metadata.calendar
+                    # not sure why including the time {:02d}:{:02d}:{:02d} upsets CMOR in the above, but it does
+                    coord.points = [cf_units.date2num(datetime.datetime(*dt), reftime_units, reftime_calendar)]
+                    coord.units = cf_units.Unit(reftime_units, calendar=reftime_calendar)
+        elif 'T-reftime' in self._mip_axes_directions_names and not self._variable_metadata.reference_time:
+            raise RuntimeError('Parameter "reference_time" not set in request section of config file, '
+                               'but it is needed for this variable')
 
     def _validate_units(self):
         # The units of the 'MIP requested variable' must always be the units from the 'model to MIP mapping'.
@@ -558,7 +565,7 @@ class Variable(object):
                 matched_axis_direction = None
                 matching_coord_name = None
                 forecast_coord = self.mip_metadata._get_axis_attribute_value(mip_axis_name, 'forecast')
-                if forecast_coord == 'leadtime': # or forecast_coord == 'reftime':
+                if forecast_coord == 'leadtime':  # or forecast_coord == 'reftime':
                     # skipping and reinserting reftime at later point
                     continue
                 if mip_axis_direction in cube_axis_directions or (forecast_coord and 'T' in cube_axis_directions):
@@ -595,7 +602,7 @@ class Variable(object):
         return self._matched_coords
 
     def _match_axis_directions(self, cube_coords, mip_axis_direction, mip_axis_name):
-        #print("trying to match {} in {}".format(mip_axis_name, mip_axis_direction))
+        # print("trying to match {} in {}".format(mip_axis_name, mip_axis_direction))
         forecast_coord = self.mip_metadata._get_axis_attribute_value(mip_axis_name, 'forecast')
         matched_axis_direction = None
         matching_coord_name = None
@@ -709,6 +716,7 @@ class Variable(object):
             if axis_direction == 'T-reftime':
                 reftime_coord = coord
         return reftime_coord
+
 
 def _update_constraint_in_expression(expression, constraint_name):
     pattern = re.compile(r'{}(?=[^\d]|$)'.format(constraint_name))
