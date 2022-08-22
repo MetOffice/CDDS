@@ -47,4 +47,4 @@ class TestCmip6EmonHus27(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_emon_hus27(self):
-        self.check_main()
+        self.check_convert()

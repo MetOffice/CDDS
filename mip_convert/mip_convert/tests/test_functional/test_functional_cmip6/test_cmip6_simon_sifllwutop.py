@@ -48,4 +48,4 @@ class TestCmip6SImonSifllwutop(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_simon_sifllwutop(self):
-        self.check_main()
+        self.check_convert()

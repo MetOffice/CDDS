@@ -46,4 +46,4 @@ class TestCmip6OmonFgco2(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_omon_fgco2(self):
-        self.check_main()
+        self.check_convert()

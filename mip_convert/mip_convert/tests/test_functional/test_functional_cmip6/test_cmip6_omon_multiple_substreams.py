@@ -50,4 +50,4 @@ class TestCmip6OmonMultipleSubstreams(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_omon_multiple_substreams(self):
-        self.check_main()
+        self.check_convert()

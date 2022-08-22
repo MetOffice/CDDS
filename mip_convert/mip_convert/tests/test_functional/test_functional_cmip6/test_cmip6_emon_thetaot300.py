@@ -45,4 +45,4 @@ class TestCmip6EmonThetaot300(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_thetaot300(self):
-        self.check_main()
+        self.check_convert()

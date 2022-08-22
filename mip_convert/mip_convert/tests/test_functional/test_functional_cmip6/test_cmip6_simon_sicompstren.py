@@ -46,4 +46,4 @@ class TestCmip6SImonSicompstren(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_simon_sicompstren(self):
-        self.check_main()
+        self.check_convert()

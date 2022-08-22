@@ -48,4 +48,4 @@ class TestCmip6SImonSiitdsnthick(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_simon_siitdsnthick(self):
-        self.check_main()
+        self.check_convert()

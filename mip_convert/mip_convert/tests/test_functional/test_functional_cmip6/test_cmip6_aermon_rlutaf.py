@@ -47,4 +47,4 @@ class TestCmip6AERmonRlutaf(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_aermon_rlutaf(self):
-        self.check_main()
+        self.check_convert()

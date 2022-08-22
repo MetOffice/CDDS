@@ -48,4 +48,4 @@ class TestCmip6AERmonReffclwtop(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_aermon_reffclwtop(self):
-        self.check_main()
+        self.check_convert()

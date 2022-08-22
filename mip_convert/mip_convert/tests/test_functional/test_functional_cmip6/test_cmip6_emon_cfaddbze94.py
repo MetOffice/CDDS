@@ -47,4 +47,4 @@ class TestCmip6EmonCfadDbze94(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_emon_sconcdust(self):
-        self.check_main()
+        self.check_convert()

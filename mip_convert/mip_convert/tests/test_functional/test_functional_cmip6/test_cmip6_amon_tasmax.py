@@ -45,4 +45,4 @@ class TestCmip6AmonTasmax(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_amon_tasmax(self):
-        self.check_main()
+        self.check_convert()

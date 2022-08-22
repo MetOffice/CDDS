@@ -47,4 +47,4 @@ class TestCmip6CFmonClisccp(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_cfmon_clisccp(self):
-        self.check_main()
+        self.check_convert()

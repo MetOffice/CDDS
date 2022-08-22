@@ -48,4 +48,4 @@ class TestCmip6OmonVmo(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_omon_vmo(self):
-        self.check_main()
+        self.check_convert()

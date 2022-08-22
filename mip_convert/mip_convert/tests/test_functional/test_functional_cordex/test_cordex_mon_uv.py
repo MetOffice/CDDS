@@ -51,4 +51,4 @@ class TestCordexMonUv(AbstractFunctionalTests):
     @attr('slow')
     @pytest.mark.skip
     def test_cordex_mon_uv(self):
-        self.check_main()
+        self.check_convert()

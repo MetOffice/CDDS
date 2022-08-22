@@ -5,7 +5,6 @@
 import io
 import os
 import sys
-
 from abc import ABCMeta, abstractmethod
 from pathlib import Path
 from tempfile import mkstemp
@@ -16,9 +15,10 @@ from cdds_common.cdds_plugins.plugin_loader import load_plugin
 from mip_convert.command_line import main
 from mip_convert.save.cmor.cmor_outputter import CmorGridMaker, AbstractAxisMaker
 from mip_convert.tests.test_functional.utils.configurations import AbstractTestData
+from mip_convert.tests.test_functional.utils.directories import (REFERENCE_OUTPUT_DIR_NAME, DATA_OUTPUT_DIR_NAME,
+                                                                 ROOT_TEST_CASES_DIR)
 from mip_convert.tests.test_functional.utils.tools import (compare, compare_command, write_user_configuration_file,
                                                            print_outcome)
-from mip_convert.tests.test_functional.utils.directories import REFERENCE_OUTPUT_DIR_NAME, DATA_OUTPUT_DIR_NAME
 
 
 class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
@@ -29,13 +29,6 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
 
     def setUp(self):
         load_plugin()
-        directory_name = os.path.dirname(os.path.realpath(__file__))
-        self.config_base_path = os.path.join(directory_name, 'functional')
-        self.data_base_path = '/project/cdds/testdata/diagnostics/test_cases_python3/'
-        self.compare_netcdf = (
-            'nccmp -dmgfbi {tolerance} {history} {options} --globalex=cmor_version,creation_date,cv_version,'
-            'data_specs_version,table_info,tracking_id,_NCProperties {output} {reference}'
-        )
         self.input_dir = 'test_{}_{}_{}'
         self.os_handle, self.config_file = mkstemp()
         self.mip_convert_log = 'mip_convert_{}.log'.format(os.environ['USER'])
@@ -56,7 +49,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
             self.test_info.project_id, self.test_info.mip_table, self.test_info.variable
         )
         write_user_configuration_file(self.os_handle, self.test_info)
-        data_directory = os.path.join(self.data_base_path, input_directory)
+        data_directory = os.path.join(ROOT_TEST_CASES_DIR, input_directory)
         log_name = os.path.join(data_directory, self.mip_convert_log)
 
         output_directory = os.path.join(data_directory, DATA_OUTPUT_DIR_NAME)
@@ -78,7 +71,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         # Ignore the Iris warnings sent to stderr by main().
         original_stderr = sys.stderr
         sys.stderr = io.StringIO()
-        parameters = [self.config_file, '-q', '-l', log_name]
+        parameters = self.get_convert_parameters(log_name)
 
         # Set the umask so all files produced by 'main' have read and write permissions for all users.
         original_umask = os.umask(000)
@@ -95,7 +88,11 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         print_outcome(output_files, output_directory, data_directory)
         return output_files, reference_files
 
-    def check_main(self) -> None:
+    def get_convert_parameters(self, log_name):
+        # Extracted to allow overriding parameters
+        return [self.config_file, '-q', '-l', log_name]
+
+    def check_convert(self) -> None:
         other_items = self.test_info.specific_info.other
         filenames = other_items['filenames']
 

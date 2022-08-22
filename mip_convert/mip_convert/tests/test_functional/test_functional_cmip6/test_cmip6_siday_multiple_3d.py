@@ -49,4 +49,4 @@ class TestCmip6SIdayMultiple3d(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_siday_multiple_3d(self):
-        self.check_main()
+        self.check_convert()

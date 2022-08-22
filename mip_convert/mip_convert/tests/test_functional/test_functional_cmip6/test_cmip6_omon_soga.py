@@ -48,4 +48,4 @@ class TestCmip6OmonSoga(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_omon_soga(self):
-        self.check_main()
+        self.check_convert()

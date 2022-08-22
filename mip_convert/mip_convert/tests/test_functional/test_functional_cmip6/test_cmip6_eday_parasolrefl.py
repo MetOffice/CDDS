@@ -49,4 +49,4 @@ class TestCmip6EdayParasolRefl(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_eday_parasolRefl(self):
-        self.check_main()
+        self.check_convert()

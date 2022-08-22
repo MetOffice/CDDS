@@ -72,4 +72,4 @@ class TestCmip6DayZgDeflation(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_day_zg_deflation(self):
-        self.check_main()
+        self.check_convert()

@@ -37,7 +37,6 @@ CORDEX_LICENSE = ('CORDEX model data produced by the Met Office Hadley Centre is
                   'excluded to the fullest extent permitted by law.'),
 
 DEBUG = True
-NCCMP_TIMINGS = []
 
 COMPARE_NETCDF = (
     'nccmp -dmgfbi {tolerance} {history} {options} --globalex=cmor_version,creation_date,cv_version,'

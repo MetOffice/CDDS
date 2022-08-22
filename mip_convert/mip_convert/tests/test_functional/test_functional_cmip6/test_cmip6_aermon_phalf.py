@@ -45,4 +45,4 @@ class TestCmip6AERmonPhalf(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_aermon_phalf(self):
-        self.check_main()
+        self.check_convert()

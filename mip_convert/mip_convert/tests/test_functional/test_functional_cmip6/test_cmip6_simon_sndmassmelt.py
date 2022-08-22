@@ -47,4 +47,4 @@ class TestCmip6SImonSndmassmelt(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_simon_sndmassmelt(self):
-        self.check_main()
+        self.check_convert()

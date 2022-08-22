@@ -49,4 +49,4 @@ class TestCmip6OmonTos(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_omon_tos(self):
-        self.check_main()
+        self.check_convert()

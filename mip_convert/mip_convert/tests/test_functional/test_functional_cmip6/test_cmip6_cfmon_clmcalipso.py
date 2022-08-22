@@ -48,4 +48,4 @@ class TestCmip6CFmonClmcalipso(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_cfmon_clmcalipso(self):
-        self.check_main()
+        self.check_convert()

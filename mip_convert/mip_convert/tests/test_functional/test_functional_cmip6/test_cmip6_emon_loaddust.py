@@ -47,4 +47,4 @@ class TestCmip6EmonLoaddust(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_emon_loaddust(self):
-        self.check_main()
+        self.check_convert()

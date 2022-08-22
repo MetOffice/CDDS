@@ -7,7 +7,7 @@ import subprocess
 from collections import defaultdict
 from datetime import datetime
 
-from mip_convert.tests.test_functional.utils.constants import DEBUG, NCCMP_TIMINGS, COMPARE_NETCDF
+from mip_convert.tests.test_functional.utils.constants import DEBUG, COMPARE_NETCDF
 
 
 def compare_command(outputs, references, tolerance_value=None, ignore_history=False, other_options=None):
@@ -53,6 +53,7 @@ def compare(compare_commands):
     :rtype: bool, str
     """
     differences = []
+    nccmp_timings = []
     start_time = datetime.now()
     for command in compare_commands:
         print('Running compare command:', ' '.join(command))
@@ -69,11 +70,11 @@ def compare(compare_commands):
 
     end_time = datetime.now()
     elapsed_time = end_time - start_time
-    NCCMP_TIMINGS.append(elapsed_time.total_seconds())
+    nccmp_timings.append(elapsed_time.total_seconds())
     number_of_tests = 1  # len([test for test in dir() if test.startswith('test')])  # Refactor this one
 
-    if len(NCCMP_TIMINGS) == number_of_tests:
-        print('nccmp took {:.3}s'.format(sum(NCCMP_TIMINGS)))
+    if len(nccmp_timings) == number_of_tests:
+        print('nccmp took {:.3}s'.format(sum(nccmp_timings)))
 
     if DEBUG:
         stdoutdata = [output[0] for output in differences]

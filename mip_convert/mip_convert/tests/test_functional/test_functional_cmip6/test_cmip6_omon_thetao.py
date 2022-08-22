@@ -49,4 +49,4 @@ class TestCmip6OmonThetao(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_omon_thetao(self):
-        self.check_main()
+        self.check_convert()

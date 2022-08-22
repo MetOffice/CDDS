@@ -50,4 +50,4 @@ class TestCmip6FxAreacella(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_fx_areacella(self):
-        self.check_main()
+        self.check_convert()

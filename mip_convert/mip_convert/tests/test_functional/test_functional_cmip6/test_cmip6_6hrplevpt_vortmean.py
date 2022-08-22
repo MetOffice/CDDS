@@ -47,4 +47,4 @@ class TestCmip66hrPlevPtVortmean(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_6hr_plev_pt_vortmean(self):
-        self.check_main()
+        self.check_convert()

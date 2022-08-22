@@ -52,4 +52,4 @@ class TestCmip6OmonThkcello(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_omon_thkcello(self):
-        self.check_main()
+        self.check_convert()

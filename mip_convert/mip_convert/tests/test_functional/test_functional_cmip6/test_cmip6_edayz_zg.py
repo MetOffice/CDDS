@@ -69,4 +69,4 @@ class TestCmip6EdayZZg(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_edayz_zg(self):
-        self.check_main()
+        self.check_convert()

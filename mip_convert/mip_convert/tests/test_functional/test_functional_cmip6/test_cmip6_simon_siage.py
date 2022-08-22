@@ -48,4 +48,4 @@ class TestCmip6SImonSiage(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_simon_siage(self):
-        self.check_main()
+        self.check_convert()

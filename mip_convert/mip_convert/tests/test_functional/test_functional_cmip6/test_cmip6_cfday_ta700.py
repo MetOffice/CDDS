@@ -48,4 +48,4 @@ class TestCmip6CFdayTa700(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_cfday_ta700(self):
-        self.check_main()
+        self.check_convert()

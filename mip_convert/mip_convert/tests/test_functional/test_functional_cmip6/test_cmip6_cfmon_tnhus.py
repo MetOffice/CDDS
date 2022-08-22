@@ -48,4 +48,4 @@ class TestCmip6CFmonTnhus(AbstractFunctionalTests):
 
     @attr('slow')
     def test_cmip6_cfmon_tnhus(self):
-        self.check_main()
+        self.check_convert()
