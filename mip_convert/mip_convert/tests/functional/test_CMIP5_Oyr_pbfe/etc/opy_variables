@@ -1,5 +1,0 @@
-[DEFAULT]
-miptable: CMIP5_Oyr
-[pbfe]
-mapping_id = CMIP5 (Oyr, pbfe)
-

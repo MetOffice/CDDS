@@ -5,7 +5,6 @@
 import io
 import os
 import sys
-import unittest
 from abc import ABCMeta, abstractmethod
 from pathlib import Path
 from tempfile import mkstemp

@@ -1,5 +1,0 @@
-[DEFAULT]
-miptable: CMIP5_Omon
-lbproc = 128
-
-[mfo]
