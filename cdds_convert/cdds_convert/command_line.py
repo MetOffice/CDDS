@@ -42,6 +42,9 @@ def main_cdds_convert():
     """
 
     arguments, rose_args = parse_args_cdds_convert()
+
+    configure_logger(arguments.log_name, logging.INFO, arguments.append_log)
+
     try:
         run_cdds_convert(arguments, rose_args)
         exit_code = 0
