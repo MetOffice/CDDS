@@ -47,7 +47,7 @@ def parse_cdds_extract_command_line(user_arguments):
     : :class:`hadsdk.arguments.Arguments` object
         The names of the command line arguments and their validated values.
     """
-    arguments = read_default_arguments('extract', 'cdds_extract')
+    arguments = read_default_arguments('cdds.extract', 'cdds_extract')
 
     parser = argparse.ArgumentParser(description='Extract the requested data from MASS on SPICE via a batch job')
     parser.add_argument('request',
