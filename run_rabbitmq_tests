@@ -12,7 +12,6 @@ For running the test:
 3. Source the environment script
 4. Run this script
 """
-# TODO: use pytest instead of nosetest!
 import datetime
 import os
 import subprocess
@@ -20,10 +19,10 @@ import sys
 
 CDDS_DIR = os.path.dirname(os.path.realpath(__file__))
 LOG_NAME = os.path.join(CDDS_DIR, 'cdds_rabbitmq_test_failures.log')
-ROOT_COMMAND = 'python setup.py nosetests'
+ROOT_COMMAND = 'py.test -s'
 TESTS_TO_RUN = {
     'cdds_transfer': ['-a rabbitMQ'],  # Only run the unit tests using RabbitMQ!
-    }
+}
 
 
 def print_error(text):
@@ -33,7 +32,7 @@ def print_error(text):
     :param text: Text that should be printed in red.
     :type text: str
     """
-    print("\033[91m {}\033[00m" .format(text))
+    print("\033[91m {}\033[00m".format(text))
 
 
 def print_success(text):
@@ -46,39 +45,31 @@ def print_success(text):
     print("\033[92m {}\033[00m".format(text))
 
 
-def print_warning(text):
-    """
-    Print warning message in yellow.
-
-    :param text: Text that should be printed in yellow
-    :type text: str
-    """
-    print("\033[93m {}\033[00m".format(text))
-
-
 def main():
     """
     Run all the tests using RabbitMQ in the CDDS packages.
     """
     exit_code = 0
     for package, tests in TESTS_TO_RUN.items():
-        os.chdir(os.path.join(CDDS_DIR, package))
-        print_warning('WARNING: This tests will only run successfully on els055 or els056!')
-        print('Executing tests for {}:'.format(package))
+        print('\nExecuting tests for {}:'.format(package))
         for test in tests:
-            command = '{} {}'.format(ROOT_COMMAND, test)
-            print('--> {} {}'.format(command, (46 - len(command)) * '.'), end=''),
+            command = ROOT_COMMAND.split()
+            command.append(package)
+            if test:
+                command.extend(test.split(' ', 1))
+            command_str = ' '.join(command)
+            print('--> {} {}'.format(command_str, (46 - len(command_str)) * '.'), end=''),
             sys.stdout.flush()
-            process = subprocess.Popen(command.split(), stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE)
+            print(os.curdir)
+            process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdoutdata, stderrdata = process.communicate()
             if process.returncode == 0:
-                info = stderrdata.decode('utf-8').split('\n')
-                msg = '[{}: {}]'.format(info[-2], info[-4])
-                print_success('success! {}'.format(msg))
+                info = stdoutdata.decode('utf-8').split('\n')
+                msg = info[-2].replace('=', '').strip()
+                print_success('{} success! [{}]'.format(' ' * 3, msg))
             else:
                 exit_code = 1
-                print_error('failed!\n!!! Please see "{}" for more details'.format(LOG_NAME))
+                print_error('{} failed!\n!!! Please see "{}" for more details'.format(' ' * 3, LOG_NAME))
                 current_date = datetime.datetime.now()
                 msg = '{}: {}: {}\n\n'.format(current_date, package, command)
                 with open(LOG_NAME, 'a') as file_handle:
