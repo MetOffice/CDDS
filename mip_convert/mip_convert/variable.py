@@ -549,7 +549,8 @@ class CoordinateDomain(object):
         """
         # need to import it here to prevent circular imports
         from mip_convert.load.pp.pp_axis import ReferenceTimeAxis
-        return tuple(['T-reftime' if type(axis) is ReferenceTimeAxis else axis.axis for axis in self.getAxisList()])
+        return tuple([ReferenceTimeAxis.AXIS_NAME if type(axis) is ReferenceTimeAxis else axis.axis for axis in
+                      self.getAxisList()])
 
     def getAxis(self, axis_dir):
         """

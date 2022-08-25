@@ -204,6 +204,7 @@ class VariableAxes(object):
         axis = BoundedAxis(axis_direction, axis_units, axis_values,
                            axis_bounds)
         if axis_direction == 'T' and coord.name() == 'forecast_reference_time':
+            # special handling of the reference time scalar coordinate
             axis = ReferenceTimeAxis(coord.points, str(coord.units))
         if axis_direction == 'Z' and coord.name() == 'model_level_number':
             name = self._axes_directions_names[axis_direction]

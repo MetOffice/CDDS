@@ -837,10 +837,12 @@ class AxisMakerFactory(object):
         result = list()
         for dim_name in self._mip_variable.dimensions:
             if dim_name == 'leadtime':
+                # leadtime is ignored as this will be handled by the CMOR itself
                 continue
             elif self._generic_level(dim_name):
                 dim_dir = self.VERTICAL
             elif dim_name == 'reftime1':
+                # use the dummy time axis instead of regular one to avoid ambiguity
                 dim_dir = 'T-reftime'
             else:
                 axis = self._table.axes[dim_name]

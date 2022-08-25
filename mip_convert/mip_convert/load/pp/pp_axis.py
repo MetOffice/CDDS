@@ -788,9 +788,12 @@ class InstantAxis(AbstractTimeAxis):
 
 
 class ReferenceTimeAxis(ValuedAxis):
+    #  The auxiliary time coordinate that provides reference times
+    #  for the seasonal forecast datasets
+    AXIS_NAME = 'T-reftime'
 
     def __init__(self, time, units):
-        self.axis = 'T-reftime'
+        self.axis = self.AXIS_NAME
         self.units = units
         self._values = time
 

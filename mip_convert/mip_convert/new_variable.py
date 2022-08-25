@@ -565,8 +565,8 @@ class Variable(object):
                 matched_axis_direction = None
                 matching_coord_name = None
                 forecast_coord = self.mip_metadata._get_axis_attribute_value(mip_axis_name, 'forecast')
-                if forecast_coord == 'leadtime':  # or forecast_coord == 'reftime':
-                    # skipping and reinserting reftime at later point
+                if forecast_coord == 'leadtime':
+                    # skipping the leadtime as this will be inserted later
                     continue
                 if mip_axis_direction in cube_axis_directions or (forecast_coord and 'T' in cube_axis_directions):
                     # Use the axis directions to determine whether a coordinate in the cube matches with an axes from
@@ -602,7 +602,7 @@ class Variable(object):
         return self._matched_coords
 
     def _match_axis_directions(self, cube_coords, mip_axis_direction, mip_axis_name):
-        # print("trying to match {} in {}".format(mip_axis_name, mip_axis_direction))
+        # the forecast attribute is how we recognise special coordinates for seasonal forecasting
         forecast_coord = self.mip_metadata._get_axis_attribute_value(mip_axis_name, 'forecast')
         matched_axis_direction = None
         matching_coord_name = None
@@ -649,7 +649,6 @@ class Variable(object):
                 if coord is not None:
                     matched_axis_direction = mip_axis_direction
                     matching_coord_name = coord.name()
-        # print("matched {} in {}".format(matched_axis_direction, matching_coord_name))
         return matched_axis_direction, matching_coord_name
 
     def _update_time_units(self):
@@ -704,7 +703,6 @@ class Variable(object):
     def _time_coord(self):
         time_coord = None
         for (coord, axis_direction) in self.ordered_coords:
-            # print(coord.standard_name)
             if axis_direction == 'T':
                 time_coord = coord
         return time_coord
@@ -920,6 +918,10 @@ class VariableMIPMetadata(object):
                     raise ValueError(message.format(axis_name, support_website))
 
             if axis_direction is not None:
+                # because of underlying assumption that there's olways one coordinate for a given axis
+                # for seasonal forecasting datasets we need to create dummy T axes which are named differently
+                # and associate them with reftime and leadtime coordinates
+                # this way mip convert won't be confused about multiple time coordiates
                 forecast = self._get_axis_attribute_value(axis_name, 'forecast')
                 axis_name_key = '{}-{}'.format(axis_direction, forecast) if forecast else axis_direction
                 all_axes_directions_names.update({axis_name_key: axis_name})
