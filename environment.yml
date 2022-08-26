@@ -112,7 +112,6 @@ dependencies:
   - proj=7.0.1=h59a7b90_1
   - psutil=5.9.0=py38h497a2fe_0
   - pycparser=2.21=pyhd3eb1b0_0
-  - pygments=2.10.0=pyhd3eb1b0_0
   - pygeoif=0.7=py_1
   - pygments=2.11.2=pyhd3eb1b0_0
   - pyopenssl=22.0.0=pyhd3eb1b0_0
