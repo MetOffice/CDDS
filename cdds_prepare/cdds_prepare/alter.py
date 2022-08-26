@@ -11,8 +11,8 @@ import json
 import logging
 
 from cdds_common.common.io import read_json, write_json
+from cdds_common.cdds_plugins.plugins import PluginStore
 from hadsdk.common import set_checksum
-from hadsdk.streams import retrieve_stream_id, stream_overrides
 
 from cdds_prepare import __version__
 from cdds_prepare.common import retrieve_mappings
@@ -344,6 +344,7 @@ def _apply_insert(requested_variables, change_rules, timestamp, priority,
         Dictionary describing the variables inserted.
     """
     logger = logging.getLogger(__name__)
+    stream_info = PluginStore.instance().get_plugin().stream_info()
     # Dictionary to describe the changes made by this operation.
     variables_affected = defaultdict(list)
     # Identify variables already in the 'requested variables list'.
@@ -412,7 +413,7 @@ def _apply_insert(requested_variables, change_rules, timestamp, priority,
                     'manual activation.'.format(
                         rule['miptable'], rule['label'], mapping.status))
         # Populate entry with data where possible
-        stream_id, substream = retrieve_stream_id(rule['label'], rule['miptable'], mip_era, stream_overrides())
+        stream_id, substream = stream_info.retrieve_stream_id(rule['label'], rule['miptable'])
         entry['active'] = mapping.status == 'ok'
         entry['cell_methods'] = mip_table_data['cell_methods']
         entry['comments'] = ['Inserted {}'.format(timestamp)]

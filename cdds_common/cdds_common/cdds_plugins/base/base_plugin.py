@@ -36,17 +36,33 @@ class MipEra(Enum):
         """
         Checks if given project is a CMIP project.
 
-        :param mip_era: ID of project to check
+        :param mip_era: ID of project to check (case-sensitive check!)
         :type mip_era: str
         :return: True if project is a CMIP project otherwise False
         :rtype: bool
         """
-        for cmip_era in MipEra:
-            if mip_era.lower() == cmip_era.value:
+        for cmip_era in [MipEra.CMIP6]:
+            if mip_era == cmip_era.value:
                 return True
         return False
 
-    CMIP6 = "cmip6"
+    @staticmethod
+    def is_gcmodeldev(mip_era: str) -> bool:
+        """
+        Checks if given project is a GcModelDev project.
+
+        :param mip_era: ID of project to check (case-sensitive check!)
+        :type mip_era: str
+        :return: True if project is a GcModelDev project otherwise False
+        :rtype: bool
+        """
+        for cmip_era in [MipEra.GC_MODEL_DEV]:
+            if mip_era == cmip_era.value:
+                return True
+        return False
+
+    CMIP6 = "CMIP6"
+    GC_MODEL_DEV = "GCModelDev"
 
 
 class BasePlugin(CddsPlugin, ABC):

@@ -59,7 +59,7 @@ def load_cdds_plugins(request):
     external_plugin = None
     if request.external_plugin:
         external_plugin = request.external_plugin
-    load_plugin(request.mip_era.lower(), external_plugin)
+    load_plugin(request.mip_era, external_plugin)
 
 
 def construct_request(items, required_keys=None, default_items=None):

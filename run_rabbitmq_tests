@@ -1,0 +1,92 @@
+#!/usr/bin/env python3.8
+# (C) British Crown Copyright 2017-2022, Met Office.
+"""
+Run all the tests using RabbitMQ in the CDDS packages.
+
+Only the server els055 and els056 have RabbitMQ properly installed for CDDS. So,
+you can only run these test on these two servers.
+
+For running the test:
+1. Connect to one of the server via ssh
+2. Go to the workspace directory (the same as on your local VM)
+3. Source the environment script
+4. Run this script
+"""
+import datetime
+import os
+import subprocess
+import sys
+
+CDDS_DIR = os.path.dirname(os.path.realpath(__file__))
+LOG_NAME = os.path.join(CDDS_DIR, 'cdds_rabbitmq_test_failures.log')
+ROOT_COMMAND = 'python setup.py nosetests'
+TESTS_TO_RUN = {
+    'cdds_transfer': ['-a rabbitMQ'],  # Only run the unit tests using RabbitMQ!
+    }
+
+
+def print_error(text):
+    """
+    Print error message in red.
+
+    :param text: Text that should be printed in red.
+    :type text: str
+    """
+    print("\033[91m {}\033[00m" .format(text))
+
+
+def print_success(text):
+    """
+    Print succeed message in green.
+
+    :param text: Text that should be printed in green
+    :type text: str
+    """
+    print("\033[92m {}\033[00m".format(text))
+
+
+def print_warning(text):
+    """
+    Print warning message in yellow.
+
+    :param text: Text that should be printed in yellow
+    :type text: str
+    """
+    print("\033[93m {}\033[00m".format(text))
+
+
+def main():
+    """
+    Run all the tests using RabbitMQ in the CDDS packages.
+    """
+    exit_code = 0
+    for package, tests in TESTS_TO_RUN.items():
+        os.chdir(os.path.join(CDDS_DIR, package))
+        print_warning('WARNING: This tests will only run successfully on els055 or els056!')
+        print('Executing tests for {}:'.format(package))
+        for test in tests:
+            command = '{} {}'.format(ROOT_COMMAND, test)
+            print('--> {} {}'.format(command, (46 - len(command)) * '.'), end=''),
+            sys.stdout.flush()
+            process = subprocess.Popen(command.split(), stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE)
+            stdoutdata, stderrdata = process.communicate()
+            if process.returncode == 0:
+                info = stderrdata.decode('utf-8').split('\n')
+                msg = '[{}: {}]'.format(info[-2], info[-4])
+                print_success('success! {}'.format(msg))
+            else:
+                exit_code = 1
+                print_error('failed!\n!!! Please see "{}" for more details'.format(LOG_NAME))
+                current_date = datetime.datetime.now()
+                msg = '{}: {}: {}\n\n'.format(current_date, package, command)
+                with open(LOG_NAME, 'a') as file_handle:
+                    file_handle.write(msg)
+                    file_handle.write(stdoutdata.decode('utf-8'))
+                    file_handle.write(stderrdata.decode('utf-8'))
+                    file_handle.write('\n')
+    return exit_code
+
+
+if __name__ == '__main__':
+    sys.exit(main())

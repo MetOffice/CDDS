@@ -14,6 +14,7 @@ from textwrap import dedent
 
 from hadsdk.tests.common import DummyMapping
 
+from cdds_common.cdds_plugins.plugin_loader import load_plugin
 from cdds_prepare.model_config import (
     retrieve_model_suite_variables, consolidate_atmos_enabled,
     create_ocean_enabled, _read_iodef_into_dict,
@@ -822,6 +823,7 @@ class TestCreateOceanEnabled(unittest.TestCase):
     :mod:`model_config.py`.
     """
     def setUp(self):
+        load_plugin()
         # self.cice_variables and self.nemo_variables provide the
         # input variables specified in the model.
         self.cice_variables = {

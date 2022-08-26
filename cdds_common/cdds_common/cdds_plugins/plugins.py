@@ -8,6 +8,7 @@ from typing import Type, Dict, Any
 
 from cdds_common.cdds_plugins.grid import GridLabel, GridType, GridInfo
 from cdds_common.cdds_plugins.models import ModelParameters
+from cdds_common.cdds_plugins.streams import StreamInfo
 from cdds_common.cdds_plugins.attributes import GlobalAttributes, DefaultGlobalAttributes
 
 
@@ -39,12 +40,12 @@ class CddsPlugin(object, metaclass=ABCMeta):
         """
         Returns if the plugin is responsible for the project with given MIP era.
 
-        :param mip_era: MIP era to check
+        :param mip_era: MIP era to check (case-sensitive check!)
         :type mip_era: str
         :return: True if the plugin is responsible otherwise false
         :rtype: bool
         """
-        return self._mip_era.lower() == mip_era.lower()
+        return self._mip_era == mip_era
 
     def grid_info(self, model_id: str, grid_type: GridType) -> GridInfo:
         """
@@ -95,6 +96,10 @@ class CddsPlugin(object, metaclass=ABCMeta):
         :return: The enum of the grid labels that the plugin supports
         :rtype: GridLabel
         """
+        pass
+
+    @abstractmethod
+    def stream_info(self) -> StreamInfo:
         pass
 
     def global_attributes(self, request: Dict[str, Any]) -> GlobalAttributes:

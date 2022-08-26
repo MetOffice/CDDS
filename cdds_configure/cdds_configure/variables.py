@@ -8,7 +8,6 @@ from collections import defaultdict
 import logging
 
 from hadsdk.grids import retrieve_grid_info, grid_overrides
-from hadsdk.streams import retrieve_stream_id, stream_overrides
 
 
 def retrieve_variables_by_grid(requested_variables):
@@ -45,12 +44,12 @@ def retrieve_variables_by_grid(requested_variables):
             grid_info = retrieve_grid_info(
                 variable_name, mip_table_id, requested_variables.model_id, grid_overrides())
             if grid_info is None:
-                logger.debug('No grid information available for "{}" for "{}"'
-                             ''.format(variable_name, mip_table_id))
+                logger.critical('No grid information available for "{}" for "{}"'
+                                ''.format(variable_name, mip_table_id))
                 continue
             if stream_id is None:
-                logger.debug('No stream identifier available for "{}" for '
-                             '"{}"'.format(variable_name, mip_table_id))
+                logger.critical('No stream identifier available for "{}" for '
+                                '"{}"'.format(variable_name, mip_table_id))
                 continue
             section = 'stream_{}'.format(stream_id)
             # Still need to support substreams in MIP Convert.

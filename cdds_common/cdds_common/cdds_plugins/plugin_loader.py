@@ -35,7 +35,7 @@ def load_plugin(mip_era: str = MipEra.CMIP6.value, plugin_module_path: str = Non
         load_external_plugin(mip_era, plugin_module_path)
     elif MipEra.is_cmip(mip_era):
         load_cmip_plugin(mip_era)
-    elif mip_era == 'gcmodeldev':
+    elif MipEra.is_gcmodeldev(mip_era):
         load_gc_model_dev_plugin(mip_era)
     else:
         message = 'Plugin for this project "{}" is not found.'.format(mip_era)
@@ -64,6 +64,13 @@ def load_cmip_plugin(mip_era: str) -> None:
 
 
 def load_gc_model_dev_plugin(mip_era: str) -> None:
+    """
+    Loads the GcModelDev plugin implemented by the CDDS project that is responsible for
+    the project with given ID.
+
+    :param mip_era: MIP era for that the plugin is responsible
+    :type mip_era: str
+    """
     logger = logging.getLogger(__name__)
     gc_model_dev_plugin = GCModelDevPlugin()
 

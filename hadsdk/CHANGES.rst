@@ -3,13 +3,23 @@
 
 .. include:: common.txt
 
+Release 2.3.1, June 29, 2022
+============================
+
+* No changes.
+
+Release 2.3.0, May 24, 2022
+============================
+
+* Development moved to github
+
 Release 2.2.5, May 4, 2022
 ============================
 
-* For non-CMIP6 projects the correct grid label and grid information is applied 
+* For non-CMIP6 projects the correct grid label and grid information is applied
   for variables where the grid is different to the default for that mip table (#2570)
-* The atmosphere timestep, used in some mappings, is now supplied via the 
-  ModelParameters class rather than a dictionary. This is only used for request 
+* The atmosphere timestep, used in some mappings, is now supplied via the
+  ModelParameters class rather than a dictionary. This is only used for request
   JSON file creation (#2571)
 
 Release 2.2.4, April 22, 2022

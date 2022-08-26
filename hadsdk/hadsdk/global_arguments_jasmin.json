@@ -12,7 +12,7 @@
     "output_mass_suffix": "",
     "output_mass_root": "",
     "root_inventory_dir": "/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/inventory/",
-    "rose_suite_branch": "cdds_jasmin_2.2",
+    "rose_suite_branch": "cdds_jasmin_2.3",
     "root_ancil_dir": "/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/ancil/",
     "root_hybrid_heights_dir": "/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/vertical_coordinates",
     "root_replacement_coordinates_dir": "/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/horizontal_coordinates/",

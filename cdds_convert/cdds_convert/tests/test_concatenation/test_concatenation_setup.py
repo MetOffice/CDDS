@@ -11,6 +11,7 @@ from typing import Type, List
 
 from cdds_common.cdds_plugins.grid import GridLabel, GridType, GridInfo
 from cdds_common.cdds_plugins.models import ModelParameters
+from cdds_common.cdds_plugins.streams import StreamInfo
 
 try:
     from cftime import datetime
@@ -102,6 +103,9 @@ class DummyCddsPlugin(CddsPlugin):
         pass
 
     def grid_labels(self) -> Type[GridLabel]:
+        pass
+
+    def stream_info(self) -> StreamInfo:
         pass
 
 

@@ -70,8 +70,6 @@ class ConvertProcess(object):
         self.skip_qc = arguments.skip_qc
         self.skip_transfer = arguments.skip_transfer
 
-        configure_logger(self._arguments.log_name, logging.INFO,
-                         self._arguments.append_log)
         self._streams_requested = arguments.streams
         self._streams = []
 
