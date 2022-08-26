@@ -130,7 +130,8 @@ class TestGetVariableModelToMIPMappings(unittest.TestCase):
         """
         self.model_id = 'HadGEM3-GC31-LL'
         self.mip_table_id = 'Lmon'
-        self.mip_table_name = 'CMIP6_{}'.format(self.mip_table_id)
+        # It doesn't matter what is before the _. We choose MIPERA.
+        self.mip_table_name = 'MIPERA_{}'.format(self.mip_table_id)
         self.variable_name = 'grassFrac'
         self.model_to_mip_mapping = {
             'dimension': 'longitude latitude typenatgr time',
@@ -165,7 +166,8 @@ class TestGetVariableModelToMIPMappings(unittest.TestCase):
     def test_incorrect_mip_table_id(self):
         model = 'HadGEM3'
         mip_table_id = 'E1hrClimMon'
-        mip_table_name = 'CMIP6_{}'.format(mip_table_id)
+        # It doesn't matter what is before the _. We choose MIPERA.
+        mip_table_name = 'MIPERA_{}'.format(mip_table_id)
         variable_name = 'rlut'
         model_to_mip_mapping = {
             'component': 'radiation',
@@ -190,7 +192,8 @@ class TestGetVariableModelToMIPMappings(unittest.TestCase):
     def test_variable_name_with_numerical_suffix_already_in_mappings(self):
         variable_name = 'wap500'
         mip_table_id = 'CFday'
-        mip_table_name = 'CMIP6_{}'.format(mip_table_id)
+        # It doesn't matter what is before the _. We choose MIPERA.
+        mip_table_name = 'MIPERA_{}'.format(mip_table_id)
         model_to_mip_mapping = {
             'dimension': 'longitude latitude p500 time',
             'expression': 'm01s30i208[lbproc=128, blev=500.0] / m01s30i301[lbproc=128, blev=500.0]',
@@ -214,7 +217,8 @@ class TestGetVariableModelToMIPMappings(unittest.TestCase):
             'units': 'kg m-2 s-1'
         }
         mip_table_id = 'CFsubhr'
-        mip_table_name = 'CMIP6_{}'.format(mip_table_id)
+        # It doesn't matter what is before the _. We choose MIPERA.
+        mip_table_name = 'MIPERA_{}'.format(mip_table_id)
         model_to_mip_mapping_obj = self._model_to_mip_mappings(
             variable_name, model_to_mip_mapping, self.model_id, mip_table_name
         )

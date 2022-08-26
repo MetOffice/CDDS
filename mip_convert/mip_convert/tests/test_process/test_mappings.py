@@ -46,7 +46,8 @@ def get_test_info():
 def test_required_options_in_configuration_files(cfg_file, model_id, mip_table_id):
     cfg_path = os.path.join(PATH_TO_PROCESS, cfg_file)
     sections_to_test = ModelToMIPMappingConfig(cfg_path, model_id).sections
-    model_to_mip_mappings = get_model_to_mip_mappings(model_id, 'CMIP6_{}'.format(mip_table_id))
+    # It doesn't matter what is before the _. We choose MIPERA.
+    model_to_mip_mappings = get_model_to_mip_mappings(model_id, 'MIPERA_{}'.format(mip_table_id))
     for section in sections_to_test:
         if section not in ['COMMON']:
             mappings = Mappings(section, mip_table_id, cfg_file, model_to_mip_mappings)
