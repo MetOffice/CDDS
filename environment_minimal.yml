@@ -8,6 +8,7 @@ dependencies:
   - cf-units=3.0.1=py38h6c62de6_1
   - cftime=1.5.1.1=py38hce1f21e_0
   - cmor=3.7.0=py38h2971a8e_0
+  - compliance-checker=4.3.4
   - dask-core=2021.10.0=pyhd3eb1b0_0
   - iris=3.1.0=pyhd8ed1ab_3
   - libmo_unpack=3.1.2=hf484d3e_0
