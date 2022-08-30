@@ -216,7 +216,7 @@ class Filters(object):
 
         return status, filter_msg, filter_msg_exc, stash_codes
 
-    def mass_command(self, stream, source, target, resolution):
+    def mass_command(self, stream, source, target):
         """Manages the creation of MASS commands and associated filter files
         for the various types of data stream supported by CDDS.
 
@@ -253,7 +253,7 @@ class Filters(object):
                 stream["start_date"], stream["end_date"])
         elif stream["streamtype"] == "nc":
             status, self.mass_cmd, error, code = self._mass_cmd_nc(
-                stream["start_date"], stream["end_date"], resolution)
+                stream["start_date"], stream["end_date"])
 
         return status, self.mass_cmd, error, code
 
@@ -714,7 +714,7 @@ class Filters(object):
 
         return filter_msg, filter_msg_exc
 
-    def _mass_cmd_nc(self, start, end, resolution):
+    def _mass_cmd_nc(self, start, end):
         """Create MASS commands and filter files for nc data stream.
         [Note filtering on date is not yet implemented - waiting for
         functionality to be included in MOOSE]
@@ -763,8 +763,7 @@ class Filters(object):
                     self.procdir, self.stream, substream)
                 try:
                     self._create_filterfile_nc(file_name, filter_str,
-                                               self.stream, substream,
-                                               resolution)
+                                               self.stream, substream)
                 except IOError:
                     raise FilterFileException(
                         "Could not create a sizing file in {}".format(
@@ -783,8 +782,7 @@ class Filters(object):
                 status["val"] = "stop"
         return status["val"], self.mass_cmd, error, None
 
-    def _create_filterfile_nc(self, file_name, variables, stream, substream,
-                              resolution):
+    def _create_filterfile_nc(self, file_name, variables, stream, substream):
         """Creates MASS filter file for use when extracting nc data streams
          with FILTER command.
 

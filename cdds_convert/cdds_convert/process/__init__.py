@@ -999,6 +999,7 @@ class ConvertProcess(object):
             request_json_path = os.path.abspath(self._arguments.request)
 
         changes_to_apply_all = {
+            'MIP_ERA': self._arguments.mip_era,
             'CDDS_CONVERT_PROC_DIR': self._full_paths.component_directory(
                 'convert'),
             'CDDS_VERSION': _NUMERICAL_VERSION,
