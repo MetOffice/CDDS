@@ -60,7 +60,6 @@ def main():
             command_str = ' '.join(command)
             print('--> {} {}'.format(command_str, (46 - len(command_str)) * '.'), end=''),
             sys.stdout.flush()
-            print(os.curdir)
             process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdoutdata, stderrdata = process.communicate()
             if process.returncode == 0:
