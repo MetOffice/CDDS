@@ -15,7 +15,7 @@ DEV_ENV='cdds-2.3_dev'
 if [ -f ${MO_CONDA} ]; then
     . ${MO_CONDA} ${DEV_ENV}
 elif [ -f ${JASMIN_CONDA} ]; then
-    . ${JASMIN_CONDA} {$DEV_ENV}
+    . ${JASMIN_CONDA} ${DEV_ENV}
 else
     echo "Could not locate CDDS miniconda environment"
 fi
