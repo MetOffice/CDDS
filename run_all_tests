@@ -8,43 +8,45 @@ import os
 import subprocess
 import sys
 
+from timeit import default_timer as timer
+from datetime import timedelta
+
 CDDS_DIR = os.path.dirname(os.path.realpath(__file__))
 LOG_NAME = os.path.join(CDDS_DIR, 'cdds_test_failures.log')
-ROOT_COMMAND = 'python setup.py nosetests'
+ROOT_COMMAND = 'py.test -s'
 TESTS_TO_RUN = {
-    'cdds_common': ['--with-doctest'],
-    'cdds_configure': ['--with-doctest', '-a slow'],
-    'cdds_convert': ['--with-doctest', '-a integration'],
-    'cdds_prepare': ['--with-doctest', '-a slow', '-a data_request'],
-    'cdds_template': ['--with-doctest', '-a slow'],
-    'cdds_transfer': ['--with-doctest -a !rabbitMQ', '-a slow'],  # rabbitMQ tests are only work on els055 or els056!
-    'extract': ['--with-doctest', '-a slow'],
-    'cdds_qc': ['--with-doctest -s'],
-    'cdds_qc_plugin_cf17': ['--with-doctest'],
-    'cdds_qc_plugin_cmip6': ['--with-doctest'],
-    'hadsdk': ['--with-doctest', '-a integration', '-a slow', '-a data_request'],
-    'mip_convert': ['--with-doctest', '-a integration', '-a mappings',
-                    '-a slow'],
-    'transfer': ['--with-doctest', '-a slow'],
+    'cdds_common': ['--doctest-modules'],
+    'cdds_configure': ['--doctest-modules', '-a slow'],
+    'cdds_convert': ['--doctest-modules', '-a integration'],
+    'cdds_prepare': ['--doctest-modules', '-a slow', '-a data_request'],
+    'cdds_template': ['--doctest-modules', '-a slow'],
+    'cdds_transfer': ['', '-a slow'],
+    'extract': ['--doctest-modules', '-a slow'],
+    'cdds_qc': ['--doctest-modules'],
+    'cdds_qc_plugin_cf17': ['--doctest-modules'],
+    'cdds_qc_plugin_cmip6': ['--doctest-modules'],
+    'hadsdk': ['--doctest-modules', '-a integration', '-a data_request'],
+    'mip_convert': ['--doctest-modules', '-a integration', '-a mappings', '-a slow'],
+    'transfer': ['--doctest-modules', '-a slow'],
+    }
+
+ADDITIONAL_OPTS = {
+    'cdds_transfer': ['--ignore-glob=cdds_transfer/example']
 }
 
 
-def red_bold(text):
+def _print_red(text):
     """
-    Add unicode marker to print the given text red and bold
+    Print text in red
     """
-    start = '\033[1m\033[91m'
-    end = '\033[00m\033[0;0m'
-    return '{}{}{}'.format(start, text, end)
+    print('\033[31m', text, '\033[0m', sep='')
 
 
-def green_bold(text):
+def _print_green(text):
     """
-    Add unicode marker to print the given text green and bold
+    Print text in green
     """
-    start = '\033[1m\033[92m'
-    end = '\033[00m\033[0;0m'
-    return '{}{}{}'.format(start, text, end)
+    print('\033[32m', text, '\033[0m', sep='')
 
 
 def main():
@@ -52,27 +54,28 @@ def main():
     Run all the tests in the CDDS packages.
     """
     exit_code = 0
-    if os.path.exists(LOG_NAME):
-        os.remove(LOG_NAME)
-
+    start = timer()
     for package, tests in TESTS_TO_RUN.items():
-        os.chdir(os.path.join(CDDS_DIR, package))
-        print('Executing tests for {}:'.format(package))
+        print('\nExecuting tests for {}:'.format(package))
         for test in tests:
-            command = '{} {}'.format(ROOT_COMMAND, test)
-            print('--> {} {}'.format(command, (46 - len(command)) * '.'), end=''),
+            command = ROOT_COMMAND.split()
+            if package in ADDITIONAL_OPTS:
+                command.extend(ADDITIONAL_OPTS[package])
+            command.append(package)
+            if test:
+                command.extend(test.split(' ', 1))
+            command_str = ' '.join(command)
+            print('--> {} {}'.format(command_str, (46 - len(command_str)) * '.'), end=''),
             sys.stdout.flush()
-            process = subprocess.Popen(command.split(), stdout=subprocess.PIPE,
-                                       stderr=subprocess.PIPE)
+            process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdoutdata, stderrdata = process.communicate()
             if process.returncode == 0:
-                info = stderrdata.decode('utf-8').split('\n')
-                msg = '[{}: {}]'.format(info[-2], info[-4])
-                print('success! {}'.format(msg))
+                info = stdoutdata.decode('utf-8').split('\n')
+                msg = info[-2].replace('=', '').strip()
+                _print_green('{} success! [{}]'.format(' ' * 3, msg))
             else:
                 exit_code = 1
-                print('failed!\n!!! Please see "{}" for more details'.format(
-                    LOG_NAME))
+                _print_red('{} failed!\n!!! Please see "{}" for more details'.format(' ' * 3, LOG_NAME))
                 current_date = datetime.datetime.now()
                 msg = '{}: {}: {}\n\n'.format(current_date, package, command)
                 with open(LOG_NAME, 'a') as file_handle:
@@ -80,15 +83,16 @@ def main():
                     file_handle.write(stdoutdata.decode('utf-8'))
                     file_handle.write(stderrdata.decode('utf-8'))
                     file_handle.write('\n')
-
+    end = timer()
+    elapsed_time = timedelta(seconds=end - start)
+    print('\n{}'.format('+' * 46))
+    print('Elapsed time: {}'.format(elapsed_time))
     if exit_code == 0:
         smiling_face = u'\U0001f604'
-        print('\n{}'.format('+' * 46))
-        print('{} {}'.format(green_bold('All tests succeed'), smiling_face))
+        print('{} {}'.format(_print_green('All tests succeed.'), smiling_face))
     else:
         sad_face = u'\U0001F627'
-        print('\n{}'.format('+' * 46))
-        print('{} {}'.format(red_bold('Some tests failed.'), sad_face))
+        print('{} {}'.format(_print_red('Some tests failed.'), sad_face))
     return exit_code
 
 

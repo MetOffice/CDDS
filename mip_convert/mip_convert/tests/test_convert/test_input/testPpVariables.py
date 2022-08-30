@@ -5,14 +5,13 @@ import unittest
 
 from header_util import BaseHeader
 from mip_convert.common import SITE_TYPE
-from mip_convert.model_date import CdDate, set_base_date
+from mip_convert.model_date import CdDate
 from mip_convert.load.pp.pp_axis import (
     DatedPpHeader, PpAxisError, PpAxisFactory, LANDTYPE_AXIS)
 from mip_convert.load.pp.pp_variable import PpFieldsFactory, VariableGenerator
 
 # TODO: these tests can be refactored to make them look more similar - and
 # then remove the duplication
-set_base_date(CdDate(1859, 12, 1, 0, 0, 0, '360_day'))
 
 
 class DummyTAxis(object):

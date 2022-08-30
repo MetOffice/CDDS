@@ -468,6 +468,10 @@ def set_base_date(base_cdtime):
     CURRENT_BASE_GEN = BasedDateGenerator(base_cdtime)
 
 
+def set_default_base_date():
+    set_base_date(CdDate(1859, 12, 1, 0, 0, 0, '360_day'))   # a reasonable default?
+
+
 def based_date(year, month, day, hour, minute, lbtim):
     """
     Utility funciton to return a BasedDate depending on the base date
@@ -476,4 +480,4 @@ def based_date(year, month, day, hour, minute, lbtim):
     return CURRENT_BASE_GEN.date(year, month, day, hour, minute, lbtim)
 
 
-set_base_date(CdDate(1859, 12, 1, 0, 0, 0, '360_day'))  # a reasonable default?
+set_default_base_date()
