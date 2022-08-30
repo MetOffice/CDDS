@@ -113,7 +113,7 @@ class TestFilters(unittest.TestCase):
         filters = Filters(procdir="foo")
         filters.filters = {"default": "foo"}
         status, mass_command, _, _ = filters.mass_command(
-            stream, mass_location, "foo", "bar")
+            stream, mass_location, "foo")
         self.assertEqual(status, "ok")
         self.assertEqual(
             expected_command,
@@ -188,7 +188,7 @@ class TestFilters(unittest.TestCase):
         filters = Filters(procdir="foo")
         filters.filters = {"default": "foo"}
         status, mass_commands, _, _ = filters.mass_command(
-            stream, mass_location, "foo", "bar")
+            stream, mass_location, "foo")
         self.assertEqual(status, "ok")
         self.assertEqual(len(mass_commands), 3)
         self.assertEqual(
@@ -258,7 +258,7 @@ class TestFilters(unittest.TestCase):
         filters = Filters(procdir="foo")
         filters.filters = {"default": "foo"}
         status, mass_commands, _, _ = filters.mass_command(
-            stream, mass_location, "foo", "bar")
+            stream, mass_location, "foo")
         self.assertEqual(status, "ok")
         self.assertEqual(len(mass_commands), 2)
         self.assertEqual(

@@ -20,7 +20,7 @@ from hadsdk.request import read_request
 from extract.common import (
     build_mass_location, process_info, exit_nicely, create_dir,
     check_moo_cmd, run_moo_cmd, file_accessible, file_count,
-    validate_stash_fields, get_model_resolution, validate_netcdf
+    validate_stash_fields, validate_netcdf
 )
 from extract.constants import GROUP_FOR_DIRECTORY_CREATION, STREAMDIR_PERMISSIONS
 from extract.filters import FilterFileException
@@ -431,11 +431,9 @@ class Process(object):
                         rec["name"], rec["table"], rec["reason"])
                 logger.info(log_msg)
 
-            resolution = get_model_resolution(
-                self.request_file.model_id)[1]  # ocean resolution
             try:
                 status, mass_cmd, error, code = mappings.mass_command(
-                    stream, data_source, data_target, resolution)
+                    stream, data_source, data_target)
             except FilterFileException as exc:
                 errmsg = self.lang["dir_file_access_fail"].format(str(exc))
                 exit_nicely(errmsg)
@@ -567,7 +565,6 @@ class Process(object):
         extension = ".{}".format(stream["streamtype"])
         actual = file_count(path, extension)
         # ocean resolution
-        resolution = get_model_resolution(self.request_file.model_id)[1]
         stream_attribute = StreamAttributes(stream["stream"], stream["start_date"], stream["end_date"])
         expected = self.stream_file_info.calculate_expected_number_of_files(stream_attribute, substreams)
         validation_result.add_file_counts(expected, actual)
