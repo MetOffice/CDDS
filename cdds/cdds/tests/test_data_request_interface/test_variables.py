@@ -9,11 +9,11 @@ import unittest
 from nose.plugins.attrib import attr
 from cdds.common.plugins.plugin_loader import load_plugin
 from hadsdk.arguments import read_default_arguments
-from hadsdk.data_request_interface.load import (DataRequestWrapper,
-                                                ExperimentNotFoundError)
-from hadsdk.data_request_interface.variables import (
+from cdds.data_request_interface.load import (DataRequestWrapper,
+                                              ExperimentNotFoundError)
+from cdds.data_request_interface.variables import (
     DataRequestVariable, retrieve_data_request_variables, describe_differences)
-from hadsdk.data_request_interface.network import build_data_request_network
+from cdds.data_request_interface.network import build_data_request_network
 
 
 class TestDataRequestVariable(unittest.TestCase):

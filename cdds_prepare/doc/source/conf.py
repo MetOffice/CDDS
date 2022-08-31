@@ -136,10 +136,10 @@ autodoc_member_order = 'bysource'
 autodoc_mock_imports = [
     'hadsdk.ancils', 'hadsdk.arguments', 'hadsdk.common', 'hadsdk.config',
     'hadsdk.configuration', 'hadsdk.constants',
-    'hadsdk.data_request_interface.load',
-    'hadsdk.data_request_interface.navigation',
-    'hadsdk.data_request_interface.network',
-    'hadsdk.data_request_interface.variables', 'hadsdk.format',
+    'cdds.data_request_interface.load',
+    'cdds.data_request_interface.navigation',
+    'cdds.data_request_interface.network',
+    'cdds.data_request_interface.variables', 'hadsdk.format',
     'hadsdk.general_config', 'hadsdk.pp', 'hadsdk.request', 'hadsdk.streams',
     'mip_convert.request', 'rose.config']
 

@@ -6,7 +6,7 @@ data request
 """
 from collections import defaultdict
 
-from hadsdk.data_request_interface.constants import (
+from cdds.data_request_interface.constants import (
     DATA_REQUEST_LINKAGES, IGNORED_NODE_TYPES)
 
 
@@ -79,7 +79,7 @@ class DataRequestNode(object):
         Parameters
         ----------
         data_request : \
-        :class:`hasdk.data_request_interface.load.DataRequestWrapper`
+        :class:`cdds.data_request_interface.load.DataRequestWrapper`
             Data request object.
         """
         for att in DATA_REQUEST_LINKAGES[self.type]:

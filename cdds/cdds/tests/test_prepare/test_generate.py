@@ -9,19 +9,18 @@ import logging
 import unittest
 
 import configparser
-from hadsdk.arguments import read_default_arguments, Arguments
-from hadsdk.request import Request
-from hadsdk.common import configure_logger
-from hadsdk.data_request_interface.load import DataRequestWrapper
-from hadsdk.tests.common import DummyMapping
 from unittest.mock import MagicMock, patch
 from nose.plugins.attrib import attr
 
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.prepare.data_request import (
-    list_variables_for_experiment)
+from cdds.data_request_interface.load import DataRequestWrapper
+from cdds.prepare.data_request import (list_variables_for_experiment)
 from cdds.prepare.generate import BaseVariablesConstructor
 from cdds.tests.test_prepare.stubs import VariableParametersStub
+from hadsdk.arguments import read_default_arguments, Arguments
+from hadsdk.request import Request
+from hadsdk.common import configure_logger
+from hadsdk.tests.common import DummyMapping
 
 
 @attr('data_request')

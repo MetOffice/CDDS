@@ -5,7 +5,7 @@
 -------------------------------------
 
 .. include:: ../../common.txt
-.. automodule:: hadsdk.data_request_interface.network
+.. automodule:: cdds.data_request_interface.network
    :members:
    :special-members: __init__
    :show-inheritance:

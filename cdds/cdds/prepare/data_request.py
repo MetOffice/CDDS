@@ -10,9 +10,9 @@ import logging
 
 from cf_units import Unit
 
-from hadsdk.data_request_interface.load import (DataRequestWrapper,
-                                                ExperimentNotFoundError)
-from hadsdk.data_request_interface.variables import (
+from cdds.data_request_interface.load import (DataRequestWrapper,
+                                              ExperimentNotFoundError)
+from cdds.data_request_interface.variables import (
     retrieve_data_request_variables, describe_differences)
 
 from cdds.prepare.constants import (ALLOWED_POSITIVE, CRITICAL_FIELDS,
@@ -32,7 +32,7 @@ def list_variables_for_experiment(data_request, experiment_id,
     Parameters
     ----------
     data_request : \
-        :class:`hadsdk.data_request_interface.load.DataRequestWrapper`
+        :class:`cdds.data_request_interface.load.DataRequestWrapper`
         The specified version of the |data request|.
     experiment_id : str
         The |experiment identifier|.

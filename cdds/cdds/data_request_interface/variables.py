@@ -5,12 +5,12 @@ Tools for obtaining information on CMOR variables from the data request
 """
 import logging
 
-from hadsdk.data_request_interface.constants import (
+from cdds.data_request_interface.constants import (
     CMORVAR_ATTR_MAPPINGS, EXPERIMENT_METADATA_TO_RECORD,
     STRUCTURE_ATTR_MAPPINGS, VARIABLE_ATTR_MAPPINGS)
-from hadsdk.data_request_interface.load import ExperimentNotFoundError
-from hadsdk.data_request_interface.network import build_data_request_network
-from hadsdk.data_request_interface.navigation import (
+from cdds.data_request_interface.load import ExperimentNotFoundError
+from cdds.data_request_interface.network import build_data_request_network
+from cdds.data_request_interface.navigation import (
     get_cmorvar_for_experiment, get_priorities_for_variable,
     get_ensemble_sizes_for_variable)
 
@@ -30,7 +30,7 @@ class DataRequestVariable(object):
         Parameters
         ----------
         data_request : \
-            :class:`hadsdk.data_request_interface.load.DataRequestWrapper`
+            :class:`cdds.data_request_interface.load.DataRequestWrapper`
             The data request object.
         uid : str, optional
             Unique ID of a |MIP requested variable|.
@@ -192,7 +192,7 @@ def retrieve_data_request_variables(experiment_id, data_request):
     experiment_id : str
         The |experiment identifier|.
     data_request : \
-        :class:`hadsdk.data_request_interface.load.DataRequestWrapper`
+        :class:`cdds.data_request_interface.load.DataRequestWrapper`
         The |data request|.
 
     Returns

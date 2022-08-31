@@ -2,16 +2,16 @@
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 """
-Tests for :mod:`hadsdk.data_request_interface.navigation` and
-:mod:`hadsdk.data_request_interface.network`
+Tests for :mod:`cdds.data_request_interface.navigation` and
+:mod:`cdds.data_request_interface.network`
 """
 from copy import deepcopy
 import unittest
 import warnings
 
-from hadsdk.data_request_interface.network import (
+from cdds.data_request_interface.network import (
     DataRequestNode, DATA_REQUEST_LINKAGES)
-from hadsdk.data_request_interface.navigation import (
+from cdds.data_request_interface.navigation import (
     MAX_ENSEMBLE_SIZE, get_cmorvar_for_experiment,
     get_ensemble_sizes_for_variable, get_experiments_for_cmorvar,
     get_priorities_for_variable, get_timeslice_for_cmorvar_experiment)

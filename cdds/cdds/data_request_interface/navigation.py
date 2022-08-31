@@ -16,7 +16,7 @@ from copy import deepcopy as copy
 from collections import defaultdict
 import warnings
 
-from hadsdk.data_request_interface.constants import (
+from cdds.data_request_interface.constants import (
     MAX_ENSEMBLE_SIZE, WALK_ROUTE_A, WALK_ROUTE_B, WALK_ROUTE_C)
 
 

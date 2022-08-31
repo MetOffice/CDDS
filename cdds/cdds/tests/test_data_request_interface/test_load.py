@@ -3,15 +3,15 @@
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = too-many-instance-attributes, no-value-for-parameter
 """
-Tests for :mod:`hadsdk.data_request_interface.load`.
+Tests for :mod:`cdds.data_request_interface.load`.
 """
 import unittest
 
 from nose.plugins.attrib import attr
 
 from hadsdk.arguments import read_default_arguments
-from hadsdk.data_request_interface.load import (DataRequestWrapper,
-                                                ExperimentNotFoundError)
+from cdds.data_request_interface.load import (DataRequestWrapper,
+                                              ExperimentNotFoundError)
 
 
 class TestDataRequestWrapper(unittest.TestCase):

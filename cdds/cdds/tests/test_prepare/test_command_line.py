@@ -33,7 +33,7 @@ from cdds.prepare.command_line import (
 from cdds.tests.test_prepare.common import TEST_RV_DICT, DUMMY_DEACTIVATION_RULES
 
 # The following constant can be worked out using the following code:
-# >>> from hadsdk.data_request_interface import load, network, navigation
+# >>> from cdds.data_request_interface import load, network, navigation
 # >>> dq = load.DataRequestWrapper('01.00.13')
 # >>> dq_network, failures = network.build_data_request_network(dq)
 # >>> historical = dq.get_experiment_uid('historical')
