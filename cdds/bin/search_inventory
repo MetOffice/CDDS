@@ -3,7 +3,7 @@
 # Please see LICENSE.rst for license details.
 import sys
 
-from hadsdk.inventory_search.command_line import main_user_search
+from cdds.inventory.inventory_search.command_line import main_user_search
 
 
 if __name__ == '__main__':

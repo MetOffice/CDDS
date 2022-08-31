@@ -1,11 +1,11 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
-import hadsdk.inventory.db_models as inventory
 import unittest
 
-from hadsdk.inventory.dao import DBVariableStatus
+import cdds.inventory.db_models as inventory
+from cdds.inventory.dao import DBVariableStatus
+from cdds.tests.test_inventory.stubs import InventoryDaoStub
 from hadsdk.sqlite import execute_insert_query
-from hadsdk.tests.test_inventory.stubs import InventoryDaoStub
 from unittest import TestCase
 
 NAME_DICT = {

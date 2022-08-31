@@ -1,12 +1,12 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 
 import argparse
 import os
 
+from cdds.inventory.inventory_search.search import perform_user_query
 from hadsdk.arguments import read_default_arguments
 from hadsdk.constants import INVENTORY_DB_FILENAME, INVENTORY_FACET_LIST
-from hadsdk.inventory_search.search import perform_user_query
 
 
 def main_user_search():

@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -15,7 +15,7 @@ from hadsdk.config import FullPaths
 from hadsdk.constants import REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST
 from hadsdk.request import read_request
 
-from hadsdk.inventory.dao import InventoryDAO, DBVariableStatus
+from cdds.inventory.dao import InventoryDAO, DBVariableStatus
 
 from cdds.common.plugins.plugins import PluginStore
 

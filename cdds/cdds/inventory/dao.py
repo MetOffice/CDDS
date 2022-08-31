@@ -1,11 +1,12 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`dao.py` module contains all necessary object and
 methods to access the inventory database
 """
 import enum
-import hadsdk.inventory.db_models as inventory
+
+import cdds.inventory.db_models as inventory
 import hadsdk.common as common
 
 
@@ -123,7 +124,7 @@ class DBVariableData(object):
 
         Return
         ------
-        :`hadsdk.inventory.dao.DBVariable`
+        :`cdds.inventory.dao.DBVariable`
             data of the variable in the database
         """
         identifier = (mip_table, variable_name)

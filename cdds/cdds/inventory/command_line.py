@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Populate the dataset inventory.
@@ -9,9 +9,9 @@ import logging
 import os
 import shutil
 
-from hadsdk.inventory.db_models import (get_row_id_by_column_value, execute_insert_query, populate_dataset_dictionary,
-                                        setup_db)
-from hadsdk.inventory.dao import DBVariableStatus
+from cdds.inventory.db_models import (get_row_id_by_column_value, execute_insert_query, populate_dataset_dictionary,
+                                      setup_db)
+from cdds.inventory.dao import DBVariableStatus
 from hadsdk.mass import mass_list_dir, mass_list_files_recursively
 
 from hadsdk import __version__

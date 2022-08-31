@@ -1,9 +1,9 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 
 import unittest
 from hadsdk.constants import INVENTORY_FACET_LIST
-from hadsdk.inventory.command_line import build_facet_dictionary
+from cdds.inventory.command_line import build_facet_dictionary
 
 
 class CommandLineTestCase(unittest.TestCase):

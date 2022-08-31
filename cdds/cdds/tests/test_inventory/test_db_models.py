@@ -1,8 +1,9 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 
 import unittest
-import hadsdk.inventory.db_models as db_models
+
+import cdds.inventory.db_models as db_models
 from hadsdk.sqlite import execute_insert_query
 
 
