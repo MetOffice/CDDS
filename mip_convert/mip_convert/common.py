@@ -20,6 +20,7 @@ from cdds_common.cdds_plugins.plugins import PluginStore
 from cdds_common.cdds_plugins.grid import GridType
 
 TIME_TYPE = 'T'
+REFTIME_TYPE = 'T-reftime'
 LANDTYPE_AXIS = 'vegtype'
 TAU_AXIS = 'tau'
 SITE_TYPE = 'site'

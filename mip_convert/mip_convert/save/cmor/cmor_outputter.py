@@ -44,6 +44,7 @@ from mip_convert.save.mip_config import MipTableFactory
 
 TIME_TYPE = mip_convert.common.TIME_TYPE
 SITE_TYPE = mip_convert.common.SITE_TYPE
+REFTIME_TYPE = mip_convert.common.REFTIME_TYPE
 
 
 class CmorOutputError(Exception):
@@ -250,6 +251,7 @@ class AbstractCmorOutputter(object):
         # Add the 'MIP requested variable name' to the global attributes to help with identification,
         # i.e. when the 'out_name' is different to the 'variable_entry' in the 'MIP table'.
         self.cmor.set_cur_dataset_attribute('variable_name', self.entry.entry)
+
         self.cmor.write(var_id, variable.getValue(), **axis_args)
 
     def _need_new_varid(self):
@@ -816,6 +818,8 @@ class AxisMakerFactory(object):
             result = SiteAxisMaker(self._table_name, self._entry(axis_dir), axis, self._cmor)
         elif axis.is_hybrid_height:
             result = HybridHeightAxisMaker(self._table_name, axis, self._cmor)
+        elif axis.axis == REFTIME_TYPE:
+            result = SimpleAxisMaker(self._table_name, "reftime1", axis, self._cmor)
         else:
             result = SimpleAxisMaker(self._table_name, self._entry_name(axis_dir, variable), axis, self._cmor)
         return result
@@ -832,8 +836,14 @@ class AxisMakerFactory(object):
         """
         result = list()
         for dim_name in self._mip_variable.dimensions:
-            if self._generic_level(dim_name):
+            if dim_name == 'leadtime':
+                # leadtime is ignored as this will be handled by the CMOR itself
+                continue
+            elif self._generic_level(dim_name):
                 dim_dir = self.VERTICAL
+            elif dim_name == 'reftime1':
+                # use the dummy time axis instead of regular one to avoid ambiguity
+                dim_dir = 'T-reftime'
             else:
                 axis = self._table.axes[dim_name]
                 dim_dir = axis.axis
