@@ -18,7 +18,6 @@ import numpy
 from mip_convert.model_date import based_date
 from mip_convert.variable import PolePoint, UNROTATED_POLE
 from mip_convert.common import Longitudes, LANDTYPE_AXIS, SITE_TYPE
-from mip_convert.model_date import CdDate
 
 # Symbolic constants for extra data vectors (hence EDV).
 PP_EDV_X_COORDS = 1

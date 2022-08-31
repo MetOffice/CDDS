@@ -118,7 +118,7 @@ class RoseSuiteRequest(Request):
             arguments.cv_dir, mip_era, self._suite_info['institution'])
         license = self._load_license(mip_era, institution_info)
 
-        plugin = self._get_plugin(mip_era.lower(), arguments)
+        plugin = self._get_plugin(mip_era, arguments)
         grid_info = plugin.grid_info(model_id, GridType.ATMOS)
 
         base_items = {

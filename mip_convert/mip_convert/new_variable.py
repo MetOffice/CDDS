@@ -918,7 +918,7 @@ class VariableMIPMetadata(object):
                     raise ValueError(message.format(axis_name, support_website))
 
             if axis_direction is not None:
-                # because of underlying assumption that there's olways one coordinate for a given axis
+                # because of underlying assumption that there's always one coordinate for a given axis
                 # for seasonal forecasting datasets we need to create dummy T axes which are named differently
                 # and associate them with reftime and leadtime coordinates
                 # this way mip convert won't be confused about multiple time coordiates
