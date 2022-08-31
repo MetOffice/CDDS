@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -8,7 +8,7 @@ functions for the cdd_prepare module.
 import configparser
 
 from collections import defaultdict
-from hadsdk.ancils import remove_ancils_from_mapping
+from cdds.common.mappings.ancils import remove_ancils_from_mapping
 from mip_convert.request import get_model_to_mip_mappings, get_variable_model_to_mip_mapping
 
 

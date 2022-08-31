@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2021, Met Office.
+# (C) British Crown Copyright 2016-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """Convert the input request file into filters in the specified format,
 using model to MIP mapping configuration files to find the mappings.
@@ -46,18 +46,17 @@ unknown but the variable has a mapping in the common mappings file, the
 constraints from that mapping will be included.
 """
 import argparse
+import configparser
 import json
 import os.path
 
-import configparser
+from cdds.common.mappings.ancils import remove_ancils_from_mapping
+from cdds.common.plugins.plugins import PluginStore
 import hadsdk
-from hadsdk.ancils import remove_ancils_from_mapping
 from hadsdk.common import check_file, compare_versions
 from hadsdk.constants import NC_CONSTRAINT_NOT_FOR_MOOSE
 from hadsdk.pp import PP_HEADER_CORRECTIONS, stash_to_int
 import mip_convert.request as mip_request
-
-from cdds.common.plugins.plugins import PluginStore
 
 
 def _as_constraints(mapping):

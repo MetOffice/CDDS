@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2021, Met Office.
+# (C) British Crown Copyright 2016-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Class for creating MOOSE commands for filtered retrievals from MASS
@@ -11,11 +11,10 @@ import json
 import logging
 import re
 
+from cdds.common.mappings.mapping import ModelToMip
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
-
 from hadsdk.common import netCDF_regexp, run_command
-from hadsdk.mapping import ModelToMip
 from cdds.extract.common import (byteify, get_stash, moose_date, run_moo_cmd,
                                  check_moo_cmd, get_bounds_variables,
                                  calculate_period)

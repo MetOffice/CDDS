@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2021, Met Office.
+# (C) British Crown Copyright 2019-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 """
@@ -7,7 +7,7 @@ Tests for :mod:`ancils.py`.
 from copy import deepcopy
 import unittest
 
-from hadsdk.ancils import remove_ancils_from_mapping
+from cdds.common.mappings.ancils import remove_ancils_from_mapping
 from hadsdk.tests.common import DummyMapping
 
 

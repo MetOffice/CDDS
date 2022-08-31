@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2021, Met Office.
+# (C) British Crown Copyright 2016-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name
 from abc import ABC
@@ -11,11 +11,12 @@ import unittest
 
 from unittest.mock import patch
 from nose.plugins.attrib import attr
+
+import cdds.common.mappings.mapping as mapping
 from cdds.common.plugins.plugin_loader import load_plugin, load_external_plugin
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
 from cdds.tests.test_plugins.stubs import EmptyCddsPlugin
-import hadsdk.mapping as mapping
 
 
 def mock_open(test_case, filename, contents=None):
