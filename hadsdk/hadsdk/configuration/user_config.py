@@ -103,6 +103,9 @@ def request_config():
     config['model_output_dir'] = _get_config(
         'sourcedir', section, required_by_mip_convert=True,
         name='root_load_path', check_function=check_directory)
+    config['reference_time'] = _get_config(
+        'reference_time', section, python_type=str, default_value='none')
+
     return config
 
 
