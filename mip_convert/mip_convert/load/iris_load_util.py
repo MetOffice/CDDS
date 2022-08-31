@@ -22,7 +22,7 @@ from iris.util import equalise_attributes
 import numpy as np
 
 from hadsdk.common import netCDF_regexp
-from hadsdk.pp import stash_to_int
+from mip_convert.load.pp import stash_to_int
 from mip_convert.common import (
     PP_TO_CUBE_CONSTRAINTS, replace_coord_points_bounds, check_values_equal,
     apply_time_constraint, get_field_attribute_name, remove_extra_time_axis, promote_aux_time_coord_to_dim,
