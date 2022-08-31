@@ -2,8 +2,8 @@
 CDDS_DIR=${1:-$PWD}
 export CDDS_DIR
 export CDDS_PACKAGES="cdds cdds_template hadsdk mip_convert"
-export CDDS_TEST_NOATTRIBUTES='!slow,!integration,!dbsql,!crem,!data_request,!mappings,!inprogress,!rabbitMQ'
-export CDDS_TEST_ATTRIBUTES="integration inprogress data_request crem dbsql mappings slow rabbitMQ"
+export CDDS_TEST_NOATTRIBUTES='!slow,!integration,!crem,!data_request,!mappings,!inprogress,!rabbitMQ'
+export CDDS_TEST_ATTRIBUTES="integration inprogress data_request crem mappings slow rabbitMQ"
 
 export CDDS_PACKAGES
 
