@@ -14,7 +14,7 @@ import numpy as np
 from mip_convert.common import (
     DEFAULT_FILL_VALUE, has_auxiliary_latitude_longitude, check_values_equal)
 from mip_convert.load.pp.pp_axis import (BoundedAxis, AxisHybridHeight,
-                                         TimeSeriesSiteAxis)
+                                         TimeSeriesSiteAxis, ReferenceTimeAxis)
 from mip_convert.variable import Variable as CMORVariable
 from mip_convert.variable import (CoordinateDomain, PolePoint, TripolarGrid,
                                   make_masked)
@@ -203,6 +203,9 @@ class VariableAxes(object):
                 axis_bounds = None
         axis = BoundedAxis(axis_direction, axis_units, axis_values,
                            axis_bounds)
+        if axis_direction == 'T' and coord.name() == 'forecast_reference_time':
+            # special handling of the reference time scalar coordinate
+            axis = ReferenceTimeAxis(coord.points, str(coord.units))
         if axis_direction == 'Z' and coord.name() == 'model_level_number':
             name = self._axes_directions_names[axis_direction]
             a = self._cube.coord('level_height')
