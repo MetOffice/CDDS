@@ -1,7 +1,7 @@
-# (C) British Crown Copyright 2021, Met Office.
+# (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
-The :mod:`system_info` module provides information of the underlying system.
+The :mod:`platforms` module provides information of the underlying system.
 """
 import os
 import importlib

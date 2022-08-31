@@ -1,8 +1,8 @@
-# (C) British Crown Copyright 2021, Met Office.
+# (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
 from unittest import TestCase, mock
 
-from hadsdk.system.system_info import whereami, Facility, System
+from cdds.common.platforms import whereami, Facility, System
 
 
 class TestWhereami(TestCase):

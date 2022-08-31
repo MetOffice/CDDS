@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2021, Met Office.
+# (C) British Crown Copyright 2019-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`arguments` module contains the code required to handle
@@ -10,10 +10,10 @@ import logging
 import os
 
 from cdds.common.io import read_json
+from cdds.common.platforms import System
 
 import hadsdk
 from hadsdk.constants import ARGUMENTS_FILENAME, PACKAGE_KEY_FOR_ARGUMENTS
-from hadsdk.system.system_info import System
 
 
 def read_default_arguments(package_name, script_name, return_class=None):
