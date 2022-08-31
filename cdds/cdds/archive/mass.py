@@ -13,7 +13,6 @@ import tempfile
 
 from hadsdk.common import construct_string_from_facet_string
 from hadsdk.constants import DATESTAMP_PARSER_STR
-from hadsdk.grids import retrieve_grid_info, grid_overrides
 from hadsdk.mass import (mass_isdir, mass_mkdir, mass_move, mass_put, mass_rmdir,
                          mass_rm_empty_dirs, mass_test, mass_list_records)
 
@@ -23,6 +22,7 @@ from cdds.archive.constants import (DATA_PUBLICATION_STATUS_DICT,
                                     MASS_STATUS_DICT,
                                     SUPERSEDED_INFO_FILE_STR)
 from cdds.archive.stored_state_checks import get_stored_state
+from cdds.common.grids import retrieve_grid_info, grid_overrides
 
 
 def construct_mass_paths(mip_approved_variables, request, mass_path_root,

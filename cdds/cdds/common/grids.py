@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`grids` module contains the code required to handle
@@ -6,9 +6,9 @@ grids.
 """
 import os
 
-import hadsdk
 from hadsdk.config import load_override_values
 
+import cdds.common
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
 
@@ -255,4 +255,4 @@ def grid_overrides():
     """
     Return the full path to the file containing the grid overrides.
     """
-    return os.path.join(os.path.dirname(hadsdk.__file__), 'grids.cfg')
+    return os.path.join(os.path.dirname(cdds.common.__file__), 'grids.cfg')

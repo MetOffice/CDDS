@@ -8,12 +8,11 @@ import tempfile
 
 import unittest
 
+from cdds.common.grids import Grid, retrieve_grid_info
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
-
-from hadsdk.grids import Grid, retrieve_grid_info
 
 
 class TestGrid(unittest.TestCase):
