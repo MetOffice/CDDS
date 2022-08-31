@@ -137,6 +137,7 @@ class DummyConvertProcess(ConvertProcess):
         self.skip_transfer = False
         self._streams_requested = []
         arg_dict = {
+            'mip_era': 'ARISE',
             'rose_suite': 'u-ak283',
             'rose_suite_branch': 'tags/1.1.3',
             'convert_memory': 20000,
@@ -427,8 +428,10 @@ class ConvertProcessTest(unittest.TestCase):
         mip_convert_proc_dir = self.process._full_paths.component_directory(
             'convert')
         request_json_path = self.process._arguments.request
+        mip_era = 'ARISE'
 
         expected_update_kwargs_suite = {
+            'MIP_ERA': mip_era,
             'CDDS_CONVERT_PROC_DIR': mip_convert_proc_dir,
             'CDDS_VERSION': cdds_convert._NUMERICAL_VERSION,
             'DEV_MODE': cdds_convert._DEV,

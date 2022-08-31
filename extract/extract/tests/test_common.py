@@ -12,7 +12,7 @@ import shutil
 from nose.plugins.attrib import attr
 from unittest.mock import patch
 from extract.common import (
-    get_bounds_variables, validate_stash_fields, get_model_resolution,
+    get_bounds_variables, validate_stash_fields,
     validate_netcdf, check_moo_cmd, calculate_period, FileContentError,
     StreamValidationResult, create_dir, build_mass_location)
 from hadsdk.tests.common import create_simple_netcdf_file
@@ -163,9 +163,6 @@ class TestCommon(unittest.TestCase):
         error = validate_netcdf(nc_path)
         self.assertIsInstance(error, FileContentError)
         os.remove(nc_path)
-
-    def test_model_resolution(self):
-        self.assertEqual(('L', 'H'), get_model_resolution('HadGEM3-GC31-LH'))
 
     def test_check_moo_cmd(self):
         code = 2

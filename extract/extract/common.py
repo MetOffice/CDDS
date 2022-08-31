@@ -617,23 +617,6 @@ def get_bounds_variables(stream, substream="default"):
         return []
 
 
-def get_model_resolution(model_name):
-    """Returns a tuple with letter codes corresponding to atmos and ocean
-    resolution
-
-    Parameters
-    ----------
-    model_name: str
-        Model name
-
-    Returns
-    -------
-    tuple
-        A tuple containing one-character codes, e.g. ('L','L')
-    """
-    return (model_name.split("-")[2][0], model_name.split("-")[2][1])
-
-
 def validate_netcdf(filepath):
     """"Attempts to open a netCDF file, validates it, and returns
     a success/fail status
