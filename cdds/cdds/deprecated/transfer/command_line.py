@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2021, Met Office.
+# (C) British Crown Copyright 2016-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`command_line` module contains the main functions for the
@@ -13,10 +13,10 @@ from hadsdk.arguments import read_default_arguments
 from hadsdk.common import configure_logger, common_command_line_args, check_directory
 from hadsdk.config import use_proc_dir, update_arguments_paths, update_log_dir
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
-from hadsdk.general_config import root_config
 from hadsdk.request import read_request
 
 from cdds import __version__
+from cdds.deprecated.general_config import root_config
 from cdds.deprecated.transfer.archive import run_send_to_mass, allowed_mass_locations
 from cdds.deprecated.transfer.admin import send_admin_message
 from cdds.deprecated.transfer.list_queue import print_queue
