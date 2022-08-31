@@ -4,7 +4,7 @@
 import unittest
 
 import cdds.inventory.db_models as db_models
-from hadsdk.sqlite import execute_insert_query
+from cdds.common.sqlite import execute_insert_query
 
 
 class DatabaseTestCase(unittest.TestCase):

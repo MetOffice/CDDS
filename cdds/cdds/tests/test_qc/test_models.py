@@ -3,7 +3,7 @@
 
 import unittest
 import cdds.qc.models as qc_models
-from hadsdk.sqlite import execute_insert_query
+from cdds.common.sqlite import execute_insert_query
 
 
 class DatabaseTestCase(unittest.TestCase):

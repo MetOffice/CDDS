@@ -12,7 +12,7 @@ from hadsdk.constants import (
     APPROVED_VARS_FILENAME_TEMPLATE,
     APPROVED_VARS_FILENAME_STREAM_TEMPLATE,
 )
-from hadsdk.sqlite import execute_insert_query
+from cdds.common.sqlite import execute_insert_query
 from cdds.qc.dataset import StructuredDataset
 from cdds.qc.models import (
     setup_db,

@@ -5,7 +5,7 @@ import logging
 import sqlite3
 import os
 
-from hadsdk.sqlite import execute_insert_query, execute_query
+from cdds.common.sqlite import execute_insert_query, execute_query
 
 
 def setup_db(db_file):

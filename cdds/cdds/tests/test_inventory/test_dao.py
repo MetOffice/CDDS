@@ -5,7 +5,7 @@ import unittest
 import cdds.inventory.db_models as inventory
 from cdds.inventory.dao import DBVariableStatus
 from cdds.tests.test_inventory.stubs import InventoryDaoStub
-from hadsdk.sqlite import execute_insert_query
+from cdds.common.sqlite import execute_insert_query
 from unittest import TestCase
 
 NAME_DICT = {

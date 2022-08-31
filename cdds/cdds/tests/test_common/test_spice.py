@@ -10,7 +10,7 @@ import unittest
 from unittest.mock import patch
 
 from hadsdk.common import configure_logger
-from hadsdk.spice import get_email_of_current_user
+from cdds.common.spice import get_email_of_current_user
 
 # The following is the output of the "getent aliases" command.
 USER_ALIASES = (
@@ -22,7 +22,7 @@ class TestGetEmail(unittest.TestCase):
     def setUp(self):
         configure_logger(None, logging.CRITICAL, False)
 
-    @patch('hadsdk.spice.run_command')
+    @patch('cdds.common.spice.run_command')
     @patch('os.getlogin')
     def test_simple(self, mock_getlogin, mock_run_command):
         mock_run_command.return_value = USER_ALIASES
@@ -34,7 +34,7 @@ class TestGetEmail(unittest.TestCase):
         mock_getlogin.assert_called_once()
         self.assertEqual(result, expected)
 
-    @patch('hadsdk.spice.run_command')
+    @patch('cdds.common.spice.run_command')
     @patch('os.getlogin')
     def test_email_is_None(self, mock_getlogin, mock_run_command):
         mock_run_command.return_value = USER_ALIASES
