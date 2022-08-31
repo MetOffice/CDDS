@@ -1,13 +1,13 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 import os
 import unittest
 
 from unittest import TestCase
-from hadsdk.rose_suite.models import RoseSuiteRequest, RoseSuiteArguments
-from hadsdk.rose_suite.request import RoseSuiteRequestManager
-from hadsdk.tests.test_rose_suite.stubs import RequestManagerPartialStub
+from cdds.prepare.request_file.models import RoseSuiteRequest, RoseSuiteArguments
+from cdds.prepare.request_file.request import RoseSuiteRequestManager
+from cdds.tests.test_prepare.test_request_file.stubs import RequestManagerPartialStub
 from unittest.mock import patch
 
 
@@ -176,10 +176,10 @@ class TestReadRequest(TestCase):
                     'NERC': 'Natural Environment Research Council, '
                             'STFC-RAL, Harwell, Oxford, OX11 0QX, UK'}}}
 
-    @patch('hadsdk.rose_suite.models.read_json')
-    @patch('hadsdk.rose_suite.models.check_svn_location')
-    @patch('hadsdk.rose_suite.models.determine_rose_suite_url')
-    @patch('hadsdk.rose_suite.request.load_rose_suite_info')
+    @patch('cdds.prepare.request_file.models.read_json')
+    @patch('cdds.prepare.request_file.models.check_svn_location')
+    @patch('cdds.prepare.request_file.models.determine_rose_suite_url')
+    @patch('cdds.prepare.request_file.request.load_rose_suite_info')
     def test_read_request(self, load_suite_mock, determine_url_mock, svn_location_mock, read_json_mock):
         read_json_mock.return_value = self.cv_info
         load_suite_mock.return_value = self.suite_info

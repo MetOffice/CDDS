@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 import os
@@ -6,7 +6,7 @@ import unittest
 
 from unittest import TestCase
 
-from hadsdk.rose_suite.models import RoseSuiteArguments, RoseSuiteRequest
+from cdds.prepare.request_file.models import RoseSuiteArguments, RoseSuiteRequest
 from unittest.mock import patch
 
 
@@ -42,7 +42,7 @@ class TestReadJson(TestCase):
         }
         self.json_file = '/path/to/request.json'
 
-    @patch('hadsdk.rose_suite.models.read_json')
+    @patch('cdds.prepare.request_file.models.read_json')
     def test_read_json(self, read_json_mock):
         read_json_mock.return_value = self.suite_info
 
@@ -196,7 +196,7 @@ class TestLoadRequestForUKESM1(TestCase):
                     'NERC': 'Natural Environment Research Council, '
                             'STFC-RAL, Harwell, Oxford, OX11 0QX, UK'}}}
 
-    @patch('hadsdk.rose_suite.models.read_json')
+    @patch('cdds.prepare.request_file.models.read_json')
     def test_load_suite_info(self, read_json_mock):
         read_json_mock.return_value = self.cv_info
         arguments = RoseSuiteArguments(self.global_arguments, {}, {})
@@ -207,7 +207,7 @@ class TestLoadRequestForUKESM1(TestCase):
 
         self.assertTrue(self.expected_new_items.items() <= request.items.items())
 
-    @patch('hadsdk.rose_suite.models.read_json')
+    @patch('cdds.prepare.request_file.models.read_json')
     def test_load_suite_info_date_overrides(self, read_json_mock):
         read_json_mock.return_value = self.cv_info
         # Override start and end dates
@@ -227,7 +227,7 @@ class TestLoadRequestForUKESM1(TestCase):
         expected_new_items['run_bounds'] = '{}-00-00-00 {}-00-00-00'.format(start_date, end_date)
         self.assertTrue(expected_new_items.items() <= request.items.items())
 
-    @patch('hadsdk.rose_suite.models.read_json')
+    @patch('cdds.prepare.request_file.models.read_json')
     def test_load_suite_info_with_not_default_branch(self, read_json_mock):
         read_json_mock.return_value = self.cv_info
         arguments = RoseSuiteArguments(self.global_arguments, {}, {})
@@ -239,7 +239,7 @@ class TestLoadRequestForUKESM1(TestCase):
         self.expected_new_items["suite_branch"] = "cdds_not_default"
         self.assertTrue(self.expected_new_items.items() <= request.items.items())
 
-    @patch('hadsdk.rose_suite.models.read_json')
+    @patch('cdds.prepare.request_file.models.read_json')
     def test_load_suite_info_with_streams(self, read_json_mock):
         read_json_mock.return_value = self.cv_info
         arguments = RoseSuiteArguments(self.global_arguments, {}, {})
@@ -253,7 +253,7 @@ class TestLoadRequestForUKESM1(TestCase):
 
         self.assertTrue(self.expected_new_items.items() <= request.items.items())
 
-    @patch('hadsdk.rose_suite.models.read_json')
+    @patch('cdds.prepare.request_file.models.read_json')
     def test_load_suite_info_no_parent(self, read_json_mock):
         read_json_mock.return_value = self.cv_info
         del self.suite_info['parent-experiment-id']
@@ -364,7 +364,7 @@ class TestLoadRequestForHadGEM3MM(TestCase):
                     'NERC': 'Natural Environment Research Council, '
                             'STFC-RAL, Harwell, Oxford, OX11 0QX, UK'}}}
 
-    @patch('hadsdk.rose_suite.models.read_json')
+    @patch('cdds.prepare.request_file.models.read_json')
     def test_load_suite_info(self, read_json_mock):
         read_json_mock.return_value = self.cv_info
         arguments = RoseSuiteArguments(self.global_arguments, {}, {})
@@ -475,7 +475,7 @@ class TestLoadRequestForHadGEM3LL(TestCase):
                     'NERC': 'Natural Environment Research Council, '
                             'STFC-RAL, Harwell, Oxford, OX11 0QX, UK'}}}
 
-    @patch('hadsdk.rose_suite.models.read_json')
+    @patch('cdds.prepare.request_file.models.read_json')
     def test_load_suite_info(self, read_json_mock):
         read_json_mock.return_value = self.cv_info
         arguments = RoseSuiteArguments(self.global_arguments, {}, {})
@@ -504,9 +504,9 @@ class TestRoseSuiteArguments(TestCase):
                     'NERC': 'Natural Environment Research Council, '
                             'STFC-RAL, Harwell, Oxford, OX11 0QX, UK'}}}
 
-    @patch('hadsdk.rose_suite.models.read_json')
-    @patch('hadsdk.rose_suite.models.determine_rose_suite_url')
-    @patch('hadsdk.rose_suite.models.check_svn_location')
+    @patch('cdds.prepare.request_file.models.read_json')
+    @patch('cdds.prepare.request_file.models.determine_rose_suite_url')
+    @patch('cdds.prepare.request_file.models.check_svn_location')
     def test_to_svn_location(self, svn_location_mock, determine_url_mock, read_json_mock):
         read_json_mock.return_value = self.cv_info
         determine_url_mock.return_value = self.base_url

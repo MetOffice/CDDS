@@ -1,11 +1,11 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 import logging
 import unittest
 
-from hadsdk.rose_suite.checks import ChecksFactory as CF
-from hadsdk.tests.test_rose_suite.stubs import CVConfigStub
+from cdds.prepare.request_file.checks import ChecksFactory as CF
+from cdds.tests.test_prepare.test_request_file.stubs import CVConfigStub
 
 
 class TestStartYear(unittest.TestCase):

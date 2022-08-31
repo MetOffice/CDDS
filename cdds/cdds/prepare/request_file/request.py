@@ -1,13 +1,13 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 import logging
 import os
 
-from hadsdk.rose_suite.validator import RoseSuiteValidator
-from hadsdk.rose_suite.common import load_rose_suite_info
-from hadsdk.rose_suite.constants import CV_FILENAME, ROSE_SUITE_CV, ROSE_SUITE_PROJECT
-from hadsdk.rose_suite.models import RoseSuiteRequest, RoseSuiteArguments
+from cdds.prepare.request_file.validator import RoseSuiteValidator
+from cdds.prepare.request_file.common import load_rose_suite_info
+from cdds.prepare.request_file.constants import CV_FILENAME, ROSE_SUITE_CV, ROSE_SUITE_PROJECT
+from cdds.prepare.request_file.models import RoseSuiteRequest, RoseSuiteArguments
 
 
 class RoseSuiteRequestManager(object):

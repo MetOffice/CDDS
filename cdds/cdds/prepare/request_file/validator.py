@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 
@@ -6,10 +6,10 @@
 A tool to check CMIP6 meta data in rose-suite.info against the
 CMIP6 controlled vocabulary
 """
-import hadsdk.rose_suite.checks as checkers
+import cdds.prepare.request_file.checks as checkers
+from cdds.prepare.request_file.constants import ROSE_SUITE_EXPERIMENT_ID
 
 from hadsdk.configuration.cv_config import CVConfig
-from hadsdk.rose_suite.constants import ROSE_SUITE_EXPERIMENT_ID
 
 
 class RoseSuiteValidator(object):

@@ -1,8 +1,8 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 import unittest
-import hadsdk.rose_suite.common as common
+import cdds.prepare.request_file.common as common
 
 from unittest.mock import patch
 
@@ -68,7 +68,7 @@ class TestLoadRoseSuiteInfo(unittest.TestCase):
             'end-date': '2015-01-01'
         }
 
-    @patch('hadsdk.rose_suite.common.run_command')
+    @patch('cdds.prepare.request_file.common.run_command')
     def test_load_rose_suite_successful(self, run_command_mock):
         run_command_mock.return_value = self.data
 

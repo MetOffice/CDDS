@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -8,12 +8,13 @@ command line scripts in the ``bin`` directory.
 import argparse
 import logging
 
-from hadsdk import __version__
+from cdds import __version__
+from cdds.prepare.request_file import RoseSuiteArguments
+from cdds.prepare.request_file import RoseSuiteRequestManager
 from hadsdk.arguments import read_default_arguments
 from hadsdk.common import configure_logger, common_command_line_args, check_directory
 from hadsdk.config import update_arguments_paths
-from hadsdk.rose_suite.models import RoseSuiteArguments
-from hadsdk.rose_suite.request import RoseSuiteRequestManager
+
 
 HELP_OUTPUT_DIR_ARG = (
     'The full path to the directory where the request JSON file and the log file will be written. '
@@ -89,7 +90,7 @@ def _parse_write_request_json_args(arguments):
 
     The output from this function can be used as the value of the
     ``arguments`` parameter in the call to
-    :func:`hadsdk.rose_suite.command_line.main_write_request_json`.
+    :func:`cdds.prepare.request_file.command_line.main_write_request_json`.
 
     Parameters
     ----------
@@ -98,7 +99,7 @@ def _parse_write_request_json_args(arguments):
 
     Returns
     -------
-    : :class:`hadsdk.rose_suite.models.RoseSuiteArguments`
+    : :class:`cdds.prepare.request_file.models.RoseSuiteArguments`
         The names of the command line arguments and their validated
         values.
     """
@@ -121,7 +122,7 @@ def _read_user_arguments():
 
     Returns
     -------
-    : :class:`hadsdk.rose_suite.models.RoseSuiteArguments`,
+    : :class:`cdds.prepare.request_file.models.RoseSuiteArguments`,
       :class:`argparse.ArgumentParser`
         The names of the command line arguments and their validated
         values and the corresponding argument parser

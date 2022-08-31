@@ -5,7 +5,7 @@ import logging
 import unittest
 
 from hadsdk.common import configure_logger
-from hadsdk.rose_suite.validator import RoseSuiteValidator
+from cdds.prepare.request_file.validator import RoseSuiteValidator
 from unittest.mock import patch, MagicMock
 
 

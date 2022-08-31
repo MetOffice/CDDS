@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 import logging
@@ -8,15 +8,15 @@ from cdds.common.io import read_json
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
+from cdds.prepare.request_file.constants import (BASE_DATE,
+                                                 LICENSES,
+                                                 ROSE_SUITE_FILENAME,
+                                                 CONFIG_VERSION)
+
 from hadsdk.arguments import Arguments
 from hadsdk.common import check_svn_location, determine_rose_suite_url
 from hadsdk.constants import NO_PARENT, STANDARD
 from hadsdk.request import Request
-
-from hadsdk.rose_suite.constants import (BASE_DATE,
-                                         LICENSES,
-                                         ROSE_SUITE_FILENAME,
-                                         CONFIG_VERSION)
 
 
 class RoseSuiteRequest(Request):
@@ -58,7 +58,7 @@ class RoseSuiteRequest(Request):
             rose suite dictionary that should be used to load
             the request properties
 
-        suite_arguments: :class:`hadsdk.rose_suite.models.RoseSuiteArguments`
+        suite_arguments: :class:`cdds.prepare.request_file.models.RoseSuiteArguments`
             arguments that is needed to load the rose suite info correctly
             into the request
         """
@@ -77,7 +77,7 @@ class RoseSuiteRequest(Request):
 
         Parameters
         ----------
-        suite_arguments: :class:`hadsdk.rose_suite.models.RoseSuiteArguments`
+        suite_arguments: :class:`cdds.prepare.request_file.models.RoseSuiteArguments`
             arguments that is needed to load the rose suite info correctly
             into the request
         """

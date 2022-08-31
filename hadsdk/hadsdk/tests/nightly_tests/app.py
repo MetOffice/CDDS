@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021, Met Office.
+# (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
 from abc import ABCMeta, abstractmethod
 import argparse
@@ -8,7 +8,7 @@ import os
 from hadsdk.tests.nightly_tests.app_config import AppConfig
 from hadsdk.tests.nightly_tests.arguments import CmdArgs
 from hadsdk.tests.nightly_tests.common import NameListFilter, makedirs
-from hadsdk.rose_suite.command_line import main_write_rose_suite_request_json
+from cdds.prepare.request_file.command_line import main_write_rose_suite_request_json
 
 
 class NightlyApp(object, metaclass=ABCMeta):

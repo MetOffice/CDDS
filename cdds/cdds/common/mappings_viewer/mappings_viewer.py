@@ -11,7 +11,7 @@ import cdds
 from cdds.common.mappings_viewer.constants import (HEADINGS, HEADER_ROW_TEMPLATE, ROW_TEMPLATE, CELL_TEMPLATE,
                                                    TABLE_TEMPLATE, CODE_CELL_TEMPLATE, TOOLTIP_TEMPLATE, GITURL,
                                                    GITURL_MAPPING, HYPERLINK, BGCOLORS, HEADER, FOOTER)
-from hadsdk.rose_suite.common import load_suite_info_from_file
+from cdds.prepare.request_file.common import load_suite_info_from_file
 from mip_convert.process.constants import constants
 
 

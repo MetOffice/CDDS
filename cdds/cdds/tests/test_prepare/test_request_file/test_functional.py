@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 import json
@@ -8,7 +8,7 @@ import os
 import unittest
 
 from hadsdk.arguments import read_argument_files
-from hadsdk.rose_suite.command_line import main_write_rose_suite_request_json
+from cdds.prepare.request_file.command_line import main_write_rose_suite_request_json
 from unittest.mock import patch
 from unittest import TestCase
 
@@ -99,7 +99,7 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
                     'NERC': 'Natural Environment Research Council, '
                             'STFC-RAL, Harwell, Oxford, OX11 0QX, UK'}}}
 
-    @patch('hadsdk.rose_suite.models.read_json')
+    @patch('cdds.prepare.request_file.models.read_json')
     @patch('hadsdk.common.get_log_datestamp')
     def test_functional(self, mock_log_datestamp, read_json_mock):
         mock_log_datestamp.return_value = self.log_date
@@ -184,7 +184,7 @@ class TestWriteRequestForGCModelDev(FunctionalTestCase):
                     'NERC': 'Natural Environment Research Council, '
                             'STFC-RAL, Harwell, Oxford, OX11 0QX, UK'}}}
 
-    @patch('hadsdk.rose_suite.models.read_json')
+    @patch('cdds.prepare.request_file.models.read_json')
     @patch('hadsdk.common.get_log_datestamp')
     def test_functional(self, mock_log_datestamp, read_json_mock):
         mock_log_datestamp.return_value = self.log_date

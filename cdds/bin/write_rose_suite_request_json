@@ -3,7 +3,7 @@
 # Please see LICENSE.rst for license details.
 import sys
 
-from hadsdk.rose_suite.command_line import main_write_rose_suite_request_json
+from cdds.prepare.request_file.command_line import main_write_rose_suite_request_json
 
 
 if __name__ == '__main__':
