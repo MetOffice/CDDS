@@ -23,8 +23,8 @@ from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from hadsdk.arguments import read_default_arguments
 from hadsdk.common import set_checksum
 from hadsdk.request import Request
-from hadsdk.variables import RequestedVariablesList
 
+from cdds.common.variables import RequestedVariablesList
 from cdds.configure.request import required_keys_for_request
 from cdds.configure.user_config import (
     produce_user_configs, validate_request_with_requested_variables_list)

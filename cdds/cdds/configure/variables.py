@@ -24,7 +24,7 @@ def retrieve_variables_by_grid(requested_variables):
 
     Parameters
     ----------
-    requested_variables: :class:`hadsdk.variables.RequestedVariablesList`
+    requested_variables: :class:`cdds.common.variables.RequestedVariablesList`
         The information from the |requested variables list|.
 
     Returns

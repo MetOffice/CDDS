@@ -4,8 +4,8 @@
 import logging
 import time
 
+from cdds.common.validation import BaseCheckResult
 from hadsdk.rose_suite.constants import Messages, ROSE_SUITE_SOURCE_TYPE, ROSE_SUITE_EXPERIMENT_ID
-from hadsdk.validation import BaseCheckResult
 
 
 class RoseSuiteChecks(object):
@@ -29,7 +29,7 @@ class RoseSuiteChecks(object):
 
         Returns
         -------
-        : hadsdk.validation.BaseResult
+        : cdds.common.validation.BaseResult
         """
         rose_source_types = self._rose_suite[ROSE_SUITE_SOURCE_TYPE].split(",")
         allowed_source_types = self._cv_config.allowed_source_types(self._experiment_id)
@@ -79,7 +79,7 @@ class ChecksFactory(object):
     """
     Factory for check functions used for the rose suite checks
 
-    Each check function returns as result: hadsdk.validation.BaseResult
+    Each check function returns as result: cdds.common.validation.BaseResult
     """
     @classmethod
     def year_check(cls):

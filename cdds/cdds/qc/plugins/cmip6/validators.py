@@ -11,9 +11,9 @@ except ImportError:
     import netcdftime as cft
 from datetime import datetime
 
+from cdds.common.validation import ValidationError
 from hadsdk.constants import TIME_UNIT
 from hadsdk.configuration.cv_config import CVConfig
-from hadsdk.validation import ValidationError
 
 EXTERNAL_VARIABLES = ["areacella", "areacello", "volcello"]
 

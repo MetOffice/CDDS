@@ -12,7 +12,7 @@ import unittest
 from unittest.mock import patch
 
 from hadsdk.common import set_checksum
-from hadsdk.variables import RequestedVariablesList
+from cdds.common.variables import RequestedVariablesList
 
 
 class TestRequestedVariablesList(unittest.TestCase):

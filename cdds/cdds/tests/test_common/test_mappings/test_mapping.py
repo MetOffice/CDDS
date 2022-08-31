@@ -73,7 +73,7 @@ class TestMassFilters(unittest.TestCase):
         if mip_era == 'CMIP6':
             load_plugin()
         else:
-            load_external_plugin(DummyCMIP5Plugin.MIP_ERA, 'hadsdk.tests.test_mapping')
+            load_external_plugin(DummyCMIP5Plugin.MIP_ERA, 'cdds.tests.test_common.test_mappings.test_mapping')
 
     @staticmethod
     def fake_common_mapping():

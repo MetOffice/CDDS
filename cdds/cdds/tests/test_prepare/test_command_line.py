@@ -13,14 +13,14 @@ import shutil
 from textwrap import dedent
 import unittest
 
-from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.io import write_json
+from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.variables import RequestedVariablesList
 
 from hadsdk.arguments import Arguments
 from hadsdk.common import set_checksum
 from hadsdk.constants import (
     COMPONENT_LIST, INPUT_DATA_DIRECTORY, OUTPUT_DATA_DIRECTORY, LOG_DIRECTORY)
-from hadsdk.variables import RequestedVariablesList
 
 from unittest.mock import patch
 from nose.plugins.attrib import attr

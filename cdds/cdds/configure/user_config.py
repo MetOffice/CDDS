@@ -11,9 +11,9 @@ import os
 
 from hadsdk.configuration.python_config import PythonConfig
 from hadsdk.request import read_request
-from hadsdk.variables import RequestedVariablesList
 
 from cdds.common.plugins.plugins import PluginStore
+from cdds.common.variables import RequestedVariablesList
 
 from cdds import __version__
 from cdds.configure.constants import HEADER_TEMPLATE
@@ -114,7 +114,7 @@ def produce_user_configs(request, requested_variables_list, template,
     ----------
     request: :class:`hadsdk.request.Request`
         The information from the request.
-    requested_variables_list: :class:`hadsdk.variables.RequestedVariablesList`
+    requested_variables_list: :class:`cdds.common.variables.RequestedVariablesList`
         The information from the |requested variables list|.
     template: bool
         Whether to create template |user configuration files|.
@@ -200,7 +200,7 @@ def validate_request_with_requested_variables_list(request,
     ----------
     request: :class:`hadsdk.request.Request`
         The information from the request.
-    requested_variables_list: :class:`hadsdk.variables.RequestedVariablesList`
+    requested_variables_list: :class:`cdds.common.variables.RequestedVariablesList`
         The information from the |requested variables list|.
     """
     # Retrieve the logger.
