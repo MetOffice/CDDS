@@ -3,7 +3,7 @@
 # Please see LICENSE.rst for license details.
 import sys
 
-from hadsdk.mip_table_editor.command_line import main_table_editor
+from cdds.deprecated.mip_table_editor.command_line import main_table_editor
 
 
 if __name__ == '__main__':

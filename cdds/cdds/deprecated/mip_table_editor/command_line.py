@@ -1,10 +1,10 @@
-# (C) British Crown Copyright 2021, Met Office.
+# (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
 
 import argparse
 import logging
 
-from hadsdk.mip_table_editor.mip_tables import ControlledVocabulary, MipTableVariable, MipTable
+from cdds.deprecated.mip_table_editor.mip_tables import ControlledVocabulary, MipTableVariable, MipTable
 
 from hadsdk.arguments import read_default_arguments
 from hadsdk.common import configure_logger, common_command_line_args

@@ -14,7 +14,7 @@ from os import chmod, listdir, remove
 from os.path import abspath, dirname, isfile, join
 from unittest.mock import patch
 
-from hadsdk.mip_table_editor.command_line import main_table_editor
+from cdds.deprecated.mip_table_editor.command_line import main_table_editor
 
 
 class TestCVActions(unittest.TestCase):
@@ -55,7 +55,7 @@ class TestCVActions(unittest.TestCase):
             remove(self.log_file_path)
 
     @patch('hadsdk.common.get_log_datestamp')
-    @patch('hadsdk.mip_table_editor.mip_tables.editor')
+    @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_add(self, mock_editor, mock_log_datestamp):
         """
         Check that the test values match the expected output.
@@ -93,7 +93,7 @@ class TestCVActions(unittest.TestCase):
         self.assertEqual(True, result)
 
     @patch('hadsdk.common.get_log_datestamp')
-    @patch('hadsdk.mip_table_editor.mip_tables.editor')
+    @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_clone(self, mock_editor, mock_log_datestamp):
         """
         Check that the test values match the expected output.
@@ -133,7 +133,7 @@ class TestCVActions(unittest.TestCase):
         self.assertEqual(True, result)
 
     @patch('hadsdk.common.get_log_datestamp')
-    @patch('hadsdk.mip_table_editor.mip_tables.editor')
+    @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_modify(self, mock_editor, mock_log_datestamp):
         """
         Check that the test values match the expected output.
@@ -228,7 +228,7 @@ class TestMipTableVariableActions(unittest.TestCase):
             remove(self.log_file_path)
 
     @patch('hadsdk.common.get_log_datestamp')
-    @patch('hadsdk.mip_table_editor.mip_tables.editor')
+    @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_add(self, mock_editor, mock_log_datestamp):
         """
         Check that the test values match the expected output.
@@ -275,7 +275,7 @@ class TestMipTableVariableActions(unittest.TestCase):
         self.assertEqual(True, result)
 
     @patch('hadsdk.common.get_log_datestamp')
-    @patch('hadsdk.mip_table_editor.mip_tables.editor')
+    @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_clone(self, mock_editor, mock_log_datestamp):
         """
         Check that the test values match the expected output.
@@ -322,7 +322,7 @@ class TestMipTableVariableActions(unittest.TestCase):
         self.assertEqual(True, result)
 
     @patch('hadsdk.common.get_log_datestamp')
-    @patch('hadsdk.mip_table_editor.mip_tables.editor')
+    @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_modify(self, mock_editor, mock_log_datestamp):
         """
         Check that the test values match the expected output.

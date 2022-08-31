@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021, Met Office.
+# (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
 
 import json
@@ -10,7 +10,7 @@ from os import listdir, remove, environ
 from os.path import isfile, join
 
 from cdds.common.io import read_json, write_json
-from hadsdk.mip_table_editor.constants import CV_OBJECT, TABLE_OBJECT, VARIABLE_OBJECT
+from cdds.deprecated.mip_table_editor.constants import CV_OBJECT, TABLE_OBJECT, VARIABLE_OBJECT
 
 
 def editor(input_dict):
