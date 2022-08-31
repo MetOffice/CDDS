@@ -7,6 +7,6 @@ The CDDS Transfer package enables a user to archive the
 from transfer.versions import get_version
 
 
-_DEV = True
+_DEV = False
 _NUMERICAL_VERSION = '2.3.2'
 __version__ = get_version('transfer')

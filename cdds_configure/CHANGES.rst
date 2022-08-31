@@ -3,6 +3,13 @@
 
 .. include:: common.txt
 
+Release 2.3.2, September 01, 2022
+=================================
+
+* Log message issued when a stream cannot be found for a variable is now CRITICAL (CDDSO-178)
+* GCAmon and GCLmon MIP tables from GCModelDev are now included in dictionary of default grids
+  and will not be ignored  (CDDSO-178)
+
 Release 2.3.1, June 29, 2022
 ============================
 

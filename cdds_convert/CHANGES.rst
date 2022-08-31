@@ -3,6 +3,13 @@
 
 .. include:: common.txt
 
+Release 2.3.2, September 01, 2022
+=================================
+
+* Logger now set up before configure step is called allowing log information
+  to be output (CDDSO-177)
+* MIP Era now correctly propagated through to CDDS rose suite (CDDSO-180)
+
 Release 2.3.1, June 29, 2022
 ============================
 
