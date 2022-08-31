@@ -1,10 +1,10 @@
-# (C) British Crown Copyright 2021, Met Office.
+# (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
 import logging
 from collections import defaultdict
 
+from cdds.common.mip_tables import UserMipTables
 from cdds.common.plugins.plugins import PluginStore
-from hadsdk.mip_tables import UserMipTables
 
 
 class UserDefinedVariable(object):
@@ -70,7 +70,7 @@ def validate_variable_list(mt, variables_file, mip_era):
 
     Parameters
     ----------
-    mt : hadsdk.mip_tables.UserMipTables
+    mt : cdds.common.mip_tables.UserMipTables
         Object holding information from the mip tables
 
     variables_file : str

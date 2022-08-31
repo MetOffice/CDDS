@@ -1,10 +1,10 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2022, Met Office.
 # Please see LICENSE.rst for license details.
 
 import unittest
+from cdds.common.mip_tables import MipTables
 from cdds.qc.dataset import StructuredDataset
 from cdds.tests.test_qc.plugins.constants import MIP_TABLES_DIR
-from hadsdk.mip_tables import MipTables
 from unittest.mock import patch
 import os
 import shutil

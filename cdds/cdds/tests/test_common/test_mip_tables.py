@@ -3,7 +3,7 @@
 
 import unittest
 import os
-from hadsdk.mip_tables import MipTables
+from cdds.common.mip_tables import MipTables
 
 MIP_TABLES_DIR = "/home/h03/cdds/etc/mip_tables/CMIP6"
 

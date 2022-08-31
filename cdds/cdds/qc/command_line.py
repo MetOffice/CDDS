@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2022, Met Office.
 # Please see LICENSE.rst for license details.
 
 import argparse
@@ -11,9 +11,9 @@ from hadsdk.common import (configure_logger, common_command_line_args,
                            check_directory, meta_dir_args, root_dir_args)
 from hadsdk.config import FullPaths, update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
-from hadsdk.mip_tables import MipTables
 from hadsdk.request import read_request
 
+from cdds.common.mip_tables import MipTables
 from cdds.qc import __version__
 from cdds.qc.constants import COMPONENT, QC_DB_FILENAME
 from cdds.qc.suite import QCSuite

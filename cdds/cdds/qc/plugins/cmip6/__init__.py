@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2022, Met Office.
 # Please see LICENSE.rst for license details.
 
 """
@@ -9,7 +9,7 @@ Compliance Test Suite for the CMIP6 project
 
 from compliance_checker.base import BaseCheck, BaseNCCheck, Result
 
-from hadsdk.mip_tables import MipTables
+from cdds.common.mip_tables import MipTables
 from cdds.qc.plugins.cmip6.validators import (ValidatorFactory, ControlledVocabularyValidator, ValidationError,
                                               EXTERNAL_VARIABLES)
 from cdds.qc.plugins.cmip6.constants import (SOURCE_REGEX, CF_CONVENTIONS, CV_ATTRIBUTES, RUN_INDEX_ATTRIBUTES,
