@@ -8,7 +8,7 @@ from copy import deepcopy
 import unittest
 
 from cdds.common.mappings.ancils import remove_ancils_from_mapping
-from hadsdk.tests.common import DummyMapping
+from cdds.tests.test_common.common import DummyMapping
 
 
 class TestRemoveAncilVariableMapping(unittest.TestCase):

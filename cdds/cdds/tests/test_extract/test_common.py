@@ -15,7 +15,7 @@ from cdds.extract.common import (
     get_bounds_variables, validate_stash_fields, get_model_resolution,
     validate_netcdf, check_moo_cmd, calculate_period, FileContentError,
     StreamValidationResult, create_dir, build_mass_location)
-from hadsdk.tests.common import create_simple_netcdf_file
+from cdds.tests.test_common.common import create_simple_netcdf_file
 from cdds.tests.test_extract.common import break_netcdf_file, init_defaultdict
 from cdds.tests.test_extract.constants import (
     TMP_DIR_FOR_NETCDF_TESTS, MINIMAL_CDL, MINIMAL_CDL_NO_DATA,

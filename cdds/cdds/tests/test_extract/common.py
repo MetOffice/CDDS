@@ -5,7 +5,7 @@ Common functions for tests.
 """
 import subprocess
 from collections import defaultdict
-from hadsdk.tests.common import handle_process
+from cdds.tests.test_common.common import handle_process
 
 
 def break_netcdf_file(filepath, nbytes=5):

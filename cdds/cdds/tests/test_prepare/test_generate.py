@@ -20,7 +20,7 @@ from cdds.prepare.generate import BaseVariablesConstructor
 from cdds.tests.test_prepare.stubs import VariableParametersStub
 from cdds.arguments import read_default_arguments, Arguments
 from cdds.common import configure_logger
-from hadsdk.tests.common import DummyMapping
+from cdds.tests.test_common.common import DummyMapping
 
 
 @attr('data_request')

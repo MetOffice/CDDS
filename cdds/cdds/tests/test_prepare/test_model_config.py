@@ -12,7 +12,7 @@ import unittest.mock
 from io import StringIO
 from textwrap import dedent
 
-from hadsdk.tests.common import DummyMapping
+from cdds.tests.test_common.common import DummyMapping
 
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.prepare.model_config import (

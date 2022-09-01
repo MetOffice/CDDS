@@ -5,7 +5,7 @@ import unittest
 import os
 from unittest.mock import patch, MagicMock
 from netCDF4 import Dataset
-from hadsdk.tests.common import create_simple_netcdf_file
+from cdds.tests.test_common.common import create_simple_netcdf_file
 from cdds.qc.plugins.cmip6 import CMIP6Check
 from cdds.tests.test_qc.plugins.constants import (
     MIP_TABLES_DIR, CV_REPO, TMP_DIR_FOR_NETCDF_TESTS, MINIMAL_CDL, CORRECT_VARIABLE_METADATA_CDL,
