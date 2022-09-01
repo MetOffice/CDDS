@@ -6,7 +6,7 @@ grids.
 """
 import os
 
-from hadsdk.config import load_override_values
+from cdds.deprecated.config import load_override_values
 
 import cdds.common
 from cdds.common.plugins.plugins import PluginStore

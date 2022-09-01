@@ -64,7 +64,7 @@ def cfg_from_cdds_general_config(general_config, request, mass_location):
 
     Parameters
     ----------
-    general_config : :class:`hadsdk.config.CDDSGeneralConfig`
+    general_config : :class:`cdds.deprecate.config.CDDSGeneralConfig`
         config object
     request : :class:`cdds.common.request.Request`
         Request object

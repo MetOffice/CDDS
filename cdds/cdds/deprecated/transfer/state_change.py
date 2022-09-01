@@ -14,7 +14,7 @@ from cdds.deprecated.transfer.common import (
     drs_facet_builder_from_request, log_filesets, find_mass)
 from cdds.deprecated.transfer.drs import filter_filesets
 from cdds.deprecated.transfer.moo_cmd import LS_ONLY
-from hadsdk.config import CDDSConfigGeneral
+from cdds.deprecated.config import CDDSConfigGeneral
 
 REQUIRED_KEYS_MOVE_IN_MASS = []
 FACETS_OMITTED_FOR_MOVE_IN_MASS = ['package']

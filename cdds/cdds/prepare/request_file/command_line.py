@@ -13,7 +13,7 @@ from cdds.prepare.request_file.models import RoseSuiteArguments
 from cdds.prepare.request_file.request import RoseSuiteRequestManager
 from hadsdk.arguments import read_default_arguments
 from hadsdk.common import configure_logger, common_command_line_args, check_directory
-from hadsdk.config import update_arguments_paths
+from cdds.deprecated.config import update_arguments_paths
 
 
 HELP_OUTPUT_DIR_ARG = (

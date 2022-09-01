@@ -6,7 +6,7 @@ Code to set up a batch script to run CDDS Extract on SPICE
 from datetime import datetime
 import os
 
-from hadsdk.config import FullPaths
+from cdds.deprecated.config import FullPaths
 from cdds.common.constants import (
     LOG_TIMESTAMP_FORMAT, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
 from cdds.common.request import read_request

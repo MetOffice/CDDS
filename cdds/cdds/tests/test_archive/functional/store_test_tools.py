@@ -10,7 +10,7 @@ from typing import List
 
 from cdds.archive.command_line import parse_args_store
 from cdds.common.request import read_request
-from hadsdk.config import FullPaths
+from cdds.deprecated.config import FullPaths
 
 
 DEFAULT_LOG_DATESTAMP = '2019-11-23T1432Z'

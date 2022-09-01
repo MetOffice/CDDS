@@ -14,7 +14,7 @@ from cdds.common.plugins.plugins import PluginStore
 from cdds.common.mappings.mapping import ModelToMip
 
 from hadsdk.common import (determine_rose_suite_url, configure_logger)
-from hadsdk.config import FullPaths
+from cdds.deprecated.config import FullPaths
 from hadsdk.configuration.python_config import PythonConfig
 
 from cdds import __version__, _NUMERICAL_VERSION, _DEV

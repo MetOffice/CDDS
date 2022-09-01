@@ -6,7 +6,7 @@ Code to set up a batch script to run CDDS store on SPICE.
 import os
 import sys
 
-from hadsdk.config import FullPaths
+from cdds.deprecated.config import FullPaths
 
 from cdds.common.constants import (
     LOG_TIMESTAMP_FORMAT, REQUIRED_KEYS_FOR_PROC_DIRECTORY)

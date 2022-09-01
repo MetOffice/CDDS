@@ -13,7 +13,7 @@ from cdds.deprecated.transfer.common import (
     cfg_from_cdds_general_config, drs_facet_builder_from_request, find_local,
     log_filesets)
 
-from hadsdk.config import CDDSConfigGeneral
+from cdds.deprecated.config import CDDSConfigGeneral
 
 
 REQUIRED_KEYS_SEND_TO_MASS = []

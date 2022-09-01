@@ -11,7 +11,7 @@ import sys
 
 from hadsdk.arguments import read_default_arguments
 from hadsdk.common import configure_logger, common_command_line_args, check_directory
-from hadsdk.config import use_proc_dir, update_arguments_paths, update_log_dir
+from cdds.deprecated.config import use_proc_dir, update_arguments_paths, update_log_dir
 
 from cdds import __version__
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY

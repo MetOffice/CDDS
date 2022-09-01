@@ -12,7 +12,7 @@ import os
 import re
 
 from hadsdk.common import get_most_recent_file
-from hadsdk.config import FullPaths
+from cdds.deprecated.config import FullPaths
 
 from cdds.archive.common import get_date_range
 from cdds.archive.constants import (DATA_PUBLICATION_STATUS_DICT,

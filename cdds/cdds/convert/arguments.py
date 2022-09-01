@@ -4,7 +4,7 @@ import os
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
-from hadsdk.config import FullPaths
+from cdds.deprecated.config import FullPaths
 
 
 def update_user_config_data_files(arguments, request):
@@ -19,7 +19,7 @@ def update_user_config_data_files(arguments, request):
     ----------
     arguments: :class:
         The names of the command line arguments and their validated values for the cdds convert process
-    request: :class:`hadsdk.config.Request`
+    request: :class:`cdds.deprecate.config.Request`
         The information from the request.
 
     Returns

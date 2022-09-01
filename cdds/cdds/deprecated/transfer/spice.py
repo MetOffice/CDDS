@@ -8,7 +8,7 @@ import os
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.request import read_request
 from cdds.common.spice import submit_spice_job_script, write_spice_job_script
-from hadsdk.config import CDDSConfigGeneral
+from cdds.deprecated.config import CDDSConfigGeneral
 
 
 QUEUE = 'long'

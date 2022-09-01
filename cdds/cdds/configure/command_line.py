@@ -8,7 +8,7 @@ command line scripts in the ``bin`` directory.
 import argparse
 import logging
 
-from hadsdk.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
+from cdds.deprecated.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
 
 from hadsdk.common import (
     configure_logger, common_command_line_args, check_directory,

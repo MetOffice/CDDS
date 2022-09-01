@@ -23,7 +23,7 @@ from cdds.extract.common import (
 from cdds.extract.constants import GROUP_FOR_DIRECTORY_CREATION, STREAMDIR_PERMISSIONS
 from cdds.extract.filters import FilterFileException
 from cdds.extract.variables import Variables
-from hadsdk.config import FullPaths
+from cdds.deprecated.config import FullPaths
 
 
 class Process(object):

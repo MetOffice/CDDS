@@ -15,12 +15,12 @@ from unittest.mock import patch
 
 from cdds.common.request import Request
 from hadsdk.arguments import Arguments
-from hadsdk.config import (update_arguments_paths,
-                           use_proc_dir,
-                           CDDSConfigGeneral,
-                           INPUT_DATA_DIRECTORY,
-                           OUTPUT_DATA_DIRECTORY,
-                           LOG_DIRECTORY)
+from cdds.deprecated.config import (update_arguments_paths,
+                                    use_proc_dir,
+                                    CDDSConfigGeneral,
+                                    INPUT_DATA_DIRECTORY,
+                                    OUTPUT_DATA_DIRECTORY,
+                                    LOG_DIRECTORY)
 
 
 class TestUpdateArgumentsPaths(unittest.TestCase):
