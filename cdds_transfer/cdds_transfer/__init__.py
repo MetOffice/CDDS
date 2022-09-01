@@ -9,5 +9,5 @@ from cdds_transfer.versions import get_version
 
 
 _DEV = True
-_NUMERICAL_VERSION = '2.3.2'
+_NUMERICAL_VERSION = '2.3.3'
 __version__ = get_version('cdds_transfer')

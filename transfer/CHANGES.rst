@@ -3,6 +3,11 @@
 
 .. include:: common.txt
 
+Release 2.3.2, September 01, 2022
+=================================
+
+* No changes.
+
 Release 2.3.1, June 29, 2022
 ============================
 

@@ -3,6 +3,13 @@
 
 .. include:: common.txt
 
+Release 2.3.2, September 01, 2022
+=================================
+
+* Change log message to CRITICAl for missing grid/stream.
+* Prepare a MIP convert branch to produce sample decadal data with additional
+  seasonal forecasting metadata
+
 Release 2.3.1, June 29, 2022
 ============================
 
