@@ -4,7 +4,7 @@
 from cdds.common.constants import INVENTORY_HEADINGS, INVENTORY_HEADINGS_FORMAT
 from cdds.inventory.dao import DBVariable
 from cdds.inventory.db_models import build_sql_query, connect, execute_query
-from hadsdk.mass import mass_list_dir
+from cdds.common.mass import mass_list_dir
 
 
 def perform_user_query(facets, arguments):

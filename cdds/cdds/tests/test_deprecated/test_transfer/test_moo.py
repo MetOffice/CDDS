@@ -5,7 +5,7 @@ from nose.plugins.attrib import attr
 import unittest
 
 from cdds.deprecated.transfer.moo import run_moo_cmd, MassError
-from hadsdk.mass import mass_available
+from cdds.common.mass import mass_available
 
 
 class TestRunMooCmd(unittest.TestCase):

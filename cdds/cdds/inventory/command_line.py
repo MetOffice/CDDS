@@ -17,7 +17,7 @@ from cdds.inventory.dao import DBVariableStatus
 from hadsdk import __version__
 from cdds.arguments import read_default_arguments
 from cdds.common import configure_logger, common_command_line_args, get_log_datestamp, mass_output_args
-from hadsdk.mass import mass_list_dir, mass_list_files_recursively
+from cdds.common.mass import mass_list_dir, mass_list_files_recursively
 
 JASMIN_STATUS_MAP = {
     'completed': DBVariableStatus.AVAILABLE,

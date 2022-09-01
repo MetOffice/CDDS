@@ -12,8 +12,8 @@ import shutil
 import tempfile
 
 from cdds.common import construct_string_from_facet_string
-from hadsdk.mass import (mass_isdir, mass_mkdir, mass_move, mass_put, mass_rmdir,
-                         mass_rm_empty_dirs, mass_test, mass_list_records)
+from cdds.common.mass import (mass_isdir, mass_mkdir, mass_move, mass_put, mass_rmdir,
+                              mass_rm_empty_dirs, mass_test, mass_list_records)
 
 from cdds.archive.constants import (DATA_PUBLICATION_STATUS_DICT,
                                     MASS_LOCATION_FACET_STRING,

@@ -4,7 +4,7 @@ from unittest import TestCase, mock
 from nose.plugins.attrib import attr
 
 from cdds.common.plugins.plugin_loader import load_plugin
-from hadsdk.mass import mass_info
+from cdds.common.mass import mass_info
 
 
 @attr('slow')

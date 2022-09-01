@@ -9,8 +9,8 @@ from unittest.mock import patch
 import unittest
 
 from cdds.common import configure_logger
-from hadsdk.mass import mass_put
-from hadsdk.mass_exception import VariableArchivingError
+from cdds.common.mass import mass_put
+from cdds.common.mass_exception import VariableArchivingError
 
 
 class TestMassPut(unittest.TestCase):
@@ -18,7 +18,7 @@ class TestMassPut(unittest.TestCase):
     def setUp(self):
         configure_logger(None, logging.CRITICAL, False)
 
-    @patch('hadsdk.mass.run_mass_command', side_effect=RuntimeError())
+    @patch('cdds.common.mass.run_mass_command', side_effect=RuntimeError())
     def test_raises_error(self, mock_run_command):
         filenames = ['this.nc', 'that.nc']
         mass_path = 'moose:/somewhere/over/the/rainbow/'

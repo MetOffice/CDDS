@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 from unittest import TestCase
 
-from hadsdk.mass_record import get_records_from_stdout
+from cdds.common.mass_record import get_records_from_stdout
 
 
 class TestGetRecordsFromStdout(TestCase):

@@ -7,9 +7,9 @@ import logging
 import subprocess
 import re
 
-from hadsdk.mass_exception import (MassError, DirAlreadyExistMassError, FileNotExistMassError,
-                                   VariableArchivingError, MassFailure)
-from hadsdk.mass_record import get_records_from_stdout
+from cdds.common.mass_exception import (MassError, DirAlreadyExistMassError, FileNotExistMassError,
+                                        VariableArchivingError, MassFailure)
+from cdds.common.mass_record import get_records_from_stdout
 
 
 def mass_list_dir(mass_path, simulation):

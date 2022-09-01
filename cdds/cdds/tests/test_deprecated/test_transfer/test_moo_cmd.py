@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 from cdds.deprecated.transfer import moo_cmd
 from cdds.tests.test_deprecated.test_transfer import util
-from hadsdk import mass
+from cdds.common import mass
 
 
 class TestDirExists(unittest.TestCase):

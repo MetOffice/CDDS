@@ -10,7 +10,7 @@ import os
 import unittest
 import unittest.mock
 
-from hadsdk.mass_record import MassRecord
+from cdds.common.mass_record import MassRecord
 
 from cdds.archive.constants import (
     DATA_PUBLICATION_STATUS_DICT, SUPERSEDED_INFO_FILE_STR)
