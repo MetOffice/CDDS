@@ -9,8 +9,8 @@ import argparse
 import logging
 
 from cdds import __version__
-from cdds.prepare.request_file import RoseSuiteArguments
-from cdds.prepare.request_file import RoseSuiteRequestManager
+from cdds.prepare.request_file.models import RoseSuiteArguments
+from cdds.prepare.request_file.request import RoseSuiteRequestManager
 from hadsdk.arguments import read_default_arguments
 from hadsdk.common import configure_logger, common_command_line_args, check_directory
 from hadsdk.config import update_arguments_paths
