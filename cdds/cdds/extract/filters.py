@@ -75,7 +75,7 @@ class Filters(object):
         ----------
         mip_table_dir: str
             pathname to directory holding mip tables for this request
-        request: hadsdk.request.Request
+        request: cdds.common.request.Request
             key science parameter values for this request
 
         Returns

@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 """
@@ -13,12 +13,12 @@ from unittest.mock import MagicMock, patch
 from nose.plugins.attrib import attr
 
 from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.request import Request
 from cdds.data_request_interface.load import DataRequestWrapper
 from cdds.prepare.data_request import (list_variables_for_experiment)
 from cdds.prepare.generate import BaseVariablesConstructor
 from cdds.tests.test_prepare.stubs import VariableParametersStub
 from hadsdk.arguments import read_default_arguments, Arguments
-from hadsdk.request import Request
 from hadsdk.common import configure_logger
 from hadsdk.tests.common import DummyMapping
 

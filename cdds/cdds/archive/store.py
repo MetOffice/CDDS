@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2021, Met Office.
+# (C) British Crown Copyright 2019-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`mass` module contains the code required to archive
@@ -17,7 +17,6 @@ from hadsdk.constants import (APPROVED_VARS_PREFIX,
                               APPROVED_VARS_VARIABLE_REGEX,
                               APPROVED_VARS_FILENAME_REGEX,
                               APPROVED_VARS_FILENAME_STREAM_REGEX, DATESTAMP_TEMPLATE, DATESTAMP_PARSER_STR)
-from hadsdk.request import read_request
 
 from cdds.archive.common import get_date_range
 from cdds.archive.constants import (DATA_PUBLICATION_STATUS_DICT,
@@ -25,6 +24,7 @@ from cdds.archive.constants import (DATA_PUBLICATION_STATUS_DICT,
 from cdds.archive.mass import (archive_files, construct_mass_paths, construct_archive_dir_mass_path,
                                check_stored_status, cleanup_archive_dir)
 from cdds.common.variables import RequestedVariablesList
+from cdds.common.request import read_request
 
 
 def store_mip_output_data(arguments):
@@ -281,7 +281,7 @@ def retrieve_file_paths(mip_approved_variables, request):
         A list of dictionaries, each dictionary containing all the information
         specific to one | MIP output variable| required to archive the
         relevant |output netCDF files|.
-    request: :class:`hadsdk.request.Request`
+    request: :class:`cdds.common.request.Request`
         The information about the request being processed by this package.
 
     Returns

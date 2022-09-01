@@ -5,10 +5,11 @@ Code to set up a batch script to run CDDS Transfer on SPICE
 """
 import os
 
+from cdds.common.request import read_request
 from cdds.common.spice import submit_spice_job_script, write_spice_job_script
 from hadsdk.config import CDDSConfigGeneral
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
-from hadsdk.request import read_request
+
 
 QUEUE = 'long'
 TRANSFER_COMMAND = 'send_to_mass {arguments}'

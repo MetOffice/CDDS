@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -9,8 +9,8 @@ import logging
 from hadsdk.common import create_directory, update_permissions
 from hadsdk.config import FullPaths
 from hadsdk.constants import COMPONENT_LIST, REQUIRED_KEYS_FOR_PROC_DIRECTORY
-from hadsdk.request import read_request
 
+from cdds.common.request import read_request
 from cdds.prepare.constants import ARCHIVE_LOG_DIRECTORY_PERMISSIONS
 
 

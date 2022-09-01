@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2021, Met Office.
+# (C) British Crown Copyright 2016-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`command_line` module contains the main functions for the
@@ -11,6 +11,7 @@ import os
 
 from cdds import __version__
 from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.request import read_request
 from cdds.extract.common import stream_file_template
 from cdds.extract.lang import set_language
 from cdds.extract.runner import ExtractRunner
@@ -20,7 +21,6 @@ from hadsdk.arguments import read_default_arguments
 from hadsdk.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from hadsdk.common import configure_logger, common_command_line_args, root_dir_args
-from hadsdk.request import read_request
 
 COMPONENT = 'extract'
 

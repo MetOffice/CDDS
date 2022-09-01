@@ -11,9 +11,9 @@ from hadsdk.common import (configure_logger, common_command_line_args,
                            check_directory, meta_dir_args, root_dir_args)
 from hadsdk.config import FullPaths, update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
-from hadsdk.request import read_request
 
 from cdds.common.mip_tables import MipTables
+from cdds.common.request import read_request
 from cdds.qc import __version__
 from cdds.qc.constants import COMPONENT, QC_DB_FILENAME
 from cdds.qc.suite import QCSuite
@@ -79,7 +79,7 @@ def parse_args(arguments):
     : :class:`hadsdk.arguments.Arguments` object
         The names of the command line arguments and their validated
         values.
-    : :class:`hadsdk.request.Request` object
+    : :class:`cdds.common.request.Request` object
         The |Request| object.
     """
     user_arguments = arguments
@@ -159,7 +159,7 @@ def run_and_report(args, request):
     args: hadsdk.arguments.Arguments
         The names of the command line arguments and their validated
         values.
-    request: hadsdk.request.Request
+    request: cdds.common.request.Request
         The |Request| json file.
     """
     logger = logging.getLogger()

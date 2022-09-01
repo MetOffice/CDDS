@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2021, Met Office.
+# (C) British Crown Copyright 2019-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring
 """
@@ -16,10 +16,10 @@ import unittest.mock
 from io import StringIO
 from textwrap import dedent
 
-from hadsdk.request import construct_request
 from hadsdk.common import configure_logger
-from cdds.archive.constants import OUTPUT_FILES_REGEX
 import cdds.archive.store
+from cdds.archive.constants import OUTPUT_FILES_REGEX
+from cdds.common.request import construct_request
 import cdds.tests.test_archive.common
 
 

@@ -9,8 +9,8 @@ from enum import Enum
 from typing import List
 
 from cdds.archive.command_line import parse_args_store
+from cdds.common.request import read_request
 from hadsdk.config import FullPaths
-from hadsdk.request import read_request
 
 
 DEFAULT_LOG_DATESTAMP = '2019-11-23T1432Z'

@@ -21,7 +21,7 @@ class StructuredDatasetTestCase(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.test_datadir)
 
-    @patch('hadsdk.request.Request')
+    @patch('cdds.common.request.Request')
     @patch('logging.Logger')
     @patch('netCDF4.Dataset')
     def test_filename_checker_mocked(self, ds, logger, request):
@@ -68,7 +68,7 @@ class StructuredDatasetTestCase(unittest.TestCase):
         self.assertIn(("Variant label r2i1p1f1 is not consistent with "
                        "file contents (r1i1p1f1)"), messages)
 
-    @patch('hadsdk.request.Request')
+    @patch('cdds.common.request.Request')
     @patch('logging.Logger')
     @patch('netCDF4.Dataset')
     def test_filename_checker_inconsistent_attributes(self, ds, logger, request):
@@ -116,7 +116,7 @@ class StructuredDatasetTestCase(unittest.TestCase):
         self.assertFalse(passed)
         self.assertCountEqual(expected_errors, messages)
 
-    @patch('hadsdk.request.Request')
+    @patch('cdds.common.request.Request')
     @patch('logging.Logger')
     def test_walking_directories(self, logger, request):
         dirlist = ['onm_mip_convert', 'onm_concat', 'onm']
@@ -133,7 +133,7 @@ class StructuredDatasetTestCase(unittest.TestCase):
         filelist = structured_dataset.walk_directory()
         self.assertEqual(len(filelist), 1)
 
-    @patch('hadsdk.request.Request')
+    @patch('cdds.common.request.Request')
     @patch('logging.Logger')
     def test_walking_directories_with_stream_selection(self, logger, request):
         dirlist = ['ap4', 'ap5', 'onm']
@@ -148,7 +148,7 @@ class StructuredDatasetTestCase(unittest.TestCase):
         filelist = structured_dataset.walk_directory()
         self.assertEqual(len(filelist), 1)
 
-    @patch('hadsdk.request.Request')
+    @patch('cdds.common.request.Request')
     @patch('logging.Logger')
     @patch('os.walk')
     def test_mip_requested_variable_name_is_present_in_dataset(

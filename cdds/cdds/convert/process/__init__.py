@@ -18,16 +18,17 @@ from hadsdk.config import FullPaths
 from hadsdk.configuration.python_config import PythonConfig
 from hadsdk.constants import (REQUIRED_KEYS_FOR_PROC_DIRECTORY,
                               DAYS_IN_YEAR, DAYS_IN_MONTH)
-from hadsdk.request import read_request
+
 
 from cdds import __version__, _NUMERICAL_VERSION, _DEV
+from cdds.common.request import read_request
+from cdds.common.variables import RequestedVariablesList
 from cdds.convert.constants import (NTHREADS_CONCATENATE, PARALLEL_TASKS,
                                     ROSE_SUITE_ID, SECTION_TEMPLATE,
                                     RESOURCE_FACTOR)
 from cdds.convert.exceptions import StreamError
 from cdds.convert.process import suite_interface
 from cdds.convert.process.memory import scale_memory
-from cdds.common.variables import RequestedVariablesList
 
 
 class ConvertProcess(object):

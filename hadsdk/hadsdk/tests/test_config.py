@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = too-many-instance-attributes, no-value-for-parameter
@@ -13,6 +13,7 @@ import unittest
 
 from unittest.mock import patch
 
+from cdds.common.request import Request
 from hadsdk.arguments import Arguments
 from hadsdk.config import (update_arguments_paths,
                            use_proc_dir,
@@ -20,7 +21,6 @@ from hadsdk.config import (update_arguments_paths,
                            INPUT_DATA_DIRECTORY,
                            OUTPUT_DATA_DIRECTORY,
                            LOG_DIRECTORY)
-from hadsdk.request import Request
 
 
 class TestUpdateArgumentsPaths(unittest.TestCase):

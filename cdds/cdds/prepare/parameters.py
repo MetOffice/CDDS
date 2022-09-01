@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -25,7 +25,7 @@ class VariableParameters(object):
     arguments: `argparse.Namespace` object
         The names of the command line arguments
 
-    request: class:`hadsdk.request.Request`
+    request: class:`cdds.common.request.Request`
         The information from the CREM / rose suite request.
 
     data_request_variables: dict of :class:`DataRequestVariables`
@@ -53,7 +53,7 @@ class VariableParameters(object):
         ----------
         arguments: `argparse.Namespace` object
             The names of the command line arguments
-        request: class:`hadsdk.request.Request`
+        request: class:`cdds.common.request.Request`
             The information from the CREM / rose suite request.
         """
         self._arguments = arguments
@@ -226,7 +226,7 @@ class UserDefinedVariableParameters(VariableParameters):
         arguments: `argparse.Namespace` object
             The names of the command line arguments
 
-        request: class:`hadsdk.request.Request`
+        request: class:`cdds.common.request.Request`
             The information from the rose suite request.
         """
         super(UserDefinedVariableParameters, self).__init__(arguments, request)

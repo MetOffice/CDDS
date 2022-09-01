@@ -13,9 +13,9 @@ from hadsdk.arguments import read_default_arguments
 from hadsdk.common import configure_logger, common_command_line_args, check_directory
 from hadsdk.config import use_proc_dir, update_arguments_paths, update_log_dir
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
-from hadsdk.request import read_request
 
 from cdds import __version__
+from cdds.common.request import read_request
 from cdds.deprecated.general_config import root_config
 from cdds.deprecated.transfer.archive import run_send_to_mass, allowed_mass_locations
 from cdds.deprecated.transfer.admin import send_admin_message

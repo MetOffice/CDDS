@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Top level routines involved in changing states of data to MASS, i.e.
@@ -7,13 +7,13 @@ withdrawn).
 """
 import logging
 
+from cdds.common.request import read_request
 from cdds.deprecated.transfer import dds, state
 from cdds.deprecated.transfer.common import (
     load_rabbit_mq_credentials, cfg_from_cdds_general_config,
     drs_facet_builder_from_request, log_filesets, find_mass)
 from cdds.deprecated.transfer.drs import filter_filesets
 from cdds.deprecated.transfer.moo_cmd import LS_ONLY
-from hadsdk.request import read_request
 from hadsdk.config import CDDSConfigGeneral
 
 REQUIRED_KEYS_MOVE_IN_MASS = []

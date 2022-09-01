@@ -1,9 +1,9 @@
-# (C) British Crown Copyright 2019-2021, Met Office.
+# (C) British Crown Copyright 2019-2022, Met Office.
 # Please see LICENSE.rst for license details.
 
 import unittest
+from cdds.common.request import Request
 from cdds.qc.contiguity_checker import CMIP6CollectionsCheck
-from hadsdk.request import Request
 
 
 class CMIP6CollectionsCheckTestCase(unittest.TestCase):

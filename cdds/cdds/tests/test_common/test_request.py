@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 """
@@ -6,7 +6,7 @@ Tests for :mod:`request.py`.
 """
 import unittest
 
-from hadsdk.request import Request
+from cdds.common.request import Request
 
 
 class TestRequest(unittest.TestCase):

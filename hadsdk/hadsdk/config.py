@@ -355,7 +355,7 @@ class CDDSConfigGeneral(PythonConfig):
         root_config_directory: str
             The root path to the directory containing the CDDS
             configuration files.
-        request: :class:`hadsdk.request.Request`
+        request: :class:`cdds.common.request.Request`
             The items required to construct the full paths to the
             data and proc directories, see
             :func:`hadsdk.common.construct_string_from_facet_string`.

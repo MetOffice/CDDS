@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2022, Met Office.
 # Please see LICENSE.rst for license details.
 
 import re
@@ -22,7 +22,7 @@ class StructuredDataset(object):
         ----------
         root: string
             Path to the root directory of the dataset.
-        request: hadsdk.request.Request
+        request: cdds.common.request.Request
             The |Request| json file.
         mip_table: cdds_qc_plugin_cmip6.MipTables
             An object containing information about mip tables associated with the processed request.

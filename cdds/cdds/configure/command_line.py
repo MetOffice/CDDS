@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -14,9 +14,9 @@ from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from hadsdk.common import (
     configure_logger, common_command_line_args, check_directory,
     root_dir_args)
-from hadsdk.request import read_request
 
 from cdds import __version__
+from cdds.common.request import read_request
 from cdds.configure.arguments import read_configure_arguments
 from cdds.configure.user_config import produce_user_config_files
 

@@ -15,10 +15,10 @@ from cdds.convert.constants import (NTHREADS_CONCATENATE,
                                     PARALLEL_TASKS)
 import cdds.convert.process.suite_interface as suite
 from cdds.convert.process import ConvertProcess
+from cdds.common.request import construct_request
 from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
 from hadsdk.common import ROSE_URLS
 from hadsdk.config import FullPaths
-from hadsdk.request import construct_request
 from unittest import mock
 
 REQUEST_JSON_DICT = {

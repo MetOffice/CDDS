@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2021, Met Office.
+# (C) British Crown Copyright 2016-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 CDDS class for accessing MASS archive through the moo API
@@ -13,9 +13,9 @@ from operator import itemgetter
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.streams import StreamAttributes
+from cdds.common.request import read_request
 from hadsdk.config import FullPaths
 from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
-from hadsdk.request import read_request
 
 from cdds.extract.common import (
     build_mass_location, process_info, exit_nicely, create_dir,

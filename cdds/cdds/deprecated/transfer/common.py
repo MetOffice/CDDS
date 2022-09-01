@@ -66,7 +66,7 @@ def cfg_from_cdds_general_config(general_config, request, mass_location):
     ----------
     general_config : :class:`hadsdk.config.CDDSGeneralConfig`
         config object
-    request : :class:`hadsdk.request.Request`
+    request : :class:`cdds.common.request.Request`
         Request object
     mass_location : str
         Sub directory within MASS to use for archiving. Must be either
@@ -118,7 +118,7 @@ def drs_facet_builder_from_request(request, cfg):
 
     Parameters
     ----------
-    request : :class:`hadsdk.request.Request`
+    request : :class:`cdds.common.request.Request`
         Request information
     cfg : :class:`cdds.deprecated.transfer.config.Config`
         CDDS Transfer config object

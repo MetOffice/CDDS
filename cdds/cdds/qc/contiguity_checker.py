@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2022, Met Office.
 # Please see LICENSE.rst for license details.
 
 
@@ -290,7 +290,7 @@ class CMIP6CollectionsCheck(object):
 
         Parameters
         ----------
-        request: :class:`hadsdk.request.Request`
+        request: :class:`cdds.common.request.Request`
             The |Request| json file.
 
         metadatas: dict
