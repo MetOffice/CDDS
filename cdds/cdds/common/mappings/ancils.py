@@ -6,7 +6,7 @@ from the |model to MIP mappings|.
 """
 import logging
 
-from hadsdk.constants import ANCIL_VARIABLES
+from cdds.common.constants import ANCIL_VARIABLES
 
 
 def remove_ancils_from_mapping(mapping):

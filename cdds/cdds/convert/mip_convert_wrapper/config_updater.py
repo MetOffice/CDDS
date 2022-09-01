@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Routines to read MIP Convert config templates and write them out with
@@ -12,7 +12,7 @@ import os
 import re
 import subprocess
 
-from hadsdk.constants import CYLC_DATE_FORMAT, MIP_CONVERT_DATETIME_FORMAT
+from cdds.common.constants import CYLC_DATE_FORMAT, MIP_CONVERT_DATETIME_FORMAT
 
 
 def calculate_mip_convert_run_bounds(start_point, cycle_duration,

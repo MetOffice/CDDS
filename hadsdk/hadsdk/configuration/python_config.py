@@ -9,9 +9,9 @@ from collections import OrderedDict
 
 import configparser
 
+from cdds.common.constants import COMMENT_FORMAT, DATE_TIME_FORMAT
 from hadsdk.common import remove_newlines
 from hadsdk.configuration.common import AbstractConfig, ValidateConfigError
-from hadsdk.constants import COMMENT_FORMAT, DATE_TIME_FORMAT
 from hadsdk.configuration.user_config import cmor_setup_config, cmor_dataset_config, request_config
 
 

@@ -8,9 +8,8 @@ from collections import OrderedDict, defaultdict
 from copy import copy
 import logging
 
-from hadsdk.constants import USER_CONFIG_OPTIONS
-
 from cdds.configure.constants import TEMPLATE_OPTIONS
+from cdds.common.constants import USER_CONFIG_OPTIONS
 
 
 def required_keys_for_request():

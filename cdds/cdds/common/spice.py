@@ -6,8 +6,8 @@ Code to set up a batch script to run CDDS components on spice
 import logging
 import os
 
+from cdds.common.constants import SCRIPT_TEMPLATE, PRINT_STACK_TRACE
 from hadsdk.common import run_command
-from hadsdk.constants import SCRIPT_TEMPLATE, PRINT_STACK_TRACE
 
 
 def write_spice_job_script(job_script, substitutions):

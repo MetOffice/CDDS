@@ -1,11 +1,11 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
 The :mod:`user_config` module defines the information to be read from
 the |user configuration file|.
 """
-from hadsdk.constants import USER_CONFIG_OPTIONS
+from cdds.common.constants import USER_CONFIG_OPTIONS
 from hadsdk.common import (check_run_bounds_format,
                            check_file, check_files, check_number,
                            check_date_format,

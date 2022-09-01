@@ -9,6 +9,7 @@ import os
 import sys
 import shutil
 
+from cdds.common.constants import LOG_TIMESTAMP_FORMAT
 from cdds.convert.constants import FILEPATH_METOFFICE
 from cdds.convert.exceptions import (
     WrapperEnvironmentError, WrapperMissingFilesError)
@@ -21,7 +22,6 @@ from cdds.convert.mip_convert_wrapper.actions import (
     run_mip_convert, manage_logs, manage_critical_issues, report_disk_usage,
     check_disk_usage)
 from hadsdk.common import configure_logger
-from hadsdk.constants import LOG_TIMESTAMP_FORMAT
 
 
 def run_mip_convert_wrapper(arguments):

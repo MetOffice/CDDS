@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2021, Met Office.
+# (C) British Crown Copyright 2019-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`sim_review` module contains code to extract information to facilitate
@@ -13,9 +13,9 @@ import re
 import stat
 import subprocess
 
+from cdds.common.constants import COMPONENT_LIST, APPROVED_VARS_DATETIME_STREAM_REGEX, APPROVED_VARS_FILENAME_TEMPLATE
 from cdds.common.io import read_json
 from hadsdk.common import get_most_recent_file_by_stream
-from hadsdk.constants import COMPONENT_LIST, APPROVED_VARS_DATETIME_STREAM_REGEX, APPROVED_VARS_FILENAME_TEMPLATE
 
 
 def filter_critical_issues(issue_list):

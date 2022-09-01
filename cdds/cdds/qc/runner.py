@@ -8,7 +8,7 @@ import os
 import inspect
 import json
 from compliance_checker.runner import CheckSuite
-from hadsdk.constants import (
+from cdds.common.constants import (
     APPROVED_VARS_FILENAME_TEMPLATE,
     APPROVED_VARS_FILENAME_STREAM_TEMPLATE,
 )

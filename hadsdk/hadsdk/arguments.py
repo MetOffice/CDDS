@@ -9,11 +9,11 @@ import importlib
 import logging
 import os
 
+from cdds.common.constants import ARGUMENTS_FILENAME, PACKAGE_KEY_FOR_ARGUMENTS
 from cdds.common.io import read_json
 from cdds.common.platforms import System
 
 import hadsdk
-from hadsdk.constants import ARGUMENTS_FILENAME, PACKAGE_KEY_FOR_ARGUMENTS
 
 
 def read_default_arguments(package_name, script_name, return_class=None):

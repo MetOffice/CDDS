@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 
 import unittest
-from hadsdk.constants import INVENTORY_FACET_LIST
+from cdds.common.constants import INVENTORY_FACET_LIST
 from cdds.inventory.command_line import build_facet_dictionary
 
 

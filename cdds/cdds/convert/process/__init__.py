@@ -16,11 +16,10 @@ from cdds.common.mappings.mapping import ModelToMip
 from hadsdk.common import (determine_rose_suite_url, configure_logger)
 from hadsdk.config import FullPaths
 from hadsdk.configuration.python_config import PythonConfig
-from hadsdk.constants import (REQUIRED_KEYS_FOR_PROC_DIRECTORY,
-                              DAYS_IN_YEAR, DAYS_IN_MONTH)
-
 
 from cdds import __version__, _NUMERICAL_VERSION, _DEV
+from cdds.common.constants import (REQUIRED_KEYS_FOR_PROC_DIRECTORY,
+                                   DAYS_IN_YEAR, DAYS_IN_MONTH)
 from cdds.common.request import read_request
 from cdds.common.variables import RequestedVariablesList
 from cdds.convert.constants import (NTHREADS_CONCATENATE, PARALLEL_TASKS,

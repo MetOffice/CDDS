@@ -1,11 +1,11 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`pp` module contains code related to PP |model output files|.
 """
 from iris.fileformats.pp import STASH
 
-from hadsdk.constants import (
+from cdds.common.constants import (
     PP_CODE_HYBRID_HEIGHT, PP_CODE_HYBRID_PRESSURE, PP_CODE_SOIL,
     PP_HEADER_CORRECTIONS)
 

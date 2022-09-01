@@ -4,6 +4,7 @@
 import logging
 import os
 
+from cdds.common.constants import NO_PARENT, STANDARD
 from cdds.common.io import read_json
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.plugins import PluginStore
@@ -16,7 +17,6 @@ from cdds.prepare.request_file.constants import (BASE_DATE,
 
 from hadsdk.arguments import Arguments
 from hadsdk.common import check_svn_location, determine_rose_suite_url
-from hadsdk.constants import NO_PARENT, STANDARD
 
 
 class RoseSuiteRequest(Request):

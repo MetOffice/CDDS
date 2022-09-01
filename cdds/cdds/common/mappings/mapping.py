@@ -50,12 +50,12 @@ import configparser
 import json
 import os.path
 
+from cdds.common.constants import NC_CONSTRAINT_NOT_FOR_MOOSE, PP_HEADER_CORRECTIONS
 from cdds.common.mappings.ancils import remove_ancils_from_mapping
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.pp import stash_to_int
 import hadsdk
 from hadsdk.common import check_file, compare_versions
-from hadsdk.constants import NC_CONSTRAINT_NOT_FOR_MOOSE, PP_HEADER_CORRECTIONS
 import mip_convert.request as mip_request
 
 

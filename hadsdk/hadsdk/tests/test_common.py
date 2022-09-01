@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 """
@@ -11,9 +11,9 @@ import shutil
 import unittest
 import re
 
+from cdds.common.constants import APPROVED_VARS_DATETIME_REGEX, APPROVED_VARS_DATETIME_STREAM_REGEX
 from hadsdk.common import (construct_string_from_facet_string, create_directory,
                            get_directories, netCDF_regexp, get_most_recent_file, get_most_recent_file_by_stream)
-from hadsdk.constants import APPROVED_VARS_DATETIME_REGEX, APPROVED_VARS_DATETIME_STREAM_REGEX
 
 
 class TestCreateDirectory(unittest.TestCase):

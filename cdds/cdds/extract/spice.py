@@ -7,7 +7,7 @@ from datetime import datetime
 import os
 
 from hadsdk.config import FullPaths
-from hadsdk.constants import (
+from cdds.common.constants import (
     LOG_TIMESTAMP_FORMAT, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
 from cdds.common.request import read_request
 from cdds.common.spice import (submit_spice_job_script, write_spice_job_script)

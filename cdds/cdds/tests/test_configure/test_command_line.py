@@ -19,8 +19,8 @@ from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 
 from hadsdk.common import set_checksum
-from hadsdk.constants import TIME_UNIT_DESCRIPTION, COMMENT_FORMAT
 from cdds import __version__
+from cdds.common.constants import TIME_UNIT_DESCRIPTION, COMMENT_FORMAT
 from cdds.configure.arguments import read_configure_arguments
 from cdds.configure.command_line import main
 from cdds.configure.constants import HEADER_TEMPLATE

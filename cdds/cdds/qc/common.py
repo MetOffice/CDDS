@@ -1,7 +1,7 @@
-# (C) British Crown Copyright 2019-2021, Met Office.
+# (C) British Crown Copyright 2019-2022, Met Office.
 # Please see LICENSE.rst for license details.
 
-from hadsdk.constants import TIME_UNIT
+from cdds.common.constants import TIME_UNIT
 from cftime import datetime
 
 """

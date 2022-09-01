@@ -20,7 +20,7 @@ import re
 import subprocess
 import time
 
-from hadsdk.constants import (
+from cdds.common.constants import (
     CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX, ROSE_URLS,
     VARIANT_LABEL_FORMAT, LOG_TIMESTAMP_FORMAT)
 

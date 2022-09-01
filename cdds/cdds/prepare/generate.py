@@ -12,9 +12,9 @@ from abc import ABCMeta, abstractmethod
 from cdds.common.io import write_json
 from hadsdk.common import set_checksum
 from hadsdk.config import FullPaths
-from hadsdk.constants import REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST
 
 from cdds import __version__
+from cdds.common.constants import REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request import read_request
 from cdds.inventory.dao import InventoryDAO, DBVariableStatus

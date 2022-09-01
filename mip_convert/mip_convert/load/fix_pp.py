@@ -6,8 +6,8 @@ header elements that are incorrect.
 """
 import logging
 
+from cdds.common.constants import PP_HEADER_CORRECTIONS
 from hadsdk.common import compare_versions
-from hadsdk.constants import PP_HEADER_CORRECTIONS
 from mip_convert.common import get_field_attribute_name
 
 

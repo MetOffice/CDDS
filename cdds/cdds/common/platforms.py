@@ -11,10 +11,10 @@ import hadsdk
 
 from enum import Enum
 
-from hadsdk.constants import (ARGUMENTS_FILENAME,
-                              GLOBAL_ARGUMENTS_FILENAME,
-                              GLOBAL_ARGUMENTS_FILENAME_JASMIN,
-                              JASMIN_URL_IDS)
+from cdds.common.constants import (ARGUMENTS_FILENAME,
+                                   GLOBAL_ARGUMENTS_FILENAME,
+                                   GLOBAL_ARGUMENTS_FILENAME_JASMIN,
+                                   JASMIN_URL_IDS)
 
 
 class Facility(Enum):

@@ -38,7 +38,7 @@ class CommandLineTestCase(unittest.TestCase):
     def test_populate_facets_dict_keys(self):
         """
         Test to catch any changes to the constant INVENTORY_FACET_LIST in
-        hadsdk.constants
+        cdds.common.constants
         """
 
         test_input = ['CMIP6', 'CMIP', 'MOHC', 'UKESM1-0-LL', '1pctCO2', 'r4i1p1f2', 'Emon', 'mrsll', 'gn']

@@ -1,9 +1,9 @@
 # (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 
+from cdds.common.constants import INVENTORY_HEADINGS, INVENTORY_HEADINGS_FORMAT
 from cdds.inventory.dao import DBVariable
 from cdds.inventory.db_models import build_sql_query, connect, execute_query
-from hadsdk.constants import INVENTORY_HEADINGS, INVENTORY_HEADINGS_FORMAT
 from hadsdk.mass import mass_list_dir
 
 

@@ -9,13 +9,13 @@ import argparse
 import logging
 
 from hadsdk.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
-from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 
 from hadsdk.common import (
     configure_logger, common_command_line_args, check_directory,
     root_dir_args)
 
 from cdds import __version__
+from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.request import read_request
 from cdds.configure.arguments import read_configure_arguments
 from cdds.configure.user_config import produce_user_config_files

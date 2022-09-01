@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2021, Met Office.
+# (C) British Crown Copyright 2019-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = no-member
@@ -8,8 +8,8 @@ Tests for :mod:`arguments.py`.
 import os
 import unittest
 
+from cdds.common.constants import PACKAGE_KEY_FOR_ARGUMENTS
 from hadsdk.arguments import retrieve_script_arguments, Arguments
-from hadsdk.constants import PACKAGE_KEY_FOR_ARGUMENTS
 
 
 class TestRetrieveScriptArguments(unittest.TestCase):

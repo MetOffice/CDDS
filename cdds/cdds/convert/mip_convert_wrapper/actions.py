@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Routines to perform actions such as running mip_convert or managing the
@@ -10,9 +10,9 @@ import os
 import shutil
 import subprocess
 
+from cdds.common.constants import CDDS_DEFAULT_DIRECTORY_PERMISSIONS
 from cdds.convert.exceptions import MipConvertWrapperDiskUsageError
 from cdds.convert.mip_convert_wrapper.common import print_env
-from hadsdk.constants import CDDS_DEFAULT_DIRECTORY_PERMISSIONS
 
 
 def manage_logs(stream, component, mip_convert_config_dir,

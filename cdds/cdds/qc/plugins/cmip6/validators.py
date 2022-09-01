@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2022, Met Office.
 # Please see LICENSE.rst for license details.
 
 import numpy as np
@@ -11,8 +11,8 @@ except ImportError:
     import netcdftime as cft
 from datetime import datetime
 
+from cdds.common.constants import TIME_UNIT
 from cdds.common.validation import ValidationError
-from hadsdk.constants import TIME_UNIT
 from hadsdk.configuration.cv_config import CVConfig
 
 EXTERNAL_VARIABLES = ["areacella", "areacello", "volcello"]

@@ -8,8 +8,8 @@ import logging
 
 from hadsdk.common import create_directory, update_permissions
 from hadsdk.config import FullPaths
-from hadsdk.constants import COMPONENT_LIST, REQUIRED_KEYS_FOR_PROC_DIRECTORY
 
+from cdds.common.constants import COMPONENT_LIST, REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.request import read_request
 from cdds.prepare.constants import ARCHIVE_LOG_DIRECTORY_PERMISSIONS
 

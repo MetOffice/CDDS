@@ -13,16 +13,17 @@ import re
 
 from hadsdk.common import get_most_recent_file
 from hadsdk.config import FullPaths
-from hadsdk.constants import (APPROVED_VARS_PREFIX,
-                              APPROVED_VARS_VARIABLE_REGEX,
-                              APPROVED_VARS_FILENAME_REGEX,
-                              APPROVED_VARS_FILENAME_STREAM_REGEX, DATESTAMP_TEMPLATE, DATESTAMP_PARSER_STR)
 
 from cdds.archive.common import get_date_range
 from cdds.archive.constants import (DATA_PUBLICATION_STATUS_DICT,
                                     OUTPUT_FILES_REGEX)
 from cdds.archive.mass import (archive_files, construct_mass_paths, construct_archive_dir_mass_path,
                                check_stored_status, cleanup_archive_dir)
+from cdds.common.constants import (APPROVED_VARS_PREFIX,
+                                   APPROVED_VARS_VARIABLE_REGEX,
+                                   APPROVED_VARS_FILENAME_REGEX,
+                                   APPROVED_VARS_FILENAME_STREAM_REGEX,
+                                   DATESTAMP_TEMPLATE, DATESTAMP_PARSER_STR)
 from cdds.common.variables import RequestedVariablesList
 from cdds.common.request import read_request
 

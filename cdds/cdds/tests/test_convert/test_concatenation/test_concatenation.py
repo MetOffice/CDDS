@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring
 """
@@ -15,10 +15,10 @@ except ImportError:
     from netcdftime import datetime
 from nose.plugins.attrib import attr
 
+from cdds.common.constants import TIME_UNIT
 from cdds.convert import concatenation
 from cdds.convert.concatenation import concatenation_setup, NCRCAT
 from cdds.convert.exceptions import ConcatenationError
-from hadsdk.constants import TIME_UNIT
 from unittest import mock
 from unittest.mock import patch
 

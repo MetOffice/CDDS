@@ -10,6 +10,7 @@ import logging
 import os
 
 from cdds import __version__
+from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.request import read_request
 from cdds.extract.common import stream_file_template
@@ -19,7 +20,6 @@ from cdds.extract.spice import run_extract_spice_batch_job
 from cdds.extract.halo_removal import dehalo_multiple_files
 from hadsdk.arguments import read_default_arguments
 from hadsdk.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
-from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from hadsdk.common import configure_logger, common_command_line_args, root_dir_args
 
 COMPONENT = 'extract'

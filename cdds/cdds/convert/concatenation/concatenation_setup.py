@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 CMOR netCDF file aggregation routines
@@ -17,13 +17,13 @@ import os
 import re
 import sqlite3
 
+from cdds.common.constants import LOG_TIMESTAMP_FORMAT, TIME_UNIT
 from cdds.common.plugins.plugins import PluginStore
 from cdds.convert.constants import (CMOR_FILENAME_PATTERN,
                                     TASK_STATUS_NOT_STARTED)
 from cdds.convert.exceptions import ArgumentError
 from cdds.convert.organise_files import construct_expected_concat_config
 from hadsdk.common import configure_logger
-from hadsdk.constants import LOG_TIMESTAMP_FORMAT, TIME_UNIT
 
 
 def organise_concatenations(reference_date, start_date, end_date,

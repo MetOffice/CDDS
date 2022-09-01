@@ -8,12 +8,12 @@ import os
 
 from configparser import NoSectionError, NoOptionError
 
-from hadsdk.common import construct_string_from_facet_string
-from hadsdk.configuration.python_config import PythonConfig
-from hadsdk.constants import (
+from cdds.common.constants import (
     DATA_DIR_FACET_STRING, INPUT_DATA_DIRECTORY, LOG_DIRECTORY,
     OUTPUT_DATA_DIRECTORY, PROC_DIRECTORY_FACET_STRING,
     REQUESTED_VARIABLES_LIST_FACET_STRING)
+from hadsdk.common import construct_string_from_facet_string
+from hadsdk.configuration.python_config import PythonConfig
 
 
 def load_override_values(read_path):

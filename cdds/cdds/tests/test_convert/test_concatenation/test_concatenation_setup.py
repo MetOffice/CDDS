@@ -18,6 +18,7 @@ try:
 except ImportError:
     from netcdftime import datetime
 
+from cdds.common.constants import TIME_UNIT
 import cdds.convert.concatenation.concatenation_setup
 from cdds.convert.concatenation.concatenation_setup import (
     get_file_frequency_shape, get_reinitialisation_period,
@@ -25,7 +26,6 @@ from cdds.convert.concatenation.concatenation_setup import (
     load_concatenation_setup_config)
 from cdds.common.plugins.plugins import PluginStore, CddsPlugin
 from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
-from hadsdk.constants import TIME_UNIT
 
 from hadsdk.common import run_command
 from unittest import mock

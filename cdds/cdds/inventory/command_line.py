@@ -9,16 +9,15 @@ import logging
 import os
 import shutil
 
+from cdds.common.constants import INVENTORY_DB_FILENAME, INVENTORY_FACET_LIST
 from cdds.inventory.db_models import (get_row_id_by_column_value, execute_insert_query, populate_dataset_dictionary,
                                       setup_db)
 from cdds.inventory.dao import DBVariableStatus
-from hadsdk.mass import mass_list_dir, mass_list_files_recursively
 
 from hadsdk import __version__
 from hadsdk.arguments import read_default_arguments
 from hadsdk.common import configure_logger, common_command_line_args, get_log_datestamp, mass_output_args
-from hadsdk.constants import INVENTORY_DB_FILENAME, INVENTORY_FACET_LIST
-
+from hadsdk.mass import mass_list_dir, mass_list_files_recursively
 
 JASMIN_STATUS_MAP = {
     'completed': DBVariableStatus.AVAILABLE,

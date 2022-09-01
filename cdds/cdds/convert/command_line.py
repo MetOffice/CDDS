@@ -16,10 +16,10 @@ from hadsdk.common import (configure_logger, common_command_line_args,
 from hadsdk.config import (update_arguments_for_proc_dir,
                            update_arguments_paths,
                            update_log_dir)
-from hadsdk.constants import (REQUIRED_KEYS_FOR_PROC_DIRECTORY,
-                              DATESTAMP_TEMPLATE, DATESTAMP_PARSER_STR)
 
 from cdds import __version__, _DEV
+from cdds.common.constants import (REQUIRED_KEYS_FOR_PROC_DIRECTORY,
+                                   DATESTAMP_TEMPLATE, DATESTAMP_PARSER_STR)
 from cdds.common.request import read_request
 from cdds.convert.arguments import update_user_config_data_files
 from cdds.convert.exceptions import (OrganiseEnvironmentError,

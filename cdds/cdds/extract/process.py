@@ -11,12 +11,10 @@ import datetime
 import logging
 from operator import itemgetter
 
+from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.streams import StreamAttributes
 from cdds.common.request import read_request
-from hadsdk.config import FullPaths
-from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
-
 from cdds.extract.common import (
     build_mass_location, process_info, exit_nicely, create_dir,
     check_moo_cmd, run_moo_cmd, file_accessible, file_count,
@@ -25,6 +23,7 @@ from cdds.extract.common import (
 from cdds.extract.constants import GROUP_FOR_DIRECTORY_CREATION, STREAMDIR_PERMISSIONS
 from cdds.extract.filters import FilterFileException
 from cdds.extract.variables import Variables
+from hadsdk.config import FullPaths
 
 
 class Process(object):
