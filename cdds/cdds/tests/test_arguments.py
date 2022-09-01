@@ -9,7 +9,7 @@ import os
 import unittest
 
 from cdds.common.constants import PACKAGE_KEY_FOR_ARGUMENTS
-from hadsdk.arguments import retrieve_script_arguments, Arguments
+from cdds.arguments import retrieve_script_arguments, Arguments
 
 
 class TestRetrieveScriptArguments(unittest.TestCase):

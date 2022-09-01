@@ -41,7 +41,7 @@ class ConvertProcess(object):
         Constructor for the ConvertProcess class.
         Parameters
         ----------
-        arguments: :class:`hadsdk.arguments.Arguments` object
+        arguments: :class:`cdds.arguments.Arguments` object
             The arguments specific to the `cdds_convert` script.
         """
 

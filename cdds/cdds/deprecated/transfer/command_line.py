@@ -9,7 +9,7 @@ import logging
 import os
 import sys
 
-from hadsdk.arguments import read_default_arguments
+from cdds.arguments import read_default_arguments
 from cdds.common import configure_logger, common_command_line_args, check_directory
 from cdds.deprecated.config import use_proc_dir, update_arguments_paths, update_log_dir
 
@@ -123,7 +123,7 @@ def parse_transfer_common_args(arguments, description, script_name):
 
     Returns
     -------
-    : :class:`hadsdk.arguments.Arguments`
+    : :class:`cdds.arguments.Arguments`
     """
     user_arguments = arguments
     arguments = read_default_arguments(PACKAGE, script_name)
@@ -190,7 +190,7 @@ def check_args_move_in_mass(arguments):
 
     Returns
     -------
-    : :class:`hadsdk.arguments.Arguments`
+    : :class:`cdds.arguments.Arguments`
     """
     user_arguments = arguments
     arguments = read_default_arguments(PACKAGE, 'move_in_mass')

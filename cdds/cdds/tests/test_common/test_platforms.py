@@ -24,8 +24,8 @@ class TestSystem(TestCase):
 
     def test_jasmin_package_args_file(self):
         system = System(Facility.JASMIN)
-        package_args_file = system.default_package_args_file('hadsdk')
-        self.assertEndsWith(package_args_file, 'hadsdk/arguments.json')
+        package_args_file = system.default_package_args_file('cdds')
+        self.assertEndsWith(package_args_file, 'cdds/arguments.json')
 
     def test_jasmin_global_args_file(self):
         system = System(Facility.JASMIN)
@@ -34,8 +34,8 @@ class TestSystem(TestCase):
 
     def test_metoffice_package_args_file(self):
         system = System(Facility.MET_OFFICE)
-        package_args_file = system.default_package_args_file('hadsdk')
-        self.assertEndsWith(package_args_file, 'hadsdk/arguments.json')
+        package_args_file = system.default_package_args_file('cdds')
+        self.assertEndsWith(package_args_file, 'cdds/arguments.json')
 
     def test_metoffice_global_args_file(self):
         system = System(Facility.MET_OFFICE)

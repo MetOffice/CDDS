@@ -6,7 +6,7 @@ import os
 
 from cdds.common.constants import INVENTORY_DB_FILENAME, INVENTORY_FACET_LIST
 from cdds.inventory.inventory_search.search import perform_user_query
-from hadsdk.arguments import read_default_arguments
+from cdds.arguments import read_default_arguments
 
 
 def main_user_search():

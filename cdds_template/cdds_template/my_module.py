@@ -38,7 +38,7 @@ def my_function(arguments):
 
     Parameters
     ----------
-    arguments: :class:`hadsdk.arguments.Arguments` object
+    arguments: :class:`cdds.arguments.Arguments` object
         The arguments specific to the `my_script` script.
 
     Raises

@@ -7,7 +7,7 @@ import tempfile
 import os
 import unittest
 
-from hadsdk.arguments import read_argument_files
+from cdds.arguments import read_argument_files
 from cdds.prepare.request_file.command_line import main_write_rose_suite_request_json
 from unittest.mock import patch
 from unittest import TestCase
@@ -34,7 +34,7 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
     def setUp(self):
         logging.disable(logging.CRITICAL)
 
-        default_global_arguments = read_argument_files('hadsdk')
+        default_global_arguments = read_argument_files('cdds')
         self.root_mip_table = default_global_arguments[0]['root_mip_table_dir']
         self.data_request_version = default_global_arguments[0]['data_request_version']
         mip_table_dir = os.path.join(self.root_mip_table, self.data_request_version)

@@ -20,7 +20,7 @@ from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 
-from hadsdk.arguments import read_default_arguments
+from cdds.arguments import read_default_arguments
 from cdds.common import set_checksum
 
 from cdds.common.request import Request

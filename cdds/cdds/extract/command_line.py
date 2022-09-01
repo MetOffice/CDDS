@@ -18,7 +18,7 @@ from cdds.extract.lang import set_language
 from cdds.extract.runner import ExtractRunner
 from cdds.extract.spice import run_extract_spice_batch_job
 from cdds.extract.halo_removal import dehalo_multiple_files
-from hadsdk.arguments import read_default_arguments
+from cdds.arguments import read_default_arguments
 from cdds.deprecated.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
 from cdds.common import configure_logger, common_command_line_args, root_dir_args
 
@@ -44,7 +44,7 @@ def parse_cdds_extract_command_line(user_arguments):
 
     Returns
     -------
-    : :class:`hadsdk.arguments.Arguments` object
+    : :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated values.
     """
     arguments = read_default_arguments('cdds.extract', 'cdds_extract')
@@ -147,7 +147,7 @@ def parse_remove_ocean_haloes_command_line(user_arguments):
 
     Returns
     -------
-    : :class:`hadsdk.arguments.Arguments` object
+    : :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated values.
     """
     arguments = read_default_arguments('extract', 'remove_ocean_haloes')

@@ -8,7 +8,7 @@ import argparse
 import logging
 import os
 
-from hadsdk.arguments import read_default_arguments
+from cdds.arguments import read_default_arguments
 from cdds.common import (
     configure_logger, common_command_line_args, check_directory, check_file, root_dir_args)
 from cdds.deprecated.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
@@ -175,7 +175,7 @@ def parse_create_cdds_directory_structure_args(arguments):
 
     Returns
     -------
-    : :class:`hadsdk.arguments.Arguments` object
+    : :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated
         values.
     """
@@ -226,7 +226,7 @@ def parse_generate_args(arguments):
 
     Returns
     -------
-    : :class:`hadsdk.arguments.Arguments` object
+    : :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated
         values.
     """
@@ -344,7 +344,7 @@ def parse_alter_args(arguments):
 
     Returns
     -------
-    : :class:`hadsdk.arguments.Arguments` object
+    : :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated
         values.
     """

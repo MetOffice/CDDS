@@ -34,7 +34,7 @@ def store_mip_output_data(arguments):
 
     Parameters
     ----------
-    arguments: :class:`hadsdk.arguments.Arguments` object
+    arguments: :class:`cdds.arguments.Arguments` object
         The arguments specific to the `cdds_store` script.
     """
     # Retrieve the logger.

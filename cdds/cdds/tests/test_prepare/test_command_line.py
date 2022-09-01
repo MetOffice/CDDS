@@ -19,7 +19,7 @@ from cdds.common.io import write_json
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.variables import RequestedVariablesList
 
-from hadsdk.arguments import Arguments
+from cdds.arguments import Arguments
 from cdds.common import set_checksum
 
 from unittest.mock import patch

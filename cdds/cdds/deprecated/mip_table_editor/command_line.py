@@ -6,7 +6,7 @@ import logging
 
 from cdds.deprecated.mip_table_editor.mip_tables import ControlledVocabulary, MipTableVariable, MipTable
 
-from hadsdk.arguments import read_default_arguments
+from cdds.arguments import read_default_arguments
 from cdds.common import configure_logger, common_command_line_args
 
 from hadsdk import __version__
@@ -116,7 +116,7 @@ def parse_args(arguments):
     """
 
     user_arguments = arguments
-    arguments = read_default_arguments('hadsdk', 'mip_table_editor')
+    arguments = read_default_arguments('cdds', 'mip_table_editor')
     parser = argparse.ArgumentParser(prog='A command line tool for modifying Mip Tables and the Controlled Vocabulary.',
                                      epilog=EPILOG_TEXT,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)

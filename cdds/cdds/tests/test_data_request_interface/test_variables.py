@@ -8,7 +8,7 @@ import unittest
 
 from nose.plugins.attrib import attr
 from cdds.common.plugins.plugin_loader import load_plugin
-from hadsdk.arguments import read_default_arguments
+from cdds.arguments import read_default_arguments
 from cdds.data_request_interface.load import (DataRequestWrapper,
                                               ExperimentNotFoundError)
 from cdds.data_request_interface.variables import (

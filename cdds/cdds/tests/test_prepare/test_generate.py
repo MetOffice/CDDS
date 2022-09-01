@@ -18,7 +18,7 @@ from cdds.data_request_interface.load import DataRequestWrapper
 from cdds.prepare.data_request import (list_variables_for_experiment)
 from cdds.prepare.generate import BaseVariablesConstructor
 from cdds.tests.test_prepare.stubs import VariableParametersStub
-from hadsdk.arguments import read_default_arguments, Arguments
+from cdds.arguments import read_default_arguments, Arguments
 from cdds.common import configure_logger
 from hadsdk.tests.common import DummyMapping
 

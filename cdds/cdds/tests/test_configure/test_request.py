@@ -7,7 +7,7 @@ Tests for :mod:`request.py`.
 from collections import OrderedDict
 import unittest
 
-from hadsdk.arguments import read_default_arguments
+from cdds.arguments import read_default_arguments
 
 from cdds.common.request import Request
 from cdds.configure.request import (

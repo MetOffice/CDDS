@@ -6,7 +6,7 @@ import logging
 import os
 
 from netCDF4 import Dataset
-from hadsdk.arguments import read_default_arguments
+from cdds.arguments import read_default_arguments
 from cdds.common import (configure_logger, common_command_line_args,
                          check_directory, meta_dir_args, root_dir_args)
 from cdds.deprecated.config import FullPaths, update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
@@ -76,7 +76,7 @@ def parse_args(arguments):
 
     Returns
     -------
-    : :class:`hadsdk.arguments.Arguments` object
+    : :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated
         values.
     : :class:`cdds.common.request.Request` object
@@ -156,7 +156,7 @@ def run_and_report(args, request):
 
     Parameters
     ----------
-    args: hadsdk.arguments.Arguments
+    args: cdds.arguments.Arguments
         The names of the command line arguments and their validated
         values.
     request: cdds.common.request.Request

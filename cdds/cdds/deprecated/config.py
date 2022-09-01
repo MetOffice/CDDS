@@ -50,14 +50,14 @@ def update_arguments_paths(arguments, additional_paths_ids=[]):
 
     Parameters
     ----------
-    arguments: :class:`hadsdk.arguments.Arguments`
+    arguments: :class:`cdds.arguments.Arguments`
         arguments object that contains paths that should be updated
     additional_paths_ids: list of path ids (optional)
         ids of path attributes that should be updated, too
 
     Returns
     -------
-    : :class:`hadsdk.arguments.Arguments`
+    : :class:`cdds.arguments.Arguments`
         arguments object that contains updated paths
     """
     global_path_ids = [
@@ -96,7 +96,7 @@ def update_arguments_for_proc_dir(arguments, request, component):
 
     Returns
     -------
-    : :class:`hadsdk.arguments.Arguments`
+    : :class:`cdds.arguments.Arguments`
         The arguments updated to use the proc directory.
     """
     # Determine the full paths to any inputs.
@@ -126,7 +126,7 @@ def update_log_dir(arguments, component):
 
     Returns
     -------
-     : :class:`hadsdk.arguments.Arguments`
+     : :class:`cdds.arguments.Arguments`
         The arguments updated to the full path of the log file if a log
         directory can be found.
     """

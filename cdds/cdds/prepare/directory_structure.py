@@ -20,7 +20,7 @@ def create_cdds_directory_structure(arguments):
 
     Parameters
     ----------
-    arguments: :class:`hadsdk.arguments.Arguments` object
+    arguments: :class:`cdds.arguments.Arguments` object
         The arguments specific to the `create_cdds_directory_structure` script.
     """
     logger = logging.getLogger(__name__)

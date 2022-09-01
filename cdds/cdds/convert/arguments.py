@@ -24,7 +24,7 @@ def update_user_config_data_files(arguments, request):
 
     Returns
     -------
-    : :class:`hadsdk.arguments.Arguments` object
+    : :class:`cdds.arguments.Arguments` object
         The updated names of the command line arguments and their validated values
     """
     ancil_files = get_ancil_files(arguments, request.model_id)

@@ -15,7 +15,7 @@ from cdds.inventory.db_models import (get_row_id_by_column_value, execute_insert
 from cdds.inventory.dao import DBVariableStatus
 
 from hadsdk import __version__
-from hadsdk.arguments import read_default_arguments
+from cdds.arguments import read_default_arguments
 from cdds.common import configure_logger, common_command_line_args, get_log_datestamp, mass_output_args
 from hadsdk.mass import mass_list_dir, mass_list_files_recursively
 
@@ -74,12 +74,12 @@ def parse_args(arguments):
 
     Returns
     -------
-    : :class:`hadsdk.arguments.Arguments`
+    : :class:`cdds.arguments.Arguments`
         The names of the command line arguments and their validated
         values.
     """
     user_arguments = arguments
-    arguments = read_default_arguments('hadsdk', 'populate_inventory')
+    arguments = read_default_arguments('cdds', 'populate_inventory')
     parser = argparse.ArgumentParser(
         description=__doc__.replace('|', ''),
         formatter_class=argparse.RawDescriptionHelpFormatter)

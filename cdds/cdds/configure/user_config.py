@@ -27,7 +27,7 @@ def produce_user_config_files(arguments):
 
     Parameters
     ----------
-    arguments: :class:`cdds.configure.hadsdk.arguments.ConfigureArguments`
+    arguments: :class:`cdds.configure.cdds.arguments.ConfigureArguments`
         The arguments specific to the `configure` script.
     """
     # Read and validate the information from the request.

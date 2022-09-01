@@ -28,11 +28,11 @@ def read_default_arguments(package_name, script_name, return_class=None):
     script_name: str
         The name of the command line script.
     return_class: function (optional)
-        The desired returned class if this one is NONE then use `hadsdk.arguments.Arguments`
+        The desired returned class if this one is NONE then use `cdds.arguments.Arguments`
 
     Returns
     -------
-    : :class: extends from `hadsdk.arguments.Arguments`
+    : :class: extends from `cdds.arguments.Arguments`
         The default arguments.
     """
     default_global_args, default_package_and_script_args = read_argument_files(

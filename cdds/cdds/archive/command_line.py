@@ -8,7 +8,7 @@ command line scripts in the ``bin`` directory.
 import argparse
 import logging
 
-from hadsdk.arguments import read_default_arguments
+from cdds.arguments import read_default_arguments
 from cdds.common import (
     configure_logger, common_command_line_args, check_directory,
     root_dir_args, mass_output_args)
@@ -121,7 +121,7 @@ def parse_args_store(user_arguments, script_name):
 
     Returns
     -------
-    : :class:`hadsdk.arguments.Arguments` object
+    : :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated
         values.
     """

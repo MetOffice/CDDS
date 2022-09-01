@@ -52,7 +52,7 @@ def run_cdds_convert(arguments, rose_args):
 
     Parameters
     ----------
-    arguments: :class:`hadsdk.arguments.Arguments` object
+    arguments: :class:`cdds.arguments.Arguments` object
         The arguments specific to the `cdds_convert` script.
     rose_args: list
         List of string objects that will be passed as arguments to the
@@ -87,7 +87,7 @@ def run_generate_user_config_files(arguments):
 
     Parameters
     ----------
-    arguments: :class:`hadsdk.arguments.Arguments` object
+    arguments: :class:`cdds.arguments.Arguments` object
         The arguments specific to the `cdds_convert` script.
     """
     requested_variables_file = arguments.requested_variables_list_file

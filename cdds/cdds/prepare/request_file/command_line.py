@@ -11,7 +11,7 @@ import logging
 from cdds import __version__
 from cdds.prepare.request_file.models import RoseSuiteArguments
 from cdds.prepare.request_file.request import RoseSuiteRequestManager
-from hadsdk.arguments import read_default_arguments
+from cdds.arguments import read_default_arguments
 from cdds.common import configure_logger, common_command_line_args, check_directory
 from cdds.deprecated.config import update_arguments_paths
 
@@ -127,7 +127,7 @@ def _read_user_arguments():
         The names of the command line arguments and their validated
         values and the corresponding argument parser
     """
-    arguments = read_default_arguments('hadsdk', 'write_rose_suite_request_json', RoseSuiteArguments)
+    arguments = read_default_arguments('cdds', 'write_rose_suite_request_json', RoseSuiteArguments)
     parser = argparse.ArgumentParser(description=DESCRIPTION_ARGUMENTS,
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 

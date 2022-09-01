@@ -10,7 +10,7 @@ import os
 from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
 
-from hadsdk.arguments import read_argument_files, retrieve_script_arguments, Arguments
+from cdds.arguments import read_argument_files, retrieve_script_arguments, Arguments
 
 
 def read_configure_arguments(script_name):
