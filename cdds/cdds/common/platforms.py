@@ -7,7 +7,7 @@ import os
 import importlib
 import socket
 
-import hadsdk
+import cdds
 
 from enum import Enum
 
@@ -60,7 +60,7 @@ class System:
             Path to the global arguments file.
         """
         hadsdk_dir = os.path.dirname(
-            os.path.abspath(hadsdk.__file__)
+            os.path.abspath(cdds.__file__)
         )
         global_args_filename = self.GLOBAL_ARGS_FILENAMES[self.facility]
         return os.path.join(hadsdk_dir, global_args_filename)
