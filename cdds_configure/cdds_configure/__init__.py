@@ -7,6 +7,6 @@ The CDDS Configure package enables a user to produce the
 from cdds_configure.versions import get_version
 
 
-_DEV = False
-_NUMERICAL_VERSION = '2.3.2'
+_DEV = True
+_NUMERICAL_VERSION = '2.3.3'
 __version__ = get_version('cdds_configure')
