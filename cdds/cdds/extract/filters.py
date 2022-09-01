@@ -14,7 +14,7 @@ import re
 from cdds.common.mappings.mapping import ModelToMip
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
-from hadsdk.common import netCDF_regexp, run_command
+from cdds.common import netCDF_regexp, run_command
 from cdds.extract.common import (byteify, get_stash, moose_date, run_moo_cmd,
                                  check_moo_cmd, get_bounds_variables,
                                  calculate_period)

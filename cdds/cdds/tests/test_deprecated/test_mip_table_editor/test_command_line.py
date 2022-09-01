@@ -54,7 +54,7 @@ class TestCVActions(unittest.TestCase):
         if isfile(self.log_file_path):
             remove(self.log_file_path)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_add(self, mock_editor, mock_log_datestamp):
         """
@@ -92,7 +92,7 @@ class TestCVActions(unittest.TestCase):
         self.assertDictEqual(good_dict, test_dict)
         self.assertEqual(True, result)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_clone(self, mock_editor, mock_log_datestamp):
         """
@@ -132,7 +132,7 @@ class TestCVActions(unittest.TestCase):
         self.assertDictEqual(good_dict, test_dict)
         self.assertEqual(True, result)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_modify(self, mock_editor, mock_log_datestamp):
         """
@@ -168,7 +168,7 @@ class TestCVActions(unittest.TestCase):
         self.assertDictEqual(good_dict, test_dict)
         self.assertEqual(True, result)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     def test_dict_remove(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_date
         # Set path to a known good output.
@@ -227,7 +227,7 @@ class TestMipTableVariableActions(unittest.TestCase):
         if isfile(self.log_file_path):
             remove(self.log_file_path)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_add(self, mock_editor, mock_log_datestamp):
         """
@@ -274,7 +274,7 @@ class TestMipTableVariableActions(unittest.TestCase):
         self.assertDictEqual(good_dict, test_dict)
         self.assertEqual(True, result)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_clone(self, mock_editor, mock_log_datestamp):
         """
@@ -321,7 +321,7 @@ class TestMipTableVariableActions(unittest.TestCase):
         self.assertDictEqual(good_dict, test_dict)
         self.assertEqual(True, result)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_modify(self, mock_editor, mock_log_datestamp):
         """
@@ -368,7 +368,7 @@ class TestMipTableVariableActions(unittest.TestCase):
         self.assertDictEqual(good_dict, test_dict)
         self.assertEqual(True, result)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     def test_dict_remove(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_date
         # Set path to a known good output.

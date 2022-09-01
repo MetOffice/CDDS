@@ -14,7 +14,7 @@ from scipy.spatial import distance
 import iris
 from iris.fileformats.pp import STASH
 
-from hadsdk.common import DATE_TIME_REGEX
+from cdds.common import DATE_TIME_REGEX
 from cdds.common.constants import ANCIL_VARIABLES
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType

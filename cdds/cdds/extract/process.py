@@ -531,7 +531,7 @@ class Process(object):
             a set of short stash codes appearing in filters
         substreams: list
             list of substreams
-        validation_result: hadsdk.common.StreamValidationResult
+        validation_result: cdds.common.StreamValidationResult
             An object to hold results from the stream validation
         """
 
@@ -556,7 +556,7 @@ class Process(object):
             Stream description dictionary.
         substreams: list
             List of expected substreams.
-        validation_result: hadsdk.common.StreamValidationResult
+        validation_result: cdds.common.StreamValidationResult
             An object to hold results from the stream validation
         """
         logger = logging.getLogger(__name__)
@@ -586,7 +586,7 @@ class Process(object):
         stash_codes: set
             A set of unique |STASH| codes that the set of files will
             be validated against.
-        validation_result: hadsdk.common.StreamValidationResult
+        validation_result: cdds.common.StreamValidationResult
             An object to hold results from the stream validation
         """
         logger = logging.getLogger(__name__)
@@ -603,7 +603,7 @@ class Process(object):
         ----------
         path: str
             Path pointing to the location of |netCDF| dataset.
-        validation_result: hadsdk.common.StreamValidationResult
+        validation_result: cdds.common.StreamValidationResult
             An object to hold results from the stream validation
         """
         logger = logging.getLogger(__name__)

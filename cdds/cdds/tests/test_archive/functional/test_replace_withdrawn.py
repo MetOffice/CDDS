@@ -28,7 +28,7 @@ class TestStoreReplaceWithdrawn(StoreTestCase):
                 CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/embargoed/v20190726/
     """
 
-    @mock.patch('hadsdk.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
+    @mock.patch('cdds.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
     def test_transfer_functional_usecase4_replace_withdrawn(self, mock_log_datestamp):
         test_data = TestData(
             number_variables=8,

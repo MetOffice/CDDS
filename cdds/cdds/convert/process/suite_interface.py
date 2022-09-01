@@ -12,7 +12,7 @@ from cdds.convert.exceptions import (SuiteCheckoutError,
                                      SuiteConfigMissingValueError,
                                      SuiteSubmissionError,
                                      SuiteShutdownError)
-from hadsdk.common import run_command
+from cdds.common import run_command
 
 
 def check_svn_location(svn_url):

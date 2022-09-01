@@ -9,7 +9,7 @@ import unittest
 
 from unittest.mock import patch
 
-from hadsdk.common import configure_logger
+from cdds.common import configure_logger
 from cdds.common.spice import get_email_of_current_user
 
 # The following is the output of the "getent aliases" command.

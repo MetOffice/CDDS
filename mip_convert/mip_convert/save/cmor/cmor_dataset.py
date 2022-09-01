@@ -11,7 +11,7 @@ import os
 import regex as re
 from tempfile import mkstemp
 
-from hadsdk.common import VARIANT_LABEL_FORMAT
+from cdds.common import VARIANT_LABEL_FORMAT
 
 from mip_convert import model_date
 

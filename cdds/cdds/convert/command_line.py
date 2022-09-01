@@ -11,8 +11,8 @@ from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.plugins import PluginStore
 
 from hadsdk.arguments import read_default_arguments
-from hadsdk.common import (configure_logger, common_command_line_args,
-                           root_dir_args, mass_output_args, check_directory)
+from cdds.common import (configure_logger, common_command_line_args,
+                         root_dir_args, mass_output_args, check_directory)
 from cdds.deprecated.config import (update_arguments_for_proc_dir,
                                     update_arguments_paths,
                                     update_log_dir)

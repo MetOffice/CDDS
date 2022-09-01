@@ -27,7 +27,7 @@ from cdds.convert.concatenation.concatenation_setup import (
 from cdds.common.plugins.plugins import PluginStore, CddsPlugin
 from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
 
-from hadsdk.common import run_command
+from cdds.common import run_command
 from unittest import mock
 
 MINIMAL_CDL = '''

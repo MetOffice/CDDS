@@ -5,7 +5,7 @@ import os
 import tempfile
 
 from hadsdk.configuration import rose_config
-from hadsdk.common import run_command
+from cdds.common import run_command
 from hadsdk.configuration.cv_config import CVConfig
 
 

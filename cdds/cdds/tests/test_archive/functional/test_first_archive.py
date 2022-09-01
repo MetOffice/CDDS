@@ -22,7 +22,7 @@ class TestStoreFirstArchive(StoreTestCase):
                 CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/embargoed/v20190722/
     """
 
-    @mock.patch('hadsdk.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
+    @mock.patch('cdds.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
     def test_transfer_functional_usecase1_first_archive(self, mock_log_datestamp):
         test_data = TestData(
             number_variables=8,
@@ -46,7 +46,7 @@ class TestStoreFirstArchive(StoreTestCase):
         self.assertSize(log_file.moo_put_cmds(), test_data.number_variables)
         self.assertSize(log_file.critical(), 0)
 
-    @mock.patch('hadsdk.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
+    @mock.patch('cdds.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
     def test_transfer_functional_usecase1_first_archive_single_stream(self, mock_log_datestamp):
         test_data = TestData(
             number_variables=4,

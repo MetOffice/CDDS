@@ -9,7 +9,7 @@ import argparse
 import logging
 
 from hadsdk.arguments import read_default_arguments
-from hadsdk.common import (
+from cdds.common import (
     configure_logger, common_command_line_args, check_directory,
     root_dir_args, mass_output_args)
 from cdds.deprecated.config import update_arguments_for_proc_dir, update_log_dir

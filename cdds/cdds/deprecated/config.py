@@ -12,7 +12,7 @@ from cdds.common.constants import (
     DATA_DIR_FACET_STRING, INPUT_DATA_DIRECTORY, LOG_DIRECTORY,
     OUTPUT_DATA_DIRECTORY, PROC_DIRECTORY_FACET_STRING,
     REQUESTED_VARIABLES_LIST_FACET_STRING)
-from hadsdk.common import construct_string_from_facet_string
+from cdds.common import construct_string_from_facet_string
 from hadsdk.configuration.python_config import PythonConfig
 
 
@@ -147,7 +147,7 @@ class FullPaths(object):
         """
         Construct the full paths using the arguments and the information
         from the request. See also
-        :func:`hadsdk.common.construct_string_from_facet_string`.
+        :func:`cdds.common.construct_string_from_facet_string`.
 
         Parameters
         ----------
@@ -358,7 +358,7 @@ class CDDSConfigGeneral(PythonConfig):
         request: :class:`cdds.common.request.Request`
             The items required to construct the full paths to the
             data and proc directories, see
-            :func:`hadsdk.common.construct_string_from_facet_string`.
+            :func:`cdds.common.construct_string_from_facet_string`.
         """
         self._root_config_directory = root_config_directory
         self.request = request

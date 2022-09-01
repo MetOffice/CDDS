@@ -14,7 +14,7 @@ from cdds.prepare.pretty_print.constants import HEADER_FIELDS
 from cdds.prepare.pretty_print.pretty_print import CsvPrinter
 from hadsdk import __version__
 from hadsdk.arguments import read_default_arguments
-from hadsdk.common import configure_logger, common_command_line_args, check_directory
+from cdds.common import configure_logger, common_command_line_args, check_directory
 from cdds.deprecated.config import update_arguments_paths
 
 

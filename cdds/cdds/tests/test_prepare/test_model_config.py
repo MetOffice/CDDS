@@ -1020,7 +1020,7 @@ class TestCreateOceanEnabled(unittest.TestCase):
         self.assertEqual(expected_iodef_dict, output_iodef_dict)
 
     @patch('cdds.prepare.model_config.run_command')
-    @patch('hadsdk.common.determine_rose_suite_url')
+    @patch('cdds.common.determine_rose_suite_url')
     @patch('tempfile.mkdtemp')
     def test_export_file_from_suite(self, patch_mkdtemp, mock_det_suite_url,
                                     mock_run_cmd):

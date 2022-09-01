@@ -7,7 +7,7 @@ import logging
 import os
 
 from cdds.common.constants import SCRIPT_TEMPLATE, PRINT_STACK_TRACE
-from hadsdk.common import run_command
+from cdds.common import run_command
 
 
 def write_spice_job_script(job_script, substitutions):

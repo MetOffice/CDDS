@@ -23,7 +23,7 @@ from cdds.convert.constants import (CMOR_FILENAME_PATTERN,
                                     TASK_STATUS_NOT_STARTED)
 from cdds.convert.exceptions import ArgumentError
 from cdds.convert.organise_files import construct_expected_concat_config
-from hadsdk.common import configure_logger
+from cdds.common import configure_logger
 
 
 def organise_concatenations(reference_date, start_date, end_date,

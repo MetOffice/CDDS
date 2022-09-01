@@ -10,7 +10,7 @@ import logging
 
 from abc import ABCMeta, abstractmethod
 from cdds.common.io import write_json
-from hadsdk.common import set_checksum
+from cdds.common import set_checksum
 from cdds.deprecated.config import FullPaths
 
 from cdds import __version__

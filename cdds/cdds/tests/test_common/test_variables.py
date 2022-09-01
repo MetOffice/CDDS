@@ -11,7 +11,7 @@ import unittest
 
 from unittest.mock import patch
 
-from hadsdk.common import set_checksum
+from cdds.common import set_checksum
 from cdds.common.variables import RequestedVariablesList
 
 

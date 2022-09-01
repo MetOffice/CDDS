@@ -19,7 +19,7 @@ from cdds.common.plugins.plugins import PluginStore
 
 from hadsdk.configuration.rose_config import load as config_load
 
-from hadsdk.common import check_svn_location, determine_rose_suite_url, run_command
+from cdds.common import check_svn_location, determine_rose_suite_url, run_command
 
 from cdds.prepare.constants import (CICE_HISTFREQ_FOR_VALIDATION,
                                     CICE_VARIABLE_REMAP, MODEL_TYPE_MAP,

@@ -20,7 +20,7 @@ from cdds.extract.spice import run_extract_spice_batch_job
 from cdds.extract.halo_removal import dehalo_multiple_files
 from hadsdk.arguments import read_default_arguments
 from cdds.deprecated.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
-from hadsdk.common import configure_logger, common_command_line_args, root_dir_args
+from cdds.common import configure_logger, common_command_line_args, root_dir_args
 
 COMPONENT = 'extract'
 

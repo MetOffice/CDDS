@@ -19,7 +19,7 @@ from configparser import ConfigParser
 from cdds.convert.constants import ORGANISE_FILES_ENV_VARS
 from cdds.convert.exceptions import (
     OrganiseEnvironmentError, OrganiseTransposeError)
-from hadsdk.common import configure_logger
+from cdds.common import configure_logger
 
 
 def construct_expected_concat_config():

@@ -13,7 +13,7 @@ import shutil
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.mappings.mapping import ModelToMip
 
-from hadsdk.common import (determine_rose_suite_url, configure_logger)
+from cdds.common import (determine_rose_suite_url, configure_logger)
 from cdds.deprecated.config import FullPaths
 from hadsdk.configuration.python_config import PythonConfig
 

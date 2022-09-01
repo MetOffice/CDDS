@@ -6,11 +6,11 @@ The :mod:`user_config` module defines the information to be read from
 the |user configuration file|.
 """
 from cdds.common.constants import USER_CONFIG_OPTIONS
-from hadsdk.common import (check_run_bounds_format,
-                           check_file, check_files, check_number,
-                           check_date_format,
-                           check_directory,
-                           check_variant_label_format)
+from cdds.common import (check_run_bounds_format,
+                         check_file, check_files, check_number,
+                         check_date_format,
+                         check_directory,
+                         check_variant_label_format)
 
 
 def cmor_setup_config():

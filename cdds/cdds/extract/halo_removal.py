@@ -12,7 +12,7 @@ from cdds.common.plugins.grid import GridType
 
 from cdds.extract.constants import DEHALO_PREFIX
 from cdds.extract.common import validate_netcdf
-from hadsdk.common import run_command
+from cdds.common import run_command
 
 
 def dehalo_single_file(filename, destination_directory, overwrite, model_id):

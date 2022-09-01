@@ -26,7 +26,7 @@ class TestStoreDatestampReuse(StoreTestCase):
         Critical errors for this variable in log file
     """
 
-    @mock.patch('hadsdk.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
+    @mock.patch('cdds.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
     def test_transfer_functional_usecase8_datestamp_reuse(self, mock_log_datestamp):
         test_data = TestData(
             number_variables=1,

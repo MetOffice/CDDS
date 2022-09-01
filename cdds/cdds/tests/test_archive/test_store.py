@@ -16,7 +16,7 @@ import unittest.mock
 from io import StringIO
 from textwrap import dedent
 
-from hadsdk.common import configure_logger
+from cdds.common import configure_logger
 import cdds.archive.store
 from cdds.archive.constants import OUTPUT_FILES_REGEX
 from cdds.common.request import construct_request
@@ -147,7 +147,7 @@ class TestCheckVariableMatch(unittest.TestCase):
         if os.path.isfile(self.log_file_path):
             os.remove(self.log_file_path)
 
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
+    @unittest.mock.patch('cdds.common.get_log_datestamp')
     def test_check_not_matching_variable(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_date
         configure_logger(self.log_name, logging.INFO, False)
@@ -158,7 +158,7 @@ class TestCheckVariableMatch(unittest.TestCase):
         )
         self.assertTrue(self.assert_critical_log())
 
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
+    @unittest.mock.patch('cdds.common.get_log_datestamp')
     def test_check_not_matching_variable(self, mock_log_datestamp):
         match = self.variable_str
         mock_log_datestamp.return_value = self.log_date

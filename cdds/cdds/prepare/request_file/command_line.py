@@ -12,7 +12,7 @@ from cdds import __version__
 from cdds.prepare.request_file.models import RoseSuiteArguments
 from cdds.prepare.request_file.request import RoseSuiteRequestManager
 from hadsdk.arguments import read_default_arguments
-from hadsdk.common import configure_logger, common_command_line_args, check_directory
+from cdds.common import configure_logger, common_command_line_args, check_directory
 from cdds.deprecated.config import update_arguments_paths
 
 

@@ -11,7 +11,7 @@ import os
 import shutil
 import tempfile
 
-from hadsdk.common import construct_string_from_facet_string
+from cdds.common import construct_string_from_facet_string
 from hadsdk.mass import (mass_isdir, mass_mkdir, mass_move, mass_put, mass_rmdir,
                          mass_rm_empty_dirs, mass_test, mass_list_records)
 

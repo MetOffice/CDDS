@@ -16,7 +16,7 @@ from cdds.prepare.request_file.constants import (BASE_DATE,
                                                  CONFIG_VERSION)
 
 from hadsdk.arguments import Arguments
-from hadsdk.common import check_svn_location, determine_rose_suite_url
+from cdds.common import check_svn_location, determine_rose_suite_url
 
 
 class RoseSuiteRequest(Request):

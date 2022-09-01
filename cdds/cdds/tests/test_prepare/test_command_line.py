@@ -20,7 +20,7 @@ from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.variables import RequestedVariablesList
 
 from hadsdk.arguments import Arguments
-from hadsdk.common import set_checksum
+from cdds.common import set_checksum
 
 from unittest.mock import patch
 from nose.plugins.attrib import attr
@@ -90,7 +90,7 @@ class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
         self._write_request(request)
         self._main()
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     def test_create_cdds_directory_structure(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
         request = {
@@ -219,7 +219,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
             additional_parameters += ['--no_auto_deactivation']
         self._main(use_proc_dir, output_dir, max_priority, additional_parameters)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
     def test_main_single_mip(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
@@ -251,7 +251,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         self._run(request, False, None, max_priority)
         self.compare(self.requested_variables_list, reference)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
     def test_main_single_mip_with_auto_deactivation(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
@@ -284,7 +284,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
                   auto_deactivation_file_name=self.auto_deactivation_file)
         self.compare(self.requested_variables_list, reference)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
     def test_main_alternate_experiment_id(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
@@ -319,7 +319,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
                   additional_parameters=['--alternate_data_request_experiment', 'amip-p4K'])
         self.compare(self.requested_variables_list, reference)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
     def test_main_write_to_component_directory(self, mock_log_datestamp):
         # Required keys are REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS,
@@ -413,7 +413,7 @@ class TestPrepareSelect(unittest.TestCase):
             if os.path.isfile(filename):
                 os.remove(filename)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     def test_prepare_select_variables(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
         args = [self.requested_variables_path, ] + self.selected_variables
@@ -527,7 +527,7 @@ class TestMainAlterVariableList(unittest.TestCase):
         # run comparison
         self.assertDictEqual(expected_variable_list, result)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     def test_activate(self, mock_log_datestamp):
         """
         Test the activation of a variable from the command line
@@ -562,7 +562,7 @@ class TestMainAlterVariableList(unittest.TestCase):
     #     main_alter_variable_list(args)
     #     self.check_result()
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     def test_deactivate(self, mock_log_datestamp):
         """
         Test deactivating a variable from the command line
@@ -597,7 +597,7 @@ class TestMainAlterVariableList(unittest.TestCase):
     #     main_alter_variable_list(args)
     #     self.check_result(expected_active=[False])
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     def test_insert(self, mock_log_datestamp):
         """
         Test the insertion of a variable into a variable list

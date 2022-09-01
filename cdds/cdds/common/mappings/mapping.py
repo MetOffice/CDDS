@@ -55,7 +55,7 @@ from cdds.common.mappings.ancils import remove_ancils_from_mapping
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.pp import stash_to_int
 import hadsdk
-from hadsdk.common import check_file, compare_versions
+from cdds.common import check_file, compare_versions
 import mip_convert.request as mip_request
 
 

@@ -21,7 +21,7 @@ from iris.time import PartialDateTime
 from iris.util import equalise_attributes
 import numpy as np
 
-from hadsdk.common import netCDF_regexp
+from cdds.common import netCDF_regexp
 from mip_convert.load.pp import stash_to_int
 from mip_convert.common import (
     PP_TO_CUBE_CONSTRAINTS, replace_coord_points_bounds, check_values_equal,

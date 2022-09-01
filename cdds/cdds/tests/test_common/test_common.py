@@ -12,8 +12,8 @@ import unittest
 import re
 
 from cdds.common.constants import APPROVED_VARS_DATETIME_REGEX, APPROVED_VARS_DATETIME_STREAM_REGEX
-from hadsdk.common import (construct_string_from_facet_string, create_directory,
-                           get_directories, netCDF_regexp, get_most_recent_file, get_most_recent_file_by_stream)
+from cdds.common import (construct_string_from_facet_string, create_directory,
+                         get_directories, netCDF_regexp, get_most_recent_file, get_most_recent_file_by_stream)
 
 
 class TestCreateDirectory(unittest.TestCase):
@@ -252,7 +252,7 @@ class TestNetcdfRegexp(unittest.TestCase):
 
 class TestGetRecentFile(unittest.TestCase):
     """
-    Test the hadsdk.common.get_most_recent_file function.
+    Test the cdds.common.get_most_recent_file function.
     """
 
     def setUp(self):
@@ -306,7 +306,7 @@ class TestGetRecentFile(unittest.TestCase):
 
 class TestGetRecentFileByStream(unittest.TestCase):
     """
-    Test the hadsdk.common.get_most_recent_file_by_stream function.
+    Test the cdds.common.get_most_recent_file_by_stream function.
     """
 
     def setUp(self):
@@ -355,7 +355,7 @@ class TestGetRecentFileByStream(unittest.TestCase):
 
 class TestConstructStringFromFacetString(unittest.TestCase):
     """
-    Test hadsdk.common.construct_string_from_facet_string
+    Test cdds.common.construct_string_from_facet_string
     """
     def setUp(self):
         self.facet_values = {'project': 'CMIP', 'experiment': 'amip',

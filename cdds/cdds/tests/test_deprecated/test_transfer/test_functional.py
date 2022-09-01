@@ -127,7 +127,7 @@ class TestSendToMassFunctional(unittest.TestCase):
                 shutil.rmtree(directory)
 
     @attr('slow')
-    @mock.patch('hadsdk.common.get_log_datestamp')
+    @mock.patch('cdds.common.get_log_datestamp')
     def test_simple_run_through(self, mock_log_datestamp):
         experiment_id = 'piControl'
         mip = 'CMIP'
@@ -137,7 +137,7 @@ class TestSendToMassFunctional(unittest.TestCase):
         self.assertEqual(result, 0)
 
     @attr('slow')
-    @mock.patch('hadsdk.common.get_log_datestamp')
+    @mock.patch('cdds.common.get_log_datestamp')
     def test_simple_run_through_multi_activity_id(self, mock_log_datestamp):
         experiment_id = 'ssp370'
         mip = 'ScenarioMIP AerChemMIP'

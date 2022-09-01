@@ -10,7 +10,7 @@ import os
 import sys
 
 from hadsdk.arguments import read_default_arguments
-from hadsdk.common import configure_logger, common_command_line_args, check_directory
+from cdds.common import configure_logger, common_command_line_args, check_directory
 from cdds.deprecated.config import use_proc_dir, update_arguments_paths, update_log_dir
 
 from cdds import __version__

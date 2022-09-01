@@ -21,7 +21,7 @@ from cdds.convert.mip_convert_wrapper.file_management import (
 from cdds.convert.mip_convert_wrapper.actions import (
     run_mip_convert, manage_logs, manage_critical_issues, report_disk_usage,
     check_disk_usage)
-from hadsdk.common import configure_logger
+from cdds.common import configure_logger
 
 
 def run_mip_convert_wrapper(arguments):

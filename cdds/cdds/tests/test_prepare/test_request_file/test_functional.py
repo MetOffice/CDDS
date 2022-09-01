@@ -100,7 +100,7 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
                             'STFC-RAL, Harwell, Oxford, OX11 0QX, UK'}}}
 
     @patch('cdds.prepare.request_file.models.read_json')
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     def test_functional(self, mock_log_datestamp, read_json_mock):
         mock_log_datestamp.return_value = self.log_date
         read_json_mock.return_value = self.cv_info
@@ -185,7 +185,7 @@ class TestWriteRequestForGCModelDev(FunctionalTestCase):
                             'STFC-RAL, Harwell, Oxford, OX11 0QX, UK'}}}
 
     @patch('cdds.prepare.request_file.models.read_json')
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     def test_functional(self, mock_log_datestamp, read_json_mock):
         mock_log_datestamp.return_value = self.log_date
         read_json_mock.return_value = self.cv_info

@@ -6,7 +6,7 @@ This module contains code related to the directory structures for CDDS.
 """
 import logging
 
-from hadsdk.common import create_directory, update_permissions
+from cdds.common import create_directory, update_permissions
 from cdds.deprecated.config import FullPaths
 
 from cdds.common.constants import COMPONENT_LIST, REQUIRED_KEYS_FOR_PROC_DIRECTORY

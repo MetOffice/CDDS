@@ -150,7 +150,7 @@ class FunctionalTest(TestCase):
         if os.path.exists(self.log_file_path):
             os.remove(self.log_file_path)
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     def test_functional(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_date
 
@@ -167,7 +167,7 @@ class FunctionalTest(TestCase):
         self.assertTrue(self.contains(written_rows, self.expected_row_1))
         self.assertTrue(self.contains(written_rows, self.expected_row_2))
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     def test_functional_without_delimiter(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_date
 
@@ -184,7 +184,7 @@ class FunctionalTest(TestCase):
         self.assertTrue(self.contains(written_rows, self.expected_row_1))
         self.assertTrue(self.contains(written_rows, self.expected_row_2))
 
-    @patch('hadsdk.common.get_log_datestamp')
+    @patch('cdds.common.get_log_datestamp')
     def test_functional_without_producible(self, mock_log_datestamp):
         self.expected_row_1['producible'] = 'not defined'
         self.expected_row_2['producible'] = 'not defined'

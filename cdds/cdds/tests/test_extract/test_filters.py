@@ -13,7 +13,7 @@ from unittest.mock import patch
 
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.extract.filters import Filters
-from hadsdk.common import configure_logger
+from cdds.common import configure_logger
 
 
 class MockRequest:

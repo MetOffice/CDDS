@@ -8,7 +8,7 @@ import logging
 from unittest.mock import patch
 import unittest
 
-from hadsdk.common import configure_logger
+from cdds.common import configure_logger
 from hadsdk.mass import mass_put
 from hadsdk.mass_exception import VariableArchivingError
 

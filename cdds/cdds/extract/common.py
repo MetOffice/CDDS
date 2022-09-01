@@ -15,7 +15,7 @@ import re
 from collections import defaultdict
 
 from cdds.extract.constants import NUM_PP_HEADER_LINES, TIME_REGEXP
-from hadsdk.common import run_command, retry
+from cdds.common import run_command, retry
 
 
 def moose_date(when, mode):
@@ -84,7 +84,7 @@ def validate_stash_fields(path, stash_codes, validation_result):
         path to directory of interest
     stash_codes : set
         A set of requried stash codes
-    validation_result: hadsdk.common.StreamValidationResult
+    validation_result: cdds.common.StreamValidationResult
         An object to hold results from the stream validation
     """
     referencedict = ()

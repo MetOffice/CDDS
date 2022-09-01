@@ -10,7 +10,7 @@ import sqlite3
 import time
 import multiprocessing
 
-from hadsdk.common import run_command
+from cdds.common import run_command
 from cdds.convert.constants import (DEFAULT_SQLITE_TIMEOUT, NCRCAT,
                                     TASK_STATUS_COMPLETE, TASK_STATUS_STARTED,
                                     TASK_STATUS_FAILED)

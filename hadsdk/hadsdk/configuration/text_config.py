@@ -7,7 +7,7 @@ store the information read from the configuration files.
 """
 import csv
 
-from hadsdk.common import compare_versions
+from cdds.common import compare_versions
 from hadsdk.configuration.common import AbstractConfig, ValidateConfigError
 
 

@@ -20,7 +20,7 @@ class TestStoreFailingMoo(StoreTestCase):
         Critical errors in log because of MASS failure
     """
 
-    @mock.patch('hadsdk.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
+    @mock.patch('cdds.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
     @mock.patch('hadsdk.mass.run_mass_command', side_effect=RuntimeError("moo command failed"))
     def test_transfer_functional_failing_moo(self, mock_run_command, mock_log_datestamp):
         test_data = TestData(

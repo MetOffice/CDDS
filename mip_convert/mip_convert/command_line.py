@@ -11,7 +11,7 @@ import logging
 import sys
 
 from cdds.common.plugins.plugin_loader import load_plugin
-from hadsdk.common import configure_logger, check_file
+from cdds.common import configure_logger, check_file
 from mip_convert import __version__
 from mip_convert.constants import LOG_NAME, LOG_LEVEL
 from mip_convert.request import convert

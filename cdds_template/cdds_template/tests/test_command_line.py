@@ -28,21 +28,21 @@ class TestMain(unittest.TestCase):
         self.args = ['--log_name', self.log_name]
         self.files_to_delete = [self.log_path]
 
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
+    @unittest.mock.patch('cdds.common.get_log_datestamp')
     def test_x(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
         args = self.args + ['-x', 'xylophone']  # ThisReasonError
         exit_code = main(args)
         self.assertEqual(exit_code, 2)
 
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
+    @unittest.mock.patch('cdds.common.get_log_datestamp')
     def test_y(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
         args = self.args + ['-y', 'yacht']  # ThatReasonError
         exit_code = main(args)
         self.assertEqual(exit_code, 3)
 
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
+    @unittest.mock.patch('cdds.common.get_log_datestamp')
     def test_z(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
         args = self.args + ['-z', 'zoo']  # AnotherReasonError

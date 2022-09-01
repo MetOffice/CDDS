@@ -18,7 +18,7 @@ from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 
-from hadsdk.common import set_checksum
+from cdds.common import set_checksum
 from cdds import __version__
 from cdds.common.constants import TIME_UNIT_DESCRIPTION, COMMENT_FORMAT
 from cdds.configure.arguments import read_configure_arguments
@@ -220,7 +220,7 @@ class TestMain(unittest.TestCase):
             for filename in os.listdir(self.output_dir_for_ucf) if filename not in ['log']}
         return outputs, exit_code
 
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
+    @unittest.mock.patch('cdds.common.get_log_datestamp')
     def test_produce_user_configuration_file(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
         reference = {self.user_config_template_name.format(
@@ -236,7 +236,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(exit_code, 0)
         self.assertEqual(output, reference)
 
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
+    @unittest.mock.patch('cdds.common.get_log_datestamp')
     def test_produce_user_configuration_file_template(self,
                                                       mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
@@ -278,7 +278,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(exit_code, 0)
         self.assertEqual(output, reference)
 
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
+    @unittest.mock.patch('cdds.common.get_log_datestamp')
     def test_ensure_parent_options_are_validated(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
         del self.request['parent_model_id']
@@ -293,7 +293,7 @@ class TestMain(unittest.TestCase):
             template)
         self.assertEqual(exit_code, 1)
 
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
+    @unittest.mock.patch('cdds.common.get_log_datestamp')
     def test_mip_table_dir_from_arguments(self, mock_log_datestamp):
         del self.request['mip_table_dir']
         mock_log_datestamp.return_value = self.log_datestamp
@@ -316,7 +316,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(exit_code, 0)
         self.assertEqual(output, reference)
 
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
+    @unittest.mock.patch('cdds.common.get_log_datestamp')
     def test_mip_table_dir_from_command_line(self, mock_log_datestamp):
         del self.request['mip_table_dir']
         mock_log_datestamp.return_value = self.log_datestamp
@@ -341,7 +341,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(exit_code, 0)
         self.assertEqual(output, reference)
 
-    @unittest.mock.patch('hadsdk.common.get_log_datestamp')
+    @unittest.mock.patch('cdds.common.get_log_datestamp')
     def test_ancil_files_from_request(self, mock_log_datestamp):
         ancil_files = '/ancil/file/one.pp /ancil/file/two.pp'
         mock_log_datestamp.return_value = self.log_datestamp

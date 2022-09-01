@@ -17,7 +17,7 @@ import cdds.convert.process.suite_interface as suite
 from cdds.convert.process import ConvertProcess
 from cdds.common.request import construct_request
 from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
-from hadsdk.common import ROSE_URLS
+from cdds.common import ROSE_URLS
 from cdds.deprecated.config import FullPaths
 from unittest import mock
 

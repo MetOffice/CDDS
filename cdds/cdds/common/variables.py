@@ -7,7 +7,7 @@ information from the |requested variables list|.
 from collections import defaultdict
 import os
 
-from hadsdk.common import validate_checksum
+from cdds.common import validate_checksum
 from hadsdk.configuration.json_config import JSONConfig
 
 

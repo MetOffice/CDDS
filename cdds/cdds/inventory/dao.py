@@ -7,7 +7,7 @@ methods to access the inventory database
 import enum
 
 import cdds.inventory.db_models as inventory
-import hadsdk.common as common
+import cdds.common as common
 
 
 class InventoryDAO(object):

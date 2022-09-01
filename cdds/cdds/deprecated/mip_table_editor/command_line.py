@@ -7,7 +7,7 @@ import logging
 from cdds.deprecated.mip_table_editor.mip_tables import ControlledVocabulary, MipTableVariable, MipTable
 
 from hadsdk.arguments import read_default_arguments
-from hadsdk.common import configure_logger, common_command_line_args
+from cdds.common import configure_logger, common_command_line_args
 
 from hadsdk import __version__
 

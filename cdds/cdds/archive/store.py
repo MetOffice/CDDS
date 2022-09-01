@@ -11,7 +11,7 @@ import logging
 import os
 import re
 
-from hadsdk.common import get_most_recent_file
+from cdds.common import get_most_recent_file
 from cdds.deprecated.config import FullPaths
 
 from cdds.archive.common import get_date_range
