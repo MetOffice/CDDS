@@ -46,7 +46,7 @@ class AppConfig(ConfigNode):
 
         Returns
         -------
-        :class:`hadsdk.tests.nightly_tests.app_config.AppConfig`
+        :class:`cdds.tests.nightly_tests.app_config.AppConfig`
             AppConfig objet containing the loaded Rose configuration
         """
         rose_cfg = rose_config.load(filename)

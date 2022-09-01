@@ -23,7 +23,7 @@ class CmdArgs:
 
         Returns
         -------
-        :class:`hadsdk.tests.nightly_tests.app_config.CmdArgs`
+        :class:`cdds.tests.nightly_tests.app_config.CmdArgs`
             The updated class instance
         """
         self.args.append(value)
@@ -44,7 +44,7 @@ class CmdArgs:
 
         Returns
         -------
-        :class:`hadsdk.tests.nightly_tests.app_config.CmdArgs`
+        :class:`cdds.tests.nightly_tests.app_config.CmdArgs`
             The updated class instance
         """
         value_list = values.split(separator)
@@ -67,7 +67,7 @@ class CmdArgs:
 
         Returns
         -------
-        :class:`hadsdk.tests.nightly_tests.app_config.CmdArgs`
+        :class:`cdds.tests.nightly_tests.app_config.CmdArgs`
             The updated class instance
         """
         self.args.append(option_name)

@@ -5,9 +5,9 @@ import argparse
 import logging
 import os
 
-from hadsdk.tests.nightly_tests.app_config import AppConfig
-from hadsdk.tests.nightly_tests.arguments import CmdArgs
-from hadsdk.tests.nightly_tests.common import NameListFilter, makedirs
+from cdds.tests.nightly_tests.app_config import AppConfig
+from cdds.tests.nightly_tests.arguments import CmdArgs
+from cdds.tests.nightly_tests.common import NameListFilter, makedirs
 from cdds.prepare.request_file.command_line import main_write_rose_suite_request_json
 
 
@@ -82,7 +82,7 @@ class NightlyApp(object, metaclass=ABCMeta):
     def _parse_app_config(self, config_file=None):
         """
         Parse configuration options from a file in Rose's extended INI format
-        and wrap it in an :class:`hadsdk.tests.nightly_tests.app_config` object.
+        and wrap it in an :class:`cdds.tests.nightly_tests.app_config` object.
 
         Parameters
         ----------
