@@ -3,8 +3,8 @@
 
 import unittest
 
-from .utils import getTestPath as get_test_path
-from hadsdk.mip_parser import parseMipTable as parse_mip_table
+from mip_convert.tests.utils import getTestPath as get_test_path
+from mip_convert.mip_parser import parseMipTable as parse_mip_table
 
 
 class TestParseMipTable(unittest.TestCase):

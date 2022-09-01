@@ -3,7 +3,7 @@
 
 import unittest
 
-from hadsdk.tests.utils import getTestFileBase, getTestPath
+from mip_convert.tests.utils import getTestFileBase, getTestPath
 
 
 class TestPaths(unittest.TestCase):

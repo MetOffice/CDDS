@@ -6,7 +6,7 @@ import unittest
 import os
 from mip_convert.save.mip_config import MipTableFactory
 from mip_convert.common import RelativePathChecker
-from hadsdk import mip_parser
+from mip_convert import mip_parser
 
 _PATH = '/project/cdds/etc/mip_tables/CMIP6/01.beta.45'
 _RELPATH = RelativePathChecker(_PATH, MipTableFactory.TABLE, os.path)

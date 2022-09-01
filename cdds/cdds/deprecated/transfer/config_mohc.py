@@ -1,6 +1,6 @@
 # (C) British Crown Copyright 2016-2021, Met Office.
 # Please see LICENSE.rst for license details.
-from hadsdk import mip_parser
+from mip_convert import mip_parser
 from cdds.deprecated.transfer.drs import DrsException
 
 

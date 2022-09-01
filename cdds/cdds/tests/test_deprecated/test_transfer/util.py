@@ -235,7 +235,7 @@ def patch_open_config_with_string(fake_config):
 
 def patch_mip_parser(test_case):
     create_patch(
-        test_case, "hadsdk.mip_parser.parseMipTable",
+        test_case, "mip_convert.mip_parser.parseMipTable",
         use_mock=fake_mip_parser())
     return
 
