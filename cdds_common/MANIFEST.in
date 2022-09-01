@@ -7,5 +7,4 @@ include pylintrc
 recursive-include doc *
 recursive-include etc *
 recursive-include cdds_common/tests *
-recursive-include cdds_common/cdds_plugins/cmip6/data/model *
-recursive-include cdds_common/cdds_plugins/gcmodeldev/data/model *
+recursive-include cdds_common/cdds_plugins *
