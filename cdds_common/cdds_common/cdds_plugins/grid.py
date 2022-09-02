@@ -207,7 +207,7 @@ class GridInfo(object, metaclass=ABCMeta):
 
     @property
     @abstractmethod
-    def halo_options(self) -> Dict[str, Dict]:
+    def halo_options(self) -> Dict[str, List[str]]:
         """
         Returns the ncks options needed to move ocean holo rows and columns.
 

@@ -163,7 +163,7 @@ class OceanBaseGridInfo(BaseGridInfo):
         return self._ocean_grid_polar_masks
 
     @property
-    def halo_options(self) -> Dict[str, Dict]:
+    def halo_options(self) -> Dict[str, List[str]]:
         """
         Returns the ncks options needed to move ocean holo rows and columns.
         For example:
@@ -208,7 +208,7 @@ class AtmosBaseGridInfo(BaseGridInfo):
         return None
 
     @property
-    def halo_options(self) -> Dict[str, Dict]:
+    def halo_options(self) -> Dict[str, List[str]]:
         """
         Returns the ncks options needed to move ocean holo rows and columns.
 
