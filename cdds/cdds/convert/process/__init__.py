@@ -15,7 +15,7 @@ from cdds.common.mappings.mapping import ModelToMip
 
 from cdds.common import (determine_rose_suite_url, configure_logger)
 from cdds.deprecated.config import FullPaths
-from hadsdk.configuration.python_config import PythonConfig
+from mip_convert.configuration.python_config import PythonConfig
 
 from cdds import __version__, _NUMERICAL_VERSION, _DEV
 from cdds.common.constants import (REQUIRED_KEYS_FOR_PROC_DIRECTORY,

@@ -8,7 +8,7 @@ from collections import defaultdict
 import os
 
 from cdds.common import validate_checksum
-from hadsdk.configuration.json_config import JSONConfig
+from mip_convert.configuration.json_config import JSONConfig
 
 
 class RequestedVariablesList(JSONConfig):

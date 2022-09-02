@@ -11,8 +11,8 @@ import configparser
 
 from cdds.common.constants import COMMENT_FORMAT, DATE_TIME_FORMAT
 from cdds.common import remove_newlines
-from hadsdk.configuration.common import AbstractConfig, ValidateConfigError
-from hadsdk.configuration.user_config import cmor_setup_config, cmor_dataset_config, request_config
+from mip_convert.configuration.common import AbstractConfig, ValidateConfigError
+from mip_convert.configuration.user_config import cmor_setup_config, cmor_dataset_config, request_config
 
 
 class PythonConfig(AbstractConfig):
@@ -392,39 +392,6 @@ class UserConfig(PythonConfig):
                             mip_table_name=mip_table_name,
                             values='", "'.join(values)))
                     self.streams_to_process[(stream_id, substream, mip_table_name)] = values
-
-
-class RequestConfig(PythonConfig):
-    """
-    Store information read from the request configuration files.
-
-    There may be many instances of this class, one for each
-    request configuration file. Methods are defined such that they
-    return a value that is true for the entire instance.
-    """
-
-    def __init__(self, read_path, stream_id):
-        """
-        :param stream_id: the |stream identifier|
-        :type stream_id: string
-        """
-        super(RequestConfig, self).__init__(read_path)
-        self.stream_id = stream_id
-        required_by_mip_convert = ['miptable']
-        for section in self.sections:
-            self._validate_required_options(section, required_by_mip_convert)
-
-    @property
-    def variable_names(self):
-        """
-        Return the |MIP requested variable names| from the
-        request configuration file.
-
-        :return: the |MIP requested variable names| from the
-                 request configuration file
-        :rtype: list of strings
-        """
-        return self.sections
 
 
 class ModelToMIPMappingConfig(PythonConfig):

@@ -9,7 +9,7 @@ from copy import deepcopy
 import logging
 import os
 
-from hadsdk.configuration.python_config import PythonConfig
+from mip_convert.configuration.python_config import PythonConfig
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request import read_request

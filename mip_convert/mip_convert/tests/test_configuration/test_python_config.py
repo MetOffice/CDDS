@@ -5,8 +5,8 @@ import os
 import unittest
 
 from configparser import DuplicateSectionError, DuplicateOptionError
-from hadsdk.configuration.common import ValidateConfigError
-from hadsdk.configuration.python_config import UserConfig, RequestConfig, ModelToMIPMappingConfig
+from mip_convert.configuration.common import ValidateConfigError
+from mip_convert.configuration.python_config import UserConfig, ModelToMIPMappingConfig
 from io import StringIO
 from unittest.mock import call, patch
 from textwrap import dedent
@@ -257,49 +257,6 @@ class TestUserConfig(unittest.TestCase):
 
     def _add_invalid_global_attribute(self):
         self.obj.global_attributes = self.suite_id
-
-
-class TestRequestConfig(unittest.TestCase):
-    """
-    Tests for ``RequestConfig`` in configuration.py.
-    """
-
-    def setUp(self):
-        self.read_path = 'request_config'
-        self.stream_id = 'apa'
-        self.request_config = '[DEFAULT]\nmiptable = CMIP5_day\n[tas]\nmapping_id = CMIP3 (A1a, pr)\n'
-        self.obj = None
-        self.test_request_config_instantiation()
-
-    @patch('builtins.open')
-    def test_request_config_instantiation(self, mopen):
-        mopen.return_value = StringIO(dedent(self.request_config))
-        self.obj = RequestConfig(self.read_path, self.stream_id)
-        mopen.assert_called_once_with(self.read_path)
-
-    @patch('builtins.open')
-    def test_duplicate_section(self, mopen):
-        request_config = '[tas]\n[tas]\nmapping_id = CMIP3 (A1a, pr)\n'
-        mopen.return_value = StringIO(dedent(request_config))
-        msg = '.* section .* already exists'
-        self.assertRaisesRegex(DuplicateSectionError, msg, RequestConfig, self.read_path, self.stream_id)
-        mopen.assert_called_once_with(self.read_path)
-
-    @patch('builtins.open')
-    def test_duplicate_option(self, mopen):
-        request_config = (
-            '[tas]\n'
-            'mapping_id = CMIP3 (A1a, pr)\n'
-            'mapping_id = CMIP5 (A1a, tas)\n'
-        )
-        mopen.return_value = StringIO(dedent(request_config))
-        msg = '.* option .* in section .* already exists'
-        self.assertRaisesRegex(DuplicateOptionError, msg, RequestConfig, self.read_path, self.stream_id)
-        mopen.assert_called_once_with(self.read_path)
-
-    def test_correct_variable_names_value(self):
-        reference = ['tas']
-        self.assertEqual(self.obj.variable_names, reference)
 
 
 class TestModelToMIPMappingConfig(unittest.TestCase):

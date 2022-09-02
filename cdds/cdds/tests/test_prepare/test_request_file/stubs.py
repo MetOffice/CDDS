@@ -3,7 +3,7 @@
 # pylint: disable = no-member
 from cdds.prepare.request_file.models import RoseSuiteRequest, RoseSuiteArguments
 from cdds.prepare.request_file.request import RoseSuiteRequestManager
-from hadsdk.configuration.cv_config import CVConfig
+from mip_convert.configuration.cv_config import CVConfig
 
 
 class CVConfigStub(CVConfig):

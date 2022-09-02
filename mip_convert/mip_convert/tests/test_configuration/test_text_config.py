@@ -3,8 +3,8 @@
 # pylint: disable = no-member
 import unittest
 
-from hadsdk.configuration.common import ValidateConfigError
-from hadsdk.configuration.text_config import SitesConfig, HybridHeightConfig, MappingConfig, MatchError
+from mip_convert.configuration.common import ValidateConfigError
+from mip_convert.configuration.text_config import SitesConfig, HybridHeightConfig
 from io import StringIO
 from unittest.mock import patch
 from textwrap import dedent
@@ -150,85 +150,6 @@ class TestHybridHeightConfig(unittest.TestCase):
                 reference = getattr(self, attribute)
             output = getattr(self.obj, attribute)
             self.assertEqual(output, reference)
-
-
-@patch('builtins.open')
-class TestMappingConfig(unittest.TestCase):
-    """
-    Tests for ``MappingConfig`` in configuration.py.
-    """
-
-    def setUp(self):
-        self.read_path = 'mapping_config'
-        self.mapping_id = 'CMIP3 (A1c, wap)'
-        self.row1 = (
-            '| lagrangian_tendency_of_air_pressure |  | Pa s-1 |  '
-            '| m01s12i201 |  | <= 4.7 | {mapping_id} |  |  |\n'.format(mapping_id=self.mapping_id))
-        self.row2 = (
-            '| lagrangian_tendency_of_air_pressure |  | Pa s-1 |  '
-            '| m01s15i222 |  | <= 4.7 | {mapping_id} |  |  |\n'.format(mapping_id=self.mapping_id))
-        self.row3 = (
-            '| lagrangian_tendency_of_air_pressure |  | Pa s-1 |  '
-            '| m01s15i222 |  | 4.8.1-4.9 | {mapping_id} |  |  |\n'.format(mapping_id=self.mapping_id))
-        self.row4 = (
-            '| lagrangian_tendency_of_air_pressure |  | Pa s-1 |  '
-            '| m01s30i208/m01s30i301 |  | >= 5.0 | {mapping_id} |  |  |\n'.format(mapping_id=self.mapping_id))
-        self.row5 = (
-            '| lagrangian_tendency_of_air_pressure |  | Pa s-1 |  '
-            '| m01s15i222 |  |  | {mapping_id} |  |  |\n'.format(mapping_id=self.mapping_id))
-
-    def test_matched_row(self, mopen):
-        # Exclude the duplicate.
-        mapping_config = ''.join([self.row1, self.row3, self.row4, self.row5])
-        mopen.return_value = StringIO(dedent(mapping_config))
-        obj = MappingConfig(self.read_path)
-        mopen.assert_called_once_with(self.read_path, 'r')
-        matches = {'4.5.10': obj.parse_mapping_table_row(self.row1),
-                   '4.8.09': obj.parse_mapping_table_row(self.row3),
-                   '5.0': obj.parse_mapping_table_row(self.row4),
-                   '10.12.1': obj.parse_mapping_table_row(self.row4),
-                   '4.7.15': obj.parse_mapping_table_row(self.row5)
-                   }
-        for um_version, row in list(matches.items()):
-            self.assertEqual(obj.matched_row(self.mapping_id, um_version), row)
-
-    def test_no_rows_match_mapping_id(self, mopen):
-        mapping_config = ''.join([self.row1, self.row2, self.row3, self.row4, self.row5])
-        mopen.return_value = StringIO(dedent(mapping_config))
-        obj = MappingConfig(self.read_path)
-        mopen.assert_called_once_with(self.read_path, 'r')
-        mapping_id = 'CMIP5 (A1a, tas)'
-        um_version = '5.0'
-        msg = 'No rows found in mapping table .* with mapping identifier .*'
-        self.assertRaisesRegex(MatchError, msg, obj.matched_row, mapping_id, um_version)
-
-    def test_rows_match_mapping_id_but_no_rows_match_um_version(self, mopen):
-        # Exclude the empty version otherwise that row will be matched.
-        mapping_config = ''.join([self.row1, self.row2, self.row3, self.row4])
-        mopen.return_value = StringIO(dedent(mapping_config))
-        obj = MappingConfig(self.read_path)
-        mopen.assert_called_once_with(self.read_path, 'r')
-        um_versions = ['4.7.1', '4.8', '4.9.5']
-        msg = 'No rows found in mapping table .* with mapping identifier .*and UM version .*'
-        for um_version in um_versions:
-            self.assertRaisesRegex(MatchError, msg.format(um_version), obj.matched_row, self.mapping_id, um_version)
-
-    def test_multiple_matched_rows(self, mopen):
-        mapping_config = ''.join([self.row1, self.row2, self.row3, self.row4, self.row5])
-        mopen.return_value = StringIO(dedent(mapping_config))
-        obj = MappingConfig(self.read_path)
-        mopen.assert_called_once_with(self.read_path, 'r')
-        um_versions = ['4.7', '4.7.0']
-        msg = 'Duplicate mapping for .*'
-        for um_version in um_versions:
-            self.assertRaisesRegex(MatchError, msg, obj.matched_row, self.mapping_id, um_version)
-
-    def test_parse_mapping_table_row_missing_column(self, mopen):
-        mapping_config = '| lagrangian_tendency_of_air_pressure | Pa s-1 |  | m01s15i222 |  |  | {mapping_id} |  |  |\n'
-        mopen.return_value = StringIO(dedent(mapping_config))
-        msg = 'Number of entries in row .* does not match the number of columns .*'
-        self.assertRaisesRegex(ValidateConfigError, msg, MappingConfig, self.read_path)
-        mopen.assert_called_once_with(self.read_path, 'r')
 
 
 if __name__ == '__main__':

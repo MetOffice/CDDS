@@ -8,7 +8,7 @@ store the information read from the configuration files.
 import json
 import os
 
-from hadsdk.configuration.common import AbstractConfig
+from mip_convert.configuration.common import AbstractConfig
 
 
 class JSONConfig(AbstractConfig):

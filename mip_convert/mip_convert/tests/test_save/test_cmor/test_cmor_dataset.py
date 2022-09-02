@@ -11,8 +11,8 @@ from textwrap import dedent
 import unittest
 
 from cdds.common.plugins.plugin_loader import load_plugin
-from hadsdk.configuration.cv_config import CVConfig
-from hadsdk.configuration.python_config import UserConfig
+from mip_convert.configuration.cv_config import CVConfig
+from mip_convert.configuration.python_config import UserConfig
 from unittest.mock import patch
 
 from mip_convert.requirements import software_versions

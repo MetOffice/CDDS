@@ -13,7 +13,7 @@ from cdds.common.constants import (
     OUTPUT_DATA_DIRECTORY, PROC_DIRECTORY_FACET_STRING,
     REQUESTED_VARIABLES_LIST_FACET_STRING)
 from cdds.common import construct_string_from_facet_string
-from hadsdk.configuration.python_config import PythonConfig
+from mip_convert.configuration.python_config import PythonConfig
 
 
 def load_override_values(read_path):

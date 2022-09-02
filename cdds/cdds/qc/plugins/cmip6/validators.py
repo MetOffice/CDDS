@@ -13,7 +13,7 @@ from datetime import datetime
 
 from cdds.common.constants import TIME_UNIT
 from cdds.common.validation import ValidationError
-from hadsdk.configuration.cv_config import CVConfig
+from mip_convert.configuration.cv_config import CVConfig
 
 EXTERNAL_VARIABLES = ["areacella", "areacello", "volcello"]
 

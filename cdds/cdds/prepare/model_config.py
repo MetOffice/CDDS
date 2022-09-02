@@ -17,7 +17,7 @@ from xml.etree import ElementTree
 from cdds.common.io import read_json
 from cdds.common.plugins.plugins import PluginStore
 
-from hadsdk.configuration.rose_config import load as config_load
+from cdds.common.rose_config import load as config_load
 
 from cdds.common import check_svn_location, determine_rose_suite_url, run_command
 
@@ -494,7 +494,7 @@ def _get_cice_variables(config_node, stream_ids):
     """
     Examples
     --------
-    >>> from hadsdk.configuration.rose_config import ConfigNode
+    >>> from cdds.common.rose_config import ConfigNode
     >>> config_node = ConfigNode()
     >>> _ = config_node.set(
     ...     keys=["namelist:icefields_mechred_nml", "f_ardgn"],
@@ -546,7 +546,7 @@ def _check_cice_frequency_info(config_node):
     """
     Examples
     --------
-    >>> from hadsdk.configuration.rose_config import ConfigNode
+    >>> from cdds.common.rose_config import ConfigNode
     >>> # Frequency values as expected.
     >>> config_node = ConfigNode()
     >>> _ = config_node.set(keys=["namelist:setup_nml", "histfreq"],

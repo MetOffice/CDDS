@@ -4,7 +4,7 @@
 import json
 import unittest
 
-from hadsdk.configuration.cv_config import CVConfig
+from mip_convert.configuration.cv_config import CVConfig
 from io import StringIO
 from unittest.mock import patch
 from textwrap import dedent

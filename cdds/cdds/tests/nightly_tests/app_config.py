@@ -3,8 +3,8 @@
 import re
 from functools import cmp_to_key
 
-from hadsdk.configuration import rose_config
-from hadsdk.configuration.rose_config import ConfigNode
+from cdds.common import rose_config
+from cdds.common.rose_config import ConfigNode
 
 
 class AppConfig(ConfigNode):

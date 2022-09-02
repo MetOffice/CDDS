@@ -7,7 +7,7 @@ store the information read from the configuration files.
 """
 import enum
 
-from hadsdk.configuration.json_config import JSONConfig
+from mip_convert.configuration.json_config import JSONConfig
 
 
 class CVKey(object):

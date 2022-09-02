@@ -4,9 +4,9 @@
 import os
 import tempfile
 
-from hadsdk.configuration import rose_config
+from cdds.common import rose_config
 from cdds.common import run_command
-from hadsdk.configuration.cv_config import CVConfig
+from mip_convert.configuration.cv_config import CVConfig
 
 
 def load_controlled_vocabulary(experiment_id, cv_path):

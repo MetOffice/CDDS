@@ -3,7 +3,7 @@
 # pylint: disable = no-member
 import unittest
 
-from hadsdk.configuration.json_config import MIPConfig
+from mip_convert.configuration.json_config import MIPConfig
 from io import StringIO
 from unittest.mock import patch
 from textwrap import dedent

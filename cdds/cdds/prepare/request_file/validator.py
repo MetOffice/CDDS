@@ -9,7 +9,7 @@ CMIP6 controlled vocabulary
 import cdds.prepare.request_file.checks as checkers
 from cdds.prepare.request_file.constants import ROSE_SUITE_EXPERIMENT_ID
 
-from hadsdk.configuration.cv_config import CVConfig
+from mip_convert.configuration.cv_config import CVConfig
 
 
 class RoseSuiteValidator(object):
@@ -60,7 +60,7 @@ class KeyMappings(object):
         ----------
         rose_suite :dict
             rose suite dictionary
-        cv :hadsdk.configuration.cv_config.CVConfig:
+        cv :mip_convert.configuration.cv_config.CVConfig:
             the Controlled Vocabularies configuration containing all the information
             on a particular experiment
 
