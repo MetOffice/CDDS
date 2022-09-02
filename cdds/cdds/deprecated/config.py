@@ -87,7 +87,7 @@ def update_arguments_for_proc_dir(arguments, request, component):
 
     Parameters
     ----------
-    arguments: :class:`hadsdk.hadsdk.Arguments`
+    arguments: :class:`cdds.arguments.Arguments`
         The arguments.
     request: :class:`cdds.deprecate.config.Request`
         The information from the request.
@@ -119,7 +119,7 @@ def update_log_dir(arguments, component):
 
     Parameters
     ----------
-    arguments: class:`hadsdk.hadsdk.Arguments`
+    arguments: class:`cdds.arguments.Arguments`
         The arguments
     component: str
         The name of the CDDS component
@@ -151,7 +151,7 @@ class FullPaths(object):
 
         Parameters
         ----------
-        arguments: :class:`hadsdk.hadsdk.Arguments` object
+        arguments: :class:`cdds.arguments.Arguments` object
             The arguments.
         request: :class:`cdds.deprecate.config.Request`
             The information from the request.

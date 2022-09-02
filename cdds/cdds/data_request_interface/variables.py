@@ -199,7 +199,7 @@ def retrieve_data_request_variables(experiment_id, data_request):
     -------
     : list
         Data request variables
-        (:class:`hadsdk.data_request_tools.variables.DataRequestVariable`)
+        (:class:`cdds.data_request_interface.variables.DataRequestVariable`)
         found.
     : dict
         Metadata associated with this list of |MIP requested variables|.

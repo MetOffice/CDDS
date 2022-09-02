@@ -9,15 +9,15 @@ import logging
 import os
 import shutil
 
-from cdds.common.constants import INVENTORY_DB_FILENAME, INVENTORY_FACET_LIST
-from cdds.inventory.db_models import (get_row_id_by_column_value, execute_insert_query, populate_dataset_dictionary,
-                                      setup_db)
-from cdds.inventory.dao import DBVariableStatus
-
-from hadsdk import __version__
+from cdds import __version__
 from cdds.arguments import read_default_arguments
 from cdds.common import configure_logger, common_command_line_args, get_log_datestamp, mass_output_args
+from cdds.common.constants import INVENTORY_DB_FILENAME, INVENTORY_FACET_LIST
 from cdds.common.mass import mass_list_dir, mass_list_files_recursively
+from cdds.inventory.dao import DBVariableStatus
+from cdds.inventory.db_models import (get_row_id_by_column_value, execute_insert_query, populate_dataset_dictionary,
+                                      setup_db)
+
 
 JASMIN_STATUS_MAP = {
     'completed': DBVariableStatus.AVAILABLE,
@@ -34,7 +34,7 @@ def main_populate_inventory(arguments=None):
     args = parse_args(arguments)
     configure_logger(args.log_name, args.log_level, args.append_log)
     logger = logging.getLogger(__name__)
-    logger.info('Using hadSDK version {}'.format(__version__))
+    logger.info('Using CDDS version {}'.format(__version__))
 
     datestamp = get_log_datestamp()
     inventory_filename = '{}_{}'.format(INVENTORY_DB_FILENAME, datestamp)

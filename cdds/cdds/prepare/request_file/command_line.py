@@ -66,7 +66,7 @@ def main_write_rose_suite_request_json(arguments=None):
 
     configure_logger(user_arguments.log_name, user_arguments.log_level, user_arguments.append_log)
     logger = logging.getLogger(__name__)
-    logger.info('Using hadSDK version {}'.format(__version__))
+    logger.info('Using CDDS version {}'.format(__version__))
 
     try:
         request_actions = RoseSuiteRequestManager(arguments=user_arguments)

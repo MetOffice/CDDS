@@ -44,8 +44,6 @@ def retrieve_required_keys(template, ignore_keys=[]):
         The keys that must exist in the JSON file containing the
         information from the request for CDDS Configure.
     """
-    # Note that `hadsdk.read_request` handles the required keys related
-    # to accessing the general configuration file.
     required_keys = sorted(required_keys_for_request())
 
     # Remove keys if the 'template' argument is provided.

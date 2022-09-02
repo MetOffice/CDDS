@@ -50,12 +50,11 @@ import configparser
 import json
 import os.path
 
+from cdds.common import check_file, compare_versions
 from cdds.common.constants import NC_CONSTRAINT_NOT_FOR_MOOSE, PP_HEADER_CORRECTIONS
 from cdds.common.mappings.ancils import remove_ancils_from_mapping
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.pp import stash_to_int
-import hadsdk
-from cdds.common import check_file, compare_versions
 import mip_convert.request as mip_request
 
 
@@ -284,9 +283,3 @@ class ModelToMip(object):
                 variable_request_by_table[mip_table] = [
                     {"name": variable_name, "stream": stream}]
         return variable_request_by_table
-
-    @staticmethod
-    def _path_to_streams_config():
-        path = os.path.join(
-            os.path.dirname(hadsdk.__file__), "streams.cfg")
-        return path

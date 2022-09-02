@@ -10,12 +10,12 @@ import csv
 import logging
 import os
 
-from cdds.prepare.pretty_print.constants import HEADER_FIELDS
-from cdds.prepare.pretty_print.pretty_print import CsvPrinter
-from hadsdk import __version__
+from cdds import __version__
 from cdds.arguments import read_default_arguments
 from cdds.common import configure_logger, common_command_line_args, check_directory
 from cdds.deprecated.config import update_arguments_paths
+from cdds.prepare.pretty_print.constants import HEADER_FIELDS
+from cdds.prepare.pretty_print.pretty_print import CsvPrinter
 
 
 def main_pretty_print_variables(arguments=None):
@@ -37,7 +37,7 @@ def main_pretty_print_variables(arguments=None):
 
     configure_logger(user_arguments.log_name, user_arguments.log_level, user_arguments.append_log)
     logger = logging.getLogger(__name__)
-    logger.info('Using hadSDK version {}'.format(__version__))
+    logger.info('Using CDDS version {}'.format(__version__))
 
     try:
         printer = CsvPrinter(HEADER_FIELDS, user_arguments.delimiter)

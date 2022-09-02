@@ -123,7 +123,7 @@ def build_data_request_network(data_request):
 
     Parameters
     ----------
-    data_request : :class:`hadsdk.data_request_tools.load.DataRequestWrapper`
+    data_request : :class:`cdds.data_request_interface.load.DataRequestWrapper`
         The top level data request object.
 
     Returns

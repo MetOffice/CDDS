@@ -146,7 +146,7 @@ def retrieve_grid_objects(variable_name, mip_table_id, model, overrides_path):
     Returns
     -------
     : Grid
-        A hadsdk.grids.Grid object.
+        A cdds.common.grids.Grid object.
     """
     override_values = load_override_values(overrides_path)
     try:

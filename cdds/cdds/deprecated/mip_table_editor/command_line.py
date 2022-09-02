@@ -4,12 +4,10 @@
 import argparse
 import logging
 
-from cdds.deprecated.mip_table_editor.mip_tables import ControlledVocabulary, MipTableVariable, MipTable
-
+from cdds import __version__
 from cdds.arguments import read_default_arguments
 from cdds.common import configure_logger, common_command_line_args
-
-from hadsdk import __version__
+from cdds.deprecated.mip_table_editor.mip_tables import ControlledVocabulary, MipTableVariable, MipTable
 
 
 def main_table_editor(arguments=None):
@@ -24,7 +22,7 @@ def main_table_editor(arguments=None):
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
     # Log version.
-    logger.info('Using CDDS Hadsdk version {}'.format(__version__))
+    logger.info('Using CDDS version {}'.format(__version__))
 
     try:
         if arguments.domain:

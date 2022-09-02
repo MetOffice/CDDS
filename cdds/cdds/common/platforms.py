@@ -59,11 +59,11 @@ class System:
         : str
             Path to the global arguments file.
         """
-        hadsdk_dir = os.path.dirname(
+        cdds_dir = os.path.dirname(
             os.path.abspath(cdds.__file__)
         )
         global_args_filename = self.GLOBAL_ARGS_FILENAMES[self.facility]
-        return os.path.join(hadsdk_dir, global_args_filename)
+        return os.path.join(cdds_dir, global_args_filename)
 
     def default_package_args_file(self, package_name):
         """

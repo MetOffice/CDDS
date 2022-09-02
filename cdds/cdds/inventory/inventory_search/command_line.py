@@ -33,7 +33,7 @@ def parse_args():
         Contains the user arguments and default arguments
     """
 
-    arguments = read_default_arguments('hadsdk', 'search_inventory')
+    arguments = read_default_arguments('cdds', 'search_inventory')
 
     default_inventory_path = os.path.join(
         arguments.root_inventory_dir,

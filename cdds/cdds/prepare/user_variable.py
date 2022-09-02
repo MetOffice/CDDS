@@ -11,7 +11,7 @@ class UserDefinedVariable(object):
     """
     Class to hold information on a user requested variable built from
     mip tables. It is designed to have close similarity to the
-    DataRequestVariable Class from hadsdk.
+    DataRequestVariable Class from cdds.data_request_interface.
     """
 
     def __init__(self, mip_table, var_name, mip_table_dir, stream=None):
