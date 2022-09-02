@@ -69,6 +69,14 @@ class TestOceanGridInfo(TestCase):
         self.assertEqual(masks['cice-U'].slice_latitude, slice(-8, 1, 2))
         self.assertEqual(masks['cice-U'].slice_longitude, slice(728, 1, 2))
 
+    def test_halo_options(self):
+        halo_options = self.ocean_grid_info.halo_options
+        self.assertEqual(halo_options['grid-T'], ["-dx,1,360", "-dy,1,330"])
+
+    def test_atmos_timestep(self):
+        atoms_timestep = self.ocean_grid_info.atmos_timestep
+        self.assertIsNone(atoms_timestep)
+
 
 class TestAtmosGridInfo(TestCase):
     def setUp(self):
@@ -110,6 +118,10 @@ class TestAtmosGridInfo(TestCase):
     def test_levels(self):
         levels = self.atmos_grid_info.levels
         self.assertEqual(levels, 85)
+
+    def test_halo_options(self):
+        halo_options = self.atmos_grid_info.halo_options
+        self.assertIsNone(halo_options)
 
     def test_atmos_timestep(self):
         atmos_timestep = self.atmos_grid_info.atmos_timestep
