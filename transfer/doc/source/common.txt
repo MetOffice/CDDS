@@ -1,1 +1,0 @@
-../../../hadsdk/doc/source/common.txt

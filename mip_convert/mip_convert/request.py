@@ -11,10 +11,10 @@ import iris
 import logging
 import os
 
-from hadsdk.configuration.cv_config import CVConfig
-from hadsdk.configuration.json_config import MIPConfig
-from hadsdk.configuration.python_config import UserConfig, ModelToMIPMappingConfig
-from hadsdk.configuration.text_config import HybridHeightConfig, SitesConfig
+from mip_convert.configuration.cv_config import CVConfig
+from mip_convert.configuration.json_config import MIPConfig
+from mip_convert.configuration.python_config import UserConfig, ModelToMIPMappingConfig
+from mip_convert.configuration.text_config import HybridHeightConfig, SitesConfig
 
 from mip_convert.common import RelativePathError
 

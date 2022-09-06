@@ -1,0 +1,10 @@
+# (C) British Crown Copyright 2022, Met Office.
+# Please see LICENSE.rst for license details.
+
+include *.rst
+include setup.cfg
+include pylintrc
+recursive-include doc *
+recursive-include etc *
+recursive-include tests *
+recursive-include common/plugins *

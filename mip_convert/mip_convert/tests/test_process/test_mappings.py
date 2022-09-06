@@ -7,7 +7,7 @@ import os
 import pytest
 import unittest
 
-from hadsdk.configuration.python_config import ModelToMIPMappingConfig
+from mip_convert.configuration.python_config import ModelToMIPMappingConfig
 
 import mip_convert
 from mip_convert.process import REQUIRED_OPTIONS

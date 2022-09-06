@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2021, Met Office.
+# (C) British Crown Copyright 2016-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 """
@@ -6,8 +6,8 @@ Tests for load/fix_pp.py.
 """
 import unittest
 
-from hadsdk.pp import (PP_CODE_SOIL, PP_CODE_HYBRID_PRESSURE,
-                       PP_CODE_HYBRID_HEIGHT, PP_HEADER_CORRECTIONS)
+from cdds.common.constants import (PP_CODE_SOIL, PP_CODE_HYBRID_PRESSURE,
+                                   PP_CODE_HYBRID_HEIGHT, PP_HEADER_CORRECTIONS)
 from mip_convert.load.fix_pp import fix_pp_field, FixPPField
 from mip_convert.tests.common import DummyField
 

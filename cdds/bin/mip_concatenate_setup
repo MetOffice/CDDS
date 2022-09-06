@@ -1,0 +1,13 @@
+#!/usr/bin/env python3.8
+# (C) British Crown Copyright 2017-2022, Met Office.
+# Please see LICENSE.rst for license details.
+import sys
+
+from cdds.convert.common import fix_import_paths
+
+fix_import_paths()
+
+from cdds.convert.command_line import main_concatenation_setup
+
+if __name__ == '__main__':
+    sys.exit(main_concatenation_setup())

@@ -8,7 +8,7 @@ import os
 import unittest
 from unittest.mock import call, patch
 
-from cdds_common.cdds_plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugin_loader import load_plugin
 from mip_convert.command_line import LOG_LEVEL, LOG_NAME, parse_parameters
 from mip_convert.request import get_input_files
 

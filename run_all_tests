@@ -15,23 +15,13 @@ CDDS_DIR = os.path.dirname(os.path.realpath(__file__))
 LOG_NAME = os.path.join(CDDS_DIR, 'cdds_test_failures.log')
 ROOT_COMMAND = 'py.test -s'
 TESTS_TO_RUN = {
-    'cdds_common': ['--doctest-modules'],
-    'cdds_configure': ['--doctest-modules', '-a slow'],
-    'cdds_convert': ['--doctest-modules', '-a integration'],
-    'cdds_prepare': ['--doctest-modules', '-a slow', '-a data_request'],
+    'cdds': ['--doctest-modules', '-a slow', '-a integration', '-a data_request'],
     'cdds_template': ['--doctest-modules', '-a slow'],
-    'cdds_transfer': ['', '-a slow'],
-    'extract': ['--doctest-modules', '-a slow'],
-    'cdds_qc': ['--doctest-modules'],
-    'cdds_qc_plugin_cf17': ['--doctest-modules'],
-    'cdds_qc_plugin_cmip6': ['--doctest-modules'],
-    'hadsdk': ['--doctest-modules', '-a integration', '-a data_request'],
     'mip_convert': ['--doctest-modules', '-a integration', '-a mappings', '-a slow'],
-    'transfer': ['--doctest-modules', '-a slow'],
     }
 
 ADDITIONAL_OPTS = {
-    'cdds_transfer': ['--ignore-glob=cdds_transfer/example']
+    'cdds': ['--ignore-glob=cdds/cdds/deprecated/transfer/examples']
 }
 
 

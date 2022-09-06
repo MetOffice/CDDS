@@ -36,7 +36,7 @@ Some implementation notes:
 from copy import copy
 import os.path
 
-from hadsdk import mip_parser
+from mip_convert import mip_parser
 import mip_convert.common
 from mip_convert.common import RelativePathChecker
 from mip_convert.save.mip_config import MipTableFactory
