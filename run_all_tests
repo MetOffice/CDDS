@@ -20,7 +20,7 @@ TESTS_TO_RUN = {
     }
 
 ADDITIONAL_OPTS = {
-    'cdds': ['--ignore-glob=cdds/cdds/deprecated/transfer/examples']
+    'cdds': [],
 }
 
 
