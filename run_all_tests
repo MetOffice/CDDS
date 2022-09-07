@@ -16,12 +16,11 @@ LOG_NAME = os.path.join(CDDS_DIR, 'cdds_test_failures.log')
 ROOT_COMMAND = 'py.test -s'
 TESTS_TO_RUN = {
     'cdds': ['--doctest-modules', '-a slow', '-a integration', '-a data_request'],
-    'cdds_template': ['--doctest-modules', '-a slow'],
     'mip_convert': ['--doctest-modules', '-a integration', '-a mappings', '-a slow'],
     }
 
 ADDITIONAL_OPTS = {
-    'cdds': ['--ignore-glob=cdds/cdds/deprecated/transfer/examples']
+    'cdds': [],
 }
 
 

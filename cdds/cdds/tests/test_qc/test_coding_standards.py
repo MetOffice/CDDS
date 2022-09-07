@@ -21,10 +21,10 @@ class TestCodingStandards(unittest.TestCase):
     """
 
     def setUp(self):
-        cdds_template_dir = os.path.dirname(cdds_qc.__file__)
+        cdds_qc_dir = os.path.dirname(cdds_qc.__file__)
         self.all_files = [
             os.path.join(dirpath, filename) for dirpath, _, filenames in
-            os.walk(cdds_template_dir) for filename in filenames]
+            os.walk(cdds_qc_dir) for filename in filenames]
         self.exclude_patterns = ['conf.py']
 
     def test_pep8_conformance(self):
