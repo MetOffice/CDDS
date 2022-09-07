@@ -11,7 +11,7 @@ from tempfile import mkstemp
 from typing import List, Tuple
 from unittest import TestCase
 
-from cdds_common.cdds_plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugin_loader import load_plugin
 from mip_convert.command_line import main
 from mip_convert.save.cmor.cmor_outputter import CmorGridMaker, AbstractAxisMaker
 from mip_convert.tests.test_functional.utils.configurations import AbstractTestData

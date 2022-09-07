@@ -11,7 +11,7 @@ import os
 from textwrap import dedent
 import unittest
 
-from hadsdk.configuration.json_config import MIPConfig
+from mip_convert.configuration.json_config import MIPConfig
 from mip_convert import request
 from mip_convert.request import (
     get_model_to_mip_mappings, get_mip_table, get_variable_model_to_mip_mapping, get_requested_variables

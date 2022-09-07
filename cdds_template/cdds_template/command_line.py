@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -8,13 +8,13 @@ command line scripts in the ``bin`` directory.
 import argparse
 import logging
 
-from hadsdk.arguments import read_default_arguments
-from hadsdk.common import (
+from cdds.arguments import read_default_arguments
+from cdds.common import (
     configure_logger, common_command_line_args, check_directory)
-from hadsdk.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
-from hadsdk.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
-from hadsdk.request import read_request
+from cdds.deprecated.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
 
+from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
+from cdds.common.request import read_request
 from cdds_template import __version__
 from cdds_template.my_module import (
     ThisReasonError, ThatReasonError, AnotherReasonError, my_function)
@@ -82,7 +82,7 @@ def parse_args(arguments):
 
     Returns
     -------
-    : :class:`hadsdk.arguments.Arguments`
+    : :class:`cdds.arguments.Arguments`
         The names of the command line arguments and their validated
         values.
     """

@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2021, Met Office.
+# (C) British Crown Copyright 2016-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`load.fix_pp` module contains the code to fix any PP field
@@ -6,8 +6,8 @@ header elements that are incorrect.
 """
 import logging
 
-from hadsdk.common import compare_versions
-from hadsdk.pp import PP_HEADER_CORRECTIONS
+from cdds.common.constants import PP_HEADER_CORRECTIONS
+from cdds.common import compare_versions
 from mip_convert.common import get_field_attribute_name
 
 

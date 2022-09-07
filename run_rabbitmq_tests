@@ -21,8 +21,8 @@ CDDS_DIR = os.path.dirname(os.path.realpath(__file__))
 LOG_NAME = os.path.join(CDDS_DIR, 'cdds_rabbitmq_test_failures.log')
 ROOT_COMMAND = 'py.test -s'
 TESTS_TO_RUN = {
-    'cdds_transfer': ['-a rabbitMQ'],  # Only run the unit tests using RabbitMQ!
-}
+    'cdds': ['-a rabbitMQ'],  # Only run the unit tests using RabbitMQ!
+    }
 
 
 def print_error(text):

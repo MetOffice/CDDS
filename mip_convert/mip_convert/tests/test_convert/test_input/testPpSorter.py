@@ -3,7 +3,7 @@
 
 import unittest
 
-from hadsdk.common import cmp
+from cdds.common import cmp
 from mip_convert.load.pp.pp_variable import SortedPpList
 
 
