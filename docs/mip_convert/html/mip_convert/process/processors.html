@@ -1,0 +1,1360 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>processors &#8212; MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="constants" href="constants.html" />
+    <link rel="prev" title="Model to MIP Mapping Configuration Files" href="model_to_mip_mappings.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="constants.html" title="constants"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="model_to_mip_mappings.html" title="Model to MIP Mapping Configuration Files"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Reference</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">processors</span></code></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="processors">
+<h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">processors</span></code><a class="headerlink" href="#processors" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-mip_convert.process.processors"></span><p>Module containing processor functions.  These processors can be referred
+to from <a class="reference internal" href="../../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> expressions.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.mon_mean_from_day">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">mon_mean_from_day</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#mon_mean_from_day"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.mon_mean_from_day" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate a monthly mean from a cube of daily statistics.</p>
+<p>This function can be used to calculate quantities such as the
+monthly mean daily minumum temperature.  It will raise an
+exception if the input cube does not look like a time series
+of daily statistics spanning a whole number of months.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube of daily data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube of monthly mean data.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.mdi_to_zero">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">mdi_to_zero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#mdi_to_zero"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.mdi_to_zero" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes any values corresponding to missing data to zero.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with some missing data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube with no missing data.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.fix_parasol_sza_axis">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">fix_parasol_sza_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#fix_parasol_sza_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.fix_parasol_sza_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fixes the vertical axis of a PARASOL reflectance cube (m01s02i348).
+Changes the axis from geometric height to solar zenith angle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a geometric height vertical axis.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube with the correct vertical axis (solar zenith angle).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.area_mean">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">area_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">areacube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#area_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.area_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate an area weighted mean of input cube</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with latitude/longitude coordinates</p></li>
+<li><p><strong>areacube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube of grid cell areas</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The area mean cube.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.primavera_make_uva100m">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">primavera_make_uva100m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#primavera_make_uva100m"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.primavera_make_uva100m" title="Permalink to this definition">¶</a></dt>
+<dd><p>The model runs to generate the PRIMAVERA variables ua100m and
+va100m contain data on two levels because it wasn’t known which
+level users would require when the model runs had to start. This
+function returns a cube on model level 4, which is now known to be
+the desired level. The coordinate <code class="docutils literal notranslate"><span class="pre">level_height</span></code> is renamed to
+<code class="docutils literal notranslate"><span class="pre">height100m</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing two levels.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube containing model level 4.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.scale_epflux">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">scale_epflux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_heaviside</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#scale_epflux"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.scale_epflux" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model output for epfy and epfz is in units kg s-2.  We require
+units m3 s-2 for CMIP6, and so need to divide by density on
+each pressure level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube_data</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing either y or z component of the EP flux on
+pressure levels.</p></li>
+<li><p><strong>cube_heaviside</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Heaviside data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube containing the component of the EP flux scaled by
+density.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.tau_pseudo_level">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">tau_pseudo_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#tau_pseudo_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.tau_pseudo_level" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a cube with corrected tau coordinates (e.g. for use in
+<cite>clisccp</cite>)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a longitude, latitude and extra dimensions.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube with all its 2D fields divided by the 2D mask.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.tile_ids_for_class">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">tile_ids_for_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">land_class</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#tile_ids_for_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.tile_ids_for_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of tile ids for the land_class</p>
+<p>Some land classes, such as ‘tree’ are made of more than
+one tile.  This function will do the lookup of land classes
+to tile ids.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>land_class</strong> (<a class="reference external" href="https://docs.python.org/3.8/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the land class find tile ids for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The tile ids for the land_class.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of int</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If the land_class is not recognized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.land_class_mean">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">land_class_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tile_cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#land_class_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.land_class_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the cube of the mean variable_cube over a land class.</p>
+<p>This can be used when the MIP request is for
+cell_methods: ‘area: mean where land’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the cube containing the input variable on the JULES tiles.</p></li>
+<li><p><strong>tile_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the fraction of land covered by each JULES tile.</p></li>
+<li><p><strong>land_class</strong> (<a class="reference external" href="https://docs.python.org/3.8/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the vegetation class to average over.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>cube of the mean of the variable over land_class.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.land_class_area">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">land_class_area</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tile_cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_frac_cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#land_class_area"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.land_class_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the cube of the area covered by the chosen land class.</p>
+<p>This can be used when the MIP requests cell_methods: ‘area:mean’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tile_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the fraction of land covered by each JULES tile.</p></li>
+<li><p><strong>land_frac_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the fraction of a gridcell covered by land.</p></li>
+<li><p><strong>land_class</strong> (<a class="reference external" href="https://docs.python.org/3.8/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the land class to sum area over.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the cube with the mean area of land_class.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.snc_calc">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">snc_calc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tile_fraction_cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_fraction_cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#snc_calc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.snc_calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sum of land frac over tiles with snow for the land portion of the grid cell
+It is assumed if there is less than 0.1 kg/m2 (0.1 mm SWE) of snow on the
+ground there is no snow otherwise we have snow in the Sahara. This threshold
+is a rather arbitrary value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the cube containing the snow amount on JULES tiles (kg/m2).</p></li>
+<li><p><strong>tile_fraction_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the fraction of land covered by each JULES tile.</p></li>
+<li><p><strong>land_fraction_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the proportion of land in the grid cell</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube containing the snow fraction of each grid cell as a percentage
+of the land area in the grid cell.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.areacella">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">areacella</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#areacella"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.areacella" title="Permalink to this definition">¶</a></dt>
+<dd><p>From a cube containing any data on a model’s standard grid, the area of
+each cell is calculated and returned in an Iris cube.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing data on the standard grid for that model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube containing the area of each cell in the input cube</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If the cube is not a 2 dimensional latitude-longitude
+    cube.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.fix_packing_division">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">fix_packing_division</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numerator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">denominator</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#fix_packing_division"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.fix_packing_division" title="Permalink to this definition">¶</a></dt>
+<dd><p>It fixes the zeroes introduced by the loss of precision caused by
+packing. It performs a division of 2 cubes of the same shape,
+and replaces the zeroes with a new value (0.5*minimum).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>numerator</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the numerator of the division.</p></li>
+<li><p><strong>denominator</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the denominator of the division.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube the cube with the division, corrected.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.level_sum">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">level_sum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#level_sum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.level_sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the sum over vertical levels of a cube.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with vertical levels.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube with the data in the input cube summed over level.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If the input cube does not have exactly one vertical coordinate
+    to sum over.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.sum_over_upper_100m">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">sum_over_upper_100m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thickness</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#sum_over_upper_100m"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.sum_over_upper_100m" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the sum over the upper 100m of a cube.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with vertical levels.</p></li>
+<li><p><strong>thickness</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube the same shape as <code class="docutils literal notranslate"><span class="pre">cube</span></code> containing thickness of ocean
+levels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube with the data in <code class="docutils literal notranslate"><span class="pre">cube</span></code> summed over the upper 100m.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If the input cube does not have exactly one vertical coordinate
+    to sum over.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.level_mean">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">level_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thick</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#level_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.level_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a mean over the vertical levels of cube weighted by thick</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a depth vertical axis</p></li>
+<li><p><strong>thick</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube the same shape as cube containing thickness
+of ocean levels</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube collapsed over the depth axis</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.vortmean">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">vortmean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#vortmean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.vortmean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the CMIP6 vortmean variable, the mean vorticity over the
+850-600 hPa layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing data between 600 and 850 hPa.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube containing the mean over pressure of the input cube
+between 600 and 850 hPa.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.mask_zeros">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">mask_zeros</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#mask_zeros"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.mask_zeros" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns cube with the data set to masked values where the value is 0.</p>
+<p>If the cube data is a numpy array containing no zeros then the cube is
+unchanged on output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing data that may have zero values.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube with zeros set to masked values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.mask_using_cube">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">mask_using_cube</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_for_mask</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#mask_using_cube"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.mask_using_cube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <code class="docutils literal notranslate"><span class="pre">cube</span></code> masked where the data in <code class="docutils literal notranslate"><span class="pre">cube_for_mask</span></code> is
+less than or equal to zero.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The cube to be masked.</p></li>
+<li><p><strong>cube_for_mask</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The cube containing data that may have values less than or equal
+to zero.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The cube masked where the data in <code class="docutils literal notranslate"><span class="pre">cube_for_mask</span></code> is less than
+or equal to zero.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.correct_evaporation">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">correct_evaporation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube_evs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_res</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_area</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#correct_evaporation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.correct_evaporation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return corrected evs data using the residual (i.e. differences
+between the total fresh water flux and its reconstruction).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube_evs</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing evs original data</p></li>
+<li><p><strong>cube_res</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the residual
+“empmr - (evs - (icb - isf + rain + snow + river + ice))”
+i.e. cube_res = error on evs + closed sea contribution</p></li>
+<li><p><strong>cube_area</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing cell area data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube for the corrected evaporation over the ocean evs.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.div_by_area">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">div_by_area</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">incube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#div_by_area"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.div_by_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide the input cube with area of each gridcell</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>incube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Input cube 3-D/ 4-D.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Cube divided by area (m-2)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.mask_copy">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">mask_copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_mask</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#mask_copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.mask_copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overwrite the mask of a cube.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing data to be masked.</p></li>
+<li><p><strong>cube_mask</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the mask to be applied (1 where masked, else 0).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><cite>cube</cite> with data masked by <cite>cube_mask</cite>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If one of the following conditions is met:
+    
+    * <cite>cube_mask</cite> contains a “time” coordinate
+    * <cite>cube</cite> &amp; <cite>cube_mask</cite> have different shapes (except the time dimension)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.sum_2d_and_3d">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">sum_2d_and_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube2d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube3d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#sum_2d_and_3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.sum_2d_and_3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a 2D cube to the 1st level of a 3D cube (excluding time dimension).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube2d</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with 2 dimensions (+ time)
+The shape must be the same as the shape of 1 level of cube3d.</p></li>
+<li><p><strong>cube3d</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with 3 dimensions (+ time)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube the same size as cube3d with cube2d added to the first level</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.eos_insitu">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">eos_insitu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">zt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zh</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#eos_insitu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.eos_insitu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the in-situ density of seawater using a modified version of the
+Jackett and McDougall (1995) <a class="reference internal" href="#eos-insitu-1" id="id2"><span>[eos_insitu_1]</span></a> equation of state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>zt</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – Potential temperature (degrees Celsius)</p></li>
+<li><p><strong>zs</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – Practical salinity (PSU)</p></li>
+<li><p><strong>zh</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – Depth (m), approximating pressure (dbar)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>rho</strong> – In-situ density (kg/m3)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Rounding is necessary to reproduce the following worked examples:</p>
+<ul>
+<li><p>From the NEMO <cite>eos_insitu</cite> docstring</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">eos_insitu</span><span class="p">(</span><span class="mf">40.</span><span class="p">,</span> <span class="mf">40.</span><span class="p">,</span> <span class="mf">10000.</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
+<span class="go">1060.93299</span>
+</pre></div>
+</div>
+</li>
+<li><p>From Jackett and McDougall (1995) <a class="reference internal" href="#eos-insitu-1" id="id3"><span>[eos_insitu_1]</span></a></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">eos_insitu</span><span class="p">(</span><span class="mf">3.</span><span class="p">,</span> <span class="mf">35.5</span><span class="p">,</span> <span class="mf">3000.</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">1041.833</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p class="rubric">Notes</p>
+<p>This is a Python implementation of the NEMO 3.6 alpha routine <a class="reference external" href="http://forge.ipsl.jussieu.fr/nemo/browser/trunk/NEMOGCM/NEMO/OPA_SRC/TRA/eosbn2.F90?rev=4624#L76">eos_insitu</a>
+that has been refactored to reduce the number of 3D working arrays.</p>
+<p>Note that the original Fortran routine returns the in-situ density
+anomaly <cite>prd</cite> instead of <cite>rho</cite>.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="eos-insitu-1"><span class="brackets">eos_insitu_1</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id3">2</a>)</span></dt>
+<dd><p>Jackett, D.R. and Mcdougall, T.J., 1995. Minimal adjustment of
+hydrographic profiles to achieve static
+stability. Journal of Atmospheric and Oceanic Technology,
+12(2), pp.381-389.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.calc_loaddust">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">calc_loaddust</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_dust_concentration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_cell_volume</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#calc_loaddust"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.calc_loaddust" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the loaddust variable.</p>
+<p>:param total_dust_concentration <a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>: Total dust concentration in micrograms/m-3
+:param grid_cell_volume <a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>: UKCA Theta Grid Cell volume in m-3</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>loaddust</strong> – kg m-2</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.calc_rho_mean">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">calc_rho_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thetao</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">so</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zfullo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">areacello</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thkcello</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#calc_rho_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.calc_rho_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the global mean in-situ density of seawater using a modified
+version of the Jackett and McDougall (1995) <a class="reference internal" href="#calc-rho-mean-1" id="id4"><span>[calc_rho_mean_1]</span></a>
+equation of state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>thetao</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Potential temperature (degrees Celsius)</p></li>
+<li><p><strong>so</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Practical salinity (PSU)</p></li>
+<li><p><strong>zfullo</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Depth (m)</p></li>
+<li><p><strong>areacello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell area (m2)</p></li>
+<li><p><strong>thkcello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell thickness (m)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>rho</strong> – Global mean in-situ density (kg/m3)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#mip_convert.process.processors.eos_insitu" title="mip_convert.process.processors.eos_insitu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eos_insitu</span></code></a></p>
+</div>
+<p class="rubric">Notes</p>
+<p>This is an <a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> wrapper to <cite>eos_insitu</cite>.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="calc-rho-mean-1"><span class="brackets"><a class="fn-backref" href="#id4">calc_rho_mean_1</a></span></dt>
+<dd><p>Jackett, D.R. and Mcdougall, T.J., 1995. Minimal adjustment of
+hydrographic profiles to achieve static
+stability. Journal of Atmospheric and Oceanic Technology,
+12(2), pp.381-389.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.calc_zostoga">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">calc_zostoga</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thetao</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thkcello</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">areacello</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zfullo_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">so_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho_0_mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deptho_0_mean</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#calc_zostoga"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.calc_zostoga" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the global mean thermosteric sea level change with
+respect to a reference state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>thetao</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Potential temperature (degrees Celsius)</p></li>
+<li><p><strong>thkcello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell thickness (m)</p></li>
+<li><p><strong>areacello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell area (m2)</p></li>
+<li><p><strong>zfullo_0</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – <strong>Reference state</strong> depth (m)</p></li>
+<li><p><strong>so_0</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – <strong>Reference state</strong> practical salinity (PSU)</p></li>
+<li><p><strong>rho_0_mean</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – <strong>Reference state</strong> global mean in-situ density (kg/m3)</p></li>
+<li><p><strong>deptho_0_mean</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – <strong>Reference state</strong> global mean water column depth (m),
+computed as the total volume (<cite>volo</cite>) divided by the total surface area
+(sum of <cite>areacello</cite>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>zostoga</strong> – Global mean thermosteric sea level change (m)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Following eq. H27 of Griffies et al. (2016) <a class="reference internal" href="#calc-zostoga-1" id="id5"><span>[calc_zostoga_1]</span></a>:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><cite>zostoga = (volo_0 / areao) * (1 - RHO_t)</cite></div>
+<div class="line"><cite>RHO_t = RHO(thetao, so_0, p_0) / rho_0_mean</cite></div>
+</div>
+</div></blockquote>
+<p>where:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><cite>RHO</cite> = Global mean in-situ density (kg/m3)</div>
+<div class="line"><cite>p_0</cite> = <strong>Reference state</strong> sea water pressure at model levels (dbar),
+approximated by the depth <cite>zfullo_0</cite></div>
+</div>
+</div></blockquote>
+<p>The reference state is taken to be the first annual mean from the
+piControl experiment for a particular model configuration. This is used to
+calculate zostoga for all simulations based on this configuration.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="calc-zostoga-1"><span class="brackets"><a class="fn-backref" href="#id5">calc_zostoga_1</a></span></dt>
+<dd><p>Griffies, S.M., Danabasoglu, G., Durack, P.J., Adcroft, A.J.,
+Balaji, V., Boning, C.W., Chassignet, E.P., Curchitser,
+E., Deshayes, J., Drange, H. and Fox-Kemper, B.,
+2016. OMIP contribution to CMIP6: experimental and diagnostic
+protocol for the physical component of the Ocean Model
+Intercomparison Project. Geoscientific Model Development,
+9(9), pp.3231-3296.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.trop_o3col">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">trop_o3col</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o3mass</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#trop_o3col"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.trop_o3col" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will generate a ‘Tropospheric Ozone Column’ diagnostic.</p>
+<dl class="simple">
+<dt>Method:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Expected input is Ozone MMR x Tropmask x Airmass i.e.</dt><dd><p>ozone mass as kg per gridbox</p>
+</dd>
+</dl>
+</li>
+<li><p>Sum over levels to get total O3 mass in column and convert to moles</p></li>
+<li><p>Calculate num of O3 molecules using Avogadro’s number (molecules/mole)</p></li>
+<li><p>Divide by cell area to obtain O3 molecules/m2</p></li>
+<li><p>Convert to Dobson Units DU using factor for molec/m2 –&gt; DU</p></li>
+</ul>
+</dd>
+</dl>
+<p>All Constants used in calculations are from UKCA_CONSTANTS_MOD as of UM10.8</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>o3mass</strong> (class:<cite>iris.cube.Cube</cite>: Ozone mass in gridbox (kg)) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Expected to have a single-level representing the whole column.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>: Tropospheric ozone column in DU.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.mmr2molefrac">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">mmr2molefrac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">molmass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">climatology</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'False'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#mmr2molefrac"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.mmr2molefrac" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function converts a 3-D (or 4-D) Mass-mixing-ratio cube to a global
+(and annual) mean molefraction</p>
+<dl class="simple">
+<dt>Steps:</dt><dd><ul class="simple">
+<li><p>Convert the mass-mixing-ratio to mass-of-species using gridbox air mass</p></li>
+<li><p>Convert mass of sp and mass of air into moles</p></li>
+<li><p>Mean over lat,long,levels(,time) to obtain global mean species as well
+as airmass</p></li>
+<li><p>Divide moles species with moles air and obtain mole/mole fraction</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mass</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> containing 3-D grid-cell mass) – </p></li>
+<li><p><strong>incube</strong> (class:<cite>iris.cube.Cube</cite> containing mass-mixing-ratio of species) – </p></li>
+<li><p><strong>molmass</strong> (<em>scalar: Molecular mass of species</em>) – </p></li>
+<li><p><strong>climatology</strong> (<em>boolean: flag to control whether to mean time dimension</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>as (moles of species/moles of air)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> containing scalar value or 1d(time) array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.combine_sw_lw">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">combine_sw_lw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">swcube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lwcube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">swmask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#combine_sw_lw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.combine_sw_lw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combine cubes containing ShortWave and LongWave band (pseudo-levels)
+into a single cube with extended pslev dimension</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>swcube</strong> (class:<cite>iris.cube.Cube</cite> containing field on SW bands) – </p></li>
+<li><p><strong>lwcube</strong> (class:<cite>iris.cube.Cube</cite> containing field on LW bands) – </p></li>
+<li><p><strong>args</strong> (<em>keyword</em>) – swmask: class:<cite>iris.cube.Cube</cite> for lit-points mask (SW)
+minval: Float: expected minimum value of output field
+maxval: Float: expected maximum value of output field</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>levels and ShortWave + LongWave bands</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> representing requested diagnostic on model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.ocean_quasi_barotropic_streamfunc">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">ocean_quasi_barotropic_streamfunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">areacello</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#ocean_quasi_barotropic_streamfunc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.ocean_quasi_barotropic_streamfunc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the quasi-barotropic streamfunction from the vertically integrated
+zonal mass transport.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the vertically integrated zonal mass transport.</p></li>
+<li><p><strong>areacello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the grid cell area.</p></li>
+<li><p><strong>cube_mask</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>, optional) – A cube containing the mask to be applied (1 where masked, else 0).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>cube</strong> – A cube containing the quasi-barotropic streamfunction.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.achem_emdrywet">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">achem_emdrywet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mfac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">incube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube2d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sumlev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">areadiv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#achem_emdrywet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.achem_emdrywet" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function produces Aerosol and Chemistry emission, dry- and
+wet-deposition diagnostics via common operations on the input cube.</p>
+<dl class="simple">
+<dt>The common operations required are a combination of:</dt><dd><ul class="simple">
+<li><p>add surface values to multi-level cubes</p></li>
+<li><p>collapse along Z dimension</p></li>
+<li><p>divide by grid-cell area</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mfac</strong> (<em>scalar: Molecular mass of species</em><em>, </em><em>to convert from moles to kg</em>) – </p></li>
+<li><p><strong>incube</strong> (class:<cite>iris.cube.Cube</cite> input 3-D cube (can be a sum of cubes)) – and units mostly as moles/gridbox/s</p></li>
+<li><p><strong>cube2d</strong> (class:<cite>iris.cube.Cube</cite> input 2-D cube (can be a sum of cubes)) – </p></li>
+<li><p><strong>sumlev</strong> (<em>Boolean: whether to collapse the cube in Z dimension</em>) – </p></li>
+<li><p><strong>areadiv</strong> (<em>Boolean: whether to divide by grid-area</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> usually 2-D and units of kg/m2/s</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.volcello">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">volcello</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thkcello</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">areacello</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#volcello"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.volcello" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the ocean cell volume, product of thkcello (4D) and
+areacello (2D).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>thkcello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell thickness cube.</p></li>
+<li><p><strong>arecello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell area cube.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Volume cube</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.combine_cubes_to_basin_coord">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">combine_cubes_to_basin_coord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube_global</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_atl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_indpac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_atl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_indpac</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#combine_cubes_to_basin_coord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.combine_cubes_to_basin_coord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combine data for individual basins into a single cube with a basin dimension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube_global</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a latitude dimension and optionally a vertical dimension
+representing global ocean</p></li>
+<li><p><strong>cube_atl</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a latitude dimension and optionally a vertical dimension
+representing Atlantic (and Arctic) ocean</p></li>
+<li><p><strong>cube_indpac</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a latitude dimension and optionally a vertical dimension
+representing Indian and Pacific oceans</p></li>
+<li><p><strong>mask_global</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>, optional) – A cube containing the mask to be applied to <cite>cube_global</cite>
+(1 where masked, else 0).</p></li>
+<li><p><strong>mask_atl</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>, optional) – A cube containing the mask to be applied to <cite>cube_atl</cite>
+(1 where masked, else 0).</p></li>
+<li><p><strong>mask_indpac</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>, optional) – A cube containing the mask to be applied to <cite>cube_indpac</cite>
+(1 where masked, else 0).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube containing all input cubes with an added basin dimension</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.land_use_tile_mean">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">land_use_tile_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tile_fraction_cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#land_use_tile_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.land_use_tile_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the cube of the mean variable_cube over the CMIP6 land use types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_cube</strong> (class:<cite>iris.cube.Cube</cite>) – the cube containing the input variable on the JULES tiles.</p></li>
+<li><p><strong>tile_fraction_cube</strong> (class:<cite>iris.cube.Cube</cite>) – the fraction of land covered by each JULES tile.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The mean of variable_cube over CMIP6 land use types.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>class:<cite>iris.cube.Cube</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.land_use_tile_area">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">land_use_tile_area</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tile_fraction_cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_fraction_cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#land_use_tile_area"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.land_use_tile_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns cube of land cover fraction over the CMIP6 land use types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tile_fraction_cube</strong> (class:<cite>iris.cube.Cube</cite>) – the fraction of land covered by each JULES tile.</p></li>
+<li><p><strong>land_fraction_cube</strong> (class:<cite>iris.cube.Cube</cite>) – the fraction of a gridcell covered by land</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An iris cube of land cover fraction.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>class:<cite>iris.cube.Cube</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.land_use_tile_mean_difference">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">land_use_tile_mean_difference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tile_fraction1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tile_fraction2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">land_fraction_cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#land_use_tile_mean_difference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.land_use_tile_mean_difference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns cube of land cover fraction over the CMIP6 land use types,
+based on difference between the first 2 cubes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tile_fraction1</strong> (class:<cite>iris.cube.Cube</cite>) – the fraction of land covered by each JULES tile.</p></li>
+<li><p><strong>tile_fraction2</strong> (class:<cite>iris.cube.Cube</cite>) – the fraction of land covered by each JULES tile.</p></li>
+<li><p><strong>land_fraction_cube</strong> (class:<cite>iris.cube.Cube</cite>) – the fraction of a gridcell covered by land</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An iris cube of land cover fraction.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>class:<cite>iris.cube.Cube</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.divide_cubes">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">divide_cubes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#divide_cubes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.divide_cubes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide cube1 by cube2, ignoring any differing coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube1</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The first cube.</p></li>
+<li><p><strong>cube2</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The second cube.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The result of dividing the first cube by the second cube.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>class:<cite>iris.cube.Cube</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.divide_by_mask">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">divide_by_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#divide_by_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.divide_by_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Correct the tau pseudo level coordinate data in the supplied cube
+and then divide by the weights cube.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Data variable cube.</p></li>
+<li><p><strong>weights_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Weights variable cube.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube with corrected tau pseudo level coordinate data with
+weights applied.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.jpdftaure_divide_by_mask">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">jpdftaure_divide_by_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#jpdftaure_divide_by_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.jpdftaure_divide_by_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Correct the tau pseudo level coordinate data in the supplied cube
+and then divide by the weights cube. Also set the units of the
+“height” coordinate (really the “radius” axis) to “micron” and
+adds bounds. Note that the bounds values are hard coded into
+a set of constants.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Data variable cube.</p></li>
+<li><p><strong>weights_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Weights variable cube.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube with corrected tau pseudo level coordinate data with
+weights applied.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#RuntimeError" title="(in Python v3.8)"><strong>RuntimeError</strong></a> – If the points on the height coordinate do not match the expected
+    sets (JPDFTUAREICEMODIS_POINTS or JPDFTAURELIQMODIS_POINTS) at
+    which point it is not clear how to proceed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.fix_clmisr_height">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">fix_clmisr_height</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights_cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#fix_clmisr_height"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.fix_clmisr_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>Correct the height coordinate data to reflect the alt16 requested altitudes for
+the clmisr variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Data variable cube.</p></li>
+<li><p><strong>weights_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Weights variable cube.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Data variable cube with fixed height coords.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>class:’iris.cube.Cube`</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.calc_fgdms">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">calc_fgdms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">land_fraction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#calc_fgdms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.calc_fgdms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the <code class="docutils literal notranslate"><span class="pre">fgdms</span></code> diagnostic by masking out land grid points
+from Atmos-surface-DMS emissions. Uses the land_fraction
+field in a inverse manner i.e. masks where land_fraction == 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>land_fraction</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Land fraction cube.</p></li>
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – DMS emissions as mol m-2 s-1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>DMS emissions with land cells masked out</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#RuntimeError" title="(in Python v3.8)"><strong>RuntimeError</strong></a> – If cube long, lat dimensions do not match land fraction.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.remove_altitude_coords">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">remove_altitude_coords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#remove_altitude_coords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.remove_altitude_coords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a cube with the altitude-related coordinates removed.</p>
+<p>This enables arithmetic to be performed between cubes, where one
+cube was created by selecting a single level from hybrid height
+levels.</p>
+<p>This processor also removes the <code class="docutils literal notranslate"><span class="pre">HybridHeightFactory</span></code> from the
+cube, see <a class="reference external" href="https://scitools.org.uk/iris/docs/latest/whitepapers/">https://scitools.org.uk/iris/docs/latest/whitepapers/</a>    um_files_loading.html#vertical-coordinates for more details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing altitude-related coordinates.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube with the altitude-related coordinates removed.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.mask_polar_column_zonal_means">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">mask_polar_column_zonal_means</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_heaviside</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#mask_polar_column_zonal_means"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.mask_polar_column_zonal_means" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a cube with the columns corresponding to the north and south
+poles masked out to avoid publishing erroneous data. This is only
+intended for the correction of zonal mean diagnostics</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube_data</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing zonal mean data</p></li>
+<li><p><strong>cube_heaviside</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing zonal mean heaviside data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube with the polar columns masked.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#RuntimeError" title="(in Python v3.8)"><strong>RuntimeError</strong></a> – If unable to construct a mask cube.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.hotspot">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">hotspot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">upward_lw_flux</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">olr_s3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">olr_s2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#hotspot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.hotspot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a cube with adjusted time-mean GCM upward LW flux using the
+difference between the OLRs diagnosed by Sections 3 &amp; 2.</p>
+<p>The “hotspot” code in the GCM surface scheme re-calculates the
+upward surface LW flux every physics timestep, avoiding instability
+by providing immediate feedback on surface temperature without
+waiting for radiation timesteps, but making the surface energy
+budget inconsistent with the LW scheme’s calculations.
+For CMIP we shall make everything consistent by adjusting upward
+&amp; net LW fluxes from the LW scheme by the difference between the
+OLRs diagnosed by the 2 schemes.
+For single-level outputs this can be done by the standard
+processing, but not multi-level ones, so this function is needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>upward_lw_flux</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The upward LW flux to be adjusted.</p></li>
+<li><p><strong>olr_s3</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The OLR (rlut) from Section 3 (item 332), consistent with the
+surface scheme.</p></li>
+<li><p><strong>olr_s2</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The OLR (rlut) from Section 2 (item 205), consistent with the
+LW scheme.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The adjusted upward LW flux.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.correct_multilevel_metadata">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">correct_multilevel_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#correct_multilevel_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.correct_multilevel_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a cube with corrected level metadata for multi-level fluxes
+between theta levels.</p>
+<p>Since New Dynamics was introduced STASH has given them metadata
+appropriate for rho-level quantities, so labelling the lowest one
+as at the lowest rho level when it is in fact at the surface, and
+setting bounds (to the theta levels), when they should have none.
+This affects all radiative fluxes requested by CMIP on atmospheric
+levels, and also a few requested at the surface or top of
+atmosphere that have to be obtained as the top or bottom layer of a
+multi-level STASH diagnostic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Any cube of a flux between theta levels.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The same cube but with corrected levels metadata.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.mask_vtem">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">mask_vtem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube_vtem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_heaviside</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#mask_vtem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.mask_vtem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a cube with all data at and below 700 hPa masked out.
+Note that the vtem data is produced as a zonal mean, while the
+zonal meaning is done by STASH in the UM. They end up with
+slightly different scalar longitude coordinates, so some
+unification is required. Here we choose to put the points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube_vtem</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – vtem cube to mask.</p></li>
+<li><p><strong>cube_heaviside</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Heaviside data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Masked cube.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.zonal_apply_heaviside">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">zonal_apply_heaviside</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_heaviside</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#zonal_apply_heaviside"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.zonal_apply_heaviside" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the Heaviside field to zonal mean variables after
+fixing the longitude coordinate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – data</p></li>
+<li><p><strong>cube_heaviside</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Heaviside data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>scaled data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.mean_diurnal_cycle">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">mean_diurnal_cycle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#mean_diurnal_cycle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.mean_diurnal_cycle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the monthly mean diurnal cycle. It averages all
+the fields within the same hour for each month. The output
+will contain 24 fields for each month.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with hourly means or higher-frequency data.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A cube with a monthly-mean hourly time series.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.day_max">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">day_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#day_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.day_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the max daily value of the cube.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.avg_from_hourly">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">avg_from_hourly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_in_hours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#avg_from_hourly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.avg_from_hourly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the n-hour average of the cube</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.extract_n_hourly">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">extract_n_hourly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_in_hours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#extract_n_hourly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.extract_n_hourly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract every “period_in_hours” from cube</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.urot_calc">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">urot_calc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube_u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#urot_calc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.urot_calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the u component with respect to the standard lon-lat system</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.vrot_calc">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">vrot_calc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube_u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#vrot_calc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.vrot_calc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the v component with respect to the standard lon-lat system</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.urot_calc_extract_n_hourly">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">urot_calc_extract_n_hourly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube_u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_in_hours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#urot_calc_extract_n_hourly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.urot_calc_extract_n_hourly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract 6-hourly winds and calculate the u component with respect to the standard lon-lat system</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.process.processors.vrot_calc_extract_n_hourly">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">vrot_calc_extract_n_hourly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube_u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cube_v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_in_hours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#vrot_calc_extract_n_hourly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.vrot_calc_extract_n_hourly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract 6-hourly winds and calculate the v component with respect to the standard lon-lat system</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="model_to_mip_mappings.html"
+                        title="previous chapter">Model to MIP Mapping Configuration Files</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="constants.html"
+                        title="next chapter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">constants</span></code></a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/mip_convert/process/processors.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="constants.html" title="constants"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="model_to_mip_mappings.html" title="Model to MIP Mapping Configuration Files"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Reference</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">processors</span></code></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright British Crown 2015-2022, Met Office.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

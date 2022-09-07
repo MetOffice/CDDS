@@ -1,0 +1,634 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Release History &#8212; MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Support" href="support.html" />
+    <link rel="prev" title="constants" href="mip_convert/process/constants.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="support.html" title="Support"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mip_convert/process/constants.html" title="constants"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Release History</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="release-history">
+<h1>Release History<a class="headerlink" href="#release-history" title="Permalink to this headline">¶</a></h1>
+<section id="release-2-3-2-september-01-2022">
+<h2>Release 2.3.2, September 01, 2022<a class="headerlink" href="#release-2-3-2-september-01-2022" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>MIP Convert can now produce files with a forecast time coordinate as introduced
+at CMOR v3.7.0 (CDDSO-124)</p></li>
+<li><p>Approved mapping for fsitherm (CDDSO-163)</p></li>
+</ul>
+</section>
+<section id="release-2-3-1-june-29-2022">
+<h2>Release 2.3.1, June 29, 2022<a class="headerlink" href="#release-2-3-1-june-29-2022" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Add extra pressure levels for UKCP (CDDSO-146)</p></li>
+</ul>
+</section>
+<section id="release-2-3-0-may-24-2022">
+<h2>Release 2.3.0, May 24, 2022<a class="headerlink" href="#release-2-3-0-may-24-2022" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Development moved to github</p></li>
+<li><p>Duplicate coordinates error rased when producing certain variables is now not raised (CDDSO-109)</p></li>
+</ul>
+</section>
+<section id="release-2-2-5-may-4-2022">
+<h2>Release 2.2.5, May 4, 2022<a class="headerlink" href="#release-2-2-5-may-4-2022" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes</p></li>
+</ul>
+</section>
+<section id="release-2-2-4-april-22-2022">
+<h2>Release 2.2.4, April 22, 2022<a class="headerlink" href="#release-2-2-4-april-22-2022" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes</p></li>
+</ul>
+</section>
+<section id="release-2-2-3-april-7-2022">
+<h2>Release 2.2.3, April 7, 2022<a class="headerlink" href="#release-2-2-3-april-7-2022" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes</p></li>
+</ul>
+</section>
+<section id="release-2-2-2-march-18-2022">
+<h2>Release 2.2.2, March 18, 2022<a class="headerlink" href="#release-2-2-2-march-18-2022" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>CV checks for non-CMIP6 processing is now the same as for CMIP6 (#2539)</p></li>
+<li><p>Additional mappings for UKCP (#2518)</p></li>
+</ul>
+</section>
+<section id="release-2-2-1-february-15-2022">
+<h2>Release 2.2.1, February 15, 2022<a class="headerlink" href="#release-2-2-1-february-15-2022" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-2-2-0-february-9-2022">
+<h2>Release 2.2.0, February 9, 2022<a class="headerlink" href="#release-2-2-0-february-9-2022" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Introduced plugin system for project information (e.g. CMIP6) and model descriptions to
+enable use of CDDS outside of CMIP6 (#2460, #2461, #2462, #2468, #2494, #2502, #2503, #2504,
+#2509, #2510, #2512, #2513, #2514)</p></li>
+<li><p>Update to use python 3.8 (#2438)</p></li>
+<li><p>Allow for the use of CDDS beyond CMIP6 (#2449, #2469, #2470)</p></li>
+<li><p>Retired umfilelist and all connected code (#2438)</p></li>
+</ul>
+</section>
+<section id="release-2-1-2-november-25-2021">
+<h2>Release 2.1.2, November 25, 2021<a class="headerlink" href="#release-2-1-2-november-25-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mip_convert</span></code> now can handle <cite>LBTIM</cite> constraints correctly (#2455)</p></li>
+</ul>
+</section>
+<section id="release-2-1-1-october-26-2021">
+<h2>Release 2.1.1, October 26, 2021<a class="headerlink" href="#release-2-1-1-october-26-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Added regional model variable mappings for CORDEX (#2442)</p></li>
+</ul>
+</section>
+<section id="release-2-1-0-september-6-2021">
+<h2>Release 2.1.0, September 6, 2021<a class="headerlink" href="#release-2-1-0-september-6-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-2-0-8-august-3-2021">
+<h2>Release 2.0.8, August 3, 2021<a class="headerlink" href="#release-2-0-8-august-3-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Refactored <code class="docutils literal notranslate"><span class="pre">mip_convert</span></code> to improve performance (#2423)</p></li>
+</ul>
+</section>
+<section id="release-2-0-7-july-15-2021">
+<h2>Release 2.0.7, July 15, 2021<a class="headerlink" href="#release-2-0-7-july-15-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-2-0-6-june-29-2021">
+<h2>Release 2.0.6, June 29, 2021<a class="headerlink" href="#release-2-0-6-june-29-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-2-0-5-june-11-2021">
+<h2>Release 2.0.5, June 11, 2021<a class="headerlink" href="#release-2-0-5-june-11-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-2-0-4-may-17-2021">
+<h2>Release 2.0.4, May 17, 2021<a class="headerlink" href="#release-2-0-4-may-17-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Added approved mappings for depth integrated upper ocean (top 100m) biogeochemistry
+variables (#2146)</p></li>
+</ul>
+</section>
+<section id="release-2-0-3-april-28-2021">
+<h2>Release 2.0.3, April 28, 2021<a class="headerlink" href="#release-2-0-3-april-28-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-2-0-2-april-22-2021">
+<h2>Release 2.0.2, April 22, 2021<a class="headerlink" href="#release-2-0-2-april-22-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Approved mappings for <code class="docutils literal notranslate"><span class="pre">E3hrPt/ts</span></code>, <code class="docutils literal notranslate"><span class="pre">CFmon/ta</span></code>, <code class="docutils literal notranslate"><span class="pre">CFday/ta</span></code> and <code class="docutils literal notranslate"><span class="pre">CFday/ta700</span></code> diagnostics (#2303, #2326)</p></li>
+<li><p>Fixed a bug in MIP Convert which prevented it from providing CMOR with correct Controlled Vocabulary file (#2317)</p></li>
+</ul>
+</section>
+<section id="release-2-0-1-march-25-2021">
+<h2>Release 2.0.1, March 25, 2021<a class="headerlink" href="#release-2-0-1-march-25-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>MIP Convert now allows seasonal mean data to be produced (#943)</p></li>
+</ul>
+</section>
+<section id="release-2-0-february-24-2021">
+<h2>Release 2.0, February 24, 2021<a class="headerlink" href="#release-2-0-february-24-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Updated CDDS codebase to Python 3.6.</p></li>
+</ul>
+</section>
+<section id="release-1-6-5-february-22-2021">
+<h2>Release 1.6.5, February 22, 2021<a class="headerlink" href="#release-1-6-5-february-22-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-6-4-february-11-2021">
+<h2>Release 1.6.4, February 11, 2021<a class="headerlink" href="#release-1-6-4-february-11-2021" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="release-1-6-3-february-9-2021">
+<h2>Release 1.6.3, February 9, 2021<a class="headerlink" href="#release-1-6-3-february-9-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>MIP Convert can now produce monthly mean diurnal cycle diagnostics (#349)</p></li>
+<li><p>Added processor for loaddust (#1823)</p></li>
+<li><p>Approved several mappings (#2220)</p></li>
+</ul>
+</section>
+<section id="release-1-6-2-january-11-2021">
+<h2>Release 1.6.2, January 11, 2021<a class="headerlink" href="#release-1-6-2-january-11-2021" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Approved mappings for <code class="docutils literal notranslate"><span class="pre">mc</span></code>, <code class="docutils literal notranslate"><span class="pre">mcd</span></code> and <code class="docutils literal notranslate"><span class="pre">mcu</span></code> diagnostics (#2177)</p></li>
+</ul>
+</section>
+<section id="release-1-6-1-november-26-2020">
+<h2>Release 1.6.1, November 26, 2020<a class="headerlink" href="#release-1-6-1-november-26-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-6-0-november-05-2020">
+<h2>Release 1.6.0, November 05, 2020<a class="headerlink" href="#release-1-6-0-november-05-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Fixed processors for vertical integrals of ocean biogeochemical variables (#1192)</p></li>
+<li><p>Corrected <code class="docutils literal notranslate"><span class="pre">jpdftaure*</span></code> diagnostics related to the cloud area fraction in
+the atmosphere layer (#558, #2091)</p></li>
+<li><p>Added several new mappings (#1822, #1845, #1846) and updated review statuses (#2090)</p></li>
+</ul>
+</section>
+<section id="release-1-5-5-october-20-2020">
+<h2>Release 1.5.5, October 20, 2020<a class="headerlink" href="#release-1-5-5-october-20-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-5-4-october-7-2020">
+<h2>Release 1.5.4, October 7, 2020<a class="headerlink" href="#release-1-5-4-october-7-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-5-3-september-16-2020">
+<h2>Release 1.5.3, September 16, 2020<a class="headerlink" href="#release-1-5-3-september-16-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-5-2-september-4-2020">
+<h2>Release 1.5.2, September 4, 2020<a class="headerlink" href="#release-1-5-2-september-4-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-5-1-august-20-2020">
+<h2>Release 1.5.1, August 20, 2020<a class="headerlink" href="#release-1-5-1-august-20-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Corrections to vertical coordinate data in some CFsubhr radiation mappings
+(#1946)</p></li>
+<li><p>Approval of several mappings (#1975) and removal of ok status from one
+(#1992)</p></li>
+</ul>
+</section>
+<section id="release-1-5-0-july-2-2020">
+<h2>Release 1.5.0, July 2, 2020<a class="headerlink" href="#release-1-5-0-july-2-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Corrected mappings for <code class="docutils literal notranslate"><span class="pre">wbptemp</span></code> and <code class="docutils literal notranslate"><span class="pre">rsut*4co2</span></code> (#567, #1502)</p></li>
+<li><p>Added many new mappings (#848, #1691, #1803, #1820) and updated review
+statuses (#1855)</p></li>
+<li><p>Added mappings for CF sites variables (#1838)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zostoga</span></code> can now be produced for HadGEM3-GC31-MM (#1266)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">evs</span></code> can now be marked as active by CDDS Prepare following alterations to
+the mapping, which avoids an issue when reading the NEMO iodef.xml file
+(#1419)</p></li>
+<li><p>Removed approved status of <code class="docutils literal notranslate"><span class="pre">sipr</span></code>, <code class="docutils literal notranslate"><span class="pre">siflfwdrain</span></code> and <code class="docutils literal notranslate"><span class="pre">siflfwbot</span></code>
+mappings pending re-review (#1853)</p></li>
+</ul>
+</section>
+<section id="release-1-4-5-june-16-2020">
+<h2>Release 1.4.5, June 16, 2020<a class="headerlink" href="#release-1-4-5-june-16-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-4-4-june-1-2020">
+<h2>Release 1.4.4, June 1, 2020<a class="headerlink" href="#release-1-4-4-june-1-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-4-3-may-12-2020">
+<h2>Release 1.4.3, May 12, 2020<a class="headerlink" href="#release-1-4-3-may-12-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>CDDS can now process data for the model <code class="docutils literal notranslate"><span class="pre">UKESM1-ice-LL</span></code> (#1513)</p></li>
+</ul>
+</section>
+<section id="release-1-4-2-april-30-2020">
+<h2>Release 1.4.2, April 30, 2020<a class="headerlink" href="#release-1-4-2-april-30-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-4-1-april-28-2020">
+<h2>Release 1.4.1, April 28, 2020<a class="headerlink" href="#release-1-4-1-april-28-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-4-0-april-23-2020">
+<h2>Release 1.4.0, April 23, 2020<a class="headerlink" href="#release-1-4-0-april-23-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Added new approved mappings for sub-daily variables (#1704) ocean
+biogeochemistry (#1575), and FAFMIP (#1504).</p></li>
+<li><p>MIP Convert can now correctly produce sub-daily variables (#1577)</p></li>
+</ul>
+</section>
+<section id="release-1-3-4-march-27-2020">
+<h2>Release 1.3.4, March 27, 2020<a class="headerlink" href="#release-1-3-4-march-27-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-3-3-february-25-2020">
+<h2>Release 1.3.3, February 25, 2020<a class="headerlink" href="#release-1-3-3-february-25-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Processors using mask_copy routine do not now raise a TypeError referring
+to the numpy copyto() function (#1537)</p></li>
+<li><p>Corrected masking of polar row in data from CICE. Previously ORCA1 sea-ice
+data on T points and ORCA025 data on UV points was being masked incorrectly
+(#1624)</p></li>
+</ul>
+</section>
+<section id="release-1-3-2-january-27-2020">
+<h2>Release 1.3.2, January 27, 2020<a class="headerlink" href="#release-1-3-2-january-27-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>CRITICAL error messages from MIP Convert are correctly captured in the
+<code class="docutils literal notranslate"><span class="pre">critical_issues.log</span></code> file, and known exceptions from within MIP Convert
+will no longer lead to task failure in CDDS Convert suites (#1533).</p></li>
+</ul>
+</section>
+<section id="release-1-3-1-january-20-2020">
+<h2>Release 1.3.1, January 20, 2020<a class="headerlink" href="#release-1-3-1-january-20-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Moved to updated scitools environment production_legacy-os43-1;
+python v2.7, iris v2.2 (#1512)</p></li>
+<li><p>Added additional environmental variables setup in MIP Convert, and
+implemented cube rechunking to avoid performance issues when switching
+to Iris 2.2 (#1195)</p></li>
+</ul>
+</section>
+<section id="release-1-3-0-january-14-2020">
+<h2>Release 1.3.0, January 14, 2020<a class="headerlink" href="#release-1-3-0-january-14-2020" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Added processor to avoid <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> when processing <code class="docutils literal notranslate"><span class="pre">rsusLut</span></code> (#889)</p></li>
+<li><p>A number of radiation and ocean biogeochemistry <a class="reference internal" href="glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mappings</span></a> are
+now available (#1153)</p></li>
+<li><p>Added processor for <code class="docutils literal notranslate"><span class="pre">vtem</span></code> to mask data below 700 hPa (#1411)</p></li>
+</ul>
+</section>
+<section id="release-1-2-3-november-26-2019">
+<h2>Release 1.2.3, November 26, 2019<a class="headerlink" href="#release-1-2-3-november-26-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>The variable <code class="docutils literal notranslate"><span class="pre">wtem</span></code> can now be produced (#875)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">parent_activity_id</span></code> global attribute in the <a class="reference internal" href="glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF files</span></a>
+is now correctly determined based on the <code class="docutils literal notranslate"><span class="pre">parent_experiment_id</span></code> (#1409)</p></li>
+</ul>
+</section>
+<section id="release-1-2-2-november-13-2019">
+<h2>Release 1.2.2, November 13, 2019<a class="headerlink" href="#release-1-2-2-november-13-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">multiply_cubes</span></code> processor for <code class="docutils literal notranslate"><span class="pre">emibvoc</span></code> and <code class="docutils literal notranslate"><span class="pre">emiisop</span></code> corrected to
+avoid “No data available for {year}; please check run_bounds” errors when
+processing more than one year of data at a time (#1343)</p></li>
+</ul>
+</section>
+<section id="release-1-2-1-october-29-2019">
+<h2>Release 1.2.1, October 29, 2019<a class="headerlink" href="#release-1-2-1-october-29-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Correction of typo in mapping for <code class="docutils literal notranslate"><span class="pre">wetoa</span></code> (#1330)</p></li>
+<li><p>Approval of mappings for IPCC important variables <code class="docutils literal notranslate"><span class="pre">rlutcs</span></code> and <code class="docutils literal notranslate"><span class="pre">rlutcsaf</span></code>
+(#1331)</p></li>
+</ul>
+</section>
+<section id="release-1-2-0-october-17-2019">
+<h2>Release 1.2.0, October 17, 2019<a class="headerlink" href="#release-1-2-0-october-17-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">This</span> <span class="pre">operation</span> <span class="pre">cannot</span> <span class="pre">be</span> <span class="pre">performed</span> <span class="pre">as</span> <span class="pre">there</span> <span class="pre">are</span> <span class="pre">differing</span> <span class="pre">coordinates</span>
+<span class="pre">remaining</span> <span class="pre">which</span> <span class="pre">cannot</span> <span class="pre">be</span> <span class="pre">ignored</span></code> errors that occur when applying the
+<a class="reference internal" href="glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> expression have now been resolved due to the addition
+of a <code class="docutils literal notranslate"><span class="pre">multiply_cubes</span></code> processor (#275)</p></li>
+<li><p>Warnings related to <code class="docutils literal notranslate"><span class="pre">invalid</span> <span class="pre">value</span> <span class="pre">encountered</span> <span class="pre">in</span> <span class="pre">divide</span></code> are now not
+issued when processing <a class="reference internal" href="glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variables</span></a> that use the
+<code class="docutils literal notranslate"><span class="pre">divide_by_mask</span></code> processor (#391)</p></li>
+<li><p>The duplication of constants in the <code class="docutils literal notranslate"><span class="pre">original_name</span></code> attribute in the
+<a class="reference internal" href="glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF files</span></a> (which described the <a class="reference internal" href="glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> expression)
+has now been removed (#1020)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">parent_experiment_id</span></code> must now be specified in the
+<a class="reference internal" href="glossary.html#term-User-configuration-file"><span class="xref std std-term">user configuration file</span></a> whenever a parent exists (#1118)</p></li>
+<li><p><a class="reference internal" href="glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variables</span></a> on half levels (e.g. <code class="docutils literal notranslate"><span class="pre">phalf</span></code>) can now be produced
+(#899)</p></li>
+<li><p>Implemented compatibility with the 01.00.31 version of the <a class="reference internal" href="glossary.html#term-MIP-table"><span class="xref std std-term">MIP tables</span></a>
+(#1056)</p></li>
+<li><p>A number of <a class="reference internal" href="glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mappings</span></a>, including carbon, cftables, cloud and
+land are now available (#990, #1016, #1257, #1259)</p></li>
+<li><p>The <a class="reference internal" href="glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mappings</span></a> for <code class="docutils literal notranslate"><span class="pre">drybc</span></code>, <code class="docutils literal notranslate"><span class="pre">fgco2</span></code> and <code class="docutils literal notranslate"><span class="pre">evspsblsoi</span></code> have
+now been corrected (#846, #1193, #1257)</p></li>
+</ul>
+</section>
+<section id="release-1-1-4-september-2-2019">
+<h2>Release 1.1.4, September 2, 2019<a class="headerlink" href="#release-1-1-4-september-2-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-1-3-july-31-2019">
+<h2>Release 1.1.3, July 31, 2019<a class="headerlink" href="#release-1-1-3-july-31-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>The <a class="reference internal" href="glossary.html#term-MIP-requested-variable-name"><span class="xref std std-term">MIP requested variable name</span></a> is now written to the global attributes in
+the <a class="reference internal" href="glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF files</span></a> to help with identification (the <code class="docutils literal notranslate"><span class="pre">out_name</span></code> in
+the <a class="reference internal" href="glossary.html#term-MIP-table"><span class="xref std std-term">MIP tables</span></a> sometimes differs from the <a class="reference internal" href="glossary.html#term-MIP-requested-variable-name"><span class="xref std std-term">MIP requested variable name</span></a>;
+#1051)</p></li>
+</ul>
+</section>
+<section id="release-1-1-2-july-3-2019">
+<h2>Release 1.1.2, July 3, 2019<a class="headerlink" href="#release-1-1-2-july-3-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-1-1-june-27-2019">
+<h2>Release 1.1.1, June 27, 2019<a class="headerlink" href="#release-1-1-1-june-27-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-1-0-june-12-2019">
+<h2>Release 1.1.0, June 12, 2019<a class="headerlink" href="#release-1-1-0-june-12-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>MIP Convert now preferentially uses <code class="docutils literal notranslate"><span class="pre">cftime</span></code>, falling back to using
+<code class="docutils literal notranslate"><span class="pre">netcdftime</span></code> if <code class="docutils literal notranslate"><span class="pre">cftime</span></code> is not available in the environment (#249)</p></li>
+<li><p>When replacing constants in the <a class="reference internal" href="glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> expressions, sometimes
+a constant would be replaced with the incorrect value when the constant has a
+name that shares the same root as the name of another constant; the constants
+are now replaced with the correct value and are explicitly written to the
+<a class="reference internal" href="glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF file</span></a> (#928)</p></li>
+<li><p>NEMO <a class="reference internal" href="glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variables</span></a> on different grid points can now be produced
+in the same call to MIP Convert (#870)</p></li>
+<li><p>Multiple <a class="reference internal" href="glossary.html#term-Model-type"><span class="xref std std-term">model types</span></a> are now validated correctly against the values in the
+CVs (#904)</p></li>
+<li><p>Surface ocean biogeochemistry <a class="reference internal" href="glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variables</span></a> can now be produced
+(#869)</p></li>
+<li><p>Pseudo zonal mean <a class="reference internal" href="glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variables</span></a> can now be produced from NEMO
+<code class="docutils literal notranslate"><span class="pre">diaptr</span></code> files (#270)</p></li>
+<li><p>The production of MEDUSA ocean biogeochemistry <a class="reference internal" href="glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variables</span></a> are
+now supported (#582)</p></li>
+<li><p>The issue related to data being set to zero due to integer division is now
+resolved (#861)</p></li>
+<li><p>A substantial number of <a class="reference internal" href="glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mappings</span></a>, including carbon, land and
+ocean biogeochemistry, are now available (e.g. #759, #843, #853)</p></li>
+</ul>
+</section>
+<section id="release-1-0-5-may-10-2019">
+<h2>Release 1.0.5, May 10, 2019<a class="headerlink" href="#release-1-0-5-may-10-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-0-4-april-30-2019">
+<h2>Release 1.0.4, April 30, 2019<a class="headerlink" href="#release-1-0-4-april-30-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-0-3-april-5-2019">
+<h2>Release 1.0.3, April 5, 2019<a class="headerlink" href="#release-1-0-3-april-5-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-0-2-april-5-2019">
+<h2>Release 1.0.2, April 5, 2019<a class="headerlink" href="#release-1-0-2-april-5-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>No changes.</p></li>
+</ul>
+</section>
+<section id="release-1-0-1-april-2-2019">
+<h2>Release 1.0.1, April 2, 2019<a class="headerlink" href="#release-1-0-1-april-2-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Substreams can now be specified in the <a class="reference internal" href="glossary.html#term-User-configuration-file"><span class="xref std std-term">user configuration files</span></a> (#198)</p></li>
+<li><p>A workaround was implemented to deal with the bug in <code class="docutils literal notranslate"><span class="pre">iris.util.new_axis</span></code>,
+which causes the <code class="docutils literal notranslate"><span class="pre">fill_value</span></code> to be reset to the default value (#692)</p></li>
+<li><p>The polar rows in NEMO <a class="reference internal" href="glossary.html#term-Model-output-files"><span class="xref std std-term">model output files</span></a> are now masked prior to applying
+the <a class="reference internal" href="glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> expression (#702)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">type</span></code> parameter in the call to <code class="docutils literal notranslate"><span class="pre">cmor.variable</span></code> is now available
+(#715)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">activity_id</span></code> and <code class="docutils literal notranslate"><span class="pre">source_type</span></code> required global attributes are now
+validated by comparing their values to those in the CV file (#721)</p></li>
+<li><p>The version of the CV file is now recorded in the <a class="reference internal" href="glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF files</span></a>
+(#763)</p></li>
+</ul>
+</section>
+<section id="release-1-0-0-february-1-2019">
+<h2>Release 1.0.0, February 1, 2019<a class="headerlink" href="#release-1-0-0-february-1-2019" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>First implementation of CDDS.</p></li>
+<li><p>Implemented compatibility with <a class="reference internal" href="glossary.html#term-CMOR"><span class="xref std std-term">CMOR</span></a> v3.4.0 and the 01.00.29 version of
+the <a class="reference internal" href="glossary.html#term-MIP-table"><span class="xref std std-term">MIP tables</span></a>.</p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Release History</a><ul>
+<li><a class="reference internal" href="#release-2-3-2-september-01-2022">Release 2.3.2, September 01, 2022</a></li>
+<li><a class="reference internal" href="#release-2-3-1-june-29-2022">Release 2.3.1, June 29, 2022</a></li>
+<li><a class="reference internal" href="#release-2-3-0-may-24-2022">Release 2.3.0, May 24, 2022</a></li>
+<li><a class="reference internal" href="#release-2-2-5-may-4-2022">Release 2.2.5, May 4, 2022</a></li>
+<li><a class="reference internal" href="#release-2-2-4-april-22-2022">Release 2.2.4, April 22, 2022</a></li>
+<li><a class="reference internal" href="#release-2-2-3-april-7-2022">Release 2.2.3, April 7, 2022</a></li>
+<li><a class="reference internal" href="#release-2-2-2-march-18-2022">Release 2.2.2, March 18, 2022</a></li>
+<li><a class="reference internal" href="#release-2-2-1-february-15-2022">Release 2.2.1, February 15, 2022</a></li>
+<li><a class="reference internal" href="#release-2-2-0-february-9-2022">Release 2.2.0, February 9, 2022</a></li>
+<li><a class="reference internal" href="#release-2-1-2-november-25-2021">Release 2.1.2, November 25, 2021</a></li>
+<li><a class="reference internal" href="#release-2-1-1-october-26-2021">Release 2.1.1, October 26, 2021</a></li>
+<li><a class="reference internal" href="#release-2-1-0-september-6-2021">Release 2.1.0, September 6, 2021</a></li>
+<li><a class="reference internal" href="#release-2-0-8-august-3-2021">Release 2.0.8, August 3, 2021</a></li>
+<li><a class="reference internal" href="#release-2-0-7-july-15-2021">Release 2.0.7, July 15, 2021</a></li>
+<li><a class="reference internal" href="#release-2-0-6-june-29-2021">Release 2.0.6, June 29, 2021</a></li>
+<li><a class="reference internal" href="#release-2-0-5-june-11-2021">Release 2.0.5, June 11, 2021</a></li>
+<li><a class="reference internal" href="#release-2-0-4-may-17-2021">Release 2.0.4, May 17, 2021</a></li>
+<li><a class="reference internal" href="#release-2-0-3-april-28-2021">Release 2.0.3, April 28, 2021</a></li>
+<li><a class="reference internal" href="#release-2-0-2-april-22-2021">Release 2.0.2, April 22, 2021</a></li>
+<li><a class="reference internal" href="#release-2-0-1-march-25-2021">Release 2.0.1, March 25, 2021</a></li>
+<li><a class="reference internal" href="#release-2-0-february-24-2021">Release 2.0, February 24, 2021</a></li>
+<li><a class="reference internal" href="#release-1-6-5-february-22-2021">Release 1.6.5, February 22, 2021</a></li>
+<li><a class="reference internal" href="#release-1-6-4-february-11-2021">Release 1.6.4, February 11, 2021</a></li>
+<li><a class="reference internal" href="#release-1-6-3-february-9-2021">Release 1.6.3, February 9, 2021</a></li>
+<li><a class="reference internal" href="#release-1-6-2-january-11-2021">Release 1.6.2, January 11, 2021</a></li>
+<li><a class="reference internal" href="#release-1-6-1-november-26-2020">Release 1.6.1, November 26, 2020</a></li>
+<li><a class="reference internal" href="#release-1-6-0-november-05-2020">Release 1.6.0, November 05, 2020</a></li>
+<li><a class="reference internal" href="#release-1-5-5-october-20-2020">Release 1.5.5, October 20, 2020</a></li>
+<li><a class="reference internal" href="#release-1-5-4-october-7-2020">Release 1.5.4, October 7, 2020</a></li>
+<li><a class="reference internal" href="#release-1-5-3-september-16-2020">Release 1.5.3, September 16, 2020</a></li>
+<li><a class="reference internal" href="#release-1-5-2-september-4-2020">Release 1.5.2, September 4, 2020</a></li>
+<li><a class="reference internal" href="#release-1-5-1-august-20-2020">Release 1.5.1, August 20, 2020</a></li>
+<li><a class="reference internal" href="#release-1-5-0-july-2-2020">Release 1.5.0, July 2, 2020</a></li>
+<li><a class="reference internal" href="#release-1-4-5-june-16-2020">Release 1.4.5, June 16, 2020</a></li>
+<li><a class="reference internal" href="#release-1-4-4-june-1-2020">Release 1.4.4, June 1, 2020</a></li>
+<li><a class="reference internal" href="#release-1-4-3-may-12-2020">Release 1.4.3, May 12, 2020</a></li>
+<li><a class="reference internal" href="#release-1-4-2-april-30-2020">Release 1.4.2, April 30, 2020</a></li>
+<li><a class="reference internal" href="#release-1-4-1-april-28-2020">Release 1.4.1, April 28, 2020</a></li>
+<li><a class="reference internal" href="#release-1-4-0-april-23-2020">Release 1.4.0, April 23, 2020</a></li>
+<li><a class="reference internal" href="#release-1-3-4-march-27-2020">Release 1.3.4, March 27, 2020</a></li>
+<li><a class="reference internal" href="#release-1-3-3-february-25-2020">Release 1.3.3, February 25, 2020</a></li>
+<li><a class="reference internal" href="#release-1-3-2-january-27-2020">Release 1.3.2, January 27, 2020</a></li>
+<li><a class="reference internal" href="#release-1-3-1-january-20-2020">Release 1.3.1, January 20, 2020</a></li>
+<li><a class="reference internal" href="#release-1-3-0-january-14-2020">Release 1.3.0, January 14, 2020</a></li>
+<li><a class="reference internal" href="#release-1-2-3-november-26-2019">Release 1.2.3, November 26, 2019</a></li>
+<li><a class="reference internal" href="#release-1-2-2-november-13-2019">Release 1.2.2, November 13, 2019</a></li>
+<li><a class="reference internal" href="#release-1-2-1-october-29-2019">Release 1.2.1, October 29, 2019</a></li>
+<li><a class="reference internal" href="#release-1-2-0-october-17-2019">Release 1.2.0, October 17, 2019</a></li>
+<li><a class="reference internal" href="#release-1-1-4-september-2-2019">Release 1.1.4, September 2, 2019</a></li>
+<li><a class="reference internal" href="#release-1-1-3-july-31-2019">Release 1.1.3, July 31, 2019</a></li>
+<li><a class="reference internal" href="#release-1-1-2-july-3-2019">Release 1.1.2, July 3, 2019</a></li>
+<li><a class="reference internal" href="#release-1-1-1-june-27-2019">Release 1.1.1, June 27, 2019</a></li>
+<li><a class="reference internal" href="#release-1-1-0-june-12-2019">Release 1.1.0, June 12, 2019</a></li>
+<li><a class="reference internal" href="#release-1-0-5-may-10-2019">Release 1.0.5, May 10, 2019</a></li>
+<li><a class="reference internal" href="#release-1-0-4-april-30-2019">Release 1.0.4, April 30, 2019</a></li>
+<li><a class="reference internal" href="#release-1-0-3-april-5-2019">Release 1.0.3, April 5, 2019</a></li>
+<li><a class="reference internal" href="#release-1-0-2-april-5-2019">Release 1.0.2, April 5, 2019</a></li>
+<li><a class="reference internal" href="#release-1-0-1-april-2-2019">Release 1.0.1, April 2, 2019</a></li>
+<li><a class="reference internal" href="#release-1-0-0-february-1-2019">Release 1.0.0, February 1, 2019</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="mip_convert/process/constants.html"
+                        title="previous chapter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">constants</span></code></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="support.html"
+                        title="next chapter">Support</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/release_history.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="support.html" title="Support"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mip_convert/process/constants.html" title="constants"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Release History</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright British Crown 2015-2022, Met Office.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

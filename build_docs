@@ -51,7 +51,7 @@ show_help() {
 build_docs() {
     # Build all documentations for each component
     # The name of the doc directory is always the value in $DOC_BUILD_DIR
-    CDDS_COMPONENTS="cdds cdds_configure cdds_convert cdds_qc cdds_qc_plugin_cf17 cdds_qc_plugin_cmip6 cdds_prepare cdds_transfer extract mip_convert transfer hadsdk"
+    CDDS_COMPONENTS="cdds mip_convert"
     . ${CDDS_SRC_DIR}/setup_env_for_devel ${CDDS_SRC_DIR}
     for COMPONENT in $CDDS_COMPONENTS
     do

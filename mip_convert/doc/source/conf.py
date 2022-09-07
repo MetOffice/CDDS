@@ -61,7 +61,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'MIP Convert'
-copyright = 'British Crown 2015-2021, Met Office'
+copyright = 'British Crown 2015-2022, Met Office'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -119,8 +119,7 @@ autodoc_member_order = 'bysource'
 # Specify external dependencies not met at build time, which break the building
 # process.
 autodoc_mock_imports = [
-    'cmor', 'hadsdk.common', 'hadsdk.configuration', 'hadsdk.format',
-    'hadsdk.grids', 'hadsdk.pp']
+    'cmor', 'cdds']
 
 # -- Options for HTML output ----------------------------------------------
 
@@ -155,7 +154,7 @@ html_theme = 'nature'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+# html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
@@ -223,10 +222,10 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-latex_documents = [
-    ('index', 'MIPConvert.tex', 'MIP Convert Documentation',
-     'Jamie Kettleborough', 'manual'),
-]
+# latex_documents = [
+#     ('index', 'MIPConvert.tex', 'MIP Convert Documentation',
+#      'Jamie Kettleborough', 'manual'),
+# ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
@@ -253,10 +252,10 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    ('index', 'mipconvert', 'MIP Convert Documentation',
-     ['Jamie Kettleborough'], 1)
-]
+# man_pages = [
+#     ('index', 'mipconvert', 'MIP Convert Documentation',
+#      ['Jamie Kettleborough'], 1)
+# ]
 
 # If true, show URL addresses after external links.
 #man_show_urls = False
@@ -267,11 +266,11 @@ man_pages = [
 # Grouping the document tree into Texinfo files. List of tuples
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
-texinfo_documents = [
-    ('index', 'MIPConvert', 'MIP Convert Documentation',
-     'Jamie Kettleborough', 'MIPConvert', 'One line description of project.',
-     'Miscellaneous'),
-]
+# texinfo_documents = [
+#     ('index', 'MIPConvert', 'MIP Convert Documentation',
+#      'Jamie Kettleborough', 'MIPConvert', 'One line description of project.',
+#      'Miscellaneous'),
+# ]
 
 # Documents to append as an appendix to all manuals.
 #texinfo_appendices = []
@@ -289,10 +288,6 @@ texinfo_documents = [
 # -- Options for Epub output ----------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = 'MIP Convert'
-epub_author = 'Jamie Kettleborough'
-epub_publisher = 'Jamie Kettleborough'
-epub_copyright = '2015, Jamie Kettleborough'
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = u'MIP Convert'
@@ -356,6 +351,6 @@ epub_exclude_files = ['search.html']
 #epub_use_index = True
 
 # Configuration for intersphinx: refer to the Python standard library and Iris.
-intersphinx_mapping = {'https://docs.python.org/3.6': None,
+intersphinx_mapping = {'https://docs.python.org/3.8': None,
                        'https://scitools-iris.readthedocs.io/en/latest/': None,
                        'https://docs.scipy.org/doc/numpy': None,}
