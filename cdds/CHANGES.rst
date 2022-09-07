@@ -240,8 +240,8 @@ task failure due to issues with MASS (#2205)
 * (transfer): CDDS store can now correctly handle pre-pending files to datasets and there are
 clearer error messages when issues arise (#2222)
 
-Release 2.0, February 24, 2021
-==============================
+Release 2.0.0, February 24, 2021
+================================
 * (cdds_configure): Updated CDDS codebase to Python 3.6.
 * (cdds_convert): Updated CDDS codebase to Python 3.6.
 * (cdds_prepare): Updated CDDS codebase to Python 3.6.
