@@ -1,0 +1,452 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cdds.common.plugins.base.base_models &#8212; CDDS  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/nature.css" />
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.base.base_models</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for cdds.common.plugins.base.base_models</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) British Crown Copyright 2021-2022, Met Office.</span>
+<span class="c1"># Please see LICENSE.rst for license details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The :mod:`base_models` module contains the code required to</span>
+<span class="sd">handle basic model parameters information for models.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">from</span> <span class="nn">cdds.common.enum_utils</span> <span class="kn">import</span> <span class="n">ABCEnumMeta</span>
+<span class="kn">from</span> <span class="nn">cdds.common.io</span> <span class="kn">import</span> <span class="n">read_json</span>
+<span class="kn">from</span> <span class="nn">cdds.common.plugins.common</span> <span class="kn">import</span> <span class="n">LoadResult</span><span class="p">,</span> <span class="n">LoadResults</span>
+<span class="kn">from</span> <span class="nn">cdds.common.plugins.models</span> <span class="kn">import</span> <span class="n">ModelParameters</span><span class="p">,</span> <span class="n">ModelsStore</span>
+<span class="kn">from</span> <span class="nn">cdds.common.plugins.base.base_grid</span> <span class="kn">import</span> <span class="n">BaseGridInfo</span><span class="p">,</span> <span class="n">AtmosBaseGridInfo</span><span class="p">,</span> <span class="n">OceanBaseGridInfo</span>
+<span class="kn">from</span> <span class="nn">cdds.common.plugins.streams</span> <span class="kn">import</span> <span class="n">StreamFileInfo</span><span class="p">,</span> <span class="n">StreamFileFrequency</span>
+<span class="kn">from</span> <span class="nn">cdds.common.plugins.grid</span> <span class="kn">import</span> <span class="n">GridType</span>
+
+
+<div class="viewcode-block" id="ModelId"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.ModelId">[docs]</a><span class="k">class</span> <span class="nc">ModelId</span><span class="p">(</span><span class="n">Enum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCEnumMeta</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents the ID of a model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ModelId.get_json_file"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.ModelId.get_json_file">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_json_file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the json file name for a model containing the model parameters data.</span>
+
+<span class="sd">        :return: Json file name for the model with current ID</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="SizingInfo"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.SizingInfo">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">SizingInfo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents the sizing information of a model and provides functions</span>
+<span class="sd">    to extract data and update data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">DEFAULT_KEY</span> <span class="o">=</span> <span class="s1">&#39;default&#39;</span>
+
+    <span class="n">sizing_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span>
+
+<div class="viewcode-block" id="SizingInfo.update"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.SizingInfo.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update the sizing information</span>
+
+<span class="sd">        :param new_data: New data to add or update</span>
+<span class="sd">        :type new_data: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sizing_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SizingInfo.get_all"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.SizingInfo.get_all">[docs]</a>    <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the whole sizing information as a dict.</span>
+
+<span class="sd">        :return: Sizing information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizing_data</span></div>
+
+<div class="viewcode-block" id="SizingInfo.get_period"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.SizingInfo.get_period">[docs]</a>    <span class="k">def</span> <span class="nf">get_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get period for given frequency and the shape with given coordinates.</span>
+
+<span class="sd">        :param frequency: Frequency, for example monthly, daily</span>
+<span class="sd">        :type frequency: str</span>
+<span class="sd">        :param coordinates: Coordinates of the shape</span>
+<span class="sd">        :type coordinates: str</span>
+<span class="sd">        :return: Corresponding period</span>
+<span class="sd">        :rtype: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">shape_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizing_data</span><span class="p">[</span><span class="n">frequency</span><span class="p">]</span>
+        <span class="n">shape_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_shape_key</span><span class="p">(</span><span class="n">shape_data</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">)</span>
+
+        <span class="n">period</span> <span class="o">=</span> <span class="n">shape_data</span><span class="p">[</span><span class="n">shape_key</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">period</span></div>
+
+    <span class="k">def</span> <span class="nf">_find_shape_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">coordinates</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">shape_key</span> <span class="o">=</span> <span class="n">coordinates</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+        <span class="c1"># If the shape actual key doesn&#39;t exist look for similar key by removing</span>
+        <span class="c1"># first element until one can be found, e.g. if shape is `4-192-144`</span>
+        <span class="c1"># and there is no sizing information try `192-144`.</span>
+        <span class="c1"># If no sizing information can be found, use `default`.</span>
+        <span class="k">while</span> <span class="n">shape_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">shape_data</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;-&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">shape_key</span><span class="p">:</span>
+                <span class="n">shape_key</span> <span class="o">=</span> <span class="n">SizingInfo</span><span class="o">.</span><span class="n">DEFAULT_KEY</span>
+                <span class="k">break</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">shape_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+            <span class="n">shape_key</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+        <span class="k">if</span> <span class="n">coordinates</span> <span class="o">!=</span> <span class="n">shape_key</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Could not find sizing entry for this file shape_key used: &quot;</span><span class="si">{}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shape_key</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">shape_key</span></div>
+
+
+<div class="viewcode-block" id="BaseModelParameters"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters">[docs]</a><span class="k">class</span> <span class="nc">BaseModelParameters</span><span class="p">(</span><span class="n">ModelParameters</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract class to store the parameters for a model.</span>
+<span class="sd">    The parameters of a model are defined in a json file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">:</span> <span class="n">ModelId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_model_id</span><span class="p">:</span> <span class="n">ModelId</span> <span class="o">=</span> <span class="n">model_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cycle_lengths</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_memory</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_temp_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sizing</span><span class="p">:</span> <span class="n">SizingInfo</span> <span class="o">=</span> <span class="n">SizingInfo</span><span class="p">({})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_grid_info</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">GridType</span><span class="p">,</span> <span class="n">BaseGridInfo</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_subdaily_streams</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stream_file_info</span><span class="p">:</span> <span class="n">StreamFileInfo</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="BaseModelParameters.temp_space"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.temp_space">[docs]</a>    <span class="k">def</span> <span class="nf">temp_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the temporary space of the given stream.</span>
+
+<span class="sd">        :param stream_id: Stream ID</span>
+<span class="sd">        :type stream_id: str</span>
+<span class="sd">        :return: Temporary space of the stream</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">temp_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_temp_space</span><span class="p">[</span><span class="n">stream_id</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">temp_space</span></div>
+
+<div class="viewcode-block" id="BaseModelParameters.memory"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.memory">[docs]</a>    <span class="k">def</span> <span class="nf">memory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the memory of the given stream.</span>
+
+<span class="sd">        :param stream_id: Stream ID</span>
+<span class="sd">        :type stream_id: str</span>
+<span class="sd">        :return: Size of memory</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_memory</span><span class="p">[</span><span class="n">stream_id</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="BaseModelParameters.cycle_length"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.cycle_length">[docs]</a>    <span class="k">def</span> <span class="nf">cycle_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the cycle length of the given stream.</span>
+
+<span class="sd">        :param stream_id: Stream ID</span>
+<span class="sd">        :type stream_id: str</span>
+<span class="sd">        :return: Cycle length</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cycle_lengths</span><span class="p">[</span><span class="n">stream_id</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="BaseModelParameters.sizing_info"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.sizing_info">[docs]</a>    <span class="k">def</span> <span class="nf">sizing_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the sizing info for a specific period. The period is specified</span>
+<span class="sd">        by the given frequency and shape coordinates.</span>
+
+<span class="sd">        :param frequency: Frequency</span>
+<span class="sd">        :type frequency: str</span>
+<span class="sd">        :param shape: Shape coordinates</span>
+<span class="sd">        :type shape: str</span>
+<span class="sd">        :return: The corresponding sizing info</span>
+<span class="sd">        :rtype: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sizing</span><span class="o">.</span><span class="n">get_period</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseModelParameters.full_sizing_info"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.full_sizing_info">[docs]</a>    <span class="k">def</span> <span class="nf">full_sizing_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns all sizing information.</span>
+
+<span class="sd">        :return: Sizing information</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sizing</span><span class="o">.</span><span class="n">get_all</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BaseModelParameters.subdaily_streams"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.subdaily_streams">[docs]</a>    <span class="k">def</span> <span class="nf">subdaily_streams</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of subdaily atmospheric streams.</span>
+
+<span class="sd">        :return: Subdaily streams</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subdaily_streams</span></div>
+
+<div class="viewcode-block" id="BaseModelParameters.stream_file_info"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.stream_file_info">[docs]</a>    <span class="k">def</span> <span class="nf">stream_file_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StreamFileInfo</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns information about the stream files that the model supports.</span>
+
+<span class="sd">        :return: Information about the stream files</span>
+<span class="sd">        :rtype: StreamFileInfo</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stream_file_info</span></div>
+
+<div class="viewcode-block" id="BaseModelParameters.load_parameters"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.load_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">load_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dir_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads parameters from json files contained in the given directory.</span>
+
+<span class="sd">        :param dir_path: Path to the directory containing the json files</span>
+<span class="sd">        :type dir_path: str</span>
+<span class="sd">        :return: The result that indicate if the parameters could be loaded successful</span>
+<span class="sd">        :rtype: LoadResult</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">loaded</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">json_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_json_file</span><span class="p">(</span><span class="n">dir_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">json_file</span><span class="p">):</span>
+            <span class="n">parameters</span> <span class="o">=</span> <span class="n">read_json</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+            <span class="n">new_cylc_lengths</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cycle_length&#39;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">new_memory</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;memory&#39;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">new_temp_space</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;temp_space&#39;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">new_sizing_info</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sizing_info&#39;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">new_grid_info</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;grid_info&#39;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_load_stream_file_info</span><span class="p">(</span><span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;stream_file_frequency&#39;</span><span class="p">,</span> <span class="p">{}))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_subdaily_streams</span> <span class="o">=</span> <span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;subdaily_streams&#39;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cycle_lengths</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_cylc_lengths</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_memory</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_memory</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_temp_space</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_temp_space</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sizing</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_sizing_info</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">new_grid_info</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_grid_info</span><span class="p">[</span><span class="n">GridType</span><span class="o">.</span><span class="n">ATMOS</span><span class="p">]</span> <span class="o">=</span> <span class="n">AtmosBaseGridInfo</span><span class="p">(</span><span class="n">new_grid_info</span><span class="p">[</span><span class="s1">&#39;atmos&#39;</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_grid_info</span><span class="p">[</span><span class="n">GridType</span><span class="o">.</span><span class="n">OCEAN</span><span class="p">]</span> <span class="o">=</span> <span class="n">OceanBaseGridInfo</span><span class="p">(</span><span class="n">new_grid_info</span><span class="p">[</span><span class="s1">&#39;ocean&#39;</span><span class="p">])</span>
+            <span class="n">loaded</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">LoadResult</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_id</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">json_file</span><span class="p">,</span> <span class="n">loaded</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_load_stream_file_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">file_frequencies</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">StreamFileFrequency</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">frequency</span><span class="p">,</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">json_parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">file_frequencies</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+                <span class="n">stream</span><span class="p">:</span> <span class="n">StreamFileFrequency</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="n">stream</span><span class="p">,</span> <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;files_per_year&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">stream</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;streams&quot;</span><span class="p">]</span>
+            <span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stream_file_info</span> <span class="o">=</span> <span class="n">StreamFileInfo</span><span class="p">(</span><span class="n">file_frequencies</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_json_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dir_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_id</span><span class="o">.</span><span class="n">get_json_file</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BaseModelParameters.is_model"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.is_model">[docs]</a>    <span class="k">def</span> <span class="nf">is_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns if the current class represents the given model.</span>
+
+<span class="sd">        :param model_id: Model ID to check</span>
+<span class="sd">        :type model_id: str</span>
+<span class="sd">        :return: If given model is represent by the class or not</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">model_id</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_id</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BaseModelParameters.grid_info"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.grid_info">[docs]</a>    <span class="k">def</span> <span class="nf">grid_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid_type</span><span class="p">:</span> <span class="n">GridType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseGridInfo</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the corresponding grid information for the given grid type.</span>
+
+<span class="sd">        :param grid_type: Grid type (e.g.: ATMOS, OCEAN)</span>
+<span class="sd">        :type grid_type: GridType</span>
+<span class="sd">        :return: Grid information of the given grid type</span>
+<span class="sd">        :rtype: BaseGridInfo</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grid_info</span><span class="p">[</span><span class="n">grid_type</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="BaseModelParameters.all_ancil_files"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.all_ancil_files">[docs]</a>    <span class="k">def</span> <span class="nf">all_ancil_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the paths to all ancillary files of this model in the</span>
+<span class="sd">        model directory in given root directory.</span>
+
+<span class="sd">        :param root_directory: Path to root directory of the files</span>
+<span class="sd">        :type root_directory: str</span>
+<span class="sd">        :return: Paths to the ancillary files</span>
+<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_directory</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_id</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">file_names</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">grid_type</span> <span class="ow">in</span> <span class="n">GridType</span><span class="p">:</span>
+            <span class="n">grid_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_info</span><span class="p">(</span><span class="n">grid_type</span><span class="p">)</span>
+            <span class="n">file_names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">grid_info</span><span class="o">.</span><span class="n">ancil_filenames</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">filename</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">model_directory</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="n">file_names</span>
+        <span class="p">))</span></div>
+
+<div class="viewcode-block" id="BaseModelParameters.all_hybrid_heights_files"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.all_hybrid_heights_files">[docs]</a>    <span class="k">def</span> <span class="nf">all_hybrid_heights_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the paths to all hybrid heights files of this model in the</span>
+<span class="sd">        given root directory.</span>
+
+<span class="sd">        :param root_directory: Path to root directory of the files</span>
+<span class="sd">        :type root_directory: str</span>
+<span class="sd">        :return: Paths to the hybrid heights files</span>
+<span class="sd">        :rtype: List[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">file_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">grid_type</span> <span class="ow">in</span> <span class="n">GridType</span><span class="p">:</span>
+            <span class="n">grid_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_info</span><span class="p">(</span><span class="n">grid_type</span><span class="p">)</span>
+            <span class="n">file_names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">grid_info</span><span class="o">.</span><span class="n">hybrid_heights_files</span><span class="p">())</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">file</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_directory</span><span class="p">,</span> <span class="n">file</span><span class="p">),</span> <span class="n">file_names</span>
+        <span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="BaseModelStore"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelStore">[docs]</a><span class="k">class</span> <span class="nc">BaseModelStore</span><span class="p">(</span><span class="n">ModelsStore</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Singleton class to store for each model the corresponding parameters.</span>
+<span class="sd">    The parameters are defined in json files.</span>
+
+<span class="sd">    The class is a singleton to avoid excessive loading of the parameters from the json files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_instances</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseModelParameters</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BaseModelStore</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_instances</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseModelParameters</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_instances</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_load_default_params</span><span class="p">()</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_load_default_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads information from a json in a specific location. The json contains</span>
+<span class="sd">        the default information for each supported resolution.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="BaseModelStore.overload_params"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelStore.overload_params">[docs]</a>    <span class="k">def</span> <span class="nf">overload_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dir_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadResults</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Overloads model parameters. The new parameters are specified in a json file in the given directory.</span>
+<span class="sd">        The json file name must match following pattern: &lt;model-name&gt;.json</span>
+
+<span class="sd">        :param dir_path: Path to the directory</span>
+<span class="sd">        :type dir_path: str</span>
+<span class="sd">        :return: Results containing which model values were overloaded</span>
+<span class="sd">        :rtype: LoadResults</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Load model parameters from: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dir_path</span><span class="p">))</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">LoadResults</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">model_instance</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_instances</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">model_instance</span><span class="o">.</span><span class="n">load_parameters</span><span class="p">(</span><span class="n">dir_path</span><span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">results</span></div>
+
+<div class="viewcode-block" id="BaseModelStore.get"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelStore.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseModelParameters</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the model parameters data for the given model.</span>
+
+<span class="sd">        :param model_id: Model ID</span>
+<span class="sd">        :type model_id: str</span>
+<span class="sd">        :return: Class containing the model parameters</span>
+<span class="sd">        :rtype: BaseModelParameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">model_instance</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_instances</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">model_instance</span><span class="o">.</span><span class="n">is_model</span><span class="p">(</span><span class="n">model_id</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">model_instance</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot find any model parameters for model </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model_id</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="BaseModelStore.get_all"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelStore.get_all">[docs]</a>    <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseModelParameters</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns all model parameters data stored in this model store.</span>
+
+<span class="sd">        :return:</span>
+<span class="sd">        :rtype: List[BaseModelParameters]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_instances</span></div>
+
+<div class="viewcode-block" id="BaseModelStore.add"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelStore.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_instance</span><span class="p">:</span> <span class="n">BaseModelParameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds the given CmipModelParameters instance to the cache</span>
+
+<span class="sd">        Only used in tests!</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_instances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model_instance</span><span class="p">)</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.base.base_models</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, The Climate Data Delivery Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>
