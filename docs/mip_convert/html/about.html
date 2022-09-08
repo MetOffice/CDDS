@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>About &#8212; MIP Convert 2.3.3.dev0+CDDSO-145_sphinx-docs.daa432f-M documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="#" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="MIP Convert Documentation" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="MIP Convert Documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MIP Convert 2.3.3.dev0+CDDSO-145_sphinx-docs.daa432f-M documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">About</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="about">
+<h1>About<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h1>
+<section id="mip-convert">
+<span id="overview"></span><h2>MIP Convert<a class="headerlink" href="#mip-convert" title="Permalink to this headline">¶</a></h2>
+<p>The MIP Convert package enables a user to produce the <a class="reference internal" href="glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF files</span></a> for
+a <a class="reference internal" href="glossary.html#term-MIP"><span class="xref std std-term">MIP</span></a> using <a class="reference internal" href="glossary.html#term-Model-output-files"><span class="xref std std-term">model output files</span></a>.</p>
+<section id="an-overview-of-mip-convert">
+<h3>An overview of MIP Convert<a class="headerlink" href="#an-overview-of-mip-convert" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>The user makes requests for one or more <a class="reference internal" href="glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variables</span></a> by
+providing specific information (including the appropriate
+<a class="reference internal" href="glossary.html#term-MIP-requested-variable-name"><span class="xref std std-term">MIP requested variable names</span></a>) in the <a class="reference internal" href="glossary.html#term-User-configuration-file"><span class="xref std std-term">user configuration file</span></a>.</p></li>
+<li><p>The information required to produce the <a class="reference internal" href="glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variables</span></a> is gathered
+from the <a class="reference internal" href="glossary.html#term-User-configuration-file"><span class="xref std std-term">user configuration file</span></a>, the
+<a class="reference internal" href="glossary.html#term-Model-to-MIP-mapping-configuration-files"><span class="xref std std-term">model to MIP
+mapping configuration files</span></a> and the appropriate <a class="reference internal" href="glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a>,
+in that order.</p></li>
+<li><p>The following steps are then performed for each
+<a class="reference internal" href="glossary.html#term-MIP-requested-variable-name"><span class="xref std std-term">MIP requested variable name</span></a> in the <a class="reference internal" href="glossary.html#term-User-configuration-file"><span class="xref std std-term">user configuration file</span></a> to produce the
+<a class="reference internal" href="glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF files</span></a>:</p>
+<ul>
+<li><p>load the relevant data from the <a class="reference internal" href="glossary.html#term-Model-output-files"><span class="xref std std-term">model output files</span></a> into one or more
+<a class="reference internal" href="glossary.html#term-Input-variable"><span class="xref std std-term">input variables</span></a> depending on whether there is a one-to-one / simple
+arithmetic relationship between the <a class="reference internal" href="glossary.html#term-MIP-output-variable"><span class="xref std std-term">MIP output variable</span></a> and the
+<a class="reference internal" href="glossary.html#term-Input-variable"><span class="xref std std-term">input variables</span></a> or if the <a class="reference internal" href="glossary.html#term-MIP-output-variable"><span class="xref std std-term">MIP output variable</span></a> is based on an arithmetic
+combination of two or more <a class="reference internal" href="glossary.html#term-Input-variable"><span class="xref std std-term">input variables</span></a>, respectively, using <a class="reference internal" href="glossary.html#term-Iris"><span class="xref std std-term">Iris</span></a>
+and the information provided in the <a class="reference internal" href="glossary.html#term-User-configuration-file"><span class="xref std std-term">user configuration file</span></a> and the
+<a class="reference internal" href="glossary.html#term-Model-to-MIP-mapping-configuration-files"><span class="xref std std-term">model to MIP
+mapping configuration files</span></a>.</p></li>
+<li><p>process the <a class="reference internal" href="glossary.html#term-Input-variable"><span class="xref std std-term">input variable</span></a> / <a class="reference internal" href="glossary.html#term-Input-variable"><span class="xref std std-term">input variables</span></a> to produce the
+<a class="reference internal" href="glossary.html#term-MIP-output-variable"><span class="xref std std-term">MIP output variable</span></a> using the information provided in the
+<a class="reference internal" href="glossary.html#term-Model-to-MIP-mapping-configuration-files"><span class="xref std std-term">model to MIP
+mapping configuration files</span></a>.</p></li>
+<li><p>save the <a class="reference internal" href="glossary.html#term-MIP-output-variable"><span class="xref std std-term">MIP output variable</span></a> to an <a class="reference internal" href="glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF file</span></a> using <a class="reference internal" href="glossary.html#term-CMOR"><span class="xref std std-term">CMOR</span></a> and
+the information provided in the <a class="reference internal" href="glossary.html#term-User-configuration-file"><span class="xref std std-term">user configuration file</span></a> and the
+appropriate <a class="reference internal" href="glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a>.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>MIP Convert is licensed under the BSD license.</p>
+<p>British Crown Copyright (C) 2015-2022, Met Office.
+All rights reserved.</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+<ol class="arabic simple">
+<li><p>Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer.</p></li>
+<li><p>Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.</p></li>
+<li><p>Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.</p></li>
+</ol>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">About</a><ul>
+<li><a class="reference internal" href="#mip-convert">MIP Convert</a><ul>
+<li><a class="reference internal" href="#an-overview-of-mip-convert">An overview of MIP Convert</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">MIP Convert Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="next chapter">Installation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/about.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="MIP Convert Documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MIP Convert 2.3.3.dev0+CDDSO-145_sphinx-docs.daa432f-M documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">About</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright British Crown 2015-2022, Met Office.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

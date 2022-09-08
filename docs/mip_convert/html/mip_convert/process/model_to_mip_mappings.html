@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Model to MIP Mapping Configuration Files &#8212; MIP Convert 2.3.3.dev0+CDDSO-145_sphinx-docs.daa432f-M documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="processors" href="processors.html" />
+    <link rel="prev" title="Reference" href="../index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="processors.html" title="processors"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Reference"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MIP Convert 2.3.3.dev0+CDDSO-145_sphinx-docs.daa432f-M documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Reference</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model to MIP Mapping Configuration Files</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="mapping-configuration-files">
+<span id="id2"></span><h1>Model to MIP Mapping Configuration Files<a class="headerlink" href="#mapping-configuration-files" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="../../glossary.html#term-Model-to-MIP-mapping-configuration-files"><span class="xref std std-term">model to MIP
+mapping configuration files</span></a> contains the following sections:</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#default"><span class="std std-ref">DEFAULT</span></a></p></li>
+<li><p><a class="reference internal" href="#common"><span class="std std-ref">COMMON</span></a></p></li>
+<li><p><a class="reference internal" href="#variable-name"><span class="std std-ref">&lt;mip_requested_variable_name&gt;</span></a></p></li>
+</ol>
+<section id="the-default-section">
+<span id="default"></span><h2>The <code class="docutils literal notranslate"><span class="pre">DEFAULT</span></code> Section<a class="headerlink" href="#the-default-section" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#default"><span class="std std-ref">DEFAULT</span></a> section contains options that are propagated to
+all other sections. This is useful for setting a default value for a option for
+all sections. A value provided for the same option in any other section will be
+used for that section over the default value defined in the
+<a class="reference internal" href="#default"><span class="std std-ref">DEFAULT</span></a> section.</p>
+</section>
+<section id="the-common-section">
+<span id="common"></span><h2>The <code class="docutils literal notranslate"><span class="pre">COMMON</span></code> Section<a class="headerlink" href="#the-common-section" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#common"><span class="std std-ref">COMMON</span></a> section contains options that may be used by other
+sections by using the syntax <code class="docutils literal notranslate"><span class="pre">${COMMON:&lt;option&gt;}</span></code>. This is useful for setting
+values for comments or notes that would otherwise be repeated multiple times in
+the <a class="reference internal" href="../../glossary.html#term-Model-to-MIP-mapping-configuration-files"><span class="xref std std-term">model to MIP
+mapping configuration files</span></a>.</p>
+</section>
+<section id="the-mip-requested-variable-name-sections">
+<span id="variable-name"></span><h2>The <code class="docutils literal notranslate"><span class="pre">&lt;mip_requested_variable_name&gt;</span></code> Sections<a class="headerlink" href="#the-mip-requested-variable-name-sections" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#variable-name"><span class="std std-ref">&lt;mip_requested_variable_name&gt;</span></a> sections provide the
+<a class="reference internal" href="../../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> corresponding to the specified <a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>
+and contain the following required options:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 65%" />
+<col style="width: 6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Required Options</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dimension</span></code></p></td>
+<td><p>The dimensions of the <a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">expression</span></code></p></td>
+<td><p>The expression required to convert the <a class="reference internal" href="../../glossary.html#term-Input-variable"><span class="xref std std-term">input variable</span></a> / <a class="reference internal" href="../../glossary.html#term-Input-variable"><span class="xref std std-term">input variables</span></a>
+to the <a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>.</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mip_table_id</span></code></p></td>
+<td><p>A space-separated list of <a class="reference internal" href="../../glossary.html#term-MIP-table-identifier"><span class="xref std std-term">MIP table identifiers</span></a> that the
+<a class="reference internal" href="../../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> is valid for.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">positive</span></code></p></td>
+<td><p>The direction of a vertical energy (heat) flux or surface momentum flux (stress)
+input; use ‘up’ or ‘down’ depending on whether the direction is positive when it
+is directed upward or downward, respectively. This argument is required for
+vertical energy and salt fluxes, for flux correction fields, and for surface
+stress.</p></td>
+<td><p>[1]</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">status</span></code></p></td>
+<td><p>The status of the <a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>. Valid values are <code class="docutils literal notranslate"><span class="pre">ok</span></code> and
+<code class="docutils literal notranslate"><span class="pre">embargoed</span></code>.</p></td>
+<td><p>[2]</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">units</span></code></p></td>
+<td><p>The units of the data of the <a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a> i.e., after the
+<code class="docutils literal notranslate"><span class="pre">expression</span></code> has been applied.</p></td>
+<td><p>[3]</p></td>
+</tr>
+</tbody>
+</table>
+<p>[1] This information is used by <a class="reference internal" href="../../glossary.html#term-CMOR"><span class="xref std std-term">CMOR</span></a> to determine whether a sign change is
+necessary to make the data consistent with the <a class="reference internal" href="../../glossary.html#term-MIP"><span class="xref std std-term">MIP</span></a> requirements. For more
+information, please see the <a class="reference external" href="https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_variable">cmor_variable</a> section in the
+<a class="reference external" href="https://cmor.llnl.gov/">CMOR Documentation</a>.</p>
+<p>[2] The <a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variables</span></a> are reviewed to ensure they have been
+produced correctly. <a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variables</span></a> that have not passed review will
+not be submitted to ESGF and so will not be available for other institutes to
+use.</p>
+<p>[3] See the documentation for the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">mip_convert.new_variable.Variable.process()</span></code> method.</p>
+<p>The following options are optional:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 80%" />
+<col style="width: 6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Optional Options</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">comment</span></code></p></td>
+<td><p>The details relating to the <a class="reference internal" href="../../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> that should be written to the
+<a class="reference internal" href="../../glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF file</span></a>, e.g., to qualify the details of the <a class="reference internal" href="../../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a>, add health
+warnings, etc.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">notes</span></code></p></td>
+<td><p>Any details relating to the <a class="reference internal" href="../../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> that should not be written to the
+<a class="reference internal" href="../../glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF file</span></a>, e.g., who added the <a class="reference internal" href="../../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a>, why, reasons for using this
+<a class="reference internal" href="../../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> over another in certain cases, any other special cases notes, etc.</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">component</span></code></p></td>
+<td><p>A space-separated list of components that the <a class="reference internal" href="../../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> is valid for.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">valid_min</span></code></p></td>
+<td><p>The minimum valid value for the data of the <a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>; values in the data lower than
+this value are replaced with zero.</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Each <a class="reference internal" href="../../glossary.html#term-Input-variable"><span class="xref std std-term">input variable</span></a> in an expression must contain one of the following:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 9%" />
+<col style="width: 71%" />
+<col style="width: 6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Expression Items</p></th>
+<th class="head"><p>File Type</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stash</span></code></p></td>
+<td><p>PP</p></td>
+<td><p>LBUSER(4), <a class="reference internal" href="../../glossary.html#term-STASH-code"><span class="xref std std-term">STASH code</span></a>, see Chapter 4 (page 25) of <a class="reference external" href="https://code.metoffice.gov.uk/doc/um/vn10.4/papers/umdp_F03.pdf">Input and Output File Formats</a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">variable_name</span></code></p></td>
+<td><p>netCDF</p></td>
+<td><p>The name of the data variable in the <a class="reference internal" href="../../glossary.html#term-Model-output-files"><span class="xref std std-term">model output files</span></a> that is used to create the
+<a class="reference internal" href="../../glossary.html#term-Input-variable"><span class="xref std std-term">input variable</span></a>.</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>For example:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">expression</span> <span class="pre">=</span> <span class="pre">m01s03i236</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">expression</span> <span class="pre">=</span> <span class="pre">sitemptop</span></code></p></li>
+</ul>
+<p>Expressions can use numerical values and constants (which must be written using
+upper case letters; constants are available in
+<a class="reference internal" href="constants.html#module-mip_convert.process.constants" title="mip_convert.process.constants"><code class="xref py py-mod docutils literal notranslate"><span class="pre">mip_convert.process.constants</span></code></a>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">expression</span> <span class="pre">=</span> <span class="pre">rain_ai</span> <span class="pre">*</span> <span class="pre">100.</span> <span class="pre">*</span> <span class="pre">SECONDS_IN_DAY</span></code></p></li>
+</ul>
+<p>For atmospheric tendency diagnostics, the atmospheric model timestep must be
+specified (the value of the atmospheric model timestep is obtained from the
+<a class="reference internal" href="../../glossary.html#term-User-configuration-file"><span class="xref std std-term">user configuration file</span></a>, please see the <a class="reference internal" href="../../user_guide.html#id7"><span class="std std-ref">The request Section</span></a> in the
+<a class="reference internal" href="../../user_guide.html#user-guide"><span class="std std-ref">User Guide</span></a>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">expression</span> <span class="pre">=</span> <span class="pre">m01s30i181</span> <span class="pre">/</span> <span class="pre">ATMOS_TIMESTEP</span></code></p></li>
+</ul>
+<p>To specify additional constraints, use square brackets:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">expression</span> <span class="pre">=</span> <span class="pre">m01s08i223[blev=0.05]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">expression</span> <span class="pre">=</span> <span class="pre">pbo[cell_methods=time:</span> <span class="pre">mean</span> <span class="pre">(interval:</span> <span class="pre">120</span> <span class="pre">s)]</span></code></p></li>
+</ul>
+<p>Multiple values for a single constraint should be separated by spaces:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">expression</span> <span class="pre">=</span> <span class="pre">m01s30i201[blev=850.0</span> <span class="pre">500.0</span> <span class="pre">250.0]</span></code></p></li>
+</ul>
+<p>Multiple constraints within the square brackets should be separated by commas:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">expression</span> <span class="pre">=</span> <span class="pre">m01s02i204[lbplev=4,</span> <span class="pre">lbtim=122]</span></code></p></li>
+</ul>
+<p>In cases where it is not possible to describe the conversion of the
+<a class="reference internal" href="../../glossary.html#term-Input-variable"><span class="xref std std-term">input variable</span></a> / <a class="reference internal" href="../../glossary.html#term-Input-variable"><span class="xref std std-term">input variables</span></a> to the <a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a> using a
+basic expression like the ones above, a function can be specified:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">expression</span> <span class="pre">=</span> <span class="pre">my_function_name(m01s03i236)</span></code></p></li>
+</ul>
+<p>The values of the arguments of the function must follow the same syntax as the
+basic expression.</p>
+<p>The following constraints can currently be used in an <code class="docutils literal notranslate"><span class="pre">expression</span></code>:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 9%" />
+<col style="width: 71%" />
+<col style="width: 6%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Expression Items</p></th>
+<th class="head"><p>File Type</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">blev</span></code></p></td>
+<td><p>PP</p></td>
+<td><p>BLEV, level, see Chapter 4 (page 26) of <a class="reference external" href="https://code.metoffice.gov.uk/doc/um/vn10.4/papers/umdp_F03.pdf">Input and Output File Formats</a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cell_methods</span></code></p></td>
+<td><p>netCDF</p></td>
+<td><p>The <a class="reference external" href="http://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#cell-methods">cell methods</a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">depth</span></code></p></td>
+<td><p>netCDF</p></td>
+<td><p>Value of the depth coordinate</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">lbplev</span></code></p></td>
+<td><p>PP</p></td>
+<td><p>LBUSER(5), pseudo level, see Chapter 4 (page 25) of <a class="reference external" href="https://code.metoffice.gov.uk/doc/um/vn10.4/papers/umdp_F03.pdf">Input and Output File Formats</a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lbproc</span></code></p></td>
+<td><p>PP</p></td>
+<td><p>LBPROC, processing code, see Chapter 4 (page 21) of <a class="reference external" href="https://code.metoffice.gov.uk/doc/um/vn10.4/papers/umdp_F03.pdf">Input and Output File Formats</a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">lbtim</span></code></p></td>
+<td><p>PP</p></td>
+<td><p>LBTIM, time indicator, see Chapter 4 (page 17) of <a class="reference external" href="https://code.metoffice.gov.uk/doc/um/vn10.4/papers/umdp_F03.pdf">Input and Output File Formats</a></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lbtim_ia</span></code></p></td>
+<td><p>PP</p></td>
+<td><p>IA component of LBTIM (sampling frequency)</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Model to MIP Mapping Configuration Files</a><ul>
+<li><a class="reference internal" href="#the-default-section">The <code class="docutils literal notranslate"><span class="pre">DEFAULT</span></code> Section</a></li>
+<li><a class="reference internal" href="#the-common-section">The <code class="docutils literal notranslate"><span class="pre">COMMON</span></code> Section</a></li>
+<li><a class="reference internal" href="#the-mip-requested-variable-name-sections">The <code class="docutils literal notranslate"><span class="pre">&lt;mip_requested_variable_name&gt;</span></code> Sections</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">Reference</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="processors.html"
+                        title="next chapter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">processors</span></code></a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/mip_convert/process/model_to_mip_mappings.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="processors.html" title="processors"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Reference"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MIP Convert 2.3.3.dev0+CDDSO-145_sphinx-docs.daa432f-M documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Reference</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Model to MIP Mapping Configuration Files</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright British Crown 2015-2022, Met Office.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

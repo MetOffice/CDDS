@@ -1,4 +1,4 @@
-.. (C) British Crown Copyright 2022, Met Office.
+.. (C) British Crown Copyright 2016-2022, Met Office.
 .. Please see LICENSE.rst for license details.
 
 License
@@ -6,7 +6,7 @@ License
 
 CDDS is licensed under the BSD license.
 
-British Crown Copyright (C) 2009-2016, Met Office.
+British Crown Copyright (C) 2016-2022, Met Office.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

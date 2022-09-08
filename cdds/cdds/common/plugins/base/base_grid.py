@@ -149,13 +149,14 @@ class OceanBaseGridInfo(BaseGridInfo):
     def masks(self) -> Dict[str, OceanGridPolarMask]:
         """
         Returns a dictionary of ocean grid polar masks for the grid.
-        For example:
-        {
+        For example::
+
+          {
             'grid-V': OceanGridPolarMask(
                            grid_name: 'grid-V', slice_latitude: [-1, None, None], slice_longitude: [180, None, None]),
             'cice-U': OceanGridPolarMask(
                            grid_name: 'cice-U', slice_latitude: [-1, None, None], slice_longitude: [180, None, None])
-        }
+          }
 
         :return: Ocean grid polar masks stored in a dictionary according their grid names
         :rtype: dict
@@ -166,11 +167,12 @@ class OceanBaseGridInfo(BaseGridInfo):
     def halo_options(self) -> Dict[str, List[str]]:
         """
         Returns the ncks options needed to move ocean holo rows and columns.
-        For example:
-        {
+        For example::
+
+          {
             'grid-T': ['-dx,1,360', '-dy,1,330'],
             'grid-U': ['-dx,1,360', '-dy,1,330']
-        }
+          }
 
         :return: The ncks options according their gird names
         :rtype: dict
