@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -----------------------------------------------------
 
 project = 'CDDS'
-copyright = '2022, The Climate Data Delivery Team'
+copyright = 'British Crown 2015-2022, Met Office'
 author = 'The Climate Data Delivery Team'
 
 
@@ -53,6 +53,10 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
+# release
+import cdds
+version = cdds.__version__
+release = cdds.__version__
 
 # -- Options for HTML output -------------------------------------------------
 
