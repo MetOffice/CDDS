@@ -39,8 +39,8 @@ class HadREM3_GA7_05_Params(BaseModelParameters):
     """
     Class to store the parameters for the HadREM3_GA7_05 model.
     Note: At the moment, there are no sizing info, memory parameters,
-          cycle length parameters, temp space parameters or data request
-          version for this type of model.
+    cycle length parameters, temp space parameters or data request
+    version for this type of model.
     """
 
     def __init__(self) -> None:

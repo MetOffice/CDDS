@@ -3,6 +3,13 @@
 
 .. include:: common.txt
 
+Release 2.4.0, September 12, 2022
+=================================
+
+* Move test execution from nose to pytest (CDDSO-128)
+
+* Refactor functional tests (CDDSO-76, 170)
+
 Release 2.3.2, September 01, 2022
 =================================
 
