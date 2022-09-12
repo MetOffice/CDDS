@@ -4,6 +4,7 @@
 include *.rst
 include setup.cfg
 include pylintrc
+recursive-include cdds *
 recursive-include doc *
 recursive-include etc *
 recursive-include tests *

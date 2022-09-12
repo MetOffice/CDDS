@@ -14,7 +14,7 @@ from cdds.deprecated.config import FullPaths, update_arguments_for_proc_dir, upd
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.mip_tables import MipTables
 from cdds.common.request import read_request
-from cdds.qc import __version__
+from cdds import __version__
 from cdds.qc.constants import COMPONENT, QC_DB_FILENAME
 from cdds.qc.suite import QCSuite
 from cdds.qc.runner import QCRunner
