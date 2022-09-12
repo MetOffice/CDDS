@@ -6,6 +6,7 @@ from mip_convert.config_manager import AbstractConfig
 import mip_convert.save.cmor.cmor_lite
 
 
+# Test changes -- TODO: kerstin remove this comment!!!
 class GeneralProject(AbstractConfig):
 
     # TODO: make the attributes more explicitly public
