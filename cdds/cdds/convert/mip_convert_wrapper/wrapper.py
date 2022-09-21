@@ -165,7 +165,8 @@ def run_mip_convert_wrapper(arguments):
                                 arguments.user_config_template_name,
                                 mip_convert_log_arg,
                                 arguments.mip_era,
-                                arguments.external_plugin)
+                                arguments.external_plugin,
+                                arguments.external_plugin_location)
 
     # If exit code is 2 then MIP Convert has run, but hasn't been able to do
     # everything asked of it. The CDDS approach to this is to continue on

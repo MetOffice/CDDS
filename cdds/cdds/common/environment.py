@@ -1,10 +1,10 @@
-# (C) British Crown Copyright 2021, Met Office.
+# (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
 
 import re
 import sys
 
-from cdds.convert.constants import CYLC_PATHS
+from cdds.common.constants import CYLC_PATHS
 
 
 def fix_import_paths():
@@ -26,3 +26,14 @@ def fix_import_paths():
         if path:
             sys.path.remove(path[0])
             sys.path.append(path[0])
+
+
+def add_to_path(path: str) -> None:
+    """
+    Add a new path to the PYTHONPATH.
+
+    :param path: Path to add
+    :type path: str
+    """
+    sys.path.append(path)
+

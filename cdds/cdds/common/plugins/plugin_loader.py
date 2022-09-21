@@ -9,6 +9,7 @@ import logging
 
 from typing import Any
 
+from cdds.common.environment import add_to_path
 from cdds.common.plugins.plugins import PluginStore, CddsPlugin
 from cdds.common.plugins.exceptions import PluginLoadError
 from cdds.common.plugins.base.base_plugin import MipEra
@@ -16,7 +17,7 @@ from cdds.common.plugins.cmip6.cmip6_plugin import Cmip6Plugin
 from cdds.common.plugins.gcmodeldev.gcmodeldev_plugin import GCModelDevPlugin
 
 
-def load_plugin(mip_era: str = MipEra.CMIP6.value, plugin_module_path: str = None) -> None:
+def load_plugin(mip_era: str = MipEra.CMIP6.value, plugin_module_path: str = None, plugin_location: str = None) -> None:
     """
     Searches for a CDDS plugin that is responsible for the project with given ID,
     loads it and registers it.
@@ -28,9 +29,14 @@ def load_plugin(mip_era: str = MipEra.CMIP6.value, plugin_module_path: str = Non
     :type mip_era: str
     :param plugin_module_path: Path to the module that contains the implementation
                                 of the plugin that should be loaded
+    :param plugin_location: Path to the plugin implementation that should be added
+                                to the PYTHONPATH
     :type plugin_module_path: str
     """
     logger = logging.getLogger(__name__)
+    if plugin_location:
+        add_to_path(plugin_location)
+
     if plugin_module_path:
         load_external_plugin(mip_era, plugin_module_path)
     elif MipEra.is_cmip(mip_era):

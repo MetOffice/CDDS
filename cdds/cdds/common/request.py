@@ -59,7 +59,7 @@ def load_cdds_plugins(request):
     external_plugin = None
     if request.external_plugin:
         external_plugin = request.external_plugin
-    load_plugin(request.mip_era, external_plugin)
+    load_plugin(request.mip_era, external_plugin, request.external_plugin_location)
 
 
 def construct_request(items, required_keys=None, default_items=None):
@@ -177,12 +177,12 @@ class Request(object):
     ALLOWED_ATTRIBUTES = [
         'ancil_files', 'atmos_timestep', 'branch_date_in_child', 'branch_date_in_parent', 'branch_method', 'calendar',
         'child_base_date', 'create_subdirectories', 'cmor_log_file', 'config_version', 'deflate_level',
-        'external_plugin', 'experiment_id', 'global_attributes', 'hybrid_heights_files', 'input_dir', 'institution_id',
-        'license', 'mass_ensemble_member', 'mip_table_dir', 'model_id', 'model_output_dir', 'model_type', 'mip',
-        'mip_era', 'netcdf_file_action', 'output_dir', 'package', 'parent_base_date', 'parent_experiment_id',
-        'parent_mip', 'parent_mip_era', 'parent_model_id', 'parent_time_units', 'parent_variant_label',
-        'replacement_coordinates_file', 'mass_data_class', 'run_bounds', 'shuffle', 'sites_file', 'sub_experiment_id',
-        'suite_branch', 'suite_id', 'suite_revision', 'variant_label'
+        'external_plugin', 'external_plugin_location', 'experiment_id', 'global_attributes', 'hybrid_heights_files',
+        'input_dir', 'institution_id', 'license', 'mass_ensemble_member', 'mip_table_dir', 'model_id',
+        'model_output_dir', 'model_type', 'mip', 'mip_era', 'netcdf_file_action', 'output_dir', 'package',
+        'parent_base_date', 'parent_experiment_id', 'parent_mip', 'parent_mip_era', 'parent_model_id',
+        'parent_time_units', 'parent_variant_label', 'replacement_coordinates_file', 'mass_data_class', 'run_bounds',
+        'shuffle', 'sites_file', 'sub_experiment_id', 'suite_branch', 'suite_id', 'suite_revision', 'variant_label'
     ]
 
     def __init__(self, items, required_keys=None):
@@ -252,6 +252,8 @@ class Request(object):
             items['request_id'] = self.request_id
         if not self.external_plugin:
             items['external_plugin'] = ''
+        if not self.external_plugin_location:
+            items['external_plugin_location'] = ''
         if not self.global_attributes:
             items['global_attributes'] = {}
         return items

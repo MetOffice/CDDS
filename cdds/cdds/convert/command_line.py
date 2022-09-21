@@ -230,8 +230,10 @@ def _parse_args_concat_setup():
                         help='The MIP era (e.g. CMIP6)')
     parser.add_argument('--external_plugin', default='', type=str,
                         help='Module path to external CDDS plugin')
+    parser.add_argument('--external_plugin_location', default='', type=str,
+                        help='Path to external CDDS plugin implementation')
     arguments = parser.parse_args()
-    load_plugin(arguments.mip_era, arguments.external_plugin)
+    load_plugin(arguments.mip_era, arguments.external_plugin, arguments.external_plugin_location)
     return arguments.config_file, arguments.log_file, arguments.append_log
 
 
@@ -324,9 +326,13 @@ def _parse_run_mip_convert_parameters(arguments):
                         default='',
                         type=str,
                         help='Module path to external CDDS plugin')
+    parser.add_argument('--external_plugin_location',
+                        default='',
+                        type=str,
+                        help='Path to the external CDDS plugin implementation')
     parsed_arguments = parser.parse_args(args=user_arguments)
     arguments.add_user_args(parsed_arguments)
-    load_plugin(arguments.mip_era, arguments.external_plugin)
+    load_plugin(arguments.mip_era, arguments.external_plugin, arguments.external_plugin_location)
     return arguments
 
 
