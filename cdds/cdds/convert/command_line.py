@@ -182,6 +182,8 @@ def parse_args_cdds_convert():
     request = read_request(args.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
     arguments = update_arguments_for_proc_dir(arguments, request, COMPONENT)
     arguments.mip_era = request.mip_era
+    arguments.external_plugin = request.external_plugin
+    arguments.external_plugin_location = request.external_plugin_location
 
     # Get Cdds plugin and overload model related values if necessary
     plugin = PluginStore.instance().get_plugin()

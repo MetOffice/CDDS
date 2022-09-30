@@ -998,6 +998,14 @@ class ConvertProcess(object):
         else:
             request_json_path = os.path.abspath(self._arguments.request)
 
+        use_external_plugin = False
+        external_plugin = ''
+        external_plugin_location = ''
+        if self._arguments.external_plugin:
+            use_external_plugin = True
+            external_plugin = self._arguments.external_plugin
+            external_plugin_location = self._arguments.external_plugin_location
+
         changes_to_apply_all = {
             'MIP_ERA': self._arguments.mip_era,
             'CDDS_CONVERT_PROC_DIR': self._full_paths.component_directory(
@@ -1024,7 +1032,10 @@ class ConvertProcess(object):
             'RUN_QC': not self.skip_qc,
             'RUN_TRANSFER': not self.skip_transfer,
             'START_YEAR': year_bounds[0],
-            'TARGET_SUITE_NAME': self.target_suite_name
+            'TARGET_SUITE_NAME': self.target_suite_name,
+            'USE_EXTERNAL_PLUGIN': use_external_plugin,
+            'EXTERNAL_PLUGIN': external_plugin,
+            'EXTERNAL_PLUGIN_LOCATION': external_plugin_location,
         }
         if 'CDDS_DIR' in os.environ:
             changes_to_apply_all['CDDS_DIR'] = os.environ['CDDS_DIR']

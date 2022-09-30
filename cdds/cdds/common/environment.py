@@ -36,4 +36,3 @@ def add_to_path(path: str) -> None:
     :type path: str
     """
     sys.path.append(path)
-
