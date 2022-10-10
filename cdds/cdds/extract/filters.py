@@ -68,6 +68,9 @@ class Filters(object):
         self.ensemble_member_id = None
         self.model_id = None
 
+        self.plugin = None
+        self.model_parameters = None
+
     def set_mappings(self, mip_table_dir, request):
         """Get the |model to MIP mappings|.
 
@@ -83,8 +86,9 @@ class Filters(object):
         bool
             true if all mappings configured, else false
         """
-        plugin = PluginStore.instance().get_plugin()
-        model_params = plugin.models_parameters(request.model_id)
+        self.model_id = request.model_id
+        self.plugin = PluginStore.instance().get_plugin()
+        self.model_parameters = self.plugin.models_parameters(self.model_id)
         # initialise mappings request structure
         mapping_request = {
             "process": {
@@ -93,11 +97,10 @@ class Filters(object):
             "science": {"mip_era": request.mip_era,
                         "mip": request.mip,
                         "model_id": request.model_id,
-                        "model_ver": model_params.model_version,
+                        "model_ver": self.model_parameters.model_version,
                         "experiment_id": request.experiment_id,
                         "suite_id": request.suite_id}
         }
-        self.model_id = request.model_id
         self.suite_id = request.suite_id
         self.ensemble_member_id = request.mass_ensemble_member
         # add list of requested variables to request structure
@@ -396,6 +399,8 @@ class Filters(object):
         dict
             Moo status dictionary for debugging purposes.
         """
+        stream_file_info = self.model_parameters.stream_file_info()
+        file_size_in_days = stream_file_info.get_file_size_in_days(self.stream)
         chunk_size = None
         # test chunk sizes in decreasing order until one works
         for test_size in chunk_sizes:
@@ -405,13 +410,13 @@ class Filters(object):
                     test_start[0] + test_size,
                     test_start[1],
                     test_start[2]
-                ), False)
+                ), False, file_size_in_days)
             else:
                 test_end = calculate_period((
                     test_start[0],
                     test_start[1] + int(test_size * 12),
                     test_start[2]
-                ), False)
+                ), False, file_size_in_days)
             # create filter file for this block
             file_name = "{}/extract/{}_test.dff".format(
                 self.procdir, self.stream)
@@ -460,6 +465,8 @@ class Filters(object):
         """
 
         chunks = []
+        stream_file_info = self.model_parameters.stream_file_info()
+        file_size_in_days = stream_file_info.get_file_size_in_days(self.stream)
         # The Year-Month-Day sequence defines the correct order
         # hence it is possible just to compare strings directly
         # to determine date precedence
@@ -479,7 +486,7 @@ class Filters(object):
                     months -= 12
                 end_date_tpl = (years, months, start_date[2])
 
-            end_date = calculate_period(end_date_tpl, False)
+            end_date = calculate_period(end_date_tpl, False, file_size_in_days)
             chunks.append({
                 'start': start_date,
                 'end': end_date
@@ -487,7 +494,7 @@ class Filters(object):
 
             start_date = end_date_tpl
         chunks[-1]['end'] = calculate_period(
-            (run_end.year, run_end.month, run_end.day), False)
+            (run_end.year, run_end.month, run_end.day), False, file_size_in_days)
         return chunks
 
     def _mass_cmd_pp(self, start, end):
@@ -514,9 +521,11 @@ class Filters(object):
         """
         self.mass_cmd = []
         error = ""
+        stream_file_info = self.model_parameters.stream_file_info()
+        file_size_in_days = stream_file_info.get_file_size_in_days(self.stream)
 
-        start_date = calculate_period((start.year, start.month, start.day))
-        end_date = calculate_period((end.year, end.month, end.day), False)
+        start_date = calculate_period((start.year, start.month, start.day), True, file_size_in_days)
+        end_date = calculate_period((end.year, end.month, end.day), False, file_size_in_days)
         test_sizes = self._chunk_candidates(start_date, end_date)
         with_ens_id = False
         chunk_size, status = self._test_chunks(start_date, test_sizes, with_ens_id)
@@ -567,12 +576,11 @@ class Filters(object):
             name of filter file to create
         """
         if self.ensemble_member_id is not None and with_ens_id:
-            suite_prefix = "{}-{}".format(self.suite_id[2:], self.ensemble_member_id)
+            suite_prefix = "{}-{}".format(self.suite_id[3:], self.ensemble_member_id)
         else:
-            suite_prefix = self.suite_id[2:]
+            suite_prefix = self.suite_id[3:]
 
-        plugin = PluginStore.instance().get_plugin()
-        subdaily_streams = plugin.models_parameters(self.model_id).subdaily_streams()
+        subdaily_streams = self.model_parameters.subdaily_streams()
 
         if self.stream in subdaily_streams:
             start_filename = SUBDAILY_DATESTAMP_PATTERN.format(
@@ -792,8 +800,7 @@ class Filters(object):
         variables: str
             comma separated string of variables to be selected
         """
-        plugin = PluginStore.instance().get_plugin()
-        grid_info = plugin.grid_info(self.model_id, GridType.OCEAN)
+        grid_info = self.plugin.grid_info(self.model_id, GridType.OCEAN)
         with open(file_name, "w") as file_h:
             # add variable filters to file
             file_h.write("-a\n-v {}".format(variables))

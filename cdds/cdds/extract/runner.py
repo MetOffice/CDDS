@@ -84,6 +84,8 @@ class ExtractRunner(object):
                     stream["end_date"]))
 
             # process stream if no missing filters and check option is not skip
+            print("mapping status")
+            print(mapping_status)
             if stream["stream"] in mapping_status:
 
                 # get data source and target for this stream
@@ -105,6 +107,7 @@ class ExtractRunner(object):
                     # if status is skip OR mass_cmd is empty
                     # then skip this stream
                     if status == "skip" or not mass_cmd:
+                        print("not mass command")
                         stream["success"] = False
                         overall_result = "failed"
                         logger.critical(
@@ -132,6 +135,7 @@ class ExtractRunner(object):
                                 msg = self.lang["block_success"].format(
                                     blocknum, status["msg"])
                             else:
+                                print("quality failed")
                                 stream["success"] = False
                                 overall_result = "quality"
                                 msg = self.lang["block_fail"].format(
