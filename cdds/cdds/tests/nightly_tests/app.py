@@ -4,6 +4,7 @@ from abc import ABCMeta, abstractmethod
 import argparse
 import logging
 import os
+import shutil
 
 from cdds.tests.nightly_tests.app_config import AppConfig
 from cdds.tests.nightly_tests.arguments import CmdArgs
@@ -144,12 +145,20 @@ class CreateRequestJsonApp(NightlyApp):
         makedirs(self.request_dir)
         suites = self.app_config.iterate_namelist('suites', NameListFilter.task_suite, self.task_package)
         for suite in suites:
-            arguments = self.build_write_request_json_args(suite)
-            exit_code = main_write_rose_suite_request_json(arguments)
-            if exit_code != 0:
-                msg = self.APP_ERROR.format(suite['id_suite'], self.log_file)
-                self.logger.error(msg)
-                raise AppError(msg)
+            present_request = suite['use_present_request']
+            if present_request:
+                self.logger.info("Copy existing request.json from {} to {}".format(present_request, self.request_file))
+                print("Copy existing request.json from {} to {}".format(present_request, self.request_file))
+                shutil.copyfile(present_request, self.request_file)
+            else:
+                self.logger.info("Generate new request json")
+                print("Generate new request json")
+                arguments = self.build_write_request_json_args(suite)
+                exit_code = main_write_rose_suite_request_json(arguments)
+                if exit_code != 0:
+                    msg = self.APP_ERROR.format(suite['id_suite'], self.log_file)
+                    self.logger.error(msg)
+                    raise AppError(msg)
 
     def build_write_request_json_args(self, suite):
         """
