@@ -70,11 +70,18 @@ class Variables(object):
         """
         for var in file_content['requested_variables']:
             if var['active']:
+                print(var)
+
+                if "stream" in var:
+                    stream = str(var["stream"])
+                else:
+                    stream = 'apa'
+
                 self.var_list.append(
                     {
                         "name": str(var['label']),
                         "table": str(var['miptable']),
-                        "stream": str(var["stream"])
+                        "stream": stream
                     })
             else:
                 reason_str = "not active "
