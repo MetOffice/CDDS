@@ -222,7 +222,7 @@ def produce_mip_requested_variable(
         variable_name, stream_id, substream, mip_table.name, variable_mip_metadata, site_information,
         hybrid_height_information, replacement_coordinates, variable_model_to_mip_mapping,
         user_config.atmos_timestep, user_config.run_bounds, user_config.calendar, user_config.base_date,
-        user_config.deflate_level, user_config.shuffle, user_config.reference_time
+        user_config.deflate_level, user_config.shuffle, user_config.reference_time, user_config.mask_slice
     )
 
     # Load the data from the 'model output files' and store each 'input variable' in the 'Variable' object
@@ -231,7 +231,7 @@ def produce_mip_requested_variable(
     logger.debug('Variable object contains: {}'.format(variable.info))
 
     # Create the CMOR saver.
-    saver = cmor_lite.get_saver(mip_table.name, variable_name)
+    saver = cmor_lite.get_saver(mip_table.name, variable_name, 12)
 
     # Process the data by performing the appropriate 'model to MIP mapping', then save the 'MIP output variable'
     # to an 'output netCDF file'.

@@ -35,7 +35,7 @@ class VariableMetadata(object):
 
     def __init__(self, variable_name, stream_id, substream, mip_table_name, mip_metadata, site_information,
                  hybrid_height_information, replacement_coordinates, model_to_mip_mapping, timestep, run_bounds,
-                 calendar, base_date, deflate_level, shuffle, reference_time=None):
+                 calendar, base_date, deflate_level, shuffle, reference_time=None, mask_slice=None):
         """
         Parameters
         ----------
@@ -89,6 +89,7 @@ class VariableMetadata(object):
         self.deflate_level = deflate_level
         self.shuffle = shuffle
         self.reference_time = reference_time
+        self.mask_slice = mask_slice
         self._validate_timestep()
 
     def _validate_timestep(self):
@@ -303,6 +304,7 @@ class Variable(object):
             update_matched_coords = False
             for (coord, axis_direction) in self._matched_coords:
                 data_dimension = self._data_dimension(coord, axis_direction)
+                # we don't need another T axis
                 if data_dimension is None:
                     update_matched_coords = True
                     self.cube = iris.util.new_axis(self.cube, coord)
@@ -324,7 +326,7 @@ class Variable(object):
 
             ordered_for_log = [(coord.name(), axis_direction) for coord, axis_direction in self._ordered_coords]
             self.logger.debug('Order of axes: {}'.format(ordered_for_log))
-
+        # print(self.cube)
         return self._ordered_coords
 
     def process(self):
@@ -353,6 +355,9 @@ class Variable(object):
             self._update_time_units()
         if hasattr(self.model_to_mip_mapping, 'valid_min'):
             self._apply_valid_min_correction()
+        for coord in self.cube.coords():
+            if 'longitude' not in coord.standard_name and 'latitude' not in coord.standard_name:
+                print(coord)
 
     def _remove_units_from_input_variables_as_necessary(self):
         # To prevent the Iris error "Cannot use <operator> with
@@ -386,8 +391,10 @@ class Variable(object):
                 # "coordinates" netcdf attribute.
                 cice_grid = cube.coord('latitude').var_name[0]
                 model_component = 'cice-{}'.format(cice_grid)
-
-            orca_slice = eorca_resolution_to_mask_slice(model_id, model_component, self._substream)
+            if self._variable_metadata.mask_slice is not None:
+                orca_slice = self._variable_metadata.mask_slice if self._variable_metadata.mask_slice != "no_mask" else None
+            else:
+                orca_slice = eorca_resolution_to_mask_slice(model_id, model_component, self._substream)
             cube_coord_names = {i.name() for i in cube.coords()}
             if {'latitude', 'longitude'} <= cube_coord_names and orca_slice is not None:
                 # update the existing mask
@@ -418,7 +425,10 @@ class Variable(object):
         self._validate_coord_points()
         self._validate_coord_bounds()
         if self._variable_metadata.reference_time:
-            self.cube.remove_coord("forecast_period")
+            try:
+                self.cube.remove_coord("forecast_period")
+            except iris.exceptions.CoordinateNotFoundError:
+                pass
             for (coord, axis_direction) in self._matched_coords:
                 if coord.standard_name == 'forecast_reference_time':
                     # this is populated from mip_convert config file
@@ -556,8 +566,13 @@ class Variable(object):
             # Determine the axis directions for all the coordinates in
             # the cube.
             matched_cube_coords = {}
+            # in some cases forecast reference time is not present in the original input cube and needs to be created
+            if self._variable_metadata.reference_time is not None and 'forecast_reference_time' not in [coord.name() for coord in self.cube.coords()]:
+                # insert a dummy reference time, it will be updated with proper values later
+                reference_time = iris.coords.DimCoord(np.array([0.5]), standard_name='forecast_reference_time',
+                                                      units=Unit('days since 1850-01-01 00:00:00', calendar='360_day'))
+                self.cube.add_aux_coord(reference_time, data_dims=None)
             all_cube_coords = {(coord.name(), guess_coord_axis(coord)): coord for coord in self.cube.coords()}
-
             cube_axis_directions = [axis_direction for (_, axis_direction) in list(all_cube_coords.keys())]
             self.logger.debug('All cube coordinates: {}'.format(list(all_cube_coords.keys())))
 
