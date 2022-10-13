@@ -6,10 +6,7 @@ Tests for load/iris_load_util.py.
 """
 import unittest
 
-try:
-    from cftime import datetime
-except ImportError:
-    from netcdftime import datetime
+from cftime import datetime
 import iris
 from iris.tests.stock import realistic_3d
 

@@ -1,15 +1,12 @@
 # (C) British Crown Copyright 2017-2022, Met Office.
 # Please see LICENSE.rst for license details.
 
-import numpy as np
-import re
-import cf_units
-
-try:
-    import cftime as cft
-except ImportError:
-    import netcdftime as cft
 from datetime import datetime
+import re
+
+import cf_units
+import cftime as cft
+import numpy as np
 
 from cdds.common.constants import TIME_UNIT
 from cdds.common.validation import ValidationError
