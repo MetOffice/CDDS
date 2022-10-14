@@ -5,37 +5,53 @@ import os
 import tempfile
 
 from cdds.common.mass import mass_isdir, mass_mkdir
+from cdds.common.request import Request
 from cdds.prepare.command_line import main_create_cdds_directory_structure, main_generate_variable_list
+from cdds.tests.nightly_tests.setup_task.common import SetupConfig, SetupPaths
 
 
-def setup_directory_structure(arguments, request):
+def setup_directory_structure(config, request):
+    """
+    Setup the CDDS directory structure (proc directory, data directory).
+
+    :param config: Contains information about the directories that should be created.
+    :type config: SetupConfig
+    :param request: Contains the information from the request.json.
+    :type request: Request
+    """
     logger = logging.getLogger(__name__)
-    request_file = arguments.request_json_path
+    request_file = config.request_json
 
-    if not os.path.isdir(arguments.test_dir):
-        os.makedirs(arguments.test_dir)
-    if not os.path.isdir(arguments.root_proc_dir):
-        logger.info('Creating root proc dir at {0}'.format(arguments.root_proc_dir))
-        os.makedirs(arguments.root_proc_dir)
-    if not os.path.isdir(arguments.root_data_dir):
-        logger.info('Creating root data dir at {0}'.format(arguments.root_data_dir))
-        os.makedirs(arguments.root_data_dir)
+    if not os.path.isdir(config.test_base_dir):
+        os.makedirs(config.test_base_dir)
+    if not os.path.isdir(config.root_proc_dir):
+        logger.info('Creating root proc dir at {0}'.format(config.root_proc_dir))
+        os.makedirs(config.root_proc_dir)
+    if not os.path.isdir(config.root_data_dir):
+        logger.info('Creating root data dir at {0}'.format(config.root_data_dir))
+        os.makedirs(config.root_data_dir)
 
-    log_file = os.path.join(arguments.test_dir, '{0}_create_dir.log'.format(request.package))
-    output_dir_args = ['--root_proc_dir', arguments.root_proc_dir, '--root_data_dir', arguments.root_data_dir]
+    log_file = os.path.join(config.test_base_dir, '{0}_create_dir.log'.format(request.package))
+    output_dir_args = ['--root_proc_dir', config.root_proc_dir, '--root_data_dir', config.root_data_dir]
 
     create_dir_structure_args = [request_file, '--log_name', log_file] + output_dir_args
 
     main_create_cdds_directory_structure(create_dir_structure_args)
 
 
-def setup_mass_directories(arguments):
+def setup_mass_directories(config):
+    """
+    Setup the mass directories where the data for the specific streams will be stored.
+
+    :param config: Contains MASS specific information for setup the directories
+    :type config: SetupConfig
+    """
     logger = logging.getLogger(__name__)
     logger.info('creating a MASS directory for testing archiving.')
-    package_name = arguments.package
+    package_name = config.package
 
-    mass_root = arguments.output_mass_root
-    mass_suffix = arguments.output_mass_suffix
+    mass_root = config.output_mass_root
+    mass_suffix = config.output_mass_suffix
     mass_package_location = os.path.join(mass_root, mass_suffix, package_name)
 
     mass_location_exists = mass_isdir(mass_package_location, simulation=False)
@@ -43,18 +59,24 @@ def setup_mass_directories(arguments):
         mass_mkdir(mass_package_location, simulation=True, create_parents=True)
 
 
-def create_variable_list(arguments):
-    request_file = arguments.request_json_path
+def create_variable_list(config):
+    """
+    Creates the variable list for the selected variables stored in the given configuration
+
+    :param config: Contains the information of the selected variables that list should be created
+    :type config: SetupConfig
+    """
+    request_file = config.request_json
     selected_vars_arg = []
 
-    if arguments.selected_vars:
+    if config.selected_variables:
         _, variables_file = tempfile.mkstemp()
         with open(variables_file, 'w') as file_handle:
-            file_handle.write('\n'.join(arguments.selected_vars))
+            file_handle.write('\n'.join(config.selected_variables))
         selected_vars_arg = ['-r', variables_file]
 
-    output_dir_args = ['--root_proc_dir', arguments.root_proc_dir, '--root_data_dir', arguments.root_data_dir]
-    mapping_status_arg = ['--mapping_status', arguments.mapping_status]
+    output_dir_args = ['--root_proc_dir', config.root_proc_dir, '--root_data_dir', config.root_data_dir]
+    mapping_status_arg = ['--mapping_status', config.mapping_status]
 
     generate_variable_list_args = ([request_file, '--use_proc_dir'] + output_dir_args + mapping_status_arg +
                                    ['--no_inventory_check'] + ['--no_auto_deactivation'] + selected_vars_arg)
@@ -62,8 +84,17 @@ def create_variable_list(arguments):
     main_generate_variable_list(generate_variable_list_args)
 
 
-def link_input_data(arguments, full_paths):
-    if arguments.input_data:
+def link_input_data(config, full_paths):
+    """
+    Linked the current input data dir to the directory where the |model output files| used as
+    input to CDDS Convert are written.
+
+    :param config: Contains information about the root of the current input data dir
+    :type config: SetupConfig
+    :param full_paths: Contains information about the targeted input data dir
+    :type full_paths: SetupPaths
+    """
+    if config.input_data:
         # setup link to data on disk
-        suite_id = os.path.normpath(arguments.input_data).split(os.sep)[-1]
-        os.symlink(arguments.input_data, os.path.join(full_paths.input_data_directory, suite_id))
+        suite_id = os.path.normpath(config.input_data).split(os.sep)[-1]
+        os.symlink(config.input_data, os.path.join(full_paths.input_data_directory, suite_id))
