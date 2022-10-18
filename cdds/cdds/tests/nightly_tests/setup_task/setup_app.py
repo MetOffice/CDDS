@@ -1,5 +1,7 @@
 # (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
+from typing import Dict, Any, List
+
 from cdds.tests.nightly_tests.app import NightlyApp
 from cdds.tests.nightly_tests.setup_task.common import NameListFilter, SetupConfig
 from cdds.tests.nightly_tests.setup_task.task import main
@@ -40,7 +42,7 @@ class CddsSetupApp(NightlyApp):
         )
 
     @property
-    def cli_spec(self):
+    def cli_spec(self) -> List[Dict[str, Any]]:
         """
         Defines the command-line parameters for the app
         """
@@ -72,7 +74,7 @@ class CddsSetupApp(NightlyApp):
              "default": 'moose:/adhoc/projects/cdds/'}
         ]
 
-    def run(self):
+    def run(self) -> None:
         """
         Run application: Setup the CDDS directories and MASS directories and generate the
         variables list by the values of the app configuration and command line parameters.

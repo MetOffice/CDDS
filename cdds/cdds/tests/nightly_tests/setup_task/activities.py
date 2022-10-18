@@ -10,7 +10,7 @@ from cdds.prepare.command_line import main_create_cdds_directory_structure, main
 from cdds.tests.nightly_tests.setup_task.common import SetupConfig, SetupPaths
 
 
-def setup_directory_structure(config, request):
+def setup_directory_structure(config: SetupConfig, request: Request) -> None:
     """
     Setup the CDDS directory structure (proc directory, data directory).
 
@@ -39,7 +39,7 @@ def setup_directory_structure(config, request):
     main_create_cdds_directory_structure(create_dir_structure_args)
 
 
-def setup_mass_directories(config):
+def setup_mass_directories(config: SetupConfig) -> None:
     """
     Setup the mass directories where the data for the specific streams will be stored.
 
@@ -59,7 +59,7 @@ def setup_mass_directories(config):
         mass_mkdir(mass_package_location, simulation=True, create_parents=True)
 
 
-def create_variable_list(config):
+def create_variable_list(config: SetupConfig) -> None:
     """
     Creates the variable list for the selected variables stored in the given configuration
 
@@ -84,7 +84,7 @@ def create_variable_list(config):
     main_generate_variable_list(generate_variable_list_args)
 
 
-def link_input_data(config, full_paths):
+def link_input_data(config: SetupConfig, full_paths: SetupPaths) -> None:
     """
     Linked the current input data dir to the directory where the |model output files| used as
     input to CDDS Convert are written.

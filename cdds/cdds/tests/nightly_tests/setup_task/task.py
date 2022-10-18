@@ -12,7 +12,7 @@ from cdds.tests.nightly_tests.setup_task.activities import (setup_directory_stru
                                                             create_variable_list, link_input_data)
 
 
-def main(config):
+def main(config: SetupConfig) -> None:
     """
     Setup the necessary CDDS directory and MASS directories. Then, generate
     the |requested variables list|. Finally, link the input directory to the

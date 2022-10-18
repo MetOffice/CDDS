@@ -3,7 +3,7 @@
 import os
 
 from dataclasses import dataclass
-from typing import List
+from typing import List, Dict, Any
 
 from cdds.common.constants import DATA_DIR_FACET_STRING, INPUT_DATA_DIRECTORY, PROC_DIRECTORY_FACET_STRING
 from cdds.common import construct_string_from_facet_string
@@ -39,7 +39,7 @@ class SetupPaths(FullPaths):
         self._root_proc_dir = root_proc_dir
 
     @property
-    def input_data_directory(self):
+    def input_data_directory(self) -> str:
         """
         Returns the full path to the directory where the |model output files| used as
         input to CDDS Convert are written.
@@ -50,7 +50,7 @@ class SetupPaths(FullPaths):
         return os.path.join(self.data_directory, INPUT_DATA_DIRECTORY)
 
     @property
-    def data_directory(self):
+    def data_directory(self) -> str:
         """
         Returns the root path to the directory where the |model output files| are written.
 
@@ -62,7 +62,7 @@ class SetupPaths(FullPaths):
         return os.path.join(self._root_data_dir, facet_string_path)
 
     @property
-    def proc_directory(self):
+    def proc_directory(self) -> str:
         """
         Returns the root path to the directory where the non-data outputs from
         each CDDS component are written.
@@ -94,7 +94,7 @@ class NameListFilter:
         return name_list_item['enabled'].lower() == 'true'
 
     @classmethod
-    def selected_variables(cls, name_list_item, package):
+    def selected_variables(cls, name_list_item: Dict[str, Any], package: str):
         """
         Filters all items that property `enabled` is true and the property
         `test_package` equals to the given task package.
