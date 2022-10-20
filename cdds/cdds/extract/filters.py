@@ -399,7 +399,6 @@ class Filters(object):
         dict
             Moo status dictionary for debugging purposes.
         """
-        stream_file_info = self.model_parameters.stream_file_info()
         chunk_size = None
         # test chunk sizes in decreasing order until one works
         for test_size in chunk_sizes:
@@ -464,6 +463,8 @@ class Filters(object):
         """
 
         chunks = []
+        stream_file_info = self.model_parameters.stream_file_info()
+        file_size_in_days = stream_file_info.get_file_size_in_days(self.stream)
         # The Year-Month-Day sequence defines the correct order
         # hence it is possible just to compare strings directly
         # to determine date precedence
@@ -483,7 +484,7 @@ class Filters(object):
                     months -= 12
                 end_date_tpl = (years, months, start_date[2])
 
-            end_date = calculate_period(end_date_tpl, False)
+            end_date = calculate_period(end_date_tpl, False, file_size_in_days)
             chunks.append({
                 'start': start_date,
                 'end': end_date

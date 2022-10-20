@@ -84,6 +84,8 @@ class ExtractRunner(object):
                     stream["end_date"]))
 
             # process stream if no missing filters and check option is not skip
+            print("mapping status")
+            print(mapping_status)
             if stream["stream"] in mapping_status:
 
                 # get data source and target for this stream

@@ -11,7 +11,8 @@
         "ind",
         "ond"
       ],
-      "files_per_year": 12
+      "files_per_year": 12,
+      "file_size_in_days": 10
     }
   },
   "cycle_length": {

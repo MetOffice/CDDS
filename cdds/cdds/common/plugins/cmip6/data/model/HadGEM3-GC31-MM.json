@@ -21,13 +21,15 @@
         "ap9",
         "apt"
       ],
-      "files_per_year": 36
+      "files_per_year": 36,
+      "file_size_in_days": 10
     },
     "season": {
       "streams": [
         "ond"
       ],
-      "files_per_year": 4
+      "files_per_year": 4,
+      "file_size_in_days": 10
     }
   },
   "cycle_length": {
