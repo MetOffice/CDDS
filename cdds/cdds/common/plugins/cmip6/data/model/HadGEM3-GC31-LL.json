@@ -11,8 +11,7 @@
         "ind",
         "ond"
       ],
-      "files_per_year": 12,
-      "file_size_in_days": 10
+      "files_per_year": 12
     },
     "10 day": {
       "streams": [
@@ -22,8 +21,7 @@
         "ap9",
         "apt"
       ],
-      "files_per_year": 36,
-      "file_size_in_days": 10
+      "files_per_year": 36
     }
   },
   "cycle_length": {

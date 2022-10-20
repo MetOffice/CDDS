@@ -400,7 +400,6 @@ class Filters(object):
             Moo status dictionary for debugging purposes.
         """
         stream_file_info = self.model_parameters.stream_file_info()
-        file_size_in_days = stream_file_info.get_file_size_in_days(self.stream)
         chunk_size = None
         # test chunk sizes in decreasing order until one works
         for test_size in chunk_sizes:
@@ -410,13 +409,13 @@ class Filters(object):
                     test_start[0] + test_size,
                     test_start[1],
                     test_start[2]
-                ), False, file_size_in_days)
+                ), False)
             else:
                 test_end = calculate_period((
                     test_start[0],
                     test_start[1] + int(test_size * 12),
                     test_start[2]
-                ), False, file_size_in_days)
+                ), False)
             # create filter file for this block
             file_name = "{}/extract/{}_test.dff".format(
                 self.procdir, self.stream)
@@ -465,8 +464,6 @@ class Filters(object):
         """
 
         chunks = []
-        stream_file_info = self.model_parameters.stream_file_info()
-        file_size_in_days = stream_file_info.get_file_size_in_days(self.stream)
         # The Year-Month-Day sequence defines the correct order
         # hence it is possible just to compare strings directly
         # to determine date precedence
@@ -486,15 +483,14 @@ class Filters(object):
                     months -= 12
                 end_date_tpl = (years, months, start_date[2])
 
-            end_date = calculate_period(end_date_tpl, False, file_size_in_days)
+            end_date = calculate_period(end_date_tpl, False)
             chunks.append({
                 'start': start_date,
                 'end': end_date
             })
 
             start_date = end_date_tpl
-        chunks[-1]['end'] = calculate_period(
-            (run_end.year, run_end.month, run_end.day), False, file_size_in_days)
+        chunks[-1]['end'] = calculate_period((run_end.year, run_end.month, run_end.day), False)
         return chunks
 
     def _mass_cmd_pp(self, start, end):
@@ -521,11 +517,8 @@ class Filters(object):
         """
         self.mass_cmd = []
         error = ""
-        stream_file_info = self.model_parameters.stream_file_info()
-        file_size_in_days = stream_file_info.get_file_size_in_days(self.stream)
-
-        start_date = calculate_period((start.year, start.month, start.day), True, file_size_in_days)
-        end_date = calculate_period((end.year, end.month, end.day), False, file_size_in_days)
+        start_date = calculate_period((start.year, start.month, start.day), True)
+        end_date = calculate_period((end.year, end.month, end.day), False)
         test_sizes = self._chunk_candidates(start_date, end_date)
         with_ens_id = False
         chunk_size, status = self._test_chunks(start_date, test_sizes, with_ens_id)
@@ -575,10 +568,11 @@ class Filters(object):
         file_name: str
             name of filter file to create
         """
+        last_suite_index = self.suite_id.split('-')[-1]
         if self.ensemble_member_id is not None and with_ens_id:
-            suite_prefix = "{}-{}".format(self.suite_id[3:], self.ensemble_member_id)
+            suite_prefix = "{}-{}".format(last_suite_index, self.ensemble_member_id)
         else:
-            suite_prefix = self.suite_id[3:]
+            suite_prefix = last_suite_index
 
         subdaily_streams = self.model_parameters.subdaily_streams()
 

@@ -15,7 +15,8 @@ class TestStreamFileInfoCalculateExpectedNumberOfFiles(TestCase):
             "onm": StreamFileFrequency("monthly", "ap5", 12),
             "inm": StreamFileFrequency("monthly", "ap5", 12),
             "ap6": StreamFileFrequency("10 day", "ap6", 36),
-            "ap7": StreamFileFrequency("10 day", "ap7", 36)
+            "ap7": StreamFileFrequency("10 day", "ap7", 36),
+            "apa": StreamFileFrequency("1 day", "apa", 360)
         }
         self.stream_info = StreamFileInfo(file_frequencies)
         self.start_date = datetime.strptime("1850-01-01", "%Y-%m-%d")
@@ -41,3 +42,10 @@ class TestStreamFileInfoCalculateExpectedNumberOfFiles(TestCase):
 
         actual = self.stream_info.calculate_expected_number_of_files(stream_attributes, substreams)
         self.assertEqual(165 * 12, actual)
+
+    def test_calculate_expected_number_of_files_in_apa_1_day(self):
+        stream_attributes = StreamAttributes('apa', self.start_date, self.end_date)
+        substreams = ["default"]
+
+        actual = self.stream_info.calculate_expected_number_of_files(stream_attributes, substreams)
+        self.assertEqual(165 * 360 + 1, actual)
