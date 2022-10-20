@@ -36,7 +36,6 @@ class StreamFileFrequency:
     frequency: str = ""
     stream: str = ""
     file_per_year: int = 0
-    file_size_in_days: int = 0
 
 
 @dataclass
@@ -58,17 +57,6 @@ class StreamFileInfo:
         """
         return self.file_frequencies[stream].file_per_year
 
-    def get_file_size_in_days(self, stream: str) -> int:
-        """
-        Calculates the temporal size of the file in days for a particular stream.
-
-        :param stream: The name of the stream to get the number of files for
-        :type stream: str
-        :return: Temporal size of the file in days
-        :rtype: int
-        """
-        return self.file_frequencies[stream].file_size_in_days
-
     def calculate_expected_number_of_files(self, stream_attributes: StreamAttributes, substreams: List[str]) -> int:
         """
         Calculates expected number of files in a particular stream
@@ -84,7 +72,6 @@ class StreamFileInfo:
         months = stream_attributes.end_date.month - stream_attributes.start_date.month
 
         files_per_year = self.get_files_per_year(stream_attributes.stream)
-        files_size_in_days = self.get_file_size_in_days(stream_attributes.stream)
         expected_files = ((years * 12 + months) / 12.0 * files_per_year * len(substreams))
 
         if files_per_year == 360:
