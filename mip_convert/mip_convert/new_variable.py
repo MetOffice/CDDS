@@ -355,9 +355,7 @@ class Variable(object):
             self._update_time_units()
         if hasattr(self.model_to_mip_mapping, 'valid_min'):
             self._apply_valid_min_correction()
-        for coord in self.cube.coords():
-            if 'longitude' not in coord.standard_name and 'latitude' not in coord.standard_name:
-                print(coord)
+
 
     def _remove_units_from_input_variables_as_necessary(self):
         # To prevent the Iris error "Cannot use <operator> with
