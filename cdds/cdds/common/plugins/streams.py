@@ -73,6 +73,9 @@ class StreamFileInfo:
 
         files_per_year = self.get_files_per_year(stream_attributes.stream)
         expected_files = ((years * 12 + months) / 12.0 * files_per_year * len(substreams))
+
+        if files_per_year == 360:
+            expected_files = expected_files + 1
         return int(expected_files)
 
 

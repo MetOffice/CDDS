@@ -669,7 +669,7 @@ def check_dimensions(netcdf_headers):
     return valid
 
 
-def calculate_period(date, start=True, file_size_in_days=10):
+def calculate_period(date, start=True):
     """Accepts a tuple containing integer year, month and day, and returns
     a similar tuple which matches the datetime stamp of the file
     that starts or ends in that period.
@@ -680,9 +680,7 @@ def calculate_period(date, start=True, file_size_in_days=10):
         Date as (year, month, day)
     start: bool
         If True, will calculate a starting period, ending otherwise.
-    file_size_in_days: int
-        Temporal size of the file in days. Default value is 10 for N96,
-        but it might be different for other configurations.
+
     Returns
     -------
     tuple
@@ -693,9 +691,7 @@ def calculate_period(date, start=True, file_size_in_days=10):
     if not start and day == 1 and month == 1:
         year = year - 1
         month = 12
-        day = 30 - file_size_in_days + 1
-    else:
-        day = ((day - 1) // file_size_in_days) * file_size_in_days + 1
+        day = 30 + 1
     return year, month, day
 
 
