@@ -394,32 +394,32 @@ class TestFilters(unittest.TestCase):
         chunks = filters.generate_chunks((1900, 1, 1),
                                          datetime.datetime(2000, 1, 1), 50)
         self.assertEqual(chunks, [
-            {'start': (1900, 1, 1), 'end': (1949, 12, 21)},
-            {'start': (1950, 1, 1), 'end': (1999, 12, 21)}
+            {'start': (1900, 1, 1), 'end': (1949, 12, 31)},
+            {'start': (1950, 1, 1), 'end': (1999, 12, 31)}
         ])
         chunks = filters.generate_chunks((1900, 1, 1),
                                          datetime.datetime(2000, 1, 1), 100)
         self.assertEqual(chunks, [
-            {'start': (1900, 1, 1), 'end': (1999, 12, 21)}
+            {'start': (1900, 1, 1), 'end': (1999, 12, 31)}
         ])
         chunks = filters.generate_chunks((1900, 1, 1),
                                          datetime.datetime(2000, 1, 1), 200)
         self.assertEqual(chunks, [
-            {'start': (1900, 1, 1), 'end': (1999, 12, 21)}
+            {'start': (1900, 1, 1), 'end': (1999, 12, 31)}
         ])
         chunks = filters.generate_chunks((1800, 1, 1),
                                          datetime.datetime(1850, 1, 1), 50)
         self.assertEqual(chunks, [
-            {'start': (1800, 1, 1), 'end': (1849, 12, 21)}
+            {'start': (1800, 1, 1), 'end': (1849, 12, 31)}
         ])
 
         chunks = filters.generate_chunks((1850, 1, 1),
                                          datetime.datetime(1852, 1, 1), 0.5)
         expected = [
             {'start': (1850, 1, 1), 'end': (1850, 7, 1)},
-            {'start': (1850, 7, 1), 'end': (1850, 12, 21)},
+            {'start': (1850, 7, 1), 'end': (1850, 12, 31)},
             {'start': (1851, 1, 1), 'end': (1851, 7, 1)},
-            {'start': (1851, 7, 1), 'end': (1851, 12, 21)},
+            {'start': (1851, 7, 1), 'end': (1851, 12, 31)},
         ]
         self.assertEqual(chunks, expected)
 
@@ -429,7 +429,7 @@ class TestFilters(unittest.TestCase):
             {'start': (1850, 1, 1), 'end': (1850, 4, 1)},
             {'start': (1850, 4, 1), 'end': (1850, 7, 1)},
             {'start': (1850, 7, 1), 'end': (1850, 10, 1)},
-            {'start': (1850, 10, 1), 'end': (1850, 12, 21)},
+            {'start': (1850, 10, 1), 'end': (1850, 12, 31)},
         ]
         self.assertEqual(chunks, expected)
 

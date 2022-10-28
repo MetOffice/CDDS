@@ -79,7 +79,7 @@ def create_variable_list(config: SetupConfig) -> None:
     mapping_status_arg = ['--mapping_status', config.mapping_status]
 
     generate_variable_list_args = ([request_file, '--use_proc_dir'] + output_dir_args + mapping_status_arg +
-                                   ['--no_inventory_check'] + ['--no_auto_deactivation'] + selected_vars_arg)
+                                   ['--no_inventory_check'] + selected_vars_arg)
 
     main_generate_variable_list(generate_variable_list_args)
 

@@ -182,27 +182,25 @@ class TestCalculatePeriods(unittest.TestCase):
     def test_begin_period(self):
         self.assertEqual((1900, 1, 1),
                          calculate_period((1900, 1, 1)))
-        self.assertEqual((1900, 1, 1),
-                         calculate_period((1900, 1, 2)))
-        self.assertEqual((1900, 1, 1),
+        self.assertEqual((1900, 1, 10),
                          calculate_period((1900, 1, 10)))
         self.assertEqual((1900, 1, 11),
                          calculate_period((1900, 1, 11)))
-        self.assertEqual((1900, 12, 21),
+        self.assertEqual((1900, 12, 30),
                          calculate_period((1900, 12, 30)))
 
     def test_end_period(self):
-        self.assertEqual((1899, 12, 21),
+        self.assertEqual((1899, 12, 31),
                          calculate_period((1900, 1, 1), start=False))
-        self.assertEqual((1900, 1, 1),
+        self.assertEqual((1900, 1, 2),
                          calculate_period((1900, 1, 2), start=False))
-        self.assertEqual((1900, 1, 1),
+        self.assertEqual((1900, 1, 9),
                          calculate_period((1900, 1, 9), start=False))
         self.assertEqual((1900, 1, 11),
                          calculate_period((1900, 1, 11), start=False))
-        self.assertEqual((1900, 12, 21),
+        self.assertEqual((1900, 12, 30),
                          calculate_period((1900, 12, 30), start=False))
-        self.assertEqual((1950, 12, 21),
+        self.assertEqual((1950, 12, 30),
                          calculate_period((1950, 12, 30), start=False))
 
 
