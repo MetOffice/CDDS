@@ -8,19 +8,17 @@ from collections import defaultdict
 import logging
 import os
 import unittest
+from unittest import mock
+from unittest.mock import patch
 
-try:
-    from cftime import datetime
-except ImportError:
-    from netcdftime import datetime
+from cftime import datetime
 from nose.plugins.attrib import attr
 
 from cdds.common.constants import TIME_UNIT
 from cdds.convert import concatenation
 from cdds.convert.concatenation import concatenation_setup, NCRCAT
 from cdds.convert.exceptions import ConcatenationError
-from unittest import mock
-from unittest.mock import patch
+
 
 MINIMAL_CDL = '''
 netcdf filename {

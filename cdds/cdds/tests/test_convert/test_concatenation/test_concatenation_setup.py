@@ -6,29 +6,26 @@ Tests for the :mod:`cdds.convert.concatenation.concatenation_setup`
 module.
 """
 import os
-import unittest
 from typing import Type, List
+import unittest
+from unittest import mock
 
+from cftime import datetime
+
+from cdds.common import run_command
+from cdds.common.constants import TIME_UNIT
+from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
 from cdds.common.plugins.grid import GridLabel, GridType, GridInfo
 from cdds.common.plugins.models import ModelParameters
+from cdds.common.plugins.plugins import PluginStore, CddsPlugin
 from cdds.common.plugins.streams import StreamInfo
 
-try:
-    from cftime import datetime
-except ImportError:
-    from netcdftime import datetime
-
-from cdds.common.constants import TIME_UNIT
 import cdds.convert.concatenation.concatenation_setup
 from cdds.convert.concatenation.concatenation_setup import (
     get_file_frequency_shape, get_reinitialisation_period,
     organise_concatenations, times_from_filename,
     load_concatenation_setup_config)
-from cdds.common.plugins.plugins import PluginStore, CddsPlugin
-from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
 
-from cdds.common import run_command
-from unittest import mock
 
 MINIMAL_CDL = '''
 netcdf filename {

@@ -3,19 +3,16 @@
 """
 CMOR netCDF file aggregation routines
 """
-import cf_units
 from configparser import ConfigParser
 from datetime import datetime
 import fnmatch
 import logging
-import netCDF4
-try:
-    import cftime as cft
-except ImportError:
-    import netcdftime as cft
 import os
 import re
 import sqlite3
+
+import cftime as cft
+import netCDF4
 
 from cdds.common.constants import LOG_TIMESTAMP_FORMAT, TIME_UNIT
 from cdds.common.plugins.plugins import PluginStore
