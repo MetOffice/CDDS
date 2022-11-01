@@ -2,17 +2,14 @@
 # Please see LICENSE.rst for license details.
 # pylint: disable = eval-used
 import logging
-try:
-    from cftime import datetime
-except ImportError:
-    from netcdftime import datetime
-import numpy as np
 from operator import itemgetter
 import regex as re
-from scipy.spatial import distance
 
+from cftime import datetime
 import iris
 from iris.fileformats.pp import STASH
+import numpy as np
+from scipy.spatial import distance
 
 from cdds.common import DATE_TIME_REGEX
 from cdds.common.constants import ANCIL_VARIABLES

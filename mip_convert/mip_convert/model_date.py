@@ -5,13 +5,10 @@ This module provides date manipulation for 'standard', 'gregorian',
 'proleptic_gregorian' 'noleap', '365_day', '360_day', 'julian',
 'all_leap' and '366_day' calendars.
 """
-from cf_units import num2date, date2num, Unit, EPOCH
 import regex as re
 
-try:
-    from cftime import datetime
-except ImportError:
-    from netcdftime import datetime
+from cf_units import num2date, date2num, Unit, EPOCH
+from cftime import datetime
 
 
 class CdDateError(Exception):
