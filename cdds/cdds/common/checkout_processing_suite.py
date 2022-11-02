@@ -8,7 +8,8 @@ from configparser import ConfigParser
 
 from cdds.convert.exceptions import SuiteConfigMissingValueError
 from cdds.convert.process.suite_interface import (check_svn_location,
-                                                  checkout_url)
+                                                  checkout_url,
+                                                  update_suite_conf_file)
 
 
 def main_checkout_suite():
@@ -42,13 +43,16 @@ def update_rose_conf(args, suite_directory):
     :type suite_directory: str
     """
     conf_file = os.path.join(suite_directory, "rose-suite.conf")
-    options = [("request_file", "REQUEST_JSON_PATH", "env"),
-               ("variables_file", "USER_VARIABLES_LIST", "env"),
-               ("suite_base_name", "SUITE_BASE_NAME", "jinja2:suite.rc")]
-    for option, mapping, section_name in options:
+    conf_override_fields = [("request_file", "REQUEST_JSON_PATH", "env"),
+                            ("variables_file", "USER_VARIABLES_LIST", "env"),
+                            ("suite_base_name", "SUITE_BASE_NAME", "jinja2:suite.rc")]
+    for option, mapping, section_name in conf_override_fields:
         if vars(args)[option]:
-            kwargs = {mapping: vars(args)[option]}
-            update_suite_conf_file(conf_file, kwargs, section_name)
+            if section_name == "jinja2:suite.rc":
+                changes_to_apply = {mapping: json.dumps(vars(args)[option])}
+            else:
+                changes_to_apply = {mapping: vars(args)[option]}
+            update_suite_conf_file(conf_file, section_name, changes_to_apply)
 
 
 def parse_args():
@@ -62,50 +66,3 @@ def parse_args():
     arguments = args.parse_args()
 
     return arguments
-
-
-def update_suite_conf_file(filename, kwargs, section_name, delimiter="="):
-    """
-    Update the contents of a rose suite configuration file, on disk,
-    based on supplied keywords.
-
-    :param filename: Name of the file to update.
-    :type filename: str
-    :param kwargs:
-    :type kwargs: dict
-    :param section_name:
-    :type section_name: str
-    :param delimiter: , defaults to "="
-    :type delimiter: str, optional
-    :raises SuiteConfigMissingValueError:
-    :raises TypeError:
-    :return: Each element is a 3-tuple with elements for the name of the
-        field that is changed, the original value, and the new value.
-    :rtype: list
-    """    """"""
-    parser = ConfigParser(delimiters=[delimiter])
-    parser.optionxform = str
-    parser.read(filename)
-    section = parser[section_name]
-    changes = []
-    for field, new_value in kwargs.items():
-        if field == "SUITE_BASE_NAME":
-            new_value_str = json.dumps(new_value)
-        else:
-            new_value_str = new_value
-        if field not in section:
-            raise SuiteConfigMissingValueError('Field "{}" not found in "{}".'
-                                               ''.format(field, filename))
-        if section[field] != new_value_str:
-            try:
-                changes.append((field, str(section[field]),
-                                str(new_value_str)))
-                section[field] = new_value_str
-            except TypeError as error:
-                msg = ('Failed attempting to set field "{}" to "{}": '
-                       '').format(field, repr(new_value))
-                raise TypeError(msg + str(error))
-
-    parser.write(open(filename, 'w'))
-
-    return changes
