@@ -64,7 +64,7 @@ def checkout_url(svn_url, destination):
     return output
 
 
-def update_suite_conf_file(filename, section_name, changes_to_apply, delimiter="="):
+def update_suite_conf_file(filename, section_name, changes_to_apply, raw_value=False, delimiter="="):
     """
     Update the contents of a rose suite configuration file, on disk,
     based on supplied keywords.
@@ -77,6 +77,8 @@ def update_suite_conf_file(filename, section_name, changes_to_apply, delimiter="
         The section of the rose-suite.conf to apply changes to.
     changes_to_apply : dict
         A dictionary containing field_name:field_value pairs.
+    raw_value : bool
+        If False, format values using json.dumps. 
     delimiter : str, optional
         Character used for delimiting keys and values in the suite
         configuration file.
@@ -95,18 +97,16 @@ def update_suite_conf_file(filename, section_name, changes_to_apply, delimiter="
     section = parser[section_name]
     changes = []
     for field, new_value in changes_to_apply.items():
-        if section_name == 'env':
-            new_value_str = str(new_value)
-        else:
-            new_value_str = json.dumps(new_value)
+        if not raw_value:
+            new_value = json.dumps(new_value)
         if field not in section:
             raise SuiteConfigMissingValueError('Field "{}" not found in "{}".'
                                                ''.format(field, filename))
-        if section[field] != new_value_str:
+        if section[field] != new_value:
             try:
                 changes.append((field, str(section[field]),
-                                str(new_value_str)))
-                section[field] = new_value_str
+                                str(new_value)))
+                section[field] = new_value
             except TypeError as error:
                 msg = ('Failed attempting to set field "{}" to "{}": '
                        '').format(field, repr(new_value))

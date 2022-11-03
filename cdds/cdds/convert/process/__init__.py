@@ -1048,7 +1048,7 @@ class ConvertProcess(object):
 
         try:
             changes_applied = suite_interface.update_suite_conf_file(rose_suite_conf_file, section_name,
-                                                                     changes_to_apply_all)
+                                                                     changes_to_apply_all, raw_value=False)
         except Exception as err:
             self.logger.exception(err)
             raise err
@@ -1126,7 +1126,7 @@ class ConvertProcess(object):
 
         try:
             changes_applied = suite_interface.update_suite_conf_file(stream_opt_conf_path, section_name,
-                                                                     changes_to_appy_per_stream)
+                                                                     changes_to_appy_per_stream, raw_value=False)
         except Exception as err:
             self.logger.exception(err)
         else:

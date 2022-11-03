@@ -43,16 +43,13 @@ def update_rose_conf(args, suite_directory):
     :type suite_directory: str
     """
     conf_file = os.path.join(suite_directory, "rose-suite.conf")
-    conf_override_fields = [("request_file", "REQUEST_JSON_PATH", "env"),
-                            ("variables_file", "USER_VARIABLES_LIST", "env"),
-                            ("suite_base_name", "SUITE_BASE_NAME", "jinja2:suite.rc")]
-    for option, mapping, section_name in conf_override_fields:
+    conf_override_fields = [("request_file", "REQUEST_JSON_PATH", "env", True),
+                            ("variables_file", "USER_VARIABLES_LIST", "env", True),
+                            ("suite_base_name", "SUITE_BASE_NAME", "jinja2:suite.rc", False)]
+    for option, mapping, section_name, raw_value in conf_override_fields:
         if vars(args)[option]:
-            if section_name == "jinja2:suite.rc":
-                changes_to_apply = {mapping: json.dumps(vars(args)[option])}
-            else:
-                changes_to_apply = {mapping: vars(args)[option]}
-            update_suite_conf_file(conf_file, section_name, changes_to_apply)
+            changes_to_apply = {mapping: vars(args)[option]}
+            update_suite_conf_file(conf_file, section_name, changes_to_apply, raw_value)
 
 
 def parse_args():

@@ -467,7 +467,7 @@ class ConvertProcessTest(unittest.TestCase):
 
         call_list = [
             mock.call(os.path.join(self.process.suite_destination, 'rose-suite.conf'), 'jinja2:suite.rc',
-                      expected_update_kwargs_suite)
+                      expected_update_kwargs_suite, raw_value=False)
         ]
         mock_update_conf.assert_has_calls(call_list)
 
@@ -579,7 +579,7 @@ class ConvertProcessTest(unittest.TestCase):
             opt_conf_path = os.path.join(self.process.suite_destination,
                                          'opt', 'rose-suite-{0}.conf'
                                                 ''.format(current_stream))
-            call_list += [mock.call(opt_conf_path, 'jinja2:suite.rc', update_kwargs_streams)]
+            call_list += [mock.call(opt_conf_path, 'jinja2:suite.rc', update_kwargs_streams, raw_value=False)]
         mock_update_conf.assert_has_calls(call_list)
 
     @mock.patch('os.path.isdir')
