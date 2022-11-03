@@ -2,21 +2,29 @@
 # Please see LICENSE.rst for license details.
 
 import argparse
-import json
 import os
-from configparser import ConfigParser
+from typing import Union, Any
 
-from cdds.convert.exceptions import SuiteConfigMissingValueError
+from cdds.common import determine_rose_suite_url
 from cdds.convert.process.suite_interface import (check_svn_location,
                                                   checkout_url,
                                                   update_suite_conf_file)
 
 
-def main_checkout_suite():
+def main_checkout_suite(arguments : Union[list, None] = None):
+    """Main function for handling checking out the CDDS Processing Suite to a specific
+    location and updating relevant fields in the rose-suite.conf
 
-    args = parse_args()
+    :param arguments: Optionally pass in a list of arguments for testing purposes.
+    :type arguments: Union[list, None], optional
+    :raises FileNotFoundError: Raised if the target directory doesn't exist.
+    """
 
-    suite_url = "svn://fcm1/roses-u.xm_svn/c/q/8/0/5/{}".format(args.branch_name)
+    args = parse_args(arguments)
+
+    suite_url = determine_rose_suite_url("u-cq805", args.external_repository)
+    suite_url += args.branch_name
+
     roses_directory = os.path.expanduser("~/roses/")
 
     if os.path.isdir(roses_directory) and not args.suite_destination:
@@ -26,7 +34,7 @@ def main_checkout_suite():
         suite_directory = os.path.join(args.suite_destination, args.suite_name)
         os.makedirs(suite_directory)
     else:
-        raise BaseException
+        raise FileNotFoundError("Could not determine target directory.") 
 
     if check_svn_location(suite_url):
         checkout_url(suite_url, suite_directory)
@@ -34,7 +42,7 @@ def main_checkout_suite():
     update_rose_conf(args, suite_directory)
 
 
-def update_rose_conf(args, suite_directory):
+def update_rose_conf(args, suite_directory : str):
     """Update the relevant fields of the copied suite with user provided arguments.
 
     :param args: User arguments from command line
@@ -52,14 +60,23 @@ def update_rose_conf(args, suite_directory):
             update_suite_conf_file(conf_file, section_name, changes_to_apply, raw_value)
 
 
-def parse_args():
-    args = argparse.ArgumentParser()
-    args.add_argument('suite_name', help='The desired suite name.')
-    args.add_argument('--branch_name', default="trunk", help='The branch name. Uses trunk by default.')
-    args.add_argument('--request_file', default=None)
-    args.add_argument('--variables_file', default=None)
-    args.add_argument('--suite_base_name', default=None)
-    args.add_argument('--suite_destination', default=None, help='Destination directory to copy u-cq805 into.')
-    arguments = args.parse_args()
+def parse_args(arguments : Union[list, None]) -> Any:
+    """Configure the parser for providing commands
 
-    return arguments
+    :param arguments: Optionally pass in a list of arguments for testing purposes.
+    :type arguments: Union[list, bool], optional
+    :return: The configured argpase object.
+    :rtype: argparse.Namespace
+    """
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('suite_name', help='The desired suite name.')
+    parser.add_argument('--branch_name', default="trunk", help='The branch name. Uses trunk by default.')
+    parser.add_argument('--request_file', default=None)
+    parser.add_argument('--variables_file', default=None)
+    parser.add_argument('--suite_base_name', default=None)
+    parser.add_argument('--suite_destination', default=None, help='Destination directory to copy u-cq805 into.')
+    parser.add_argument('--external_repository', action="store_false")
+    parsed_arguments = parser.parse_args(arguments)
+
+    return parsed_arguments
