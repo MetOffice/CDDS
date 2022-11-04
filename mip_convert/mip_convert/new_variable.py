@@ -349,6 +349,7 @@ class Variable(object):
         self._remove_units_from_input_variables_as_necessary()
         self._ensure_masked_arrays()
         self._standardise()
+        self._apply_mask()
         self._apply_expression()
         self._validate_cube()
         if self._time_coord:
@@ -376,26 +377,30 @@ class Variable(object):
             if not np.ma.isMaskedArray(cube.data):
                 cube.data = make_masked(cube.data, cube.shape, cube.attributes['fill_value'], cube.data.dtype)
 
-    def _standardise(self):
-        model_id = self.model_to_mip_mapping.model_id
+    def _apply_mask(self):
+        logger = logging.getLogger(__name__)
+        # expecting format lat_start:lat_stop:lat_stride, lon_start:lon_stop:lon_stride
+        mask_slice_str = self._variable_metadata.mask_slice
+        if mask_slice_str is not None:
+            # build slices
+            try:
+                lat_str, lon_str = mask_slice_str.replace(' ', '').split(',')
+                lat_slice = slice(*[None if j.lower() in ('none', '') else int(j) for j in lat_str.split(':')])
+                lon_slice = slice(*[None if j.lower() in ('none', '') else int(j) for j in lon_str.split(':')])
+            except (TypeError, ValueError):
+                message = ('mask_slice information must consist of two slice specifications separated by a'
+                           ' comma, received "{}"'.format(mask_slice_str))
+                logger.critical(message)
+                raise RuntimeError(message)
 
+        logger.info('Masking all data using mask slices for latitude and longitude dimensions: "{}"'.format(
+            mask_slice_str))
+        mask = np.s_[..., lat_slice, lon_slice]
         for cube in list(self.input_variables.values()):
-            model_component = cube.attributes['model_component']
-
-            # If CICE data modify the mode_component value to include grid information.
-            if model_component == 'cice':
-                # cice_grid will be either "T" or "V" if variable has "TLAT" or "ULAT" respectively in its
-                # "coordinates" netcdf attribute.
-                cice_grid = cube.coord('latitude').var_name[0]
-                model_component = 'cice-{}'.format(cice_grid)
-            if self._variable_metadata.mask_slice is not None:
-                orca_slice = self._variable_metadata.mask_slice if self._variable_metadata.mask_slice != "no_mask" else None
-            else:
-                orca_slice = eorca_resolution_to_mask_slice(model_id, model_component, self._substream)
             cube_coord_names = {i.name() for i in cube.coords()}
-            if {'latitude', 'longitude'} <= cube_coord_names and orca_slice is not None:
+            if {'latitude', 'longitude'} <= cube_coord_names:
                 # update the existing mask
-                cube.data[orca_slice] = np.ma.masked
+                cube.data[mask] = np.ma.masked
 
     def _apply_expression(self):
         # Persist the fill_value attribute from the 'input variables' to the 'output variable'.
