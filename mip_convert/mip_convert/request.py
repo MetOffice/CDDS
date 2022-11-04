@@ -231,7 +231,7 @@ def produce_mip_requested_variable(
     logger.debug('Variable object contains: {}'.format(variable.info))
 
     # Create the CMOR saver.
-    saver = cmor_lite.get_saver(mip_table.name, variable_name, 12)
+    saver = cmor_lite.get_saver(mip_table.name, variable_name)
 
     # Process the data by performing the appropriate 'model to MIP mapping', then save the 'MIP output variable'
     # to an 'output netCDF file'.

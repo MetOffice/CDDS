@@ -326,7 +326,7 @@ class Variable(object):
 
             ordered_for_log = [(coord.name(), axis_direction) for coord, axis_direction in self._ordered_coords]
             self.logger.debug('Order of axes: {}'.format(ordered_for_log))
-        # print(self.cube)
+
         return self._ordered_coords
 
     def process(self):
@@ -355,7 +355,6 @@ class Variable(object):
             self._update_time_units()
         if hasattr(self.model_to_mip_mapping, 'valid_min'):
             self._apply_valid_min_correction()
-
 
     def _remove_units_from_input_variables_as_necessary(self):
         # To prevent the Iris error "Cannot use <operator> with
