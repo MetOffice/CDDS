@@ -3,7 +3,7 @@
 
 import argparse
 import os
-from typing import Union, Any
+from typing import Union
 
 from cdds.common import determine_rose_suite_url
 from cdds.convert.process.suite_interface import (check_svn_location,
@@ -11,7 +11,7 @@ from cdds.convert.process.suite_interface import (check_svn_location,
                                                   update_suite_conf_file)
 
 
-def main_checkout_suite(arguments : Union[list, None] = None):
+def main_checkout_suite(arguments: Union[list, None] = None):
     """Main function for handling checking out the CDDS Processing Suite to a specific
     location and updating relevant fields in the rose-suite.conf
 
@@ -34,7 +34,7 @@ def main_checkout_suite(arguments : Union[list, None] = None):
         suite_directory = os.path.join(args.suite_destination, args.suite_name)
         os.makedirs(suite_directory)
     else:
-        raise FileNotFoundError("Could not determine target directory.") 
+        raise FileNotFoundError("Could not determine target directory.")
 
     if check_svn_location(suite_url):
         checkout_url(suite_url, suite_directory)
@@ -42,7 +42,7 @@ def main_checkout_suite(arguments : Union[list, None] = None):
     update_rose_conf(args, suite_directory)
 
 
-def update_rose_conf(args, suite_directory : str):
+def update_rose_conf(args, suite_directory: str):
     """Update the relevant fields of the copied suite with user provided arguments.
 
     :param args: User arguments from command line
@@ -60,7 +60,7 @@ def update_rose_conf(args, suite_directory : str):
             update_suite_conf_file(conf_file, section_name, changes_to_apply, raw_value)
 
 
-def parse_args(arguments : Union[list, None]) -> Any:
+def parse_args(arguments: Union[list, None]) -> argparse.Namespace:
     """Configure the parser for providing commands
 
     :param arguments: Optionally pass in a list of arguments for testing purposes.

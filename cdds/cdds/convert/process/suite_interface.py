@@ -78,7 +78,7 @@ def update_suite_conf_file(filename, section_name, changes_to_apply, raw_value=F
     changes_to_apply : dict
         A dictionary containing field_name:field_value pairs.
     raw_value : bool
-        If False, format values using json.dumps. 
+        If False, format values using json.dumps.
     delimiter : str, optional
         Character used for delimiting keys and values in the suite
         configuration file.
