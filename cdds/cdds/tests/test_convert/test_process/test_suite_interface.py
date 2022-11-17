@@ -62,9 +62,9 @@ class SuiteInterfaceTest(unittest.TestCase):
         with tempfile.NamedTemporaryFile(dir='/tmp', delete=False) as tmpfile:
             tmpfile.file.write(source_config.encode())
             tmpfile.close()
-            changes = suite.update_suite_conf_file(tmpfile.name,
-                                                   CHANGED1='unchanged',
-                                                   CHANGED2='new value')
+            section_name = 'jinja2:suite.rc'
+            changes_to_apply = {"CHANGED1": 'unchanged', "CHANGED2": 'new value'}
+            changes = suite.update_suite_conf_file(tmpfile.name, section_name, changes_to_apply)
             with open(tmpfile.name) as file_handle:
                 result_config = ''.join(file_handle.readlines())
             os.unlink(tmpfile.name)
