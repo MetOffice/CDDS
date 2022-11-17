@@ -1033,10 +1033,12 @@ class ConvertProcess(object):
             'RUN_TRANSFER': not self.skip_transfer,
             'START_YEAR': year_bounds[0],
             'TARGET_SUITE_NAME': self.target_suite_name,
-            'USE_EXTERNAL_PLUGIN': use_external_plugin,
-            'EXTERNAL_PLUGIN': external_plugin,
-            'EXTERNAL_PLUGIN_LOCATION': external_plugin_location,
+            'USE_EXTERNAL_PLUGIN': use_external_plugin
         }
+        if use_external_plugin:
+            changes_to_apply_all['EXTERNAL_PLUGIN'] = external_plugin
+            changes_to_apply_all['EXTERNAL_PLUGIN_LOCATION'] = external_plugin_location
+
         if 'CDDS_DIR' in os.environ:
             changes_to_apply_all['CDDS_DIR'] = os.environ['CDDS_DIR']
         else:
