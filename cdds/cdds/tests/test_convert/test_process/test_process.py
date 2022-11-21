@@ -456,9 +456,7 @@ class ConvertProcessTest(unittest.TestCase):
             'OUTPUT_MASS_ROOT': 'moose://dummy/archive/path',
             'OUTPUT_MASS_SUFFIX': 'fake_suffix',
             'EMAIL_NOTIFICATIONS': self.process._arguments.email_notifications,
-            'USE_EXTERNAL_PLUGIN': False,
-            'EXTERNAL_PLUGIN': '',
-            'EXTERNAL_PLUGIN_LOCATION': '',
+            'USE_EXTERNAL_PLUGIN': False
         }
         if 'CDDS_DIR' in os.environ:
             expected_update_kwargs_suite['CDDS_DIR'] = os.environ['CDDS_DIR']
