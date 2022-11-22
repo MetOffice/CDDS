@@ -11,6 +11,7 @@ import os
 import re
 import shutil
 
+from cdds.common.date_utils import between
 from cdds.common.plugins.plugins import PluginStore
 from cdds.convert.constants import FILEPATH_JASMIN, FILEPATH_METOFFICE, STREAMS_FILES_REGEX, NUM_FILE_COPY_ATTEMPTS
 from cdds.convert.mip_convert_wrapper.file_processors import (
@@ -187,8 +188,8 @@ def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
                 file_dict = filename_processor(stream_fname, stream, file_pattern, model_id)
                 file_in_substream = (substream == '' or substream in file_dict['filename'])
                 if (file_in_substream and
-                        (period_start <= file_dict['start'] <= period_end
-                         or period_start <= file_dict['end'] <= period_end)):
+                        (between(period_start, file_dict['start'], period_end)
+                         or between(period_start, file_dict['end'], period_end))):
                     file_list += [file_dict]
 
             # TODO cleanup junk files
@@ -201,8 +202,8 @@ def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
                 file_dict = filename_processor(stream_fname, stream, file_pattern, model_id)
                 file_in_substream = (substream == '' or substream in file_dict['filename'])
                 if (file_in_substream and
-                        (period_start <= file_dict['start'] <= period_end or
-                         period_start <= file_dict['end'] <= period_end)):
+                        (between(period_start, file_dict['start'], period_end) or
+                         between(period_start, file_dict['end'], period_end))):
                     file_dict["cycle"] = cycle_fname
                     file_list += [file_dict]
 

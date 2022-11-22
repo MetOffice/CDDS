@@ -6,8 +6,10 @@ volume of data that MIP Convert can see and attempt to read
 """
 
 import calendar
-from datetime import datetime, timedelta
+from cftime import datetime
+from datetime import timedelta
 
+from cdds.common.date_utils import strptime
 from cdds.common.plugins.plugins import PluginStore
 
 
@@ -57,7 +59,7 @@ def parse_atmos_monthly_filename(fname, stream, pattern, model_id):
     file_dict = pattern.search(fname).groupdict()
     start_year = int(file_dict['year'])
     start_month = construct_month_lookup()[file_dict['month']]
-    file_dict['start'] = datetime(start_year, start_month, 1)
+    file_dict['start'] = datetime(start_year, start_month, 1, calendar='360_day')
     files_per_year = stream_file_info.get_files_per_year(stream)
     days_in_period = int(360 / files_per_year)
     data_period = timedelta(days=days_in_period)
@@ -92,7 +94,7 @@ def parse_atmos_submonthly_filename(fname, stream, pattern, model_id):
     model_params = PluginStore.instance().get_plugin().models_parameters(model_id)
     stream_file_info = model_params.stream_file_info()
     file_dict = pattern.search(fname).groupdict()
-    file_dict['start'] = datetime.strptime(file_dict['start_str'], '%Y%m%d')
+    file_dict['start'] = strptime(file_dict['start_str'], '%Y%m%d', calendar='360_day')
     files_per_year = stream_file_info.get_files_per_year(stream)
     days_in_period = int(360 / files_per_year)
     data_period = timedelta(days=days_in_period)
@@ -124,7 +126,7 @@ def parse_ocean_seaice_filename(fname, stream, pattern, model_id):
 
     """
     file_dict = pattern.search(fname).groupdict()
-    file_dict['start'] = datetime.strptime(file_dict['start_str'], '%Y%m%d')
-    file_dict['end'] = datetime.strptime(file_dict['end_str'], '%Y%m%d')
+    file_dict['start'] = strptime(file_dict['start_str'], '%Y%m%d', '360_day')
+    file_dict['end'] = strptime(file_dict['end_str'], '%Y%m%d', '360_day')
     file_dict['filename'] = fname
     return file_dict
