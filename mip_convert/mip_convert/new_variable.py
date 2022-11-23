@@ -377,11 +377,14 @@ class Variable(object):
             if not np.ma.isMaskedArray(cube.data):
                 cube.data = make_masked(cube.data, cube.shape, cube.attributes['fill_value'], cube.data.dtype)
 
+    def _standardise(self):
+        model_id = self.model_to_mip_mapping.model_id
+
     def _apply_mask(self):
         logger = logging.getLogger(__name__)
         # expecting format lat_start:lat_stop:lat_stride, lon_start:lon_stop:lon_stride
         mask_slice_str = self._variable_metadata.mask_slice
-        if mask_slice_str is not None:
+        if mask_slice_str is not None and mask_slice_str != 'no_mask':
             # build slices
             try:
                 lat_str, lon_str = mask_slice_str.replace(' ', '').split(',')
@@ -393,14 +396,14 @@ class Variable(object):
                 logger.critical(message)
                 raise RuntimeError(message)
 
-        logger.info('Masking all data using mask slices for latitude and longitude dimensions: "{}"'.format(
-            mask_slice_str))
-        mask = np.s_[..., lat_slice, lon_slice]
-        for cube in list(self.input_variables.values()):
-            cube_coord_names = {i.name() for i in cube.coords()}
-            if {'latitude', 'longitude'} <= cube_coord_names:
-                # update the existing mask
-                cube.data[mask] = np.ma.masked
+            logger.info('Masking all data using mask slices for latitude and longitude dimensions: "{}"'.format(
+                mask_slice_str))
+            mask = np.s_[..., lat_slice, lon_slice]
+            for cube in list(self.input_variables.values()):
+                cube_coord_names = {i.name() for i in cube.coords()}
+                if {'latitude', 'longitude'} <= cube_coord_names:
+                    # update the existing mask
+                    cube.data[mask] = np.ma.masked
 
     def _apply_expression(self):
         # Persist the fill_value attribute from the 'input variables' to the 'output variable'.
