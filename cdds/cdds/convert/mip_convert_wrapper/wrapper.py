@@ -66,6 +66,9 @@ def run_mip_convert_wrapper(arguments):
         err_msg = err_msg.format(var=ke1)
         raise WrapperEnvironmentError(err_msg)
 
+    # At the moment we only support 360_day calendar
+    calendar = '360_day'
+
     # Calculate start and end dates for this step
     # Final date is the 1st of January in the year after final_year (the final
     # year to be processed).
@@ -113,6 +116,7 @@ def run_mip_convert_wrapper(arguments):
                                 input_dir,
                                 work_dir,
                                 filepath_type=filepath_type,
+                                calendar=calendar
                                 )
     if staging_dir:
         num_files_processed = copy_to_staging_dir(expected_files,
