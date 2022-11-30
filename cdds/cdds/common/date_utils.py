@@ -123,7 +123,7 @@ class DateFormat(object):
         return attributes
 
 
-def strptime(date_string, format, calendar='360_day'):
+def strp_cftime(date_string, format, calendar='360_day'):
     """
     Returns a cftime.datetime object based on a string value of the date and its format.
 

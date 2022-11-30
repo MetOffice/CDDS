@@ -9,7 +9,7 @@ import calendar
 from cftime import datetime
 from datetime import timedelta
 
-from cdds.common.date_utils import strptime
+from cdds.common.date_utils import strp_cftime
 from cdds.common.plugins.plugins import PluginStore
 
 
@@ -98,7 +98,7 @@ def parse_atmos_submonthly_filename(fname, stream, pattern, model_id, calendar='
     model_params = PluginStore.instance().get_plugin().models_parameters(model_id)
     stream_file_info = model_params.stream_file_info()
     file_dict = pattern.search(fname).groupdict()
-    file_dict['start'] = strptime(file_dict['start_str'], '%Y%m%d', calendar)
+    file_dict['start'] = strp_cftime(file_dict['start_str'], '%Y%m%d', calendar)
     files_per_year = stream_file_info.get_files_per_year(stream)
     days_in_period = int(360 / files_per_year)
     data_period = timedelta(days=days_in_period)
@@ -132,7 +132,7 @@ def parse_ocean_seaice_filename(fname, stream, pattern, model_id, calendar='360_
 
     """
     file_dict = pattern.search(fname).groupdict()
-    file_dict['start'] = strptime(file_dict['start_str'], '%Y%m%d', calendar)
-    file_dict['end'] = strptime(file_dict['end_str'], '%Y%m%d', calendar)
+    file_dict['start'] = strp_cftime(file_dict['start_str'], '%Y%m%d', calendar)
+    file_dict['end'] = strp_cftime(file_dict['end_str'], '%Y%m%d', calendar)
     file_dict['filename'] = fname
     return file_dict
