@@ -3,7 +3,7 @@
 # Please see LICENSE.rst for license details.
 import sys
 
-from cdds.convert.common import fix_import_paths
+from cdds.common.environment import fix_import_paths
 
 fix_import_paths()
 

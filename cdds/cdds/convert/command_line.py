@@ -182,6 +182,8 @@ def parse_args_cdds_convert():
     request = read_request(args.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
     arguments = update_arguments_for_proc_dir(arguments, request, COMPONENT)
     arguments.mip_era = request.mip_era
+    arguments.external_plugin = request.external_plugin
+    arguments.external_plugin_location = request.external_plugin_location
 
     # Get Cdds plugin and overload model related values if necessary
     plugin = PluginStore.instance().get_plugin()
@@ -230,8 +232,10 @@ def _parse_args_concat_setup():
                         help='The MIP era (e.g. CMIP6)')
     parser.add_argument('--external_plugin', default='', type=str,
                         help='Module path to external CDDS plugin')
+    parser.add_argument('--external_plugin_location', default='', type=str,
+                        help='Path to external CDDS plugin implementation')
     arguments = parser.parse_args()
-    load_plugin(arguments.mip_era, arguments.external_plugin)
+    load_plugin(arguments.mip_era, arguments.external_plugin, arguments.external_plugin_location)
     return arguments.config_file, arguments.log_file, arguments.append_log
 
 
@@ -324,9 +328,13 @@ def _parse_run_mip_convert_parameters(arguments):
                         default='',
                         type=str,
                         help='Module path to external CDDS plugin')
+    parser.add_argument('--external_plugin_location',
+                        default='',
+                        type=str,
+                        help='Path to the external CDDS plugin implementation')
     parsed_arguments = parser.parse_args(args=user_arguments)
     arguments.add_user_args(parsed_arguments)
-    load_plugin(arguments.mip_era, arguments.external_plugin)
+    load_plugin(arguments.mip_era, arguments.external_plugin, arguments.external_plugin_location)
     return arguments
 
 

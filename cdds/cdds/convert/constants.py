@@ -9,9 +9,7 @@ purposes) for CDDS Convert.
 CMOR_FILENAME_PATTERN = (r'([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)_'
                          r'([a-zA-Z0-9-]+)_(r\d+i\d+p\d+f\d+)_g([a-zA-Z0-9]+)'
                          r'_((\d+)-(\d+))(-clim)?.nc')
-CYLC_PATHS = [r'\/net\/home\/h03\/fcm\/rose\-.+\/lib\/python', r'\/net\/home\/h03\/fcm\/cylc\-.+\/lib',
-              r'\/apps\/contrib\/metomi\/rose\-.+\/lib\/python', r'\/apps\/contrib\/metomi\/cylc\-.+\/lib',
-              r'\/apps\/jasmin\/metomi\/rose\-.+\/lib\/python', r'\/apps\/jasmin/metomi\/cylc\-.+\/lib', ]
+
 DEFAULT_SQLITE_TIMEOUT = 30
 # Some variables are diurnal monthly means. They have 2 values per month,
 # representing day and night avarages for that month, for 24 values per year.

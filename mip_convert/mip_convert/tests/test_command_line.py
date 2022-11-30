@@ -37,6 +37,7 @@ class TestParseParameters(unittest.TestCase):
                                       config_file=cfg_path,
                                       datestamp=None,
                                       external_plugin='',
+                                      external_plugin_location='',
                                       log_level=10,
                                       log_name='output.log',
                                       mip_era='CMIP6',

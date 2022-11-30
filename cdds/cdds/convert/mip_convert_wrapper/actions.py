@@ -75,7 +75,7 @@ def manage_logs(stream, component, mip_convert_config_dir,
 
 
 def run_mip_convert(stream, dummy_run, timestamp, user_config_template_name,
-                    mip_convert_log, mip_era, external_plugin):
+                    mip_convert_log, mip_era, external_plugin, external_plugin_path):
     """
     Run MIP Convert, or perform dummy_run if specified, and update logs.
 
@@ -96,6 +96,8 @@ def run_mip_convert(stream, dummy_run, timestamp, user_config_template_name,
         MIP era of the models that will be considered during MIP convert.
     external_plugin: str
         Module path to the external plugin if some is provided.
+    external_plugin_path: str
+        Path to the external plugin location if some is provided.
 
     Returns
     -------
@@ -110,12 +112,14 @@ def run_mip_convert(stream, dummy_run, timestamp, user_config_template_name,
     logger.info('Writing to mip_convert log file: {}'.format(mip_convert_log))
 
     plugin_option = '--external_plugin {}'.format(external_plugin) if external_plugin else ''
+    plugin_path_option = '--external_plugin_location {}'.format(external_plugin_path) if external_plugin_path else ''
 
     cmd = ('/usr/bin/time -v mip_convert {cfg_file} -a -s {stream} '
-           '-l {log_name} --datestamp {datestamp} --mip_era {mip_era} {plugin_option}'
+           '-l {log_name} --datestamp {datestamp} --mip_era {mip_era} {plugin_option} {plugin_path_option}'
            ''.format(cfg_file=mip_convert_cfg, stream=stream,
                      log_name=mip_convert_log, datestamp=timestamp,
-                     mip_era=mip_era, plugin_option=plugin_option))
+                     mip_era=mip_era, plugin_option=plugin_option,
+                     plugin_path_option=plugin_path_option))
     logger.info('Command to execute: {}'.format(cmd))
     if dummy_run:
         logger.info('Performing dummy run')
