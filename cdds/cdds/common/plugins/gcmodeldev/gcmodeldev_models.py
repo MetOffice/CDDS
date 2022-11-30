@@ -33,7 +33,6 @@ class GCModelDevStore(BaseModelStore):
         ]
         self.logger = logging.getLogger(self.__class__.__name__)
         super(GCModelDevStore, self).__init__(model_instances)
-        
 
     @classmethod
     def create_instance(cls) -> 'GCModelDevStore':
