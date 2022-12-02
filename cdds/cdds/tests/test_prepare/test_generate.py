@@ -10,7 +10,7 @@ import unittest
 
 import configparser
 from unittest.mock import MagicMock, patch
-from nose.plugins.attrib import attr
+import pytest
 
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.request import Request
@@ -23,7 +23,7 @@ from cdds.common import configure_logger
 from cdds.tests.test_common.common import DummyMapping
 
 
-@attr('data_request')
+@pytest.mark.data_request
 class TestResolveRequestedVariables(unittest.TestCase):
     def setUp(self):
         load_plugin()

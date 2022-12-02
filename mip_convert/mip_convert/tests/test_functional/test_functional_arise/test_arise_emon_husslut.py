@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 import os
 
-from nose.plugins.attrib import attr
+import pytest
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import AriseTestData, SpecificInfo
@@ -43,7 +43,7 @@ class TestARISEEmonHussLut(AbstractFunctionalTests):
             )
         )
 
-    @attr('slow')
+    @pytest.mark.slow
     def test_arise_emon_husslut(self):
         # This test uses the CMIP6 plugin and not the ARISE plugin!
         # TODO: Use ARISE plugin instead default CMIP6 plugin

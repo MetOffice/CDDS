@@ -10,7 +10,7 @@ import os
 import tempfile
 import unittest.mock
 
-from nose.plugins.attrib import attr
+import pytest
 
 from cdds.common.io import write_json
 from cdds.common.plugins.plugins import PluginStore
@@ -26,7 +26,7 @@ from cdds.configure.command_line import main
 from cdds.configure.constants import HEADER_TEMPLATE
 
 
-@attr('slow')
+@pytest.mark.slow
 class TestMain(unittest.TestCase):
     """
     Tests for :func:`main` in :mod:`command_line.py`.

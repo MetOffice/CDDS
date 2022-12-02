@@ -23,7 +23,7 @@ from cdds.arguments import Arguments
 from cdds.common import set_checksum
 
 from unittest.mock import patch
-from nose.plugins.attrib import attr
+import pytest
 
 from cdds.prepare.alter import ALTER_INSERT_UNKNOWN_FIELD
 from cdds.prepare.command_line import (
@@ -138,7 +138,7 @@ class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
                 shutil.rmtree(directory)
 
 
-@attr('slow')
+@pytest.mark.slow
 class TestMainGenerateVariableList(unittest.TestCase):
     """
     Tests for ``main_generate_variable_list`` in :mod:`command_line.py`.
@@ -388,7 +388,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
                 shutil.rmtree(directory)
 
 
-@attr('slow')
+@pytest.mark.slow
 class TestPrepareSelect(unittest.TestCase):
     def setUp(self):
         self.requested_variables_path = 'rv_file.json'

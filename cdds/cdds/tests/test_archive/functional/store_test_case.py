@@ -1,13 +1,13 @@
 # (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
 from unittest import TestCase, mock
-from nose.plugins.attrib import attr
+import pytest
 
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.mass import mass_info
 
 
-@attr('slow')
+@pytest.mark.slow
 class StoreTestCase(TestCase):
     """
     TEST DIRECTORY

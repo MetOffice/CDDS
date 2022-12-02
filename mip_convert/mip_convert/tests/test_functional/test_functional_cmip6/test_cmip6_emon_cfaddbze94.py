@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 import os
 
-from nose.plugins.attrib import attr
+import pytest
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
@@ -45,6 +45,6 @@ class TestCmip6EmonCfadDbze94(AbstractFunctionalTests):
             )
         )
 
-    @attr('slow')
+    @pytest.mark.slow
     def test_cmip6_emon_sconcdust(self):
         self.check_convert()
