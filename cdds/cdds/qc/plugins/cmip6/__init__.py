@@ -245,11 +245,14 @@ class CMIP6Check(BaseNCCheck):
         netcdf_file : netCDF4.Dataset
             an open netCDF file.
         """
+        # Allow CMIP6 and the current MIP era as parent mip era
+        allowed_parent_mip_eras = ["CMIP6", netcdf_file.mip_era]
+
         parent_dict = {
             "branch_method": ValidatorFactory.nonempty_validator(),
             "branch_time_in_child": ValidatorFactory.float_validator(),
             "branch_time_in_parent": ValidatorFactory.float_validator(),
-            "parent_mip_era": ValidatorFactory.value_in_validator(["CMIP6"]),
+            "parent_mip_era": ValidatorFactory.value_in_validator(allowed_parent_mip_eras),
             "parent_time_units": ValidatorFactory.string_validator(r"^days since"),
             "parent_variant_label": ValidatorFactory.string_validator(r"^r\d+i\d+p\d+f\d+$")
         }
