@@ -1,0 +1,8 @@
+[run]
+omit = cdds/tests/*
+dynamic_context = test_function
+
+[html]
+directory = ../coverage_reports/cdds
+show_contexts = true
+title = Coverage Report for CDDS
