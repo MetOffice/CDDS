@@ -984,6 +984,7 @@ class ConvertProcess(object):
         location: str
             The platform on which to run the tasks in the suite.
         """
+        section_name = 'jinja2:suite.rc'
         year_bounds = self.year_bounds()
         rose_suite_conf_file = os.path.join(self.suite_destination,
                                             'rose-suite.conf')
@@ -1048,8 +1049,8 @@ class ConvertProcess(object):
             changes_to_apply_all['LOCATION'] = location
 
         try:
-            changes_applied = suite_interface.update_suite_conf_file(
-                rose_suite_conf_file, **changes_to_apply_all)
+            changes_applied = suite_interface.update_suite_conf_file(rose_suite_conf_file, section_name,
+                                                                     changes_to_apply_all, raw_value=False)
         except Exception as err:
             self.logger.exception(err)
             raise err
@@ -1084,6 +1085,7 @@ class ConvertProcess(object):
             |stream identifier| to calculate value for.
 
         """
+        section_name = 'jinja2:suite.rc'
         year_bounds = self.year_bounds()
         components = self.stream_components
         template_path = os.path.join(self.suite_destination, 'opt',
@@ -1125,8 +1127,8 @@ class ConvertProcess(object):
         }
 
         try:
-            changes_applied = suite_interface.update_suite_conf_file(
-                stream_opt_conf_path, **changes_to_appy_per_stream)
+            changes_applied = suite_interface.update_suite_conf_file(stream_opt_conf_path, section_name,
+                                                                     changes_to_appy_per_stream, raw_value=False)
         except Exception as err:
             self.logger.exception(err)
         else:
