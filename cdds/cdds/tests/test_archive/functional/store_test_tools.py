@@ -18,6 +18,9 @@ DEFAULT_LOG_DATESTAMP = '2019-11-23T1432Z'
 
 @dataclass
 class TestData:
+
+    __test__ = False
+
     number_variables: int = 0
     data_version: str = 'v20191128'
     test_temp_dir: str = ''

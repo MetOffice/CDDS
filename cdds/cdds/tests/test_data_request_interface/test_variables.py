@@ -6,7 +6,7 @@ Tests for :mod:`variable.py`
 """
 import unittest
 
-from nose.plugins.attrib import attr
+import pytest
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.arguments import read_default_arguments
 from cdds.data_request_interface.load import (DataRequestWrapper,
@@ -38,103 +38,103 @@ class TestDataRequestVariable(unittest.TestCase):
         self.network, _ = build_data_request_network(
             self.data_request)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_dimnensions(self):
         expected = ['longitude', 'latitude', 'height2m', 'time']
         result = self.variable.dimensions
         self.assertListEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_cell_methods(self):
         expected = 'area: time: mean'
         result = self.variable.cell_methods
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_cell_measures(self):
         expected = 'area: areacella'
         result = self.variable.cell_measures
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_positive(self):
         expected = None
         result = self.variable.positive
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_frequency(self):
         expected = 'mon'
         result = self.variable.frequency
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_long_name(self):
         expected = 'Near-Surface Air Temperature'
         result = self.variable.long_name
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_units(self):
         expected = 'K'
         result = self.variable.units
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_modeling_realm(self):
         expected = 'atmos'
         result = self.variable.modeling_realm
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_standard_name(self):
         expected = 'air_temperature'
         result = self.variable.standard_name
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_type(self):
         expected = 'real'
         result = self.variable.type
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_comment(self):
         expected = None
         result = self.variable.comment
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_variable_name(self):
         expected = 'tas'
         result = self.variable.variable_name
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_default_priority(self):
         expected = 1
         result = self.variable.default_priority
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_mip_table(self):
         expected = 'Amon'
         result = self.variable.mip_table
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_vid(self):
         expected = '5c4978e802ba55d5a298cf1b3bdc2b3a'
         result = self.variable.vid
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_description(self):
         expected = 'near-surface (usually, 2 meter) air temperature'
         result = self.variable.description
         self.assertEqual(result, expected)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_output_variable_name(self):
         expected_variable_name = 'ua27'
         expected_output_variable_name = 'ua'
@@ -144,7 +144,7 @@ class TestDataRequestVariable(unittest.TestCase):
         self.assertEqual(expected_output_variable_name,
                          result_output_variable_name)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_get_priorities_by_mip(self):
         expected = {mip: 1 for mip in self.expected_mips}
         self.variable.get_priorities(
@@ -152,7 +152,7 @@ class TestDataRequestVariable(unittest.TestCase):
         result = self.variable.priorities
         self.assertDictEqual(expected, result)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_get_ensemble_size_by_mip(self):
         expected = {mip: 1 for mip in self.expected_mips}
         expected['AerChemMIP'] = 3
@@ -182,7 +182,7 @@ class TestDescribeDifferences(unittest.TestCase):
         self.variable_different_mip_table = DataRequestVariable(
             self.data_request, mip_table='day', var_name='tas')
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_describe_differences(self):
         expected = {
             'dimensions': (
@@ -193,14 +193,14 @@ class TestDescribeDifferences(unittest.TestCase):
         result = describe_differences(self.variable, self.variable_different)
         self.assertEqual(expected, result)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_describe_differences_error(self):
         # Cannot compare Amon/tas to Emon/ua27 without setting
         # check_variable_comparability to False
         self.assertRaises(RuntimeError, describe_differences,
                           self.variable, self.variable2)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_describe_differences_diff_variable(self):
         expected = {
             'cell_methods': '"area: time: mean" -> "time: mean"',
@@ -226,7 +226,7 @@ class TestDescribeDifferences(unittest.TestCase):
                                       check_variable_comparability=False)
         self.assertEqual(expected, result)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_describe_differences_diff_mip_table(self):
         expected = {
             'frequency': '"mon" -> "day"',
@@ -250,7 +250,7 @@ class TestRetrieveVariables(unittest.TestCase):
         self.data_request = DataRequestWrapper(self.data_request_version,
                                                self.data_request_dir)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_amip(self):
         experiment_id = 'amip'
         variables, metadata = retrieve_data_request_variables(
@@ -282,7 +282,7 @@ class TestRetrieveVariables(unittest.TestCase):
             metadata[field] = None
         self.assertDictEqual(expected_metadata, metadata)
 
-    @attr('data_request')
+    @pytest.mark.data_request
     def test_new_experiment(self):
         experiment_id = 'new_exp'
         # this experiment is not in the data request, so the function should

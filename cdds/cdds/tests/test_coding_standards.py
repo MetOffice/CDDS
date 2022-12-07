@@ -7,7 +7,7 @@ Tests for coding standards and copyright headers.
 import os
 import re
 import unittest
-from nose.plugins.attrib import attr
+import pytest
 from pathlib import Path
 
 import pep8
@@ -18,7 +18,7 @@ COPYRIGHT_TEMPLATE = ('{start_comment} (C) British Crown Copyright {years}, Met 
                       '\n{start_comment} Please see LICENSE.rst for license details.')
 
 
-@attr('style')
+@pytest.mark.style
 class TestCodingStandards(unittest.TestCase):
     """
     Tests for coding standards.

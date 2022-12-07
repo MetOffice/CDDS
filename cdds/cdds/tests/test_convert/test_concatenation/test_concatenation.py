@@ -12,7 +12,7 @@ from unittest import mock
 from unittest.mock import patch
 
 from cftime import datetime
-from nose.plugins.attrib import attr
+import pytest
 
 from cdds.common.constants import TIME_UNIT
 from cdds.convert import concatenation
@@ -143,7 +143,7 @@ class TestConcatenation(unittest.TestCase):
                              'Problem with file {}:\n  {}\n  {}'
                              ''.format(filename, expected, output))
 
-    @attr('integration')
+    @pytest.mark.integration
     def test_batch_concatenation(self):
         concatenation_work = {'tas_Amon_185001-185912.nc':
                               ['tas_Amon_{0}01-{0}12.nc'.format(i)
@@ -181,7 +181,7 @@ class TestConcatenation(unittest.TestCase):
         os.unlink(self.testing_db)
         self.assertListEqual(result, expected_result)
 
-    @attr('integration')
+    @pytest.mark.integration
     @patch('cdds.convert.concatenation.concatenate_files', autospec=True)
     def test_batch_concatenation_fail(self, mock_concatenate):
         concatenation_work = {'tas_Amon_185001-185912.nc': [

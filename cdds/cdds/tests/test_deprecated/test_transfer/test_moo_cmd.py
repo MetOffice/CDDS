@@ -1,6 +1,6 @@
 # (C) British Crown Copyright 2016-2021, Met Office.
 # Please see LICENSE.rst for license details.
-from nose.plugins.attrib import attr
+import pytest
 import unittest
 from unittest.mock import patch
 
@@ -17,14 +17,14 @@ class TestDirExists(unittest.TestCase):
         if not available:
             raise RuntimeError('MASS not available. Cannot run integration tests.')
 
-    @attr("slow")
+    @pytest.mark.slow
     @patch("cdds.deprecated.transfer.moo.run_moo_cmd")
     def test_moo_dir_exists(self, mock_run_moo_cmd):
         mock_run_moo_cmd.return_value = ["true"]
         util.create_patch(self, "logging.error")
         self.assertTrue(moo_cmd.dir_exists("moose:crum"))
 
-    @attr("slow")
+    @pytest.mark.slow
     @patch("cdds.deprecated.transfer.moo.run_moo_cmd")
     def test_moo_dir_does_not_exist(self, mock_run_moo_cmd):
         mock_run_moo_cmd.return_value = ["false"]

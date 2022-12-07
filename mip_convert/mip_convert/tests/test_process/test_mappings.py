@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 
-from nose.plugins.attrib import attr
+import pytest
 import os
 import pytest
 import unittest
@@ -41,7 +41,7 @@ def get_test_info():
     return info
 
 
-@attr('mappings')
+@pytest.mark.mappings
 @pytest.mark.parametrize("cfg_file, model_id, mip_table_id", get_test_info())
 def test_required_options_in_configuration_files(cfg_file, model_id, mip_table_id):
     cfg_path = os.path.join(PATH_TO_PROCESS, cfg_file)

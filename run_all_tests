@@ -13,10 +13,10 @@ from datetime import timedelta
 
 CDDS_DIR = os.path.dirname(os.path.realpath(__file__))
 LOG_NAME = os.path.join(CDDS_DIR, 'cdds_test_failures.log')
-ROOT_COMMAND = 'py.test -s'
+ROOT_COMMAND = 'pytest -s'
 TESTS_TO_RUN = {
-    'cdds': ['--doctest-modules', '-a slow', '-a integration', '-a data_request'],
-    'mip_convert': ['--doctest-modules', '-a mappings', '-a slow'],
+    'cdds': ['--doctest-modules', '-m slow', '-m integration', '-m data_request'],
+    'mip_convert': ['--doctest-modules', '-m mappings', '-m slow'],
     }
 
 ADDITIONAL_OPTS = {

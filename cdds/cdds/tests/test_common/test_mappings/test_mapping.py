@@ -10,7 +10,7 @@ import tempfile
 import unittest
 
 from unittest.mock import patch
-from nose.plugins.attrib import attr
+import pytest
 
 import cdds.common.mappings.mapping as mapping
 from cdds.common.plugins.plugin_loader import load_plugin, load_external_plugin

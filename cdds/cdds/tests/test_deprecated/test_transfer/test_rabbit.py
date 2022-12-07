@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 from unittest.mock import call
 import logging
-from nose.plugins.attrib import attr
+import pytest
 import os.path
 import pika
 import unittest
@@ -15,7 +15,7 @@ def config_path():
     return os.path.join(os.environ['HOME'], '.cdds_credentials')
 
 
-@attr("rabbitMQ")
+@pytest.mark.rabbitMQ
 class TestRabbitMqManager(unittest.TestCase):
 
     def setUp(self):
@@ -75,7 +75,7 @@ class TestRabbitMqManager(unittest.TestCase):
         self.assertEqual(mock_sleep.mock_calls, expected_calls)
 
 
-@attr("rabbitMQ")
+@pytest.mark.rabbitMQ
 class TestRabbit(unittest.TestCase):
 
     @classmethod
@@ -184,7 +184,7 @@ class TestRabbit(unittest.TestCase):
         return
 
 
-@attr("rabbitMQ")
+@pytest.mark.rabbitMQ
 class TestPlainCredentials(unittest.TestCase):
 
     def test_start_with_plain(self):

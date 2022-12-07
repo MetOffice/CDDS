@@ -5,7 +5,7 @@
 Functional test for CDDS Transfer send_to_mass script
 """
 
-from nose.plugins.attrib import attr
+import pytest
 import os
 import shutil
 import sys
@@ -126,7 +126,7 @@ class TestSendToMassFunctional(unittest.TestCase):
             if os.path.exists(directory):
                 shutil.rmtree(directory)
 
-    @attr('slow')
+    @pytest.mark.slow
     @mock.patch('cdds.common.get_log_datestamp')
     def test_simple_run_through(self, mock_log_datestamp):
         experiment_id = 'piControl'
@@ -136,7 +136,7 @@ class TestSendToMassFunctional(unittest.TestCase):
         result = main_send_to_mass()
         self.assertEqual(result, 0)
 
-    @attr('slow')
+    @pytest.mark.slow
     @mock.patch('cdds.common.get_log_datestamp')
     def test_simple_run_through_multi_activity_id(self, mock_log_datestamp):
         experiment_id = 'ssp370'

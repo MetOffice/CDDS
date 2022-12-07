@@ -3,7 +3,7 @@
 import os
 
 import pytest
-from nose.plugins.attrib import attr
+import pytest
 
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import CordexTestData, SpecificInfo
@@ -48,7 +48,7 @@ class TestCordexMonUv(AbstractFunctionalTests):
             )
         )
 
-    @attr('slow')
+    @pytest.mark.slow
     @pytest.mark.skip
     def test_cordex_mon_uv(self):
         self.check_convert()

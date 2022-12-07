@@ -9,7 +9,7 @@ import getpass
 import unittest
 import os
 import shutil
-from nose.plugins.attrib import attr
+import pytest
 from unittest.mock import patch
 from cdds.extract.common import (
     get_bounds_variables, validate_stash_fields, validate_netcdf,
@@ -123,7 +123,7 @@ class TestCommon(unittest.TestCase):
         validate_stash_fields("foo", expected_stash_codes, validation_result)
         self.assertTrue(validation_result.valid)
 
-    @attr("slow")
+    @pytest.mark.slow
     def test_ncdf_validation_success(self):
         nc_path = os.path.join(TMP_DIR_FOR_NETCDF_TESTS, "good.nc")
         create_simple_netcdf_file(MINIMAL_CDL, nc_path)
@@ -131,7 +131,7 @@ class TestCommon(unittest.TestCase):
         self.assertEqual(error, None)
         os.remove(nc_path)
 
-    @attr("slow")
+    @pytest.mark.slow
     def test_ncdf_validation_fail(self):
         nc_path = os.path.join(TMP_DIR_FOR_NETCDF_TESTS, "corrupted.nc")
         create_simple_netcdf_file(MINIMAL_CDL, nc_path)
@@ -140,7 +140,7 @@ class TestCommon(unittest.TestCase):
         self.assertIsInstance(error, FileContentError)
         os.remove(nc_path)
 
-    @attr("slow")
+    @pytest.mark.slow
     def test_ncdf_validation_no_data_fail(self):
         nc_path = os.path.join(TMP_DIR_FOR_NETCDF_TESTS, "no_data.nc")
         create_simple_netcdf_file(MINIMAL_CDL_NO_DATA, nc_path)
@@ -148,7 +148,7 @@ class TestCommon(unittest.TestCase):
         self.assertIsInstance(error, FileContentError)
         os.remove(nc_path)
 
-    @attr("slow")
+    @pytest.mark.slow
     def test_ncdf_validation_nemo_with_data_pass(self):
         nc_path = os.path.join(TMP_DIR_FOR_NETCDF_TESTS, "nemo_data.nc")
         create_simple_netcdf_file(MINIMAL_CDL_NEMO, nc_path)
@@ -156,7 +156,7 @@ class TestCommon(unittest.TestCase):
         self.assertEqual(error, None)
         os.remove(nc_path)
 
-    @attr("slow")
+    @pytest.mark.slow
     def test_ncdf_validation_nemo_no_data_fail(self):
         nc_path = os.path.join(TMP_DIR_FOR_NETCDF_TESTS, "nemo_no_data.nc")
         create_simple_netcdf_file(MINIMAL_CDL_NO_DATA_NEMO, nc_path)

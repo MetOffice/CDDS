@@ -7,14 +7,14 @@ Tests for coding standards and copyright headers.
 import os
 import regex as re
 import unittest
-from nose.plugins.attrib import attr
+import pytest
 
 import pep8
 
 import mip_convert
 
 
-@attr('style')
+@pytest.mark.style
 class TestCodingStandards(unittest.TestCase):
     """
     Tests for coding standards.
