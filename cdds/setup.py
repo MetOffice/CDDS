@@ -123,8 +123,6 @@ setup(
     platforms=['Linux', 'Unix'],
     packages=find_packages(),
     data_files=find_data_files(),
-    test_suite='nose.collector',
-    tests_require=['nose'],
     scripts=find_scripts(['bin']),
     include_package_data=True,
     zip_safe=False,
