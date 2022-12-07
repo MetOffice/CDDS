@@ -119,7 +119,7 @@ dependencies:
   - pyshp=2.1.3=pyhd3eb1b0_0
   - pysocks=1.7.1=py38h06a4308_0
   - pytest=7.1.2=py38h578d9bd_0
-  - pytest-cov
+  - pytest-cov=3.0.0=pyhd3eb1b0_0
   - python=3.8.12=h12debd9_0
   - python-dateutil=2.8.2=pyhd3eb1b0_0
   - python-xxhash=2.0.2=py38h7f8727e_0

@@ -1,4 +1,4 @@
-name: cdds-dev-minimal
+name: cdds-dev
 channels:
   - conda-main
   - conda-agnostic
@@ -19,7 +19,7 @@ dependencies:
   - pip=21.2.4=py38h06a4308_0
   - pyproj=2.6.1.post1=py38h61f852b_1
   - pytest=7.1.2=py38h578d9bd_0
-  - pytest-cov
+  - pytest-cov=3.0.0=pyhd3eb1b0_0
   - python=3.8.12=h12debd9_0
   - regex=2021.8.3=py38h7f8727e_0
   - scipy=1.7.3=py38h56a6a73_0
