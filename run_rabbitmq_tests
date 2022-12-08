@@ -19,9 +19,9 @@ import sys
 
 CDDS_DIR = os.path.dirname(os.path.realpath(__file__))
 LOG_NAME = os.path.join(CDDS_DIR, 'cdds_rabbitmq_test_failures.log')
-ROOT_COMMAND = 'py.test -s'
+ROOT_COMMAND = 'pytest -s'
 TESTS_TO_RUN = {
-    'cdds': ['-a rabbitMQ'],  # Only run the unit tests using RabbitMQ!
+    'cdds': ['-m rabbitMQ'],  # Only run the unit tests using RabbitMQ!
     }
 
 
