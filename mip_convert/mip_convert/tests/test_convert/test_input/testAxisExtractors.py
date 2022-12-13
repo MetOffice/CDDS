@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 import unittest
 
-from hadsdk.common import cmp
+from cdds.common import cmp
 from header_util import BaseHeader
 from mip_convert.load.pp.pp_axis import (
     BlevExtractor, BoundedExpectExtractor, DatedPpHeader, ExtractorException,

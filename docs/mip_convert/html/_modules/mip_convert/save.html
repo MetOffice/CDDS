@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mip_convert.save &#8212; MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">mip_convert.save</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for mip_convert.save</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) British Crown Copyright 2009-2021, Met Office.</span>
+<span class="c1"># Please see LICENSE.rst for license details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The save package enables the |MIP output variable| to be written to an</span>
+<span class="sd">|output netCDF file|.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">attrgetter</span>
+
+<span class="kn">import</span> <span class="nn">iris</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">mip_convert.common</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DEFAULT_FILL_VALUE</span><span class="p">,</span> <span class="n">has_auxiliary_latitude_longitude</span><span class="p">,</span> <span class="n">check_values_equal</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">mip_convert.load.pp.pp_axis</span> <span class="kn">import</span> <span class="p">(</span><span class="n">BoundedAxis</span><span class="p">,</span> <span class="n">AxisHybridHeight</span><span class="p">,</span>
+                                         <span class="n">TimeSeriesSiteAxis</span><span class="p">,</span> <span class="n">ReferenceTimeAxis</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">mip_convert.variable</span> <span class="kn">import</span> <span class="n">Variable</span> <span class="k">as</span> <span class="n">CMORVariable</span>
+<span class="kn">from</span> <span class="nn">mip_convert.variable</span> <span class="kn">import</span> <span class="p">(</span><span class="n">CoordinateDomain</span><span class="p">,</span> <span class="n">PolePoint</span><span class="p">,</span> <span class="n">TripolarGrid</span><span class="p">,</span>
+                                  <span class="n">make_masked</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="save"><a class="viewcode-back" href="../../mip_convert/save/save.html#mip_convert.save.save">[docs]</a><span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="n">mip_output_variable</span><span class="p">,</span> <span class="n">saver</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save the |MIP output variable| to an |output netCDF file|</span>
+<span class="sd">    using |CMOR|.</span>
+
+<span class="sd">    The following steps are performed:</span>
+
+<span class="sd">    * define the variable to be written by CMOR, provide the axes</span>
+<span class="sd">      and grid information</span>
+<span class="sd">    * write the variable</span>
+
+<span class="sd">    .. warning:: This function will load the data of the</span>
+<span class="sd">                 |MIP output variable|.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mip_output_variable: :class:`new_variable.Variable`</span>
+<span class="sd">        The |MIP output variable|.</span>
+<span class="sd">    saver: callable</span>
+<span class="sd">        A function with the signature ``function(object)``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Saving MIP output variable to an output netCDF file&#39;</span><span class="p">)</span>
+    <span class="n">cmor_variable</span> <span class="o">=</span> <span class="n">create_cmor_variable</span><span class="p">(</span><span class="n">mip_output_variable</span><span class="p">)</span>
+    <span class="n">saver</span><span class="p">(</span><span class="n">cmor_variable</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_cmor_variable"><a class="viewcode-back" href="../../mip_convert/save/save.html#mip_convert.save.create_cmor_variable">[docs]</a><span class="k">def</span> <span class="nf">create_cmor_variable</span><span class="p">(</span><span class="n">mip_output_variable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the |MIP output variable| in a form that enables CMOR to</span>
+<span class="sd">    write the |output netCDF file|.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mip_output_variable: :class:`new_variable.Variable`</span>
+<span class="sd">        The |MIP output variable|.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    : :class:`variable.Variable`</span>
+<span class="sd">        The |MIP output variable| in a form that enables CMOR to</span>
+<span class="sd">        write the |output netCDF file|.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">axes</span> <span class="o">=</span> <span class="n">VariableAxes</span><span class="p">(</span><span class="n">mip_output_variable</span><span class="p">)</span><span class="o">.</span><span class="n">axes</span>
+    <span class="n">cube</span> <span class="o">=</span> <span class="n">mip_output_variable</span><span class="o">.</span><span class="n">cube</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">isMaskedArray</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+        <span class="n">cube</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">make_masked</span><span class="p">(</span>
+            <span class="n">cube</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">axes</span><span class="o">.</span><span class="n">shape</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">DEFAULT_FILL_VALUE</span><span class="p">),</span>
+            <span class="n">cube</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">cmor_variable</span> <span class="o">=</span> <span class="n">CMORVariable</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">cube</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># If there is a fill_value attribute on the cube, ensure it is equal</span>
+    <span class="c1"># to the fill_value on the data.</span>
+    <span class="k">if</span> <span class="s1">&#39;fill_value&#39;</span> <span class="ow">in</span> <span class="n">cube</span><span class="o">.</span><span class="n">attributes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">check_values_equal</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;fill_value&#39;</span><span class="p">],</span>
+                                  <span class="n">cube</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_value</span><span class="p">):</span>
+            <span class="n">cmor_variable</span><span class="o">.</span><span class="n">missing_value</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;fill_value&#39;</span><span class="p">]</span>
+    <span class="n">cmor_variable</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="n">mip_output_variable</span><span class="o">.</span><span class="n">units</span>
+    <span class="n">cmor_variable</span><span class="o">.</span><span class="n">stash_history</span> <span class="o">=</span> <span class="n">mip_output_variable</span><span class="o">.</span><span class="n">model_to_mip_mapping</span><span class="o">.</span><span class="n">info</span>
+    <span class="n">cmor_variable</span><span class="o">.</span><span class="n">positive</span> <span class="o">=</span> <span class="n">mip_output_variable</span><span class="o">.</span><span class="n">positive</span>
+    <span class="n">cmor_variable</span><span class="o">.</span><span class="n">history</span> <span class="o">=</span> <span class="n">mip_output_variable</span><span class="o">.</span><span class="n">history</span>
+    <span class="n">cmor_variable</span><span class="o">.</span><span class="n">deflate_level</span> <span class="o">=</span> <span class="n">mip_output_variable</span><span class="o">.</span><span class="n">deflate_level</span>
+    <span class="n">cmor_variable</span><span class="o">.</span><span class="n">shuffle</span> <span class="o">=</span> <span class="n">mip_output_variable</span><span class="o">.</span><span class="n">shuffle</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">mip_output_variable</span><span class="o">.</span><span class="n">model_to_mip_mapping</span><span class="p">,</span> <span class="s1">&#39;comment&#39;</span><span class="p">):</span>
+        <span class="n">cmor_variable</span><span class="o">.</span><span class="n">comment</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">mip_output_variable</span><span class="o">.</span><span class="n">model_to_mip_mapping</span><span class="o">.</span><span class="n">comment</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cmor_variable</span></div>
+
+
+<div class="viewcode-block" id="VariableAxes"><a class="viewcode-back" href="../../mip_convert/save/save.html#mip_convert.save.VariableAxes">[docs]</a><span class="k">class</span> <span class="nc">VariableAxes</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Store the information related to the axes of a</span>
+<span class="sd">    |MIP requested variable|.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VariableAxes.__init__"><a class="viewcode-back" href="../../mip_convert/save/save.html#mip_convert.save.VariableAxes.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mip_output_variable</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mip_output_variable: :class:`new_variable.Variable`</span>
+<span class="sd">            The |MIP output variable|.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cube</span> <span class="o">=</span> <span class="n">mip_output_variable</span><span class="o">.</span><span class="n">cube</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ordered_coords</span> <span class="o">=</span> <span class="n">mip_output_variable</span><span class="o">.</span><span class="n">ordered_coords</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_axes_directions_names</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">mip_output_variable</span><span class="o">.</span><span class="n">mip_metadata</span><span class="o">.</span><span class="n">axes_directions_names</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_axes_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pole</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_grid</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">axes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the axes (i.e., the coordinate values) associated with</span>
+<span class="sd">        each of the dimensions of the data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">axis_direction</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ordered_coords</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">axis_direction</span> <span class="o">==</span> <span class="s1">&#39;site&#39;</span><span class="p">:</span>
+                    <span class="n">axis_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sites_axis_object</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">axis_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axis_object</span><span class="p">(</span><span class="n">axis_direction</span><span class="p">,</span> <span class="n">coord</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="s1">&#39;Adding axis &quot;</span><span class="si">{axis_direction}</span><span class="s1">&quot; [</span><span class="si">{axis_units}</span><span class="s1">]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">axis_direction</span><span class="o">=</span><span class="n">axis_direction</span><span class="p">,</span> <span class="n">axis_units</span><span class="o">=</span><span class="n">coord</span><span class="o">.</span><span class="n">units</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_axes_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">axis_object</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span> <span class="o">=</span> <span class="n">CoordinateDomain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pole</span><span class="p">,</span>
+                                          <span class="bp">self</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pole</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the pole.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pole</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">grid_mapping_name</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">pole_lat</span> <span class="o">=</span> <span class="mf">90.</span>
+            <span class="n">pole_lon</span> <span class="o">=</span> <span class="mf">0.</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="o">.</span><span class="n">coord_system</span><span class="p">(),</span> <span class="s1">&#39;grid_mapping_name&#39;</span><span class="p">):</span>
+                <span class="n">grid_mapping_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="o">.</span><span class="n">coord_system</span><span class="p">()</span><span class="o">.</span><span class="n">grid_mapping_name</span>
+            <span class="k">if</span> <span class="n">grid_mapping_name</span> <span class="o">==</span> <span class="s1">&#39;rotated_latitude_longitude&#39;</span><span class="p">:</span>
+                <span class="n">pole_lat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="o">.</span><span class="n">coord_system</span><span class="p">()</span><span class="o">.</span><span class="n">grid_north_pole_latitude</span>
+                <span class="n">pole_lon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="o">.</span><span class="n">coord_system</span><span class="p">()</span><span class="o">.</span><span class="n">grid_north_pole_longitude</span>
+        <span class="k">return</span> <span class="n">PolePoint</span><span class="p">(</span><span class="n">pole_lat</span><span class="p">,</span> <span class="n">pole_lon</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">grid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the grid and its mapping parameters in the case of</span>
+<span class="sd">        non-Cartesian longitude-latitude grids.</span>
+
+<span class="sd">        For data that are a function of longitude and latitude, only</span>
+<span class="sd">        grids representable as a Cartesian product of longitude and</span>
+<span class="sd">        latitude axes are allowed. Model output on other grids, such as</span>
+<span class="sd">        &#39;thin&#39; grids, grids with rotated poles, and irregular grids,</span>
+<span class="sd">        must be mapped to a longitude-latitude Cartesian grid before</span>
+<span class="sd">        being passed to CMOR. Most of the MIPs and most diagnostic</span>
+<span class="sd">        software also impose this constraint.</span>
+
+<span class="sd">        If the data are originally stored on a non-Cartesian</span>
+<span class="sd">        longitude-latitude grid, then the user must map the data to a</span>
+<span class="sd">        Cartesian grid before passing it to CMOR.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_auxiliary_grid</span><span class="p">:</span>
+                <span class="n">points_bounds_name</span> <span class="o">=</span> <span class="n">attrgetter</span><span class="p">(</span><span class="s1">&#39;points&#39;</span><span class="p">,</span> <span class="s1">&#39;bounds&#39;</span><span class="p">,</span> <span class="s1">&#39;var_name&#39;</span><span class="p">)</span>
+                <span class="n">grid_lat_vals</span><span class="p">,</span> <span class="n">grid_lat_bounds</span><span class="p">,</span> <span class="n">grid_lat_name</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">points_bounds_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="o">.</span><span class="n">coord</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;Y&#39;</span><span class="p">)))</span>
+                <span class="n">grid_lon_vals</span><span class="p">,</span> <span class="n">grid_lon_bounds</span><span class="p">,</span> <span class="n">grid_lon_name</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">points_bounds_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="o">.</span><span class="n">coord</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">)))</span>
+                <span class="c1"># The most simple example of a fingerprint is the</span>
+                <span class="c1"># combination of the variable names of the latitude and</span>
+                <span class="c1"># longitude coordinates; add the substream to the</span>
+                <span class="c1"># fingerprint if it exists on the cube.</span>
+                <span class="n">fingerprint</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">-</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grid_lat_name</span><span class="p">,</span> <span class="n">grid_lon_name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s1">&#39;substream&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="o">.</span><span class="n">attributes</span><span class="p">:</span>
+                    <span class="n">substream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;substream&#39;</span><span class="p">]</span>
+                    <span class="n">fingerprint</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">-</span><span class="si">{}</span><span class="s1">-</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">grid_lat_name</span><span class="p">,</span> <span class="n">grid_lon_name</span><span class="p">,</span> <span class="n">substream</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_grid</span> <span class="o">=</span> <span class="n">TripolarGrid</span><span class="p">(</span><span class="n">grid_lon_vals</span><span class="p">,</span> <span class="n">grid_lat_vals</span><span class="p">,</span>
+                                          <span class="n">grid_lon_bounds</span><span class="p">,</span> <span class="n">grid_lat_bounds</span><span class="p">,</span>
+                                          <span class="n">fingerprint</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grid</span>
+
+    <span class="k">def</span> <span class="nf">_axis_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis_direction</span><span class="p">,</span> <span class="n">coord</span><span class="p">):</span>
+        <span class="c1"># Return an object containing the direction, units, values and</span>
+        <span class="c1"># bounds of the axis.</span>
+        <span class="n">axis_units</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">units</span><span class="p">)</span>
+        <span class="n">axis_values</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">points</span>
+        <span class="n">axis_bounds</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">bounds</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_auxiliary_grid</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">axis_direction</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+                <span class="n">axis_units</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+                <span class="n">axis_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">axis_bounds</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">axis_direction</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
+                <span class="n">axis_units</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+                <span class="n">axis_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">axis_bounds</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="n">BoundedAxis</span><span class="p">(</span><span class="n">axis_direction</span><span class="p">,</span> <span class="n">axis_units</span><span class="p">,</span> <span class="n">axis_values</span><span class="p">,</span>
+                           <span class="n">axis_bounds</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">axis_direction</span> <span class="o">==</span> <span class="s1">&#39;T&#39;</span> <span class="ow">and</span> <span class="n">coord</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;forecast_reference_time&#39;</span><span class="p">:</span>
+            <span class="c1"># special handling of the reference time scalar coordinate</span>
+            <span class="n">axis</span> <span class="o">=</span> <span class="n">ReferenceTimeAxis</span><span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">points</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">units</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">axis_direction</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span> <span class="ow">and</span> <span class="n">coord</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;model_level_number&#39;</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axes_directions_names</span><span class="p">[</span><span class="n">axis_direction</span><span class="p">]</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="o">.</span><span class="n">coord</span><span class="p">(</span><span class="s1">&#39;level_height&#39;</span><span class="p">)</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="o">.</span><span class="n">coord</span><span class="p">(</span><span class="s1">&#39;sigma&#39;</span><span class="p">)</span>
+            <span class="n">orog</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="o">.</span><span class="n">coord</span><span class="p">(</span><span class="s1">&#39;surface_altitude&#39;</span><span class="p">)</span>
+            <span class="n">axis</span> <span class="o">=</span> <span class="n">AxisHybridHeight</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">points</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">points</span><span class="p">,</span>
+                                    <span class="n">b</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span> <span class="n">orog</span><span class="o">.</span><span class="n">points</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">orog</span><span class="o">.</span><span class="n">units</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">axis</span>
+
+    <span class="k">def</span> <span class="nf">_sites_axis_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">number_of_sites</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="o">.</span><span class="n">coord</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+        <span class="n">latitude</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="o">.</span><span class="n">coord</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;Y&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">points</span>
+        <span class="n">longitude</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="o">.</span><span class="n">coord</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">points</span>
+        <span class="k">return</span> <span class="n">TimeSeriesSiteAxis</span><span class="p">(</span><span class="n">number_of_sites</span><span class="p">,</span> <span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_has_auxiliary_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># For auxiliary grids, Iris puts the 2-dimensional longitude</span>
+        <span class="c1"># and latitude in &#39;aux_coords&#39;.</span>
+        <span class="k">return</span> <span class="n">has_auxiliary_latitude_longitude</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cube</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">mip_convert.save</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright British Crown 2015-2021, Met Office.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

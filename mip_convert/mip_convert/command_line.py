@@ -10,8 +10,8 @@ import argparse
 import logging
 import sys
 
-from cdds_common.cdds_plugins.plugin_loader import load_plugin
-from hadsdk.common import configure_logger, check_file
+from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common import configure_logger, check_file
 from mip_convert import __version__
 from mip_convert.constants import LOG_NAME, LOG_LEVEL
 from mip_convert.request import convert
@@ -136,9 +136,12 @@ def parse_parameters(args):
                         default='',
                         type=str,
                         help='Module path to external CDDS plugin')
+    parser.add_argument('--external_plugin_location',
+                        default='',
+                        type=str,
+                        help='Path to the external plugin implementation')
     parameters = parser.parse_args(args=args)
-
-    load_plugin(parameters.mip_era, parameters.external_plugin)
+    load_plugin(parameters.mip_era, parameters.external_plugin, parameters.external_plugin_location)
 
     # Validate the parameters.
     check_file(parameters.config_file)

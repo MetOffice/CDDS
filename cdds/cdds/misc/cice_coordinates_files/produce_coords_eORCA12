@@ -1,0 +1,61 @@
+# (C) British Crown Copyright 2022, Met Office.
+# Please see LICENSE.rst for license details.
+
+# Variables:
+NEMO_T_FILE=nemo_${SUITE}o_1m_${DATE}_grid-T.nc
+CICE_FILE=cice_${SUITE}i_1m_${DATE}.nc
+OUTPUT_FILE=cice_${GRID}_coords.nc
+
+# Get the NEMO model output files with the wrap around rows removed and the
+# CICE model output file:
+cat > query_cice_${GRID} <<EOF
+-v TLON,TLAT,lont_bounds,latt_bounds,ULON,ULAT,lonu_bounds,latu_bounds,tarea,uarea
+EOF
+
+cat > query_nemo_${GRID} <<EOF
+-dx,1,$NEMO_X
+-dy,1,$NEMO_Y
+-v nav_lat,nav_lon,bounds_lat,bounds_lon
+EOF
+
+# Optionally remove old data:
+rm -f $CICE_FILE $NEMO_T_FILE $NEMO_U_FILE $NEMO_V_FILE
+
+# Get model output files from MASS:
+moo filter query_cice_${GRID} moo:/crum/u-${SUITE}/inm.nc.file/$CICE_FILE .
+moo filter query_nemo_${GRID} moo:/crum/u-${SUITE}/onm.nc.file/$NEMO_T_FILE .
+
+# Remove coords file:
+rm -f $OUTPUT_FILE
+
+# Use the NEMO T points as the CICE T points:
+cp $NEMO_T_FILE $OUTPUT_FILE
+
+# Rename the T coordinates:
+ncrename -v nav_lon,TLON $OUTPUT_FILE
+ncrename -v nav_lat,TLAT $OUTPUT_FILE
+ncrename -v bounds_lon,lont_bounds $OUTPUT_FILE
+ncrename -v bounds_lat,latt_bounds $OUTPUT_FILE
+ncatted -a long_name,TLON,m,c,"T grid center longitude" -a bounds,TLON,m,c,"lont_bounds" $OUTPUT_FILE
+ncatted -a long_name,TLAT,m,c,"T grid center latitude" -a bounds,TLAT,m,c,"latt_bounds" $OUTPUT_FILE
+
+# Rename the dimensions:
+ncrename -d y,nj $OUTPUT_FILE
+ncrename -d x,ni $OUTPUT_FILE
+ncrename -d nvertex,nvertices $OUTPUT_FILE
+
+# Construct the U grid
+module load $STACK_VERSION
+python make_eORCA_cice_u_grid.py $OUTPUT_FILE
+
+# Add tarea and uarea:
+ncks -C -A -v tarea,uarea $CICE_FILE $OUTPUT_FILE
+ 
+# Add the ticket number to the global attributes: 
+ncatted -a info,global,c,c,"$TICKET_INFO" $OUTPUT_FILE
+
+# Remove the irrelevant global attributes:
+ncatted -a name,global,d,c,"" -a description,global,d,c,"" -a title,global,d,c,"" -a production,global,d,c,"" -a timeStamp,global,d,c,"" -a history_of_appended_files,global,d,c,"" $OUTPUT_FILE
+
+# Remove the history global attribute:
+ncatted -h -a history,global,d,c,"" $OUTPUT_FILE

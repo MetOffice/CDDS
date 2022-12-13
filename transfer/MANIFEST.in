@@ -1,9 +1,0 @@
-# (C) British Crown Copyright 2019, Met Office.
-# Please see LICENSE.rst for license details.
-
-include *.rst
-include setup.cfg
-include pylintrc
-recursive-include doc *
-include transfer/arguments.json
-recursive-include transfer/tests *

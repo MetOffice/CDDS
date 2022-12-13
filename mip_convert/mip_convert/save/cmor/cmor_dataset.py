@@ -11,7 +11,7 @@ import os
 import regex as re
 from tempfile import mkstemp
 
-from hadsdk.common import VARIANT_LABEL_FORMAT
+from cdds.common import VARIANT_LABEL_FORMAT
 
 from mip_convert import model_date
 
@@ -33,7 +33,7 @@ class Dataset(object):
         ----------
         user_config: :class:`configuration.UserConfig` object
             The |user configuration file|.
-        cv_config: :class:`hadsdk.configuration.cv_config.CVConfig` object
+        cv_config: :class:`mip_convert.configuration.cv_config.CVConfig` object
             The Controlled Vocabularies (CV).
         """
         self.logger = logging.getLogger(__name__)

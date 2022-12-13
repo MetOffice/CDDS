@@ -1,45 +1,29 @@
 .. (C) British Crown Copyright 2015-2018, Met Office.
 .. Please see LICENSE.rst for license details.
 
-Requirements
-============
-
-.. autofunction:: mip_convert.requirements.requirements
-   :noindex:
-   
 Installing MIP Convert
 ======================
 
-MIP Convert can be installed using the following command::
+Installing MIP Convert currently requires the `cdds` package to be installed. 
+Please follow the CDDS installation instructions replicated below.
 
-  python setup.py install 
+Development mode 
+----------------
 
-Testing the installation
-========================
+CDDS can be installed for development in a conda environment using
 
-Run only the unit tests::
-   
-  python setup.py nosetests
+conda env create -f environment_dev.yml -p <installation location>
 
-Run only the unit tests and doctests::
+Note that at the Met Office the default installation location is $HOME/.conda
 
-  python setup.py nosetests --with-doctest
+Activating the code is then performed using the "setup_env_for_devel"
 
-Run only the integration tests::
+Tests can be run using the `run_all_tests` script which uses pytest.
 
-  python setup.py nosetests -a integration
+Production mode
+---------------
 
-Run only the model to MIP mapping tests::
-
-  python setup.py nosetests -a mapping
-
-Run only the end-to-end tests::
-
-  python setup.py nosetests -a slow
-
-Run only the doctests::
- 
-  python setup.py nosetests -e ^test --with-doctest
+See the CDDS Confluence pages for the latest installation and testing procedure.
 
 Building the documentation
 ==========================

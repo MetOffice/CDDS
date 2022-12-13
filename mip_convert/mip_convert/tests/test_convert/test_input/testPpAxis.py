@@ -6,7 +6,7 @@ from header_util import BaseHeader
 from mip_convert.load.pp.pp_axis import (
     AxisStretchedY, AxisZ, BoundedAxis, DatedPpHeader, HybridHeightFromPp,
     LANDTYPE_AXIS, PpAxisError, PpAxisFactory, TimeExtractor)
-from mip_convert.model_date import CdDate, set_base_date
+from mip_convert.model_date import CdDate, set_base_date, set_default_base_date
 
 
 class AbstractAxisTest(unittest.TestCase):
@@ -296,6 +296,9 @@ class TestClimatologyAxis(AbstractTimeAxisTest):
         self.assertEqual([15.], axis.getValue())
         self.assertEqual([[0, 360 * 10 + 30]], axis.getBounds())
 
+    def tearDown(self):
+        set_default_base_date()
+
 
 class TestBoundedTAxis(AbstractTimeAxisTest):
     # lbproc same?
@@ -353,6 +356,9 @@ class TestBoundedTAxis(AbstractTimeAxisTest):
         set_base_date(CdDate(year, mon, day, 0, 0, 0, calendar))
         self.axis_factory = PpAxisFactory(None)
 
+    def tearDown(self) -> None:
+        set_default_base_date()
+
 
 class TestInstantaneousTime(AbstractTimeAxisTest):
     def makeExampleHeaders(self, lbtime):
@@ -376,6 +382,7 @@ class TestInstantaneousTime(AbstractTimeAxisTest):
             self.assertEqual(None, axis.getBounds())
 
     def testPpLbproc2176(self):
+        set_base_date(CdDate(1989, 1, 1, 0, 0, 0, 'proleptic_gregorian'))
         headers = self.makeExampleHeaders(21)
         for header in headers:
             header.lbproc = 2176
@@ -390,6 +397,9 @@ class TestInstantaneousTime(AbstractTimeAxisTest):
         headers = self.makeExampleHeaders(12)
         headers[-1].lbproc = 128
         self.assertRaises(PpAxisError, self.getAxis, headers)
+
+    def tearDown(self):
+        set_default_base_date()
 
 
 class TestRegularLong(AbstractAxisTest):

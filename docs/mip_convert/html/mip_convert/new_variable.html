@@ -1,0 +1,503 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>variable &#8212; MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">variable</span></code></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="variable">
+<h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">variable</span></code><a class="headerlink" href="#variable" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-mip_convert.new_variable"></span><p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">new_variable</span></code> module contains the class that represents a
+<a class="reference internal" href="../glossary.html#term-Multi-dimensional-data-object"><span class="xref std std-term">multi-dimensional data object</span></a>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mip_convert.new_variable.VariableMetadata">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">mip_convert.new_variable.</span></span><span class="sig-name descname"><span class="pre">VariableMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substream</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mip_table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mip_metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_information</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hybrid_height_information</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replacement_coordinates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_to_mip_mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_bounds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calendar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deflate_level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#VariableMetadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.VariableMetadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.8/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Store metadata related to a <a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mip_convert.new_variable.VariableMetadata.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substream</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mip_table_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mip_metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_information</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hybrid_height_information</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replacement_coordinates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_to_mip_mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_bounds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calendar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deflate_level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#VariableMetadata.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.VariableMetadata.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_name</strong> (<em>string</em>) – The <a class="reference internal" href="../glossary.html#term-MIP-requested-variable-name"><span class="xref std std-term">MIP requested variable name</span></a>.</p></li>
+<li><p><strong>stream_id</strong> (<em>string</em>) – The <a class="reference internal" href="../glossary.html#term-Stream-identifier"><span class="xref std std-term">stream identifier</span></a>.</p></li>
+<li><p><strong>substream</strong> (<em>string</em>) – The substream identifier.</p></li>
+<li><p><strong>mip_table_name</strong> (<em>string</em>) – The name of the <a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a>.</p></li>
+<li><p><strong>mip_metadata</strong> (<a class="reference internal" href="#mip_convert.new_variable.VariableMIPMetadata" title="mip_convert.new_variable.VariableMIPMetadata"><code class="xref py py-class docutils literal notranslate"><span class="pre">VariableMIPMetadata</span></code></a>) – The values from the <a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a> related to the
+<a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>.</p></li>
+<li><p><strong>site_information</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">SitesConfig</span></code>) – Information related to the sites.</p></li>
+<li><p><strong>hybrid_height_information</strong> (list of <code class="xref py py-class docutils literal notranslate"><span class="pre">HybridHeightConfig</span></code>) – Information related to the hybrid heights.</p></li>
+<li><p><strong>replacement_coordinates</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.CubeList" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.CubeList</span></code></a>) – The replacement coordinates.</p></li>
+<li><p><strong>model_to_mip_mapping</strong> (<a class="reference internal" href="#mip_convert.new_variable.VariableModelToMIPMapping" title="mip_convert.new_variable.VariableModelToMIPMapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">VariableModelToMIPMapping</span></code></a>) – The <a class="reference internal" href="../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a>.</p></li>
+<li><p><strong>timestep</strong> (<a class="reference external" href="https://docs.python.org/3.8/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The model timestep (in integer seconds).</p></li>
+<li><p><strong>run_bounds</strong> (<em>list of strings</em>) – The ‘run bounds’.</p></li>
+<li><p><strong>calendar</strong> (<em>string</em>) – The calendar.</p></li>
+<li><p><strong>base_date</strong> (<em>string</em>) – The date at the start of the run.</p></li>
+<li><p><strong>deflate_level</strong> (<a class="reference external" href="https://docs.python.org/3.8/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The deflatation level from 0 (no compression) to 9 (maximum
+compression).</p></li>
+<li><p><strong>shuffle</strong> (<a class="reference external" href="https://docs.python.org/3.8/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – Whether to shuffle.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mip_convert.new_variable.Variable">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">mip_convert.new_variable.</span></span><span class="sig-name descname"><span class="pre">Variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_metadata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#Variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.Variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.8/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Store metadata and data related to a <a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mip_convert.new_variable.Variable.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_metadata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#Variable.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.Variable.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_variables</strong> (<em>dictionary</em>) – The <a class="reference internal" href="../glossary.html#term-Input-variable"><span class="xref std std-term">input variables</span></a> required to produce the
+<a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a> in the form
+<code class="docutils literal notranslate"><span class="pre">{input_variable_name:</span> <span class="pre">cube}</span></code>.</p></li>
+<li><p><strong>variable_metadata</strong> (<a class="reference internal" href="#mip_convert.new_variable.VariableMetadata" title="mip_convert.new_variable.VariableMetadata"><code class="xref py py-class docutils literal notranslate"><span class="pre">VariableMetadata</span></code></a>) – Information related to the <a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mip_convert.new_variable.Variable.variable_name">
+<span class="sig-name descname"><span class="pre">variable_name</span></span><a class="headerlink" href="#mip_convert.new_variable.Variable.variable_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="../glossary.html#term-MIP-requested-variable-name"><span class="xref std std-term">MIP requested variable name</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mip_convert.new_variable.Variable.mip_metadata">
+<span class="sig-name descname"><span class="pre">mip_metadata</span></span><a class="headerlink" href="#mip_convert.new_variable.Variable.mip_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>The values from the <a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a> related to the
+<a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#mip_convert.new_variable.VariableMIPMetadata" title="mip_convert.new_variable.VariableMIPMetadata"><code class="xref py py-class docutils literal notranslate"><span class="pre">VariableMIPMetadata</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mip_convert.new_variable.Variable.model_to_mip_mapping">
+<span class="sig-name descname"><span class="pre">model_to_mip_mapping</span></span><a class="headerlink" href="#mip_convert.new_variable.Variable.model_to_mip_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#mip_convert.new_variable.VariableModelToMIPMapping" title="mip_convert.new_variable.VariableModelToMIPMapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">VariableModelToMIPMapping</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mip_convert.new_variable.Variable.cube">
+<span class="sig-name descname"><span class="pre">cube</span></span><a class="headerlink" href="#mip_convert.new_variable.Variable.cube" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="../glossary.html#term-MIP-output-variable"><span class="xref std std-term">MIP output variable</span></a>; this attribute is only populated
+after the <a class="reference internal" href="#mip_convert.new_variable.Variable.process" title="mip_convert.new_variable.Variable.process"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process()</span></code></a> method has been executed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mip_convert.new_variable.Variable.units">
+<span class="sig-name descname"><span class="pre">units</span></span><a class="headerlink" href="#mip_convert.new_variable.Variable.units" title="Permalink to this definition">¶</a></dt>
+<dd><p>The units of the data of the <a class="reference internal" href="../glossary.html#term-MIP-output-variable"><span class="xref std std-term">MIP output variable</span></a> i.e.,
+after the <a class="reference internal" href="#mip_convert.new_variable.Variable.process" title="mip_convert.new_variable.Variable.process"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process()</span></code></a> method has been executed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="mip_convert.new_variable.Variable.positive">
+<span class="sig-name descname"><span class="pre">positive</span></span><a class="headerlink" href="#mip_convert.new_variable.Variable.positive" title="Permalink to this definition">¶</a></dt>
+<dd><p>The direction of a vertical energy (heat) flux or surface
+momentum flux (stress) input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mip_convert.new_variable.Variable.info">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">info</span></span><a class="headerlink" href="#mip_convert.new_variable.Variable.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return useful information about a specific instance.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mip_convert.new_variable.Variable.history">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">history</span></span><a class="headerlink" href="#mip_convert.new_variable.Variable.history" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return messages describing what has happened to the data in
+this instance.</p>
+<p class="rubric">Example</p>
+<p>Create a <a class="reference internal" href="#mip_convert.new_variable.Variable" title="mip_convert.new_variable.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a> object and update the
+<a class="reference internal" href="#mip_convert.new_variable.Variable.history" title="mip_convert.new_variable.Variable.history"><code class="xref py py-meth docutils literal notranslate"><span class="pre">history()</span></code></a> multiple times:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">input_variables</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">variable_model_to_mip_mapping</span> <span class="o">=</span> <span class="n">VariableModelToMIPMapping</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;tas&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;expression&#39;</span><span class="p">:</span> <span class="s1">&#39;m01s03i236&#39;</span><span class="p">,</span> <span class="s1">&#39;positive&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="s1">&#39;K&#39;</span><span class="p">},</span> <span class="s1">&#39;HadGEM3-GC31-LL&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">variable_mip_metadata</span> <span class="o">=</span> <span class="n">VariableMIPMetadata</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s1">&#39;dimensions&#39;</span><span class="p">:</span> <span class="s1">&#39;longitude latitude time&#39;</span><span class="p">,</span>
+<span class="gp">... </span>     <span class="s1">&#39;out_name&#39;</span><span class="p">:</span> <span class="s1">&#39;tas&#39;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s1">&#39;longitude&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;axis&#39;</span><span class="p">:</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="s1">&#39;out_name&#39;</span><span class="p">:</span> <span class="s1">&#39;lon&#39;</span><span class="p">},</span>
+<span class="gp">... </span>     <span class="s1">&#39;latitude&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;axis&#39;</span><span class="p">:</span> <span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="s1">&#39;out_name&#39;</span><span class="p">:</span> <span class="s1">&#39;lat&#39;</span><span class="p">},</span>
+<span class="gp">... </span>     <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;axis&#39;</span><span class="p">:</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;out_name&#39;</span><span class="p">:</span> <span class="s1">&#39;time&#39;</span><span class="p">}})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">variable_metadata</span> <span class="o">=</span> <span class="n">VariableMetadata</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;tas&#39;</span><span class="p">,</span> <span class="s1">&#39;apa&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;CMIP5_day&#39;</span><span class="p">,</span> <span class="n">variable_mip_metadata</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">variable_model_to_mip_mapping</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="s1">&#39;1981-09-01-00-00-00&#39;</span><span class="p">,</span> <span class="s1">&#39;1981-09-11-00-00-00&#39;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="s1">&#39;360_day&#39;</span><span class="p">,</span> <span class="s1">&#39;1970-01-01-00-00-00&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">variable</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">input_variables</span><span class="p">,</span> <span class="n">variable_metadata</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">variable</span><span class="o">.</span><span class="n">history</span> <span class="o">=</span> <span class="s1">&#39;Made a change.&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">history</span><span class="p">)</span>
+<span class="go">Made a change.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">variable</span><span class="o">.</span><span class="n">history</span> <span class="o">=</span> <span class="s1">&#39;Made another change.&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">history</span><span class="p">)</span>
+<span class="go">Made a change.</span>
+<span class="go">Made another change.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mip_convert.new_variable.Variable.slices_over">
+<span class="sig-name descname"><span class="pre">slices_over</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#Variable.slices_over"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.Variable.slices_over" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an iterator of <code class="xref py py-class docutils literal notranslate"><span class="pre">new_variable.Variable</span></code> instances
+that contain a years worth of data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">new_variable.Variable</span></code> – The metadata and data related to a <a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>
+for a year.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mip_convert.new_variable.Variable.date_times_for_slices_over">
+<span class="sig-name descname"><span class="pre">date_times_for_slices_over</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">period</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#Variable.date_times_for_slices_over"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.Variable.date_times_for_slices_over" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the date time items specifiying the period for each
+slice.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>period</strong> (<em>string</em>) – The period that will be used to create each
+<code class="xref py py-class docutils literal notranslate"><span class="pre">new_variable.Variable</span></code> instance. Currently, only
+<code class="docutils literal notranslate"><span class="pre">year</span></code> is supported.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The date time items that will be used to create each
+<code class="xref py py-class docutils literal notranslate"><span class="pre">new_variable.Variable</span></code> instance.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>a list containing lists of integers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mip_convert.new_variable.Variable.ordered_coords">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">ordered_coords</span></span><a class="headerlink" href="#mip_convert.new_variable.Variable.ordered_coords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the coordinates in the cube that correspond with the
+axes in the <a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a> in the order that matches the data in
+the cube, in the form <code class="docutils literal notranslate"><span class="pre">[(coord,</span> <span class="pre">axis_direction,</span> <span class="pre">axis_name)]</span></code>,
+where <code class="docutils literal notranslate"><span class="pre">coord</span></code> is the coordinate in the cube,
+<code class="docutils literal notranslate"><span class="pre">axis_direction</span></code> is the axis direction of the coordinate in
+the cube and <code class="docutils literal notranslate"><span class="pre">axis_name</span></code> is the name of the axis in the
+<a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mip_convert.new_variable.Variable.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#Variable.process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.Variable.process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process the data.</p>
+<p>The units of the data of the <a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a> are the
+units of the data after the expression from the
+<a class="reference internal" href="../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> has been applied. For
+<a class="reference internal" href="../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> expressions that contain a single
+constraint, the units of the data in the cube are used. For
+<a class="reference internal" href="../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> expressions that contain more than
+one constraint, the units of the data must be provided by the
+<a class="reference internal" href="../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mappings</span></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mip_convert.new_variable.VariableModelToMIPMapping">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">mip_convert.new_variable.</span></span><span class="sig-name descname"><span class="pre">VariableModelToMIPMapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mip_requested_variable_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_to_mip_mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#VariableModelToMIPMapping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.VariableModelToMIPMapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.8/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Store the <a class="reference internal" href="../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> for a <a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mip_convert.new_variable.VariableModelToMIPMapping.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mip_requested_variable_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_to_mip_mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#VariableModelToMIPMapping.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.VariableModelToMIPMapping.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the expression provided by the <code class="docutils literal notranslate"><span class="pre">model_to_mip_mapping</span></code>
+parameter and add attributes to this object corresponding to
+the <a class="reference internal" href="../glossary.html#term-Input-variable"><span class="xref std std-term">input variables</span></a> and each constraint to this object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mip_requested_variable_name</strong> (<em>string</em>) – the
+<a class="reference internal" href="../glossary.html#term-MIP-requested-variable-name"><span class="xref std std-term">MIP requested variable name</span></a></p></li>
+<li><p><strong>model_to_mip_mapping</strong> (<em>dictionary</em>) – the <a class="reference internal" href="../glossary.html#term-Model-to-MIP-mapping"><span class="xref std std-term">model to MIP mapping</span></a> for the
+<a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a></p></li>
+<li><p><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3.8/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the <a class="reference internal" href="../glossary.html#term-Model-identifier"><span class="xref std std-term">model identifier</span></a></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mip_convert.new_variable.VariableModelToMIPMapping.info">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">info</span></span><a class="headerlink" href="#mip_convert.new_variable.VariableModelToMIPMapping.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return useful constraint-related information about a specific
+instance.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.new_variable.replace_constants">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.new_variable.</span></span><span class="sig-name descname"><span class="pre">replace_constants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constant_items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replacement_string</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'value'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#replace_constants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.replace_constants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the expression specified by <code class="docutils literal notranslate"><span class="pre">expression</span></code> with any strings
+representing constant names (keys in <code class="docutils literal notranslate"><span class="pre">constant_items</span></code>) replaced
+with the constant values (values in <code class="docutils literal notranslate"><span class="pre">constant_items</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expression</strong> (<em>string</em>) – The expression, which may contain constant names.</p></li>
+<li><p><strong>constant_items</strong> (<em>dictionary</em>) – The names (string) and values (string) of constants that may
+appear in the expression.</p></li>
+<li><p><strong>replacement_string</strong> (<em>string</em>) – The format to use for the replacement: choose from <code class="docutils literal notranslate"><span class="pre">value</span></code> (to
+replace the name with the value) or <code class="docutils literal notranslate"><span class="pre">name_value</span></code> (to replace
+the name with the name and the value).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mip_convert.new_variable.VariableMIPMetadata">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">mip_convert.new_variable.</span></span><span class="sig-name descname"><span class="pre">VariableMIPMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#VariableMIPMetadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.VariableMIPMetadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.8/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Store the values from the <a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a> related to a
+<a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mip_convert.new_variable.VariableMIPMetadata.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#VariableMIPMetadata.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.VariableMIPMetadata.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dictionaries provided by the <code class="docutils literal notranslate"><span class="pre">variable_info</span></code> and
+<code class="docutils literal notranslate"><span class="pre">axis</span></code> parameters contains information about the
+<a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a> and the axes from the <a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a>,
+respectively.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mip_convert.new_variable.VariableMIPMetadata.axes_names">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">axes_names</span></span><a class="headerlink" href="#mip_convert.new_variable.VariableMIPMetadata.axes_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the names (e.g., <code class="docutils literal notranslate"><span class="pre">latitude</span></code>, <code class="docutils literal notranslate"><span class="pre">longitude</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code>,
+etc.) of the axes of the <a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a> as specified
+in the <a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the names of the axes of the <a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>
+as specified in the <a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mip_convert.new_variable.VariableMIPMetadata.axes_directions_names">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">axes_directions_names</span></span><a class="headerlink" href="#mip_convert.new_variable.VariableMIPMetadata.axes_directions_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the directions (e.g., <code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>, <code class="docutils literal notranslate"><span class="pre">T</span></code>, <code class="docutils literal notranslate"><span class="pre">Z</span></code>, etc.)
+and names of the axes of the <a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a> as
+specified in the <a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a>.</p>
+<p>The names of the axes are returned in the form
+<code class="docutils literal notranslate"><span class="pre">{axis_direction:</span> <span class="pre">axis_name}</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the directions of the axes of the
+<a class="reference internal" href="../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a> as specified in the
+<a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mip_convert.new_variable.VariableMIPMetadata.must_have_bounds">
+<span class="sig-name descname"><span class="pre">must_have_bounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis_direction</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#VariableMIPMetadata.must_have_bounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.VariableMIPMetadata.must_have_bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return whether the axis must have bounds as specified in the
+<a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>axis_direction</strong> (<em>string</em>) – the direction (e.g., <code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>,
+<code class="docutils literal notranslate"><span class="pre">T</span></code>, <code class="docutils literal notranslate"><span class="pre">Z</span></code>, etc.) of the axis</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whether the axis must have bound as specified in the
+<a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mip_convert.new_variable.VariableMIPMetadata.points">
+<span class="sig-name descname"><span class="pre">points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis_direction</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#VariableMIPMetadata.points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.VariableMIPMetadata.points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the points for the axis as specified in the <a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>axis_direction</strong> (<em>string</em>) – the direction (e.g., <code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>,
+<code class="docutils literal notranslate"><span class="pre">T</span></code>, <code class="docutils literal notranslate"><span class="pre">Z</span></code>, etc.) of the axis</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the points for the axis as specified in the
+<a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mip_convert.new_variable.VariableMIPMetadata.bounds">
+<span class="sig-name descname"><span class="pre">bounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis_direction</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#VariableMIPMetadata.bounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.VariableMIPMetadata.bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the bounds for the axis as specified in the <a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>axis_direction</strong> (<em>string</em>) – the direction (e.g., <code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>,
+<code class="docutils literal notranslate"><span class="pre">T</span></code>, <code class="docutils literal notranslate"><span class="pre">Z</span></code>, etc.) of the axis</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the bounds for the axis as specified in the
+<a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="(in NumPy v1.23)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mip_convert.new_variable.VariableMIPMetadata.units">
+<span class="sig-name descname"><span class="pre">units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis_direction</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mip_convert/new_variable.html#VariableMIPMetadata.units"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.new_variable.VariableMIPMetadata.units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the units for the axis as specified in the <a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>axis_direction</strong> (<em>string</em>) – the direction (e.g., <code class="docutils literal notranslate"><span class="pre">X</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>,
+<code class="docutils literal notranslate"><span class="pre">T</span></code>, <code class="docutils literal notranslate"><span class="pre">Z</span></code>, etc.) of the axis</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the units for the axis as specified in the
+<a class="reference internal" href="../glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/mip_convert/new_variable.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">variable</span></code></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright British Crown 2015-2022, Met Office.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mip_convert.load.fix_pp &#8212; MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../load.html" accesskey="U">mip_convert.load</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">mip_convert.load.fix_pp</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for mip_convert.load.fix_pp</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) British Crown Copyright 2016-2022, Met Office.</span>
+<span class="c1"># Please see LICENSE.rst for license details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The :mod:`load.fix_pp` module contains the code to fix any PP field</span>
+<span class="sd">header elements that are incorrect.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">cdds.common.constants</span> <span class="kn">import</span> <span class="n">PP_HEADER_CORRECTIONS</span>
+<span class="kn">from</span> <span class="nn">cdds.common</span> <span class="kn">import</span> <span class="n">compare_versions</span>
+<span class="kn">from</span> <span class="nn">mip_convert.common</span> <span class="kn">import</span> <span class="n">get_field_attribute_name</span>
+
+
+<div class="viewcode-block" id="fix_pp_field"><a class="viewcode-back" href="../../../mip_convert/load/fix_pp.html#mip_convert.load.fix_pp.fix_pp_field">[docs]</a><span class="k">def</span> <span class="nf">fix_pp_field</span><span class="p">(</span><span class="n">field</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fix any PP field header elements in a PP field that are incorrect.</span>
+
+<span class="sd">    :param field: the PP field</span>
+<span class="sd">    :type field: :class:`iris.fileformats.pp.PPField`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">stash_codes</span><span class="p">,</span> <span class="n">correction_info</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">PP_HEADER_CORRECTIONS</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">lbuser</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="ow">in</span> <span class="n">stash_codes</span><span class="p">:</span>
+            <span class="n">FixPPField</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">correction_info</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">correction_info</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="FixPPField"><a class="viewcode-back" href="../../../mip_convert/load/fix_pp.html#mip_convert.load.fix_pp.FixPPField">[docs]</a><span class="k">class</span> <span class="nc">FixPPField</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fix incorrect values of PP field header elements in a PP field.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FixPPField.__init__"><a class="viewcode-back" href="../../../mip_convert/load/fix_pp.html#mip_convert.load.fix_pp.FixPPField.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">version_with_expression</span><span class="p">,</span> <span class="n">correction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The correction provided to the ``correction`` parameter is a</span>
+<span class="sd">        tuple of ``(current_values, correct_values)`` tuples, where</span>
+<span class="sd">        ``current_values`` and ``correct_values`` are dictionaries. The</span>
+<span class="sd">        ``current_values`` dictionary contains the PP field header</span>
+<span class="sd">        element names and values to be matched in the ``field``, while</span>
+<span class="sd">        the ``correct_values`` dictionary contains the PP field header</span>
+<span class="sd">        element names to be fixed and the correct values to use.</span>
+
+<span class="sd">        :param field: the PP field</span>
+<span class="sd">        :type field: :class:`iris.fileformats.pp.PPField`</span>
+<span class="sd">        :param version_with_expression: the version of the UM for which</span>
+<span class="sd">            the ``correction`` is valid</span>
+<span class="sd">        :type version_with_expression: string</span>
+<span class="sd">        :param correction: the correction to be applied</span>
+<span class="sd">        :type correction: tuple of tuples containing a pair of</span>
+<span class="sd">            dictionaries</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_field</span> <span class="o">=</span> <span class="n">field</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_version_with_expression</span> <span class="o">=</span> <span class="n">version_with_expression</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_correction</span> <span class="o">=</span> <span class="n">correction</span></div>
+
+<div class="viewcode-block" id="FixPPField.fix"><a class="viewcode-back" href="../../../mip_convert/load/fix_pp.html#mip_convert.load.fix_pp.FixPPField.fix">[docs]</a>    <span class="k">def</span> <span class="nf">fix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fix incorrect values of PP field header elements in a PP field.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_fix_required</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fix</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_is_fix_required</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">compare_versions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_version_to_compare</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_with_expression</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_version_to_compare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_field</span><span class="o">.</span><span class="n">lbsrce</span> <span class="o">%</span> <span class="mi">10000</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1111</span><span class="p">:</span>
+            <span class="n">um_major</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_field</span><span class="o">.</span><span class="n">lbsrce</span> <span class="o">//</span> <span class="mi">10000</span><span class="p">)</span> <span class="o">//</span> <span class="mi">100</span>
+            <span class="k">if</span> <span class="n">um_major</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">um_minor</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_field</span><span class="o">.</span><span class="n">lbsrce</span> <span class="o">//</span> <span class="mi">10000</span><span class="p">)</span> <span class="o">%</span> <span class="mi">100</span>
+                <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1">.</span><span class="si">{:d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">um_major</span><span class="p">,</span> <span class="n">um_minor</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Pre UM Version 5.3.</span>
+                <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;5.3&#39;</span>
+        <span class="k">return</span> <span class="n">version</span>
+
+    <span class="k">def</span> <span class="nf">_fix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">current_values</span><span class="p">,</span> <span class="n">correct_values</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_correction</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_match_values</span><span class="p">(</span><span class="n">current_values</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_fix_pp_field_attributes</span><span class="p">(</span><span class="n">current_values</span><span class="p">,</span> <span class="n">correct_values</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_match_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header_elements_values</span><span class="p">):</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_field_attribute_value</span><span class="p">(</span><span class="n">header_element_name</span><span class="p">)</span> <span class="o">==</span> <span class="n">value</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">header_element_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">header_elements_values</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">match</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="kc">True</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_field_attribute_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header_element_name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_field</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_field_attribute_name</span><span class="p">(</span><span class="n">header_element_name</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_field_attribute_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header_element_name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">get_field_attribute_name</span><span class="p">(</span><span class="n">header_element_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_item_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">header_element_name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">get_field_attribute_name</span><span class="p">(</span><span class="n">header_element_name</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_fix_pp_field_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_values</span><span class="p">,</span> <span class="n">correct_values</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Fixing PP field header elements </span><span class="si">{msg}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_message</span><span class="p">(</span><span class="n">current_values</span><span class="p">)))</span>
+
+        <span class="k">for</span> <span class="n">header_element_name</span><span class="p">,</span> <span class="n">correct_value</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">correct_values</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_item_position</span><span class="p">(</span><span class="n">header_element_name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">field_attribute_value</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_field_attribute_value</span><span class="p">(</span><span class="n">header_element_name</span><span class="p">))</span>
+                <span class="n">field_attribute_value</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_item_position</span><span class="p">(</span><span class="n">header_element_name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">correct_value</span>
+                <span class="n">field_attribute_value</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">field_attribute_value</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">field_attribute_value</span> <span class="o">=</span> <span class="n">correct_value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_field_attribute_name</span><span class="p">(</span><span class="n">header_element_name</span><span class="p">),</span> <span class="n">field_attribute_value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_log_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_values</span><span class="p">):</span>
+        <span class="c1"># Always log the STASH code.</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;lbuser4=</span><span class="si">{current_value}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_field</span><span class="o">.</span><span class="n">lbuser</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">header_element_name</span><span class="p">,</span> <span class="n">current_value</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">current_values</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">template</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{msg}</span><span class="s1">, </span><span class="si">{header_element_name}</span><span class="s1">=</span><span class="si">{current_value}</span><span class="s1">&#39;</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">header_element_name</span><span class="o">=</span><span class="n">header_element_name</span><span class="p">,</span> <span class="n">current_value</span><span class="o">=</span><span class="n">current_value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">message</span>
+
+    <span class="k">def</span> <span class="nf">_update_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;    Setting </span><span class="si">{attribute}</span><span class="s1">=</span><span class="si">{value}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attribute</span><span class="o">=</span><span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_field</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../load.html" >mip_convert.load</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">mip_convert.load.fix_pp</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright British Crown 2015-2021, Met Office.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

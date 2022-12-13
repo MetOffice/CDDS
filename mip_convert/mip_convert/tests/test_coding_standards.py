@@ -7,14 +7,14 @@ Tests for coding standards and copyright headers.
 import os
 import regex as re
 import unittest
-from nose.plugins.attrib import attr
+import pytest
 
 import pep8
 
 import mip_convert
 
 
-@attr('style')
+@pytest.mark.style
 class TestCodingStandards(unittest.TestCase):
     """
     Tests for coding standards.
@@ -40,7 +40,7 @@ class TestCodingStandards(unittest.TestCase):
         pep8style = pep8.StyleGuide(quiet=False)
         pep8style.options.max_line_length = 120
         # Ignore 'line break occurred before a binary operator'.
-        pep8style.options.ignore = 'W503'
+        pep8style.options.ignore = ('W503', 'E701')
         result = pep8style.check_files(py_files)
         self.assertEqual(result.total_errors, 0, 'Found code style errors (and warnings)')
 

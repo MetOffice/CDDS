@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cdds.common.plugins.base.base_streams &#8212; CDDS  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/nature.css" />
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.base.base_streams</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for cdds.common.plugins.base.base_streams</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) British Crown Copyright 2022, Met Office.</span>
+<span class="c1"># Please see LICENSE.rst for license details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The :mod:`base_streams` module contains the code required to</span>
+<span class="sd">handle basic model streams information for streams.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span> <span class="nn">cdds.common.io</span> <span class="kn">import</span> <span class="n">read_json</span>
+<span class="kn">from</span> <span class="nn">cdds.common.plugins.streams</span> <span class="kn">import</span> <span class="n">StreamInfo</span><span class="p">,</span> <span class="n">StreamStore</span>
+
+
+<div class="viewcode-block" id="StreamIdentifier"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_streams.StreamIdentifier">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">StreamIdentifier</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents the streams for a MIP table. It contains:</span>
+<span class="sd">        * name of the MIP table</span>
+<span class="sd">        * the default supported stream</span>
+<span class="sd">        * the overrides supported streams according MIP requested variables</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mip_table</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">default_stream</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">overrides</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>  <span class="c1"># key: variable, value: stream</span>
+
+<div class="viewcode-block" id="StreamIdentifier.add_overrides"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_streams.StreamIdentifier.add_overrides">[docs]</a>    <span class="k">def</span> <span class="nf">add_overrides</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_overrides</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add new overrides supported streams according MIP request variables</span>
+
+<span class="sd">        :param new_overrides: New overrides (key: MIP request variable, value: stream)</span>
+<span class="sd">        :type new_overrides: Dict[str, str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">overrides</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_overrides</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StreamIdentifier.get_stream"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_streams.StreamIdentifier.get_stream">[docs]</a>    <span class="k">def</span> <span class="nf">get_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the supported stream for the given MIP requested variable. If the MIP requested variable</span>
+<span class="sd">        is NONE, the default stream is returned.</span>
+
+<span class="sd">        :param variable: MIP requested variable</span>
+<span class="sd">        :type variable: str</span>
+<span class="sd">        :return: The stream for the MIP requested variable</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">variable</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">overrides</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_stream</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_stream</span></div></div>
+
+
+<div class="viewcode-block" id="BaseStreamInfo"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_streams.BaseStreamInfo">[docs]</a><span class="k">class</span> <span class="nc">BaseStreamInfo</span><span class="p">(</span><span class="n">StreamInfo</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract class to store the information for a stream.</span>
+<span class="sd">    The information of a stream are defined in a json file.</span>
+
+<span class="sd">    The class loads the information from a json in a specific location.</span>
+<span class="sd">    The json contains all necessary stream information.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BaseStreamInfo</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">configuration_path</span><span class="p">):</span>
+            <span class="n">configuration</span> <span class="o">=</span> <span class="n">read_json</span><span class="p">(</span><span class="n">configuration_path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">StreamIdentifier</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_load_streams</span><span class="p">(</span><span class="n">configuration</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">BaseException</span><span class="p">(</span><span class="s2">&quot;No stream config json file at path: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">configuration_path</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_load_streams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads and extracts information of the stream of the MIP tables from the given configuration dictionary.</span>
+
+<span class="sd">        The configuration dictionary must contain a section &lt;default&gt; and &lt;overrides&gt;. The &lt;default&gt; section</span>
+<span class="sd">        contains the default stream of a MIP table. The &lt;overrides&gt; section contains all streams that override</span>
+<span class="sd">        the default stream of a MIP table for a specific variable.</span>
+
+<span class="sd">        Example of a configuration dictionary:</span>
+<span class="sd">        {</span>
+<span class="sd">            &quot;default&quot;: {</span>
+<span class="sd">                &quot;AERmon&quot;: &quot;ap4&quot;,</span>
+<span class="sd">                 &quot;Amon&quot;: &quot;ap5&quot;</span>
+<span class="sd">            },</span>
+<span class="sd">            &quot;overrides&quot;: {</span>
+<span class="sd">                &quot;AERmon&quot;: {</span>
+<span class="sd">                        &quot;tntrl&quot;: &quot;apu&quot;</span>
+<span class="sd">                },</span>
+<span class="sd">                &quot;Amon&quot;: {</span>
+<span class="sd">                    &quot;tasmax&quot;: &quot;ap6&quot;,</span>
+<span class="sd">                    &quot;tasmin&quot;: &quot;ap6&quot;</span>
+<span class="sd">                }</span>
+<span class="sd">            }</span>
+<span class="sd">        }</span>
+
+<span class="sd">        :param configuration: Configuration dictionary</span>
+<span class="sd">        :type configuration: Dict[str, Any]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">mip_table</span><span class="p">,</span> <span class="n">stream_default</span> <span class="ow">in</span> <span class="n">configuration</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="p">[</span><span class="n">mip_table</span><span class="p">]</span> <span class="o">=</span> <span class="n">StreamIdentifier</span><span class="p">(</span><span class="n">mip_table</span><span class="o">=</span><span class="n">mip_table</span><span class="p">,</span> <span class="n">default_stream</span><span class="o">=</span><span class="n">stream_default</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">mip_table</span><span class="p">,</span> <span class="n">stream_overrides</span> <span class="ow">in</span> <span class="n">configuration</span><span class="p">[</span><span class="s2">&quot;overrides&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">stream_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">mip_table</span><span class="p">,</span> <span class="n">StreamIdentifier</span><span class="p">(</span><span class="n">mip_table</span><span class="o">=</span><span class="n">mip_table</span><span class="p">))</span>
+            <span class="n">stream_id</span><span class="o">.</span><span class="n">add_overrides</span><span class="p">(</span><span class="n">stream_overrides</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="p">[</span><span class="n">mip_table</span><span class="p">]</span> <span class="o">=</span> <span class="n">stream_id</span>
+
+<div class="viewcode-block" id="BaseStreamInfo.retrieve_stream_id"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_streams.BaseStreamInfo.retrieve_stream_id">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_stream_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mip_table</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the stream and its sub streams of the MIP table for the given MIP requested variable.</span>
+<span class="sd">        If no stream is found, ``unknown`` is returned.</span>
+
+<span class="sd">        :param variable: MIP requested variable</span>
+<span class="sd">        :type variable: str</span>
+<span class="sd">        :param mip_table: The MIP table that streams should be considered</span>
+<span class="sd">        :type mip_table: str</span>
+<span class="sd">        :return: Tuple of stream and substream of the MIP table for the MIP requestd variable</span>
+<span class="sd">        :rtype: Tuple[str, str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_streams</span><span class="p">[</span><span class="n">mip_table</span><span class="p">]</span><span class="o">.</span><span class="n">get_stream</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">stream</span> <span class="o">=</span> <span class="s1">&#39;unknown&#39;</span>
+
+        <span class="n">stream_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;([\w]+)&#39;</span>
+        <span class="n">substream_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;([\w-]+)&#39;</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stream_pattern</span><span class="p">,</span> <span class="n">substream_pattern</span><span class="p">)</span>
+
+        <span class="n">substream_search</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">substream_search</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">stream</span><span class="p">,</span> <span class="n">substream</span> <span class="o">=</span> <span class="n">substream_search</span><span class="o">.</span><span class="n">groups</span><span class="p">()[:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">substream</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">stream</span><span class="p">,</span> <span class="n">substream</span></div></div>
+
+
+<div class="viewcode-block" id="BaseStreamStore"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_streams.BaseStreamStore">[docs]</a><span class="k">class</span> <span class="nc">BaseStreamStore</span><span class="p">(</span><span class="n">StreamStore</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Singleton class to store for each stream the corresponding stream information.</span>
+
+<span class="sd">    The class is a singleton to avoid excessive loading of the information.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_info</span><span class="p">:</span> <span class="n">BaseStreamInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BaseStreamStore</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stream_info</span> <span class="o">=</span> <span class="n">stream_info</span>
+
+<div class="viewcode-block" id="BaseStreamStore.get"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_streams.BaseStreamStore.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseStreamInfo</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the stored stream information data.</span>
+
+<span class="sd">        :return: Class containing the stream information</span>
+<span class="sd">        :rtype: BaseStreamInfo</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stream_info</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.base.base_streams</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, The Climate Data Delivery Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

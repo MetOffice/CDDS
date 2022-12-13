@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cdds.common.plugins.cmip6.cmip6_attributes &#8212; CDDS  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/nature.css" />
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.cmip6.cmip6_attributes</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for cdds.common.plugins.cmip6.cmip6_attributes</h1><div class="highlight"><pre>
+<span></span><span class="c1"># (C) British Crown Copyright 2022-2022, Met Office.</span>
+<span class="c1"># Please see LICENSE.rst for license details.</span>
+<span class="kn">from</span> <span class="nn">cdds.common.plugins.attributes</span> <span class="kn">import</span> <span class="n">GlobalAttributes</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Set</span>
+
+
+<div class="viewcode-block" id="Cmip6GlobalAttributes"><a class="viewcode-back" href="../../../../../plugins/plugins.cmip6.html#cdds.common.plugins.cmip6.cmip6_attributes.Cmip6GlobalAttributes">[docs]</a><span class="k">class</span> <span class="nc">Cmip6GlobalAttributes</span><span class="p">(</span><span class="n">GlobalAttributes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store and manage global attributes for CMIP6</span>
+
+<span class="sd">    The request given in the init method will be validated if it contains</span>
+<span class="sd">    all expected information that is need to handle the global attributes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">AttributesValidator</span><span class="o">.</span><span class="n">validate_request_keys</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Cmip6GlobalAttributes</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mip_era</span> <span class="o">=</span> <span class="s1">&#39;CMIP6&#39;</span>
+
+<div class="viewcode-block" id="Cmip6GlobalAttributes.further_info_url"><a class="viewcode-back" href="../../../../../plugins/plugins.cmip6.html#cdds.common.plugins.cmip6.cmip6_attributes.Cmip6GlobalAttributes.further_info_url">[docs]</a>    <span class="k">def</span> <span class="nf">further_info_url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the further info url according the global attributes values.</span>
+
+<span class="sd">        :return: The further info url for CMIP6</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">root_url</span> <span class="o">=</span> <span class="s1">&#39;https://furtherinfo.es-doc.org&#39;</span>
+        <span class="n">further_info_url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">root_url</span><span class="p">,</span>
+                                                         <span class="bp">self</span><span class="o">.</span><span class="n">_mip_era</span><span class="p">,</span>
+                                                         <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">[</span><span class="s2">&quot;institution_id&quot;</span><span class="p">],</span>
+                                                         <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">[</span><span class="s2">&quot;model_id&quot;</span><span class="p">],</span>
+                                                         <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">[</span><span class="s2">&quot;experiment_id&quot;</span><span class="p">],</span>
+                                                         <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">[</span><span class="s2">&quot;sub_experiment_id&quot;</span><span class="p">],</span>
+                                                         <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">[</span><span class="s2">&quot;variant_label&quot;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">further_info_url</span></div></div>
+
+
+<div class="viewcode-block" id="AttributesValidator"><a class="viewcode-back" href="../../../../../plugins/plugins.cmip6.html#cdds.common.plugins.cmip6.cmip6_attributes.AttributesValidator">[docs]</a><span class="k">class</span> <span class="nc">AttributesValidator</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class that provides validations for objects relating to CMIP6 attributes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">EXPECTED_REQUEST_KEYS</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;institution_id&#39;</span><span class="p">,</span> <span class="s1">&#39;model_id&#39;</span><span class="p">,</span> <span class="s1">&#39;experiment_id&#39;</span><span class="p">,</span> <span class="s1">&#39;sub_experiment_id&#39;</span><span class="p">,</span> <span class="s1">&#39;variant_label&#39;</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="AttributesValidator.validate_request_keys"><a class="viewcode-back" href="../../../../../plugins/plugins.cmip6.html#cdds.common.plugins.cmip6.cmip6_attributes.AttributesValidator.validate_request_keys">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate_request_keys</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validates given request. It checks if the request contains all entries</span>
+<span class="sd">        that are expected. If request is invalid, a ValueError is raised.</span>
+
+<span class="sd">        :param request: Request to be validated</span>
+<span class="sd">        :type request: Dict[str, Any]</span>
+<span class="sd">        :raises ValueError: If request is invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">difference</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">EXPECTED_REQUEST_KEYS</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">difference</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Request must contain entries for: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">difference</span><span class="p">)</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.cmip6.cmip6_attributes</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, The Climate Data Delivery Team.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

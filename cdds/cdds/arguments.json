@@ -1,0 +1,13 @@
+{
+  "mip_table_editor": {
+      "log_name": "mip_table_editor"
+  },
+  "populate_inventory": {
+      "log_name": "inventory"
+  },
+  "write_rose_suite_request_json": {
+    "output_file_name": "request.json",
+    "output_dir": ".",
+    "log_name": "write_rose_suite_request"
+  }
+}

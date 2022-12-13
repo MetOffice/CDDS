@@ -786,6 +786,17 @@ class InstantAxis(AbstractTimeAxis):
         return InstantAxis(self._times[istart:iend])
 
 
+class ReferenceTimeAxis(ValuedAxis):
+    #  The auxiliary time coordinate that provides reference times
+    #  for the seasonal forecast datasets
+    AXIS_NAME = 'T-reftime'
+
+    def __init__(self, time, units):
+        self.axis = self.AXIS_NAME
+        self.units = units
+        self._values = time
+
+
 class BoundTimeAxis(AbstractTimeAxis):
     # FIXME: think this should really be a bounds compare axis,
     #  not just a value compare

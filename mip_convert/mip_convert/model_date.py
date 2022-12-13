@@ -5,13 +5,10 @@ This module provides date manipulation for 'standard', 'gregorian',
 'proleptic_gregorian' 'noleap', '365_day', '360_day', 'julian',
 'all_leap' and '366_day' calendars.
 """
-from cf_units import num2date, date2num, Unit, EPOCH
 import regex as re
 
-try:
-    from cftime import datetime
-except ImportError:
-    from netcdftime import datetime
+from cf_units import num2date, date2num, Unit, EPOCH
+from cftime import datetime
 
 
 class CdDateError(Exception):
@@ -468,6 +465,10 @@ def set_base_date(base_cdtime):
     CURRENT_BASE_GEN = BasedDateGenerator(base_cdtime)
 
 
+def set_default_base_date():
+    set_base_date(CdDate(1859, 12, 1, 0, 0, 0, '360_day'))   # a reasonable default?
+
+
 def based_date(year, month, day, hour, minute, lbtim):
     """
     Utility funciton to return a BasedDate depending on the base date
@@ -476,4 +477,4 @@ def based_date(year, month, day, hour, minute, lbtim):
     return CURRENT_BASE_GEN.date(year, month, day, hour, minute, lbtim)
 
 
-set_base_date(CdDate(1859, 12, 1, 0, 0, 0, '360_day'))  # a reasonable default?
+set_default_base_date()

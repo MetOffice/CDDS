@@ -547,6 +547,7 @@ class CoordinateDomain(object):
         """
         @return the order of the directions of the axes in the domain
         """
+        # need to import it here to prevent circular imports
         return tuple([axis.axis for axis in self.getAxisList()])
 
     def getAxis(self, axis_dir):

@@ -3,6 +3,20 @@
 
 .. include:: common.txt
 
+Release 2.4.0, September 12, 2022
+=================================
+
+* Move test execution from nose to pytest (CDDSO-128)
+
+* Refactor functional tests (CDDSO-76, 170)
+
+Release 2.3.2, September 01, 2022
+=================================
+
+* MIP Convert can now produce files with a forecast time coordinate as introduced
+  at CMOR v3.7.0 (CDDSO-124)
+* Approved mapping for fsitherm (CDDSO-163)
+
 Release 2.3.1, June 29, 2022
 ============================
 

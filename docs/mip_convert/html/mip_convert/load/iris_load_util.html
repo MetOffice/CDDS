@@ -1,0 +1,590 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>load.iris_load_util &#8212; MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">load.iris_load_util</span></code></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="load-iris-load-util">
+<h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">load.iris_load_util</span></code><a class="headerlink" href="#load-iris-load-util" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-mip_convert.load.iris_load_util"></span><p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">load.iris_load_util</span></code> module contains the code to support
+loading of <a class="reference internal" href="../../glossary.html#term-Model-output-files"><span class="xref std std-term">model output files</span></a> with Iris.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.ConstraintConstructor">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">ConstraintConstructor</span></span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#ConstraintConstructor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.ConstraintConstructor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.8/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Construct the Iris constraints for a <a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.ConstraintConstructor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#ConstraintConstructor.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.ConstraintConstructor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.ConstraintConstructor.load_constraints">
+<span class="sig-name descname"><span class="pre">load_constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loadable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#ConstraintConstructor.load_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.ConstraintConstructor.load_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the ‘load constraints’ to be used for filtering cube
+loading for a single <a class="reference internal" href="../../glossary.html#term-Input-variable"><span class="xref std std-term">input variable</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>loadable</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">mip_convert.common.Loadable</span></code>) – the constraints for a single
+<a class="reference internal" href="../../glossary.html#term-Input-variable"><span class="xref std std-term">input variable</span></a></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the ‘load constraints’</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris.html#iris.Constraint" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.Constraint</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.ConstraintConstructor.load_pp_constraints">
+<span class="sig-name descname"><span class="pre">load_pp_constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loadable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#ConstraintConstructor.load_pp_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.ConstraintConstructor.load_pp_constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the ‘load constraints’ for PP-related constraints to be
+used for filtering cube loading for a single <a class="reference internal" href="../../glossary.html#term-Input-variable"><span class="xref std std-term">input variable</span></a>.</p>
+<p>The ‘load constraints’ are returned in the form
+<code class="docutils literal notranslate"><span class="pre">[(the</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">PP</span> <span class="pre">field</span> <span class="pre">header</span> <span class="pre">element,</span>
+<span class="pre">the</span> <span class="pre">value</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">PP</span> <span class="pre">field</span> <span class="pre">header</span> <span class="pre">element)]</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>loadable</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">mip_convert.common.Loadable</span></code>) – the constraints for a single
+<a class="reference internal" href="../../glossary.html#term-Input-variable"><span class="xref std std-term">input variable</span></a></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the PP-related constraint information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of tuples</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.ConstraintConstructor.info">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">info</span></span><a class="headerlink" href="#mip_convert.load.iris_load_util.ConstraintConstructor.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the constraint information.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">mip_convert.common</span> <span class="kn">import</span> <span class="n">Loadable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">constraint_constructor</span> <span class="o">=</span> <span class="n">ConstraintConstructor</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">to_load</span> <span class="o">=</span> <span class="n">Loadable</span><span class="p">(</span><span class="s1">&#39;constraint1&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;stash&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;m01s03i236&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pp_info</span> <span class="o">=</span> <span class="n">constraint_constructor</span><span class="o">.</span><span class="n">load_pp_constraints</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">to_load</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pp_info</span><span class="p">)</span>
+<span class="go">[(&#39;lbuser4&#39;, 3236), (&#39;lbtim_ia&#39;, 1), (&#39;lbtim_ib&#39;, 2)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">constraint_constructor</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
+<span class="go">lbuser4=3236, lbtim_ia=1, lbtim_ib=2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.load_cubes">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">load_cubes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_input_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_bounds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loadable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#load_cubes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.load_cubes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of merged cubes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>all_input_data</strong> (<em>list of strings</em>) – the filenames (including the full path) of
+the files required to produce the <a class="reference internal" href="../../glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF files</span></a> for the
+<a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a></p></li>
+<li><p><strong>run_bounds</strong> (<em>list of strings</em>) – the ‘run bounds’</p></li>
+<li><p><strong>loadable</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">mip_convert.common.Loadable</span></code>) – the constraints for a single
+<a class="reference internal" href="../../glossary.html#term-Input-variable"><span class="xref std std-term">input variable</span></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a list of merged cubes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.CubeList" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.CubeList</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.load_cube">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">load_cube</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_input_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_bounds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loadable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replacement_coordinates</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#load_cube"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.load_cube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a single merged and concatenated cube</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>all_input_data</strong> (<em>list of strings</em>) – the filenames (including the full path) of
+the files required to produce the <a class="reference internal" href="../../glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF files</span></a> for the
+<a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a></p></li>
+<li><p><strong>run_bounds</strong> (<em>list of strings</em>) – the ‘run bounds’</p></li>
+<li><p><strong>loadable</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">mip_convert.common.Loadable</span></code>) – the constraints for a single
+<a class="reference internal" href="../../glossary.html#term-Input-variable"><span class="xref std std-term">input variable</span></a></p></li>
+<li><p><strong>replacement_coordinates</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.CubeList" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.CubeList</span></code></a>) – the replacement coordinates</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a single cube</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.setup_time_constraint">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">setup_time_constraint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_bounds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#setup_time_constraint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.setup_time_constraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <code class="docutils literal notranslate"><span class="pre">time_constraint</span></code> function.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">setup_time_constraint</span></code> function can be used as the value of
+the <code class="docutils literal notranslate"><span class="pre">time</span></code> argument when instantiating an
+<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris.html#iris.Constraint" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.Constraint</span></code></a> object.</p>
+<p>The list provided to the <code class="docutils literal notranslate"><span class="pre">run_bounds</span></code> argument contains only two
+strings (the start date and the end date) in the form
+<code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD-hh-mm-ss</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>run_bounds</strong> (<em>list of strings</em>) – the ‘run bounds’</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a function</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>the <code class="docutils literal notranslate"><span class="pre">time_constraint</span></code> function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.load_cubes_from_nc">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">load_cubes_from_nc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_input_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">load_constraints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_bounds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#load_cubes_from_nc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.load_cubes_from_nc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of merged cubes.</p>
+<p>The list provided to the <code class="docutils literal notranslate"><span class="pre">run_bounds</span></code> argument contains only two
+strings (the start date and the end date) in the form
+<code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD-hh-mm-ss</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>all_input_data</strong> (<em>list of strings</em>) – the filenames (including the full path) of
+the files required to produce the <a class="reference internal" href="../../glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF files</span></a> for the
+<a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a></p></li>
+<li><p><strong>load_constraints</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris.html#iris.Constraint" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.Constraint</span></code></a>) – the constraint information</p></li>
+<li><p><strong>run_bounds</strong> (<em>list of strings</em>) – the ‘run bounds’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a list of merged cubes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.CubeList" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.CubeList</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.preprocess_callback">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">preprocess_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#preprocess_callback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.preprocess_callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains functions that should be applied when loading the netCDF file.
+Callback functions must have the signature
+<code class="docutils literal notranslate"><span class="pre">(cube,</span> <span class="pre">field,</span> <span class="pre">filename)</span></code>, see <a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris.html#module-iris" title="(in Iris v3.4.0.dev14)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iris</span></code></a>.</p>
+<p>Currently this callback:</p>
+<ul class="simple">
+<li><p>removes the extra (auxiliary) time axis</p></li>
+<li><p>ensures the comments in NEMO cell methods are consistent</p></li>
+<li><p>adds the model component to cubes loaded from netCDF <a class="reference internal" href="../../glossary.html#term-Model-output-files"><span class="xref std std-term">model output files</span></a></p></li>
+<li><p>adds a scalar depth coordinate to cubes for <a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variables</span></a>
+that have an implied depth</p></li>
+<li><p>add the substream to cubes loaded from netCDF <a class="reference internal" href="../../glossary.html#term-Model-output-files"><span class="xref std std-term">model output files</span></a></p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.load_cubes_from_pp">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">load_cubes_from_pp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_input_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pp_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_bounds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#load_cubes_from_pp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.load_cubes_from_pp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of merged cubes.</p>
+<p>The tuples in the list provided to the <code class="docutils literal notranslate"><span class="pre">pp_info</span></code> argument are the
+PP-related constraint information in the form <code class="docutils literal notranslate"><span class="pre">(the</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">PP</span>
+<span class="pre">field</span> <span class="pre">header</span> <span class="pre">element,</span> <span class="pre">the</span> <span class="pre">value</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">PP</span> <span class="pre">field</span> <span class="pre">header</span> <span class="pre">element)</span></code>.</p>
+<p>The list provided to the <code class="docutils literal notranslate"><span class="pre">run_bounds</span></code> argument contains only two
+strings (the start date and the end date) in the form
+<code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD-hh-mm-ss</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>all_input_data</strong> (<em>list of strings</em>) – the filenames (including the full path) of
+the files required to produce the <a class="reference internal" href="../../glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF files</span></a> for the
+<a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a></p></li>
+<li><p><strong>pp_info</strong> (<em>list of tuples</em>) – the PP-related constraint information</p></li>
+<li><p><strong>run_bounds</strong> (<em>list of strings</em>) – the ‘run bounds’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a list of merged cubes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.CubeList" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.CubeList</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.pp_fields">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">pp_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_input_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#pp_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.pp_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all the PP fields from the <a class="reference internal" href="../../glossary.html#term-Model-output-files"><span class="xref std std-term">model output files</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>all_input_data</strong> (<em>list of strings</em>) – the filenames (including the full path) of
+the files required to produce the <a class="reference internal" href="../../glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF files</span></a> for the
+<a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the PP fields</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of <a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/fileformats/pp.html#iris.fileformats.pp.PPField" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.fileformats.pp.PPField</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.pp_filter">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">pp_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pp_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_bounds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#pp_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.pp_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return whether the single PP field provided to the <code class="docutils literal notranslate"><span class="pre">field</span></code>
+argument should be included when creating the Iris cube.</p>
+<p>If all the PP-related constraint information provided to the
+<code class="docutils literal notranslate"><span class="pre">pp_info</span></code> argument and the start date and end date provided by
+the <code class="docutils literal notranslate"><span class="pre">run_bounds</span></code> argument matches with the corresponding PP field
+header information in the single PP field provided to the <code class="docutils literal notranslate"><span class="pre">field</span></code>
+argument, the single PP field will be included when creating the
+Iris cube. Any orography fields will always be included.</p>
+<p>The tuples in the list provided to the <code class="docutils literal notranslate"><span class="pre">pp_info</span></code> argument are the
+PP-related constraint information in the form <code class="docutils literal notranslate"><span class="pre">(the</span> <span class="pre">name</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">PP</span>
+<span class="pre">field</span> <span class="pre">header</span> <span class="pre">element,</span> <span class="pre">the</span> <span class="pre">value</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">PP</span> <span class="pre">field</span> <span class="pre">header</span> <span class="pre">element)</span></code>.</p>
+<p>The list provided to the <code class="docutils literal notranslate"><span class="pre">run_bounds</span></code> argument contains only two
+strings (the start date and the end date) in the form
+<code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD-hh-mm-ss</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/fileformats/pp.html#iris.fileformats.pp.PPField" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.fileformats.pp.PPField</span></code></a>) – a single PP field</p></li>
+<li><p><strong>pp_info</strong> (<em>list of tuples</em>) – the PP-related constraint information</p></li>
+<li><p><strong>run_bounds</strong> (<em>list of strings</em>) – the ‘run bounds’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whether the PP field header information matches with
+the PP field header information in the single PP field</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.compare_values">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">compare_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requested_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#compare_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.compare_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return whether the value of the PP field header element provided to
+the <code class="docutils literal notranslate"><span class="pre">field_value</span></code> argument matches with the requested value
+provided to the <code class="docutils literal notranslate"><span class="pre">requested_value</span></code> argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field_value</strong> (<em>depends on the value</em>) – the value of the PP field header element</p></li>
+<li><p><strong>requested_value</strong> (<em>depends on the value</em><em>, </em><em>can be a list</em>) – the value to compare</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whether <code class="docutils literal notranslate"><span class="pre">field_value</span></code> matches with <code class="docutils literal notranslate"><span class="pre">requested_value</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.get_field_value">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">get_field_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header_element_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#get_field_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.get_field_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the value of the attribute on the
+<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/fileformats/pp.html#iris.fileformats.pp.PPField" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.fileformats.pp.PPField</span></code></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/fileformats/pp.html#iris.fileformats.pp.PPField" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.fileformats.pp.PPField</span></code></a>) – a single PP field</p></li>
+<li><p><strong>header_element_name</strong> (<em>string</em>) – the name of the PP field header element</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the value of the attribute on the
+<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/fileformats/pp.html#iris.fileformats.pp.PPField" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.fileformats.pp.PPField</span></code></a> object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>depends on the value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.fix_cube">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">fix_cube</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#fix_cube"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.fix_cube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fix metadata on iris cube, based upon information in the PP field
+from which it was created. This includes dealing with site time
+series and variables with an implied height (that are not covered
+by <code class="docutils literal notranslate"><span class="pre">iris.fileformats.um_cf_map.STASHCODE_IMPLIED_HEIGHTS</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the Iris cube</p></li>
+<li><p><strong>field</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/fileformats/pp.html#iris.fileformats.pp.PPField" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.fileformats.pp.PPField</span></code></a>) – a single PP field</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the fixed Iris cube</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.add_depth_coord">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">add_depth_coord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#add_depth_coord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.add_depth_coord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add scalar depth coordinate to cube from netCDF
+<a class="reference internal" href="../../glossary.html#term-Model-output-files"><span class="xref std std-term">model output files</span></a> if it has an implied depth, e.g. if it is
+valid at the ocean surface only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cube to add depth coordinate to</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.split_netCDF_filename">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">split_netCDF_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#split_netCDF_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.split_netCDF_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts model component and substream from the netCDF
+(NEMO, MEDUSA or CICE) filename.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>string</em>) – filename</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>model component, substream</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.8/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.correct_cell_methods_comment">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">correct_cell_methods_comment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_component</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substream</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#correct_cell_methods_comment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.correct_cell_methods_comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates cell methods for variables with variable vertical
+coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the Iris cube</p></li>
+<li><p><strong>model_component</strong> (<em>string</em>) – name of the model component, e.g. ‘nemo’.</p></li>
+<li><p><strong>substream</strong> (<em>string</em>) – name of the substream.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.add_netCDF_model_component">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">add_netCDF_model_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#add_netCDF_model_component"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.add_netCDF_model_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds model component attribute to the cube.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the Iris cube</p></li>
+<li><p><strong>model_component</strong> (<em>string</em>) – name of the model component, e.g. ‘nemo’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.add_substream">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">add_substream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substream</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#add_substream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.add_substream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the substream from the filename as an attribute on the cube.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the cube to add the substream to</p></li>
+<li><p><strong>substream</strong> (<em>string</em>) – the substream</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.fix_cell_methods">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">fix_cell_methods</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#fix_cell_methods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.fix_cell_methods" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a thickness weighted mean cell method to provided variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the Iris cube</p></li>
+<li><p><strong>variables</strong> (<a class="reference external" href="https://docs.python.org/3.8/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – a list of variables</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.site_number">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">site_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#site_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.site_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a <code class="docutils literal notranslate"><span class="pre">site_number</span></code> dimension coordinate.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.time_series_sites_hybrid_heights">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">time_series_sites_hybrid_heights</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#time_series_sites_hybrid_heights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.time_series_sites_hybrid_heights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the reconstructed time series sites with hybrid heights
+cube.</p>
+<p>For hybrid height levels, three basic vertical coordinates are
+added to the cube:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">model_level_number</span></code> (dimensionless, points=LBLEV, no bounds)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sigma</span></code> (dimensionless, points=BHLEV, bounds=(BHRLEV, BHULEV)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">level_height</span></code> (units=m, points=BLEV, bounds=(BRLEV, BULEV)</p></li>
+</ul>
+</div></blockquote>
+<p>See <a class="reference external" href="https://scitools.org.uk/iris/docs/latest/whitepapers/um_files_loading.html#vertical-coordinates">Vertical coordinates</a>.</p>
+<p>However, for time series data, the values of the PP field header
+elements used to create these coordinates are incorrect. In
+addition, the <code class="docutils literal notranslate"><span class="pre">latitude</span></code> and <code class="docutils literal notranslate"><span class="pre">longitude</span></code> points contain a value
+for each site for each level.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.remove_duplicate_cubes">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">remove_duplicate_cubes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cubes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#remove_duplicate_cubes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.remove_duplicate_cubes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove duplicate cubes from a CubeList. Identical cubes are
+identified using the equality operator. The algorithm used runs at
+O(n^2). Sets cannot be used to improve the efficiency because the
+cube.__hash__() method returns id(cube), which is different for
+cubes that have been loaded from PP files but contain identical
+data. The poor efficiency should not be a problem as this function
+is generally called with a CubeList of less than 5 cubes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cubes</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.CubeList" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.CubeList</span></code></a>) – The list to remove duplicate cubes from</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of the unique cubes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.CubeList" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.CubeList</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.load.iris_load_util.rechunk">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.load.iris_load_util.</span></span><span class="sig-name descname"><span class="pre">rechunk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cube</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/load/iris_load_util.html#rechunk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.load.iris_load_util.rechunk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs rechunking procedure on a cube with time coordinate.
+The optional chunk_config argument enforces custom rechunking, e.g.
+{0: 10, 1: 100, 2: 300, 3: ‘auto’} would set chunk sizes of first,
+second and third coordinate to 10, 100 and 300, respectively, and
+the size of the fourth dimension would be determined by DASK.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cube</strong> – the cube to rechunk</p></li>
+<li><p><strong>chunk_config</strong> – optional dictionary containing chunk sizes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>rechunked cube</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/mip_convert/load/iris_load_util.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">load.iris_load_util</span></code></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright British Crown 2015-2022, Met Office.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

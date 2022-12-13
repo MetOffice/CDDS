@@ -1,5 +1,0 @@
-[DEFAULT]
-miptable = CMIP5_day
-
-[tas]
-mapping_id = CMIP3 (A1a, tas)

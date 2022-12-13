@@ -4,10 +4,8 @@
 import unittest
 
 from mip_convert.load.pp.pp_axis import InstantAxis, BoundTimeAxis, PpAxisError
-from mip_convert.model_date import based_date, set_base_date, CdDate
+from mip_convert.model_date import based_date
 from mip_convert.save.cmor.cmor_outputter import EndOfMultipleYears
-
-set_base_date(CdDate(1859, 12, 1, 0, 0, 0, '360_day'))
 
 
 class TestInstantSlice(unittest.TestCase):

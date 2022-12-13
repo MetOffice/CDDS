@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>save.cmor.cmor_lite &#8212; MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">save.cmor.cmor_lite</span></code></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="save-cmor-cmor-lite">
+<h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">save.cmor.cmor_lite</span></code><a class="headerlink" href="#save-cmor-cmor-lite" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-mip_convert.save.cmor.cmor_lite"></span><p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">save.cmor.cmor_lite</span></code> module provides a lightweight interface
+to <a class="reference internal" href="../../glossary.html#term-CMOR"><span class="xref std std-term">CMOR</span></a>.</p>
+<p>Using <a class="reference internal" href="../../glossary.html#term-CMOR"><span class="xref std std-term">CMOR</span></a> requires three main stages. The first is to setup the
+<a class="reference internal" href="../../glossary.html#term-CMOR"><span class="xref std std-term">CMOR</span></a> configuration options and define the <a class="reference internal" href="../../glossary.html#term-Dataset"><span class="xref std std-term">dataset</span></a> meta-data. This
+first stage needs doing only once. The second is to define which
+<a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variables</span></a> are going to be written to this <a class="reference internal" href="../../glossary.html#term-Dataset"><span class="xref std std-term">dataset</span></a>.
+The final stage is to actually write the data.</p>
+<p>This is demonstrated with an example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">cmor_lite</span> <span class="kn">import</span> <span class="n">setup_and_dataset</span><span class="p">,</span> <span class="n">get_saver</span>
+
+<span class="c1"># define the dataset for the variables</span>
+<span class="n">setup_and_dataset</span><span class="p">(</span><span class="n">conf</span><span class="p">,</span> <span class="n">meta_data</span><span class="p">)</span>
+
+<span class="c1"># define the MIP requested variables to be written into this</span>
+<span class="c1"># dataset</span>
+<span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+    <span class="n">variable</span><span class="o">.</span><span class="n">saver</span> <span class="o">=</span> <span class="n">get_saver</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">mip_table_id</span><span class="p">,</span>
+                               <span class="n">variable</span><span class="o">.</span><span class="n">variable_name</span><span class="p">)</span>
+
+<span class="c1"># example of writing the data</span>
+<span class="k">for</span> <span class="n">time_period</span> <span class="ow">in</span> <span class="n">periods</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">,</span> <span class="n">period_length</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">variables</span><span class="p">:</span>
+         <span class="n">variable</span><span class="o">.</span><span class="n">saver</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">time_period</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>For more details see the individual function documentation in the
+<a class="reference external" href="https://cmor.llnl.gov/">CMOR Documentation</a>.</p>
+<p>Note: it is possible to call <a class="reference internal" href="#mip_convert.save.cmor.cmor_lite.dataset" title="mip_convert.save.cmor.cmor_lite.dataset"><code class="xref py py-func docutils literal notranslate"><span class="pre">dataset()</span></code></a> more than once for each
+call to <code class="docutils literal notranslate"><span class="pre">cmor.setup</span></code>, in practice this tends not to be done as a
+single <a class="reference internal" href="#mip_convert.save.cmor.cmor_lite.dataset" title="mip_convert.save.cmor.cmor_lite.dataset"><code class="xref py py-func docutils literal notranslate"><span class="pre">dataset()</span></code></a> call gives a big enough ‘block of work’ to
+manage.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.save.cmor.cmor_lite.setup">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.save.cmor.cmor_lite.</span></span><span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setup_conf</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/save/cmor/cmor_lite.html#setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.save.cmor.cmor_lite.setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call <code class="docutils literal notranslate"><span class="pre">cmor.setup</span></code> with arguments from setup_conf.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>setup_conf</strong> – an object with attributes that contain the
+options for the call to <code class="docutils literal notranslate"><span class="pre">cmor.setup</span></code>.</p>
+</dd>
+</dl>
+<p>The <code class="docutils literal notranslate"><span class="pre">setup_conf</span></code> can have any of the attributes that are needed
+as options for the <code class="docutils literal notranslate"><span class="pre">cmor.setup</span></code> call. In this implementation, and
+unlike the underlying <code class="docutils literal notranslate"><span class="pre">cmor.setup</span></code>, <code class="docutils literal notranslate"><span class="pre">setup_conf</span></code> must have an
+attribute <code class="docutils literal notranslate"><span class="pre">inpath</span></code>.</p>
+<p>All other attributes are optional. If an attribute is missing then
+the corresponding function argument will be absent when
+<code class="docutils literal notranslate"><span class="pre">cmor.setup</span></code> is called. The optional attributes are:
+<code class="docutils literal notranslate"><span class="pre">netcdf_file_action</span></code>, <code class="docutils literal notranslate"><span class="pre">set_verbosity</span></code>, <code class="docutils literal notranslate"><span class="pre">exit_control</span></code>,
+<code class="docutils literal notranslate"><span class="pre">logfile</span></code> and <code class="docutils literal notranslate"><span class="pre">create_subdirectories</span></code>. The last three of these
+can be given as the named <a class="reference internal" href="../../glossary.html#term-CMOR"><span class="xref std std-term">CMOR</span></a> constants, for example
+<code class="docutils literal notranslate"><span class="pre">CMOR_REPLACE</span></code>.</p>
+<p>An example implementation of a <code class="docutils literal notranslate"><span class="pre">setup_conf</span></code> is given in the class
+<code class="xref py py-class docutils literal notranslate"><span class="pre">mip_convert.save.cmor.config_file.CmorSetupConf</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.save.cmor.cmor_lite.dataset">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.save.cmor.cmor_lite.</span></span><span class="sig-name descname"><span class="pre">dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/save/cmor/cmor_lite.html#dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.save.cmor.cmor_lite.dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call <code class="docutils literal notranslate"><span class="pre">cmor.dataset</span></code> with arguments taken from <code class="docutils literal notranslate"><span class="pre">meta_data</span></code>
+attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>meta_data</strong> – an object with attributes that contain the
+options for the call to <code class="docutils literal notranslate"><span class="pre">cmor.dataset</span></code>.</p>
+</dd>
+</dl>
+<p>The <code class="docutils literal notranslate"><span class="pre">meta_data</span></code> object has some compulsory attributes, and some
+optional attributes. These attributes are used in calls to
+<code class="docutils literal notranslate"><span class="pre">cmor.dataset</span></code>. It should also have a <code class="docutils literal notranslate"><span class="pre">global_attributes</span></code>
+method that returns key, value pairs of global attribute names and
+their values.</p>
+<p>The compulsory attributes are: <code class="docutils literal notranslate"><span class="pre">experiment_id</span></code>, <code class="docutils literal notranslate"><span class="pre">institution</span></code>,
+<code class="docutils literal notranslate"><span class="pre">source</span></code>, <code class="docutils literal notranslate"><span class="pre">calendar</span></code>, <code class="docutils literal notranslate"><span class="pre">outpath</span></code> and <code class="docutils literal notranslate"><span class="pre">history</span></code> (note
+<code class="docutils literal notranslate"><span class="pre">outpath</span></code> and <code class="docutils literal notranslate"><span class="pre">history</span></code> are compulsory even though they are
+optional in the underlying <code class="docutils literal notranslate"><span class="pre">cmor.dataset</span></code> call. The optional
+arguments are, largely, the remainder of the <code class="docutils literal notranslate"><span class="pre">cmor.dataset</span></code>
+arguments: <code class="docutils literal notranslate"><span class="pre">realization</span></code>, <code class="docutils literal notranslate"><span class="pre">contact</span></code>, <code class="docutils literal notranslate"><span class="pre">comment</span></code>,
+<code class="docutils literal notranslate"><span class="pre">references</span></code>, <code class="docutils literal notranslate"><span class="pre">leap_year</span></code>, <code class="docutils literal notranslate"><span class="pre">leap_month</span></code>, <code class="docutils literal notranslate"><span class="pre">month_lengths</span></code>,
+<code class="docutils literal notranslate"><span class="pre">model_id</span></code>, <code class="docutils literal notranslate"><span class="pre">forcing</span></code>, <code class="docutils literal notranslate"><span class="pre">initialization_method</span></code>,
+<code class="docutils literal notranslate"><span class="pre">physics_version</span></code>, <code class="docutils literal notranslate"><span class="pre">institute_id</span></code>, <code class="docutils literal notranslate"><span class="pre">parent_experiment_id</span></code>,
+<code class="docutils literal notranslate"><span class="pre">branch_time</span></code>, <code class="docutils literal notranslate"><span class="pre">parent_experiment_rip</span></code></p>
+<p>Rather than passing in the <code class="docutils literal notranslate"><span class="pre">cmor.dataset</span></code> <code class="docutils literal notranslate"><span class="pre">branch_time</span></code>, the
+<code class="docutils literal notranslate"><span class="pre">meta_data</span></code> can have a <code class="docutils literal notranslate"><span class="pre">branch_date</span></code>, <code class="docutils literal notranslate"><span class="pre">parent_base_date</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">TIME_FORMAT</span></code> attributes. If <code class="docutils literal notranslate"><span class="pre">branch_date</span></code> is not present then the
+<code class="docutils literal notranslate"><span class="pre">branch_time</span></code> is set appropriately. If <code class="docutils literal notranslate"><span class="pre">branch_date</span></code> is
+present, then <code class="docutils literal notranslate"><span class="pre">parent_base_date</span></code> should also be present. These
+are then used (along with <code class="docutils literal notranslate"><span class="pre">calendar</span></code>) to calculate the
+<code class="docutils literal notranslate"><span class="pre">branch_time</span></code>. When present, <code class="docutils literal notranslate"><span class="pre">branch_date</span></code> and
+<code class="docutils literal notranslate"><span class="pre">parent_base_date</span></code> are strings of the format defined by
+<code class="docutils literal notranslate"><span class="pre">TIME_FORMAT</span></code> which should be a format string as described in
+<a class="reference external" href="https://docs.python.org/3.8/library/time.html#time.strftime" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">time.strftime()</span></code></a>.</p>
+<p>Note although an attribute of <code class="docutils literal notranslate"><span class="pre">meta_data</span></code> may be an optional
+argument to <code class="docutils literal notranslate"><span class="pre">cmor.dataset</span></code> the <a class="reference internal" href="../../glossary.html#term-MIP-table"><span class="xref std std-term">MIP tables</span></a> may insist on some
+options being present.</p>
+<p>An example implementation of a <code class="docutils literal notranslate"><span class="pre">meta_data</span></code> class can be found in
+<code class="xref py py-class docutils literal notranslate"><span class="pre">mip_convert.save.cmor.config_file.CmorDatasetConf</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.save.cmor.cmor_lite.setup_and_dataset">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.save.cmor.cmor_lite.</span></span><span class="sig-name descname"><span class="pre">setup_and_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">setup_conf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/save/cmor/cmor_lite.html#setup_and_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.save.cmor.cmor_lite.setup_and_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise <a class="reference internal" href="../../glossary.html#term-CMOR"><span class="xref std std-term">CMOR</span></a>: both the setup configuration and the <a class="reference internal" href="../../glossary.html#term-Dataset"><span class="xref std std-term">dataset</span></a>
+meta-data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>setup_conf</strong> – the <a class="reference internal" href="../../glossary.html#term-CMOR"><span class="xref std std-term">CMOR</span></a> setup configuration options</p></li>
+<li><p><strong>meta_data</strong> – the meta-data for the <a class="reference internal" href="../../glossary.html#term-Dataset"><span class="xref std std-term">dataset</span></a> to be written to</p></li>
+</ul>
+</dd>
+</dl>
+<p>See the documentation for <a class="reference internal" href="#mip_convert.save.cmor.cmor_lite.setup" title="mip_convert.save.cmor.cmor_lite.setup"><code class="xref py py-func docutils literal notranslate"><span class="pre">setup()</span></code></a> and <a class="reference internal" href="#mip_convert.save.cmor.cmor_lite.dataset" title="mip_convert.save.cmor.cmor_lite.dataset"><code class="xref py py-func docutils literal notranslate"><span class="pre">dataset()</span></code></a> for
+more information on the <code class="docutils literal notranslate"><span class="pre">setup_conf</span></code> and <code class="docutils literal notranslate"><span class="pre">meta_data</span></code> arguments.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.save.cmor.cmor_lite.get_saver">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.save.cmor.cmor_lite.</span></span><span class="sig-name descname"><span class="pre">get_saver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mip_table_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs_per_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/save/cmor/cmor_lite.html#get_saver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.save.cmor.cmor_lite.get_saver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a saver callable for this <code class="docutils literal notranslate"><span class="pre">variable_name</span></code> from the
+<code class="docutils literal notranslate"><span class="pre">mip_table_id</span></code>.</p>
+<p>The returned callable when called with a <a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a>
+(data and meta-data) will write that <a class="reference internal" href="../../glossary.html#term-MIP-requested-variable"><span class="xref std std-term">MIP requested variable</span></a> using
+<a class="reference internal" href="../../glossary.html#term-CMOR"><span class="xref std std-term">CMOR</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mip_table_id</strong> (<em>string</em>) – the <a class="reference internal" href="../../glossary.html#term-MIP-table-identifier"><span class="xref std std-term">MIP table identifier</span></a></p></li>
+<li><p><strong>variable_name</strong> (<em>string</em>) – the <a class="reference internal" href="../../glossary.html#term-MIP-requested-variable-name"><span class="xref std std-term">MIP requested variable name</span></a></p></li>
+<li><p><strong>outputs_per_file</strong> (<a class="reference external" href="https://docs.python.org/3.8/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the number of time slices of a variable to
+write to each <a class="reference internal" href="../../glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF file</span></a></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a function with signature function(data)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mip_convert.save.cmor.cmor_lite.close">
+<span class="sig-prename descclassname"><span class="pre">mip_convert.save.cmor.cmor_lite.</span></span><span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/save/cmor/cmor_lite.html#close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.save.cmor.cmor_lite.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call <a class="reference internal" href="../../glossary.html#term-CMOR"><span class="xref std std-term">CMOR</span></a> to close down all files.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mip_convert.save.cmor.cmor_lite.CmorSetupCall">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">mip_convert.save.cmor.cmor_lite.</span></span><span class="sig-name descname"><span class="pre">CmorSetupCall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/save/cmor/cmor_lite.html#CmorSetupCall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.save.cmor.cmor_lite.CmorSetupCall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">mip_convert.save.cmor.cmor_lite._KeywordsFromAttributes</span></code></p>
+<p>See the documentation for <a class="reference internal" href="#mip_convert.save.cmor.cmor_lite.setup" title="mip_convert.save.cmor.cmor_lite.setup"><code class="xref py py-func docutils literal notranslate"><span class="pre">setup()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mip_convert.save.cmor.cmor_lite.CmorDatasetCall">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">mip_convert.save.cmor.cmor_lite.</span></span><span class="sig-name descname"><span class="pre">CmorDatasetCall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/save/cmor/cmor_lite.html#CmorDatasetCall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.save.cmor.cmor_lite.CmorDatasetCall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">mip_convert.save.cmor.cmor_lite._KeywordsFromAttributes</span></code></p>
+<p>See the documentation for <a class="reference internal" href="#mip_convert.save.cmor.cmor_lite.dataset" title="mip_convert.save.cmor.cmor_lite.dataset"><code class="xref py py-func docutils literal notranslate"><span class="pre">dataset()</span></code></a>.</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/mip_convert/save/cmor_lite.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MIP Convert 2.3.3.dev0+main.2f65f7c-M documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">save.cmor.cmor_lite</span></code></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright British Crown 2015-2022, Met Office.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>
