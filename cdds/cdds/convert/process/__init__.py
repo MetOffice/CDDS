@@ -796,6 +796,7 @@ class ConvertProcess(object):
         start_date = parse.TimePointParser().parse(start_date)
         if single_concat:
             first_cycle = self._final_concatenation_cycle(stream)
+            return first_cycle
         else:
             cycling_frequency = self._cycling_frequency(stream)
             period = self._concat_task_periods_cylc[stream]
@@ -803,11 +804,10 @@ class ConvertProcess(object):
 
             ref_year = parse.TimePointParser().parse(f'{self.ref_year}0101')
             recurrence = parse.TimeRecurrenceParser().parse(f'R/{ref_year}/{period}')
-            #print(recurrence.get_first_after(start_year))
             temp = recurrence.get_first_after(start_date)
             first_cycle = temp - parse.DurationParser().parse(cycling_frequency)
 
-        return str(first_cycle)
+        return str(first_cycle - start_date)
 
     def _convert_alignment_cycle_needed(self, stream):
         """
@@ -959,8 +959,10 @@ class ConvertProcess(object):
         period = self._concat_task_periods_cylc[stream]
 
         # ref_year = parse.TimePointParser().parse(f'{self.ref_year}0101')
+        new = self._first_concat_cycle_offset(stream)
+        new = parse.TimePointParser().parse(f'{start_date}') + parse.DurationParser().parse(new)
 
-        recurrence = parse.TimeRecurrenceParser().parse(f'R/{self._first_concat_cycle_offset(stream)}/{period}')
+        recurrence = parse.TimeRecurrenceParser().parse(f'R/{new}/{period}')
         
         # temp = recurrence.get_first_after(end_date)
         # final_concat_windows_start_year = recurrence.get_prev(temp)
@@ -1070,7 +1072,6 @@ class ConvertProcess(object):
                                                     
         temp = recurrence.get_first_after(end_date)
         temp = recurrence.get_prev(temp)
-
         return str(temp - start_year)
 
     def _final_concatenation_window_start_old(self, stream):
