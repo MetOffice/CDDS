@@ -1,4 +1,4 @@
-name: cdds-dev
+name: cdds-dev-metomi
 channels:
   - conda-main
   - conda-agnostic
@@ -78,6 +78,7 @@ dependencies:
   - lz4-c=1.9.3=h295c915_1
   - markupsafe=2.0.1=py38h27cfd23_0
   - matplotlib-base=3.5.0=py38h3ed280b_0
+  - metomi-isodatetime
   - mo_pack=0.2.0=py38h6c62de6_1006
   - munkres=1.1.4=py_0
   - mypy=0.931=py38h497a2fe_2
@@ -146,4 +147,4 @@ dependencies:
     - filelock==3.0.12
 variables:
   LC_ALL: en_GB.UTF-8
-prefix: /home/h03/cdds/software/miniconda3/envs/cdds-dev
+# prefix: /home/h03/cdds/software/miniconda3/envs/cdds-dev
