@@ -1,8 +1,13 @@
+#!/usr/bin/env python3.8
+# (C) British Crown Copyright 2022, Met Office.
+# Please see LICENSE.rst for license details.
+
 import argparse
 import json
 import os
 
-DEFAULT_INSTALLATION = '/home/h03/cdds/software/miniconda3/envs/cdds-2.4.0/lib/python3.8/site-packages/cdds/common/plugins/cmip6/data/streams/streams_config.json'
+from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugins import PluginStore
 
 
 def read_variables_file(filepath):
@@ -32,14 +37,12 @@ def read_variables_file(filepath):
     return variables
 
 
-def check_mappings(filepath, variables):
+def check_mappings(variables):
     """
     Parses stream configuration file and updates the variables dictionary
 
     Parameters
     ----------
-    filepath : str
-        Path to the streams configuration file
     variables : dict
         Variable dictionary
 
@@ -48,16 +51,13 @@ def check_mappings(filepath, variables):
     : dict
         Variables dictionary {(mip_table, var): stream}
     """
-    with open(filepath) as fp:
-        stream_mappings = json.load(fp)
-        # print(stream_mappings['overrides'])
-        for key, stream in variables.items():
-            if stream is None:
-                try:
-                    stream = stream_mappings['overrides'][key[0]][key[1]]
-                except KeyError:
-                    stream = stream_mappings['default'][key[0]]
-                variables[key] = stream
+    load_plugin('CMIP6')
+    plugin = PluginStore.instance().get_plugin()
+    streams = plugin.stream_info()
+    for key, stream in variables.items():
+        if stream is None:
+            streaminfo = streams.retrieve_stream_id(key[1], key[0])
+            variables[key] = "{}/{}".format(streaminfo[0], streaminfo[1]) if streaminfo[1] is not None else streaminfo[0]
     return variables
 
 
@@ -80,11 +80,10 @@ def save_mappings(filepath, variables):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--varfile', help='Path to file with variables to be produced')
-    parser.add_argument('--stream_mappings', default=DEFAULT_INSTALLATION)
     parser.add_argument('--outfile', help='New filename. If not provided will replace the --varfile')
     args = parser.parse_args()
     variables = read_variables_file(args.varfile)
-    updated_variables = check_mappings(args.stream_mappings, variables)
+    updated_variables = check_mappings(variables)
     if not args.outfile:
         outfile = args.varfile
     else:
