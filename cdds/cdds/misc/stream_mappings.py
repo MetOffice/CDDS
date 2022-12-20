@@ -6,6 +6,19 @@ DEFAULT_INSTALLATION = '/home/h03/cdds/software/miniconda3/envs/cdds-2.4.0/lib/p
 
 
 def read_variables_file(filepath):
+    """
+    Reads variables file
+
+    Parameters
+    ----------
+    filepath : str
+        Path to the file
+
+    Returns
+    -------
+    : dict
+        Variables dictionary {(mip_table, var): stream}
+    """
     variables = {}
     with open(filepath) as fp:
         for line in fp:
@@ -18,7 +31,23 @@ def read_variables_file(filepath):
             variables[(mip_table, var)] = stream
     return variables
 
+
 def check_mappings(filepath, variables):
+    """
+    Parses stream configuration file and updates the variables dictionary
+
+    Parameters
+    ----------
+    filepath : str
+        Path to the streams configuration file
+    variables : dict
+        Variable dictionary
+
+    Returns
+    -------
+    : dict
+        Variables dictionary {(mip_table, var): stream}
+    """
     with open(filepath) as fp:
         stream_mappings = json.load(fp)
         # print(stream_mappings['overrides'])
@@ -31,7 +60,18 @@ def check_mappings(filepath, variables):
                 variables[key] = stream
     return variables
 
+
 def save_mappings(filepath, variables):
+    """
+    Writes updated variables to a file
+
+    Parameters
+    ----------
+    filepath : str
+        Location where the updated variables file will be written to
+    variables : dict
+        Variables dictionary {(mip_table, var): stream}
+    """
     with open(filepath, 'w') as fp:
         for key, val in variables.items():
             fp.write('{}/{}:{}\n'.format(key[0], key[1], val))
