@@ -57,7 +57,8 @@ def check_mappings(variables):
     for key, stream in variables.items():
         if stream is None:
             streaminfo = streams.retrieve_stream_id(key[1], key[0])
-            variables[key] = "{}/{}".format(streaminfo[0], streaminfo[1]) if streaminfo[1] is not None else streaminfo[0]
+            variables[key] = "{}/{}".format(
+                streaminfo[0], streaminfo[1]) if streaminfo[1] is not None else streaminfo[0]
     return variables
 
 
@@ -77,7 +78,7 @@ def save_mappings(filepath, variables):
             fp.write('{}/{}:{}\n'.format(key[0], key[1], val))
 
 
-if __name__ == '__main__':
+def main_stream_mappings():
     parser = argparse.ArgumentParser()
     parser.add_argument('--varfile', help='Path to file with variables to be produced')
     parser.add_argument('--outfile', help='New filename. If not provided will replace the --varfile')
@@ -89,4 +90,3 @@ if __name__ == '__main__':
     else:
         outfile = args.outfile
     save_mappings(outfile, updated_variables)
-
