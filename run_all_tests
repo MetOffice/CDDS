@@ -24,18 +24,18 @@ ADDITIONAL_OPTS = {
 }
 
 
-def _print_red(text):
+def _red(text):
     """
-    Print text in red
+    Returns text in red
     """
-    print('\033[31m', text, '\033[0m', sep='')
+    return '\033[31m{}\033[0m'.format(text)
 
 
-def _print_green(text):
+def _green(text):
     """
-    Print text in green
+    Returns text in green
     """
-    print('\033[32m', text, '\033[0m', sep='')
+    return '\033[32m{}\033[0m'.format(text)
 
 
 def main():
@@ -61,10 +61,10 @@ def main():
             if process.returncode == 0:
                 info = stdoutdata.decode('utf-8').split('\n')
                 msg = info[-2].replace('=', '').strip()
-                _print_green('{} success! [{}]'.format(' ' * 3, msg))
+                print(_green('{} success! [{}]'.format(' ' * 3, msg)))
             else:
                 exit_code = 1
-                _print_red('{} failed!\n!!! Please see "{}" for more details'.format(' ' * 3, LOG_NAME))
+                print(_red('{} failed!\n!!! Please see "{}" for more details'.format(' ' * 3, LOG_NAME)))
                 current_date = datetime.datetime.now()
                 msg = '{}: {}: {}\n\n'.format(current_date, package, command)
                 with open(LOG_NAME, 'a') as file_handle:
@@ -78,10 +78,10 @@ def main():
     print('Elapsed time: {}'.format(elapsed_time))
     if exit_code == 0:
         smiling_face = u'\U0001f604'
-        print('{} {}'.format(_print_green('All tests succeed.'), smiling_face))
+        print('{} {}'.format(_green('All tests succeed.'), smiling_face))
     else:
         sad_face = u'\U0001F627'
-        print('{} {}'.format(_print_red('Some tests failed.'), sad_face))
+        print('{} {}'.format(_red('Some tests failed.'), sad_face))
     return exit_code
 
 
