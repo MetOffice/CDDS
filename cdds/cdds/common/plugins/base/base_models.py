@@ -231,7 +231,11 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         file_frequencies: Dict[str, StreamFileFrequency] = {}
         for frequency, entry in json_parameters.items():
             file_frequencies.update({
-                stream: StreamFileFrequency(frequency, stream, entry["files_per_year"]) for stream in entry["streams"]
+                stream: StreamFileFrequency(
+                    frequency,
+                    stream,
+                    entry["files_per_year"],
+                    entry["sorting_type"] if "sorting_type" in entry else None) for stream in entry["streams"]
             })
         self._stream_file_info = StreamFileInfo(file_frequencies)
 
