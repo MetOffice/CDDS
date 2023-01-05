@@ -15,6 +15,8 @@ from cftime import datetime
 import pytest
 
 from cdds.common.constants import TIME_UNIT
+from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.convert import concatenation
 from cdds.convert.concatenation import concatenation_setup, NCRCAT
 from cdds.convert.exceptions import ConcatenationError
@@ -49,10 +51,12 @@ class TestConcatenation(unittest.TestCase):
     Tests of :mod:`cdds.convert.concatenation`
     """
     def setUp(self):
+        load_plugin()
         self.testing_db = 'concatenation_testing_{}.db'.format(os.getpid())
         logging.disable(logging.CRITICAL)
 
     def tearDown(self):
+        PluginStore.clean_instance()
         if os.path.exists(self.testing_db):
             os.unlink(self.testing_db)
 

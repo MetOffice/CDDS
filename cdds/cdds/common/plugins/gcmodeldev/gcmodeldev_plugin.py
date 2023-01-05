@@ -5,6 +5,7 @@ The :mod:`gcmodeldev_plugin` module contains the code for the GCModelDev plugin.
 """
 from typing import Type, Dict, Any
 
+from cdds.common.plugins.file_info import ModelFileInfo, GlobalModelFileInfo
 from cdds.common.plugins.grid import GridLabel
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
@@ -77,3 +78,6 @@ class GCModelDevPlugin(CddsPlugin):
         :rtype: Cmip6GlobalAttributes
         """
         return DefaultGlobalAttributes(request)
+
+    def model_file_info(self) -> ModelFileInfo:
+        return GlobalModelFileInfo()

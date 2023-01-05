@@ -8,11 +8,19 @@ import cftime
 import os
 import unittest
 
+from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.archive.constants import DATA_PUBLICATION_STATUS_DICT
 from cdds.archive import stored_state_checks
 
 
 class TestStoredStateChecks(unittest.TestCase):
+
+    def setUp(self):
+        load_plugin()
+
+    def tearDown(self):
+        PluginStore.clean_instance()
 
     def test_check_state_already_published_match_full(self):
         fname_list = [

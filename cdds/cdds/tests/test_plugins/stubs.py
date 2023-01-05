@@ -2,6 +2,7 @@
 # Please see LICENSE.rst for license details.
 from typing import Type
 
+from cdds.common.plugins.file_info import ModelFileInfo
 from cdds.common.plugins.grid import GridLabel, GridType, GridInfo
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.plugins import CddsPlugin
@@ -28,4 +29,7 @@ class EmptyCddsPlugin(CddsPlugin):
         return None
 
     def stream_info(self) -> StreamInfo:
+        return None
+
+    def model_file_info(self) -> ModelFileInfo:
         return None

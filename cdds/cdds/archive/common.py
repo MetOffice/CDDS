@@ -7,9 +7,9 @@ in cdds.archive
 
 import cftime
 import datetime
-import re
 
-from cdds.archive.constants import OUTPUT_FILE_DT_STR, OUTPUT_FILES_REGEX
+from cdds.common.plugins.plugins import PluginStore
+from cdds.archive.constants import OUTPUT_FILE_DT_STR
 
 
 def get_date_range(data_files, fname_pattern, frequency):
@@ -48,7 +48,8 @@ def get_date_range(data_files, fname_pattern, frequency):
     # the radiation timestep (1hr)
     seconds_for_delta = OUTPUT_FILE_DT_STR[frequency]['delta'][1]
     if seconds_for_delta is None:
-        file_end_date = re.search(OUTPUT_FILES_REGEX, data_files[-1]).group('end_date')
+        model_file_info = PluginStore.instance().get_plugin().model_file_info()
+        file_end_date = model_file_info.get_file_end_date(data_files[-1])
         # Assuming all timesteps are an integer number of minutes
         seconds_for_delta = 60 * (60 - int(file_end_date[10:12]))
 

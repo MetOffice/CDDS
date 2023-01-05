@@ -5,6 +5,7 @@ The :mod:`cmip6_plugin` module contains the code for the CMIP6 plugin.
 """
 from typing import Type, Dict, Any
 
+from cdds.common.plugins.file_info import ModelFileInfo, GlobalModelFileInfo
 from cdds.common.plugins.grid import GridLabel
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
@@ -78,3 +79,6 @@ class Cmip6Plugin(BasePlugin):
         :rtype: Cmip6GlobalAttributes
         """
         return Cmip6GlobalAttributes(request)
+
+    def model_file_info(self) -> ModelFileInfo:
+        return GlobalModelFileInfo()
