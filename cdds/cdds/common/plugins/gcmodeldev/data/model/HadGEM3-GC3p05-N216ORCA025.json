@@ -1,6 +1,6 @@
 {
   "stream_file_frequency": {
-    "monthly_pp": {
+    "monthly": {
       "streams": [
         "ap1",
         "ap2",
@@ -11,13 +11,7 @@
         "apd",
         "ape",
         "apm",
-        "apu"
-      ],
-      "files_per_year": 12,
-      "sorting_type": "alphabetic"
-    },
-    "monthly_nc": {
-      "streams": [
+        "apu",
         "onm",
         "inm",
         "ind"

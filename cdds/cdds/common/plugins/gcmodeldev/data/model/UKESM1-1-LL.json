@@ -5,13 +5,7 @@
         "ap4",
         "ap5",
         "apm",
-        "apu"
-      ],
-      "files_per_year": 12,
-      "sorting_type": "alphabetic"
-    },
-    "monthly_nc": {
-      "streams": [
+        "apu",
         "onm",
         "inm",
         "ind",

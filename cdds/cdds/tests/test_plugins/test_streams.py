@@ -10,10 +10,10 @@ class TestStreamFileInfoCalculateExpectedNumberOfFiles(TestCase):
 
     def setUp(self):
         file_frequencies = {
-            "ap4": StreamFileFrequency("monthly_pp", "ap4", 12, "alphabetic"),
-            "ap5": StreamFileFrequency("monthly_pp", "ap5", 12, "alphabetic"),
-            "onm": StreamFileFrequency("monthly_nc", "ap5", 12),
-            "inm": StreamFileFrequency("monthly_nc", "ap5", 12),
+            "ap4": StreamFileFrequency("monthly", "ap4", 12),
+            "ap5": StreamFileFrequency("monthly", "ap5", 12),
+            "onm": StreamFileFrequency("monthly", "ap5", 12),
+            "inm": StreamFileFrequency("monthly", "ap5", 12),
             "ap6": StreamFileFrequency("10 day", "ap6", 36),
             "ap7": StreamFileFrequency("10 day", "ap7", 36),
             "apa": StreamFileFrequency("1 day", "apa", 360)
@@ -24,7 +24,7 @@ class TestStreamFileInfoCalculateExpectedNumberOfFiles(TestCase):
         start_date = datetime.strptime("1850-01-01", "%Y-%m-%d")
         end_date = datetime.strptime("2015-01-01", "%Y-%m-%d")
 
-        stream_attributes = StreamAttributes('ap4', start_date, end_date)
+        stream_attributes = StreamAttributes('ap4', start_date, end_date, 'pp')
         substreams = ["ap4"]
 
         actual = self.stream_info.calculate_expected_number_of_files(stream_attributes, substreams)
@@ -34,7 +34,7 @@ class TestStreamFileInfoCalculateExpectedNumberOfFiles(TestCase):
         start_date = datetime.strptime("1850-01-01", "%Y-%m-%d")
         end_date = datetime.strptime("1850-06-01", "%Y-%m-%d")
 
-        stream_attributes = StreamAttributes('ap4', start_date, end_date)
+        stream_attributes = StreamAttributes('ap4', start_date, end_date, 'pp')
         substreams = ["ap4"]
 
         actual = self.stream_info.calculate_expected_number_of_files(stream_attributes, substreams)
@@ -44,7 +44,7 @@ class TestStreamFileInfoCalculateExpectedNumberOfFiles(TestCase):
         start_date = datetime.strptime("1850-01-01", "%Y-%m-%d")
         end_date = datetime.strptime("1851-01-01", "%Y-%m-%d")
 
-        stream_attributes = StreamAttributes('ap4', start_date, end_date)
+        stream_attributes = StreamAttributes('ap4', start_date, end_date, 'pp')
         substreams = ["ap4"]
 
         actual = self.stream_info.calculate_expected_number_of_files(stream_attributes, substreams)
@@ -54,7 +54,7 @@ class TestStreamFileInfoCalculateExpectedNumberOfFiles(TestCase):
         start_date = datetime.strptime("1850-01-01", "%Y-%m-%d")
         end_date = datetime.strptime("1851-02-01", "%Y-%m-%d")
 
-        stream_attributes = StreamAttributes('ap4', start_date, end_date)
+        stream_attributes = StreamAttributes('ap4', start_date, end_date, 'pp')
         substreams = ["ap4"]
 
         actual = self.stream_info.calculate_expected_number_of_files(stream_attributes, substreams)
@@ -64,7 +64,7 @@ class TestStreamFileInfoCalculateExpectedNumberOfFiles(TestCase):
         start_date = datetime.strptime("1850-01-01", "%Y-%m-%d")
         end_date = datetime.strptime("1850-07-01", "%Y-%m-%d")
 
-        stream_attributes = StreamAttributes('ap6', start_date, end_date)
+        stream_attributes = StreamAttributes('ap6', start_date, end_date, 'pp')
         substreams = ["ap6"]
 
         actual = self.stream_info.calculate_expected_number_of_files(stream_attributes, substreams)
@@ -74,7 +74,7 @@ class TestStreamFileInfoCalculateExpectedNumberOfFiles(TestCase):
         start_date = datetime.strptime("1850-01-01", "%Y-%m-%d")
         end_date = datetime.strptime("2015-01-01", "%Y-%m-%d")
 
-        stream_attributes = StreamAttributes('onm', start_date, end_date)
+        stream_attributes = StreamAttributes('onm', start_date, end_date, 'nc')
         substreams = ["scalar", "grid-U", "grid-T", "grid-W", "grid-V"]
 
         actual = self.stream_info.calculate_expected_number_of_files(stream_attributes, substreams)
@@ -84,7 +84,7 @@ class TestStreamFileInfoCalculateExpectedNumberOfFiles(TestCase):
         start_date = datetime.strptime("1850-01-01", "%Y-%m-%d")
         end_date = datetime.strptime("1850-07-01", "%Y-%m-%d")
 
-        stream_attributes = StreamAttributes('onm', start_date, end_date)
+        stream_attributes = StreamAttributes('onm', start_date, end_date, 'nc')
         substreams = ["scalar", "grid-U", "grid-T", "grid-W", "grid-V"]
 
         actual = self.stream_info.calculate_expected_number_of_files(stream_attributes, substreams)
@@ -94,7 +94,7 @@ class TestStreamFileInfoCalculateExpectedNumberOfFiles(TestCase):
         start_date = datetime.strptime("1850-01-01", "%Y-%m-%d")
         end_date = datetime.strptime("2015-01-01", "%Y-%m-%d")
 
-        stream_attributes = StreamAttributes('inm', start_date, end_date)
+        stream_attributes = StreamAttributes('inm', start_date, end_date, 'nc')
         substreams = ["default"]
 
         actual = self.stream_info.calculate_expected_number_of_files(stream_attributes, substreams)
@@ -104,7 +104,7 @@ class TestStreamFileInfoCalculateExpectedNumberOfFiles(TestCase):
         start_date = datetime.strptime("1850-01-01", "%Y-%m-%d")
         end_date = datetime.strptime("2015-01-01", "%Y-%m-%d")
 
-        stream_attributes = StreamAttributes('apa', start_date, end_date)
+        stream_attributes = StreamAttributes('apa', start_date, end_date, 'pp')
         substreams = ["default"]
 
         actual = self.stream_info.calculate_expected_number_of_files(stream_attributes, substreams)

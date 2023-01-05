@@ -564,7 +564,8 @@ class Process(object):
         extension = ".{}".format(stream["streamtype"])
         actual = file_count(path, extension)
         # ocean resolution
-        stream_attribute = StreamAttributes(stream["stream"], stream["start_date"], stream["end_date"])
+        stream_attribute = StreamAttributes(stream["stream"], stream["start_date"], stream["end_date"],
+                                            stream['streamtype'])
         expected = self.stream_file_info.calculate_expected_number_of_files(stream_attribute, substreams)
         validation_result.add_file_counts(expected, actual)
 
