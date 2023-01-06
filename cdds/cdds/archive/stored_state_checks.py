@@ -5,11 +5,9 @@ The :mod:`stored_state_checks` module contains the code to check what the
 current state of already stored data is.
 """
 import os
-import re
 
 from cdds.common.plugins.plugins import PluginStore
 
-from cdds.archive.common import get_date_range
 from cdds.archive.constants import DATA_PUBLICATION_STATUS_DICT
 
 

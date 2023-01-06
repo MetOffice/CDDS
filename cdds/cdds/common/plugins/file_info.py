@@ -14,26 +14,69 @@ if TYPE_CHECKING:
 
 
 class ModelFileInfo(object, metaclass=ABCMeta):
+    """
+    Provides methods to manage and check netCDF files from simulation models
+    """
 
     @abstractmethod
     def is_cmor_file(self, filename: str) -> bool:
+        """
+        Checks if the given file name matches the expected cmor file name pattern.
+
+        :param filename: File name to check
+        :type filename: str
+        :return: True if the file name matches the expected cmor file name pattern, otherwise False
+        :rtype: bool
+        """
         pass
 
     @abstractmethod
     def is_relevant_for_archiving(self, request: 'Request', out_var_name: str, mip_table_id: str, nc_file: str) -> bool:
+        """
+        Checks if the given |Output netCDF file| is ready for archiving by checking if it matches
+        the expected file pattern by using the given information of the request, MIP table ID and
+        output variable name.
+
+        :param request: The information about the request being processed
+        :type request: Request
+        :param out_var_name: Expected output variable name
+        :type out_var_name: str
+        :param mip_table_id: Expected MIP table ID
+        :type mip_table_id: str
+        :param nc_file: Path to the netCDF file to archive
+        :type nc_file: str
+        :return: True if the netCDF file can be archived otherwise False
+        :rtype: bool
+        """
         pass
 
     @abstractmethod
     def get_date_range(self, nc_files: List[str], frequency: str) -> Tuple[Datetime360Day, Datetime360Day]:
+        """
+        Calculates the date range for the given |Output netCDF files|. It is assumed this set of files
+        has been through the CDDS quality control process and represents a contiguous dataset, so this
+        is not checked.
+
+        :param nc_files: A list of filenames that have been checked for valid formatting.
+        :type nc_files: List[str]
+        :param frequency: A string describing the output frequency for the variables, which is used
+                          to determine the expected datestamp format used in the filename.
+        :type frequency: str
+        :return: A tuple of cftime objects representing the start and end of the date range.
+        :rtype: Tuple[Datetime360Day, Datetime360Day]
+        """
         pass
 
 
 class GlobalModelFileInfo(ModelFileInfo):
-    CMOR_FILENAME_PATTERN = (r'([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)_'
-                             r'([a-zA-Z0-9-]+)_(r\d+i\d+p\d+f\d+)_g([a-zA-Z0-9]+)'
-                             r'_((\d+)-(\d+))(-clim)?.nc')
+    """
+    Provides methods to manage and check netCDF files from global simulation models
+    """
+    _CMOR_FILENAME_PATTERN = (r'([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)_'
+                              r'([a-zA-Z0-9-]+)_(r\d+i\d+p\d+f\d+)_g([a-zA-Z0-9]+)'
+                              r'_((\d+)-(\d+))(-clim)?.nc')
 
-    NC_FILES_TO_ARCHIVE_REGEX = (
+    _NC_FILES_TO_ARCHIVE_REGEX = (
         '(?P<out_var_name>[a-zA-Z0-9-]+)_(?P<mip_table_id>[a-zA-Z0-9-]+)_'
         '(?P<model_id>[a-zA-Z0-9-]+)_(?P<experiment_id>[a-zA-Z0-9-]+)_'
         '(?P<variant_label>[a-zA-Z0-9]+)_(?P<grid>[a-zA-Z0-9]+)_'
@@ -43,10 +86,34 @@ class GlobalModelFileInfo(ModelFileInfo):
         super(GlobalModelFileInfo, self).__init__()
 
     def is_cmor_file(self, filename) -> bool:
-        return re.match(self.CMOR_FILENAME_PATTERN, filename)
+        """
+        Checks if the given file name matches the expected cmor file name pattern.
+
+        :param filename: File name to check
+        :type filename: str
+        :return: True if the file name matches the expected cmor file name pattern, otherwise False
+        :rtype: bool
+        """
+        return re.match(self._CMOR_FILENAME_PATTERN, filename)
 
     def is_relevant_for_archiving(self, request: 'Request', out_var_name: str, mip_table_id: str, nc_file: str) -> bool:
-        pattern = re.compile(self.NC_FILES_TO_ARCHIVE_REGEX)
+        """
+        Checks if the given |Output netCDF file| is ready for archiving by checking if it matches
+        the expected file pattern by using the given information of the request, MIP table ID and
+        output variable name.
+
+        :param request: The information about the request being processed
+        :type request: Request
+        :param out_var_name: Expected output variable name
+        :type out_var_name: str
+        :param mip_table_id: Expected MIP table ID
+        :type mip_table_id: str
+        :param nc_file: Path to the netCDF file to archive
+        :type nc_file: str
+        :return: True if the netCDF file can be archived otherwise False
+        :rtype: bool
+        """
+        pattern = re.compile(self._NC_FILES_TO_ARCHIVE_REGEX)
         match = pattern.search(nc_file)
         if not match:
             return False
@@ -64,25 +131,19 @@ class GlobalModelFileInfo(ModelFileInfo):
 
     def get_date_range(self, nc_files: List[str], frequency: str) -> Tuple[Datetime360Day, Datetime360Day]:
         """
-        Calculate the date range for the this set of |Output netCDF files|. It
-        is assumed this set of files has been through the CDDS quality control
-        process and represents a contiguous dataset, so this is not checked.
+        Calculates the date range for the given |Output netCDF files|. It is assumed this set of files
+        has been through the CDDS quality control process and represents a contiguous dataset, so this
+        is not checked.
 
-        Parameters
-        ----------
-        nc_files: list
-            A list of filenames that have been checked for valid formatting.
-        frequency: str
-            A string describing the output frequency for the variables, which is
-            used to determine the expected datestamp format used in the filename.
-
-        Returns
-        -------
-        : tuple
-            A tuple of cftime objects representing the start and end of the date
-            range.
+        :param nc_files: A list of filenames that have been checked for valid formatting.
+        :type nc_files: List[str]
+        :param frequency: A string describing the output frequency for the variables, which is used
+                          to determine the expected datestamp format used in the filename.
+        :type frequency: str
+        :return: A tuple of cftime objects representing the start and end of the date range.
+        :rtype: Tuple[Datetime360Day, Datetime360Day]
         """
-        filename_pattern = re.compile(self.NC_FILES_TO_ARCHIVE_REGEX)
+        filename_pattern = re.compile(self._NC_FILES_TO_ARCHIVE_REGEX)
         file_match = filename_pattern.search(nc_files[0])
         file_start = datetime.strptime(file_match.group('start_date'), OUTPUT_FILE_DT_STR[frequency]['str'])
         start_date = Datetime360Day(file_start.year, file_start.month, file_start.day)
@@ -92,7 +153,7 @@ class GlobalModelFileInfo(ModelFileInfo):
         # For subhrPt frequency the seconds can be either the model time step or the radiation time step (1hr)
         seconds_for_delta = OUTPUT_FILE_DT_STR[frequency]['delta'][1]
         if seconds_for_delta is None:
-            last_file_end = re.search(self.NC_FILES_TO_ARCHIVE_REGEX, nc_files[-1]).group('end_date')
+            last_file_end = re.search(self._NC_FILES_TO_ARCHIVE_REGEX, nc_files[-1]).group('end_date')
             # Assuming all time steps are an integer number of minutes
             seconds_for_delta = 60 * (60 - int(last_file_end[10:12]))
 
@@ -127,6 +188,9 @@ class GlobalModelFileInfo(ModelFileInfo):
 
 
 class RegionalModelFileInfo(ModelFileInfo):
+    """
+    Provides methods to manage and check netCDF files from regional simulation models
+    """
 
     def __init__(self):
         super(RegionalModelFileInfo, self).__init__()
