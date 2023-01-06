@@ -348,7 +348,6 @@ class Variable(object):
         self.logger.debug('Processing the data ...')
         self._remove_units_from_input_variables_as_necessary()
         self._ensure_masked_arrays()
-        self._standardise()
         self._apply_mask()
         self._apply_expression()
         self._validate_cube()
@@ -377,9 +376,6 @@ class Variable(object):
             if not np.ma.isMaskedArray(cube.data):
                 cube.data = make_masked(cube.data, cube.shape, cube.attributes['fill_value'], cube.data.dtype)
 
-    def _standardise(self):
-        model_id = self.model_to_mip_mapping.model_id
-
     def _apply_mask(self):
         logger = logging.getLogger(__name__)
         # expecting format lat_start:lat_stop:lat_stride, lon_start:lon_stop:lon_stride
@@ -404,6 +400,7 @@ class Variable(object):
 
         for cube in list(self.input_variables.values()):
             if mask_slice_str is None:
+                model_id = self.model_to_mip_mapping.model_id
                 model_component = cube.attributes['model_component']
                 # If CICE data modify the mode_component value to include grid information.
                 if model_component == 'cice':
