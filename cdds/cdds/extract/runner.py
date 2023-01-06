@@ -157,11 +157,13 @@ class ExtractRunner(object):
                     stream, "[{} of {}]".format(stream_count, num_streams)))
                 # do validation check for this stream and write to log
                 substreams = list(mappings.filters.keys())
-                extract_process.validate(
-                    data_target, stream, stash_codes, substreams, stream_validation.validation_result(stream["stream"])
-                )
-                if not stream_validation.validation_result(stream["stream"]).valid:
-                    overall_result = "quality"
+                if not self.args.skip_extract_validation:
+                    extract_process.validate(
+                        data_target, stream, stash_codes, substreams,
+                        stream_validation.validation_result(stream["stream"])
+                    )
+                    if not stream_validation.validation_result(stream["stream"]).valid:
+                        overall_result = "quality"
             else:
                 end_msg = "skipped [{} of {}]".format(stream_count,
                                                       num_streams)
@@ -177,8 +179,9 @@ class ExtractRunner(object):
         # log end of process
         logger.info("{}: {}".format(
             self.lang["extract_{}".format(overall_result)], overall_summary))
-        for stream_name, validation_result in stream_validation.validated_streams.items():
-            validation_result.log_results(extract_process.log_directory)
+        if not self.args.skip_extract_validation:
+            for stream_name, validation_result in stream_validation.validated_streams.items():
+                validation_result.log_results(extract_process.log_directory)
         exit_nicely(
             msg=self.lang["script_end"],
             success=True if overall_result == "success" else False
