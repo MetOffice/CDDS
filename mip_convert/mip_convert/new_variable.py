@@ -385,7 +385,7 @@ class Variable(object):
         # expecting format lat_start:lat_stop:lat_stride, lon_start:lon_stop:lon_stride
         mask_slice_str = self._variable_metadata.mask_slice
         if mask_slice_str == 'no_mask':
-            return
+            mask = None
         elif mask_slice_str is not None:
             # build slices
             try:
@@ -401,12 +401,19 @@ class Variable(object):
             logger.info('Masking all data using mask slices for latitude and longitude dimensions: "{}"'.format(
                 mask_slice_str))
             mask = np.s_[..., lat_slice, lon_slice]
-        else:
-            mask = eorca_resolution_to_mask_slice(model_id, model_component, self._substream)
 
         for cube in list(self.input_variables.values()):
+            if mask_slice_str is None:
+                model_component = cube.attributes['model_component']
+                # If CICE data modify the mode_component value to include grid information.
+                if model_component == 'cice':
+                    # cice_grid will be either "T" or "V" if variable has "TLAT" or "ULAT" respectively in its
+                    # "coordinates" netcdf attribute.
+                    cice_grid = cube.coord('latitude').var_name[0]
+                    model_component = 'cice-{}'.format(cice_grid)
+                mask = eorca_resolution_to_mask_slice(model_id, model_component, self._substream)
             cube_coord_names = {i.name() for i in cube.coords()}
-            if {'latitude', 'longitude'} <= cube_coord_names:
+            if {'latitude', 'longitude'} <= cube_coord_names and mask is not None:
                 # update the existing mask
                 cube.data[mask] = np.ma.masked
 
