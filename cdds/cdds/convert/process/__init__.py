@@ -485,6 +485,18 @@ class ConvertProcess(object):
         start_date_year = int(self._request.child_base_date.split('-')[0])
         return start_date_year
 
+    @property
+    def ref_date(self):
+        """
+        Obtain the reference date for this |simulation| (i.e. the date it
+        started). This is used for chunking output in the concatenation
+        stages of the suite.
+        :return: The reference date.
+        :rtype: str
+        """
+        start_date = "".join(self._request.child_base_date.split('-')[:3])
+        return start_date
+
     def _build_stream_components(self):
         """
         Build a list of the grid identifiers for each |stream identifier|.
@@ -780,34 +792,27 @@ class ConvertProcess(object):
         data for 2000-2049, 2050-2099 etc. and be correctly aligned with the
         reference year.
 
-        Parameters
-        ----------
-        stream: str
-            |stream identifier| to calculate value for.
-
-        Returns
-        -------
-        dict
-            A dict with the offset in years of first |Concatenation Cycle| for
-            each stream from the start date of the suite.
+        :param stream: The |stream identifier| to calculate value for.
+        :type stream: str
+        :return: A cylc formatted duration string in days.
+        :rtype: str
         """
         single_concat = self._single_concatenation_cycle(stream)
-        start_date, end_date = self.run_bounds()
-        start_date = parse.TimePointParser().parse(start_date)
+
         if single_concat:
             first_cycle = self._final_concatenation_cycle(stream)
             return first_cycle
         else:
+            ref_date = parse.TimePointParser().parse(self.ref_date)
+            concat_period = self._concat_task_periods_cylc[stream]
+            aligned_concatenation_dates = parse.TimeRecurrenceParser().parse(f'R/{ref_date}/{concat_period}')
+            start_date, _ = self.run_bounds()
+            start_date = parse.TimePointParser().parse(start_date)
+            concat_window_date = aligned_concatenation_dates.get_first_after(start_date)
             cycling_frequency = self._cycling_frequency(stream)
-            period = self._concat_task_periods_cylc[stream]
-
-
-            ref_year = parse.TimePointParser().parse(f'{self.ref_year}0101')
-            recurrence = parse.TimeRecurrenceParser().parse(f'R/{ref_year}/{period}')
-            temp = recurrence.get_first_after(start_date)
-            first_cycle = temp - parse.DurationParser().parse(cycling_frequency)
-
-        return str(first_cycle - start_date)
+            first_cycle = concat_window_date - parse.DurationParser().parse(cycling_frequency)
+            first_cycle = str(first_cycle - start_date)
+        return first_cycle
 
     def _convert_alignment_cycle_needed(self, stream):
         """
