@@ -419,10 +419,8 @@ class ConvertProcess(object):
         stream : str or list, optional
             Name(s) of the |stream| or |streams| to be processed.
 
-        Returns
-        -------
-        int first year
-        int last year
+        :return: A tupe containing the start and end date of the simulation.
+        :rtype: tuple
 
         Raises
         ------
@@ -636,7 +634,7 @@ class ConvertProcess(object):
             Returns the time bound length in years. Used for new cycling frequency if needed.
         """
         cycling_years = re.match(r'P(?P<nyears>\d+)Y', cycle_frequency)
-
+        breakpoint()
         if cycling_years:
             start_year, end_year = self.year_bounds()
             cycling_years = int(cycling_years.group('nyears'))
@@ -921,31 +919,6 @@ class ConvertProcess(object):
         
         return start_date + window_size >= end_date
 
-    def _stream_time_override(self, year_bounds, stream):
-        """
-        Calculate stream time overrides dictionary for suite
-
-        Parameters
-        ----------
-        year_bounds : tuple
-            start and end year for processing
-        stream: str
-            |stream identifier| to calculate value for.
-
-        Returns
-        -------
-        str
-            stream time override information
-        """
-        if stream not in self.active_streams:
-            return "None"
-        entry_bounds = self.year_bounds(stream)
-        if entry_bounds == year_bounds:
-            stream_time_override = "None"
-        else:
-            stream_time_override = entry_bounds
-        return stream_time_override
-
     def mip_convert_temp_sizes(self, stream_id):
         """
         Get the size of temporary file space in MB needed for the processing of
@@ -1098,7 +1071,6 @@ class ConvertProcess(object):
 
         """
         section_name = 'jinja2:suite.rc'
-        year_bounds = self.year_bounds()
         components = self.stream_components
         template_path = os.path.join(self.suite_destination, 'opt',
                                      'rose-suite-stream.conf')
@@ -1134,8 +1106,6 @@ class ConvertProcess(object):
                 self._single_concatenation_cycle(stream),
             'STREAM_COMPONENTS': components[stream],
             'STREAM_SUBSTREAMS': self.substreams_dict[stream],
-            'STREAM_TIME_OVERRIDES': self._stream_time_override(year_bounds,
-                                                                stream),
         }
 
         try:
