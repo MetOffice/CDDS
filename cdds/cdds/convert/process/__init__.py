@@ -412,19 +412,6 @@ class ConvertProcess(object):
         return start_date, end_date
 
     @property
-    def ref_year(self):
-        """
-        Obtain the reference year for this |simulation| (i.e. the year it
-        started). This is used for chunking output in the concatenation
-        stages of the suite.
-
-        :return: The reference year.
-        :rtype: int
-        """
-        start_date_year = int(self._request.child_base_date.split('-')[0])
-        return start_date_year
-
-    @property
     def ref_date(self):
         """
         Obtain the reference date for this |simulation| (i.e. the date it
@@ -434,8 +421,9 @@ class ConvertProcess(object):
         :return: The reference date in the form 18500101
         :rtype: str
         """
-        start_date = "".join(self._request.child_base_date.split('-')[:3])
-        return start_date
+        reference_date = "".join(self._request.child_base_date.split('-')[:3])
+        reference_date = parse.TimePointParser().parse(reference_date)
+        return reference_date
 
     def _build_stream_components(self):
         """
@@ -694,9 +682,8 @@ class ConvertProcess(object):
             first_cycle = self._final_concatenation_cycle(stream)
             return first_cycle
         else:
-            ref_date = parse.TimePointParser().parse(self.ref_date)
             concat_period = self._concat_task_periods_cylc[stream]
-            aligned_concatenation_dates = parse.TimeRecurrenceParser().parse(f'R/{ref_date}/{concat_period}')
+            aligned_concatenation_dates = parse.TimeRecurrenceParser().parse(f'R/{self.ref_date}/{concat_period}')
             start_date, _ = self.run_bounds()
             concat_window_date = aligned_concatenation_dates.get_first_after(start_date)
             cycling_frequency = self._cycling_frequency(stream)
@@ -743,9 +730,8 @@ class ConvertProcess(object):
         :rtype: str
         """
         start_date, _ = self.run_bounds()
-        ref_date = parse.TimePointParser().parse(self.ref_date)
         cycling_frequency = self._cycling_frequency(stream)
-        recurrence = parse.TimeRecurrenceParser().parse(f'R/{ref_date}/{cycling_frequency}')
+        recurrence = parse.TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
         if not recurrence.get_is_valid(start_date):
             alignment_offset = str(recurrence.get_first_after(start_date) - start_date)
         else:
@@ -792,9 +778,8 @@ class ConvertProcess(object):
         :rtype: str
         """
         start_date, end_date = self.run_bounds()
-        ref_date = parse.TimePointParser().parse(self.ref_date)
         cycling_frequency = self._cycling_frequency(stream)
-        cycling_frequency_recurrences = parse.TimeRecurrenceParser().parse(f'R/{ref_date}/{cycling_frequency}')
+        cycling_frequency_recurrences = parse.TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
         final_concatenation_cycle = cycling_frequency_recurrences.get_prev(cycling_frequency_recurrences.get_first_after(end_date))
         final_concatenation_cycle_in_days = str(final_concatenation_cycle - start_date)
         return final_concatenation_cycle_in_days
@@ -818,9 +803,8 @@ class ConvertProcess(object):
             return 0
 
         _, end_date = self.run_bounds()
-        ref_date = parse.TimePointParser().parse(self.ref_date)
         period = self._concat_task_periods_cylc[stream]
-        recurrence = parse.TimeRecurrenceParser().parse(f'R/{ref_date}/{period}')
+        recurrence = parse.TimeRecurrenceParser().parse(f'R/{self.ref_date}/{period}')
         final_concat_windows_start_year = str(recurrence.get_prev(recurrence.get_first_after(end_date)))
         
         return final_concat_windows_start_year
@@ -935,7 +919,7 @@ class ConvertProcess(object):
                 NTHREADS_CONCATENATE),
             'OUTPUT_DIR': self._full_paths.output_data_directory,
             'PARALLEL_TASKS': PARALLEL_TASKS,
-            'REF_YEAR': self.ref_year,
+            'REF_YEAR': self.ref_date.year,
             'REQUEST_JSON_PATH': request_json_path,
             'ROOT_DATA_DIR': self._arguments.root_data_dir,
             'ROOT_PROC_DIR': self._arguments.root_proc_dir,
