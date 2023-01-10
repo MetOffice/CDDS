@@ -46,7 +46,6 @@ class ConvertProcess(object):
         arguments: :class:`cdds.arguments.Arguments` object
             The arguments specific to the `cdds_convert` script.
         """
-        Calendar.default().set_mode("360day")
         self.logger = logging.getLogger(__name__)
         self.logger.info('Using CDDS Convert version {}'.format(__version__))
 
@@ -54,7 +53,7 @@ class ConvertProcess(object):
                                      REQUIRED_KEYS_FOR_PROC_DIRECTORY)
         self._arguments = arguments
         self._full_paths = FullPaths(arguments, self._request)
-
+        self.set_calendar()
         rv_path = self._full_paths.requested_variables_list_file
         self._rvl_file = RequestedVariablesList(rv_path)
         proc_dir = self._full_paths.proc_directory
@@ -104,6 +103,13 @@ class ConvertProcess(object):
         self._calculate_concat_task_periods()
 
         self.archive_data_version = arguments.archive_data_version
+
+    def set_calendar(self):
+        if self._request.calendar in Calendar.default().MODES.keys():
+            Calendar.default().set_mode(self._request.calendar)
+        else:
+            msg = "Unsupported metomi.isodate calendar: {}".format(self._request.calendar)
+            raise RuntimeError(msg)
 
     def report_sizes(self):
         self.logger.info('esitimated variable sizes:')
@@ -414,18 +420,11 @@ class ConvertProcess(object):
         (a) all |streams| or (b) a subset defined by the |stream identifier| or
         |stream identifiers| specified in the stream argument.
 
-        Parameters
-        ----------
-        stream : str or list, optional
-            Name(s) of the |stream| or |streams| to be processed.
-
+        :param stream: Name(s) of the |stream| or |streams| to be processed.
+        :type stream: str or list, optional
         :return: A tupe containing the start and end date of the simulation.
         :rtype: tuple
-
-        Raises
-        ------
-        StreamError
-            if stream is not active in this request.
+        :raises StreamError: if stream is not active in this request.
         """
 
         def _streamcheck(i):
@@ -444,6 +443,7 @@ class ConvertProcess(object):
 
         if len(self.streams) == 0:
             return None, None
+
         for stream_name, stream_data in self._get_streams_dict().items():
             if stream_name in streams_to_consider:
                 # entry_start_date = [int(i1) for i1 in
@@ -464,7 +464,6 @@ class ConvertProcess(object):
                 end_date = "-".join(stream_data['end_date'].split('-')[:3])
         
         # Instead of returning the year, return dates instead.
-        Calendar.default().set_mode("360day")
         start_date = parse.TimePointParser().parse(start_date, dump_format="%Y%m%dT%HZ")
         end_date = parse.TimePointParser().parse(end_date, dump_format="%Y%m%dT%HZ") - parse.DurationParser().parse('P1D')
         return str(start_date), str(end_date)
@@ -634,7 +633,6 @@ class ConvertProcess(object):
             Returns the time bound length in years. Used for new cycling frequency if needed.
         """
         cycling_years = re.match(r'P(?P<nyears>\d+)Y', cycle_frequency)
-        breakpoint()
         if cycling_years:
             start_year, end_year = self.year_bounds()
             cycling_years = int(cycling_years.group('nyears'))
@@ -683,7 +681,7 @@ class ConvertProcess(object):
         return (cycle_length, unit)
 
     @property
-    def input_model_run_length(self):
+    def input_model_run_length_old(self):
         """
         Get the length in years of the input model run that is being processed.
 
@@ -694,6 +692,19 @@ class ConvertProcess(object):
         """
         start1, end1 = self.year_bounds()
         return int(end1) - int(start1) + 1
+
+    @property
+    def input_model_run_length(self):
+        """
+        Get the length in years of the input model run that is being processed.
+
+        :return: The length of the input model run in years.
+        :rtype: str
+        """
+        start_date, end_date = self.run_bounds()
+        start_date = parse.TimePointParser().parse(start_date)
+        end_date = parse.TimePointParser.parse(end_date)
+        return end_date - start_date
 
     def _calculate_concat_task_periods(self):
         self._calculate_max_concat_period()
@@ -713,10 +724,8 @@ class ConvertProcess(object):
         This represents the longest period of data that will be stored in a
         single output file.
 
-        Returns
-        -------
-        int
-            The maximum concatenation window size in years for this run.
+        :return: The maximum concatenation window size in years for this run.
+        :rtype: int
         """
         model_sizing = self._model_params.full_sizing_info()
         if model_sizing is None or model_sizing == {}:
@@ -846,19 +855,13 @@ class ConvertProcess(object):
         Calculates the cycle point for the final Concatenation Cycles for this
         stream. This is to account for aligning cycles with the reference date.
 
-        Parameters
-        ----------
-        stream: str
-            |stream identifier| to calculate value for.
-
-        Returns
-        -------
-        str
-            A string representing a cylc formatted date when the final cycle
+        :param stream: The |stream identifier| to calculate value for.
+        :type stream: str
+        :return: A string representing a cylc formatted date when the final cycle
             for this stream will be. This ensures that if the run length is
             not a multiple of the concatenation window length, then all the
             data will still have been processed by the concatenation scripts.
-
+        :rtype: str
         """
         start_year, end_date = self.run_bounds()
         start_year = parse.TimePointParser().parse(start_year)
