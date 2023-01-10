@@ -353,67 +353,6 @@ class ConvertProcess(object):
         """
         return self._request.streaminfo
 
-    def year_bounds(self, stream=None):
-        """
-        Return the first and last year needed to process either
-        (a) all |streams| or (b) a subset defined by the |stream identifier| or
-        |stream identifiers| specified in the stream argument.
-
-        Parameters
-        ----------
-        stream : str or list, optional
-            Name(s) of the |stream| or |streams| to be processed.
-
-        Returns
-        -------
-        int
-            first year
-        int
-            last year
-
-        Raises
-        ------
-        StreamError
-            if stream is not active in this request.
-        """
-
-        def _streamcheck(i):
-            if i not in self.streams:
-                raise StreamError('Stream "{}" not found in streams list "{}"'
-                                  ''.format(i, repr(self.streams)))
-
-        start_year = 99999
-        end_year = -99999
-
-        if stream is None:
-            streams_to_consider = self.streams
-        elif isinstance(stream, list):
-            [_streamcheck(s) for s in stream]
-            streams_to_consider = stream
-        else:
-            _streamcheck(stream)
-            streams_to_consider = [stream]
-
-        if len(self.streams) == 0:
-            return None, None
-        for stream_name, stream_data in self._get_streams_dict().items():
-            if stream_name in streams_to_consider:
-                entry_start_date = [int(i1) for i1 in
-                                    stream_data['start_date'].split('-')]
-                entry_end_date = [int(i1) for i1 in
-                                  stream_data['end_date'].split('-')]
-                entry_start_year = entry_start_date[0]
-                entry_end_year = entry_end_date[0]
-                # If the end date is 1 January (month==1 and day==1), then
-                # we want to process up to the end of the previous year,
-                # so subtract 1 from the end year to achieve this
-                if (entry_end_date[1] == 1 and
-                        entry_end_date[2] == 1):
-                    entry_end_year -= 1
-                start_year = min(start_year, entry_start_year)
-                end_year = max(end_year, entry_end_year)
-        return start_year, end_year
-
     def run_bounds(self, stream=None):
         """
         Return the start date and end date needed to process either
@@ -422,9 +361,9 @@ class ConvertProcess(object):
 
         :param stream: Name(s) of the |stream| or |streams| to be processed.
         :type stream: str or list, optional
-        :return: A tupe containing the start and end date of the simulation.
-        :rtype: tuple
-        :raises StreamError: if stream is not active in this request.
+        :return: A tuple containing the start and end date of the simulation.
+        :rtype: TimePoint
+        :raises StreamError: If stream is not active in this request.
         """
 
         def _streamcheck(i):
@@ -443,6 +382,9 @@ class ConvertProcess(object):
 
         if len(self.streams) == 0:
             return None, None
+
+        # start_year = 99999
+        # end_year = -99999
 
         for stream_name, stream_data in self._get_streams_dict().items():
             if stream_name in streams_to_consider:
@@ -462,11 +404,12 @@ class ConvertProcess(object):
                 # end_date = max(end_date, entry_end_date)
                 start_date = "-".join(stream_data['start_date'].split('-')[:3])
                 end_date = "-".join(stream_data['end_date'].split('-')[:3])
-        
-        # Instead of returning the year, return dates instead.
-        start_date = parse.TimePointParser().parse(start_date, dump_format="%Y%m%dT%HZ")
-        end_date = parse.TimePointParser().parse(end_date, dump_format="%Y%m%dT%HZ") - parse.DurationParser().parse('P1D')
-        return str(start_date), str(end_date)
+
+        # Instead of returning years as ints, now return dates as TimePoint objects instead.
+        start_date = parse.TimePointParser().parse(start_date)
+        end_date = parse.TimePointParser().parse(end_date) - parse.DurationParser().parse('P1D')
+
+        return start_date, end_date
 
     @property
     def ref_year(self):
@@ -634,7 +577,8 @@ class ConvertProcess(object):
         """
         cycling_years = re.match(r'P(?P<nyears>\d+)Y', cycle_frequency)
         if cycling_years:
-            start_year, end_year = self.year_bounds()
+            start_date, end_date = self.run_bounds()
+            start_year, end_year = start_date.year, end_date.year
             cycling_years = int(cycling_years.group('nyears'))
             run_length = end_year - start_year + 1
             return run_length < cycling_years, run_length
@@ -681,30 +625,16 @@ class ConvertProcess(object):
         return (cycle_length, unit)
 
     @property
-    def input_model_run_length_old(self):
-        """
-        Get the length in years of the input model run that is being processed.
-
-        Return
-        ------
-        int
-            The length of the input model run in years.
-        """
-        start1, end1 = self.year_bounds()
-        return int(end1) - int(start1) + 1
-
-    @property
     def input_model_run_length(self):
         """
         Get the length in years of the input model run that is being processed.
 
         :return: The length of the input model run in years.
-        :rtype: str
+        :rtype: int
         """
         start_date, end_date = self.run_bounds()
-        start_date = parse.TimePointParser().parse(start_date)
-        end_date = parse.TimePointParser.parse(end_date)
-        return end_date - start_date
+        start_year, end_year = start_date.year, end_date.year
+        return end_year - start_year + 1
 
     def _calculate_concat_task_periods(self):
         self._calculate_max_concat_period()
@@ -768,7 +698,6 @@ class ConvertProcess(object):
             concat_period = self._concat_task_periods_cylc[stream]
             aligned_concatenation_dates = parse.TimeRecurrenceParser().parse(f'R/{ref_date}/{concat_period}')
             start_date, _ = self.run_bounds()
-            start_date = parse.TimePointParser().parse(start_date)
             concat_window_date = aligned_concatenation_dates.get_first_after(start_date)
             cycling_frequency = self._cycling_frequency(stream)
             first_cycle = concat_window_date - parse.DurationParser().parse(cycling_frequency)
@@ -814,7 +743,6 @@ class ConvertProcess(object):
         :rtype: str
         """
         start_date, _ = self.run_bounds()
-        start_date = parse.TimePointParser().parse(start_date)
         ref_date = parse.TimePointParser().parse(self.ref_date)
         cycling_frequency = self._cycling_frequency(stream)
         recurrence = parse.TimeRecurrenceParser().parse(f'R/{ref_date}/{cycling_frequency}')
@@ -846,7 +774,7 @@ class ConvertProcess(object):
         temp = parse.DurationParser().parse(self._final_concatenation_cycle(stream)) + parse.TimePointParser().parse(f'{start_date}')
         concat_period = self._concat_task_periods_cylc[stream]
         new = self._first_concat_cycle_offset(stream)
-        new = parse.TimePointParser().parse(f'{start_date}') + parse.DurationParser().parse(new)
+        new = start_date + parse.DurationParser().parse(new)
         recurrence = parse.TimeRecurrenceParser().parse(f'R/{new}/{concat_period}')
         return not recurrence.get_is_valid(temp)
 
@@ -863,14 +791,12 @@ class ConvertProcess(object):
             data will still have been processed by the concatenation scripts.
         :rtype: str
         """
-        start_year, end_date = self.run_bounds()
-        start_year = parse.TimePointParser().parse(start_year)
-        end_date = parse.TimePointParser().parse(end_date)
+        start_date, end_date = self.run_bounds()
         ref_date = parse.TimePointParser().parse(self.ref_date)
         cycling_frequency = self._cycling_frequency(stream)
         cycling_frequency_recurrences = parse.TimeRecurrenceParser().parse(f'R/{ref_date}/{cycling_frequency}')
         final_concatenation_cycle = cycling_frequency_recurrences.get_prev(cycling_frequency_recurrences.get_first_after(end_date))
-        final_concatenation_cycle_in_days = str(final_concatenation_cycle - start_year)
+        final_concatenation_cycle_in_days = str(final_concatenation_cycle - start_date)
         return final_concatenation_cycle_in_days
 
     def _final_concatenation_window_start(self, stream):
@@ -893,7 +819,6 @@ class ConvertProcess(object):
 
         _, end_date = self.run_bounds()
         ref_date = parse.TimePointParser().parse(self.ref_date)
-        end_date = parse.TimePointParser().parse(end_date)
         period = self._concat_task_periods_cylc[stream]
         recurrence = parse.TimeRecurrenceParser().parse(f'R/{ref_date}/{period}')
         final_concat_windows_start_year = str(recurrence.get_prev(recurrence.get_first_after(end_date)))
@@ -915,9 +840,6 @@ class ConvertProcess(object):
         :rtype: bool
         """
         start_date, end_date = self.run_bounds()
-
-        start_date = parse.TimePointParser().parse(start_date)
-        end_date = parse.TimePointParser().parse(end_date)
         window_size = parse.DurationParser().parse(self._concat_task_periods_cylc[stream])
         
         return start_date + window_size >= end_date
@@ -1001,7 +923,7 @@ class ConvertProcess(object):
                 'convert'),
             'CDDS_VERSION': _NUMERICAL_VERSION,
             'DEV_MODE': _DEV,
-            'END_DATE': run_bounds[1],
+            'END_DATE': str(run_bounds[1]),
             'INPUT_DIR': self._full_paths.input_data_directory,
             'OUTPUT_MASS_ROOT': self._arguments.output_mass_root,
             'OUTPUT_MASS_SUFFIX': self._arguments.output_mass_suffix,
@@ -1020,7 +942,7 @@ class ConvertProcess(object):
             'RUN_EXTRACT': not self.skip_extract,
             'RUN_QC': not self.skip_qc,
             'RUN_TRANSFER': not self.skip_transfer,
-            'START_DATE': run_bounds[0],
+            'START_DATE': str(run_bounds[0]),
             'TARGET_SUITE_NAME': self.target_suite_name,
             'USE_EXTERNAL_PLUGIN': use_external_plugin
         }
