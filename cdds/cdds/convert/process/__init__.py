@@ -10,27 +10,24 @@ import os
 import re
 import shutil
 
+from metomi.isodatetime.data import Calendar
+from metomi.isodatetime.parsers import (DurationParser, TimePointParser,
+                                        TimeRecurrenceParser)
+
+from cdds import _DEV, _NUMERICAL_VERSION, __version__
+from cdds.common import determine_rose_suite_url
+from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.plugins.plugins import PluginStore
-from cdds.common.mappings.mapping import ModelToMip
-
-from cdds.common import (determine_rose_suite_url, configure_logger)
-from cdds.deprecated.config import FullPaths
-from mip_convert.configuration.python_config import PythonConfig
-
-from cdds import __version__, _NUMERICAL_VERSION, _DEV
-from cdds.common.constants import (REQUIRED_KEYS_FOR_PROC_DIRECTORY,
-                                   DAYS_IN_YEAR, DAYS_IN_MONTH)
 from cdds.common.request import read_request
 from cdds.common.variables import RequestedVariablesList
 from cdds.convert.constants import (NTHREADS_CONCATENATE, PARALLEL_TASKS,
-                                    ROSE_SUITE_ID, SECTION_TEMPLATE,
-                                    RESOURCE_FACTOR)
+                                    ROSE_SUITE_ID, SECTION_TEMPLATE)
 from cdds.convert.exceptions import StreamError
 from cdds.convert.process import suite_interface
 from cdds.convert.process.memory import scale_memory
+from cdds.deprecated.config import FullPaths
+from mip_convert.configuration.python_config import PythonConfig
 
-import metomi.isodatetime.parsers as parse
-from metomi.isodatetime.data import Calendar
 
 class ConvertProcess(object):
     """
@@ -406,8 +403,8 @@ class ConvertProcess(object):
                 end_date = "-".join(stream_data['end_date'].split('-')[:3])
 
         # Instead of returning years as ints, now return dates as TimePoint objects instead.
-        start_date = parse.TimePointParser().parse(start_date)
-        end_date = parse.TimePointParser().parse(end_date) - parse.DurationParser().parse('P1D')
+        start_date = TimePointParser().parse(start_date)
+        end_date = TimePointParser().parse(end_date) - DurationParser().parse('P1D')
 
         return start_date, end_date
 
@@ -422,7 +419,7 @@ class ConvertProcess(object):
         :rtype: str
         """
         reference_date = "".join(self._request.child_base_date.split('-')[:3])
-        reference_date = parse.TimePointParser().parse(reference_date)
+        reference_date = TimePointParser().parse(reference_date)
         return reference_date
 
     def _build_stream_components(self):
@@ -683,11 +680,11 @@ class ConvertProcess(object):
             return first_cycle
         else:
             concat_period = self._concat_task_periods_cylc[stream]
-            aligned_concatenation_dates = parse.TimeRecurrenceParser().parse(f'R/{self.ref_date}/{concat_period}')
+            aligned_concatenation_dates = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{concat_period}')
             start_date, _ = self.run_bounds()
             concat_window_date = aligned_concatenation_dates.get_first_after(start_date)
             cycling_frequency = self._cycling_frequency(stream)
-            first_cycle = concat_window_date - parse.DurationParser().parse(cycling_frequency)
+            first_cycle = concat_window_date - DurationParser().parse(cycling_frequency)
             first_cycle = str(first_cycle - start_date)
         return first_cycle
 
@@ -731,7 +728,7 @@ class ConvertProcess(object):
         """
         start_date, _ = self.run_bounds()
         cycling_frequency = self._cycling_frequency(stream)
-        recurrence = parse.TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
+        recurrence = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
         if not recurrence.get_is_valid(start_date):
             alignment_offset = str(recurrence.get_first_after(start_date) - start_date)
         else:
@@ -757,11 +754,11 @@ class ConvertProcess(object):
             return False
 
         start_date, _ = self.run_bounds()
-        temp = parse.DurationParser().parse(self._final_concatenation_cycle(stream)) + parse.TimePointParser().parse(f'{start_date}')
+        temp = DurationParser().parse(self._final_concatenation_cycle(stream)) + start_date
         concat_period = self._concat_task_periods_cylc[stream]
         new = self._first_concat_cycle_offset(stream)
-        new = start_date + parse.DurationParser().parse(new)
-        recurrence = parse.TimeRecurrenceParser().parse(f'R/{new}/{concat_period}')
+        new = start_date + DurationParser().parse(new)
+        recurrence = TimeRecurrenceParser().parse(f'R/{new}/{concat_period}')
         return not recurrence.get_is_valid(temp)
 
     def _final_concatenation_cycle(self, stream):
@@ -779,7 +776,7 @@ class ConvertProcess(object):
         """
         start_date, end_date = self.run_bounds()
         cycling_frequency = self._cycling_frequency(stream)
-        cycling_frequency_recurrences = parse.TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
+        cycling_frequency_recurrences = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
         final_concatenation_cycle = cycling_frequency_recurrences.get_prev(cycling_frequency_recurrences.get_first_after(end_date))
         final_concatenation_cycle_in_days = str(final_concatenation_cycle - start_date)
         return final_concatenation_cycle_in_days
@@ -804,7 +801,7 @@ class ConvertProcess(object):
 
         _, end_date = self.run_bounds()
         period = self._concat_task_periods_cylc[stream]
-        recurrence = parse.TimeRecurrenceParser().parse(f'R/{self.ref_date}/{period}')
+        recurrence = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{period}')
         final_concat_windows_start_year = str(recurrence.get_prev(recurrence.get_first_after(end_date)))
         
         return final_concat_windows_start_year
@@ -824,7 +821,7 @@ class ConvertProcess(object):
         :rtype: bool
         """
         start_date, end_date = self.run_bounds()
-        window_size = parse.DurationParser().parse(self._concat_task_periods_cylc[stream])
+        window_size = DurationParser().parse(self._concat_task_periods_cylc[stream])
         
         return start_date + window_size >= end_date
 
