@@ -18,6 +18,16 @@ class ModelFileInfo(object, metaclass=ABCMeta):
     Provides methods to manage and check netCDF files from simulation models
     """
 
+    @property
+    @abstractmethod
+    def mass_location_facet(self) -> str:
+        pass
+
+    @property
+    @abstractmethod
+    def mass_root_location_facet(self) -> str:
+        pass
+
     @abstractmethod
     def is_cmor_file(self, filename: str) -> bool:
         """
@@ -72,6 +82,7 @@ class GlobalModelFileInfo(ModelFileInfo):
     """
     Provides methods to manage and check netCDF files from global simulation models
     """
+
     _CMOR_FILENAME_PATTERN = (r'([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)_'
                               r'([a-zA-Z0-9-]+)_(r\d+i\d+p\d+f\d+)_g([a-zA-Z0-9]+)'
                               r'_((\d+)-(\d+))(-clim)?.nc')
@@ -82,8 +93,19 @@ class GlobalModelFileInfo(ModelFileInfo):
         '(?P<variant_label>[a-zA-Z0-9]+)_(?P<grid>[a-zA-Z0-9]+)_'
         '(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+)(?P<climatology>-clim)?.nc')
 
+    _MASS_ROOT_LOCATION_FACET = 'mip_era|mip|institution_id|model_id|experiment_id|variant_label'
+    _MASS_SUFFIX_LOCATION_FACET = '|mip_table_id|out_var_name|grid_label'
+
     def __init__(self):
         super(GlobalModelFileInfo, self).__init__()
+
+    @property
+    def mass_location_facet(self) -> str:
+        return self._MASS_ROOT_LOCATION_FACET + self._MASS_SUFFIX_LOCATION_FACET
+
+    @property
+    def mass_root_location_facet(self) -> str:
+        return self._MASS_ROOT_LOCATION_FACET
 
     def is_cmor_file(self, filename) -> bool:
         """
@@ -194,6 +216,16 @@ class RegionalModelFileInfo(ModelFileInfo):
 
     def __init__(self):
         super(RegionalModelFileInfo, self).__init__()
+
+    @property
+    def mass_location_facet(self) -> str:
+        # Not implemented yet
+        return None
+
+    @property
+    def mass_root_location_facet(self) -> str:
+        # Not implemented yet
+        return None
 
     def is_cmor_file(self, filename) -> bool:
         # Not implemented yet

@@ -14,10 +14,9 @@ import tempfile
 from cdds.common import construct_string_from_facet_string
 from cdds.common.mass import (mass_isdir, mass_mkdir, mass_move, mass_put, mass_rmdir,
                               mass_rm_empty_dirs, mass_test, mass_list_records)
+from cdds.common.plugins.plugins import PluginStore
 
 from cdds.archive.constants import (DATA_PUBLICATION_STATUS_DICT,
-                                    MASS_LOCATION_FACET_STRING,
-                                    MASS_SIMULATION_LOCATION_FACET_STRING,
                                     MASS_STATUS_DICT,
                                     SUPERSEDED_INFO_FILE_STR)
 from cdds.archive.stored_state_checks import get_stored_state
@@ -89,7 +88,8 @@ def construct_archive_dir_mass_path(mass_path_root, request):
         The path to the archive directory in MASS for the data of the simulation.
 
     """
-    mass_path_suffix = construct_string_from_facet_string(MASS_SIMULATION_LOCATION_FACET_STRING, request.items)
+    model_file_info = PluginStore.instance().get_plugin().model_file_info()
+    mass_path_suffix = construct_string_from_facet_string(model_file_info.mass_root_location_facet, request.items)
     return os.path.join(mass_path_root, mass_path_suffix)
 
 
@@ -126,8 +126,8 @@ def get_archive_path(mass_path_root, var_dict, request):
     facet_dict.update(var_dict)
     facet_dict.update(request.items)
 
-    mass_path_var_core = construct_string_from_facet_string(
-        MASS_LOCATION_FACET_STRING, facet_dict)
+    model_file_info = PluginStore.instance().get_plugin().model_file_info()
+    mass_path_var_core = construct_string_from_facet_string(model_file_info.mass_location_facet, facet_dict)
     mass_path_var = os.path.join(mass_path_root, mass_path_var_core)
     return mass_path_var
 

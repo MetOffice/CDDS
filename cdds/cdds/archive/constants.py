@@ -34,11 +34,6 @@ OUTPUT_FILE_DT_STR = {
     'subhrPt': {'str': '%Y%m%d%H%M%S', 'delta': [0, None]},
 }
 
-MASS_LOCATION_FACET_STRING = (
-    'mip_era|mip|institution_id|model_id|experiment_id|variant_label|'
-    'mip_table_id|out_var_name|grid_label')
-MASS_SIMULATION_LOCATION_FACET_STRING = 'mip_era|mip|institution_id|model_id|experiment_id|variant_label'
-
 MASS_STATUS_DICT = {
     'FIRST_PUBLICATION':
         {'description': 'First publication',
