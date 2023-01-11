@@ -22,7 +22,6 @@ from cdds.common.request import read_request
 from cdds.common.variables import RequestedVariablesList
 from cdds.convert.constants import (NTHREADS_CONCATENATE, PARALLEL_TASKS,
                                     ROSE_SUITE_ID, SECTION_TEMPLATE)
-from cdds.convert.exceptions import StreamError
 from cdds.convert.process import suite_interface
 from cdds.convert.process.memory import scale_memory
 from cdds.deprecated.config import FullPaths
@@ -350,59 +349,19 @@ class ConvertProcess(object):
         """
         return self._request.streaminfo
 
-    def run_bounds(self, stream=None):
+    def run_bounds(self):
         """
-        Return the start date and end date needed to process either
-        (a) all |streams| or (b) a subset defined by the |stream identifier| or
-        |stream identifiers| specified in the stream argument.
+        Return the start date and end date needed to process all |streams|.
 
-        :param stream: Name(s) of the |stream| or |streams| to be processed.
-        :type stream: str or list, optional
         :return: A tuple containing the start and end date of the simulation.
-        :rtype: TimePoint
-        :raises StreamError: If stream is not active in this request.
+        :rtype: tuple (TimePoint, TimePoint)
         """
 
-        def _streamcheck(i):
-            if i not in self.streams:
-                raise StreamError('Stream "{}" not found in streams list "{}"'
-                                  ''.format(i, repr(self.streams)))
+        start_date, end_date = self._request.run_bounds.split()
 
-        if stream is None:
-            streams_to_consider = self.streams
-        elif isinstance(stream, list):
-            [_streamcheck(s) for s in stream]
-            streams_to_consider = stream
-        else:
-            _streamcheck(stream)
-            streams_to_consider = [stream]
+        start_date = "-".join(start_date.split('-')[:3])
+        end_date = "-".join(end_date.split('-')[:3])
 
-        if len(self.streams) == 0:
-            return None, None
-
-        # start_year = 99999
-        # end_year = -99999
-
-        for stream_name, stream_data in self._get_streams_dict().items():
-            if stream_name in streams_to_consider:
-                # entry_start_date = [int(i1) for i1 in
-                #                     stream_data['start_date'].split('-')]
-                # entry_end_date = [int(i1) for i1 in
-                #                   stream_data['end_date'].split('-')]
-                # entry_start_date = entry_start_date[0]
-                # entry_end_date = entry_end_date[0]
-                # If the end date is 1 January (month==1 and day==1), then
-                # we want to process up to the end of the previous year,
-                # so subtract 1 from the end year to achieve this
-                # if (entry_end_date[1] == 1 and
-                #         entry_end_date[2] == 1):
-                #     entry_end_date -= 1
-                # start_date = min(start_date, entry_start_date)
-                # end_date = max(end_date, entry_end_date)
-                start_date = "-".join(stream_data['start_date'].split('-')[:3])
-                end_date = "-".join(stream_data['end_date'].split('-')[:3])
-
-        # Instead of returning years as ints, now return dates as TimePoint objects instead.
         start_date = TimePointParser().parse(start_date)
         end_date = TimePointParser().parse(end_date) - DurationParser().parse('P1D')
 
@@ -754,12 +713,12 @@ class ConvertProcess(object):
             return False
 
         start_date, _ = self.run_bounds()
-        temp = DurationParser().parse(self._final_concatenation_cycle(stream)) + start_date
+        final_concatenation_cycle = DurationParser().parse(self._final_concatenation_cycle(stream)) + start_date
         concat_period = self._concat_task_periods_cylc[stream]
-        new = self._first_concat_cycle_offset(stream)
-        new = start_date + DurationParser().parse(new)
-        recurrence = TimeRecurrenceParser().parse(f'R/{new}/{concat_period}')
-        return not recurrence.get_is_valid(temp)
+        first_concat_cycle_offset = self._first_concat_cycle_offset(stream)
+        first_concat_cycle = start_date + DurationParser().parse(first_concat_cycle_offset)
+        recurrence = TimeRecurrenceParser().parse(f'R/{first_concat_cycle}/{concat_period}')
+        return not recurrence.get_is_valid(final_concatenation_cycle)
 
     def _final_concatenation_cycle(self, stream):
         """
@@ -776,8 +735,8 @@ class ConvertProcess(object):
         """
         start_date, end_date = self.run_bounds()
         cycling_frequency = self._cycling_frequency(stream)
-        cycling_frequency_recurrences = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
-        final_concatenation_cycle = cycling_frequency_recurrences.get_prev(cycling_frequency_recurrences.get_first_after(end_date))
+        cycling_freq_recurrence = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
+        final_concatenation_cycle = cycling_freq_recurrence.get_prev(cycling_freq_recurrence.get_first_after(end_date))
         final_concatenation_cycle_in_days = str(final_concatenation_cycle - start_date)
         return final_concatenation_cycle_in_days
 
@@ -803,7 +762,7 @@ class ConvertProcess(object):
         period = self._concat_task_periods_cylc[stream]
         recurrence = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{period}')
         final_concat_windows_start_year = str(recurrence.get_prev(recurrence.get_first_after(end_date)))
-        
+
         return final_concat_windows_start_year
 
     def _single_concatenation_cycle(self, stream):
@@ -822,7 +781,7 @@ class ConvertProcess(object):
         """
         start_date, end_date = self.run_bounds()
         window_size = DurationParser().parse(self._concat_task_periods_cylc[stream])
-        
+
         return start_date + window_size >= end_date
 
     def mip_convert_temp_sizes(self, stream_id):
