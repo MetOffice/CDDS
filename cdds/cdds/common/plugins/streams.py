@@ -26,7 +26,10 @@ class StreamAttributes:
     end_date: datetime
     streamtype: str
 
-    def __init__(self) -> None:
+    def __init__(self, stream: str, start_date: datetime, end_date: datetime) -> None:
+        self.stream = stream
+        self.start_date = start_date
+        self.end_date = end_date
         self.streamtype = 'pp' if stream.startswith('ap') else 'nc'
 
 
