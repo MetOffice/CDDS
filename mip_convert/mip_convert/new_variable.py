@@ -581,7 +581,8 @@ class Variable(object):
             # the cube.
             matched_cube_coords = {}
             # in some cases forecast reference time is not present in the original input cube and needs to be created
-            if self._variable_metadata.reference_time is not None and 'forecast_reference_time' not in [coord.name() for coord in self.cube.coords()]:
+            coord_names = [coord.name() for coord in self.cube.coords()]
+            if self._variable_metadata.reference_time is not None and 'forecast_reference_time' not in coord_names:
                 # insert a dummy reference time, it will be updated with proper values later
                 reference_time = iris.coords.DimCoord(np.array([0.5]), standard_name='forecast_reference_time',
                                                       units=Unit('days since 1850-01-01 00:00:00', calendar='360_day'))
