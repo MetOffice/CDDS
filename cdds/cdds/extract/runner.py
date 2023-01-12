@@ -182,6 +182,8 @@ class ExtractRunner(object):
         if not self.args.skip_extract_validation:
             for stream_name, validation_result in stream_validation.validated_streams.items():
                 validation_result.log_results(extract_process.log_directory)
+        else:
+            logger.info("-- SKIPPING VALIDATION")
         exit_nicely(
             msg=self.lang["script_end"],
             success=True if overall_result == "success" else False
