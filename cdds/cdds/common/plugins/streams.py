@@ -26,6 +26,9 @@ class StreamAttributes:
     end_date: datetime
     streamtype: str
 
+    def __init__(self) -> None:
+        self.streamtype = 'pp' if stream.startswith('ap') else 'nc'
+
 
 @dataclass
 class StreamFileFrequency:

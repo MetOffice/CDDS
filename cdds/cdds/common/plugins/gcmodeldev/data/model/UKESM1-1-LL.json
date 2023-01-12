@@ -1,6 +1,6 @@
 {
   "stream_file_frequency": {
-    "monthly_pp": {
+    "monthly": {
       "streams": [
         "ap4",
         "ap5",
