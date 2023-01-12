@@ -666,7 +666,7 @@ class ConvertProcess(object):
             A dict with a boolean for each stream that is True if an alignment
             cycle is required.
         """
-        return 'P0Y' != self._convert_alignment_cycle_offset(stream)
+        return 'P0D' != self._convert_alignment_cycle_offset(stream)
 
     def _convert_alignment_cycle_offset(self, stream):
         """
