@@ -16,8 +16,7 @@ import netCDF4
 
 from cdds.common.constants import LOG_TIMESTAMP_FORMAT, TIME_UNIT
 from cdds.common.plugins.plugins import PluginStore
-from cdds.convert.constants import (CMOR_FILENAME_PATTERN,
-                                    TASK_STATUS_NOT_STARTED)
+from cdds.convert.constants import TASK_STATUS_NOT_STARTED
 from cdds.convert.exceptions import ArgumentError
 from cdds.convert.organise_files import construct_expected_concat_config
 from cdds.common import configure_logger
@@ -145,9 +144,10 @@ def list_cmor_files(location, pattern, mip_table=None, recursive=False):
     else:
         location_to_search = os.path.join(location, mip_table)
 
+    model_file_info = PluginStore.instance().get_plugin().model_file_info()
     for root, _, files in os.walk(location_to_search):
         for filename in fnmatch.filter(files, pattern):
-            if re.match(CMOR_FILENAME_PATTERN, filename):
+            if model_file_info.is_cmor_file(filename):
                 ncfiles.append(os.path.join(root, filename))
         if not recursive:
             break

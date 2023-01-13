@@ -34,16 +34,6 @@ OUTPUT_FILE_DT_STR = {
     'subhrPt': {'str': '%Y%m%d%H%M%S', 'delta': [0, None]},
 }
 
-OUTPUT_FILES_REGEX = (
-    '(?P<out_var_name>[a-zA-Z0-9-]+)_(?P<mip_table_id>[a-zA-Z0-9-]+)_'
-    '(?P<model_id>[a-zA-Z0-9-]+)_(?P<experiment_id>[a-zA-Z0-9-]+)_'
-    '(?P<variant_label>[a-zA-Z0-9]+)_(?P<grid>[a-zA-Z0-9]+)_'
-    '(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+)(?P<climatology>-clim)?.nc')
-MASS_LOCATION_FACET_STRING = (
-    'mip_era|mip|institution_id|model_id|experiment_id|variant_label|'
-    'mip_table_id|out_var_name|grid_label')
-MASS_SIMULATION_LOCATION_FACET_STRING = 'mip_era|mip|institution_id|model_id|experiment_id|variant_label'
-
 MASS_STATUS_DICT = {
     'FIRST_PUBLICATION':
         {'description': 'First publication',

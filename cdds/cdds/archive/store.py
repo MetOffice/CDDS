@@ -12,11 +12,10 @@ import os
 import re
 
 from cdds.common import get_most_recent_file
+from cdds.common.plugins.plugins import PluginStore
 from cdds.deprecated.config import FullPaths
 
-from cdds.archive.common import get_date_range
-from cdds.archive.constants import (DATA_PUBLICATION_STATUS_DICT,
-                                    OUTPUT_FILES_REGEX)
+from cdds.archive.constants import DATA_PUBLICATION_STATUS_DICT
 from cdds.archive.mass import (archive_files, construct_mass_paths, construct_archive_dir_mass_path,
                                check_stored_status, cleanup_archive_dir)
 from cdds.common.constants import (APPROVED_VARS_PREFIX,
@@ -295,34 +294,16 @@ def retrieve_file_paths(mip_approved_variables, request):
     valid_vars = []
     problem_vars = []
 
-    output_fname_pattern = re.compile(OUTPUT_FILES_REGEX)
-
-    def check_fname(pattern1, request, out_var_name, mip_table_id, path1):
-        match1 = pattern1.search(path1)
-        if not match1:
-            return False
-        if request.experiment_id != match1.group('experiment_id'):
-            return False
-        if request.variant_label != match1.group('variant_label'):
-            return False
-        if request.model_id != match1.group('model_id'):
-            return False
-        if out_var_name != match1.group('out_var_name'):
-            return False
-        if mip_table_id != match1.group('mip_table_id'):
-            return False
-        return True
+    model_file_info = PluginStore.instance().get_plugin().model_file_info()
 
     for var_dict in mip_approved_variables:
         path_to_var = var_dict['output_dir']
         if os.path.isdir(path_to_var):
-            valid_fname = functools.partial(check_fname, output_fname_pattern,
+            valid_fname = functools.partial(model_file_info.is_relevant_for_archiving,
                                             request, var_dict['out_var_name'],
                                             var_dict['mip_table_id'])
             file_list = os.listdir(path_to_var)
-            start_date, end_date = get_date_range(file_list,
-                                                  output_fname_pattern,
-                                                  var_dict['frequency'])
+            start_date, end_date = model_file_info.get_date_range(file_list, var_dict['frequency'])
             data_files = [os.path.join(path_to_var, fname1)
                           for fname1 in file_list
                           if valid_fname(fname1)]

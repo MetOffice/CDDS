@@ -5,11 +5,10 @@ The :mod:`stored_state_checks` module contains the code to check what the
 current state of already stored data is.
 """
 import os
-import re
 
-from cdds.archive.common import get_date_range
-from cdds.archive.constants import (DATA_PUBLICATION_STATUS_DICT,
-                                    OUTPUT_FILES_REGEX)
+from cdds.common.plugins.plugins import PluginStore
+
+from cdds.archive.constants import DATA_PUBLICATION_STATUS_DICT
 
 
 def check_state_already_published(var_dict):
@@ -40,13 +39,12 @@ def check_state_already_published(var_dict):
         return None
 
     # calculate time range of data
-    output_fname_pattern = re.compile(OUTPUT_FILES_REGEX)
+    model_file_info = PluginStore.instance().get_plugin().model_file_info()
     file_list = [os.path.split(f1)[-1]
                  for dt, dt_list in list(published_data.items())
                  for f1 in dt_list
                  ]
-    start_dt, end_dt = get_date_range(file_list, output_fname_pattern,
-                                      var_dict['frequency'])
+    start_dt, end_dt = model_file_info.get_date_range(file_list, var_dict['frequency'])
     input_date_range = var_dict['date_range']
 
     # the only valid date range when there is data in the available state is
@@ -125,12 +123,12 @@ def check_state_extending_published(var_dict):
 
 
 def _calculate_extending_state(var_dict, archived_data):
-    output_fname_pattern = re.compile(OUTPUT_FILES_REGEX)
+    model_file_info = PluginStore.instance().get_plugin().model_file_info()
     file_list = [os.path.split(file_name)[-1]
                  for date, file_list in list(archived_data.items())
                  for file_name in file_list
                  ]
-    start_date, end_date = get_date_range(file_list, output_fname_pattern, var_dict['frequency'])
+    start_date, end_date = model_file_info.get_date_range(file_list, var_dict['frequency'])
     new_start_date, new_end_date = var_dict['date_range']
 
     # To be appending, the start date of the new data must be the same as
@@ -172,15 +170,14 @@ def check_state_recovery_continuation(var_dict):
         return None
 
     # calculate time range of data
-    output_fname_pattern = re.compile(OUTPUT_FILES_REGEX)
+    model_file_info = PluginStore.instance().get_plugin().model_file_info()
     file_list = [os.path.split(f1)[-1]
                  for dt, dt_list in list(unpublished_data.items())
                  for f1 in dt_list
                  ]
     if not file_list:
         return None
-    start_dt, end_dt = get_date_range(file_list, output_fname_pattern,
-                                      var_dict['frequency'])
+    start_dt, end_dt = model_file_info.get_date_range(file_list, var_dict['frequency'])
     new_data_start, new_data_end = var_dict['date_range']
 
     # for this to be a match to recovery mode, the data already in mass must

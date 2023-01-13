@@ -9,6 +9,7 @@ from typing import Type, Dict, Any
 from cdds.common.plugins.grid import GridLabel, GridType, GridInfo
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
+from cdds.common.plugins.file_info import ModelFileInfo
 from cdds.common.plugins.attributes import GlobalAttributes, DefaultGlobalAttributes
 
 
@@ -100,6 +101,10 @@ class CddsPlugin(object, metaclass=ABCMeta):
 
     @abstractmethod
     def stream_info(self) -> StreamInfo:
+        pass
+
+    @abstractmethod
+    def model_file_info(self) -> ModelFileInfo:
         pass
 
     def global_attributes(self, request: Dict[str, Any]) -> GlobalAttributes:

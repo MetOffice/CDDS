@@ -17,8 +17,10 @@ from io import StringIO
 from textwrap import dedent
 
 from cdds.common import configure_logger
+from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.plugin_loader import load_plugin
+
 import cdds.archive.store
-from cdds.archive.constants import OUTPUT_FILES_REGEX
 from cdds.common.request import construct_request
 import cdds.tests.test_archive.common
 
@@ -74,7 +76,11 @@ class TestRetrieveFilePaths(unittest.TestCase):
     """
 
     def setUp(self):
+        load_plugin()
         self.request_items = cdds.tests.test_archive.common.REQUEST_ITEMS
+
+    def tearDown(self):
+        PluginStore.clean_instance()
 
     @unittest.mock.patch('os.path.isdir')
     @unittest.mock.patch('os.listdir')

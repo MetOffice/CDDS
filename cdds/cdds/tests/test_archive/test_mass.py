@@ -10,6 +10,8 @@ import os
 import unittest
 import unittest.mock
 
+from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugins import PluginStore
 from cdds.common.mass_record import MassRecord
 
 from cdds.archive.constants import (
@@ -21,7 +23,11 @@ from cdds.tests.test_archive import common
 
 class TestMassPaths(unittest.TestCase):
     def setUp(self):
+        load_plugin()
         self.request_items = common.REQUEST_ITEMS
+
+    def tearDown(self):
+        PluginStore.clean_instance()
 
     @unittest.mock.patch('cdds.archive.mass.retrieve_grid_info')
     @unittest.mock.patch('cdds.archive.mass.grid_overrides')

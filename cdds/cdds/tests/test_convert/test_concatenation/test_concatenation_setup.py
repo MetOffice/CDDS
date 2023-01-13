@@ -15,6 +15,7 @@ from cftime import datetime
 from cdds.common import run_command
 from cdds.common.constants import TIME_UNIT
 from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
+from cdds.common.plugins.file_info import ModelFileInfo
 from cdds.common.plugins.grid import GridLabel, GridType, GridInfo
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.plugins import PluginStore, CddsPlugin
@@ -103,6 +104,9 @@ class DummyCddsPlugin(CddsPlugin):
         pass
 
     def stream_info(self) -> StreamInfo:
+        pass
+
+    def model_file_info(self) -> ModelFileInfo:
         pass
 
 
