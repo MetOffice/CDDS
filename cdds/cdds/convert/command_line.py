@@ -110,7 +110,12 @@ def parse_args_cdds_convert():
                         default=arguments.skip_transfer,
                         help=('Skip the transfer task at the end of the suite for each stream. '
                               '[Default: {}]').format(arguments.skip_qc))
-
+    parser.add_argument('--skip_extract_validation',
+                        dest='skip_extract_validation',
+                        action='store_true',
+                        default=arguments.skip_extract_validation,
+                        help=('Skip validation the end of the extract task. '
+                              '[Default: {}]').format(arguments.skip_extract_validation))
     mass_output_args(parser, arguments.output_mass_suffix, arguments.output_mass_root)
 
     parser.add_argument('--no_email_notifications',
