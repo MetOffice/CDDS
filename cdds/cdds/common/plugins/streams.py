@@ -19,10 +19,18 @@ class StreamAttributes:
         * name of stream
         * start date of stream
         * end date of stream
+        * stream type (pp or nc)
     """
     stream: str
     start_date: datetime
     end_date: datetime
+    streamtype: str
+
+    def __init__(self, stream: str, start_date: datetime, end_date: datetime) -> None:
+        self.stream = stream
+        self.start_date = start_date
+        self.end_date = end_date
+        self.streamtype = 'pp' if stream.startswith('ap') else 'nc'
 
 
 @dataclass
@@ -57,6 +65,17 @@ class StreamFileInfo:
         """
         return self.file_frequencies[stream].file_per_year
 
+    def uses_month_names(self, stream: StreamAttributes) -> bool:
+        """
+        Returns frequency type (e.g. 'monthly').
+
+        :param stream: Stream attributes
+        :type stream: StreamAttributes
+        :return: If the filenames contain three-letter month codes
+        :rtype: bool
+        """
+        return self.file_frequencies[stream.stream].file_per_year == 12 and stream.streamtype == 'pp'
+
     def calculate_expected_number_of_files(self, stream_attributes: StreamAttributes, substreams: List[str]) -> int:
         """
         Calculates expected number of files in a particular stream
@@ -72,7 +91,13 @@ class StreamFileInfo:
         months = stream_attributes.end_date.month - stream_attributes.start_date.month
 
         files_per_year = self.get_files_per_year(stream_attributes.stream)
-        expected_files = ((years * 12 + months) / 12.0 * files_per_year * len(substreams))
+        if self.uses_month_names(stream_attributes):
+            expected_files = years * files_per_year if months == 0 else ((years + 1) * files_per_year)
+        else:
+            expected_files = ((years * 12 + months) / 12.0 * files_per_year * len(substreams))
+
+        if files_per_year == 360:
+            expected_files = expected_files + 1
         return int(expected_files)
 
 

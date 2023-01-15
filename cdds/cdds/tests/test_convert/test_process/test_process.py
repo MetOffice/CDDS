@@ -135,6 +135,7 @@ class DummyConvertProcess(ConvertProcess):
         self.skip_extract = False
         self.skip_qc = True
         self.skip_transfer = False
+        self.skip_extract_validation = False
         self._streams_requested = []
         arg_dict = {
             'mip_era': 'ARISE',
@@ -449,6 +450,7 @@ class ConvertProcessTest(unittest.TestCase):
             'ROOT_DATA_DIR': self.process._arguments.root_data_dir,
             'ROOT_PROC_DIR': self.process._arguments.root_proc_dir,
             'RUN_EXTRACT': not self.process._arguments.skip_extract,
+            'SKIP_EXTRACT_VALIDATION': '',
             'RUN_QC': not self.process._arguments.skip_qc,
             'RUN_TRANSFER': not self.process._arguments.skip_transfer,
             'START_YEAR': start_year,
