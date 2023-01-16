@@ -7,12 +7,10 @@ export CDDS_TEST_ATTRIBUTES="integration inprogress data_request crem mappings s
 
 export CDDS_PACKAGES
 
-# conda activate cdds-dev-metomi
+MO_CONDA='/home/h03/cdds/software/miniconda3/bin/activate'
+JASMIN_CONDA='/gws/smf/j04/cmip6_prep/cdds-env-python3/miniconda3/bin/activate'
 
-MO_CONDA='/opt/conda/bin/activate'
-# JASMIN_CONDA='/gws/smf/j04/cmip6_prep/cdds-env-python3/miniconda3/bin/activate'
-
-DEV_ENV='cdds-dev-metomi'
+DEV_ENV='cdds-2.4.0_dev-2'
 
 if [ -f ${MO_CONDA} ]; then
     . ${MO_CONDA} ${DEV_ENV}
