@@ -276,7 +276,10 @@ options, which are used by MIP Convert:
 |                                      |             |              | files containing the information about the       |       |
 |                                      |             |              | hybrid heights.                                  |       |
 +--------------------------------------+-------------+--------------+--------------------------------------------------+-------+
-| ``model_output_dir``                 | MIP Convert | MIP Convert  | The full path to the root directory containing   | [4]   |
+| ``mask_slice``                       | MIP Convert | MIP Convert  | Optional slicing expression for masking data     | [4]   |
+|                                      |             |              | in the form of ``n:m,i:j``, or ``no_mask``.      |       |
++--------------------------------------+-------------+--------------+--------------------------------------------------+-------+
+| ``model_output_dir``                 | MIP Convert | MIP Convert  | The full path to the root directory containing   | [5]   |
 |                                      |             |              | the |model output files|.                        |       |
 +--------------------------------------+-------------+--------------+--------------------------------------------------+-------+
 | ``reference_time``                   | MIP Convert | MIP Convert  | The reference time used to construct ``reftime`` |       |
@@ -284,7 +287,7 @@ options, which are used by MIP Convert:
 |                                      |             |              | coordinates are specified corresponding variable |       |
 |                                      |             |              | entries in the |MIP table|                       |       |
 +--------------------------------------+-------------+--------------+--------------------------------------------------+-------+
-| ``replacement_coordinates_file``     |             | MIP Convert  | The full path to the |netCDF| file containing    | [5]   |
+| ``replacement_coordinates_file``     |             | MIP Convert  | The full path to the |netCDF| file containing    | [6]   |
 |                                      |             |              | area variables that refer to the horizontal      |       |
 |                                      |             |              | coordinates that should be used to replace the   |       |
 |                                      |             |              | corresponding values in the                      |       |
@@ -298,7 +301,7 @@ options, which are used by MIP Convert:
 | ``shuffle``                          |             | MIP Convert  | Whether to shuffle when writing the              |       |
 |                                      |             |              | |output netCDF file|.                            |       |
 +--------------------------------------+-------------+--------------+--------------------------------------------------+-------+
-| ``sites_file``                       |             | MIP Convert  | The full path to the file containing the         | [6]   |
+| ``sites_file``                       |             | MIP Convert  | The full path to the file containing the         | [7]   |
 |                                      |             |              | information about the sites.                     |       |
 +--------------------------------------+-------------+--------------+--------------------------------------------------+-------+
 | ``suite_id``                         | MIP Convert | MIP Convert  | The |suite identifier| of the model.             |       |
@@ -316,7 +319,13 @@ following columns; the ``model level number`` (int), the ``a_value`` (float),
 the ``a_lower_bound`` (float), the ``a_upper_bound`` (float), the ``b_value``
 (float), the ``b_lower_bound`` (float) and the ``b_upper_bound`` (float).
 
-[4] It is expected that the |model output files| are located in the directory
+[4] If not specified, ``mip_convert`` will try to retrieve masking expressions
+from plugins (this is a default behaviour for CMIP6-like processing). Putting
+``no_mask`` into configuration file allows ``mip_convert`` to process model output
+that does not require any masking; custom masks can be specified and passed to
+``mip_convert`` without plugins dependencies.
+
+[5] It is expected that the |model output files| are located in the directory
 ``<model_output_dir>/<suite_id>/<stream_id>/``, where the ``<suite_id>`` is the
 |suite identifier| and the ``<stream_id>`` is the |stream identifier|. Note
 that MIP Convert will load all the files in this directory and then use the
@@ -324,9 +333,9 @@ that MIP Convert will load all the files in this directory and then use the
 from a large number of |model output files| it is recommended to copy the
 relevant files to an empty directory to save time when loading.
 
-[5] Currently, only CICE horizontal coordinates can be replaced.
+[6] Currently, only CICE horizontal coordinates can be replaced.
 
-[6] The file containing the information about the sites has the following
+[7] The file containing the information about the sites has the following
 columns; the ``site number`` (int), the ``longitude`` (float, from 0 to 360)
 [degrees], the ``latitude`` (float, from -90 to 90) [degrees], the
 ``orography`` (float) [metres] and a ``comment`` (string).
