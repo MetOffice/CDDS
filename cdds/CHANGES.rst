@@ -4,6 +4,17 @@
 .. include:: common.txt
 
 
+Release 2.4.1, January 18, 2023
+===============================
+
+* Create a Cylc workflow for end to end processing (CDDSO-198, 200)
+* Create a Cylc workflow for ensemble processing (CDDSO-199)
+* Implement the `checkout_processing_suite` script for checking a copy of
+  the CDDS Processing Suite (CDDSO-210)
+* Create a Rose app for generating `request.json` files (CDDSO-3)
+* Fix a bug where `cdds_convert` expect external plugins environmental variables to be set
+  even if no plugin was used (CDDSO-216)
+
 Release 2.4.0, September 12, 2022
 =================================
 * Refactoring of all CDDS packages into one package excluding MIP Convert (CDDSO-132, 133, 134, 135, 136,
