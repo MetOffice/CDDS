@@ -1,0 +1,301 @@
+{
+  "stream_file_frequency": {
+    "monthly": {
+      "streams": [
+        "ap4",
+        "ap5",
+        "apm",
+        "apu",
+        "onm",
+        "inm",
+        "ind"
+      ],
+      "files_per_year": 12
+    },
+    "10 day": {
+      "streams": [
+        "ap6",
+        "ap7",
+        "ap8",
+        "ap9",
+        "apt"
+      ],
+      "files_per_year": 36
+    },
+    "1 day": {
+      "streams": [
+        "apa"
+      ],
+      "files_per_year": 360
+    },
+    "season": {
+      "streams": [
+        "ond"
+      ],
+      "files_per_year": 4
+    }
+  },
+  "cycle_length": {
+    "ap4": "P1Y",
+    "ap5": "P1Y",
+    "apa": "P1Y",
+    "apm": "P1Y",
+    "apu": "P1Y",
+    "ap6": "P3M",
+    "ap7": "P1M",
+    "ap8": "P6M",
+    "ap9": "P1Y",
+    "apt": "P3M",
+    "ind": "P1Y",
+    "inm": "P1Y",
+    "ond": "P1Y",
+    "onm": "P3M"
+  },
+  "memory": {
+    "ap4": "32G",
+    "ap5": "16G",
+    "apa": "32G",
+    "apm": "16G",
+    "apu": "16G",
+    "ap6": "40G",
+    "ap7": "32G",
+    "ap8": "32G",
+    "ap9": "32G",
+    "apt": "16G",
+    "ind": "16G",
+    "inm": "8G",
+    "ond": "128G",
+    "onm": "48G"
+  },
+  "temp_space": {
+    "ap4": 131072,
+    "ap5": 65536,
+    "apa": 131072,
+    "apm": 16384,
+    "apu": 40960,
+    "ap6": 196608,
+    "ap7": 196608,
+    "ap8": 196608,
+    "ap9": 65536,
+    "apt": 32768,
+    "ind": 16384,
+    "inm": 16384,
+    "ond": 65536,
+    "onm": 196608
+  },
+  "sizing_info": {
+    "mon": {
+      "default": 20,
+      "85-324-432": 10,
+      "85-325-432": 10,
+      "86-324-432": 10,
+      "75-1205-1440": 5
+    },
+    "monPt": {
+      "default": 20,
+      "85-324-432": 10,
+      "85-325-432": 10,
+      "86-324-432": 10,
+      "75-1205-1440": 10
+    },
+    "yr": {
+      "default": 20
+    },
+    "yrPt": {
+      "default": 20
+    },
+    "day": {
+      "default": 5,
+      "19-324-432": 1,
+      "19-325-432": 1,
+      "27-324-432": 1,
+      "4-324-432": 1,
+      "5-324-432": 1,
+      "7-324-432": 1,
+      "7-7-324-432": 0.5,
+      "1205-1440": 5,
+      "40-324-432": 1,
+      "85-324-432": 1,
+      "85-325-432": 1,
+      "86-324-432": 1
+    },
+    "6hr": {
+      "default": 1,
+      "324-432": 10,
+      "325-432": 10,
+      "4-324-432": 1,
+      "4-325-432": 1,
+      "3-324-432": 1,
+      "3-325-432": 1,
+      "7-324-432": 1,
+      "7-325-432": 1,
+      "85-324-432": 0.25,
+      "85-325-432": 0.25
+    },
+    "6hrPt": {
+      "default": 1,
+      "324-432": 10,
+      "325-432": 10,
+      "4-324-432": 1,
+      "4-325-432": 1,
+      "3-324-432": 1,
+      "3-325-432": 1,
+      "7-324-432": 1,
+      "7-325-432": 1,
+      "85-324-432": 0.25,
+      "85-325-432": 0.25
+    },
+    "3hr": {
+      "default": 1,
+      "324-432": 10,
+      "325-432": 10,
+      "7-324-432": 1,
+      "7-325-432": 1,
+      "85-324-432": 0.25,
+      "85-325-432": 0.25
+    },
+    "3hrPt": {
+      "default": 1,
+      "324-432": 10,
+      "325-432": 10,
+      "7-324-432": 1,
+      "7-325-432": 1,
+      "85-324-432": 0.25,
+      "85-325-432": 0.25
+    },
+    "1hr": {
+      "default": 1
+    },
+    "1hrCM": {
+      "default": 1
+    },
+    "subhrPt": {
+      "default": 10
+    }
+  },
+  "subdaily_streams": [
+    "ap6",
+    "ap7",
+    "ap8",
+    "ap9",
+    "apt"
+  ],
+  "grid_info": {
+    "atmos": {
+      "atmos_timestep": 900,
+      "model_info": "N216 grid",
+      "nominal_resolution": "100 km",
+      "longitude": 432,
+      "latitude": 324,
+      "v_latitude": 325,
+      "levels": 85,
+      "ancil_filenames": [
+        "qrparm.landfrac.pp",
+        "qrparm.soil.pp"
+      ],
+      "hybrid_heights_files": [
+        "atmosphere_theta_levels_85.txt",
+        "atmosphere_rho_levels_86.txt"
+      ]
+    },
+    "ocean": {
+      "model_info": "eORCA025 tripolar primarily 1/4 deg grid",
+      "nominal_resolution": "25 km",
+      "longitude": 1440,
+      "latitude": 1205,
+      "levels": 75,
+      "replacement_coordinates_file": "cice_eORCA025_coords.nc",
+      "ancil_filenames": [
+        "ocean_constants.nc",
+        "ocean_byte_masks.nc",
+        "ocean_basin.nc",
+        "diaptr_basin_masks.nc",
+        "ocean_zostoga.nc"
+      ],
+      "hybrid_heights_files": [],
+      "masked": {
+        "grid-V": {
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            null,
+            null,
+            null
+          ]
+        },
+        "grid-T": {
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            720,
+            null,
+            null
+          ]
+        },
+        "grid-U": {
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            720,
+            null,
+            null
+          ]
+        },
+        "grid-W": {
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            720,
+            null,
+            null
+          ]
+        },
+        "cice-T": {
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            720,
+            null,
+            null
+          ]
+        }
+      },
+      "halo_options": {
+        "grid-T": [
+          "-dx,1,1440",
+          "-dy,1,1205"
+        ],
+        "grid-U": [
+          "-dx,1,1440",
+          "-dy,1,1205"
+        ],
+        "grid-V": [
+          "-dx,1,1440",
+          "-dy,1,1205"
+        ],
+        "grid-W": [
+          "-dx,1,1440",
+          "-dy,1,1205"
+        ],
+        "diaptr": [
+          "-dy,1,1205"
+        ]
+      }
+    }
+  }
+}

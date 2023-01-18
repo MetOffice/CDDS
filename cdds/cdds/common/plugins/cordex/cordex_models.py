@@ -25,7 +25,7 @@ class CordexModelId(ModelId):
         """
         return '{}.json'.format(self.value)
 
-    HadGEM3_GC31_MM = 'HadGEM3_GC31_MM'
+    HadGEM3_GC31_MM = 'HadGEM3-GC31-MM'
 
 
 class HadGEM3_GC31_MM_Params(BaseModelParameters):
@@ -78,7 +78,7 @@ class CordexModelStore(BaseModelStore):
 
     def __init__(self) -> None:
         model_instances = [HadGEM3_GC31_MM_Params()]
-        super(CordexModelStore, self).__init__(model_instances)
+        super(CordexModelStore, self).__init__(model_instances)  # type: ignore[arg-type]
         self.logger = logging.getLogger(self.__class__.__name__)
 
     @classmethod

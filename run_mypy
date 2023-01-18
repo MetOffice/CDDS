@@ -2,7 +2,7 @@
 
 run_mypy() {
   local work_dir=${1:-$PWD}
-  local package_names="cdds"
+  local package_names="cdds/cdds"
   local config_file="${work_dir}/config/mypy.ini"
 
   for package in $package_names

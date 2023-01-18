@@ -8,6 +8,7 @@ from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.exceptions import PluginLoadError
 from cdds.common.plugins.plugin_loader import load_external_plugin, load_cmip_plugin, load_plugin
 from cdds.common.plugins.cmip6.cmip6_plugin import Cmip6Plugin
+from cdds.common.plugins.cordex.cordex_plugin import CordexPlugin
 from cdds.common.plugins.gcmodeldev.gcmodeldev_plugin import GCModelDevPlugin
 from cdds.tests.test_plugins.stubs import EmptyCddsPlugin
 
@@ -77,6 +78,24 @@ class TestLoadGCPlugin(TestCase):
         loaded_plugin = self.plugin_store.get_plugin()
 
         self.assertIsInstance(loaded_plugin, GCModelDevPlugin)
+
+
+class TestLoadCordexPlugin(TestCase):
+
+    def setUp(self):
+        self.plugin_store = PluginStore.instance()
+
+    def tearDown(self):
+        PluginStore.clean_instance()
+
+    def test_load_cdds_plugin(self):
+        self.assertIsNone(self.plugin_store.get_plugin())
+
+        load_plugin('CORDEX')
+
+        loaded_plugin = self.plugin_store.get_plugin()
+
+        self.assertIsInstance(loaded_plugin, CordexPlugin)
 
 
 if __name__ == '__main__':

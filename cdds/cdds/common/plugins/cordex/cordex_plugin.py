@@ -78,7 +78,7 @@ class CordexPlugin(BasePlugin):
         :return: Class to store and manage the global attributes for CORDEX
         :rtype: CordexGlobalAttributes
         """
-        return CordexGlobalAttributes()
+        return CordexGlobalAttributes(request)
 
     def model_file_info(self) -> ModelFileInfo:
         """

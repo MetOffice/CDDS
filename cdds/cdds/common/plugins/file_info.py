@@ -1,5 +1,7 @@
 # (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
+# mypy: ignore-errors
+# Ignore errors because code is old and will be updated soon
 import re
 from abc import ABCMeta, abstractmethod
 from datetime import datetime, timedelta
