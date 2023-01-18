@@ -299,7 +299,7 @@ class Cmip6ModelsStore(BaseModelStore):
         Creates a new class instance.
 
         :return: New class instance
-        :rtype: Cmip6GridInfoStore
+        :rtype: Cmip6ModelsStore
         """
         return Cmip6ModelsStore()
 

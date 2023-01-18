@@ -101,10 +101,22 @@ class CddsPlugin(object, metaclass=ABCMeta):
 
     @abstractmethod
     def stream_info(self) -> StreamInfo:
+        """
+        Returns the information of streams related to the MIP era.
+
+        :return: Information of streams
+        :rtype: StreamInfo
+        """
         pass
 
     @abstractmethod
     def model_file_info(self) -> ModelFileInfo:
+        """
+        Returns information to the simulation model files.
+
+        :return: Information to the simulation model files
+        :rtype: ModelFileInfo
+        """
         pass
 
     def global_attributes(self, request: Dict[str, Any]) -> GlobalAttributes:

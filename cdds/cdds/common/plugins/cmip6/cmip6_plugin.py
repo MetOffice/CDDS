@@ -29,7 +29,7 @@ class Cmip6Plugin(BasePlugin):
         """
         Returns the model parameters of the CMIP6 model with given model id.
 
-        :param model_id:
+        :param model_id: Model ID
         :type model_id: str
         :return: Model parameters of model
         :rtype: BaseModelParameters
@@ -81,4 +81,10 @@ class Cmip6Plugin(BasePlugin):
         return Cmip6GlobalAttributes(request)
 
     def model_file_info(self) -> ModelFileInfo:
+        """
+        Returns information to the simulation model files related to CMIP6.
+
+        :return: Information to the simulation model files
+        :rtype: GlobalModelFileInfo
+        """
         return GlobalModelFileInfo()
