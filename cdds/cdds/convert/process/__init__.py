@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Processing components
@@ -90,40 +90,21 @@ class ConvertProcess(object):
         # these values are all streams at once, so it is done once at the
         # start, the values are stored in object and accessed as needed.
         self._build_stream_components()
-        # As this code is not being used comment out to avoid issues when
-        # running for certain variables. See CDDS #1706 for details
-        # self._get_input_variables()
-        # self._calculate_data_sizes()
-        # self._calculate_processing_resources()
-        # self.report_sizes()
+
         self._calculate_concat_task_periods()
 
         self.archive_data_version = arguments.archive_data_version
 
     def set_calendar(self):
+        """Set the calendar for metomi.isodatetime based on the request
+
+        :raises RuntimeError: If an unsupported calendar is used.
+        """
         if self._request.calendar in Calendar.default().MODES.keys():
             Calendar.default().set_mode(self._request.calendar)
         else:
             msg = "Unsupported metomi.isodate calendar: {}".format(self._request.calendar)
             raise RuntimeError(msg)
-
-    def report_sizes(self):
-        self.logger.info('esitimated variable sizes:')
-        for var1 in self.variables_list:
-            size_msg = '{mt}/{vid} - {size}MB'.format(
-                mt=var1['mip_table_id'],
-                vid=var1['variable_id'],
-                size=var1['data_size_year'] / 2.0 ** 20
-            )
-            self.logger.info(size_msg)
-
-        self.logger.info('maximum data sizes per stream/grid:')
-        for stream_id, grids_info in list(self.resources_required.items()):
-            for grid_id, resource_info in list(grids_info.items()):
-                max_res_msg = '{sid}/{gid} = {mem}MB'.format(
-                    sid=stream_id, gid=grid_id,
-                    mem=resource_info['memory'] / 2.0 ** 20)
-                self.logger.info(max_res_msg)
 
     @property
     def process(self):
@@ -375,7 +356,7 @@ class ConvertProcess(object):
         stages of the suite.
 
         :return: The reference date in the form 18500101
-        :rtype: str
+        :rtype: TimePoint
         """
         reference_date = "".join(self._request.child_base_date.split('-')[:3])
         reference_date = TimePointParser().parse(reference_date)
@@ -457,6 +438,9 @@ class ConvertProcess(object):
         """
         Return the dictionary of cycling overrides constructed from
         the command line argument.
+
+        :return: A dictionary of stream overrides.
+        :rtype: dict
         """
         cycle_overrides = {}
         for entry in self._arguments.override_cycling_freq:
@@ -655,16 +639,10 @@ class ConvertProcess(object):
         cycle_year = reference_year + n * cycle_period. Where this is not true
         for the start year of the run, a short alignment cycle is necessary.
 
-        Parameters
-        ----------
-        stream: str
-            |stream identifier| to calculate value for.
-
-        Returns
-        -------
-        dict
-            A dict with a boolean for each stream that is True if an alignment
-            cycle is required.
+        :param stream: The |stream identifier| to calculate the value for.
+        :type stream: str
+        :return: A cylc formatted duration string in days. E.g, P720D
+        :rtype: str
         """
         return 'P0D' != self._convert_alignment_cycle_offset(stream)
 
