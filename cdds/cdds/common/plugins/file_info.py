@@ -5,7 +5,7 @@
 import re
 from abc import ABCMeta, abstractmethod
 from datetime import datetime, timedelta
-from typing import TYPE_CHECKING, List, Tuple
+from typing import TYPE_CHECKING, List, Tuple, Dict
 
 from cftime import Datetime360Day
 
@@ -23,11 +23,23 @@ class ModelFileInfo(object, metaclass=ABCMeta):
     @property
     @abstractmethod
     def mass_location_facet(self) -> str:
+        """
+        Returns the facet to the MASS location for the simulation model files of a variable
+
+        :return: Facet to the MASS location
+        :rtype: str
+        """
         pass
 
     @property
     @abstractmethod
     def mass_root_location_facet(self) -> str:
+        """
+        Returns the facet to the MASS root location that contains all simulation model files
+
+        :return: Facet to the MASS root location
+        :rtype: str
+        """
         pass
 
     @property
@@ -48,18 +60,15 @@ class ModelFileInfo(object, metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def is_relevant_for_archiving(self, request: 'Request', out_var_name: str, mip_table_id: str, nc_file: str) -> bool:
+    def is_relevant_for_archiving(self, request: 'Request', variable_dict: Dict[str, str], nc_file: str) -> bool:
         """
-        Checks if the given |Output netCDF file| is ready for archiving by checking if it matches
-        the expected file pattern by using the given information of the request, MIP table ID and
-        output variable name.
+        Checks if the given |Output netCDF file| is ready for archiving by checking if it matches the expected
+        file pattern by using the given information of the request and variable information.
 
         :param request: The information about the request being processed
         :type request: Request
-        :param out_var_name: Expected output variable name
-        :type out_var_name: str
-        :param mip_table_id: Expected MIP table ID
-        :type mip_table_id: str
+        :param variable_dict: Information about the MIP approved variable
+        :type variable_dict: Dict[str, str]
         :param nc_file: Path to the netCDF file to archive
         :type nc_file: str
         :return: True if the netCDF file can be archived otherwise False
@@ -148,10 +157,22 @@ class GlobalModelFileInfo(ModelFileInfo):
 
     @property
     def mass_location_facet(self) -> str:
+        """
+        Returns the facet to the MASS location for the simulation model files of a variable
+
+        :return: Facet to the MASS location
+        :rtype: str
+        """
         return self._MASS_ROOT_LOCATION_FACET + self._MASS_SUFFIX_LOCATION_FACET
 
     @property
     def mass_root_location_facet(self) -> str:
+        """
+        Returns the facet to the MASS root location that contains all simulation model files
+
+        :return: Facet to the MASS root location
+        :rtype: str
+        """
         return self._MASS_ROOT_LOCATION_FACET
 
     @property
@@ -169,18 +190,15 @@ class GlobalModelFileInfo(ModelFileInfo):
         """
         return re.match(self._CMOR_FILENAME_PATTERN, filename)
 
-    def is_relevant_for_archiving(self, request: 'Request', out_var_name: str, mip_table_id: str, nc_file: str) -> bool:
+    def is_relevant_for_archiving(self, request: 'Request', variable_dict: Dict[str, str], nc_file: str) -> bool:
         """
-        Checks if the given |Output netCDF file| is ready for archiving by checking if it matches
-        the expected file pattern by using the given information of the request, MIP table ID and
-        output variable name.
+        Checks if the given |Output netCDF file| is ready for archiving by checking if it matches the expected
+        file pattern by using the given information of the request and variable information.
 
         :param request: The information about the request being processed
         :type request: Request
-        :param out_var_name: Expected output variable name
-        :type out_var_name: str
-        :param mip_table_id: Expected MIP table ID
-        :type mip_table_id: str
+        :param variable_dict: Information about the MIP approved variable
+        :type variable_dict: Dict[str, str]
         :param nc_file: Path to the netCDF file to archive
         :type nc_file: str
         :return: True if the netCDF file can be archived otherwise False
@@ -196,9 +214,9 @@ class GlobalModelFileInfo(ModelFileInfo):
             return False
         if request.model_id != match.group('model_id'):
             return False
-        if out_var_name != match.group('out_var_name'):
+        if variable_dict['out_var_name'] != match.group('out_var_name'):
             return False
-        if mip_table_id != match.group('mip_table_id'):
+        if variable_dict['mip_table_id'] != match.group('mip_table_id'):
             return False
         return True
 
@@ -227,10 +245,22 @@ class RegionalModelFileInfo(ModelFileInfo):
 
     @property
     def mass_location_facet(self) -> str:
+        """
+        Returns the facet to the MASS location for the simulation model files of a variable
+
+        :return: Facet to the MASS location
+        :rtype: str
+        """
         return self._MASS_ROOT_LOCATION_FACET + self._MASS_SUFFIX_LOCATION_FACET
 
     @property
     def mass_root_location_facet(self) -> str:
+        """
+        Returns the facet to the MASS root location that contains all simulation model files
+
+        :return: Facet to the MASS root location
+        :rtype: str
+        """
         return self._MASS_ROOT_LOCATION_FACET
 
     @property
@@ -238,9 +268,31 @@ class RegionalModelFileInfo(ModelFileInfo):
         return self._NC_FILES_TO_ARCHIVE_REGEX
 
     def is_cmor_file(self, filename) -> bool:
+        """
+        Checks if the given file name matches the expected cmor file name pattern.
+
+        :param filename: File name to check
+        :type filename: str
+        :return: True if the file name matches the expected cmor file name pattern, otherwise False
+        :rtype: bool
+        """
         return re.match(self._CMOR_FILENAME_PATTERN, filename)
 
-    def is_relevant_for_archiving(self, request: 'Request', out_var_name: str, mip_table_id: str, nc_file: str) -> bool:
+    def is_relevant_for_archiving(self, request: 'Request', variable_dict: Dict[str, str], nc_file: str) -> bool:
+        """
+        Checks if the given |Output netCDF file| is ready for archiving by checking if it matches the expected
+        file pattern by using the given information of the request and variable information.
+
+        :param request: The information about the request being processed
+        :type request: Request
+        :param variable_dict: Information about the MIP approved variable
+        :type variable_dict: Dict[str, str]
+        :param nc_file: Path to the netCDF file to archive
+        :type nc_file: str
+        :return: True if the netCDF file can be archived otherwise False
+        :rtype: bool
+        """
+        global_attributes = request.items_global_attributes
         pattern = re.compile(self._NC_FILES_TO_ARCHIVE_REGEX)
         match = pattern.search(nc_file)
         if not match:
@@ -249,6 +301,16 @@ class RegionalModelFileInfo(ModelFileInfo):
             return False
         if request.model_id != match.group('model_id'):
             return False
-        if out_var_name != match.group('out_var_name'):
+        if variable_dict['out_var_name'] != match.group('out_var_name'):
+            return False
+        if variable_dict['frequency'] != match.group('frequency'):
+            return False
+        if global_attributes['domain'] != match.group('domain'):
+            return False
+        if global_attributes['driving_model_id'] != match.group('driving_model_id'):
+            return False
+        if global_attributes['driving_ensemble_member'] != match.group('driving_ensemble_member'):
+            return False
+        if global_attributes['rcm_version_id'] != match.group('rcm_version_id'):
             return False
         return True

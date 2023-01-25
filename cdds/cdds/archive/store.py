@@ -299,9 +299,7 @@ def retrieve_file_paths(mip_approved_variables, request):
     for var_dict in mip_approved_variables:
         path_to_var = var_dict['output_dir']
         if os.path.isdir(path_to_var):
-            valid_fname = functools.partial(model_file_info.is_relevant_for_archiving,
-                                            request, var_dict['out_var_name'],
-                                            var_dict['mip_table_id'])
+            valid_fname = functools.partial(model_file_info.is_relevant_for_archiving, request, var_dict)
             file_list = os.listdir(path_to_var)
             start_date, end_date = model_file_info.get_date_range(file_list, var_dict['frequency'])
             data_files = [os.path.join(path_to_var, fname1)

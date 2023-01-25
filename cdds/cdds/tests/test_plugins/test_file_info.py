@@ -48,10 +48,14 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
             'model_id': 'UKESM1-0-LL',
             'institution_id': 'MOHC',
         }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'mip_table_id': 'Amon'
+        }
         request = construct_request(request_items)
         nc_file = '/path/to/tas_Amon_UKESM1-0-LL_ssp245_r1i1p1f2_gn_201501-204912.nc'
 
-        relevant = self.model_file_info.is_relevant_for_archiving(request, 'tas', 'Amon', nc_file)
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
         self.assertTrue(relevant)
 
@@ -64,10 +68,14 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
             'model_id': 'UKESM1-0-LL',
             'institution_id': 'MOHC',
         }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'mip_table_id': 'Emon'
+        }
         request = construct_request(request_items)
         nc_file = '/path/to/tas_Amon_UKESM1-0-LL_ssp245_r1i1p1f2_gn_201501-204912.nc'
 
-        relevant = self.model_file_info.is_relevant_for_archiving(request, 'tas', 'Emon', nc_file)
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
         self.assertFalse(relevant)
 
@@ -80,10 +88,14 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
             'model_id': 'UKESM1-0-LL',
             'institution_id': 'MOHC',
         }
+        variable_dict = {
+            'out_var_name': 'va',
+            'mip_table_id': 'Amon'
+        }
         request = construct_request(request_items)
         nc_file = '/path/to/tas_Amon_UKESM1-0-LL_ssp245_r1i1p1f2_gn_201501-204912.nc'
 
-        relevant = self.model_file_info.is_relevant_for_archiving(request, 'va', 'Amon', nc_file)
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
         self.assertFalse(relevant)
 
@@ -96,10 +108,14 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
             'model_id': 'UKESM1-0-LL',
             'institution_id': 'MOHC',
         }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'mip_table_id': 'Amon'
+        }
         request = construct_request(request_items)
         nc_file = '/path/to/tas_Amon_UKESM1-0-LL_ssp245_r1i1p1f2_gn_201501-204912.nc'
 
-        relevant = self.model_file_info.is_relevant_for_archiving(request, 'tas', 'Amon', nc_file)
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
         self.assertFalse(relevant)
 
@@ -112,10 +128,14 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
             'model_id': 'UKESM1-0-LL',
             'institution_id': 'MOHC',
         }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'mip_table_id': 'Amon'
+        }
         request = construct_request(request_items)
         nc_file = '/path/to/tas_Amon_UKESM1-0-LL_ssp245_r1i1p1f2_gn_201501-204912.nc'
 
-        relevant = self.model_file_info.is_relevant_for_archiving(request, 'tas', 'Amon', nc_file)
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
         self.assertFalse(relevant)
 
@@ -128,10 +148,14 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
             'model_id': 'HadGEM3-GC31-LL',
             'institution_id': 'MOHC',
         }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'mip_table_id': 'Amon'
+        }
         request = construct_request(request_items)
         nc_file = '/path/to/tas_Amon_UKESM1-0-LL_ssp245_r1i1p1f2_gn_201501-204912.nc'
 
-        relevant = self.model_file_info.is_relevant_for_archiving(request, 'tas', 'Amon', nc_file)
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
         self.assertFalse(relevant)
 
@@ -286,6 +310,219 @@ class TestRegionalModelFileIsCmorFile(TestCase):
         filename = 'tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
         result = self.model_file_info.is_cmor_file(filename)
         self.assertTrue(result)
+
+
+class TestRegionalModelFileIsRelevantForArchiving(TestCase):
+
+    def setUp(self):
+        self.model_file_info = RegionalModelFileInfo()
+
+    def test_relevant_for_archiving(self):
+        request_items = {
+            'mip_era': 'CORDEX',
+            'experiment_id': 'evaluation',
+            'model_id': 'MOHC-HadGEM3-RA',
+            'global_attributes': {
+                'domain': 'EUR-44',
+                'driving_model_id': 'ECMWF-ERAINT',
+                'driving_ensemble_member': 'r1i1p1',
+                'rcm_version_id': 'v1',
+            }
+        }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'frequency': 'mon'
+        }
+        request = construct_request(request_items)
+        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
+
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
+
+        self.assertTrue(relevant)
+
+    def test_wrong_experiment_id(self):
+        request_items = {
+            'mip_era': 'CORDEX',
+            'experiment_id': 'historical',
+            'model_id': 'MOHC-HadGEM3-RA',
+            'global_attributes': {
+                'domain': 'EUR-44',
+                'driving_model_id': 'ECMWF-ERAINT',
+                'driving_ensemble_member': 'r1i1p1',
+                'rcm_version_id': 'v1',
+            }
+        }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'frequency': 'mon'
+        }
+        request = construct_request(request_items)
+        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
+
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
+
+        self.assertFalse(relevant)
+
+    def test_wrong_output_variable(self):
+        request_items = {
+            'mip_era': 'CORDEX',
+            'experiment_id': 'evaluation',
+            'model_id': 'MOHC-HadGEM3-RA',
+            'global_attributes': {
+                'domain': 'EUR-44',
+                'driving_model_id': 'ECMWF-ERAINT',
+                'driving_ensemble_member': 'r1i1p1',
+                'rcm_version_id': 'v1',
+            }
+        }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'frequency': 'va'
+        }
+        request = construct_request(request_items)
+        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
+
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
+
+        self.assertFalse(relevant)
+
+    def test_wrong_model_id(self):
+        request_items = {
+            'mip_era': 'CORDEX',
+            'experiment_id': 'evaluation',
+            'model_id': 'UKESM1-0-LL',
+            'global_attributes': {
+                'domain': 'EUR-44',
+                'driving_model_id': 'ECMWF-ERAINT',
+                'driving_ensemble_member': 'r1i1p1',
+                'rcm_version_id': 'v1',
+            }
+        }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'frequency': 'mon'
+        }
+        request = construct_request(request_items)
+        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
+
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
+
+        self.assertFalse(relevant)
+
+    def test_wrong_frequency(self):
+        request_items = {
+            'mip_era': 'CORDEX',
+            'experiment_id': 'evaluation',
+            'model_id': 'MOHC-HadGEM3-RA',
+            'global_attributes': {
+                'domain': 'EUR-44',
+                'driving_model_id': 'ECMWF-ERAINT',
+                'driving_ensemble_member': 'r1i1p1',
+                'rcm_version_id': 'v1',
+            }
+        }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'frequency': 'day'
+        }
+        request = construct_request(request_items)
+        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
+
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
+
+        self.assertFalse(relevant)
+
+    def test_wrong_domain(self):
+        request_items = {
+            'mip_era': 'CORDEX',
+            'experiment_id': 'evaluation',
+            'model_id': 'MOHC-HadGEM3-RA',
+            'global_attributes': {
+                'domain': 'EUR-11',
+                'driving_model_id': 'ECMWF-ERAINT',
+                'driving_ensemble_member': 'r1i1p1',
+                'rcm_version_id': 'v1',
+            }
+        }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'frequency': 'mon'
+        }
+        request = construct_request(request_items)
+        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
+
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
+
+        self.assertFalse(relevant)
+
+    def test_wrong_driving_model_id(self):
+        request_items = {
+            'mip_era': 'CORDEX',
+            'experiment_id': 'evaluation',
+            'model_id': 'MOHC-HadGEM3-RA',
+            'global_attributes': {
+                'domain': 'EUR-44',
+                'driving_model_id': 'MOHC-HadGEM2-ES',
+                'driving_ensemble_member': 'r1i1p1',
+                'rcm_version_id': 'v1',
+            }
+        }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'frequency': 'mon'
+        }
+        request = construct_request(request_items)
+        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
+
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
+
+        self.assertFalse(relevant)
+
+    def test_wrong_driving_ensemble_member(self):
+        request_items = {
+            'mip_era': 'CORDEX',
+            'experiment_id': 'evaluation',
+            'model_id': 'MOHC-HadGEM3-RA',
+            'global_attributes': {
+                'domain': 'EUR-44',
+                'driving_model_id': 'ECMWF-ERAINT',
+                'driving_ensemble_member': 'r2i2p3',
+                'rcm_version_id': 'v1',
+            }
+        }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'frequency': 'mon'
+        }
+        request = construct_request(request_items)
+        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
+
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
+
+        self.assertFalse(relevant)
+
+    def test_wrong_rcm_version_id(self):
+        request_items = {
+            'mip_era': 'CORDEX',
+            'experiment_id': 'evaluation',
+            'model_id': 'MOHC-HadGEM3-RA',
+            'global_attributes': {
+                'domain': 'EUR-44',
+                'driving_model_id': 'ECMWF-ERAINT',
+                'driving_ensemble_member': 'r1i1p1',
+                'rcm_version_id': 'v45',
+            }
+        }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'frequency': 'mon'
+        }
+        request = construct_request(request_items)
+        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
+
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
+
+        self.assertFalse(relevant)
 
 
 class TestRegionalModelFileGetRange(unittest.TestCase):
