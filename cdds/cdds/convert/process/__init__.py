@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Processing components
@@ -10,24 +10,22 @@ import os
 import re
 import shutil
 
+from metomi.isodatetime.data import Calendar
+from metomi.isodatetime.parsers import (DurationParser, TimePointParser,
+                                        TimeRecurrenceParser)
+
+from cdds import _DEV, _NUMERICAL_VERSION, __version__
+from cdds.common import determine_rose_suite_url
+from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.plugins.plugins import PluginStore
-from cdds.common.mappings.mapping import ModelToMip
-
-from cdds.common import (determine_rose_suite_url, configure_logger)
-from cdds.deprecated.config import FullPaths
-from mip_convert.configuration.python_config import PythonConfig
-
-from cdds import __version__, _NUMERICAL_VERSION, _DEV
-from cdds.common.constants import (REQUIRED_KEYS_FOR_PROC_DIRECTORY,
-                                   DAYS_IN_YEAR, DAYS_IN_MONTH)
 from cdds.common.request import read_request
 from cdds.common.variables import RequestedVariablesList
 from cdds.convert.constants import (NTHREADS_CONCATENATE, PARALLEL_TASKS,
-                                    ROSE_SUITE_ID, SECTION_TEMPLATE,
-                                    RESOURCE_FACTOR)
-from cdds.convert.exceptions import StreamError
+                                    ROSE_SUITE_ID, SECTION_TEMPLATE)
 from cdds.convert.process import suite_interface
 from cdds.convert.process.memory import scale_memory
+from cdds.deprecated.config import FullPaths
+from mip_convert.configuration.python_config import PythonConfig
 
 
 class ConvertProcess(object):
@@ -44,7 +42,6 @@ class ConvertProcess(object):
         arguments: :class:`cdds.arguments.Arguments` object
             The arguments specific to the `cdds_convert` script.
         """
-
         self.logger = logging.getLogger(__name__)
         self.logger.info('Using CDDS Convert version {}'.format(__version__))
 
@@ -52,7 +49,7 @@ class ConvertProcess(object):
                                      REQUIRED_KEYS_FOR_PROC_DIRECTORY)
         self._arguments = arguments
         self._full_paths = FullPaths(arguments, self._request)
-
+        self.set_calendar()
         rv_path = self._full_paths.requested_variables_list_file
         self._rvl_file = RequestedVariablesList(rv_path)
         proc_dir = self._full_paths.proc_directory
@@ -93,33 +90,21 @@ class ConvertProcess(object):
         # these values are all streams at once, so it is done once at the
         # start, the values are stored in object and accessed as needed.
         self._build_stream_components()
-        # As this code is not being used comment out to avoid issues when
-        # running for certain variables. See CDDS #1706 for details
-        # self._get_input_variables()
-        # self._calculate_data_sizes()
-        # self._calculate_processing_resources()
-        # self.report_sizes()
+
         self._calculate_concat_task_periods()
 
         self.archive_data_version = arguments.archive_data_version
 
-    def report_sizes(self):
-        self.logger.info('esitimated variable sizes:')
-        for var1 in self.variables_list:
-            size_msg = '{mt}/{vid} - {size}MB'.format(
-                mt=var1['mip_table_id'],
-                vid=var1['variable_id'],
-                size=var1['data_size_year'] / 2.0 ** 20
-            )
-            self.logger.info(size_msg)
+    def set_calendar(self):
+        """Set the calendar for metomi.isodatetime based on the request
 
-        self.logger.info('maximum data sizes per stream/grid:')
-        for stream_id, grids_info in list(self.resources_required.items()):
-            for grid_id, resource_info in list(grids_info.items()):
-                max_res_msg = '{sid}/{gid} = {mem}MB'.format(
-                    sid=stream_id, gid=grid_id,
-                    mem=resource_info['memory'] / 2.0 ** 20)
-                self.logger.info(max_res_msg)
+        :raises RuntimeError: If an unsupported calendar is used.
+        """
+        if self._request.calendar in Calendar.default().MODES.keys():
+            Calendar.default().set_mode(self._request.calendar)
+        else:
+            msg = "Unsupported metomi.isodate calendar: {}".format(self._request.calendar)
+            raise RuntimeError(msg)
 
     @property
     def process(self):
@@ -345,80 +330,37 @@ class ConvertProcess(object):
         """
         return self._request.streaminfo
 
-    def year_bounds(self, stream=None):
+    def run_bounds(self):
         """
-        Return the first and last year needed to process either
-        (a) all |streams| or (b) a subset defined by the |stream identifier| or
-        |stream identifiers| specified in the stream argument.
+        Return the start date and end date needed to process all |streams|.
 
-        Parameters
-        ----------
-        stream : str or list, optional
-            Name(s) of the |stream| or |streams| to be processed.
-
-        Returns
-        -------
-        int
-            first year
-        int
-            last year
-
-        Raises
-        ------
-        StreamError
-            if stream is not active in this request.
+        :return: A tuple containing the start and end date of the simulation.
+        :rtype: tuple (TimePoint, TimePoint)
         """
 
-        def _streamcheck(i):
-            if i not in self.streams:
-                raise StreamError('Stream "{}" not found in streams list "{}"'
-                                  ''.format(i, repr(self.streams)))
+        start_date, end_date = self._request.run_bounds.split()
 
-        start_year = 99999
-        end_year = -99999
+        start_date = "-".join(start_date.split('-')[:3])
+        end_date = "-".join(end_date.split('-')[:3])
 
-        if stream is None:
-            streams_to_consider = self.streams
-        elif isinstance(stream, list):
-            [_streamcheck(s) for s in stream]
-            streams_to_consider = stream
-        else:
-            _streamcheck(stream)
-            streams_to_consider = [stream]
+        start_date = TimePointParser().parse(start_date)
+        end_date = TimePointParser().parse(end_date) - DurationParser().parse('P1D')
 
-        if len(self.streams) == 0:
-            return None, None
-        for stream_name, stream_data in self._get_streams_dict().items():
-            if stream_name in streams_to_consider:
-                entry_start_date = [int(i1) for i1 in
-                                    stream_data['start_date'].split('-')]
-                entry_end_date = [int(i1) for i1 in
-                                  stream_data['end_date'].split('-')]
-                entry_start_year = entry_start_date[0]
-                entry_end_year = entry_end_date[0]
-                # If the end date is 1 January (month==1 and day==1), then
-                # we want to process up to the end of the previous year,
-                # so subtract 1 from the end year to achieve this
-                if (entry_end_date[1] == 1 and
-                        entry_end_date[2] == 1):
-                    entry_end_year -= 1
-                start_year = min(start_year, entry_start_year)
-                end_year = max(end_year, entry_end_year)
-        return start_year, end_year
+        return start_date, end_date
 
     @property
-    def ref_year(self):
+    def ref_date(self):
         """
-        Obtain the reference year for this |simulation| (i.e. the year it
+        Obtain the reference date for this |simulation| (i.e. the date it
         started). This is used for chunking output in the concatenation
         stages of the suite.
 
-        Returns
-        -------
-        int
+        :return: The reference date in the form 18500101
+        :rtype: TimePoint
         """
-        start_date_year = int(self._request.child_base_date.split('-')[0])
-        return start_date_year
+        reference_date = "".join(self._request.child_base_date.split('-')[:3])
+        reference_date = TimePointParser().parse(reference_date)
+        return reference_date
 
     def _build_stream_components(self):
         """
@@ -496,6 +438,9 @@ class ConvertProcess(object):
         """
         Return the dictionary of cycling overrides constructed from
         the command line argument.
+
+        :return: A dictionary of stream overrides.
+        :rtype: dict
         """
         cycle_overrides = {}
         for entry in self._arguments.override_cycling_freq:
@@ -559,9 +504,9 @@ class ConvertProcess(object):
             Returns the time bound length in years. Used for new cycling frequency if needed.
         """
         cycling_years = re.match(r'P(?P<nyears>\d+)Y', cycle_frequency)
-
         if cycling_years:
-            start_year, end_year = self.year_bounds()
+            start_date, end_date = self.run_bounds()
+            start_year, end_year = start_date.year, end_date.year
             cycling_years = int(cycling_years.group('nyears'))
             run_length = end_year - start_year + 1
             return run_length < cycling_years, run_length
@@ -612,13 +557,12 @@ class ConvertProcess(object):
         """
         Get the length in years of the input model run that is being processed.
 
-        Return
-        ------
-        int
-            The length of the input model run in years.
+        :return: The length of the input model run in years.
+        :rtype: int
         """
-        start1, end1 = self.year_bounds()
-        return int(end1) - int(start1) + 1
+        start_date, end_date = self.run_bounds()
+        start_year, end_year = start_date.year, end_date.year
+        return end_year - start_year + 1
 
     def _calculate_concat_task_periods(self):
         self._calculate_max_concat_period()
@@ -638,10 +582,8 @@ class ConvertProcess(object):
         This represents the longest period of data that will be stored in a
         single output file.
 
-        Returns
-        -------
-        int
-            The maximum concatenation window size in years for this run.
+        :return: The maximum concatenation window size in years for this run.
+        :rtype: int
         """
         model_sizing = self._model_params.full_sizing_info()
         if model_sizing is None or model_sizing == {}:
@@ -669,37 +611,24 @@ class ConvertProcess(object):
         data for 2000-2049, 2050-2099 etc. and be correctly aligned with the
         reference year.
 
-        Parameters
-        ----------
-        stream: str
-            |stream identifier| to calculate value for.
-
-        Returns
-        -------
-        dict
-            A dict with the offset in years of first |Concatenation Cycle| for
-            each stream from the start date of the suite.
+        :param stream: The |stream identifier| to calculate value for.
+        :type stream: str
+        :return: A cylc formatted duration string in days. E.g, P720D
+        :rtype: str
         """
         single_concat = self._single_concatenation_cycle(stream)
-        start_year, end_year = self.year_bounds()
+
         if single_concat:
             first_cycle = self._final_concatenation_cycle(stream)
+            return first_cycle
         else:
-            mc_cycle_length, mc_cycle_unit = self._cycling_frequency_value(
-                stream)
-            period = self._concat_task_periods_years[stream]
-            # this finds the year where the first concatenation windows ends
-            # at the very start of that year. From the docstring example,
-            # we're looking for 2000.
-            first_window_end = min(
-                ((start_year - self.ref_year) // period + 1) * period
-                + self.ref_year - start_year,
-                end_year - start_year + 1)
-            # calculate cycle offset differently  if mip_convert
-            # cycle length is specified in config in years or months
-            first_cycle = 'P{0}Y-P{1}{2}'.format(first_window_end,
-                                                 mc_cycle_length,
-                                                 mc_cycle_unit)
+            concat_period = self._concat_task_periods_cylc[stream]
+            aligned_concatenation_dates = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{concat_period}')
+            start_date, _ = self.run_bounds()
+            concat_window_date = aligned_concatenation_dates.get_first_after(start_date)
+            cycling_frequency = self._cycling_frequency(stream)
+            first_cycle = concat_window_date - DurationParser().parse(cycling_frequency)
+            first_cycle = str(first_cycle - start_date)
         return first_cycle
 
     def _convert_alignment_cycle_needed(self, stream):
@@ -710,18 +639,12 @@ class ConvertProcess(object):
         cycle_year = reference_year + n * cycle_period. Where this is not true
         for the start year of the run, a short alignment cycle is necessary.
 
-        Parameters
-        ----------
-        stream: str
-            |stream identifier| to calculate value for.
-
-        Returns
-        -------
-        dict
-            A dict with a boolean for each stream that is True if an alignment
-            cycle is required.
+        :param stream: The |stream identifier| to calculate the value for.
+        :type stream: str
+        :return: A cylc formatted duration string in days. E.g, P720D
+        :rtype: str
         """
-        return 'P0Y' != self._convert_alignment_cycle_offset(stream)
+        return 'P0D' != self._convert_alignment_cycle_offset(stream)
 
     def _convert_alignment_cycle_offset(self, stream):
         """
@@ -735,25 +658,19 @@ class ConvertProcess(object):
         long (1963-1964) so that subsequent cycles are aligned
         (1965, 1970 etc.).
 
-        Parameters
-        ----------
-        stream: str
-            |stream identifier| to calculate value for.
-
-        Returns
-        -------
-        dict
-            A dict with a string for each stream that representing the offset
-            required in cylc date format.
+        :param stream: The |stream identifier| to calculate vthe alue for.
+        :type stream: str
+        :return: A cylc formatted duration string in days. E.g, P720D
+        :rtype: str
         """
-        start_year, end_year = self.year_bounds()
-        start_ref_offset = start_year - self.ref_year
-        (freq, freq_unit) = self._cycling_frequency_value(stream)
-        if freq_unit == 'Y':
-            offset_value = (-start_ref_offset) % freq
-            alignment_offset = 'P{0}Y'.format(offset_value)
-        elif freq_unit in ['M', 'D']:
-            alignment_offset = 'P0Y'
+        start_date, _ = self.run_bounds()
+        cycling_frequency = self._cycling_frequency(stream)
+        recurrence = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
+        if not recurrence.get_is_valid(start_date):
+            alignment_offset = str(recurrence.get_first_after(start_date) - start_date)
+        else:
+            alignment_offset = 'P0D'
+
         return alignment_offset
 
     def _final_concatenation_needed(self, stream):
@@ -764,95 +681,42 @@ class ConvertProcess(object):
         size. In that case, an additional task run to concatenate the
         remaining files.
 
-        Parameters
-        ----------
-        stream: str
-            |stream identifier| to calculate value for.
-
-        Returns
-        -------
-        dict
-            A dict with one entry per stream, which is a boolean which is true
-            if a final |Concatenation Cycle| is necessary.
+        :param stream: The |stream identifier| to calculate a value for.
+        :type stream: str
+        :returns: A boolean which is true if a final |Concatenation Cycle| is necessary.
+        :rtype: bool
         """
-        start_year, end_year = self.year_bounds()
-        concat_period = self._concat_task_periods_years[stream]
+
         if self._single_concatenation_cycle(stream):
             return False
 
-        # first check if the concatenation periods line up with the end of
-        # the data to be processed.
-        final_concat_needed = ((end_year - self.ref_year + 1)
-                               % concat_period != 0)
-
-        # next check if the last regularly scheduled concat task will
-        # still be able to cover all the data. This happens if the end point of
-        # the run falls in the final mip_convert processing period, in which
-        # case we don't want to add a final special concat task as we will
-        # have duplicated tasks which can interfere and cause errors
-        if final_concat_needed:
-            final_concat_days = ((end_year - self.ref_year + 1) %
-                                 concat_period) * DAYS_IN_YEAR
-            concat_period_days = concat_period * DAYS_IN_YEAR
-            mip_convert_period, unit = self._cycling_frequency_value(stream)
-            if unit == 'Y':
-                mip_convert_cycle_days = mip_convert_period * DAYS_IN_YEAR
-            elif unit == 'M':
-                mip_convert_cycle_days = mip_convert_period * DAYS_IN_MONTH
-            elif unit == 'D':
-                mip_convert_cycle_days = mip_convert_period
-            else:
-                raise RuntimeError('unknown cycling period unit')
-            if (final_concat_days > (
-                    concat_period_days - mip_convert_cycle_days)):
-                final_concat_needed = False
-        return final_concat_needed
+        start_date, _ = self.run_bounds()
+        final_concatenation_cycle = DurationParser().parse(self._final_concatenation_cycle(stream)) + start_date
+        concat_period = self._concat_task_periods_cylc[stream]
+        first_concat_cycle_offset = self._first_concat_cycle_offset(stream)
+        first_concat_cycle = start_date + DurationParser().parse(first_concat_cycle_offset)
+        recurrence = TimeRecurrenceParser().parse(f'R/{first_concat_cycle}/{concat_period}')
+        return not recurrence.get_is_valid(final_concatenation_cycle)
 
     def _final_concatenation_cycle(self, stream):
         """
         Calculates the cycle point for the final Concatenation Cycles for this
         stream. This is to account for aligning cycles with the reference date.
 
-        Parameters
-        ----------
-        stream: str
-            |stream identifier| to calculate value for.
-
-        Returns
-        -------
-        str
-            A string representing a cylc formatted date when the final cycle
+        :param stream: The |stream identifier| to calculate value for.
+        :type stream: str
+        :return: A string representing a cylc formatted date when the final cycle
             for this stream will be. This ensures that if the run length is
             not a multiple of the concatenation window length, then all the
             data will still have been processed by the concatenation scripts.
-
+        :rtype: str
         """
-        start_year, end_year = self.year_bounds()
-        ref_length_years = end_year - self.ref_year + 1
-        # Find the integer multiple of concat window start from the reference
-        # year that is before and closest to the end year.
-        (cycle_freq, unit) = self._cycling_frequency_value(stream)
-        if unit == 'Y':
-            offset_years = (
-                ((ref_length_years - 1) // cycle_freq) * cycle_freq
-                - start_year + self.ref_year)
-            final_concat_cycle = 'P{0}Y'.format(offset_years)
-        elif unit == 'M':
-            offset_months = (((
-                ref_length_years * 12) - 1) // cycle_freq) * cycle_freq
-            offset_years = (
-                (offset_months // 12) - start_year + self.ref_year)
-            final_concat_cycle = ('P{0}Y{1}M'.format(offset_years,
-                                                     offset_months % 12))
-        elif unit == 'D':
-            offset_days = (((ref_length_years * DAYS_IN_YEAR) - 1) // cycle_freq) * cycle_freq
-            offset_months = ((offset_days // DAYS_IN_MONTH))
-            offset_years = ((offset_months // 12) - start_year + self.ref_year)
-
-            final_concat_cycle = ('P{0}Y{1}M{2}D'.format(offset_years,
-                                                         offset_months % 12,
-                                                         offset_days % DAYS_IN_MONTH))
-        return final_concat_cycle
+        start_date, end_date = self.run_bounds()
+        cycling_frequency = self._cycling_frequency(stream)
+        cycling_freq_recurrence = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
+        final_concatenation_cycle = cycling_freq_recurrence.get_prev(cycling_freq_recurrence.get_first_after(end_date))
+        final_concatenation_cycle_in_days = str(final_concatenation_cycle - start_date)
+        return final_concatenation_cycle_in_days
 
     def _final_concatenation_window_start(self, stream):
         """
@@ -860,30 +724,23 @@ class ConvertProcess(object):
         concatenation operation in this stream. This is to account for
         aligning cycles with the reference date.
 
-        Parameters
-        ----------
-        stream: str
-            |stream identifier| to calculate value for.
-
-        Returns
-        -------
-        str
-            An an integer representing the start year of the concatenation
+        :param stream: The |stream identifier| to calculate a value for.
+        :param type: str
+        :return: A string representing the start year of the concatenation
             window for the final task in this stream. This is triggered ensures
             that if the run length is not a multiple of the concatenation
             window length, then all the data will still have been processed by
             the concatenation scripts.
+        :rtype: str
         """
-        start_year, end_year = self.year_bounds()
-        ref_length = end_year - self.ref_year
-        # Find the integer multiple of concat window start from the reference
-        # year that is before and closest to the end year.
-        concat_window = self._concat_task_periods_years[stream]
         if self._single_concatenation_cycle(stream):
             return 0
 
-        final_concat_windows_start_year = (
-            (ref_length // concat_window) * concat_window + self.ref_year)
+        _, end_date = self.run_bounds()
+        period = self._concat_task_periods_cylc[stream]
+        recurrence = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{period}')
+        final_concat_windows_start_year = str(recurrence.get_prev(recurrence.get_first_after(end_date)))
+
         return final_concat_windows_start_year
 
     def _single_concatenation_cycle(self, stream):
@@ -893,46 +750,17 @@ class ConvertProcess(object):
         the window size for a stream is larger than the run length, then only
         one |Concatenation Cycle| will run.
 
-        Parameters
-        ----------
-        stream: str
-            |stream identifier| to calculate value for.
-
-        Returns
-        -------
-        bool
-            A boolean which is True if only a single |Concatenation Cycle|
+        :param stream: The |stream identifier| to calculate value for.
+        :type stream: str
+        :return: A boolean which is True if only a single |Concatenation Cycle|
             needs to be run and False if the run is long enough to require
             multiple |Concatenation Cycles|.
+        :rtype: bool
         """
-        run_length = self.input_model_run_length
-        window_size = self._concat_task_periods_years[stream]
-        return window_size >= run_length
+        start_date, end_date = self.run_bounds()
+        window_size = DurationParser().parse(self._concat_task_periods_cylc[stream])
 
-    def _stream_time_override(self, year_bounds, stream):
-        """
-        Calculate stream time overrides dictionary for suite
-
-        Parameters
-        ----------
-        year_bounds : tuple
-            start and end year for processing
-        stream: str
-            |stream identifier| to calculate value for.
-
-        Returns
-        -------
-        str
-            stream time override information
-        """
-        if stream not in self.active_streams:
-            return "None"
-        entry_bounds = self.year_bounds(stream)
-        if entry_bounds == year_bounds:
-            stream_time_override = "None"
-        else:
-            stream_time_override = entry_bounds
-        return stream_time_override
+        return start_date + window_size >= end_date
 
     def mip_convert_temp_sizes(self, stream_id):
         """
@@ -985,7 +813,7 @@ class ConvertProcess(object):
             The platform on which to run the tasks in the suite.
         """
         section_name = 'jinja2:suite.rc'
-        year_bounds = self.year_bounds()
+        run_bounds = self.run_bounds()
         rose_suite_conf_file = os.path.join(self.suite_destination,
                                             'rose-suite.conf')
 
@@ -1013,7 +841,7 @@ class ConvertProcess(object):
                 'convert'),
             'CDDS_VERSION': _NUMERICAL_VERSION,
             'DEV_MODE': _DEV,
-            'END_YEAR': year_bounds[1],
+            'END_DATE': str(run_bounds[1]),
             'INPUT_DIR': self._full_paths.input_data_directory,
             'OUTPUT_MASS_ROOT': self._arguments.output_mass_root,
             'OUTPUT_MASS_SUFFIX': self._arguments.output_mass_suffix,
@@ -1025,14 +853,14 @@ class ConvertProcess(object):
                 NTHREADS_CONCATENATE),
             'OUTPUT_DIR': self._full_paths.output_data_directory,
             'PARALLEL_TASKS': PARALLEL_TASKS,
-            'REF_YEAR': self.ref_year,
+            'REF_YEAR': self.ref_date.year,
             'REQUEST_JSON_PATH': request_json_path,
             'ROOT_DATA_DIR': self._arguments.root_data_dir,
             'ROOT_PROC_DIR': self._arguments.root_proc_dir,
             'RUN_EXTRACT': not self.skip_extract,
             'RUN_QC': not self.skip_qc,
             'RUN_TRANSFER': not self.skip_transfer,
-            'START_YEAR': year_bounds[0],
+            'START_DATE': str(run_bounds[0]),
             'TARGET_SUITE_NAME': self.target_suite_name,
             'USE_EXTERNAL_PLUGIN': use_external_plugin
         }
@@ -1086,7 +914,6 @@ class ConvertProcess(object):
 
         """
         section_name = 'jinja2:suite.rc'
-        year_bounds = self.year_bounds()
         components = self.stream_components
         template_path = os.path.join(self.suite_destination, 'opt',
                                      'rose-suite-stream.conf')
@@ -1122,8 +949,6 @@ class ConvertProcess(object):
                 self._single_concatenation_cycle(stream),
             'STREAM_COMPONENTS': components[stream],
             'STREAM_SUBSTREAMS': self.substreams_dict[stream],
-            'STREAM_TIME_OVERRIDES': self._stream_time_override(year_bounds,
-                                                                stream),
         }
 
         try:
