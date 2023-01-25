@@ -14,6 +14,7 @@ from cdds.common.plugins.plugins import PluginStore, CddsPlugin
 from cdds.common.plugins.exceptions import PluginLoadError
 from cdds.common.plugins.base.base_plugin import MipEra
 from cdds.common.plugins.cmip6.cmip6_plugin import Cmip6Plugin
+from cdds.common.plugins.cordex.cordex_plugin import CordexPlugin
 from cdds.common.plugins.gcmodeldev.gcmodeldev_plugin import GCModelDevPlugin
 
 
@@ -43,6 +44,8 @@ def load_plugin(mip_era: str = MipEra.CMIP6.value, plugin_module_path: str = Non
         load_cmip_plugin(mip_era)
     elif MipEra.is_gcmodeldev(mip_era):
         load_gc_model_dev_plugin(mip_era)
+    elif MipEra.is_cordex(mip_era):
+        load_cordex_plugin(mip_era)
     else:
         message = 'Plugin for this project "{}" is not found.'.format(mip_era)
         logger.critical(message)
@@ -85,6 +88,26 @@ def load_gc_model_dev_plugin(mip_era: str) -> None:
         plugin_store.register_plugin(gc_model_dev_plugin)
     else:
         message = 'Failed to find GCModelDev plugin for project "{}"'.format(mip_era)
+        logger.critical(message)
+        raise PluginLoadError(message)
+
+
+def load_cordex_plugin(mip_era: str) -> None:
+    """
+    Loads the CORDEX plugin implemented by the CDDS project that is responsible for
+    the project with given ID.
+
+    :param mip_era: MIP era for that the plugin is responsible
+    :type mip_era: str
+    """
+    logger = logging.getLogger(__name__)
+    cordex_plugin = CordexPlugin()
+
+    if cordex_plugin.is_responsible(mip_era):
+        plugin_store = PluginStore.instance()
+        plugin_store.register_plugin(cordex_plugin)
+    else:
+        message = 'Failed to find CORDEX plugin for project "{}"'.format(mip_era)
         logger.critical(message)
         raise PluginLoadError(message)
 

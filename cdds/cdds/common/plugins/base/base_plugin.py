@@ -61,8 +61,16 @@ class MipEra(Enum):
                 return True
         return False
 
+    @staticmethod
+    def is_cordex(mip_era: str) -> bool:
+        for cordex in [MipEra.CORDEX]:
+            if mip_era == cordex.value:
+                return True
+        return False
+
     CMIP6 = "CMIP6"
     GC_MODEL_DEV = "GCModelDev"
+    CORDEX = "CORDEX"
 
 
 class BasePlugin(CddsPlugin, ABC):
