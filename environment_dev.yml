@@ -1,4 +1,4 @@
-name: cdds-dev-metomi
+name: cdds-dev
 channels:
   - conda-main
   - conda-agnostic
