@@ -147,4 +147,4 @@ dependencies:
     - filelock==3.0.12
 variables:
   LC_ALL: en_GB.UTF-8
-# prefix: /home/h03/cdds/software/miniconda3/envs/cdds-dev
+prefix: /home/h03/cdds/software/miniconda3/envs/cdds-dev
