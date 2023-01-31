@@ -9,6 +9,9 @@ import os
 import sys
 import shutil
 
+from metomi.isodatetime.data import Calendar
+from metomi.isodatetime.parsers import TimePointParser
+
 from cdds.common.constants import LOG_TIMESTAMP_FORMAT
 from cdds.convert.constants import FILEPATH_METOFFICE
 from cdds.convert.exceptions import (
@@ -50,32 +53,29 @@ def run_mip_convert_wrapper(arguments):
         cylc_task_work_dir = os.environ['CYLC_TASK_WORK_DIR']
         cylc_task_cycle_point = os.environ['CYLC_TASK_CYCLE_POINT']
         dummy_run = os.environ['DUMMY_RUN'] == 'TRUE'
-        end_year = os.environ['END_YEAR']
+        end_year = os.environ['END_DATE']
         input_dir = os.environ['INPUT_DIR']
         mip_convert_config_dir = os.environ['MIP_CONVERT_CONFIG_DIR']
         cdds_convert_proc_dir = os.environ['CDDS_CONVERT_PROC_DIR']
         output_dir = os.environ['OUTPUT_DIR']
         stream = os.environ['STREAM']
-        stream_time_overrides = os.environ['STREAM_TIME_OVERRIDES']
         substream = os.environ['SUBSTREAM']
         suite_name = os.environ['SUITE_NAME']
         staging_dir = os.environ.get('STAGING_DIR', '')
         model_id = os.environ['MODEL_ID']
+        calendar = os.environ['CALENDAR'] if 'CALENDAR' in os.environ else '360_day'
     except KeyError as ke1:
         err_msg = 'Expected environment variable {var} not found.'
         err_msg = err_msg.format(var=ke1)
         raise WrapperEnvironmentError(err_msg)
 
-    # At the moment we only support 360_day calendar
-    calendar = '360_day'
+    Calendar.default().set_mode(calendar)
 
     # Calculate start and end dates for this step
     # Final date is the 1st of January in the year after final_year (the final
     # year to be processed).
-    end_dt = datetime(int(end_year) + 1, 1, 1)
-    start_date, end_date = calculate_mip_convert_run_bounds(
-        cylc_task_cycle_point, cycle_duration, end_dt,
-        stream_time_overrides)
+    end_dt = TimePointParser().parse(end_year)
+    start_date, end_date = calculate_mip_convert_run_bounds(cylc_task_cycle_point, cycle_duration, end_dt)
 
     # Identify whether there is any work to be done in this job step.
     job_days = (end_date - start_date).days
