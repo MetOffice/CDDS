@@ -11,7 +11,7 @@
     "output_mass_suffix": "development",
     "output_mass_root": "moose:/adhoc/projects/cdds/",
     "root_inventory_dir": "/project/cdds/inventory/",
-    "rose_suite_branch": "trunk",
+    "rose_suite_branch": "2.4.1",
     "root_ancil_dir": "/project/cdds/etc/ancil/",
     "root_hybrid_heights_dir": "/project/cdds/etc/vertical_coordinates",
     "root_replacement_coordinates_dir": "/project/cdds/etc/horizontal_coordinates/",
