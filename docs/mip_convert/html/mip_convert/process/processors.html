@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>processors &#8212; MIP Convert 2.4.1 documentation</title>
+    <title>processors &#8212; MIP Convert 2.4.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/nature.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="model_to_mip_mappings.html" title="Model to MIP Mapping Configuration Files"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">MIP Convert 2.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MIP Convert 2.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">processors</span></code></a></li> 
       </ul>
@@ -59,13 +59,13 @@ exception if the input cube does not look like a time series
 of daily statistics spanning a whole number of months.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube of daily data.</p>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube of daily data.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube of monthly mean data.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -76,13 +76,13 @@ of daily statistics spanning a whole number of months.</p>
 <dd><p>Changes any values corresponding to missing data to zero.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with some missing data.</p>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with some missing data.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube with no missing data.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -94,13 +94,13 @@ of daily statistics spanning a whole number of months.</p>
 Changes the axis from geometric height to solar zenith angle.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a geometric height vertical axis.</p>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a geometric height vertical axis.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube with the correct vertical axis (solar zenith angle).</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -112,15 +112,15 @@ Changes the axis from geometric height to solar zenith angle.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with latitude/longitude coordinates</p></li>
-<li><p><strong>areacube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube of grid cell areas</p></li>
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with latitude/longitude coordinates</p></li>
+<li><p><strong>areacube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube of grid cell areas</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The area mean cube.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -136,13 +136,13 @@ the desired level. The coordinate <code class="docutils literal notranslate"><sp
 <code class="docutils literal notranslate"><span class="pre">height100m</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing two levels.</p>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing two levels.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube containing model level 4.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -156,9 +156,9 @@ each pressure level.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube_data</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing either y or z component of the EP flux on
+<li><p><strong>cube_data</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing either y or z component of the EP flux on
 pressure levels.</p></li>
-<li><p><strong>cube_heaviside</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Heaviside data</p></li>
+<li><p><strong>cube_heaviside</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Heaviside data</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -166,7 +166,7 @@ pressure levels.</p></li>
 density.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -178,13 +178,13 @@ density.</p>
 <cite>clisccp</cite>)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a longitude, latitude and extra dimensions.</p>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a longitude, latitude and extra dimensions.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube with all its 2D fields divided by the 2D mask.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -221,8 +221,8 @@ cell_methods: ‘area: mean where land’.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>variable_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the cube containing the input variable on the JULES tiles.</p></li>
-<li><p><strong>tile_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the fraction of land covered by each JULES tile.</p></li>
+<li><p><strong>variable_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the cube containing the input variable on the JULES tiles.</p></li>
+<li><p><strong>tile_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the fraction of land covered by each JULES tile.</p></li>
 <li><p><strong>land_class</strong> (<a class="reference external" href="https://docs.python.org/3.8/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the vegetation class to average over.</p></li>
 </ul>
 </dd>
@@ -230,7 +230,7 @@ cell_methods: ‘area: mean where land’.</p>
 <dd class="field-even"><p>cube of the mean of the variable over land_class.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -243,8 +243,8 @@ cell_methods: ‘area: mean where land’.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>tile_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the fraction of land covered by each JULES tile.</p></li>
-<li><p><strong>land_frac_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the fraction of a gridcell covered by land.</p></li>
+<li><p><strong>tile_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the fraction of land covered by each JULES tile.</p></li>
+<li><p><strong>land_frac_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the fraction of a gridcell covered by land.</p></li>
 <li><p><strong>land_class</strong> (<a class="reference external" href="https://docs.python.org/3.8/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the land class to sum area over.</p></li>
 </ul>
 </dd>
@@ -252,7 +252,7 @@ cell_methods: ‘area: mean where land’.</p>
 <dd class="field-even"><p>the cube with the mean area of land_class.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -267,9 +267,9 @@ is a rather arbitrary value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>variable_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the cube containing the snow amount on JULES tiles (kg/m2).</p></li>
-<li><p><strong>tile_fraction_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the fraction of land covered by each JULES tile.</p></li>
-<li><p><strong>land_fraction_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the proportion of land in the grid cell</p></li>
+<li><p><strong>variable_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the cube containing the snow amount on JULES tiles (kg/m2).</p></li>
+<li><p><strong>tile_fraction_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the fraction of land covered by each JULES tile.</p></li>
+<li><p><strong>land_fraction_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – the proportion of land in the grid cell</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -277,7 +277,7 @@ is a rather arbitrary value.</p>
 of the land area in the grid cell.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -289,13 +289,13 @@ of the land area in the grid cell.</p>
 each cell is calculated and returned in an Iris cube.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing data on the standard grid for that model.</p>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing data on the standard grid for that model.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube containing the area of each cell in the input cube</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If the cube is not a 2 dimensional latitude-longitude
@@ -313,15 +313,15 @@ and replaces the zeroes with a new value (0.5*minimum).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>numerator</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the numerator of the division.</p></li>
-<li><p><strong>denominator</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the denominator of the division.</p></li>
+<li><p><strong>numerator</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the numerator of the division.</p></li>
+<li><p><strong>denominator</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the denominator of the division.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube the cube with the division, corrected.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -332,13 +332,13 @@ and replaces the zeroes with a new value (0.5*minimum).</p>
 <dd><p>Return the sum over vertical levels of a cube.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with vertical levels.</p>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with vertical levels.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube with the data in the input cube summed over level.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If the input cube does not have exactly one vertical coordinate
@@ -354,8 +354,8 @@ and replaces the zeroes with a new value (0.5*minimum).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with vertical levels.</p></li>
-<li><p><strong>thickness</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube the same shape as <code class="docutils literal notranslate"><span class="pre">cube</span></code> containing thickness of ocean
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with vertical levels.</p></li>
+<li><p><strong>thickness</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube the same shape as <code class="docutils literal notranslate"><span class="pre">cube</span></code> containing thickness of ocean
 levels.</p></li>
 </ul>
 </dd>
@@ -363,7 +363,7 @@ levels.</p></li>
 <dd class="field-even"><p>A cube with the data in <code class="docutils literal notranslate"><span class="pre">cube</span></code> summed over the upper 100m.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If the input cube does not have exactly one vertical coordinate
@@ -379,8 +379,8 @@ levels.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a depth vertical axis</p></li>
-<li><p><strong>thick</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube the same shape as cube containing thickness
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a depth vertical axis</p></li>
+<li><p><strong>thick</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube the same shape as cube containing thickness
 of ocean levels</p></li>
 </ul>
 </dd>
@@ -388,7 +388,7 @@ of ocean levels</p></li>
 <dd class="field-even"><p>A cube collapsed over the depth axis</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -400,14 +400,14 @@ of ocean levels</p></li>
 850-600 hPa layer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing data between 600 and 850 hPa.</p>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing data between 600 and 850 hPa.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube containing the mean over pressure of the input cube
 between 600 and 850 hPa.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -420,13 +420,13 @@ between 600 and 850 hPa.</p>
 unchanged on output.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing data that may have zero values.</p>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing data that may have zero values.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube with zeros set to masked values.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -439,8 +439,8 @@ less than or equal to zero.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The cube to be masked.</p></li>
-<li><p><strong>cube_for_mask</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The cube containing data that may have values less than or equal
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The cube to be masked.</p></li>
+<li><p><strong>cube_for_mask</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The cube containing data that may have values less than or equal
 to zero.</p></li>
 </ul>
 </dd>
@@ -449,7 +449,7 @@ to zero.</p></li>
 or equal to zero.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -462,18 +462,18 @@ between the total fresh water flux and its reconstruction).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube_evs</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing evs original data</p></li>
-<li><p><strong>cube_res</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the residual
+<li><p><strong>cube_evs</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing evs original data</p></li>
+<li><p><strong>cube_res</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the residual
 “empmr - (evs - (icb - isf + rain + snow + river + ice))”
 i.e. cube_res = error on evs + closed sea contribution</p></li>
-<li><p><strong>cube_area</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing cell area data</p></li>
+<li><p><strong>cube_area</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing cell area data</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube for the corrected evaporation over the ocean evs.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -484,13 +484,13 @@ i.e. cube_res = error on evs + closed sea contribution</p></li>
 <dd><p>Divide the input cube with area of each gridcell</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>incube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Input cube 3-D/ 4-D.</p>
+<dd class="field-odd"><p><strong>incube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Input cube 3-D/ 4-D.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Cube divided by area (m-2)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -502,15 +502,15 @@ i.e. cube_res = error on evs + closed sea contribution</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing data to be masked.</p></li>
-<li><p><strong>cube_mask</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the mask to be applied (1 where masked, else 0).</p></li>
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing data to be masked.</p></li>
+<li><p><strong>cube_mask</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the mask to be applied (1 where masked, else 0).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><cite>cube</cite> with data masked by <cite>cube_mask</cite>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If one of the following conditions is met:
@@ -528,16 +528,16 @@ i.e. cube_res = error on evs + closed sea contribution</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube2d</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with 2 dimensions (+ time)
+<li><p><strong>cube2d</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with 2 dimensions (+ time)
 The shape must be the same as the shape of 1 level of cube3d.</p></li>
-<li><p><strong>cube3d</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with 3 dimensions (+ time)</p></li>
+<li><p><strong>cube3d</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with 3 dimensions (+ time)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube the same size as cube3d with cube2d added to the first level</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -550,16 +550,16 @@ Jackett and McDougall (1995) <a class="reference internal" href="#eos-insitu-1" 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>zt</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – Potential temperature (degrees Celsius)</p></li>
-<li><p><strong>zs</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – Practical salinity (PSU)</p></li>
-<li><p><strong>zh</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – Depth (m), approximating pressure (dbar)</p></li>
+<li><p><strong>zt</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – Potential temperature (degrees Celsius)</p></li>
+<li><p><strong>zs</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – Practical salinity (PSU)</p></li>
+<li><p><strong>zh</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>) – Depth (m), approximating pressure (dbar)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>rho</strong> – In-situ density (kg/m3)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -598,14 +598,14 @@ stability. Journal of Atmospheric and Oceanic Technology,
 <dt class="sig sig-object py" id="mip_convert.process.processors.calc_loaddust">
 <span class="sig-prename descclassname"><span class="pre">mip_convert.process.processors.</span></span><span class="sig-name descname"><span class="pre">calc_loaddust</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total_dust_concentration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_cell_volume</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mip_convert/process/processors.html#calc_loaddust"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mip_convert.process.processors.calc_loaddust" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the loaddust variable.</p>
-<p>:param total_dust_concentration <a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>: Total dust concentration in micrograms/m-3
-:param grid_cell_volume <a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>: UKCA Theta Grid Cell volume in m-3</p>
+<p>:param total_dust_concentration <a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>: Total dust concentration in micrograms/m-3
+:param grid_cell_volume <a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>: UKCA Theta Grid Cell volume in m-3</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p><strong>loaddust</strong> – kg m-2</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -619,18 +619,18 @@ equation of state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>thetao</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Potential temperature (degrees Celsius)</p></li>
-<li><p><strong>so</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Practical salinity (PSU)</p></li>
-<li><p><strong>zfullo</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Depth (m)</p></li>
-<li><p><strong>areacello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell area (m2)</p></li>
-<li><p><strong>thkcello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell thickness (m)</p></li>
+<li><p><strong>thetao</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Potential temperature (degrees Celsius)</p></li>
+<li><p><strong>so</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Practical salinity (PSU)</p></li>
+<li><p><strong>zfullo</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Depth (m)</p></li>
+<li><p><strong>areacello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell area (m2)</p></li>
+<li><p><strong>thkcello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell thickness (m)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>rho</strong> – Global mean in-situ density (kg/m3)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 <div class="admonition seealso">
@@ -638,7 +638,7 @@ equation of state.</p>
 <p><a class="reference internal" href="#mip_convert.process.processors.eos_insitu" title="mip_convert.process.processors.eos_insitu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eos_insitu</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
-<p>This is an <a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> wrapper to <cite>eos_insitu</cite>.</p>
+<p>This is an <a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> wrapper to <cite>eos_insitu</cite>.</p>
 <p class="rubric">References</p>
 <dl class="citation">
 <dt class="label" id="calc-rho-mean-1"><span class="brackets"><a class="fn-backref" href="#id4">calc_rho_mean_1</a></span></dt>
@@ -658,13 +658,13 @@ respect to a reference state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>thetao</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Potential temperature (degrees Celsius)</p></li>
-<li><p><strong>thkcello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell thickness (m)</p></li>
-<li><p><strong>areacello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell area (m2)</p></li>
-<li><p><strong>zfullo_0</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – <strong>Reference state</strong> depth (m)</p></li>
-<li><p><strong>so_0</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – <strong>Reference state</strong> practical salinity (PSU)</p></li>
-<li><p><strong>rho_0_mean</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – <strong>Reference state</strong> global mean in-situ density (kg/m3)</p></li>
-<li><p><strong>deptho_0_mean</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – <strong>Reference state</strong> global mean water column depth (m),
+<li><p><strong>thetao</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Potential temperature (degrees Celsius)</p></li>
+<li><p><strong>thkcello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell thickness (m)</p></li>
+<li><p><strong>areacello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell area (m2)</p></li>
+<li><p><strong>zfullo_0</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – <strong>Reference state</strong> depth (m)</p></li>
+<li><p><strong>so_0</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – <strong>Reference state</strong> practical salinity (PSU)</p></li>
+<li><p><strong>rho_0_mean</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – <strong>Reference state</strong> global mean in-situ density (kg/m3)</p></li>
+<li><p><strong>deptho_0_mean</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – <strong>Reference state</strong> global mean water column depth (m),
 computed as the total volume (<cite>volo</cite>) divided by the total surface area
 (sum of <cite>areacello</cite>)</p></li>
 </ul>
@@ -673,7 +673,7 @@ computed as the total volume (<cite>volo</cite>) divided by the total surface ar
 <dd class="field-even"><p><strong>zostoga</strong> – Global mean thermosteric sea level change (m)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -736,7 +736,7 @@ Intercomparison Project. Geoscientific Model Development,
 <dd class="field-even"><p>Expected to have a single-level representing the whole column.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>: Tropospheric ozone column in DU.</p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>: Tropospheric ozone column in DU.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -759,7 +759,7 @@ as airmass</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>mass</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> containing 3-D grid-cell mass) – </p></li>
+<li><p><strong>mass</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> containing 3-D grid-cell mass) – </p></li>
 <li><p><strong>incube</strong> (class:<cite>iris.cube.Cube</cite> containing mass-mixing-ratio of species) – </p></li>
 <li><p><strong>molmass</strong> (<em>scalar: Molecular mass of species</em>) – </p></li>
 <li><p><strong>climatology</strong> (<em>boolean: flag to control whether to mean time dimension</em>) – </p></li>
@@ -769,7 +769,7 @@ as airmass</p></li>
 <dd class="field-even"><p>as (moles of species/moles of air)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> containing scalar value or 1d(time) array</p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> containing scalar value or 1d(time) array</p>
 </dd>
 </dl>
 </dd></dl>
@@ -793,7 +793,7 @@ maxval: Float: expected maximum value of output field</p></li>
 <dd class="field-even"><p>levels and ShortWave + LongWave bands</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> representing requested diagnostic on model</p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> representing requested diagnostic on model</p>
 </dd>
 </dl>
 </dd></dl>
@@ -806,16 +806,16 @@ zonal mass transport.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the vertically integrated zonal mass transport.</p></li>
-<li><p><strong>areacello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the grid cell area.</p></li>
-<li><p><strong>cube_mask</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>, optional) – A cube containing the mask to be applied (1 where masked, else 0).</p></li>
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the vertically integrated zonal mass transport.</p></li>
+<li><p><strong>areacello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing the grid cell area.</p></li>
+<li><p><strong>cube_mask</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>, optional) – A cube containing the mask to be applied (1 where masked, else 0).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>cube</strong> – A cube containing the quasi-barotropic streamfunction.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -847,7 +847,7 @@ wet-deposition diagnostics via common operations on the input cube.</p>
 <dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> usually 2-D and units of kg/m2/s</p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a> usually 2-D and units of kg/m2/s</p>
 </dd>
 </dl>
 </dd></dl>
@@ -860,15 +860,15 @@ areacello (2D).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>thkcello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell thickness cube.</p></li>
-<li><p><strong>arecello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell area cube.</p></li>
+<li><p><strong>thkcello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell thickness cube.</p></li>
+<li><p><strong>arecello</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Cell area cube.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Volume cube</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -880,17 +880,17 @@ areacello (2D).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube_global</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a latitude dimension and optionally a vertical dimension
+<li><p><strong>cube_global</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a latitude dimension and optionally a vertical dimension
 representing global ocean</p></li>
-<li><p><strong>cube_atl</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a latitude dimension and optionally a vertical dimension
+<li><p><strong>cube_atl</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a latitude dimension and optionally a vertical dimension
 representing Atlantic (and Arctic) ocean</p></li>
-<li><p><strong>cube_indpac</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a latitude dimension and optionally a vertical dimension
+<li><p><strong>cube_indpac</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with a latitude dimension and optionally a vertical dimension
 representing Indian and Pacific oceans</p></li>
-<li><p><strong>mask_global</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>, optional) – A cube containing the mask to be applied to <cite>cube_global</cite>
+<li><p><strong>mask_global</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>, optional) – A cube containing the mask to be applied to <cite>cube_global</cite>
 (1 where masked, else 0).</p></li>
-<li><p><strong>mask_atl</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>, optional) – A cube containing the mask to be applied to <cite>cube_atl</cite>
+<li><p><strong>mask_atl</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>, optional) – A cube containing the mask to be applied to <cite>cube_atl</cite>
 (1 where masked, else 0).</p></li>
-<li><p><strong>mask_indpac</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>, optional) – A cube containing the mask to be applied to <cite>cube_indpac</cite>
+<li><p><strong>mask_indpac</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>, optional) – A cube containing the mask to be applied to <cite>cube_indpac</cite>
 (1 where masked, else 0).</p></li>
 </ul>
 </dd>
@@ -898,7 +898,7 @@ representing Indian and Pacific oceans</p></li>
 <dd class="field-even"><p>A cube containing all input cubes with an added basin dimension</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -972,8 +972,8 @@ based on difference between the first 2 cubes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube1</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The first cube.</p></li>
-<li><p><strong>cube2</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The second cube.</p></li>
+<li><p><strong>cube1</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The first cube.</p></li>
+<li><p><strong>cube2</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The second cube.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -993,8 +993,8 @@ and then divide by the weights cube.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Data variable cube.</p></li>
-<li><p><strong>weights_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Weights variable cube.</p></li>
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Data variable cube.</p></li>
+<li><p><strong>weights_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Weights variable cube.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1002,7 +1002,7 @@ and then divide by the weights cube.</p>
 weights applied.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1018,8 +1018,8 @@ a set of constants.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Data variable cube.</p></li>
-<li><p><strong>weights_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Weights variable cube.</p></li>
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Data variable cube.</p></li>
+<li><p><strong>weights_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Weights variable cube.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1027,7 +1027,7 @@ a set of constants.</p>
 weights applied.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#RuntimeError" title="(in Python v3.8)"><strong>RuntimeError</strong></a> – If the points on the height coordinate do not match the expected
@@ -1045,8 +1045,8 @@ the clmisr variables.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Data variable cube.</p></li>
-<li><p><strong>weights_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Weights variable cube.</p></li>
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Data variable cube.</p></li>
+<li><p><strong>weights_cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Weights variable cube.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -1067,15 +1067,15 @@ field in a inverse manner i.e. masks where land_fraction == 1.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>land_fraction</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Land fraction cube.</p></li>
-<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – DMS emissions as mol m-2 s-1</p></li>
+<li><p><strong>land_fraction</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Land fraction cube.</p></li>
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – DMS emissions as mol m-2 s-1</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>DMS emissions with land cells masked out</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#RuntimeError" title="(in Python v3.8)"><strong>RuntimeError</strong></a> – If cube long, lat dimensions do not match land fraction.</p>
@@ -1094,13 +1094,13 @@ levels.</p>
 cube, see <a class="reference external" href="https://scitools.org.uk/iris/docs/latest/whitepapers/">https://scitools.org.uk/iris/docs/latest/whitepapers/</a>    um_files_loading.html#vertical-coordinates for more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing altitude-related coordinates.</p>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing altitude-related coordinates.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube with the altitude-related coordinates removed.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1114,15 +1114,15 @@ intended for the correction of zonal mean diagnostics</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube_data</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing zonal mean data</p></li>
-<li><p><strong>cube_heaviside</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing zonal mean heaviside data</p></li>
+<li><p><strong>cube_data</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing zonal mean data</p></li>
+<li><p><strong>cube_heaviside</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube containing zonal mean heaviside data</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube with the polar columns masked.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.8/library/exceptions.html#RuntimeError" title="(in Python v3.8)"><strong>RuntimeError</strong></a> – If unable to construct a mask cube.</p>
@@ -1148,10 +1148,10 @@ processing, but not multi-level ones, so this function is needed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>upward_lw_flux</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The upward LW flux to be adjusted.</p></li>
-<li><p><strong>olr_s3</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The OLR (rlut) from Section 3 (item 332), consistent with the
+<li><p><strong>upward_lw_flux</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The upward LW flux to be adjusted.</p></li>
+<li><p><strong>olr_s3</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The OLR (rlut) from Section 3 (item 332), consistent with the
 surface scheme.</p></li>
-<li><p><strong>olr_s2</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The OLR (rlut) from Section 2 (item 205), consistent with the
+<li><p><strong>olr_s2</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – The OLR (rlut) from Section 2 (item 205), consistent with the
 LW scheme.</p></li>
 </ul>
 </dd>
@@ -1159,7 +1159,7 @@ LW scheme.</p></li>
 <dd class="field-even"><p>The adjusted upward LW flux.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1179,13 +1179,13 @@ atmosphere that have to be obtained as the top or bottom layer of a
 multi-level STASH diagnostic.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Any cube of a flux between theta levels.</p>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Any cube of a flux between theta levels.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The same cube but with corrected levels metadata.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1201,15 +1201,15 @@ unification is required. Here we choose to put the points</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube_vtem</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – vtem cube to mask.</p></li>
-<li><p><strong>cube_heaviside</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Heaviside data</p></li>
+<li><p><strong>cube_vtem</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – vtem cube to mask.</p></li>
+<li><p><strong>cube_heaviside</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Heaviside data</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Masked cube.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1222,15 +1222,15 @@ fixing the longitude coordinate</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – data</p></li>
-<li><p><strong>cube_heaviside</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Heaviside data</p></li>
+<li><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – data</p></li>
+<li><p><strong>cube_heaviside</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – Heaviside data</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>scaled data</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1243,13 +1243,13 @@ the fields within the same hour for each month. The output
 will contain 24 fields for each month.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with hourly means or higher-frequency data.</p>
+<dd class="field-odd"><p><strong>cube</strong> (<a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a>) – A cube with hourly means or higher-frequency data.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A cube with a monthly-mean hourly time series.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.5.0.dev24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://scitools-iris.readthedocs.io/en/latest/generated/api/iris/cube.html#iris.cube.Cube" title="(in Iris v3.4.0.dev21)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iris.cube.Cube</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1347,7 +1347,7 @@ will contain 24 fields for each month.</p>
         <li class="right" >
           <a href="model_to_mip_mappings.html" title="Model to MIP Mapping Configuration Files"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">MIP Convert 2.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">MIP Convert 2.4.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">processors</span></code></a></li> 
       </ul>

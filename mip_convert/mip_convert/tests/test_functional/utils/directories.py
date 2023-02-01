@@ -11,14 +11,12 @@ TEST_DIR_NAME_TEMPLATE = 'test_{project}_{mip_table}_{variable}'
 ROOT_ANCIL_DIR = os.path.join(PROJECT_CDDS_DIR, 'etc', 'ancil')
 
 ROOT_MIP_TABLES_DIR = '/home/h03/cdds/etc/mip_tables'
-CORDEX_MIP_TABLE_DIR = '{}/CORDEX/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)
+CORDEX_MIP_TABLES_DIR = '{}/CORDEX/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)
 ARISE_MIP_TABLE_DIR = '{}/ARISE/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)
 CMIP6_MIP_TABLE_DIR = '{}/CMIP6/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)
-SEASONAL_MIP_TABLE_DIR = '{}/SEASONAL/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)
 
 MODEL_OUTPUT_DIR_SET1 = os.path.join(ROOT_TEST_DATA_DIR, 'input', 'set1')
 MODEL_OUTPUT_DIR_SET2 = os.path.join(ROOT_TEST_DATA_DIR, 'input', 'set2')
-MODEL_OUTPUT_DIR_SET3 = os.path.join(ROOT_TEST_DATA_DIR, 'input', 'set3')
 
 REFERENCE_OUTPUT_DIR_NAME = 'reference_output'
 DATA_OUTPUT_DIR_NAME = 'data_out_{}'.format(os.environ['USER'])

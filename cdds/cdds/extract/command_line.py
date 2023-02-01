@@ -59,9 +59,6 @@ def parse_cdds_extract_command_line(user_arguments):
     parser.add_argument('--simulation',
                         action='store_true',
                         help='Run Extract in simulation mode')
-    parser.add_argument('--skip_extract_validation',
-                        action='store_true',
-                        help='Skip validation of retrieved files')
     root_dir_args(parser, arguments.root_proc_dir, arguments.root_data_dir)
 
     # Add arguments common to all scripts.

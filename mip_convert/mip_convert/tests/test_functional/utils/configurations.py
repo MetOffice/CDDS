@@ -10,8 +10,8 @@ from typing import Dict, Any, List
 
 from mip_convert.tests.test_functional.utils.constants import ARISE_LICENSE, CMIP6_LICENSE, CORDEX_LICENSE
 from mip_convert.tests.test_functional.utils.directories import (PROJECT_CDDS_DIR,
-                                                                 CMIP6_MIP_TABLE_DIR, CORDEX_MIP_TABLE_DIR,
-                                                                 ARISE_MIP_TABLE_DIR, SEASONAL_MIP_TABLE_DIR,
+                                                                 CMIP6_MIP_TABLE_DIR,
+                                                                 CORDEX_MIP_TABLES_DIR, ARISE_MIP_TABLE_DIR,
                                                                  ROOT_TEST_DATA_DIR, ROOT_ANCIL_DIR)
 
 
@@ -211,7 +211,7 @@ class ProjectInfo:
         return ProjectInfo(
             project_id='CORDEX',
             cmor_setup={
-                'mip_table_dir': CORDEX_MIP_TABLE_DIR,
+                'mip_table_dir': CORDEX_MIP_TABLES_DIR,
                 'netcdf_file_action': 'CMOR_REPLACE_4',
             },
             cmor_dataset={
@@ -243,40 +243,6 @@ class ProjectInfo:
                 'rcm_version_id': 'v1',
                 'project_id': 'CORDEX-FPSCONV',
                 'CORDEX_domain': 'EUR-11'
-            }
-        )
-
-    @classmethod
-    def seasonal_project_info(cls) -> 'ProjectInfo':
-        """
-        Returns all common values that are specific for CMIP6 projects.
-
-        :return: Values that are specific for CMIP6 projects
-        :rtype: ProjectInfo
-        """
-        return ProjectInfo(
-            project_id='SEASONAL',
-            cmor_setup={
-                'mip_table_dir': SEASONAL_MIP_TABLE_DIR,
-                'netcdf_file_action': 'CMOR_REPLACE_4',
-            },
-            cmor_dataset={
-                'branch_method': 'no parent',
-                'experiment_id': 'amip',
-                'license': CMIP6_LICENSE,
-                'mip': 'CMIP',
-                'mip_era': 'SEASONAL',
-                'model_id': 'UKESM1-0-LL',
-                'model_type': 'AGCM',
-                'nominal_resolution': '5 km',
-                'sub_experiment_id': 'none',
-                'variant_label': 'r1i1p1f1'
-            },
-            request={
-                'child_base_date': '2000-01-01-00-00-00'
-            },
-            global_attributes={
-                'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
             }
         )
 
@@ -367,17 +333,6 @@ class Cmip6TestData(AbstractTestData):
     project_id: str = field(init=False, default_factory=lambda: 'CMIP6')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cmip6_project_info())
-    specific_info: SpecificInfo = None
-
-
-@dataclass
-class SeasonalTestData(AbstractTestData):
-    """
-    Stores test data for CMIP6 projects
-    """
-    project_id: str = field(init=False, default_factory=lambda: 'SEASONAL')
-    common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
-    project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.seasonal_project_info())
     specific_info: SpecificInfo = None
 
 

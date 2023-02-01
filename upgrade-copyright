@@ -5,6 +5,10 @@ parse_options() {
   for i in "$@"
   do
     case $i in
+    --parent=*)
+      PARENT_BRANCH="${i#*=}"
+      shift
+      ;;
     --year=*)
       NEW_YEAR="${i#*=}"
       shift
@@ -20,6 +24,11 @@ parse_options() {
   done
 
   # Set defaults
+  if [ -z "$PARENT_BRANCH" ]
+  then
+    PARENT_BRANCH="main"
+  fi
+
   if [ -z "$NEW_YEAR" ]
   then
     # Get current year from system
@@ -29,20 +38,17 @@ parse_options() {
 
 set_work_branch() {
   # Get URL of current branch
-  svn_info_work=$(fcm branch | grep '^URL:')
-  WORK_BRANCH=$(echo $svn_info_work | sed 's/URL: //')
-
-  # Get URL of parent branch
-  svn_info_parent=$(fcm branch | grep '^Branch Parent:')
-  PARENT_BRANCH=$(echo $svn_info_parent | sed 's/Branch Parent: //')
+  WORK_BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+  WORK_BRANCH="origin/${WORK_BRANCH_NAME}"
 }
 
 do_upgrade() {
-  echo "Working Branch URL: ${WORK_BRANCH}"
-  echo "Parent Branch URL: ${PARENT_BRANCH}"
+  echo "Working Branch: ${WORK_BRANCH}"
+  echo "Parent Branch: ${PARENT_BRANCH}"
   echo "New year: ${NEW_YEAR}"
 
-  filesToUpdate=$(fcm diff ${WORK_BRANCH}  ${PARENT_BRANCH} | diffstat | sed 's/[ \t]*|.*$//')
+  filesToUpdate=$(git diff ${WORK_BRANCH}  ${PARENT_BRANCH} | diffstat | sed 's/[ \t]*|.*$//')
+  echo "${filesToUpdate}"
   filePaths=($(echo "$filesToUpdate" | tr ' ' '\n'))
 
   for file in "${filePaths[@]}"
@@ -60,7 +66,8 @@ do_upgrade() {
 
 show_help() {
     programname=$0
-    echo "Usage: $programname [-h] [--year=newyear]"
+    echo "Usage: $programname [-h] [--parent] [--year=newyear]"
+    echo "  --parent        parent branch name if not main"
     echo "  --year          year to upgrade to"
     echo "  -h/--help       display help"
 }

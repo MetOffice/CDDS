@@ -1,19 +1,8 @@
-.. (C) British Crown Copyright 2017-2023, Met Office.
+.. (C) British Crown Copyright 2017-2022, Met Office.
 .. Please see LICENSE.rst for license details.
 
 .. include:: common.txt
 
-
-Release 2.4.1, January 18, 2023
-===============================
-
-* Create a Cylc workflow for end to end processing (CDDSO-198, 200)
-* Create a Cylc workflow for ensemble processing (CDDSO-199)
-* Implement the `checkout_processing_suite` script for checking a copy of
-  the CDDS Processing Suite (CDDSO-210)
-* Create a Rose app for generating `request.json` files (CDDSO-3)
-* Fix a bug where `cdds_convert` expect external plugins environmental variables to be set
-  even if no plugin was used (CDDSO-216)
 
 Release 2.4.0, September 12, 2022
 =================================

@@ -19,6 +19,5 @@
     "sites_file": "/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/cfmip2/cfmip2-sites-orog.txt",
     "skip_extract": true,
     "skip_qc": false,
-    "skip_transfer": true,
-    "skip_extract_validation": false
+    "skip_transfer": true
 }

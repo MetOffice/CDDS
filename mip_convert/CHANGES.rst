@@ -1,14 +1,7 @@
-.. (C) British Crown Copyright 2016-2023, Met Office.
+.. (C) British Crown Copyright 2016-2022, Met Office.
 .. Please see LICENSE.rst for license details.
 
 .. include:: common.txt
-
-
-Release 2.4.1, January 18, 2023
-===============================
-
-* Implement a `mask_slice` option in configuration file for providing ocean data masks (CDDSO-67, 215)
-* Add support for the UKCP18 GC3p05-N216ORCA025 model and UV grid mappings (CDDSO-222)
 
 Release 2.4.0, September 12, 2022
 =================================

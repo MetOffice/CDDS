@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>User Guide &#8212; MIP Convert 2.4.1 documentation</title>
+    <title>User Guide &#8212; MIP Convert 2.4.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="installation.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MIP Convert 2.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MIP Convert 2.4.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">User Guide</a></li> 
       </ul>
     </div>  
@@ -463,21 +463,14 @@ files containing the information about the
 hybrid heights.</p></td>
 <td><p>[3]</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mask_slice</span></code></p></td>
-<td><p>MIP Convert</p></td>
-<td><p>MIP Convert</p></td>
-<td><p>Optional slicing expression for masking data
-in the form of <code class="docutils literal notranslate"><span class="pre">n:m,i:j</span></code>, or <code class="docutils literal notranslate"><span class="pre">no_mask</span></code>.</p></td>
-<td><p>[4]</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">model_output_dir</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">model_output_dir</span></code></p></td>
 <td><p>MIP Convert</p></td>
 <td><p>MIP Convert</p></td>
 <td><p>The full path to the root directory containing
 the <a class="reference internal" href="glossary.html#term-Model-output-files"><span class="xref std std-term">model output files</span></a>.</p></td>
-<td><p>[5]</p></td>
+<td><p>[4]</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">reference_time</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">reference_time</span></code></p></td>
 <td><p>MIP Convert</p></td>
 <td><p>MIP Convert</p></td>
 <td><p>The reference time used to construct <code class="docutils literal notranslate"><span class="pre">reftime</span></code>
@@ -486,7 +479,7 @@ coordinates are specified corresponding variable
 entries in the <a class="reference internal" href="glossary.html#term-MIP-table"><span class="xref std std-term">MIP table</span></a></p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">replacement_coordinates_file</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">replacement_coordinates_file</span></code></p></td>
 <td></td>
 <td><p>MIP Convert</p></td>
 <td><p>The full path to the <a class="reference internal" href="glossary.html#term-netCDF"><span class="xref std std-term">netCDF</span></a> file containing
@@ -494,9 +487,9 @@ area variables that refer to the horizontal
 coordinates that should be used to replace the
 corresponding values in the
 <a class="reference internal" href="glossary.html#term-Model-output-files"><span class="xref std std-term">model output files</span></a>.</p></td>
-<td><p>[6]</p></td>
+<td><p>[5]</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">run_bounds</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">run_bounds</span></code></p></td>
 <td><p>MIP Convert</p></td>
 <td><p>MIP Convert</p></td>
 <td><p>The start and end time in the form
@@ -505,21 +498,21 @@ corresponding values in the
 form <code class="docutils literal notranslate"><span class="pre">YYYY-MM-DD-hh-mm-ss</span></code>.</p></td>
 <td></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">shuffle</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">shuffle</span></code></p></td>
 <td></td>
 <td><p>MIP Convert</p></td>
 <td><p>Whether to shuffle when writing the
 <a class="reference internal" href="glossary.html#term-Output-netCDF-file"><span class="xref std std-term">output netCDF file</span></a>.</p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sites_file</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sites_file</span></code></p></td>
 <td></td>
 <td><p>MIP Convert</p></td>
 <td><p>The full path to the file containing the
 information about the sites.</p></td>
-<td><p>[7]</p></td>
+<td><p>[6]</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">suite_id</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">suite_id</span></code></p></td>
 <td><p>MIP Convert</p></td>
 <td><p>MIP Convert</p></td>
 <td><p>The <a class="reference internal" href="glossary.html#term-Suite-identifier"><span class="xref std std-term">suite identifier</span></a> of the model.</p></td>
@@ -536,20 +529,15 @@ in the <a class="reference internal" href="glossary.html#term-Output-netCDF-file
 following columns; the <code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">level</span> <span class="pre">number</span></code> (int), the <code class="docutils literal notranslate"><span class="pre">a_value</span></code> (float),
 the <code class="docutils literal notranslate"><span class="pre">a_lower_bound</span></code> (float), the <code class="docutils literal notranslate"><span class="pre">a_upper_bound</span></code> (float), the <code class="docutils literal notranslate"><span class="pre">b_value</span></code>
 (float), the <code class="docutils literal notranslate"><span class="pre">b_lower_bound</span></code> (float) and the <code class="docutils literal notranslate"><span class="pre">b_upper_bound</span></code> (float).</p>
-<p>[4] If not specified, <code class="docutils literal notranslate"><span class="pre">mip_convert</span></code> will try to retrieve masking expressions
-from plugins (this is a default behaviour for CMIP6-like processing). Putting
-<code class="docutils literal notranslate"><span class="pre">no_mask</span></code> into configuration file allows <code class="docutils literal notranslate"><span class="pre">mip_convert</span></code> to process model output
-that does not require any masking; custom masks can be specified and passed to
-<code class="docutils literal notranslate"><span class="pre">mip_convert</span></code> without plugins dependencies.</p>
-<p>[5] It is expected that the <a class="reference internal" href="glossary.html#term-Model-output-files"><span class="xref std std-term">model output files</span></a> are located in the directory
+<p>[4] It is expected that the <a class="reference internal" href="glossary.html#term-Model-output-files"><span class="xref std std-term">model output files</span></a> are located in the directory
 <code class="docutils literal notranslate"><span class="pre">&lt;model_output_dir&gt;/&lt;suite_id&gt;/&lt;stream_id&gt;/</span></code>, where the <code class="docutils literal notranslate"><span class="pre">&lt;suite_id&gt;</span></code> is the
 <a class="reference internal" href="glossary.html#term-Suite-identifier"><span class="xref std std-term">suite identifier</span></a> and the <code class="docutils literal notranslate"><span class="pre">&lt;stream_id&gt;</span></code> is the <a class="reference internal" href="glossary.html#term-Stream-identifier"><span class="xref std std-term">stream identifier</span></a>. Note
 that MIP Convert will load all the files in this directory and then use the
 <code class="docutils literal notranslate"><span class="pre">run_bounds</span></code> to select the required data; when selecting a short time period
 from a large number of <a class="reference internal" href="glossary.html#term-Model-output-files"><span class="xref std std-term">model output files</span></a> it is recommended to copy the
 relevant files to an empty directory to save time when loading.</p>
-<p>[6] Currently, only CICE horizontal coordinates can be replaced.</p>
-<p>[7] The file containing the information about the sites has the following
+<p>[5] Currently, only CICE horizontal coordinates can be replaced.</p>
+<p>[6] The file containing the information about the sites has the following
 columns; the <code class="docutils literal notranslate"><span class="pre">site</span> <span class="pre">number</span></code> (int), the <code class="docutils literal notranslate"><span class="pre">longitude</span></code> (float, from 0 to 360)
 [degrees], the <code class="docutils literal notranslate"><span class="pre">latitude</span></code> (float, from -90 to 90) [degrees], the
 <code class="docutils literal notranslate"><span class="pre">orography</span></code> (float) [metres] and a <code class="docutils literal notranslate"><span class="pre">comment</span></code> (string).</p>
@@ -643,7 +631,7 @@ header of the <a class="reference internal" href="glossary.html#term-Output-netC
         <li class="right" >
           <a href="installation.html" title="Installation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MIP Convert 2.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MIP Convert 2.4.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">User Guide</a></li> 
       </ul>
     </div>

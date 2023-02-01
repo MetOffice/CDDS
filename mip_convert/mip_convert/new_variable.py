@@ -35,7 +35,7 @@ class VariableMetadata(object):
 
     def __init__(self, variable_name, stream_id, substream, mip_table_name, mip_metadata, site_information,
                  hybrid_height_information, replacement_coordinates, model_to_mip_mapping, timestep, run_bounds,
-                 calendar, base_date, deflate_level, shuffle, reference_time=None, mask_slice=None):
+                 calendar, base_date, deflate_level, shuffle, reference_time=None):
         """
         Parameters
         ----------
@@ -89,7 +89,6 @@ class VariableMetadata(object):
         self.deflate_level = deflate_level
         self.shuffle = shuffle
         self.reference_time = reference_time
-        self.mask_slice = mask_slice
         self._validate_timestep()
 
     def _validate_timestep(self):
@@ -304,7 +303,6 @@ class Variable(object):
             update_matched_coords = False
             for (coord, axis_direction) in self._matched_coords:
                 data_dimension = self._data_dimension(coord, axis_direction)
-                # we don't need another T axis
                 if data_dimension is None:
                     update_matched_coords = True
                     self.cube = iris.util.new_axis(self.cube, coord)
@@ -348,7 +346,7 @@ class Variable(object):
         self.logger.debug('Processing the data ...')
         self._remove_units_from_input_variables_as_necessary()
         self._ensure_masked_arrays()
-        self._apply_mask()
+        self._standardise()
         self._apply_expression()
         self._validate_cube()
         if self._time_coord:
@@ -376,43 +374,24 @@ class Variable(object):
             if not np.ma.isMaskedArray(cube.data):
                 cube.data = make_masked(cube.data, cube.shape, cube.attributes['fill_value'], cube.data.dtype)
 
-    def _apply_mask(self):
-        logger = logging.getLogger(__name__)
-        # expecting format lat_start:lat_stop:lat_stride, lon_start:lon_stop:lon_stride
-        mask_slice_str = self._variable_metadata.mask_slice
-        if mask_slice_str == 'no_mask':
-            mask = None
-        elif mask_slice_str is not None:
-            # build slices
-            try:
-                lat_str, lon_str = mask_slice_str.replace(' ', '').split(',')
-                lat_slice = slice(*[None if j.lower() in ('none', '') else int(j) for j in lat_str.split(':')])
-                lon_slice = slice(*[None if j.lower() in ('none', '') else int(j) for j in lon_str.split(':')])
-            except (TypeError, ValueError):
-                message = ('mask_slice information must consist of two slice specifications separated by a'
-                           ' comma, received "{}"'.format(mask_slice_str))
-                logger.critical(message)
-                raise RuntimeError(message)
-
-            logger.info('Masking all data using mask slices for latitude and longitude dimensions: "{}"'.format(
-                mask_slice_str))
-            mask = np.s_[..., lat_slice, lon_slice]
+    def _standardise(self):
+        model_id = self.model_to_mip_mapping.model_id
 
         for cube in list(self.input_variables.values()):
-            if mask_slice_str is None:
-                model_id = self.model_to_mip_mapping.model_id
-                model_component = cube.attributes['model_component']
-                # If CICE data modify the mode_component value to include grid information.
-                if model_component == 'cice':
-                    # cice_grid will be either "T" or "V" if variable has "TLAT" or "ULAT" respectively in its
-                    # "coordinates" netcdf attribute.
-                    cice_grid = cube.coord('latitude').var_name[0]
-                    model_component = 'cice-{}'.format(cice_grid)
-                mask = eorca_resolution_to_mask_slice(model_id, model_component, self._substream)
+            model_component = cube.attributes['model_component']
+
+            # If CICE data modify the mode_component value to include grid information.
+            if model_component == 'cice':
+                # cice_grid will be either "T" or "V" if variable has "TLAT" or "ULAT" respectively in its
+                # "coordinates" netcdf attribute.
+                cice_grid = cube.coord('latitude').var_name[0]
+                model_component = 'cice-{}'.format(cice_grid)
+
+            orca_slice = eorca_resolution_to_mask_slice(model_id, model_component, self._substream)
             cube_coord_names = {i.name() for i in cube.coords()}
-            if {'latitude', 'longitude'} <= cube_coord_names and mask is not None:
+            if {'latitude', 'longitude'} <= cube_coord_names and orca_slice is not None:
                 # update the existing mask
-                cube.data[mask] = np.ma.masked
+                cube.data[orca_slice] = np.ma.masked
 
     def _apply_expression(self):
         # Persist the fill_value attribute from the 'input variables' to the 'output variable'.
@@ -439,10 +418,7 @@ class Variable(object):
         self._validate_coord_points()
         self._validate_coord_bounds()
         if self._variable_metadata.reference_time:
-            try:
-                self.cube.remove_coord("forecast_period")
-            except iris.exceptions.CoordinateNotFoundError:
-                pass
+            self.cube.remove_coord("forecast_period")
             for (coord, axis_direction) in self._matched_coords:
                 if coord.standard_name == 'forecast_reference_time':
                     # this is populated from mip_convert config file
@@ -580,14 +556,8 @@ class Variable(object):
             # Determine the axis directions for all the coordinates in
             # the cube.
             matched_cube_coords = {}
-            # in some cases forecast reference time is not present in the original input cube and needs to be created
-            coord_names = [coord.name() for coord in self.cube.coords()]
-            if self._variable_metadata.reference_time is not None and 'forecast_reference_time' not in coord_names:
-                # insert a dummy reference time, it will be updated with proper values later
-                reference_time = iris.coords.DimCoord(np.array([0.5]), standard_name='forecast_reference_time',
-                                                      units=Unit('days since 1850-01-01 00:00:00', calendar='360_day'))
-                self.cube.add_aux_coord(reference_time, data_dims=None)
             all_cube_coords = {(coord.name(), guess_coord_axis(coord)): coord for coord in self.cube.coords()}
+
             cube_axis_directions = [axis_direction for (_, axis_direction) in list(all_cube_coords.keys())]
             self.logger.debug('All cube coordinates: {}'.format(list(all_cube_coords.keys())))
 
