@@ -97,6 +97,7 @@ def validate_variable_list(mt, variables_file, mip_era):
             mip_table, variable = mip_table_variable.split('/')
         else:
             stream_info = PluginStore.instance().get_plugin().stream_info()
+            logger.info(var_str)
             mip_table, variable = var_str.strip().split('/')
             stream_id, substream = stream_info.retrieve_stream_id(variable, mip_table)
             stream_substream = '{}/{}'.format(stream_id, substream) if substream is not None else stream_id

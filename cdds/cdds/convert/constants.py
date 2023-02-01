@@ -6,6 +6,10 @@ be changes by a user and exist for readability and maintainability
 purposes) for CDDS Convert.
 """
 
+CMOR_FILENAME_PATTERN = (r'([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)_'
+                         r'([a-zA-Z0-9-]+)_(r\d+i\d+p\d+f\d+)_g([a-zA-Z0-9]+)'
+                         r'_((\d+)-(\d+))(-clim)?.nc')
+
 DEFAULT_SQLITE_TIMEOUT = 30
 # Some variables are diurnal monthly means. They have 2 values per month,
 # representing day and night avarages for that month, for 24 values per year.
