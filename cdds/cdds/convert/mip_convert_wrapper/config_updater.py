@@ -4,7 +4,6 @@
 Routines to read MIP Convert config templates and write them out with
 the appropriate parameters filled in.
 """
-from datetime import datetime
 import errno
 import jinja2
 import logging
@@ -13,9 +12,11 @@ import os
 from metomi.isodatetime.data import TimePoint
 from metomi.isodatetime.parsers import TimePointParser, DurationParser
 from cdds.common.constants import CYLC_DATE_FORMAT, MIP_CONVERT_DATETIME_FORMAT
+from typing import Tuple
 
 
-def calculate_mip_convert_run_bounds(start_point: str, cycle_duration: str, simulation_end: TimePoint):
+def calculate_mip_convert_run_bounds(
+        start_point: str, cycle_duration: str, simulation_end: TimePoint) -> Tuple[TimePoint, TimePoint]:
     """
     Return a pair of datetime objects describing the  bounds for MIP
     Convert to run in this step.
@@ -36,38 +37,12 @@ def calculate_mip_convert_run_bounds(start_point: str, cycle_duration: str, simu
     """
 
     job_start_dt = TimePointParser().parse(start_point, dump_format=CYLC_DATE_FORMAT)
-    job_end_dt = rose_date(start_point, cycle_duration)
+    job_end_dt = TimePointParser().parse(start_point) + DurationParser().parse(cycle_duration)
 
     if job_end_dt > simulation_end:
         job_end_dt = simulation_end
 
     return job_start_dt, job_end_dt
-
-
-def rose_date(ref_date, offset):
-    """
-    Use the rose date command to obtain a date offset from a reference
-    date.
-
-    Parameters
-    ----------
-    ref_date : str
-        Reference date
-    offset : str
-        List of offsets, each of which should be an ISO time delta,
-        e.g. "P1Y" for one year
-
-    Returns
-    -------
-    : datetime
-        Resulting datetime object.
-    """
-    return TimePointParser().parse(ref_date) + DurationParser().parse(offset)
-    # command = ['rose', 'date', ref_date,
-    #            '--calendar={}'.format(model_calendar)]
-    # command += ['--offset={}'.format(offset)]
-    # result = subprocess.check_output(command)
-    # return datetime.strptime(result.strip().decode(), CYLC_DATE_FORMAT)
 
 
 def setup_cfg_file(input_dir, output_dir, mip_convert_config_dir, component,
@@ -90,9 +65,9 @@ def setup_cfg_file(input_dir, output_dir, mip_convert_config_dir, component,
         config file template, e.g. if component is "ocean", then the
         template "mip_convert.ocean.cfg" in the MIP Convert config dir
         will be used.
-    start_time : datetime
+    start_time : TimePoint
         Start date for this job step.
-    end_time: datetime
+    end_time: TimePoint
         End date for this job step.
     timestamp : str
         Time stamp string to use in output file names.

@@ -3,9 +3,10 @@
 """
 Tests of mip_convert_wrapper.file_management
 """
-import cftime
 import unittest
 import re
+
+from metomi.isodatetime.data import TimePoint, Calendar
 
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.convert.constants import STREAMS_FILES_REGEX
@@ -170,14 +171,15 @@ class TestProcessors(unittest.TestCase):
     def setUp(self):
         load_plugin()
         self.model_id = 'HadGEM3-GC31-LL'
+        Calendar.default().set_mode('360_day')
 
     def test_parse_atmos_monthly_filename(self):
         stream = 'ap4'
         test_pattern = re.compile(STREAMS_FILES_REGEX['ap'])
         output_file_dict = parse_atmos_monthly_filename(
             ATMOS_MONTHLY_FILENAMES[0], stream, test_pattern, self.model_id)
-        expected_start = cftime.datetime(1997, 4, 1, calendar='360_day')
-        expected_end = cftime.datetime(1997, 5, 1, calendar='360_day')
+        expected_start = TimePoint(year=1997, month_of_year=4, day_of_month=1)
+        expected_end = TimePoint(year=1997, month_of_year=5, day_of_month=1)
         expected_suite_id = 'aw310'
         self.assertEqual(output_file_dict['start'], expected_start)
         self.assertEqual(output_file_dict['end'], expected_end)
@@ -188,8 +190,8 @@ class TestProcessors(unittest.TestCase):
         test_pattern = re.compile(STREAMS_FILES_REGEX['ap'])
         output_file_dict = parse_atmos_monthly_filename(
             ATMOS_ENS_MONTHLY_FILENAMES[0], stream, test_pattern, self.model_id)
-        expected_start = cftime.datetime(1997, 4, 1, calendar='360_day')
-        expected_end = cftime.datetime(1997, 5, 1, calendar='360_day')
+        expected_start = TimePoint(year=1997, month_of_year=4, day_of_month=1)
+        expected_end = TimePoint(year=1997, month_of_year=5, day_of_month=1)
         expected_suite_id = 'aw310'
         self.assertEqual(output_file_dict['start'], expected_start)
         self.assertEqual(output_file_dict['end'], expected_end)
@@ -200,8 +202,8 @@ class TestProcessors(unittest.TestCase):
         test_pattern = re.compile(STREAMS_FILES_REGEX['ap_submonthly'])
         output_file_dict = parse_atmos_submonthly_filename(
             ATMOS_SUBMONTHLY_FILENAMES[0], stream, test_pattern, self.model_id)
-        expected_start = cftime.datetime(1997, 1, 1, calendar='360_day')
-        expected_end = cftime.datetime(1997, 1, 11, calendar='360_day')
+        expected_start = TimePoint(year=1997, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=1997, month_of_year=1, day_of_month=11)
         expected_suite_id = 'aw310'
         self.assertEqual(output_file_dict['start'], expected_start)
         self.assertEqual(output_file_dict['end'], expected_end)
@@ -212,8 +214,8 @@ class TestProcessors(unittest.TestCase):
         test_pattern = re.compile(STREAMS_FILES_REGEX['on'])
         output_file_dict = parse_ocean_seaice_filename(
             OCEAN_FILENAMES[0], stream, test_pattern, self.model_id)
-        expected_start = cftime.datetime(1997, 1, 1, calendar='360_day')
-        expected_end = cftime.datetime(1997, 2, 1, calendar='360_day')
+        expected_start = TimePoint(year=1997, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=1997, month_of_year=2, day_of_month=1)
         expected_suite_id = 'aw310'
         self.assertEqual(output_file_dict['start'], expected_start)
         self.assertEqual(output_file_dict['end'], expected_end)

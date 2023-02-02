@@ -3,8 +3,6 @@
 """
 Tests of mip_convert_wrapper.file_management
 """
-import cftime
-import datetime
 import os
 
 from cdds.common.plugins.plugin_loader import load_plugin
@@ -14,232 +12,233 @@ from cdds.convert.mip_convert_wrapper.file_management import (
 )
 from cdds.tests.test_convert.test_wrapper.test_file_processors import (
     ATMOS_MONTHLY_FILENAMES, OCEAN_FILENAMES)
+from metomi.isodatetime.data import TimePoint, Calendar
 from unittest import main, mock, TestCase
 
-EXPECTED_FILE_LIST = [{'end': cftime.datetime(1997, 5, 1, 0, 0, calendar='360_day'),
+EXPECTED_FILE_LIST = [{'end': TimePoint(year=1997, month_of_year=5, day_of_month=1),
                        'filename': 'aw310a.p41997apr.pp',
                        'month': 'apr',
-                       'start': cftime.datetime(1997, 4, 1, 0, 0, calendar='360_day'),
+                       'start': TimePoint(year=1997, month_of_year=4, day_of_month=1),
                        'stream_num': '4',
                        'suite_id': 'aw310',
                        'year': '1997'},
-                      {'end': cftime.datetime(1997, 9, 1, 0, 0, calendar='360_day'),
+                      {'end': TimePoint(year=1997, month_of_year=9, day_of_month=1),
                        'filename': 'aw310a.p41997aug.pp',
                        'month': 'aug',
-                       'start': cftime.datetime(1997, 8, 1, 0, 0, calendar='360_day'),
+                       'start': TimePoint(year=1997, month_of_year=8, day_of_month=1),
                        'stream_num': '4',
                        'suite_id': 'aw310',
                        'year': '1997'},
-                      {'end': cftime.datetime(1998, 1, 1, 0, 0, calendar='360_day'),
+                      {'end': TimePoint(year=1998, month_of_year=1, day_of_month=1),
                        'filename': 'aw310a.p41997dec.pp',
                        'month': 'dec',
-                       'start': cftime.datetime(1997, 12, 1, 0, 0, calendar='360_day'),
+                       'start': TimePoint(year=1997, month_of_year=12, day_of_month=1),
                        'stream_num': '4',
                        'suite_id': 'aw310',
                        'year': '1997'},
-                      {'end': cftime.datetime(1997, 3, 1, 0, 0, calendar='360_day'),
+                      {'end': TimePoint(year=1997, month_of_year=3, day_of_month=1),
                        'filename': 'aw310a.p41997feb.pp',
                        'month': 'feb',
-                       'start': cftime.datetime(1997, 2, 1, 0, 0, calendar='360_day'),
+                       'start': TimePoint(year=1997, month_of_year=2, day_of_month=1),
                        'stream_num': '4',
                        'suite_id': 'aw310',
                        'year': '1997'},
-                      {'end': cftime.datetime(1997, 2, 1, 0, 0, calendar='360_day'),
+                      {'end': TimePoint(year=1997, month_of_year=2, day_of_month=1),
                        'filename': 'aw310a.p41997jan.pp',
                        'month': 'jan',
-                       'start': cftime.datetime(1997, 1, 1, 0, 0, calendar='360_day'),
+                       'start': TimePoint(year=1997, month_of_year=1, day_of_month=1),
                        'stream_num': '4',
                        'suite_id': 'aw310',
                        'year': '1997'},
-                      {'end': cftime.datetime(1997, 8, 1, 0, 0, calendar='360_day'),
+                      {'end': TimePoint(year=1997, month_of_year=8, day_of_month=1),
                        'filename': 'aw310a.p41997jul.pp',
                        'month': 'jul',
-                       'start': cftime.datetime(1997, 7, 1, 0, 0, calendar='360_day'),
+                       'start': TimePoint(year=1997, month_of_year=7, day_of_month=1),
                        'stream_num': '4',
                        'suite_id': 'aw310',
                        'year': '1997'},
-                      {'end': cftime.datetime(1997, 7, 1, 0, 0, calendar='360_day'),
+                      {'end': TimePoint(year=1997, month_of_year=7, day_of_month=1),
                        'filename': 'aw310a.p41997jun.pp',
                        'month': 'jun',
-                       'start': cftime.datetime(1997, 6, 1, 0, 0, calendar='360_day'),
+                       'start': TimePoint(year=1997, month_of_year=6, day_of_month=1),
                        'stream_num': '4',
                        'suite_id': 'aw310',
                        'year': '1997'},
-                      {'end': cftime.datetime(1997, 4, 1, 0, 0, calendar='360_day'),
+                      {'end': TimePoint(year=1997, month_of_year=4, day_of_month=1),
                        'filename': 'aw310a.p41997mar.pp',
                        'month': 'mar',
-                       'start': cftime.datetime(1997, 3, 1, 0, 0, calendar='360_day'),
+                       'start': TimePoint(year=1997, month_of_year=3, day_of_month=1),
                        'stream_num': '4',
                        'suite_id': 'aw310',
                        'year': '1997'},
-                      {'end': cftime.datetime(1997, 6, 1, 0, 0, calendar='360_day'),
+                      {'end': TimePoint(year=1997, month_of_year=6, day_of_month=1),
                        'filename': 'aw310a.p41997may.pp',
                        'month': 'may',
-                       'start': cftime.datetime(1997, 5, 1, 0, 0, calendar='360_day'),
+                       'start': TimePoint(year=1997, month_of_year=5, day_of_month=1),
                        'stream_num': '4',
                        'suite_id': 'aw310',
                        'year': '1997'},
-                      {'end': cftime.datetime(1997, 12, 1, 0, 0, calendar='360_day'),
+                      {'end': TimePoint(year=1997, month_of_year=12, day_of_month=1),
                        'filename': 'aw310a.p41997nov.pp',
                        'month': 'nov',
-                       'start': cftime.datetime(1997, 11, 1, 0, 0, calendar='360_day'),
+                       'start': TimePoint(year=1997, month_of_year=11, day_of_month=1),
                        'stream_num': '4',
                        'suite_id': 'aw310',
                        'year': '1997'},
-                      {'end': cftime.datetime(1997, 11, 1, 0, 0, calendar='360_day'),
+                      {'end': TimePoint(year=1997, month_of_year=11, day_of_month=1),
                        'filename': 'aw310a.p41997oct.pp',
                        'month': 'oct',
-                       'start': cftime.datetime(1997, 10, 1, 0, 0, calendar='360_day'),
+                       'start': TimePoint(year=1997, month_of_year=10, day_of_month=1),
                        'stream_num': '4',
                        'suite_id': 'aw310',
                        'year': '1997'},
-                      {'end': cftime.datetime(1997, 10, 1, 0, 0, calendar='360_day'),
+                      {'end': TimePoint(year=1997, month_of_year=10, day_of_month=1),
                        'filename': 'aw310a.p41997sep.pp',
                        'month': 'sep',
-                       'start': cftime.datetime(1997, 9, 1, 0, 0, calendar='360_day'),
+                       'start': TimePoint(year=1997, month_of_year=9, day_of_month=1),
                        'stream_num': '4',
                        'suite_id': 'aw310',
                        'year': '1997'},
-                      {'end': cftime.datetime(1997, 1, 1, 0, 0, calendar='360_day'),
+                      {'end': TimePoint(year=1997, month_of_year=1, day_of_month=1),
                        'filename': 'aw310a.p41996dec.pp',
                        'month': 'dec',
-                       'start': cftime.datetime(1996, 12, 1, 0, 0, calendar='360_day'),
+                       'start': TimePoint(year=1996, month_of_year=12, day_of_month=1),
                        'stream_num': '4',
                        'suite_id': 'aw310',
                        'year': '1996'},
-                      {'end': cftime.datetime(1998, 2, 1, 0, 0, calendar='360_day'),
+                      {'end': TimePoint(year=1998, month_of_year=2, day_of_month=1),
                        'filename': 'aw310a.p41998jan.pp',
                        'month': 'jan',
-                       'start': cftime.datetime(1998, 1, 1, 0, 0, calendar='360_day'),
+                       'start': TimePoint(year=1998, month_of_year=1, day_of_month=1),
                        'stream_num': '4',
                        'suite_id': 'aw310',
                        'year': '1998'}]
 
 EXPECTED_FILE_LIST_OCEAN_SUBSTREAMS = [
-    {'end': cftime.datetime(1997, 2, 1, 0, 0, calendar='360_day'),
+    {'end': TimePoint(year=1997, month_of_year=2, day_of_month=1),
      'end_str': '19970201',
      'filename': 'nemo_aw310o_1m_19970101-19970201_grid-T.nc',
      'grid': 'grid-T',
      'model': 'nemo',
      'period': '1m',
-     'start': cftime.datetime(1997, 1, 1, 0, 0, calendar='360_day'),
+     'start': TimePoint(year=1997, month_of_year=1, day_of_month=1),
      'start_str': '19970101',
      'suite_id': 'aw310'},
-    {'end': cftime.datetime(1997, 3, 1, 0, 0, calendar='360_day'),
+    {'end': TimePoint(year=1997, month_of_year=3, day_of_month=1),
      'end_str': '19970301',
      'filename': 'nemo_aw310o_1m_19970201-19970301_grid-T.nc',
      'grid': 'grid-T',
      'model': 'nemo',
      'period': '1m',
-     'start': cftime.datetime(1997, 2, 1, 0, 0, calendar='360_day'),
+     'start': TimePoint(year=1997, month_of_year=2, day_of_month=1),
      'start_str': '19970201',
      'suite_id': 'aw310'},
-    {'end': cftime.datetime(1997, 4, 1, 0, 0, calendar='360_day'),
+    {'end': TimePoint(year=1997, month_of_year=4, day_of_month=1),
      'end_str': '19970401',
      'filename': 'nemo_aw310o_1m_19970301-19970401_grid-T.nc',
      'grid': 'grid-T',
      'model': 'nemo',
      'period': '1m',
-     'start': cftime.datetime(1997, 3, 1, 0, 0, calendar='360_day'),
+     'start': TimePoint(year=1997, month_of_year=3, day_of_month=1),
      'start_str': '19970301',
      'suite_id': 'aw310'},
-    {'end': cftime.datetime(1997, 5, 1, 0, 0, calendar='360_day'),
+    {'end': TimePoint(year=1997, month_of_year=5, day_of_month=1),
      'end_str': '19970501',
      'filename': 'nemo_aw310o_1m_19970401-19970501_grid-T.nc',
      'grid': 'grid-T',
      'model': 'nemo',
      'period': '1m',
-     'start': cftime.datetime(1997, 4, 1, 0, 0, calendar='360_day'),
+     'start': TimePoint(year=1997, month_of_year=4, day_of_month=1),
      'start_str': '19970401',
      'suite_id': 'aw310'},
-    {'end': cftime.datetime(1997, 6, 1, 0, 0, calendar='360_day'),
+    {'end': TimePoint(year=1997, month_of_year=6, day_of_month=1),
      'end_str': '19970601',
      'filename': 'nemo_aw310o_1m_19970501-19970601_grid-T.nc',
      'grid': 'grid-T',
      'model': 'nemo',
      'period': '1m',
-     'start': cftime.datetime(1997, 5, 1, 0, 0, calendar='360_day'),
+     'start': TimePoint(year=1997, month_of_year=5, day_of_month=1),
      'start_str': '19970501',
      'suite_id': 'aw310'},
-    {'end': cftime.datetime(1997, 7, 1, 0, 0, calendar='360_day'),
+    {'end': TimePoint(year=1997, month_of_year=7, day_of_month=1),
      'end_str': '19970701',
      'filename': 'nemo_aw310o_1m_19970601-19970701_grid-T.nc',
      'grid': 'grid-T',
      'model': 'nemo',
      'period': '1m',
-     'start': cftime.datetime(1997, 6, 1, 0, 0, calendar='360_day'),
+     'start': TimePoint(year=1997, month_of_year=6, day_of_month=1),
      'start_str': '19970601',
      'suite_id': 'aw310'},
-    {'end': cftime.datetime(1997, 8, 1, 0, 0, calendar='360_day'),
+    {'end': TimePoint(year=1997, month_of_year=8, day_of_month=1),
      'end_str': '19970801',
      'filename': 'nemo_aw310o_1m_19970701-19970801_grid-T.nc',
      'grid': 'grid-T',
      'model': 'nemo',
      'period': '1m',
-     'start': cftime.datetime(1997, 7, 1, 0, 0, calendar='360_day'),
+     'start': TimePoint(year=1997, month_of_year=7, day_of_month=1),
      'start_str': '19970701',
      'suite_id': 'aw310'},
-    {'end': cftime.datetime(1997, 9, 1, 0, 0, calendar='360_day'),
+    {'end': TimePoint(year=1997, month_of_year=9, day_of_month=1),
      'end_str': '19970901',
      'filename': 'nemo_aw310o_1m_19970801-19970901_grid-T.nc',
      'grid': 'grid-T',
      'model': 'nemo',
      'period': '1m',
-     'start': cftime.datetime(1997, 8, 1, 0, 0, calendar='360_day'),
+     'start': TimePoint(year=1997, month_of_year=8, day_of_month=1),
      'start_str': '19970801',
      'suite_id': 'aw310'},
-    {'end': cftime.datetime(1997, 10, 1, 0, 0, calendar='360_day'),
+    {'end': TimePoint(year=1997, month_of_year=10, day_of_month=1),
      'end_str': '19971001',
      'filename': 'nemo_aw310o_1m_19970901-19971001_grid-T.nc',
      'grid': 'grid-T',
      'model': 'nemo',
      'period': '1m',
-     'start': cftime.datetime(1997, 9, 1, 0, 0, calendar='360_day'),
+     'start': TimePoint(year=1997, month_of_year=9, day_of_month=1),
      'start_str': '19970901',
      'suite_id': 'aw310'},
-    {'end': cftime.datetime(1997, 11, 1, 0, 0, calendar='360_day'),
+    {'end': TimePoint(year=1997, month_of_year=11, day_of_month=1),
      'end_str': '19971101',
      'filename': 'nemo_aw310o_1m_19971001-19971101_grid-T.nc',
      'grid': 'grid-T',
      'model': 'nemo',
      'period': '1m',
-     'start': cftime.datetime(1997, 10, 1, 0, 0, calendar='360_day'),
+     'start': TimePoint(year=1997, month_of_year=10, day_of_month=1),
      'start_str': '19971001',
      'suite_id': 'aw310'},
-    {'end': cftime.datetime(1997, 12, 1, 0, 0, calendar='360_day'),
+    {'end': TimePoint(year=1997, month_of_year=12, day_of_month=1),
      'end_str': '19971201',
      'filename': 'nemo_aw310o_1m_19971101-19971201_grid-T.nc',
      'grid': 'grid-T',
      'model': 'nemo',
      'period': '1m',
-     'start': cftime.datetime(1997, 11, 1, 0, 0, calendar='360_day'),
+     'start': TimePoint(year=1997, month_of_year=11, day_of_month=1),
      'start_str': '19971101',
      'suite_id': 'aw310'},
-    {'end': cftime.datetime(1998, 1, 1, 0, 0, calendar='360_day'),
+    {'end': TimePoint(year=1998, month_of_year=1, day_of_month=1),
      'end_str': '19980101',
      'filename': 'nemo_aw310o_1m_19971201-19980101_grid-T.nc',
      'grid': 'grid-T',
      'model': 'nemo',
      'period': '1m',
-     'start': cftime.datetime(1997, 12, 1, 0, 0, calendar='360_day'),
+     'start': TimePoint(year=1997, month_of_year=12, day_of_month=1),
      'start_str': '19971201',
      'suite_id': 'aw310'},
-    {'end': cftime.datetime(1998, 2, 1, 0, 0, calendar='360_day'),
+    {'end': TimePoint(year=1998, month_of_year=2, day_of_month=1),
      'end_str': '19980201',
      'filename': 'nemo_aw310o_1m_19980101-19980201_grid-T.nc',
      'grid': 'grid-T',
      'model': 'nemo',
      'period': '1m',
-     'start': cftime.datetime(1998, 1, 1, 0, 0, calendar='360_day'),
+     'start': TimePoint(year=1998, month_of_year=1, day_of_month=1),
      'start_str': '19980101',
      'suite_id': 'aw310'},
-    {'end': cftime.datetime(1997, 1, 1, 0, 0, calendar='360_day'),
+    {'end': TimePoint(year=1997, month_of_year=1, day_of_month=1),
      'end_str': '19970101',
      'filename': 'nemo_aw310o_1m_19961201-19970101_grid-T.nc',
      'grid': 'grid-T',
      'model': 'nemo',
      'period': '1m',
-     'start': cftime.datetime(1996, 12, 1, 0, 0, calendar='360_day'),
+     'start': TimePoint(year=1996, month_of_year=12, day_of_month=1),
      'start_str': '19961201',
      'suite_id': 'aw310'}]
 
@@ -251,6 +250,7 @@ class TestMisc(TestCase):
 
     def setUp(self):
         load_plugin()
+        Calendar.default().set_mode('360_day')
 
     @mock.patch('os.listdir')
     def test_get_paths(self, mock_list_dir):
@@ -261,9 +261,8 @@ class TestMisc(TestCase):
         suite_name = 'u-RUNID'
         stream = 'ap4'
         substream = ''
-        start_date = datetime.datetime(1997, 1, 1)
-        length1 = 360 * 5
-        end_date = datetime.datetime(1998, 1, 1)
+        start_date = TimePoint(year=1997, month_of_year=1, day_of_month=1)
+        end_date = TimePoint(year=1998, month_of_year=1, day_of_month=1)
         model_id = 'HadGEM3-GC31-LL'
         input_dir = os.path.sep + os.path.join('path', 'to', 'input', 'dir')
         work_dir = os.path.sep + os.path.join('path', 'to', 'work', 'dir')
@@ -296,6 +295,13 @@ class TestMisc(TestCase):
                          expected_new_input,
                          'new_input_location not correct')
         expected_file_list = EXPECTED_FILE_LIST
+
+        for expected_file in expected_file_list:
+            expected_filename = expected_file['filename']
+            for output_file in output_file_list:
+                if output_file['filename'] == expected_filename:
+                    self.assertDictEqual(output_file, expected_file)
+
         self.assertListEqual(expected_file_list, output_file_list)
 
     @mock.patch('os.listdir')
@@ -307,10 +313,9 @@ class TestMisc(TestCase):
         suite_name = 'u-RUNID'
         stream = 'onm'
         substream = 'grid-T'
-        start_date = datetime.datetime(1997, 1, 1)
-        length1 = 360 * 5
+        start_date = TimePoint(year=1997, month_of_year=1, day_of_month=1)
         model_id = 'HadGEM3-GC31-LL'
-        end_date = datetime.datetime(1998, 1, 1)
+        end_date = TimePoint(year=1998, month_of_year=1, day_of_month=1)
         input_dir = os.path.sep + os.path.join('path', 'to', 'input', 'dir')
         work_dir = os.path.sep + os.path.join('path', 'to', 'work', 'dir')
 
@@ -354,8 +359,6 @@ class TestMisc(TestCase):
         """
         src_dir = '/path/to/src/dir/'
         dest_dir = '/path/to/dest/dir/'
-        start_dt = datetime.datetime(year=1850, month=1, day=1)
-        end_dt = datetime.datetime(year=1854, month=12, day=30)
         expected_files = EXPECTED_FILE_LIST
 
         mock_os_exists.return_value = True
@@ -378,8 +381,6 @@ class TestMisc(TestCase):
         """
         src_dir = '/path/to/src/dir/'
         dest_dir = '/path/to/dest/dir/'
-        start_dt = datetime.datetime(year=1850, month=1, day=1)
-        end_dt = datetime.datetime(year=1854, month=12, day=30)
         expected_files = EXPECTED_FILE_LIST
 
         mock_os_exists.return_value = True
@@ -397,8 +398,6 @@ class TestMisc(TestCase):
         """
         src_dir = '/path/to/src/dir/'
         dest_dir = '/path/to/dest/dir/'
-        start_dt = datetime.datetime(year=1850, month=1, day=1)
-        end_dt = datetime.datetime(year=1854, month=12, day=30)
         expected_files = EXPECTED_FILE_LIST
 
         mock_os_exists.return_value = True
@@ -430,8 +429,6 @@ class TestMisc(TestCase):
         """
         src_dir = '/path/to/src/dir/'
         dest_dir = '/path/to/dest/dir/'
-        start_dt = datetime.datetime(year=1850, month=1, day=1)
-        end_dt = datetime.datetime(year=1854, month=12, day=30)
         expected_files = EXPECTED_FILE_LIST
 
         mock_glob_glob.return_value = []
