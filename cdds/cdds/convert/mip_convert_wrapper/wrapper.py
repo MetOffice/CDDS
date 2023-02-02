@@ -53,7 +53,7 @@ def run_mip_convert_wrapper(arguments):
         cylc_task_work_dir = os.environ['CYLC_TASK_WORK_DIR']
         cylc_task_cycle_point = os.environ['CYLC_TASK_CYCLE_POINT']
         dummy_run = os.environ['DUMMY_RUN'] == 'TRUE'
-        end_year = os.environ['END_DATE']
+        simulation_end_date = os.environ['END_DATE']
         input_dir = os.environ['INPUT_DIR']
         mip_convert_config_dir = os.environ['MIP_CONVERT_CONFIG_DIR']
         cdds_convert_proc_dir = os.environ['CDDS_CONVERT_PROC_DIR']
@@ -74,8 +74,8 @@ def run_mip_convert_wrapper(arguments):
     # Calculate start and end dates for this step
     # Final date is the 1st of January in the year after final_year (the final
     # year to be processed).
-    end_dt = TimePointParser().parse(end_year)
-    start_date, end_date = calculate_mip_convert_run_bounds(cylc_task_cycle_point, cycle_duration, end_dt)
+    simulation_end = TimePointParser().parse(simulation_end_date)
+    start_date, end_date = calculate_mip_convert_run_bounds(cylc_task_cycle_point, cycle_duration, simulation_end)
 
     # Identify whether there is any work to be done in this job step.
     job_days = (end_date - start_date).days
@@ -115,8 +115,7 @@ def run_mip_convert_wrapper(arguments):
                                 end_date,
                                 input_dir,
                                 work_dir,
-                                filepath_type=filepath_type,
-                                calendar=calendar
+                                filepath_type=filepath_type
                                 )
     if staging_dir:
         num_files_processed = copy_to_staging_dir(expected_files,
