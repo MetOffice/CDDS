@@ -9,18 +9,19 @@ import unittest
 import dateutil.relativedelta
 import cdds.convert.organise_files
 
+from metomi.isodatetime.data import TimePoint, Calendar, Duration
 from unittest import mock
 from unittest.mock import call
 
 
 def generate_expected_file_lists(root_dir, component_list, var_list, date_list,
-                                 start_year, end_year, cycle_delta):
-    fname_template = '{v1}_{m1}_myExpriment_{d1.year}{d1.month:02d}' \
-                     + '-{d2.year}{d2.month:02d}'
+                                 start_date, end_date, cycle_delta):
+    fname_template = '{v1}_{m1}_myExpriment_{d1.year}{d1.month_of_year:02d}' \
+                     + '-{d2.year}{d2.month_of_year:02d}'
 
-    cycle_dir_template = '{root}/{dt1.year}-{dt1.month:02d}-{dt1.day:02d}'
+    cycle_dir_template = '{root}/{dt1.year}-{dt1.month_of_year:02d}-{dt1.day_of_month:02d}'
     comp_dir_template = cycle_dir_template + '/{comp}'
-    date_str_list = ['{dt1.year}-{dt1.month:02d}-{dt1.day:02d}'
+    date_str_list = ['{dt1.year}-{dt1.month_of_year:02d}-{dt1.day_of_month:02d}'
                      ''.format(dt1=dt1) for dt1 in date_list]
     listdir_output = [date_str_list] + \
                      [list(component_list.keys()) for _ in date_list]
@@ -30,9 +31,9 @@ def generate_expected_file_lists(root_dir, component_list, var_list, date_list,
                dict([(v1, []) for v1 in var_list]))
               for comp1 in component_list])
     expected_dirs = []
-    day_delta = dateutil.relativedelta.relativedelta(days=1)
+    day_delta = Duration(days=1)
     for date1 in date_list:
-        date_in_range = date1.year >= start_year and date1.year <= end_year
+        date_in_range = start_date <= date1 <= end_date
         if date_in_range:
             expected_dirs += [cycle_dir_template.format(root=root_dir,
                                                         dt1=date1)]
@@ -57,6 +58,8 @@ class TestOrganiseFiles(unittest.TestCase):
     """
     Simple tests of organise_files routines
     """
+    def setUp(self):
+        Calendar.default().set_mode('360_day')
 
     @mock.patch('glob.iglob')
     @mock.patch('os.listdir')
@@ -72,16 +75,16 @@ class TestOrganiseFiles(unittest.TestCase):
 
         # inputs to the function
         root_dir = 'dummy'
-        start_year = 1850
-        end_year = 1859
-        cycle_delta = dateutil.relativedelta.relativedelta(years=5)
+        start_date = TimePoint(year=1850, month_of_year=1, day_of_month=1)
+        end_date = TimePoint(year=1859, month_of_year=12, day_of_month=30)
+        cycle_delta = Duration(years=5)
 
         # setup list of file date ranges for input and output from function.
         # the test is selecting the 1850 and 1855 cycle from a range
         # 1850-1869
         input_date_list = [(1850, 1, 1), (1855, 1, 1), (1860, 1, 1),
                            (1865, 1, 1)]
-        date_list = [datetime.datetime(year=dt1[0], month=dt1[1], day=dt1[2])
+        date_list = [TimePoint(year=dt1[0], month_of_year=dt1[1], day_of_month=dt1[2])
                      for dt1 in input_date_list]
 
         # create a list of files based on the date ranges and the specified
@@ -96,14 +99,14 @@ class TestOrganiseFiles(unittest.TestCase):
          expected_files) = generate_expected_file_lists(root_dir,
                                                         component_list,
                                                         var_list, date_list,
-                                                        start_year, end_year,
+                                                        start_date, end_date,
                                                         cycle_delta)
         mock_listdir.side_effect = listdir_output
         mock_iglob.side_effect = iter(glob_list)
         dirs, files = cdds.convert.organise_files.identify_files_to_move(
             root_dir,
-            str(start_year),
-            str(end_year), )
+            start_date.strftime('%Y%m%d'),
+            end_date.strftime('%Y%m%d'), )
         self.assertEqual(sorted(dirs), sorted(expected_dirs))
         self.assertDictEqual(files, expected_files)
 
@@ -126,9 +129,9 @@ class TestOrganiseFiles(unittest.TestCase):
         # inputs to the function. We want to process a concatenation window
         # from the start of 1855 to the end of 1859
         root_dir = 'dummy'
-        start_year = 1855
-        end_year = 1859
-        cycle_delta = dateutil.relativedelta.relativedelta(months=6)
+        start_year = TimePoint(year=1855, month_of_year=1, day_of_month=1)
+        end_year = TimePoint(year=1859, month_of_year=1, day_of_month=1)
+        cycle_delta = Duration(months=6)
 
         # setup list of file date ranges for input and output from function.
         # the test is selecting the 1850 and 1855 cycle from a range
@@ -145,7 +148,7 @@ class TestOrganiseFiles(unittest.TestCase):
                            (1859, 1, 1), (1859, 7, 1),
                            (1860, 1, 1), (1860, 7, 1),
                            ]
-        date_list = [datetime.datetime(year=dt1[0], month=dt1[1], day=dt1[2])
+        date_list = [TimePoint(year=dt1[0], month_of_year=dt1[1], day_of_month=dt1[2])
                      for dt1 in input_date_list]
 
         # create a list of files based on the date ranges and the specified
@@ -167,8 +170,8 @@ class TestOrganiseFiles(unittest.TestCase):
 
         dirs, files = cdds.convert.organise_files.identify_files_to_move(
             root_dir,
-            str(start_year),
-            str(end_year),
+            start_year.strftime('%Y%m%d'),
+            end_year.strftime('%Y%m%d'),
         )
         self.assertEqual(sorted(dirs), sorted(expected_dirs))
         self.assertDictEqual(files, expected_files)
