@@ -18,10 +18,10 @@ FILEPATH_JASMIN = 'ARCHER'
 NCRCAT = ['ncrcat', '-h', '--no_tmp_fl', '-O']
 NTHREADS_CONCATENATE = 1
 NUM_FILE_COPY_ATTEMPTS = 3  # Number of attempts for copying files to TMPDIR
-ORGANISE_FILES_ENV_VARS = ['START_YEAR', 'END_YEAR', 'REF_YEAR',
+ORGANISE_FILES_ENV_VARS = ['START_DATE', 'END_DATE', 'REF_DATE',
                            'MIP_CONVERT_OUT_DIR', 'MODEL_ID', 'STAGING_DIR',
                            'OUTPUT_DIR', 'PROC_DIR', 'STREAM', 'TASK_DB_PATH',
-                           'CONCAT_CFG_PATH', ]
+                           'CONCAT_CFG_PATH', 'CALENDAR', ]
 PARALLEL_TASKS = 60
 RESOURCE_FACTOR = 1
 ROSE_SUITE_ID = 'u-ak283'
