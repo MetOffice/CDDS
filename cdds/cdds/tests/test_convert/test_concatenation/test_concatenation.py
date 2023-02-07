@@ -11,10 +11,11 @@ import unittest
 from unittest import mock
 from unittest.mock import patch
 
-from cftime import datetime
 import pytest
 
-from cdds.common.constants import TIME_UNIT
+from metomi.isodatetime.data import TimePoint, Calendar
+from metomi.isodatetime.parsers import TimePointParser
+
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.convert import concatenation
@@ -54,6 +55,7 @@ class TestConcatenation(unittest.TestCase):
         load_plugin()
         self.testing_db = 'concatenation_testing_{}.db'.format(os.getpid())
         logging.disable(logging.CRITICAL)
+        Calendar.default().set_mode('360_day')
 
     def tearDown(self):
         PluginStore.clean_instance()
@@ -130,22 +132,19 @@ class TestConcatenation(unittest.TestCase):
         self.assertEqual(mock_os_rename.call_args_list[0], expected_args)
 
     def test_times_from_filename(self):
-        def datenum(*x):
-            return TIME_UNIT.date2num(datetime(*x))
-
-        spec = {'test_1850-1860.nc': (datenum(1850, 1, 1),
-                                      datenum(1860, 12, 30)),
-                'test_185001-185911.nc': (datenum(1850, 1, 1),
-                                          datenum(1859, 11, 30)),
-                'test_18500101-18591115.nc': (datenum(1850, 1, 1),
-                                              datenum(1859, 11, 15)),
+        spec = {'test_1850-1860.nc': (TimePoint(year=1850, month_of_year=1, day_of_month=1),
+                                      TimePoint(year=1860, month_of_year=12, day_of_month=30)),
+                'test_185001-185911.nc': (TimePoint(year=1850, month_of_year=1, day_of_month=1),
+                                          TimePoint(year=1859, month_of_year=11, day_of_month=30)),
+                'test_18500101-18591115.nc': (TimePoint(year=1850, month_of_year=1, day_of_month=1),
+                                              TimePoint(year=1859, month_of_year=11, day_of_month=15)),
                 'test_185001010600-185903141800.nc': (
-                    datenum(1850, 1, 1, 6), datenum(1859, 3, 14, 18))}
+                    TimePoint(year=1850, month_of_year=1, day_of_month=1, hour_of_day=6),
+                    TimePoint(year=1859, month_of_year=3, day_of_month=14, hour_of_day=18))}
         for filename, expected in spec.items():
             output = concatenation_setup.times_from_filename(filename)
             self.assertEqual(output, expected,
-                             'Problem with file {}:\n  {}\n  {}'
-                             ''.format(filename, expected, output))
+                             'Problem with file {}:\n  {}\n  {}'.format(filename, expected, output))
 
     @pytest.mark.integration
     def test_batch_concatenation(self):
@@ -231,6 +230,7 @@ class TestConcatenation(unittest.TestCase):
         self.assertRaises(ConcatenationError, concatenation.delete_originals,
                           conn, 'b_b')
         conn.close()
+
 
 if __name__ == '__main__':
     unittest.main()

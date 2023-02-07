@@ -8,13 +8,14 @@ from datetime import datetime
 import fnmatch
 import logging
 import os
-import re
 import sqlite3
 
-import cftime as cft
 import netCDF4
 
-from cdds.common.constants import LOG_TIMESTAMP_FORMAT, TIME_UNIT
+from metomi.isodatetime.data import TimePoint, Calendar, Duration
+from metomi.isodatetime.parsers import TimePointParser
+
+from cdds.common.constants import LOG_TIMESTAMP_FORMAT
 from cdds.common.plugins.plugins import PluginStore
 from cdds.convert.constants import TASK_STATUS_NOT_STARTED
 from cdds.convert.exceptions import ArgumentError
@@ -31,13 +32,13 @@ def organise_concatenations(reference_date, start_date, end_date,
 
     Parameters
     ----------
-    reference_date : datetime
+    reference_date : TimePoint
         Reference date for working out chunking, i.e. the start of
         the simulation
-    start_date : datetime
+    start_date : TimePoint
         Start date for processing. Any files which correspond to dates
         before this point will be ignored
-    end_date : datetime
+    end_date : TimePoint
         End date for processing. Any files which correspond to dates
         after this point will be ignored
     reinitialisation_years : float
@@ -54,23 +55,23 @@ def organise_concatenations(reference_date, start_date, end_date,
         Relates each output file to the list of files that should be
         concatenated to create it.
     """
-    reference_date_n = TIME_UNIT.date2num(reference_date)
-    start_date_n = TIME_UNIT.date2num(start_date)
-    end_date_n = TIME_UNIT.date2num(end_date)
-    chunk_start = reference_date_n
-    chunk_end = min(chunk_start + 360 * reinitialisation_years,
-                    end_date_n)
+    reinitialisation_days = Calendar.default().DAYS_IN_YEAR * reinitialisation_years
+    reinit_duration = Duration(days=reinitialisation_days)
+    # reference_date_n = TIME_UNIT.date2num(reference_date)
+    # start_date_n = TIME_UNIT.date2num(start_date)
+    # end_date_n = TIME_UNIT.date2num(end_date)
+    chunk_start = reference_date
+    chunk_end = min(chunk_start + reinit_duration, end_date)
     time_chunks = {(chunk_start, chunk_end): []}
 
-    while chunk_end != end_date_n:
+    while chunk_end != end_date:
         chunk_start = chunk_end
-        chunk_end = min(chunk_start + 360 * reinitialisation_years,
-                        end_date_n)
+        chunk_end = min(chunk_start + reinit_duration, end_date)
         time_chunks[(chunk_start, chunk_end)] = []
 
     for filename in filenames:
         file_start_time, file_end_time = times_from_filename(filename)
-        if file_end_time <= start_date_n or file_start_time >= end_date_n:
+        if file_end_time <= start_date or file_start_time >= end_date:
             continue
         for chunk in time_chunks:
             chunk_start, chunk_end = chunk
@@ -238,7 +239,7 @@ def write_concatenation_work_db(concatenation_work, output_file,
         return conn
 
 
-def times_from_filename(filename, calendar='360_day'):
+def times_from_filename(filename):
     """
     From a CMOR filename return the start and end dates from the last
     facet
@@ -247,28 +248,44 @@ def times_from_filename(filename, calendar='360_day'):
     ----------
     filename : str
         name of the file
-    calendar : str, optional
-        calendar (not used yet)
 
     Returns
     -------
     tuple
         start date and end dates in units specified by TIME_UNITS
     """
+    max_days_in_month = Calendar.default().MAX_DAYS_IN_MONTH
     facets = filename.strip('.nc').split('_')
-    tfacets = facets[-1].split('-')
-    start = 'YYYY01010000'
-    end = 'YYYY12300000'
-    start = start.replace(start[:len(tfacets[0])], tfacets[0])
-    end = end.replace(end[:len(tfacets[1])], tfacets[1])
+    time_facets = facets[-1].split('-')
+    start = to_iso_format(time_facets[0])
+    end = to_iso_format(time_facets[1], '12', str(max_days_in_month))
 
-    pattern = r'(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})'
-    start_info = [int(i) for i in re.search(pattern, start).groups()]
-    end_info = [int(i) for i in re.search(pattern, end).groups()]
-    start_dt = cft.datetime(*start_info)
-    end_dt = cft.datetime(*end_info)
+    start_date = TimePointParser().parse(start)
+    end_date = TimePointParser().parse(end)
+    return start_date, end_date
 
-    return TIME_UNIT.date2num(start_dt), TIME_UNIT.date2num(end_dt)
+
+def to_iso_format(time_str: str, default_month='01', default_day_in_month='01') -> str:
+    """
+    Returns a valid iso format time of given time
+
+    :param time_str: Time converted to iso format
+    :type time_str: str
+    :param default_month: Month that is used if none is given in time_str
+    :type default_month: str
+    :param default_day_in_month: Day (in month) is used if none is give in time_str
+    :type default_day_in_month: str
+    :return: Valid iso format time
+    :rtype: str
+    """
+    length = len(time_str)
+    if length == 4:
+        time_str = time_str + default_month + default_day_in_month
+    elif len(time_str) == 6:
+        time_str = time_str + default_day_in_month
+    elif len(time_str) > 8:
+        time_str = time_str[:8] + 'T' + time_str[8:]
+    return time_str
 
 
 def get_reinitialisation_period(filename, model_id):
@@ -347,11 +364,11 @@ def build_concatenation_work_dict(available_variables, config,
         Set of tuples of (MIP table, CMOR variable)
     config : dict
         Config dictionary
-    reference_date : datetime
+    reference_date
         Reference date for simulation
-    start_date : datetime
+    start_date
         Start date for processing
-    end_date: datetime
+    end_date: TimePoint
         End date for processing
     model_id: str
         The |model identifier| for this package.
@@ -435,7 +452,7 @@ def concatenation_setup(config_file, log_file, append_log):
     config_file: str
         Path to the config file create by the organise files task
     log_file: str
-        Path to the concatenate log file.
+        Path to the concatenated log file.
     append_log: Boolean
         True if the logger should append the message to an existing log file
         if it exists. If False, the logger will overwrite any existing file.
@@ -450,9 +467,10 @@ def concatenation_setup(config_file, log_file, append_log):
     for i in sorted(config):
         logger.info('  {} : {}'.format(i, config[i]))
 
-    reference_date = cft.datetime(config['reference_year'], 1, 1)
-    start_date = cft.datetime(config['start_year'], 1, 1)
-    end_date = cft.datetime(config['end_year'] + 1, 1, 1)
+    # TODO: use exact dates
+    reference_date = TimePointParser().parse(config['reference_date']).year
+    start_date = TimePointParser().parse(config['start_date']).year
+    end_date = TimePointParser().parse(config['end_year']).year + 1
 
     available_variables = set()
     for filename in list_cmor_files(config['staging_location'], '*',
