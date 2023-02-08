@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -----------------------------------------------------
 
 project = 'CDDS'
-copyright = 'British Crown 2015-2022, Met Office'
+copyright = 'British Crown 2015-2023, Met Office'
 author = 'The Climate Data Delivery Team'
 
 
