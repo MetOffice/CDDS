@@ -18,5 +18,6 @@
     "sites_file": "/project/cdds/etc/cfmip2/cfmip2-sites-orog.txt",
     "skip_extract": false,
     "skip_qc": false,
-    "skip_transfer": false
+    "skip_transfer": false,
+    "skip_extract_validation": false
 }
