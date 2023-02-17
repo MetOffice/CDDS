@@ -821,7 +821,7 @@ def remove_newlines(value):
     return value.replace('\n', ' ')
 
 
-def netCDF_regexp(model_component=None, substream=None):
+def netCDF_regexp(model_component=None, substream=None, ens_id=None):
     """
     Return a regular expression matching netCDF filenames.
 
@@ -833,6 +833,9 @@ def netCDF_regexp(model_component=None, substream=None):
     substream: string
         If set, the regular expression will match provided
         substream.
+    ens_id: string
+        If set, the regular expression will handle filenames with
+        ensemble_id.
     Returns
     -------
     : str
@@ -842,7 +845,10 @@ def netCDF_regexp(model_component=None, substream=None):
         model_component = r"([a-z]+)"
     else:
         model_component = r"({})".format(model_component)
-    suite = r".{5}"
+    if ens_id is None:
+        suite = r".{5}"
+    else:
+        suite = r".{5}\-[a-zA-Z0-9\-]+"
     frequency = r".{2}"
     date_range = r"(\d{8})-(\d{8})"
     domain_id = r"[io]"
