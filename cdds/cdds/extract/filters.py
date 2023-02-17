@@ -778,10 +778,10 @@ class Filters(object):
                     ["-i", "-d", file_name], MOOSE_MAX_NC_FILES
                 ) and self.ensemble_member_id is not None:
                     if substream == "default":
-                        regexp = netCDF_regexp(None, None, True)
+                        regexp = netCDF_regexp(None, None, self.ensemble_member_id)
                     else:
                         # only nemo and medusa can be sub-streamed
-                        regexp = netCDF_regexp("nemo|medusa", substream, True)
+                        regexp = netCDF_regexp("nemo|medusa", substream, self.ensemble_member_id)
                     self._update_mass_cmd(
                         regexp, filelist, start, end, "filter",
                         ["-i", "-d", file_name], MOOSE_MAX_NC_FILES

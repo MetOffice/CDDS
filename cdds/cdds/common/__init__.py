@@ -833,6 +833,9 @@ def netCDF_regexp(model_component=None, substream=None, ens_id=None):
     substream: string
         If set, the regular expression will match provided
         substream.
+    ens_id: string
+        If set, the regular expression will handle filenames with
+        ensemble_id.
     Returns
     -------
     : str
