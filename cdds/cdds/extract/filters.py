@@ -773,10 +773,20 @@ class Filters(object):
                 else:
                     # only nemo and medusa can be sub-streamed
                     regexp = netCDF_regexp("nemo|medusa", substream)
-                self._update_mass_cmd(
+                if not self._update_mass_cmd(
                     regexp, filelist, start, end, "filter",
                     ["-i", "-d", file_name], MOOSE_MAX_NC_FILES
-                )
+                ) and self.ensemble_member_id is not None:
+                    if substream == "default":
+                        regexp = netCDF_regexp(None, None, self.ensemble_member_id)
+                    else:
+                        # only nemo and medusa can be sub-streamed
+                        regexp = netCDF_regexp("nemo|medusa", substream, self.ensemble_member_id)
+                    self._update_mass_cmd(
+                        regexp, filelist, start, end, "filter",
+                        ["-i", "-d", file_name], MOOSE_MAX_NC_FILES
+                    )
+
             if count == 0:
                 error = "no matching variables to retrieve"
                 status["val"] = "stop"
@@ -844,6 +854,8 @@ class Filters(object):
                 end_dt = datetime.datetime.strptime(file_end, "%Y%m%d")
                 if start_dt >= start and end_dt <= end:
                     filtered_subset.append(nc_file)
+        if filtered_subset == []:
+            return False
         if not self.simulation:
             logger.info(
                 "Using {} to retrieve {} files with chunk size of {}".format(
@@ -868,7 +880,7 @@ class Filters(object):
                 "start": start,
                 "end": end,
             })
-
+        return True
 
 class FilterFileException(IOError):
     pass
