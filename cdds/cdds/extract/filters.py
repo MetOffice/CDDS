@@ -882,5 +882,6 @@ class Filters(object):
             })
         return True
 
+
 class FilterFileException(IOError):
     pass
