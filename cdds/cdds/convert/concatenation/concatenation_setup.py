@@ -61,7 +61,8 @@ def organise_concatenations(reference_date, start_date, end_date,
     # start_date_n = TIME_UNIT.date2num(start_date)
     # end_date_n = TIME_UNIT.date2num(end_date)
     chunk_start = reference_date
-    chunk_end = min(chunk_start + reinit_duration, end_date)
+    chunk_end = chunk_start + reinit_duration
+    chunk_end = chunk_end if chunk_end < end_date else end_date
     time_chunks = {(chunk_start, chunk_end): []}
 
     while chunk_end != end_date:
@@ -468,9 +469,13 @@ def concatenation_setup(config_file, log_file, append_log):
         logger.info('  {} : {}'.format(i, config[i]))
 
     # TODO: use exact dates
-    reference_date = TimePointParser().parse(config['reference_date']).year
-    start_date = TimePointParser().parse(config['start_date']).year
-    end_date = TimePointParser().parse(config['end_year']).year + 1
+    reference_year = TimePointParser().parse(config['reference_date']).year
+    start_year = TimePointParser().parse(config['start_date']).year
+    end_year = TimePointParser().parse(config['end_date']).year + 1
+
+    reference_date = TimePoint(year=reference_year, month_of_year=1, day_of_month=1)
+    start_date = TimePoint(year=start_year, month_of_year=1, day_of_month=1)
+    end_date = TimePoint(year=end_year, month_of_year=1, day_of_month=1)
 
     available_variables = set()
     for filename in list_cmor_files(config['staging_location'], '*',

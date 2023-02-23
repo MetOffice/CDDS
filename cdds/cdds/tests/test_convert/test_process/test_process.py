@@ -432,7 +432,7 @@ class ConvertProcessTest(unittest.TestCase):
             'NTHREADS_CONCATENATE': NTHREADS_CONCATENATE,
             'OUTPUT_DIR': output_dir,
             'PARALLEL_TASKS': PARALLEL_TASKS,
-            'REF_YEAR': self.process.ref_date.year,
+            'REF_DATE': str(self.process.ref_date),
             'REQUEST_JSON_PATH': request_json_path,
             'ROOT_DATA_DIR': self.process._arguments.root_data_dir,
             'ROOT_PROC_DIR': self.process._arguments.root_proc_dir,

@@ -255,10 +255,10 @@ def organise_files():
     except KeyError as err:
         err_msg = 'Required environment variable not found: {}'.format(err)
         logger.info(err_msg)
-        logger.info(pprint.pprint(os.environ), width=1)
+        logger.info(pprint.pprint(os.environ))
         raise OrganiseEnvironmentError(err_msg)
 
-    logger.info('organising files for range {START_YEAR} to {END_YEAR}'
+    logger.info('organising files for range {START_DATE} to {END_DATE}'
                 ''.format(**params))
 
     # directory where mip_convert writes output files to

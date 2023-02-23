@@ -854,7 +854,7 @@ class ConvertProcess(object):
                 NTHREADS_CONCATENATE),
             'OUTPUT_DIR': self._full_paths.output_data_directory,
             'PARALLEL_TASKS': PARALLEL_TASKS,
-            'REF_YEAR': self.ref_date.year,
+            'REF_DATE': str(self.ref_date),
             'REQUEST_JSON_PATH': request_json_path,
             'ROOT_DATA_DIR': self._arguments.root_data_dir,
             'ROOT_PROC_DIR': self._arguments.root_proc_dir,
