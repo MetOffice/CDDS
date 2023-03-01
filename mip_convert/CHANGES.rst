@@ -4,6 +4,12 @@
 .. include:: common.txt
 
 
+Release 2.4.2, March 1, 2023
+============================
+
+* Add mappings for `zostoga` diagnostic in the UKCP18 GC3p05-N216ORCA025
+  model configuration (CDDSO-239)
+
 Release 2.4.1, January 18, 2023
 ===============================
 

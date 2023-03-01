@@ -4,6 +4,11 @@
 .. include:: common.txt
 
 
+Release 2.4.2, March 1, 2023
+============================
+
+* Add support for filepaths with ensemble_id for netCDF model output (CDDSO-238).
+
 Release 2.4.1, January 18, 2023
 ===============================
 
