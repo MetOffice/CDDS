@@ -258,6 +258,7 @@ def times_from_filename(filename):
     max_days_in_month = Calendar.default().MAX_DAYS_IN_MONTH
     facets = filename.strip('.nc').split('_')
     time_facets = facets[-1].split('-')
+
     start = to_iso_format(time_facets[0])
     end = to_iso_format(time_facets[1], '12', str(max_days_in_month))
 

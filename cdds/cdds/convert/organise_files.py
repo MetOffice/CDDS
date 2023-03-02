@@ -181,8 +181,13 @@ def identify_files_to_move(location, start_date, end_date):
 
     files_to_move = defaultdict(lambda: defaultdict(list))
     dirs_to_remove = []
-    start_dt = TimePointParser().parse(start_date)
-    end_dt = TimePointParser().parse(end_date)
+    start_year = TimePointParser().parse(start_date).year
+    end_year = TimePointParser().parse(end_date).year
+
+    start_dt = TimePoint(year=start_year, month_of_year=1, day_of_month=1)
+    end_dt = TimePoint(year=end_year, month_of_year=12, day_of_month=30)
+    # start_dt = TimePointParser().parse(start_date)
+    # end_dt = TimePointParser().parse(end_date)
     for cycle_dir in sorted(os.listdir(location)):
         if re.match(r'\d{4}-\d\d-\d\d', cycle_dir):
             datestamp = TimePointParser().parse(cycle_dir, dump_format='%Y-%m-%d')
