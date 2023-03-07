@@ -6,10 +6,15 @@ CDDS class for setting up and running Extract processes.
 
 import getpass
 import logging
-from cdds.extract.common import check_moo_cmd, exit_nicely, ValidationResult
+import os
+from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
+from cdds.common.request import read_request
+from cdds.extract.common import (
+    check_moo_cmd, configure_mappings, configure_variables, exit_nicely, get_streams, ValidationResult)
 from cdds.extract.constants import (GROUP_FOR_DIRECTORY_CREATION, MAX_EXTRACT_BLOCKS)
 from cdds.extract.filters import Filters
 from cdds.extract.process import Process
+from cdds.deprecated.config import FullPaths
 
 
 class ExtractRunner(object):
@@ -35,8 +40,9 @@ class ExtractRunner(object):
         """Main control sequence for extract process"""
         logger = logging.getLogger(__name__)
         # initialise extract_process and add project related configuration
-        extract_process = Process(self.lang, self.args)
-        self.lang["requestname"] = extract_process.get_request_name()
+        request = read_request(self.args.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
+        full_paths = FullPaths(self.args, request)
+        extract_process = Process(self.lang, self.args, request, full_paths.input_data_directory)
 
         # log start of processing
         logger.info("EXTRACT PROCESS starting ---- ")
@@ -45,30 +51,34 @@ class ExtractRunner(object):
         logger.info(extract_process.request_detail())
 
         # get data streams to be extracted - excludes streams to be skipped
-        streams = extract_process.get_streams()
+        streams = get_streams(request.streaminfo,
+                              request.suite_id,
+                              self.args.streams)
 
-        num_streams = len(streams)
-        if num_streams == 0:
+        if not streams:
             overall_summary = self.lang["stream_not_selected"]
             overall_result = "failed"
         else:
             # get output variables for request - configure MASS filters
-            var_list = extract_process.configure_variables()
+            var_list = configure_variables(os.path.join(
+                full_paths.component_directory("prepare"),
+                full_paths.requested_variables_list_filename))
 
             # configure mappings for each variables
             mappings = Filters(
-                extract_process.proc_directory,
+                full_paths.proc_directory,
                 var_list,
                 MAX_EXTRACT_BLOCKS,
                 self.args.simulation
             )
-            mapping_status = extract_process.configure_mappings(mappings)
+            mappings.set_mappings(self.args.mip_table_dir, request)
+            mapping_status = configure_mappings(mappings)
             overall_summary = ""
             overall_result = "success"
 
         stream_validation = ValidationResult()
         stream_count = 0
-        # the following loop will be ignored if num_streams == 0 (see above)
+
         for _, stream in enumerate(streams):
             # Skip the ancil stream as fixed fields are read from local files
             if stream == "ancil":
@@ -154,7 +164,7 @@ class ExtractRunner(object):
                     stash_codes = {}
                 # log stream completion and update progress in CREM
                 logger.info(extract_process.stream_completion_message(
-                    stream, "[{} of {}]".format(stream_count, num_streams)))
+                    stream, "[{} of {}]".format(stream_count, len(streams))))
                 # do validation check for this stream and write to log
                 substreams = list(mappings.filters.keys())
                 if not self.args.skip_extract_validation:
@@ -166,7 +176,7 @@ class ExtractRunner(object):
                         overall_result = "quality"
             else:
                 end_msg = "skipped [{} of {}]".format(stream_count,
-                                                      num_streams)
+                                                      len(streams))
                 if stream["stream"] not in mapping_status:
                     end_msg += (" WARNING - there are no variables "
                                 "requiring this stream")
@@ -181,7 +191,7 @@ class ExtractRunner(object):
             self.lang["extract_{}".format(overall_result)], overall_summary))
         if not self.args.skip_extract_validation:
             for stream_name, validation_result in stream_validation.validated_streams.items():
-                validation_result.log_results(extract_process.log_directory)
+                validation_result.log_results(full_paths.log_directory("extract"))
         else:
             logger.info("-- SKIPPING VALIDATION")
         exit_nicely(

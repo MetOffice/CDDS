@@ -9,12 +9,9 @@ import sys
 import getpass
 import datetime
 import logging
-from operator import itemgetter
 
-from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.streams import StreamAttributes
-from cdds.common.request import read_request
 from cdds.extract.common import (
     build_mass_location, process_info, exit_nicely, create_dir,
     check_moo_cmd, run_moo_cmd, file_accessible, file_count,
@@ -22,8 +19,6 @@ from cdds.extract.common import (
 )
 from cdds.extract.constants import GROUP_FOR_DIRECTORY_CREATION, STREAMDIR_PERMISSIONS
 from cdds.extract.filters import FilterFileException
-from cdds.extract.variables import Variables
-from cdds.deprecated.config import FullPaths
 
 
 class Process(object):
@@ -34,7 +29,7 @@ class Process(object):
     Class supports filtered pp (select) and nc (filter) extractions.
     """
 
-    def __init__(self, lang, args):
+    def __init__(self, lang, args, request, input_data_directory):
         """Initialises extract object
 
         Parameters
@@ -43,6 +38,10 @@ class Process(object):
             language strings for log messages etc
         opts: dict
             script options
+        request: cdds.common.request.Request
+            the request object
+        input_data_directory: str
+            path to the input data directory
         """
 
         # set parameters for use in class
@@ -58,16 +57,10 @@ class Process(object):
         self.processtype = "extract"
         self.package = ""
         self.missing_var = []
-        self.request_file = read_request(args.request,
-                                         REQUIRED_KEYS_FOR_PROC_DIRECTORY)
-        self.full_paths = FullPaths(args, self.request_file)
-
-        self.proc_directory = self.full_paths.proc_directory
-        self.data_directory = self.full_paths.data_directory
-        self.input_data_directory = self.full_paths.input_data_directory
-        self.log_directory = self.full_paths.log_directory("extract")
-        self.mass_data_class = self.request_file.mass_data_class
-        model_id = self.request_file.model_id
+        self.request = request
+        self.input_data_directory = input_data_directory
+        self.mass_data_class = self.request.mass_data_class
+        model_id = self.request.model_id
         model_params = PluginStore.instance().get_plugin().models_parameters(model_id)
         self.stream_file_info = model_params.stream_file_info()
         # start log
@@ -123,16 +116,15 @@ class Process(object):
             Log message.
         """
         log_msg = self.lang["request_detail"].format(
-            self.request_file.mip_era, self.request_file.mip,
-            self.request_file.experiment_id, self.request_file.suite_id,
-            self.request_file.model_id,
-            self.request_file.request_id,
-            self.full_paths.input_data_directory
+            self.request.mip_era, self.request.mip,
+            self.request.experiment_id, self.request.suite_id,
+            self.request.model_id,
+            self.input_data_directory
         )
         log_msg += "\n       data streams:\n"
-        for key, item in self.request_file.streaminfo.items():
+        for key, item in self.request.streaminfo.items():
             log_msg += self.lang["data_detail"].format(
-                self.request_file.suite_id, key, item["type"],
+                self.request.suite_id, key, item["type"],
                 item["start_date"], item["end_date"])
         return log_msg
 
@@ -186,10 +178,10 @@ class Process(object):
         """
         return build_mass_location(
             self.mass_data_class,
-            self.request_file.suite_id,
+            self.request.suite_id,
             stream["stream"],
             stream["streamtype"],
-            self.request_file.mass_ensemble_member)
+            self.request.mass_ensemble_member)
 
     def get_data_target(self, stream):
         """Returns target location for extracted data
@@ -206,173 +198,6 @@ class Process(object):
         """
         return os.path.join(
             self.input_data_directory, stream["suiteid"], stream["stream"])
-
-    def get_request_name(self):
-        """Returns request name from request record
-
-        Returns
-        -------
-        str
-            request name
-        """
-        return self.request_file.request_id
-
-    def get_streams(self):
-        """Creates list of streams
-        Checks that all data streams are of the right type and returns stream
-        info removing any streams that the user wishes to be skipped
-
-        Returns
-        -------
-        list of dict
-            attributes for each stream to be processed - dict per stream
-        """
-
-        streamlist = []
-        for name, info in self.request_file.streaminfo.items():
-            if not self.args.streams or name in self.args.streams:
-                streamlist.append({
-                    "stream": name,
-                    "streamtype": info["type"],
-                    "success": None,
-                    "start_date":  datetime.datetime.strptime(
-                        info["start_date"], "%Y-%m-%d-%H-%M-%S"),
-                    "end_date": datetime.datetime.strptime(
-                        info["end_date"], "%Y-%m-%d-%H-%M-%S"),
-                    "suiteid": self.request_file.suite_id
-                })
-        return streamlist
-
-    def configure_variables(self):
-        """Gets required variable information for this request
-        Gets configuration file from a json configuration file.
-        Reformats the information into the structure required by the
-        variable mapping API
-
-        Returns
-        -------
-        list of dict
-            variables in variable mapping API structure - dict per variable
-        """
-        logger = logging.getLogger(__name__)
-        var = Variables(self.processtype)
-
-        var_fn = os.path.join(
-            self.full_paths.component_directory("prepare"),
-            self.full_paths.requested_variables_list_filename)
-        if not file_accessible(var_fn, "r"):
-            error = self.lang["variables_file_missing"].format(
-                var_fn, "file missing")
-            exit_nicely(error)
-
-        logger.info("Reading requested variables file '{}'".format(var_fn))
-        # extract variables information from file
-        variables = var.get_variables(var_fn)
-
-        if not variables:
-            error = self.lang["variables_file_missing"].format(
-                var_fn, "file not readable")
-            exit_nicely(error)
-
-        # convert variables list to format variable mapping API is expecting
-        var_list = var.create_variables_list(variables)
-
-        # log request variables file reference
-        logger.info(
-            self.lang["variables_file_found"].format(
-                os.path.basename(var_fn), variables["data_request_version"],
-                variables["mip"], variables["experiment_id"]))
-
-        # log requested variables for which extraction will be attempted
-        sorted_var_list = sorted(var_list, key=itemgetter("table"))
-        table_key = ""
-        var_str = ""
-        for item in sorted_var_list:
-            if item["table"] != table_key:
-                var_str += "\n\n{:<12}:  ".format(item["table"])
-                table_key = item["table"]
-            var_str += item["name"] + " "
-        logger.info("{}:{}\n".format(
-            self.lang["variables_to_extract"], var_str))
-
-        # log missing variables for which extraction will not be attempted
-
-        missing = var.missing_variables_list()
-        sorted_missing_list = sorted(missing, key=itemgetter("table"))
-        table_key = ""
-        var_str = ""
-
-        for item in sorted_missing_list:
-            if item["table"] != table_key:
-                var_str += "\n{}:\n".format(item["table"])
-                table_key = item["table"]
-
-            var_str += " {:<25} - {}\n".format(item["name"],
-                                               item["reason"])
-        logger.debug("{}:\n{}".format(
-            self.lang["variables_not_to_extract"], var_str))
-        return var_list
-
-    def configure_mappings(self, mappings):
-        """Get mappings for variables.
-        Reports missing mappings to the log file.
-
-        Parameters
-        ----------
-        mappings: obj
-            variable mapping information (CMIP var to stash/nc variable)
-
-        Returns
-        -------
-        dict
-            contains bool element for each stream - if false there are
-            mappings missing for the stream
-        """
-        logger = logging.getLogger(__name__)
-        # set mappings
-        _ = mappings.set_mappings(
-            self.args.mip_table_dir, self.request_file)
-
-        # log missing mappings and set return dict
-        stream_mapping = {}
-        msg = ""
-        missing = mappings.get_missing_mappings()
-        for stream in missing:
-
-            if len(missing.get(stream)) > 0:
-                stream_mapping[stream] = False
-                msg += "STREAM: {}\n".format(stream)
-                for var in missing.get(stream):
-                    if "table" in var:
-                        mip_table = var["table"]
-                    else:
-                        mip_table = " - "
-                    msg += " {:<15} {:<15} : {}\n".format(
-                        var["var"], "[ {} ]".format(mip_table), var["reason"])
-            else:
-                stream_mapping[stream] = True
-
-        if len(msg) > 0:
-            logger.info(self.lang["filter_missing"].format(msg))
-
-        msg = ""
-        embargoed = mappings.get_embargoed_mappings()
-        for stream in embargoed:
-
-            if len(embargoed.get(stream)) > 0:
-                msg += "STREAM: {}\n".format(stream)
-                for var in embargoed.get(stream):
-                    if "table" in var:
-                        mip_table = var["table"]
-                    else:
-                        mip_table = " - "
-                    msg += " {:<15} {:<15}\n".format(
-                        var["var"], "[ {} ]".format(mip_table))
-
-        if len(msg) > 0:
-            logger.info(self.lang["filter_embargo"].format(msg))
-
-        return stream_mapping
 
     def configure_commands(self, mappings, stream, data_source,
                            data_target):

@@ -8,8 +8,6 @@ extract process
 
 import json
 
-from cdds.extract.common import byteify
-
 
 class Variables(object):
     """
