@@ -33,7 +33,7 @@ def generate_expected_file_lists(root_dir, component_list, var_list, date_list,
     expected_dirs = []
     day_delta = Duration(days=1)
     for date1 in date_list:
-        date_in_range = start_date <= date1 <= end_date
+        date_in_range = start_date <= date1 < end_date
         if date_in_range:
             expected_dirs += [cycle_dir_template.format(root=root_dir,
                                                         dt1=date1)]
@@ -130,7 +130,7 @@ class TestOrganiseFiles(unittest.TestCase):
         # from the start of 1855 to the end of 1859
         root_dir = 'dummy'
         start_year = TimePoint(year=1855, month_of_year=1, day_of_month=1)
-        end_year = TimePoint(year=1859, month_of_year=1, day_of_month=1)
+        end_year = TimePoint(year=1859, month_of_year=12, day_of_month=30)
         cycle_delta = Duration(months=6)
 
         # setup list of file date ranges for input and output from function.
