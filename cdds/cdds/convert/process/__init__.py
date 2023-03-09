@@ -340,9 +340,17 @@ class ConvertProcess(object):
 
         return start_date, end_date
 
-    @property
-    def final_cycle_point(self):
-        return None
+    def final_cycle_point(self, stream):
+        # See issue 224 metomi.isodatetime as to why this conditional logic exists.
+        _, end_date = self.run_bounds()
+        cycling_frequency = self._cycling_frequency(stream)
+        recurrence = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
+        if recurrence.get_is_valid(end_date):
+            final_cycle_point = recurrence.get_prev(end_date)
+        else:
+            final_cycle_point = recurrence.get_prev(recurrence.get_first_after(end_date))
+
+        return final_cycle_point
 
     @property
     def ref_date(self):
@@ -706,15 +714,9 @@ class ConvertProcess(object):
             data will still have been processed by the concatenation scripts.
         :rtype: str
         """
-        cycling_frequency = self._cycling_frequency(stream)
-        cycling_freq_recurrence = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
         start_date, end_date = self.run_bounds()
-        # See issue 224 metomi.isodatetime as to why this conditional logic exists.
-        if cycling_freq_recurrence.get_is_valid(end_date):
-            final_concatenation_cycle = cycling_freq_recurrence.get_prev(end_date)
-        else:
-            final_concatenation_cycle = cycling_freq_recurrence.get_prev(cycling_freq_recurrence.get_first_after(end_date))
-        final_concatenation_cycle_in_days = str(final_concatenation_cycle - start_date)
+        final_cycle_point = self.final_cycle_point(stream)
+        final_concatenation_cycle_in_days = str(final_cycle_point - start_date)
         return final_concatenation_cycle_in_days
 
     def _final_concatenation_window_start(self, stream):
@@ -940,6 +942,8 @@ class ConvertProcess(object):
                 self._final_concatenation_cycle(stream),
             'FINAL_CONCATENATION_WINDOW_START':
                 self._final_concatenation_window_start(stream),
+            'FINAL_CYCLE_POINT':
+                self.final_cycle_point(stream),
             'MEMORY_CONVERT': required_memory,
             'MIP_CONVERT_TMP_SPACE': self.mip_convert_temp_sizes(stream),
             'SINGLE_CONCATENATION_CYCLE':
