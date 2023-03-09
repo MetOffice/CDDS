@@ -5,6 +5,7 @@
 Utility functions for extract processing.
 """
 
+import datetime
 import logging
 import sys
 import pwd
@@ -13,9 +14,11 @@ import os
 import subprocess
 import re
 from collections import defaultdict
+from operator import itemgetter
 
 from cdds.extract.constants import NUM_PP_HEADER_LINES, TIME_REGEXP
 from cdds.common import run_command, retry
+from cdds.extract.variables import Variables
 
 
 def moose_date(when, mode):
@@ -466,38 +469,6 @@ def merge_dicts(dict1, dict2):
     return merged_dict
 
 
-def byteify(data, is_deep=False):
-    """Converts a unicode structure to str.
-    Used mainly to convert output from json.loads to a useful python
-    structure. Requires Python 2.7 or above
-
-    Parameters
-    ----------
-    data: mixed
-        string, list or dict containing unicode structure
-    is_deep: bool
-        controls depth of dict conversion - currently only supports false
-
-    Returns
-    -------
-    str
-        string converted from unicode structure
-    """
-    # if this is a unicode string, return its string representation
-    if isinstance(data, str):
-        return data.encode("utf-8")
-    # if this is a list of values, return list of byteified values
-    if isinstance(data, list):
-        return [byteify(item, True) for item in data]
-    # if this is a dictionary, return dictionary of byteified keys and values
-    # but only on highest level
-    if isinstance(data, dict) and not is_deep:
-        return {byteify(key, True): byteify(value, True) for
-                key, value in data.items()}
-    # if we do not know what it is, return it in its original form
-    return data
-
-
 def get_stash(fullstash):
     """Converts full UM stash definition to basic stash code.
     e.g. converts m01s15i226 to 15226
@@ -921,3 +892,165 @@ def build_mass_location(mass_data_class: str, suite_id: str, stream: str, stream
     if streamtype == "nc":
         data_source += ".file"
     return data_source
+
+
+def get_streams(streaminfo, suite_id, streams=[]):
+    """Creates list of streams
+    Checks that all data streams are of the right type and returns stream
+    info removing any streams that the user wishes to be skipped
+
+    Parameters
+    ----------
+    streaminfo: dict
+        Information about requested streams from the request file
+    suite_id: str
+        Suite id
+    streams: list
+        If not empty, the function will return only a subset of streams contained
+        in this parameter
+
+    Returns
+    -------
+    list of dict
+        attributes for each stream to be processed - dict per stream
+    """
+
+    streamlist = []
+    for name, info in streaminfo.items():
+        if not streams or name in streams:
+            streamlist.append({
+                "stream": name,
+                "streamtype": info["type"],
+                "success": None,
+                "start_date":  datetime.datetime.strptime(
+                    info["start_date"], "%Y-%m-%d-%H-%M-%S"),
+                "end_date": datetime.datetime.strptime(
+                    info["end_date"], "%Y-%m-%d-%H-%M-%S"),
+                "suiteid": suite_id
+            })
+    return streamlist
+
+
+def configure_variables(variable_file):
+    """Gets required variable information for this request
+    Gets configuration file from a json configuration file.
+    Reformats the information into the structure required by the
+    variable mapping API
+
+    Parameters
+    ----------
+    variable_file: str
+        Path to requested variables list.
+
+    Returns
+    -------
+    list of dict
+        variables in variable mapping API structure - dict per variable
+    """
+    logger = logging.getLogger(__name__)
+    var = Variables("extract")
+
+    if not file_accessible(variable_file, "r"):
+        error = "CRITICAL: variables file [{}] not found]".format(variable_file)
+        exit_nicely(error)
+
+    logger.info("Reading requested variables file '{}'".format(variable_file))
+    # extract variables information from file
+    variables = var.get_variables(variable_file)
+
+    if not variables:
+        error = "CRITICAL: variables file [{}] not readable]".format(variable_file)
+        exit_nicely(error)
+
+    # convert variables list to format variable mapping API is expecting
+    var_list = var.create_variables_list(variables)
+
+    # log request variables file reference
+    logger.info("""
+    variables file specification
+    - file:       {}
+    - request:    {}
+    - mip:        {}
+    - experiment: {}""".format(
+        os.path.basename(variable_file), variables["data_request_version"],
+        variables["mip"], variables["experiment_id"]))
+
+    # log requested variables for which extraction will be attempted
+    sorted_var_list = sorted(var_list, key=itemgetter("table"))
+    table_key = ""
+    var_str = ""
+    for item in sorted_var_list:
+        if item["table"] != table_key:
+            var_str += "\n\n{:<12}:  ".format(item["table"])
+            table_key = item["table"]
+        var_str += item["name"] + " "
+    logger.info("Variables requested for processing - by stream:{}\n".format(var_str))
+
+    # log missing variables for which extraction will not be attempted
+    missing = var.missing_variables_list()
+    sorted_missing_list = sorted(missing, key=itemgetter("table"))
+    table_key = ""
+    var_str = ""
+    for item in sorted_missing_list:
+        if item["table"] != table_key:
+            var_str += "\n{}:\n".format(item["table"])
+            table_key = item["table"]
+        var_str += " {:<25} - {}\n".format(item["name"], item["reason"])
+    logger.debug("Variables NOT requested for processing (with reason):\n{}".format(var_str))
+    return var_list
+
+
+def configure_mappings(mappings):
+    """Get mappings for variables.
+    Reports missing mappings to the log file.
+
+    Parameters
+    ----------
+    mappings: obj
+        variable mapping information (CMIP var to stash/nc variable)
+
+    Returns
+    -------
+    dict
+        contains bool element for each stream - if false there are
+        mappings missing for the stream
+    """
+    logger = logging.getLogger(__name__)
+    # log missing mappings and set return dict
+    stream_mapping = {}
+    msg = ""
+    missing = mappings.get_missing_mappings()
+    for stream in missing:
+        if len(missing.get(stream)) > 0:
+            stream_mapping[stream] = False
+            msg += "STREAM: {}\n".format(stream)
+            for var in missing.get(stream):
+                if "table" in var:
+                    mip_table = var["table"]
+                else:
+                    mip_table = " - "
+                msg += " {:<15} {:<15} : {}\n".format(
+                    var["var"], "[ {} ]".format(mip_table), var["reason"])
+        else:
+            stream_mapping[stream] = True
+
+    if len(msg) > 0:
+        logger.info("\n ----- Missing Variable Mappings -----\n{} \n".format(msg))
+
+    msg = ""
+    embargoed = mappings.get_embargoed_mappings()
+    for stream in embargoed:
+        if len(embargoed.get(stream)) > 0:
+            msg += "STREAM: {}\n".format(stream)
+            for var in embargoed.get(stream):
+                if "table" in var:
+                    mip_table = var["table"]
+                else:
+                    mip_table = " - "
+                msg += " {:<15} {:<15}\n".format(
+                    var["var"], "[ {} ]".format(mip_table))
+
+    if len(msg) > 0:
+        logger.info("\n ----- Embargoed Variable Mappings -----\n{} \n".format(msg))
+
+    return stream_mapping
