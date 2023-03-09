@@ -943,7 +943,7 @@ class ConvertProcess(object):
             'FINAL_CONCATENATION_WINDOW_START':
                 self._final_concatenation_window_start(stream),
             'FINAL_CYCLE_POINT':
-                self.final_cycle_point(stream),
+                str(self.final_cycle_point(stream)),
             'MEMORY_CONVERT': required_memory,
             'MIP_CONVERT_TMP_SPACE': self.mip_convert_temp_sizes(stream),
             'SINGLE_CONCATENATION_CYCLE':
