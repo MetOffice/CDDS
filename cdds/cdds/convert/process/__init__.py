@@ -348,8 +348,8 @@ class ConvertProcess(object):
 
     def final_cycle_point(self, stream):
         """
-        Calulate the final cycling point for use in the u-ak283 suite for this particular
-        stream.
+        Calulate the final cycling point for use in the cdds_convert processing suite for
+        this particular stream.
 
         :param stream: Stream
         :type str:
