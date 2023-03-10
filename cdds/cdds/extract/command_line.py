@@ -185,6 +185,7 @@ def parse_validate_streams_command_line(user_arguments):
     arguments = update_log_dir(arguments, COMPONENT)
     return arguments
 
+
 def main_validate_streams(arguments=None):
     # read request
     # determine streams

@@ -1055,6 +1055,7 @@ def configure_mappings(mappings):
 
     return stream_mapping
 
+
 def get_data_target(input_data_directory, stream):
     """Returns target location for extracted data
 
