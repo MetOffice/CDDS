@@ -468,7 +468,7 @@ def concatenation_setup(config_file, log_file, append_log):
     logger.info('Input parameters:')
     for i in sorted(config):
         logger.info('  {} : {}'.format(i, config[i]))
-
+    Calendar.default().set_mode(config['calendar'])
     # TODO: use exact dates
     reference_year = TimePointParser().parse(config['reference_date']).year
     start_year = TimePointParser().parse(config['start_date']).year
