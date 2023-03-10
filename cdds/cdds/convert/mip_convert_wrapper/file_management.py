@@ -11,7 +11,8 @@ import os
 import re
 import shutil
 
-from cdds.common.date_utils import between
+from metomi.isodatetime.data import TimePoint
+
 from cdds.common.plugins.plugins import PluginStore
 from cdds.convert.constants import FILEPATH_JASMIN, FILEPATH_METOFFICE, STREAMS_FILES_REGEX, NUM_FILE_COPY_ATTEMPTS
 from cdds.convert.mip_convert_wrapper.file_processors import (
@@ -57,8 +58,8 @@ def construct_processors_dict():
     return filename_processors
 
 
-def get_paths(suite_name, model_id, stream, substream, start_date, end_date, input_dir,
-              work_dir, filepath_type=FILEPATH_METOFFICE, calendar='360_day'):
+def get_paths(suite_name, model_id, stream, substream, start_date: TimePoint, end_date: TimePoint, input_dir,
+              work_dir, filepath_type=FILEPATH_METOFFICE):
     """
     Creates a list of paths to current input directory, directory for symlinks
     or copies of the files, and a list of the files name thatwill be input
@@ -75,9 +76,9 @@ def get_paths(suite_name, model_id, stream, substream, start_date, end_date, inp
     substream: str
         The name of the substream to be processed, if specified. If empty
         string, all variables in the stream will be processed.
-    start_date: str
+    start_date: TimePoint
         The start date of the data to be processed
-    end_date: str
+    end_date: TimePoint
         The end date of the data to be processed
     input_dir: str
         The base directory of the current file directory
@@ -86,8 +87,6 @@ def get_paths(suite_name, model_id, stream, substream, start_date, end_date, inp
         The base firectory for copying or symlinking
     filepath_type: str
         Type of the file organisation.
-    calendar: str
-        Calendar that is used for the timestamps of the files.
 
     Returns
     -------
@@ -145,8 +144,7 @@ def get_paths(suite_name, model_id, stream, substream, start_date, end_date, inp
     file_list = _assemble_file_dicts(all_files,
                                      cycle_dirs, filename_processor,
                                      stream, substream, file_pattern,
-                                     period_start, period_end, model_id,
-                                     calendar)
+                                     period_start, period_end, model_id)
     return (file_list,
             old_input_location,
             new_input_location)
@@ -154,7 +152,7 @@ def get_paths(suite_name, model_id, stream, substream, start_date, end_date, inp
 
 def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
                          stream, substream, file_pattern,
-                         period_start, period_end, model_id, calendar='360_day'):
+                         period_start: TimePoint, period_end: TimePoint, model_id):
     """Assemble file dictionaries.
 
     Parameters
@@ -171,14 +169,12 @@ def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
         Substream name
     file_pattern : str
         Filename pattern matching the stream type
-    period_start : str
+    period_start : TimePoint
         Beginning of the processed time chunk
-    period_end : str
+    period_end : TimePoint
         End of the processed time chunk
     model_id: str
         ID of the considered model
-    calendar: str
-        Calendar that is used for the timestamps of the files.
 
     Returns
     -------
@@ -190,11 +186,11 @@ def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
     if not cycle_dirs:
         for stream_fname in all_files:
             try:
-                file_dict = filename_processor(stream_fname, stream, file_pattern, model_id, calendar)
+                file_dict = filename_processor(stream_fname, stream, file_pattern, model_id)
                 file_in_substream = (substream == '' or substream in file_dict['filename'])
                 if (file_in_substream and
-                        (between(period_start, file_dict['start'], period_end)
-                         or between(period_start, file_dict['end'], period_end))):
+                        (period_start <= file_dict['start'] <= period_end
+                         or period_start <= file_dict['end'] <= period_end)):
                     file_list += [file_dict]
 
             # TODO cleanup junk files
@@ -207,8 +203,8 @@ def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
                 file_dict = filename_processor(stream_fname, stream, file_pattern, model_id, calendar)
                 file_in_substream = (substream == '' or substream in file_dict['filename'])
                 if (file_in_substream and
-                        (between(period_start, file_dict['start'], period_end) or
-                         between(period_start, file_dict['end'], period_end))):
+                        (period_start <= file_dict['start'] <= period_end or
+                         period_start <= file_dict['end'] <= period_end)):
                     file_dict["cycle"] = cycle_fname
                     file_list += [file_dict]
 

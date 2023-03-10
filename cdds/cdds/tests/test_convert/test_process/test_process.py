@@ -410,7 +410,7 @@ class ConvertProcessTest(unittest.TestCase):
         mock_suite_name.return_value = expected_suite_name
 
         start_date = TimePointParser().parse("19600101")
-        end_date = TimePointParser().parse("21791230")
+        end_date = TimePointParser().parse("21800101")
         mock_run_bounds.return_value = (start_date, end_date)
         output_dir = self.process._full_paths.output_data_directory
         input_dir = self.process._full_paths.input_data_directory
@@ -432,7 +432,7 @@ class ConvertProcessTest(unittest.TestCase):
             'NTHREADS_CONCATENATE': NTHREADS_CONCATENATE,
             'OUTPUT_DIR': output_dir,
             'PARALLEL_TASKS': PARALLEL_TASKS,
-            'REF_YEAR': self.process.ref_date.year,
+            'REF_DATE': str(self.process.ref_date),
             'REQUEST_JSON_PATH': request_json_path,
             'ROOT_DATA_DIR': self.process._arguments.root_data_dir,
             'ROOT_PROC_DIR': self.process._arguments.root_proc_dir,
@@ -465,6 +465,7 @@ class ConvertProcessTest(unittest.TestCase):
     @mock.patch('cdds.convert.process.ConvertProcess._first_concat_cycle_offset')
     @mock.patch('cdds.convert.process.ConvertProcess._convert_alignment_cycle_offset')
     @mock.patch('cdds.convert.process.ConvertProcess._convert_alignment_cycle_needed')
+    @mock.patch('cdds.convert.process.ConvertProcess.final_cycle_point')
     @mock.patch('cdds.convert.process.ConvertProcess._final_concatenation_cycle')
     @mock.patch('cdds.convert.process.ConvertProcess._final_concatenation_window_start')
     @mock.patch('cdds.convert.process.ConvertProcess._final_concatenation_needed')
@@ -473,6 +474,7 @@ class ConvertProcessTest(unittest.TestCase):
     def test_update_suite_opt_conf(self, mock_update_conf, mock_shutil_copy,
                                    mock_final_concat_needed,
                                    mock_final_concat_start, mock_final_concat,
+                                   mock_final_cycle_point,
                                    mock_convert_alignment_needed,
                                    mock_convert_alignment_offset,
                                    mock_first_concat, mock_single_concat,
@@ -491,6 +493,8 @@ class ConvertProcessTest(unittest.TestCase):
                                     'stream2': True}
         expected_final_concat_cycle = {'stream2': 'P220Y-P1M',
                                        'stream1': 'P220Y-P1Y'}
+        expected_final_cycle_point = {'stream2': 'P79170D',
+                                      'stream1': 'P78840D'}
         expect_alignment_offset = {'stream2': 'P0Y',
                                    'stream1': 'P0Y'}
         expected_do_alignment = {'stream2': False,
@@ -512,6 +516,8 @@ class ConvertProcessTest(unittest.TestCase):
             mock_final_concat_needed.return_value = expected_do_final_concat[
                 current_stream]
             mock_final_concat.return_value = expected_final_concat_cycle[
+                current_stream]
+            mock_final_cycle_point.return_value = expected_final_cycle_point[
                 current_stream]
             mock_convert_alignment_offset.return_value = \
                 expect_alignment_offset[current_stream]
@@ -541,6 +547,8 @@ class ConvertProcessTest(unittest.TestCase):
                     expected_final_concat_cycle[current_stream],
                 'FINAL_CONCATENATION_WINDOW_START':
                     expected_final_window_start[current_stream],
+                'FINAL_CYCLE_POINT':
+                    expected_final_cycle_point[current_stream],
                 'MEMORY_CONVERT': req_mem_stream,
                 'MIP_CONVERT_TMP_SPACE': temp_size,
                 'SINGLE_CONCATENATION_CYCLE':
@@ -598,7 +606,7 @@ class ConvertProcessTest(unittest.TestCase):
 
     @mock.patch('cdds.convert.process.ConvertProcess.run_bounds')
     def test_cycling_frequencies_exceed_run_bounds(self, mock_run_bounds):
-        run_bounds = (TimePointParser().parse("19820101"), TimePointParser().parse("19841230"))
+        run_bounds = (TimePointParser().parse("19820101"), TimePointParser().parse("19850101"))
         mock_run_bounds.return_value = run_bounds
         expected_output = [(False, 3), (True, 3), (False, None)]
         cycle_lengths = ['P1Y', 'P5Y', 'P1M']
@@ -633,7 +641,7 @@ class ConvertProcessTest(unittest.TestCase):
                           'stream1': 'P1Y'}
 
         mock_run_bounds.return_value = (TimePointParser().parse("19600101"),
-                                        TimePointParser().parse("21791230"))
+                                        TimePointParser().parse("21800101"))
 
         expected_offsets = {'stream2': 'P14370D',
                             'stream1': 'P14040D'}
@@ -652,7 +660,7 @@ class ConvertProcessTest(unittest.TestCase):
                                                    mock_single_concat,
                                                    mock_cycling):
         mock_run_bounds.return_value = (TimePointParser().parse("19600101"),
-                                        TimePointParser().parse("21791230"))
+                                        TimePointParser().parse("21800101"))
 
         self.process._concat_task_periods_cylc = {'stream2': 'P30Y',
                                                   'stream1': 'P50Y'}
@@ -675,7 +683,7 @@ class ConvertProcessTest(unittest.TestCase):
                                                            mock_cycling):
 
         mock_run_bounds.return_value = (TimePointParser().parse("19160101"),
-                                        TimePointParser().parse("22461230"))
+                                        TimePointParser().parse("22470101"))
 
         self.process._concat_task_periods_cylc = {'stream2': 'P30Y',
                                                   'stream1': 'P50Y'}
@@ -697,7 +705,7 @@ class ConvertProcessTest(unittest.TestCase):
                                               mock_single_concat):
 
         mock_run_bounds.return_value = (TimePointParser().parse("19600101"),
-                                        TimePointParser().parse("21791230"))
+                                        TimePointParser().parse("21800101"))
         single_concat = {'stream2': False,
                          'stream1': False}
         self.process._concat_task_periods_cylc = {'stream2': 'P35Y',
@@ -714,7 +722,7 @@ class ConvertProcessTest(unittest.TestCase):
     @mock.patch('cdds.convert.process.ConvertProcess.run_bounds')
     def test_final_concatenation_cycle(self, mock_run_bounds, mock_cycling,
                                        mock_single_concat):
-        run_bounds = (TimePointParser().parse("19600101"), TimePointParser().parse("21791230"))
+        run_bounds = (TimePointParser().parse("19600101"), TimePointParser().parse("21800101"))
         mock_run_bounds.return_value = run_bounds
         cycling = {'stream2': 'P1M',
                    'stream1': 'P1Y',
@@ -741,7 +749,7 @@ class ConvertProcessTest(unittest.TestCase):
     @mock.patch('cdds.convert.process.ConvertProcess.run_bounds')
     def test_convert_alignment_cycle_needed_aligned(self, mock_run_bounds,
                                                     mock_cycling_frequency):
-        run_bounds = (TimePointParser().parse("19600101"), TimePointParser().parse("21601230"))
+        run_bounds = (TimePointParser().parse("19600101"), TimePointParser().parse("21610101"))
         mock_run_bounds.return_value = run_bounds
         cycling_frequencies = {'stream1': 'P5Y',
                                'stream2': 'P2Y'}
@@ -757,7 +765,7 @@ class ConvertProcessTest(unittest.TestCase):
     @mock.patch('cdds.convert.process.ConvertProcess.run_bounds')
     def test_convert_alignment_cycle_needed_misaligned(self, mock_run_bounds,
                                                        mock_cycling_frequency):
-        run_bounds = (TimePointParser().parse("19630101"), TimePointParser().parse("21671230"))
+        run_bounds = (TimePointParser().parse("19630101"), TimePointParser().parse("21680101"))
         mock_run_bounds.return_value = run_bounds
         cycling_frequencies = {'stream1': 'P5Y',
                                'stream2': 'P2Y'}
@@ -788,7 +796,7 @@ class ConvertProcessTest(unittest.TestCase):
     @mock.patch('cdds.convert.process.ConvertProcess.run_bounds')
     def test_convert_alignment_cycle_offset_misaligned(self, mock_run_bounds,
                                                        mock_cycling_frequency):
-        run_bounds = (TimePointParser().parse("19630101"), TimePointParser().parse("21671230"))
+        run_bounds = (TimePointParser().parse("19630101"), TimePointParser().parse("21680101"))
         mock_run_bounds.return_value = run_bounds
         cycling_frequencies = {'stream1': 'P5Y',
                                'stream2': 'P2Y'}
@@ -799,8 +807,8 @@ class ConvertProcessTest(unittest.TestCase):
             output = self.process._convert_alignment_cycle_offset(stream)
             self.assertEqual(expected[stream], output)
 
-    SCENARIO_MIP_BOUNDS = (TimePointParser().parse("20150101"), TimePointParser().parse("21001230"))
-    AMIP_BOUNDS = (TimePointParser().parse("19790101"), TimePointParser().parse("20141230"))
+    SCENARIO_MIP_BOUNDS = (TimePointParser().parse("20150101"), TimePointParser().parse("21010101"))
+    AMIP_BOUNDS = (TimePointParser().parse("19790101"), TimePointParser().parse("20150101"))
 
     @mock.patch('cdds.convert.process.ConvertProcess._cycling_frequency')
     @mock.patch('cdds.convert.process.ConvertProcess.run_bounds')

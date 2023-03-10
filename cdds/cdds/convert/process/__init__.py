@@ -333,21 +333,40 @@ class ConvertProcess(object):
 
     def run_bounds(self):
         """
-        Return the start date and end date needed to process all |streams|.
+        Create start and end dates from the dates given in the request.json
 
-        :return: A tuple containing the start and end date of the simulation.
-        :rtype: tuple (TimePoint, TimePoint)
+        :return: A tuple of TimePoint Objects
+        :rtype: Tuple
         """
-
         start_date, end_date = self._request.run_bounds.split()
-
         start_date = "-".join(start_date.split('-')[:3])
-        end_date = "-".join(end_date.split('-')[:3])
-
         start_date = TimePointParser().parse(start_date)
-        end_date = TimePointParser().parse(end_date) - DurationParser().parse('P1D')
+        end_date = "-".join(end_date.split('-')[:3])
+        end_date = TimePointParser().parse(end_date)
 
         return start_date, end_date
+
+    def final_cycle_point(self, stream):
+        """
+        Calulate the final cycling point for use in the cdds_convert processing suite for
+        this particular stream.
+
+        :param stream: Stream
+        :type str:
+        :return: A TimePoint object representing the final cycle point of processing. (This
+            will almost always be an earlier point in time than the processing end_date.)
+        :rtype: TimePoint
+        """
+        # See issue 224 metomi.isodatetime as to why this conditional logic exists.
+        _, end_date = self.run_bounds()
+        cycling_frequency = self._cycling_frequency(stream)
+        recurrence = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
+        if recurrence.get_is_valid(end_date):
+            final_cycle_point = recurrence.get_prev(end_date)
+        else:
+            final_cycle_point = recurrence.get_prev(recurrence.get_first_after(end_date))
+
+        return final_cycle_point
 
     @property
     def ref_date(self):
@@ -509,7 +528,7 @@ class ConvertProcess(object):
             start_date, end_date = self.run_bounds()
             start_year, end_year = start_date.year, end_date.year
             cycling_years = int(cycling_years.group('nyears'))
-            run_length = end_year - start_year + 1
+            run_length = end_year - start_year
             return run_length < cycling_years, run_length
         elif re.match(r'P\d+[DM]', cycle_frequency):
             return False, None
@@ -563,7 +582,7 @@ class ConvertProcess(object):
         """
         start_date, end_date = self.run_bounds()
         start_year, end_year = start_date.year, end_date.year
-        return end_year - start_year + 1
+        return end_year - start_year
 
     def _calculate_concat_task_periods(self):
         self._calculate_max_concat_period()
@@ -623,9 +642,9 @@ class ConvertProcess(object):
             first_cycle = self._final_concatenation_cycle(stream)
             return first_cycle
         else:
+            start_date, _ = self.run_bounds()
             concat_period = self._concat_task_periods_cylc[stream]
             aligned_concatenation_dates = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{concat_period}')
-            start_date, _ = self.run_bounds()
             concat_window_date = aligned_concatenation_dates.get_first_after(start_date)
             cycling_frequency = self._cycling_frequency(stream)
             first_cycle = concat_window_date - DurationParser().parse(cycling_frequency)
@@ -690,7 +709,6 @@ class ConvertProcess(object):
 
         if self._single_concatenation_cycle(stream):
             return False
-
         start_date, _ = self.run_bounds()
         final_concatenation_cycle = DurationParser().parse(self._final_concatenation_cycle(stream)) + start_date
         concat_period = self._concat_task_periods_cylc[stream]
@@ -713,10 +731,8 @@ class ConvertProcess(object):
         :rtype: str
         """
         start_date, end_date = self.run_bounds()
-        cycling_frequency = self._cycling_frequency(stream)
-        cycling_freq_recurrence = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
-        final_concatenation_cycle = cycling_freq_recurrence.get_prev(cycling_freq_recurrence.get_first_after(end_date))
-        final_concatenation_cycle_in_days = str(final_concatenation_cycle - start_date)
+        final_cycle_point = self.final_cycle_point(stream)
+        final_concatenation_cycle_in_days = str(final_cycle_point - start_date)
         return final_concatenation_cycle_in_days
 
     def _final_concatenation_window_start(self, stream):
@@ -736,11 +752,13 @@ class ConvertProcess(object):
         """
         if self._single_concatenation_cycle(stream):
             return 0
-
         _, end_date = self.run_bounds()
         period = self._concat_task_periods_cylc[stream]
         recurrence = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{period}')
-        final_concat_windows_start_year = str(recurrence.get_prev(recurrence.get_first_after(end_date)))
+        if recurrence.get_is_valid(end_date):
+            final_concat_windows_start_year = str(recurrence.get_prev(end_date))
+        else:
+            final_concat_windows_start_year = str(recurrence.get_prev(recurrence.get_first_after(end_date)))
 
         return final_concat_windows_start_year
 
@@ -758,9 +776,8 @@ class ConvertProcess(object):
             multiple |Concatenation Cycles|.
         :rtype: bool
         """
-        start_date, end_date = self.run_bounds()
         window_size = DurationParser().parse(self._concat_task_periods_cylc[stream])
-
+        start_date, end_date = self.run_bounds()
         return start_date + window_size >= end_date
 
     def mip_convert_temp_sizes(self, stream_id):
@@ -814,10 +831,9 @@ class ConvertProcess(object):
             The platform on which to run the tasks in the suite.
         """
         section_name = 'jinja2:suite.rc'
-        run_bounds = self.run_bounds()
         rose_suite_conf_file = os.path.join(self.suite_destination,
                                             'rose-suite.conf')
-
+        start_date, end_date = self.run_bounds()
         # In order to run subtasks in the convert suite (extract, QC and
         # transfer), the suite needs to know the path to the request JSON file.
         # This path is often specified as a relative path, so we need to
@@ -838,23 +854,20 @@ class ConvertProcess(object):
 
         changes_to_apply_all = {
             'MIP_ERA': self._arguments.mip_era,
-            'CDDS_CONVERT_PROC_DIR': self._full_paths.component_directory(
-                'convert'),
+            'CDDS_CONVERT_PROC_DIR': self._full_paths.component_directory('convert'),
             'CDDS_VERSION': _NUMERICAL_VERSION,
             'DEV_MODE': _DEV,
-            'END_DATE': str(run_bounds[1]),
+            'END_DATE': str(end_date),
             'INPUT_DIR': self._full_paths.input_data_directory,
             'OUTPUT_MASS_ROOT': self._arguments.output_mass_root,
             'OUTPUT_MASS_SUFFIX': self._arguments.output_mass_suffix,
             'EMAIL_NOTIFICATIONS': self._arguments.email_notifications,
-            'MIP_CONVERT_CONFIG_DIR': self._full_paths.component_directory(
-                'configure'),
+            'MIP_CONVERT_CONFIG_DIR': self._full_paths.component_directory('configure'),
             'MODEL_ID': self._request.model_id,
-            'NTHREADS_CONCATENATE': (
-                NTHREADS_CONCATENATE),
+            'NTHREADS_CONCATENATE': (NTHREADS_CONCATENATE),
             'OUTPUT_DIR': self._full_paths.output_data_directory,
             'PARALLEL_TASKS': PARALLEL_TASKS,
-            'REF_YEAR': self.ref_date.year,
+            'REF_DATE': str(self.ref_date),
             'REQUEST_JSON_PATH': request_json_path,
             'ROOT_DATA_DIR': self._arguments.root_data_dir,
             'ROOT_PROC_DIR': self._arguments.root_proc_dir,
@@ -862,7 +875,7 @@ class ConvertProcess(object):
             'SKIP_EXTRACT_VALIDATION': '--skip_extract_validation' if self.skip_extract_validation else '',
             'RUN_QC': not self.skip_qc,
             'RUN_TRANSFER': not self.skip_transfer,
-            'START_DATE': str(run_bounds[0]),
+            'START_DATE': str(start_date),
             'TARGET_SUITE_NAME': self.target_suite_name,
             'USE_EXTERNAL_PLUGIN': use_external_plugin
         }
@@ -945,6 +958,8 @@ class ConvertProcess(object):
                 self._final_concatenation_cycle(stream),
             'FINAL_CONCATENATION_WINDOW_START':
                 self._final_concatenation_window_start(stream),
+            'FINAL_CYCLE_POINT':
+                str(self.final_cycle_point(stream)),
             'MEMORY_CONVERT': required_memory,
             'MIP_CONVERT_TMP_SPACE': self.mip_convert_temp_sizes(stream),
             'SINGLE_CONCATENATION_CYCLE':

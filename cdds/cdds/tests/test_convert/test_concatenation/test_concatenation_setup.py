@@ -10,10 +10,10 @@ from typing import Type, List
 import unittest
 from unittest import mock
 
-from cftime import datetime
+from metomi.isodatetime.data import TimePoint, Duration, Calendar
+from metomi.isodatetime.parsers import TimePointParser
 
 from cdds.common import run_command
-from cdds.common.constants import TIME_UNIT
 from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
 from cdds.common.plugins.file_info import ModelFileInfo
 from cdds.common.plugins.grid import GridLabel, GridType, GridInfo
@@ -192,11 +192,11 @@ class TestConcatenationSetup(unittest.TestCase):
         expected_config = {
             'model_id': 'dummymodel',
             'output_location': '/dummy/path/to/output/ap5',
-            'start_year': 1850,
+            'start_date': '18500101',
             'output_file': '/dummy/path/to/output/file.db',
             'recursive': True,
-            'reference_year': 1850,
-            'end_year': 1949,
+            'reference_date': '18500101',
+            'end_date': '19490101',
             'calendar': '360day',
             'staging_location': '/dummy/path/to/staging/output/stream/',
             'json': False,
@@ -214,13 +214,16 @@ class TestConcatenationSetup(unittest.TestCase):
 
 class TestOrganiseConcatenations(unittest.TestCase):
 
+    def setUp(self):
+        Calendar.default().set_mode('360_day')
+
     def _generate_test_data(self, ref, start, end, chunk_start, chunk_end,
                             concat_cycle, concat_window, mc_cycle):
-        reference_date = datetime(ref, 1, 1)
-        start_date = datetime(start, 1, 1)
-        end_date = datetime(end, 1, 1)
-        chunk_start = datetime(chunk_start, 1, 1)
-        chunk_end = datetime(chunk_end, 1, 1)
+        reference_date = TimePoint(year=ref, month_of_year=1, day_of_month=1)
+        start_date = TimePoint(year=start, month_of_year=1, day_of_month=1)
+        end_date = TimePoint(year=end, month_of_year=1, day_of_month=1)
+        chunk_start = TimePoint(year=chunk_start, month_of_year=1, day_of_month=1)
+        chunk_end = TimePoint(year=chunk_end, month_of_year=1, day_of_month=1)
 
         mip_convert_cycle_length = mc_cycle
         expected_time_chunks = {}
@@ -258,8 +261,8 @@ class TestOrganiseConcatenations(unittest.TestCase):
 
     def test_times_from_filename_360day_calendar(self):
         test_filename = 'ta_Amon_UKESM1-0-LL_amip_r1i1p1f2_gn_197901-201412.nc'
-        expected_start = TIME_UNIT.date2num(datetime(1979, 1, 1))
-        expected_end = TIME_UNIT.date2num(datetime(2014, 12, 1))
+        expected_start = TimePoint(year=1979, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2014, month_of_year=12, day_of_month=1)
         output_start, output_end = times_from_filename(test_filename)
         self.assertTrue(expected_start, output_start)
         self.assertTrue(expected_end, output_end)

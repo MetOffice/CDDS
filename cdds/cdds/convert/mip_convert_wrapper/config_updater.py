@@ -4,20 +4,19 @@
 Routines to read MIP Convert config templates and write them out with
 the appropriate parameters filled in.
 """
-from datetime import datetime
 import errno
 import jinja2
 import logging
 import os
-import re
-import subprocess
 
+from metomi.isodatetime.data import TimePoint
+from metomi.isodatetime.parsers import TimePointParser, DurationParser
 from cdds.common.constants import CYLC_DATE_FORMAT, MIP_CONVERT_DATETIME_FORMAT
+from typing import Tuple
 
 
-def calculate_mip_convert_run_bounds(start_point, cycle_duration,
-                                     simulation_end, stream_time_overrides,
-                                     offset=None, model_calendar='360day'):
+def calculate_mip_convert_run_bounds(
+        start_point: str, cycle_duration: str, simulation_end: TimePoint) -> Tuple[TimePoint, TimePoint]:
     """
     Return a pair of datetime objects describing the  bounds for MIP
     Convert to run in this step.
@@ -28,110 +27,22 @@ def calculate_mip_convert_run_bounds(start_point, cycle_duration,
         Starting point of this run.
     cycle_duration : str
         Duration of this cycle according to cylc.
-    simulation_end : datetime
+    simulation_end : TimePoint
         Simulation end date for processing.
-    stream_time_overrides: str
-        Text describing the overrides to start and end dates for this
-        stream. Taken from STREAM_TIME_OVERRIDES environment variable.
-    offset : str, optional
-        additional offset to be applied in the calculation, e.g. '-P1D'
-    model_calendar : str, optional
-        Calendar to be used
 
     Returns
     -------
     : tuple
-        datetimes of the start and end for this step
+        of TimePoint represent the start and end for this step
     """
-    logger = logging.getLogger(__name__)
-    offsets = [cycle_duration]
-    if offset is not None:
-        offsets.append(offset)
 
-    job_start_dt = datetime.strptime(start_point, CYLC_DATE_FORMAT)
-    job_end_dt = rose_date(start_point, offsets, model_calendar)
+    job_start_dt = TimePointParser().parse(start_point, dump_format=CYLC_DATE_FORMAT)
+    job_end_dt = TimePointParser().parse(start_point) + DurationParser().parse(cycle_duration)
 
     if job_end_dt > simulation_end:
         job_end_dt = simulation_end
 
-    if stream_time_overrides != 'None':
-        logger.info('Updating time range for STREAM_TIME_OVERRIDES')
-        result = re.search(r'\[(\d+),\s*(\d+)\]',
-                           stream_time_overrides)
-        stream_start_year, stream_end_year = [int(i) for i in result.groups()]
-        job_start_dt, job_end_dt = _update_run_bounds_for_stream_override(
-            job_start_dt, job_end_dt, stream_start_year, stream_end_year)
-
     return job_start_dt, job_end_dt
-
-
-def rose_date(ref_date, offsets, model_calendar):
-    """
-    Use the rose date command to obtain a date offset from a reference
-    date.
-
-    Parameters
-    ----------
-    ref_date : str
-        Reference date
-    offsets : list
-        List of offsets, each of which should be an ISO time delta,
-        e.g. "P1Y" for one year
-    model_calendar : str
-        Calendar to work with.
-
-    Returns
-    -------
-    : datetime
-        Resulting datetime object.
-    """
-    command = ['rose', 'date', ref_date,
-               '--calendar={}'.format(model_calendar)]
-    command += ['--offset={}'.format(i) for i in offsets]
-    result = subprocess.check_output(command)
-    return datetime.strptime(result.strip().decode(), CYLC_DATE_FORMAT)
-
-
-def _update_run_bounds_for_stream_override(job_start_dt, job_end_dt,
-                                           stream_start_year, stream_end_year,
-                                           model_calendar='360day'):
-    """
-    Update the run bounds for this job to account for stream overrides
-
-    Parameters
-    ----------
-    job_start_dt : datetime
-        job start datetime
-    job_end_dt : datetime
-        job end datetime
-    stream_start_year : int
-        first year to process for this stream
-    stream_end_year : int
-        final year to process for this stream
-    model_calendar : str
-        calendar to be used
-
-    Returns
-    -------
-    : tuple
-         updated datetime objects for the start and end of this job,
-    """
-    assert model_calendar == '360day', ('Not able to deal with calendars '
-                                        'other than 360day')
-    stream_start_dt = datetime(stream_start_year, 1, 1)
-    stream_end_dt = datetime(stream_end_year + 1, 1, 1)
-
-    run_bounds = []
-    if job_start_dt < stream_start_dt:
-        run_bounds.append(stream_start_dt)
-    else:
-        run_bounds.append(job_start_dt)
-    if job_end_dt > stream_end_dt:
-        run_bounds.append(stream_end_dt)
-    else:
-        run_bounds.append(job_end_dt)
-
-    return tuple(run_bounds)
 
 
 def setup_cfg_file(input_dir, output_dir, mip_convert_config_dir, component,
@@ -154,9 +65,9 @@ def setup_cfg_file(input_dir, output_dir, mip_convert_config_dir, component,
         config file template, e.g. if component is "ocean", then the
         template "mip_convert.ocean.cfg" in the MIP Convert config dir
         will be used.
-    start_time : datetime
+    start_time : TimePoint
         Start date for this job step.
-    end_time: datetime
+    end_time: TimePoint
         End date for this job step.
     timestamp : str
         Time stamp string to use in output file names.
