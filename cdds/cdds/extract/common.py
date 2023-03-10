@@ -1054,3 +1054,20 @@ def configure_mappings(mappings):
         logger.info("\n ----- Embargoed Variable Mappings -----\n{} \n".format(msg))
 
     return stream_mapping
+
+def get_data_target(input_data_directory, stream):
+    """Returns target location for extracted data
+
+    Parameters
+    ----------
+    input_data_directory: str
+        directory with model input data
+    stream: dict
+        stream attributes
+
+    Returns
+    -------
+    str
+        data target string for use in MOOSE commands
+    """
+    return os.path.join(input_data_directory, stream["suiteid"], stream["stream"])

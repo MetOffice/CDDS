@@ -11,11 +11,9 @@ import datetime
 import logging
 
 from cdds.common.plugins.plugins import PluginStore
-from cdds.common.plugins.streams import StreamAttributes
 from cdds.extract.common import (
     build_mass_location, process_info, exit_nicely, create_dir,
-    check_moo_cmd, run_moo_cmd, file_accessible, file_count,
-    validate_stash_fields, validate_netcdf
+    check_moo_cmd, run_moo_cmd
 )
 from cdds.extract.constants import GROUP_FOR_DIRECTORY_CREATION, STREAMDIR_PERMISSIONS
 from cdds.extract.filters import FilterFileException
@@ -183,22 +181,6 @@ class Process(object):
             stream["streamtype"],
             self.request.mass_ensemble_member)
 
-    def get_data_target(self, stream):
-        """Returns target location for extracted data
-
-        Parameters
-        ----------
-        stream: dict
-            stream attributes
-
-        Returns
-        -------
-        str
-            data target string for use in MOOSE commands
-        """
-        return os.path.join(
-            self.input_data_directory, stream["suiteid"], stream["stream"])
-
     def configure_commands(self, mappings, stream, data_source,
                            data_target):
         """Creates a set of MOOSE commands to retrieve stream files.
@@ -337,104 +319,6 @@ class Process(object):
         logger.debug(self.lang["moose_output"].format(
             code, cmd_out))
         return code, cmd_out
-
-    def validate(self, path, stream, stash_codes, substreams, validation_result):
-        """Simple validation based on checking correct number of files have
-        been extracted, and stash codes comparison in the case of pp streams.
-
-        In the case of ncdf files, it tests if they can be opened at all.
-
-        Parameters
-        ----------
-        path:str
-            directory path containing files to validate
-        stream:dict
-            stream attributes
-        stash_codes : set
-            a set of short stash codes appearing in filters
-        substreams: list
-            list of substreams
-        validation_result: cdds.common.StreamValidationResult
-            An object to hold results from the stream validation
-        """
-
-        if stream["success"]:
-            self.validate_file_count(path, stream, substreams, validation_result)
-            if stream["streamtype"] == "pp":
-                self.validate_pp(path, stash_codes, validation_result)
-            elif stream["streamtype"] == "nc":
-                self.validate_netcdf(path, validation_result)
-
-    def validate_file_count(self, path, stream, substreams, validation_result):
-        """
-        Checks number of files present at a given location and
-        validates it against values expected for a given stream
-        and substream.
-
-        Parameters
-        ----------
-        path: str
-            Path to the dataset.
-        stream: dict
-            Stream description dictionary.
-        substreams: list
-            List of expected substreams.
-        validation_result: cdds.common.StreamValidationResult
-            An object to hold results from the stream validation
-        """
-        logger = logging.getLogger(__name__)
-        # num files check
-        logger.info("Checking file count")
-        # count files of specific type in directory
-        extension = ".{}".format(stream["streamtype"])
-        actual = file_count(path, extension)
-        # ocean resolution
-        stream_attribute = StreamAttributes(stream["stream"], stream["start_date"], stream["end_date"])
-        expected = self.stream_file_info.calculate_expected_number_of_files(stream_attribute, substreams)
-        validation_result.add_file_counts(expected, actual)
-
-    def validate_pp(self, path, stash_codes, validation_result):
-        """
-        Checks that PP files at provided location can be read and
-        contain |STASH| codes consistent with the reference
-        set given as a second argument.
-        Returns overall validation status, error message(s),
-        and a listof unreadable files (if present).
-
-        Parameters
-        ----------
-        path: str
-            Path pointing to the location of a set of PP files.
-        stash_codes: set
-            A set of unique |STASH| codes that the set of files will
-            be validated against.
-        validation_result: cdds.common.StreamValidationResult
-            An object to hold results from the stream validation
-        """
-        logger = logging.getLogger(__name__)
-        logger.info("Checking STASH fields")
-        validate_stash_fields(path, stash_codes, validation_result)
-
-    def validate_netcdf(self, path, validation_result):
-        """
-        Checks that |netCDF| files at provided location can be read.
-        Returns overall validation status, error message(s), and a list
-        of unreadable files (if present).
-
-        Parameters
-        ----------
-        path: str
-            Path pointing to the location of |netCDF| dataset.
-        validation_result: cdds.common.StreamValidationResult
-            An object to hold results from the stream validation
-        """
-        logger = logging.getLogger(__name__)
-        logger.info("Checking netCDF files in \"{}\"".format(path))
-        for root, _, files in os.walk(path):
-            for datafile in sorted(files):
-                error = validate_netcdf(os.path.join(root, datafile))
-                if error is not None:
-                    validation_result.add_file_content_error(error)
 
     def delete_files(self, files_to_remove):
         """

@@ -18,6 +18,7 @@ from cdds.extract.lang import set_language
 from cdds.extract.runner import ExtractRunner
 from cdds.extract.spice import run_extract_spice_batch_job
 from cdds.extract.halo_removal import dehalo_multiple_files
+from cdds.extract.validate import validate_streams
 from cdds.arguments import read_default_arguments
 from cdds.deprecated.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
 from cdds.common import configure_logger, common_command_line_args, root_dir_args
@@ -59,9 +60,6 @@ def parse_cdds_extract_command_line(user_arguments):
     parser.add_argument('--simulation',
                         action='store_true',
                         help='Run Extract in simulation mode')
-    parser.add_argument('--skip_extract_validation',
-                        action='store_true',
-                        help='Skip validation of retrieved files')
     root_dir_args(parser, arguments.root_proc_dir, arguments.root_data_dir)
 
     # Add arguments common to all scripts.
@@ -153,7 +151,7 @@ def parse_remove_ocean_haloes_command_line(user_arguments):
     : :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated values.
     """
-    arguments = read_default_arguments('extract', 'remove_ocean_haloes')
+    arguments = read_default_arguments('cdds.extract', 'remove_ocean_haloes')
 
     parser = argparse.ArgumentParser(description='Strip ocean haloes from multiple files')
     parser.add_argument('destination', help='Directory to write stripped files to')
@@ -165,6 +163,66 @@ def parse_remove_ocean_haloes_command_line(user_arguments):
     common_command_line_args(parser, arguments.log_name, arguments.log_level, __version__)
 
     return parser.parse_args(user_arguments)
+
+
+def parse_validate_streams_command_line(user_arguments):
+    arguments = read_default_arguments('cdds.extract', 'validate_streams')
+    parser = argparse.ArgumentParser(description='Validate extracted data')
+    parser.add_argument('request',
+                        help='The full path to the JSON file containing the information from the request.')
+    parser.add_argument('-s',
+                        '--streams',
+                        default=None, nargs='*',
+                        help='Restrict validation only to these streams')
+    root_dir_args(parser, arguments.root_proc_dir, arguments.root_data_dir)
+    # Add arguments common to all scripts.
+    common_command_line_args(parser, arguments.log_name, arguments.log_level, __version__)
+    parsed_args = parser.parse_args(user_arguments)
+    arguments.add_user_args(parsed_args)
+    arguments = update_arguments_paths(arguments)
+    request = read_request(arguments.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
+    arguments = update_arguments_for_proc_dir(arguments, request, COMPONENT)
+    arguments = update_log_dir(arguments, COMPONENT)
+    return arguments
+
+def main_validate_streams(arguments=None):
+    # read request
+    # determine streams
+    # configure mappings
+    # get stash codes for pp
+    args = parse_validate_streams_command_line(arguments)
+
+    # Add stream suffix to the log name if running extract just for some streams
+    log_name = args.log_name + '_' + "_".join(args.streams) if args.streams else args.log_name
+
+    # Create the configured logger.
+    configure_logger(log_name, args.log_level, args.append_log)
+
+    # Retrieve the logger.
+    logger = logging.getLogger(__name__)
+
+    try:
+        streams = args.streams
+        if not streams:
+            logger.critical("no streams selected")
+            exit_code = 1
+        elif len(streams) > 1:
+            # for historical reasons the original code would allow user to run validation for multiple
+            # streams. Extract has been parallelised since those early days and we split processing, including
+            # data retrieval, into single streams. That's why the data structure is a list, although
+            # we no longer iterate through streams, only take the first (and hopefully the only) element.
+            logger.critical("can validate only one stream at the time")
+            exit_code = 1
+        else:
+            validation_result = validate_streams(streams, args)
+            if validation_result.valid:
+                exit_code = 0
+            else:
+                exit_code = 1
+    except BaseException as exc:
+        logger.critical(exc, exc_info=1)
+        exit_code = 1
+    return exit_code
 
 
 def main_remove_ocean_haloes(arguments=None):

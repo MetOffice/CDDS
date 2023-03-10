@@ -10,8 +10,8 @@ import os
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.request import read_request
 from cdds.extract.common import (
-    check_moo_cmd, configure_mappings, configure_variables, exit_nicely, get_streams, ValidationResult)
-from cdds.extract.constants import (GROUP_FOR_DIRECTORY_CREATION, MAX_EXTRACT_BLOCKS)
+    check_moo_cmd, configure_mappings, configure_variables, exit_nicely, get_data_target, get_streams, ValidationResult)
+from cdds.extract.constants import GROUP_FOR_DIRECTORY_CREATION
 from cdds.extract.filters import Filters
 from cdds.extract.process import Process
 from cdds.deprecated.config import FullPaths
@@ -68,7 +68,6 @@ class ExtractRunner(object):
             mappings = Filters(
                 full_paths.proc_directory,
                 var_list,
-                MAX_EXTRACT_BLOCKS,
                 self.args.simulation
             )
             mappings.set_mappings(self.args.mip_table_dir, request)
@@ -98,7 +97,7 @@ class ExtractRunner(object):
 
                 # get data source and target for this stream
                 data_source = extract_process.get_data_source(stream)
-                data_target = extract_process.get_data_target(stream)
+                data_target = get_data_target(full_paths.input_data_directory, stream)
 
                 # check data stream exists in MASS
                 if extract_process.request_exists(data_source):
@@ -167,13 +166,6 @@ class ExtractRunner(object):
                     stream, "[{} of {}]".format(stream_count, len(streams))))
                 # do validation check for this stream and write to log
                 substreams = list(mappings.filters.keys())
-                if not self.args.skip_extract_validation:
-                    extract_process.validate(
-                        data_target, stream, stash_codes, substreams,
-                        stream_validation.validation_result(stream["stream"])
-                    )
-                    if not stream_validation.validation_result(stream["stream"]).valid:
-                        overall_result = "quality"
             else:
                 end_msg = "skipped [{} of {}]".format(stream_count,
                                                       len(streams))
@@ -189,11 +181,6 @@ class ExtractRunner(object):
         # log end of process
         logger.info("{}: {}".format(
             self.lang["extract_{}".format(overall_result)], overall_summary))
-        if not self.args.skip_extract_validation:
-            for stream_name, validation_result in stream_validation.validated_streams.items():
-                validation_result.log_results(full_paths.log_directory("extract"))
-        else:
-            logger.info("-- SKIPPING VALIDATION")
         exit_nicely(
             msg=self.lang["script_end"],
             success=True if overall_result == "success" else False

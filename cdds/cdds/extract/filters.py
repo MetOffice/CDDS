@@ -32,7 +32,7 @@ class Filters(object):
     using SELECT (PP files) and FILTER (netcdf files)
     """
 
-    def __init__(self, procdir=None, var_list=None, max_blocks=None,
+    def __init__(self, procdir=None, var_list=None,
                  simulation=False):
         """Initialises Filters object
 
@@ -42,9 +42,6 @@ class Filters(object):
             pathname to extract processing directory
         var_list: list of dict
             list of variables (dicts) to be processed
-        max_blocks: int
-            maximum number of MOOSE requests to divide a data stream
-            retrieval into
         simulation: bool
             If true MASS commands will be simulated
 
@@ -61,8 +58,6 @@ class Filters(object):
         self.mappings_embargoed = {}
         self.simulation = simulation
         self.filters = {}
-
-        self.max_blocks = max_blocks
         self.mass_cmd = []
         self.suite_id = None
         self.ensemble_member_id = None
