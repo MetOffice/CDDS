@@ -332,6 +332,12 @@ class ConvertProcess(object):
         return self._request.streaminfo
 
     def run_bounds(self):
+        """
+        Create start and end dates from the dates given in the request.json
+
+        :return: A tuple of TimePoint Objects
+        :rtype: Tuple
+        """
         start_date, end_date = self._request.run_bounds.split()
         start_date = "-".join(start_date.split('-')[:3])
         start_date = TimePointParser().parse(start_date)
@@ -341,6 +347,16 @@ class ConvertProcess(object):
         return start_date, end_date
 
     def final_cycle_point(self, stream):
+        """
+        Calulate the final cycling point for use in the u-ak283 suite for this particular
+        stream.
+
+        :param stream: Stream
+        :type str:
+        :return: A TimePoint object representing the final cycle point of processing. (This
+            will almost always be an earlier point in time than the processing end_date.)
+        :rtype: TimePoint
+        """
         # See issue 224 metomi.isodatetime as to why this conditional logic exists.
         _, end_date = self.run_bounds()
         cycling_frequency = self._cycling_frequency(stream)
