@@ -506,21 +506,15 @@ class ConvertProcess(object):
 
     def _check_cycle_freq_exceeds_run_bounds(self, cycle_frequency):
         """
-        Function will return True if the cycling frequency duration is larger than the
-        run bounds. Will return False if the cycling frequency is in units of Months or Days,
-        as convert currently assumes run bounds will always be at least year.
+        If the given `cycle_frequency` is larger than the run bounds then a tuple is returned
+        where the first value is a bool of True and the second value is an appropriate new cycling
+        frequency, otherwise (False, True) is returned.
 
-        Parameters
-        ----------
-        cycle_frequency : str
-            the default cycling frequency duration.
-
-        Returns
-        -------
-        bool
-            Returns True if cycling frequency duration exceed bounds, otherwise False.
-        run_length : int
-            Returns the time bound length in years. Used for new cycling frequency if needed.
+        :param cycle_frequency: The default cycling frequency as a duration string e.g. P5Y
+        :type cycle_frequency: str
+        :raises RuntimeError: If an invalid cycle frequency is given.
+        :return: Whether the cycle_frequency does exceed bounds and the new cycling frequency.
+        :rtype: tuple (bool, str or None)
         """
         start_date, end_date = self.run_bounds()
 
