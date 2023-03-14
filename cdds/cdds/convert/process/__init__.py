@@ -489,7 +489,7 @@ class ConvertProcess(object):
         logger = logging.getLogger()
         cycle_length = self._model_params.cycle_length(stream)
 
-        cycle_freq_exceeds_run_bounds, override_cycling_freq = self._check_cycle_freq_exceeds_run_bounds(cycle_length)
+        cycle_freq_exceeds_run_bounds, new_cycling_freq = self._check_cycle_freq_exceeds_run_bounds(cycle_length)
 
         overrides = self.cycling_overrides()
         if stream in overrides:
@@ -498,42 +498,36 @@ class ConvertProcess(object):
                         ''.format(stream, cycle_length, frequency))
             return frequency
         elif cycle_freq_exceeds_run_bounds:
-            new_cycle_length = 'P{}Y'.format(override_cycling_freq)
             logger.info('Default cycling frequency "{}" for stream "{}" is greater than run bounds.'
-                        'Using "{}" as the cycling frequency instead'.format(cycle_length, stream, new_cycle_length))
-            return new_cycle_length
+                        'Using "{}" as the cycling frequency instead'.format(cycle_length, stream, new_cycling_freq))
+            return new_cycling_freq
         else:
             return cycle_length
 
     def _check_cycle_freq_exceeds_run_bounds(self, cycle_frequency):
         """
-        Function will return True if the cycling frequency duration is larger than the
-        run bounds. Will return False if the cycling frequency is in units of Months or Days,
-        as convert currently assumes run bounds will always be at least year.
+        If the given `cycle_frequency` is larger than the run bounds then a tuple is returned
+        where the first value is a bool of True and the second value is an appropriate new cycling
+        frequency, otherwise (False, True) is returned.
 
-        Parameters
-        ----------
-        cycle_frequency : str
-            the default cycling frequency duration.
-
-        Returns
-        -------
-        bool
-            Returns True if cycling frequency duration exceed bounds, otherwise False.
-        run_length : int
-            Returns the time bound length in years. Used for new cycling frequency if needed.
+        :param cycle_frequency: The default cycling frequency as a duration string e.g. P5Y
+        :type cycle_frequency: str
+        :raises RuntimeError: If an invalid cycle frequency is given.
+        :return: Whether the cycle_frequency does exceed bounds and the new cycling frequency.
+        :rtype: tuple (bool, str or None)
         """
-        cycling_years = re.match(r'P(?P<nyears>\d+)Y', cycle_frequency)
-        if cycling_years:
-            start_date, end_date = self.run_bounds()
-            start_year, end_year = start_date.year, end_date.year
-            cycling_years = int(cycling_years.group('nyears'))
-            run_length = end_year - start_year
-            return run_length < cycling_years, run_length
-        elif re.match(r'P\d+[DM]', cycle_frequency):
-            return False, None
-        else:
+        start_date, end_date = self.run_bounds()
+
+        if not re.match(r'P\d+[DMY]', cycle_frequency):
             raise RuntimeError('Unrecognised cycle frequency duration.')
+
+        if start_date + DurationParser().parse(cycle_frequency) > end_date:
+            if start_date + DurationParser().parse('P1Y') > end_date:
+                return True, 'P1M'
+            else:
+                return True, 'P1Y'
+        else:
+            return False, None
 
     def _cycling_frequency_value(self, stream):
         """

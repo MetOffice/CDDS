@@ -605,11 +605,22 @@ class ConvertProcessTest(unittest.TestCase):
             self.assertEqual(expected_frequencies[current_stream], output)
 
     @mock.patch('cdds.convert.process.ConvertProcess.run_bounds')
-    def test_cycling_frequencies_exceed_run_bounds(self, mock_run_bounds):
+    def test_cycling_frequencies_exceed_run_bounds_years(self, mock_run_bounds):
         run_bounds = (TimePointParser().parse("19820101"), TimePointParser().parse("19850101"))
         mock_run_bounds.return_value = run_bounds
-        expected_output = [(False, 3), (True, 3), (False, None)]
-        cycle_lengths = ['P1Y', 'P5Y', 'P1M']
+        expected_output = [(False, None), (True, 'P1Y'), (False, None), (False, None)]
+        cycle_lengths = ['P1Y', 'P5Y', 'P1M', 'P3Y']
+        for cycle_freq, expected_output in list(zip(cycle_lengths, expected_output)):
+            output = self.process._check_cycle_freq_exceeds_run_bounds(cycle_freq)
+            self.assertEqual(expected_output, output)
+        self.assertRaises(RuntimeError, self.process._check_cycle_freq_exceeds_run_bounds, 'PXY')
+
+    @mock.patch('cdds.convert.process.ConvertProcess.run_bounds')
+    def test_cycling_frequencies_exceed_run_bounds_fractional_year(self, mock_run_bounds):
+        run_bounds = (TimePointParser().parse("19820101"), TimePointParser().parse("19820401"))
+        mock_run_bounds.return_value = run_bounds
+        expected_output = [(True, 'P1M'), (False, None), (True, 'P1M')]
+        cycle_lengths = ['P1Y', 'P3M', 'P6M']
         for cycle_freq, expected_output in list(zip(cycle_lengths, expected_output)):
             output = self.process._check_cycle_freq_exceeds_run_bounds(cycle_freq)
             self.assertEqual(expected_output, output)
