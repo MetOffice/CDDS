@@ -784,7 +784,7 @@ class StreamValidationResult(object):
                         if isinstance(file_error, StashError):
                             msg += "\t\tSuspected STASH codes: {}\n".format(", ".join(file_error.stash_errors))
                 fn.write(msg)
-                log.critical(msg)
+                logger.critical(msg)
 
     @property
     def valid(self):
