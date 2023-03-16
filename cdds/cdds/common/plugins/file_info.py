@@ -4,10 +4,10 @@
 # Ignore errors because code is old and will be updated soon
 import re
 from abc import ABCMeta, abstractmethod
-from datetime import datetime, timedelta
 from typing import TYPE_CHECKING, List, Tuple, Dict
 
-from cftime import Datetime360Day
+from metomi.isodatetime.data import TimePoint, Duration, Calendar
+from metomi.isodatetime.parsers import TimePointParser
 
 from cdds.archive.constants import OUTPUT_FILE_DT_STR
 
@@ -76,7 +76,7 @@ class ModelFileInfo(object, metaclass=ABCMeta):
         """
         pass
 
-    def get_date_range(self, nc_files: List[str], frequency: str) -> Tuple[Datetime360Day, Datetime360Day]:
+    def get_date_range(self, nc_files: List[str], frequency: str) -> Tuple[TimePoint, TimePoint]:
         """
         Calculates the date range for the given |Output netCDF files|. It is assumed this set of files
         has been through the CDDS quality control process and represents a contiguous dataset, so this
@@ -88,14 +88,17 @@ class ModelFileInfo(object, metaclass=ABCMeta):
                           to determine the expected datestamp format used in the filename.
         :type frequency: str
         :return: A tuple of cftime objects representing the start and end of the date range.
-        :rtype: Tuple[Datetime360Day, Datetime360Day]
+        :rtype: Tuple[TimePoint, TimePoint]
         """
         filename_pattern = re.compile(self._nc_files_to_archive_regex)
         file_match = filename_pattern.search(nc_files[0])
-        file_start = datetime.strptime(file_match.group('start_date'), OUTPUT_FILE_DT_STR[frequency]['str'])
-        start_date = Datetime360Day(file_start.year, file_start.month, file_start.day)
+        file_start = TimePointParser().strptime(file_match.group('start_date'),
+                                                strptime_format_string=OUTPUT_FILE_DT_STR[frequency]['str'])
+        start_date = TimePoint(year=file_start.year, month_of_year=file_start.month_of_year,
+                               day_of_month=file_start.day_of_month)
 
-        file_end = datetime.strptime(file_match.group('end_date'), OUTPUT_FILE_DT_STR[frequency]['str'])
+        file_end = TimePointParser().strptime(file_match.group('end_date'),
+                                              strptime_format_string=OUTPUT_FILE_DT_STR[frequency]['str'])
 
         # For subhrPt frequency the seconds can be either the model time step or the radiation time step (1hr)
         seconds_for_delta = OUTPUT_FILE_DT_STR[frequency]['delta'][1]
@@ -106,29 +109,32 @@ class ModelFileInfo(object, metaclass=ABCMeta):
 
         # for the end date, we want the start of the next day for easier processing.
         # So if the range is 20100101-20191230, use 20200101 as the end date.
-        delta_to_add = timedelta(days=OUTPUT_FILE_DT_STR[frequency]['delta'][0], seconds=seconds_for_delta)
-        end_date = (Datetime360Day(file_end.year, file_end.month, file_end.day) + delta_to_add)
+        delta_to_add = Duration(days=OUTPUT_FILE_DT_STR[frequency]['delta'][0], seconds=seconds_for_delta)
+        file_end_date = TimePoint(year=file_end.year, month_of_year=file_end.month_of_year,
+                                  day_of_month=file_end.day_of_month)
+        end_date = file_end_date + delta_to_add
         valid_files = [data_file for data_file in nc_files if filename_pattern.search(data_file)]
 
         for current_file in valid_files:
             current_match = filename_pattern.search(current_file)
-            file_start = datetime.strptime(current_match.group('start_date'), OUTPUT_FILE_DT_STR[frequency]['str'])
-            current_start_date = Datetime360Day(file_start.year,
-                                                file_start.month,
-                                                file_start.day,
-                                                file_start.hour,
-                                                file_start.minute,
-                                                )
+            file_start = TimePointParser().strptime(current_match.group('start_date'),
+                                                    strptime_format_string=OUTPUT_FILE_DT_STR[frequency]['str'])
+            current_start_date = TimePoint(year=file_start.year,
+                                           month_of_year=file_start.month_of_year,
+                                           day_of_month=file_start.day_of_month,
+                                           hour_of_day=file_start.hour_of_day,
+                                           minute_of_hour=file_start.minute_of_hour,
+                                           )
             if current_start_date < start_date:
                 start_date = current_start_date
-            file_end = datetime.strptime(current_match.group('end_date'), OUTPUT_FILE_DT_STR[frequency]['str'])
-            current_end_date = (
-                Datetime360Day(file_end.year,
-                               file_end.month,
-                               file_end.day,
-                               file_end.hour,
-                               file_end.minute)
-                + delta_to_add)
+            file_end = TimePointParser().strptime(current_match.group('end_date'),
+                                                  strptime_format_string=OUTPUT_FILE_DT_STR[frequency]['str'])
+            current_end_date = (TimePoint(year=file_end.year,
+                                          month_of_year=file_end.month_of_year,
+                                          day_of_month=file_end.day_of_month,
+                                          hour_of_day=file_end.hour_of_day,
+                                          minute_of_hour=file_end.minute_of_hour)
+                                + delta_to_add)
             if current_end_date > end_date:
                 end_date = current_end_date
         return start_date, end_date

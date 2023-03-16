@@ -4,9 +4,10 @@
 """
 Tests for :mod:`mass.py`.
 """
-import cftime
 import os
 import unittest
+
+from metomi.isodatetime.data import TimePoint, Calendar
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.plugin_loader import load_plugin
@@ -17,6 +18,7 @@ from cdds.archive import stored_state_checks
 class TestStoredStateChecks(unittest.TestCase):
 
     def setUp(self):
+        Calendar.default().set_mode('360_day')
         load_plugin()
 
     def tearDown(self):
@@ -37,8 +39,8 @@ class TestStoredStateChecks(unittest.TestCase):
             'variable_id': 'tas',
             'frequency': 'mon',
             'new_datestamp': new_ts,
-            'date_range': (cftime.Datetime360Day(2050, 1, 1),
-                           cftime.Datetime360Day(2080, 1, 1)),
+            'date_range': (TimePoint(year=2050, month_of_year=1, day_of_month=1),
+                           TimePoint(year=2080, month_of_year=1, day_of_month=1)),
             'stored_data': {stored_state: {old_ts: [
                 os.path.join(dummy_mass_path,
                              DATA_PUBLICATION_STATUS_DICT[stored_state],
@@ -67,8 +69,8 @@ class TestStoredStateChecks(unittest.TestCase):
             'variable_id': 'tas',
             'frequency': 'mon',
             'new_datestamp': new_ts,
-            'date_range': (cftime.Datetime360Day(2050, 1, 1),
-                           cftime.Datetime360Day(2080, 1, 1)),
+            'date_range': (TimePoint(year=2050, month_of_year=1, day_of_month=1),
+                           TimePoint(year=2080, month_of_year=1, day_of_month=1)),
             'stored_data': {stored_state: {old_ts: [
                 os.path.join(dummy_mass_path,
                              DATA_PUBLICATION_STATUS_DICT[stored_state],
@@ -88,8 +90,8 @@ class TestStoredStateChecks(unittest.TestCase):
             'variable_id': 'tas',
             'frequency': 'mon',
             'new_datestamp': new_ts,
-            'date_range': (cftime.Datetime360Day(2050, 1, 1),
-                           cftime.Datetime360Day(2080, 1, 1)),
+            'date_range': (TimePoint(year=2050, month_of_year=1, day_of_month=1),
+                           TimePoint(year=2080, month_of_year=1, day_of_month=1)),
             'stored_data': {}
         }
         output_status = stored_state_checks.check_state_already_published(
@@ -115,8 +117,8 @@ class TestStoredStateChecks(unittest.TestCase):
             'new_datestamp': new_ts,
             'mip_output_files': [os.path.join(dummy_data_path, f1)
                                  for f1 in fname_list[2:]],
-            'date_range': (cftime.Datetime360Day(2070, 1, 1),
-                           cftime.Datetime360Day(2090, 1, 1)),
+            'date_range': (TimePoint(year=2070, month_of_year=1, day_of_month=1),
+                           TimePoint(year=2090, month_of_year=1, day_of_month=1)),
             'stored_data': {stored_state: {old_ts: [
                 os.path.join(dummy_mass_path,
                              DATA_PUBLICATION_STATUS_DICT[stored_state],
@@ -148,8 +150,8 @@ class TestStoredStateChecks(unittest.TestCase):
             'new_datestamp': new_ts,
             'mip_output_files': [os.path.join(dummy_data_path, f1)
                                  for f1 in fname_list[2:]],
-            'date_range': (cftime.Datetime360Day(2070, 1, 1),
-                           cftime.Datetime360Day(2090, 1, 1)),
+            'date_range': (TimePoint(year=2070, month_of_year=1, day_of_month=1),
+                           TimePoint(year=2090, month_of_year=1, day_of_month=1)),
             'stored_data': {stored_state: {old_ts: [
                 os.path.join(dummy_mass_path,
                              DATA_PUBLICATION_STATUS_DICT[stored_state],
@@ -177,8 +179,8 @@ class TestStoredStateChecks(unittest.TestCase):
             'variable_id': 'tas',
             'frequency': 'mon',
             'new_datestamp': new_ts,
-            'date_range': (cftime.Datetime360Day(2050, 1, 1),
-                           cftime.Datetime360Day(2080, 1, 1)),
+            'date_range': (TimePoint(year=2050, month_of_year=1, day_of_month=1),
+                           TimePoint(year=2080, month_of_year=1, day_of_month=1)),
             'stored_data': {stored_state: {old_ts: [
                 os.path.join(dummy_mass_path,
                              DATA_PUBLICATION_STATUS_DICT[stored_state],
@@ -206,8 +208,8 @@ class TestStoredStateChecks(unittest.TestCase):
             'variable_id': 'tas',
             'frequency': 'mon',
             'new_datestamp': new_ts,
-            'date_range': (cftime.Datetime360Day(2050, 1, 1),
-                           cftime.Datetime360Day(2080, 1, 1)),
+            'date_range': (TimePoint(year=2050, month_of_year=1, day_of_month=1),
+                           TimePoint(year=2080, month_of_year=1, day_of_month=1)),
             'stored_data': {stored_state: {old_ts: [
                 os.path.join(dummy_mass_path,
                              DATA_PUBLICATION_STATUS_DICT[stored_state],
@@ -242,7 +244,8 @@ class TestStoredStateChecks(unittest.TestCase):
             'frequency': 'mon',
             'new_datestamp': new_datestamp,
             'mip_output_files': [os.path.join(data_path, file_name) for file_name in file_names[2:]],
-            'date_range': (cftime.Datetime360Day(2040, 1, 1), cftime.Datetime360Day(2050, 1, 1)),
+            'date_range': (TimePoint(year=2040, month_of_year=1, day_of_month=1),
+                           TimePoint(year=2050, month_of_year=1, day_of_month=1)),
             'stored_data': {
                 stored_state:
                     {
@@ -276,7 +279,8 @@ class TestStoredStateChecks(unittest.TestCase):
             'frequency': 'mon',
             'new_datestamp': new_datestamp,
             'mip_output_files': [os.path.join(data_path, file_name) for file_name in file_names[2:]],
-            'date_range': (cftime.Datetime360Day(2040, 1, 1), cftime.Datetime360Day(2050, 1, 1)),
+            'date_range': (TimePoint(year=2040, month_of_year=1, day_of_month=1),
+                           TimePoint(year=2050, month_of_year=1, day_of_month=1)),
             'stored_data': {
                 stored_state:
                     {
@@ -307,7 +311,8 @@ class TestStoredStateChecks(unittest.TestCase):
             'variable_id': 'tas',
             'frequency': 'mon',
             'new_datestamp': new_datestamp,
-            'date_range': (cftime.Datetime360Day(2050, 1, 1), cftime.Datetime360Day(2080, 1, 1)),
+            'date_range': (TimePoint(year=2050, month_of_year=1, day_of_month=1),
+                           TimePoint(year=2080, month_of_year=1, day_of_month=1)),
             'stored_data': {
                 stored_state: {
                     old_datestamp: files_datestamps
@@ -337,7 +342,8 @@ class TestStoredStateChecks(unittest.TestCase):
             'variable_id': 'tas',
             'frequency': 'mon',
             'new_datestamp': new_datestamp,
-            'date_range': (cftime.Datetime360Day(2050, 1, 1), cftime.Datetime360Day(2080, 1, 1)),
+            'date_range': (TimePoint(year=2050, month_of_year=1, day_of_month=1),
+                           TimePoint(year=2080, month_of_year=1, day_of_month=1)),
             'stored_data': {
                 stored_state: {
                     old_datestamp: files_datestamps
@@ -367,8 +373,8 @@ class TestStoredStateChecks(unittest.TestCase):
             'new_datestamp': new_ts,
             'mip_output_files': [os.path.join(dummy_data_path, f1)
                                  for f1 in fname_list],
-            'date_range': (cftime.Datetime360Day(2050, 1, 1),
-                           cftime.Datetime360Day(2090, 1, 1)),
+            'date_range': (TimePoint(year=2050, month_of_year=1, day_of_month=1),
+                           TimePoint(year=2090, month_of_year=1, day_of_month=1)),
             'stored_data': {
                 'EMBARGOED': {
                     old_ts: [os.path.join(dummy_mass_path,
@@ -404,8 +410,8 @@ class TestStoredStateChecks(unittest.TestCase):
             'new_datestamp': new_ts,
             'mip_output_files': [os.path.join(dummy_data_path, f1)
                                  for f1 in fname_list],
-            'date_range': (cftime.Datetime360Day(2050, 1, 1),
-                           cftime.Datetime360Day(2090, 1, 1)),
+            'date_range': (TimePoint(year=2050, month_of_year=1, day_of_month=1),
+                           TimePoint(year=2090, month_of_year=1, day_of_month=1)),
             'stored_data': {
                 'AVAILABLE': {
                     old_ts: [os.path.join(dummy_mass_path,

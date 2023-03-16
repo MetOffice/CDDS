@@ -360,7 +360,10 @@ class ConvertProcess(object):
         # See issue 224 metomi.isodatetime as to why this conditional logic exists.
         _, end_date = self.run_bounds()
         cycling_frequency = self._cycling_frequency(stream)
+        print("End date: {}".format(end_date))
+        print("Cycling Frequency: {}".format(cycling_frequency))
         recurrence = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{cycling_frequency}')
+        print("Recurrence: {}".format(recurrence))
         if recurrence.get_is_valid(end_date):
             final_cycle_point = recurrence.get_prev(end_date)
         else:
@@ -732,6 +735,9 @@ class ConvertProcess(object):
         """
         start_date, end_date = self.run_bounds()
         final_cycle_point = self.final_cycle_point(stream)
+        if not final_cycle_point:
+            final_cycle_point = end_date
+        print("Start date: {}, final cycle point: {}".format(start_date, end_date))
         final_concatenation_cycle_in_days = str(final_cycle_point - start_date)
         return final_concatenation_cycle_in_days
 
