@@ -8,7 +8,7 @@
     "run_extract": false,
     "run_qc": false,
     "run_transfer": false,
-    "run_extract_validation": false,
+    "run_extract_validation": true,
     "create_subdirectories": 0,
     "deflate_level": 2,
     "netcdf_file_action": "CMOR_REPLACE_4",

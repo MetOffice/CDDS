@@ -44,8 +44,8 @@ def validate_streams(streams, args):
 
     if stream['stream'] in mapping_status:
         data_target = get_data_target(full_paths.input_data_directory, stream)
-        substreams = list(mappings.filters.keys())
         _, _, _, stash_codes = (mappings.format_filter(stream['streamtype'], stream['stream']))
+        substreams = list(mappings.filters.keys())
         validate(data_target, stream, stash_codes, substreams, stream_file_info, stream_validation)
     else:
         logger.info('skipped [{}]: there are no variables requiring this stream'.format(stream['stream']))
