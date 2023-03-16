@@ -129,12 +129,7 @@ class ModelFileInfo(object, metaclass=ABCMeta):
                 start_date = current_start_date
             file_end = TimePointParser().strptime(current_match.group('end_date'),
                                                   strptime_format_string=OUTPUT_FILE_DT_STR[frequency]['str'])
-            current_end_date = (TimePoint(year=file_end.year,
-                                          month_of_year=file_end.month_of_year,
-                                          day_of_month=file_end.day_of_month,
-                                          hour_of_day=file_end.hour_of_day,
-                                          minute_of_hour=file_end.minute_of_hour)
-                                + delta_to_add)
+            current_end_date = file_end + delta_to_add
             if current_end_date > end_date:
                 end_date = current_end_date
         return start_date, end_date
