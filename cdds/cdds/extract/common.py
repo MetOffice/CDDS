@@ -772,17 +772,19 @@ class StreamValidationResult(object):
         except OSError:
             pass
         if not self.valid:
-            logger.critical("Validation for stream {} has failed, please consult {} for details".format(
+            logger.critical("Validation for stream {} has failed, copy of the log saved in {}".format(
                 self.stream, validation_report_filepath))
             with open(validation_report_filepath, "w") as fn:
-                fn.write("Expected number of files: {}\n".format(self.file_count_expected))
-                fn.write("Actual number of files: {}\n".format(self.file_count_actual))
+                msg = "Expected number of files: {}\nActual number of files: {}\n".format(
+                    self.file_count_expected, self.file_count_actual)
                 if self.file_errors:
-                    fn.write("Problems detected with the following files:\n")
+                    msg += "Problems detected with the following files:\n"
                     for _, file_error in self.file_errors.items():
-                        fn.write("{}: {}\n".format(file_error.filepath, file_error.error_message))
+                        msg += "{}: {}\n".format(file_error.filepath, file_error.error_message)
                         if isinstance(file_error, StashError):
-                            fn.write("\t\tSuspected STASH codes: {}\n".format(", ".join(file_error.stash_errors)))
+                            msg += "\t\tSuspected STASH codes: {}\n".format(", ".join(file_error.stash_errors))
+                fn.write(msg)
+                log.critical(msg)
 
     @property
     def valid(self):

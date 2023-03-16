@@ -6,6 +6,6 @@
         "log_name": "remove_ocean_haloes"
     },
     "validate_streams": {
-        "log_name": "remove_ocean_haloes"
+        "log_name": "validate_streams"
     }
 }
