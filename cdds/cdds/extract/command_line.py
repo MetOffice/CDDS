@@ -166,6 +166,21 @@ def parse_remove_ocean_haloes_command_line(user_arguments):
 
 
 def parse_validate_streams_command_line(user_arguments):
+    """
+    Return the names of the command line arguments for ``validate_streams``
+    and their validated values.
+
+    Parameters
+    ----------
+    user_arguments: list of strings
+        The command line arguments to be parsed.
+
+    Returns
+    -------
+    : :class:`cdds.arguments.Arguments` object
+        The names of the command line arguments and their validated values.
+    """
+
     arguments = read_default_arguments('cdds.extract', 'validate_streams')
     parser = argparse.ArgumentParser(description='Validate extracted data')
     parser.add_argument('request',
@@ -187,10 +202,14 @@ def parse_validate_streams_command_line(user_arguments):
 
 
 def main_validate_streams(arguments=None):
-    # read request
-    # determine streams
-    # configure mappings
-    # get stash codes for pp
+    """
+
+    Validates files in the 'input' directory.
+    Parameters
+    ----------
+    arguments: list of strings
+        The command line arguments to be parsed.
+    """
     args = parse_validate_streams_command_line(arguments)
 
     # Add stream suffix to the log name if running extract just for some streams
