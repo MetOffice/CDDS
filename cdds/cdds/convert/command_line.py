@@ -97,7 +97,7 @@ def parse_args_cdds_convert():
                         action='store_true',
                         default=arguments.skip_extract,
                         help=('Skip the extract task at the start of the suite for each stream. '
-                              '[Default: {}]').format(arguments.skip_qc))
+                              '[Default: {}]').format(arguments.skip_extract))
     parser.add_argument('--skip_qc',
                         dest='skip_qc',
                         action='store_true',
@@ -109,7 +109,7 @@ def parse_args_cdds_convert():
                         action='store_true',
                         default=arguments.skip_transfer,
                         help=('Skip the transfer task at the end of the suite for each stream. '
-                              '[Default: {}]').format(arguments.skip_qc))
+                              '[Default: {}]').format(arguments.skip_transfer))
     parser.add_argument('--skip_extract_validation',
                         dest='skip_extract_validation',
                         action='store_true',

@@ -866,7 +866,7 @@ class ConvertProcess(object):
             'ROOT_DATA_DIR': self._arguments.root_data_dir,
             'ROOT_PROC_DIR': self._arguments.root_proc_dir,
             'RUN_EXTRACT': not self.skip_extract,
-            'SKIP_EXTRACT_VALIDATION': '--skip_extract_validation' if self.skip_extract_validation else '',
+            'RUN_EXTRACT_VALIDATION': not self.skip_extract_validation,
             'RUN_QC': not self.skip_qc,
             'RUN_TRANSFER': not self.skip_transfer,
             'START_DATE': str(start_date),
