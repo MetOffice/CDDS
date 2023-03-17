@@ -15,6 +15,7 @@ import unittest.mock
 
 from io import StringIO
 from textwrap import dedent
+from metomi.isodatetime.data import Calendar, TimePoint
 
 from cdds.common import configure_logger
 from cdds.common.plugins.plugins import PluginStore
@@ -76,6 +77,7 @@ class TestRetrieveFilePaths(unittest.TestCase):
     """
 
     def setUp(self):
+        Calendar.default().set_mode('360_day')
         load_plugin()
         self.request_items = cdds.tests.test_archive.common.REQUEST_ITEMS
 
@@ -123,8 +125,8 @@ class TestRetrieveFilePaths(unittest.TestCase):
                                   fname_template.format(**test_dict))
             var_files += [[fname1]]
             ref_dict = {'mip_output_files': [fname1],
-                        'date_range': (cftime.Datetime360Day(2001, 1, 1),
-                                       cftime.Datetime360Day(2050, 1, 1))}
+                        'date_range': (TimePoint(year=2001, month_of_year=1, day_of_month=1),
+                                       TimePoint(year=2050, month_of_year=1, day_of_month=1))}
             ref_dict.update(var_dict)
             reference_vars += [ref_dict]
         mock_os_listdir.side_effect = var_files

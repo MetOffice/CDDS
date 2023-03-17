@@ -8,6 +8,8 @@ command line scripts in the ``bin`` directory.
 import argparse
 import logging
 
+from metomi.isodatetime.data import Calendar
+
 from cdds.arguments import read_default_arguments
 from cdds.common import (
     configure_logger, common_command_line_args, check_directory,
@@ -185,9 +187,14 @@ def parse_args_store(user_arguments, script_name):
             'Please either provide the full path to the requested variables '
             'list file via -r or use -p')
 
+    request = read_request(user_arguments.request)
+    if request.calendar:
+        Calendar.default().set_mode(request.calendar)
+    else:
+        Calendar.default().set_mode('360_day')
+
     if user_arguments.use_proc_dir:
-        request = read_request(user_arguments.request,
-                               REQUIRED_KEYS_FOR_PROC_DIRECTORY)
+        request = read_request(user_arguments.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
         user_arguments = update_arguments_for_proc_dir(user_arguments, request, COMPONENT)
     if user_arguments.output_dir is not None:
         user_arguments.output_dir = check_directory(user_arguments.output_dir)

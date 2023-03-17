@@ -4,7 +4,7 @@ import re
 import unittest
 from unittest import TestCase
 
-import cftime
+from metomi.isodatetime.data import TimePoint, Calendar
 
 from cdds.common.request import construct_request
 from cdds.common.plugins.file_info import GlobalModelFileInfo, RegionalModelFileInfo
@@ -37,6 +37,7 @@ class TestGlobalModelFileIsCmorFile(TestCase):
 class TestGlobalModelFileIsRelevantForArchiving(TestCase):
 
     def setUp(self):
+        Calendar.default().set_mode('360_day')
         self.model_file_info = GlobalModelFileInfo()
 
     def test_relevant_for_archiving(self):
@@ -163,6 +164,7 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
 class TestGlobalModelFileGetRange(unittest.TestCase):
 
     def setUp(self):
+        Calendar.default().set_mode('360_day')
         self.model_file_info = GlobalModelFileInfo()
 
     def test_get_date_range_daily(self):
@@ -178,8 +180,8 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
 
-        expected_start = cftime.Datetime360Day(2000, 1, 1)
-        expected_end = cftime.Datetime360Day(2030, 1, 1)
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
         self.assertEqual(expected_start, start)
         self.assertEqual(expected_end, end)
 
@@ -192,8 +194,8 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
 
-        expected_start = cftime.Datetime360Day(2000, 1, 1)
-        expected_end = cftime.Datetime360Day(2026, 1, 1)
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2026, month_of_year=1, day_of_month=1)
         self.assertEqual(expected_start, start)
         self.assertEqual(expected_end, end)
 
@@ -210,8 +212,8 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
 
-        expected_start = cftime.Datetime360Day(2000, 1, 1)
-        expected_end = cftime.Datetime360Day(2030, 1, 1)
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
         self.assertEqual(expected_start, start)
         self.assertEqual(expected_end, end)
 
@@ -228,8 +230,8 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
 
-        expected_start = cftime.Datetime360Day(2000, 1, 1)
-        expected_end = cftime.Datetime360Day(2030, 1, 1)
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
         self.assertEqual(expected_start, start)
         self.assertEqual(expected_end, end)
 
@@ -246,8 +248,8 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
 
-        expected_start = cftime.Datetime360Day(2000, 1, 1)
-        expected_end = cftime.Datetime360Day(2030, 1, 1)
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
         self.assertEqual(expected_start, start)
         self.assertEqual(expected_end, end)
 
@@ -264,8 +266,8 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
 
-        expected_start = cftime.Datetime360Day(2000, 1, 1)
-        expected_end = cftime.Datetime360Day(2030, 1, 1)
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
         self.assertEqual(expected_start, start)
         self.assertEqual(expected_end, end)
 
@@ -282,8 +284,8 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
 
-        expected_start = cftime.Datetime360Day(2000, 1, 1)
-        expected_end = cftime.Datetime360Day(2030, 1, 1)
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
         self.assertEqual(expected_start, start)
         self.assertEqual(expected_end, end)
 
@@ -528,6 +530,7 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
 class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def setUp(self):
+        Calendar.default().set_mode('360_day')
         self.model_file_info = RegionalModelFileInfo()
 
     def test_get_date_range_daily(self):
@@ -544,8 +547,8 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
 
-        expected_start = cftime.Datetime360Day(2000, 1, 1)
-        expected_end = cftime.Datetime360Day(2030, 1, 1)
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
         self.assertEqual(expected_start, start)
         self.assertEqual(expected_end, end)
 
@@ -559,8 +562,8 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
 
-        expected_start = cftime.Datetime360Day(2000, 1, 1)
-        expected_end = cftime.Datetime360Day(2026, 1, 1)
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2026, month_of_year=1, day_of_month=1)
         self.assertEqual(expected_start, start)
         self.assertEqual(expected_end, end)
 
@@ -578,8 +581,8 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
 
-        expected_start = cftime.Datetime360Day(2000, 1, 1)
-        expected_end = cftime.Datetime360Day(2030, 1, 1)
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
         self.assertEqual(expected_start, start)
         self.assertEqual(expected_end, end)
 
@@ -597,8 +600,8 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
 
-        expected_start = cftime.Datetime360Day(2000, 1, 1)
-        expected_end = cftime.Datetime360Day(2030, 1, 1)
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
         self.assertEqual(expected_start, start)
         self.assertEqual(expected_end, end)
 
@@ -616,8 +619,8 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
 
-        expected_start = cftime.Datetime360Day(2000, 1, 1)
-        expected_end = cftime.Datetime360Day(2030, 1, 1)
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
         self.assertEqual(expected_start, start)
         self.assertEqual(expected_end, end)
 
@@ -635,8 +638,8 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
 
-        expected_start = cftime.Datetime360Day(2000, 1, 1)
-        expected_end = cftime.Datetime360Day(2030, 1, 1)
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
         self.assertEqual(expected_start, start)
         self.assertEqual(expected_end, end)
 
@@ -654,8 +657,8 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
 
-        expected_start = cftime.Datetime360Day(2000, 1, 1)
-        expected_end = cftime.Datetime360Day(2030, 1, 1)
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
         self.assertEqual(expected_start, start)
         self.assertEqual(expected_end, end)
 

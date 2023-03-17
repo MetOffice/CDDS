@@ -58,7 +58,7 @@ def check_state_already_published(var_dict):
         # will be handled by another filter.
         return None
     if input_date_range[1] == start_dt and input_date_range[0] < start_dt:
-        # if checks pass, then this is an prepend operation, which
+        # if checks pass, then this is a prepend operation, which
         # will be handled by another filter.
         return None
     return 'ALREADY_PUBLISHED'
@@ -370,7 +370,7 @@ def get_stored_state(var_dict):
 
     # If we get to this state,  none of the status checkers were a match
     # so we have an error of unknown type for this variable.
-    # If the sate of stored seems valid, then you may need to add or edit
+    # If the state of stored seems valid, then you may need to add or edit
     # a checker to capture that particular valid which is not currently being
     # handled
     new_state = 'UNKNOWN'
