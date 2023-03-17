@@ -325,9 +325,9 @@ class TestPPFilter(unittest.TestCase):
         lbuser = (1, 897024, 0, self.stash, 0, 0, 1)
         self.lbtim = 128
         self.blev = [850.0, 500.0, 250.0]
-        t1 = datetime(1983, 3, 24, 0, 0, 0)
-        t2 = datetime(1983, 4, 24, 0, 0, 0)
-        self.field = DummyField(lbuser=lbuser, blev=self.blev[1], t1=t1, t2=t2)
+        self.t1 = datetime(1983, 3, 24, 0, 0, 0)
+        self.t2 = datetime(1983, 4, 24, 0, 0, 0)
+        self.field = DummyField(lbuser=lbuser, blev=self.blev[1], t1=self.t1, t2=self.t2)
         self.field.lbtim = self.lbtim
         self.run_bounds = ['1983-03-01-00-00-00', '1984-03-01-00-00-00']
 
@@ -368,6 +368,12 @@ class TestPPFilter(unittest.TestCase):
     def test_multiple_header_element_not_found(self):
         pp_info = [('lbuser4', self.stash), ('lbtim', 1), ('blev', self.blev)]
         self.assertFalse(pp_filter(self.field, pp_info, self.run_bounds))
+
+    def test_stash_code_of_ancil_variable(self):
+        lbuser = (1, 897024, 0, 505, 0, 0, 1)
+        field = DummyField(lbuser=lbuser, blev=self.blev[1], t1=self.t1, t2=self.t2)
+        pp_info = [('lbtim', None)]
+        self.assertTrue(pp_filter(field, pp_info, self.run_bounds))
 
 
 class TestCompareValues(unittest.TestCase):
