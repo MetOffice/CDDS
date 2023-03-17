@@ -732,8 +732,6 @@ class ConvertProcess(object):
         """
         start_date, end_date = self.run_bounds()
         final_cycle_point = self.final_cycle_point(stream)
-        if not final_cycle_point:
-            final_cycle_point = end_date
         final_concatenation_cycle_in_days = str(final_cycle_point - start_date)
         return final_concatenation_cycle_in_days
 
