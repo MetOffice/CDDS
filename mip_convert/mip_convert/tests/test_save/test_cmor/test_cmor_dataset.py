@@ -278,6 +278,45 @@ class TestDataset(unittest.TestCase):
 
         self.assertEqual(self.obj.items, reference)
 
+    def test_items_relaxed_cmor(self):
+        further_info_url = ('https://furtherinfo.es-doc.org/{}.{}.{}.{}.{}.{}'.format(self.mip_era,
+                                                                                      self.institution_id,
+                                                                                      self.source_id,
+                                                                                      self.experiment_id,
+                                                                                      self.sub_experiment_id,
+                                                                                      self.variant_label))
+        # branch_time_in_parent = days between parent_base_date and
+        # branch_date_in_parent
+        branch_time_in_parent = 1800.0
+        self.obj = Dataset(self.user_config, self.cv_config, True)
+        reference = self.user_config.cmor_dataset
+        del reference['branch_date_in_parent']
+        del reference['parent_base_date']
+
+        values_to_update = {
+            '_controlled_vocabulary_file': 'CMIP6_CV.json',
+            '_AXIS_ENTRY_FILE': 'CMIP6_coordinate.json',
+            '_FORMULA_VAR_FILE': 'CMIP6_formula_terms.json',
+            'branch_time_in_parent': branch_time_in_parent,
+            'experiment': self.experiment,
+            'forcing_index': self.forcing_index,
+            'further_info_url': further_info_url,
+            'mo_runid': self.suite_id,
+            'history': self.history,
+            'initialization_index': self.initialization_index,
+            'institution': self.institution,
+            'parent_activity_id': self.parent_activity_id,
+            'parent_experiment_id': self.parent_experiment_id,
+            'physics_index': self.physics_index,
+            'realization_index': self.realization_index,
+            'source': self.source, 'sub_experiment': self.sub_experiment_id,
+            'tracking_prefix': self.tracking_prefix,
+            'cv_version': self.version
+        }
+        reference.update(values_to_update)
+
+        self.assertEqual(self.obj.items, reference)
+
     def test_global_attributes(self):
         reference = {
             'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.aqua-control.none.r2i4p6f8',
