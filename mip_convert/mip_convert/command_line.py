@@ -108,7 +108,7 @@ def parse_parameters(args):
                         default=None
                         )
     parser.add_argument('--relaxed-cmor',
-                        help='Specify if CMIP6 validation is not performed by CMOR.',
+                        help='If specified, CMIP6 style validation is not performed by CMOR.',
                         action='store_true'
                         )
     parser.set_defaults(log_level=LOG_LEVEL)
