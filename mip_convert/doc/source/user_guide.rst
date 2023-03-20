@@ -65,11 +65,10 @@ Example
 -------
 
 a. Run for CMIP6 projects:
-``mip_convert.cfg -s ap4``
+   ``mip_convert.cfg -s ap4``
 
 b. Run for Non-CMIP6 projects for example for ARISE projects:
-``mip_convert.cfg -s ap4 --mip_era ARISE --relaxed_cmor --external_plugin arise.plugin
- --external_plugin_location /projects/cdds/arise``
+   ``mip_convert.cfg -s ap4 --mip_era ARISE --relaxed_cmor --external_plugin arise.plugin --external_plugin_location /projects/cdds/arise``
 
 Recommended Reading
 ===================
