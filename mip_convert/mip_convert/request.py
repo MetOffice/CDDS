@@ -74,7 +74,7 @@ def convert(parameters):
 
     # Setup CMOR in preparation for writing the 'output netCDF files', which includes reading and validating
     # the associated Controlled Vocabularies (CV) file, if defined, and ensuring that the required global options exist.
-    setup_cmor(user_config)
+    setup_cmor(user_config, parameters.relaxed_cmor)
 
     # Read and validate the sites file.
     site_information = None
@@ -159,18 +159,20 @@ def convert(parameters):
     return exit_code
 
 
-def setup_cmor(user_config):
+def setup_cmor(user_config, relaxed_cmor=False):
     """
     Setup |CMOR| in preparation for writing the |output netCDF files|.
 
     :param user_config: the |user configuration file|
     :type user_config: :class:`configuration.UserConfig` object
+    :param relaxed_cmor: If true then CMOR will not perform CMIP6 validation
+    :type relaxed_cmor: bool
     """
     logger = logging.getLogger(__name__)
     logger.debug('Setup CMOR:')
     logger.debug('*' * 20)
     cmor_lite.setup(user_config)
-    cmor_lite.dataset(get_cmor_dataset(user_config))
+    cmor_lite.dataset(get_cmor_dataset(user_config, relaxed_cmor))
     logger.debug('*' * 20)
 
 
@@ -245,18 +247,20 @@ def produce_mip_requested_variable(
     logger.info('Successfully produced "{}: {}"'.format(mip_table.name, variable_name))
 
 
-def get_cmor_dataset(user_config):
+def get_cmor_dataset(user_config, relaxed_cmor=False):
     """
     Return the items required for ``cmor_dataset_json``.
 
     :param user_config: the |user configuration file|
     :type user_config: :class:`configuration.UserConfig` object
+    :param relaxed_cmor: If true no cmip6 validation will be run
+    :type relaxed_cmor: bool
     :return: the items required for ``cmor_dataset_json``
     :rtype: :class:`save.cmor.cmor_dataset.Dataset` object
     """
     # Read and validate the associated Controlled Vocabularies (CV) file, if defined.
     cv_config = get_cv_config(user_config)
-    cmor_dataset = Dataset(user_config, cv_config)
+    cmor_dataset = Dataset(user_config, cv_config, relaxed_cmor)
     # Ensure the required global attributes exist, then ensure the values conform to the CVs for those attributes
     # that are not currently checked by CMOR.
     cmor_dataset.validate_required_global_attributes()

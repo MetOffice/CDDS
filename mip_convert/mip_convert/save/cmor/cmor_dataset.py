@@ -27,7 +27,7 @@ class Dataset(object):
     Store information required for the call to ``cmor_dataset_json``.
     """
 
-    def __init__(self, user_config, cv_config):
+    def __init__(self, user_config, cv_config, relaxed_cmor=False):
         """
         Parameters
         ----------
@@ -35,11 +35,14 @@ class Dataset(object):
             The |user configuration file|.
         cv_config: :class:`mip_convert.configuration.cv_config.CVConfig` object
             The Controlled Vocabularies (CV).
+        relaxed_cmor: bool
+            If true then CMIP6 validation will not be run.
         """
         self.logger = logging.getLogger(__name__)
         self._user_config = user_config
         self._cv_config = cv_config
         self._items = {}
+        self._relaxed_cmor = relaxed_cmor
 
     def validate_required_global_attributes(self):
         """
@@ -133,7 +136,8 @@ class Dataset(object):
         # Add the history.
         self._items.update({'history': self._user_config.history})
         # Add whether CMIP6 validation should be performed.
-        self._items.update({'_cmip6_option': 'CMIP6'})
+        if not self._relaxed_cmor:
+            self._items.update({'_cmip6_option': 'CMIP6'})
         # Add the items that can be determined from the 'variant_label'.
         self._items.update(self._items_from_variant_label)
         # Add the items that can be determined from the CV file.
