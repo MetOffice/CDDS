@@ -39,6 +39,35 @@ Quick Start
 5. Check the |output netCDF files| are as expected. For help or to report an
    issue, please see :ref:`support`.
 
+Selected Arguments
+==================
+
+1. ``config_file`` - The name of the user configuration file. For more information,
+   please see the MIP Convert user guide:
+   https://code.metoffice.gov.uk/doc/cdds/mip_convert/user_guide.html
+
+2. ``--stream_identifiers`` - The stream identifiers to process. If all streams
+   should be processed, do not specify this option.
+
+3. ``--relaxed-cmor`` - Specify if CMIP6 validation should not be performed by CMOR.
+
+4. ``--mip_era`` - The MIP era (e.g. CMIP6).
+
+5. ``--external_plugin`` - Module path to external CDDS plugin (e.g. ``arise.plugin``)
+
+6. ``--external_plugin_location`` - Path to the external plugin implementation
+   (e.g. ``/project/cdds/arise``)
+
+Example
+-------
+
+a. Run for CMIP6 projects:
+``mip_convert.cfg --stream_identifiers ap4 --mip_era CMIP6``
+
+b. Run for Non-CMIP6 projects for example for ARISE projects:
+``--relaxed_cmor --stream_identifiers ap4 --mip_era ARISE --external_plugin arise.plugin
+ --external_plugin_location /projects/cdds/arise``
+
 Recommended Reading
 ===================
 
