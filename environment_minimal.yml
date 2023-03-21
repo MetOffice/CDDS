@@ -1,22 +1,27 @@
 name: cdds-dev
 channels:
-  - conda-main
-  - conda-agnostic
   - conda-forge
-  - conda-r
+  - conda-main
 dependencies:
   - cf-units=3.0.1=py38h6c62de6_1
   - cftime=1.5.1.1=py38hce1f21e_0
   - cmor=3.7.1=py38h45744d3_0
-  - compliance-checker=4.3.4
+  - compliance-checker=4.3.4=pyhd8ed1ab_0
   - dask-core=2021.10.0=pyhd3eb1b0_0
+  - debugpy=1.6.6=py38h8dc9893_0
   - iris=3.1.0=pyhd8ed1ab_3
-  - libmo_unpack=3.1.2=hf484d3e_0
+  - libmo_unpack=3.1.2=hf484d3e_1001
+  - metomi-isodatetime=1!3.0.0=pyhd8ed1ab_0
   - mo_pack=0.2.0=py38h6c62de6_1006
   - numpy=1.21.2=py38hd8d4704_0
+  - mypy=0.981=py38h06a4308_0
+  - mypy_extensions=0.4.3=py38h06a4308_1
+  - netcdf4=1.6.0=nompi_py38h6b4b75c_103
   - pep8=1.7.1=py38_0
   - pika=1.2.0=pyh44b312d_0
   - pip=21.2.4=py38h06a4308_0
+  - pre-commit=2.20.0=py38h06a4308_0
+  - pycodestyle=2.10.0=py38h06a4308_0
   - pyproj=2.6.1.post1=py38h61f852b_1
   - pytest=7.1.2=py38h578d9bd_0
   - pytest-cov=3.0.0=pyhd3eb1b0_0
@@ -26,7 +31,6 @@ dependencies:
   - sphinx=4.2.0=pyhd3eb1b0_1
   - pip:
     - dreqpy==1.0.29
-    - filelock==3.0.12
 #    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds
 #    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
 variables:
