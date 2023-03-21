@@ -8,14 +8,15 @@ import numpy as np
 
 import iris
 import iris.coords as icoords
-from iris.fileformats.pp import SplittableInt
+from iris.fileformats.pp import SplittableInt, STASH
 
 
-class DummyField(object):
+class DummyField:
     """
     Create an object that mimics a :class:`iris.fileformats.pp.PPField`
     object.
     """
+
     def __init__(self, lbuser=None, lbvc=None, blev=None, brsvd=None,
                  brlev=None, lbproc=None, lbsrce=None, t1=None, t2=None):
         self.lbuser = lbuser
@@ -36,6 +37,10 @@ class DummyField(object):
     @lbtim.setter
     def lbtim(self, value):
         self._lbtim = SplittableInt(int(value), {'ia': slice(2, None), 'ib': 1, 'ic': 0})
+
+    @property
+    def stash(self):
+        return STASH(self.lbuser[6], self.lbuser[3] // 1000, self.lbuser[3] % 1000)
 
 
 def dummy_cube(standard_name=None, long_name=None, var_name=None, units=None, attributes=None,
