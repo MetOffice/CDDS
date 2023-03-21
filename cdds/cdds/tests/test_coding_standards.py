@@ -31,7 +31,7 @@ class TestCodingStandards(unittest.TestCase):
         ]
         self.exclude_patterns = ['conf.py']
 
-    def test_pep8_conformance(self):
+    def test_pycodestyle_conformance(self):
         # Only run the PEP8 test on *.py files.
         py_files = [
             filename for filename in self.all_files if
@@ -40,12 +40,12 @@ class TestCodingStandards(unittest.TestCase):
             )
         ]
 
-        pep8style = pycodestyle.StyleGuide(quiet=False)
+        pycodestyle_guide = pycodestyle.StyleGuide(quiet=False)
         # Set the maximum line length to 120.
-        pep8style.options.max_line_length = 120
+        pycodestyle_guide.options.max_line_length = 120
         # Ignore W503 "line break before binary operator" error
-        pep8style.options.ignore = tuple(['W503'])
-        result = pep8style.check_files(py_files)
+        pycodestyle_guide.options.ignore = tuple(['W503'])
+        result = pycodestyle_guide.check_files(py_files)
         self.assertEqual(result.total_errors, 0, 'Found code style errors (and warnings)')
 
     def test_copyright_headers(self):
