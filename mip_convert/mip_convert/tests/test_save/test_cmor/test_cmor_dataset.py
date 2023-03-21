@@ -191,7 +191,7 @@ class TestDataset(unittest.TestCase):
 
     def test_validate_activity_id_values_single_value_inconsistent(self):
         error_message = ('"CMIP" is inconsistent with the values specified for the experiment "{}" '
-                         'from the CVs \("{}"\)').format(self.experiment_id, self.activity_id[0])
+                         'from the CVs \\("{}"\\)').format(self.experiment_id, self.activity_id[0])
 
         self._user_config_values['activity_id'] = 'CMIP'
         user_config_contents = self._user_config_contents.format(**self._user_config_values)
@@ -230,7 +230,7 @@ class TestDataset(unittest.TestCase):
 
     def test_validate_source_type_values_inconsistent_additional(self):
         error_message = ('"AGCM LAND" is inconsistent with the additional values specified for the experiment "{}" '
-                         'from the CVs \("{}"\)').format(self.experiment_id, ' '.join(self.additional_source_type))
+                         'from the CVs \\("{}"\\)').format(self.experiment_id, ' '.join(self.additional_source_type))
 
         self._user_config_values['source_type'] = ('AGCM AOGCM AER BGC CHEM LAND')
         user_config_contents = self._user_config_contents.format(**self._user_config_values)

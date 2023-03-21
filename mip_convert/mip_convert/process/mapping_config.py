@@ -126,7 +126,7 @@ class MappingTableLineParser(object):
                 'comment')
 
     _lookup = dict(list(zip(headings, list(range(1, len(headings) + 1)))))
-    _published_re = re.compile('\s*[\*\w\s]+\((\w+,\s*)?(\w+)\)')
+    _published_re = re.compile(r'\s*[\*\w\s]+\((\w+,\s*)?(\w+)\)')
 
     def _line_parse_problem(self):
         raise LineException("on line: '%s'" % self.line)

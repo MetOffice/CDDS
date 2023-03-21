@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 import regex as re
 
-msi_regex = re.compile("m(\d{2})s(\d{2})i(\d{3})")
+msi_regex = re.compile(r"m(\d{2})s(\d{2})i(\d{3})")
 section_factor = 1000
 
 

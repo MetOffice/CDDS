@@ -144,10 +144,8 @@ class Variable(object):
         """
         try:
             return self.domain.getAxis(axis_dir)
-        except:
+        except BaseException:
             raise VariableError('no axes with direction "%s"' % axis_dir)
-
-        return axis
 
     def getValue(self):
         """

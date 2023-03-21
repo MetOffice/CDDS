@@ -1,17 +1,21 @@
-# (C) British Crown Copyright 2015-2022, Met Office.
+# (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 """
 Tests for coding standards and copyright headers.
 """
 import os
-import regex as re
+import re
 import unittest
 import pytest
+from pathlib import Path
 
-import pep8
+import pycodestyle
 
 import mip_convert
+
+COPYRIGHT_TEMPLATE = ('{start_comment} (C) British Crown Copyright {years}, Met Office.'
+                      '\n{start_comment} Please see LICENSE.rst for license details.')
 
 
 @pytest.mark.style
@@ -21,52 +25,37 @@ class TestCodingStandards(unittest.TestCase):
     """
 
     def setUp(self):
-        mip_convert_dir = os.path.dirname(mip_convert.__file__)
+        mip_convert_dir = Path(mip_convert.__file__).parent.absolute()
         self.all_files = [
-            os.path.join(dirpath, filename)
-            for dirpath, _, filenames in os.walk(mip_convert_dir)
-            for filename in filenames
+            os.path.join(dir, filename) for dir, _, filenames in os.walk(mip_convert_dir) for filename in filenames
         ]
         self.exclude_patterns = ['conf.py']
 
     def test_pep8_conformance(self):
         # Only run the PEP8 test on *.py files.
         py_files = [
-            filename for filename in self.all_files
-            if filename.endswith('.py') and True not in set(
+            filename for filename in self.all_files if
+            filename.endswith('.py') and True not in set(
                 [exclude_pattern in filename for exclude_pattern in self.exclude_patterns]
             )
         ]
-        pep8style = pep8.StyleGuide(quiet=False)
+
+        pep8style = pycodestyle.StyleGuide(quiet=False)
+        # Set the maximum line length to 120.
         pep8style.options.max_line_length = 120
-        # Ignore 'line break occurred before a binary operator'.
-        pep8style.options.ignore = ('W503', 'E701')
+        # Ignore W503 "line break before binary operator" error
+        pep8style.options.ignore = tuple(['W503'])
         result = pep8style.check_files(py_files)
         self.assertEqual(result.total_errors, 0, 'Found code style errors (and warnings)')
 
     def test_copyright_headers(self):
-        copyright_template = (
-            '{start_comment} (C) British Crown Copyright {years}, Met Office.'
-            '{end_comment}\n'
-            '{start_comment} Please see LICENSE.rst for license details.'
-            '{end_comment}'
-        )
         # Add optional shebang.
-        copyright_format = r'((\#\!.*)\n)?' + re.escape(copyright_template)
-        copyright_format = copyright_format.replace(r'\{start_comment\}', r'(\#|\;|\.{2}|\/\*)')
+        copyright_format = r'((\#\!.*)\n)?' + re.escape(COPYRIGHT_TEMPLATE)
+        copyright_format = copyright_format.replace(r'\{start_comment\}', r'(\#|\.{2}|\-{2})')
         copyright_format = copyright_format.replace(r'\{years\}', r'(.*?)')
-        copyright_format = copyright_format.replace(r'\{end_comment\}', r'(\s\*\/)?')
         copyright_pattern = re.compile(copyright_format)
 
-        # Run the copyright test on all files except those listed below.
-        self.exclude_patterns.extend(
-            ['egg-info', 'EGG-INFO', 'dist', '.pyc', 'etc', 'Makefile', '.log',
-             'doctrees', 'html', 'pylintrc', 'TAGS', '~',
-             'conda_spec_file.txt'])
-        copyright_files = [
-            filename for filename in self.all_files
-            if True not in set([exclude_pattern in filename for exclude_pattern in self.exclude_patterns])
-        ]
+        copyright_files = self.get_copyright_files()
         matched = True
         for full_path in copyright_files:
             match = None
@@ -76,6 +65,25 @@ class TestCodingStandards(unittest.TestCase):
                 matched = False
                 print(('{full_path}: Missing or incorrect formatting of copyright notice'.format(full_path=full_path)))
         self.assertTrue(matched, 'There were license header failures')
+
+    def get_copyright_files(self):
+        self.exclude_patterns.extend(
+            ['egg-info', 'EGG-INFO', 'dist', '.pyc', 'doctrees', 'html', 'pylintrc', 'TAGS', 'json', 'todel', 'nfsc']
+        )
+
+        return [
+            filename for filename in self.all_files if True not in set(
+                [exclude_pattern in filename for exclude_pattern in self.exclude_patterns]
+            )
+        ]
+
+    def get_py_files(self):
+        return [
+            filename for filename in self.all_files if
+            filename.endswith('.py') and True not in set(
+                [exclude_pattern in filename for exclude_pattern in self.exclude_patterns]
+            )
+        ]
 
 
 if __name__ == '__main__':
