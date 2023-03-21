@@ -25,7 +25,7 @@ ANCIL_VARIABLES = [
     'm01s00i048',  # SATURATED SOIL WATER SUCTION
     'm01s00i207',  # CLAPP-HORNBERGER "B" COEFFICIENT
     'm01s00i220',  # SNOW-FREE ALBEDO OF SOIL
-    'm01s00i223',  # SOIL eCARBON CONTENT       KG C / M2
+    'm01s00i223',  # SOIL CARBON CONTENT       KG C / M2
     # ocean_constants.nc
     'areacello',  # cell_area
     'deptho',  # sea_floor_depth_below_geoid
