@@ -22,6 +22,7 @@ from iris.util import equalise_attributes
 import numpy as np
 
 from cdds.common import netCDF_regexp
+from cdds.common.constants import ANCIL_VARIABLES
 from mip_convert.load.pp import stash_to_int
 from mip_convert.common import (
     PP_TO_CUBE_CONSTRAINTS, replace_coord_points_bounds, check_values_equal,
@@ -465,7 +466,7 @@ def pp_filter(field, pp_info, run_bounds):
 
         if len(matches) == len(pp_info):
             # Don't apply time constraints to fields from ancillary files.
-            if field.lbuser[3] in (41, 505):
+            if str(field.stash) in ANCIL_VARIABLES:
                 result = True
             else:
                 start_date = [int(item) for item in run_bounds[0].split('-')]
