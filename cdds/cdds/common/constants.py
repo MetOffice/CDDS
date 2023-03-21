@@ -68,8 +68,8 @@ APPROVED_VARS_FILENAME_STREAM_TEMPLATE = (
 # regex to find the datetime in the approved variables files present in the
 # proc directory, so they can be sorted
 APPROVED_VARS_DATETIME_REGEX = (
-    '(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})'
-    'T(?P<hour>\d{2})(?P<minute>\d{2})(?P<second>\d{2})')
+    r'(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})'
+    r'T(?P<hour>\d{2})(?P<minute>\d{2})(?P<second>\d{2})')
 APPROVED_VARS_DATETIME_STREAM_REGEX = '?(?P<stream>[a-z0-9]{3})?_' + APPROVED_VARS_DATETIME_REGEX
 APPROVED_VARS_FILENAME_REGEX = APPROVED_VARS_PREFIX + '_' + APPROVED_VARS_DATETIME_REGEX + '.txt'
 APPROVED_VARS_FILENAME_STREAM_REGEX = APPROVED_VARS_PREFIX + '_' + APPROVED_VARS_DATETIME_STREAM_REGEX + '.txt'

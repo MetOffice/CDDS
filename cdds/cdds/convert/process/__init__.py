@@ -405,7 +405,7 @@ class ConvertProcess(object):
         pattern_streams = re.compile(regex_streams)
         pattern_files = re.compile(
             self._arguments.user_config_template_name.format(
-                '(?P<grid_id>[\w\-]+)'))
+                r'(?P<grid_id>[\w\-]+)'))
         self.variables_list = []
         for item in glob.glob(os.path.join(cfg_dir, '*')):
             match = pattern_files.match(os.path.basename(item))
@@ -556,8 +556,8 @@ class ConvertProcess(object):
         value_group_name = 'value'
         unit_group_name = 'unit'
         pattern = re.compile(
-            'P(?P<{0}>[\d]+)(?P<{1}>[DMY])'.format(value_group_name,
-                                                   unit_group_name))
+            r'P(?P<{0}>[\d]+)(?P<{1}>[DMY])'.format(value_group_name,
+                                                    unit_group_name))
         freq_str = self._cycling_frequency(stream)
         matches = pattern.search(freq_str)
         # Extract the values for each item in the relevant section of the

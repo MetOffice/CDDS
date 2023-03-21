@@ -10,7 +10,7 @@ import unittest
 import pytest
 from pathlib import Path
 
-import pep8
+import pycodestyle
 
 import cdds
 
@@ -40,12 +40,11 @@ class TestCodingStandards(unittest.TestCase):
             )
         ]
 
-        pep8style = pep8.StyleGuide(quiet=False)
+        pep8style = pycodestyle.StyleGuide(quiet=False)
         # Set the maximum line length to 120.
         pep8style.options.max_line_length = 120
-        # E701 and E251 must be excluded for the moment because pep 8 identify type hints as additional
-        # statement or as equals assignment. This bug is fixed in the further versions.
-        pep8style.options.ignore = tuple(['W503', 'E701', 'E251'])
+        # Ignore W503 "line break before binary operator" error
+        pep8style.options.ignore = tuple(['W503'])
         result = pep8style.check_files(py_files)
         self.assertEqual(result.total_errors, 0, 'Found code style errors (and warnings)')
 

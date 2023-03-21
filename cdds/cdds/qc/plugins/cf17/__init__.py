@@ -66,7 +66,7 @@ class CF17Check(CF1_7Check):
 
         valid_conventions = ["CF-1.7", "CMIP-6.2"]
         if hasattr(ds, "Conventions"):
-            conventions = re.split(",|\s+", getattr(ds, "Conventions", ""))
+            conventions = re.split(r",|\s+", getattr(ds, "Conventions", ""))
             if any((c.strip() in valid_conventions for c in conventions)):
                 valid = True
                 reasoning = []
@@ -113,12 +113,12 @@ class CF17Check(CF1_7Check):
         reasoning = []
         variables = ds.get_variables_by_attributes(cell_measures=lambda c:
                                                    c is not None)
-        cell_measures_regex = "(?:area|volume): (\w+)"
+        cell_measures_regex = r"(?:area|volume): (\w+)"
         for var in variables:
             # in rare cases cell measures contain both area and volume, and
             # they need to be captured separately
-            double_regex = "^{}\s?{}$".format(cell_measures_regex,
-                                              cell_measures_regex)
+            double_regex = r"^{}\s?{}$".format(cell_measures_regex,
+                                               cell_measures_regex)
             search_result = re.search(double_regex, var.cell_measures)
             if search_result:
                 # we have captured both area and volume
