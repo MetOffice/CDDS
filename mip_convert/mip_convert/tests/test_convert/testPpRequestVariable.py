@@ -46,7 +46,7 @@ class TestPpRequestVariable(unittest.TestCase):
         self.assertEqual(table + '_' + entry, request.output_name())
 
     def testTolMinProcess(self):
-        search_pattern = 'out-of-bounds adjustments: \(-1.0 <= x < 0.0\) => set to 0.0'
+        search_pattern = r'out-of-bounds adjustments: \(-1.0 <= x < 0.0\) => set to 0.0'
         request = PpRequestVariable('table', None, None, self)
         request.tol_min = -1.
         request.valid_min = 0.
@@ -71,7 +71,7 @@ class TestGetBoundsComment(unittest.TestCase):
         self.assertEqual('', self.request.get_bounds_history())
 
     def testTolMax(self):
-        search_pattern = 'out-of-bounds adjustments: \(50 < x <= 100\) => set to 50'
+        search_pattern = r'out-of-bounds adjustments: \(50 < x <= 100\) => set to 50'
         self.request.tol_max = 100
         self.request.valid_max = 50
         self.request.tol_max_action = 'SET_TO_VALID_VALUE'

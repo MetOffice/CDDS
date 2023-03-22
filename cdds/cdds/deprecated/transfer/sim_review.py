@@ -156,7 +156,7 @@ def check_qc_report(qc_dir):
     prefix = 'report'
     # note that the report file name uses a similar format to the approved vars file, hence the use of the
     # approved variables regex
-    report_name_regex_str = prefix + '_' + APPROVED_VARS_DATETIME_STREAM_REGEX + '\.json'
+    report_name_regex_str = prefix + '_' + APPROVED_VARS_DATETIME_STREAM_REGEX + '\\.json'
     reports_dict = get_most_recent_file_by_stream(qc_dir, prefix, report_name_regex_str)
     # Loop over each report and flag up issues if there are items in the QC reports
     for report_path in reports_dict.values():
@@ -233,7 +233,7 @@ def display_approved_variables(qc_dir):
     logger = logging.getLogger(__name__)
     logger.info('\nOpening approved variables files.')
     approved_prefix = 'approved_variables'
-    approved_regex = approved_prefix + '_' + APPROVED_VARS_DATETIME_STREAM_REGEX + '\.txt'
+    approved_regex = approved_prefix + '_' + APPROVED_VARS_DATETIME_STREAM_REGEX + '\\.txt'
 
     recent_approved_path_dict = get_most_recent_file_by_stream(qc_dir,
                                                                approved_prefix,

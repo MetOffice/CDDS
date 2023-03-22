@@ -63,5 +63,6 @@ class TestParseMipTable(unittest.TestCase):
     def test_var_order(self):
         self.assertEqual(sorted(['rhs', 'sfcWindmax', 'sit', 'va']), sorted(self.table['vars'].keys()))
 
+
 if __name__ == '__main__':
     unittest.main()

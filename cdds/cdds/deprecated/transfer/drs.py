@@ -518,7 +518,7 @@ class DataRefSyntax(object):
             facets = re.split("[|]", self._project_config[attr])
             for facet in facets:
                 # Strip off "optional" markers around facet name.
-                tidy_facet = re.sub("[[\]]", "", facet)
+                tidy_facet = re.sub(r"[[\]]", "", facet)
                 facets_mentioned_set.add(tidy_facet)
         # We can have valid facets that aren't used in our config, but
         # we mustn't refer to facets unless they're in valid_facets.
@@ -562,7 +562,7 @@ class DataRefSyntax(object):
         allowed = []
         optional = set([])
         for attr in expected:
-            is_optional = re.match("\[(.*)\]$", attr)
+            is_optional = re.match(r"\[(.*)\]$", attr)
             if is_optional:
                 optional.add(is_optional.group(1))
                 allowed.append(is_optional.group(1))

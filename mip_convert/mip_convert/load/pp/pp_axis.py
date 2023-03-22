@@ -1527,13 +1527,11 @@ class PpAxisFactory(object):
                 self._cfmip_site_ids = eval(cfmip_params['cfmip_site_ids'])
                 # overrides cfmip_nsites parameter, if set
                 self._cfmip_nsites = len(self._cfmip_site_ids)
-            except:
+            except TypeError:
                 raise PpAxisError("Invalid value specified for 'cfmip_site_ids' parameter.")
 
         if 'cfmip_coord_file_url' in cfmip_params:
             self._cfmip_coord_file_url = cfmip_params['cfmip_coord_file_url']
-
-        return
 
 
 class ExtractorException(Exception):

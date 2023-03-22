@@ -282,7 +282,7 @@ class CdDate(object):
 
 
 class DateFormatComponent(object):
-    BASE_PATTERN = '(?P<%s>\d{%d})'
+    BASE_PATTERN = r'(?P<%s>\d{%d})'
 
     def __init__(self, format, name, alen):
         self.format = format

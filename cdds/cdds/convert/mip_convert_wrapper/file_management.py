@@ -38,11 +38,11 @@ def filter_streams(file_list, stream):
     """
     if stream[0] == 'a':
         # atmospheric stream
-        pattern = r'[a-z0-9]{5}(\-[ripf0-9]+)?a\.' + stream[1:3] + '[a-z0-9]+\.pp$'
+        pattern = r'[a-z0-9]{5}(\-[ripf0-9]+)?a\.' + stream[1:3] + r'[a-z0-9]+\.pp$'
     elif stream in ['inm', 'ind']:
-        pattern = r'cice_[a-z0-9]{5}(\-[ripf0-9]+)?i_1' + stream[-1] + '_[a-zA-Z0-9\-_]+\.nc$'
+        pattern = r'cice_[a-z0-9]{5}(\-[ripf0-9]+)?i_1' + stream[-1] + r'_[a-zA-Z0-9\-_]+\.nc$'
     elif stream in ['onm', 'ond']:
-        pattern = r'(nemo|medusa)_[a-z0-9]{5}(\-[ripf0-9]+)?o_1' + stream[-1] + '_[a-zA-Z0-9\-_]+\.nc$'
+        pattern = r'(nemo|medusa)_[a-z0-9]{5}(\-[ripf0-9]+)?o_1' + stream[-1] + r'_[a-zA-Z0-9\-_]+\.nc$'
     p = re.compile(pattern)
     return [file_name for file_name in file_list if p.search(file_name)]
 

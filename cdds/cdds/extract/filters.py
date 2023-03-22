@@ -254,11 +254,10 @@ class Filters(object):
 
         return status, self.mass_cmd, error, code
 
-
 # ----- PP specialisation methods ---------------------------------------------
-
     def _format_filter_pp(self, stream):
-        """Format mapping information for pp data into MASS filter format.
+        """
+        Format mapping information for pp data into MASS filter format.
 
         Parameters
         ----------
@@ -625,9 +624,7 @@ class Filters(object):
         status['command'] = " ".join(command)
         return status
 
-
 # ----- NC specialisation methods ---------------------------------------------
-
     def _format_filter_nc(self, stream):
         """Format mapping information for nc data into MASS filter format.
 

@@ -29,12 +29,12 @@ class Mapping(object):
     Object to represent a mapping and provide a processor for the mapping
     """
     TIMESTEP_UNITS = 's'
-    STASH = "(m\d{2}s\d{2}i\d{3})"
+    STASH = r"(m\d{2}s\d{2}i\d{3})"
     stash_regex = re.compile(STASH)  # this logic is used elsewhere!
 
-    UNSUPPORTED = (re.compile("(\w+)\[level=(\d+)\.?\]"),
-                   re.compile("(\w+)\[level=sumall\]"),
-                   re.compile("\(m01s01i235-m01s01i201\)/m01s01i23$"),
+    UNSUPPORTED = (re.compile(r"(\w+)\[level=(\d+)\.?\]"),
+                   re.compile(r"(\w+)\[level=sumall\]"),
+                   re.compile(r"\(m01s01i235-m01s01i201\)/m01s01i23$"),
                    )
 
     ALLOWED_POSITIVE = ['up', 'down', '']

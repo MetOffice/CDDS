@@ -29,15 +29,15 @@ SECTION_TEMPLATE = 'stream_{stream_id}{substream}'
 
 STREAMS_FILES_REGEX = {
     'ap': r'(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?a\.p(?P<stream_num>[0-9a-z])'
-          '(?P<year>\d{4})(?P<month>[a-z]{3}).pp',
+          r'(?P<year>\d{4})(?P<month>[a-z]{3}).pp',
     'ap_submonthly':
         r'(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?a\.p(?P<stream_num>[0-9a-z])'
-        '(?P<start_str>\d{8}).pp',
+        r'(?P<start_str>\d{8}).pp',
     'on': r'(?P<model>[a-zA-Z]+)_(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?o_'
-          '(?P<period>\d[md])_(?P<start_str>\d{8})-(?P<end_str>\d{8})_'
-          '(?P<grid>[a-zA-Z-]+).nc',
+          r'(?P<period>\d[md])_(?P<start_str>\d{8})-(?P<end_str>\d{8})_'
+          r'(?P<grid>[a-zA-Z-]+).nc',
     'in': r'(?P<model>[a-zA-Z]+)_(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?i_'
-          '(?P<period>\d[md])_(?P<start_str>\d{8})-(?P<end_str>\d{8}).nc',
+          r'(?P<period>\d[md])_(?P<start_str>\d{8})-(?P<end_str>\d{8}).nc',
 }
 TASK_STATUS_COMPLETE = 'COMPLETE'
 TASK_STATUS_FAILED = 'FAILED'

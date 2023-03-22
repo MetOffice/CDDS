@@ -340,7 +340,7 @@ class PpRequestVariableReader(object):
         """
         returns the MIP table entry based on the variable id
         """
-        return re.sub('_\d+', '', self._request_section)
+        return re.sub(r'_\d+', '', self._request_section)
 
     def _makeVarRequest(self, request_id):
         """

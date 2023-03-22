@@ -1320,7 +1320,7 @@ def combine_sw_lw(swcube, lwcube, swmask=None, minval=None, maxval=None):
             sw_cub.data = np.ma.masked_invalid(sw_cub.data / swmask.data)
         for cb in [swcube, lwcube]:
             cb.rename('unknown')
-            del(cb.attributes['STASH'])
+            del cb.attributes['STASH']
 
     # Create a cube-list and concatenate
     cube_list = iris.cube.CubeList([swcube, lwcube])

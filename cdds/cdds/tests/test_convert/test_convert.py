@@ -37,5 +37,6 @@ class TestGetRoseArgsList(unittest.TestCase):
              '--opt-conf-key=stream2']]
         self.assertEqual(output_list, expected_list)
 
+
 if __name__ == '__main__':
     unittest.main()

@@ -761,7 +761,7 @@ class TestMultiplyCubes(unittest.TestCase):
     def setUp(self):
         self.exc_msg = (
             'This operation cannot be performed as there are differing '
-            'coordinates \({}|{}\) remaining which cannot be ignored.')
+            'coordinates \\({}|{}\\) remaining which cannot be ignored.')
 
     def test_multiply_cubes_emibvoc(self):
         dimcoords1 = [('T', 'time'), ('Y', 'latitude'), ('X', 'longitude')]
@@ -793,7 +793,7 @@ class TestSubtractCubes(unittest.TestCase):
     def setUp(self):
         self.exc_msg = (
             'This operation cannot be performed as there are differing '
-            'coordinates \({}|{}\) remaining which cannot be ignored.')
+            'coordinates \\({}|{}\\) remaining which cannot be ignored.')
 
     def test_subtract_cubes_rsuslut(self):
         dimcoords1 = [('T', 'time'), ('Y', 'latitude'), ('X', 'longitude')]
