@@ -33,6 +33,9 @@ STREAMS_FILES_REGEX = {
     'ap_submonthly':
         r'(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?a\.p(?P<stream_num>[0-9a-z])'
         r'(?P<start_str>\d{8}).pp',
+    'ap_daily':
+        r'(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?a\.p(?P<stream_num>[0-9a-z])'
+        r'(?P<start_str>\d{8}).pp',
     'on': r'(?P<model>[a-zA-Z]+)_(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?o_'
           r'(?P<period>\d[md])_(?P<start_str>\d{8})-(?P<end_str>\d{8})_'
           r'(?P<grid>[a-zA-Z-]+).nc',

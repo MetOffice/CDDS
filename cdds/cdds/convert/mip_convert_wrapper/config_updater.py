@@ -5,14 +5,15 @@ Routines to read MIP Convert config templates and write them out with
 the appropriate parameters filled in.
 """
 import errno
-import jinja2
 import logging
 import os
-
-from metomi.isodatetime.data import TimePoint
-from metomi.isodatetime.parsers import TimePointParser, DurationParser
-from cdds.common.constants import CYLC_DATE_FORMAT, MIP_CONVERT_DATETIME_FORMAT
 from typing import Tuple
+
+import jinja2
+from metomi.isodatetime.data import TimePoint
+from metomi.isodatetime.parsers import DurationParser, TimePointParser
+
+from cdds.common.constants import CYLC_DATE_FORMAT, MIP_CONVERT_DATETIME_FORMAT
 
 
 def calculate_mip_convert_run_bounds(

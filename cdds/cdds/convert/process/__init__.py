@@ -850,6 +850,7 @@ class ConvertProcess(object):
             'MIP_ERA': self._arguments.mip_era,
             'CDDS_CONVERT_PROC_DIR': self._full_paths.component_directory('convert'),
             'CDDS_VERSION': _NUMERICAL_VERSION,
+            'CALENDAR': self._request.calendar,
             'DEV_MODE': _DEV,
             'END_DATE': str(end_date),
             'INPUT_DIR': self._full_paths.input_data_directory,

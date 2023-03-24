@@ -3,28 +3,24 @@
 """
 Module for the main function for the mip convert wrapper run in the suite.
 """
-from datetime import datetime
 import logging
 import os
-import sys
 import shutil
+import sys
+from datetime import datetime
 
 from metomi.isodatetime.data import Calendar
 from metomi.isodatetime.parsers import TimePointParser
 
+from cdds.common import configure_logger
 from cdds.common.constants import LOG_TIMESTAMP_FORMAT
 from cdds.convert.constants import FILEPATH_METOFFICE
-from cdds.convert.exceptions import (
-    WrapperEnvironmentError, WrapperMissingFilesError)
-from cdds.convert.mip_convert_wrapper.config_updater import (
-    calculate_mip_convert_run_bounds, setup_cfg_file)
+from cdds.convert.exceptions import WrapperEnvironmentError, WrapperMissingFilesError
+from cdds.convert.mip_convert_wrapper.actions import (check_disk_usage, manage_critical_issues, manage_logs,
+                                                      report_disk_usage, run_mip_convert)
 from cdds.convert.mip_convert_wrapper.common import print_env
-from cdds.convert.mip_convert_wrapper.file_management import (
-    link_data, get_paths, copy_to_staging_dir)
-from cdds.convert.mip_convert_wrapper.actions import (
-    run_mip_convert, manage_logs, manage_critical_issues, report_disk_usage,
-    check_disk_usage)
-from cdds.common import configure_logger
+from cdds.convert.mip_convert_wrapper.config_updater import calculate_mip_convert_run_bounds, setup_cfg_file
+from cdds.convert.mip_convert_wrapper.file_management import copy_to_staging_dir, get_paths, link_data
 
 
 def run_mip_convert_wrapper(arguments):
@@ -63,13 +59,14 @@ def run_mip_convert_wrapper(arguments):
         suite_name = os.environ['SUITE_NAME']
         staging_dir = os.environ.get('STAGING_DIR', '')
         model_id = os.environ['MODEL_ID']
-        calendar = os.environ['CALENDAR'] if 'CALENDAR' in os.environ else '360_day'
+        calendar = os.environ['CALENDAR']
     except KeyError as ke1:
         err_msg = 'Expected environment variable {var} not found.'
         err_msg = err_msg.format(var=ke1)
         raise WrapperEnvironmentError(err_msg)
 
     Calendar.default().set_mode(calendar)
+    logger.info('Setting Calendar: {}'.format(calendar))
 
     # Calculate start and end dates for this step
     # Final date is the 1st of January in the year after final_year (the final
@@ -162,7 +159,10 @@ def run_mip_convert_wrapper(arguments):
     mip_convert_log_arg = arguments.mip_convert_log_base_name
     mip_convert_log = '{0}_{1}.log'.format(arguments.mip_convert_log_base_name,
                                            timestamp)
-
+    # import debugpy
+    # debugpy.listen(('vld767', 7680))
+    # debugpy.wait_for_client()
+    # breakpoint()
     # Run mip convert
     exit_code = run_mip_convert(stream, dummy_run, timestamp,
                                 arguments.user_config_template_name,
