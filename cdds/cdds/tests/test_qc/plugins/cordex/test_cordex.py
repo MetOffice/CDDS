@@ -29,5 +29,3 @@ class CordexCheckTest(TestCase):
         })
         cordex_checker.check_cordex_attributes_validator(self.nc_file)
         self.assertFalse(cordex_checker.passed)
-
-

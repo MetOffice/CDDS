@@ -11,16 +11,15 @@ from typing import List, Dict, Any
 
 from cdds.common.mip_tables import MipTables
 from cdds.common.request import Request
-from cdds.common.validation import ValidationError
-from cdds.qc.plugins.cordex.constants import CV_ATTRIBUTES_TO_CHECK
-from cdds.qc.plugins.cordex.validators import CVValidator
+from cdds.qc.plugins.base.constants import CV_ATTRIBUTES
+from cdds.qc.plugins.base.validators import ControlledVocabularyValidator
 
 
 @dataclass
-class DataCache:
+class CheckCache:
     request: Request = None
     mip_tables: MipTables = None
-    cv_validator: CVValidator = None
+    cv_validator: ControlledVocabularyValidator = None
 
 
 class CordexCheck(BaseNCCheck):
@@ -31,7 +30,7 @@ class CordexCheck(BaseNCCheck):
     register_checker: bool = True
     name: str = 'cordex'
 
-    __cache: DataCache = DataCache()
+    __cache: CheckCache = CheckCache()
 
     def __init__(self, **kwargs: Dict[str, Any]) -> None:
         super(CordexCheck, self).__init__()
@@ -40,7 +39,7 @@ class CordexCheck(BaseNCCheck):
 
         if self.__cache.cv_validator is None:
             cv_location = kwargs["config"]["cv_location"]
-            self.__cache.cv_validator = CVValidator(cv_location)
+            self.__cache.cv_validator = ControlledVocabularyValidator(cv_location)
         if self.__cache.mip_tables is None:
             mip_tables_dir = kwargs["config"]["mip_tables_dir"]
             self.__cache.mip_tables = MipTables(mip_tables_dir)
@@ -74,10 +73,6 @@ class CordexCheck(BaseNCCheck):
         """
         out_of = 1
         self.__messages = []
-
-        for cv_attribute in CV_ATTRIBUTES_TO_CHECK:
-            self.validate_cv_attribute(netcdf_file, cv_attribute)
-
         try:
             netcdf_file.getncattr('foo')
         except AttributeError as e:
@@ -86,20 +81,3 @@ class CordexCheck(BaseNCCheck):
         level = BaseCheck.HIGH
         score = 1 if self.passed else 0
         return self._make_result(level, score, out_of, 'Cordex validator', self.__messages)
-
-    def validate_cv_attribute(self, netcdf_file: Dataset, attribute: str, nc_name: str = None, separator: str = None):
-        try:
-            if nc_name is None:
-                nc_name = attribute
-            nc_value = netcdf_file.getncattr(nc_name)
-            if separator is not None:
-                values = nc_value.split(separator)
-                for value in values:
-                    # will fail only once
-                    self.__cache.cv_validator.validate_collection(value, attribute)
-            else:
-                self.__cache.cv_validator.validate_collection(nc_value, attribute)
-        except ValidationError as e:
-            self._add_error_message("Attribute '{}': {}".format(nc_name, str(e)))
-        except AttributeError as e:
-            self._add_error_message("Attribute '{}' is missing from the netCDF file".format(nc_name))
