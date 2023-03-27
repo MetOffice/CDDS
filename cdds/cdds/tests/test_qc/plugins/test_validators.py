@@ -3,9 +3,8 @@
 
 import unittest
 import numpy as np
-from cdds.qc.plugins.cmip6.validators import (
-    ValidatorFactory, ControlledVocabularyValidator, parse_date_range,
-    ValidationError)
+from cdds.qc.plugins.base.validators import ControlledVocabularyValidator
+from cdds.qc.plugins.cmip6.validators import ValidatorFactory, parse_date_range, ValidationError
 from cdds.tests.test_qc.plugins.constants import CV_REPO
 
 
