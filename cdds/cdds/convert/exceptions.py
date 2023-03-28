@@ -108,6 +108,7 @@ class OrganiseTransposeError(Exception):
     """
     pass
 
+
 class IncompatibleCalendarMode(Exception):
     """
     Raised if the currently loaded 'metomi.isodatetime.data.Calendar mode is not

@@ -111,8 +111,9 @@ def get_paths(suite_name, model_id, stream, substream, start_date: TimePoint, en
     files_per_year = stream_file_info.get_files_per_year(stream)
     if stream_prefix == 'ap' and files_per_year == 36:
         stream_lookup = 'ap_submonthly'
-    else:
+    elif stream_prefix == 'ap' and files_per_year == 365:
         stream_lookup = 'ap_daily'
+
     # Identify files that are to be expected
 
     # Identify files that are to be expected

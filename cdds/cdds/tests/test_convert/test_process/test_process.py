@@ -425,6 +425,7 @@ class ConvertProcessTest(unittest.TestCase):
             'MIP_ERA': mip_era,
             'CDDS_CONVERT_PROC_DIR': mip_convert_proc_dir,
             'CDDS_VERSION': _NUMERICAL_VERSION,
+            'CALENDAR': self.process._request.calendar,
             'DEV_MODE': _DEV,
             'END_DATE': str(end_date),
             'INPUT_DIR': input_dir,

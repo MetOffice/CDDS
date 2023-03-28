@@ -216,6 +216,7 @@ class TestOrganiseConcatenations(unittest.TestCase):
 
     def setUp(self):
         Calendar.default().set_mode('360_day')
+        self.maxDiff = None
 
     def _generate_test_data(self, ref, start, end, chunk_start, chunk_end,
                             concat_cycle, concat_window, mc_cycle):

@@ -3,6 +3,7 @@
     "monthly": {
       "streams": [
         "ap4",
+        "ap5",
         "apm",
         "apu",
         "onm",
@@ -21,12 +22,6 @@
       ],
       "files_per_year": 36
     },
-    "daily": {
-      "streams": [
-        "ap5"
-      ],
-    "files_per_year": 365  
-    },
     "season": {
       "streams": [
         "ond"
@@ -36,7 +31,7 @@
   },
   "cycle_length": {
     "ap4": "P1Y",
-    "ap5": "P3M",
+    "ap5": "P1Y",
     "apm": "P1Y",
     "apu": "P1Y",
     "ap6": "P3M",

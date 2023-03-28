@@ -7,9 +7,10 @@ volume of data that MIP Convert can see and attempt to read
 import calendar
 
 from metomi.isodatetime.data import Calendar, Duration, TimePoint
-from metomi.isodatetime.parsers import Duration, TimePointParser
+from metomi.isodatetime.parsers import TimePointParser
 
 from cdds.convert.exceptions import IncompatibleCalendarMode
+
 
 def construct_month_lookup():
     """
