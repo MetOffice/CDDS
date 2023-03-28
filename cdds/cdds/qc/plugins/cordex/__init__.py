@@ -12,14 +12,12 @@ from typing import List, Dict, Any
 from cdds.common.mip_tables import MipTables
 from cdds.common.request import Request
 from cdds.qc.plugins.base.constants import CV_ATTRIBUTES
+from cdds.qc.plugins.base.common import CheckCache
+from cdds.qc.plugins.base.checks import (StringAttributesCheckTask, RunIndexAttributesCheckTask,
+                                         ComplexAttributesCheckTask, MandatoryTextAttributesCheckTask,
+                                         VariableAttributesCheckTask, OptionalTextAttributesCheckTask)
 from cdds.qc.plugins.base.validators import ControlledVocabularyValidator
-
-
-@dataclass
-class CheckCache:
-    request: Request = None
-    mip_tables: MipTables = None
-    cv_validator: ControlledVocabularyValidator = None
+from cdds.qc.plugins.cordex.checks import CordexAttributesCheckTask
 
 
 class CordexCheck(BaseNCCheck):
@@ -56,11 +54,14 @@ class CordexCheck(BaseNCCheck):
         return self.__messages
 
     @classmethod
-    def _make_result(cls, level: BaseCheck, score: int, out_of: int, name: str, messages: str) -> Result:
+    def _make_result(cls, level: BaseCheck, score: int, out_of: int, name: str, messages: List[str]) -> Result:
         return Result(level, (score, out_of), name, messages)
 
-    def _add_error_message(self, message: str) -> str:
+    def _add_error_message(self, message: str) -> None:
         self.__messages.append(message)
+
+    def _add_error_messages(self, messages: List[str]) -> None:
+        self.__messages.extend(messages)
 
     def check_cordex_attributes_validator(self, netcdf_file: Dataset) -> Result:
         """
@@ -78,6 +79,45 @@ class CordexCheck(BaseNCCheck):
         except AttributeError as e:
             self._add_error_message(str(e))
 
+        attr_dict = self._generate_attribute_dictionary(netcdf_file)
+        check_tasks = [
+            RunIndexAttributesCheckTask(self.__cache),
+            MandatoryTextAttributesCheckTask(self.__cache),
+            OptionalTextAttributesCheckTask(self.__cache),
+            StringAttributesCheckTask(self.__cache),
+            VariableAttributesCheckTask(self.__cache),
+            ComplexAttributesCheckTask(self.__cache),
+            CordexAttributesCheckTask(self.__cache)
+        ]
+
+        for check_task in check_tasks:
+            check_task.execute(netcdf_file, attr_dict)
+            self._add_error_messages(check_task.messages)
+
         level = BaseCheck.HIGH
         score = 1 if self.passed else 0
         return self._make_result(level, score, out_of, 'Cordex validator', self.__messages)
+
+    def _generate_attribute_dictionary(self, netcdf_file):
+        attr_dict = {
+            "forcing_index": None,
+            "realization_index": None,
+            "initialization_index": None,
+            "physics_index": None,
+            "experiment_id": None,
+            "sub_experiment_id": None,
+            "variant_label": None,
+            "mip_era": None,
+            "source_id": None,
+            "institution_id": None,
+            "table_id": None,
+            "variable_id": None,
+            "further_info_url": None,
+        }
+        # populate attribute dictionary with values
+        for attr_key in attr_dict:
+            try:
+                attr_dict[attr_key] = netcdf_file.getncattr(attr_key)
+            except AttributeError as e:
+                self._add_error_message("Cannot retrieve global attribute {}".format(attr_key))
+        return attr_dict
