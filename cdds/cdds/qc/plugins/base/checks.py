@@ -1,34 +1,34 @@
 # (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
 from abc import ABCMeta, abstractmethod
-from typing import Dict, List
+from typing import List
 
 from cdds.common.validation import ValidationError
 from cdds.qc.plugins.base.common import CheckCache
-from cdds.qc.plugins.base.constants import PARENT_ATTRIBUTES
 from cdds.qc.plugins.base.validators import BaseValidatorFactory
 
 
 class CheckTask(object, metaclass=ABCMeta):
 
     def __init__(self, check_cache: CheckCache):
-        self.cache = check_cache
-        self.messages: List[str] = []
+        self._cache = check_cache
+        self._messages: List[str] = []
 
     @abstractmethod
     def execute(self, netcdf_file, attr_dict):
         pass
 
-    def results(self) -> List[str]:
-        return self.messages
+    @property
+    def messages(self) -> List[str]:
+        return self._messages
 
     def _exists_and_valid(self, netcdf_file, attr, validator):
         try:
             validator(getattr(netcdf_file, attr))
         except AttributeError:
-            self.messages.append("Mandatory attribute '{}' missing".format(attr))
+            self._messages.append("Mandatory attribute '{}' missing".format(attr))
         except ValidationError as e:
-            self.messages.append("Mandatory attribute {}: {}".format(attr, str(e)))
+            self._messages.append("Mandatory attribute {}: {}".format(attr, str(e)))
 
     def _does_not_exist_or_valid(self, netcdf_file, attr, validator):
         try:
@@ -36,7 +36,7 @@ class CheckTask(object, metaclass=ABCMeta):
         except AttributeError:
             pass
         except ValidationError as e:
-            self.messages.append("Optional attribute '{}': {}".format(attr, str(e)))
+            self._messages.append("Optional attribute '{}': {}".format(attr, str(e)))
 
     @staticmethod
     def _has_parent(netcdf_file):
@@ -53,15 +53,15 @@ class StringAttributesCheckTask(CheckTask):
         super(StringAttributesCheckTask, self).__init__(check_cache)
 
     def execute(self, netcdf_file, attr_dict):
-        validator = self.cache.cv_validator
+        validator = self._cache.cv_validator
         string_dict = {
             "experiment": validator.experiment_validator(getattr(netcdf_file, "experiment_id")),
             "institution": validator.institution_validator(getattr(netcdf_file, "institution_id")),
             "Conventions": BaseValidatorFactory.value_in_validator(self.CF_CONVENTIONS),
             "creation_date": BaseValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ"),
-            "data_specs_version": BaseValidatorFactory.value_in_validator([self.cache.mip_tables.version]),
-            "license": BaseValidatorFactory.value_in_validator([self.cache.request.license.strip()]),
-            "mip_era": BaseValidatorFactory.value_in_validator([self.cache.request.mip_era]),
+            "data_specs_version": BaseValidatorFactory.value_in_validator([self._cache.mip_tables.version]),
+            "license": BaseValidatorFactory.value_in_validator([self._cache.request.license.strip()]),
+            "mip_era": BaseValidatorFactory.value_in_validator([self._cache.request.mip_era]),
             "product": BaseValidatorFactory.value_in_validator(["model-output"]),
             "source": BaseValidatorFactory.string_validator(self.SOURCE_REGEX),
             "tracking_id": validator.tracking_id_validator()
@@ -89,7 +89,7 @@ class VariableAttributesCheckTask(CheckTask):
             "missing_value": "",
             "_FillValue": "",
         }
-        var_meta = self.cache.mip_tables.get_variable_meta(attr_dict["table_id"], attr_dict["variable_id"])
+        var_meta = self._cache.mip_tables.get_variable_meta(attr_dict["table_id"], attr_dict["variable_id"])
         # check variable attributes
 
         external_vars = []
@@ -105,7 +105,7 @@ class VariableAttributesCheckTask(CheckTask):
                         if external_var in var_attr[attr_key]:
                             external_vars.append(external_var)
             except AttributeError as e:
-                self.messages.append("Cannot retrieve variable attribute {}".format(attr_key))
+                self._messages.append("Cannot retrieve variable attribute {}".format(attr_key))
         if len(external_vars):
             self._validate_external_variables(netcdf_file, external_vars)
         try:
@@ -115,17 +115,17 @@ class VariableAttributesCheckTask(CheckTask):
                         if key_meta == "cell_measures" and val_meta in ["--OPT", "--MODEL"]:
                             continue
                         elif var_attr[key_meta] != val_meta:
-                            self.messages.append("Variable attribute {} has value of {} instead of {}".format(
+                            self._messages.append("Variable attribute {} has value of {} instead of {}".format(
                                 key_meta, var_attr[key_meta], val_meta))
                     else:
                         if var_attr[key_meta] != self.MISSING_VALUE:
-                            self.messages.append("Variable attribute {} has value of {} instead of {}".format(
+                            self._messages.append("Variable attribute {} has value of {} instead of {}".format(
                                 key_meta, var_attr[key_meta], self.MISSING_VALUE))
                 except KeyError:
-                    self.messages.append(
+                    self._messages.append(
                         "Variable attribute '{}' absent in '{}'".format(key_meta, attr_dict["variable_id"]))
         except AssertionError as e:
-            self.messages.append(str(e))
+            self._messages.append(str(e))
 
     def _validate_external_variables(self, netcdf_file, external):
         try:
@@ -133,9 +133,9 @@ class VariableAttributesCheckTask(CheckTask):
             validator(getattr(netcdf_file, "external_variables"))
         except AttributeError:
             if len(external) > 0:
-                self.messages.append("attribute 'external_variables' is missing")
+                self._messages.append("attribute 'external_variables' is missing")
         except ValidationError as e:
-            self.messages.append("erroneous 'external_variables' ({})".format(str(e)))
+            self._messages.append("erroneous 'external_variables' ({})".format(str(e)))
 
 
 class ComplexAttributesCheckTask(CheckTask):
@@ -151,7 +151,7 @@ class ComplexAttributesCheckTask(CheckTask):
                 ]
             ),
             "variable_id": BaseValidatorFactory.value_in_validator(
-                self.cache.mip_tables.get_variables(
+                self._cache.mip_tables.get_variables(
                     attr_dict["table_id"])
             ),
             "variant_label": BaseValidatorFactory.value_in_validator(
@@ -168,135 +168,7 @@ class ComplexAttributesCheckTask(CheckTask):
             try:
                 self._exists_and_valid(netcdf_file, k, v)
             except Exception as e:
-                self.messages.append("Cannot retrieve attribute. Exception: {}".format(str(e)))
-
-
-class OrphanAttributesCheckTask(CheckTask):
-
-    def __init__(self, check_cache):
-        super(OrphanAttributesCheckTask, self).__init__(check_cache)
-
-    def execute(self, netcdf_file, attr_dict):
-        if self._has_parent(netcdf_file):
-            return
-        experiment_id = attr_dict["experiment_id"]
-        self.cache.cv_validator.validate_parent_consistency(netcdf_file, experiment_id, True)
-
-        try:
-            start_of_run = 0.0
-            self._does_not_exist_or_valid(
-                netcdf_file,
-                "branch_time_in_child",
-                BaseValidatorFactory.value_in_validator([start_of_run])
-            )
-        except (AttributeError, KeyError, ValueError):
-            self.messages.append("Unable to retrieve time variable")
-        self._does_not_exist_or_valid(
-            netcdf_file,
-            "branch_time_in_parent",
-            BaseValidatorFactory.value_in_validator([0.0])
-        )
-
-        npv = BaseValidatorFactory.value_in_validator(['no parent'])
-        for attr in PARENT_ATTRIBUTES:
-            self._does_not_exist_or_valid(netcdf_file, attr, npv)
-
-
-class UserParentAttributesCheckTask(CheckTask):
-
-    def __init__(self, check_cache):
-        super(UserParentAttributesCheckTask, self).__init__(check_cache)
-
-    def execute(self, netcdf_file, attr_dict):
-        if not self._has_parent(netcdf_file):
-            return
-
-        # Allow CMIP6 and the current MIP era as parent mip era
-        allowed_parent_mip_eras = ["CMIP6", netcdf_file.mip_era]
-
-        parent_dict = {
-            "branch_method": BaseValidatorFactory.nonempty_validator(),
-            "branch_time_in_child": BaseValidatorFactory.float_validator(),
-            "branch_time_in_parent": BaseValidatorFactory.float_validator(),
-            "parent_mip_era": BaseValidatorFactory.value_in_validator(allowed_parent_mip_eras),
-            "parent_time_units": BaseValidatorFactory.string_validator(r"^days since"),
-            "parent_variant_label": BaseValidatorFactory.string_validator(r"^r\d+i\d+p\d+f\d+$")
-        }
-        for k, v in parent_dict.items():
-            self._exists_and_valid(netcdf_file, k, v)
-
-
-class ParentConsistencyCheckTask(CheckTask):
-
-    def __init__(self, check_cache):
-        super(ParentConsistencyCheckTask, self).__init__(check_cache)
-
-    def execute(self, netcdf_file, attr_dict):
-        if not self._has_parent(netcdf_file):
-            return
-
-        try:
-            self.cache.cv_validator.validate_parent_consistency(netcdf_file, attr_dict['experiment_id'], False)
-        except (AttributeError, ValidationError) as e:
-            self.messages.append(str(e))
-        except (NameError, KeyError):
-            # unable to validate consistency
-            self.messages.append("Unable to check consistency with the parent, please check CVs")
-
-
-class CVAttributesCheckTask(CheckTask):
-    CV_ATTRIBUTES: List[str] = [
-        "experiment_id",
-        "frequency",
-        "grid_label",
-        "institution_id",
-        "realm",
-        "source_id",
-        "sub_experiment_id",
-        "nominal_resolution",
-        "table_id",
-    ]
-
-    def __init__(self, check_cache):
-        super(CVAttributesCheckTask, self).__init__(check_cache)
-
-    def execute(self, netcdf_file, attr_dict):
-        for cv_attribute in self.CV_ATTRIBUTES:
-            self.validate_cv_attribute(netcdf_file, cv_attribute)
-        self.validate_cv_attribute(netcdf_file, "source_type", None, " ")
-        self.validate_cv_attribute(netcdf_file, "activity_id", None, " ")
-
-    def validate_cv_attribute(self, netcdf_file, collection, nc_name=None, sep=None):
-        """
-        Test for presence of attributes derived from CMIP6 CV.
-
-        Parameters
-        ----------
-        netcdf_file : netCDF4.Dataset
-            an open netCDF file
-        collection : str
-            name of a pyessv collection
-        nc_name : str, optional
-            name of the attribute if different from the collection name
-        sep : str, optional
-            separator used to split the attribute values
-        """
-
-        try:
-            if nc_name is None:
-                nc_name = collection
-            item = netcdf_file.getncattr(nc_name)
-            if sep is not None:
-                items = item.split(sep)
-                for i in items:
-                    # will fail only once
-                    self.cache.cv_validator.validate_collection(i, collection)
-            else:
-                self.cache.cv_validator.validate_collection(item, collection)
-        except ValidationError as e:
-            self.messages.append("Attribute '{}': {}".format(nc_name, str(e)))
-        except AttributeError as e:
-            self.messages.append("Attribute '{}' is missing from the netCDF file".format(nc_name))
+                self._messages.append("Cannot retrieve attribute. Exception: {}".format(str(e)))
 
 
 class RunIndexAttributesCheckTask(CheckTask):
