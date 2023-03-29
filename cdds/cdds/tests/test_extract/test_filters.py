@@ -13,7 +13,6 @@ from unittest.mock import patch
 
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.extract.filters import Filters
-# from cdds.extract.common import fetch_filelist_from_mass, get_tape_limit
 from cdds.common import configure_logger
 
 

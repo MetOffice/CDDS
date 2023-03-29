@@ -670,7 +670,6 @@ class FileContentError(object):
     """
     Class representing a problematic file (usually an unreadable one).
     """
-
     def __init__(self, filepath, error_message):
         """
         Parameters
@@ -688,7 +687,6 @@ class StashError(FileContentError):
     """
     Class representing a problematic pp file with STASH errors.
     """
-
     def __init__(self, filepath, error_message):
         """
         Parameters
@@ -717,7 +715,6 @@ class StreamValidationResult(object):
     """
     Encapsulates results from validation of a single stream.
     """
-
     def __init__(self, stream):
         """
         Constructor
@@ -805,7 +802,6 @@ class ValidationResult(object):
     """
     Encapsulates results from validation of pp and netcdf streams in Extract.
     """
-
     def __init__(self):
         """
         Constructor
