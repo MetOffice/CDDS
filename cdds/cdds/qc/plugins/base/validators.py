@@ -275,24 +275,20 @@ class BaseValidatorFactory:
         return validator_function
 
     @classmethod
-    def date_validator(cls, template, calendar='360_day'):
-        """Returns a validator checking if x is a datetime string
-        matching provided template
-
-        Parameters
-        ----------
-        template : str
-            A datetime template in standard Unix format
-
-        Returns
-        -------
-        : function
+    def date_validator(cls, template: str, calendar: str = '360_day') -> Callable[[Any], None]:
         """
-        def validator_function(x):
+        Returns a validator checking if value is a datetime string matching provided template
+
+        :param template: A datetime template in standard Unix format
+        :type template: str
+        :param calendar: Calendar that should be used
+        :type calendar: str
+        """
+        def validator_function(value):
             try:
                 Calendar.default().set_mode(calendar)
-                TimePointParser().strptime(x, template)
+                TimePointParser().strptime(value, template)
             except ValueError:
-                raise ValidationError("'{}' is not a valid date in a form of {}".format(x, template))
+                raise ValidationError("'{}' is not a valid date in a form of {}".format(value, template))
 
         return validator_function

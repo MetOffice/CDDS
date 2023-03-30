@@ -1,7 +1,6 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 
-from datetime import datetime
 import re
 
 import cf_units
@@ -9,72 +8,16 @@ import cftime as cft
 
 from cdds.common.constants import TIME_UNIT
 from cdds.common.validation import ValidationError
-from cdds.qc.plugins.base.validators import BaseValidatorFactory
 
 
-EXTERNAL_VARIABLES = ["areacella", "areacello", "volcello"]
-
-
-class ValidatorFactory(BaseValidatorFactory):
-    """Validator factory"""
-
-    @classmethod
-    def calendar_validator(cls):
-        """
-        Returns a validator checking if x is a valid CF calendar
-        Returns
-        -------
-        : function
-        """
-        def validator_function(x):
-            try:
-                result = re.match(r'^([a-zA-Z\d\- ]+) \[([a-z\_]+)\]$', x)
-                if not result:
-                    raise ValidationError("Cannot parse a calendar in "
-                                          "a form of '{}'".format(x))
-                else:
-                    cf_units.Unit(result.group(1), calendar=result.group(2))
-            except (TypeError, ValueError):
-                raise ValidationError("'{}' is not a valid CF "
-                                      "calendar".format(x))
-        return validator_function
-
-    @classmethod
-    def date_validator(cls, template):
-        """Returns a validator checking if x is a datetime string
-        matching provided template
-
-        Parameters
-        ----------
-        template : str
-            A datetime template in standard Unix format
-
-        Returns
-        -------
-        : function
-        """
-        def validator_function(x):
-            try:
-                datetime.strptime(x, template)
-            except ValueError:
-                raise ValidationError("'{}' is not a valid date in a form "
-                                      "of {}".format(x, template))
-        return validator_function
-
-
-def get_datetime_template(frequency):
+def get_datetime_template(frequency: str) -> str:
     """
     Generates a datetime template for the supplied frequency.
 
-    Parameters
-    ----------
-    frequency : str
-        data frequency
-
-    Returns
-    -------
-    str
-        regexp template
+    :param frequency: data frequency
+    :type frequency: str
+    :return: regexp template
+    :rtype: str
     """
     mapping_dict = {
         "yr":       r"^(\d{4})$",
@@ -100,23 +43,16 @@ def get_datetime_template(frequency):
     return mapping_dict[frequency]
 
 
-def get_numeric_date(calendar, dates):
+def get_numeric_date(calendar: cf_units.Unit, dates: tuple) -> float:
     """
     Calculates a numeric value of a date string in a cf calendar
-
-    Parameters
-    ----------
-    calendar : cf_units.Unit
-        CF calendar instance
-    dates : tuple
-        A tuple containing elements of a datetime object (yr, mon, day, etc)
-
-    Returns
-    -------
-    : float
-        A number of units since the reference time point
+    :param calendar: CF calendar instance
+    :type calendar: Unit
+    :param dates: A tuple containing elements of a datetime object (yr, mon, day, etc)
+    :type dates: tuple
+    :return:
+    :rtype: float
     """
-
     dates = [int(x) for x in dates]
     if len(dates) < 3:
         # padding with 1s
@@ -127,21 +63,15 @@ def get_numeric_date(calendar, dates):
     return cft.date2num(datetime_obj, 'days since 1850-01-01', '360_day')
 
 
-def parse_date_range(daterange, frequency):
+def parse_date_range(daterange: str, frequency: str) -> tuple:
     """
     Parses daterange string and returns start and end points.
-
-    Parameters
-    ----------
-    daterange : str
-        a daterange part of a filename
-    frequency : str
-        data frequency
-
-    Returns
-    -------
-    tuple
-        a datetime.datetime tuple with start and end points
+    :param daterange: a daterange part of a filename
+    :type daterange: str
+    :param frequency: data frequency
+    :type frequency: str
+    :return: a datetime.datetime tuple with start and end points
+    :rtype: tuple
     """
     if frequency == "fx":
         return None

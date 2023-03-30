@@ -1,24 +1,36 @@
 # (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
-from typing import List
+from netCDF4 import Dataset
+from typing import List, Dict, Any
 
 from cdds.common.validation import ValidationError
-from cdds.qc.plugins.base.common import CheckCache
 from cdds.qc.plugins.base.checks import CheckTask
+from cdds.qc.plugins.base.common import CheckCache
 from cdds.qc.plugins.base.constants import PARENT_ATTRIBUTES
 from cdds.qc.plugins.base.validators import BaseValidatorFactory
 
 
 class OrphanAttributesCheckTask(CheckTask):
+    """
+    Checker for orphan specific attributes
+    """
 
-    def __init__(self, check_cache):
+    def __init__(self, check_cache: CheckCache) -> None:
         super(OrphanAttributesCheckTask, self).__init__(check_cache)
 
-    def execute(self, netcdf_file, attr_dict):
+    def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
+        """
+        Checks orphan specific attributes if no parent is given.
+
+        :param netcdf_file: NetCDF file to check
+        :type netcdf_file: Dataset
+        :param attr_dict: Basic attribute dictionary of NetCDF file
+        :type attr_dict: Dict[str, Any]
+        """
         if not self._has_parent(netcdf_file):
             self._execute_validations(netcdf_file, attr_dict)
 
-    def _execute_validations(self, netcdf_file, attr_dict):
+    def _execute_validations(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
         experiment_id = attr_dict["experiment_id"]
         self._cache.cv_validator.validate_parent_consistency(netcdf_file, experiment_id, True)
 
@@ -43,11 +55,22 @@ class OrphanAttributesCheckTask(CheckTask):
 
 
 class UserParentAttributesCheckTask(CheckTask):
+    """
+    Checker for user specific parent attributes
+    """
 
-    def __init__(self, check_cache):
+    def __init__(self, check_cache: CheckCache) -> None:
         super(UserParentAttributesCheckTask, self).__init__(check_cache)
 
-    def execute(self, netcdf_file, attr_dict):
+    def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
+        """
+        Checks parent specific attributes that are user specific if parent is given.
+
+        :param netcdf_file: NetCDF file to check
+        :type netcdf_file: Dataset
+        :param attr_dict: Basic attribute dictionary of NetCDF file
+        :type attr_dict: Dict[str, Any]
+        """
         if self._has_parent(netcdf_file):
             self._execute_validations(netcdf_file, attr_dict)
 
@@ -68,11 +91,22 @@ class UserParentAttributesCheckTask(CheckTask):
 
 
 class ParentConsistencyCheckTask(CheckTask):
+    """
+    Checks parent specific attributes
+    """
 
-    def __init__(self, check_cache):
+    def __init__(self, check_cache: CheckCache) -> None:
         super(ParentConsistencyCheckTask, self).__init__(check_cache)
 
-    def execute(self, netcdf_file, attr_dict):
+    def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
+        """
+        Checks parent specific attributes if parent is given.
+
+        :param netcdf_file: NetCDF file to check
+        :type netcdf_file: Dataset
+        :param attr_dict: Basic attribute dictionary of NetCDF file
+        :type attr_dict: Dict[str, Any]
+        """
         if self._has_parent(netcdf_file):
            self._execute_validation(netcdf_file, attr_dict)
 
@@ -87,6 +121,9 @@ class ParentConsistencyCheckTask(CheckTask):
 
 
 class CVAttributesCheckTask(CheckTask):
+    """
+    Checker for attributes defined in the CMIP6 CV
+    """
     CV_ATTRIBUTES: List[str] = [
         "experiment_id",
         "frequency",
@@ -99,31 +136,37 @@ class CVAttributesCheckTask(CheckTask):
         "table_id",
     ]
 
-    def __init__(self, check_cache):
+    def __init__(self, check_cache: CheckCache) -> None:
         super(CVAttributesCheckTask, self).__init__(check_cache)
 
-    def execute(self, netcdf_file, attr_dict):
+    def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
+        """
+        Checks attributes defined in the CMIP6 controlled vocabulary.
+
+        :param netcdf_file: NetCDF file to check
+        :type netcdf_file: Dataset
+        :param attr_dict: Basic attribute dictionary of NetCDF file
+        :type attr_dict: Dict[str, Any]
+        """
         for cv_attribute in self.CV_ATTRIBUTES:
             self.validate_cv_attribute(netcdf_file, cv_attribute)
         self.validate_cv_attribute(netcdf_file, "source_type", None, " ")
         self.validate_cv_attribute(netcdf_file, "activity_id", None, " ")
 
-    def validate_cv_attribute(self, netcdf_file, collection, nc_name=None, sep=None):
+    def validate_cv_attribute(
+            self, netcdf_file: Dataset, collection: str, nc_name: str = None, sep: str = None
+    ) -> None:
         """
-        Test for presence of attributes derived from CV.
-
-        Parameters
-        ----------
-        netcdf_file : netCDF4.Dataset
-            an open netCDF file
-        collection : str
-            name of a pyessv collection
-        nc_name : str, optional
-            name of the attribute if different from the collection name
-        sep : str, optional
-            separator used to split the attribute values
+        Tests the presence of attributes derived from CV.
+        :param netcdf_file: an open netCDF file
+        :type netcdf_file: Dataset
+        :param collection: name of a pyessv collection
+        :type collection: str
+        :param nc_name: name of the attribute if different from the collection name
+        :type nc_name: str
+        :param sep: separator used to split the attribute values
+        :type sep: str
         """
-
         try:
             if nc_name is None:
                 nc_name = collection

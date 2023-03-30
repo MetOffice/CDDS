@@ -2,8 +2,10 @@
 # Please see LICENSE.rst for license details.
 
 MIP_TABLES_DIR = "/home/h03/cdds/etc/mip_tables/CMIP6"
+CORDEX_MIP_TABLES_DIR = "/net/home/h04/kschmatz/workspace/cordex-cmip6-cmor-tables/Tables"
 
 CV_REPO = "/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29/CMIP6_CV.json"
+CORDEX_CV_REPO = "/net/home/h04/kschmatz/workspace/cordex-cmip6-cmor-tables/Tables/CORDEX_CV.json"
 
 TMP_DIR_FOR_NETCDF_TESTS = '/var/tmp'
 

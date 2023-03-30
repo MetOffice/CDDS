@@ -1,7 +1,8 @@
 # (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
 from abc import ABCMeta, abstractmethod
-from typing import List
+from netCDF4 import Dataset
+from typing import List, Dict, Any, Callable
 
 from cdds.common.validation import ValidationError
 from cdds.qc.plugins.base.common import CheckCache
@@ -9,20 +10,37 @@ from cdds.qc.plugins.base.validators import BaseValidatorFactory
 
 
 class CheckTask(object, metaclass=ABCMeta):
+    """
+    Check task for specific attributes
+    """
 
-    def __init__(self, check_cache: CheckCache):
+    def __init__(self, check_cache: CheckCache) -> None:
         self._cache = check_cache
         self._messages: List[str] = []
 
     @abstractmethod
-    def execute(self, netcdf_file, attr_dict):
+    def execute(self, netcdf_file, attr_dict) -> None:
+        """
+        Runs checks on the NetCDF file with given basic attribute directory.
+
+        :param netcdf_file: NetCDF file to check
+        :type netcdf_file: Dataset
+        :param attr_dict: Basic attribute directory of defined attributes in the NetCDF file
+        :type attr_dict: Dict[str, Any]
+        """
         pass
 
     @property
     def messages(self) -> List[str]:
+        """
+        Returns messages that are created during the check
+
+        :return: Messages created during the check
+        :rtype: List[str]
+        """
         return self._messages
 
-    def _exists_and_valid(self, netcdf_file, attr, validator):
+    def _exists_and_valid(self, netcdf_file: Dataset, attr: str, validator: Callable) -> None:
         try:
             validator(getattr(netcdf_file, attr))
         except AttributeError:
@@ -30,7 +48,7 @@ class CheckTask(object, metaclass=ABCMeta):
         except ValidationError as e:
             self._messages.append("Mandatory attribute {}: {}".format(attr, str(e)))
 
-    def _does_not_exist_or_valid(self, netcdf_file, attr, validator):
+    def _does_not_exist_or_valid(self, netcdf_file: Dataset, attr: str, validator: Callable) -> None:
         try:
             validator(getattr(netcdf_file, attr))
         except AttributeError:
@@ -39,20 +57,31 @@ class CheckTask(object, metaclass=ABCMeta):
             self._messages.append("Optional attribute '{}': {}".format(attr, str(e)))
 
     @staticmethod
-    def _has_parent(netcdf_file):
+    def _has_parent(netcdf_file: Dataset) -> bool:
         return (hasattr(netcdf_file, "parent_experiment_id")
                 and not netcdf_file.getncattr("parent_experiment_id") == "no parent")
 
 
 class StringAttributesCheckTask(CheckTask):
-    SOURCE_REGEX = r"^([a-zA-Z\d\-_\.\s]+) \(\d{4}\)"
+    """
+    Checker for the string attributes
+    """
+    SOURCE_REGEX: str = r"^([a-zA-Z\d\-_\.\s]+) \(\d{4}\)"
 
-    CF_CONVENTIONS = ["CF-1.7", "CF-1.7 CMIP-6.2", "CF-1.7 CMIP-6.2 UGRID-1.0"]
+    CF_CONVENTIONS: List[str] = ["CF-1.7", "CF-1.7 CMIP-6.2", "CF-1.7 CMIP-6.2 UGRID-1.0"]
 
-    def __init__(self, check_cache):
+    def __init__(self, check_cache: CheckCache) -> None:
         super(StringAttributesCheckTask, self).__init__(check_cache)
 
-    def execute(self, netcdf_file, attr_dict):
+    def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
+        """
+        Checks string attributes.
+
+        :param netcdf_file: NetCDF file to check
+        :type netcdf_file: Dataset
+        :param attr_dict: Basic attribute dictionary of NetCDF file
+        :type attr_dict: Dict[str, Any]
+        """
         validator = self._cache.cv_validator
         string_dict = {
             "experiment": validator.experiment_validator(getattr(netcdf_file, "experiment_id")),
@@ -72,13 +101,24 @@ class StringAttributesCheckTask(CheckTask):
 
 
 class VariableAttributesCheckTask(CheckTask):
+    """
+    Checker for the variable attributes
+    """
     MISSING_VALUE = 1.e+20
     EXTERNAL_VARIABLES = ["areacella", "areacello", "volcello"]
 
-    def __init__(self, check_cache):
+    def __init__(self, check_cache: CheckCache) -> None:
         super(VariableAttributesCheckTask, self).__init__(check_cache)
 
-    def execute(self, netcdf_file, attr_dict):
+    def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
+        """
+        Checks the attributes of the variables.
+
+        :param netcdf_file: NetCDF file to check
+        :type netcdf_file: Dataset
+        :param attr_dict: Basic attribute dictionary of NetCDF file
+        :type attr_dict: Dict[str, Any]
+        """
         var_attr = {
             "standard_name": "",
             "long_name": "",
@@ -127,7 +167,7 @@ class VariableAttributesCheckTask(CheckTask):
         except AssertionError as e:
             self._messages.append(str(e))
 
-    def _validate_external_variables(self, netcdf_file, external):
+    def _validate_external_variables(self, netcdf_file: Dataset, external: List[str]) -> None:
         try:
             validator = BaseValidatorFactory.multivalue_in_validator(external)
             validator(getattr(netcdf_file, "external_variables"))
@@ -139,11 +179,22 @@ class VariableAttributesCheckTask(CheckTask):
 
 
 class ComplexAttributesCheckTask(CheckTask):
+    """
+    Checker for complex attributes like variant_label
+    """
 
-    def __init__(self, check_cache):
+    def __init__(self, check_cache: CheckCache) -> None:
         super(ComplexAttributesCheckTask, self).__init__(check_cache)
 
-    def execute(self, netcdf_file, attr_dict):
+    def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
+        """
+        Checks complex attributes in the NetCDF file.
+
+        :param netcdf_file: NetCDF file to check
+        :type netcdf_file: Dataset
+        :param attr_dict: Basic attribute dictionary of NetCDF file
+        :type attr_dict: Dict[str, Any]
+        """
         derived_dict = {
             "further_info_url": BaseValidatorFactory.value_in_validator(
                 [
@@ -172,38 +223,63 @@ class ComplexAttributesCheckTask(CheckTask):
 
 
 class RunIndexAttributesCheckTask(CheckTask):
-    RUN_INDEX_ATTRIBUTES = [
+    """
+    Checker for run index attributes
+    """
+    RUN_INDEX_ATTRIBUTES: List[str] = [
         "forcing_index",
         "physics_index",
         "initialization_index",
         "realization_index",
     ]
 
-    def __init__(self, check_cache):
+    def __init__(self, check_cache: CheckCache) -> None:
         super(RunIndexAttributesCheckTask, self).__init__(check_cache)
 
-    def execute(self, netcdf_file, attr_dict):
+    def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
+        """
+        Checks run index specific attributes.
+
+        :param netcdf_file: NetCDF file to check
+        :type netcdf_file: Dataset
+        :param attr_dict: Basic attribute dictionary of NetCDF file
+        :type attr_dict: Dict[str, Any]
+        """
         positive_integer_validator = BaseValidatorFactory.integer_validator()
         for index_attribute in self.RUN_INDEX_ATTRIBUTES:
             self._exists_and_valid(netcdf_file, index_attribute, positive_integer_validator)
 
 
 class MandatoryTextAttributesCheckTask(CheckTask):
-    MANDATORY_TEXT_ATTRIBUTES = [
+    """
+    Checker of the mandatory text attribute (e.g. grid)
+    """
+    MANDATORY_TEXT_ATTRIBUTES: List[str] = [
         "grid",
     ]
 
-    def __init__(self, check_cache):
+    def __init__(self, check_cache: CheckCache) -> None:
         super(MandatoryTextAttributesCheckTask, self).__init__(check_cache)
 
-    def execute(self, netcdf_file, attr_dict):
+    def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
+        """
+        Checks mandatory text attributes (e.g. grid).
+
+        :param netcdf_file: NetCDF file to check
+        :type netcdf_file: Dataset
+        :param attr_dict: Basic attribute dictionary of NetCDF file
+        :type attr_dict: Dict[str, Any]
+        """
         nonempty_string_validator = BaseValidatorFactory.string_validator()
         for mandatory_string in self.MANDATORY_TEXT_ATTRIBUTES:
             self._exists_and_valid(netcdf_file, mandatory_string, nonempty_string_validator)
 
 
 class OptionalTextAttributesCheckTask(CheckTask):
-    OPTIONAL_TEXT_ATTRIBUTES = [
+    """
+    Checker for optional text attributes
+    """
+    OPTIONAL_TEXT_ATTRIBUTES: List[str] = [
         "history",
         "references",
         "title",
@@ -212,10 +288,18 @@ class OptionalTextAttributesCheckTask(CheckTask):
         "comment",
     ]
 
-    def __init__(self, check_cache):
+    def __init__(self, check_cache: CheckCache) -> None:
         super(OptionalTextAttributesCheckTask, self).__init__(check_cache)
 
-    def execute(self, netcdf_file, attr_dict):
+    def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
+        """
+        Checks optional text attributes.
+
+        :param netcdf_file: NetCDF file to check
+        :type netcdf_file: Dataset
+        :param attr_dict: Basic attribute dictionary of NetCDF file
+        :type attr_dict: Dict[str, Any]
+        """
         nonempty_string_validator = BaseValidatorFactory.string_validator()
         for optional_string in self.OPTIONAL_TEXT_ATTRIBUTES:
             self._does_not_exist_or_valid(netcdf_file, optional_string, nonempty_string_validator)

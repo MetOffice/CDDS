@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 
 """
@@ -17,8 +17,6 @@ from cdds.qc.plugins.base.checks import (StringAttributesCheckTask, ComplexAttri
                                          MandatoryTextAttributesCheckTask, RunIndexAttributesCheckTask)
 from cdds.qc.plugins.cmip6.checks import (UserParentAttributesCheckTask, ParentConsistencyCheckTask,
                                           OrphanAttributesCheckTask, CVAttributesCheckTask)
-from cdds.qc.plugins.cmip6.constants import (SOURCE_REGEX, CF_CONVENTIONS, MANDATORY_TEXT_ATTRIBUTES,
-                                             OPTIONAL_TEXT_ATTRIBUTES, PARENT_ATTRIBUTES, MISSING_VALUE)
 
 
 class CMIP6Check(BaseNCCheck):

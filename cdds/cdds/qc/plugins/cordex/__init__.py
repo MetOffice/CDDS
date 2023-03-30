@@ -63,7 +63,7 @@ class CordexCheck(BaseNCCheck):
     def _add_error_messages(self, messages: List[str]) -> None:
         self.__messages.extend(messages)
 
-    def check_cordex_attributes_validator(self, netcdf_file: Dataset) -> Result:
+    def check_global_attributes(self, netcdf_file: Dataset) -> Result:
         """
         Checks for existence and validity of cordex attributes.
 
@@ -74,10 +74,6 @@ class CordexCheck(BaseNCCheck):
         """
         out_of = 1
         self.__messages = []
-        try:
-            netcdf_file.getncattr('foo')
-        except AttributeError as e:
-            self._add_error_message(str(e))
 
         attr_dict = self._generate_attribute_dictionary(netcdf_file)
         check_tasks = [
@@ -98,7 +94,7 @@ class CordexCheck(BaseNCCheck):
         score = 1 if self.passed else 0
         return self._make_result(level, score, out_of, 'Cordex validator', self.__messages)
 
-    def _generate_attribute_dictionary(self, netcdf_file):
+    def _generate_attribute_dictionary(self, netcdf_file: Dataset) -> Dict[str, Any]:
         attr_dict = {
             "forcing_index": None,
             "realization_index": None,
