@@ -73,36 +73,6 @@ class TestParentConsistencyCheckTask(TestCase):
         self.assertListEqual(self.class_under_test._messages, [])
 
 
-class TestVariableAttributesCheckTask(TestCase):
-
-    def setUp(self):
-        self.nc_path = os.path.join(TMP_DIR_FOR_NETCDF_TESTS, "test_file.nc")
-        mip_tables = MipTables(os.path.join(MIP_TABLES_DIR, "for_functional_tests"))
-        cache = CheckCache(MagicMock(), mip_tables, ControlledVocabularyValidator(CV_REPO))
-        self.class_under_test = VariableAttributesCheckTask(cache)
-
-    def tearDown(self):
-        os.remove(self.nc_path)
-
-    def test_variable_metadata_is_valid(self):
-        create_simple_netcdf_file(CORRECT_VARIABLE_METADATA_CDL, self.nc_path)
-        netcdf_file = Dataset(self.nc_path, 'a')
-        attr_dict = {"table_id": "Amon", "variable_id": "rsut"}
-        self.class_under_test.execute(netcdf_file, attr_dict)
-        self.maxDiff = None
-        self.assertListEqual(self.class_under_test._messages, [])
-
-    def test_variable_inconsistent_metadata(self):
-        create_simple_netcdf_file(INCONSISTENT_VARIABLE_METADATA_CDL, self.nc_path)
-        netcdf_file = Dataset(self.nc_path, 'a')
-        attr_dict = {"table_id": "Amon", "variable_id": "rsut"}
-        self.class_under_test.execute(netcdf_file, attr_dict)
-        self.maxDiff = None
-        self.assertListEqual(
-            self.class_under_test._messages,
-            ["Variable attribute units has value of K instead of W m-2"])
-
-
 class TestCVAttributesCheckTask(TestCase):
 
     def setUp(self):

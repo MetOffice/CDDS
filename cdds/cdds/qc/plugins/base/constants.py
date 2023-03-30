@@ -15,17 +15,7 @@ CV_ATTRIBUTES: List[str] = [
     "table_id",
 ]
 
-RUN_INDEX_ATTRIBUTES = [
-    "forcing_index",
-    "physics_index",
-    "initialization_index",
-    "realization_index",
-]
-
-SOURCE_REGEX = r"^([a-zA-Z\d\-_\.\s]+) \(\d{4}\)"
-CF_CONVENTIONS = ["CF-1.7", "CF-1.7 CMIP-6.2", "CF-1.7 CMIP-6.2 UGRID-1.0"]
-
-PARENT_ATTRIBUTES = [
+PARENT_ATTRIBUTES: List[str] = [
     "branch_method",
     "parent_activity_id",
     "parent_experiment_id",
