@@ -7,7 +7,7 @@ from cdds.common.validation import ValidationError
 from cdds.qc.plugins.base.checks import CheckTask
 from cdds.qc.plugins.base.common import CheckCache
 from cdds.qc.plugins.base.constants import PARENT_ATTRIBUTES
-from cdds.qc.plugins.base.validators import BaseValidatorFactory
+from cdds.qc.plugins.base.validators import ValidatorFactory
 
 
 class OrphanAttributesCheckTask(CheckTask):
@@ -39,17 +39,17 @@ class OrphanAttributesCheckTask(CheckTask):
             self._does_not_exist_or_valid(
                 netcdf_file,
                 "branch_time_in_child",
-                BaseValidatorFactory.value_in_validator([start_of_run])
+                ValidatorFactory.value_in_validator([start_of_run])
             )
         except (AttributeError, KeyError, ValueError):
             self._messages.append("Unable to retrieve time variable")
         self._does_not_exist_or_valid(
             netcdf_file,
             "branch_time_in_parent",
-            BaseValidatorFactory.value_in_validator([0.0])
+            ValidatorFactory.value_in_validator([0.0])
         )
 
-        npv = BaseValidatorFactory.value_in_validator(['no parent'])
+        npv = ValidatorFactory.value_in_validator(['no parent'])
         for attr in PARENT_ATTRIBUTES:
             self._does_not_exist_or_valid(netcdf_file, attr, npv)
 
@@ -79,12 +79,12 @@ class UserParentAttributesCheckTask(CheckTask):
         allowed_parent_mip_eras = ["CMIP6", netcdf_file.mip_era]
 
         parent_dict = {
-            "branch_method": BaseValidatorFactory.nonempty_validator(),
-            "branch_time_in_child": BaseValidatorFactory.float_validator(),
-            "branch_time_in_parent": BaseValidatorFactory.float_validator(),
-            "parent_mip_era": BaseValidatorFactory.value_in_validator(allowed_parent_mip_eras),
-            "parent_time_units": BaseValidatorFactory.string_validator(r"^days since"),
-            "parent_variant_label": BaseValidatorFactory.string_validator(r"^r\d+i\d+p\d+f\d+$")
+            "branch_method": ValidatorFactory.nonempty_validator(),
+            "branch_time_in_child": ValidatorFactory.float_validator(),
+            "branch_time_in_parent": ValidatorFactory.float_validator(),
+            "parent_mip_era": ValidatorFactory.value_in_validator(allowed_parent_mip_eras),
+            "parent_time_units": ValidatorFactory.string_validator(r"^days since"),
+            "parent_variant_label": ValidatorFactory.string_validator(r"^r\d+i\d+p\d+f\d+$")
         }
         for k, v in parent_dict.items():
             self._exists_and_valid(netcdf_file, k, v)
@@ -108,7 +108,7 @@ class ParentConsistencyCheckTask(CheckTask):
         :type attr_dict: Dict[str, Any]
         """
         if self._has_parent(netcdf_file):
-           self._execute_validation(netcdf_file, attr_dict)
+            self._execute_validation(netcdf_file, attr_dict)
 
     def _execute_validation(self, netcdf_file, attr_dict):
         try:

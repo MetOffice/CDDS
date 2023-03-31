@@ -24,32 +24,6 @@ class ControlledVocabularyValidator:
         """
         self._cv = CVConfig(repo_location)
 
-    def validate_parent_consistency(self, input_data, experiment_id, orphan=False):
-        """
-        Validate global attributes which need to match their CV values.
-
-        Parameters
-        ----------
-        input_data: netCDF4.Dataset
-            an open netCDF file.
-        experiment_id: str
-            ID of the experiment containing the attribute to be validated against.
-        orphan: bool
-            Whether the experiment is not supposed to have a parent.
-        """
-        try:
-            parent_experiment_dict = {
-                "parent_experiment_id": self._cv.parent_experiment_id(experiment_id),
-            }
-            for k, v in parent_experiment_dict.items():
-                if orphan:
-                    self._does_not_exist_or_valid(v, k, input_data)
-                else:
-                    self._exists_and_valid(v, k, input_data)
-        except (NameError, KeyError):
-            # unable to validate consistency
-            raise ValidationError("Unable to check consistency with the parent, please check CVs")
-
     def experiment_validator(self, experiment_id):
         """
         Generate a validator for the experiment information.
@@ -64,7 +38,7 @@ class ControlledVocabularyValidator:
         function:
             Validator function
         """
-        return BaseValidatorFactory.value_in_validator([self._cv.experiment(experiment_id)])
+        return ValidatorFactory.value_in_validator([self._cv.experiment(experiment_id)])
 
     def institution_validator(self, institution_id):
         """
@@ -80,7 +54,7 @@ class ControlledVocabularyValidator:
         function:
             Validator function
         """
-        return BaseValidatorFactory.value_in_validator([self._cv.institution(institution_id)])
+        return ValidatorFactory.value_in_validator([self._cv.institution(institution_id)])
 
     def tracking_id_validator(self):
         """
@@ -88,7 +62,7 @@ class ControlledVocabularyValidator:
         :return: Validator function
         :rtype:
         """
-        return BaseValidatorFactory.string_validator(self._cv.tracking_id)
+        return ValidatorFactory.string_validator(self._cv.tracking_id)
 
     def validate_collection(self, input_data, collection_name):
         """
@@ -127,7 +101,7 @@ class ControlledVocabularyValidator:
             name of the attribute to be validated
         """
         try:
-            validate_func = BaseValidatorFactory.value_in_validator(allowed_values)
+            validate_func = ValidatorFactory.value_in_validator(allowed_values)
             validate_func(getattr(input_data, attribute_name))
         except AttributeError:
             pass
@@ -150,7 +124,7 @@ class ControlledVocabularyValidator:
             an open netCDF file
         """
         try:
-            validate_func = BaseValidatorFactory.value_in_validator(allowed_values)
+            validate_func = ValidatorFactory.value_in_validator(allowed_values)
             validate_func(getattr(input_data, attribute_name))
         except AttributeError:
             raise AttributeError("Mandatory attribute '{}' missing".format(attribute_name))
@@ -158,7 +132,7 @@ class ControlledVocabularyValidator:
             raise ValidationError("Mandatory attribute {}: {}".format(attribute_name, str(e)))
 
 
-class BaseValidatorFactory:
+class ValidatorFactory:
 
     @classmethod
     def nonempty_validator(cls) -> Callable[[Any], None]:

@@ -10,13 +10,11 @@ from netCDF4 import Dataset
 from typing import List, Dict, Any
 
 from cdds.common.mip_tables import MipTables
-from cdds.common.request import Request
-from cdds.qc.plugins.base.constants import CV_ATTRIBUTES
 from cdds.qc.plugins.base.common import CheckCache
 from cdds.qc.plugins.base.checks import (StringAttributesCheckTask, RunIndexAttributesCheckTask,
                                          ComplexAttributesCheckTask, MandatoryTextAttributesCheckTask,
                                          VariableAttributesCheckTask, OptionalTextAttributesCheckTask)
-from cdds.qc.plugins.base.validators import ControlledVocabularyValidator
+from cdds.qc.plugins.cordex.validators import CordexCVValidator
 from cdds.qc.plugins.cordex.checks import CordexAttributesCheckTask
 
 
@@ -37,7 +35,7 @@ class CordexCheck(BaseNCCheck):
 
         if self.__cache.cv_validator is None:
             cv_location = kwargs["config"]["cv_location"]
-            self.__cache.cv_validator = ControlledVocabularyValidator(cv_location)
+            self.__cache.cv_validator = CordexCVValidator(cv_location)
         if self.__cache.mip_tables is None:
             mip_tables_dir = kwargs["config"]["mip_tables_dir"]
             self.__cache.mip_tables = MipTables(mip_tables_dir)

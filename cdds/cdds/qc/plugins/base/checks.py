@@ -6,7 +6,7 @@ from typing import List, Dict, Any, Callable
 
 from cdds.common.validation import ValidationError
 from cdds.qc.plugins.base.common import CheckCache
-from cdds.qc.plugins.base.validators import BaseValidatorFactory
+from cdds.qc.plugins.base.validators import ValidatorFactory
 
 
 class CheckTask(object, metaclass=ABCMeta):
@@ -86,13 +86,13 @@ class StringAttributesCheckTask(CheckTask):
         string_dict = {
             "experiment": validator.experiment_validator(getattr(netcdf_file, "experiment_id")),
             "institution": validator.institution_validator(getattr(netcdf_file, "institution_id")),
-            "Conventions": BaseValidatorFactory.value_in_validator(self.CF_CONVENTIONS),
-            "creation_date": BaseValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ"),
-            "data_specs_version": BaseValidatorFactory.value_in_validator([self._cache.mip_tables.version]),
-            "license": BaseValidatorFactory.value_in_validator([self._cache.request.license.strip()]),
-            "mip_era": BaseValidatorFactory.value_in_validator([self._cache.request.mip_era]),
-            "product": BaseValidatorFactory.value_in_validator(["model-output"]),
-            "source": BaseValidatorFactory.string_validator(self.SOURCE_REGEX),
+            "Conventions": ValidatorFactory.value_in_validator(self.CF_CONVENTIONS),
+            "creation_date": ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ"),
+            "data_specs_version": ValidatorFactory.value_in_validator([self._cache.mip_tables.version]),
+            "license": ValidatorFactory.value_in_validator([self._cache.request.license.strip()]),
+            "mip_era": ValidatorFactory.value_in_validator([self._cache.request.mip_era]),
+            "product": ValidatorFactory.value_in_validator(["model-output"]),
+            "source": ValidatorFactory.string_validator(self.SOURCE_REGEX),
             "tracking_id": validator.tracking_id_validator()
         }
 
@@ -169,7 +169,7 @@ class VariableAttributesCheckTask(CheckTask):
 
     def _validate_external_variables(self, netcdf_file: Dataset, external: List[str]) -> None:
         try:
-            validator = BaseValidatorFactory.multivalue_in_validator(external)
+            validator = ValidatorFactory.multivalue_in_validator(external)
             validator(getattr(netcdf_file, "external_variables"))
         except AttributeError:
             if len(external) > 0:
@@ -196,16 +196,16 @@ class ComplexAttributesCheckTask(CheckTask):
         :type attr_dict: Dict[str, Any]
         """
         derived_dict = {
-            "further_info_url": BaseValidatorFactory.value_in_validator(
+            "further_info_url": ValidatorFactory.value_in_validator(
                 [
                     attr_dict["further_info_url"]
                 ]
             ),
-            "variable_id": BaseValidatorFactory.value_in_validator(
+            "variable_id": ValidatorFactory.value_in_validator(
                 self._cache.mip_tables.get_variables(
                     attr_dict["table_id"])
             ),
-            "variant_label": BaseValidatorFactory.value_in_validator(
+            "variant_label": ValidatorFactory.value_in_validator(
                 [
                     "r{}i{}p{}f{}".format(
                         attr_dict["realization_index"],
@@ -245,7 +245,7 @@ class RunIndexAttributesCheckTask(CheckTask):
         :param attr_dict: Basic attribute dictionary of NetCDF file
         :type attr_dict: Dict[str, Any]
         """
-        positive_integer_validator = BaseValidatorFactory.integer_validator()
+        positive_integer_validator = ValidatorFactory.integer_validator()
         for index_attribute in self.RUN_INDEX_ATTRIBUTES:
             self._exists_and_valid(netcdf_file, index_attribute, positive_integer_validator)
 
@@ -270,7 +270,7 @@ class MandatoryTextAttributesCheckTask(CheckTask):
         :param attr_dict: Basic attribute dictionary of NetCDF file
         :type attr_dict: Dict[str, Any]
         """
-        nonempty_string_validator = BaseValidatorFactory.string_validator()
+        nonempty_string_validator = ValidatorFactory.string_validator()
         for mandatory_string in self.MANDATORY_TEXT_ATTRIBUTES:
             self._exists_and_valid(netcdf_file, mandatory_string, nonempty_string_validator)
 
@@ -300,6 +300,6 @@ class OptionalTextAttributesCheckTask(CheckTask):
         :param attr_dict: Basic attribute dictionary of NetCDF file
         :type attr_dict: Dict[str, Any]
         """
-        nonempty_string_validator = BaseValidatorFactory.string_validator()
+        nonempty_string_validator = ValidatorFactory.string_validator()
         for optional_string in self.OPTIONAL_TEXT_ATTRIBUTES:
             self._does_not_exist_or_valid(netcdf_file, optional_string, nonempty_string_validator)

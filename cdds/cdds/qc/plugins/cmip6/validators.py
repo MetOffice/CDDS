@@ -8,6 +8,39 @@ import cftime as cft
 
 from cdds.common.constants import TIME_UNIT
 from cdds.common.validation import ValidationError
+from cdds.qc.plugins.base.validators import ControlledVocabularyValidator
+
+
+class Cmip6CVValidator(ControlledVocabularyValidator):
+
+    def __init__(self, repo_location):
+        super(Cmip6CVValidator, self).__init__(repo_location)
+
+    def validate_parent_consistency(self, input_data, experiment_id, orphan=False):
+        """
+        Validate global attributes which need to match their CV values.
+
+        Parameters
+        ----------
+        input_data: netCDF4.Dataset
+            an open netCDF file.
+        experiment_id: str
+            ID of the experiment containing the attribute to be validated against.
+        orphan: bool
+            Whether the experiment is not supposed to have a parent.
+        """
+        try:
+            parent_experiment_dict = {
+                "parent_experiment_id": self._cv.parent_experiment_id(experiment_id),
+            }
+            for k, v in parent_experiment_dict.items():
+                if orphan:
+                    self._does_not_exist_or_valid(v, k, input_data)
+                else:
+                    self._exists_and_valid(v, k, input_data)
+        except (NameError, KeyError):
+            # unable to validate consistency
+            raise ValidationError("Unable to check consistency with the parent, please check CVs")
 
 
 def get_datetime_template(frequency: str) -> str:

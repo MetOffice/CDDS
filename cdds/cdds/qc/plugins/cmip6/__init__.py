@@ -10,7 +10,7 @@ Compliance Test Suite for the CMIP6 project
 from compliance_checker.base import BaseCheck, BaseNCCheck, Result
 
 from cdds.common.mip_tables import MipTables
-from cdds.qc.plugins.base.validators import ControlledVocabularyValidator
+from cdds.qc.plugins.cmip6.validators import Cmip6CVValidator
 from cdds.qc.plugins.base.common import CheckCache
 from cdds.qc.plugins.base.checks import (StringAttributesCheckTask, ComplexAttributesCheckTask,
                                          VariableAttributesCheckTask, OptionalTextAttributesCheckTask,
@@ -55,7 +55,7 @@ class CMIP6Check(BaseNCCheck):
 
     @classmethod
     def update_cv_valdiator(cls, cv_location):
-        cls.__cache.cv_validator = ControlledVocabularyValidator(cv_location)
+        cls.__cache.cv_validator = Cmip6CVValidator(cv_location)
 
     @classmethod
     def update_mip_tables_cache(cls, mip_tables_dir):

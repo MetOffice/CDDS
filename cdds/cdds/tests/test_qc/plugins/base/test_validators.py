@@ -4,7 +4,7 @@
 import unittest
 import numpy as np
 from cdds.qc.plugins.base.validators import ControlledVocabularyValidator
-from cdds.qc.plugins.base.validators import BaseValidatorFactory, ValidationError
+from cdds.qc.plugins.base.validators import ValidatorFactory, ValidationError
 from cdds.tests.test_qc.plugins.constants import CV_REPO
 
 
@@ -22,13 +22,13 @@ class TestCVValidator(unittest.TestCase):
 class TestValidators(unittest.TestCase):
 
     def test_value_in_validator(self):
-        validator = BaseValidatorFactory.value_in_validator(["foo", "bar"])
+        validator = ValidatorFactory.value_in_validator(["foo", "bar"])
         self.assertIsNone(validator("foo"))
         self.assertIsNone(validator("bar"))
         self.assertRaises(ValidationError, validator, "moo")
 
     def test_multivalue_in_validator(self):
-        validator = BaseValidatorFactory.multivalue_in_validator(["foo", "bar"])
+        validator = ValidatorFactory.multivalue_in_validator(["foo", "bar"])
         self.assertIsNone(validator("foo"))
         self.assertIsNone(validator("bar"))
         self.assertIsNone(validator("foo bar"))
@@ -39,13 +39,13 @@ class TestValidators(unittest.TestCase):
         self.assertRaises(ValidationError, validator, "foo, bar")
 
     def test_nonempty_validator(self):
-        validator = BaseValidatorFactory.nonempty_validator()
+        validator = ValidatorFactory.nonempty_validator()
         self.assertRaises(ValidationError, validator, "")
         self.assertRaises(ValidationError, validator, None)
         self.assertIsNone(validator("foo"))
 
     def test_float_validator(self):
-        validator = BaseValidatorFactory.float_validator()
+        validator = ValidatorFactory.float_validator()
         self.assertIsNone(validator(0.0))
         self.assertRaises(ValidationError, validator, 1)
         self.assertRaises(ValidationError, validator, "0.0")
@@ -54,9 +54,9 @@ class TestValidators(unittest.TestCase):
         self.assertIsNone(validator(np.float64(1.0)))
 
     def test_int_validator(self):
-        validator = BaseValidatorFactory.integer_validator()
-        zero_validator = BaseValidatorFactory.integer_validator(True, False)
-        negative_validator = BaseValidatorFactory.integer_validator(False, False)
+        validator = ValidatorFactory.integer_validator()
+        zero_validator = ValidatorFactory.integer_validator(True, False)
+        negative_validator = ValidatorFactory.integer_validator(False, False)
         self.assertIsNone(validator(5))
         self.assertIsNone(validator(np.int32(4)))
         self.assertRaises(ValidationError, validator, 0.5)

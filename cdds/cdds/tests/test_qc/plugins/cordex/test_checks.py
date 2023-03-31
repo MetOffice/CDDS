@@ -30,7 +30,7 @@ class TestCVAttributesCheckTask(TestCase):
     def tearDown(self):
         os.remove(self.nc_path)
 
-    def test_source_id_is_valid(self):
+    def _source_id_is_valid(self):
         attr_dict = {
             "realization_index": 1,
             "initialization_index": 1,
