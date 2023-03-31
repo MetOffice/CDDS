@@ -6,6 +6,7 @@ using SELECT and FILTER
 
 """
 
+from collections import defaultdict
 import datetime
 import json
 import logging
@@ -800,10 +801,10 @@ class Filters(object):
 
     def _update_mass_cmd(self, regexp, filelist, start, end, moo_cmd,
                          moo_args, max_chunk_size):
-        filtered_subset = {}
+        files_on_tapes = defaultdict(list)
         files_found = 0
         logger = logging.getLogger(__name__)
-        for nc_file in filelist:
+        for (tape, nc_file) in filelist:
             result = re.search(regexp, nc_file[1])
             if result:
                 files_found += 1
@@ -811,11 +812,8 @@ class Filters(object):
                 start_dt = datetime.datetime.strptime(file_start, "%Y%m%d")
                 end_dt = datetime.datetime.strptime(file_end, "%Y%m%d")
                 if start_dt >= start and end_dt <= end:
-                    if nc_file[0] in filtered_subset:
-                        filtered_subset[nc_file[0]].append(nc_file[1])
-                    else:
-                        filtered_subset[nc_file[0]] = [nc_file[1]]
-        if filtered_subset == {}:
+                    files_on_tapes[tape].append(nc_file)
+        if not files_on_tapes:
             return False
         if not self.simulation:
             logger.info(
@@ -827,7 +825,7 @@ class Filters(object):
         if error:
             logger.info(error)
             return False
-        chunks = chunk_by_files_and_tapes(filtered_subset, tape_limit, MOOSE_MAX_NC_FILES)
+        chunks = chunk_by_files_and_tapes(files_on_tapes, tape_limit, MOOSE_MAX_NC_FILES)
         for chunk in chunks:
             cmd = {
                 "moo_cmd": moo_cmd,
