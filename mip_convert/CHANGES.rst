@@ -4,6 +4,14 @@
 .. include:: common.txt
 
 
+Release 2.4.3, March 31, 2023
+============================
+
+* Add a ``--relaxed-cmor`` option to ``mip_convert``. When used certain metadata fields e.g.
+  experiment_id are not checked against the controlled vocabularies (CDDSO-252).
+* All ancillary STASH codes are now correctly treated as time invariant (CDDSO-247).
+
+
 Release 2.4.2, March 1, 2023
 ============================
 

@@ -4,6 +4,11 @@
 .. include:: common.txt
 
 
+Release 2.4.3, March 31, 2023
+============================
+
+* Add support for retries in the run_extract task within the CDDS Convert Suite (CDDSO-258)
+
 Release 2.4.2, March 1, 2023
 ============================
 
