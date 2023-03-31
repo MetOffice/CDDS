@@ -4,7 +4,6 @@
 """
 A plugin for regional models
 """
-from dataclasses import dataclass
 from compliance_checker.base import BaseCheck, BaseNCCheck, Result
 from netCDF4 import Dataset
 from typing import List, Dict, Any
