@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2022, Met Office.
+# (C) British Crown Copyright 2016-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Class for creating MOOSE commands for filtered retrievals from MASS
@@ -6,6 +6,7 @@ using SELECT and FILTER
 
 """
 
+from collections import defaultdict
 import datetime
 import json
 import logging
@@ -15,15 +16,10 @@ from cdds.common.mappings.mapping import ModelToMip
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
 from cdds.common import netCDF_regexp, run_command
-from cdds.extract.common import (get_stash, moose_date, run_moo_cmd,
-                                 check_moo_cmd, get_bounds_variables,
-                                 calculate_period)
-from cdds.extract.constants import (MOOSE_LS_PAGESIZE,
-                                    MOOSE_LS_MAX_PAGES, MOOSE_MAX_NC_FILES,
-                                    DATESTAMP_PATTERN,
-                                    MONTHLY_DATESTAMP_PATTERN_APRIL,
-                                    MONTHLY_DATESTAMP_PATTERN_SEPTEMBER,
-                                    SUBDAILY_DATESTAMP_PATTERN)
+from cdds.extract.common import (get_stash, moose_date, run_moo_cmd, check_moo_cmd, get_bounds_variables,
+                                 calculate_period, fetch_filelist_from_mass, chunk_by_files_and_tapes, get_tape_limit)
+from cdds.extract.constants import (MOOSE_MAX_NC_FILES, DATESTAMP_PATTERN, MONTHLY_DATESTAMP_PATTERN_APRIL,
+                                    MONTHLY_DATESTAMP_PATTERN_SEPTEMBER, SUBDAILY_DATESTAMP_PATTERN)
 
 
 class Filters(object):
@@ -736,7 +732,7 @@ class Filters(object):
         error = ""
         status = {"val": "ok"}        # dummy value for consistency with pp
 
-        filelist, moo_err = self._fetch_filelist_from_mass(self.source)
+        filelist, moo_err = fetch_filelist_from_mass(self.source, self.simulation)
         logger = logging.getLogger(__name__)
         logger.info("MOO LS command returned {} files".format(len(filelist)))
         if moo_err:
@@ -803,64 +799,37 @@ class Filters(object):
                 for ncks_opt in grid_info.halo_options[substream]:
                     file_h.write("\n{}".format(ncks_opt))
 
-    def _fetch_filelist_from_mass(self, mass_dir):
-        """Retrieves a list of files stored in a MASS directory
-
-        Parameters
-        ----------
-        mass_dir: str
-            name of a MASS directory
-
-        Returns
-        -------
-        list
-            List of files
-        error
-            An error output from MOOSE
-        """
-        # Don't log the file list to avoid cluttering the extract logs
-        paging_options = '--page=1-{}:{}'.format(MOOSE_LS_MAX_PAGES,
-                                                 MOOSE_LS_PAGESIZE)
-        if self.simulation:
-            files = []
-            error = None
-        else:
-            try:
-                cmd_out = run_command(["moo", "ls", paging_options, mass_dir])
-                files = cmd_out.split()
-                error = None
-            except RuntimeError as e:
-                files = []
-                error = str(e)
-        return files, error
-
     def _update_mass_cmd(self, regexp, filelist, start, end, moo_cmd,
                          moo_args, max_chunk_size):
-        filtered_subset = []
+        files_on_tapes = defaultdict(list)
+        files_found = 0
         logger = logging.getLogger(__name__)
-        for nc_file in filelist:
+        for (tape, nc_file) in filelist:
             result = re.search(regexp, nc_file)
             if result:
+                files_found += 1
                 _, file_start, file_end, _ = result.groups()
                 start_dt = datetime.datetime.strptime(file_start, "%Y%m%d")
                 end_dt = datetime.datetime.strptime(file_end, "%Y%m%d")
                 if start_dt >= start and end_dt <= end:
-                    filtered_subset.append(nc_file)
-        if filtered_subset == []:
+                    files_on_tapes[tape].append(nc_file)
+        if not files_found:
             return False
         if not self.simulation:
             logger.info(
                 "Using {} to retrieve {} files with chunk size of {}".format(
-                    regexp, len(filtered_subset), max_chunk_size
+                    regexp, files_found, max_chunk_size
                 )
             )
-
-        for offset in range(0, len(filtered_subset), max_chunk_size):
-            filtered_chunk = filtered_subset[offset:offset + max_chunk_size]
-
+        tape_limit, error = get_tape_limit(simulation=self.simulation)
+        if error:
+            logger.info(error)
+            return False
+        chunks = chunk_by_files_and_tapes(files_on_tapes, tape_limit, MOOSE_MAX_NC_FILES)
+        for chunk in chunks:
             cmd = {
                 "moo_cmd": moo_cmd,
-                "param_args": moo_args + filtered_chunk + [self.target],
+                "param_args": moo_args + chunk + [self.target],
                 "start": start,
                 "end": end,
             }

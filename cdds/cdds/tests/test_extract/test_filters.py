@@ -59,10 +59,12 @@ class TestFilters(unittest.TestCase):
         load_plugin()
         self.maxDiff = None
 
+    @patch("cdds.extract.filters.get_tape_limit")
     @patch("cdds.extract.filters.Filters._create_filterfile_nc")
-    @patch("cdds.extract.filters.Filters._fetch_filelist_from_mass")
-    def test_daterange_selection(self, mock_filters_subroutine, mock_f):
+    @patch("cdds.extract.filters.fetch_filelist_from_mass")
+    def test_daterange_selection(self, mock_filters_subroutine, mock_f, mock_tape_limit):
         root = "moose:/crum/u-an914/inm.nc.file/"
+        tape = "TAPE1"
         expected_command = (
             "moo filter -i -d foo/extract/inm_defaults.dff "
             "{root}cice_an914i_1m_19900101-19900201.nc "
@@ -97,9 +99,10 @@ class TestFilters(unittest.TestCase):
             "cice_an914i_1m_19910201-19910301.nc",
         ]
         mock_filters_subroutine.return_value = ([
-            "{}{}".format(root, s) for s in moo_ls_response
+            (tape, "{}{}".format(root, s)) for s in moo_ls_response
         ], None)
 
+        mock_tape_limit.return_value = (50, None)
         start = datetime.datetime(1990, 1, 1, 0, 0, 0)
         end = datetime.datetime(1991, 1, 1, 0, 0, 0)
         mass_location = "moose:/crum/u-an914/inm.nc.file/"
@@ -123,11 +126,13 @@ class TestFilters(unittest.TestCase):
             )
         )
 
+    @patch("cdds.extract.filters.get_tape_limit")
     @patch("cdds.extract.filters.Filters._create_filterfile_nc")
-    @patch("cdds.extract.filters.Filters._fetch_filelist_from_mass")
+    @patch("cdds.extract.filters.fetch_filelist_from_mass")
     @patch("cdds.extract.filters.MOOSE_MAX_NC_FILES", 5)
-    def test_moo_filter_chunking_odd(self, mock_filters_subroutine, mock_f):
+    def test_moo_filter_chunking_odd(self, mock_filters_subroutine, mock_f, mock_tape_limit):
         root = "moose:/crum/u-an914/inm.nc.file/"
+        tape = "TAPE1"
         expected_commands = [
             (
                 "moo filter -i -d foo/extract/inm_defaults.dff "
@@ -172,9 +177,9 @@ class TestFilters(unittest.TestCase):
             "cice_an914i_1m_19910201-19910301.nc",
         ]
         mock_filters_subroutine.return_value = ([
-            "{}{}".format(root, s) for s in moo_ls_response
+            (tape, "{}{}".format(root, s)) for s in moo_ls_response
         ], None)
-
+        mock_tape_limit.return_value = (50, None)
         start = datetime.datetime(1990, 1, 1, 0, 0, 0)
         end = datetime.datetime(1991, 1, 1, 0, 0, 0)
         mass_location = "moose:/crum/u-an914/inm.nc.file/"
@@ -199,11 +204,13 @@ class TestFilters(unittest.TestCase):
             ) for mass_command in mass_commands]
         )
 
+    @patch("cdds.extract.filters.get_tape_limit")
     @patch("cdds.extract.filters.Filters._create_filterfile_nc")
-    @patch("cdds.extract.filters.Filters._fetch_filelist_from_mass")
+    @patch("cdds.extract.filters.fetch_filelist_from_mass")
     @patch("cdds.extract.filters.MOOSE_MAX_NC_FILES", 5)
-    def test_moo_filter_chunking_even(self, mock_filters_subroutine, mock_f):
+    def test_moo_filter_chunking_even(self, mock_filters_subroutine, mock_f, mock_tape_limit):
         root = "moose:/crum/u-an914/inm.nc.file/"
+        tape = "TAPE1"
         expected_commands = [
             (
                 "moo filter -i -d foo/extract/inm_defaults.dff "
@@ -242,9 +249,9 @@ class TestFilters(unittest.TestCase):
             "cice_an914i_1m_19910201-19910301.nc",
         ]
         mock_filters_subroutine.return_value = ([
-            "{}{}".format(root, s) for s in moo_ls_response
+            (tape, "{}{}".format(root, s)) for s in moo_ls_response
         ], None)
-
+        mock_tape_limit.return_value = (50, None)
         start = datetime.datetime(1990, 1, 1, 0, 0, 0)
         end = datetime.datetime(1990, 11, 1, 0, 0, 0)
         mass_location = "moose:/crum/u-an914/inm.nc.file/"

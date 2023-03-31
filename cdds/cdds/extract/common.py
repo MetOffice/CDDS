@@ -15,8 +15,8 @@ import subprocess
 import re
 from collections import defaultdict
 from operator import itemgetter
-
-from cdds.extract.constants import NUM_PP_HEADER_LINES, TIME_REGEXP
+from cdds.extract.constants import (NUM_PP_HEADER_LINES, TIME_REGEXP, MOOSE_LS_PAGESIZE, MOOSE_LS_MAX_PAGES,
+                                    MOOSE_TAPE_PATTERN)
 from cdds.common import run_command, retry
 from cdds.extract.variables import Variables
 
@@ -924,7 +924,7 @@ def get_streams(streaminfo, suite_id, streams=[]):
                 "stream": name,
                 "streamtype": info["type"],
                 "success": None,
-                "start_date":  datetime.datetime.strptime(
+                "start_date": datetime.datetime.strptime(
                     info["start_date"], "%Y-%m-%d-%H-%M-%S"),
                 "end_date": datetime.datetime.strptime(
                     info["end_date"], "%Y-%m-%d-%H-%M-%S"),
@@ -1074,3 +1074,107 @@ def get_data_target(input_data_directory, stream):
         data target string for use in MOOSE commands
     """
     return os.path.join(input_data_directory, stream["suiteid"], stream["stream"])
+
+
+def fetch_filelist_from_mass(mass_dir, simulation=False):
+    """Retrieves a list of files stored in a MASS directory along with the tape number
+
+    Parameters
+    ----------
+    mass_dir: str
+        name of a MASS directory
+
+    Returns
+    -------
+    dict
+        List of tuples (tape, filename)
+    error
+        An error output from MOOSE
+    """
+    files = []
+    error = None
+    if not simulation:
+        try:
+            cmd_out = run_command(["moo", "ls", "-m", mass_dir])
+            filelines = cmd_out.split('\n')[0:-1]
+            for fileline in filelines:
+                _, tape, _, _, _, filepath = fileline.split()
+                files.append((tape, filepath))
+        except RuntimeError as e:
+            files = []
+            error = str(e)
+    return files, error
+
+
+def get_tape_limit(tape_msg_pattern=MOOSE_TAPE_PATTERN, simulation=False):
+    """Retrieves a current tape limit from MASS
+
+    Parameters
+    ----------
+    tape_msg_pattern: str
+        regular expression matching message containing information about the MASS system
+    simulation: bool
+        if True no real interaction with MASS will happen
+
+    Returns
+    -------
+    int
+        Tape limit
+    error
+        An error output from MOOSE
+    """
+
+    limit = None
+    if simulation:
+        limit = 50
+        error = None
+    else:
+        try:
+            cmd_out = run_command(["moo", "si", "-v"])
+            search = re.search(tape_msg_pattern, cmd_out)
+            if not search:
+                error = 'Could not determine tape limit'
+            else:
+                limit = int(search.group(1))
+                error = None
+        except RuntimeError as e:
+            limit = None
+            error = str(e)
+    return limit, error
+
+
+def chunk_by_files_and_tapes(fileset: dict, tape_limit: int, file_limit: int) -> list:
+    """
+    Divides the filelist dictionary into chunks ensuring that each chunk doesn't exceed the file number limit and
+    the number of tapes accessed in each chunk doesn't exceed the tape limit.
+
+    Parameters
+    ----------
+    fileset: dict
+        A dictionary of filenames lists indexed by their tape identifier
+    tape_limit: int
+        Maximum number of tapes that can be accessed in a single moo filter request
+    file_limit: int
+        Maximum number of files that can be fetched in a single moo filter request
+
+    Returns
+    -------
+    list
+        List of chunked lists of filenames
+    """
+    tapes = set()
+    current_chunk = []
+    chunks = []
+    for tape_id, files in fileset.items():
+        for file in files:
+            # If adding another file will exceed tape threshold or we've hit the file limit save the chunk
+            if len(tapes | set([tape_id])) > tape_limit or len(current_chunk) == file_limit:
+                chunks.append(current_chunk)
+                tapes = set()
+                current_chunk = []
+            tapes.add(tape_id)
+            current_chunk.append(file)
+    # Add the final chunk
+    if current_chunk:
+        chunks.append(current_chunk)
+    return chunks
