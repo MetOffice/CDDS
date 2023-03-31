@@ -1146,35 +1146,9 @@ def get_tape_limit(tape_msg_pattern=MOOSE_TAPE_PATTERN, simulation=False):
     return limit, error
 
 
-def embiggen_list_of_lists(chunks, files, file_limit):
-    """Adds a list of files to the last element of the list (of lists) containing filelist chunk sets,
-    if the last element contains too many files and exceeds the file_limit parameter, the list of lists
-    will be extended.
-
-    Parameters
-    ----------
-    chunks: list
-        A list of lists containing filenames, the sublists' length cannot exceed the file_limit
-    files: list
-        A list of files that need to be appended to the chunks list of lists
-    file_limit: int
-        The length limit of the files list.
-
-    Returns
-    -------
-    list
-        List of chunked lists
+def chunk_by_files_and_tapes(fileset: dict, tape_limit: int, file_limit: int) -> list:
     """
-    if len(chunks):
-        # first add the last element of existing list to the file list we want to subdivide into chunks
-        files = chunks[-1] + files
-    # return existing list minus the last element plus the chunked file list
-    return chunks[0:-1] + [
-        files[i * file_limit:(i + 1) * file_limit] for i in range((len(files) + file_limit - 1) // file_limit)]
-
-
-def chunk_by_files_and_tapes(fileset, tape_limit, file_limit):
-    """Divides the filelist dictionary into chunks ensuring that each chunk doesn't exceed the file number limit and
+    Divides the filelist dictionary into chunks ensuring that each chunk doesn't exceed the file number limit and
     the number of tapes accessed in each chunk doesn't exceed the tape limit.
 
     Parameters
@@ -1191,24 +1165,19 @@ def chunk_by_files_and_tapes(fileset, tape_limit, file_limit):
     list
         List of chunked lists of filenames
     """
-    chunks = [[]]
-    tapes_in_last_chunk = []
-    for tape, files in fileset.items():
-        # check if we haven't hit the the tape limit yet
-        if len(tapes_in_last_chunk) < tape_limit:
-            last_len = len(chunks)
-            chunks = embiggen_list_of_lists(chunks, files, file_limit)
-            # since we already chunk by files we need to consider the tape limit only for the last batch of files
-            if len(chunks) == last_len:
-                # add tape to the list to check against the limit
-                tapes_in_last_chunk.append(tape)
-            else:
-                # last chunk contains files from one tape only, so reset tape list
-                tapes_in_last_chunk = [tape]
-        else:
-            # always add a fresh chunk
-            chunks.append([])
-            chunks = embiggen_list_of_lists(chunks, files, file_limit)
-            # reset tape list
-            tapes_in_last_chunk = [tape]
+    tapes = set()
+    current_chunk = []
+    chunks = []
+    for tape_id, files in fileset.items():
+        for file in files:
+            # If adding another file will exceed tape threshold or we've hit the file limit save the chunk
+            if len(tapes | set([tape_id])) > tape_limit or len(current_chunk) == file_limit:
+                chunks.append(current_chunk)
+                tapes = set()
+                current_chunk = []
+            tapes.add(tape_id)
+            current_chunk.append(file)
+    # Add the final chunk
+    if current_chunk:
+        chunks.append(current_chunk)
     return chunks

@@ -14,7 +14,7 @@ from unittest.mock import patch
 from cdds.extract.common import (
     get_bounds_variables, validate_stash_fields, validate_netcdf,
     check_moo_cmd, calculate_period, FileContentError,
-    StreamValidationResult, create_dir, build_mass_location, embiggen_list_of_lists, chunk_by_files_and_tapes)
+    StreamValidationResult, create_dir, build_mass_location, chunk_by_files_and_tapes)
 from cdds.tests.test_common.common import create_simple_netcdf_file
 from cdds.tests.test_extract.common import break_netcdf_file, init_defaultdict
 from cdds.tests.test_extract.constants import (
@@ -243,39 +243,6 @@ class TestBuildMassLocation(unittest.TestCase):
     def test_incorrect_data_class(self):
         with self.assertRaises(AssertionError):
             build_mass_location('prod', 'u-ab123', 'ap4', 'pp', 'i123456')
-
-
-class TestEmbiggenListOfLists(unittest.TestCase):
-
-    def test_fresh_list(self):
-        chunks = [[]]
-        files = ['chunk1', 'chunk2']
-        file_limit = 3
-        self.assertEqual([['chunk1', 'chunk2']], embiggen_list_of_lists(chunks, files, file_limit))
-        files = ['chunk1', 'chunk2', 'chunk3']
-        self.assertEqual([['chunk1', 'chunk2', 'chunk3']], embiggen_list_of_lists(chunks, files, file_limit))
-        files = ['chunk1', 'chunk2', 'chunk3', 'chunk4']
-        self.assertEqual([['chunk1', 'chunk2', 'chunk3'], ['chunk4']],
-                         embiggen_list_of_lists(chunks, files, file_limit))
-
-    def test_existing_list(self):
-        chunks = [['chunk1']]
-        files = ['chunk2', 'chunk3']
-        file_limit = 3
-        self.assertEqual([['chunk1', 'chunk2', 'chunk3']], embiggen_list_of_lists(chunks, files, file_limit))
-        files = ['chunk2', 'chunk3', 'chunk4']
-        self.assertEqual([['chunk1', 'chunk2', 'chunk3'], ['chunk4']],
-                         embiggen_list_of_lists(chunks, files, file_limit))
-        files = ['chunk2', 'chunk3', 'chunk4', 'chunk5']
-        self.assertEqual([['chunk1', 'chunk2', 'chunk3'], ['chunk4', 'chunk5']],
-                         embiggen_list_of_lists(chunks, files, file_limit))
-
-    def test_long_existing_list(self):
-        chunks = [['chunk1', 'chunk2', 'chunk3'], ['chunk4', 'chunk5']]
-        files = ['chunk6', 'chunk7']
-        file_limit = 3
-        self.assertEqual([['chunk1', 'chunk2', 'chunk3'], ['chunk4', 'chunk5', 'chunk6'], ['chunk7']],
-                         embiggen_list_of_lists(chunks, files, file_limit))
 
 
 class TestChunkByFilesAndTapes(unittest.TestCase):
