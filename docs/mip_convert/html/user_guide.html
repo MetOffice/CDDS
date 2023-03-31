@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>User Guide &#8212; MIP Convert 2.4.1 documentation</title>
+    <title>User Guide &#8212; MIP Convert 2.4.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="installation.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MIP Convert 2.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MIP Convert 2.4.3 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">User Guide</a></li> 
       </ul>
     </div>  
@@ -52,8 +52,9 @@
 <li><p><a class="reference internal" href="#user-guide" id="id8">User Guide</a></p>
 <ul>
 <li><p><a class="reference internal" href="#quick-start" id="id9">Quick Start</a></p></li>
-<li><p><a class="reference internal" href="#recommended-reading" id="id10">Recommended Reading</a></p></li>
-<li><p><a class="reference internal" href="#configuration-files" id="id11">Configuration Files</a></p></li>
+<li><p><a class="reference internal" href="#selected-arguments" id="id10">Selected Arguments</a></p></li>
+<li><p><a class="reference internal" href="#recommended-reading" id="id11">Recommended Reading</a></p></li>
+<li><p><a class="reference internal" href="#configuration-files" id="id12">Configuration Files</a></p></li>
 </ul>
 </li>
 </ul>
@@ -86,8 +87,35 @@ in the log will provide further information about the
 issue, please see <a class="reference internal" href="support.html#support"><span class="std std-ref">Support</span></a>.</p></li>
 </ol>
 </section>
+<section id="selected-arguments">
+<h2><a class="toc-backref" href="#id10">Selected Arguments</a><a class="headerlink" href="#selected-arguments" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">config_file</span></code> - The name of the user configuration file. For more information,
+please see the MIP Convert user guide:
+<a class="reference external" href="https://code.metoffice.gov.uk/doc/cdds/mip_convert/user_guide.html">https://code.metoffice.gov.uk/doc/cdds/mip_convert/user_guide.html</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-s</span></code> or <code class="docutils literal notranslate"><span class="pre">--stream_identifiers</span></code> - The stream identifiers to process. If all streams
+should be processed, do not specify this option.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--relaxed-cmor</span></code> - If specified, CMIP6 style validation is not performed by CMOR. If the
+validation is run then the following fields are not checked; <code class="docutils literal notranslate"><span class="pre">model_id</span></code> (<code class="docutils literal notranslate"><span class="pre">source_id</span></code>),
+<code class="docutils literal notranslate"><span class="pre">experiment_id</span></code>, <code class="docutils literal notranslate"><span class="pre">further_info_url</span></code>, <code class="docutils literal notranslate"><span class="pre">grid_label</span></code>, <code class="docutils literal notranslate"><span class="pre">parent_experiment_id</span></code>,
+<code class="docutils literal notranslate"><span class="pre">sub_experiment_id</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--mip_era</span></code> - The MIP era (e.g. CMIP6).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--external_plugin</span></code> - Module path to external CDDS plugin (e.g. <code class="docutils literal notranslate"><span class="pre">arise.plugin</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--external_plugin_location</span></code> - Path to the external plugin implementation
+(e.g. <code class="docutils literal notranslate"><span class="pre">/project/cdds/arise</span></code>)</p></li>
+</ol>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<ol class="loweralpha simple">
+<li><p>Run for CMIP6 projects:
+<code class="docutils literal notranslate"><span class="pre">mip_convert.cfg</span> <span class="pre">-s</span> <span class="pre">ap4</span></code></p></li>
+<li><p>Run for Non-CMIP6 projects for example for ARISE projects:
+<code class="docutils literal notranslate"><span class="pre">mip_convert.cfg</span> <span class="pre">-s</span> <span class="pre">ap4</span> <span class="pre">--mip_era</span> <span class="pre">ARISE</span> <span class="pre">--relaxed_cmor</span> <span class="pre">--external_plugin</span> <span class="pre">arise.plugin</span> <span class="pre">--external_plugin_location</span> <span class="pre">/projects/cdds/arise</span></code></p></li>
+</ol>
+</section>
+</section>
 <section id="recommended-reading">
-<h2><a class="toc-backref" href="#id10">Recommended Reading</a><a class="headerlink" href="#recommended-reading" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11">Recommended Reading</a><a class="headerlink" href="#recommended-reading" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
 <li><p>The <a class="reference internal" href="about.html#overview"><span class="std std-ref">overview of MIP Convert</span></a></p></li>
 <li><p>The <a class="reference external" href="https://cmor.llnl.gov/#design-considerations-and-overview">Design Considerations and Overview</a> section in the
@@ -95,7 +123,7 @@ issue, please see <a class="reference internal" href="support.html#support"><spa
 </ol>
 </section>
 <section id="configuration-files">
-<h2><a class="toc-backref" href="#id11">Configuration Files</a><a class="headerlink" href="#configuration-files" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id12">Configuration Files</a><a class="headerlink" href="#configuration-files" title="Permalink to this headline">¶</a></h2>
 <p>MIP Convert uses a number of configuration files:</p>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="#id3"><span class="std std-ref">User configuration file</span></a></p></li>
@@ -585,6 +613,10 @@ header of the <a class="reference internal" href="glossary.html#term-Output-netC
   <ul>
 <li><a class="reference internal" href="#">User Guide</a><ul>
 <li><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li><a class="reference internal" href="#selected-arguments">Selected Arguments</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#recommended-reading">Recommended Reading</a></li>
 <li><a class="reference internal" href="#configuration-files">Configuration Files</a><ul>
 <li><a class="reference internal" href="#id3">User Configuration File</a><ul>
@@ -643,7 +675,7 @@ header of the <a class="reference internal" href="glossary.html#term-Output-netC
         <li class="right" >
           <a href="installation.html" title="Installation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MIP Convert 2.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MIP Convert 2.4.3 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">User Guide</a></li> 
       </ul>
     </div>
