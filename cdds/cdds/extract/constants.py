@@ -24,6 +24,7 @@ MONTHLY_DATESTAMP_PATTERN_SEPTEMBER = "{}a.p{}{}sep.pp"
 MOOSE_LS_PAGESIZE = 25000  # lines
 MOOSE_LS_MAX_PAGES = 1000  # max number of pages
 MOOSE_MAX_NC_FILES = 1000  # max number of files per moo filter command
+MOOSE_TAPE_PATTERN = r'Multiple-get tape-number limit: (\d+)'
 NUM_PP_HEADER_LINES = 4
 QUEUE = 'long'
 SPICE_SCRIPT_NAME = 'cdds_extract_spice.sh'

@@ -14,7 +14,7 @@ from unittest.mock import patch
 from cdds.extract.common import (
     get_bounds_variables, validate_stash_fields, validate_netcdf,
     check_moo_cmd, calculate_period, FileContentError,
-    StreamValidationResult, create_dir, build_mass_location)
+    StreamValidationResult, create_dir, build_mass_location, chunk_by_files_and_tapes)
 from cdds.tests.test_common.common import create_simple_netcdf_file
 from cdds.tests.test_extract.common import break_netcdf_file, init_defaultdict
 from cdds.tests.test_extract.constants import (
@@ -51,7 +51,7 @@ class TestCommon(unittest.TestCase):
         ret_dict = init_defaultdict(["1234", "5678"])
 
         mock_get_stash_from_pp.return_value = ret_dict
-        mock_walk.return_value = [("/foo", [], ["bar.pp", "baz.pp", ], ), ]
+        mock_walk.return_value = [("/foo", [], ["bar.pp", "baz.pp", ],), ]
 
         expected_stash_codes = {"1234", "2345", "5678"}
         validation_result = StreamValidationResult("foo")
@@ -69,7 +69,6 @@ class TestCommon(unittest.TestCase):
         ]
 
         with patch("cdds.extract.common.get_stash_from_pp", side_effect=results):
-
             mock_walk.return_value = [
                 ("/foo", [], ["bar.pp", "baz.pp", "foobaz.pp"],), ]
 
@@ -86,7 +85,7 @@ class TestCommon(unittest.TestCase):
     def test_stash_fields_validation_unreadable(self, mock_get_stash_from_pp,
                                                 mock_walk):
         mock_get_stash_from_pp.return_value = None
-        mock_walk.return_value = [("/foo", [], ["bar.pp", ], ), ]
+        mock_walk.return_value = [("/foo", [], ["bar.pp", ],), ]
 
         expected_stash_codes = {"1234", "2345", "5678"}
         validation_result = StreamValidationResult("foo")
@@ -102,7 +101,7 @@ class TestCommon(unittest.TestCase):
         ret_dict = init_defaultdict(["1234", "5678"])
 
         mock_get_stash_from_pp.return_value = ret_dict
-        mock_walk.return_value = [("/foo", [], ["bar.pp", "baz.pp", ], ), ]
+        mock_walk.return_value = [("/foo", [], ["bar.pp", "baz.pp", ],), ]
 
         expected_stash_codes = {"1234", "5678"}
         validation_result = StreamValidationResult("foo")
@@ -116,7 +115,7 @@ class TestCommon(unittest.TestCase):
         ret_dict = init_defaultdict(["1234", "5678", "9999"])
 
         mock_get_stash_from_pp.return_value = ret_dict
-        mock_walk.return_value = [("/foo", [], ["bar.pp", "baz.pp", ], ), ]
+        mock_walk.return_value = [("/foo", [], ["bar.pp", "baz.pp", ],), ]
 
         expected_stash_codes = {"1234", "5678"}
         validation_result = StreamValidationResult("foo")
@@ -246,6 +245,65 @@ class TestBuildMassLocation(unittest.TestCase):
     def test_incorrect_data_class(self):
         with self.assertRaises(AssertionError):
             build_mass_location('prod', 'u-ab123', 'ap4', 'pp', 'i123456')
+
+
+class TestChunkByFilesAndTapes(unittest.TestCase):
+
+    def setUp(self):
+        self.tapes_dict = {
+            'tape1': ['t1_file1', 't1_file2'],
+            'tape2': ['t2_file3', 't2_file4', 't2_file5', 't2_file6', 't2_file7', 't2_file8', 't2_file9', 't2_file10'],
+            'tape3': ['t3_file11'],
+            'tape4': ['t4_file12'],
+            'tape5': ['t5_file13'],
+            'tape6': ['t6_file14'],
+            'tape7': ['t7_file15'],
+            'tape8': ['t8_file16', 't8_file17', 't8_file18', 't8_file19', 't8_file20']
+        }
+
+    def test_chunking_tape_limit3_file_limit4(self):
+        tape_limit = 3
+        file_limit = 4
+        expected_fileset = [
+            ['t1_file1', 't1_file2', 't2_file3', 't2_file4'],
+            ['t2_file5', 't2_file6', 't2_file7', 't2_file8'],
+            ['t2_file9', 't2_file10', 't3_file11', 't4_file12'],
+            ['t5_file13', 't6_file14', 't7_file15'],
+            ['t8_file16', 't8_file17', 't8_file18', 't8_file19'],
+            ['t8_file20']
+        ]
+        self.assertEqual(expected_fileset, chunk_by_files_and_tapes(self.tapes_dict, tape_limit, file_limit))
+
+    def test_chunking_tape_limit3_file_limit3(self):
+        tape_limit = 4
+        file_limit = 2
+        expected_fileset = [
+            ['t1_file1', 't1_file2'],
+            ['t2_file3', 't2_file4'],
+            ['t2_file5', 't2_file6'],
+            ['t2_file7', 't2_file8'],
+            ['t2_file9', 't2_file10'],
+            ['t3_file11', 't4_file12'],
+            ['t5_file13', 't6_file14'],
+            ['t7_file15', 't8_file16'],
+            ['t8_file17', 't8_file18'],
+            ['t8_file19', 't8_file20']
+        ]
+        self.assertEqual(expected_fileset, chunk_by_files_and_tapes(self.tapes_dict, tape_limit, file_limit))
+
+    def test_chunking_tape_limit2_file_limit4(self):
+        tape_limit = 2
+        file_limit = 4
+        expected_fileset = [
+            ['t1_file1', 't1_file2', 't2_file3', 't2_file4'],
+            ['t2_file5', 't2_file6', 't2_file7', 't2_file8'],
+            ['t2_file9', 't2_file10', 't3_file11'],
+            ['t4_file12', 't5_file13'],
+            ['t6_file14', 't7_file15'],
+            ['t8_file16', 't8_file17', 't8_file18', 't8_file19'],
+            ['t8_file20']
+        ]
+        self.assertEqual(expected_fileset, chunk_by_files_and_tapes(self.tapes_dict, tape_limit, file_limit))
 
 
 if __name__ == "__main__":

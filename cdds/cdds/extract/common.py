@@ -13,8 +13,9 @@ import os
 import subprocess
 import re
 from collections import defaultdict
-
-from cdds.extract.constants import NUM_PP_HEADER_LINES, TIME_REGEXP
+from operator import itemgetter
+from cdds.extract.constants import (NUM_PP_HEADER_LINES, TIME_REGEXP, MOOSE_LS_PAGESIZE, MOOSE_LS_MAX_PAGES,
+                                    MOOSE_TAPE_PATTERN)
 from cdds.common import run_command, retry
 
 
@@ -925,3 +926,287 @@ def build_mass_location(mass_data_class: str, suite_id: str, stream: str, stream
     if streamtype == "nc":
         data_source += ".file"
     return data_source
+
+
+def get_streams(streaminfo, suite_id, streams=[]):
+    """Creates list of streams
+    Checks that all data streams are of the right type and returns stream
+    info removing any streams that the user wishes to be skipped
+
+    Parameters
+    ----------
+    streaminfo: dict
+        Information about requested streams from the request file
+    suite_id: str
+        Suite id
+    streams: list
+        If not empty, the function will return only a subset of streams contained
+        in this parameter
+
+    Returns
+    -------
+    list of dict
+        attributes for each stream to be processed - dict per stream
+    """
+
+    streamlist = []
+    for name, info in streaminfo.items():
+        if not streams or name in streams:
+            streamlist.append({
+                "stream": name,
+                "streamtype": info["type"],
+                "success": None,
+                "start_date": datetime.datetime.strptime(
+                    info["start_date"], "%Y-%m-%d-%H-%M-%S"),
+                "end_date": datetime.datetime.strptime(
+                    info["end_date"], "%Y-%m-%d-%H-%M-%S"),
+                "suiteid": suite_id
+            })
+    return streamlist
+
+
+def configure_variables(variable_file):
+    """Gets required variable information for this request
+    Gets configuration file from a json configuration file.
+    Reformats the information into the structure required by the
+    variable mapping API
+
+    Parameters
+    ----------
+    variable_file: str
+        Path to requested variables list.
+
+    Returns
+    -------
+    list of dict
+        variables in variable mapping API structure - dict per variable
+    """
+    logger = logging.getLogger(__name__)
+    var = Variables("extract")
+
+    if not file_accessible(variable_file, "r"):
+        error = "CRITICAL: variables file [{}] not found]".format(variable_file)
+        exit_nicely(error)
+
+    logger.info("Reading requested variables file '{}'".format(variable_file))
+    # extract variables information from file
+    variables = var.get_variables(variable_file)
+
+    if not variables:
+        error = "CRITICAL: variables file [{}] not readable]".format(variable_file)
+        exit_nicely(error)
+
+    # convert variables list to format variable mapping API is expecting
+    var_list = var.create_variables_list(variables)
+
+    # log request variables file reference
+    logger.info("""
+    variables file specification
+    - file:       {}
+    - request:    {}
+    - mip:        {}
+    - experiment: {}""".format(
+        os.path.basename(variable_file), variables["data_request_version"],
+        variables["mip"], variables["experiment_id"]))
+
+    # log requested variables for which extraction will be attempted
+    sorted_var_list = sorted(var_list, key=itemgetter("table"))
+    table_key = ""
+    var_str = ""
+    for item in sorted_var_list:
+        if item["table"] != table_key:
+            var_str += "\n\n{:<12}:  ".format(item["table"])
+            table_key = item["table"]
+        var_str += item["name"] + " "
+    logger.info("Variables requested for processing - by stream:{}\n".format(var_str))
+
+    # log missing variables for which extraction will not be attempted
+    missing = var.missing_variables_list()
+    sorted_missing_list = sorted(missing, key=itemgetter("table"))
+    table_key = ""
+    var_str = ""
+    for item in sorted_missing_list:
+        if item["table"] != table_key:
+            var_str += "\n{}:\n".format(item["table"])
+            table_key = item["table"]
+        var_str += " {:<25} - {}\n".format(item["name"], item["reason"])
+    logger.debug("Variables NOT requested for processing (with reason):\n{}".format(var_str))
+    return var_list
+
+
+def configure_mappings(mappings):
+    """Get mappings for variables.
+    Reports missing mappings to the log file.
+
+    Parameters
+    ----------
+    mappings: obj
+        variable mapping information (CMIP var to stash/nc variable)
+
+    Returns
+    -------
+    dict
+        contains bool element for each stream - if false there are
+        mappings missing for the stream
+    """
+    logger = logging.getLogger(__name__)
+    # log missing mappings and set return dict
+    stream_mapping = {}
+    msg = ""
+    missing = mappings.get_missing_mappings()
+    for stream in missing:
+        if len(missing.get(stream)) > 0:
+            stream_mapping[stream] = False
+            msg += "STREAM: {}\n".format(stream)
+            for var in missing.get(stream):
+                if "table" in var:
+                    mip_table = var["table"]
+                else:
+                    mip_table = " - "
+                msg += " {:<15} {:<15} : {}\n".format(
+                    var["var"], "[ {} ]".format(mip_table), var["reason"])
+        else:
+            stream_mapping[stream] = True
+
+    if len(msg) > 0:
+        logger.info("\n ----- Missing Variable Mappings -----\n{} \n".format(msg))
+
+    msg = ""
+    embargoed = mappings.get_embargoed_mappings()
+    for stream in embargoed:
+        if len(embargoed.get(stream)) > 0:
+            msg += "STREAM: {}\n".format(stream)
+            for var in embargoed.get(stream):
+                if "table" in var:
+                    mip_table = var["table"]
+                else:
+                    mip_table = " - "
+                msg += " {:<15} {:<15}\n".format(
+                    var["var"], "[ {} ]".format(mip_table))
+
+    if len(msg) > 0:
+        logger.info("\n ----- Embargoed Variable Mappings -----\n{} \n".format(msg))
+
+    return stream_mapping
+
+
+def get_data_target(input_data_directory, stream):
+    """Returns target location for extracted data
+
+    Parameters
+    ----------
+    input_data_directory: str
+        directory with model input data
+    stream: dict
+        stream attributes
+
+    Returns
+    -------
+    str
+        data target string for use in MOOSE commands
+    """
+    return os.path.join(input_data_directory, stream["suiteid"], stream["stream"])
+
+
+def fetch_filelist_from_mass(mass_dir, simulation=False):
+    """Retrieves a list of files stored in a MASS directory along with the tape number
+
+    Parameters
+    ----------
+    mass_dir: str
+        name of a MASS directory
+
+    Returns
+    -------
+    dict
+        List of tuples (tape, filename)
+    error
+        An error output from MOOSE
+    """
+    files = []
+    error = None
+    if not simulation:
+        try:
+            cmd_out = run_command(["moo", "ls", "-m", mass_dir])
+            filelines = cmd_out.split('\n')[0:-1]
+            for fileline in filelines:
+                _, tape, _, _, _, filepath = fileline.split()
+                files.append((tape, filepath))
+        except RuntimeError as e:
+            files = []
+            error = str(e)
+    return files, error
+
+
+def get_tape_limit(tape_msg_pattern=MOOSE_TAPE_PATTERN, simulation=False):
+    """Retrieves a current tape limit from MASS
+
+    Parameters
+    ----------
+    tape_msg_pattern: str
+        regular expression matching message containing information about the MASS system
+    simulation: bool
+        if True no real interaction with MASS will happen
+
+    Returns
+    -------
+    int
+        Tape limit
+    error
+        An error output from MOOSE
+    """
+
+    limit = None
+    if simulation:
+        limit = 50
+        error = None
+    else:
+        try:
+            cmd_out = run_command(["moo", "si", "-v"])
+            search = re.search(tape_msg_pattern, cmd_out)
+            if not search:
+                error = 'Could not determine tape limit'
+            else:
+                limit = int(search.group(1))
+                error = None
+        except RuntimeError as e:
+            limit = None
+            error = str(e)
+    return limit, error
+
+
+def chunk_by_files_and_tapes(fileset: dict, tape_limit: int, file_limit: int) -> list:
+    """
+    Divides the filelist dictionary into chunks ensuring that each chunk doesn't exceed the file number limit and
+    the number of tapes accessed in each chunk doesn't exceed the tape limit.
+
+    Parameters
+    ----------
+    fileset: dict
+        A dictionary of filenames lists indexed by their tape identifier
+    tape_limit: int
+        Maximum number of tapes that can be accessed in a single moo filter request
+    file_limit: int
+        Maximum number of files that can be fetched in a single moo filter request
+
+    Returns
+    -------
+    list
+        List of chunked lists of filenames
+    """
+    tapes = set()
+    current_chunk = []
+    chunks = []
+    for tape_id, files in fileset.items():
+        for file in files:
+            # If adding another file will exceed tape threshold or we've hit the file limit save the chunk
+            if len(tapes | set([tape_id])) > tape_limit or len(current_chunk) == file_limit:
+                chunks.append(current_chunk)
+                tapes = set()
+                current_chunk = []
+            tapes.add(tape_id)
+            current_chunk.append(file)
+    # Add the final chunk
+    if current_chunk:
+        chunks.append(current_chunk)
+    return chunks
