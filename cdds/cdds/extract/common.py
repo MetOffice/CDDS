@@ -1091,18 +1091,15 @@ def fetch_filelist_from_mass(mass_dir, simulation=False):
     error
         An error output from MOOSE
     """
-    if simulation:
-        files = []
-        error = None
-    else:
+    files = []
+    error = None
+    if not simulation:
         try:
-            files = []
             cmd_out = run_command(["moo", "ls", "-m", mass_dir])
             filelines = cmd_out.split('\n')[0:-1]
             for fileline in filelines:
                 _, tape, _, _, _, filepath = fileline.split()
                 files.append((tape, filepath))
-            error = None
         except RuntimeError as e:
             files = []
             error = str(e)

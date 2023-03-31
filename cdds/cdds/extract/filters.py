@@ -805,7 +805,7 @@ class Filters(object):
         files_found = 0
         logger = logging.getLogger(__name__)
         for (tape, nc_file) in filelist:
-            result = re.search(regexp, nc_file[1])
+            result = re.search(regexp, nc_file)
             if result:
                 files_found += 1
                 _, file_start, file_end, _ = result.groups()
@@ -813,7 +813,7 @@ class Filters(object):
                 end_dt = datetime.datetime.strptime(file_end, "%Y%m%d")
                 if start_dt >= start and end_dt <= end:
                     files_on_tapes[tape].append(nc_file)
-        if not files_on_tapes:
+        if not files_found:
             return False
         if not self.simulation:
             logger.info(
