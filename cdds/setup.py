@@ -128,7 +128,8 @@ setup(
     zip_safe=False,
     entry_points={'compliance_checker.suites': [
         'cf17 = cdds.qc.plugins.cf17:CF17Check',
-        'cmip6 = cdds.qc.plugins.cmip6:CMIP6Check'
+        'cmip6 = cdds.qc.plugins.cmip6:CMIP6Check',
+        'cordex = cdds.qc.plugins.cordex:CordexCheck'
     ]
     }
 )
