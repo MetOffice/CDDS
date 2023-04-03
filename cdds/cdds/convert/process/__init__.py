@@ -871,7 +871,8 @@ class ConvertProcess(object):
             'RUN_TRANSFER': not self.skip_transfer,
             'START_DATE': str(start_date),
             'TARGET_SUITE_NAME': self.target_suite_name,
-            'USE_EXTERNAL_PLUGIN': use_external_plugin
+            'USE_EXTERNAL_PLUGIN': use_external_plugin,
+            'RELAXED_CMOR': self._arguments.relaxed_cmor
         }
         if use_external_plugin:
             changes_to_apply_all['EXTERNAL_PLUGIN'] = external_plugin

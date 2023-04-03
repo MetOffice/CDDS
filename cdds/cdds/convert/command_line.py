@@ -150,6 +150,11 @@ def parse_args_cdds_convert():
                         help='If present, the configure step will be skipped.',
                         action='store_true')
 
+    parser.add_argument('--relaxed_cmor',
+                        help='If specified, CMIP6 style validation is not performed by CMOR.',
+                        action='store_true'
+                        )
+
     parser.add_argument('-d',
                         '--data_request_version',
                         default=arguments.data_request_version,
