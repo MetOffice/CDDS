@@ -9,4 +9,3 @@ class UseCase8TestSetup:
     PREPARE_JSON = 'CMIP6_CMIP_piControl_UKESM1-0-LL.json'
     APPROVED_VARIABLES = 'approved_variables_2020-03-11T153255.txt'
     SPECIFIC_PROC_PATH = 'CMIP6/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/cdds_nightly_test_piControl'
-
