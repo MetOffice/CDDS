@@ -4,6 +4,7 @@ from cdds.archive.command_line import main_store
 from cdds.tests.test_archive.functional.store_test_tools import (DEFAULT_LOG_DATESTAMP, FileState, ArchiveMode,
                                                                  TestData, LogFile)
 from cdds.tests.test_archive.functional.store_test_case import StoreTestCase
+from cdds.tests.test_archive.functional.data.test_data_creator import create_use_case9_data
 from unittest import mock
 
 
@@ -28,10 +29,11 @@ class TestStorePrepending(StoreTestCase):
 
     @mock.patch('cdds.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
     def test_transfer_functional_usecase9_prepending(self, mock_log_datestamp):
+        test_dir = create_use_case9_data('piControl_10096_proc', 'piControl_10096_data')
         test_data = TestData(
             number_variables=1,
             proc_dir_name='piControl_10096_proc',
-            test_dir_root='/project/cdds/testdata/functional_tests/transfer/use_case9',
+            test_dir_root=test_dir,
             data_dir_name='piControl_10096_data',
             request_filename='cdds_request_piControl_10096.json',
             mass_root='moose:/adhoc/projects/cdds/testdata/transfer_functional',
