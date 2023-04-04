@@ -3,7 +3,7 @@
 from cdds.archive.command_line import main_store
 from cdds.tests.test_archive.functional.store_test_tools import DEFAULT_LOG_DATESTAMP, TestData, LogFile
 from cdds.tests.test_archive.functional.store_test_case import StoreTestCase
-from cdds.tests.test_archive.functional.data.test_data_creator import create_use_case8_data
+from cdds.tests.test_archive.functional.data.test_data_creator import create_use_case_various_data
 from unittest import mock
 
 
@@ -29,7 +29,7 @@ class TestStoreDatestampReuse(StoreTestCase):
 
     @mock.patch('cdds.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
     def test_transfer_functional_usecase8_datestamp_reuse(self, mock_log_datestamp):
-        test_dir = create_use_case8_data('piControl_10096_proc', 'piControl_10096_data')
+        test_dir = create_use_case_various_data('piControl_10096_proc', 'piControl_10096_data')
         test_data = TestData(
             number_variables=1,
             proc_dir_name='piControl_10096_proc',
