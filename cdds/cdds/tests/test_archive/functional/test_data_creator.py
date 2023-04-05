@@ -23,16 +23,13 @@ def create_use_case_various_data(proc_dir_name, data_dir_name):
     test_dir = tempfile.mkdtemp(suffix='use_case_various')
 
     # data dir
-    data_dir = os.path.join(test_dir, data_dir_name)
-    os.makedirs(data_dir)
-    tas_dir = os.path.join(data_dir,
-                           AMON_TAS_DIR_PATH)
-    os.makedirs(tas_dir, exist_ok=True)
-    touch_file(tas_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_196001-204912.nc')
-    touch_file(tas_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_205001-214912.nc')
-    touch_file(tas_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_215001-216912.nc')
+    output_dir = os.path.join(test_dir, data_dir_name, AMON_TAS_DIR_PATH)
+    os.makedirs(output_dir, exist_ok=True)
+    touch_file(output_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_196001-204912.nc')
+    touch_file(output_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_205001-214912.nc')
+    touch_file(output_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_215001-216912.nc')
 
-    create_proc_dir(proc_dir_name, tas_dir, test_dir)
+    create_proc_dir(proc_dir_name, output_dir, test_dir)
     return test_dir
 
 
@@ -40,10 +37,7 @@ def create_use_case10_data(proc_dir_name, data_dir_name):
     test_dir = tempfile.mkdtemp(suffix='use_case10')
 
     # data dir
-    data_dir = os.path.join(test_dir, data_dir_name)
-    os.makedirs(data_dir)
-    tas_dir = os.path.join(data_dir,
-                           AMON_TAS_DIR_PATH)
+    tas_dir = os.path.join(test_dir, data_dir_name, AMON_TAS_DIR_PATH)
     os.makedirs(tas_dir, exist_ok=True)
     touch_file(tas_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_190001-195912.nc')
 
@@ -55,10 +49,7 @@ def create_use_case9_data(proc_dir_name, data_dir_name):
     test_dir = tempfile.mkdtemp(suffix='use_case9')
 
     # data dir
-    data_dir = os.path.join(test_dir, data_dir_name)
-    os.makedirs(data_dir)
-    tas_dir = os.path.join(data_dir,
-                           AMON_TAS_DIR_PATH)
+    tas_dir = os.path.join(test_dir, data_dir_name, AMON_TAS_DIR_PATH)
     os.makedirs(tas_dir, exist_ok=True)
     touch_file(tas_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_190001-195912.nc')
 
@@ -69,18 +60,14 @@ def create_use_case9_data(proc_dir_name, data_dir_name):
 
 def create_proc_dir(proc_dir_name, tas_dir, test_dir):
     proc_dir = os.path.join(test_dir, proc_dir_name)
-    os.makedirs(proc_dir)
-    prepare_dir = os.path.join(proc_dir,
-                               PREPARE_DIR_PATH)
+    prepare_dir = os.path.join(proc_dir, PREPARE_DIR_PATH)
     os.makedirs(prepare_dir)
-    qc_dir = os.path.join(proc_dir,
-                          QC_DIR_PATH)
+    qc_dir = os.path.join(proc_dir, QC_DIR_PATH)
     os.makedirs(qc_dir)
-    archive_dir = os.path.join(proc_dir,
-                               ARCHIVE_DIR_PATH)
+    archive_dir = os.path.join(proc_dir, ARCHIVE_DIR_PATH)
     os.makedirs(archive_dir)
     current_dir = os.path.dirname(os.path.realpath(__file__))
-    source_dir = os.path.join(current_dir, 'use_case_various')
+    source_dir = os.path.join(current_dir, 'data')
     # copy request-file
     shutil.copy(
         os.path.join(source_dir, REQUEST_JSON_FILENAME),

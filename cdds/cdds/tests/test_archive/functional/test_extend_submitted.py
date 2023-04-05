@@ -4,7 +4,7 @@ from cdds.archive.command_line import main_store
 from cdds.tests.test_archive.functional.store_test_tools import (DEFAULT_LOG_DATESTAMP, TestData, FileState,
                                                                  LogFile, ArchiveMode)
 from cdds.tests.test_archive.functional.store_test_case import StoreTestCase
-from cdds.tests.test_archive.functional.data.test_data_creator import create_use_case3_data
+from cdds.tests.test_archive.functional.test_data_creator import create_use_case3_data
 from unittest import mock
 
 
