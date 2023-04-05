@@ -32,35 +32,7 @@ def create_use_case_various_data(proc_dir_name, data_dir_name):
     touch_file(tas_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_205001-214912.nc')
     touch_file(tas_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_215001-216912.nc')
 
-    # proc dir
-    proc_dir = os.path.join(test_dir, proc_dir_name)
-    os.makedirs(proc_dir)
-
-    prepare_dir = os.path.join(proc_dir,
-                               PREPARE_DIR_PATH)
-    os.makedirs(prepare_dir)
-
-    qc_dir = os.path.join(proc_dir,
-                          QC_DIR_PATH)
-    os.makedirs(qc_dir)
-
-    archive_dir = os.path.join(proc_dir,
-                               ARCHIVE_DIR_PATH)
-    os.makedirs(archive_dir)
-
-    current_dir = os.path.dirname(os.path.realpath(__file__))
-    source_dir = os.path.join(current_dir, 'use_case_various')
-
-    # copy request-file
-    shutil.copy(
-        os.path.join(source_dir, REQUEST_JSON_FILENAME),
-        test_dir)
-
-    shutil.copy(
-        os.path.join(source_dir, PREPARE_JSON_FILENAME),
-        prepare_dir)
-
-    create_approved_variables_file(qc_dir, APPROVED_VARIABLES_FILENAME, 'Amon', 'tas', tas_dir)
+    create_proc_dir(proc_dir_name, tas_dir, test_dir)
     return test_dir
 
 
@@ -75,35 +47,7 @@ def create_use_case10_data(proc_dir_name, data_dir_name):
     os.makedirs(tas_dir, exist_ok=True)
     touch_file(tas_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_190001-195912.nc')
 
-    # proc dir
-    proc_dir = os.path.join(test_dir, proc_dir_name)
-    os.makedirs(proc_dir)
-
-    prepare_dir = os.path.join(proc_dir,
-                               PREPARE_DIR_PATH)
-    os.makedirs(prepare_dir)
-
-    qc_dir = os.path.join(proc_dir,
-                          QC_DIR_PATH)
-    os.makedirs(qc_dir)
-
-    archive_dir = os.path.join(proc_dir,
-                               ARCHIVE_DIR_PATH)
-    os.makedirs(archive_dir)
-
-    current_dir = os.path.dirname(os.path.realpath(__file__))
-    source_dir = os.path.join(current_dir, 'use_case_10')
-
-    # copy request-file
-    shutil.copy(
-        os.path.join(source_dir, REQUEST_JSON_FILENAME),
-        test_dir)
-
-    shutil.copy(
-        os.path.join(source_dir, PREPARE_JSON_FILENAME),
-        prepare_dir)
-
-    create_approved_variables_file(qc_dir, APPROVED_VARIABLES_FILENAME, 'Amon', 'tas', tas_dir)
+    create_proc_dir(proc_dir_name, tas_dir, test_dir)
     return test_dir
 
 
@@ -119,35 +63,32 @@ def create_use_case9_data(proc_dir_name, data_dir_name):
     touch_file(tas_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_190001-195912.nc')
 
     # proc dir
+    create_proc_dir(proc_dir_name, tas_dir, test_dir)
+    return test_dir
+
+
+def create_proc_dir(proc_dir_name, tas_dir, test_dir):
     proc_dir = os.path.join(test_dir, proc_dir_name)
     os.makedirs(proc_dir)
-
     prepare_dir = os.path.join(proc_dir,
                                PREPARE_DIR_PATH)
     os.makedirs(prepare_dir)
-
     qc_dir = os.path.join(proc_dir,
                           QC_DIR_PATH)
     os.makedirs(qc_dir)
-
     archive_dir = os.path.join(proc_dir,
                                ARCHIVE_DIR_PATH)
     os.makedirs(archive_dir)
-
     current_dir = os.path.dirname(os.path.realpath(__file__))
-    source_dir = os.path.join(current_dir, 'use_case_9')
-
+    source_dir = os.path.join(current_dir, 'use_case_various')
     # copy request-file
     shutil.copy(
         os.path.join(source_dir, REQUEST_JSON_FILENAME),
         test_dir)
-
     shutil.copy(
         os.path.join(source_dir, PREPARE_JSON_FILENAME),
         prepare_dir)
-
     create_approved_variables_file(qc_dir, APPROVED_VARIABLES_FILENAME, 'Amon', 'tas', tas_dir)
-    return test_dir
 
 
 def create_use_case3_data(proc_dir_name, data_dir_name):
@@ -161,35 +102,7 @@ def create_use_case3_data(proc_dir_name, data_dir_name):
     nc_file_name = 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_215001-216912.nc'
     touch_file(tas_dir, nc_file_name)
 
-    # proc_dir
-    proc_dir = os.path.join(test_dir, proc_dir_name)
-    os.makedirs(proc_dir)
-
-    prepare_dir = os.path.join(proc_dir,
-                               PREPARE_DIR_PATH)
-    os.makedirs(prepare_dir)
-
-    qc_dir = os.path.join(proc_dir,
-                          QC_DIR_PATH)
-    os.makedirs(qc_dir)
-
-    archive_dir = os.path.join(proc_dir,
-                               ARCHIVE_DIR_PATH)
-    os.makedirs(archive_dir)
-
-    current_dir = os.path.dirname(os.path.realpath(__file__))
-    source_dir = os.path.join(current_dir, 'use_case_3')
-
-    # copy request-file
-    shutil.copy(
-        os.path.join(source_dir, REQUEST_JSON_FILENAME),
-        test_dir)
-
-    shutil.copy(
-        os.path.join(source_dir, PREPARE_JSON_FILENAME),
-        prepare_dir)
-
-    create_approved_variables_file(qc_dir, APPROVED_VARIABLES_FILENAME, 'Amon', 'tas', tas_dir)
+    create_proc_dir(proc_dir_name, tas_dir, test_dir)
     return test_dir
 
 
