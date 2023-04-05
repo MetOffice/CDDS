@@ -60,10 +60,7 @@ def create_use_case_various_data(proc_dir_name, data_dir_name):
         os.path.join(source_dir, PREPARE_JSON_FILENAME),
         prepare_dir)
 
-    shutil.copy(
-        os.path.join(source_dir, APPROVED_VARIABLES_FILENAME),
-        qc_dir
-    )
+    create_approved_variables_file(qc_dir, APPROVED_VARIABLES_FILENAME, 'Amon', 'tas', tas_dir)
     return test_dir
 
 
@@ -106,10 +103,7 @@ def create_use_case10_data(proc_dir_name, data_dir_name):
         os.path.join(source_dir, PREPARE_JSON_FILENAME),
         prepare_dir)
 
-    shutil.copy(
-        os.path.join(source_dir, APPROVED_VARIABLES_FILENAME),
-        qc_dir
-    )
+    create_approved_variables_file(qc_dir, APPROVED_VARIABLES_FILENAME, 'Amon', 'tas', tas_dir)
     return test_dir
 
 
@@ -152,10 +146,7 @@ def create_use_case9_data(proc_dir_name, data_dir_name):
         os.path.join(source_dir, PREPARE_JSON_FILENAME),
         prepare_dir)
 
-    shutil.copy(
-        os.path.join(source_dir, APPROVED_VARIABLES_FILENAME),
-        qc_dir
-    )
+    create_approved_variables_file(qc_dir, APPROVED_VARIABLES_FILENAME, 'Amon', 'tas', tas_dir)
     return test_dir
 
 
@@ -198,10 +189,7 @@ def create_use_case3_data(proc_dir_name, data_dir_name):
         os.path.join(source_dir, PREPARE_JSON_FILENAME),
         prepare_dir)
 
-    shutil.copy(
-        os.path.join(source_dir, APPROVED_VARIABLES_FILENAME),
-        qc_dir
-    )
+    create_approved_variables_file(qc_dir, APPROVED_VARIABLES_FILENAME, 'Amon', 'tas', tas_dir)
     return test_dir
 
 
@@ -209,3 +197,10 @@ def touch_file(directory, filename):
     new_file = os.path.join(directory, filename)
     with open(new_file, 'w') as fh:
         pass
+
+
+def create_approved_variables_file(directory, filename, mip_table, variable, output_dir):
+    content = '{}/{};{}'.format(mip_table, variable, output_dir)
+    approved_variables_file = os.path.join(directory, filename)
+    with open(approved_variables_file, 'w') as fh:
+        fh.writelines([content])

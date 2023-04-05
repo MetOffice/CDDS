@@ -1,1 +1,0 @@
-Amon/tas;/project/cdds/testdata/functional_tests/transfer/use_case10/piControl_10096_data/CMIP6/CMIP/UKESM1-0-LL/piControl/r1i1p1f2/cdds_nightly_test_piControl/output/ap5/Amon/tas

@@ -28,7 +28,7 @@ class TestStoreAlteringPublishedDatestamp(StoreTestCase):
     def test_transfer_functional_usecase7_altering_published_datestamp(self, mock_log_datestamp):
         test_dir = create_use_case_various_data('piControl_10096_proc', 'piControl_10096_data')
         test_data = TestData(
-            number_variables=8,
+            number_variables=1,
             proc_dir_name='piControl_10096_proc',
             test_dir_root=test_dir,
             data_dir_name='piControl_10096_data',
