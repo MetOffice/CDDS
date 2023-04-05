@@ -3,7 +3,7 @@
 from cdds.archive.command_line import main_store
 from cdds.tests.test_archive.functional.store_test_tools import DEFAULT_LOG_DATESTAMP, TestData, LogFile
 from cdds.tests.test_archive.functional.store_test_case import StoreTestCase
-from cdds.tests.test_archive.functional.test_data_creator import create_use_case_various_data
+from cdds.tests.test_archive.functional.store_test_data import setup_basic_test_data
 from unittest import mock
 
 
@@ -26,7 +26,7 @@ class TestStoreAlteringPublishedDatestamp(StoreTestCase):
 
     @mock.patch('cdds.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
     def test_transfer_functional_usecase7_altering_published_datestamp(self, mock_log_datestamp):
-        test_dir = create_use_case_various_data('piControl_10096_proc', 'piControl_10096_data')
+        test_dir = setup_basic_test_data('piControl_10096_proc', 'piControl_10096_data')
         test_data = TestData(
             number_variables=1,
             proc_dir_name='piControl_10096_proc',

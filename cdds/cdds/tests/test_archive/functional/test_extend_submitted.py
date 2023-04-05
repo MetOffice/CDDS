@@ -4,7 +4,7 @@ from cdds.archive.command_line import main_store
 from cdds.tests.test_archive.functional.store_test_tools import (DEFAULT_LOG_DATESTAMP, TestData, FileState,
                                                                  LogFile, ArchiveMode)
 from cdds.tests.test_archive.functional.store_test_case import StoreTestCase
-from cdds.tests.test_archive.functional.test_data_creator import create_use_case3_data
+from cdds.tests.test_archive.functional.store_test_data import setup_extend_submitted_test_data
 from unittest import mock
 
 
@@ -33,7 +33,7 @@ class TestStoreExtendSubmitted(StoreTestCase):
 
     @mock.patch('cdds.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
     def test_transfer_functional_usecase3_extend_submitted(self, mock_log_datestamp):
-        test_dir = create_use_case3_data('piControl_10096_proc', 'piControl_10096_data')
+        test_dir = setup_extend_submitted_test_data('piControl_10096_proc', 'piControl_10096_data')
         test_data = TestData(
             number_variables=1,
             proc_dir_name='piControl_10096_proc',
