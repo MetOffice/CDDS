@@ -1,13 +1,15 @@
 # (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
 from unittest import TestCase, mock
+import os
 import pytest
+import shutil
 
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.mass import mass_info
 
 
-@pytest.mark.slow
+# @pytest.mark.slow
 class StoreTestCase(TestCase):
     """
     TEST DIRECTORY
@@ -46,3 +48,7 @@ class StoreTestCase(TestCase):
         for message in messages:
             for expected_sub_message in expected_sub_messages:
                 self.assertIn(expected_sub_message, message)
+
+    def tearDown(self):
+        if self.test_dir and os.path.exists(self.test_dir):
+            shutil.rmtree(self.test_dir)

@@ -5,6 +5,7 @@ import tempfile
 import shutil
 
 APPROVED_VARIABLES_FILENAME = 'approved_variables_2020-03-11T153255.txt'
+ONLY_AP5_APPROVED_VARIABLES_FILENAME = 'approved_variables_ap5_2020-03-11T153255.txt'
 PREPARE_JSON_FILENAME = 'CMIP6_CMIP_piControl_UKESM1-0-LL.json'
 REQUEST_JSON_FILENAME = 'cdds_request_piControl_10096.json'
 ARCHIVE_DIR_PATH = 'CMIP6/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/cdds_nightly_test_piControl/archive'
@@ -25,6 +26,21 @@ def setup_basic_test_data(proc_dir_name, data_dir_name):
 
     # create proc directory
     _setup_proc_dir(test_dir, proc_dir_name, output_dir)
+    return test_dir
+
+
+def setup_only_ap5_test_data(proc_dir_name, data_dir_name):
+    test_dir = tempfile.mkdtemp(suffix='use_case_ap5_only')
+
+    # create nc files for tests in data directory
+    output_dir = os.path.join(test_dir, data_dir_name, AMON_TAS_DIR_PATH)
+    os.makedirs(output_dir, exist_ok=True)
+    _touch_file(output_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_196001-204912.nc')
+    _touch_file(output_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_205001-214912.nc')
+    _touch_file(output_dir, 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_215001-216912.nc')
+
+    # create proc directory
+    _setup_proc_dir(test_dir, proc_dir_name, output_dir, ONLY_AP5_APPROVED_VARIABLES_FILENAME)
     return test_dir
 
 
@@ -68,7 +84,8 @@ def setup_extend_submitted_test_data(proc_dir_name, data_dir_name):
     return test_dir
 
 
-def _setup_proc_dir(test_dir, proc_dir_name, variable_output_dir):
+def _setup_proc_dir(test_dir, proc_dir_name, variable_output_dir,
+                    approved_variable_filename=APPROVED_VARIABLES_FILENAME):
     proc_dir = os.path.join(test_dir, proc_dir_name)
 
     # setup necessary proc directory structure
@@ -86,7 +103,7 @@ def _setup_proc_dir(test_dir, proc_dir_name, variable_output_dir):
     shutil.copy(os.path.join(source_dir, PREPARE_JSON_FILENAME), prepare_dir)
 
     # create approved variables file
-    _create_approved_variables_file(qc_dir, APPROVED_VARIABLES_FILENAME, 'Amon', 'tas', variable_output_dir)
+    _create_approved_variables_file(qc_dir, approved_variable_filename, 'Amon', 'tas', variable_output_dir)
 
 
 def _touch_file(directory, filename):
