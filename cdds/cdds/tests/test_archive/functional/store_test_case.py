@@ -9,7 +9,7 @@ from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.mass import mass_info
 
 
-# @pytest.mark.slow
+@pytest.mark.slow
 class StoreTestCase(TestCase):
     """
     TEST DIRECTORY
