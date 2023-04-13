@@ -93,7 +93,7 @@ def main():
     if arguments.stdout_verbose and os.path.exists(LOG_NAME):
         with open(LOG_NAME, 'r') as fh:
             for line in fh.readlines():
-                print(line)
+                print(line.strip())
     return exit_code
 
 
