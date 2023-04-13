@@ -12,6 +12,7 @@ For running the test:
 3. Source the environment script
 4. Run this script
 """
+import argparse
 import datetime
 import os
 import subprocess
@@ -45,11 +46,18 @@ def print_success(text):
     print("\033[92m {}\033[00m".format(text))
 
 
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='Run all tests configuration')
+    parser.add_argument('-v', '--stdout_verbose', dest='stdout_verbose', action='store_true', help='Verbose stdout')
+    return parser.parse_args()
+
+
 def main():
     """
     Run all the tests using RabbitMQ in the CDDS packages.
     """
     exit_code = 0
+    arguments = parse_arguments()
     for package, tests in TESTS_TO_RUN.items():
         print('\nExecuting tests for {}:'.format(package))
         for test in tests:
@@ -76,6 +84,10 @@ def main():
                     file_handle.write(stdoutdata.decode('utf-8'))
                     file_handle.write(stderrdata.decode('utf-8'))
                     file_handle.write('\n')
+    if arguments.stdout_verbose and os.path.exists(LOG_NAME):
+        with open(LOG_NAME, 'r') as fh:
+            for line in fh.readlines():
+                print(line.strip())
     return exit_code
 
 
