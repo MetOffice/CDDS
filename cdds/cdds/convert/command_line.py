@@ -342,6 +342,10 @@ def _parse_run_mip_convert_parameters(arguments):
                         default='',
                         type=str,
                         help='Path to the external CDDS plugin implementation')
+    parser.add_argument('--relaxed_cmor',
+                        help='If specified, CMIP6 style validation is not performed by CMOR.',
+                        action='store_true'
+                        )
     parsed_arguments = parser.parse_args(args=user_arguments)
     arguments.add_user_args(parsed_arguments)
     load_plugin(arguments.mip_era, arguments.external_plugin, arguments.external_plugin_location)

@@ -846,6 +846,8 @@ class ConvertProcess(object):
             external_plugin = self._arguments.external_plugin
             external_plugin_location = self._arguments.external_plugin_location
 
+        print('Arguments of relaxed cmor: {}'.format(self._arguments.relaxed_cmor))
+
         changes_to_apply_all = {
             'MIP_ERA': self._arguments.mip_era,
             'CDDS_CONVERT_PROC_DIR': self._full_paths.component_directory('convert'),
@@ -887,6 +889,8 @@ class ConvertProcess(object):
             changes_to_apply_all['LOCATION'] = location
 
         try:
+            print("Changes to apply:")
+            print(changes_to_apply_all)
             changes_applied = suite_interface.update_suite_conf_file(rose_suite_conf_file, section_name,
                                                                      changes_to_apply_all, raw_value=False)
         except Exception as err:
