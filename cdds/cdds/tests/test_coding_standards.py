@@ -68,7 +68,8 @@ class TestCodingStandards(unittest.TestCase):
 
     def get_copyright_files(self):
         self.exclude_patterns.extend(
-            ['egg-info', 'EGG-INFO', 'dist', '.pyc', 'doctrees', 'html', 'pylintrc', 'TAGS', 'json', 'todel', 'nfsc']
+            ['egg-info', 'EGG-INFO', 'dist', '.pyc', 'doctrees', 'html',
+             'pylintrc', 'TAGS', 'json', 'todel', 'nfsc', 'txt']
         )
 
         return [

@@ -4,6 +4,7 @@ from cdds.archive.command_line import main_store
 from cdds.tests.test_archive.functional.store_test_tools import (DEFAULT_LOG_DATESTAMP, FileState, ArchiveMode,
                                                                  TestData, LogFile)
 from cdds.tests.test_archive.functional.store_test_case import StoreTestCase
+from cdds.tests.test_archive.functional.store_test_data import setup_prepending_to_embargoed_test_data
 from unittest import mock
 
 
@@ -31,11 +32,12 @@ class TestStorePrependingToEmbargoed(StoreTestCase):
 
     @mock.patch('cdds.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
     def test_transfer_functional_usecase10_prepending_to_embargoed(self, mock_log_datestamp):
+        self.test_dir = setup_prepending_to_embargoed_test_data('piControl_10096_proc', 'piControl_10096_data')
         test_data = TestData(
             number_variables=1,
             data_version='v20191120',
             proc_dir_name='piControl_10096_proc',
-            test_dir_root='/project/cdds/testdata/functional_tests/transfer/use_case10',
+            test_dir_root=self.test_dir,
             data_dir_name='piControl_10096_data',
             request_filename='cdds_request_piControl_10096.json',
             mass_root='moose:/adhoc/projects/cdds/testdata/transfer_functional',

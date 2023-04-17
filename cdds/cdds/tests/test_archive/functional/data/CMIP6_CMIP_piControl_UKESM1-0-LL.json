@@ -1,0 +1,70 @@
+{
+  "MAX_PRIORITY":2,
+  "MIPS_RESPONDED_TO":[
+    "AerChemMIP",
+    "C4MIP",
+    "CDRMIP",
+    "CFMIP",
+    "CMIP",
+    "CORDEX",
+    "DAMIP",
+    "DCPP",
+    "DynVar",
+    "FAFMIP",
+    "GeoMIP",
+    "GMMIP",
+    "HighResMIP",
+    "ISMIP6",
+    "LS3MIP",
+    "LUMIP",
+    "OMIP",
+    "PAMIP",
+    "PMIP",
+    "RFMIP",
+    "ScenarioMIP",
+    "SIMIP",
+    "VIACSAB",
+    "VolMIP"
+  ],
+  "checksum":"md5: 73c806e31fd837d9bcc5e3c7bd237d98",
+  "data_request_version":"01.00.29",
+  "experiment_id":"piControl",
+  "history":[
+    {
+      "comment":"Requested variables file created.",
+      "time":"2023-04-12T14:42:37.090703"
+    }
+  ],
+  "metadata":{
+    "data_request_version":"01.00.29"
+  },
+  "mip":"CMIP",
+  "mip_era":"CMIP6",
+  "model_id":"UKESM1-0-LL",
+  "model_type":"AOGCM BGC AER CHEM",
+  "production_info":"Produced using CDDS Prepare version \"2.4.1.dev0+CDDSO-131-remove-dependency-on-locally-stored-files.bd03a83\"",
+  "requested_variables":[
+    {
+      "active":true,
+      "cell_methods":"area: time: mean",
+      "comments":[],
+      "dimensions":[
+        "longitude",
+        "latitude",
+        "time",
+        "height2m"
+      ],
+      "frequency":"mon",
+      "in_mappings":true,
+      "in_model":true,
+      "label":"tas",
+      "miptable":"Amon",
+      "producible":"yes",
+      "stream":"ap5"
+    }
+  ],
+  "status":"ok",
+  "suite_branch":"cdds",
+  "suite_id":"u-aw310",
+  "suite_revision":"115492"
+}
