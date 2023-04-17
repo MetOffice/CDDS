@@ -107,7 +107,7 @@ def parse_parameters(args):
                         help='Specify the datestamp to use for the log files.',
                         default=None
                         )
-    parser.add_argument('--relaxed-cmor',
+    parser.add_argument('--relaxed_cmor',
                         help='If specified, CMIP6 style validation is not performed by CMOR.',
                         action='store_true'
                         )

@@ -53,7 +53,7 @@ class TestParseParameters(unittest.TestCase):
     def test_parameteres_with_relaxed_cmor(self, mock_isfile):
         mock_isfile.return_value = True
         cfg_path = '/dummy/config/path/mip_convert.cfg'
-        ret_val1 = parse_parameters([cfg_path, '--log_name', 'output.log', '-v', '--relaxed-cmor'])
+        ret_val1 = parse_parameters([cfg_path, '--log_name', 'output.log', '-v', '--relaxed_cmor'])
         expected = argparse.Namespace(append_log=False,
                                       config_file=cfg_path,
                                       datestamp=None,
@@ -67,7 +67,7 @@ class TestParseParameters(unittest.TestCase):
         self.assertEqual(ret_val1, expected)
         # Use a string exactly as it would be used on the command line as the
         # value of the ``args`` parameter:
-        result = parse_parameters([cfg_path] + '--log_name output.log -v --relaxed-cmor'.split())
+        result = parse_parameters([cfg_path] + '--log_name output.log -v --relaxed_cmor'.split())
         self.assertEqual(result, expected)
 
     @patch('os.path.isfile')
