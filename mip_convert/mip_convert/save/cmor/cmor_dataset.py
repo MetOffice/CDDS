@@ -53,8 +53,10 @@ class Dataset(object):
             if attribute not in self.items:
                 raise RuntimeError(msg.format(attribute, 'missing'))
             self.logger.debug(msg.format(attribute, 'exists'))
-        self.validate_activity_id_values()
-        self.validate_source_type_values()
+        if not self._relaxed_cmor:
+            print('relaxed cmor: '.format(self._relaxed_cmor))
+            self.validate_activity_id_values()
+            self.validate_source_type_values()
 
     def validate_activity_id_values(self):
         """
