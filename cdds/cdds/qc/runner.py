@@ -122,6 +122,11 @@ class QCRunner(object):
             "cf17": {
                 "standard_names_version": standard_names_version,
                 "standard_names_dir": standard_names_dir
+            },
+            "cordex": {
+                "mip_tables_dir": mip_tables_dir,
+                "cv_location": cv_location,
+                "request": request
             }
         }
         for checker_key in conf.keys():
