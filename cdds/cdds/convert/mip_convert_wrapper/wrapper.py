@@ -159,10 +159,6 @@ def run_mip_convert_wrapper(arguments):
     mip_convert_log_arg = arguments.mip_convert_log_base_name
     mip_convert_log = '{0}_{1}.log'.format(arguments.mip_convert_log_base_name,
                                            timestamp)
-    # import debugpy
-    # debugpy.listen(('vld767', 7680))
-    # debugpy.wait_for_client()
-    # breakpoint()
     # Run mip convert
     exit_code = run_mip_convert(stream, dummy_run, timestamp,
                                 arguments.user_config_template_name,
