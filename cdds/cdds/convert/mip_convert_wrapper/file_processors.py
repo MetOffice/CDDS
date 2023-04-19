@@ -36,16 +36,12 @@ def parse_atmos_monthly_filename(fname, pattern):
     ----------
     fname: str
         The filename to parse.
-    stream: str
-        The name of the stream of the file.
     pattern: _sre.SRE_Pattern
         A compiled regular expression object, for parsing the filename.
-    model_id: str
-        Id of the model that should be considered
 
     Returns
     -------
-    : dict
+    file_dict : dict
         A dictionary with the attributes of the filename, such as start and #
         end dates.
 
@@ -69,16 +65,12 @@ def parse_atmos_submonthly_filename(fname, pattern):
     ----------
     fname: str
         The filename to parse.
-    stream: str
-        The name of the stream of the file.
     pattern: _sre.SRE_Pattern
         A compiled regular expression object, for parsing the filename.
-    model_id: str
-        ID of the considered model
 
     Returns
     -------
-    : dict
+    file_dict : dict
         A dictionary with the attributes of the filename, such as start and #
         end dates.
 
@@ -103,19 +95,14 @@ def parse_atmos_daily_filename(fname, pattern):
     ----------
     fname: str
         The filename to parse.
-    stream: str
-        The name of the stream of the file.
     pattern: _sre.SRE_Pattern
         A compiled regular expression object, for parsing the filename.
-    model_id: str
-        ID of the considered model
 
     Returns
     -------
-    : dict
+    file_dict : dict
         A dictionary with the attributes of the filename, such as start and #
         end dates.
-
     """
 
     file_dict = pattern.search(fname).groupdict()
@@ -135,19 +122,14 @@ def parse_ocean_seaice_filename(fname, pattern):
     ----------
     fname: str
         The filename to parse.
-    stream: str
-        The name of the stream of the file.
     pattern: _sre.SRE_Pattern
         A compiled regular expression object, for parsing the filename.
-    model_id: str
-        ID of the considered model
 
     Returns
     -------
-    : dict
+    file_dict : dict
         A dictionary with the attributes of the filename, such as start and #
         end dates.
-
     """
     file_dict = pattern.search(fname).groupdict()
     file_dict['start'] = TimePointParser().parse(file_dict['start_str'], dump_format='%Y%m%d')
