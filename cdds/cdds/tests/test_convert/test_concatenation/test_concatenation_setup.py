@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name
 """
@@ -216,7 +216,6 @@ class TestOrganiseConcatenations(unittest.TestCase):
 
     def setUp(self):
         Calendar.default().set_mode('360_day')
-        self.maxDiff = None
 
     def _generate_test_data(self, ref, start, end, chunk_start, chunk_end,
                             concat_cycle, concat_window, mc_cycle):
