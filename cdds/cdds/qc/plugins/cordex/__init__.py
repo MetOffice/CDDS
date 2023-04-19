@@ -22,8 +22,8 @@ class CordexCheck(BaseNCCheck):
     Cordex checker class
     """
 
-    register_checker: bool = True
-    name: str = 'cordex'
+    register_checker = True
+    name = "cordex"
 
     __cache: CheckCache = CheckCache()
 
