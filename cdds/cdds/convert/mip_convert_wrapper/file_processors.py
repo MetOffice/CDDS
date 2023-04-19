@@ -88,8 +88,7 @@ def parse_atmos_submonthly_filename(fname, pattern):
 
 def parse_atmos_daily_filename(fname, pattern):
     """
-    Parse filenames of files in the atmosphere stream contain less than a
-    month of data.
+    Parse filenames of files in the atmosphere stream that contain a day of data.
 
     Parameters
     ----------

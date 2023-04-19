@@ -251,7 +251,6 @@ class TestMisc(TestCase):
     def setUp(self):
         load_plugin()
         Calendar.default().set_mode('360_day')
-        self.maxDiff = None
 
     @mock.patch('os.listdir')
     def test_get_paths(self, mock_list_dir):

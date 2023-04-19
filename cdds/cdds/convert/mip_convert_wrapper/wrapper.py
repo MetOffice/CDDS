@@ -65,8 +65,8 @@ def run_mip_convert_wrapper(arguments):
         err_msg = err_msg.format(var=ke1)
         raise WrapperEnvironmentError(err_msg)
 
-    Calendar.default().set_mode(calendar)
     logger.info('Setting Calendar: {}'.format(calendar))
+    Calendar.default().set_mode(calendar)
 
     # Calculate start and end dates for this step
     # Final date is the 1st of January in the year after final_year (the final
