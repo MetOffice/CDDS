@@ -13,7 +13,7 @@ from cdds.common.constants import (
     APPROVED_VARS_FILENAME_STREAM_TEMPLATE,
 )
 from cdds.common.sqlite import execute_insert_query
-from cdds.qc.dataset import StructuredDataset
+from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
 from cdds.qc.models import (
     setup_db,
     get_qc_runs, get_qc_files, get_error_counts, get_aggregated_errors,
@@ -23,7 +23,7 @@ from cdds.qc.constants import (
     STATUS_ERROR, STATUS_WARNING, STATUS_IGNORED,
     SUMMARY_STARTED, SUMMARY_FAILED, SUMMARY_PASSED,
     QC_REPORT_STREAM_FILENAME, QC_REPORT_FILENAME)
-from cdds.qc.contiguity_checker import CMIP6CollectionsCheck
+from cdds.qc.contiguity_checker import CollectionsCheck
 
 
 class QCRunner(object):
@@ -60,7 +60,7 @@ class QCRunner(object):
         """
 
         assert isinstance(check_suite, CheckSuite)
-        assert isinstance(dataset, StructuredDataset)
+        assert isinstance(dataset, Cmip6Dataset)
 
         self.check_suite = check_suite
         self.check_suite.load_all_available_checkers()
@@ -88,6 +88,12 @@ class QCRunner(object):
         methods = inspect.getmembers(
             self.check_suite.checkers[checker_name](), inspect.ismethod)
         return [x[0] for x in methods if x[0].startswith("check_")]
+
+    def check_if_module_avaiable(self, checker_key):
+        if checker_key not in self.check_suite.checkers.keys():
+            msg = "Could not find qc plugin {}. Please make sure it has been installed.".format(checker_key)
+            self.logger.critical(msg)
+            raise ModuleNotFoundError(msg)
 
     def run_tests(self, mip_tables_dir, standard_names_dir, standard_names_version, request, run_id=None):
         """
@@ -146,7 +152,7 @@ class QCRunner(object):
         })
         self.db.commit()
         qc_run_id = cursor.lastrowid
-        contiguity_checker = CMIP6CollectionsCheck()
+        contiguity_checker = CollectionsCheck()
         self.logger.info("Checking filenames")
         file_errors = self.dataset.check_filenames_and_sizes()
         self.logger.info("Checking time contiguity")
