@@ -89,12 +89,6 @@ class QCRunner(object):
             self.check_suite.checkers[checker_name](), inspect.ismethod)
         return [x[0] for x in methods if x[0].startswith("check_")]
 
-    def check_if_module_avaiable(self, checker_key):
-        if checker_key not in self.check_suite.checkers.keys():
-            msg = "Could not find qc plugin {}. Please make sure it has been installed.".format(checker_key)
-            self.logger.critical(msg)
-            raise ModuleNotFoundError(msg)
-
     def run_tests(self, mip_tables_dir, standard_names_dir, standard_names_version, request, run_id=None):
         """
         Runs all ioos and ad-hoc checks
