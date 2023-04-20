@@ -10,7 +10,7 @@ import os
 import shutil
 
 
-class StructuredDatasetTestCase(unittest.TestCase):
+class Cmip6DatasetTestCase(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
         self.mip_tables = MipTables(os.path.join(MIP_TABLES_DIR, '01.00.29'))

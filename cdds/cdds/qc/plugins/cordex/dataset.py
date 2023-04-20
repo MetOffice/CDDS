@@ -38,13 +38,16 @@ class CordexDataset(StructuredDataset):
     def check_filename(self, ds, filename):
         """
         Tests filename's facets against a CV, e.g.
-        <variable_id>   tas
-        <table_id>      Amon
-        <source_id>     hadgem3-es
-        <experiment_id> piCtrl
-        <member_id>     r1i1p1f1
-        <grid_label>    gn
-        [<time_range>]  201601-210012
+
+        <variable_id>               pr
+        <domain>                    ALP-3
+        <driving_model_id>          ECMWF-ERAINT
+        <experiment_id>             evaluation
+        <driving_ensemble_member>   r1i1p1
+        <model_id>                  CLMcom-KIT-CCLM5-0-14
+        <rcm_version_id>            fpsconv-x2yn2-v1
+        <frequency>                 1hr
+        [<time_range>]              200001010030-200012312330
         .nc
 
         Parameters
@@ -60,10 +63,7 @@ class CordexDataset(StructuredDataset):
         """
         filename_parts = filename.split('.')[0].split('_')
         template_dict = {
-            "table_id": 1,
-            "source_id": 2,
             "experiment_id": 3,
-            "grid_label": 5
         }
 
         messages = []
@@ -88,57 +88,29 @@ class CordexDataset(StructuredDataset):
         # member_id might be just a variant_label or contain a subexperiment_id
         member_id = filename_parts[4].split('-')
 
-        if len(member_id) > 1:
-            # subexperiment_id is present
-            try:
-                if ds.getncattr("sub_experiment_id") == "none":
-                    messages.append(
-                        "sub_experiment_id present in the filename but "
-                        "missing in file's global attributes")
-                    valid_filename = False
-
-            except AttributeError:
-                # raised if something's wrong with global attributes
-                # it should be validated again by the global attributes checker
-                messages.append("Attribute 'sub_experiment_id' missing from "
-                                "the ncdf file".format(cv))
-            label_candidate = member_id[1]
-
-        else:
-            # member_id should only contain variant_label
-            if (hasattr(ds, "sub_experiment_id") and
-                    ds.getncattr("sub_experiment_id") != "none"):
-                messages.append(
-                    "sub_experiment_id present in file's global attributes "
-                    "but missing in the filename")
-                valid_filename = False
-            label_candidate = member_id[0]
-        if re.match(r"^r\d+i\d+p\d+f\d+$", label_candidate) is None:
-            valid_filename = False
-            messages.append("Invalid variant_label {}".format(label_candidate))
-        else:
-            variant_label = ds.getncattr("variant_label")
-            if variant_label != label_candidate:
-                valid_filename = False
-                messages.append(
-                    "Variant label {} is not consistent with file "
-                    "contents ({})".format(label_candidate, variant_label))
-
-        if filename_parts[1] in self._mip_tables.tables:
-            if filename_parts[0] not in (
-                    self._mip_tables.get_variables(filename_parts[1])):
-                valid_filename = False
-                messages.append(
-                    "Invalid variable {} in the filename {}".format(
-                        filename_parts[0], filename))
-        else:
-            valid_filename = False
+        # member_id should only contain variant_label
+        if (hasattr(ds, "sub_experiment_id") and
+                ds.getncattr("sub_experiment_id") != "none"):
             messages.append(
-                "Invalid MIP table {} in the filename {}".format(
-                    filename_parts[1], filename))
-        if len(filename_parts) == 7:
+                "sub_experiment_id present in file's global attributes "
+                "but missing in the filename")
+            valid_filename = False
+
+        label_candidate = member_id[0]
+        if re.match(r"^r\d+i\d+p\d+$", label_candidate) is None:
+            valid_filename = False
+            messages.append("Invalid driving ensemble member {}".format(label_candidate))
+        else:
+            esemble_member = ds.getncattr("driving_ensemble_member")
+            if esemble_member != label_candidate:
+                valid_filename = False
+                messages.append(
+                    "Driving ensemble member {} is not consistent with file "
+                    "contents ({})".format(label_candidate, esemble_member))
+
+        if len(filename_parts) == 9:
             try:
-                _, _ = parse_date_range(filename_parts[6],
+                _, _ = parse_date_range(filename_parts[8],
                                         ds.getncattr("frequency"))
             except AttributeError:
                 messages.append(
@@ -167,13 +139,16 @@ class CordexDataset(StructuredDataset):
             with self._loader_class(filepath) as ds:
                 attrs = [
                     'mip_era',
-                    'source_id',
                     'experiment_id',
                     'sub_experiment_id',
                     'table_id',
-                    'variant_label',
                     'variable_id',
-                    'grid_label',
+                    'domain',
+                    'driving_model_id',
+                    'driving_ensemble_member',
+                    'model_id',
+                    'rcm_version_id',
+                    'frequency'
                 ]
                 try:
                     file_index = '_'.join([ds.getncattr(x) for x in attrs])
