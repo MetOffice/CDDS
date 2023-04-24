@@ -32,9 +32,8 @@ CMIP6_MOHC = ('CMIP6 model data produced by the {} is licensed under a '
 # Keys in controlled vocabulary
 CV_EXPERIMENT_ID = 'experiment_id'
 
-GCMODELDEV_MOHC = ('GCModelDev model data produced by the {} is licensed under '
-                   'a Creative Commons Attribution.* 4.0 International '
-                   'License. https://creativecommons.org/licenses.')
+GCMODELDEV_MOHC = ('GCModelDev model data is licensed under the Open Government License v3 '
+                   '(https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)')
 
 LICENSES = {'CMIP6': CMIP6_MOHC,
             'GCModelDev': GCMODELDEV_MOHC}

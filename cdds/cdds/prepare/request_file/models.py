@@ -108,8 +108,10 @@ class RoseSuiteRequest(Request):
     def _load_license(self, mip_era, institution_info):
         if 'license' in self._suite_info.keys():
             return self._suite_info['license']
-        else:
+        if mip_era == 'CMIP6':
             return LICENSES[mip_era].format(institution_info)
+        elif mip_era == 'GCModelDev':
+            return LICENSES[mip_era]
 
     def _load_required_items(self, arguments):
         model_id = self._suite_info['model-id']
