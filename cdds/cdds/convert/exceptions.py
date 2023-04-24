@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Exceptions raised by CDDS convert
@@ -105,5 +105,13 @@ class OrganiseTransposeError(Exception):
     """
     Raised in the concatenate organise files script if the transposing of
     files and directories fails.
+    """
+    pass
+
+
+class IncompatibleCalendarMode(Exception):
+    """
+    Raised if the currently loaded 'metomi.isodatetime.data.Calendar mode is not
+    compatible.
     """
     pass

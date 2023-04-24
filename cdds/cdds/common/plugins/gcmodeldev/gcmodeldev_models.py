@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2022-2022, Met Office.
+# (C) British Crown Copyright 2022-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`gcmodeldev_models` module contains the code required to
@@ -28,6 +28,7 @@ class GCModelDevStore(BaseModelStore):
             HadGEM3_GC31_LL_Params(),
             HadGEM3_GC31_MM_Params(),
             HadGEM3_GC3p05_N216ORCA025_Params(),
+            HadGEM3_GC5p_N216ORCA025_Params(),
             UKESM1_0_LL_Params(),
             UKESM1_1_LL_Params()
         ]
@@ -78,6 +79,7 @@ class GCModelDevModelId(ModelId):
     HadGEM3_GC31_LL = 'HadGEM3-GC31-LL'
     HadGEM3_GC31_MM = 'HadGEM3-GC31-MM'
     HadGEM3_GC3p05_N216ORCA025 = 'HadGEM3-GC3p05-N216ORCA025'
+    HadGEM3_GC5p_N216ORCA025 = 'HadGEM3-GC5p-N216ORCA025'
     UKESM1_0_LL = 'UKESM1-0-LL'
     UKESM1_1_LL = 'UKESM1-1-LL'
     UKESM1_ICE_LL = 'UKESM1-ice-LL'
@@ -85,7 +87,7 @@ class GCModelDevModelId(ModelId):
 
 class HadGEM3_GC3p05_N216ORCA025_Params(BaseModelParameters):
     """
-    Class to store the parameters for the HadGEM3_GC31_MM model.
+    Class to store the parameters for the HadGEM3_GC3p05_N216ORCA025 model.
     """
 
     def __init__(self) -> None:
@@ -94,9 +96,9 @@ class HadGEM3_GC3p05_N216ORCA025_Params(BaseModelParameters):
     @property
     def model_version(self) -> str:
         """
-        Returns the model version of the HadGEM3_GC31_MM model.
+        Returns the model version of the HadGEM3_GC3p05_N216ORCA025 model.
 
-        :return: Model version of HadGEM3_GC31_MM
+        :return: Model version of HadGEM3_GC3p05_N216ORCA025
         :rtype: str
         """
         return '3.05'
@@ -104,9 +106,9 @@ class HadGEM3_GC3p05_N216ORCA025_Params(BaseModelParameters):
     @property
     def data_request_version(self) -> str:
         """
-        Returns the data request version of the HadGEM3_GC31_MM model.
+        Returns the data request version of the HadGEM3_GC3p05_N216ORCA025 model.
 
-        :return: Data request version of HadGEM3_GC31_MM
+        :return: Data request version of HadGEM3_GC3p05_N216ORCA025
         :rtype: str
         """
         return ''
@@ -114,9 +116,48 @@ class HadGEM3_GC3p05_N216ORCA025_Params(BaseModelParameters):
     @property
     def um_version(self) -> str:
         """
-        Returns the UM version of the HadGEM3_GC31_MM model.
+        Returns the UM version of the HadGEM3_GC3p05_N216ORCA025 model.
 
-        :return: UM version of HadGEM3_GC31_MM
+        :return: UM version of HadGEM3_GC3p05_N216ORCA025
         :rtype: str
         """
         return '10.7'
+
+
+class HadGEM3_GC5p_N216ORCA025_Params(BaseModelParameters):
+    """
+    Class to store the parameters for the HadGEM3_GC5p_N216ORCA025 model.
+    """
+
+    def __init__(self) -> None:
+        super(HadGEM3_GC5p_N216ORCA025_Params, self).__init__(GCModelDevModelId.HadGEM3_GC5p_N216ORCA025)
+
+    @property
+    def model_version(self) -> str:
+        """
+        Returns the model version of the HadGEM3_GC5p_N216ORCA025 model.
+
+        :return: Model version of HadGEM3_GC5p_N216ORCA025
+        :rtype: str
+        """
+        return '5.0'
+
+    @property
+    def data_request_version(self) -> str:
+        """
+        Returns the data request version of the HadGEM3_GC5p_N216ORCA025 model.
+
+        :return: Data request version of HadGEM3_GC5p_N216ORCA025
+        :rtype: str
+        """
+        return ''
+
+    @property
+    def um_version(self) -> str:
+        """
+        Returns the UM version of the HadGEM3_GC5p_N216ORCA025 model.
+
+        :return: UM version of HadGEM3_GC5p_N216ORCA025
+        :rtype: str
+        """
+        return '12.2'

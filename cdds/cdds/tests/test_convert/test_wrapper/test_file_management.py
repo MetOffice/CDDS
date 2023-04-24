@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Tests of mip_convert_wrapper.file_management
@@ -277,7 +277,6 @@ class TestMisc(TestCase):
                                         end_date,
                                         input_dir,
                                         work_dir)
-
         expected_old_input = os.path.join(input_dir,
                                           suite_name,
                                           stream,

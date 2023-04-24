@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2021, Met Office.
+# (C) British Crown Copyright 2019-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`constants` module contains constants (values that should never
@@ -31,6 +31,9 @@ STREAMS_FILES_REGEX = {
     'ap': r'(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?a\.p(?P<stream_num>[0-9a-z])'
           r'(?P<year>\d{4})(?P<month>[a-z]{3}).pp',
     'ap_submonthly':
+        r'(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?a\.p(?P<stream_num>[0-9a-z])'
+        r'(?P<start_str>\d{8}).pp',
+    'ap_daily':
         r'(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?a\.p(?P<stream_num>[0-9a-z])'
         r'(?P<start_str>\d{8}).pp',
     'on': r'(?P<model>[a-zA-Z]+)_(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?o_'

@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Routines for generating links to data files in order to restrict the
@@ -14,10 +14,12 @@ import shutil
 from metomi.isodatetime.data import TimePoint
 
 from cdds.common.plugins.plugins import PluginStore
-from cdds.convert.constants import FILEPATH_JASMIN, FILEPATH_METOFFICE, STREAMS_FILES_REGEX, NUM_FILE_COPY_ATTEMPTS
+from cdds.convert.constants import (FILEPATH_JASMIN, FILEPATH_METOFFICE,
+                                    NUM_FILE_COPY_ATTEMPTS,
+                                    STREAMS_FILES_REGEX)
 from cdds.convert.mip_convert_wrapper.file_processors import (
-    parse_atmos_monthly_filename, parse_atmos_submonthly_filename,
-    parse_ocean_seaice_filename)
+    parse_atmos_daily_filename, parse_atmos_monthly_filename,
+    parse_atmos_submonthly_filename, parse_ocean_seaice_filename)
 
 
 def filter_streams(file_list, stream):
@@ -52,6 +54,7 @@ def construct_processors_dict():
     filename_processors = {
         'ap': parse_atmos_monthly_filename,
         'ap_submonthly': parse_atmos_submonthly_filename,
+        'ap_daily': parse_atmos_daily_filename,
         'in': parse_ocean_seaice_filename,
         'on': parse_ocean_seaice_filename,
     }
@@ -97,6 +100,7 @@ def get_paths(suite_name, model_id, stream, substream, start_date: TimePoint, en
                          symlink will be created.
 
     """
+
     model_params = PluginStore.instance().get_plugin().models_parameters(model_id)
     stream_file_info = model_params.stream_file_info()
     stream_prefix = stream[:2]  # `ap`, `in` or `on`
@@ -105,8 +109,11 @@ def get_paths(suite_name, model_id, stream, substream, start_date: TimePoint, en
 
     stream_lookup = stream_prefix
     files_per_year = stream_file_info.get_files_per_year(stream)
-    if stream_prefix == 'ap' and files_per_year > 12:
+    if stream_prefix == 'ap' and files_per_year == 36:
         stream_lookup = 'ap_submonthly'
+    elif stream_prefix == 'ap' and files_per_year == 365:
+        stream_lookup = 'ap_daily'
+
     # Identify files that are to be expected
 
     # Identify files that are to be expected
@@ -186,7 +193,7 @@ def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
     if not cycle_dirs:
         for stream_fname in all_files:
             try:
-                file_dict = filename_processor(stream_fname, stream, file_pattern, model_id)
+                file_dict = filename_processor(stream_fname, file_pattern)
                 file_in_substream = (substream == '' or substream in file_dict['filename'])
                 if (file_in_substream and
                         (period_start <= file_dict['start'] <= period_end

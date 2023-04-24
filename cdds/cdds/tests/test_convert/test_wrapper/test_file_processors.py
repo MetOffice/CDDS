@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2021, Met Office.
+# (C) British Crown Copyright 2019-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Tests of mip_convert_wrapper.file_management
@@ -177,7 +177,7 @@ class TestProcessors(unittest.TestCase):
         stream = 'ap4'
         test_pattern = re.compile(STREAMS_FILES_REGEX['ap'])
         output_file_dict = parse_atmos_monthly_filename(
-            ATMOS_MONTHLY_FILENAMES[0], stream, test_pattern, self.model_id)
+            ATMOS_MONTHLY_FILENAMES[0], test_pattern)
         expected_start = TimePoint(year=1997, month_of_year=4, day_of_month=1)
         expected_end = TimePoint(year=1997, month_of_year=5, day_of_month=1)
         expected_suite_id = 'aw310'
@@ -189,7 +189,7 @@ class TestProcessors(unittest.TestCase):
         stream = 'ap4'
         test_pattern = re.compile(STREAMS_FILES_REGEX['ap'])
         output_file_dict = parse_atmos_monthly_filename(
-            ATMOS_ENS_MONTHLY_FILENAMES[0], stream, test_pattern, self.model_id)
+            ATMOS_ENS_MONTHLY_FILENAMES[0], test_pattern)
         expected_start = TimePoint(year=1997, month_of_year=4, day_of_month=1)
         expected_end = TimePoint(year=1997, month_of_year=5, day_of_month=1)
         expected_suite_id = 'aw310'
@@ -201,7 +201,7 @@ class TestProcessors(unittest.TestCase):
         stream = 'ap6'
         test_pattern = re.compile(STREAMS_FILES_REGEX['ap_submonthly'])
         output_file_dict = parse_atmos_submonthly_filename(
-            ATMOS_SUBMONTHLY_FILENAMES[0], stream, test_pattern, self.model_id)
+            ATMOS_SUBMONTHLY_FILENAMES[0], test_pattern)
         expected_start = TimePoint(year=1997, month_of_year=1, day_of_month=1)
         expected_end = TimePoint(year=1997, month_of_year=1, day_of_month=11)
         expected_suite_id = 'aw310'
@@ -213,7 +213,7 @@ class TestProcessors(unittest.TestCase):
         stream = 'onm'
         test_pattern = re.compile(STREAMS_FILES_REGEX['on'])
         output_file_dict = parse_ocean_seaice_filename(
-            OCEAN_FILENAMES[0], stream, test_pattern, self.model_id)
+            OCEAN_FILENAMES[0], test_pattern)
         expected_start = TimePoint(year=1997, month_of_year=1, day_of_month=1)
         expected_end = TimePoint(year=1997, month_of_year=2, day_of_month=1)
         expected_suite_id = 'aw310'
