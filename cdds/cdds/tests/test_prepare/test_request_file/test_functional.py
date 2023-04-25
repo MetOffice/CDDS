@@ -123,7 +123,6 @@ class TestWriteRequestForGCModelDev(FunctionalTestCase):
 
         local_dir = os.path.dirname(os.path.abspath(__file__))
         self.root_mip_table = os.path.join(local_dir, 'data')
-        # self.root_mip_table = '/data/users/pflorek/jon_rosser/gcmodeldev-cmor-tables/tables/'
         self.data_request_version = '1.0'
         self.log_date = '2020-04-27T1432Z'
         self.log_name = 'test_write_suite_info_request_json_gc_model_dev'
@@ -146,9 +145,8 @@ class TestWriteRequestForGCModelDev(FunctionalTestCase):
             'external_plugin': '',
             'global_attributes': {},
             'institution_id': 'MOHC',
-            'license': ('GCModelDev model data produced by the Met Office Hadley Centre is '
-                        'licensed under a Creative Commons Attribution.* 4.0 International '
-                        'License. https://creativecommons.org/licenses.'),
+            'license': ('GCModelDev model data is licensed under the Open Government License v3 '
+                        '(https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)'),
             'mass_data_class': 'crum',
             'mip': 'DECK',
             'mip_era': 'GCModelDev',
