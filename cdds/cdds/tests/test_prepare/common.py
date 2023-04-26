@@ -145,6 +145,7 @@ TEST_RV_DICT = {
                  'tier': [1],
                  'years per start': 86},
     'mip': 'ScenarioMIP',
+    'mip_era': 'CMIP6',
     'model_id': 'UKESM1-0-LL',
     'model_type': 'AOGCM AER BGC CHEM',
     'production_info': 'Produced using CDDS Prepare',

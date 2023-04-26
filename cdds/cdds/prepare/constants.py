@@ -237,6 +237,7 @@ KNOWN_GOOD_VARIABLES = {
                   'sithick', 'sitimefrac', 'sivol', 'sndmassdyn',
                   'sndmassmelt', 'sndmasssi', 'sndmasssnf']},
 }
+MIP_TABLES_DIR = '/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29'
 MODEL_TYPE_MAP = {'atmos': ('AGCM', 'AOGCM'),
                   'ocean': ('AOGCM', 'OGCM')}
 OBGC_MODEL_STRING = 'BGC'

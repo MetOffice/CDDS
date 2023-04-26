@@ -11,7 +11,9 @@ import json
 import logging
 
 from cdds.common.io import read_json, write_json
+from cdds.common.plugins.exceptions import PluginLoadError
 from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common import set_checksum
 
 from cdds import __version__
@@ -344,6 +346,16 @@ def _apply_insert(requested_variables, change_rules, timestamp, priority,
         Dictionary describing the variables inserted.
     """
     logger = logging.getLogger(__name__)
+    # Load plugin
+    # TODO: redesign to allow for external plugins
+    try:
+        load_plugin(requested_variables['mip_era'])
+    except PluginLoadError:
+        logger.critical('Could not load plugin for mip era "{}"'
+                        ''.format(requested_variables['mip_era']))
+        logger.info('This operation cannot be performed for projects with external plugins')
+        raise
+
     stream_info = PluginStore.instance().get_plugin().stream_info()
     # Dictionary to describe the changes made by this operation.
     variables_affected = defaultdict(list)
