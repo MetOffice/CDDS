@@ -45,6 +45,16 @@ def alter_variable_list(parameters):
     # Load and validate the 'requested variables list'.
     requested_variables = read_json(parameters.rvfile)
 
+    # Load plugin if needed
+    if parameters.change_type == INSERT:
+        # TODO: redesign to allow for external plugins
+        try:
+            load_plugin(requested_variables['mip_era'])
+        except PluginLoadError:
+            logger.critical('Could not load plugin for mip era "{}"'
+                            ''.format(requested_variables['mip_era']))
+            logger.info('This operation cannot be performed for projects with external plugins')
+            raise
     # Construct the list of rules used to determine whether to change
     # the status of the 'MIP requested variable'.
     change_rules = _construct_change_rules(
@@ -346,15 +356,6 @@ def _apply_insert(requested_variables, change_rules, timestamp, priority,
         Dictionary describing the variables inserted.
     """
     logger = logging.getLogger(__name__)
-    # Load plugin
-    # TODO: redesign to allow for external plugins
-    try:
-        load_plugin(requested_variables['mip_era'])
-    except PluginLoadError:
-        logger.critical('Could not load plugin for mip era "{}"'
-                        ''.format(requested_variables['mip_era']))
-        logger.info('This operation cannot be performed for projects with external plugins')
-        raise
 
     stream_info = PluginStore.instance().get_plugin().stream_info()
     # Dictionary to describe the changes made by this operation.

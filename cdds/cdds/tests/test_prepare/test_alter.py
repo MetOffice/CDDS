@@ -11,6 +11,7 @@ from datetime import datetime
 from unittest.mock import patch
 import unittest
 
+from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.prepare.alter import (_construct_change_rules, _apply_insert,
                                 _apply_activate_deactivate, select_variables)
 from cdds.prepare.constants import DEACTIVATE, ACTIVATE, INSERT, MIP_TABLES_DIR
@@ -108,6 +109,8 @@ class TestPrepareSelectAlterVariables(unittest.TestCase):
 
     def test_apply_insert(self):
         requested_variables = copy.deepcopy(TEST_RV_DICT)
+        # Plugin needed for identifying streams
+        load_plugin(requested_variables['mip_era'])
         change_rules = [{'miptable': 'Omon', 'label': 'tos'}]
         change_dt = datetime(2019, 1, 2)
         change_dt_stamp = change_dt.isoformat()
