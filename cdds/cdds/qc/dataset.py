@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 
 import re
@@ -14,7 +14,7 @@ class StructuredDataset(object):
     """
 
     def __init__(self, root, request, mip_tables, mip_table=None, start=None,
-                 end=None, logger=None, stream=None):
+                 end=None, logger=None, stream=None, relaxed_cmor=False):
         """
         Initializes the dataset.
 
@@ -34,6 +34,11 @@ class StructuredDataset(object):
             range.
         logger: logging.Logger
             A logger instance
+        stream: str
+            Stream name
+        relaxed_cmor: bool
+            If True then this dataset is expected to contain some non-conformant metadata (experiment_id or
+            activity_id not present in CVs)
         """
         if not os.path.isdir(root):
             raise Exception("{} is not a directory".format(root))
@@ -50,6 +55,7 @@ class StructuredDataset(object):
         self._dataset = []
         self._aggregated = {}
         self._var_names = {}
+        self._relaxed_cmor = relaxed_cmor
 
     @property
     def stream(self):

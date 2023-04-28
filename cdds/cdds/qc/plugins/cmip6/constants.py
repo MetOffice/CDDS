@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 
 SOURCE_REGEX = r"^([a-zA-Z\d\-_\.\s]+) \(\d{4}\)"
