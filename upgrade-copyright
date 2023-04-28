@@ -47,7 +47,7 @@ do_upgrade() {
   echo "Parent Branch: ${PARENT_BRANCH}"
   echo "New year: ${NEW_YEAR}"
 
-  filesToUpdate=$(git diff ${WORK_BRANCH}  ${PARENT_BRANCH} | diffstat | sed 's/[ \t]*|.*$//')
+  filesToUpdate=$(git diff --stat ${WORK_BRANCH}  ${PARENT_BRANCH} | sed 's/[ \t]*|.*$//')
   echo "${filesToUpdate}"
   filePaths=($(echo "$filesToUpdate" | tr ' ' '\n'))
 
