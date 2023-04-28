@@ -97,7 +97,7 @@ class CMIP6Check(BaseNCCheck):
             self.validate_cv_attribute(netcdf_file, cv_attribute, None, None, self.relaxed_cmor)
 
         self.validate_cv_attribute(netcdf_file, "source_type", None, " ")
-        self.validate_cv_attribute(netcdf_file, "activity_id", None, " ")
+        self.validate_cv_attribute(netcdf_file, "activity_id", None, " ", self.relaxed_cmor)
 
         # test if ripf indexes are positive integers
         for index_attribute in RUN_INDEX_ATTRIBUTES:
