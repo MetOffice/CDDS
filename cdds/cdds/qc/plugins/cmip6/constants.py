@@ -6,15 +6,18 @@ SOURCE_REGEX = r"^([a-zA-Z\d\-_\.\s]+) \(\d{4}\)"
 CF_CONVENTIONS = ["CF-1.7", "CF-1.7 CMIP-6.2", "CF-1.7 CMIP-6.2 UGRID-1.0"]
 
 CV_ATTRIBUTES = [
-    "experiment_id",
     "frequency",
     "grid_label",
     "institution_id",
     "realm",
     "source_id",
-    "sub_experiment_id",
     "nominal_resolution",
     "table_id",
+]
+
+STRICT_CV_ATTRIBUTES = [
+    "experiment_id",
+    "sub_experiment_id",
 ]
 
 RUN_INDEX_ATTRIBUTES = [

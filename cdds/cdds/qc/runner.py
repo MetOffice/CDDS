@@ -117,7 +117,8 @@ class QCRunner(object):
             "cmip6": {
                 "mip_tables_dir": mip_tables_dir,
                 "cv_location": cv_location,
-                "request": request
+                "request": request,
+                "relaxed_cmor": self.dataset._relaxed_cmor
             },
             "cf17": {
                 "standard_names_version": standard_names_version,
@@ -276,6 +277,8 @@ class QCRunner(object):
                     number_of_errors, dest_filename))
         if not process_all:
             output["ignored_errors"] = self.get_ignored_messages()
+        if self.dataset._relaxed_cmor:
+            output["relaxed_cmor"] = "Running QC with relaxed CMIP6 validation"
         with open(dest_filename, 'w') as outfile:
             json.dump(output, outfile, indent=4, ensure_ascii=False)
         with open(dest_variables, 'w') as outfile:

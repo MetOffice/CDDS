@@ -12,9 +12,9 @@ from compliance_checker.base import BaseCheck, BaseNCCheck, Result
 from cdds.common.mip_tables import MipTables
 from cdds.qc.plugins.cmip6.validators import (ValidatorFactory, ControlledVocabularyValidator, ValidationError,
                                               EXTERNAL_VARIABLES)
-from cdds.qc.plugins.cmip6.constants import (SOURCE_REGEX, CF_CONVENTIONS, CV_ATTRIBUTES, RUN_INDEX_ATTRIBUTES,
-                                             MANDATORY_TEXT_ATTRIBUTES, OPTIONAL_TEXT_ATTRIBUTES, PARENT_ATTRIBUTES,
-                                             MISSING_VALUE)
+from cdds.qc.plugins.cmip6.constants import (SOURCE_REGEX, CF_CONVENTIONS, CV_ATTRIBUTES, STRICT_CV_ATTRIBUTES,
+                                             RUN_INDEX_ATTRIBUTES, MANDATORY_TEXT_ATTRIBUTES, OPTIONAL_TEXT_ATTRIBUTES,
+                                             PARENT_ATTRIBUTES, MISSING_VALUE)
 
 
 class CMIP6Check(BaseNCCheck):
@@ -43,6 +43,7 @@ class CMIP6Check(BaseNCCheck):
             self.update_cv_valdiator(kwargs["config"]["cv_location"])
         if self.__cache["mip_tables"] is None:
             self.update_mip_tables_cache(kwargs["config"]["mip_tables_dir"])
+        self.relaxed_cmor = kwargs["config"]["relaxed_cmor"]
 
     def setup(self, netcdf_file):
         pass
@@ -92,6 +93,8 @@ class CMIP6Check(BaseNCCheck):
         # test for presence and contents of attributes contained in CV
         for cv_attribute in CV_ATTRIBUTES:
             self.validate_cv_attribute(netcdf_file, cv_attribute)
+        for cv_attribute in STRICT_CV_ATTRIBUTES:
+            self.validate_cv_attribute(netcdf_file, cv_attribute, None, None, self.relaxed_cmor)
 
         self.validate_cv_attribute(netcdf_file, "source_type", None, " ")
         self.validate_cv_attribute(netcdf_file, "activity_id", None, " ")
@@ -144,7 +147,8 @@ class CMIP6Check(BaseNCCheck):
             "source": ValidatorFactory.string_validator(SOURCE_REGEX),
             "tracking_id": validator.tracking_id_validator()
         }
-
+        if self.relaxed_cmor:
+            string_dict.pop("experiment")
         for k, v in string_dict.items():
             self._exists_and_valid(netcdf_file, k, v)
 
@@ -292,12 +296,15 @@ class CMIP6Check(BaseNCCheck):
             A dictionary of cached global attributes.
         """
         self.validate_parent_attributes_from_user(netcdf_file)
-        self.validate_parent_consistency(netcdf_file, attr_dict["experiment_id"])
+        if not self.relaxed_cmor:
+            # this check doesn't make sense is experiments aren't well-defined in CVs
+            self.validate_parent_consistency(netcdf_file, attr_dict["experiment_id"])
 
     def _validate_orphan_attributes(self, netcdf_file, attr_dict):
         experiment_id = attr_dict["experiment_id"]
         source_ids = attr_dict["source_id"]
-        self.__cache["cv_validator"].validate_parent_consistency(netcdf_file, experiment_id, True)
+        if not self.relaxed_cmor:
+            self.__cache["cv_validator"].validate_parent_consistency(netcdf_file, experiment_id, True)
 
         try:
             start_of_run = 0.0
@@ -386,7 +393,7 @@ class CMIP6Check(BaseNCCheck):
         except ValidationError as e:
             self._add_error_message("Mandatory attribute {}: {}".format(attr, str(e)))
 
-    def validate_cv_attribute(self, netcdf_file, collection, nc_name=None, sep=None):
+    def validate_cv_attribute(self, netcdf_file, collection, nc_name=None, sep=None, relaxed=False):
         """
         Test for presence of attributes derived from CMIP6 CV.
 
@@ -400,12 +407,16 @@ class CMIP6Check(BaseNCCheck):
             name of the attribute if different from the collection name
         sep : str, optional
             separator used to split the attribute values
+        relaxed : bool, optional
+            if True then the attribute will be only checked for existence, not consistency with CVs
         """
 
         try:
             if nc_name is None:
                 nc_name = collection
             item = netcdf_file.getncattr(nc_name)
+            if relaxed:
+                return
             if sep is not None:
                 items = item.split(sep)
                 for i in items:

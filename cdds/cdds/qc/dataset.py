@@ -14,7 +14,7 @@ class StructuredDataset(object):
     """
 
     def __init__(self, root, request, mip_tables, mip_table=None, start=None,
-                 end=None, logger=None, stream=None):
+                 end=None, logger=None, stream=None, relaxed_cmor=False):
         """
         Initializes the dataset.
 
@@ -50,6 +50,7 @@ class StructuredDataset(object):
         self._dataset = []
         self._aggregated = {}
         self._var_names = {}
+        self._relaxed_cmor = relaxed_cmor
 
     @property
     def stream(self):

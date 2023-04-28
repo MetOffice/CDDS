@@ -22,7 +22,8 @@ class TestCMIP6Check(unittest.TestCase):
             config={
                 "mip_tables_dir": os.path.join(MIP_TABLES_DIR, "for_functional_tests"),
                 "cv_location": CV_REPO,
-                "request": MagicMock()
+                "request": MagicMock(),
+                "relaxed_cmor": False,
             })
         self.experiment_id = "a4SST"
 
@@ -105,7 +106,8 @@ class TestCMIP6VariableMetadataCheck(unittest.TestCase):
             config={
                 "mip_tables_dir": os.path.join(MIP_TABLES_DIR, "for_functional_tests"),
                 "cv_location": CV_REPO,
-                "request": MagicMock()
+                "request": MagicMock(),
+                "relaxed_cmor": False,
             })
 
     def tearDown(self):

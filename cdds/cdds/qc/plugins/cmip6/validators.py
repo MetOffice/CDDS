@@ -205,7 +205,7 @@ class ValidatorFactory(object):
             if x not in allowed_values:
                 raise ValidationError("Value: {}, Expected: {}".format(
                     x,
-                    ", ".join(allowed_values)
+                    ", ".join(allowed_values) if type(allowed_values) is not str else allowed_values
                 ))
         return validator_function
 
