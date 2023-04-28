@@ -12,9 +12,9 @@ from compliance_checker.base import BaseCheck, BaseNCCheck, Result
 from cdds.common.mip_tables import MipTables
 from cdds.qc.plugins.cmip6.validators import (ValidatorFactory, ControlledVocabularyValidator, ValidationError,
                                               EXTERNAL_VARIABLES)
-from cdds.qc.plugins.cmip6.constants import (SOURCE_REGEX, CF_CONVENTIONS, CV_ATTRIBUTES, STRICT_CV_ATTRIBUTES,
-                                             RUN_INDEX_ATTRIBUTES, MANDATORY_TEXT_ATTRIBUTES, OPTIONAL_TEXT_ATTRIBUTES,
-                                             PARENT_ATTRIBUTES, MISSING_VALUE)
+from cdds.qc.plugins.cmip6.constants import (SOURCE_REGEX, CF_CONVENTIONS, CV_ATTRIBUTES, RUN_INDEX_ATTRIBUTES,
+                                             MANDATORY_TEXT_ATTRIBUTES, OPTIONAL_TEXT_ATTRIBUTES, PARENT_ATTRIBUTES,
+                                             MISSING_VALUE)
 
 
 class CMIP6Check(BaseNCCheck):
@@ -92,8 +92,6 @@ class CMIP6Check(BaseNCCheck):
 
         # test for presence and contents of attributes contained in CV
         for cv_attribute in CV_ATTRIBUTES:
-            self.validate_cv_attribute(netcdf_file, cv_attribute)
-        for cv_attribute in STRICT_CV_ATTRIBUTES:
             self.validate_cv_attribute(netcdf_file, cv_attribute, None, None, self.relaxed_cmor)
 
         self.validate_cv_attribute(netcdf_file, "source_type", None, " ")
@@ -297,7 +295,7 @@ class CMIP6Check(BaseNCCheck):
         """
         self.validate_parent_attributes_from_user(netcdf_file)
         if not self.relaxed_cmor:
-            # this check doesn't make sense is experiments aren't well-defined in CVs
+            # this check doesn't make sense if experiments aren't well-defined in CVs
             self.validate_parent_consistency(netcdf_file, attr_dict["experiment_id"])
 
     def _validate_orphan_attributes(self, netcdf_file, attr_dict):

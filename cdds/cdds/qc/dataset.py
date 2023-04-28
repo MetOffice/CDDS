@@ -34,6 +34,11 @@ class StructuredDataset(object):
             range.
         logger: logging.Logger
             A logger instance
+        stream: str
+            Stream name
+        relaxed_cmor: bool
+            If True then this dataset is expected to contain some non-conformant metadata (experiment_id or
+            activity_id not present in CVs)
         """
         if not os.path.isdir(root):
             raise Exception("{} is not a directory".format(root))
