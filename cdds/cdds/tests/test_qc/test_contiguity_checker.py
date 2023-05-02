@@ -6,7 +6,7 @@ from cdds.common.request import Request
 from cdds.qc.contiguity_checker import CollectionsCheck
 
 
-class CMIP6CollectionsCheckTestCase(unittest.TestCase):
+class CollectionsCheckTestCase(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
