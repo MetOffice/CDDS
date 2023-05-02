@@ -5,17 +5,17 @@
 """
 Contiguity checker.
 """
-from cdds.qc.dataset import StructuredDataset
+from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
 from cdds.qc.common import datepoint_from_date, equal_with_tolerance, strip_zeros
 from cdds.qc.constants import (FREQ_DICT, HOURLY_OFFSET, MONTHLY_OFFSET, RADIATION_TIMESTEP, SECONDS_IN_DAY,
                                TIME_TOLERANCE)
 
 
-class CMIP6CollectionsCheck(object):
+class CollectionsCheck(object):
     """Time contiguity checker for a set of ncdf files."""
 
-    name = "cmip6collections"
-    supported_ds = [StructuredDataset]
+    name = "collections"
+    supported_ds = [Cmip6Dataset]
 
     def __init__(self):
         """

@@ -18,7 +18,7 @@ from cdds import __version__
 from cdds.qc.constants import COMPONENT, QC_DB_FILENAME
 from cdds.qc.suite import QCSuite
 from cdds.qc.runner import QCRunner
-from cdds.qc.dataset import StructuredDataset
+from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
 
 
 def main_quality_control(arguments=None):
@@ -170,10 +170,8 @@ def run_and_report(args, request):
     basedir = full_paths.output_data_directory
     cdds_runner = QCRunner(db_path)
     logger.info('Setting up a dataset for {}'.format(basedir))
-    ds = StructuredDataset(basedir, request, MipTables(full_paths.mip_table_dir),
-                           args.mip_table, None, None,
-                           logging.getLogger(__name__),
-                           args.stream)
+    ds = Cmip6Dataset(basedir, request, MipTables(full_paths.mip_table_dir),
+                      args.mip_table, None, None, logging.getLogger(__name__), args.stream)
     ds.load_dataset(Dataset)
     cdds_runner.init_suite(QCSuite(), ds)
     run_id = cdds_runner.run_tests(
