@@ -41,6 +41,7 @@ class CMIP6Check(BaseNCCheck):
             self.update_cv_valdiator(kwargs["config"]["cv_location"])
         if self.__cache.mip_tables is None:
             self.update_mip_tables_cache(kwargs["config"]["mip_tables_dir"])
+        self.relaxed_cmor = kwargs["config"]["relaxed_cmor"]
 
     def setup(self, netcdf_file):
         pass
@@ -86,17 +87,18 @@ class CMIP6Check(BaseNCCheck):
         attr_dict = self._generate_attribute_dictionary(netcdf_file)
 
         check_tasks = [
-            CVAttributesCheckTask(self.__cache),
+            CVAttributesCheckTask(self.__cache).relax_cmor(self.relaxed_cmor),
             RunIndexAttributesCheckTask(self.__cache),
             MandatoryTextAttributesCheckTask(self.__cache),
             OptionalTextAttributesCheckTask(self.__cache),
-            StringAttributesCheckTask(self.__cache),
+            StringAttributesCheckTask(self.__cache).relax_cmor(self.relaxed_cmor),
             VariableAttributesCheckTask(self.__cache),
             ComplexAttributesCheckTask(self.__cache),
-            OrphanAttributesCheckTask(self.__cache),
+            OrphanAttributesCheckTask(self.__cache).relax_cmor(self.relaxed_cmor),
             UserParentAttributesCheckTask(self.__cache),
-            ParentConsistencyCheckTask(self.__cache)
         ]
+        if not self.relaxed_cmor:
+            check_tasks.append(ParentConsistencyCheckTask(self.__cache))
 
         for check_task in check_tasks:
             check_task.execute(netcdf_file, attr_dict)

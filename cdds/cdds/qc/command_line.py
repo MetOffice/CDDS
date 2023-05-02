@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2022, Met Office.
+# (C) British Crown Copyright 2018-2023, Met Office.
 # Please see LICENSE.rst for license details.
 
 import argparse
@@ -116,6 +116,10 @@ def parse_args(arguments):
     parser.add_argument('-s', '--stream',
                         default=None,
                         help='Stream selection')
+    parser.add_argument('--relaxed_cmor',
+                        help='If specified, CMIP6 style validation is not performed by QC.',
+                        action='store_true'
+                        )
     output_dir_group = parser.add_mutually_exclusive_group()
     output_dir_group.add_argument(
         '-p', '--use_proc_dir', action='store_true', help=(
@@ -173,7 +177,7 @@ def run_and_report(args, request):
     ds = Cmip6Dataset(basedir, request, MipTables(full_paths.mip_table_dir),
                       args.mip_table, None, None, logging.getLogger(__name__), args.stream)
     ds.load_dataset(Dataset)
-    cdds_runner.init_suite(QCSuite(), ds)
+    cdds_runner.init_suite(QCSuite(), ds, args.relaxed_cmor)
     run_id = cdds_runner.run_tests(
         full_paths.mip_table_dir,
         args.standard_names_dir,

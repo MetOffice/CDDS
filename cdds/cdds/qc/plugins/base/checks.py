@@ -17,6 +17,7 @@ class CheckTask(object, metaclass=ABCMeta):
     def __init__(self, check_cache: CheckCache) -> None:
         self._cache = check_cache
         self._messages: List[str] = []
+        self.relaxed_cmor = False
 
     @abstractmethod
     def execute(self, netcdf_file, attr_dict) -> None:
@@ -39,6 +40,13 @@ class CheckTask(object, metaclass=ABCMeta):
         :rtype: List[str]
         """
         return self._messages
+
+    def relax_cmor(self, relax_cmor: bool = False) -> 'CheckTask':
+        """
+        Turns on the relaxed CMOR flag and returns the checker instance.
+        """
+        self.relaxed_cmor = relax_cmor
+        return self
 
     def _exists_and_valid(self, netcdf_file: Dataset, attr: str, validator: Callable) -> None:
         try:
@@ -95,6 +103,8 @@ class StringAttributesCheckTask(CheckTask):
             "source": ValidatorFactory.string_validator(self.SOURCE_REGEX),
             "tracking_id": validator.tracking_id_validator()
         }
+        if self.relaxed_cmor:
+            string_dict.pop("experiment")
 
         for k, v in string_dict.items():
             self._exists_and_valid(netcdf_file, k, v)
