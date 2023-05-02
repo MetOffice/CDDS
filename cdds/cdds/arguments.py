@@ -132,6 +132,7 @@ class Arguments(object):
         self._resolve_arguments()
         self._parameters = ['mip_table_dir']
         self._add_attributes()
+        self._mip_table_dir = None
 
     @property
     def args(self):
@@ -198,9 +199,15 @@ class Arguments(object):
 
     @property
     def mip_table_dir(self):
+        if self._mip_table_dir is not None:
+            return self._mip_table_dir
         try:
             argument = os.path.join(
                 self.root_mip_table_dir, self.data_request_version)
         except (TypeError, AttributeError):
             argument = None
         return argument
+
+    @mip_table_dir.setter
+    def mip_table_dir(self, new_dir):
+        self._mip_table_dir = new_dir

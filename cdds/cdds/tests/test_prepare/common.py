@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 This module contains common test data used within CDDS Prepare.
@@ -145,6 +145,7 @@ TEST_RV_DICT = {
                  'tier': [1],
                  'years per start': 86},
     'mip': 'ScenarioMIP',
+    'mip_era': 'CMIP6',
     'model_id': 'UKESM1-0-LL',
     'model_type': 'AOGCM AER BGC CHEM',
     'production_info': 'Produced using CDDS Prepare',
