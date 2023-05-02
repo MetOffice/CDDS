@@ -70,7 +70,7 @@ def update_rose_conf(args, suite_directory: str):
         request = read_request(args.request_file)
         streams = list(request.streaminfo.keys())
         if streams:
-            update_suite_conf_file(conf_file, "jinja2:suite.rc", {"STREAMS":streams}, False)
+            update_suite_conf_file(conf_file, "jinja2:suite.rc", {"STREAMS": streams}, False)
 
 
 def parse_args(arguments: Union[list, None]) -> argparse.Namespace:
