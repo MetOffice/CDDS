@@ -32,7 +32,8 @@ class OrphanAttributesCheckTask(CheckTask):
 
     def _execute_validations(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
         experiment_id = attr_dict["experiment_id"]
-        self._cache.cv_validator.validate_parent_consistency(netcdf_file, experiment_id, True)
+        if not self.relaxed_cmor:
+            self._cache.cv_validator.validate_parent_consistency(netcdf_file, experiment_id, True)
 
         try:
             start_of_run = 0.0
@@ -125,13 +126,11 @@ class CVAttributesCheckTask(CheckTask):
     Checker for attributes defined in the CMIP6 CV
     """
     CV_ATTRIBUTES: List[str] = [
-        "experiment_id",
         "frequency",
         "grid_label",
         "institution_id",
         "realm",
         "source_id",
-        "sub_experiment_id",
         "nominal_resolution",
         "table_id",
     ]
@@ -151,10 +150,12 @@ class CVAttributesCheckTask(CheckTask):
         for cv_attribute in self.CV_ATTRIBUTES:
             self.validate_cv_attribute(netcdf_file, cv_attribute)
         self.validate_cv_attribute(netcdf_file, "source_type", None, " ")
-        self.validate_cv_attribute(netcdf_file, "activity_id", None, " ")
+        self.validate_cv_attribute(netcdf_file, "activity_id", None, " ", self.relaxed_cmor)
+        self.validate_cv_attribute(netcdf_file, "experiment_id", None, None, self.relaxed_cmor)
+        self.validate_cv_attribute(netcdf_file, "sub_experiment_id", None, None, self.relaxed_cmor)
 
     def validate_cv_attribute(
-            self, netcdf_file: Dataset, collection: str, nc_name: str = None, sep: str = None
+            self, netcdf_file: Dataset, collection: str, nc_name: str = None, sep: str = None, relaxed: bool = False
     ) -> None:
         """
         Tests the presence of attributes derived from CV.
@@ -166,11 +167,15 @@ class CVAttributesCheckTask(CheckTask):
         :type nc_name: str
         :param sep: separator used to split the attribute values
         :type sep: str
+        :param relaxed: if True then the attribute will be only checked for existence, not consistency with CVs
+        :type relaxed: bool
         """
         try:
             if nc_name is None:
                 nc_name = collection
             item = netcdf_file.getncattr(nc_name)
+            if relaxed:
+                return
             if sep is not None:
                 items = item.split(sep)
                 for i in items:

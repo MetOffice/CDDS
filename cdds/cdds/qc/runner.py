@@ -47,7 +47,7 @@ class QCRunner(object):
         self.db = setup_db(db_path)
         self.logger = logging.getLogger(__name__)
 
-    def init_suite(self, check_suite, dataset):
+    def init_suite(self, check_suite, dataset, relaxed_cmor=False):
         """
         Configures IOOS QC checker and prepares a dataset to be checked
 
@@ -57,6 +57,8 @@ class QCRunner(object):
             An instance of ioos qc checker
         dataset: StructuredDataset
             An instance of a dataset to be qc-ed
+        relaxed_cmor: bool
+            If set to True then CMIP6 checks will be performed with relaxed CMOR validation
         """
 
         assert isinstance(check_suite, CheckSuite)
@@ -64,6 +66,7 @@ class QCRunner(object):
 
         self.check_suite = check_suite
         self.check_suite.load_all_available_checkers()
+        self.relaxed_cmor = relaxed_cmor
         self.dataset = dataset
 
     def get_checks(self, checker_name):
@@ -117,7 +120,8 @@ class QCRunner(object):
             "cmip6": {
                 "mip_tables_dir": mip_tables_dir,
                 "cv_location": cv_location,
-                "request": request
+                "request": request,
+                "relaxed_cmor": self.relaxed_cmor
             },
             "cf17": {
                 "standard_names_version": standard_names_version,
@@ -279,6 +283,8 @@ class QCRunner(object):
                 "{} issues found with the provided dataset,"
                 "please check the QC report in {}".format(
                     number_of_errors, dest_filename))
+        if self.relaxed_cmor:
+            output["relaxed_cmor"] = "Running QC with relaxed CMIP6 validation"
         if not process_all:
             output["ignored_errors"] = self.get_ignored_messages()
         with open(dest_filename, 'w') as outfile:

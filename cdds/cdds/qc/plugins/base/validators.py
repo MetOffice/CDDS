@@ -5,7 +5,7 @@ import re
 
 from metomi.isodatetime.data import Calendar
 from metomi.isodatetime.parsers import TimePointParser
-from typing import Callable, List, Dict, Any
+from typing import Callable, List, Dict, Any, Union
 
 from cdds.common.validation import ValidationError
 from mip_convert.configuration.cv_config import CVConfig
@@ -149,7 +149,7 @@ class ValidatorFactory:
         return validator_function
 
     @classmethod
-    def value_in_validator(cls, allowed_values: List[Any]) -> Callable[[Any], None]:
+    def value_in_validator(cls, allowed_values: Union[str, List[Any]]) -> Callable[[Any], None]:
         """
         Returns a validator checking if x matches one of allowed_values
 
@@ -162,7 +162,7 @@ class ValidatorFactory:
             if value not in allowed_values:
                 raise ValidationError("Value: {}, Expected: {}".format(
                     value,
-                    ", ".join(allowed_values)
+                    ", ".join(allowed_values) if type(allowed_values) is not str else allowed_values
                 ))
 
         return validator_function
