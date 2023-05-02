@@ -1,10 +1,12 @@
-# (C) British Crown Copyright 2022, Met Office.
+# (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
 
 import argparse
 import os
+from pathlib import Path
 from typing import Union
 
+from cdds.common.request import read_request
 from cdds.common import determine_rose_suite_url
 from cdds.convert.process.suite_interface import (check_svn_location,
                                                   checkout_url,
@@ -54,10 +56,21 @@ def update_rose_conf(args, suite_directory: str):
     conf_override_fields = [("request_file", "REQUEST_JSON_PATH", "env", True),
                             ("variables_file", "USER_VARIABLES_LIST", "env", True),
                             ("suite_base_name", "SUITE_BASE_NAME", "jinja2:suite.rc", False)]
+
     for option, mapping, section_name, raw_value in conf_override_fields:
         if vars(args)[option]:
-            changes_to_apply = {mapping: vars(args)[option]}
+            if option in ["request_file", "variables_file"]:
+                full_path = str(Path(vars(args)[option]).expanduser().absolute())
+                changes_to_apply = {mapping: full_path}
+            else:
+                changes_to_apply = {mapping: vars(args)[option]}
             update_suite_conf_file(conf_file, section_name, changes_to_apply, raw_value)
+
+    if args.request_file:
+        request = read_request(args.request_file)
+        streams = list(request.streaminfo.keys())
+        if streams:
+            update_suite_conf_file(conf_file, "jinja2:suite.rc", {"STREAMS": streams}, False)
 
 
 def parse_args(arguments: Union[list, None]) -> argparse.Namespace:
