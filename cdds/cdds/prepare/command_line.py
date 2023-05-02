@@ -381,6 +381,11 @@ def parse_alter_args(arguments):
             'under guidance from the CDDS team as it overrides the '
             'information obtained from the suite and mappings by '
             'prepare_generate_variable_list'))
+    parser.add_argument(
+        '--mip_table_dir', type=str, default=arguments.mip_table_dir, help=(
+            'MIP table directory to use for "insert" commands (default: {})'
+            ''.format(arguments.mip_table_dir))
+    )
     common_command_line_args(parser, arguments.log_name, arguments.log_level,
                              __version__)
 
