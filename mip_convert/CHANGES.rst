@@ -3,9 +3,13 @@
 
 .. include:: common.txt
 
+Release 2.4.4, May 4, 2023
+=============================
+
+* No changes
 
 Release 2.4.3, March 31, 2023
-============================
+=============================
 
 * Add a ``--relaxed-cmor`` option to ``mip_convert``. When used certain metadata fields e.g.
   experiment_id are not checked against the controlled vocabularies (CDDSO-252).

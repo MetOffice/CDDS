@@ -3,9 +3,19 @@
 
 .. include:: common.txt
 
+Release 2.4.4, May 4, 2023
+==========================
+* Added options to use a “relaxed” approach to MIP name (activity_id), and experiment id, 
+  that does not force checks from the CVs. This will allow users to process data as any 
+  experiment id they like, but at the risk of typos due to the lack of checks against a 
+  controlled vocabulary (CDDSO-253 , CDDSO-267, CDDSO-264) 
+* `prepare_alter_variable_list` can now perform insert commands again as plugin was not 
+  being loaded, which was needed for setting streams (CDDSO-269)
+* `checkout_processing_suite`` now sets the streams in the suite based on  those in the 
+  request file. (CDDSO-271)
 
 Release 2.4.3, March 31, 2023
-============================
+=============================
 
 * Add support for retries in the run_extract task within the CDDS Convert Suite (CDDSO-258)
 

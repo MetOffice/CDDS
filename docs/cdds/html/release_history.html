@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Release History &#8212; CDDS 2.4.3 documentation</title>
+    <title>Release History &#8212; CDDS 2.4.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="installation.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CDDS 2.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CDDS 2.4.4 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Release History</a></li> 
       </ul>
     </div>  
@@ -46,6 +46,25 @@
             
   <section id="release-history">
 <h1>Release History<a class="headerlink" href="#release-history" title="Permalink to this headline">¶</a></h1>
+<section id="release-2-4-4-may-4-2023">
+<h2>Release 2.4.4, May 4, 2023<a class="headerlink" href="#release-2-4-4-may-4-2023" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Added options to use a “relaxed” approach to MIP name (activity_id), and experiment id,
+that does not force checks from the CVs. This will allow users to process data as any
+experiment id they like, but at the risk of typos due to the lack of checks against a
+controlled vocabulary (CDDSO-253 , CDDSO-267, CDDSO-264)</p></li>
+<li><p><cite>prepare_alter_variable_list</cite> can now perform insert commands again as plugin was not
+being loaded, which was needed for setting streams (CDDSO-269)</p></li>
+<li><p><cite>checkout_processing_suite`</cite> now sets the streams in the suite based on  those in the
+request file. (CDDSO-271)</p></li>
+</ul>
+</section>
+<section id="release-2-4-3-march-31-2023">
+<h2>Release 2.4.3, March 31, 2023<a class="headerlink" href="#release-2-4-3-march-31-2023" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Add support for retries in the run_extract task within the CDDS Convert Suite (CDDSO-258)</p></li>
+</ul>
+</section>
 <section id="release-2-4-2-march-1-2023">
 <h2>Release 2.4.2, March 1, 2023<a class="headerlink" href="#release-2-4-2-march-1-2023" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -1008,6 +1027,8 @@ parents, and retrieves the correct value of the <a class="reference internal" hr
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Release History</a><ul>
+<li><a class="reference internal" href="#release-2-4-4-may-4-2023">Release 2.4.4, May 4, 2023</a></li>
+<li><a class="reference internal" href="#release-2-4-3-march-31-2023">Release 2.4.3, March 31, 2023</a></li>
 <li><a class="reference internal" href="#release-2-4-2-march-1-2023">Release 2.4.2, March 1, 2023</a></li>
 <li><a class="reference internal" href="#release-2-4-1-january-18-2023">Release 2.4.1, January 18, 2023</a></li>
 <li><a class="reference internal" href="#release-2-4-0-september-12-2022">Release 2.4.0, September 12, 2022</a></li>
@@ -1117,7 +1138,7 @@ parents, and retrieves the correct value of the <a class="reference internal" hr
         <li class="right" >
           <a href="installation.html" title="Installation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CDDS 2.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CDDS 2.4.4 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Release History</a></li> 
       </ul>
     </div>
