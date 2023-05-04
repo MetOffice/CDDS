@@ -13,6 +13,7 @@ dependencies:
   - iris=3.1.0=pyhd8ed1ab_3
   - libmo_unpack=3.1.2=hf484d3e_0
   - mo_pack=0.2.0=py38h6c62de6_1006
+  - nose=1.3.7=pyhd3eb1b0_1008
   - numpy=1.21.2=py38hd8d4704_0
   - pep8=1.7.1=py38_0
   - pika=1.2.0=pyh44b312d_0
