@@ -191,4 +191,5 @@ dependencies:
     - dreqpy==1.0.29
 variables:
   LC_ALL: en_GB.UTF-8
+  CDDS_ETC: /home/h03/cdds/etc
 prefix: /home/h03/cdds/software/miniconda3/envs/cdds-dev

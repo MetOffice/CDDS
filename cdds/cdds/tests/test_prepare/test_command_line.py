@@ -665,7 +665,7 @@ class TestParseAlterArgs(unittest.TestCase):
             'data_request_version': '01.00.29',
             'log_level': logging.INFO,
             'root_data_dir': '/project/cdds_data',
-            'root_mip_table_dir': '/home/h03/cdds/etc/mip_tables/CMIP6/',
+            'root_mip_table_dir': os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/'),
             'root_proc_dir': '/project/cdds/proc',
         }
         package_args = {}

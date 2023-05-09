@@ -1,6 +1,7 @@
 # (C) British Crown Copyright 2020-2022, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
+import os.path
 import unittest
 import cdds.prepare.request_file.common as common
 
@@ -112,7 +113,7 @@ class TestLoadControlledVocabulary(unittest.TestCase):
         }
 
     def test_load_controlled_vocabulary_successful(self):
-        cv_path = "/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29/CMIP6_CV.json"
+        cv_path = os.path.join(os.environ['CDDS_ETC'], "mip_tables/CMIP6/01.00.29/CMIP6_CV.json")
         result = common.load_controlled_vocabulary(self.experiment_id, cv_path)
         self.assertEqual(result, self.cv)
 

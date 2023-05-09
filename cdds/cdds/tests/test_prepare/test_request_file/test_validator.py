@@ -2,6 +2,7 @@
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 import logging
+import os.path
 import unittest
 
 from cdds.common import configure_logger
@@ -40,7 +41,7 @@ class TestValidator(unittest.TestCase):
             'end-date': '2015-01-01'
         }
 
-        self.path_to_cv = '/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29/CMIP6_CV.json'
+        self.path_to_cv = os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/01.00.29/CMIP6_CV.json')
 
     def test_validate_valid_data(self):
         configure_logger(None, logging.INFO, False)
