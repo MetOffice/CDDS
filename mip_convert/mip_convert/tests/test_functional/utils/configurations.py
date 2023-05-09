@@ -74,7 +74,6 @@ class CommonInfo:
             },
             cmor_dataset={
                 'calendar': '360_day',
-                'grid': 'not checked',
                 'grid_label': 'gn',
                 'institution_id': 'MOHC',
             }
@@ -139,6 +138,7 @@ class ProjectInfo:
                 'netcdf_file_action': 'CMOR_REPLACE_4',
             },
             cmor_dataset={
+                'grid': 'not checked',
                 'branch_method': 'no parent',
                 'experiment_id': 'amip',
                 'license': CMIP6_LICENSE,
@@ -173,6 +173,7 @@ class ProjectInfo:
                 'netcdf_file_action': 'CMOR_REPLACE_4',
             },
             cmor_dataset={
+                'grid': 'not checked',
                 'branch_method': 'standard',
                 'branch_date_in_child': '1850-01-01-00-00-00',
                 'branch_date_in_parent': '2250-01-01-00-00-00',
@@ -216,33 +217,41 @@ class ProjectInfo:
             },
             cmor_dataset={
                 'branch_method': 'no parent',
-                'experiment_id': 'cordex1',
+                'experiment_id': 'evaluation',
                 'grid': 'Model grid',
                 'grid_label': 'gn',
                 'institution_id': 'MOHC',
                 'license': CORDEX_LICENSE,
                 'mip_era': 'CORDEX',
-                'mip': 'CMIP',
+                'mip': 'CORDEX',
                 'model_id': 'HadREM3-GA7-05',
-                'model_type': 'ARCM',
-                'nominal_resolution': '10 km',
-                'output_file_template': ('<variable_id><CORDEX_domain><driving_model_id><experiment_id>'
+                'model_type': 'ARCM AER',
+                'nominal_resolution': '12.5 km',
+                'output_file_template': ('<variable_id><domain><driving_source_id><experiment_id>'
                                          '<driving_model_ensemble_member><source_id><rcm_version_id><frequency>'),
                 'sub_experiment_id': 'none',
                 'variant_label': 'r1i1p1f1',
+                'contact': 'a@b.c',
             },
             request={
-                'child_base_date': '2000-01-01-00-00-00'
+                'child_base_date': '2000-01-01-00-00-00',
+                'mask_slice': 'no_mask'
             },
             global_attributes={
-                'driving_experiment': 'historical',
-                'driving_model_id': 'MOHC-HadGEM2-ES',
+                'driving_experiment': 'evaluation',
+                'driving_experiment_id': 'evaluation',
+                'driving_institution_id': 'MOHC',
+                'driving_source_id': 'HadGEM3-GC31-MM',
                 'driving_model_ensemble_member': 'r1i1p1',
-                'driving_experiment_name': 'historical',
+                'driving_experiment_name': 'evaluation',
+                'driving_variant_label': 'r1i1p1f2',
                 'nesting_levels': 1,
                 'rcm_version_id': 'v1',
                 'project_id': 'CORDEX-FPSCONV',
-                'CORDEX_domain': 'EUR-11'
+                'domain_id': 'EUR-11',
+                'domain': 'Europe',
+                'source_configuration_id': 'v1.0',
+                'further_info_url': 'https://furtherinfo.es-doc.org/'
             }
         )
 
@@ -261,6 +270,7 @@ class ProjectInfo:
                 'netcdf_file_action': 'CMOR_REPLACE_4',
             },
             cmor_dataset={
+                'grid': 'not checked',
                 'branch_method': 'no parent',
                 'experiment_id': 'amip',
                 'license': CMIP6_LICENSE,
@@ -397,7 +407,7 @@ class CordexTestData(AbstractTestData):
     """
     Stores test data for CMIP6 projects
     """
-    project_id: str = field(init=False, default_factory=lambda: 'ARISE')
+    project_id: str = field(init=False, default_factory=lambda: 'CORDEX')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cordex_project_info())
     specific_info: SpecificInfo = None

@@ -44,7 +44,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         """
         pass
 
-    def convert(self, filenames: List[str]) -> Tuple[List[str], List[str]]:
+    def convert(self, filenames: List[str], relaxed_cmor: bool) -> Tuple[List[str], List[str]]:
         input_directory = self.input_dir.format(
             self.test_info.project_id, self.test_info.mip_table, self.test_info.variable
         )
@@ -53,7 +53,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         log_name = os.path.join(data_directory, self.mip_convert_log)
 
         output_directory = os.path.join(data_directory, DATA_OUTPUT_DIR_NAME)
-        Path(output_directory).mkdir(exist_ok=True)
+        Path(output_directory).mkdir(exist_ok=True, parents=True)
 
         output_files = [os.path.join(output_directory, filename) for filename in filenames]
         reference_dir = os.path.join(data_directory, REFERENCE_OUTPUT_DIR_NAME)
@@ -71,7 +71,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         # Ignore the Iris warnings sent to stderr by main().
         original_stderr = sys.stderr
         sys.stderr = io.StringIO()
-        parameters = self.get_convert_parameters(log_name)
+        parameters = self.get_convert_parameters(log_name, relaxed_cmor)
 
         # Set the umask so all files produced by 'main' have read and write permissions for all users.
         original_umask = os.umask(000)
@@ -88,11 +88,14 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         print_outcome(output_files, output_directory, data_directory)
         return output_files, reference_files
 
-    def get_convert_parameters(self, log_name):
+    def get_convert_parameters(self, log_name, relaxed_cmor):
         # Extracted to allow overriding parameters
-        return [self.config_file, '-q', '-l', log_name]
+        parameters = [self.config_file, '-q', '-l', log_name]
+        if relaxed_cmor:
+            parameters = parameters + ['--relaxed_cmor']
+        return parameters
 
-    def check_convert(self) -> None:
+    def check_convert(self, relaxed_cmor: bool = False) -> None:
         other_items = self.test_info.specific_info.other
         filenames = other_items['filenames']
 
@@ -100,7 +103,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         tolerance_value = other_items.get('tolerance_value')
         other_options = other_items.get('other_options')
 
-        outputs, references = self.convert(filenames)
+        outputs, references = self.convert(filenames, relaxed_cmor)
         compare(
             compare_command(outputs,
                             references,
