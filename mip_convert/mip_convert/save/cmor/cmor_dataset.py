@@ -54,7 +54,6 @@ class Dataset(object):
                 raise RuntimeError(msg.format(attribute, 'missing'))
             self.logger.debug(msg.format(attribute, 'exists'))
         if not self._relaxed_cmor:
-            print('relaxed cmor: '.format(self._relaxed_cmor))
             self.validate_activity_id_values()
             self.validate_source_type_values()
 
