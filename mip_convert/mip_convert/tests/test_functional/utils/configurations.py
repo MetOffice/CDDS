@@ -74,7 +74,6 @@ class CommonInfo:
             },
             cmor_dataset={
                 'calendar': '360_day',
-                'grid': 'not checked',
                 'grid_label': 'gn',
                 'institution_id': 'MOHC',
             }
@@ -139,6 +138,7 @@ class ProjectInfo:
                 'netcdf_file_action': 'CMOR_REPLACE_4',
             },
             cmor_dataset={
+                'grid': 'not checked',
                 'branch_method': 'no parent',
                 'experiment_id': 'amip',
                 'license': CMIP6_LICENSE,
@@ -173,6 +173,7 @@ class ProjectInfo:
                 'netcdf_file_action': 'CMOR_REPLACE_4',
             },
             cmor_dataset={
+                'grid': 'not checked',
                 'branch_method': 'standard',
                 'branch_date_in_child': '1850-01-01-00-00-00',
                 'branch_date_in_parent': '2250-01-01-00-00-00',
@@ -224,23 +225,22 @@ class ProjectInfo:
                 'mip_era': 'CORDEX',
                 'mip': 'CORDEX',
                 'model_id': 'HadREM3-GA7-05',
-                'model_type': 'AER',
+                'model_type': 'ARCM AER',
                 'nominal_resolution': '12.5 km',
-                'output_file_template': ('<variable_id><CORDEX_domain><driving_model_id><experiment_id>'
+                'output_file_template': ('<variable_id><domain><driving_source_id><experiment_id>'
                                          '<driving_model_ensemble_member><source_id><rcm_version_id><frequency>'),
                 'sub_experiment_id': 'none',
                 'variant_label': 'r1i1p1f1',
+                'contact': 'a@b.c',
             },
             request={
                 'child_base_date': '2000-01-01-00-00-00',
                 'mask_slice': 'no_mask'
             },
             global_attributes={
-                'contact': 'cdds@metoffice.gov.uk',
                 'driving_experiment': 'evaluation',
                 'driving_experiment_id': 'evaluation',
-                'driving_institution_id': 'ECMWF',
-                'driving_model_id': 'ECMWF-ERA5',
+                'driving_institution_id': 'MOHC',
                 'driving_source_id': 'HadGEM3-GC31-MM',
                 'driving_model_ensemble_member': 'r1i1p1',
                 'driving_experiment_name': 'evaluation',
@@ -270,6 +270,7 @@ class ProjectInfo:
                 'netcdf_file_action': 'CMOR_REPLACE_4',
             },
             cmor_dataset={
+                'grid': 'not checked',
                 'branch_method': 'no parent',
                 'experiment_id': 'amip',
                 'license': CMIP6_LICENSE,

@@ -24,7 +24,7 @@ CMIP6_LICENSE = ('CMIP6 model data produced by MOHC is licensed '
                  'the fullest extent permitted by law.')
 
 CORDEX_LICENSE = ('Creative Commons Attribution 4.0 International License '
-                  '(CC BY 4.0; https://creativecommons.org/licenses/by/4.0/).'),
+                  '(CC BY 4.0; https://creativecommons.org/licenses/by/4.0/).')
 
 DEBUG = True
 
