@@ -13,6 +13,7 @@
         "apm",
         "apu",
         "onm",
+        "ond",
         "inm",
         "ind"
       ],
@@ -27,12 +28,6 @@
         "apt"
       ],
       "files_per_year": 36
-    },
-    "season": {
-      "streams": [
-        "ond"
-      ],
-      "files_per_year": 4
     }
   },
   "cycle_length": {
