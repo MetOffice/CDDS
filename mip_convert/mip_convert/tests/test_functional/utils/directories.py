@@ -8,7 +8,7 @@ ROOT_TEST_CASES_DIR = os.path.join(ROOT_TEST_DATA_DIR, 'test_cases_python3')
 
 TEST_DIR_NAME_TEMPLATE = 'test_{project}_{mip_table}_{variable}'
 
-ROOT_ANCIL_DIR = os.path.join(PROJECT_CDDS_DIR, 'etc', 'ancil')
+ROOT_ANCIL_DIR = os.path.join(os.environ['CDDS_ETC'], 'ancil')
 
 ROOT_MIP_TABLES_DIR = os.path.join(os.environ['CDDS_ETC'], 'mip_tables')
 CORDEX_MIP_TABLE_DIR = '{}/CORDEX/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)

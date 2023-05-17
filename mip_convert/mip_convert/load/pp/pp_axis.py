@@ -14,6 +14,7 @@ real height.
 # do around here to seperate out the nature of the axis from the way it is generated
 
 import numpy
+import os
 
 from mip_convert.model_date import based_date
 from mip_convert.variable import PolePoint, UNROTATED_POLE
@@ -36,7 +37,8 @@ OROGRAPHY_STASH = 33
 LSM_STASH = 30
 
 # Default settings for CFMIP2 properties.
-CFMIP2_COORD_FILE_URL = 'file:///project/cdds/etc/cfmip2/cfmip2-sites-orog.txt'
+CFMIP2_COORD_DIR = os.path.join(os.environ['CDDS_ETC'], 'cfmip2')
+CFMIP2_COORD_FILE_URL = 'file://{}/cfmip2-sites-orog.txt'.format(CFMIP2_COORD_DIR)
 
 
 class PpAxisError(Exception):

@@ -1,6 +1,6 @@
 # (C) British Crown Copyright 2015-2021, Met Office.
 # Please see LICENSE.rst for license details.
-
+import os
 import unittest
 
 from mip_convert.tests.utils import getTestFileBase, getTestPath
@@ -9,7 +9,8 @@ from mip_convert.tests.utils import getTestFileBase, getTestPath
 class TestPaths(unittest.TestCase):
 
     def testTestFileBase(self):
-        self.assertEqual('/project/cdds/testdata', getTestFileBase())
+        expected_path = os.path.join(os.environ['CDDS_ETC'], 'testdata')
+        self.assertEqual(expected_path, getTestFileBase())
 
     def testGuessPath(self):
         self.assertEqual(getTestFileBase() + '/pp/file.pp', getTestPath('file.pp'))

@@ -8,7 +8,7 @@ from mip_convert.save.mip_config import MipTableFactory
 from mip_convert.common import RelativePathChecker
 from mip_convert import mip_parser
 
-_PATH = '/project/cdds/etc/mip_tables/CMIP6/01.beta.45'
+_PATH = os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/01.beta.45')
 _RELPATH = RelativePathChecker(_PATH, MipTableFactory.TABLE, os.path)
 
 
