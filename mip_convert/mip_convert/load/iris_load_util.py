@@ -47,6 +47,7 @@ ADDITIONAL_NCVAR_IMPLIED_DEPTHS = {
     'epN100': 100.0,
     'epSI100': 100.0,
 }
+CICE_DAILY_FILENAME_PATTERN = 'cice_.{5}i_1d'
 NEMO_VVL_VARIABLES = {  # Variables with Variable Vertical Levels
     'grid-T': ['thetao', 'so'],
     'grid-V': ['vo'],
@@ -340,7 +341,6 @@ def preprocess_callback(cube, field, filename):
     add_netCDF_model_component(cube, model_component)
     add_depth_coord(cube)
     add_substream(cube, substream)
-    
     correct_cice_daily_time_coord(cube, filename)
 
 
@@ -644,18 +644,28 @@ def add_substream(cube, substream):
 def correct_cice_daily_time_coord(cube, filename):
     """
     CICE daily data can have dodgy time point information (set as the upper bound)
-    if the file provided is a CICE daily file correct the time coordinate points
+    if the file provided is a CICE daily file correct the time coordinate points.
+
+    :param cube: the cube to fix the time coordinate on
+    :type cube: :class:`iris.cube.Cube`
+    :param filename: the name of the file (used to identify if this is a daily CICE cube)
+    :type filename: string
     """
     logger = logging.getLogger(__name__)
-    match = re.search('cice_.{5}i_1d', filename)
+    match = re.search(CICE_DAILY_FILENAME_PATTERN, filename)
     if match:
+        # needed to avoid errors when dealing with cubes of spatial coordinates
         if 'time' not in [co.name() for co in cube.coords()]:
             return
+        # get time points and bounds
         tcoord = cube.coord('time')
         tp = tcoord.points
         tb_upper = tcoord.bounds[:, 1]
         tb_lower = tcoord.bounds[:, 0]
-        if (abs(tp - tb_upper) > 1e-6).all() or (abs(tp - tb_lower) > 1e-6).all():
+        # if the points are close to either the upper or lower bounds recompute them
+        # as the mid point between bounds (CMOR would do this later anyway, but
+        # there would be issues around repeated time-records at file boundaries)
+        if (abs(tp - tb_upper) < 1e-6).all() or (abs(tp - tb_lower) < 1e-6).all():
             logger.debug('Fixing time points for data from file "{}"'.format(filename))
             tcoord.points = (tb_upper + tb_lower) / 2.0
 
