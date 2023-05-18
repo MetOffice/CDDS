@@ -150,7 +150,7 @@ class QCRunner(object):
         })
         self.db.commit()
         qc_run_id = cursor.lastrowid
-        contiguity_checker = CollectionsCheck()
+        contiguity_checker = CollectionsCheck(request)
         self.logger.info("Checking filenames")
         file_errors = self.dataset.check_filenames_and_sizes()
         self.logger.info("Checking time contiguity")
@@ -186,6 +186,7 @@ class QCRunner(object):
                 invalid = self._parse_and_log(cursor, output, qc_dataset_id)
                 if data_file in crs[1] and crs[1][data_file]:
                     for msg in crs[1][data_file]:
+                        print(msg)
                         execute_insert_query(cursor, "qc_message", {
                             "qc_dataset_id": qc_dataset_id,
                             "message": msg["message"],

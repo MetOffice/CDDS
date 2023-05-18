@@ -5,8 +5,10 @@
 """
 Contiguity checker.
 """
+from collections import defaultdict
+
 from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
-from cdds.qc.common import datepoint_from_date, equal_with_tolerance, strip_zeros
+from cdds.qc.common import equal_with_tolerance, strip_zeros, request_date_to_iso, DatetimeCalculator
 from cdds.qc.constants import (FREQ_DICT, HOURLY_OFFSET, MONTHLY_OFFSET, RADIATION_TIMESTEP, SECONDS_IN_DAY,
                                TIME_TOLERANCE)
 
@@ -17,11 +19,14 @@ class CollectionsCheck(object):
     name = "collections"
     supported_ds = [Cmip6Dataset]
 
-    def __init__(self):
+    def __init__(self, request):
         """
         A constructor.
         """
-        self.results = {}
+        self.request = request
+        self.calendar_calculator = DatetimeCalculator(
+            self.request.calendar, request_date_to_iso(self.request.child_base_date))
+        self.results = defaultdict(list)
 
     def perform_checks(self, ds):
         """
@@ -40,7 +45,6 @@ class CollectionsCheck(object):
         if type(ds) not in self.supported_ds:
             raise Exception("Dataset {} is not of supported type.".format(ds))
 
-        self.results = {}
         return self.check_time_contiguity(ds)
 
     def check_time_contiguity(self, ds):
@@ -61,12 +65,12 @@ class CollectionsCheck(object):
 
         # checks only if more than one file in the aggregated dict
         for var_key, filepaths in list(aggregated.items()):
+            self.check_total_contiguity(ds, var_key)
             metadatas = self.check_variable(ds, var_key, filepaths)
 
             metadatas.sort(key=lambda x: x["time_dim"][0])
 
-            run_bounds_check = self.check_run_bounds(
-                ds.request, metadatas)
+            run_bounds_check = self.check_run_bounds(metadatas)
             self.add_message(filepaths[0], var_key, run_bounds_check)
 
             if len(metadatas) == 1:
@@ -283,16 +287,13 @@ class CollectionsCheck(object):
                 break
         return msg
 
-    def check_run_bounds(self, request, metadatas):
+    def check_run_bounds(self, metadatas):
         """
         Tests datetime bounds from the request.json are consistent with
         the netCDF dataset.
 
         Parameters
         ----------
-        request: :class:`cdds.common.request.Request`
-            The |Request| json file.
-
         metadatas: dict
             Metadata dictionary.
 
@@ -310,21 +311,73 @@ class CollectionsCheck(object):
             date_start = metadatas[0]["time_dim"][0]
             date_end = metadatas[-1]["time_dim"][-1]
             tolerance += metadatas[0]["time_dim"][1] - metadatas[0]["time_dim"][0]
-        run_start, run_end = request.run_bounds.split(" ")
-        run_start_datepoint = datepoint_from_date(run_start)
-        run_end_datepoint = datepoint_from_date(run_end)
+        run_start, run_end = self.request.run_bounds.split(" ")
+        run_start_datepoint = self.calendar_calculator.days_since_base_date(request_date_to_iso(run_start))
+        run_end_datepoint = self.calendar_calculator.days_since_base_date(request_date_to_iso(run_end))
         if not equal_with_tolerance(date_start, run_start_datepoint, tolerance):
             msg = (
                 "Start of the dataset ({} days since {}) do not match"
                 " the request date range ({})".format(
-                    date_start, request.child_base_date, run_start)
+                    date_start, self.request.child_base_date, run_start)
             )
         if not equal_with_tolerance(date_end, run_end_datepoint, tolerance):
             msg = (
                 "End of the dataset ({} days since {}) do not match"
                 " the request date range ({})".format(
-                    date_end, request.child_base_date, run_end)
+                    date_end, self.request.child_base_date, run_end)
             )
+        return msg
+
+    def check_total_contiguity(self, ds, var_key):
+        freq_dict = {'mon': 'M', 'day': 'D'}
+        time_axis, time_bounds, frequency = ds.variable_time_axis(var_key)
+        run_start, run_end = self.request.run_bounds.split(" ")
+        if frequency in freq_dict:
+            point_sequence, bound_sequence = self.calendar_calculator.get_sequence(
+                request_date_to_iso(run_start), request_date_to_iso(run_end), freq_dict[frequency])
+        else:
+            print("Skipping contiguity checks for frequency type {}".format(frequency))
+            return
+        whole_series = None
+        reference_index = 0
+
+        for key, vals in time_axis.items():
+            # before checking individual values we'll check run bounds first
+            # if they don't match then it doesn't make sense to validate individual points as they
+            bound_errors = (self.add_message(key, var_key, self._test_datetime_sequence(
+                point_sequence[0], vals[0], 'Run bounds check')) or self.add_message(
+                key, var_key, self._test_datetime_sequence(point_sequence[-1], vals[-1], 'Run bounds check')))
+            if len(time_bounds[key]):
+                time_bound_errors = (self.add_message(key, var_key, self._test_datetime_sequence(
+                    bound_sequence[0][0], time_bounds[key][0][0], 'Run (time-)bounds check'))) or self.add_message(
+                    key, var_key, self._test_datetime_sequence(
+                        bound_sequence[-1][1], time_bounds[key][-1][1], 'Run (time-)bounds check'))
+                bound_errors = bound_errors or time_bound_errors
+            if bound_errors:
+                print("skipping")
+                # skipping rest of time contiguity tests
+                continue
+            for val in vals:
+                self.add_message(key, var_key, self._test_datetime_sequence(
+                    point_sequence[reference_index], val, 'Time contiguity check:'))
+                reference_index = reference_index + 1
+            if whole_series is None:
+                whole_series = vals
+            else:
+                whole_series = whole_series + vals
+        print(self.results)
+        return
+
+    def _test_datetime_sequence(self, reference_datetime, tested_value, msg_prefix, tolerance=TIME_TOLERANCE):
+        msg = None
+        reference_time_point = self.calendar_calculator.days_since_base_date(
+            reference_datetime.strftime('%Y-%m-%dT%H:%MZ'))
+        if not equal_with_tolerance(
+                tested_value,
+                reference_time_point,
+                tolerance):
+            msg = '{}: {} does not correspond to reference value {} (difference {} days)'.format(
+                msg_prefix, tested_value, reference_datetime, reference_time_point - tested_value)
         return msg
 
     def add_message(self, filepath, var_key, message):
@@ -340,14 +393,14 @@ class CollectionsCheck(object):
             Error message.
         """
         if message is not None:
-            if filepath not in self.results:
-                self.results[filepath] = []
             self.results[filepath].append(
                 {
                     "index": var_key,
                     "message": message
                 }
             )
+            return True
+        return False
 
     def _get_frequency(self, ds, frequency_code, variable_id):
         if frequency_code == "subhrPt":

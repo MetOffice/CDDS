@@ -5,6 +5,7 @@ import re
 import os
 
 from abc import ABCMeta, abstractmethod
+from collections import OrderedDict
 
 from cdds.qc.constants import EXCLUDE_DIRECTORIES_REGEXP, MAX_FILESIZE
 from cdds.qc.plugins.base.validators import ValidationError
@@ -132,6 +133,20 @@ class StructuredDataset(object, metaclass=ABCMeta):
             return ret
         else:
             return self._aggregated
+
+    def variable_time_axis(self, var_key):
+        filepaths = sorted(self._aggregated[var_key])
+        # we make assumption that filenames are sortable and their order should correspond to concatenated time axis
+        # order. This is generally true for CMIP-like filenames with YYYYMMDD-type dates in filenames.
+        time_axis = OrderedDict()
+        time_bnds = OrderedDict()
+        frequency = None
+        for filepath in filepaths:
+            with self._loader_class(filepath) as nc_file:
+                time_axis[filepath] = nc_file.variables["time"][:].data
+                time_bnds[filepath] = nc_file.variables["time_bnds"][:].data if "time_bnds" in nc_file.variables else []
+                frequency = nc_file.getncattr("frequency")
+        return (time_axis, time_bnds, frequency)
 
     @abstractmethod
     def _aggregate_files(self):

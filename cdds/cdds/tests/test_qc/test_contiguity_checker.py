@@ -3,15 +3,20 @@
 
 import unittest
 from cdds.common.request import Request
+from cdds.qc.common import DatetimeCalculator
 from cdds.qc.contiguity_checker import CollectionsCheck
 
 
 class CollectionsCheckTestCase(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
+        self.request = Request({
+            "run_bounds": "1850-01-01-00-00-00 1851-01-01-00-00-00",
+            "child_base_date": "1850-01-01-00-00-00"
+        }, [])
 
     def test_adding_messages(self):
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         self.assertDictEqual({}, cc.results)
         cc.add_message("foo", "foo_bar", "Baz")
         self.assertDictEqual(
@@ -20,31 +25,31 @@ class CollectionsCheckTestCase(unittest.TestCase):
         )
 
     def test_internal_contiguity_valid_time_dimension(self):
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         time_dim = [0, 30, 60, 90]
         msg = cc.check_internal_contiguity(time_dim)
         self.assertIsNone(msg)
 
     def test_internal_contiguity_valid_time_subsecond_difference(self):
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         time_dim = [0, 30, 60, 90.000001]
         msg = cc.check_internal_contiguity(time_dim)
         self.assertIsNone(msg)
 
     def test_internal_contiguity_reversed_time_dimension(self):
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         time_dim = [90, 60, 30, 0]
         msg = cc.check_internal_contiguity(time_dim)
         self.assertEqual(msg, "Time coordinate appears to be reversed")
 
     def test_internal_contiguity_discontinuous_time_dimension(self):
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         time_dim = [0, 30, 70, 100]
         msg = cc.check_internal_contiguity(time_dim)
         self.assertEqual(msg, "Time coordinate is not continuous")
 
     def test_internal_contiguity_diurnal_climatology(self):
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         time_dim = [(i + 0.5) / 24.0 + 15.0 for i in range(24)] + [(i + 0.5) / 24.0 + 45.0 for i in range(24)]
         time_bnds = [((i / 24.0), ((i + 1) / 24.0 + 29.0)) for i in range(24)] + \
                     [((i / 24.0 + 30.0), ((i + 1) / 24.0 + 59.0)) for i in range(24)]
@@ -52,7 +57,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         self.assertIsNone(msg)
 
     def test_internal_contiguity_diurnal_climatology_discontinuous_time_dimension(self):
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         time_dim = [(i + 0.5) / 24.0 + 15.0 for i in range(24)] + [(i + 0.5) / 24.0 + 46.0 for i in range(24)]
         time_bnds = [((i / 24.0), ((i + 1) / 24.0 + 29.0)) for i in range(24)] + \
                     [((i / 24.0 + 31.0), ((i + 1) / 24.0 + 60.0)) for i in range(24)]
@@ -60,7 +65,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         self.assertEqual(msgs, 'Time coordinate is not continuous')
 
     def test_internal_contiguity_diurnal_climatology_incorrect_bounds(self):
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         time_dim = [(i + 0.5) / 24.0 + 15.0 for i in range(24)] + [(i + 0.5) / 24.0 + 45.0 for i in range(24)]
         time_bnds = [((i / 24.0), ((i + 1) / 24.0 + 1.0)) for i in range(24)] + \
                     [((i / 24.0 + 1.0), ((i + 1) / 24.0 + 2.0)) for i in range(24)]
@@ -90,7 +95,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
                 "diurnal_climatology": False,
             },
         ]
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         self.assertTrue(cc.check_external_contiguity(metadatas, "foo"))
 
     def test_valid_external_contiguity_hourly(self):
@@ -121,7 +126,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
                 "diurnal_climatology": False,
             },
         ]
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         self.assertTrue(cc.check_external_contiguity(metadatas, "foo"))
 
     def test_valid_external_contiguity_diurnal(self):
@@ -147,7 +152,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
                 "diurnal_climatology": True,
             },
         ]
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         self.assertTrue(cc.check_external_contiguity(metadatas, "foo"))
 
     def test_external_contiguity_with_gap(self):
@@ -173,7 +178,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
                 "diurnal_climatology": False,
             },
         ]
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         self.assertFalse(cc.check_external_contiguity(metadatas, "foo"))
         self.assertEqual(
             cc.results["foo_2.nc"],
@@ -209,7 +214,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
                 "diurnal_climatology": False,
             },
         ]
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         self.assertFalse(cc.check_external_contiguity(metadatas, "foo"))
         self.assertEqual(
             cc.results["foo_1.nc"],
@@ -246,7 +251,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
                 "diurnal_climatology": False,
             },
         ]
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         self.assertFalse(cc.check_external_contiguity(metadatas, "foo"))
         self.assertEqual(
             cc.results["foo_2.nc"],
@@ -281,7 +286,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
                 "diurnal_climatology": True,
             },
         ]
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(self.request)
         self.assertFalse(cc.check_external_contiguity(metadatas, "foo"))
         self.assertEqual(
             cc.results["foo_2.nc"],
@@ -318,7 +323,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             "run_bounds": "1850-01-01-00-00-00 1850-07-01-00-00-00",
             "child_base_date": "1850-01-01-00-00-00"
         }, [])
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(request)
         self.assertIsNone(cc.check_run_bounds(
             request,
             metadatas)
@@ -341,7 +346,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             "run_bounds": "1850-01-01-00-00-00 1851-01-01-00-00-00",
             "child_base_date": "1850-01-01-00-00-00"
         }, [])
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(request)
         self.assertIsNone(cc.check_run_bounds(
             request,
             metadatas)
@@ -364,7 +369,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             "run_bounds": "1850-01-01-00-00-00 1851-01-01-00-00-00",
             "child_base_date": "1850-01-01-00-00-00"
         }, [])
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(request)
         self.assertIsNone(cc.check_run_bounds(
             request,
             metadatas)
@@ -397,7 +402,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             "run_bounds": "1850-01-01-00-00-00 1851-01-01-00-00-00",
             "child_base_date": "1850-01-01-00-00-00"
         }, [])
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(request)
         self.assertEqual(
             cc.check_run_bounds(
                 request,
@@ -423,7 +428,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             "run_bounds": "1850-01-01-00-00-00 1851-01-01-00-00-00",
             "child_base_date": "1850-01-01-00-00-00"
         }, [])
-        cc = CollectionsCheck()
+        cc = CollectionsCheck(request)
         self.assertEqual(
             cc.check_run_bounds(
                 request,
