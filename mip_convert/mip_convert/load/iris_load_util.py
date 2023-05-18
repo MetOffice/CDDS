@@ -340,6 +340,8 @@ def preprocess_callback(cube, field, filename):
     add_netCDF_model_component(cube, model_component)
     add_depth_coord(cube)
     add_substream(cube, substream)
+    
+    correct_cice_daily_time_coord(cube, filename)
 
 
 def load_cubes_from_pp(all_input_data, pp_info, run_bounds):
@@ -637,6 +639,25 @@ def add_substream(cube, substream):
     """
     if substream is not None:
         cube.attributes['substream'] = substream
+
+
+def correct_cice_daily_time_coord(cube, filename):
+    """
+    CICE daily data can have dodgy time point information (set as the upper bound)
+    if the file provided is a CICE daily file correct the time coordinate points
+    """
+    logger = logging.getLogger(__name__)
+    match = re.search('cice_.{5}i_1d', filename)
+    if match:
+        if 'time' not in [co.name() for co in cube.coords()]:
+            return
+        tcoord = cube.coord('time')
+        tp = tcoord.points
+        tb_upper = tcoord.bounds[:, 1]
+        tb_lower = tcoord.bounds[:, 0]
+        if (abs(tp - tb_upper) > 1e-6).all() or (abs(tp - tb_lower) > 1e-6).all():
+            logger.debug('Fixing time points for data from file "{}"'.format(filename))
+            tcoord.points = (tb_upper + tb_lower) / 2.0
 
 
 def fix_cell_methods(cube, variables):
