@@ -334,6 +334,8 @@ def preprocess_callback(cube, field, filename):
     * adds a scalar depth coordinate to cubes for |MIP requested variables|
       that have an implied depth
     * add the substream to cubes loaded from netCDF |model output files|
+    * Correct the time-point value in cice daily input files where the point
+      value is the same as one of the bounds
     """
     remove_extra_time_axis(cube)
     model_component, substream = split_netCDF_filename(os.path.basename(filename))
