@@ -1,11 +1,12 @@
 # (C) British Crown Copyright 2017-2021, Met Office.
 # Please see LICENSE.rst for license details.
+import os
 
-MIP_TABLES_DIR = "/home/h03/cdds/etc/mip_tables/CMIP6"
-CORDEX_MIP_TABLES_DIR = "/net/home/h03/cdds/etc/mip_tables/CORDEX/for_unit_tests"
+MIP_TABLES_DIR = os.path.join(os.environ["CDDS_ETC"], "mip_tables/CMIP6")
+CORDEX_MIP_TABLES_DIR = os.path.join(os.environ["CDDS_ETC"], "mip_tables/CORDEX/for_unit_tests")
 
-CV_REPO = "/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29/CMIP6_CV.json"
-CORDEX_CV_REPO = "/net/home/h03/cdds/etc/mip_tables/CORDEX/for_unit_tests/CORDEX_CV.json"
+CV_REPO = os.path.join(os.environ["CDDS_ETC"], "mip_tables/CMIP6/01.00.29/CMIP6_CV.json")
+CORDEX_CV_REPO = os.path.join(os.environ["CDDS_ETC"], "mip_tables/CORDEX/for_unit_tests/CORDEX_CV.json")
 
 TMP_DIR_FOR_NETCDF_TESTS = '/var/tmp'
 

@@ -20,7 +20,7 @@ def getTestFileBase():
     '''
     returns the path to the directory containing test files
     '''
-    return '/project/cdds/testdata'
+    return os.path.join(os.environ['CDDS_ETC'], 'testdata')
 
 
 def getTestPath(yfile):
