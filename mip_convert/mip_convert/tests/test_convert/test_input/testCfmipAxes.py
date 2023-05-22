@@ -3,6 +3,7 @@
 """
 Unit tests for creating CFMIP site, height and time axes.
 """
+import os
 import unittest
 
 from header_util import BaseHeader
@@ -12,7 +13,8 @@ from mip_convert.model_date import set_default_base_date
 
 set_default_base_date()
 
-CFMIP2_COORDS_FILE = 'file:///project/cdds/etc/cfmip2/cfmip2-sites-orog.txt'
+CFMIP2_COORDS_DIR = os.path.join(os.environ['CDDS_ETC'], 'cfmip2')
+CFMIP2_COORDS_FILE = 'file://{}/cfmip2-sites-orog.txt'.format(CFMIP2_COORDS_DIR)
 umL38Axis = UmL38Axis()
 
 

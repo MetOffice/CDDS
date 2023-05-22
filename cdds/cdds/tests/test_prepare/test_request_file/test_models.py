@@ -55,7 +55,7 @@ class TestReadJson(TestCase):
 
 class TestLoadRequestForUKESM1(TestCase):
     def setUp(self):
-        root_mip_table = '/home/h03/cdds/etc/mip_tables/CMIP6/'
+        root_mip_table = os.path.join(os.environ['CDDS_ETC'], 'etc/mip_tables/CMIP6/')
         data_request_version = '01.00.29'
         mip_table_dir = os.path.join(root_mip_table, data_request_version)
 
@@ -267,7 +267,7 @@ class TestLoadRequestForUKESM1(TestCase):
 
 class TestLoadRequestForHadGEM3MM(TestCase):
     def setUp(self):
-        root_mip_table = '/home/h03/cdds/etc/mip_tables/CMIP6/'
+        root_mip_table = os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/')
         data_request_version = '01.00.29'
         mip_table_dir = os.path.join(root_mip_table, data_request_version)
 
@@ -378,7 +378,7 @@ class TestLoadRequestForHadGEM3MM(TestCase):
 
 class TestLoadRequestForHadGEM3LL(TestCase):
     def setUp(self):
-        root_mip_table = '/home/h03/cdds/etc/mip_tables/CMIP6/'
+        root_mip_table = os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/')
         data_request_version = '01.00.29'
         mip_table_dir = os.path.join(root_mip_table, data_request_version)
 

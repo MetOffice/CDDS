@@ -16,6 +16,7 @@ class TestCmip6SImonSiage(AbstractFunctionalTests):
 
     def get_test_data(self):
         test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CMIP6_SImon_siage')
+        replacement_file = os.path.join(os.environ['CDDS_ETC'], 'horizontal_coordinates/cice_eORCA1_coords.nc')
         return Cmip6TestData(
             mip_table='SImon',
             variable='siage',
@@ -32,7 +33,7 @@ class TestCmip6SImonSiage(AbstractFunctionalTests):
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': MODEL_OUTPUT_DIR_SET1,
-                    'replacement_coordinates_file': '/project/cdds/etc/horizontal_coordinates/cice_eORCA1_coords.nc',
+                    'replacement_coordinates_file': replacement_file,
                     'run_bounds': '1854-03-01-00-00-00 1854-05-01-00-00-00',
                     'suite_id': 'u-ar050'
                 },

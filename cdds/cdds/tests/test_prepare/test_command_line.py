@@ -664,9 +664,9 @@ class TestParseAlterArgs(unittest.TestCase):
         global_args = {
             'data_request_version': '01.00.29',
             'log_level': logging.INFO,
-            'root_data_dir': '/project/cdds_data',
-            'root_mip_table_dir': '/home/h03/cdds/etc/mip_tables/CMIP6/',
-            'root_proc_dir': '/project/cdds/proc',
+            'root_data_dir': os.path.join(os.environ['CDDS_ETC'], 'cdds_data'),
+            'root_mip_table_dir': os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/'),
+            'root_proc_dir': os.path.join(os.environ['CDDS_ETC'], 'proc'),
         }
         package_args = {}
         script_args = {'default_priority': 1,

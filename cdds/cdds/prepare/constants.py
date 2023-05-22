@@ -5,6 +5,8 @@ The :mod:`constants` module contains constants (values that should never
 be changes by a user and exist for readability and maintainability
 purposes) for CDDS Prepare.
 """
+import os
+
 ACTIVATE = 'activate'
 ALLOWED_POSITIVE = ['up', 'down', None]
 ARCHIVE_LOG_DIRECTORY_PERMISSIONS = 0o777
@@ -237,7 +239,7 @@ KNOWN_GOOD_VARIABLES = {
                   'sithick', 'sitimefrac', 'sivol', 'sndmassdyn',
                   'sndmassmelt', 'sndmasssi', 'sndmasssnf']},
 }
-MIP_TABLES_DIR = '/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29'
+MIP_TABLES_DIR = '{}/mip_tables/CMIP6/01.00.29'.format(os.environ['CDDS_ETC'])
 MODEL_TYPE_MAP = {'atmos': ('AGCM', 'AOGCM'),
                   'ocean': ('AOGCM', 'OGCM')}
 OBGC_MODEL_STRING = 'BGC'

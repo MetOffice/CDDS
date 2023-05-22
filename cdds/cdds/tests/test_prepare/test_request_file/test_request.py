@@ -44,7 +44,7 @@ class TestCheckSuiteInfo(TestCase):
 
         self.suite_arguments = RoseSuiteArguments({}, {}, {})
         self.suite_arguments.set_suite_arguments('aw310', 'cdds', '104373', 'round-1-part-1', [])
-        self.suite_arguments.__setattr__('root_mip_table_dir', '/home/h03/cdds/etc/mip_tables/CMIP6')
+        self.suite_arguments.__setattr__('root_mip_table_dir', os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6'))
         self.suite_arguments.__setattr__('mass_data_class', 'crum')
         self.suite_arguments.__setattr__('mass_ensemble_member', None)
         self.suite_arguments.__setattr__('data_request_version', '01.00.29')
@@ -77,7 +77,7 @@ class TestCheckSuiteInfo(TestCase):
 class TestReadRequest(TestCase):
 
     def setUp(self):
-        root_mip_table = '/home/h03/cdds/etc/mip_tables/CMIP6/'
+        root_mip_table = os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/')
         data_request_version = '01.00.29'
         mip_table_dir = os.path.join(root_mip_table, data_request_version)
 

@@ -166,6 +166,8 @@ class Arguments(object):
             self._add_attribute(parameter, argument)
 
     def _add_attribute(self, parameter, argument):
+        if isinstance(argument, str) and '$' in argument:
+            argument = os.path.expandvars(argument)
         self._parameters.append(parameter)
         setattr(self, parameter, argument)
 

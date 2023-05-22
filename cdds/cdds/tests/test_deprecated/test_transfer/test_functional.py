@@ -18,7 +18,7 @@ CONFIG = (
     """
 [locations]
 dataroot = .
-procroot = /project/cdds/proc
+procroot = /tmp/cdds/proc
 
 [facetmaps]
 # facet structure for root data directory
