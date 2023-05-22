@@ -3,6 +3,11 @@
 
 .. include:: common.txt
 
+Release 2.4.5, May 22, 2023
+===========================
+* MIP Convert can now correctly output data from CICE daily streams where the time coordinate 
+  data is faulty, and SIday/siconc can be produced (CDDSO-277)
+
 Release 2.4.4, May 4, 2023
 =============================
 
