@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cdds.common.plugins.cmip6.cmip6_models &#8212; CDDS 2.4.4 documentation</title>
+    <title>cdds.common.plugins.cmip6.cmip6_models &#8212; CDDS 2.4.5 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/nature.css" />
     <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS 2.4.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS 2.4.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.cmip6.cmip6_models</a></li> 
       </ul>
@@ -69,6 +69,9 @@
     <span class="n">HadREM3_GA7_05</span> <span class="o">=</span> <span class="s1">&#39;HadREM3-GA7-05&#39;</span>
     <span class="n">HadGEM3_GC31_LL</span> <span class="o">=</span> <span class="s1">&#39;HadGEM3-GC31-LL&#39;</span>
     <span class="n">HadGEM3_GC31_MM</span> <span class="o">=</span> <span class="s1">&#39;HadGEM3-GC31-MM&#39;</span>
+    <span class="n">HadGEM3_GC31_HM</span> <span class="o">=</span> <span class="s1">&#39;HadGEM3-GC31-HM&#39;</span>
+    <span class="n">HadGEM3_GC31_MH</span> <span class="o">=</span> <span class="s1">&#39;HadGEM3-GC31-MH&#39;</span>
+    <span class="n">HadGEM3_GC31_HH</span> <span class="o">=</span> <span class="s1">&#39;HadGEM3-GC31-HH&#39;</span>
     <span class="n">UKESM1_0_LL</span> <span class="o">=</span> <span class="s1">&#39;UKESM1-0-LL&#39;</span>
     <span class="n">UKESM1_1_LL</span> <span class="o">=</span> <span class="s1">&#39;UKESM1-1-LL&#39;</span>
     <span class="n">UKESM1_ICE_LL</span> <span class="o">=</span> <span class="s1">&#39;UKESM1-ice-LL&#39;</span></div>
@@ -189,6 +192,123 @@
 <span class="sd">        Returns the UM version of the HadGEM3_GC31_MM model.</span>
 
 <span class="sd">        :return: UM version of HadGEM3_GC31_MM</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;10.7&#39;</span></div>
+
+
+<div class="viewcode-block" id="HadGEM3_GC31_HM_Params"><a class="viewcode-back" href="../../../../../plugins/plugins.cmip6.html#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HM_Params">[docs]</a><span class="k">class</span> <span class="nc">HadGEM3_GC31_HM_Params</span><span class="p">(</span><span class="n">BaseModelParameters</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store the parameters for the HadGEM3_GC31_HM model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HadGEM3_GC31_HM_Params</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">Cmip6ModelId</span><span class="o">.</span><span class="n">HadGEM3_GC31_HM</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the model version of the HadGEM3_GC31_HM model.</span>
+
+<span class="sd">        :return: Model version of HadGEM3_GC31_HM</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;3.1&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_request_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the data request version of the HadGEM3_GC31_HM model.</span>
+
+<span class="sd">        :return: Data request version of HadGEM3_GC31_HM</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;01.00.10&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">um_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the UM version of the HadGEM3_GC31_HM model.</span>
+
+<span class="sd">        :return: UM version of HadGEM3_GC31_HM</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;10.7&#39;</span></div>
+
+
+<div class="viewcode-block" id="HadGEM3_GC31_MH_Params"><a class="viewcode-back" href="../../../../../plugins/plugins.cmip6.html#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_MH_Params">[docs]</a><span class="k">class</span> <span class="nc">HadGEM3_GC31_MH_Params</span><span class="p">(</span><span class="n">BaseModelParameters</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store the parameters for the HadGEM3_GC31_MH model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HadGEM3_GC31_MH_Params</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">Cmip6ModelId</span><span class="o">.</span><span class="n">HadGEM3_GC31_MH</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the model version of the HadGEM3_GC31_MH model.</span>
+
+<span class="sd">        :return: Model version of HadGEM3_GC31_MH</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;3.1&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_request_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the data request version of the HadGEM3_GC31_MH model.</span>
+
+<span class="sd">        :return: Data request version of HadGEM3_GC31_MH</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;01.00.10&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">um_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the UM version of the HadGEM3_GC31_MH model.</span>
+
+<span class="sd">        :return: UM version of HadGEM3_GC31_MH</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;10.7&#39;</span></div>
+
+
+<div class="viewcode-block" id="HadGEM3_GC31_HH_Params"><a class="viewcode-back" href="../../../../../plugins/plugins.cmip6.html#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HH_Params">[docs]</a><span class="k">class</span> <span class="nc">HadGEM3_GC31_HH_Params</span><span class="p">(</span><span class="n">BaseModelParameters</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store the parameters for the HadGEM3_GC31_HH model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HadGEM3_GC31_HH_Params</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">Cmip6ModelId</span><span class="o">.</span><span class="n">HadGEM3_GC31_HH</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the model version of the HadGEM3_GC31_HH model.</span>
+
+<span class="sd">        :return: Model version of HadGEM3_GC31_HH</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;3.1&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_request_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the data request version of the HadGEM3_GC31_HH model.</span>
+
+<span class="sd">        :return: Data request version of HadGEM3_GC31_HH</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;01.00.10&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">um_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the UM version of the HadGEM3_GC31_HH model.</span>
+
+<span class="sd">        :return: UM version of HadGEM3_GC31_HH</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;10.7&#39;</span></div>
@@ -325,6 +445,9 @@
             <span class="n">HadREM3_GA7_05_Params</span><span class="p">(),</span>
             <span class="n">HadGEM3_GC31_LL_Params</span><span class="p">(),</span>
             <span class="n">HadGEM3_GC31_MM_Params</span><span class="p">(),</span>
+            <span class="n">HadGEM3_GC31_HM_Params</span><span class="p">(),</span>
+            <span class="n">HadGEM3_GC31_MH_Params</span><span class="p">(),</span>
+            <span class="n">HadGEM3_GC31_HH_Params</span><span class="p">(),</span>
             <span class="n">UKESM1_0_LL_Params</span><span class="p">(),</span>
             <span class="n">UKESM1_1_LL_Params</span><span class="p">(),</span>
             <span class="n">UKESM1_ice_LL_Params</span><span class="p">()</span>
@@ -387,7 +510,7 @@
         <li class="right" >
           <a href="../../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS 2.4.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS 2.4.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.cmip6.cmip6_models</a></li> 
       </ul>
