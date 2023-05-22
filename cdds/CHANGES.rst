@@ -3,6 +3,10 @@
 
 .. include:: common.txt
 
+Release 2.4.5, May 22, 2023
+===========================
+* Added HighResMIP models to CMIP6 plugin (CDDSO-158, cherry-picked from main)
+
 Release 2.4.4, May 4, 2023
 ==========================
 * Added options to use a “relaxed” approach to MIP name (activity_id), and experiment id, 
