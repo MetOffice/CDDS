@@ -78,7 +78,7 @@ class DatetimeCalculator():
     def get_sequence(self, start_date: str, end_date: str, mode: str):
         start = parse.TimePointParser().parse(start_date)
         end = parse.TimePointParser().parse(end_date)
-        duration = parse.DurationParser().parse('P1{}'.format(mode))
+        duration = parse.DurationParser().parse('P{}'.format(mode))
         current = start
         sequence_points = []
         sequence_bounds = []

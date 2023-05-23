@@ -7,7 +7,7 @@ import os
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
 
-from cdds.qc.constants import EXCLUDE_DIRECTORIES_REGEXP, MAX_FILESIZE
+from cdds.qc.constants import DIURNAL_CLIMATOLOGY, EXCLUDE_DIRECTORIES_REGEXP, MAX_FILESIZE, SECONDS_IN_DAY
 from cdds.qc.plugins.base.validators import ValidationError
 
 
@@ -134,18 +134,45 @@ class StructuredDataset(object, metaclass=ABCMeta):
         else:
             return self._aggregated
 
-    def variable_time_axis(self, var_key):
+    def variable_time_axis(self, var_key, atmos_timestep):
         filepaths = sorted(self._aggregated[var_key])
         # we make assumption that filenames are sortable and their order should correspond to concatenated time axis
         # order. This is generally true for CMIP-like filenames with YYYYMMDD-type dates in filenames.
         time_axis = OrderedDict()
         time_bnds = OrderedDict()
         frequency = None
+        freq_dict = {
+            'dec': '10Y',
+            'yr': '1Y',
+            'yrPt': '1Y',
+            'mon': '1M',
+            'monC': '1M',
+            'monPt': '1M',
+            'day': '1D',
+            '6hr': 'T6H',
+            '6hrPt': 'T6H',
+            '3hr': 'T3H',
+            '3hrPt': 'T3H',
+            '1hr': 'T1H',
+            '1hrPt': 'T1H',
+        }
         for filepath in filepaths:
             with self._loader_class(filepath) as nc_file:
                 time_axis[filepath] = nc_file.variables["time"][:].data
                 time_bnds[filepath] = nc_file.variables["time_bnds"][:].data if "time_bnds" in nc_file.variables else []
-                frequency = nc_file.getncattr("frequency")
+                frequency_code = nc_file.getncattr("frequency")
+                if frequency_code == 'subhrPt':
+                    if variable_id.startswith("rs") or variable_id.startswith("rl"):
+                        # despite the frequency code, radiation variables are on hourly timepoints
+                        frequency = 'T1H'
+                    else:
+                        # the rest are reported once per timestep
+                        frequency = float(atmos_timestep) / SECONDS_IN_DAY
+                elif frequency_code == DIURNAL_CLIMATOLOGY:
+                    frequency = 'diurnal'
+                    time_bnds[filepath] = nc_file.variables["climatology_bnds"][:].data
+                else:
+                    frequency = freq_dict[nc_file.getncattr("frequency")]
         return (time_axis, time_bnds, frequency)
 
     @abstractmethod

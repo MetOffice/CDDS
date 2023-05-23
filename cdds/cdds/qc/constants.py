@@ -7,6 +7,7 @@ purposes) for the CDDS QC component.
 """
 
 COMPONENT = 'qualitycheck'
+DIURNAL_CLIMATOLOGY = '1hrCM'
 DS_TYPE_SINGLE_FILE = 1
 DS_TYPE_DATASET = 2
 EPOCH = "cmip6"

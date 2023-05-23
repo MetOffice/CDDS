@@ -9,8 +9,8 @@ from collections import defaultdict
 
 from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
 from cdds.qc.common import equal_with_tolerance, strip_zeros, request_date_to_iso, DatetimeCalculator
-from cdds.qc.constants import (FREQ_DICT, HOURLY_OFFSET, MONTHLY_OFFSET, RADIATION_TIMESTEP, SECONDS_IN_DAY,
-                               TIME_TOLERANCE)
+from cdds.qc.constants import (DIURNAL_CLIMATOLOGY, FREQ_DICT, HOURLY_OFFSET, MONTHLY_OFFSET, RADIATION_TIMESTEP,
+                               SECONDS_IN_DAY, TIME_TOLERANCE)
 
 
 class CollectionsCheck(object):
@@ -329,18 +329,18 @@ class CollectionsCheck(object):
         return msg
 
     def check_total_contiguity(self, ds, var_key):
-        freq_dict = {'mon': 'M', 'day': 'D'}
-        time_axis, time_bounds, frequency = ds.variable_time_axis(var_key)
+        time_axis, time_bounds, frequency = ds.variable_time_axis(var_key, self.request.atmos_timestep)
         run_start, run_end = self.request.run_bounds.split(" ")
-        if frequency in freq_dict:
-            point_sequence, bound_sequence = self.calendar_calculator.get_sequence(
-                request_date_to_iso(run_start), request_date_to_iso(run_end), freq_dict[frequency])
-        else:
-            print("Skipping contiguity checks for frequency type {}".format(frequency))
+        if frequency == 'diurnal':
+            # the climatology is stored in just one file, but for the sake of consistency we'll iterate through the dict
+            # anyway
+            for key, vals in time_axis.items():
+                self.add_message(key, var_key, self.check_diurnal_climatology(vals, time_bounds))
             return
+        point_sequence, bound_sequence = self.calendar_calculator.get_sequence(
+            request_date_to_iso(run_start), request_date_to_iso(run_end), frequency)
         whole_series = None
         reference_index = 0
-
         for key, vals in time_axis.items():
             # before checking individual values we'll check run bounds first
             # if they don't match then it doesn't make sense to validate individual points as they
