@@ -13,23 +13,34 @@ DS_TYPE_DATASET = 2
 EPOCH = "cmip6"
 EXCLUDE_DIRECTORIES_REGEXP = r"(output\/[a-z0-9]{3})_(concat|mip_convert)"
 FREQ_DICT = {
-    "dec": 3600.0,
-    "yr": 360.0,
-    "yrPt": 360.0,
-    "mon": 30.0,
-    "monC": 30.0,
-    "monPt": 30.0,
-    "day": 1.0,
-    "6hr": 0.25,
-    "6hrPt": 0.25,
-    "3hr": 0.125,
-    "3hrPt": 0.125,
-    "1hr": 1.0 / 24,
-    "1hrCM": 1.0 / 24,
-    "1hrPt": 1.0 / 24,
+    'dec': '10Y',
+    'yr': '1Y',
+    'yrPt': '1Y',
+    'mon': '1M',
+    'monC': '1M',
+    'monPt': '1M',
+    'day': '1D',
+    '6hr': 'T6H',
+    '6hrPt': 'T6H',
+    '3hr': 'T3H',
+    '3hrPt': 'T3H',
+    '1hr': 'T1H',
+    '1hrPt': 'T1H'
 }
 HOURLY_OFFSET = 1.0 / 24.0  # 00:30, 01:30, 02:30, .., 22:30, 23:30
-MONTHLY_OFFSET = 29.0 + HOURLY_OFFSET  # 15th Jan 23:00, 15th Feb 00:00
+MONTHLY_OFFSETS = [
+    29,
+    28,
+    30,
+    29,
+    30,
+    29,
+    30,
+    30,
+    29,
+    30,
+    29,
+]
 MAX_FILESIZE = 20e9
 QC_DB_FILENAME = 'qc.db'
 QC_REPORT_FILENAME = 'report_{dt}.json'

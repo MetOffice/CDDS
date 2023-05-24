@@ -22,10 +22,12 @@ class Datetime360DayCalculatorTestCase(unittest.TestCase):
 
     def test_6hourly_sequence(self):
         subdaily_points, subdaily_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', 'T6H')
-        self.assertEqual(len(subdaily_points), 360*4)
+        self.assertEqual(len(subdaily_points), 360 * 4)
+
     def test_daily_sequence(self):
         daily_points, daily_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', '1D')
         self.assertEqual(len(daily_points), 360)
+
     def test_monthly_sequence(self):
         monthly_points, monthly_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', '1M')
         self.assertEqual(len(monthly_points), 12)
@@ -33,6 +35,7 @@ class Datetime360DayCalculatorTestCase(unittest.TestCase):
     def test_yearly_sequence(self):
         yearly_points, yearly_bounds = self.calculator.get_sequence('1900-01-01T00:00Z', '1950-01-01T00:00Z', '1Y')
         self.assertEqual(len(yearly_points), 50)
+
     def test_decadal_sequence(self):
         decadal_points, decadal_bounds = self.calculator.get_sequence('1900-01-01T00:00Z', '1950-01-01T00:00Z', '10Y')
         self.assertEqual(len(decadal_points), 5)
@@ -54,10 +57,12 @@ class DatetimeGregorianCalculatorTestCase(unittest.TestCase):
 
     def test_6hourly_sequence(self):
         subdaily_points, subdaily_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', 'T6H')
-        self.assertEqual(len(subdaily_points), 366*4)
+        self.assertEqual(len(subdaily_points), 366 * 4)
+
     def test_daily_sequence(self):
         daily_points, daily_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', '1D')
         self.assertEqual(len(daily_points), 366)
+
     def test_monthly_sequence(self):
         monthly_points, monthly_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', '1M')
         self.assertEqual(len(monthly_points), 12)
@@ -65,6 +70,7 @@ class DatetimeGregorianCalculatorTestCase(unittest.TestCase):
     def test_yearly_sequence(self):
         yearly_points, yearly_bounds = self.calculator.get_sequence('1900-01-01T00:00Z', '1950-01-01T00:00Z', '1Y')
         self.assertEqual(len(yearly_points), 50)
+
     def test_decadal_sequence(self):
         decadal_points, decadal_bounds = self.calculator.get_sequence('1900-01-01T00:00Z', '1950-01-01T00:00Z', '10Y')
         self.assertEqual(len(decadal_points), 5)
