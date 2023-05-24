@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2022, Met Office.
+# (C) British Crown Copyright 2018-2023, Met Office.
 # Please see LICENSE.rst for license details.
 
 import logging
@@ -186,7 +186,6 @@ class QCRunner(object):
                 invalid = self._parse_and_log(cursor, output, qc_dataset_id)
                 if data_file in crs[1] and crs[1][data_file]:
                     for msg in crs[1][data_file]:
-                        print(msg)
                         execute_insert_query(cursor, "qc_message", {
                             "qc_dataset_id": qc_dataset_id,
                             "message": msg["message"],
