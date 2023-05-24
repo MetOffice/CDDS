@@ -520,7 +520,6 @@ class Filters(object):
         self.mass_cmd = []
         error = ""
         start_date = calculate_period((start.year, start.month, start.day), True)
-        print('Start date of period: {}'.format(start_date))
         end_date = calculate_period((end.year, end.month, end.day), False)
         test_sizes = self._chunk_candidates(start_date, end_date)
         chunks, with_ens_id = self.generate_chunks(start_date, end, test_sizes)
