@@ -200,7 +200,7 @@ def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
                          or period_start <= file_dict['end'] <= period_end)):
                     file_list += [file_dict]
 
-            # TODO cleanup junk files
+            # TODO cleanup junk filespr
             # files called e.g. bi909a.p618500101.pp
             except AttributeError:
                 pass
