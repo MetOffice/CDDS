@@ -3,7 +3,7 @@
 
 import metomi.isodatetime.parsers as parse
 import metomi.isodatetime.dumpers as dump
-from metomi.isodatetime.data import Calendar, get_is_leap_year
+from metomi.isodatetime.data import Calendar, Duration, TimePoint, get_is_leap_year
 
 """
 Common routines for CDDS CF checker
@@ -65,25 +65,80 @@ def request_date_to_iso(datetime_string: str) -> str:
 
 
 class DatetimeCalculator():
+    """
+    A wrapper class for helper datetime functions calculated with a particular calendar.
+    """
 
-    def __init__(self, calendar: str, base_date: str = '1850-01-01T00:00Z', base_resolution: str = 'D'):
+    def __init__(self, calendar: str, base_date: str = '1850-01-01T00:00Z'):
+        """
+        Parameters
+        ----------
+        calendar: str
+            Calendar type (e.g. '360_day'_
+        base_date: str
+            Base date of the time axis coordinate
+        base_unit: str
+            Time unit of the time axis coordinate
+        """
         Calendar.default().set_mode(calendar)
         self.calendar = calendar
         self.base_date = parse.TimePointParser().parse(base_date)
-        self.base_resolution = base_resolution
         self.seconds_in_day = Calendar.SECONDS_IN_MINUTE * Calendar.MINUTES_IN_HOUR * Calendar.HOURS_IN_DAY
 
     def days_since_base_date(self, time_point: str) -> float:
+        """
+        For a provided date calculates how many (fractional) days passed since the base date
+
+        Parameters
+        ==========
+        time_point: str
+            Datetime string
+
+        Returns
+        =======
+        : float
+            Numbers of days since the base date (typically 1850-01-01 00:00)
+        """
         return ((parse.TimePointParser().parse(time_point) - self.base_date)._get_non_nominal_seconds()
                 ) / self.seconds_in_day
 
-    def days_since_base_date_to_date(self, days: int):
+    def days_since_base_date_to_date(self, days: int) -> TimePoint:
+        """
+        Converts number of days since the base date into a time point object. The limitation is that the number
+        of days must be integer, no fractions are allowed.
+
+        Parameters
+        ==========
+        days: int
+            Number of days since the base date
+
+        Returns
+        =======
+        : metomi.isodatetime.data.TimePoint
+            Converted time point
+        """
         return parse.DurationParser().parse('P{}D'.format(days)) + self.base_date
 
-    def date_in_leap_year(self, date):
-        return get_is_leap_year(date.year)
+    def get_sequence(self, start_date: str, end_date: str, mode: str, with_bounds=True) -> tuple:
+        """
+        Generates a sequence of time points and bounds between two dates
 
-    def get_sequence(self, start_date: str, end_date: str, mode: str, with_bounds=True):
+        Parameters
+        ==========
+        start_date: str
+            Datetime string of the starting date of the period
+        end_date: str
+            Datetime string of the ending date of the period
+        mode: str
+            Frequency code defining the sequency, e.g. 1M for monthlies, T6H for 6-hourlies, etc.
+        with_bounds: bool
+            If true will generate bounds as well
+
+        Returns
+        =======
+        : tuple
+            A tuple of two lists with sequence time points and bounds
+        """
         start = parse.TimePointParser().parse(start_date)
         end = parse.TimePointParser().parse(end_date)
         duration = parse.DurationParser().parse('P{}'.format(mode))
@@ -101,11 +156,29 @@ class DatetimeCalculator():
         # it's possible that end date is different from the last item in sequence
         return sequence_points, sequence_bounds
 
-    def _get_bounds_and_midpoint(self, current_time_point, duration, with_bounds):
+    @staticmethod
+    def date_in_leap_year(date: TimePoint) -> bool:
+        """
+        Checks if the provided date occurs in a leap year
+
+        Parameters
+        ==========
+        date: metomi.isodatetime.data.TimePoint
+            Date to chec
+
+        Returns
+        =======
+        : bool
+            True if it is a leap year, False otherwise
+        """
+        return get_is_leap_year(date.year)
+
+    @staticmethod
+    def _get_bounds_and_midpoint(current_time_point: TimePoint, duration: Duration, with_bounds: bool) -> tuple:
         next_time_point = current_time_point + duration
         if with_bounds:
             half_duration = (next_time_point - current_time_point)._get_non_nominal_seconds() // 2
             mid_time_point = current_time_point + parse.DurationParser().parse('PT{}S'.format(half_duration))
         else:
             mid_time_point = None
-        return (current_time_point, mid_time_point, next_time_point)
+        return current_time_point, mid_time_point, next_time_point

@@ -135,6 +135,23 @@ class StructuredDataset(object, metaclass=ABCMeta):
             return self._aggregated
 
     def variable_time_axis(self, var_key, atmos_timestep):
+        """
+        Extracts time axis and bounds (if they exist) from a netcdf file, along with corresponding frequency code.
+        Axes and bounds are ordered dictionaries indexed with names of the files from which they have been extracted,
+        the assumption is that for CMIP6-like output standard filename ordering will correspond to time ordering.
+
+        Parameters
+        ==========
+        var_key: str
+            Variable id
+        atmos_timestep: int
+            Atmospheric time step in seconds
+
+        Returns
+        =======
+        : tuple
+            Time axis dict, time bounds dict, frequency code
+        """
         filepaths = sorted(self._aggregated[var_key])
         # we make assumption that filenames are sortable and their order should correspond to concatenated time axis
         # order. This is generally true for CMIP-like filenames with YYYYMMDD-type dates in filenames.
