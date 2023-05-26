@@ -83,15 +83,14 @@ def parse_args_cdds_convert():
                         help='For development purposes only.'
                         )
     parser.add_argument('--simulation', action='store_true',
-                        help='Run rose suite in simulation mode')
+                        help='Run cylc workflow in simulation mode')
 
-    parser.add_argument('--suite_run_args',
-                        dest='rose_args',
+    parser.add_argument('--cylc_args',
+                        dest='cylc_args',
                         type=str,
-                        help='Arguments to be passed to rose suite-run. For '
+                        help='Arguments to be passed to cylc vip. For '
                              'more info on the allowed options, please see'
-                             'rose suite-run --help.',
-                        default=arguments.suite_run_args)
+                             'cylc vip --help.')
     parser.add_argument('--skip_extract',
                         dest='skip_extract',
                         action='store_true',
@@ -202,29 +201,33 @@ def parse_args_cdds_convert():
         check_directory(arguments.model_params_dir)
         plugin.overload_models_parameters(arguments.model_params_dir)
 
-    user_rose_args_str = args.rose_args
-    rose_args = user_rose_args_str.split(' ') + ['-v']
+    if args.cylc_args:
+        user_cylc_args_str = args.cylc_args
+        cylc_args = user_cylc_args_str.split(' ') + ['-v']
+    else:
+        user_cylc_args_str = ['-v']
+        cylc_args = ['-v']
 
     # If user does not specify a run name for the rose suite, use
     # cdds_{request_id}
-    if '--name' in user_rose_args_str:
-        name_indices = [ix1 for ix1, arg1 in enumerate(rose_args)
-                        if '--name' in arg1]
+    if '--workflow-name' in user_cylc_args_str:
+        name_indices = [ix1 for ix1, arg1 in enumerate(cylc_args)
+                        if '--workflow-name' in arg1]
         for ix1 in name_indices:
-            if '=' in rose_args[ix1]:
+            if '=' in cylc_args[ix1]:
                 ix_to_change = ix1
             else:
                 ix_to_change = ix1 + 1
-            rose_args[ix_to_change] = rose_args[ix_to_change] + '_{stream}'
+            cylc_args[ix_to_change] = cylc_args[ix_to_change] + '_{stream}'
 
     else:
-        rose_args += ['--name=cdds_{request_id}_{stream}']
+        cylc_args += ['--workflow-name=cdds_{request_id}_{stream}']
 
     if not arguments.skip_configure:
         arguments = update_user_config_data_files(arguments, request)
 
     arguments = update_log_dir(arguments, COMPONENT)
-    return arguments, rose_args
+    return arguments, cylc_args
 
 
 def _parse_args_concat_setup():

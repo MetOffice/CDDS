@@ -12,7 +12,7 @@ from unittest import mock
 
 from metomi.isodatetime.parsers import TimePointParser
 
-import cdds.convert.process.suite_interface as suite
+import cdds.convert.process.workflow_interface as suite
 from cdds import _DEV, _NUMERICAL_VERSION
 from cdds.common import ROSE_URLS
 from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
@@ -212,7 +212,7 @@ class ConvertProcessTest(unittest.TestCase):
         self.repo2 = ROSE_URLS['u']['external']
         self.suite_id = self.process.local_suite_name
 
-    @mock.patch('cdds.convert.process.suite_interface.check_svn_location')
+    @mock.patch('cdds.convert.process.workflow_interface.check_svn_location')
     def test_rose_suite_svn_location_first(self, mock_check_svn):
         mock_check_svn.return_value = True
         expected_location = self.repo1 + '/a/a/0/0/0/trunk'
@@ -221,7 +221,7 @@ class ConvertProcessTest(unittest.TestCase):
                          ('expected "{}", received "{}"'
                           '').format(expected_location, location))
 
-    @mock.patch('cdds.convert.process.suite_interface.check_svn_location')
+    @mock.patch('cdds.convert.process.workflow_interface.check_svn_location')
     def test_rose_suite_svn_location_second(self, mock_check_svn):
         mock_check_svn.side_effect = [False, True]
         expected_location = self.repo2 + '/a/a/0/0/0/trunk'
@@ -230,7 +230,7 @@ class ConvertProcessTest(unittest.TestCase):
                          ('expected "{}", received "{}"'
                           '').format(expected_location, location))
 
-    @mock.patch('cdds.convert.process.suite_interface.check_svn_location')
+    @mock.patch('cdds.convert.process.workflow_interface.check_svn_location')
     def test_rose_suite_svn_location_branch(self, mock_check_svn):
         mock_check_svn.return_value = True
         branch = 'branch/of/some/sort'
@@ -249,8 +249,8 @@ class ConvertProcessTest(unittest.TestCase):
     )
     @mock.patch('cdds.convert.process.ConvertProcess.delete_convert_suite')
     @mock.patch('os.path.isdir')
-    @mock.patch('cdds.convert.process.suite_interface.checkout_url')
-    @mock.patch('cdds.convert.process.suite_interface.check_svn_location')
+    @mock.patch('cdds.convert.process.workflow_interface.checkout_url')
+    @mock.patch('cdds.convert.process.workflow_interface.check_svn_location')
     def test_checkout_convert_suite_url(self, mock_check_svn, mock_checkout,
                                         mock_isdir,
                                         mock_delete_suite,
@@ -263,7 +263,7 @@ class ConvertProcessTest(unittest.TestCase):
         mock_convert_suite_url.return_value = expected_suite_src
         expected_suite_dest = '/path/to/checkout/dir'
         mock_convert_suite_dest.return_value = expected_suite_dest
-        self.process.checkout_convert_suite()
+        self.process.checkout_convert_workflow()
         mock_delete_suite.assert_called_once()
         mock_checkout.assert_called_once_with(expected_suite_src,
                                               expected_suite_dest)
@@ -285,7 +285,7 @@ class ConvertProcessTest(unittest.TestCase):
         mock_isdir.return_value = True
         expected_suite_dest = '/path/to/checkout/dir'
         mock_convert_suite_dest.return_value = expected_suite_dest
-        self.process.checkout_convert_suite()
+        self.process.checkout_convert_workflow()
         mock_delete_suite.assert_called_once()
         mock_shutil_copytree.assert_called_once_with(suite_local_dir,
                                                      expected_suite_dest)
@@ -399,7 +399,7 @@ class ConvertProcessTest(unittest.TestCase):
     @mock.patch('cdds.convert.process.ConvertProcess.run_bounds')
     @mock.patch('shutil.copy')
     @mock.patch('os.path.exists')
-    @mock.patch('cdds.convert.process.suite_interface.update_suite_conf_file')
+    @mock.patch('cdds.convert.process.workflow_interface.update_suite_conf_file')
     def test_update_suite_rose_suite_conf(self, mock_update_conf,
                                           mock_exists,
                                           mock_shutil_copy,
@@ -457,7 +457,7 @@ class ConvertProcessTest(unittest.TestCase):
         self.process._update_suite_rose_suite_conf(None)
 
         call_list = [
-            mock.call(os.path.join(self.process.suite_destination, 'rose-suite.conf'), 'jinja2:suite.rc',
+            mock.call(os.path.join(self.process.suite_destination, 'rose-suite.conf'), 'template variables',
                       expected_update_kwargs_suite, raw_value=False)
         ]
         mock_update_conf.assert_has_calls(call_list)
@@ -474,7 +474,7 @@ class ConvertProcessTest(unittest.TestCase):
     @mock.patch('cdds.convert.process.ConvertProcess._final_concatenation_window_start')
     @mock.patch('cdds.convert.process.ConvertProcess._final_concatenation_needed')
     @mock.patch('shutil.copy')
-    @mock.patch('cdds.convert.process.suite_interface.update_suite_conf_file')
+    @mock.patch('cdds.convert.process.workflow_interface.update_suite_conf_file')
     def test_update_suite_opt_conf(self, mock_update_conf, mock_shutil_copy,
                                    mock_final_concat_needed,
                                    mock_final_concat_start, mock_final_concat,
@@ -566,26 +566,26 @@ class ConvertProcessTest(unittest.TestCase):
             opt_conf_path = os.path.join(self.process.suite_destination,
                                          'opt', 'rose-suite-{0}.conf'
                                                 ''.format(current_stream))
-            call_list += [mock.call(opt_conf_path, 'jinja2:suite.rc', update_kwargs_streams, raw_value=False)]
+            call_list += [mock.call(opt_conf_path, 'template variables', update_kwargs_streams, raw_value=False)]
         mock_update_conf.assert_has_calls(call_list)
 
     @mock.patch('os.path.isdir')
-    @mock.patch('cdds.convert.process.suite_interface.submit_suite')
-    def test_submit_suite(self, mock_submit, mock_isdir):
+    @mock.patch('cdds.convert.process.workflow_interface.run_workflow')
+    def test_submit_workflow(self, mock_submit, mock_isdir):
         mock_isdir.return_value = True
         self.process._last_suite_stage_completed = 'update'
         mock_submit.return_value = ('output', 'error')
-        self.process.submit_suite()
+        self.process.submit_workflow()
         mock_submit.assert_called_once_with(self.process.suite_destination)
 
     @mock.patch('os.path.isdir')
-    @mock.patch('cdds.convert.process.suite_interface.submit_suite')
-    def test_submit_suite_fail(self, mock_submit, mock_isdir):
+    @mock.patch('cdds.convert.process.workflow_interface.run_workflow')
+    def test_submit_workflow_fail(self, mock_submit, mock_isdir):
         mock_isdir.return_value = True
         self.process._last_suite_stage_completed = 'update'
         mock_submit.side_effect = suite.SuiteSubmissionError()
         self.assertRaises(suite.SuiteSubmissionError,
-                          self.process.submit_suite)
+                          self.process.submit_workflow)
         mock_submit.assert_called_once_with(self.process.suite_destination)
 
     def test_cycling_frequencies(self):

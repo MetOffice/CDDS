@@ -41,13 +41,6 @@ class SuiteSubmissionError(Exception):
     pass
 
 
-class SuiteShutdownError(Exception):
-    """
-    Raised if there is an issue shutting a suite down.
-    """
-    pass
-
-
 class ConcatenationDBError(Exception):
     """
     Raised if the concatenation database cannot be written.
