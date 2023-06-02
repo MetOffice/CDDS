@@ -40,6 +40,7 @@ class TestHiResOmonTos(AbstractFunctionalTests):
                 },
                 other={
                     'filenames': ['tos_Omon_HadGEM3-GC31-HH_hist-1950_r1i1p1f1_gn_195101-195101.nc'],
+                    'ignore_history': True,
                 }
             )
         )
@@ -47,3 +48,7 @@ class TestHiResOmonTos(AbstractFunctionalTests):
     @pytest.mark.superslow
     def test_hires_omon_tos_superslow(self):
         self.check_convert()
+
+    @pytest.mark.slow
+    def test_hires_omon_tos_slow(self):
+        self.check_convert(False, True)

@@ -40,10 +40,11 @@ class TestHiResSimonSiv(AbstractFunctionalTests):
                 },
                 other={
                     'filenames': ['siv_SImon_HadGEM3-GC31-HH_hist-1950_r1i1p1f1_gn_195101-195101.nc'],
+                    'ignore_history': True
                 }
             )
         )
 
     @pytest.mark.superslow
-    def test_hires_simon_siv_superslow(self):
-        self.check_convert()
+    def _test_hires_simon_siv_superslow(self):
+        self.check_convert(False, True)

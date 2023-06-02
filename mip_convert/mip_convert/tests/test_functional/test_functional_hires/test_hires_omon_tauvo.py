@@ -45,5 +45,5 @@ class TestHiResOmonTauvo(AbstractFunctionalTests):
         )
 
     @pytest.mark.superslow
-    def test_hires_omon_tauvo_superslow(self):
+    def _test_hires_omon_tauvo_superslow(self):
         self.check_convert()

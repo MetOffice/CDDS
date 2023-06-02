@@ -17,8 +17,8 @@ from mip_convert.save.cmor.cmor_outputter import CmorGridMaker, AbstractAxisMake
 from mip_convert.tests.test_functional.utils.configurations import AbstractTestData
 from mip_convert.tests.test_functional.utils.directories import (REFERENCE_OUTPUT_DIR_NAME, DATA_OUTPUT_DIR_NAME,
                                                                  ROOT_TEST_CASES_DIR)
-from mip_convert.tests.test_functional.utils.tools import (compare, compare_command, write_user_configuration_file,
-                                                           print_outcome)
+from mip_convert.tests.test_functional.utils.tools import (compare, compare_command, quick_compare,
+                                                           write_user_configuration_file, print_outcome)
 
 
 class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
@@ -95,7 +95,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
             parameters = parameters + ['--relaxed_cmor']
         return parameters
 
-    def check_convert(self, relaxed_cmor: bool = False) -> None:
+    def check_convert(self, relaxed_cmor: bool = False, use_fast_comparison: bool = False) -> None:
         other_items = self.test_info.specific_info.other
         filenames = other_items['filenames']
 
@@ -104,13 +104,16 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         other_options = other_items.get('other_options')
 
         outputs, references = self.convert(filenames, relaxed_cmor)
-        compare(
-            compare_command(outputs,
-                            references,
-                            tolerance_value=tolerance_value,
-                            ignore_history=ignore_history,
-                            other_options=other_options)
-        )
+        if use_fast_comparison:
+            quick_compare(outputs, references)
+        else:
+            compare(
+                compare_command(outputs,
+                                references,
+                                tolerance_value=tolerance_value,
+                                ignore_history=ignore_history,
+                                other_options=other_options)
+            )
 
     def tearDown(self):
         CmorGridMaker._GRID_CACHE = dict()

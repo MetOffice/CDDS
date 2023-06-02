@@ -1,13 +1,32 @@
 # (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
 import configparser
+import hashlib
 import os
 import subprocess
 
 from collections import defaultdict
 from datetime import datetime
 
-from mip_convert.tests.test_functional.utils.constants import DEBUG, COMPARE_NETCDF
+from mip_convert.tests.test_functional.utils.constants import DEBUG, COMPARE_NETCDF, COMPARE_NETCDF_META
+
+
+def quick_compare(outputs, references):
+    diffs = []
+    for output, reference in zip(outputs, references):
+        output_size = os.path.getsize(output)
+        reference_size = os.path.getsize(reference)
+        if output_size != reference_size:
+            diffs.append('Output file {} size ({}) differs from reference file {} size ({})'.format(
+                output, output_size, reference, reference_size
+            ))
+    msg = ', '.join(diffs)
+    assert diffs == [], msg
+    compare_commands = [
+        COMPARE_NETCDF_META.format(output=output, reference=reference).split()
+        for output, reference in zip(outputs, references)]
+    nccmp, nc_msg = compare(compare_commands, True)
+    assert set(nccmp) == set(['']), nc_msg
 
 
 def compare_command(outputs, references, tolerance_value=None, ignore_history=False, other_options=None):
@@ -42,7 +61,7 @@ def compare_command(outputs, references, tolerance_value=None, ignore_history=Fa
     return compare_commands
 
 
-def compare(compare_commands):
+def compare(compare_commands, return_diffs=False):
     """
     Runs the given compare commands and returns if the result is that the
     compared files are equal or not.
@@ -83,6 +102,8 @@ def compare(compare_commands):
     # If there are any differences, nccmp sends output to STDERR.
     stderrdata = [output[1] for output in differences]
     message = 'The following differences were present: {}'.format(set(stderrdata))
+    if return_diffs:
+        return stderrdata, message
     assert set(stderrdata) == set(['']), message
 
 
