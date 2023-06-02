@@ -34,6 +34,6 @@ COMPARE_NETCDF = (
 )
 
 COMPARE_NETCDF_META = (
-    'nccmp -mgfbi --globalex=cmor_version,creation_date,cv_version,'
+    'nccmp -mgfbi --Attribute=history --globalex=cmor_version,creation_date,cv_version,'
     'data_specs_version,table_info,tracking_id,_NCProperties {output} {reference}'
 )
