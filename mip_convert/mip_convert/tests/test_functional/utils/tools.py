@@ -12,6 +12,21 @@ from mip_convert.tests.test_functional.utils.constants import DEBUG, COMPARE_NET
 
 
 def quick_compare(outputs, references):
+    """
+    Performs a fast comparison of file metadata and file size for the given output files and their reference files
+
+    :param outputs: The output files that should be compared to the reference files
+    :type outputs: List[str]
+    :param references: The references files compare to
+    :type references: List[str]
+    :return: Corresponding compare commands
+    :rtype: List[str]
+    """
+
+    compare_commands = [
+        COMPARE_NETCDF_META.format(output=output, reference=reference).split()
+        for output, reference in zip(outputs, references)]
+    compare(compare_commands)
     diffs = []
     for output, reference in zip(outputs, references):
         output_size = os.path.getsize(output)
@@ -22,11 +37,6 @@ def quick_compare(outputs, references):
             ))
     msg = ', '.join(diffs)
     assert diffs == [], msg
-    compare_commands = [
-        COMPARE_NETCDF_META.format(output=output, reference=reference).split()
-        for output, reference in zip(outputs, references)]
-    nccmp, nc_msg = compare(compare_commands, True)
-    assert set(nccmp) == set(['']), nc_msg
 
 
 def compare_command(outputs, references, tolerance_value=None, ignore_history=False, other_options=None):
@@ -61,7 +71,7 @@ def compare_command(outputs, references, tolerance_value=None, ignore_history=Fa
     return compare_commands
 
 
-def compare(compare_commands, return_diffs=False):
+def compare(compare_commands):
     """
     Runs the given compare commands and returns if the result is that the
     compared files are equal or not.
@@ -102,8 +112,6 @@ def compare(compare_commands, return_diffs=False):
     # If there are any differences, nccmp sends output to STDERR.
     stderrdata = [output[1] for output in differences]
     message = 'The following differences were present: {}'.format(set(stderrdata))
-    if return_diffs:
-        return stderrdata, message
     assert set(stderrdata) == set(['']), message
 
 

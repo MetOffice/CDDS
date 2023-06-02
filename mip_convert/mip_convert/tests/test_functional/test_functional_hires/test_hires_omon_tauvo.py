@@ -40,10 +40,15 @@ class TestHiResOmonTauvo(AbstractFunctionalTests):
                 },
                 other={
                     'filenames': ['tauvo_Omon_HadGEM3-GC31-HH_hist-1950_r1i1p1f1_gn_195101-195101.nc'],
+                    'ignore_history': True
                 }
             )
         )
 
     @pytest.mark.superslow
-    def _test_hires_omon_tauvo_superslow(self):
+    def test_hires_omon_tauvo_superslow(self):
         self.check_convert()
+
+    @pytest.mark.slow
+    def test_hires_omon_tauvo_slow(self):
+        self.check_convert(False, True)

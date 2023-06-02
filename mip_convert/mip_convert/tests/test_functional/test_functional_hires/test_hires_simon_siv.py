@@ -46,5 +46,9 @@ class TestHiResSimonSiv(AbstractFunctionalTests):
         )
 
     @pytest.mark.superslow
-    def _test_hires_simon_siv_superslow(self):
+    def test_hires_simon_siv_superslow(self):
+        self.check_convert()
+
+    @pytest.mark.slow
+    def test_hires_simon_siv_slow(self):
         self.check_convert(False, True)
