@@ -1,13 +1,42 @@
 # (C) British Crown Copyright 2022, Met Office.
 # Please see LICENSE.rst for license details.
 import configparser
+import hashlib
 import os
 import subprocess
 
 from collections import defaultdict
 from datetime import datetime
 
-from mip_convert.tests.test_functional.utils.constants import DEBUG, COMPARE_NETCDF
+from mip_convert.tests.test_functional.utils.constants import DEBUG, COMPARE_NETCDF, COMPARE_NETCDF_META
+
+
+def quick_compare(outputs, references):
+    """
+    Performs a fast comparison of file metadata and file size for the given output files and their reference files
+
+    :param outputs: The output files that should be compared to the reference files
+    :type outputs: List[str]
+    :param references: The references files compare to
+    :type references: List[str]
+    :return: Corresponding compare commands
+    :rtype: List[str]
+    """
+
+    compare_commands = [
+        COMPARE_NETCDF_META.format(output=output, reference=reference).split()
+        for output, reference in zip(outputs, references)]
+    compare(compare_commands)
+    diffs = []
+    for output, reference in zip(outputs, references):
+        output_size = os.path.getsize(output)
+        reference_size = os.path.getsize(reference)
+        if output_size != reference_size:
+            diffs.append('Output file {} size ({}) differs from reference file {} size ({})'.format(
+                output, output_size, reference, reference_size
+            ))
+    msg = ', '.join(diffs)
+    assert diffs == [], msg
 
 
 def compare_command(outputs, references, tolerance_value=None, ignore_history=False, other_options=None):

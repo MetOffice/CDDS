@@ -159,6 +159,49 @@ class ProjectInfo:
         )
 
     @classmethod
+    def hires_project_info(cls) -> 'ProjectInfo':
+        """
+        Returns all common values that are specific for high resolution model runs.
+
+        :return: Values that are specific for high resolution runs
+        :rtype: ProjectInfo
+        """
+        return ProjectInfo(
+            project_id='HIRES',
+            cmor_setup={
+                'mip_table_dir': CMIP6_MIP_TABLE_DIR,
+                'netcdf_file_action': 'CMOR_REPLACE_4',
+            },
+            cmor_dataset={
+                'grid': 'not checked',
+                'license': CMIP6_LICENSE,
+                'branch_date_in_child': '1950-01-01-00-00-00',
+                'branch_date_in_parent': '1980-01-01-00-00-00',
+                'branch_method': 'standard',
+                'experiment_id': 'hist-1950',
+                'mip': 'HighResMIP',
+                'mip_era': 'CMIP6',
+                'model_id': 'HadGEM3-GC31-HH',
+                'model_type': 'AOGCM',
+                'nominal_resolution': '10 km',
+                'parent_base_date': '1950-01-01-00-00-00',
+                'parent_experiment_id': 'spinup-1950',
+                'parent_mip_era': 'CMIP6',
+                'parent_model_id': 'HadGEM3-GC31-MH',
+                'parent_time_units': 'days since 1950-01-01',
+                'parent_variant_label': 'r1i1p1f1',
+                'sub_experiment_id': 'none',
+                'variant_label': 'r1i1p1f1'
+            },
+            request={
+                'child_base_date': '1950-01-01-00-00-00'
+            },
+            global_attributes={
+                'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
+            }
+        )
+
+    @classmethod
     def arise_project_info(cls) -> 'ProjectInfo':
         """
         Returns all common values that are specific for ARISE projects.
@@ -377,6 +420,17 @@ class Cmip6TestData(AbstractTestData):
     project_id: str = field(init=False, default_factory=lambda: 'CMIP6')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cmip6_project_info())
+    specific_info: SpecificInfo = None
+
+
+@dataclass
+class HiResTestData(AbstractTestData):
+    """
+    Stores test data for CMIP6 projects
+    """
+    project_id: str = field(init=False, default_factory=lambda: 'HIRES')
+    common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
+    project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.hires_project_info())
     specific_info: SpecificInfo = None
 
 
