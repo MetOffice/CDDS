@@ -147,7 +147,7 @@ class CollectionsCheck(object):
             Error message.
         """
 
-        if frequency == 'diurnal':
+        if frequency == DIURNAL_CLIMATOLOGY:
             prev_val = None
             for key, vals in time_axis.items():
                 self.add_message(key, var_key, self.check_diurnal_climatology(vals, time_bounds[key]))

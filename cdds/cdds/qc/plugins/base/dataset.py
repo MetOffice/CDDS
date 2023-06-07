@@ -172,7 +172,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
                         # the rest are reported once per timestep
                         frequency = 'T{}S'.format(atmos_timestep)
                 elif frequency_code == DIURNAL_CLIMATOLOGY:
-                    frequency = 'diurnal'
+                    frequency = DIURNAL_CLIMATOLOGY
                     time_bnds[filepath] = nc_file.variables["climatology_bnds"][:].data
                 else:
                     frequency = FREQ_DICT[nc_file.getncattr("frequency")]

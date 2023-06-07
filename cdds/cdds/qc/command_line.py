@@ -50,7 +50,7 @@ def main_quality_control(arguments=None):
         report = run_and_report(args, request)
         # Check if errors found
         if report["aggregated_summary"]:
-            print(json.dumps(report["aggregated_summary"], indent=4), file=sys.stderr)
+            logger.info(json.dumps(report["aggregated_summary"], indent=4))
             exit_code = 1
     except BaseException as exc:
         logger.critical(exc, exc_info=1)
