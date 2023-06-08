@@ -9,7 +9,7 @@ from collections import defaultdict
 
 from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
 from cdds.qc.common import equal_with_tolerance, strip_zeros, request_date_to_iso, DatetimeCalculator
-from cdds.qc.constants import DIURNAL_CLIMATOLOGY, HOURLY_OFFSET, MONTHLY_OFFSETS, SECONDS_IN_DAY, TIME_TOLERANCE
+from cdds.qc.constants import DIURNAL_CLIMATOLOGY, HOURLY_OFFSET, DIURNAL_OFFSETS, SECONDS_IN_DAY, TIME_TOLERANCE
 
 
 class CollectionsCheck(object):
@@ -94,7 +94,7 @@ class CollectionsCheck(object):
         for index, time in enumerate(time_dim):
             # calculate the middle of the time bound
             # in Gregorian calendar it's always centered on the first half hour of the 15th day of the month
-            # regardless if the month has 30 or 31 days
+            # regardless if the month has 30 or 31 days, the only exception being February
 
             starting_date = self.calendar_calculator.days_since_base_date_to_date(int(time_bnds[index][0]))
             month = starting_date.month_of_year
@@ -102,13 +102,13 @@ class CollectionsCheck(object):
                 half_month = 15.0
             else:
                 if month == 2:
+                    # but if it's Gregorian February, the midpoint is always on 14th, even if it's a leap year
                     # 14th
                     half_month = 13.0
                 else:
                     # 15th
                     half_month = 14.0
             midpoint = time_bnds[index][0] + half_month + HOURLY_OFFSET * 0.5
-            # but if it's Gregorian February, the midpoint is always on 14th, regardless if it's a leap year or not
 
             # check if the corresponding time bounds are right:
             if not equal_with_tolerance(midpoint, time, TIME_TOLERANCE):
@@ -121,11 +121,11 @@ class CollectionsCheck(object):
                 offset = HOURLY_OFFSET
             else:
                 if self.calendar_calculator.calendar == 'Gregorian':
-                    offset = MONTHLY_OFFSETS[month - 2] + HOURLY_OFFSET
+                    offset = DIURNAL_OFFSETS[month - 2] + HOURLY_OFFSET
                     if month == 2 and self.calendar_calculator.date_in_leap_year(starting_date):
                         offset += 1
                 else:
-                    offset = MONTHLY_OFFSETS[0] + HOURLY_OFFSET
+                    offset = DIURNAL_OFFSETS[0] + HOURLY_OFFSET
             if not equal_with_tolerance(time - time_dim[index - 1], offset, TIME_TOLERANCE):
                 msg = 'Time coordinate is not continuous'
                 break
@@ -163,7 +163,8 @@ class CollectionsCheck(object):
         reference_index = 0
         # before checking individual values we'll check run bounds first
         run_bounds_errors = self._test_time_bounds(var_key, time_axis, time_bounds, point_sequence, bound_sequence)
-        # if they don't match then it doesn't make sense to validate individual points as they
+        # if they don't match then it doesn't make sense to validate individual points as all coordinate points will be
+        # offset relative to reference
         if run_bounds_errors:
             return
         for key, vals in time_axis.items():

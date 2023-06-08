@@ -164,7 +164,7 @@ class DatetimeCalculator():
         Parameters
         ==========
         date: metomi.isodatetime.data.TimePoint
-            Date to chec
+            Date to check
 
         Returns
         =======
