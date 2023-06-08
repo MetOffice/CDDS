@@ -121,7 +121,7 @@ class CollectionsCheck(object):
                 offset = HOURLY_OFFSET
             else:
                 if self.calendar_calculator.calendar == 'Gregorian':
-                    offset = DIURNAL_OFFSETS[month - 2] + HOURLY_OFFSET
+                    offset = DIURNAL_OFFSETS[month - 1] + HOURLY_OFFSET
                     if month == 2 and self.calendar_calculator.date_in_leap_year(starting_date):
                         offset += 1
                 else:

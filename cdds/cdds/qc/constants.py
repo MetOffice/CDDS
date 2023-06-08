@@ -29,6 +29,7 @@ FREQ_DICT = {
 }
 HOURLY_OFFSET = 1.0 / 24.0  # 00:30, 01:30, 02:30, .., 22:30, 23:30
 DIURNAL_OFFSETS = [
+    30,
     29,
     28,
     30,
