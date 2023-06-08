@@ -174,7 +174,7 @@ def run_and_report(args, request):
     db_path = os.path.join(args.output_dir, QC_DB_FILENAME)
     full_paths = FullPaths(args, request)
 
-    basedir = '/data/users/pflorek/diurnal/data' # full_paths.output_data_directory
+    basedir = full_paths.output_data_directory
     cdds_runner = QCRunner(db_path)
     logger.info('Setting up a dataset for {}'.format(basedir))
     ds = Cmip6Dataset(basedir, request, MipTables(full_paths.mip_table_dir),
