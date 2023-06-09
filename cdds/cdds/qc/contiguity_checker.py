@@ -121,11 +121,12 @@ class CollectionsCheck(object):
                 offset = HOURLY_OFFSET
             else:
                 if self.calendar_calculator.calendar == 'Gregorian':
+                    # this needs to be retested once we have actual data
                     offset = DIURNAL_OFFSETS[month - 1] + HOURLY_OFFSET
-                    if month == 2 and self.calendar_calculator.date_in_leap_year(starting_date):
+                    if month == 3 and self.calendar_calculator.date_in_leap_year(starting_date):
                         offset += 1
                 else:
-                    offset = DIURNAL_OFFSETS[0] + HOURLY_OFFSET
+                    offset = 29.0 + HOURLY_OFFSET
             if not equal_with_tolerance(time - time_dim[index - 1], offset, TIME_TOLERANCE):
                 msg = 'Time coordinate is not continuous'
                 break

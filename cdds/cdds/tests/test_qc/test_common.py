@@ -21,23 +21,24 @@ class Datetime360DayCalculatorTestCase(unittest.TestCase):
         self.calculator = DatetimeCalculator('360_day', '1850-01-01T00:00Z')
 
     def test_6hourly_sequence(self):
-        subdaily_points, subdaily_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', 'T6H')
+        subdaily_points, subdaily_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z',
+                                                                        'PT6H')
         self.assertEqual(len(subdaily_points), 360 * 4)
 
     def test_daily_sequence(self):
-        daily_points, daily_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', '1D')
+        daily_points, daily_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', 'P1D')
         self.assertEqual(len(daily_points), 360)
 
     def test_monthly_sequence(self):
-        monthly_points, monthly_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', '1M')
+        monthly_points, monthly_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', 'P1M')
         self.assertEqual(len(monthly_points), 12)
 
     def test_yearly_sequence(self):
-        yearly_points, yearly_bounds = self.calculator.get_sequence('1900-01-01T00:00Z', '1950-01-01T00:00Z', '1Y')
+        yearly_points, yearly_bounds = self.calculator.get_sequence('1900-01-01T00:00Z', '1950-01-01T00:00Z', 'P1Y')
         self.assertEqual(len(yearly_points), 50)
 
     def test_decadal_sequence(self):
-        decadal_points, decadal_bounds = self.calculator.get_sequence('1900-01-01T00:00Z', '1950-01-01T00:00Z', '10Y')
+        decadal_points, decadal_bounds = self.calculator.get_sequence('1900-01-01T00:00Z', '1950-01-01T00:00Z', 'P10Y')
         self.assertEqual(len(decadal_points), 5)
 
     def test_days_since_base_date(self):
@@ -56,23 +57,24 @@ class DatetimeGregorianCalculatorTestCase(unittest.TestCase):
         self.calculator = DatetimeCalculator('gregorian', '1850-01-01T00:00Z')
 
     def test_6hourly_sequence(self):
-        subdaily_points, subdaily_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', 'T6H')
+        subdaily_points, subdaily_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z',
+                                                                        'PT6H')
         self.assertEqual(len(subdaily_points), 366 * 4)
 
     def test_daily_sequence(self):
-        daily_points, daily_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', '1D')
+        daily_points, daily_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', 'P1D')
         self.assertEqual(len(daily_points), 366)
 
     def test_monthly_sequence(self):
-        monthly_points, monthly_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', '1M')
+        monthly_points, monthly_bounds = self.calculator.get_sequence('2000-01-01T00:00Z', '2001-01-01T00:00Z', 'P1M')
         self.assertEqual(len(monthly_points), 12)
 
     def test_yearly_sequence(self):
-        yearly_points, yearly_bounds = self.calculator.get_sequence('1900-01-01T00:00Z', '1950-01-01T00:00Z', '1Y')
+        yearly_points, yearly_bounds = self.calculator.get_sequence('1900-01-01T00:00Z', '1950-01-01T00:00Z', 'P1Y')
         self.assertEqual(len(yearly_points), 50)
 
     def test_decadal_sequence(self):
-        decadal_points, decadal_bounds = self.calculator.get_sequence('1900-01-01T00:00Z', '1950-01-01T00:00Z', '10Y')
+        decadal_points, decadal_bounds = self.calculator.get_sequence('1900-01-01T00:00Z', '1950-01-01T00:00Z', 'P10Y')
         self.assertEqual(len(decadal_points), 5)
 
     def test_days_since_base_date(self):

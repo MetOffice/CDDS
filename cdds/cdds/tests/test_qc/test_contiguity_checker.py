@@ -32,7 +32,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar.nc': [x * 30 for x in range(12)]
         }
         time_bounds = None
-        frequency = '1M'  # note that in this and many other tests without run bounds this corresponds to MonPt
+        frequency = 'P1M'  # note that in this and many other tests without run bounds this corresponds to MonPt
         run_start, run_end = self.request.run_bounds.split(" ")
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
@@ -44,7 +44,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar.nc': [x * 30 for x in range(11)] + [330.000001]
         }
         time_bounds = None
-        frequency = '1M'
+        frequency = 'P1M'
         run_start, run_end = self.request.run_bounds.split(" ")
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
@@ -58,7 +58,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar3.nc': [240, 270, 300, 330]
         }
         time_bounds = None
-        frequency = '1M'
+        frequency = 'P1M'
         run_start, run_end = self.request.run_bounds.split(" ")
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {
@@ -71,7 +71,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar1.nc': [0, 30, 60, 90, 120, 330],
         }
         time_bounds = None
-        frequency = '1M'
+        frequency = 'P1M'
         run_start, run_end = self.request.run_bounds.split(" ")
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {'bar1.nc': [{'index': 'foo',
@@ -102,6 +102,22 @@ class CollectionsCheckTestCase(unittest.TestCase):
         msg = cc.check_diurnal_climatology(time_dim, time_bnds)
         self.assertIsNone(msg)
 
+#    def test_internal_contiguity_diurnal_climatology_obs4mips(self):
+#        request = Request({
+#            'run_bounds': '2007-01-01-00-00-00 2009-01-01-00-00-00',
+#            'child_base_date': '2000-01-01-00-00-00',
+#            'calendar': 'Gregorian'
+#        }, [])
+#        cc = CollectionsCheck(request)
+#        from netCDF4 import Dataset
+#        ds1 = Dataset('/data/users/pflorek/diurnal/rlut_1hrCM_GERB-HR-ED01-1-0_BE_gn_200701-200712.nc')
+#        ds2 = Dataset('/data/users/pflorek/diurnal/rlut_1hrCM_GERB-HR-ED01-1-0_BE_gn_200801-200812.nc')
+#        time_dim = [val for val in ds1.variables["time"][:].data] + [val for val in ds2.variables["time"][:].data]
+#        time_bnds = [val for val in ds1.variables["climatology_bnds"][:].data] + [
+#            val for val in ds2.variables["climatology_bnds"][:].data]
+#        msg = cc.check_diurnal_climatology(time_dim, time_bnds)
+#        self.assertIsNone(msg)
+
     def test_internal_contiguity_diurnal_climatology_discontinuous_time_dimension(self):
         cc = CollectionsCheck(self.request)
         time_dim = [(i + 0.5) / 24.0 + 15.0 for i in range(24)] + [(i + 0.5) / 24.0 + 46.0 for i in range(24)]
@@ -128,7 +144,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar.nc': [((i / 24.0), ((i + 1) / 24.0 + 1.0)) for i in range(24)] + [
                 ((i / 24.0 + 1.0), ((i + 1) / 24.0 + 2.0)) for i in range(24)]
         }
-        frequency = 'diurnal'
+        frequency = '1hrCM'
         run_start, run_end = self.request.run_bounds.split(" ")
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {'bar.nc': [
@@ -147,7 +163,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar2.nc': [(120, 150), (150, 180), (180, 210), (210, 240)],
             'bar3.nc': [(240, 270), (270, 300), (300, 330), (330, 360)]
         }
-        frequency = '1M'
+        frequency = 'P1M'
         run_start, run_end = self.request.run_bounds.split(" ")
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
@@ -169,7 +185,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar1.nc': [(i / 24.0, (i + 1) / 24.0) for i in range(24)],
             'bar2.nc': [(i / 24.0, (i + 1) / 24.0) for i in range(24, 48)],
         }
-        frequency = 'T1H'
+        frequency = 'PT1H'
         run_start, run_end = request.run_bounds.split(" ")
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
@@ -185,7 +201,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar1.nc': [((i / 24.0), ((i + 1) / 24.0 + 29.0)) for i in range(24)],
             'bar2.nc': [((i / 24.0 + 30.0), ((i + 1) / 24.0 + 59.0)) for i in range(24)]
         }
-        frequency = 'diurnal'
+        frequency = '1hrCM'
         run_start, run_end = self.request.run_bounds.split(" ")
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
@@ -203,7 +219,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar2.nc': [(120, 150), (150, 180), (180, 210), (210, 240)],
             'bar3.nc': [(240, 270), (270, 300), (330, 360)]
         }
-        frequency = '1M'
+        frequency = 'P1M'
         run_start, run_end = self.request.run_bounds.split(" ")
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         expected = {
@@ -239,7 +255,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar1.nc': [((i / 24.0), ((i + 1) / 24.0 + 29.0)) for i in range(24)],
             'bar2.nc': [((i / 24.0 + 60.0), ((i + 1) / 24.0 + 89.0)) for i in range(24)]
         }
-        frequency = 'diurnal'
+        frequency = '1hrCM'
         run_start, run_end = self.request.run_bounds.split(" ")
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {'bar2.nc': [{
@@ -261,7 +277,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar1.nc': [(0, 30), (30, 60), (60, 90)],
             'bar2.nc': [(90, 120), (120, 150), (150, 180)],
         }
-        frequency = '1M'
+        frequency = 'P1M'
         run_start, run_end = request.run_bounds.split(" ")
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
@@ -282,7 +298,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar1.nc': [(0, 31), (31, 59), (59, 90)],
             'bar2.nc': [(90, 120), (120, 151), (151, 181)],
         }
-        frequency = '1M'
+        frequency = 'P1M'
         run_start, run_end = request.run_bounds.split(" ")
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
@@ -299,7 +315,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar1.nc': [0.5 / 72.0] + [float(i) / (72.0) for i in range(1, 1 * 24 * 3)],
         }
         time_bounds = None
-        frequency = 'T1200S'
+        frequency = 'PT1200S'
         run_start, run_end = request.run_bounds.split(" ")
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertEquals(len(cc.results.keys()), 1)
@@ -320,7 +336,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar1.nc': [(0, 30), (30, 60), (60, 90)],
             'bar2.nc': [(90, 120), (120, 150), (150, 181)],
         }
-        frequency = '1M'
+        frequency = 'P1M'
         run_start, run_end = request.run_bounds.split(" ")
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {'bar2.nc': [

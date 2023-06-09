@@ -13,19 +13,19 @@ DS_TYPE_DATASET = 2
 EPOCH = "cmip6"
 EXCLUDE_DIRECTORIES_REGEXP = r"(output\/[a-z0-9]{3})_(concat|mip_convert)"
 FREQ_DICT = {
-    'dec': '10Y',
-    'yr': '1Y',
-    'yrPt': '1Y',
-    'mon': '1M',
-    'monC': '1M',
-    'monPt': '1M',
-    'day': '1D',
-    '6hr': 'T6H',
-    '6hrPt': 'T6H',
-    '3hr': 'T3H',
-    '3hrPt': 'T3H',
-    '1hr': 'T1H',
-    '1hrPt': 'T1H'
+    'dec': 'P10Y',
+    'yr': 'P1Y',
+    'yrPt': 'P1Y',
+    'mon': 'P1M',
+    'monC': 'P1M',
+    'monPt': 'P1M',
+    'day': 'P1D',
+    '6hr': 'PT6H',
+    '6hrPt': 'PT6H',
+    '3hr': 'PT3H',
+    '3hrPt': 'PT3H',
+    '1hr': 'PT1H',
+    '1hrPt': 'PT1H'
 }
 HOURLY_OFFSET = 1.0 / 24.0  # 00:30, 01:30, 02:30, .., 22:30, 23:30
 DIURNAL_OFFSETS = [

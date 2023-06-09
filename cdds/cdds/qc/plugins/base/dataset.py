@@ -167,10 +167,10 @@ class StructuredDataset(object, metaclass=ABCMeta):
                 if frequency_code == 'subhrPt':
                     if variable_id.startswith("rs") or variable_id.startswith("rl"):
                         # despite the frequency code, radiation variables are on hourly timepoints
-                        frequency = 'T1H'
+                        frequency = 'PT1H'
                     else:
                         # the rest are reported once per timestep
-                        frequency = 'T{}S'.format(atmos_timestep)
+                        frequency = 'PT{}S'.format(atmos_timestep)
                 elif frequency_code == DIURNAL_CLIMATOLOGY:
                     frequency = DIURNAL_CLIMATOLOGY
                     time_bnds[filepath] = nc_file.variables["climatology_bnds"][:].data
