@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2022, Met Office.
+# (C) British Crown Copyright 2018-2023, Met Office.
 # Please see LICENSE.rst for license details.
 
 import logging
@@ -150,7 +150,7 @@ class QCRunner(object):
         })
         self.db.commit()
         qc_run_id = cursor.lastrowid
-        contiguity_checker = CollectionsCheck()
+        contiguity_checker = CollectionsCheck(request)
         self.logger.info("Checking filenames")
         file_errors = self.dataset.check_filenames_and_sizes()
         self.logger.info("Checking time contiguity")

@@ -1,12 +1,13 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 
 import re
 import os
 
 from abc import ABCMeta, abstractmethod
+from collections import OrderedDict
 
-from cdds.qc.constants import EXCLUDE_DIRECTORIES_REGEXP, MAX_FILESIZE
+from cdds.qc.constants import DIURNAL_CLIMATOLOGY, EXCLUDE_DIRECTORIES_REGEXP, FREQ_DICT, MAX_FILESIZE, SECONDS_IN_DAY
 from cdds.qc.plugins.base.validators import ValidationError
 
 
@@ -132,6 +133,52 @@ class StructuredDataset(object, metaclass=ABCMeta):
             return ret
         else:
             return self._aggregated
+
+    def variable_time_axis(self, var_key, atmos_timestep):
+        """
+        Extracts time axis and bounds (if they exist) from a netcdf file, along with corresponding frequency code.
+        Axes and bounds are ordered dictionaries indexed with names of the files from which they have been extracted,
+        the assumption is that for CMIP6-like output standard filename ordering will correspond to time ordering.
+
+        Parameters
+        ==========
+        var_key: str
+            Variable id
+        atmos_timestep: int
+            Atmospheric time step in seconds
+
+        Returns
+        =======
+        : tuple
+            Time axis dict, time bounds dict, frequency code
+        """
+        filepaths = sorted(self._aggregated[var_key])
+        # we make assumption that filenames are sortable and their order should correspond to concatenated time axis
+        # order. This is generally true for CMIP-like filenames with YYYYMMDD-type dates in filenames.
+        time_axis = OrderedDict()
+        time_bnds = OrderedDict()
+        frequency = None
+        for filepath in filepaths:
+            with self._loader_class(filepath) as nc_file:
+                time_axis[filepath] = nc_file.variables["time"][:].data
+                if "time_bnds" in nc_file.variables:
+                    time_bnds[filepath] = nc_file.variables["time_bnds"][:].data
+                frequency_code = nc_file.getncattr("frequency")
+                if frequency_code == 'subhrPt':
+                    if variable_id.startswith("rs") or variable_id.startswith("rl"):
+                        # despite the frequency code, radiation variables are on hourly timepoints
+                        frequency = 'PT1H'
+                    else:
+                        # the rest are reported once per timestep
+                        frequency = 'PT{}S'.format(atmos_timestep)
+                elif frequency_code == DIURNAL_CLIMATOLOGY:
+                    frequency = DIURNAL_CLIMATOLOGY
+                    time_bnds[filepath] = nc_file.variables["climatology_bnds"][:].data
+                else:
+                    frequency = FREQ_DICT[nc_file.getncattr("frequency")]
+        if len(time_bnds.keys()) == 0:
+            time_bnds = None
+        return (time_axis, time_bnds, frequency)
 
     @abstractmethod
     def _aggregate_files(self):
