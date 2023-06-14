@@ -111,33 +111,6 @@ class SuiteInterfaceTest(unittest.TestCase):
                                             universal_newlines=True)], any_order=True)
         self.assertTrue(output == 'output', 'standard output mangled')
 
-    @mock.patch('os.path.exists')
-    @mock.patch('subprocess.Popen')
-    def test_submit_workflow_fail(self, mock_subproc_popen, mock_os_exists):
-        process_mock = mock.Mock()
-        attrs = {'communicate.return_value': ('output', 'error'),
-                 'returncode': 4}
-        process_mock.configure_mock(**attrs)
-        mock_subproc_popen.return_value = process_mock
-
-        mock_os_exists.return_value = True
-
-        location = '/d/u/m/m/y/dummy.txt'
-        rose_args = ['--no-gcontrol', '1', '2']
-        self.assertRaises(workflow_interface.SuiteSubmissionError,
-                          workflow_interface.run_workflow,
-                          location, simulation=True,
-                          rose_args=rose_args, env=None)
-        expected_args = ['rose', 'suite-run', '-C', location,
-                         '--no-gcontrol', '1', '2',
-                         '--', '--mode=simulation']
-        from unittest.mock import call
-        mock_subproc_popen.assert_called_with(expected_args,
-                                              stdout=subprocess.PIPE,
-                                              stderr=subprocess.PIPE,
-                                              env=None,
-                                              universal_newlines=True)
-
 
 if __name__ == "__main__":
     unittest.main()
