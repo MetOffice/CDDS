@@ -6,6 +6,7 @@
 Contiguity checker.
 """
 from collections import defaultdict
+import numpy as np
 
 from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
 from cdds.qc.common import equal_with_tolerance, strip_zeros, request_date_to_iso, DatetimeCalculator
@@ -190,7 +191,7 @@ class CollectionsCheck(object):
             if whole_series is None:
                 whole_series = vals
             else:
-                whole_series = whole_series + vals
+                whole_series = np.append(whole_series, vals)
         return
 
     def _test_datetime_sequence(self, reference_datetime, tested_value, msg_prefix, tolerance=TIME_TOLERANCE):
