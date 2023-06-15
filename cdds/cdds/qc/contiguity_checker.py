@@ -6,7 +6,6 @@
 Contiguity checker.
 """
 from collections import defaultdict
-import numpy as np
 
 from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
 from cdds.qc.common import equal_with_tolerance, strip_zeros, request_date_to_iso, DatetimeCalculator
@@ -161,7 +160,6 @@ class CollectionsCheck(object):
             return
         point_sequence, bound_sequence = self.calendar_calculator.get_sequence(
             request_date_to_iso(run_start), request_date_to_iso(run_end), frequency, time_bounds is not None)
-        whole_series = None
         reference_index = 0
         # before checking individual values we'll check run bounds first
         run_bounds_errors = self._test_time_bounds(var_key, time_axis, time_bounds, point_sequence, bound_sequence)
@@ -188,10 +186,6 @@ class CollectionsCheck(object):
                     self.add_message(key, var_key, self._test_datetime_sequence(
                         bound_sequence[reference_index][1], time_bounds[key][index][1], 'Time bounds value '))
                 reference_index = reference_index + 1
-            if whole_series is None:
-                whole_series = vals
-            else:
-                whole_series = np.append(whole_series, vals)
         return
 
     def _test_datetime_sequence(self, reference_datetime, tested_value, msg_prefix, tolerance=TIME_TOLERANCE):
