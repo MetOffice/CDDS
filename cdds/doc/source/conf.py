@@ -36,6 +36,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
+    'myst_parser',
 ]
 from distutils.version import StrictVersion
 import sphinx
