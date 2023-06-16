@@ -16,6 +16,7 @@ dependencies:
   - numpy=1.21.2=py38hd8d4704_0
   - mypy=0.981=py38h06a4308_0
   - mypy_extensions=0.4.3=py38h06a4308_1
+  - myst-parser=0.18.1=pyhd8ed1ab_0
   - netcdf4=1.6.0=nompi_py38h6b4b75c_103
   - pep8=1.7.1=py38_0
   - pika=1.2.0=pyh44b312d_0
@@ -34,6 +35,6 @@ dependencies:
 #    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds
 #    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
 variables:
-    LC_ALL: en_GB.UTF-8
     CDDS_ETC: /home/h03/cdds/etc
+    LC_ALL: en_GB.UTF-8
 prefix: /home/h03/cdds/software/miniconda3/envs/cdds-dev
