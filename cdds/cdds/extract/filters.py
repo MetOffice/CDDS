@@ -393,8 +393,6 @@ class Filters(object):
         --------
         int
             The largest working chunk size.
-        dict
-            Moo status dictionary for debugging purposes.
         """
         chunk_size = None
         # test chunk sizes in decreasing order until one works
@@ -436,10 +434,10 @@ class Filters(object):
                 if status["code"] == "limit_exceeded":
                     continue
                 else:
-                    return chunk_size, status
-        return chunk_size, status
+                    return chunk_size
+        return chunk_size
 
-    def generate_chunks(self, start_date, run_end, chunk_size):
+    def generate_chunks(self, start_date, run_end, test_sizes):
         """
         Covers a request period with chunks of suitable sizes.
 
@@ -450,13 +448,15 @@ class Filters(object):
             enclosing start date.
         run_end: :class:`datetime.datetime`
             End date for data required.
-        chunk_size: int, float
-            Chunk size.
+        test_sizes: list
+            Chunk size candidates.
 
         Returns
         -------
         list
             A list of data chunks for a request period.
+        bool
+            Whether filenames include ensemble id
         """
 
         chunks = []
@@ -466,6 +466,15 @@ class Filters(object):
         while (DATESTAMP_PATTERN.format(*start_date) <
                DATESTAMP_PATTERN.format(run_end.year, run_end.month,
                                         run_end.day)):
+            with_ens_id = False
+            chunk_size = self._test_chunks(start_date, test_sizes, with_ens_id)
+            if chunk_size is None and self.ensemble_member_id is not None:
+                with_ens_id = True
+                chunk_size = self._test_chunks(start_date, test_sizes, with_ens_id)
+            if chunk_size is None:
+                # this still might fail later on, but at least in a predictable way
+                chunk_size = 1
+
             if chunk_size >= 1:
                 end_date_tpl = (
                     start_date[0] + chunk_size,
@@ -488,7 +497,7 @@ class Filters(object):
             start_date = end_date_tpl
         chunks[-1]['end'] = calculate_period(
             (run_end.year, run_end.month, run_end.day), False)
-        return chunks
+        return chunks, with_ens_id
 
     def _mass_cmd_pp(self, start, end):
         """Create MASS commands and filter files for pp data streams
@@ -518,16 +527,7 @@ class Filters(object):
         start_date = calculate_period((start.year, start.month, start.day))
         end_date = calculate_period((end.year, end.month, end.day), False)
         test_sizes = self._chunk_candidates(start_date, end_date)
-        with_ens_id = False
-        chunk_size, status = self._test_chunks(start_date, test_sizes, with_ens_id)
-        if chunk_size is None and self.ensemble_member_id is not None:
-            with_ens_id = True
-            chunk_size, status = self._test_chunks(start_date, test_sizes, with_ens_id)
-        if chunk_size is None:
-            return (
-                status["val"], [],
-                "Unable to determine chunk length", status["code"])
-        chunks = self.generate_chunks(start_date, end, chunk_size)
+        chunks, with_ens_id = self.generate_chunks(start_date, end, test_sizes)
 
         for chunk in chunks:
             # create filter file for this block
