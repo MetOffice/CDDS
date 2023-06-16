@@ -1,0 +1,57 @@
+# The requested variables file
+The requested variables list file can be found in the `$CDDS_PROC_DIR/prepare` directory (once the `prepare_generate_variable_list` command has been run), and will be named `CMIP6_<MIP>_<experiment id>_<model id>.json`, e.g. `CMIP6_DAMIP_hist-nat_HadGEM3-GC31-LL.json`**.
+
+
+Note the environment variable `$RVF` is used below to represent the file name for the requested variables file.
+This could be set up using one of the following commands (note the use of backticks `` ` ``);
+```
+export RVF=`ls $CDDS_PROC_DIR/prepare/CMIP6_*.json`
+```
+if you have the `$CDDS_PROC_DIR` variable set, or
+```
+export RVF=`ls proc/prepare/CMIP6_*.json`
+```
+if you are in a working directory with a `proc` symbolic link.
+
+# Important Update For v2.0.6 Onwards
+
+In version `2.0.6` new functionality was added to the `prepare_generate_variable_list` tool to automatically obtain the list of  variables that should be deactivated after creating the requested variables file, and then applying those commands in the same way that the user would need to do. This includes any experiment specific restrictions, i.e. those that would have gone in a faulty variables file.
+
+The `prepare_generate_variable_list` command will now handle the vast majority of variable deactivation requirements using the rules encoded in JSON files under UPDATE_LINK_TO_GITHUB in the CDDS repository. These commands will handle the required deactivations for 95% of simulations, but for a few special cases the following commands are required:
+
+1. UKESM1 emission driven runs (experiment names starting with `esm-`)
+    * Reactivate CO2 emmisions variables:
+    ```bash
+    prepare_alter_variable_list $RVF activate \
+    AERmon/co2 Amon/fco2antt Amon/fco2fos Amon/fco2nat Emon/co23D Emon/co2s \
+    "Reactivate CO2 variables that can only be produced by Emissions driven runs"
+    ```
+
+2. Early UKESM1 suites for which the medusa files are missing the `thkcello` variable (#997)
+    * Deactivate ocean biogeochemistry variables that require ocean level thickness (Note that this issue can be fixed -- see #997 for details).
+    ```bash
+    prepare_alter_variable_list $RVF deactivate \
+    Omon/chl Omon/detoc Omon/dfe Omon/dissic Omon/no3 Omon/o2 Omon/phyc Omon/phydiat \
+    Omon/po4 Omon/si Omon/talk Omon/bfeos Omon/bsios Omon/chldiatos Omon/chlos \
+    Omon/dfeos Omon/no3os Omon/o2os Omon/phycos Omon/phynos Omon/phypos Omon/ponos \
+    Omon/popos Omon/sios \
+    Omon/cfc11 Omon/cfc12 Omon/chlmiscos Omon/phymisc Omon/sf6 Omon/zmeso Omon/zmicro Omon/zooc \
+    "Deactivate variables from the ptrc-T ocean files that cannot be extracted from MASS (see #997)"
+    ```
+
+3. UKESM1 AerChemMIP simulations
+    * Certain variables were lost in the UKESM1 suites, but may be producible in some AerChemMIP suites. To re-activate these variables use
+    ```bash
+    prepare_alter_variable_list $RVF activate \
+    AERmon/wetbc AERmon/wetoa AERmon/wetss \
+    "Reactivate variables that have been corrected in AerChemMIP simlulations"
+    ```
+
+4. HadGEM3-GC31-LL CFMIP simulations
+    * The CFMIP STASH setup includes additional variables that allow the following to be produced:
+    ```bash
+    prepare_alter_variable_list $RVF activate \
+    CFmon/tnta CFmon/tnhusa \
+    CFmon/tnhusmp CFmon/tntmp \
+    "Reactivate variables that can only be produced using the CFMIP STASH setup"
+    ```
