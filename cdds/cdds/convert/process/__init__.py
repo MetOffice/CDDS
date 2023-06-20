@@ -1023,6 +1023,6 @@ class ConvertProcess(object):
             result = workflow_interface.run_workflow(self.suite_destination, **kwargs)
             self.logger.info('Workflow submitted successfully')
             self.logger.info('Workflow standard output:\n {}'.format(result))
-        except workflow_interface.SuiteSubmissionError as err:
+        except workflow_interface.WorkflowSubmissionError as err:
             self.logger.error('Workflow submission failed: {}'.format(err))
             raise err

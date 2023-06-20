@@ -10,7 +10,7 @@ import subprocess
 
 from cdds.convert.exceptions import (SuiteCheckoutError,
                                      SuiteConfigMissingValueError,
-                                     SuiteSubmissionError)
+                                     WorkflowSubmissionError)
 from cdds.common import run_command
 
 
@@ -144,8 +144,8 @@ def run_workflow(location, simulation=False, cylc_args=None, env=None):
     ------
     AssertionError
         If `location` does not exist.
-    SuiteSubmissionError
-        If an er
+    WorkflowSubmissionError
+        If an error occured when submitting the workflow.
     """
     assert os.path.exists(location), 'location not found'
 
@@ -166,6 +166,6 @@ def run_workflow(location, simulation=False, cylc_args=None, env=None):
 
     install_command += ['--no-run-name']
 
-    result = run_command(install_command, "Running workflow failed", SuiteSubmissionError)
+    result = run_command(install_command, "Running workflow failed", WorkflowSubmissionError)
 
     return result

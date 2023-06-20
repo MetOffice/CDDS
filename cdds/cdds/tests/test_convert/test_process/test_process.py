@@ -583,8 +583,8 @@ class ConvertProcessTest(unittest.TestCase):
     def test_submit_workflow_fail(self, mock_submit, mock_isdir):
         mock_isdir.return_value = True
         self.process._last_suite_stage_completed = 'update'
-        mock_submit.side_effect = suite.SuiteSubmissionError()
-        self.assertRaises(suite.SuiteSubmissionError,
+        mock_submit.side_effect = suite.WorkflowSubmissionError()
+        self.assertRaises(suite.WorkflowSubmissionError,
                           self.process.submit_workflow)
         mock_submit.assert_called_once_with(self.process.suite_destination)
 
