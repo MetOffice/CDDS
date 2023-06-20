@@ -474,6 +474,9 @@ class Filters(object):
             if chunk_size is None:
                 # this still might fail later on, but at least in a predictable way
                 chunk_size = 1
+                logger = logging.getLogger(__name__)
+                logger.info('Unable to find working chunk size for period starting in {} {} {}, '
+                            'falling back to chunk size of length of 1 year'.format(*start_date))
 
             if chunk_size >= 1:
                 end_date_tpl = (
