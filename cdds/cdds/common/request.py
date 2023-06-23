@@ -259,6 +259,24 @@ class Request(object):
         return items
 
     @property
+    def flattened_items(self):
+        """
+        Returns all items in a flatted dictionary structure
+        :return: The information about the request in a flattened version
+        :rtype: dict
+        """
+        stack = [self.items]
+        flat_dict = {}
+        while stack:
+            current_dict = stack.pop()
+            for key, value in current_dict.items():
+                if isinstance(value, dict):
+                    stack.append(value)
+                else:
+                    flat_dict[key] = value
+        return flat_dict
+
+    @property
     def items_global_attributes(self):
         """
         Returns all items of the global attributes section as a dictionary

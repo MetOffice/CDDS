@@ -89,7 +89,9 @@ def construct_archive_dir_mass_path(mass_path_root, request):
 
     """
     model_file_info = PluginStore.instance().get_plugin().model_file_info()
-    mass_path_suffix = construct_string_from_facet_string(model_file_info.mass_root_location_facet, request.items)
+    mass_path_suffix = construct_string_from_facet_string(
+        model_file_info.mass_root_location_facet, request.flattened_items
+    )
     return os.path.join(mass_path_root, mass_path_suffix)
 
 
@@ -124,7 +126,7 @@ def get_archive_path(mass_path_root, var_dict, request):
                                              )
     facet_dict = {'grid_label': grid_label}
     facet_dict.update(var_dict)
-    facet_dict.update(request.items)
+    facet_dict.update(request.flattened_items)
 
     model_file_info = PluginStore.instance().get_plugin().model_file_info()
     mass_path_var_core = construct_string_from_facet_string(model_file_info.mass_location_facet, facet_dict)

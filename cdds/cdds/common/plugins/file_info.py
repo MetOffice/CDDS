@@ -227,18 +227,17 @@ class RegionalModelFileInfo(ModelFileInfo):
     Provides methods to manage and check netCDF files from regional simulation models
     """
     _CMOR_FILENAME_PATTERN = (r'([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_'
-                              r'(r\d+i\d+p\d+)_([a-zA-Z0-9-]+)_v([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)'
+                              r'(r\d+i\d+p\d+f\d+)_([a-zA-Z0-9-]+)'
                               r'_((\d+)-(\d+)).nc')
 
     _NC_FILES_TO_ARCHIVE_REGEX = (
-        '(?P<out_var_name>[a-zA-Z0-9-]+)_(?P<domain>[a-zA-Z0-9-]+)_'
-        '(?P<driving_model_id>[a-zA-Z0-9-]+)_(?P<experiment_id>[a-zA-Z0-9-]+)_'
-        '(?P<driving_ensemble_member>[a-zA-Z0-9-]+)_(?P<model_id>[a-zA-Z0-9-]+)_'
-        '(?P<rcm_version_id>[a-zA-Z0-9]+)_(?P<frequency>[a-zA-Z0-9]+)_'
+        '(?P<out_var_name>[a-zA-Z0-9-]+)_(?P<frequency>[a-zA-Z0-9]+)_(?P<model_id>[a-zA-Z0-9-]+)_'
+        '(?P<driving_experiment>[a-zA-Z0-9-]+)_'
+        '(?P<driving_variant_label>[a-zA-Z0-9]+)_(?P<grid>[a-zA-Z0-9]+)_'
         '(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+).nc')
 
-    _MASS_ROOT_LOCATION_FACET = ('domain|institution_id|driving_model_id|experiment_id|driving_model_ensemble_member|'
-                                 'model_id|rcm_version_id')
+    _MASS_ROOT_LOCATION_FACET = ('domain|institution_id|driving_source_id|experiment_id|driving_model_ensemble_member|'
+                                 'model_id|driving_variant_label')
     _MASS_SUFFIX_LOCATION_FACET = '|frequency|out_var_name'
 
     def __init__(self):
@@ -298,20 +297,12 @@ class RegionalModelFileInfo(ModelFileInfo):
         match = pattern.search(nc_file)
         if not match:
             return False
-        if request.experiment_id != match.group('experiment_id'):
-            return False
         if request.model_id != match.group('model_id'):
             return False
         if variable_dict['out_var_name'] != match.group('out_var_name'):
             return False
         if variable_dict['frequency'] != match.group('frequency'):
             return False
-        if global_attributes['domain'] != match.group('domain'):
-            return False
-        if global_attributes['driving_model_id'] != match.group('driving_model_id'):
-            return False
-        if global_attributes['driving_ensemble_member'] != match.group('driving_ensemble_member'):
-            return False
-        if global_attributes['rcm_version_id'] != match.group('rcm_version_id'):
+        if global_attributes['driving_experiment'] != match.group('driving_experiment'):
             return False
         return True
