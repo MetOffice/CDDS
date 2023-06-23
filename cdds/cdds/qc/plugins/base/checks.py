@@ -105,6 +105,8 @@ class StringAttributesCheckTask(CheckTask):
         }
         if self.relaxed_cmor:
             string_dict.pop("experiment")
+            string_dict.pop("source")
+            string_dict.pop("data_specs_version")
 
         for k, v in string_dict.items():
             self._exists_and_valid(netcdf_file, k, v)
