@@ -3,6 +3,13 @@
 
 .. include:: common.txt
 
+Release 2.4.6, June 23, 2023
+============================
+* Fix a bug in the extraction code where the non-uniform allocation of data in a simulation
+  to a large number of tapes can lead to failure of cdds extract (CDDSO-245, CDDSO-289)
+* Correct a bug in the HadGEM3 model config files that prevented extraction of data from the
+  diaptr sub-stream in the NEMO ocean data for the GCModelDev project (CDSO-293)
+
 Release 2.4.5, May 22, 2023
 ===========================
 * Added HighResMIP models to CMIP6 plugin (CDDSO-158, cherry-picked from main)
