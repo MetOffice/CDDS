@@ -304,12 +304,12 @@ class TestRegionalModelFileIsCmorFile(TestCase):
         self.assertFalse(result)
 
     def test_cmor_file_does_not_match_pattern_missing_parts(self):
-        filename = 'tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA.nc'
+        filename = 'day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
         result = self.model_file_info.is_cmor_file(filename)
         self.assertFalse(result)
 
     def test_cmor_file(self):
-        filename = 'tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
+        filename = 'psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
         result = self.model_file_info.is_cmor_file(filename)
         self.assertTrue(result)
 
@@ -322,90 +322,55 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
     def test_relevant_for_archiving(self):
         request_items = {
             'mip_era': 'CORDEX',
-            'experiment_id': 'evaluation',
-            'model_id': 'MOHC-HadGEM3-RA',
+            'model_id': 'HadGEM3-GC31-MM',
             'global_attributes': {
-                'domain': 'EUR-44',
-                'driving_model_id': 'ECMWF-ERAINT',
-                'driving_ensemble_member': 'r1i1p1',
-                'rcm_version_id': 'v1',
+                'driving_experiment': 'evaluation',
             }
         }
         variable_dict = {
-            'out_var_name': 'tas',
-            'frequency': 'mon'
+            'out_var_name': 'psl',
+            'frequency': 'day'
         }
         request = construct_request(request_items)
-        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
+        nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
         self.assertTrue(relevant)
 
-    def test_wrong_experiment_id(self):
-        request_items = {
-            'mip_era': 'CORDEX',
-            'experiment_id': 'historical',
-            'model_id': 'MOHC-HadGEM3-RA',
-            'global_attributes': {
-                'domain': 'EUR-44',
-                'driving_model_id': 'ECMWF-ERAINT',
-                'driving_ensemble_member': 'r1i1p1',
-                'rcm_version_id': 'v1',
-            }
-        }
-        variable_dict = {
-            'out_var_name': 'tas',
-            'frequency': 'mon'
-        }
-        request = construct_request(request_items)
-        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
-
-        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
-
-        self.assertFalse(relevant)
-
     def test_wrong_output_variable(self):
         request_items = {
             'mip_era': 'CORDEX',
-            'experiment_id': 'evaluation',
-            'model_id': 'MOHC-HadGEM3-RA',
+            'model_id': 'HadGEM3-GC31-MM',
             'global_attributes': {
-                'domain': 'EUR-44',
-                'driving_model_id': 'ECMWF-ERAINT',
-                'driving_ensemble_member': 'r1i1p1',
-                'rcm_version_id': 'v1',
+                'driving_experiment': 'evaluation',
             }
         }
         variable_dict = {
             'out_var_name': 'tas',
-            'frequency': 'va'
+            'frequency': 'day'
         }
         request = construct_request(request_items)
-        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
+        nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
         self.assertFalse(relevant)
 
-    def test_wrong_model_id(self):
+    def test_wrong_driving_experiment(self):
         request_items = {
             'mip_era': 'CORDEX',
-            'experiment_id': 'evaluation',
-            'model_id': 'UKESM1-0-LL',
+            'model_id': 'HadGEM3-GC31-MM',
             'global_attributes': {
-                'domain': 'EUR-44',
-                'driving_model_id': 'ECMWF-ERAINT',
-                'driving_ensemble_member': 'r1i1p1',
-                'rcm_version_id': 'v1',
+                'driving_experiment': 'historical',
             }
         }
         variable_dict = {
-            'out_var_name': 'tas',
-            'frequency': 'mon'
+            'out_var_name': 'psl',
+            'frequency': 'day'
         }
         request = construct_request(request_items)
-        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
+        nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
@@ -414,113 +379,36 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
     def test_wrong_frequency(self):
         request_items = {
             'mip_era': 'CORDEX',
-            'experiment_id': 'evaluation',
-            'model_id': 'MOHC-HadGEM3-RA',
+            'model_id': 'HadGEM3-GC31-MM',
             'global_attributes': {
-                'domain': 'EUR-44',
-                'driving_model_id': 'ECMWF-ERAINT',
-                'driving_ensemble_member': 'r1i1p1',
-                'rcm_version_id': 'v1',
+                'driving_experiment': 'historical',
             }
         }
         variable_dict = {
-            'out_var_name': 'tas',
+            'out_var_name': 'psl',
+            'frequency': 'mon'
+        }
+        request = construct_request(request_items)
+        nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
+
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
+
+        self.assertFalse(relevant)
+
+    def test_wrong_model_id(self):
+        request_items = {
+            'mip_era': 'CORDEX',
+            'model_id': 'HadGEM3-GC31-LL',
+            'global_attributes': {
+                'driving_experiment': 'historical',
+            }
+        }
+        variable_dict = {
+            'out_var_name': 'psl',
             'frequency': 'day'
         }
         request = construct_request(request_items)
-        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
-
-        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
-
-        self.assertFalse(relevant)
-
-    def test_wrong_domain(self):
-        request_items = {
-            'mip_era': 'CORDEX',
-            'experiment_id': 'evaluation',
-            'model_id': 'MOHC-HadGEM3-RA',
-            'global_attributes': {
-                'domain': 'EUR-11',
-                'driving_model_id': 'ECMWF-ERAINT',
-                'driving_ensemble_member': 'r1i1p1',
-                'rcm_version_id': 'v1',
-            }
-        }
-        variable_dict = {
-            'out_var_name': 'tas',
-            'frequency': 'mon'
-        }
-        request = construct_request(request_items)
-        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
-
-        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
-
-        self.assertFalse(relevant)
-
-    def test_wrong_driving_model_id(self):
-        request_items = {
-            'mip_era': 'CORDEX',
-            'experiment_id': 'evaluation',
-            'model_id': 'MOHC-HadGEM3-RA',
-            'global_attributes': {
-                'domain': 'EUR-44',
-                'driving_model_id': 'MOHC-HadGEM2-ES',
-                'driving_ensemble_member': 'r1i1p1',
-                'rcm_version_id': 'v1',
-            }
-        }
-        variable_dict = {
-            'out_var_name': 'tas',
-            'frequency': 'mon'
-        }
-        request = construct_request(request_items)
-        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
-
-        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
-
-        self.assertFalse(relevant)
-
-    def test_wrong_driving_ensemble_member(self):
-        request_items = {
-            'mip_era': 'CORDEX',
-            'experiment_id': 'evaluation',
-            'model_id': 'MOHC-HadGEM3-RA',
-            'global_attributes': {
-                'domain': 'EUR-44',
-                'driving_model_id': 'ECMWF-ERAINT',
-                'driving_ensemble_member': 'r2i2p3',
-                'rcm_version_id': 'v1',
-            }
-        }
-        variable_dict = {
-            'out_var_name': 'tas',
-            'frequency': 'mon'
-        }
-        request = construct_request(request_items)
-        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
-
-        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
-
-        self.assertFalse(relevant)
-
-    def test_wrong_rcm_version_id(self):
-        request_items = {
-            'mip_era': 'CORDEX',
-            'experiment_id': 'evaluation',
-            'model_id': 'MOHC-HadGEM3-RA',
-            'global_attributes': {
-                'domain': 'EUR-44',
-                'driving_model_id': 'ECMWF-ERAINT',
-                'driving_ensemble_member': 'r1i1p1',
-                'rcm_version_id': 'v45',
-            }
-        }
-        variable_dict = {
-            'out_var_name': 'tas',
-            'frequency': 'mon'
-        }
-        request = construct_request(request_items)
-        nc_file = '/path/to/tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_199001-199012.nc'
+        nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
@@ -535,8 +423,7 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def test_get_date_range_daily(self):
         file_template = (
-            '/path/to/output/data/apa/day/tas/'
-            'tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_day_{start}-{end}.nc'
+            '/path/to/output/data/apa/day/tas/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_{start}-{end}.nc'
         )
         nc_files = [
             file_template.format(start='20000101', end='20091230'),
@@ -554,8 +441,7 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def test_get_date_range_single_file(self):
         file_template = (
-            '/path/to/output/data/apa/day/tas/'
-            'tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_day_{start}-{end}.nc'
+            '/path/to/output/data/apa/day/tas/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_{start}-{end}.nc'
         )
         nc_files = [file_template.format(start='20000101', end='20251230')]
         frequency = 'day'
@@ -569,8 +455,7 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def test_get_date_range_yearly(self):
         file_template = (
-            '/path/to/output/data/apa/yr/tas/'
-            'tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_yr_{start}-{end}.nc'
+            '/path/to/output/data/apa/yr/tas/psl_yr_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_{start}-{end}.nc'
         )
         nc_files = [
             file_template.format(start='2000', end='2009'),
@@ -588,8 +473,7 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def test_get_date_range_monthly(self):
         file_template = (
-            '/path/to/output/data/apa/mon/tas/'
-            'tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_mon_{start}-{end}.nc'
+            '/path/to/output/data/apa/mon/tas/psl_mon_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_{start}-{end}.nc'
         )
         nc_files = [
             file_template.format(start='200001', end='200912'),
@@ -607,8 +491,7 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def test_get_date_range_6hr(self):
         file_template = (
-            '/path/to/output/data/apa/day/tas/'
-            'tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_day_{start}-{end}.nc'
+            '/path/to/output/data/apa/day/tas/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_{start}-{end}.nc'
         )
         nc_files = [
             file_template.format(start='200001010000', end='200912301800'),
@@ -626,8 +509,7 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def test_get_date_range_subhr_20min(self):
         file_template = (
-            '/path/to/output/data/apa/day/tas/'
-            'tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_day_{start}-{end}.nc'
+            '/path/to/output/data/apa/day/tas/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_{start}-{end}.nc'
         )
         nc_files = [
             file_template.format(start='20000101000000', end='20091230234000'),
@@ -645,8 +527,7 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def test_get_date_range_subhr_60min(self):
         file_template = (
-            '/path/to/output/data/apa/day/tas/'
-            'tas_EUR-44_ECMWF-ERAINT_evaluation_r1i1p1_MOHC-HadGEM3-RA_v1_day_{start}-{end}.nc'
+            '/path/to/output/data/apa/day/tas/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_{start}-{end}.nc'
         )
         nc_files = [
             file_template.format(start='20000101000000', end='20091230230000'),
