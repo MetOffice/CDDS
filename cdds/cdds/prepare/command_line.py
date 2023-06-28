@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`command_line` module contains the main functions for the
@@ -285,7 +285,7 @@ def parse_generate_args(arguments):
         '-r', '--user_request_variables', type=str, default=None,
         help='Path to a user defined list of variables.')
     parser.add_argument(
-        '-e', '--mip_era_defaults', type=str, default='CMIP6',
+        '-e', '--mip_era_defaults', type=str, default=None,
         help='Used to specify mip era for mappings defaults, as opposed to mip era from the request file.'
     )
     parser.add_argument('--no_overwrite', action='store_true',
@@ -313,6 +313,11 @@ def parse_generate_args(arguments):
     if args.use_proc_dir:
         request = read_request(args.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
         arguments = update_arguments_for_proc_dir(arguments, request, COMPONENT)
+    else:
+        request = read_request(args.request)
+
+    if not arguments.mip_era_defaults:
+        arguments.mip_era_defaults = request.mip_era
 
     if arguments.output_dir is not None:
         arguments.output_dir = check_directory(arguments.output_dir)
