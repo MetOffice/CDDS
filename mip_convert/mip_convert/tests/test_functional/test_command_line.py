@@ -16,7 +16,7 @@ from mip_convert.command_line import main
 from mip_convert.save.cmor.cmor_outputter import CmorGridMaker, AbstractAxisMaker
 from mip_convert.tests.test_functional.utils.configurations import AbstractTestData
 from mip_convert.tests.test_functional.utils.directories import (REFERENCE_OUTPUT_DIR_NAME, DATA_OUTPUT_DIR_NAME,
-                                                                 ROOT_TEST_CASES_DIR)
+                                                                 ROOT_REFERENCE_CASES_DIR, ROOT_OUTPUT_CASES_DIR)
 from mip_convert.tests.test_functional.utils.tools import (compare, compare_command, quick_compare,
                                                            write_user_configuration_file, print_outcome)
 
@@ -49,14 +49,15 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
             self.test_info.project_id, self.test_info.mip_table, self.test_info.variable
         )
         write_user_configuration_file(self.os_handle, self.test_info)
-        data_directory = os.path.join(ROOT_TEST_CASES_DIR, input_directory)
-        log_name = os.path.join(data_directory, self.mip_convert_log)
+        reference_data_directory = os.path.join(ROOT_REFERENCE_CASES_DIR, input_directory)
+        output_data_directory = os.path.join(ROOT_OUTPUT_CASES_DIR, input_directory)
+        log_name = os.path.join(output_data_directory, self.mip_convert_log)
 
-        output_directory = os.path.join(data_directory, DATA_OUTPUT_DIR_NAME)
+        output_directory = os.path.join(output_data_directory, DATA_OUTPUT_DIR_NAME)
         Path(output_directory).mkdir(exist_ok=True, parents=True)
 
         output_files = [os.path.join(output_directory, filename) for filename in filenames]
-        reference_dir = os.path.join(data_directory, REFERENCE_OUTPUT_DIR_NAME)
+        reference_dir = os.path.join(reference_data_directory, REFERENCE_OUTPUT_DIR_NAME)
         reference_files = [os.path.join(reference_dir, filename) for filename in filenames]
 
         # Provide help if the reference file does not exist.
@@ -85,7 +86,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
             raise RuntimeError('MIP Convert failed. Please check "{}"'.format(log_name))
 
         # Provide help if the output file does not exist.
-        print_outcome(output_files, output_directory, data_directory)
+        print_outcome(output_files, output_directory, output_data_directory)
         return output_files, reference_files
 
     def get_convert_parameters(self, log_name, relaxed_cmor):
@@ -105,7 +106,9 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
 
         outputs, references = self.convert(filenames, relaxed_cmor)
         if use_fast_comparison:
-            quick_compare(outputs, references)
+            if 'hash' not in other_items:
+                print('Hash strings have not been calculated for files {}'.format(', '.join(filenames)))
+            quick_compare(outputs, other_items['hash'])
         else:
             compare(
                 compare_command(outputs,

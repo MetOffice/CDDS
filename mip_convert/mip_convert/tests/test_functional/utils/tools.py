@@ -2,6 +2,7 @@
 # Please see LICENSE.rst for license details.
 import configparser
 import hashlib
+import iris
 import os
 import subprocess
 
@@ -11,29 +12,29 @@ from datetime import datetime
 from mip_convert.tests.test_functional.utils.constants import DEBUG, COMPARE_NETCDF, COMPARE_NETCDF_META
 
 
-def quick_compare(outputs, references):
+def quick_compare(outputs, hashes):
     """
-    Performs a fast comparison of file metadata and file size for the given output files and their reference files
+    Performs a fast comparison of file contents using hashed data
 
     :param outputs: The output files that should be compared to the reference files
     :type outputs: List[str]
     :param references: The references files compare to
     :type references: List[str]
+    :param hashes: List of hashes
+    :type hashes: List[str]
     :return: Corresponding compare commands
     :rtype: List[str]
     """
 
-    compare_commands = [
-        COMPARE_NETCDF_META.format(output=output, reference=reference).split()
-        for output, reference in zip(outputs, references)]
-    compare(compare_commands)
     diffs = []
-    for output, reference in zip(outputs, references):
-        output_size = os.path.getsize(output)
-        reference_size = os.path.getsize(reference)
-        if output_size != reference_size:
-            diffs.append('Output file {} size ({}) differs from reference file {} size ({})'.format(
-                output, output_size, reference, reference_size
+    for output, hash in zip(outputs, hashes):
+        cl = iris.load(output)
+        hashed_cubes = ''
+        for cube in cl:
+            hashed_cubes += hashlib.md5(cube.data).hexdigest()
+        if hashed_cubes != hash:
+            diffs.append('Output file {} hash ({}) differs from reference hash ({})'.format(
+                output, hashed_cubes, hash
             ))
     msg = ', '.join(diffs)
     assert diffs == [], msg

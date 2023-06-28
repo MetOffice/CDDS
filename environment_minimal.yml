@@ -36,4 +36,5 @@ dependencies:
 variables:
     LC_ALL: en_GB.UTF-8
     CDDS_ETC: /home/h03/cdds/etc
+    CDDS_SCRATCH: /scratch/cdds
 prefix: /home/h03/cdds/software/miniconda3/envs/cdds-dev

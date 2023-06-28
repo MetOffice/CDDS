@@ -8,13 +8,13 @@ from mip_convert.tests.test_functional.test_command_line import AbstractFunction
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
                                                                  MODEL_OUTPUT_DIR_SET2,
-                                                                 ROOT_TEST_CASES_DIR)
+                                                                 ROOT_OUTPUT_CASES_DIR)
 
 
 class TestCmip6SImonSiitdsnthick(AbstractFunctionalTests):
 
     def get_test_data(self):
-        test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CMIP6_SImon_siitdsnthick')
+        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_SImon_siitdsnthick')
         return Cmip6TestData(
             mip_table='SImon',
             variable='siitdsnthick',

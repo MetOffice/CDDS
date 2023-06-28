@@ -12,7 +12,7 @@ from mip_convert.tests.test_functional.utils.constants import ARISE_LICENSE, CMI
 from mip_convert.tests.test_functional.utils.directories import (PROJECT_CDDS_DIR,
                                                                  CMIP6_MIP_TABLE_DIR, CORDEX_MIP_TABLE_DIR,
                                                                  ARISE_MIP_TABLE_DIR, SEASONAL_MIP_TABLE_DIR,
-                                                                 ROOT_TEST_DATA_DIR, ROOT_ANCIL_DIR)
+                                                                 ROOT_REFERENCE_DATA_DIR, ROOT_ANCIL_DIR)
 
 
 @dataclass
@@ -65,7 +65,7 @@ class CommonInfo:
         return CommonInfo(
             common={
                 'root_test_dir': PROJECT_CDDS_DIR,
-                'root_test_location': ROOT_TEST_DATA_DIR,
+                'root_test_location': ROOT_REFERENCE_DATA_DIR,
                 'root_ancil_dir': ROOT_ANCIL_DIR
             },
             cmor_setup={

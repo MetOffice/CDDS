@@ -8,14 +8,14 @@ from mip_convert.tests.test_functional.test_command_line import AbstractFunction
 from mip_convert.tests.test_functional.utils.configurations import HiResTestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
                                                                  MODEL_OUTPUT_DIR_SET1,
-                                                                 ROOT_TEST_CASES_DIR,
+                                                                 ROOT_OUTPUT_CASES_DIR,
                                                                  ROOT_ANCIL_DIR)
 
 
 class TestHiResOmonTos(AbstractFunctionalTests):
 
     def get_test_data(self):
-        test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_HIRES_Omon_tos')
+        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_HIRES_Omon_tos')
         return HiResTestData(
             mip_table='Omon',
             variable='tos',
@@ -41,6 +41,7 @@ class TestHiResOmonTos(AbstractFunctionalTests):
                 other={
                     'filenames': ['tos_Omon_HadGEM3-GC31-HH_hist-1950_r1i1p1f1_gn_195101-195101.nc'],
                     'ignore_history': True,
+                    'hash': ['139cb11391233d344460d7f7bae8f320']
                 }
             )
         )
