@@ -3,6 +3,11 @@
 
 .. include:: common.txt
 
+Release 2.4.7, June 29, 2023
+============================
+* Fix a bug in the dehaloing script that prevented it from reading default command line
+  arguments (CDDSO-308)
+
 Release 2.4.6, June 23, 2023
 ============================
 * Fix a bug in the extraction code where the non-uniform allocation of data in a simulation
