@@ -153,7 +153,7 @@ def parse_remove_ocean_haloes_command_line(user_arguments):
     : :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated values.
     """
-    arguments = read_default_arguments('extract', 'remove_ocean_haloes')
+    arguments = read_default_arguments('cdds.extract', 'remove_ocean_haloes')
 
     parser = argparse.ArgumentParser(description='Strip ocean haloes from multiple files')
     parser.add_argument('destination', help='Directory to write stripped files to')
