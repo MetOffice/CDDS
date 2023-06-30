@@ -6,20 +6,21 @@ using SELECT and FILTER
 
 """
 
-from collections import defaultdict
 import datetime
-import json
 import logging
 import re
+from collections import defaultdict
+from operator import itemgetter
+from typing import Dict, List, Tuple
 
+from cdds.common import netCDF_regexp, generate_datestamps
 from cdds.common.mappings.mapping import ModelToMip
-from cdds.common.plugins.plugins import PluginStore
+from cdds.common.mass import mass_list_dir
 from cdds.common.plugins.grid import GridType
-from cdds.common import netCDF_regexp, run_command
-from cdds.extract.common import (get_stash, moose_date, run_moo_cmd, check_moo_cmd, get_bounds_variables,
-                                 calculate_period, fetch_filelist_from_mass, chunk_by_files_and_tapes, get_tape_limit)
-from cdds.extract.constants import (MOOSE_MAX_NC_FILES, DATESTAMP_PATTERN, MONTHLY_DATESTAMP_PATTERN_APRIL,
-                                    MONTHLY_DATESTAMP_PATTERN_SEPTEMBER, SUBDAILY_DATESTAMP_PATTERN)
+from cdds.common.plugins.plugins import PluginStore
+from cdds.extract.common import (check_moo_cmd, chunk_by_files_and_tapes, fetch_filelist_from_mass,
+                                 get_bounds_variables, get_stash, get_tape_limit, run_moo_cmd)
+from cdds.extract.constants import MOOSE_MAX_NC_FILES
 
 
 class Filters(object):
@@ -343,263 +344,202 @@ class Filters(object):
         except IndexError:
             return False
 
-    def _chunk_candidates(self, start_date, end_date):
-        """A helper method to calculate chunk sizes candidates.
+    def _chunk_pp_filelist(self, pp_filelist: List[Dict]) -> List[List[Dict]]:
+        """Recursively split a pp_filelist into chunks that will not exceed moose
+        resource limits.
 
-        Parameters:
-        -----------
+        :param pp_filelist: A pp_filelist
+        :type pp_filelist: List[Dict]
+        :return: A list of pp_filelist chunks
+        :rtype: List[List[Dict]]
+        """
+        def generate_chunks(chunk):
+            test_file = self._create_filterfile_pp(chunk, test_mode=True)
+            valid, _ = self._check_block_size_pp(test_file, override_simulate=True)
+            if valid["val"] == "ok":
+                return [chunk]
 
-        start_date: tuple
-            A tuple of integer year, month and day.
-        end_date: tuple
-            A tuple of integer year, month and day.
+            mid_point = len(chunk) // 2
+            sub_chunk_1, sub_chunk_2 = chunk[:mid_point], chunk[mid_point:]
 
-        Returns:
-        --------
-        list
-            A list of chunk sizes.
+            return generate_chunks(sub_chunk_1) + generate_chunks(sub_chunk_2)
+
+        return generate_chunks(pp_filelist)
+
+    def _generate_filenames(self, datestamps: List[str]) -> List[str]:
+        """Generate .pp filenames. Accounts for cases where ensemble id is
+        used in the filename by running a `moo ls` on the source directory
+        and checking the returned filenames.
+
+        :param datestamps: List of datestamps
+        :type datestamps: List[str]
+        :return: List of .pp filenames
+        :rtype: Tuple[List[str], List[str]]
+        """
+        suite = self.suite_id.split("-")[1]
+        stream_id = self.stream[-1]
+
+        if self.ensemble_member_id:
+            suite = "{}-{}".format(suite, self.ensemble_member_id)
+            command_output = mass_list_dir(self.source, False)
+            if suite not in command_output[0]:
+                suite = self.suite_id.split("-")[1]
+
+        filenames = [f"{suite}a.p{stream_id}{date}.pp"for date in datestamps]
+
+        return filenames
+
+    def _pp_file_string(self, pp_filelist: List[dict], file_frequency: str) -> str:
+        """_summary_
+
+        :param pp_filelist: _description_
+        :type pp_filelist: List[dict]
+        :param file_frequency: _description_
+        :type file_frequency: str
+        :return: _description_
+        :rtype: str
         """
 
-        years = end_date[0] - start_date[0] + 1
-        # generate chunk sizes
-        chunk_sizes = [years]
-        while years > 1:
-            years = years // 2
-            chunk_sizes.append(years)
-        # allow for 6 months and 3 months;
-        chunk_sizes += [0.5, 0.25]
-        return chunk_sizes
+        pp_filelist = sorted(pp_filelist, key=itemgetter("timepoint"))
 
-    def _test_chunks(self, start_date, chunk_sizes, with_ens_id):
-        """Tries requesting data from mass using decreasing chunk
-        sizes.
+        if file_frequency in ["10 day", "daily"]:
+            return f'["{pp_filelist[0]["filename"]}".."{pp_filelist[-1]["filename"]}"]'
 
+        if file_frequency == "monthly":
+            start, end = 1, 12
+        elif file_frequency == "season":
+            start, end = 3, 12
 
-        Parameters:
-        -----------
-        start_date: tuple
-            A tuple of integer year, month and day.
-        chunk_sizes: list
-            A list of chunk sizes (in simulated years).
+        start_date, end_date = pp_filelist[0]["timepoint"], pp_filelist[-1]["timepoint"]
 
-        Returns:
-        --------
-        int
-            The largest working chunk size.
-        """
-        chunk_size = None
-        # test chunk sizes in decreasing order until one works
-        for test_size in chunk_sizes:
-            test_start = start_date
-            if test_size > 1:
-                test_end = calculate_period((
-                    test_start[0] + test_size,
-                    test_start[1],
-                    test_start[2]
-                ), False)
+        leading_trailing_files = []
+
+        if start_date.month_of_year != start:
+            leading_trailing_files += [file["filename"]
+                                       for file in pp_filelist
+                                       if file["timepoint"].year == start_date.year]
+            pp_filelist = [file for file in pp_filelist if file["timepoint"].year != start_date.year]
+        if end_date.month_of_year != end:
+            leading_trailing_files += [file["filename"]
+                                       for file in pp_filelist
+                                       if file["timepoint"].year == end_date.year]
+            pp_filelist = [file for file in pp_filelist if file["timepoint"].year != end_date.year]
+
+        pp_filelist_string, individual_files_string = "", ""
+
+        if pp_filelist:
+            pp_filelist = sorted(pp_filelist, key=itemgetter("filename"))
+            pp_filelist_string = f'["{pp_filelist[0]["filename"]}".."{pp_filelist[-1]["filename"]}"]'
+
+        if leading_trailing_files:
+            leading_trailing_files = [f'"{file}"' for file in leading_trailing_files]
+            individual_files_string = ', '.join(leading_trailing_files)
+
+        if pp_filelist_string and individual_files_string:
+            pp_file = f"({pp_filelist_string}, {individual_files_string})"
+        elif pp_filelist_string:
+            pp_file = pp_filelist_string
+        elif individual_files_string:
+            if len(leading_trailing_files) > 1:
+                pp_file = f"({individual_files_string})"
             else:
-                test_end = calculate_period((
-                    test_start[0],
-                    test_start[1] + int(test_size * 12),
-                    test_start[2]
-                ), False)
-            # create filter file for this block
-            file_name = "{}/extract/{}_test.dff".format(
-                self.procdir, self.stream)
-            try:
-                self._create_filterfile_pp(
-                    test_start,
-                    test_end,
-                    file_name,
-                    with_ens_id
-                )
-            except IOError:
-                raise FilterFileException(
-                    "Could not create a sizing file in {}".format(
-                        self.procdir))
-                # add single command
-            status = self._check_block_size_pp(file_name)
-            if status["val"] == "ok":
-                # request size ok
-                chunk_size = test_size
-                break
-            elif status["val"] == "skip":
-                if status["code"] == "limit_exceeded":
-                    continue
-                else:
-                    return chunk_size
-        return chunk_size
+                pp_file = f"{individual_files_string}"
+        
+        return pp_file
 
-    def generate_chunks(self, start_date, run_end, test_sizes):
-        """
-        Covers a request period with chunks of suitable sizes.
+    def _create_pp_filelist(self, start: str, end: str) -> List[Dict]:
+        """_summary_
 
-        Parameters
-        ----------
-        start_date: tuple
-            A tuple of integer year, month and day for a data chunk
-            enclosing start date.
-        run_end: :class:`datetime.datetime`
-            End date for data required.
-        test_sizes: list
-            Chunk size candidates.
-
-        Returns
-        -------
-        list
-            A list of data chunks for a request period.
-        bool
-            Whether filenames include ensemble id
+        :param start: _description_
+        :type start: str
+        :param end: _description_
+        :type end: str
+        :return: _description_
+        :rtype: List[Dict]
         """
 
-        chunks = []
-        # The Year-Month-Day sequence defines the correct order
-        # hence it is possible just to compare strings directly
-        # to determine date precedence
-        while (DATESTAMP_PATTERN.format(*start_date) <
-               DATESTAMP_PATTERN.format(run_end.year, run_end.month,
-                                        run_end.day)):
-            with_ens_id = False
-            chunk_size = self._test_chunks(start_date, test_sizes, with_ens_id)
-            if chunk_size is None and self.ensemble_member_id is not None:
-                with_ens_id = True
-                chunk_size = self._test_chunks(start_date, test_sizes, with_ens_id)
-            if chunk_size is None:
-                # this still might fail later on, but at least in a predictable way
-                chunk_size = 1
-                logger = logging.getLogger(__name__)
-                logger.info('Unable to find working chunk size for period starting in {} {} {}, '
-                            'falling back to chunk size of length of 1 year'.format(*start_date))
+        file_frequency =  self.model_parameters._stream_file_info.file_frequencies[self.stream].frequency
+        datestamps, timepoints = generate_datestamps(start, end, file_frequency)
+        filenames = self._generate_filenames(datestamps)
 
-            if chunk_size >= 1:
-                end_date_tpl = (
-                    start_date[0] + chunk_size,
-                    start_date[1],
-                    start_date[2])
-            else:
-                years = start_date[0]
-                months = start_date[1] + int(chunk_size * 12)
-                if months > 12:
-                    years += 1
-                    months -= 12
-                end_date_tpl = (years, months, start_date[2])
+        pp_filelist = []
 
-            end_date = calculate_period(end_date_tpl, False)
-            chunks.append({
-                'start': start_date,
-                'end': end_date
-            })
+        for timepoint, filename in zip(timepoints, filenames):
+            pp_filelist.append({"timepoint": timepoint,
+                                "filename": filename})
 
-            start_date = end_date_tpl
-        chunks[-1]['end'] = calculate_period(
-            (run_end.year, run_end.month, run_end.day), False)
-        return chunks, with_ens_id
+        return pp_filelist
 
-    def _mass_cmd_pp(self, start, end):
-        """Create MASS commands and filter files for pp data streams
+    def _mass_cmd_pp(self, start: datetime, end: datetime) -> Tuple[str, List, str, int]:
+        """_summary_
 
-        Parameters
-        ----------
-        start: :class:`datetime.datetime`
-            start date for data required
-        end: :class:`datetime.datetime`
-            end date for data required
-
-        Returns
-        -------
-        str
-            action to be taken with current data stream - [ok|skip|stop]
-        list of dict
-            list of MOOSE requests to complete the extraction from the data
-            stream - dict per request.
-        str
-            error message
-        str
-            status code
+        :param start: _description_
+        :type start: datetime
+        :param end: _description_
+        :type end: datetime
+        :raises FilterFileException: _description_
+        :return: _description_
+        :rtype: Tuple[str, List, str, int]
         """
         self.mass_cmd = []
-        error = ""
-        start_date = calculate_period((start.year, start.month, start.day), True)
-        end_date = calculate_period((end.year, end.month, end.day), False)
-        test_sizes = self._chunk_candidates(start_date, end_date)
-        chunks, with_ens_id = self.generate_chunks(start_date, end, test_sizes)
+        start, end = start.strftime("%Y%m%d"), end.strftime("%Y%m%d")
+        pp_filelist = self._create_pp_filelist(start, end)
+        chunks = self._chunk_pp_filelist(pp_filelist)
 
         for chunk in chunks:
-            # create filter file for this block
-            start_string = DATESTAMP_PATTERN.format(
-                *chunk["start"])
-            end_string = DATESTAMP_PATTERN.format(
-                *chunk["end"])
-            file_name = "{}/extract/{}_{}_{}.dff".format(
-                self.procdir, self.stream, start_string, end_string)
+            start, end = chunk[0]["timepoint"], chunk[-1]["timepoint"]
+            start_tup = start.year, start.month_of_year, start.day_of_month
+            end_tup = end.year, end.month_of_year, end.day_of_month
             try:
-                self._create_filterfile_pp(
-                    chunk["start"], chunk["end"], file_name, with_ens_id)
+                filterfile = self._create_filterfile_pp(chunk, False)
             except IOError:
                 raise FilterFileException(
-                    "Could not create a sizing file in {}".format(
-                        self.procdir))
-                # add single command
-            moo_options = "-i"
-            cmd = {"moo_cmd": "select", "param_args":
-                   [moo_options, "-d", file_name, self.source,
-                    self.target],
-                   "start": chunk["start"], "end": chunk["end"]}
+                    "Could not create a sizing file in {}".format(self.procdir))
+            # add a single command
+            cmd = {"moo_cmd": "select",
+                   "param_args":["-i", "-d", filterfile, self.source, self.target],
+                   "start": start_tup,
+                   "end": end_tup}
             self.mass_cmd.append(cmd)
-        return "ok", self.mass_cmd, error, 1
 
-    def _create_filterfile_pp(self, start, end, file_name, with_ens_id=False):
-        """Creates MASS filter file for use when extracting pp data
-        streams with SELECT command.
+        return "ok", self.mass_cmd, "", 1
 
-        Parameters
-        ----------
-        start: tuple
-            start date for filter as a (year, month, day) tuple
-        end: tuple
-            end date for filter as a (year, month, day) tuple
-        file_name: str
-            name of filter file to create
+    def _create_filterfile_pp(self, chunk: List[Dict], test_mode: bool) -> str:
+        """_summary_
+
+        :param chunk: _description_
+        :type chunk: List[Dict]
+        :param test_mode: _description_
+        :type test_mode: bool
+        :return: _description_
+        :rtype: str
         """
-        last_suite_index = self.suite_id.split('-')[-1]
-        if self.ensemble_member_id is not None and with_ens_id:
-            suite_prefix = "{}-{}".format(last_suite_index, self.ensemble_member_id)
-        else:
-            suite_prefix = last_suite_index
+        file_frequency = self.model_parameters._stream_file_info.file_frequencies[self.stream].frequency
 
-        subdaily_streams = self.model_parameters.subdaily_streams()
+        pp_file = self._pp_file_string(chunk, file_frequency)
 
-        if self.stream in subdaily_streams:
-            start_filename = SUBDAILY_DATESTAMP_PATTERN.format(
-                suite_prefix, self.stream[2], *start)
-            end_filename = SUBDAILY_DATESTAMP_PATTERN.format(
-                suite_prefix, self.stream[2], *end)
+        start_string = str(chunk[0]["timepoint"])
+        end_string = str(chunk[-1]["timepoint"])
+
+        if test_mode:
+            file_name = "{}/extract/{}_test.dff".format(self.procdir, self.stream)
         else:
-            # We will try to match all monthly files for a given year.
-            # MOO string interpolation uses alphabetic order which is why
-            # we start with April and end with September.
-            start_filename = MONTHLY_DATESTAMP_PATTERN_APRIL.format(
-                suite_prefix, self.stream[2], start[0])
-            end_filename = MONTHLY_DATESTAMP_PATTERN_SEPTEMBER.format(
-                suite_prefix, self.stream[2], end[0])
-        if start_filename != end_filename:
-            pp_string = '"{}".."{}"'.format(start_filename, end_filename)
-        else:
-            pp_string = '"{}"'.format(start_filename)
+            file_name = "{}/extract/{}_{}_{}.dff".format(self.procdir, self.stream, start_string, end_string)
+
         with open(file_name, "w") as file_h:
             file_h.write(
                 (
                     "begin_global\n"
-                    "pp_file=[{}]\n"
+                    "pp_file={}\n"
                     "end_global\n"
-                ).format(pp_string)
+                ).format(pp_file)
             )
-
             # add stash filters to file
             file_h.write(self.filters[self.stream])
-        return pp_string
 
-    def _check_block_size_pp(self, filterfile):
+        return file_name
+
+    def _check_block_size_pp(self, filterfile, override_simulate=False):
         """Runs a dry-run MOOSE SELECT with supplied filter file.
 
         Returned status information includes:
@@ -617,12 +557,16 @@ class Filters(object):
         dict
             status information
         """
+        if override_simulate:
+            simulate = False
+        else:
+            simulate = self.simulation
+
         param_args = ["-n", filterfile, self.source, self.target]
-        code, cmd_out, command = run_moo_cmd("select", param_args,
-                                             self.simulation)
+        code, cmd_out, command = run_moo_cmd("select", param_args, simulate)
         status = check_moo_cmd(code, cmd_out)
         status['command'] = " ".join(command)
-        return status
+        return status, cmd_out
 
 # ----- NC specialisation methods ---------------------------------------------
     def _format_filter_nc(self, stream):

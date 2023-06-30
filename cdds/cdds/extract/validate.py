@@ -4,6 +4,7 @@
 import logging
 import os
 
+from cdds.common import generate_datestamps
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.streams import StreamAttributes
@@ -34,6 +35,18 @@ def validate_streams(streams, args):
     mappings = Filters(full_paths.proc_directory, var_list)
     mappings.set_mappings(args.mip_table_dir, request)
     mapping_status = configure_mappings(mappings)
+    
+    # generate expected filenames
+    start, end = request.run_bounds.split()
+    start, end = "".join(start.split("-")[:3]), "".join(end.split("-")[:3])
+    datestamps, _ = generate_datestamps(start, end, file_frequency = stream_file_info.file_frequencies["ap6"].frequency)
+    if request.mass_ensemble_member:
+        ensemble_member = request.mass_ensemble_member
+    else:
+        ensemble_member = None
+    mappings.ensemble_member_id = ensemble_member
+    mappings.stream = streams[0]
+    filenames = mappings._generate_filenames(datestamps)
 
     stream_details = get_streams(request.streaminfo, request.suite_id, streams)
     if not stream_details:
@@ -46,14 +59,14 @@ def validate_streams(streams, args):
         data_target = get_data_target(full_paths.input_data_directory, stream)
         _, _, _, stash_codes = (mappings.format_filter(stream['streamtype'], stream['stream']))
         substreams = list(mappings.filters.keys())
-        validate(data_target, stream, stash_codes, substreams, stream_file_info, stream_validation)
+        validate(data_target, stream, stash_codes, substreams, stream_file_info, stream_validation, filenames)
     else:
         logger.info('skipped [{}]: there are no variables requiring this stream'.format(stream['stream']))
     stream_validation.log_results(full_paths.log_directory("extract"))
     return stream_validation
 
 
-def validate(path, stream, stash_codes, substreams, stream_file_info, validation_result):
+def validate(path, stream, stash_codes, substreams, stream_file_info, validation_result, filenames):
     """Simple validation based on checking correct number of files have
     been extracted, and stash codes comparison in the case of pp streams.
 
@@ -72,11 +85,11 @@ def validate(path, stream, stash_codes, substreams, stream_file_info, validation
     validation_result: cdds.common.StreamValidationResult
         An object to hold results from the stream validation
     """
-
-    validate_file_count(path, stream, substreams, stream_file_info, validation_result)
     if stream["streamtype"] == "pp":
+        validate_file_count_pp(path, validation_result, filenames)
         validate_directory_pp(path, stash_codes, validation_result)
     elif stream["streamtype"] == "nc":
+        validate_file_count(path, stream, substreams, stream_file_info, validation_result)
         validate_directory_netcdf(path, validation_result)
 
 
@@ -107,6 +120,30 @@ def validate_file_count(path, stream, substreams, stream_file_info, validation_r
     stream_attribute = StreamAttributes(stream["stream"], stream["start_date"], stream["end_date"])
     expected = stream_file_info.calculate_expected_number_of_files(stream_attribute, substreams)
     validation_result.add_file_counts(expected, actual)
+
+def validate_file_count_pp(path, validation_result, filenames):
+    """ Compare a list of expected files against the files on disk. If strict=True then
+    validation will fail if there are additional files that are not expected.
+
+
+    Parameters
+    ----------
+    path: str
+        Path to the dataset.
+    stream: dict
+        Stream description dictionary.
+    substreams: list
+        List of expected substreams.
+    validation_result: cdds.common.StreamValidationResult
+        An object to hold results from the stream validation
+    """
+    logger = logging.getLogger(__name__)
+    logger.info("Checking file count")
+
+    actual_files = set(os.listdir(path))
+    expected_files = set(filenames)
+
+    validation_result.add_file_names(expected_files, actual_files)
 
 
 def validate_directory_pp(path, stash_codes, validation_result):

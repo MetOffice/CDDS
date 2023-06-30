@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2021, Met Office.
+# (C) British Crown Copyright 2016-2023, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -15,7 +15,7 @@ import subprocess
 import re
 from collections import defaultdict
 from operator import itemgetter
-from cdds.extract.constants import (NUM_PP_HEADER_LINES, TIME_REGEXP, MOOSE_LS_PAGESIZE, MOOSE_LS_MAX_PAGES,
+from cdds.extract.constants import (NUM_PP_HEADER_LINES, TIME_REGEXP,
                                     MOOSE_TAPE_PATTERN)
 from cdds.common import run_command, retry
 from cdds.extract.variables import Variables
@@ -744,6 +744,10 @@ class StreamValidationResult(object):
         self.file_count_expected = expected
         self.file_count_actual = actual
 
+    def add_file_names(self, expected, actual):
+        self.file_names_expected = expected
+        self.file_names_actual = actual
+
     def add_file_content_error(self, file_content_error):
         """
         Adds a file content error to the results
@@ -775,8 +779,15 @@ class StreamValidationResult(object):
             logger.critical("Validation for stream {} has failed, copy of the log saved in {}".format(
                 self.stream, validation_report_filepath))
             with open(validation_report_filepath, "w") as fn:
-                msg = "Expected number of files: {}\nActual number of files: {}\n".format(
-                    self.file_count_expected, self.file_count_actual)
+                if self.stream.startswith("a"):
+                    missing_files = list(self.file_names_expected.difference(self.file_names_actual))
+                    if missing_files:
+                        msg = "Missing files:\n"
+                        for file in missing_files:
+                            msg += f"{file}\n"
+                else:
+                    msg = "Expected number of files: {}\nActual number of files: {}\n".format(
+                        self.file_count_expected, self.file_count_actual)
                 if self.file_errors:
                     msg += "Problems detected with the following files:\n"
                     for _, file_error in self.file_errors.items():
@@ -795,7 +806,10 @@ class StreamValidationResult(object):
         -------
         : bool
         """
-        return self.file_count_actual == self.file_count_expected and not self.file_errors
+        if self.stream.startswith("a"):
+            return self.file_names_expected.issubset(self.file_names_actual) and not self.file_errors
+        else:
+            return self.file_count_actual == self.file_count_expected and not self.file_errors
 
 
 class ValidationResult(object):
@@ -1086,7 +1100,7 @@ def fetch_filelist_from_mass(mass_dir, simulation=False):
 
     Returns
     -------
-    dict
+    list
         List of tuples (tape, filename)
     error
         An error output from MOOSE
