@@ -100,46 +100,6 @@ class StreamFileInfo:
             expected_files = expected_files + 1
         return int(expected_files)
 
-    # def calculate_expected_number_of_files_new(self, stream_attributes: StreamAttributes, substreams: List[str]) -> int:
-    #     """
-    #     Calculates expected number of files in a particular stream
-
-    #     :param stream_attributes: Attributes of the stream containing stream name, start date and end date
-    #     :type stream_attributes: StreamAttributes
-    #     :param substreams: List of sub streams
-    #     :type substreams: List[str]
-    #     :return: Expected number of files
-    #     :rtype: int
-    #     """
-    #     # how many different EXPECTED usecases are there?
-    #     # 10 day files    360
-    #     # daily files     greg + 360
-    #     # monthly files   greg + 360
-    #     # seasonal files  greg + 360
-
-    #     # what assumptions are made here?
-    #     # substreams have same number of files
-
-    #     start_date = stream_attributes.start_date.strftime("%Y%m%d")
-    #     end_date = stream_attributes.end_date.strftime("%Y%m%d")
-
-    #     recurrence_string = "R/{start_date}/{}"
-
-    #     time_points = time_recurrence_to_time_points()
-        
-    #     TimeRecurrenceParser().parse(recurrence_string)
-
-    #     years = stream_attributes.end_date.year - stream_attributes.start_date.year
-    #     months = stream_attributes.end_date.month - stream_attributes.start_date.month
-
-    #     files_per_year = self.get_files_per_year(stream_attributes.stream)
-    #     if self.uses_month_names(stream_attributes):
-    #         expected_files = years * files_per_year if months == 0 else ((years + 1) * files_per_year)
-    #     else:
-    #         expected_files = ((years * 12 + months) / 12.0 * files_per_year * len(substreams))
-
-    #     return len(time_points)
-
 
 class StreamInfo(object, metaclass=ABCMeta):
     """
