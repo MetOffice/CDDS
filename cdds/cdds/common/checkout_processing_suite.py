@@ -8,9 +8,9 @@ from typing import Union
 
 from cdds.common.request import read_request
 from cdds.common import determine_rose_suite_url
-from cdds.convert.process.suite_interface import (check_svn_location,
-                                                  checkout_url,
-                                                  update_suite_conf_file)
+from cdds.convert.process.workflow_interface import (check_svn_location,
+                                                     checkout_url,
+                                                     update_suite_conf_file)
 
 
 def main_checkout_suite(arguments: Union[list, None] = None):

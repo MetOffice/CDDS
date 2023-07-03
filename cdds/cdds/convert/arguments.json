@@ -1,6 +1,5 @@
 {
   "package": {
-    "suite_run_args": "--no-gcontrol",
     "simulation": "False"
   },
   "cdds_convert": {

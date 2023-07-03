@@ -1,7 +1,7 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 '''
-Tools for interfacing with conversion Rose suite
+Tools for interfacing with the cdds convert workflow.
 '''
 from configparser import ConfigParser
 import json
@@ -10,8 +10,7 @@ import subprocess
 
 from cdds.convert.exceptions import (SuiteCheckoutError,
                                      SuiteConfigMissingValueError,
-                                     SuiteSubmissionError,
-                                     SuiteShutdownError)
+                                     WorkflowSubmissionError)
 from cdds.common import run_command
 
 
@@ -116,20 +115,20 @@ def update_suite_conf_file(filename, section_name, changes_to_apply, raw_value=F
     return changes
 
 
-def submit_suite(location, simulation=False, rose_args=None, env=None):
+def run_workflow(location, simulation=False, cylc_args=None, env=None):
     """
-    Submit a suite and return the standard output.
+    Run a cylc workflow using vip and return the standard output.
 
     Parameters
     ----------
     location : str
-        Location to submit the rose suite from (i.e. where the suite
+        Location to submit the cylc workflow from (i.e. where the workflow
         has been checked out to).
     simulation : bool
-        Set to true to submit suite in simulation mode (for testing).
-    rose_args : list of str
-        Arguments to include in the call to rose suite-run. This list
-        is prefixed with ['--', '--mode=simulation'] if `simulation`
+        Set to true to play workflow in simulation mode (for testing).
+    cylc_args : list of str
+        Arguments to include in the call to cylc vip-run. This list
+        is prefixed with ['--mode=simulation'] if `simulation`
         is set.
     env : dict
         Environment variables to be set when rose is run. Should be a
@@ -138,66 +137,35 @@ def submit_suite(location, simulation=False, rose_args=None, env=None):
     Returns
     -------
     tuple
-        The text returned by the rose suite-run command in (stdout,
+        The text returned by the cylc vip command (stdout,
         stderr).
 
     Raises
     ------
     AssertionError
         If `location` does not exist.
-    SuiteSubmissionError
-        If an error occurred when submitting the suite.
+    WorkflowSubmissionError
+        If an error occured when submitting the workflow.
     """
     assert os.path.exists(location), 'location not found'
-    command = ['rose', 'suite-run', '-C', location]
-    if isinstance(rose_args, list):
-        command += rose_args
+
+    # identify the workflow name
+    for argument in cylc_args:
+        if argument.startswith("--workflow-name"):
+            workflow_name = argument.split("=")[1]
+    # clean an existing workflow if it exists
+    clean_command = ['cylc', 'clean', workflow_name]
+    run_command(clean_command)
+
+    # construct the command for running the workflow
+    install_command = ['cylc', 'vip', location]
+    install_command += cylc_args
+
     if simulation:
-        command += ['--', '--mode=simulation']
+        install_command += ['--mode=simulation']
 
-    result = run_command(command, 'Rose suite-run command failed.',
-                         SuiteSubmissionError, env)
-    return result
+    install_command += ['--no-run-name']
 
+    result = run_command(install_command, "Running workflow failed", WorkflowSubmissionError)
 
-def shutdown_suite(location, rose_args=None, env=None):
-    """
-    Shutdown a suite and return the standard output.
-
-    Parameters
-    ----------
-    location : str
-        Location to submit the rose suite from (i.e. where the suite
-        has been checked out to).
-    rose_args : list of str
-        Arguments to include in the call to rose suite-shutdown.
-    env : dict
-        Environment variables to be set when rose is run. Should be a
-        copy of `os.environ`.
-
-    Returns
-    -------
-    tuple
-        The text returned by the rose suite-run command in (stdout,
-        stderr).
-
-    Raises
-    ------
-    AssertionError
-        If `location` does not exist.
-    SuiteShutdownError
-        If an error occurred when shutting down the suite.
-    """
-    assert os.path.exists(location), ('Suite location "{}" not found'
-                                      ''.format(location))
-    os.chdir(location)
-    command = ['rose', 'suite-shutdown', '-y']
-    if isinstance(rose_args, list):
-        command += rose_args
-
-    try:
-        result = run_command(command, 'Rose shutdown command failed.',
-                             SuiteShutdownError, env)
-    except SuiteShutdownError as err:
-        result = [str(err)]
     return result

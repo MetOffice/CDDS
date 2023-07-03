@@ -22,7 +22,7 @@ from cdds.common.request import read_request
 from cdds.common.variables import RequestedVariablesList
 from cdds.convert.constants import (NTHREADS_CONCATENATE, PARALLEL_TASKS,
                                     ROSE_SUITE_ID, SECTION_TEMPLATE)
-from cdds.convert.process import suite_interface
+from cdds.convert.process import workflow_interface
 from cdds.convert.process.memory import scale_memory
 from cdds.deprecated.config import FullPaths
 from mip_convert.configuration.python_config import PythonConfig
@@ -160,13 +160,13 @@ class ConvertProcess(object):
         suite_base_url = determine_rose_suite_url(
             self._convert_suite, internal=True)
         # If that fails try the external
-        if not suite_interface.check_svn_location(suite_base_url):
+        if not workflow_interface.check_svn_location(suite_base_url):
             self.logger.info('Could not access internal repository at "{}"'
                              ''.format(suite_base_url))
             suite_base_url = determine_rose_suite_url(
                 self._convert_suite, internal=False)
             # If that fails log a critical message and raise a RuntimeError
-            if not suite_interface.check_svn_location(suite_base_url):
+            if not workflow_interface.check_svn_location(suite_base_url):
                 msg = ('Could not access external repository at "{}"'
                        '').format(suite_base_url)
                 self.logger.error(msg)
@@ -204,7 +204,7 @@ class ConvertProcess(object):
                 self.logger.error('Permission denied. Error: {}'.format(error))
                 self.logger.info('Attempting to continue.')
 
-    def checkout_convert_suite(self, delete_original=True):
+    def checkout_convert_workflow(self, delete_original=True):
         """
         Retreive the source code of the conversion suite from a local directory
         or repository URL and put into the convert proc directory.
@@ -229,10 +229,10 @@ class ConvertProcess(object):
                              'to {0.suite_destination}'
                              ''.format(self))
             try:
-                output = suite_interface.checkout_url(
+                output = workflow_interface.checkout_url(
                     self.rose_suite_svn_location,
                     self.suite_destination)
-            except suite_interface.SuiteCheckoutError as err:
+            except workflow_interface.SuiteCheckoutError as err:
                 self.logger.exception(err)
             else:
                 self.logger.info('Suite checkout to {} succeeded'
@@ -824,7 +824,7 @@ class ConvertProcess(object):
         location: str
             The platform on which to run the tasks in the suite.
         """
-        section_name = 'jinja2:suite.rc'
+        section_name = 'template variables'
         rose_suite_conf_file = os.path.join(self.suite_destination,
                                             'rose-suite.conf')
         start_date, end_date = self.run_bounds()
@@ -892,8 +892,8 @@ class ConvertProcess(object):
         try:
             print("Changes to apply:")
             print(changes_to_apply_all)
-            changes_applied = suite_interface.update_suite_conf_file(rose_suite_conf_file, section_name,
-                                                                     changes_to_apply_all, raw_value=False)
+            changes_applied = workflow_interface.update_suite_conf_file(rose_suite_conf_file, section_name,
+                                                                        changes_to_apply_all, raw_value=False)
         except Exception as err:
             self.logger.exception(err)
             raise err
@@ -928,7 +928,7 @@ class ConvertProcess(object):
             |stream identifier| to calculate value for.
 
         """
-        section_name = 'jinja2:suite.rc'
+        section_name = 'template variables'
         components = self.stream_components
         template_path = os.path.join(self.suite_destination, 'opt',
                                      'rose-suite-stream.conf')
@@ -969,8 +969,8 @@ class ConvertProcess(object):
         }
 
         try:
-            changes_applied = suite_interface.update_suite_conf_file(stream_opt_conf_path, section_name,
-                                                                     changes_to_appy_per_stream, raw_value=False)
+            changes_applied = workflow_interface.update_suite_conf_file(stream_opt_conf_path, section_name,
+                                                                        changes_to_appy_per_stream, raw_value=False)
         except Exception as err:
             self.logger.exception(err)
         else:
@@ -978,7 +978,19 @@ class ConvertProcess(object):
                 'Update to {0} successful. Changes made: "{1}"'
                 ''.format(stream_opt_conf_path, repr(changes_applied)))
 
-    def update_convert_suite_parameters(self, location=None):
+    @property
+    def target_suite_name(self):
+        """
+        Return the name of the target suite.
+
+        Returns
+        -------
+        : str
+            Name of the target suite, e.g. "u-ar050".
+        """
+        return self._request.suite_id
+
+    def update_convert_workflow_parameters(self, location=None):
         """
         Update parameters in the rose-suite.conf file in the conversion
         suite.
@@ -1000,41 +1012,17 @@ class ConvertProcess(object):
 
         self._last_suite_stage_completed = 'update'
 
-    @property
-    def target_suite_name(self):
-        """
-        Return the name of the target suite.
+    def submit_workflow(self, **kwargs):
+        """_summary_
 
-        Returns
-        -------
-        : str
-            Name of the target suite, e.g. "u-ar050".
-        """
-        return self._request.suite_id
-
-    def _suite_action(self, action_name, action, error, **kwargs):
-        words = {'submit': ('Submitting', 'submitted', 'Submission'),
-                 'shutdown': ('Shutting down', 'shutdown', 'Shutdown')}
-
-        self.logger.info('{} suite in {}'.format(words[action_name][0],
-                                                 self.suite_destination))
-        try:
-            result = action(self.suite_destination, **kwargs)
-            self.logger.info(
-                'Suite {} successfully'.format(words[action_name][1]))
-            self.logger.info('Suite standard output:\n {}'.format(result))
-        except error as err:
-            self.logger.error(
-                '{} failed: {}'.format(words[action_name][2], err))
-            raise err
-
-    def submit_suite(self, **kwargs):
-        """
-        Submit the rose suite.
-
-        Keyword arguments are passed on to
-        cdds.convert.suite_interface.submit_suite.
+        :raises err: _description_
         """
         assert self._last_suite_stage_completed == 'update'
-        self._suite_action('submit', suite_interface.submit_suite,
-                           suite_interface.SuiteSubmissionError, **kwargs)
+        self.logger.info('Submitting workflow located in {}'.format(self.suite_destination))
+        try:
+            result = workflow_interface.run_workflow(self.suite_destination, **kwargs)
+            self.logger.info('Workflow submitted successfully')
+            self.logger.info('Workflow standard output:\n {}'.format(result))
+        except workflow_interface.WorkflowSubmissionError as err:
+            self.logger.error('Workflow submission failed: {}'.format(err))
+            raise err
