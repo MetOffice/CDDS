@@ -725,11 +725,11 @@ class StreamValidationResult(object):
             Stream name
         """
         self.stream = stream
-        self.file_count_expected = None
-        self.file_count_actual = None
+        self.file_names_expected = None
+        self.file_names_actual = None
         self.file_errors = {}
 
-    def add_file_counts(self, expected, actual):
+    def add_file_names(self, expected_files, actual_files):
         """
         Stores expected and actual file counts for a given stream.
 
@@ -741,12 +741,8 @@ class StreamValidationResult(object):
         actual: int
             Actual number of files in this stream
         """
-        self.file_count_expected = expected
-        self.file_count_actual = actual
-
-    def add_file_names(self, expected, actual):
-        self.file_names_expected = expected
-        self.file_names_actual = actual
+        self.file_names_expected = expected_files
+        self.file_names_actual = actual_files
 
     def add_file_content_error(self, file_content_error):
         """
@@ -779,15 +775,15 @@ class StreamValidationResult(object):
             logger.critical("Validation for stream {} has failed, copy of the log saved in {}".format(
                 self.stream, validation_report_filepath))
             with open(validation_report_filepath, "w") as fn:
-                if self.stream.startswith("a"):
-                    missing_files = list(self.file_names_expected.difference(self.file_names_actual))
-                    if missing_files:
-                        msg = "Missing files:\n"
-                        for file in missing_files:
-                            msg += f"{file}\n"
-                else:
-                    msg = "Expected number of files: {}\nActual number of files: {}\n".format(
-                        self.file_count_expected, self.file_count_actual)
+                # if self.stream.startswith("a"):
+                missing_files = list(self.file_names_expected.difference(self.file_names_actual))
+                if missing_files:
+                    msg = "Missing files:\n"
+                    for file in missing_files:
+                        msg += f"{file}\n"
+                # else:
+                #     msg = "Expected number of files: {}\nActual number of files: {}\n".format(
+                #         self.file_count_expected, self.file_count_actual)
                 if self.file_errors:
                     msg += "Problems detected with the following files:\n"
                     for _, file_error in self.file_errors.items():
@@ -806,10 +802,7 @@ class StreamValidationResult(object):
         -------
         : bool
         """
-        if self.stream.startswith("a"):
-            return self.file_names_expected.issubset(self.file_names_actual) and not self.file_errors
-        else:
-            return self.file_count_actual == self.file_count_expected and not self.file_errors
+        return self.file_names_expected.issubset(self.file_names_actual) and not self.file_errors
 
 
 class ValidationResult(object):

@@ -366,7 +366,7 @@ class Filters(object):
 
         return generate_chunks(pp_filelist)
 
-    def _generate_filenames(self, datestamps: List[str]) -> List[str]:
+    def _generate_filenames_pp(self, datestamps: List[str]) -> List[str]:
         """Generate .pp filenames. Accounts for cases where ensemble id is
         used in the filename by running a `moo ls` on the source directory
         and checking the returned filenames.
@@ -460,7 +460,7 @@ class Filters(object):
 
         file_frequency =  self.model_parameters._stream_file_info.file_frequencies[self.stream].frequency
         datestamps, timepoints = generate_datestamps(start, end, file_frequency)
-        filenames = self._generate_filenames(datestamps)
+        filenames = self._generate_filenames_pp(datestamps)
 
         pp_filelist = []
 
@@ -727,6 +727,49 @@ class Filters(object):
                 error = "no matching variables to retrieve"
                 status["val"] = "stop"
         return status["val"], self.mass_cmd, error, None
+
+    def _generate_filenames_nc(self, datestamps: List[str], sub_stream: str) -> List[str]:
+        """Generate .nc filenames. Accounts for cases where ensemble id is
+        used in the filename by running a `moo ls` on the source directory
+        and checking the returned filenames.
+
+        support "onm", "ond", "inm", "ind" streams
+        
+        "nemo_aw310o_1m_46531001-46531101_grid-T.nc"
+        "nemo_aw310o-r1923019_1m_46531001-46531101_grid-T.nc"
+
+        :param datestamps: List of datestamps
+        :type datestamps: List[str]
+        :return: List of .pp filenames
+        :rtype: Tuple[List[str], List[str]]
+        """
+        lookup = {"diad-T": "medusa",
+                  "ptrc-T": "medusa",
+                  "ptrd-T": "medusa",
+                  "diaptr": "nemo",
+                  "grid-T": "nemo",
+                  "grid-U": "nemo",
+                  "grid-V": "nemo",
+                  "grid-W": "nemo",
+                  "scalar": "nemo",}
+
+        if self.stream[0] == "o":
+            model_realm = lookup[sub_stream]
+        elif self.stream[0] == "i":
+            model_realm = "cice"
+
+        suite = self.suite_id.split("-")[1] + self.stream[0]
+        freq = f"1{self.stream[-1]}"
+
+        if self.ensemble_member_id:
+            suite = "{}-{}".format(suite, self.ensemble_member_id)
+            command_output = mass_list_dir(self.source, False)
+            if suite not in command_output[0]:
+                suite = self.suite_id.split("-")[1]
+
+        filenames = [f"{model_realm}_{suite}_{freq}_{date}_{sub_stream}.nc" for date in datestamps]
+
+        return filenames
 
     def _create_filterfile_nc(self, file_name, variables, stream, substream):
         """Creates MASS filter file for use when extracting nc data streams

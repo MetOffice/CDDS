@@ -22,7 +22,7 @@ from typing import Any, Callable, List, Optional, Tuple, Type, Union
 
 from cftime import datetime as cf_datetime
 from metomi.isodatetime.data import Calendar, TimePoint
-from metomi.isodatetime.parsers import TimePointParser, TimeRecurrenceParser
+from metomi.isodatetime.parsers import DurationParser, TimePointParser, TimeRecurrenceParser
 
 from cdds.common.constants import (CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX,
                                    LOG_TIMESTAMP_FORMAT, ROSE_URLS, SUPPORTED_CALENDARS,
@@ -1136,6 +1136,40 @@ def generate_datestamps(start_date: str,
             datestamp = filename.strftime(date_format).lower()
         else:
             datestamp = filename.strftime("%Y") + seasons[filename.month]
+        datestamps.append(datestamp)
+
+    return datestamps, timepoints
+
+def generate_datestamps_nc(start_date: str,
+                           end_date: str,
+                           file_frequency: str) -> Tuple[List[str], List[TimePoint]]:
+    """_summary_
+
+    :param start_date: _description_
+    :type start_date: str
+    :param end_date: _description_
+    :type end_date: str
+    :param file_frequency: _description_
+    :type file_frequency: str
+    :return: _description_
+    :rtype: Tuple[List[str], List[TimePoint]]
+    """
+
+    modes = {"monthly": ["P1M", "%Y%m%d"],
+             "quarterly": ["P3M", "%Y%m%d"],}
+
+    calendar = Calendar.default().mode
+
+    duration, date_format = modes[file_frequency]
+    timepoints = generate_time_points(start_date, end_date, duration)
+    datestamps = []
+
+    for timepoint in timepoints:
+        start = timepoint
+        end = timepoint + DurationParser().parse(duration)
+        start = cf_datetime.strptime(str(start), "%Y-%m-%dT%H:%M:%SZ", calendar=calendar)
+        end = cf_datetime.strptime(str(end), "%Y-%m-%dT%H:%M:%SZ", calendar=calendar)
+        datestamp = start.strftime(date_format) + "-" + end.strftime(date_format)
         datestamps.append(datestamp)
 
     return datestamps, timepoints
