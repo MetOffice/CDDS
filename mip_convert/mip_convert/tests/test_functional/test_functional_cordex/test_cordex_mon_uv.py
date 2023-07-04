@@ -31,7 +31,7 @@ class TestCordexMonUv(AbstractFunctionalTests):
                 },
                 request={
                     'model_output_dir': MODEL_OUTPUT_DIR_SET1,
-                    'run_bounds': '2000-01-01-00-00-00 2000-03-01-00-00-00',
+                    'run_bounds': '2000-01-01T00:00:00 2000-03-01T00:00:00',
                     'suite_id': 'u-ax977'
                 },
                 streams={

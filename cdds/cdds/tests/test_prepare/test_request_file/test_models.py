@@ -6,6 +6,7 @@ import unittest
 
 from unittest import TestCase
 
+from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.prepare.request_file.models import RoseSuiteArguments, RoseSuiteRequest
 from unittest.mock import patch
 
@@ -55,6 +56,7 @@ class TestReadJson(TestCase):
 
 class TestLoadRequestForUKESM1(TestCase):
     def setUp(self):
+        load_plugin()
         root_mip_table = os.path.join(os.environ['CDDS_ETC'], 'etc/mip_tables/CMIP6/')
         data_request_version = '01.00.29'
         mip_table_dir = os.path.join(root_mip_table, data_request_version)
@@ -127,7 +129,7 @@ class TestLoadRequestForUKESM1(TestCase):
             'model_type': 'AOGCM BGC AER CHEM',
             'package': 'round-1-part-1',
             'request_id': 'UKESM1-0-LL_historical_r1i1p1f2',
-            'run_bounds': '1850-01-01-00-00-00 2015-01-01-00-00-00',
+            'run_bounds': '1850-01-01T00:00:00 2015-01-01T00:00:00',
             'sub_experiment_id': 'none',
             'suite_branch': 'cdds',
             'suite_id': 'aw310',
@@ -176,7 +178,7 @@ class TestLoadRequestForUKESM1(TestCase):
             'model_type': 'AOGCM BGC AER CHEM',
             'package': 'round-1-part-1',
             'request_id': 'UKESM1-0-LL_historical_r1i1p1f2',
-            'run_bounds': '1850-01-01-00-00-00 2015-01-01-00-00-00',
+            'run_bounds': '1850-01-01T00:00:00 2015-01-01T00:00:00',
             'sub_experiment_id': 'none',
             'suite_branch': 'cdds',
             'suite_id': 'aw310',
@@ -224,7 +226,7 @@ class TestLoadRequestForUKESM1(TestCase):
         request.load(self.suite_info, arguments)
         # compute changes resulting from start and end date overrides (run_bounds only)
         expected_new_items = self.expected_new_items.copy()
-        expected_new_items['run_bounds'] = '{}-00-00-00 {}-00-00-00'.format(start_date, end_date)
+        expected_new_items['run_bounds'] = '{}T00:00:00 {}T00:00:00'.format(start_date, end_date)
         self.assertTrue(expected_new_items.items() <= request.items.items())
 
     @patch('cdds.prepare.request_file.models.read_json')
@@ -245,8 +247,8 @@ class TestLoadRequestForUKESM1(TestCase):
         arguments = RoseSuiteArguments(self.global_arguments, {}, {})
 
         arguments.set_suite_arguments('aw310', 'cdds', '104373', 'round-1-part-1', ['stream1', 'stream2'])
-        self.expected_new_items.update({'run_bounds_for_stream_stream1': '1850-01-01-00-00-00 2015-01-01-00-00-00',
-                                        'run_bounds_for_stream_stream2': '1850-01-01-00-00-00 2015-01-01-00-00-00'})
+        self.expected_new_items.update({'run_bounds_for_stream_stream1': '1850-01-01T00:00:00 2015-01-01T00:00:00',
+                                        'run_bounds_for_stream_stream2': '1850-01-01T00:00:00 2015-01-01T00:00:00'})
 
         request = RoseSuiteRequest()
         request.load(self.suite_info, arguments)
@@ -267,6 +269,7 @@ class TestLoadRequestForUKESM1(TestCase):
 
 class TestLoadRequestForHadGEM3MM(TestCase):
     def setUp(self):
+        load_plugin()
         root_mip_table = os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/')
         data_request_version = '01.00.29'
         mip_table_dir = os.path.join(root_mip_table, data_request_version)
@@ -339,7 +342,7 @@ class TestLoadRequestForHadGEM3MM(TestCase):
             'model_type': 'AOGCM BGC AER CHEM',
             'package': 'round-1-part-1',
             'request_id': 'HadGEM3-GC31-MM_historical_r1i1p1f2',
-            'run_bounds': '1850-01-01-00-00-00 2015-01-01-00-00-00',
+            'run_bounds': '1850-01-01T00:00:00 2015-01-01T00:00:00',
             'sub_experiment_id': 'none',
             'suite_branch': 'cdds',
             'suite_id': 'aw310',
@@ -378,6 +381,7 @@ class TestLoadRequestForHadGEM3MM(TestCase):
 
 class TestLoadRequestForHadGEM3LL(TestCase):
     def setUp(self):
+        load_plugin()
         root_mip_table = os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/')
         data_request_version = '01.00.29'
         mip_table_dir = os.path.join(root_mip_table, data_request_version)
@@ -450,7 +454,7 @@ class TestLoadRequestForHadGEM3LL(TestCase):
             'model_type': 'AOGCM BGC AER CHEM',
             'package': 'round-1-part-1',
             'request_id': 'HadGEM3-GC31-LL_historical_r1i1p1f2',
-            'run_bounds': '1850-01-01-00-00-00 2015-01-01-00-00-00',
+            'run_bounds': '1850-01-01T00:00:00 2015-01-01T00:00:00',
             'sub_experiment_id': 'none',
             'suite_branch': 'cdds',
             'suite_id': 'aw310',

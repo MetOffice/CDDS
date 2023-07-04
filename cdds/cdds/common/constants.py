@@ -96,6 +96,9 @@ DATE_TIME_FORMAT = '%Y-%m-%d-%H-%M-%S'
 DATE_TIME_REGEX = (
     r'(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})-(?P<hour>\d{2})-'
     r'(?P<minute>\d{2})-(?P<second>\d{2})')
+DATE_TIME_REGEX_RUN_BOUNDS = (
+    r'(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})T(?P<hour>\d{2}):'
+    r'(?P<minute>\d{2}):(?P<second>\d{2})')
 DAYS_IN_MONTH = 30
 DAYS_IN_YEAR = 360
 GLOBAL_ARGUMENTS_FILENAME = 'global_arguments.json'
@@ -111,8 +114,8 @@ INVENTORY_HEADINGS = ['Mip Era', 'Mip', 'Institute', 'Model', 'Experiment', 'Var
 INVENTORY_HEADINGS_FORMAT = '{:7} {:6} {:10} {:18} {:15} {:10} {:10} {:20} {:4} {:10} {:10} {:10}'
 LOG_DIRECTORY = 'log'
 LOG_TIMESTAMP_FORMAT = '%Y-%m-%dT%H%MZ'
-MIP_CONVERT_DATETIME_FORMAT = ('{0.year:04d}-{0.month_of_year:02d}-{0.day_of_month:02d}-'
-                               '{0.hour_of_day:02d}-{0.minute_of_hour:02d}-{0.second_of_minute:02d}')
+MIP_CONVERT_DATETIME_FORMAT = ('{0.year:04d}-{0.month_of_year:02d}-{0.day_of_month:02d}T'
+                               '{0.hour_of_day:02d}:{0.minute_of_hour:02d}:{0.second_of_minute:02d}')
 
 NC_CONSTRAINT_NOT_FOR_MOOSE = ["depth"]
 NO_PARENT = 'no parent'

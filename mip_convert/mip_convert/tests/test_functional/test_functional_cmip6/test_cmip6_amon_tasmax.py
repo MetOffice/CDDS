@@ -30,7 +30,7 @@ class TestCmip6AmonTasmax(AbstractFunctionalTests):
                 },
                 request={
                     'model_output_dir': MODEL_OUTPUT_DIR_SET1,
-                    'run_bounds': '2021-01-01-00-00-00 2021-02-01-00-00-00',
+                    'run_bounds': '2021-01-01T00:00:00 2021-02-01T00:00:00',
                     'suite_id': 'ajnjg'
                 },
                 streams={

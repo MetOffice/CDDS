@@ -11,7 +11,7 @@ from iris.fileformats.pp import STASH
 import numpy as np
 from scipy.spatial import distance
 
-from cdds.common import DATE_TIME_REGEX
+from cdds.common import DATE_TIME_REGEX, DATE_TIME_REGEX_RUN_BOUNDS
 from cdds.common.constants import ANCIL_VARIABLES
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
@@ -361,7 +361,7 @@ def apply_time_constraint(cube, time_constraint_function):
     return cube
 
 
-def separate_date(date, date_regex=DATE_TIME_REGEX):
+def separate_date(date, date_regex=DATE_TIME_REGEX_RUN_BOUNDS):
     """
     Separate the date provided to the ``date`` parameter into
     components i.e., year, month, day, hours, minutes, seconds based on

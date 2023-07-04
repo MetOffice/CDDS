@@ -35,7 +35,7 @@ class TestCmip6FxAreacella(AbstractFunctionalTests):
                         os.path.join(ROOT_ANCIL_DIR, 'HadGEM3-GC31-LL', 'qrparm.landfrac.pp')
                     ]),
                     'model_output_dir': MODEL_OUTPUT_DIR_SET1,
-                    'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
+                    'run_bounds': '1950-01-01T00:00:00 1950-02-01T00:00:00',
                     'suite_id': 'ai674'
                 },
                 streams={

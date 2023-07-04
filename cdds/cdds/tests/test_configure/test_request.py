@@ -83,7 +83,7 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
         self.model_output_dir = '/path/to/model/output/files/'
         self.model_type = 'AOGCM'
         self.output_dir = '/path/to/output/directory/'
-        self.run_bounds = '2021-01-01-00-00-00 2021-02-01-00-00-00'
+        self.run_bounds = '2021-01-01T00:00:00 2021-02-01T00:00:00'
         self.sub_experiment_id = 'none'
         self.suite_id = 'u-abcde'
         self.variant_label = 'Variant label'
@@ -97,7 +97,8 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
             'model_id': self.model_id,
             'model_output_dir': self.model_output_dir,
             'model_type': self.model_type,
-            'output_dir': self.output_dir, 'run_bounds': self.run_bounds,
+            'output_dir': self.output_dir,
+            'run_bounds': self.run_bounds,
             'sub_experiment_id': self.sub_experiment_id,
             'suite_id': self.suite_id, 'variant_label': self.variant_label}
         self.branch_date_in_child = '2004-12-01-00-00-00'

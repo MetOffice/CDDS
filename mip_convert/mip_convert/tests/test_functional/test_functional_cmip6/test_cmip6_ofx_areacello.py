@@ -34,7 +34,7 @@ class TestCmip6OfxAreacello(AbstractFunctionalTests):
                         PROJECT_CDDS_DIR, 'testdata', 'u-aj460', 'onf', 'u-aj460o_1ts_19760101_19760101_constants.nc'
                     )),
                     'model_output_dir': MODEL_OUTPUT_DIR_SET1,
-                    'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
+                    'run_bounds': '1950-01-01T00:00:00 1950-02-01T00:00:00',
                     'suite_id': 'aj460'
                 },
                 streams={

@@ -925,9 +925,9 @@ def get_streams(streaminfo, suite_id, streams=[]):
                 "streamtype": info["type"],
                 "success": None,
                 "start_date": datetime.datetime.strptime(
-                    info["start_date"], "%Y-%m-%d-%H-%M-%S"),
+                    info["start_date"], "%Y-%m-%dT%H:%M:%S"),
                 "end_date": datetime.datetime.strptime(
-                    info["end_date"], "%Y-%m-%d-%H-%M-%S"),
+                    info["end_date"], "%Y-%m-%dT%H:%M:%S"),
                 "suiteid": suite_id
             })
     return streamlist

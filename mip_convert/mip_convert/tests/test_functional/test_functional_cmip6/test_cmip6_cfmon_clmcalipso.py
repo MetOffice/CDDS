@@ -33,7 +33,7 @@ class TestCmip6CFmonClmcalipso(AbstractFunctionalTests):
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': MODEL_OUTPUT_DIR_SET1,
-                    'run_bounds': '1979-04-01-00-00-00 1979-05-01-00-00-00',
+                    'run_bounds': '1979-04-01T00:00:00 1979-05-01T00:00:00',
                     'suite_id': 'u-an644'
                 },
                 streams={

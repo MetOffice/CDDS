@@ -21,7 +21,7 @@ import subprocess
 import time
 
 from cdds.common.constants import (
-    CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX, ROSE_URLS,
+    CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX, ROSE_URLS, DATE_TIME_REGEX_RUN_BOUNDS,
     VARIANT_LABEL_FORMAT, LOG_TIMESTAMP_FORMAT)
 
 
@@ -627,7 +627,7 @@ def check_run_bounds_format(run_bounds):
     the correct format.
 
     The run bounds must be in the form
-    ``YYYY-MM-DD-hh-mm-ss YYYY-MM-DD-hh-mm-ss``.
+    ``%Y-%m-%dT%H:%M:%S %Y-%m-%dT%H:%M:%S``.
 
     Parameters
     ----------
@@ -642,24 +642,24 @@ def check_run_bounds_format(run_bounds):
     Examples
     --------
     >>> check = check_run_bounds_format(
-    ...     '1950-03-10-00-00-00 1950-03-20-00-00-00')
+    ...     '1950-03-10T00:00:00 1950-03-20T00:00:00')
     >>> if check is None:
     ...     print('Run bounds format correct')
     Run bounds format correct
 
-    >>> check = check_run_bounds_format('1950-03-10-00-00-00')
+    >>> check = check_run_bounds_format('1950-03-10T00:00:00')
     ... # doctest: +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
         ...
-    ValueError: Run bounds "1950-03-10-00-00-00" does not match the
+    ValueError: Run bounds "1950-03-10T00:00:00" does not match the
       expected format (not enough values to unpack (expected 2, got 1))
 
     >>> check = check_run_bounds_format(
-    ...     '1950-03-10-00-00-00 1950-03-20 00:00:00')
+    ...     '1950-03-10T00:00:00 1950-03-20 00:00:00')
     ... # doctest: +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
      ...
-    ValueError: Run bounds "1950-03-10-00-00-00 1950-03-20 00:00:00"
+    ValueError: Run bounds "1950-03-10T00:00:00 1950-03-20 00:00:00"
       does not match the expected format (too many values to unpack (expected 2))
     """
     try:
@@ -669,8 +669,8 @@ def check_run_bounds_format(run_bounds):
                'format ({err})'.format(run_bounds=run_bounds, err=err))
         err.args = (msg,)
         raise
-    check_date_format(start_date, DATE_TIME_REGEX)
-    check_date_format(end_date, DATE_TIME_REGEX)
+    check_date_format(start_date, DATE_TIME_REGEX_RUN_BOUNDS)
+    check_date_format(end_date, DATE_TIME_REGEX_RUN_BOUNDS)
 
 
 def check_variant_label_format(variant_label):

@@ -34,7 +34,7 @@ class TestCmip6SImonSiage(AbstractFunctionalTests):
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': MODEL_OUTPUT_DIR_SET1,
                     'replacement_coordinates_file': replacement_file,
-                    'run_bounds': '1854-03-01-00-00-00 1854-05-01-00-00-00',
+                    'run_bounds': '1854-03-01T00:00:00 1854-05-01T00:00:00',
                     'suite_id': 'u-ar050'
                 },
                 streams={
