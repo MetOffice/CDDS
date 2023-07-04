@@ -51,7 +51,7 @@ class TestCmip6DayZgDeflation(AbstractFunctionalTests):
                     'child_base_date': '1950-01-01-00-00-00',
                     'deflate_level': 3,
                     'model_output_dir': MODEL_OUTPUT_DIR,
-                    'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
+                    'run_bounds': '1950-01-01T00:00:00 1950-02-01T00:00:00',
                     'shuffle': True,
                     'suite_id': 'ai674',
                 },

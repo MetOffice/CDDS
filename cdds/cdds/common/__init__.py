@@ -24,7 +24,7 @@ from cftime import datetime as cf_datetime
 from metomi.isodatetime.data import Calendar, TimePoint
 from metomi.isodatetime.parsers import DurationParser, TimePointParser, TimeRecurrenceParser
 
-from cdds.common.constants import (CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX,
+from cdds.common.constants import (CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX_RUN_BOUNDS,
                                    LOG_TIMESTAMP_FORMAT, ROSE_URLS, SUPPORTED_CALENDARS,
                                    VARIANT_LABEL_FORMAT)
 from cdds.common.request import read_request
@@ -579,7 +579,7 @@ def check_files(filenames_string):
                 'File "{filename}" does not exist'.format(filename=filename))
 
 
-def check_date_format(date, date_regex=DATE_TIME_REGEX):
+def check_date_format(date, date_regex=DATE_TIME_REGEX_RUN_BOUNDS):
     """
     Ensure the date provided to the ``date``` parameter has a format
     that is equal to the regular expression provided to the
@@ -633,7 +633,7 @@ def check_run_bounds_format(run_bounds):
     the correct format.
 
     The run bounds must be in the form
-    ``YYYY-MM-DD-hh-mm-ss YYYY-MM-DD-hh-mm-ss``.
+    ``%Y-%m-%dT%H:%M:%S %Y-%m-%dT%H:%M:%S``.
 
     Parameters
     ----------
@@ -648,24 +648,24 @@ def check_run_bounds_format(run_bounds):
     Examples
     --------
     >>> check = check_run_bounds_format(
-    ...     '1950-03-10-00-00-00 1950-03-20-00-00-00')
+    ...     '1950-03-10T00:00:00 1950-03-20T00:00:00')
     >>> if check is None:
     ...     print('Run bounds format correct')
     Run bounds format correct
 
-    >>> check = check_run_bounds_format('1950-03-10-00-00-00')
+    >>> check = check_run_bounds_format('1950-03-10T00:00:00')
     ... # doctest: +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
         ...
-    ValueError: Run bounds "1950-03-10-00-00-00" does not match the
+    ValueError: Run bounds "1950-03-10T00:00:00" does not match the
       expected format (not enough values to unpack (expected 2, got 1))
 
     >>> check = check_run_bounds_format(
-    ...     '1950-03-10-00-00-00 1950-03-20 00:00:00')
+    ...     '1950-03-10T00:00:00 1950-03-20 00:00:00')
     ... # doctest: +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
      ...
-    ValueError: Run bounds "1950-03-10-00-00-00 1950-03-20 00:00:00"
+    ValueError: Run bounds "1950-03-10T00:00:00 1950-03-20 00:00:00"
       does not match the expected format (too many values to unpack (expected 2))
     """
     try:
@@ -675,8 +675,8 @@ def check_run_bounds_format(run_bounds):
                'format ({err})'.format(run_bounds=run_bounds, err=err))
         err.args = (msg,)
         raise
-    check_date_format(start_date, DATE_TIME_REGEX)
-    check_date_format(end_date, DATE_TIME_REGEX)
+    check_date_format(start_date, DATE_TIME_REGEX_RUN_BOUNDS)
+    check_date_format(end_date, DATE_TIME_REGEX_RUN_BOUNDS)
 
 
 def check_variant_label_format(variant_label):

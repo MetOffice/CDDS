@@ -8,6 +8,7 @@ The :mod:`new_variable` module contains the class that represents a
 """
 import copy
 import logging
+import metomi.isodatetime.parsers as parse
 import regex as re
 
 import cf_units
@@ -17,6 +18,7 @@ from datetime import datetime
 from iris.util import guess_coord_axis
 import numpy as np
 
+from cdds.common import DATE_TIME_REGEX_RUN_BOUNDS
 from mip_convert.common import (
     DEFAULT_FILL_VALUE, Longitudes, validate_latitudes, format_date,
     MIP_to_model_axis_name_mapping, apply_time_constraint, raw_to_value,
@@ -274,12 +276,14 @@ class Variable(object):
             :class:`new_variable.Variable` instance.
         """
         date_times = []
-        start_date = [int(item) for item in self._run_bounds[0].split('-')]
-        end_date = [int(item) for item in self._run_bounds[1].split('-')]
+        start_date = parse.TimePointParser().parse(self._run_bounds[0])
+        end_date = parse.TimePointParser().parse(self._run_bounds[1])
         if period == 'year':
-            end_month_day = format_date(self._run_bounds[1], output_format='%m%d')
-            end_year = end_date[0]
-            start_year = start_date[0]
+            end_month_day = format_date(
+                self._run_bounds[1], date_regex=DATE_TIME_REGEX_RUN_BOUNDS, output_format='%m%d'
+            )
+            end_year = end_date.year
+            start_year = start_date.year
             if end_month_day == '0101':
                 end_year = end_year - 1
             date_times = [[year] for year in range(start_year, end_year + 1)]

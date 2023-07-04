@@ -30,7 +30,7 @@ class TestARISEEmonHussLut(AbstractFunctionalTests):
                 },
                 request={
                     'model_output_dir': MODEL_OUTPUT_DIR,
-                    'run_bounds': '1850-01-01-00-00-00 1850-03-01-00-00-00',
+                    'run_bounds': '1850-01-01T00:00:00 1850-03-01T00:00:00',
                     'suite_id': 'u-bc179'
                 },
                 streams={

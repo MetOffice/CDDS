@@ -5,6 +5,7 @@ import os
 import unittest
 
 from unittest import TestCase
+from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.prepare.request_file.models import RoseSuiteRequest, RoseSuiteArguments
 from cdds.prepare.request_file.request import RoseSuiteRequestManager
 from cdds.tests.test_prepare.test_request_file.stubs import RequestManagerPartialStub
@@ -77,6 +78,7 @@ class TestCheckSuiteInfo(TestCase):
 class TestReadRequest(TestCase):
 
     def setUp(self):
+        load_plugin()
         root_mip_table = os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/')
         data_request_version = '01.00.29'
         mip_table_dir = os.path.join(root_mip_table, data_request_version)
@@ -149,7 +151,7 @@ class TestReadRequest(TestCase):
             'model_type': 'AOGCM BGC AER CHEM',
             'package': 'round-1-part-1',
             'request_id': 'UKESM1-0-LL_historical_r1i1p1f2',
-            'run_bounds': '1850-01-01-00-00-00 2015-01-01-00-00-00',
+            'run_bounds': '1850-01-01T00:00:00 2015-01-01T00:00:00',
             'sub_experiment_id': 'none',
             'suite_branch': 'cdds',
             'suite_id': 'aw310',

@@ -31,7 +31,7 @@ class TestCmip6CFmonCls(AbstractFunctionalTests):
                 },
                 request={
                     'model_output_dir': MODEL_OUTPUT_DIR,
-                    'run_bounds': '1979-04-01-00-00-00 1979-05-01-00-00-00',
+                    'run_bounds': '1979-04-01T00:00:00 1979-05-01T00:00:00',
                     'suite_id': 'u-an644'
                 },
                 streams={

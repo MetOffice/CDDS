@@ -159,7 +159,7 @@ class CollectionsCheck(object):
                 prev_val = time_bounds[key][-1][1]
             return
         point_sequence, bound_sequence = self.calendar_calculator.get_sequence(
-            request_date_to_iso(run_start), request_date_to_iso(run_end), frequency, time_bounds is not None)
+            run_start, run_end, frequency, time_bounds is not None)
         reference_index = 0
         # before checking individual values we'll check run bounds first
         run_bounds_errors = self._test_time_bounds(var_key, time_axis, time_bounds, point_sequence, bound_sequence)

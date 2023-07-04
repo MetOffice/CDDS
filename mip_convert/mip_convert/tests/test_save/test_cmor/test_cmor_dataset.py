@@ -70,7 +70,7 @@ class TestDataset(unittest.TestCase):
             '[request]\n'
             'child_base_date:0000-00-00-00-00-00\n'
             'model_output_dir:model_output_dir\n'
-            'run_bounds:0000-00-00-00-00-00 0000-00-00-00-00-00\n'
+            'run_bounds:0000-00-00T00:00:00 0000-00-00T00:00:00\n'
             'suite_id:{suite_id}\n'
             '[global_attributes]\n'
             'further_info_url:https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.aqua-control.none.r2i4p6f8\n'

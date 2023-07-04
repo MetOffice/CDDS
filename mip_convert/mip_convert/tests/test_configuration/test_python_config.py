@@ -30,7 +30,7 @@ class TestUserConfig(unittest.TestCase):
         self.stream_2 = 'ape'
         self.stream_3 = 'apm'
         self.stream_ids = '{}{}{}'.format(self.stream_1, self.stream_2, self.stream_3)
-        self.run_bounds = '1950-12-01-00-00-00 2005-12-01-00-00-00'
+        self.run_bounds = '1950-12-01T00:00:00 2005-12-01T00:00:00'
         self.mip_era = 'CMIP5'
         self.mip_table_1 = '{}_day'.format(self.mip_era)
         self.mip_table_2 = '{}_Amon'.format(self.mip_era)

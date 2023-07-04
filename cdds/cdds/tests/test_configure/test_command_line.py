@@ -79,7 +79,7 @@ class TestMain(unittest.TestCase):
         self.parent_model_id = 'HadGEM3-GC31-LL'
         self.parent_time_units = TIME_UNIT_DESCRIPTION
         self.parent_variant_label = 'r1i1p1f1'
-        self.run_bounds = '2021-01-01-00-00-00 2021-02-01-00-00-00'
+        self.run_bounds = '2021-01-01T00:00:00 2021-02-01T00:00:00'
         self.shuffle = self.arguments.shuffle
         self.sub_experiment_id = 'none'
         self.suite_id = 'u-abcde'

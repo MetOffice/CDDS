@@ -51,7 +51,7 @@ class TestCmip6EdayZZg(AbstractFunctionalTests):
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'child_base_date': '1950-01-01-00-00-00',
                     'model_output_dir': MODEL_OUTPUT_DIR,
-                    'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
+                    'run_bounds': '1950-01-01T00:00:00 1950-02-01T00:00:00',
                     'suite_id': 'ai674',
                 },
                 streams={
