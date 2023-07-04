@@ -111,7 +111,7 @@ def get_paths(suite_name, model_id, stream, substream, start_date: TimePoint, en
     files_per_year = stream_file_info.get_files_per_year(stream)
     if stream_prefix == 'ap' and files_per_year == 36:
         stream_lookup = 'ap_submonthly'
-    elif stream_prefix == 'ap' and (files_per_year == 365 or files_per_year == 360):
+    elif stream_prefix == 'ap' and (files_per_year in [360, 365]):
         stream_lookup = 'ap_daily'
 
     # Identify files that are to be expected
@@ -200,7 +200,7 @@ def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
                          or period_start <= file_dict['end'] <= period_end)):
                     file_list += [file_dict]
 
-            # TODO cleanup junk filespr
+            # TODO cleanup junk files
             # files called e.g. bi909a.p618500101.pp
             except AttributeError:
                 pass
