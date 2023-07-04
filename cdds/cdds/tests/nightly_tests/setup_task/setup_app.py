@@ -86,7 +86,7 @@ class CddsSetupApp(NightlyApp):
         for entry in selected_variables_entries:
             mip_table = entry['selected_mip_table']
             variable = entry['selected_variable']
-            streams = entry['selected_streams'] if entry['selected_streams'] else ''
+            streams = entry.get('selected_streams', '')
             if streams:
                 stream_list = streams.split(',')
                 for stream in stream_list:
