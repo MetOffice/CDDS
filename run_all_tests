@@ -39,11 +39,13 @@ def _green(text):
     """
     return '\033[32m{}\033[0m'.format(text)
 
+
 def du(path):
     """
     Disk usage in human readable format (e.g. '2,1GB')
     """
     return subprocess.check_output(['du','-sh', path]).split()[0].decode('utf-8')
+
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Run all tests configuration')
