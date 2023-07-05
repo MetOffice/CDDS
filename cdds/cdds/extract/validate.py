@@ -65,6 +65,7 @@ def validate_streams(streams, args):
         elif stream["streamtype"] == "nc":
             filenames = []
             datestamps, _ = generate_datestamps_nc(start, end, file_frequency)
+            breakpoint()
             for sub_stream in substreams:
                 filenames += mappings._generate_filenames_nc(datestamps, sub_stream)
 

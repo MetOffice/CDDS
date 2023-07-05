@@ -755,8 +755,10 @@ class Filters(object):
 
         if self.stream[0] == "o":
             model_realm = lookup[sub_stream]
+            grid = f"_{sub_stream}"
         elif self.stream[0] == "i":
             model_realm = "cice"
+            grid = ""
 
         suite = self.suite_id.split("-")[1] + self.stream[0]
         freq = f"1{self.stream[-1]}"
@@ -767,7 +769,7 @@ class Filters(object):
             if suite not in command_output[0]:
                 suite = self.suite_id.split("-")[1]
 
-        filenames = [f"{model_realm}_{suite}_{freq}_{date}_{sub_stream}.nc" for date in datestamps]
+        filenames = [f"{model_realm}_{suite}_{freq}_{date}{grid}.nc" for date in datestamps]
 
         return filenames
 
