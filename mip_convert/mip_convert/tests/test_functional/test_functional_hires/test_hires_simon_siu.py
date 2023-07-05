@@ -7,7 +7,7 @@ import pytest
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import HiResTestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
-                                                                 MODEL_OUTPUT_DIR_SET1,
+                                                                 MODEL_OUTPUT_DIR,
                                                                  ROOT_OUTPUT_CASES_DIR,
                                                                  ROOT_ANCIL_DIR)
 
@@ -31,7 +31,7 @@ class TestHiResSimonSiu(AbstractFunctionalTests):
                 },
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'HadGEM3-GC31-HH', 'ocean_byte_masks_HH.nc'),
-                    'model_output_dir': MODEL_OUTPUT_DIR_SET1,
+                    'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1951-01-01-00-00-00 1951-02-01-00-00-00',
                     'suite_id': 'u-ay652'
                 },

@@ -7,6 +7,7 @@ import pytest
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
+                                                                 MODEL_OUTPUT_DIR,
                                                                  ROOT_OUTPUT_CASES_DIR,
                                                                  ROOT_ANCIL_DIR)
 
@@ -49,7 +50,7 @@ class TestCmip6EdayZVtem(AbstractFunctionalTests):
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'child_base_date': '1950-01-01-00-00-00',
-                    'model_output_dir': '${COMMON:root_test_location}/input/set1',
+                    'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
                     'suite_id': 'ai674',
                 },

@@ -7,7 +7,7 @@ import pytest
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
-                                                                 MODEL_OUTPUT_DIR_SET2,
+                                                                 MODEL_OUTPUT_DIR,
                                                                  ROOT_OUTPUT_CASES_DIR)
 
 
@@ -32,7 +32,7 @@ class TestCmip6SImonSiitdsnthick(AbstractFunctionalTests):
                     'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>'
                 },
                 request={
-                    'model_output_dir': MODEL_OUTPUT_DIR_SET2,
+                    'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1854-03-01-00-00-00 1854-04-01-00-00-00',
                     'suite_id': 'u-ar050'
                 },

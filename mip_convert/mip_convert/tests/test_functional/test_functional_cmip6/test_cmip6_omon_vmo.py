@@ -7,7 +7,7 @@ import pytest
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
-                                                                 MODEL_OUTPUT_DIR_SET2,
+                                                                 MODEL_OUTPUT_DIR,
                                                                  ROOT_OUTPUT_CASES_DIR,
                                                                  ROOT_ANCIL_DIR)
 
@@ -33,7 +33,7 @@ class TestCmip6OmonVmo(AbstractFunctionalTests):
                     'ancil_files': os.path.join(
                         ROOT_ANCIL_DIR, 'HadGEM3-GC31-LL', 'ocean_byte_masks.nc'
                     ),
-                    'model_output_dir': MODEL_OUTPUT_DIR_SET2,
+                    'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1852-03-01-00-00-00 1852-04-01-00-00-00',
                     'suite_id': 'u-ar050',
                 },

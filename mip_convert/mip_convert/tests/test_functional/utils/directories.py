@@ -3,7 +3,7 @@
 import os
 
 PROJECT_CDDS_DIR = '/project/cdds_data'
-OUTPUT_CDDS_DIR = os.environ['CDDS_SCRATCH']
+OUTPUT_CDDS_DIR = os.environ['SCRATCH']
 ROOT_REFERENCE_DATA_DIR = os.path.join(PROJECT_CDDS_DIR, 'testdata', 'diagnostics')
 ROOT_REFERENCE_CASES_DIR = os.path.join(ROOT_REFERENCE_DATA_DIR, 'test_cases_python3')
 ROOT_OUTPUT_DATA_DIR = os.path.join(OUTPUT_CDDS_DIR, 'testdata', 'diagnostics')
@@ -19,9 +19,7 @@ ARISE_MIP_TABLE_DIR = '{}/ARISE/for_functional_tests'.format(ROOT_MIP_TABLES_DIR
 CMIP6_MIP_TABLE_DIR = '{}/CMIP6/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)
 SEASONAL_MIP_TABLE_DIR = '{}/SEASONAL/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)
 
-MODEL_OUTPUT_DIR_SET1 = os.path.join(ROOT_REFERENCE_DATA_DIR, 'input', 'set1')
-MODEL_OUTPUT_DIR_SET2 = os.path.join(ROOT_REFERENCE_DATA_DIR, 'input', 'set2')
-MODEL_OUTPUT_DIR_SET3 = os.path.join(ROOT_REFERENCE_DATA_DIR, 'input', 'set3')
+MODEL_OUTPUT_DIR = os.path.join(ROOT_REFERENCE_DATA_DIR, 'input')
 
 REFERENCE_OUTPUT_DIR_NAME = 'reference_output'
 DATA_OUTPUT_DIR_NAME = 'data_out_{}'.format(os.environ['USER'])

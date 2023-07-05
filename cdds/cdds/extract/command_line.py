@@ -277,27 +277,29 @@ def main_remove_ocean_haloes(arguments=None):
     return exit_code
 
 
-def main_path_reformatter():
+def main_path_reformatter(arguments):
     """
     Main function of the path_reformatter script.
     """
-    args = parse_arguments()
-    suite_id = args.suite_id
-    full_root_path = os.path.join(args.input_dir, suite_id)
+    args, request = parse_arguments_path_reformatter(arguments)
+    full_paths = FullPaths(args, request)
+
+    full_root_path = os.path.join(args.input_dir, request.suite_id)
 
     timesteps = next(os.walk(full_root_path))[1]
 
-    for stream in args.streams:
+    try:
+        os.mkdir(os.path.join(full_paths.input_data_directory, request.suite_id))
+    except FileExistsError:
+        pass
+
+    for stream in request.streaminfo.keys():
         print('Collecting all input files for stream {} under {}'.format(stream, full_root_path))
 
-        filename_templates = stream_file_template(stream, suite_id)
+        filename_templates = stream_file_template(stream, request.suite_id)
         data_files = []
 
-        if args.output_dir is None:
-            output_dir = os.path.join(full_root_path, stream)
-        else:
-            output_dir = os.path.join(args.output_dir, stream)
-
+        output_dir = os.path.join(full_paths.input_data_directory, request.suite_id, stream)
         try:
             os.mkdir(output_dir)
             print('Creating directory for stream {}...'.format(stream))
@@ -322,7 +324,7 @@ def main_path_reformatter():
         print('Done')
 
 
-def parse_arguments():
+def parse_arguments_path_reformatter(user_arguments):
     """
     Parse command line arguments.
 
@@ -330,10 +332,21 @@ def parse_arguments():
     -------
     Command line arguments for the path_formatter script.
     """
-    parser = argparse.ArgumentParser()
-    parser.add_argument('input_dir', help='Input data directory (full filepath including the /input/ subdirectory)')
-    parser.add_argument('output_dir', help='Reprocessed input directory (defaulting to the --input_dir)', default=None)
-    parser.add_argument('suite_id', help='Suite id')
-    parser.add_argument('streams', help='Streams to be symlinked', nargs='*')
-    args = parser.parse_args()
-    return args
+    arguments = read_default_arguments('cdds.extract', 'path_reformatter')
+
+    parser = argparse.ArgumentParser(description='Reformat directory structure from ARCHER to CDDS format')
+    parser.add_argument('request',
+                        help='The full path to the JSON file containing the information from the request.')
+    parser.add_argument('--input_dir', help='The full path to the ARCHER-type directory containing input data')
+    root_dir_args(parser, arguments.root_proc_dir, arguments.root_data_dir)
+
+    # Add arguments common to all scripts.
+    common_command_line_args(parser, arguments.log_name, arguments.log_level, __version__)
+    parsed_args = parser.parse_args(user_arguments)
+
+    arguments.add_user_args(parsed_args)
+    arguments = update_arguments_paths(arguments)
+    request = read_request(arguments.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
+    arguments = update_arguments_for_proc_dir(arguments, request, COMPONENT)
+    arguments = update_log_dir(arguments, COMPONENT)
+    return arguments, request
