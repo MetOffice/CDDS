@@ -5,9 +5,6 @@
     "remove_ocean_haloes": {
         "log_name": "remove_ocean_haloes"
     },
-    "path_path_reformatter": {
-        "log_name": "path_reformatter"
-    },
     "validate_streams": {
         "log_name": "validate_streams"
     }
