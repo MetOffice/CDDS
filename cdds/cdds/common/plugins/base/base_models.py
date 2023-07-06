@@ -348,6 +348,7 @@ class BaseModelStore(ModelsStore, metaclass=ABCMeta):
         :return: Class containing the model parameters
         :rtype: BaseModelParameters
         """
+        print('request model id: {} search in model_instances: {}'.format(model_id, self.model_instances))
         for model_instance in self.model_instances:
             if model_instance.is_model(model_id):
                 return model_instance

@@ -25,47 +25,7 @@ class CordexModelId(ModelId):
         """
         return '{}.json'.format(self.value)
 
-    HadGEM3_GC31_MM = 'HadGEM3-GC31-MM'
     HadREM3_GA7_05 = 'HadREM3-GA7-05'
-
-
-class HadGEM3_GC31_MM_Params(BaseModelParameters):
-    """
-    Class to store the parameters for the HadGEM3_GC31_MM model.
-    """
-
-    def __init__(self) -> None:
-        super(HadGEM3_GC31_MM_Params, self).__init__(CordexModelId.HadGEM3_GC31_MM)
-
-    @property
-    def model_version(self) -> str:
-        """
-        Returns the model version of the HadGEM3_GC31_MM model.
-
-        :return: Model version of HadGEM3_GC31_MM
-        :rtype: str
-        """
-        return '3.1'
-
-    @property
-    def data_request_version(self) -> str:
-        """
-        Returns the data request version of the HadGEM3_GC31_MM model.
-
-        :return: Data request version of HadGEM3_GC31_MM
-        :rtype: str
-        """
-        return '01.00.10'
-
-    @property
-    def um_version(self) -> str:
-        """
-        Returns the UM version of the HadGEM3_GC31_MM model.
-
-        :return: UM version of HadGEM3_GC31_MM
-        :rtype: str
-        """
-        return '10.7'
 
 
 class HadREM3_GA7_05_Params(BaseModelParameters):
@@ -117,7 +77,9 @@ class CordexModelStore(BaseModelStore):
     """
 
     def __init__(self) -> None:
-        model_instances = [HadGEM3_GC31_MM_Params(), HadREM3_GA7_05_Params()]
+        print('Create model instance')
+        model_instances = [HadREM3_GA7_05_Params()]
+        print('Model instances after init: {}'.format(model_instances))
         super(CordexModelStore, self).__init__(model_instances)  # type: ignore[arg-type]
         self.logger = logging.getLogger(self.__class__.__name__)
 
