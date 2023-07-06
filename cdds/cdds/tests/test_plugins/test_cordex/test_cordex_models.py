@@ -43,8 +43,7 @@ class TestModelsStore(TestCase):
 
         self.assertTrue(result.loaded['HadREM3-GA7-05'].loaded)
         self.assertSize(result.loaded, 1)
-        self.assertFalse(result.unloaded['HadREM3-GA7-05'].loaded)
-        self.assertSize(result.unloaded, 1)
+        self.assertSize(result.unloaded, 0)
 
     def test_models_store_is_singleton(self):
         CordexModelStore.instance()
