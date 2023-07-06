@@ -10,7 +10,7 @@ class TestCordexGlobalAttributes(TestCase):
     def setUp(self):
         self.request = {
             'institution_id': 'MOHC',
-            'model_id': 'HadGEM3-GC31-MM',
+            'model_id': 'HadREM3-GA7-05',
             'experiment_id': 'piControl',
             'sub_experiment_id': 'none',
             'variant_label': 'r1i1p1f2'
