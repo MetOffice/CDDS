@@ -1084,7 +1084,7 @@ def retry(func: Optional[Callable] = None, exception: Type[Exception] = Exceptio
 
 
 def set_calendar(request_file: str):
-    """ Set metomi.isodatetime calendar based on a request.json file.
+    """ Set the metomi.isodatetime calendar based on a request.json file.
 
     :param request_file: Path to a request.json file.
     :type request_file: str
@@ -1098,10 +1098,10 @@ def set_calendar(request_file: str):
         raise IncompatibleCalendarMode
 
 
-def generate_datestamps(start_date: str,
-                        end_date: str,
-                        file_frequency: str) -> Tuple[List[str], List[TimePoint]]:
-    """ Generate datestamp strings used by .pp files.
+def generate_datestamps_pp(start_date: str,
+                           end_date: str,
+                           file_frequency: str) -> Tuple[List[str], List[TimePoint]]:
+    """ Generate common datestamp strings used by .pp files.
 
     :param start_date: ISO formatted string e.g, 19890101 (Inclusive)
     :type start_date: str
@@ -1111,7 +1111,7 @@ def generate_datestamps(start_date: str,
     :type file_frequency: str
     :return: A tuple of list of datestamps and list of timepoints
     :rtype: Tuple[List[str], List[TimePoint]]
-    :raises IncompatibleCalendarMode: _description_
+    :raises IncompatibleCalendarMode:
     """
 
     modes = {"daily": ["P1D", "%Y%m%d"],
@@ -1144,15 +1144,15 @@ def generate_datestamps(start_date: str,
 def generate_datestamps_nc(start_date: str,
                            end_date: str,
                            file_frequency: str) -> Tuple[List[str], List[TimePoint]]:
-    """_summary_
+    """Generate common datestamp stings used for .nc files.
 
-    :param start_date: _description_
+    :param start_date: ISO formatted string e.g, 19890101 (Inclusive)
     :type start_date: str
-    :param end_date: _description_
+    :param end_date: ISO formatted string e.g, 19890101 (Exclusive)
     :type end_date: str
-    :param file_frequency: _description_
+    :param file_frequency: Maps to a duration and format string
     :type file_frequency: str
-    :return: _description_
+    :return: A tuple of list of datestamps and list of timepoints
     :rtype: Tuple[List[str], List[TimePoint]]
     """
 

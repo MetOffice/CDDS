@@ -4,7 +4,7 @@
 import logging
 import os
 
-from cdds.common import generate_datestamps, generate_datestamps_nc
+from cdds.common import generate_datestamps_pp, generate_datestamps_nc
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request import read_request
@@ -64,7 +64,7 @@ def validate_streams(streams, args):
         _, _, _, stash_codes = (mappings.format_filter(stream['streamtype'], stream['stream']))
 
         if stream["streamtype"] == "pp":
-            datestamps, _ = generate_datestamps(start, end, file_frequency)
+            datestamps, _ = generate_datestamps_pp(start, end, file_frequency)
             filenames = mappings._generate_filenames_pp(datestamps)
 
         elif stream["streamtype"] == "nc":
@@ -122,7 +122,7 @@ def validate_file_names(path, validation_result, filenames, file_type):
         An object to hold results from the stream validation
     """
     logger = logging.getLogger(__name__)
-    logger.info("Checking for missing files")
+    logger.info("Checking for missing and unexpected files")
 
     actual_files = set([file for file in os.listdir(path) if file.endswith(file_type)])
     expected_files = set(filenames)

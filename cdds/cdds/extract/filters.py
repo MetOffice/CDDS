@@ -13,7 +13,7 @@ from collections import defaultdict
 from operator import itemgetter
 from typing import Dict, List, Tuple
 
-from cdds.common import netCDF_regexp, generate_datestamps
+from cdds.common import netCDF_regexp, generate_datestamps_pp
 from cdds.common.mappings.mapping import ModelToMip
 from cdds.common.mass import mass_list_dir
 from cdds.common.plugins.grid import GridType
@@ -391,13 +391,14 @@ class Filters(object):
         return filenames
 
     def _pp_file_string(self, pp_filelist: List[dict], file_frequency: str) -> str:
-        """_summary_
+        """Given a pp_file list consturct the appropriate pp_string accounting for any
+        partial years in the case of monthly or seasonal files.
 
-        :param pp_filelist: _description_
+        :param pp_filelist: A pp_filelist
         :type pp_filelist: List[dict]
-        :param file_frequency: _description_
+        :param file_frequency: The time range overed by the pp files
         :type file_frequency: str
-        :return: _description_
+        :return: A pp_file string for use in a filterfile
         :rtype: str
         """
 
@@ -449,18 +450,18 @@ class Filters(object):
         return pp_file
 
     def _create_pp_filelist(self, start: str, end: str) -> List[Dict]:
-        """_summary_
+        """Create a list of expected .pp files where each file is represented
+        as a dictionary with two values, TimePoint and filename.
 
-        :param start: _description_
+        :param start: Start run bound
         :type start: str
-        :param end: _description_
+        :param end: End run bound
         :type end: str
-        :return: _description_
+        :return: A pp_filelist
         :rtype: List[Dict]
         """
-
         file_frequency = self.model_parameters._stream_file_info.file_frequencies[self.stream].frequency
-        datestamps, timepoints = generate_datestamps(start, end, file_frequency)
+        datestamps, timepoints = generate_datestamps_pp(start, end, file_frequency)
         filenames = self._generate_filenames_pp(datestamps)
 
         pp_filelist = []
