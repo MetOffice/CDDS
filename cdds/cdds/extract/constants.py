@@ -13,6 +13,15 @@ EXTRACT_COMMAND = (
     'cdds_extract {request} --log_name {log_name} '
     '--root_proc_dir {root_proc_dir} --root_data_dir {root_data_dir} '
 )
+GRID_LOOKUPS = {"diad-T": "medusa",
+                "ptrc-T": "medusa",
+                "ptrd-T": "medusa",
+                "diaptr": "nemo",
+                "grid-T": "nemo",
+                "grid-U": "nemo",
+                "grid-V": "nemo",
+                "grid-W": "nemo",
+                "scalar": "nemo"}
 GROUP_FOR_DIRECTORY_CREATION = "users"
 LOGNAME = "extract_{}.log"
 LOG_NAME_SPICE = 'extract_spice.log'

@@ -900,6 +900,7 @@ def build_mass_location(mass_data_class: str, suite_id: str, stream: str, stream
     data_source = "moose:/{}/{}/{}.{}".format(mass_data_class, suiteid, stream, streamtype)
     if streamtype == "nc":
         data_source += ".file"
+
     return data_source
 
 

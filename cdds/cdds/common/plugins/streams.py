@@ -11,6 +11,7 @@ from datetime import datetime
 from abc import ABCMeta, abstractmethod
 from typing import Tuple, List, Dict
 
+
 @dataclass
 class StreamAttributes:
     """
@@ -43,7 +44,6 @@ class StreamFileFrequency:
     frequency: str = ""
     stream: str = ""
     file_per_year: int = 0
-    
 
 
 @dataclass
@@ -98,7 +98,7 @@ class StreamFileInfo:
 
         if files_per_year == 360:
             expected_files = expected_files + 1
-        breakpoint()
+
         return int(expected_files)
 
 

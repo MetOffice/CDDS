@@ -20,7 +20,7 @@ from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
 from cdds.extract.common import (check_moo_cmd, chunk_by_files_and_tapes, fetch_filelist_from_mass,
                                  get_bounds_variables, get_stash, get_tape_limit, run_moo_cmd)
-from cdds.extract.constants import MOOSE_MAX_NC_FILES
+from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES
 
 
 class Filters(object):
@@ -381,6 +381,7 @@ class Filters(object):
 
         if self.ensemble_member_id:
             suite = "{}-{}".format(suite, self.ensemble_member_id)
+
             command_output = mass_list_dir(self.source, False)
             if suite not in command_output[0]:
                 suite = self.suite_id.split("-")[1]
@@ -444,7 +445,7 @@ class Filters(object):
                 pp_file = f"({individual_files_string})"
             else:
                 pp_file = f"{individual_files_string}"
-        
+
         return pp_file
 
     def _create_pp_filelist(self, start: str, end: str) -> List[Dict]:
@@ -458,7 +459,7 @@ class Filters(object):
         :rtype: List[Dict]
         """
 
-        file_frequency =  self.model_parameters._stream_file_info.file_frequencies[self.stream].frequency
+        file_frequency = self.model_parameters._stream_file_info.file_frequencies[self.stream].frequency
         datestamps, timepoints = generate_datestamps(start, end, file_frequency)
         filenames = self._generate_filenames_pp(datestamps)
 
@@ -497,7 +498,7 @@ class Filters(object):
                     "Could not create a sizing file in {}".format(self.procdir))
             # add a single command
             cmd = {"moo_cmd": "select",
-                   "param_args":["-i", "-d", filterfile, self.source, self.target],
+                   "param_args": ["-i", "-d", filterfile, self.source, self.target],
                    "start": start_tup,
                    "end": end_tup}
             self.mass_cmd.append(cmd)
@@ -732,36 +733,24 @@ class Filters(object):
         """Generate .nc filenames. Accounts for cases where ensemble id is
         used in the filename by running a `moo ls` on the source directory
         and checking the returned filenames.
-
-        support "onm", "ond", "inm", "ind" streams
-        
         "nemo_aw310o_1m_46531001-46531101_grid-T.nc"
-        "nemo_aw310o-r1923019_1m_46531001-46531101_grid-T.nc"
 
+        "nemo_aw310o-r1923019_1m_46531001-46531101_grid-T.nc"
         :param datestamps: List of datestamps
         :type datestamps: List[str]
         :return: List of .pp filenames
         :rtype: Tuple[List[str], List[str]]
         """
-        lookup = {"diad-T": "medusa",
-                  "ptrc-T": "medusa",
-                  "ptrd-T": "medusa",
-                  "diaptr": "nemo",
-                  "grid-T": "nemo",
-                  "grid-U": "nemo",
-                  "grid-V": "nemo",
-                  "grid-W": "nemo",
-                  "scalar": "nemo",}
 
         if self.stream[0] == "o":
-            model_realm = lookup[sub_stream]
+            model_realm = GRID_LOOKUPS[sub_stream]
             grid = f"_{sub_stream}"
         elif self.stream[0] == "i":
             model_realm = "cice"
             grid = ""
 
         suite = self.suite_id.split("-")[1] + self.stream[0]
-        freq = f"1{self.stream[-1]}"
+        freq = "1" + self.stream[-1]
 
         if self.ensemble_member_id:
             suite = "{}-{}".format(suite, self.ensemble_member_id)

@@ -1140,6 +1140,7 @@ def generate_datestamps(start_date: str,
 
     return datestamps, timepoints
 
+
 def generate_datestamps_nc(start_date: str,
                            end_date: str,
                            file_frequency: str) -> Tuple[List[str], List[TimePoint]]:
@@ -1156,7 +1157,7 @@ def generate_datestamps_nc(start_date: str,
     """
 
     modes = {"monthly": ["P1M", "%Y%m%d"],
-             "quarterly": ["P3M", "%Y%m%d"],}
+             "quarterly": ["P3M", "%Y%m%d"]}
 
     calendar = Calendar.default().mode
 
