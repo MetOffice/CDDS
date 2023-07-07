@@ -775,15 +775,19 @@ class StreamValidationResult(object):
             logger.critical("Validation for stream {} has failed, copy of the log saved in {}".format(
                 self.stream, validation_report_filepath))
             with open(validation_report_filepath, "w") as fn:
-                # if self.stream.startswith("a"):
+                msg = ""
                 missing_files = list(self.file_names_expected.difference(self.file_names_actual))
                 if missing_files:
-                    msg = "Missing files:\n"
+                    msg += "Missing files:\n"
                     for file in missing_files:
                         msg += f"{file}\n"
-                # else:
-                #     msg = "Expected number of files: {}\nActual number of files: {}\n".format(
-                #         self.file_count_expected, self.file_count_actual)
+                
+                additional_files = list(self.file_names_actual.difference(self.file_names_expected))
+                if additional_files:
+                    msg += "Additional files:\n"
+                    for file in additional_files:
+                        msg += f"{file}\n"
+
                 if self.file_errors:
                     msg += "Problems detected with the following files:\n"
                     for _, file_error in self.file_errors.items():
@@ -802,7 +806,7 @@ class StreamValidationResult(object):
         -------
         : bool
         """
-        return self.file_names_expected.issubset(self.file_names_actual) and not self.file_errors
+        return self.file_names_expected == self.file_names_actual and not self.file_errors
 
 
 class ValidationResult(object):

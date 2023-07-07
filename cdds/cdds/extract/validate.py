@@ -99,14 +99,14 @@ def validate(path, stream, stash_codes, validation_result, filenames):
     validation_result: cdds.common.StreamValidationResult
         An object to hold results from the stream validation
     """
-    validate_file_names(path, validation_result, filenames)
+    validate_file_names(path, validation_result, filenames, stream["streamtype"])
     if stream["streamtype"] == "pp":
         validate_directory_pp(path, stash_codes, validation_result)
     elif stream["streamtype"] == "nc":
         validate_directory_netcdf(path, validation_result)
 
 
-def validate_file_names(path, validation_result, filenames):
+def validate_file_names(path, validation_result, filenames, file_type):
     """ Compare a list of expected files against the files on disk. If strict=True then
     validation will fail if there are additional files that are not expected.
 
@@ -124,7 +124,7 @@ def validate_file_names(path, validation_result, filenames):
     logger = logging.getLogger(__name__)
     logger.info("Checking for missing files")
 
-    actual_files = set(os.listdir(path))
+    actual_files = set([file for file in os.listdir(path) if file.endswith(file_type)])
     expected_files = set(filenames)
 
     validation_result.add_file_names(expected_files, actual_files)
