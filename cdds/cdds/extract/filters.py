@@ -391,8 +391,9 @@ class Filters(object):
         return filenames
 
     def _pp_file_string(self, pp_filelist: List[dict], file_frequency: str) -> str:
-        """Given a pp_file list consturct the appropriate pp_string accounting for any
-        partial years in the case of monthly or seasonal files.
+        """Given a pp_file list, construct the appropriate pp_file value for a select
+        filter file, accounting for any partial years in the case of monthly or seasonal
+        files.
 
         :param pp_filelist: A pp_filelist
         :type pp_filelist: List[dict]
@@ -404,6 +405,8 @@ class Filters(object):
 
         pp_filelist = sorted(pp_filelist, key=itemgetter("timepoint"))
 
+        # Lexicographic sort works on these files frequencies without intervention i.e.
+        # partial years do not need to be treated as a special case.
         if file_frequency in ["10 day", "daily"]:
             return f'["{pp_filelist[0]["filename"]}".."{pp_filelist[-1]["filename"]}"]'
 
@@ -472,16 +475,17 @@ class Filters(object):
 
         return pp_filelist
 
-    def _mass_cmd_pp(self, start: datetime, end: datetime) -> Tuple[str, List, str, int]:
-        """_summary_
+    def _mass_cmd_pp(self, start: datetime, end: datetime) -> Tuple[str, List[Dict], str, int]:
+        """Create the list of mass commands and respective filter files needed for a given
+        stream.
 
-        :param start: _description_
+        :param start: Start date run bound.
         :type start: datetime
-        :param end: _description_
+        :param end: End date run bound.
         :type end: datetime
-        :raises FilterFileException: _description_
-        :return: _description_
-        :rtype: Tuple[str, List, str, int]
+        :raises FilterFileException: 
+        :return: A list of mass cmds represented as dictionaries.
+        :rtype: Tuple[str, List[Dict], str, int]
         """
         self.mass_cmd = []
         start, end = start.strftime("%Y%m%d"), end.strftime("%Y%m%d")
@@ -734,9 +738,7 @@ class Filters(object):
         """Generate .nc filenames. Accounts for cases where ensemble id is
         used in the filename by running a `moo ls` on the source directory
         and checking the returned filenames.
-        "nemo_aw310o_1m_46531001-46531101_grid-T.nc"
 
-        "nemo_aw310o-r1923019_1m_46531001-46531101_grid-T.nc"
         :param datestamps: List of datestamps
         :type datestamps: List[str]
         :return: List of .pp filenames

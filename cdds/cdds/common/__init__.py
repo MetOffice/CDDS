@@ -1131,11 +1131,13 @@ def generate_datestamps_pp(start_date: str,
     datestamps = []
 
     for timepoint in timepoints:
-        filename = cf_datetime.strptime(str(timepoint), "%Y-%m-%dT%H:%M:%SZ", calendar=calendar)
+        # The TimePoint object has to be converted to a cf_datetime object to make use of the full
+        # strptime specification.
+        cf_timepoint = cf_datetime.strptime(str(timepoint), "%Y-%m-%dT%H:%M:%SZ", calendar=calendar)
         if file_frequency != "season":
-            datestamp = filename.strftime(date_format).lower()
+            datestamp = cf_timepoint.strftime(date_format).lower()
         else:
-            datestamp = filename.strftime("%Y") + seasons[filename.month]
+            datestamp = cf_timepoint.strftime("%Y") + seasons[cf_timepoint.month]
         datestamps.append(datestamp)
 
     return datestamps, timepoints
