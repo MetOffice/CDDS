@@ -34,7 +34,9 @@ class CordexPlugin(BasePlugin):
         :return: Model parameters of model
         :rtype: BaseModelParameters
         """
+        print('Model ID')
         model_store = CordexModelStore.instance()
+        print('Model instances: {}'.format(model_store.model_instances))
         return model_store.get(model_id)
 
     def overload_models_parameters(self, source_dir: str) -> None:
