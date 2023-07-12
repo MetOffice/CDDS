@@ -77,9 +77,7 @@ class CordexModelStore(BaseModelStore):
     """
 
     def __init__(self) -> None:
-        print('Create model instance')
         model_instances = [HadREM3_GA7_05_Params()]
-        print('Model instances after init: {}'.format(model_instances))
         super(CordexModelStore, self).__init__(model_instances)  # type: ignore[arg-type]
         self.logger = logging.getLogger(self.__class__.__name__)
 

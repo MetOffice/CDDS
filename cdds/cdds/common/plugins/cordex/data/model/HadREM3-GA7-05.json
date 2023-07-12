@@ -30,6 +30,21 @@
     "apa": 131072
   },
   "sizing_info": {
+    "day": {
+      "default": 5,
+      "19-324-432": 1,
+      "19-325-432": 1,
+      "27-324-432": 1,
+      "4-324-432": 1,
+      "5-324-432": 1,
+      "7-324-432": 1,
+      "7-7-324-432": 0.5,
+      "1205-1440": 5,
+      "40-324-432": 1,
+      "85-324-432": 1,
+      "85-325-432": 1,
+      "86-324-432": 1
+    }
   },
   "subdaily_streams": [
     "apa"
@@ -37,8 +52,8 @@
   "grid_info": {
     "atmos": {
       "atmos_timestep": null,
-      "model_info": null,
-      "nominal_resolution": null,
+      "model_info": "",
+      "nominal_resolution": "",
       "longitude": null,
       "latitude": null,
       "v_latitude": null,
@@ -52,8 +67,8 @@
       ]
     },
     "ocean": {
-      "model_info": null,
-      "nominal_resolution": null,
+      "model_info": "",
+      "nominal_resolution": "",
       "longitude": null,
       "latitude": null,
       "levels": null,
