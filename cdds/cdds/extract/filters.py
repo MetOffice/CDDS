@@ -483,7 +483,7 @@ class Filters(object):
         :type start: datetime
         :param end: End date run bound.
         :type end: datetime
-        :raises FilterFileException: 
+        :raises FilterFileException:
         :return: A list of mass cmds represented as dictionaries.
         :rtype: Tuple[str, List[Dict], str, int]
         """

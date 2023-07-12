@@ -731,15 +731,15 @@ class StreamValidationResult(object):
 
     def add_file_names(self, expected_files, actual_files):
         """
-        Stores expected and actual file counts for a given stream.
+        Stores expected and actual files for a given stream.
 
         Parameters
         ----------
-        expected: int
-            Expected number of files in this stream
+        expected: set
+            Expected files in this stream
 
-        actual: int
-            Actual number of files in this stream
+        actual: set
+            Actual files in this stream
         """
         self.file_names_expected = expected_files
         self.file_names_actual = actual_files

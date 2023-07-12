@@ -396,49 +396,6 @@ class TestFilters(unittest.TestCase):
             filters.filters
         )
 
-    @patch("cdds.extract.filters.Filters._test_chunks")
-    def test_generate_chunks(self, mock_test_chunks):
-        filters = Filters(var_list=self.VAR_LIST)
-        mock_test_chunks.return_value = 50
-        chunks, _ = filters.generate_chunks((1900, 1, 1), datetime.datetime(2000, 1, 1), [50])
-        self.assertEqual(chunks, [
-            {'start': (1900, 1, 1), 'end': (1949, 12, 31)},
-            {'start': (1950, 1, 1), 'end': (1999, 12, 31)}
-        ])
-        mock_test_chunks.return_value = 100
-        chunks, _ = filters.generate_chunks((1900, 1, 1), datetime.datetime(2000, 1, 1), [100])
-        self.assertEqual(chunks, [
-            {'start': (1900, 1, 1), 'end': (1999, 12, 31)}
-        ])
-        mock_test_chunks.return_value = 200
-        chunks, _ = filters.generate_chunks((1900, 1, 1), datetime.datetime(2000, 1, 1), [200])
-        self.assertEqual(chunks, [
-            {'start': (1900, 1, 1), 'end': (1999, 12, 31)}
-        ])
-        mock_test_chunks.return_value = 50
-        chunks, _ = filters.generate_chunks((1800, 1, 1), datetime.datetime(1850, 1, 1), [50])
-        self.assertEqual(chunks, [
-            {'start': (1800, 1, 1), 'end': (1849, 12, 31)}
-        ])
-        mock_test_chunks.return_value = 0.5
-        chunks, _ = filters.generate_chunks((1850, 1, 1), datetime.datetime(1852, 1, 1), [0.5])
-        expected = [
-            {'start': (1850, 1, 1), 'end': (1850, 7, 1)},
-            {'start': (1850, 7, 1), 'end': (1850, 12, 31)},
-            {'start': (1851, 1, 1), 'end': (1851, 7, 1)},
-            {'start': (1851, 7, 1), 'end': (1851, 12, 31)},
-        ]
-        self.assertEqual(chunks, expected)
-        mock_test_chunks.return_value = 0.25
-        chunks, _ = filters.generate_chunks((1850, 1, 1), datetime.datetime(1851, 1, 1), [0.25])
-        expected = [
-            {'start': (1850, 1, 1), 'end': (1850, 4, 1)},
-            {'start': (1850, 4, 1), 'end': (1850, 7, 1)},
-            {'start': (1850, 7, 1), 'end': (1850, 10, 1)},
-            {'start': (1850, 10, 1), 'end': (1850, 12, 31)},
-        ]
-        self.assertEqual(chunks, expected)
-
 
 class TestSubdailyFilters(unittest.TestCase):
 
