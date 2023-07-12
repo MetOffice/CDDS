@@ -350,10 +350,18 @@ class Filters(object):
 
         :param pp_filelist: A pp_filelist
         :type pp_filelist: List[Dict]
+        :raises: RecursionError If too many calls made.
         :return: A list of pp_filelist chunks
         :rtype: List[List[Dict]]
         """
+        self.call_counter = 0
+        self.call_limit = 20
+
         def generate_chunks(chunk):
+            self.call_counter += 1
+            if self.call_counter > self.call_limit:
+                raise RecursionError
+
             test_file = self._create_filterfile_pp(chunk, test_mode=True)
             valid, _ = self._check_block_size_pp(test_file, override_simulate=True)
             if valid["val"] == "ok":
