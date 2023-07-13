@@ -49,7 +49,7 @@ class TestUserConfig(unittest.TestCase):
             'variant_label:r1i1p1f1\n'
             '[request]\n'
             'atmos_timestep:{atmos_timestep}\n'
-            'child_base_date: 1950-12-01-00-00-00\n'
+            'child_base_date: 1950-12-01T00:00:00\n'
             'run_bounds:{run_bounds}\n'
             'shuffle:{shuffle}\n'
             'suite_id:{suite_id}\n'
@@ -146,7 +146,7 @@ class TestUserConfig(unittest.TestCase):
             'model_id:{model_id}\n'
             'variant_label:r1i1p1f1\n'
             '[request]\n'
-            'child_base_date: 1950-12-01-00-00-00\n'
+            'child_base_date: 1950-12-01T00:00:00\n'
             'run_bounds:{run_bounds}\n'
             'suite_id:{suite_id}\n'
             'model_output_dir:{root_load_path}\n')

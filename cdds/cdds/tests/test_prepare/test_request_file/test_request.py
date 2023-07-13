@@ -124,7 +124,7 @@ class TestReadRequest(TestCase):
             'atmos_timestep': '1200',
             'branch_method': 'standard',
             'calendar': '360_day',
-            'child_base_date': '1850-01-01-00-00-00',
+            'child_base_date': '1850-01-01T00:00:00',
             'config_version': '1.0.1',
             'experiment_id': 'historical',
             'institution_id': 'MOHC',
@@ -157,15 +157,15 @@ class TestReadRequest(TestCase):
             'suite_id': 'aw310',
             'suite_revision': '104373',
             'variant_label': 'r1i1p1f2',
-            'parent_base_date': '1850-01-01-00-00-00',
+            'parent_base_date': '1850-01-01T00:00:00',
             'parent_experiment_id': 'piControl',
             'parent_mip': 'CMIP',
             'parent_mip_era': 'CMIP6',
             'parent_model_id': 'UKESM1-0-LL',
             'parent_time_units': 'days since 1850-01-01',
             'parent_variant_label': 'r1i1p1f2',
-            'branch_date_in_child': '1850-01-01-00-00-00',
-            'branch_date_in_parent': '2250-01-01-00-00-00',
+            'branch_date_in_child': '1850-01-01T00:00:00',
+            'branch_date_in_parent': '2250-01-01T00:00:00',
             'mass_data_class': 'crum'
         }
 

@@ -72,7 +72,7 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
     def setUp(self):
         self.branch_method = 'no parent'
         self.calendar = '360_day'
-        self.child_base_date = '1999-12-01-00-00-00'
+        self.child_base_date = '1999-12-01T00:00:00'
         self.experiment_id = 'amip'
         self.institution_id = 'MOHC'
         self.license = 'License'
@@ -101,9 +101,9 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
             'run_bounds': self.run_bounds,
             'sub_experiment_id': self.sub_experiment_id,
             'suite_id': self.suite_id, 'variant_label': self.variant_label}
-        self.branch_date_in_child = '2004-12-01-00-00-00'
-        self.branch_date_in_parent = '2006-12-01-00-00-00'
-        self.parent_base_date = '2005-12-01-00-00-00'
+        self.branch_date_in_child = '2004-12-01T00:00:00'
+        self.branch_date_in_parent = '2006-12-01T00:00:00'
+        self.parent_base_date = '2005-12-01T00:00:00'
         self.parent_experiment_id = 'amip'
         self.parent_mip_era = 'CMIP6'
         self.parent_model_id = 'UKESM1-0-LL'

@@ -3,7 +3,7 @@
 # pylint: disable = no-member
 UKESM_URL = 'https://ukesm.ac.uk/cmip6'
 
-BASE_DATE = '1850-01-01-00-00-00'
+BASE_DATE = '1850-01-01T00:00:00'
 
 ROSE_SUITE_BRANCH = 'cdds'
 ROSE_SUITE_FILENAME = 'rose-suite.info'

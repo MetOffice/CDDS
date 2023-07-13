@@ -11,7 +11,7 @@ from iris.fileformats.pp import STASH
 import numpy as np
 from scipy.spatial import distance
 
-from cdds.common import DATE_TIME_REGEX, DATE_TIME_REGEX_RUN_BOUNDS
+from cdds.common import DATE_TIME_REGEX
 from cdds.common.constants import ANCIL_VARIABLES
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
@@ -361,7 +361,7 @@ def apply_time_constraint(cube, time_constraint_function):
     return cube
 
 
-def separate_date(date, date_regex=DATE_TIME_REGEX_RUN_BOUNDS):
+def separate_date(date, date_regex=DATE_TIME_REGEX):
     """
     Separate the date provided to the ``date`` parameter into
     components i.e., year, month, day, hours, minutes, seconds based on
@@ -425,14 +425,14 @@ def format_date(date, date_regex=DATE_TIME_REGEX,
     ...     '19700101000000',
     ...     '(?P<year>\\d{4})(?P<month>\\d{2})(?P<day>\\d{2})'
     ...     '(?P<hour>\\d{2})(?P<minute>\\d{2})(?P<second>\\d{2})',
-    ...     '%Y-%m-%d-%H-%M-%S'))
-    1970-01-01-00-00-00
+    ...     '%Y-%m-%dT%H:%M:%S'))
+    1970-01-01T00:00:00
 
     >>> print(format_date(
-    ...     '1970-01-01-00-00-00', output_format='%Y%m%d'))
+    ...     '1970-01-01T00:00:00', output_format='%Y%m%d'))
     19700101
 
-    >>> print(format_date('1970-01-01-00-00-00'))
+    >>> print(format_date('1970-01-01T00:00:00'))
     1970-01-01 00:00:00
     """
     date_components = separate_date(date, date_regex)

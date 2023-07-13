@@ -21,7 +21,7 @@ import subprocess
 import time
 
 from cdds.common.constants import (
-    CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX, ROSE_URLS, DATE_TIME_REGEX_RUN_BOUNDS,
+    CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX, ROSE_URLS,
     VARIANT_LABEL_FORMAT, LOG_TIMESTAMP_FORMAT)
 
 
@@ -593,7 +593,7 @@ def check_date_format(date, date_regex=DATE_TIME_REGEX):
 
     Examples
     --------
-    >>> check = check_date_format('1970-01-01-00-00-00')
+    >>> check = check_date_format('1970-01-01T00:00:00')
     >>> if check is None:
     ...     print('Date format correct')
     Date format correct
@@ -605,12 +605,12 @@ def check_date_format(date, date_regex=DATE_TIME_REGEX):
     ...     print('Date format correct')
     Date format correct
 
-    >>> check_date_format('1970-01-01-00-00-00',
+    >>> check_date_format('1970-01-01T00:00:00',
     ...     '(?P<year>\\d{4})-(?P<month>\\d{2})-(?P<day>\\d{2})')
     ... # doctest: +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
       ...
-    ValueError: Date "1970-01-01-00-00-00" does not match
+    ValueError: Date "1970-01-01T00:00:00" does not match
       "(?P<year>\\d{4})-(?P<month>\\d{2})-(?P<day>\\d{2})"
     """
     matched = re.compile('^{}$'.format(date_regex)).match(date)
@@ -669,8 +669,8 @@ def check_run_bounds_format(run_bounds):
                'format ({err})'.format(run_bounds=run_bounds, err=err))
         err.args = (msg,)
         raise
-    check_date_format(start_date, DATE_TIME_REGEX_RUN_BOUNDS)
-    check_date_format(end_date, DATE_TIME_REGEX_RUN_BOUNDS)
+    check_date_format(start_date, DATE_TIME_REGEX)
+    check_date_format(end_date, DATE_TIME_REGEX)
 
 
 def check_variant_label_format(variant_label):
