@@ -776,15 +776,16 @@ class StreamValidationResult(object):
                 self.stream, validation_report_filepath))
             with open(validation_report_filepath, "w") as fn:
                 msg = ""
-                missing_files = list(self.file_names_expected.difference(self.file_names_actual))
+                missing_files = sorted(list(self.file_names_expected.difference(self.file_names_actual)))
                 if missing_files:
-                    msg += "Missing files:\n"
+                    
+                    msg += "{} Missing file(s):\n".format(len(missing_files))
                     for file in missing_files:
                         msg += f"{file}\n"
 
-                additional_files = list(self.file_names_actual.difference(self.file_names_expected))
+                additional_files = sorted(list(self.file_names_actual.difference(self.file_names_expected)))
                 if additional_files:
-                    msg += "Unexpected files:\n"
+                    msg += "{} Unexpected file(s):\n".format(len(additional_files))
                     for file in additional_files:
                         msg += f"{file}\n"
 
