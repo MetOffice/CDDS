@@ -50,11 +50,11 @@ class TestMain(unittest.TestCase):
         self.log_datestamp = '2019-11-23T1432Z'
         self.log_path = ''  # to be constructed later
         # Request:
-        self.branch_date_in_child = '1850-01-01-00-00-00'
-        self.branch_date_in_parent = '1850-01-01-00-00-00'
+        self.branch_date_in_child = '1850-01-01T00:00:00'
+        self.branch_date_in_parent = '1850-01-01T00:00:00'
         self.branch_method = 'continuation'
         self.calendar = '360_day'
-        self.child_base_date = '1850-01-01-00-00-00'
+        self.child_base_date = '1850-01-01T00:00:00'
         self.create_subdirectories = self.arguments.create_subdirectories
         self.deflate_level = self.arguments.deflate_level
         self.experiment_id = 'piControl'
@@ -73,13 +73,13 @@ class TestMain(unittest.TestCase):
         self.netcdf_file_action = self.arguments.netcdf_file_action
         self.output_dir = '/path/to/output/directory/'
         self.package = 'configure_functional_test'
-        self.parent_base_date = '1850-01-01-00-00-00'
+        self.parent_base_date = '1850-01-01T00:00:00'
         self.parent_experiment_id = 'piControl-spinup'
         self.parent_mip_era = 'CMIP6'
         self.parent_model_id = 'HadGEM3-GC31-LL'
         self.parent_time_units = TIME_UNIT_DESCRIPTION
         self.parent_variant_label = 'r1i1p1f1'
-        self.run_bounds = '2021-01-01-00-00-00 2021-02-01-00-00-00'
+        self.run_bounds = '2021-01-01T00:00:00 2021-02-01T00:00:00'
         self.shuffle = self.arguments.shuffle
         self.sub_experiment_id = 'none'
         self.suite_id = 'u-abcde'

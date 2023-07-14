@@ -24,11 +24,12 @@ from cftime import datetime as cf_datetime
 from metomi.isodatetime.data import Calendar, TimePoint
 from metomi.isodatetime.parsers import DurationParser, TimePointParser, TimeRecurrenceParser
 
-from cdds.common.constants import (CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX,
-                                   LOG_TIMESTAMP_FORMAT, ROSE_URLS, SUPPORTED_CALENDARS,
-                                   VARIANT_LABEL_FORMAT)
+
 from cdds.common.request import read_request
 from cdds.convert.exceptions import IncompatibleCalendarMode
+from cdds.common.constants import (
+    CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX, ROSE_URLS,
+    VARIANT_LABEL_FORMAT, LOG_TIMESTAMP_FORMAT, SUPPORTED_CALENDARS)
 
 
 def get_log_datestamp():
@@ -599,7 +600,7 @@ def check_date_format(date, date_regex=DATE_TIME_REGEX):
 
     Examples
     --------
-    >>> check = check_date_format('1970-01-01-00-00-00')
+    >>> check = check_date_format('1970-01-01T00:00:00')
     >>> if check is None:
     ...     print('Date format correct')
     Date format correct
@@ -611,12 +612,12 @@ def check_date_format(date, date_regex=DATE_TIME_REGEX):
     ...     print('Date format correct')
     Date format correct
 
-    >>> check_date_format('1970-01-01-00-00-00',
+    >>> check_date_format('1970-01-01T00:00:00',
     ...     '(?P<year>\\d{4})-(?P<month>\\d{2})-(?P<day>\\d{2})')
     ... # doctest: +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
       ...
-    ValueError: Date "1970-01-01-00-00-00" does not match
+    ValueError: Date "1970-01-01T00:00:00" does not match
       "(?P<year>\\d{4})-(?P<month>\\d{2})-(?P<day>\\d{2})"
     """
     matched = re.compile('^{}$'.format(date_regex)).match(date)
@@ -633,7 +634,7 @@ def check_run_bounds_format(run_bounds):
     the correct format.
 
     The run bounds must be in the form
-    ``YYYY-MM-DD-hh-mm-ss YYYY-MM-DD-hh-mm-ss``.
+    ``%Y-%m-%dT%H:%M:%S %Y-%m-%dT%H:%M:%S``.
 
     Parameters
     ----------
@@ -648,24 +649,24 @@ def check_run_bounds_format(run_bounds):
     Examples
     --------
     >>> check = check_run_bounds_format(
-    ...     '1950-03-10-00-00-00 1950-03-20-00-00-00')
+    ...     '1950-03-10T00:00:00 1950-03-20T00:00:00')
     >>> if check is None:
     ...     print('Run bounds format correct')
     Run bounds format correct
 
-    >>> check = check_run_bounds_format('1950-03-10-00-00-00')
+    >>> check = check_run_bounds_format('1950-03-10T00:00:00')
     ... # doctest: +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
         ...
-    ValueError: Run bounds "1950-03-10-00-00-00" does not match the
+    ValueError: Run bounds "1950-03-10T00:00:00" does not match the
       expected format (not enough values to unpack (expected 2, got 1))
 
     >>> check = check_run_bounds_format(
-    ...     '1950-03-10-00-00-00 1950-03-20 00:00:00')
+    ...     '1950-03-10T00:00:00 1950-03-20 00:00:00')
     ... # doctest: +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
      ...
-    ValueError: Run bounds "1950-03-10-00-00-00 1950-03-20 00:00:00"
+    ValueError: Run bounds "1950-03-10T00:00:00 1950-03-20 00:00:00"
       does not match the expected format (too many values to unpack (expected 2))
     """
     try:

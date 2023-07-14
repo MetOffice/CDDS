@@ -40,7 +40,7 @@ class AbstractConfig(object):
     date format.
     """
 
-    TIME_FORMAT = '%Y-%m-%d-%H-%M-%S'
+    TIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
     def __init__(self, date_generator, config=None):
         self._date_generator = date_generator

@@ -425,14 +425,14 @@ def format_date(date, date_regex=DATE_TIME_REGEX,
     ...     '19700101000000',
     ...     '(?P<year>\\d{4})(?P<month>\\d{2})(?P<day>\\d{2})'
     ...     '(?P<hour>\\d{2})(?P<minute>\\d{2})(?P<second>\\d{2})',
-    ...     '%Y-%m-%d-%H-%M-%S'))
-    1970-01-01-00-00-00
+    ...     '%Y-%m-%dT%H:%M:%S'))
+    1970-01-01T00:00:00
 
     >>> print(format_date(
-    ...     '1970-01-01-00-00-00', output_format='%Y%m%d'))
+    ...     '1970-01-01T00:00:00', output_format='%Y%m%d'))
     19700101
 
-    >>> print(format_date('1970-01-01-00-00-00'))
+    >>> print(format_date('1970-01-01T00:00:00'))
     1970-01-01 00:00:00
     """
     date_components = separate_date(date, date_regex)

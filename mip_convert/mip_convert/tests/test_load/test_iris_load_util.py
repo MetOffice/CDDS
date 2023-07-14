@@ -329,7 +329,7 @@ class TestPPFilter(unittest.TestCase):
         self.t2 = datetime(1983, 4, 24, 0, 0, 0)
         self.field = DummyField(lbuser=lbuser, blev=self.blev[1], t1=self.t1, t2=self.t2)
         self.field.lbtim = self.lbtim
-        self.run_bounds = ['1983-03-01-00-00-00', '1984-03-01-00-00-00']
+        self.run_bounds = ['1983-03-01T00:00:00', '1984-03-01T00:00:00']
 
     def test_single_header_element_found(self):
         pp_info = [('lbtim', self.lbtim)]
@@ -337,7 +337,7 @@ class TestPPFilter(unittest.TestCase):
 
     def test_not_in_run_bounds(self):
         pp_info = [('lbtim', self.lbtim)]
-        run_bounds = ['1983-03-01-00-00-00', '1983-03-20-00-00-00']
+        run_bounds = ['1983-03-01T00:00:00', '1983-03-20T00:00:00']
         self.assertFalse(pp_filter(self.field, pp_info, run_bounds))
 
     def test_single_header_element_with_tuple_value_found(self):

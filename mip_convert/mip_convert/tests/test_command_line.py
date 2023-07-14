@@ -21,7 +21,7 @@ class TestParseParameters(unittest.TestCase):
     def setUp(self):
         load_plugin()
         self.config_file = 'my_mip_convert.cfg'
-        self.run_bounds = '1950-03-10-00-00-00 1950-03-20-00-00-00\n'
+        self.run_bounds = '1950-03-10T00:00:00 1950-03-20T00:00:00\n'
 
     @patch('os.path.isfile')
     def test_basic(self, mock_isfile):

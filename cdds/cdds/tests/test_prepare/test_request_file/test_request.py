@@ -5,6 +5,7 @@ import os
 import unittest
 
 from unittest import TestCase
+from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.prepare.request_file.models import RoseSuiteRequest, RoseSuiteArguments
 from cdds.prepare.request_file.request import RoseSuiteRequestManager
 from cdds.tests.test_prepare.test_request_file.stubs import RequestManagerPartialStub
@@ -77,6 +78,7 @@ class TestCheckSuiteInfo(TestCase):
 class TestReadRequest(TestCase):
 
     def setUp(self):
+        load_plugin()
         root_mip_table = os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/')
         data_request_version = '01.00.29'
         mip_table_dir = os.path.join(root_mip_table, data_request_version)
@@ -122,7 +124,7 @@ class TestReadRequest(TestCase):
             'atmos_timestep': '1200',
             'branch_method': 'standard',
             'calendar': '360_day',
-            'child_base_date': '1850-01-01-00-00-00',
+            'child_base_date': '1850-01-01T00:00:00',
             'config_version': '1.0.1',
             'experiment_id': 'historical',
             'institution_id': 'MOHC',
@@ -149,21 +151,21 @@ class TestReadRequest(TestCase):
             'model_type': 'AOGCM BGC AER CHEM',
             'package': 'round-1-part-1',
             'request_id': 'UKESM1-0-LL_historical_r1i1p1f2',
-            'run_bounds': '1850-01-01-00-00-00 2015-01-01-00-00-00',
+            'run_bounds': '1850-01-01T00:00:00 2015-01-01T00:00:00',
             'sub_experiment_id': 'none',
             'suite_branch': 'cdds',
             'suite_id': 'aw310',
             'suite_revision': '104373',
             'variant_label': 'r1i1p1f2',
-            'parent_base_date': '1850-01-01-00-00-00',
+            'parent_base_date': '1850-01-01T00:00:00',
             'parent_experiment_id': 'piControl',
             'parent_mip': 'CMIP',
             'parent_mip_era': 'CMIP6',
             'parent_model_id': 'UKESM1-0-LL',
             'parent_time_units': 'days since 1850-01-01',
             'parent_variant_label': 'r1i1p1f2',
-            'branch_date_in_child': '1850-01-01-00-00-00',
-            'branch_date_in_parent': '2250-01-01-00-00-00',
+            'branch_date_in_child': '1850-01-01T00:00:00',
+            'branch_date_in_parent': '2250-01-01T00:00:00',
             'mass_data_class': 'crum'
         }
 

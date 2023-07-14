@@ -19,10 +19,10 @@ class TestRequest(unittest.TestCase):
         self.experiment_id_attribute = 'experiment_id'
         self.experiment_id_value = 'historical'
         self.stream_attribute_apa = 'run_bounds_for_stream_apa'
-        self.stream_bounds_apa = '1851-01-01-00-00-00 1857-01-01-00-00-00'
+        self.stream_bounds_apa = '1851-01-01T00:00:00 1857-01-01T00:00:00'
         self.stream_type_apa = 'pp'
         self.stream_attribute_onm = 'run_bounds_for_stream_onm'
-        self.stream_bounds_onm = '1852-01-01-00-00-00 1858-01-01-00-00-00'
+        self.stream_bounds_onm = '1852-01-01T00:00:00 1858-01-01T00:00:00'
         self.stream_type_onm = 'nc'
         self.items = {
             self.mip_era_attribute: self.mip_era_value,
@@ -59,14 +59,14 @@ class TestRequest(unittest.TestCase):
         self.assertEqual(request.streaminfo, {
             'apa': {
                 'var': self.stream_attribute_apa,
-                'start_date': '1851-01-01-00-00-00',
-                'end_date': '1857-01-01-00-00-00',
+                'start_date': '1851-01-01T00:00:00',
+                'end_date': '1857-01-01T00:00:00',
                 'type': 'pp'
             },
             'onm': {
                 'var': self.stream_attribute_onm,
-                'start_date': '1852-01-01-00-00-00',
-                'end_date': '1858-01-01-00-00-00',
+                'start_date': '1852-01-01T00:00:00',
+                'end_date': '1858-01-01T00:00:00',
                 'type': 'nc'
             },
         })

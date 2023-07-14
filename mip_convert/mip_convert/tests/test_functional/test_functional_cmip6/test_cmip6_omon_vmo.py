@@ -34,7 +34,7 @@ class TestCmip6OmonVmo(AbstractFunctionalTests):
                         ROOT_ANCIL_DIR, 'HadGEM3-GC31-LL', 'ocean_byte_masks.nc'
                     ),
                     'model_output_dir': MODEL_OUTPUT_DIR,
-                    'run_bounds': '1852-03-01-00-00-00 1852-04-01-00-00-00',
+                    'run_bounds': '1852-03-01T00:00:00 1852-04-01T00:00:00',
                     'suite_id': 'u-ar050',
                 },
                 streams={
