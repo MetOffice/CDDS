@@ -159,8 +159,8 @@ class RoseSuiteRequest(Request):
     def _load_parent_items(self):
         if self._has_parent():
             parent_items = {
-                'branch_date_in_child': '{start-date}-00-00-00'.format(**self._suite_info),
-                'branch_date_in_parent': '{branch-date}-00-00-00'.format(**self._suite_info),
+                'branch_date_in_child': '{start-date}T00:00:00'.format(**self._suite_info),
+                'branch_date_in_parent': '{branch-date}T00:00:00'.format(**self._suite_info),
                 'parent_base_date': BASE_DATE,
                 'parent_experiment_id': self._suite_info['parent-experiment-id'],
                 'parent_mip': self._suite_info['parent-experiment-mip'],

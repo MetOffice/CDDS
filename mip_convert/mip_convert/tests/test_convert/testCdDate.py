@@ -25,7 +25,7 @@ class TestDateGenerator(unittest.TestCase):
 
     def testGoodDate(self):
         formats = (
-            ('%Y-%m-%d-%H-%M-%S', '%s-%s-%s-%s-%s-%s', True),
+            ('%Y-%m-%dT%H:%M:%S', '%s-%s-%sT%s:%s:%s', True),
             ('%Y%m%d%H%M', '%s%s%s%s%s', False),
         )
         examples = [

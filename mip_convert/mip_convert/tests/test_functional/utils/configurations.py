@@ -107,7 +107,7 @@ class ProjectInfo:
                 'branch_method': 'no parent'
             },
              'request': {
-                'child_base_date': '2000-01-01-00-00-00'
+                'child_base_date': '2000-01-01T00:00:00'
             },
              'global_attributes': {
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
@@ -151,7 +151,7 @@ class ProjectInfo:
                 'variant_label': 'r1i1p1f1'
             },
             request={
-                'child_base_date': '2000-01-01-00-00-00'
+                'child_base_date': '2000-01-01T00:00:00'
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
@@ -175,8 +175,8 @@ class ProjectInfo:
             cmor_dataset={
                 'grid': 'not checked',
                 'license': CMIP6_LICENSE,
-                'branch_date_in_child': '1950-01-01-00-00-00',
-                'branch_date_in_parent': '1980-01-01-00-00-00',
+                'branch_date_in_child': '1950-01-01T00:00:00',
+                'branch_date_in_parent': '1980-01-01T00:00:00',
                 'branch_method': 'standard',
                 'experiment_id': 'hist-1950',
                 'mip': 'HighResMIP',
@@ -184,7 +184,7 @@ class ProjectInfo:
                 'model_id': 'HadGEM3-GC31-HH',
                 'model_type': 'AOGCM',
                 'nominal_resolution': '10 km',
-                'parent_base_date': '1950-01-01-00-00-00',
+                'parent_base_date': '1950-01-01T00:00:00',
                 'parent_experiment_id': 'spinup-1950',
                 'parent_mip_era': 'CMIP6',
                 'parent_model_id': 'HadGEM3-GC31-MH',
@@ -194,7 +194,7 @@ class ProjectInfo:
                 'variant_label': 'r1i1p1f1'
             },
             request={
-                'child_base_date': '1950-01-01-00-00-00'
+                'child_base_date': '1950-01-01T00:00:00'
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
@@ -218,8 +218,8 @@ class ProjectInfo:
             cmor_dataset={
                 'grid': 'not checked',
                 'branch_method': 'standard',
-                'branch_date_in_child': '1850-01-01-00-00-00',
-                'branch_date_in_parent': '2250-01-01-00-00-00',
+                'branch_date_in_child': '1850-01-01T00:00:00',
+                'branch_date_in_parent': '2250-01-01T00:00:00',
                 'experiment_id': 'arise-sai-1p5',
                 'license': ARISE_LICENSE,
                 'mip': 'ARISE',
@@ -229,7 +229,7 @@ class ProjectInfo:
                 'nominal_resolution': '250 km',
                 'sub_experiment_id': 'none',
                 'variant_label': 'r1i1p1f2',
-                'parent_base_date': '1850-01-01-00-00-00',
+                'parent_base_date': '1850-01-01T00:00:00',
                 'parent_experiment_id': 'ssp245',
                 'parent_mip_era': 'CMIP6',
                 'parent_model_id': 'UKESM1-0-LL',
@@ -237,7 +237,7 @@ class ProjectInfo:
                 'parent_variant_label': 'r1i1p1f2',
             },
             request={
-                'child_base_date': '2000-01-01-00-00-00'
+                'child_base_date': '2000-01-01T00:00:00'
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.historical.none.r1i1p1f2'
@@ -277,7 +277,7 @@ class ProjectInfo:
                 'contact': 'a@b.c',
             },
             request={
-                'child_base_date': '2000-01-01-00-00-00',
+                'child_base_date': '2000-01-01T00:00:00',
                 'mask_slice': 'no_mask'
             },
             global_attributes={
@@ -326,7 +326,7 @@ class ProjectInfo:
                 'variant_label': 'r1i1p1f1'
             },
             request={
-                'child_base_date': '2000-01-01-00-00-00'
+                'child_base_date': '2000-01-01T00:00:00'
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
@@ -358,7 +358,7 @@ class SpecificInfo:
                 'branch_method': 'standard'
             },
             'request': {
-                'child_base_date': '2000-01-01-00-00-00'
+                'child_base_date': '2000-01-01T00:00:00'
             },
             'streams_ap4': {
                 'CMIP6_Emon': 'taxmas'

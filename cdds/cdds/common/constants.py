@@ -92,11 +92,8 @@ DATA_DIR_FACET_STRING = (
 DATESTAMP_TEMPLATE = 'v{dt.year:04d}{dt.month:02d}{dt.day:02d}'
 DATESTAMP_PARSER_STR = 'v%Y%m%d'
 
-DATE_TIME_FORMAT = '%Y-%m-%d-%H-%M-%S'
+DATE_TIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 DATE_TIME_REGEX = (
-    r'(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})-(?P<hour>\d{2})-'
-    r'(?P<minute>\d{2})-(?P<second>\d{2})')
-DATE_TIME_REGEX_RUN_BOUNDS = (
     r'(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})T(?P<hour>\d{2}):'
     r'(?P<minute>\d{2}):(?P<second>\d{2})')
 DAYS_IN_MONTH = 30

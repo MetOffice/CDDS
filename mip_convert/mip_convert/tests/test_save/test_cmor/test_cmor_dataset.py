@@ -28,7 +28,7 @@ class TestDataset(unittest.TestCase):
         load_plugin()
         # Setup 'user_config'.
         self.activity_id_user = 'DCPP'
-        self.branch_date_in_parent = '2006-01-01-00-00-00'
+        self.branch_date_in_parent = '2006-01-01T00:00:00'
         self.branch_method = 'standard'
         self.calendar = '360_day'
         self.experiment_id = 'aqua-control'
@@ -36,7 +36,7 @@ class TestDataset(unittest.TestCase):
         self.history = software_versions()[21:]  # Ignore timestamp.
         self.institution_id = 'MOHC'
         self.mip_era = 'CMIP6'
-        self.parent_base_date = '2001-01-01-00-00-00'
+        self.parent_base_date = '2001-01-01T00:00:00'
         self.source_id = 'HadGEM3-GC31-LL'
         self.source_type_user = 'AOGCM AER BGC'
         self.sub_experiment_id = 'none'
@@ -68,7 +68,7 @@ class TestDataset(unittest.TestCase):
             'sub_experiment_id:{sub_experiment_id}\n'
             'variant_label:{variant_label}\n'
             '[request]\n'
-            'child_base_date:0000-00-00-00-00-00\n'
+            'child_base_date:0000-00-00T00:00:00\n'
             'model_output_dir:model_output_dir\n'
             'run_bounds:0000-00-00T00:00:00 0000-00-00T00:00:00\n'
             'suite_id:{suite_id}\n'

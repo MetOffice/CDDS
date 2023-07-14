@@ -378,7 +378,7 @@ class ConvertProcess(object):
         :return: The reference date in the form 18500101
         :rtype: TimePoint
         """
-        reference_date = "".join(self._request.child_base_date.split('-')[:3])
+        reference_date = "".join(re.split('-|:|T', self._request.child_base_date)[:3])
         reference_date = TimePointParser().parse(reference_date)
         return reference_date
 

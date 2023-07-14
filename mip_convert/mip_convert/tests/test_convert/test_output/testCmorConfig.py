@@ -71,8 +71,8 @@ class TestConfigContext(unittest.TestCase):
             expected_keywords[optional] = index
 
     def addOptionalParentInfo(self, options, expected_keywords):
-        parent_base_date = '1889-01-01-00-00-00'
-        branch_date = '1889-02-01-00-00-00'
+        parent_base_date = '1889-01-01T00:00:00'
+        branch_date = '1889-02-01T00:00:00'
         self.addStringOptionals(('parent_experiment_id', 'parent_experiment_rip'), expected_keywords)
         self.addToDefaultSection('branch_date', branch_date)
         self.addToDefaultSection('parent_base_date', parent_base_date)

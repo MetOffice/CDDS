@@ -43,9 +43,9 @@ class TestVariableMetadata(unittest.TestCase):
             'positive': 'None', 'units': 'K s-1'
         }
         self.timestep = 600
-        self.run_bounds = ['1900-01-01-00-00-00', '1900-01-01-00-00-00']
+        self.run_bounds = ['1900-01-01T00:00:00', '1900-01-01T00:00:00']
         self.calendar = '360_day'
-        self.base_date = '1900-01-01-00-00-00'
+        self.base_date = '1900-01-01T00:00:00'
         self.deflate_level = 7
         self.shuffle = True
         self.variable_mip_metadata = variable_mip_metadata(self.variable_name, self.mip_axes_names)
@@ -181,7 +181,7 @@ class TestVariable(unittest.TestCase):
             'timestep': None,
             'run_bounds': ['1980-11-01T00:00:00', '1981-01-01T00:00:00'],
             'calendar': '360_day',
-            'base_date': '1900-01-01-00-00-00',
+            'base_date': '1900-01-01T00:00:00',
             'deflate_level': 0,
             'shuffle': True,
         }

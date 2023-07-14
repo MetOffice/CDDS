@@ -18,7 +18,7 @@ from datetime import datetime
 from iris.util import guess_coord_axis
 import numpy as np
 
-from cdds.common import DATE_TIME_REGEX_RUN_BOUNDS
+from cdds.common import DATE_TIME_REGEX
 from mip_convert.common import (
     DEFAULT_FILL_VALUE, Longitudes, validate_latitudes, format_date,
     MIP_to_model_axis_name_mapping, apply_time_constraint, raw_to_value,
@@ -209,8 +209,8 @@ class Variable(object):
         >>> variable_metadata = VariableMetadata(
         ...     'tas', 'apa', None, 'CMIP5_day', variable_mip_metadata,
         ...     None, None, None, variable_model_to_mip_mapping, None,
-        ...     ['1981-09-01-00-00-00', '1981-09-11-00-00-00'],
-        ...     '360_day', '1970-01-01-00-00-00', 9, False)
+        ...     ['1981-09-01T00:00:00', '1981-09-11T00:00:00'],
+        ...     '360_day', '1970-01-01T00:00:00', 9, False)
         >>> variable = Variable(input_variables, variable_metadata)
         >>> variable.history = 'Made a change.'
         >>> print(variable.history)
@@ -280,7 +280,7 @@ class Variable(object):
         end_date = parse.TimePointParser().parse(self._run_bounds[1])
         if period == 'year':
             end_month_day = format_date(
-                self._run_bounds[1], date_regex=DATE_TIME_REGEX_RUN_BOUNDS, output_format='%m%d'
+                self._run_bounds[1], date_regex=DATE_TIME_REGEX, output_format='%m%d'
             )
             end_year = end_date.year
             start_year = start_date.year
