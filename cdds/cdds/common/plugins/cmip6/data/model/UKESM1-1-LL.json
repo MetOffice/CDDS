@@ -1,12 +1,16 @@
 {
   "stream_file_frequency": {
+    "quarterly": {
+      "streams": [
+        "ond"
+        ],
+      "files_per_year": 4},
     "monthly": {
       "streams": [
         "ap4",
         "ap5",
         "apm",
         "apu",
-        "onm",
         "inm",
         "ind",
         "ond"
