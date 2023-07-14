@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2022, Met Office.
+# (C) British Crown Copyright 2019-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`constants` module contains constants (values that should never
@@ -211,6 +211,7 @@ SCRIPT_TEMPLATE = """#!/bin/bash -l
 
 {env_setup};{command}
 """
+SUPPORTED_CALENDARS = ["gregorian", "360_day", "360day"]
 TIME_UNIT_DESCRIPTION = 'days since 1850-01-01'
 TIME_UNIT = cf_units.Unit(TIME_UNIT_DESCRIPTION, calendar='360_day')
 USER_CONFIG_OPTIONS = {

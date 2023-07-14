@@ -27,6 +27,19 @@ class TestCommon(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
 
+    def test_stream_validation_files(self):
+        expected_files = {"ap5jan", "ap5feb"}
+
+        test_cases = {"case_1": ({"ap5jan", "ap5feb", "ap5mar"}, False),
+                      "case_2": ({"ap5jan"}, False),
+                      "case_3": ({"ap5jan", "ap5feb"}, True)}
+
+        for actual_files, expected in test_cases.values():
+            validation = StreamValidationResult("ap5")
+            validation.add_file_names(expected_files, actual_files)
+
+            assert validation.valid == expected
+
     def test_variable_keys(self):
         self.assertEqual(len(get_bounds_variables("onm", "grid-T")), 4)
         self.assertEqual(len(get_bounds_variables("onm", "diad-T")), 4)
