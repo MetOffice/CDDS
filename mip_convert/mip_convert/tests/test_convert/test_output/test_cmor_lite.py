@@ -97,9 +97,9 @@ class TestSetUpAndDataSet(unittest.TestCase):
     @patch('mip_convert.save.cmor.cmor_lite._CMOR')
     def test_branch_time_calculation(self, mk_cmor):
         self._setup_metadata()
-        self.TIME_FORMAT = '%Y-%m-%d-%H-%M-%S'
-        self.branch_date = '2006-12-01-00-00-00'
-        self.parent_base_date = '2005-12-01-00-00-00'
+        self.TIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
+        self.branch_date = '2006-12-01T00:00:00'
+        self.parent_base_date = '2005-12-01T00:00:00'
         branch_time = 360.0  # days between parent_base_date and branch_date
         dataset(self)
         mk_cmor.dataset.assert_called_once_with(self.experiment_id,

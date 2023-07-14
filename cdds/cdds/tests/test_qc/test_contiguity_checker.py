@@ -12,7 +12,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         self.maxDiff = None
         self.request = Request({
             'run_bounds': '1850-01-01T00:00:00 1851-01-01T00:00:00',
-            'child_base_date': '1850-01-01-00-00-00',
+            'child_base_date': '1850-01-01T00:00:00',
             'calendar': '360_day'
         }, [])
 
@@ -90,7 +90,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
     def test_internal_contiguity_diurnal_climatology_gregorian(self):
         request = Request({
             'run_bounds': '2007-01-01T00:00:00 2007-03-01T00:00:00',
-            'child_base_date': '2000-01-01-00-00-00',
+            'child_base_date': '2000-01-01T00:00:00',
             'calendar': 'Gregorian'
         }, [])
         cc = CollectionsCheck(request)
@@ -104,8 +104,8 @@ class CollectionsCheckTestCase(unittest.TestCase):
 
 #    def test_internal_contiguity_diurnal_climatology_obs4mips(self):
 #        request = Request({
-#            'run_bounds': '2007-01-01-00-00-00 2009-01-01-00-00-00',
-#            'child_base_date': '2000-01-01-00-00-00',
+#            'run_bounds': '2007-01-01T00:00:00 2009-01-01T00:00:00',
+#            'child_base_date': '2000-01-01T00:00:00',
 #            'calendar': 'Gregorian'
 #        }, [])
 #        cc = CollectionsCheck(request)
@@ -172,7 +172,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         small_number = 1e-8
         request = Request({
             'run_bounds': '1850-01-01T00:00:00 1850-01-03T00:00:00',
-            'child_base_date': '1850-01-01-00-00-00',
+            'child_base_date': '1850-01-01T00:00:00',
             'calendar': '360_day'
         }, [])
         cc = CollectionsCheck(request)
@@ -264,7 +264,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
     def test_time_bounds_in_360day_calendar(self):
         request = Request({
             'run_bounds': '1850-01-01T00:00:00 1850-07-01T00:00:00',
-            'child_base_date': '1850-01-01-00-00-00',
+            'child_base_date': '1850-01-01T00:00:00',
             'calendar': '360_day'
         }, [])
         cc = CollectionsCheck(request)
@@ -285,7 +285,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
     def test_time_bounds_in_gregorian_calendar(self):
         request = Request({
             'run_bounds': '1850-01-01T00:00:00 1850-07-01T00:00:00',
-            'child_base_date': '1850-01-01-00-00-00',
+            'child_base_date': '1850-01-01T00:00:00',
             'calendar': 'Gregorian'
         }, [])
         cc = CollectionsCheck(request)
@@ -306,7 +306,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
     def test_imprecise_run_bounds(self):
         request = Request({
             'run_bounds': '1850-01-01T00:00:00 1850-01-02T00:00:00',
-            'child_base_date': '1850-01-01-00-00-00',
+            'child_base_date': '1850-01-01T00:00:00',
             'calendar': '360_day'
         }, [])
         cc = CollectionsCheck(request)
@@ -323,7 +323,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
     def test_invalid_time_bounds(self):
         request = Request({
             'run_bounds': '1850-01-01T00:00:00 1851-01-01T00:00:00',
-            'child_base_date': '1850-01-01-00-00-00',
+            'child_base_date': '1850-01-01T00:00:00',
             'calendar': '360_day'
         }, [])
         cc = CollectionsCheck(request)
