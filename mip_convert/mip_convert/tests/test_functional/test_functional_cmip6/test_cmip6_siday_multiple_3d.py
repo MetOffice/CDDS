@@ -7,14 +7,14 @@ import pytest
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
-                                                                 MODEL_OUTPUT_DIR_SET1,
-                                                                 ROOT_TEST_CASES_DIR)
+                                                                 MODEL_OUTPUT_DIR,
+                                                                 ROOT_OUTPUT_CASES_DIR)
 
 
 class TestCmip6SIdayMultiple3d(AbstractFunctionalTests):
 
     def get_test_data(self):
-        test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CMIP6_SIday_multiple_3d')
+        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_SIday_multiple_3d')
         return Cmip6TestData(
             mip_table='SIday',
             variable='multiple_3d',
@@ -30,7 +30,7 @@ class TestCmip6SIdayMultiple3d(AbstractFunctionalTests):
                     'output_dir': get_output_dir(test_location)
                 },
                 request={
-                    'model_output_dir': MODEL_OUTPUT_DIR_SET1,
+                    'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1978-10-01-00-00-00 1978-12-01-00-00-00',
                     'suite_id': 'u-al114'
                 },

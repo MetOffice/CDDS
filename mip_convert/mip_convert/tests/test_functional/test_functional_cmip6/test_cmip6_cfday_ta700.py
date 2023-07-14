@@ -7,15 +7,15 @@ import pytest
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
-                                                                 MODEL_OUTPUT_DIR_SET1,
-                                                                 ROOT_TEST_CASES_DIR,
+                                                                 MODEL_OUTPUT_DIR,
+                                                                 ROOT_OUTPUT_CASES_DIR,
                                                                  ROOT_ANCIL_DIR)
 
 
 class TestCmip6CFdayTa700(AbstractFunctionalTests):
 
     def get_test_data(self):
-        test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CMIP6_CFday_ta700')
+        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_CFday_ta700')
         return Cmip6TestData(
             mip_table='CFday',
             variable='ta700',
@@ -32,7 +32,7 @@ class TestCmip6CFdayTa700(AbstractFunctionalTests):
                 },
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
-                    'model_output_dir': MODEL_OUTPUT_DIR_SET1,
+                    'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1855-05-11-00-00-00 1855-05-21-00-00-00',
                     'suite_id': 'u-ar050'
                 },
