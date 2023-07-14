@@ -778,7 +778,6 @@ class StreamValidationResult(object):
                 msg = ""
                 missing_files = sorted(list(self.file_names_expected.difference(self.file_names_actual)))
                 if missing_files:
-                    
                     msg += "{} Missing file(s):\n".format(len(missing_files))
                     for file in missing_files:
                         msg += f"{file}\n"
