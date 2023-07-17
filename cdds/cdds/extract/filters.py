@@ -415,7 +415,7 @@ class Filters(object):
 
         # Lexicographic sort works on these files frequencies without intervention i.e.
         # partial years do not need to be treated as a special case.
-        if file_frequency in ["10 day", "daily"]:
+        if file_frequency in ["10 day", "daily", "1 day"]:
             return f'["{pp_filelist[0]["filename"]}".."{pp_filelist[-1]["filename"]}"]'
 
         if file_frequency == "monthly":
