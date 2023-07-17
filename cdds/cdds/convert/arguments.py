@@ -91,7 +91,9 @@ def get_replacement_coordinates_file(arguments, model_id):
     plugin = PluginStore.instance().get_plugin()
     grid_info = plugin.grid_info(model_id, GridType.OCEAN)
     filename = grid_info.replacement_coordinates_file
-    return os.path.join(arguments.root_replacement_coordinates_dir, filename)
+    if filename:
+        return os.path.join(arguments.root_replacement_coordinates_dir, filename)
+    return ''
 
 
 def get_hybrid_heights_files(arguments, model_id):

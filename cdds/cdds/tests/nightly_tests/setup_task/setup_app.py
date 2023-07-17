@@ -86,8 +86,15 @@ class CddsSetupApp(NightlyApp):
         for entry in selected_variables_entries:
             mip_table = entry['selected_mip_table']
             variable = entry['selected_variable']
-            selected_variable = '{}/{}'.format(mip_table, variable)
-            selected_variables.append(selected_variable)
+            streams = entry.get('selected_streams', '')
+            if streams:
+                stream_list = streams.split(',')
+                for stream in stream_list:
+                    selected_variable = '{}/{}:{}'.format(mip_table, variable, stream)
+                    selected_variables.append(selected_variable)
+            else:
+                selected_variable = '{}/{}'.format(mip_table, variable)
+                selected_variables.append(selected_variable)
 
         self.setup_config.selected_variables = selected_variables
 
