@@ -50,7 +50,6 @@ def validate_streams(streams, args):
 
     # generate expected filenames
     start, end = request.run_bounds.split()
-    start, end = "".join(start.split("-")[:3]), "".join(end.split("-")[:3])
     file_frequency = stream_file_info.file_frequencies[streams[0]].frequency
 
     if not stream_details:
