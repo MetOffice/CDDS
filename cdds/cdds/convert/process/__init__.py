@@ -585,7 +585,6 @@ class ConvertProcess(object):
             stream: int(self.max_concat_period)
             for stream in self.active_streams
         }
-        print(self._concat_task_periods_years)
         self._concat_task_periods_cylc = {
             stream: 'P{years}Y'.format(years=years)
             for stream, years
@@ -602,7 +601,6 @@ class ConvertProcess(object):
         """
         model_sizing = self._model_params.full_sizing_info()
         if model_sizing is None or model_sizing == {}:
-            print(self.input_model_run_length)
             max_concat_period = self.input_model_run_length
         else:
             # get the max file length for all data dimensions for this model
@@ -639,16 +637,10 @@ class ConvertProcess(object):
             return first_cycle
         else:
             start_date, _ = self.run_bounds()
-            print('Stream: {}'.format(stream))
             concat_period = self._concat_task_periods_cylc[stream]
             aligned_concatenation_dates = TimeRecurrenceParser().parse(f'R/{self.ref_date}/{concat_period}')
-            print('Start date: {}'.format(start_date))
-            print('Reference date: {} and concat period: {}'.format(self.ref_date, concat_period))
-            print('Aligned concatenation dates: {}'.format(aligned_concatenation_dates))
             concat_window_date = aligned_concatenation_dates.get_first_after(start_date)
-            print('Concat window date: {}'.format(concat_window_date))
             cycling_frequency = self._cycling_frequency(stream)
-            print('Cycling frequency: {}'.format(cycling_frequency))
             first_cycle = concat_window_date - DurationParser().parse(cycling_frequency)
             first_cycle = str(first_cycle - start_date)
         return first_cycle
