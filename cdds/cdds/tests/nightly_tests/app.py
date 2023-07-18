@@ -148,11 +148,9 @@ class CreateRequestJsonApp(NightlyApp):
             present_request = suite['use_present_request']
             if present_request:
                 self.logger.info("Copy existing request.json from {} to {}".format(present_request, self.request_file))
-                print("Copy existing request.json from {} to {}".format(present_request, self.request_file))
                 shutil.copyfile(present_request, self.request_file)
             else:
                 self.logger.info("Generate new request json")
-                print("Generate new request json")
                 arguments = self.build_write_request_json_args(suite)
                 exit_code = main_write_rose_suite_request_json(arguments)
                 if exit_code != 0:
