@@ -71,6 +71,7 @@ class MipEra(Enum):
     CMIP6 = "CMIP6"
     GC_MODEL_DEV = "GCModelDev"
     CORDEX = "CORDEX"
+    EERIE = "EERIE"
 
 
 class BasePlugin(CddsPlugin, ABC):
