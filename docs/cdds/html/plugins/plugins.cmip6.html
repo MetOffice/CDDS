@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>cdds.common.plugins.cmip6 package &#8212; CDDS 2.4.1 documentation</title>
+    <title>cdds.common.plugins.cmip6 package &#8212; CDDS 2.5.0.dev0+CDDSO-286_git-wiki-docs-into-sphinx.e59b447-M documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="plugins.base.html" title="cdds.common.plugins.base package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.0.dev0+CDDSO-286_git-wiki-docs-into-sphinx.e59b447-M documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CDDS plugins</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.cmip6 package</a></li> 
       </ul>
@@ -173,8 +173,23 @@ handle model parameters information for CMIP6 models.</p>
 <dd><p>Bases: <a class="reference internal" href="plugins.base.html#cdds.common.plugins.base.base_models.ModelId" title="cdds.common.plugins.base.base_models.ModelId"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdds.common.plugins.base.base_models.ModelId</span></code></a></p>
 <p>Represents the ID of a CMIP6 model.</p>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.Cmip6ModelId.HadGEM3_GC31_HH">
+<span class="sig-name descname"><span class="pre">HadGEM3_GC31_HH</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'HadGEM3-GC31-HH'</span></em><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.Cmip6ModelId.HadGEM3_GC31_HH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.Cmip6ModelId.HadGEM3_GC31_HM">
+<span class="sig-name descname"><span class="pre">HadGEM3_GC31_HM</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'HadGEM3-GC31-HM'</span></em><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.Cmip6ModelId.HadGEM3_GC31_HM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.Cmip6ModelId.HadGEM3_GC31_LL">
 <span class="sig-name descname"><span class="pre">HadGEM3_GC31_LL</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'HadGEM3-GC31-LL'</span></em><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.Cmip6ModelId.HadGEM3_GC31_LL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.Cmip6ModelId.HadGEM3_GC31_MH">
+<span class="sig-name descname"><span class="pre">HadGEM3_GC31_MH</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'HadGEM3-GC31-MH'</span></em><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.Cmip6ModelId.HadGEM3_GC31_MH" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -221,7 +236,105 @@ stored in the data/model directory.</p>
 <dd class="field-odd"><p>New class instance</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Cmip6GridInfoStore</p>
+<dd class="field-even"><p><a class="reference internal" href="#cdds.common.plugins.cmip6.cmip6_models.Cmip6ModelsStore" title="cdds.common.plugins.cmip6.cmip6_models.Cmip6ModelsStore">Cmip6ModelsStore</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HH_Params">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">cdds.common.plugins.cmip6.cmip6_models.</span></span><span class="sig-name descname"><span class="pre">HadGEM3_GC31_HH_Params</span></span><a class="reference internal" href="../_modules/cdds/common/plugins/cmip6/cmip6_models.html#HadGEM3_GC31_HH_Params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HH_Params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters" title="cdds.common.plugins.base.base_models.BaseModelParameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdds.common.plugins.base.base_models.BaseModelParameters</span></code></a></p>
+<p>Class to store the parameters for the HadGEM3_GC31_HH model.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HH_Params.data_request_version">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">data_request_version</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HH_Params.data_request_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the data request version of the HadGEM3_GC31_HH model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Data request version of HadGEM3_GC31_HH</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HH_Params.model_version">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">model_version</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HH_Params.model_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the model version of the HadGEM3_GC31_HH model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Model version of HadGEM3_GC31_HH</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HH_Params.um_version">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">um_version</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HH_Params.um_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the UM version of the HadGEM3_GC31_HH model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>UM version of HadGEM3_GC31_HH</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HM_Params">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">cdds.common.plugins.cmip6.cmip6_models.</span></span><span class="sig-name descname"><span class="pre">HadGEM3_GC31_HM_Params</span></span><a class="reference internal" href="../_modules/cdds/common/plugins/cmip6/cmip6_models.html#HadGEM3_GC31_HM_Params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HM_Params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters" title="cdds.common.plugins.base.base_models.BaseModelParameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdds.common.plugins.base.base_models.BaseModelParameters</span></code></a></p>
+<p>Class to store the parameters for the HadGEM3_GC31_HM model.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HM_Params.data_request_version">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">data_request_version</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HM_Params.data_request_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the data request version of the HadGEM3_GC31_HM model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Data request version of HadGEM3_GC31_HM</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HM_Params.model_version">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">model_version</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HM_Params.model_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the model version of the HadGEM3_GC31_HM model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Model version of HadGEM3_GC31_HM</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HM_Params.um_version">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">um_version</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_HM_Params.um_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the UM version of the HadGEM3_GC31_HM model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>UM version of HadGEM3_GC31_HM</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -268,6 +381,55 @@ stored in the data/model directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>UM version of HadGEM3_GC31_LL</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_MH_Params">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">cdds.common.plugins.cmip6.cmip6_models.</span></span><span class="sig-name descname"><span class="pre">HadGEM3_GC31_MH_Params</span></span><a class="reference internal" href="../_modules/cdds/common/plugins/cmip6/cmip6_models.html#HadGEM3_GC31_MH_Params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_MH_Params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters" title="cdds.common.plugins.base.base_models.BaseModelParameters"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdds.common.plugins.base.base_models.BaseModelParameters</span></code></a></p>
+<p>Class to store the parameters for the HadGEM3_GC31_MH model.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_MH_Params.data_request_version">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">data_request_version</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_MH_Params.data_request_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the data request version of the HadGEM3_GC31_MH model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Data request version of HadGEM3_GC31_MH</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_MH_Params.model_version">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">model_version</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_MH_Params.model_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the model version of the HadGEM3_GC31_MH model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Model version of HadGEM3_GC31_MH</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_MH_Params.um_version">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">um_version</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_models.HadGEM3_GC31_MH_Params.um_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the UM version of the HadGEM3_GC31_MH model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>UM version of HadGEM3_GC31_MH</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>str</p>
@@ -567,12 +729,26 @@ about the global attributes.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_plugin.Cmip6Plugin.model_file_info">
+<span class="sig-name descname"><span class="pre">model_file_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">cdds.common.plugins.file_info.ModelFileInfo</span></span></span><a class="reference internal" href="../_modules/cdds/common/plugins/cmip6/cmip6_plugin.html#Cmip6Plugin.model_file_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_plugin.Cmip6Plugin.model_file_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns information to the simulation model files related to CMIP6.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Information to the simulation model files</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>GlobalModelFileInfo</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="cdds.common.plugins.cmip6.cmip6_plugin.Cmip6Plugin.models_parameters">
 <span class="sig-name descname"><span class="pre">models_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">cdds.common.plugins.models.ModelParameters</span></span></span><a class="reference internal" href="../_modules/cdds/common/plugins/cmip6/cmip6_plugin.html#Cmip6Plugin.models_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdds.common.plugins.cmip6.cmip6_plugin.Cmip6Plugin.models_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the model parameters of the CMIP6 model with given model id.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>model_id</strong> (<em>str</em>) – </p>
+<dd class="field-odd"><p><strong>model_id</strong> (<em>str</em>) – Model ID</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Model parameters of model</p>
@@ -716,7 +892,7 @@ are defined in a json file.</p>
         <li class="right" >
           <a href="plugins.base.html" title="cdds.common.plugins.base package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.0.dev0+CDDSO-286_git-wiki-docs-into-sphinx.e59b447-M documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >CDDS plugins</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.cmip6 package</a></li> 
       </ul>

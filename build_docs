@@ -53,6 +53,8 @@ build_docs() {
     # The name of the doc directory is always the value in $DOC_BUILD_DIR
     CDDS_COMPONENTS="cdds mip_convert"
     . ${CDDS_SRC_DIR}/setup_env_for_devel ${CDDS_SRC_DIR}
+    # ensure that CDDS wiki submodule is updated
+    git submodule update --init
     for COMPONENT in $CDDS_COMPONENTS
     do
         mkdir -p ${DOC_BUILD_DIR}/$COMPONENT/

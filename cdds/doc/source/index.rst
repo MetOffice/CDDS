@@ -6,17 +6,18 @@
 Welcome to CDDS's documentation!
 ================================
 
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    about
+   wiki/Home.md
    installation
    release_history
    support
    glossary
    plugins/index.rst
-
 
 
 Indices and tables

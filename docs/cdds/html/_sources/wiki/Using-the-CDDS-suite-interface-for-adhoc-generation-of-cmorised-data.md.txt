@@ -1,0 +1,133 @@
+
+
+# Generating CMORised data with CDDS for an arbitrary activity id / experiment
+
+As of version v2.4.4 CDDS can generate CMORised data for an arbitrary activity id (MIP) or experiment using a cylc suite to manage the whole process.
+
+To start launch this process the following will be needed;
+* a project framework to work within
+* a request JSON file 
+* list of the variables you want to process and the streams from which they can be produced
+* local storage ($SCRATCH)
+* a MOOSE account and somewhere to put the data on MASS (optional)
+
+## The project framework
+
+The tools we have were written primarily for CMIP6 to CMORise HadGEM3 and UKESM1 model output, but can be applied to other projects provided an appropriate set of variable and metadata definitions are available. Defining a new project, e.g. CMIP6, requires a reasonable amount of information as does adding an entirely new model configuration and the CDDS team should be involved in discussions to do this if you need it. However, it is straightforward to use an existing project and include new activities and experiments.
+
+When run in "relaxed" mode CDDS will allow you to use any value for the `mip` (activity id) and `experiment_id`. We have a general purpose project for users interested in CMORising data for adhoc use called [GCModelDev](link required) which takes the CMIP6 variable definitions and standards, to which we can add new variables as required.  This is not intended for preparing data for immediate publication to locations such as ESGF, but can be used for analysis alongside CMIP6 data and for feeding in to tools that base themselves on the same data structure/standards.
+
+## The Request JSON file
+
+A request JSON file contains a number of fields that guide what CDDS processing does and can be viewed as a "control" file with a reasonable number of arguments. The simplest approach is to copy an existing file and edit certain fields.
+
+Examples:
+* [GCModelDev HadGEM3-GC31-LL](GCModelDev-HadGEM3-GC31-LL-request-file-example)
+* [GCModelDev HadGEM3-GC31-LL using ens class](GCModelDev-HadGEM3-GC31-LL-request-file-example-(ens-MASS-data-class))
+* [GCModelDev HadGEM3-GC31-MM](GCModelDev-HadGEM3-GC31-MM-request-file-example)
+* [GCModelDev UKESM1-0-LL](GCModelDev-UKESM1-0-LL-request-file-example)
+
+If you are working with a particular model then to set up a new CDDS processing "package", the user would need to alter the `experiment_id` and/or `variant_label` fields, possibly the `mip`, and the `suite_id` along with a set of streams
+
+In future this JSON file will be restructured (CDDS v2.6)
+
+## Walkthrough
+
+### 1. Activate CDDS tools version 2.4.4.
+Open a shell (needs to be bash) and run
+```
+source ~cdds/bin/setup_env_for_cdds 2.4.4
+```
+### 2. Take copy of request template JSON file 
+Confirm/ modify the following fields:
+
+1. experiment_id [1]
+1. mip [1]
+1. suite_id
+1. variant_label [2]
+1. streams [3], start and end dates [4]
+  
+Note that CMIP6 requet JSON files can be created using `write_rose_suite_request_json`, see [here](https://github.com/MetOffice/CDDS/wiki/CDDS-Operational-Procedure-v2.4#create-the-request-json-file)
+
+[1] Only use letters, numbers and "-". Processing will likely break if an underscore or space is used.
+
+[2] Has the form `r?i?p?f?` -- each index can be up to 4 digits. Do not use leading zeros (e.g. r0001i1p1f1) as this will cause issues.
+
+[3] Streams: there needs to be an entry of the form "run_bounds_for_stream_???" for each model output stream you wish to process. The list of streams to process can be cut down when modifying the CDDS suite (see step X), but if there are no varibles to be processed for a stream then there may be failures
+
+[4] Start and end dates: these  appear in the run_bounds and run_bounds_for_stream_??? fields and need to be changed consistently for all streams.  
+    
+Note that we will be attempting to make the request file easier to work with in the coming months.
+
+### 3. Set up a list of variables
+
+Create a text file with the list of variables or copy and modify an existing list. Each line in the file should have the form
+```
+<mip table>/<variable name>:<stream>
+```
+e.g. 
+```
+Amon/tas:ap5
+```
+If you are using a suite with the CMIP6 STASH set up then you can add the default stream to a list of variables using the command
+```
+stream_mappings --varfile <filename without streams> --outfile <new file with streams>
+```
+If you are not using a suite with the CMIP6 STASH configuration then contact us for advice as this process will need to be performed by hand.
+
+### 4. check out a copy of the CDDS processing suite
+
+Run the following command after replacing values within <>
+```
+checkout_processing_suite <name for processing suite> \
+--branch_name relaxed_adhoc_2.4.4 \
+--request_file <path to request JSON> \
+--variables_file <path to text file with list of variables> \
+--suite_base_name <name for processing suite> \
+--suite_destination .
+```
+e.g.
+```
+checkout_processing_suite my-cdds-test \
+--branch_name relaxed_adhoc_2.4.4 \
+--request_file ~hadmm/CDDS/relaxed_example/request.json \
+--variables_file ~hadmm/CDDS/relaxed_example/variables \
+--suite_base_name my-cdds-test \
+--suite_destination .
+```
+A directory containing a rose suite will be placed in a subdirectory under the location specified in --suite_destination.  If this is not specified it will be checked out under ~/roses/
+
+### 5. Edit the suite
+
+cd into the new directory ("my-cdds-test") and run rose edit
+
+All useful fields are under the "suite conf" -> "General Configuration" section. You can remove streams at this point if you do not wish to include them in the processing.
+
+You can select "skip Transfer" if you do not wish to archive data to MASS.
+
+Data archived to MASS by CDDS will be put into a data structure similar to that used for CMIP (we may be able to reconfigure this at a later date). The bottom level for this will be <output mass root>/<output mass suffix>. You should
+a) modify “output mass root": insert your moose user name (firstname.surname) into the template provided
+b) check "output mass suffix": if you want the data to end up in a different location modify this string
+
+For CMIP6 production work the output mass root should be left blank and the output mass suffix should be `production`
+
+### 6. Run the suite
+
+you should see the CDDS processing suite start up running a cdds_setup task, after which there will be one task per stream in the "PROCESSING_QUEUE" group. each of these tasks launches another suite with its name including the stream.
+
+In the example above the task will launch a single suite called `my-cdds-test_ap5`
+
+Monitor each of the per stream suites
+
+If there are failures (and there are multiple retries on most tasks, first try retriggering, and if this doesn't work contact us via [cdds@metoffice.gov.uk](mailto:cdds@metoffice.gov.uk) for advice.
+
+If the processing works smoothly then each of the per stream suites should complete and finally the task "cdds_complete" in the CDDS processing suite will complete when it has seen all of the per stream suites shut down.
+
+Data will end up in MASS under (for this example)
+```
+moose:/adhoc/users/matthew.mizielinski/cdds_data/GCModelDev/MOHCCP/MOHC/HadGEM3-GC31-LL/my-experiment-id/r1i1p1f3/Amon/tas/gn/embargoed/v20230511/tas_Amon_HadGEM3-GC31-LL_my-experiment-id_r1i1p1f3_gn_197901-201412.nc
+```
+and on disk under
+```
+$SCRATCH/cdds_data/GCModelDev/MOHCCP/HadGEM3-GC31-LL/my-experiment-id/r1i1p1f3/round-1/output/ap5/Amon/tas
+```

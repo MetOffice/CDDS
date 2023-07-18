@@ -1,0 +1,37 @@
+```json
+{
+  "atmos_timestep":"1200",
+  "branch_method":"no parent",
+  "calendar":"360_day",
+  "child_base_date":"1850-01-01-00-00-00",
+  "config_version":"1.0.1",
+  "experiment_id":"my-1pctCO2",
+  "external_plugin":"",
+  "external_plugin_location":"",
+  "global_attributes":{
+    "mass_ensemble_member":"r011i1p1f1",
+  },
+  "institution_id":"MOHC",
+  "license":"GCModelDev model data is licensed under the Open Government License v3 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)",
+  "mass_data_class":"ens",
+  "mass_ensemble_member":"r011i1p1f1",
+  "mip":"MOHCCP",
+  "mip_era":"GCModelDev",
+  "mip_table_dir":"/home/h03/cdds/etc/mip_tables/GCModelDev/0.0.9",
+  "model_id":"HadGEM3-GC31-LL",
+  "model_type":"AOGCM AER",
+  "package":"round-1",
+  "request_id":"not used",
+  "run_bounds":"1950-01-01-00-00-00 2015-01-01-00-00-00",
+  "run_bounds_for_stream_ap5":"1950-01-01-00-00-00 2015-01-01-00-00-00",
+  "run_bounds_for_stream_onm":"1950-01-01-00-00-00 2015-01-01-00-00-00",
+  "sub_experiment_id":"none",
+  "suite_branch":"trunk",
+  "suite_id":"u-cp832",
+  "suite_revision":"not used except with data request",
+  "variant_label":"r21i1p1f3"
+}
+
+
+
+```

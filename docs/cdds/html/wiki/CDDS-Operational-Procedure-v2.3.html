@@ -1,0 +1,508 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>CDDS Operational Procedure (v2.3) &#8212; CDDS 2.5.0.dev0+CDDSO-286_git-wiki-docs-into-sphinx.e59b447-M documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.0.dev0+CDDSO-286_git-wiki-docs-into-sphinx.e59b447-M documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CDDS Operational Procedure (v2.3)</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cdds-operational-procedure-v2-3">
+<h1>CDDS Operational Procedure (v2.3)<a class="headerlink" href="#cdds-operational-procedure-v2-3" title="Permalink to this headline">¶</a></h1>
+<p>The definitions of the italicised phrases can be found in the <a class="reference external" href="https://code.metoffice.gov.uk/doc/cdds/mip_convert/html/glossary.html">Glossary</a>.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">&lt;script&gt;</span> <span class="pre">-h</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;script&gt;</span> <span class="pre">--help</span></code> to print information about the script, including available parameters.</p>
+<p>A simulation for the pre-industrial control from UKESM will be used as an example in these instructions.</p>
+<section id="changes-relative-to-cdds-v2-2">
+<h2>Changes relative to CDDS v2.2<a class="headerlink" href="#changes-relative-to-cdds-v2-2" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>Before running the CDDS Operational Procedure, please ensure that:</p>
+<ul>
+<li><p>you own a <em>CDDS operational simulation ticket</em> (see the <a class="reference external" href="https://code.metoffice.gov.uk/trac/cdds/wiki/CMIP6Simulations">list of CDDS operational simulation tickets</a>) that will monitor the processing of a CMIP6 simulation using CDDS.</p></li>
+<li><p>you belong to the <code class="docutils literal notranslate"><span class="pre">cdds</span></code> group (type <code class="docutils literal notranslate"><span class="pre">groups</span></code> on the command line to print the groups a user is in)</p></li>
+<li><p>you have write permissions to <code class="docutils literal notranslate"><span class="pre">moose:/adhoc/projects/cdds/</span></code> on MASS, i.e. is your moose username included in the access control list output by the command</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>moo<span class="w"> </span>getacl<span class="w"> </span>moose:/adhoc/projects/cdds
+</pre></div>
+</div>
+</li>
+<li><p>you use a bash shell. CDDS uses Conda. Conda can experience problems when running in any other shells except of bash.
+You can check which shell you use by following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="nv">$SHELL</span>
+</pre></div>
+</div>
+</li>
+<li><p>If the result is not <code class="docutils literal notranslate"><span class="pre">/bin/bash</span></code>, you can switch to a bash shell by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/bin/bash
+</pre></div>
+</div>
+</li>
+<li><p>If any of the above are not true, please contact the <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">CDDS Team</a>.</p></li>
+</ul>
+</li>
+</ul>
+<p>Previously a <code class="docutils literal notranslate"><span class="pre">.cdds_credentials</span></code> file was required in order to connect to CREM, but this is no longer required for CDDS users following the retirement of CREM.</p>
+<section id="partial-processing-of-a-simulation">
+<h3>Partial processing of a simulation<a class="headerlink" href="#partial-processing-of-a-simulation" title="Permalink to this headline">¶</a></h3>
+<p>In certain circumstances it may be desirable to process and submit a subset of an entire simulation, i.e. the first 250 years of the <code class="docutils literal notranslate"><span class="pre">esm-piControl</span></code> simulation. Please contact the <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">CDDS Team</a> to discuss this prior to starting processing to</p>
+<ol class="arabic simple">
+<li><p>Get appropriate guidance on the steps needed to correctly construct the requested variables file in CDDS Prepare</p></li>
+<li><p>Arrange for an appropriate <a class="reference external" href="https://errata.es-doc.org/static/index.html">Errata</a> to be issued following submission of data sets.</p></li>
+</ol>
+</section>
+<section id="what-to-do-when-things-go-wrong">
+<h3>What to do when things go wrong<a class="headerlink" href="#what-to-do-when-things-go-wrong" title="Permalink to this headline">¶</a></h3>
+<p>On occasion issues will arise with tasks performed by users of CDDS and these will trigger <code class="docutils literal notranslate"><span class="pre">CRITICAL</span></code> error messages in the logs and usually require user intervention. Many simple issues (MASS/MOOSE or file system problems) can be resolved by re-triggering tasks.
+When you take any action please ensure that you update your <em>CDDS operational simulation ticket</em> and if support is needed contact the <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">CDDS Team</a>.</p>
+</section>
+</section>
+</section>
+<section id="set-up-the-cdds-operational-simulation-ticket">
+<h1>Set up the CDDS operational simulation ticket<a class="headerlink" href="#set-up-the-cdds-operational-simulation-ticket" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Ticket</strong>: Select <code class="docutils literal notranslate"><span class="pre">start</span> <span class="pre">work</span></code> on the <em>CDDS operational simulation ticket</em> (so that the status is <code class="docutils literal notranslate"><span class="pre">in_progress</span></code>) to indicate that work is starting.</p></li>
+</ul>
+</section>
+<section id="activate-the-cdds-install">
+<h1>Activate the CDDS install<a class="headerlink" href="#activate-the-cdds-install" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic">
+<li><p>Setup the environment to use the central installation of CDDS and its dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~cdds/bin/setup_env_for_cdds<span class="w"> </span>&lt;cdds_version&gt;
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">&lt;cdds_version&gt;</span></code> is the version of CDDS you wish to use, e.g. <code class="docutils literal notranslate"><span class="pre">2.1.0</span></code>. Unless instructed otherwise
+you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and
+this version should be used in all stages of the package being processed. If in doubt contact the CDDS team
+for advice.</p>
+</li>
+<li><p><strong>Ticket</strong>: Record the version of CDDS being used on the <em>CDDS operational simulation ticket</em>.</p></li>
+</ol>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>The available version numbers for this script can be found <a class="reference external" href="https://code.metoffice.gov.uk/trac/cdds/browser/main/tags">here</a>, but the above command may lead to unexpected results if you attempt activate versions before <code class="docutils literal notranslate"><span class="pre">1.1.2</span></code>.</p></li>
+<li><p>If you wish to deactivate the CDDS environment then you can use the command <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">deactivate</span></code>.</p></li>
+</ul>
+<section id="run-cdds-prepare">
+<h2>Run CDDS Prepare<a class="headerlink" href="#run-cdds-prepare" title="Permalink to this headline">¶</a></h2>
+<section id="create-the-request-json-file">
+<h3>Create the request JSON file<a class="headerlink" href="#create-the-request-json-file" title="Permalink to this headline">¶</a></h3>
+<p>Following the retirement of CREM the request JSON file is constructed from information in the <code class="docutils literal notranslate"><span class="pre">rose-suite.info</span></code> files within each suite.</p>
+<p><strong>IMPORTANT: if the rose-suite.info file contains incorrect information this will be propagated through CDDS. As such it is critically important that the information in these files is correct</strong></p>
+<p>To construct the request JSON file take the following steps</p>
+<ol class="arabic">
+<li><p>Set up a working directory</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>cdds-example-1
+<span class="nb">cd</span><span class="w"> </span>cdds-example-1
+<span class="nb">export</span><span class="w"> </span><span class="nv">WORKING_DIR</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
+</pre></div>
+</div>
+<p>Add the location of your working directory to the <em>CDDS operational simulation ticket</em>.</p>
+</li>
+<li><p>Collect required information on the rose suite for the simulation;</p>
+<ul>
+<li><p>suite id, e.g. <code class="docutils literal notranslate"><span class="pre">u-aw310</span></code></p></li>
+<li><p>branch, e.g. <code class="docutils literal notranslate"><span class="pre">cdds</span></code></p></li>
+<li><p>revision; If in doubt use the following command to find the latest revision of the suite branch</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rosie<span class="w"> </span>lookup<span class="w"> </span>--prefix<span class="o">=</span>u<span class="w"> </span>--query<span class="w"> </span>project<span class="w"> </span>eq<span class="w"> </span>u-cmip6<span class="w"> </span>and<span class="w"> </span>idx<span class="w"> </span>eq<span class="w"> </span>&lt;suite<span class="w"> </span>id&gt;<span class="w"> </span>and<span class="w"> </span>branch<span class="w"> </span>eq<span class="w"> </span>&lt;branch&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p>Create the request JSON file;</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>write_rose_suite_request_json<span class="w"> </span>&lt;suite<span class="w"> </span>id&gt;<span class="w"> </span>&lt;branch&gt;<span class="w"> </span>&lt;revision&gt;<span class="w"> </span>&lt;package<span class="w"> </span>name&gt;<span class="w"> </span><span class="o">[</span>&lt;list<span class="w"> </span>of<span class="w"> </span>streams&gt;<span class="o">]</span>
+</pre></div>
+</div>
+<p>e.g.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>write_rose_suite_request_json<span class="w"> </span>u-aw310<span class="w"> </span>cdds<span class="w"> </span><span class="m">115492</span><span class="w"> </span>round-20<span class="w"> </span>ap4<span class="w"> </span>ap5<span class="w"> </span>ap6<span class="w"> </span>onm<span class="w"> </span>inm
+</pre></div>
+</div>
+<p>If necessary the start and end dates for processing can be overridden using the <code class="docutils literal notranslate"><span class="pre">--start_date</span></code> and <code class="docutils literal notranslate"><span class="pre">--end_date</span></code> arguments. Please consult with the <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">CDDS Team</a> if you believe this is necessary.</p>
+</li>
+<li><p>For information: the log file and request JSON file are written to the current working directory</p></li>
+</ol>
+</section>
+<section id="create-the-cdds-directory-structure">
+<h3>Create the CDDS directory structure<a class="headerlink" href="#create-the-cdds-directory-structure" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p>Create the CDDS directory structure for the simulation; the data are stored in <code class="docutils literal notranslate"><span class="pre">&lt;root_data_dir&gt;</span></code> (== <code class="docutils literal notranslate"><span class="pre">/project/cdds_data/</span></code>), while the processing artefacts (e.g. logs) are stored separately in <code class="docutils literal notranslate"><span class="pre">&lt;root_proc_dir&gt;</span></code> (== <code class="docutils literal notranslate"><span class="pre">/project/cdds/proc/</span></code>) in directories specific to each CDDS component:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>create_cdds_directory_structure<span class="w"> </span>request.json
+</pre></div>
+</div>
+</li>
+<li><p>For information: the log file is written to the current working directory and instructions on how to set up
+symbolic links is written to the terminal.</p></li>
+<li><p>Set some useful environmental variables to access the directories:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">CDDS_PROC_DIR</span><span class="o">=</span>/&lt;root_proc_dir&gt;/&lt;mip_era&gt;/&lt;mip&gt;/&lt;model_id&gt;_&lt;experiment_id&gt;_&lt;variant_label&gt;/&lt;package&gt;/
+<span class="nb">export</span><span class="w"> </span><span class="nv">CDDS_DATA_DIR</span><span class="o">=</span>/&lt;root_data_dir&gt;/&lt;mip_era&gt;/&lt;mip&gt;/&lt;model_id&gt;/&lt;experiment_id&gt;/&lt;variant_label&gt;/&lt;package&gt;/
+ls<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span>
+ls<span class="w"> </span><span class="nv">$CDDS_DATA_DIR</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">CDDS_PROC_DIR</span><span class="o">=</span>/project/cdds/proc/CMIP6/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/cdds-example-1
+<span class="nb">export</span><span class="w"> </span><span class="nv">CDDS_DATA_DIR</span><span class="o">=</span>/project/cdds_data/CMIP6/CMIP/UKESM1-0-LL/piControl/r1i1p1f2/cdds-example-1
+</pre></div>
+</div>
+<p>Symbolic links can be used to persist these paths across sessions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ln<span class="w"> </span>-s<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span><span class="w"> </span>proc
+ln<span class="w"> </span>-s<span class="w"> </span><span class="nv">$CDDS_DATA_DIR</span><span class="w"> </span>data
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="generate-the-requested-variables-list">
+<h3>Generate the <em>requested variables list</em><a class="headerlink" href="#generate-the-requested-variables-list" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p>Generate the <em>requested variables list</em> for the simulation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>prepare_generate_variable_list<span class="w"> </span>request.json<span class="w"> </span>-p
+</pre></div>
+</div>
+</li>
+<li><p>Run the following command to identify critical issues; add any output to a <a class="reference external" href="https://code.metoffice.gov.uk/trac/cdds/newticket?milestone=Backlog&amp;component=CDDS+Prepare&amp;summary=Critical+issues+from+CDDS+Prepare+for+CMIP6+simulation+%3Cmodel_id%3E+%3Cexperiment_id%3E+%3Cvariant_id%3E">new ticket</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>grep<span class="w"> </span>CRITICAL<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span>/prepare/log/prepare_generate_variable_list_&lt;datetime&gt;.log<span class="w"> </span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">&lt;datetime&gt;</span></code> is of the form <code class="docutils literal notranslate"><span class="pre">YYYY-MM-DDTHHMMZ</span></code> then add a comment to the <em>CDDS operational
+simulation ticket</em> specifying the ticket number of the new ticket (<code class="docutils literal notranslate"><span class="pre">#&lt;ticket_number&gt;</span></code>)</p>
+</li>
+<li><p>For information: the <em>requested variables list</em> is written to <code class="docutils literal notranslate"><span class="pre">$CDDS_PROC_DIR/prepare/</span></code></p></li>
+<li><p>If additional variables are required beyond what is specified in the CMIP6 data request contact <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">CDDS Team</a> for advice.</p></li>
+<li><p><strong>Ticket</strong>: Add a comment to the <em>CDDS operational simulation ticket</em> specifying that CDDS Prepare has been completed.</p></li>
+</ol>
+<p><strong>Note: any alterations to the variable list, for example inserting extra variables, must be done at this point</strong>. Discuss this with the <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">CDDS Team</a> if you require guidance.</p>
+</section>
+<section id="optional-processing-specific-variables">
+<h3>Optional: Processing specific variables<a class="headerlink" href="#optional-processing-specific-variables" title="Permalink to this headline">¶</a></h3>
+<p>If running the processing of specific variables note that the following commands can be used:</p>
+<ul>
+<li><p>Restrict processing to a selection of variables (i.e. switch every other variable off</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>prepare_select_variables<span class="w"> </span>&lt;requested<span class="w"> </span>variables<span class="w"> </span>file&gt;<span class="w"> </span><span class="se">\</span>
+<span class="o">[</span>&lt;mip_table/variable1&gt;<span class="w"> </span>&lt;mip_table/variable2&gt;<span class="w"> </span>...<span class="o">]</span>
+</pre></div>
+</div>
+</li>
+<li><p>Insert a set of variables not already present</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>prepare_alter_variable_list<span class="w"> </span>&lt;requested<span class="w"> </span>variables<span class="w"> </span>file&gt;<span class="w"> </span>insert<span class="w"> </span><span class="se">\</span>
+<span class="o">[</span>&lt;mip_table/variable1&gt;<span class="w"> </span>&lt;mip_table/variable2&gt;<span class="w"> </span>...<span class="o">]</span><span class="w"> </span><span class="se">\</span>
+<span class="s2">&quot;Comment describing why this change has been made&quot;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Particular care must be taken when constructing inserting or selecting variables as the MIP table and variable names must be correctly specified for this to function.</p>
+<p><strong>Important</strong>: If used please record these commands on the <em>CDDS operational simulation ticket</em>.</p>
+</section>
+<section id="for-information-interpreting-the-requested-variables-file">
+<h3>For Information: Interpreting the requested variables file<a class="headerlink" href="#for-information-interpreting-the-requested-variables-file" title="Permalink to this headline">¶</a></h3>
+<p>The requested variables file is a JSON format file with metadata and a list of entries for each variable connected with the experiment in the Data Request. This file can be converted to a table using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>create_variables_table_file<span class="w"> </span>&lt;requested<span class="w"> </span>variables<span class="w"> </span>file&gt;<span class="w"> </span>&lt;table<span class="w"> </span>file<span class="w"> </span>name&gt;
+</pre></div>
+</div>
+<p>which can then be viewed as text, imported into excel or otherwise manipulated. The following process may be used to list the variables that are active, i.e. CDDS will try to produce them;</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create table file (tab separated text)</span>
+create_variables_table_file<span class="w"> </span>&lt;requested<span class="w"> </span>variables<span class="w"> </span>file&gt;<span class="w"> </span>table.txt
+<span class="c1"># Select first three columns of table; </span>
+<span class="c1">#   MIP table, variable name and active status (True/False)</span>
+cut<span class="w"> </span>-f1-3<span class="w"> </span>table.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>True
+</pre></div>
+</div>
+<p>Note that whether the variables listed are attempted by a run through of CDDS depends on which streams (which are loosely associated with frequency) are included when constructing the request JSON file.</p>
+<p><strong>Important: do not try to edit the requested variables file by hand.</strong> This will render the file unreadable as CDDS will validate checksums within the file before running. This is intended to ensure that the motivation for any changes is properly recorded.</p>
+</section>
+</section>
+<section id="run-cdds-convert">
+<h2>Run CDDS Convert<a class="headerlink" href="#run-cdds-convert" title="Permalink to this headline">¶</a></h2>
+<section id="launch-cdds-convert-processes">
+<h3>Launch CDDS Convert Processes<a class="headerlink" href="#launch-cdds-convert-processes" title="Permalink to this headline">¶</a></h3>
+<p>Following changes at v2.1.0 all subsequent CDDS components are executed as part of <code class="docutils literal notranslate"><span class="pre">cdds_convert</span></code> by default with the exception of the final [#RunCDDSTeardown Tear Down] step.</p>
+<ol class="arabic">
+<li><p><strong>If running production work</strong> launch CDDS Convert using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cdds_convert<span class="w"> </span>request.json<span class="w"> </span>--output_mass_suffix<span class="w"> </span>production
+</pre></div>
+</div>
+<p>If work is for testing, development or training <strong>you must omit the <code class="docutils literal notranslate"><span class="pre">--output_mass_suffix</span></code> argument</strong></p>
+</li>
+<li><p>For information Streams can be sub-selected using the <code class="docutils literal notranslate"><span class="pre">--streams</span></code> argument and there are also arguments that can be used to alter the default cycling frequencies and memory limits.</p></li>
+<li><p>For information: For each stream for which there is work required, i.e. the name of the stream was included when creating the request JSON file and there are active variables requiring that stream in the <em>requested variables file</em> produced by CDDS Prepare, a cylc suite will be launched.</p></li>
+</ol>
+</section>
+<section id="monitor-conversion-suites">
+<h3>Monitor conversion suites<a class="headerlink" href="#monitor-conversion-suites" title="Permalink to this headline">¶</a></h3>
+<p>Each of the suites launched by CDDS Convert requires monitoring. This can be done using the command line tool <code class="docutils literal notranslate"><span class="pre">cylc</span> <span class="pre">gscan</span></code> to obtain a window with an updating summary of suites progress or equivalently the <a class="reference external" href="http://fcm1/cylc-review/">Cylc Review</a> online tools.
+Conversion suites will usually be named <code class="docutils literal notranslate"><span class="pre">cdds_&lt;model</span> <span class="pre">id&gt;_&lt;experiment</span> <span class="pre">id&gt;_&lt;variant_label&gt;_&lt;stream&gt;</span></code> and each stream will run completely independently.
+If a suite has issues, due to task failure, it will stall and you will receive an e-mail.</p>
+<p>If you hit issues or are unsure how to proceed update the <em>CDDS operational simulation ticket</em> for your package with anything you believe is relevant (include the location of your working directory) and contact the <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">CDDS Team</a> for advice.</p>
+<p>The conversion suites run the following steps</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_extract_&lt;stream&gt;</span></code></p>
+<ul>
+<li><p>Run CDDS Extract for this stream.</p></li>
+<li><p>Runs in <code class="docutils literal notranslate"><span class="pre">long</span></code> queue with a wall time of 2 days.</p></li>
+<li><p>If there are any issues they will be reported in the <code class="docutils literal notranslate"><span class="pre">job.err</span></code> log file in the suite and the
+<code class="docutils literal notranslate"><span class="pre">$CDDS_PROC_DIR/extract/log/cdds_extract_&lt;stream&gt;_&lt;date</span> <span class="pre">stamp&gt;.log</span></code> log file and the <strong>task will fail</strong>.</p></li>
+<li><p>The extraction task will not automatically resubmit if it fails and manual intervention is required to proceed.</p></li>
+<li><p>Most issues are related to either MASS (i.e. moo commands failing), file system anomalies (failure to create files /directories) or running out of time.</p></li>
+<li><p>Identify issues using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>grep<span class="w"> </span>CRITICAL<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span>/extract/log/cdds_extract_&lt;stream&gt;_&lt;date<span class="w"> </span>stamp&gt;.log
+</pre></div>
+</div>
+</li>
+<li><p>If the issue appears to be due to MASS issues you can re-run the failed CDDS Extract job by re-triggering the <code class="docutils literal notranslate"><span class="pre">run_extract_&lt;stream&gt;</span></code> task via the cylc gui or via the cylc command line tools;</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cylc<span class="w"> </span>trigger<span class="w"> </span>cdds_&lt;model<span class="w"> </span>id&gt;_&lt;experiment<span class="w"> </span>id&gt;_&lt;variant<span class="w"> </span>label&gt;_&lt;stream&gt;<span class="w"> </span>run_extract_&lt;stream&gt;:failed
+</pre></div>
+</div>
+</li>
+<li><p>If in doubt update your <em>CDDS operational simulation ticket</em> and contact <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">CDDS Team</a> for advice.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">setup_output_dir_&lt;stream&gt;</span></code></p>
+<ul class="simple">
+<li><p>Create output directories for conversion output</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mip_convert_&lt;stream&gt;_&lt;grid</span> <span class="pre">group&gt;</span></code></p>
+<ul class="simple">
+<li><p>Run MIP Convert to produce output files for a small time window for this simulation.</p></li>
+<li><p>Will retry up to 3 times before suite stalls.</p></li>
+<li><p>CRITICAL issues are appended to <code class="docutils literal notranslate"><span class="pre">$CDDS_PROC_DIR/convert/log/critical_issues.log</span></code> (this file will not exist if no critical issues arise). These will likely need user action to correct for – update your <em>CDDS operational simulation ticket</em> and contact <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">CDDS Team</a> for advice.</p></li>
+<li><p>A variant named <code class="docutils literal notranslate"><span class="pre">mip_convert_first_&lt;stream&gt;_&lt;grid</span> <span class="pre">group&gt;</span></code> may be launched to align the cycling dates with the concatenation processing.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">finaliser_&lt;stream&gt;</span></code></p>
+<ul class="simple">
+<li><p>Ensures that concatenation tasks are launched once all MIP Convert tasks have been successfully performed for a particular time range. <em>Should</em> never fail</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">organise_files_&lt;stream&gt;</span></code></p>
+<ul>
+<li><p>Re-arranges the output files on disk from a directory structure created by the MIP Convert tasks of the form</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$CDDS_DATA_DIR</span>/output/&lt;stream&gt;_mip_convert/&lt;YYYY-MM-DD&gt;/&lt;grid&gt;/&lt;files&gt;
+</pre></div>
+</div>
+<p>to</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$CDDS_DATA_DIR</span>/output/&lt;stream&gt;_concat/&lt;MIP<span class="w"> </span>table&gt;/&lt;variable<span class="w"> </span>name&gt;/&lt;files&gt;
+</pre></div>
+</div>
+</li>
+<li><p>ready for concatenation. A variation named <code class="docutils literal notranslate"><span class="pre">organise_files_final_&lt;stream&gt;</span></code> does the same thing but at the end of the conversion process.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mip_concatenate_setup_&lt;stream&gt;</span></code></p>
+<ul class="simple">
+<li><p>construct a list of concatenation jobs that must be performed</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mip_concatenate_batch_&lt;stream&gt;</span></code></p>
+<ul>
+<li><p>Perform the concatenation commands (<code class="docutils literal notranslate"><span class="pre">ncrcat</span></code>) required to join small files together.</p></li>
+<li><p>Runs in <code class="docutils literal notranslate"><span class="pre">long</span></code> queue with a wall time of 2 days and can retry up to 3 times before suite stalls (failures are usually due to running out of time while performing a concatenation).</p></li>
+<li><p>Only one <code class="docutils literal notranslate"><span class="pre">mip_concatenate_batch_&lt;stream&gt;</span></code> task can run at one time.</p></li>
+<li><p>Issues can be identified using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>grep<span class="w"> </span>CRITICAL<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span>/convert/log/mip_concatenate_*.log
+</pre></div>
+</div>
+<p>if any critical issues arise or tasks fail update your <em>CDDS operational simulation ticket</em> and contact the <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">CDDS Team</a> for advice.</p>
+</li>
+<li><p>Output data is written to</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$CDDS_DATA_DIR</span>/output/&lt;stream&gt;/&lt;MIP<span class="w"> </span>table&gt;/&lt;variable<span class="w"> </span>name&gt;/&lt;files&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">run_qc_&lt;stream&gt;</span></code></p>
+<ul>
+<li><p>Run the QC process on output data for this stream</p></li>
+<li><p>Produces a report at</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$CDDS_PROC_DIR</span>/qualitycheck/report_&lt;stream&gt;_&lt;datestamp&gt;.json
+</pre></div>
+</div>
+<p>and a list of variables which pass the quality checks at</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$CDDS_PROC_DIR</span>/qualitycheck/approved_variables_&lt;stream&gt;_&lt;datestamp&gt;.txt
+</pre></div>
+</div>
+<p>and a log file at</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$CDDS_PROC_DIR</span>/qualitycheck/log/qc_run_and_report_&lt;stream&gt;_&lt;datestamp&gt;.log
+</pre></div>
+</div>
+</li>
+<li><p>An example of a clean QC report can be found at wiki:Quality/ExampleJSONReport and the approved variables file will have one line per successfully produced dataset of the form <code class="docutils literal notranslate"><span class="pre">&lt;MIP</span> <span class="pre">table&gt;/&lt;variable</span> <span class="pre">name&gt;;&lt;Directory</span> <span class="pre">containing</span> <span class="pre">files&gt;</span></code></p></li>
+<li><p>This task will fail if any QC issues are found and will not resubmit. If this occurs please update your <em>CDDS operational simulation ticket</em> and contact the <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">CDDS Team</a> for advice.
+<code class="docutils literal notranslate"><span class="pre">run_transfer_&lt;stream&gt;</span></code></p></li>
+<li><p>Archive data for variables that are marked active in the <em>requested variables file</em> produced by CDDS Prepare and have successfully passed the QC checks, i.e. are listed in the approved variables file.</p></li>
+<li><p>Will not automatically retry, even if failure was due to MASS/MOOSE issues.</p></li>
+<li><p>the location in MASS to which these data are archived is determined by the <code class="docutils literal notranslate"><span class="pre">--output_mass_suffix</span></code> argument specified in the <code class="docutils literal notranslate"><span class="pre">cdds_convert</span></code> command above.</p></li>
+<li><p>Task will fail if</p>
+<ul>
+<li><p>There are MASS issues: For example if the following command returns anything there has been a MASS outage and you can re-trigger the task:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>grep<span class="w"> </span>SSC_STORAGE_SYSTEM_UNAVAILABLE<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span>/archive/log/cdds_store_&lt;stream&gt;_&lt;date<span class="w"> </span>stamp&gt;.log
+</pre></div>
+</div>
+</li>
+<li><p>An attempt is made to archive data that already exists in MASS. If this occurs please update your <em>CDDS operational simulation ticket</em> and contact the <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">CDDS Team</a> for advice. <strong>VERY IMPORTANT: do not delete data from MASS without consultation with <a class="reference external" href="mailto:matthew&#46;mizielinski&#37;&#52;&#48;metoffice&#46;gov&#46;uk">Matt Mizielinski</a>.</strong></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>If all goes well the suite will complete and you will receive an email confirming that the suite has shutdown containing content of the form</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Message</span><span class="p">:</span> <span class="n">AUTOMATIC</span>
+<span class="n">See</span><span class="p">:</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">fcm1</span><span class="o">/</span><span class="n">cylc</span><span class="o">-</span><span class="n">review</span><span class="o">/</span><span class="n">taskjobs</span><span class="o">/&lt;</span><span class="n">user</span> <span class="nb">id</span><span class="o">&gt;/&lt;</span><span class="n">suite</span> <span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="prepare-cdds-operational-simulation-ticket-for-review-submission">
+<h2>Prepare <em>CDDS operational simulation ticket</em> for review &amp; submission<a class="headerlink" href="#prepare-cdds-operational-simulation-ticket-for-review-submission" title="Permalink to this headline">¶</a></h2>
+<p>Once all suites for a particular package have completed (use <code class="docutils literal notranslate"><span class="pre">cylc</span> <span class="pre">gscan</span></code> or cylc review to monitor this) update your <em>CDDS operational simulation ticket</em> confirming that the Extract, Convert, QC and Transfer tasks have been completed.</p>
+<ol class="arabic">
+<li><p>Copy the request JSON file and any logs to <code class="docutils literal notranslate"><span class="pre">$CDDS_PROC_DIR</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>request.json<span class="w"> </span>*.log<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span>/
+</pre></div>
+</div>
+</li>
+<li><p><strong>Ticket</strong>: Add a comment to the <em>CDDS operational simulation ticket</em> specifying the archived data is ready for submission, and include the full path of the <code class="docutils literal notranslate"><span class="pre">$CDDS_PROC_DIR</span></code> and <code class="docutils literal notranslate"><span class="pre">$CDDS_DATA_DIR</span></code> locations.</p></li>
+<li><p>Select <code class="docutils literal notranslate"><span class="pre">assign</span> <span class="pre">for</span> <span class="pre">review</span> <span class="pre">to</span></code> on the <em>CDDS operational simulation ticket</em> (so that the status is <code class="docutils literal notranslate"><span class="pre">reviewing</span></code>) and assign the <em>CDDS operational simulation ticket</em> to Matthew Mizielinski by selecting this name from the list</p></li>
+<li><p>The ticket will then be reviewed according to the [wiki:SimulationTicketReview CDDS review procedure] by members of the CDDS team.</p></li>
+</ol>
+<p>The review script used by the CDDS team involves running the following command</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cdds_sim_review<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span><span class="w"> </span><span class="nv">$CDDS_DATA_DIR</span>
+</pre></div>
+</div>
+<p>checking any CRITICAL issues and following up any other anomalies.</p>
+</section>
+<section id="run-cdds-teardown">
+<h2>Run CDDS Teardown<a class="headerlink" href="#run-cdds-teardown" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p>Once the approved ticket has been returned to you following submission, delete the contents of the data directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$CDDS_DATA_DIR</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>input<span class="w"> </span>output
+</pre></div>
+</div>
+</li>
+<li><p>Delete all suites used:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rose<span class="w"> </span>suite-clean<span class="w"> </span>cdds_&lt;model_id&gt;_&lt;experiment_id&gt;_&lt;variant_label&gt;_&lt;stream&gt;
+</pre></div>
+</div>
+<p>for each <code class="docutils literal notranslate"><span class="pre">&lt;stream&gt;</span></code> processed, or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-d<span class="w"> </span>~/cylc-run/cdds_&lt;model_id&gt;_&lt;experiment_id&gt;_&lt;variant_label&gt;_*<span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>rose<span class="w"> </span>suite-clean<span class="w"> </span>-y
+</pre></div>
+</div>
+<p>which should find and clear all suites associated with the model, experiment and variant label specified.</p>
+</li>
+<li><p><strong>Ticket</strong>: Update and close the <em>CDDS operational simulation ticket</em></p></li>
+</ol>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">CDDS Operational Procedure (v2.3)</a><ul>
+<li><a class="reference internal" href="#changes-relative-to-cdds-v2-2">Changes relative to CDDS v2.2</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a><ul>
+<li><a class="reference internal" href="#partial-processing-of-a-simulation">Partial processing of a simulation</a></li>
+<li><a class="reference internal" href="#what-to-do-when-things-go-wrong">What to do when things go wrong</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#set-up-the-cdds-operational-simulation-ticket">Set up the CDDS operational simulation ticket</a></li>
+<li><a class="reference internal" href="#activate-the-cdds-install">Activate the CDDS install</a><ul>
+<li><a class="reference internal" href="#run-cdds-prepare">Run CDDS Prepare</a><ul>
+<li><a class="reference internal" href="#create-the-request-json-file">Create the request JSON file</a></li>
+<li><a class="reference internal" href="#create-the-cdds-directory-structure">Create the CDDS directory structure</a></li>
+<li><a class="reference internal" href="#generate-the-requested-variables-list">Generate the <em>requested variables list</em></a></li>
+<li><a class="reference internal" href="#optional-processing-specific-variables">Optional: Processing specific variables</a></li>
+<li><a class="reference internal" href="#for-information-interpreting-the-requested-variables-file">For Information: Interpreting the requested variables file</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#run-cdds-convert">Run CDDS Convert</a><ul>
+<li><a class="reference internal" href="#launch-cdds-convert-processes">Launch CDDS Convert Processes</a></li>
+<li><a class="reference internal" href="#monitor-conversion-suites">Monitor conversion suites</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#prepare-cdds-operational-simulation-ticket-for-review-submission">Prepare <em>CDDS operational simulation ticket</em> for review &amp; submission</a></li>
+<li><a class="reference internal" href="#run-cdds-teardown">Run CDDS Teardown</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/wiki/CDDS-Operational-Procedure-v2.3.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.0.dev0+CDDSO-286_git-wiki-docs-into-sphinx.e59b447-M documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CDDS Operational Procedure (v2.3)</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright British Crown 2015-2023, Met Office.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+# Simulation Ticket Review Procedure
+
+After a package is processed by following [UPDATE LINK TO GITHUB OPERATIONAL PROCEDURE], the user assigns the ticket to a member of the CDDS team to review the processing and then perform the final step to submit the data for publication. This document describes the steps that need to be performed in the review. The check before publishing steps should also be done by the user who processed the data to check that the processing has been successful. The final publication steps can only be performed by a member of the CDDS teams with the required permission.   
+
+## Checklist before publication 
+* Check the critical issues log (`critical_issues.log` for each component. See the [UPDATE LINK TO GITHUB OPERATIONAL PROCEDURE] for more details.
+ * typical command - ` grep -irn "critical"  $CDDS_PROC_DIR --exclude "*.py" --exclude "*.svn*"`
+ * Look for errors in transfer logs (this item will become part of generally checking for critical issues once ticket #1045 is completed to fix this problem.)
+* Check the QC report in `$CDDS_PROC_DIR/qualitycheck/report_<date-time>.json`.
+* The `aggregated_summary` and `details` fields should be empty.`
+* Check approved variables list that expected variables have been added.
+* Check that variables with recently reported issues are not in the approved approved list.
+* Check permissions for proc/archive/log has write permissions for everyone, so move_in_mass can work. Running `ls -l $CDDS_PROC_DIR/transfer/ | grep log` should show `drwxrwxrwx.` as permissions for the log directory. 
+* Look for any partial files left over from the concatenation process using the find command:
+ * `find $CDDS_DATA_DIR/output/*_* -type f`
+
+All these checks can be combined in a single command by running:
+
+```
+. ~cdds/bin/setup_env_for_cdds <version>
+cdds_sim_review $CDDS_PROC_DIR $CDDS_DATA_DIR
+```
+
+## Submission for publication
+In order to complete the submission, you will need access to the `els055` server. Only members of the CDDS team are expected to do this part.
+
+* After completing the pre-publication checks, add a message to the ticket to confirm that the processing was successful.
+* Log on to `els055`. If you have not logged on before, please see the section on setting up `els055`.
+* Run the `move_in_mass` command that was generated when running `cdds_sim_review`. Example command: `move_in_mass request.json -p --original_state=embargoed --new_state=available --mass_location=production --variables_list_file=approved_variables_YYYY-MM-DDThhmmss.txt`
+* When move_in_mass has completed, check for errors in the log file `$CDDS_PROC_DIR/archive/log/move_in_mass_<date-time>.log`
+* Use `grep` to search for any `ERROR` and `CRITICAL` messages in the log file.
+* Confirm that the last line includes the phrase "Moving complete".
+* Confirm that there is a message for each data set there
+* Confirm that all datestamps are the same.
+* Check the message queue to confirm that messages are waiting for processing using `list_queue CMIP6_available`.
+* Once you are happy that the `move_in_mass` command has executed successfully, add a message stating this to the ticket, change the status of the ticket to approved,  and reassign to the original user for teardown and closing.
+
+## Setting up els055
+* Create a new file `~/.cdds_credentials`. Contact Matt Mizielinski for the required settings.

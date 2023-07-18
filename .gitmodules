@@ -1,0 +1,3 @@
+[submodule "cdds/doc/source/wiki"]
+	path = cdds/doc/source/wiki
+	url = git@github.com:MetOffice/CDDS.wiki.git
