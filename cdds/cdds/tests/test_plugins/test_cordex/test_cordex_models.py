@@ -108,7 +108,7 @@ class TestModelParameters(TestCase):
         stream_file_info = self.model_params.stream_file_info()
 
         apa_file_info = stream_file_info.file_frequencies["apa"]
-        self.assertEqual(apa_file_info.frequency, "1 day")
+        self.assertEqual(apa_file_info.frequency, "daily")
         self.assertEqual(apa_file_info.stream, "apa")
         self.assertEqual(apa_file_info.file_per_year, 360)
 

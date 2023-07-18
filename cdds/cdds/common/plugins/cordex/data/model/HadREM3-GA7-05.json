@@ -13,7 +13,7 @@
       ],
       "files_per_year": 12
     },
-    "1 day": {
+    "daily": {
       "streams": [
         "apa"
       ],
