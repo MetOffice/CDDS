@@ -7,15 +7,15 @@ import pytest
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
-                                                                 MODEL_OUTPUT_DIR_SET1,
+                                                                 MODEL_OUTPUT_DIR,
                                                                  PROJECT_CDDS_DIR,
-                                                                 ROOT_TEST_CASES_DIR)
+                                                                 ROOT_OUTPUT_CASES_DIR)
 
 
 class TestCmip6OfxAreacello(AbstractFunctionalTests):
 
     def get_test_data(self):
-        test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CMIP6_Ofx_areacello')
+        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_Ofx_areacello')
         return Cmip6TestData(
             mip_table='Ofx',
             variable='areacello',
@@ -31,10 +31,10 @@ class TestCmip6OfxAreacello(AbstractFunctionalTests):
                 },
                 request={
                     'ancil_files': (os.path.join(
-                        PROJECT_CDDS_DIR, 'testdata', 'u-aj460', 'onf', 'u-aj460o_1ts_19760101_19760101_constants.nc'
+                        MODEL_OUTPUT_DIR, 'u-aj460', 'onf', 'u-aj460o_1ts_19760101_19760101_constants.nc'
                     )),
-                    'model_output_dir': MODEL_OUTPUT_DIR_SET1,
-                    'run_bounds': '1950-01-01-00-00-00 1950-02-01-00-00-00',
+                    'model_output_dir': MODEL_OUTPUT_DIR,
+                    'run_bounds': '1950-01-01T00:00:00 1950-02-01T00:00:00',
                     'suite_id': 'aj460'
                 },
                 streams={

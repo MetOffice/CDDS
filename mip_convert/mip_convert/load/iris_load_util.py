@@ -6,6 +6,8 @@ The :mod:`load.iris_load_util` module contains the code to support
 loading of |model output files| with Iris.
 """
 import logging
+import metomi.isodatetime.parsers as parse
+import metomi.isodatetime.data as data
 from operator import and_
 import os
 import regex as re
@@ -255,7 +257,7 @@ def setup_time_constraint(run_bounds):
 
     The list provided to the ``run_bounds`` argument contains only two
     strings (the start date and the end date) in the form
-    ``YYYY-MM-DD-hh-mm-ss``.
+    ``%Y-%m-%dT%H:%M:%S`` (isoformat).
 
     :param run_bounds: the 'run bounds'
     :type run_bounds: list of strings
@@ -276,10 +278,23 @@ def setup_time_constraint(run_bounds):
             ``run_bounds``
         :rtype: boolean
         """
-        start_date = [int(item) for item in run_bounds[0].split('-')]
-        end_date = [int(item) for item in run_bounds[1].split('-')]
-        return PartialDateTime(*start_date) <= cell.point and PartialDateTime(*end_date) >= cell.point
+        start_date_time = to_partial_date_time(run_bounds[0])
+        end_date_time = to_partial_date_time(run_bounds[1])
+        return start_date_time <= cell.point and end_date_time >= cell.point
     return time_constraint
+
+
+def to_partial_date_time(isodate: str) -> PartialDateTime:
+    time_point: data.TimePoint = parse.TimePointParser().parse(isodate)
+    partial_date = PartialDateTime(
+        year=time_point.year,
+        month=time_point.month_of_year,
+        day=time_point.day_of_month,
+        hour=time_point.hour_of_day,
+        minute=time_point.minute_of_hour,
+        second=time_point.second_of_minute
+    )
+    return partial_date
 
 
 def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
@@ -288,7 +303,7 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
 
     The list provided to the ``run_bounds`` argument contains only two
     strings (the start date and the end date) in the form
-    ``YYYY-MM-DD-hh-mm-ss``.
+    ``%Y-%m-%dT%H:%M:%S`` (isotime format).
 
     :param all_input_data: the filenames (including the full path) of
         the files required to produce the |output netCDF files| for the
@@ -356,7 +371,7 @@ def load_cubes_from_pp(all_input_data, pp_info, run_bounds):
 
     The list provided to the ``run_bounds`` argument contains only two
     strings (the start date and the end date) in the form
-    ``YYYY-MM-DD-hh-mm-ss``.
+    ``%Y-%m-%dT%H:%M:%S``.
 
     :param all_input_data: the filenames (including the full path) of
         the files required to produce the |output netCDF files| for the
@@ -442,7 +457,7 @@ def pp_filter(field, pp_info, run_bounds):
 
     The list provided to the ``run_bounds`` argument contains only two
     strings (the start date and the end date) in the form
-    ``YYYY-MM-DD-hh-mm-ss``.
+    ``%Y-%m-%dT%H:%M:%S``.
 
     :param field: a single PP field
     :type field: :class:`iris.fileformats.pp.PPField`
@@ -473,12 +488,11 @@ def pp_filter(field, pp_info, run_bounds):
             if str(field.stash) in ANCIL_VARIABLES:
                 result = True
             else:
-                start_date = [int(item) for item in run_bounds[0].split('-')]
-                end_date = [int(item) for item in run_bounds[1].split('-')]
+                start_time = to_partial_date_time(run_bounds[0])
+                end_time = to_partial_date_time(run_bounds[1])
                 if field.lbtim.ib in [0, 1]:
                     # Only t1 is valid, see LBTIM IB in UMDP F03.
-                    result = (PartialDateTime(*start_date) < field.t1 and
-                              PartialDateTime(*end_date) >= field.t1)
+                    result = start_time < field.t1 and end_time >= field.t1
                 else:
                     # elsewhere the code works on 1 year chunks defined by their
                     # points, so we should load based on points being within
@@ -486,8 +500,7 @@ def pp_filter(field, pp_info, run_bounds):
                     # points properly requires the code to know the calendar
                     # so just check that the averaging period lies partly within
                     # the range
-                    result = (PartialDateTime(*start_date) < field.t2 and
-                              PartialDateTime(*end_date) > field.t1)
+                    result = start_time < field.t2 and end_time > field.t1
     return result
 
 

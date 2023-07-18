@@ -7,15 +7,15 @@ import pytest
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import HiResTestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
-                                                                 MODEL_OUTPUT_DIR_SET1,
-                                                                 ROOT_TEST_CASES_DIR,
+                                                                 MODEL_OUTPUT_DIR,
+                                                                 ROOT_OUTPUT_CASES_DIR,
                                                                  ROOT_ANCIL_DIR)
 
 
 class TestHiResSimonSiv(AbstractFunctionalTests):
 
     def get_test_data(self):
-        test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_HIRES_SImon_siv')
+        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_HIRES_SImon_siv')
         return HiResTestData(
             mip_table='SImon',
             variable='siv',
@@ -31,8 +31,8 @@ class TestHiResSimonSiv(AbstractFunctionalTests):
                 },
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'HadGEM3-GC31-HH', 'ocean_byte_masks_HH.nc'),
-                    'model_output_dir': MODEL_OUTPUT_DIR_SET1,
-                    'run_bounds': '1951-01-01-00-00-00 1951-02-01-00-00-00',
+                    'model_output_dir': MODEL_OUTPUT_DIR,
+                    'run_bounds': '1951-01-01T00:00:00 1951-02-01T00:00:00',
                     'suite_id': 'u-ay652'
                 },
                 streams={
@@ -40,7 +40,8 @@ class TestHiResSimonSiv(AbstractFunctionalTests):
                 },
                 other={
                     'filenames': ['siv_SImon_HadGEM3-GC31-HH_hist-1950_r1i1p1f1_gn_195101-195101.nc'],
-                    'ignore_history': True
+                    'ignore_history': True,
+                    'hash': ['43322ab4c2efe17d431679af15328b36']
                 }
             )
         )

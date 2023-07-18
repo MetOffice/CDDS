@@ -7,14 +7,14 @@ import pytest
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
-                                                                 MODEL_OUTPUT_DIR_SET1,
-                                                                 ROOT_TEST_CASES_DIR)
+                                                                 MODEL_OUTPUT_DIR,
+                                                                 ROOT_OUTPUT_CASES_DIR)
 
 
 class TestCmip6EmonThetaot300(AbstractFunctionalTests):
 
     def get_test_data(self):
-        test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CMIP6_Emon_thetaot300')
+        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_Emon_thetaot300')
         return Cmip6TestData(
             mip_table='Emon',
             variable='thetaot300',
@@ -29,8 +29,8 @@ class TestCmip6EmonThetaot300(AbstractFunctionalTests):
                     'output_dir': get_output_dir(test_location)
                 },
                 request={
-                    'model_output_dir': MODEL_OUTPUT_DIR_SET1,
-                    'run_bounds': '1850-01-01-00-00-00 1850-02-01-00-00-00',
+                    'model_output_dir': MODEL_OUTPUT_DIR,
+                    'run_bounds': '1850-01-01T00:00:00 1850-02-01T00:00:00',
                     'suite_id': 'u-ar050'
                 },
                 streams={

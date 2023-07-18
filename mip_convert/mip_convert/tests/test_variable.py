@@ -12,6 +12,8 @@ import cf_units
 import iris
 import numpy as np
 
+from cdds.common.plugins.plugin_loader import load_plugin
+
 from mip_convert.common import nearest_coordinates, Loadable
 from mip_convert.new_variable import (
     VariableMetadata, Variable, VariableModelToMIPMapping, VariableMIPMetadata,
@@ -41,9 +43,9 @@ class TestVariableMetadata(unittest.TestCase):
             'positive': 'None', 'units': 'K s-1'
         }
         self.timestep = 600
-        self.run_bounds = ['1900-01-01-00-00-00', '1900-01-01-00-00-00']
+        self.run_bounds = ['1900-01-01T00:00:00', '1900-01-01T00:00:00']
         self.calendar = '360_day'
-        self.base_date = '1900-01-01-00-00-00'
+        self.base_date = '1900-01-01T00:00:00'
         self.deflate_level = 7
         self.shuffle = True
         self.variable_mip_metadata = variable_mip_metadata(self.variable_name, self.mip_axes_names)
@@ -136,6 +138,7 @@ class TestVariable(unittest.TestCase):
         """
         Create the ``Variable`` object.
         """
+        load_plugin()
         self.variable_name = 'ta'
         self.model_id = 'HadGEM3-GC31-LL'
         self.axes_names = ['time', 'latitude', 'longitude', 'plev19']
@@ -176,9 +179,9 @@ class TestVariable(unittest.TestCase):
             'replacement_coordinates': None,
             'model_to_mip_mapping': self.model_to_mip_mapping,
             'timestep': None,
-            'run_bounds': ['1980-11-01-00-00-00', '1981-01-01-00-00-00'],
+            'run_bounds': ['1980-11-01T00:00:00', '1981-01-01T00:00:00'],
             'calendar': '360_day',
-            'base_date': '1900-01-01-00-00-00',
+            'base_date': '1900-01-01T00:00:00',
             'deflate_level': 0,
             'shuffle': True,
         }
@@ -198,7 +201,7 @@ class TestVariable(unittest.TestCase):
             self.assertEqual(getattr(output[0], attribute), getattr(reference, attribute))
 
     def test_slices_over_with_larger_run_bounds(self):
-        self.metadata['run_bounds'] = ['1979-01-01-00-00-00', '1981-01-01-00-00-00']
+        self.metadata['run_bounds'] = ['1979-01-01T00:00:00', '1981-01-01T00:00:00']
         variable_metadata = get_variable_metadata(self.metadata)
         variable = Variable(self.input_variables, variable_metadata)
         with self.assertRaisesRegex(RuntimeError, 'No data available for "1979"; .*'):
@@ -210,14 +213,14 @@ class TestVariable(unittest.TestCase):
         self.assertEqual(output, reference)
 
     def test_date_times_for_slices_over_jan_start_less_than_one_year(self):
-        self.metadata['run_bounds'] = ['1981-01-01-00-00-00', '1981-04-01-00-00-00']
+        self.metadata['run_bounds'] = ['1981-01-01T00:00:00', '1981-04-01T00:00:00']
         variable_metadata = get_variable_metadata(self.metadata)
         variable = Variable(self.input_variables, variable_metadata)
         output = variable.date_times_for_slices_over('year')
         self.assertEqual(output, [[1981]])
 
     def test_date_times_for_slices_over_jan_start_more_than_one_year(self):
-        self.metadata['run_bounds'] = ['1981-01-01-00-00-00', '1983-07-01-00-00-00']
+        self.metadata['run_bounds'] = ['1981-01-01T00:00:00', '1983-07-01T00:00:00']
         variable_metadata = get_variable_metadata(self.metadata)
         variable = Variable(self.input_variables, variable_metadata)
         output = variable.date_times_for_slices_over('year')

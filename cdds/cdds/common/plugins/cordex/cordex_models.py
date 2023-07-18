@@ -25,23 +25,23 @@ class CordexModelId(ModelId):
         """
         return '{}.json'.format(self.value)
 
-    HadGEM3_GC31_MM = 'HadGEM3-GC31-MM'
+    HadREM3_GA7_05 = 'HadREM3-GA7-05'
 
 
-class HadGEM3_GC31_MM_Params(BaseModelParameters):
+class HadREM3_GA7_05_Params(BaseModelParameters):
     """
-    Class to store the parameters for the HadGEM3_GC31_MM model.
+    Class to store the parameters for the HadREM3_GA7_05 model.
     """
 
     def __init__(self) -> None:
-        super(HadGEM3_GC31_MM_Params, self).__init__(CordexModelId.HadGEM3_GC31_MM)
+        super(HadREM3_GA7_05_Params, self).__init__(CordexModelId.HadREM3_GA7_05)
 
     @property
     def model_version(self) -> str:
         """
-        Returns the model version of the HadGEM3_GC31_MM model.
+        Returns the model version of the HadREM3_GA7_05 model.
 
-        :return: Model version of HadGEM3_GC31_MM
+        :return: Model version of HadREM3_GA7_05
         :rtype: str
         """
         return '3.1'
@@ -49,9 +49,9 @@ class HadGEM3_GC31_MM_Params(BaseModelParameters):
     @property
     def data_request_version(self) -> str:
         """
-        Returns the data request version of the HadGEM3_GC31_MM model.
+        Returns the data request version of the HadREM3_GA7_05 model.
 
-        :return: Data request version of HadGEM3_GC31_MM
+        :return: Data request version of HadREM3_GA7_05
         :rtype: str
         """
         return '01.00.10'
@@ -59,9 +59,9 @@ class HadGEM3_GC31_MM_Params(BaseModelParameters):
     @property
     def um_version(self) -> str:
         """
-        Returns the UM version of the HadGEM3_GC31_MM model.
+        Returns the UM version of the HadREM3_GA7_05 model.
 
-        :return: UM version of HadGEM3_GC31_MM
+        :return: UM version of HadREM3_GA7_05
         :rtype: str
         """
         return '10.7'
@@ -77,7 +77,7 @@ class CordexModelStore(BaseModelStore):
     """
 
     def __init__(self) -> None:
-        model_instances = [HadGEM3_GC31_MM_Params()]
+        model_instances = [HadREM3_GA7_05_Params()]
         super(CordexModelStore, self).__init__(model_instances)  # type: ignore[arg-type]
         self.logger = logging.getLogger(self.__class__.__name__)
 

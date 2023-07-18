@@ -1,15 +1,10 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`common` module contains common library functions used by
 other packages.
 """
-from collections import defaultdict
 import copy
-from functools import partial, wraps
-from typing import Any, Callable, Optional, Tuple, Type, Union
-from datetime import datetime
-from distutils.version import StrictVersion
 import grp
 import hashlib
 import json
@@ -19,10 +14,22 @@ import platform
 import re
 import subprocess
 import time
+from collections import defaultdict
+from datetime import datetime
+from distutils.version import StrictVersion
+from functools import partial, wraps
+from typing import Any, Callable, List, Optional, Tuple, Type, Union
 
+from cftime import datetime as cf_datetime
+from metomi.isodatetime.data import Calendar, TimePoint
+from metomi.isodatetime.parsers import DurationParser, TimePointParser, TimeRecurrenceParser
+
+
+from cdds.common.request import read_request
+from cdds.convert.exceptions import IncompatibleCalendarMode
 from cdds.common.constants import (
     CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX, ROSE_URLS,
-    VARIANT_LABEL_FORMAT, LOG_TIMESTAMP_FORMAT)
+    VARIANT_LABEL_FORMAT, LOG_TIMESTAMP_FORMAT, SUPPORTED_CALENDARS)
 
 
 def get_log_datestamp():
@@ -593,7 +600,7 @@ def check_date_format(date, date_regex=DATE_TIME_REGEX):
 
     Examples
     --------
-    >>> check = check_date_format('1970-01-01-00-00-00')
+    >>> check = check_date_format('1970-01-01T00:00:00')
     >>> if check is None:
     ...     print('Date format correct')
     Date format correct
@@ -605,12 +612,12 @@ def check_date_format(date, date_regex=DATE_TIME_REGEX):
     ...     print('Date format correct')
     Date format correct
 
-    >>> check_date_format('1970-01-01-00-00-00',
+    >>> check_date_format('1970-01-01T00:00:00',
     ...     '(?P<year>\\d{4})-(?P<month>\\d{2})-(?P<day>\\d{2})')
     ... # doctest: +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
       ...
-    ValueError: Date "1970-01-01-00-00-00" does not match
+    ValueError: Date "1970-01-01T00:00:00" does not match
       "(?P<year>\\d{4})-(?P<month>\\d{2})-(?P<day>\\d{2})"
     """
     matched = re.compile('^{}$'.format(date_regex)).match(date)
@@ -627,7 +634,7 @@ def check_run_bounds_format(run_bounds):
     the correct format.
 
     The run bounds must be in the form
-    ``YYYY-MM-DD-hh-mm-ss YYYY-MM-DD-hh-mm-ss``.
+    ``%Y-%m-%dT%H:%M:%S %Y-%m-%dT%H:%M:%S``.
 
     Parameters
     ----------
@@ -642,24 +649,24 @@ def check_run_bounds_format(run_bounds):
     Examples
     --------
     >>> check = check_run_bounds_format(
-    ...     '1950-03-10-00-00-00 1950-03-20-00-00-00')
+    ...     '1950-03-10T00:00:00 1950-03-20T00:00:00')
     >>> if check is None:
     ...     print('Run bounds format correct')
     Run bounds format correct
 
-    >>> check = check_run_bounds_format('1950-03-10-00-00-00')
+    >>> check = check_run_bounds_format('1950-03-10T00:00:00')
     ... # doctest: +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
         ...
-    ValueError: Run bounds "1950-03-10-00-00-00" does not match the
+    ValueError: Run bounds "1950-03-10T00:00:00" does not match the
       expected format (not enough values to unpack (expected 2, got 1))
 
     >>> check = check_run_bounds_format(
-    ...     '1950-03-10-00-00-00 1950-03-20 00:00:00')
+    ...     '1950-03-10T00:00:00 1950-03-20 00:00:00')
     ... # doctest: +NORMALIZE_WHITESPACE
     Traceback (most recent call last):
      ...
-    ValueError: Run bounds "1950-03-10-00-00-00 1950-03-20 00:00:00"
+    ValueError: Run bounds "1950-03-10T00:00:00 1950-03-20 00:00:00"
       does not match the expected format (too many values to unpack (expected 2))
     """
     try:
@@ -1075,3 +1082,133 @@ def retry(func: Optional[Callable] = None, exception: Type[Exception] = Exceptio
         return False, func(*args, **kwargs)
 
     return wrapper
+
+
+def set_calendar(request_file: str):
+    """ Set the metomi.isodatetime calendar based on a request.json file.
+
+    :param request_file: Path to a request.json file.
+    :type request_file: str
+    :raises IncompatibleCalendarMode:
+    """
+    request = read_request(request_file)
+
+    if request.calendar in SUPPORTED_CALENDARS:
+        Calendar.default().set_mode(request.calendar)
+    else:
+        raise IncompatibleCalendarMode
+
+
+def generate_datestamps_pp(start_date: str,
+                           end_date: str,
+                           file_frequency: str) -> Tuple[List[str], List[TimePoint]]:
+    """ Generate common datestamp strings used by .pp files.
+
+    :param start_date: ISO formatted string e.g, 19890101 (Inclusive)
+    :type start_date: str
+    :param end_date: ISO formatted string e.g, 19890101 (Exclusive)
+    :type end_date: str
+    :param file_frequency: Maps to a duration and format string
+    :type file_frequency: str
+    :return: A tuple of list of datestamps and list of timepoints
+    :rtype: Tuple[List[str], List[TimePoint]]
+    :raises IncompatibleCalendarMode:
+    """
+
+    modes = {"daily": ["P1D", "%Y%m%d"],
+             "1 day": ["P1D", "%Y%m%d"],
+             "10 day": ["P10D", "%Y%m%d"],
+             "monthly": ["P1M", "%Y%b"],
+             "season": ["P3M", "%Y"]}
+
+    seasons = {3: "mam", 6: "jja", 9: "son", 12: "djf"}
+
+    calendar = Calendar.default().mode
+
+    if calendar in ["gregorian"] and file_frequency == "10 day":
+        raise IncompatibleCalendarMode
+
+    duration, date_format = modes[file_frequency]
+    timepoints = generate_time_points(start_date, end_date, duration)
+    datestamps = []
+
+    for timepoint in timepoints:
+        # The TimePoint object has to be converted to a cf_datetime object to make use of the full
+        # strptime specification.
+        cf_timepoint = cf_datetime.strptime(str(timepoint), "%Y-%m-%dT%H:%M:%SZ", calendar=calendar)
+        if file_frequency != "season":
+            datestamp = cf_timepoint.strftime(date_format).lower()
+        else:
+            datestamp = cf_timepoint.strftime("%Y") + seasons[cf_timepoint.month]
+        datestamps.append(datestamp)
+
+    return datestamps, timepoints
+
+
+def generate_datestamps_nc(start_date: str,
+                           end_date: str,
+                           file_frequency: str) -> Tuple[List[str], List[TimePoint]]:
+    """Generate common datestamp stings used for .nc files.
+
+    :param start_date: ISO formatted string e.g, 19890101 (Inclusive)
+    :type start_date: str
+    :param end_date: ISO formatted string e.g, 19890101 (Exclusive)
+    :type end_date: str
+    :param file_frequency: Maps to a duration and format string
+    :type file_frequency: str
+    :return: A tuple of list of datestamps and list of timepoints
+    :rtype: Tuple[List[str], List[TimePoint]]
+    """
+
+    modes = {"monthly": ["P1M", "%Y%m%d"],
+             "quarterly": ["P3M", "%Y%m%d"]}
+
+    calendar = Calendar.default().mode
+
+    duration, date_format = modes[file_frequency]
+    timepoints = generate_time_points(start_date, end_date, duration)
+    datestamps = []
+
+    for timepoint in timepoints:
+        start = timepoint
+        end = timepoint + DurationParser().parse(duration)
+        start = cf_datetime.strptime(str(start), "%Y-%m-%dT%H:%M:%SZ", calendar=calendar)
+        end = cf_datetime.strptime(str(end), "%Y-%m-%dT%H:%M:%SZ", calendar=calendar)
+        datestamp = start.strftime(date_format) + "-" + end.strftime(date_format)
+        datestamps.append(datestamp)
+
+    return datestamps, timepoints
+
+
+def generate_time_points(start_date: Union[str, TimePoint],
+                         end_date: Union[str, TimePoint],
+                         duration: str) -> List[TimePoint]:
+    """A convenience function for generating a list of TimePoint objects.
+
+    :param start_date: ISO style string or TimePoint (Inclusive)
+    :type start_date: Union[str, TimePoint]
+    :param end_date: ISO style string or TimePoint (Exclusive)
+    :type end_date: Union[str, TimePoint]
+    :param duration: ISO formatted duration string
+    :type duration: str
+    :return: List of TimePoint objects
+    :rtype: List[TimePoint]
+    """
+    if isinstance(start_date, TimePoint):
+        start_date = str(start_date)
+
+    if isinstance(end_date, str):
+        end_date = TimePointParser().parse(end_date)
+
+    recurrence_string = f"R/{start_date}/{duration}"
+    time_recurrence = TimeRecurrenceParser().parse(recurrence_string)
+
+    time_points = []
+
+    for time_point in time_recurrence:
+        if time_point < end_date:
+            time_points.append(time_point)
+        else:
+            break
+
+    return time_points

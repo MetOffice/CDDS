@@ -34,16 +34,9 @@ class SuiteConfigMissingValueError(Exception):
     pass
 
 
-class SuiteSubmissionError(Exception):
+class WorkflowSubmissionError(Exception):
     """
     Raised if there is an issue submitting a suite.
-    """
-    pass
-
-
-class SuiteShutdownError(Exception):
-    """
-    Raised if there is an issue shutting a suite down.
     """
     pass
 

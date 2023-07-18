@@ -13,7 +13,10 @@ import re
 
 from cdds.common.constants import APPROVED_VARS_DATETIME_REGEX, APPROVED_VARS_DATETIME_STREAM_REGEX
 from cdds.common import (construct_string_from_facet_string, create_directory,
-                         get_directories, netCDF_regexp, get_most_recent_file, get_most_recent_file_by_stream)
+                         get_directories, netCDF_regexp, get_most_recent_file, get_most_recent_file_by_stream,
+                         generate_datestamps_pp, generate_datestamps_nc)
+
+from metomi.isodatetime.data import Calendar
 
 
 class TestCreateDirectory(unittest.TestCase):
@@ -391,6 +394,60 @@ class TestConstructStringFromFacetString(unittest.TestCase):
             self.facet_values)
         expected = 'CMIP/amip/phase1'
         self.assertEqual(result, expected)
+
+
+class TestGenerateDatetampsGregorian:
+
+    Calendar.default().set_mode("gregorian")
+
+    def test_daily_pp(self):
+        start, end = "19800101", "19800104"
+        expected = ["19800101", "19800102", "19800103"]
+        actual, _ = generate_datestamps_pp(start, end, "daily")
+        assert expected == actual
+
+    def test_monthly_pp(self):
+        start, end = "19791201", "19800401"
+        expected = ["1979dec", "1980jan", "1980feb", "1980mar"]
+        actual, _ = generate_datestamps_pp(start, end, "monthly")
+        assert expected == actual
+
+    def test_season_pp(self):
+        start, end = "19791201", "19800901"
+        expected = ["1979djf", "1980mam", "1980jja"]
+        actual, _ = generate_datestamps_pp(start, end, "season")
+        assert expected == actual
+
+    def test_monthly_nc(self):
+        start, end = "19800101", "19800401"
+        expected = ["19800101-19800201",
+                    "19800201-19800301",
+                    "19800301-19800401"]
+        actual, _ = generate_datestamps_nc(start, end, "monthly")
+        assert expected == actual
+
+    def test_quarterly_nc(self):
+        start, end = "19800101", "19810101"
+        expected = ["19800101-19800401",
+                    "19800401-19800701",
+                    "19800701-19801001",
+                    "19801001-19810101"]
+        actual, _ = generate_datestamps_nc(start, end, "quaterly")
+        assert expected == actual
+
+    def test_quarterly_nc(self):
+        pass
+
+
+class TestGenerateDatestamps360Day:
+
+    Calendar.default().set_mode("360_day")
+
+    def test_10_day(self):
+        start, end = "19800101", "19800201"
+        expected = ["19800101", "19800111", "19800121"]
+        actual, _ = generate_datestamps_pp(start, end, "10 day")
+        assert expected == actual
 
 
 if __name__ == '__main__':

@@ -8,7 +8,7 @@ Contiguity checker.
 from collections import defaultdict
 
 from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
-from cdds.qc.common import equal_with_tolerance, strip_zeros, request_date_to_iso, DatetimeCalculator
+from cdds.qc.common import equal_with_tolerance, strip_zeros, DatetimeCalculator
 from cdds.qc.constants import DIURNAL_CLIMATOLOGY, HOURLY_OFFSET, DIURNAL_OFFSETS, SECONDS_IN_DAY, TIME_TOLERANCE
 
 
@@ -24,7 +24,7 @@ class CollectionsCheck(object):
         """
         self.request = request
         self.calendar_calculator = DatetimeCalculator(
-            self.request.calendar, request_date_to_iso(self.request.child_base_date))
+            self.request.calendar, self.request.child_base_date)
         self.results = defaultdict(list)
 
     def perform_checks(self, ds):
@@ -159,7 +159,7 @@ class CollectionsCheck(object):
                 prev_val = time_bounds[key][-1][1]
             return
         point_sequence, bound_sequence = self.calendar_calculator.get_sequence(
-            request_date_to_iso(run_start), request_date_to_iso(run_end), frequency, time_bounds is not None)
+            run_start, run_end, frequency, time_bounds is not None)
         reference_index = 0
         # before checking individual values we'll check run bounds first
         run_bounds_errors = self._test_time_bounds(var_key, time_axis, time_bounds, point_sequence, bound_sequence)

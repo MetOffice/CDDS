@@ -6,6 +6,7 @@ Run all the tests in the CDDS packages.
 import argparse
 import datetime
 import os
+import shutil
 import subprocess
 import sys
 
@@ -39,6 +40,13 @@ def _green(text):
     return '\033[32m{}\033[0m'.format(text)
 
 
+def du(path):
+    """
+    Disk usage in human readable format (e.g. '2,1GB')
+    """
+    return subprocess.check_output(['du','-sh', path]).split()[0].decode('utf-8')
+
+
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Run all tests configuration')
     parser.add_argument('-v', '--stdout_verbose', dest='stdout_verbose', action='store_true', help='Verbose stdout')
@@ -52,6 +60,8 @@ def main():
     exit_code = 0
     arguments = parse_arguments()
     start = timer()
+    print('Using $SCRATCH ({}) for temporary large volume storage'.format(os.environ['SCRATCH']))
+    print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH'])))
     for package, tests in TESTS_TO_RUN.items():
         print('\nExecuting tests for {}:'.format(package))
         for test in tests:
@@ -70,6 +80,11 @@ def main():
                 info = stdoutdata.decode('utf-8').split('\n')
                 msg = info[-2].replace('=', '').strip()
                 print(_green('{} success! [{}]'.format(' ' * 3, msg)))
+
+                if package == 'mip_convert' and 'slow' in test:
+                    print('Removing test output from $SCRATCH')
+                    shutil.rmtree(os.path.join(os.environ['SCRATCH'], 'testdata'))
+                    print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH'])))
             else:
                 exit_code = 1
                 print(_red('{} failed!\n!!! Please see "{}" for more details'.format(' ' * 3, LOG_NAME)))

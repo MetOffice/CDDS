@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2021, Met Office.
+# (C) British Crown Copyright 2016-2023, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -15,7 +15,7 @@ import subprocess
 import re
 from collections import defaultdict
 from operator import itemgetter
-from cdds.extract.constants import (NUM_PP_HEADER_LINES, TIME_REGEXP, MOOSE_LS_PAGESIZE, MOOSE_LS_MAX_PAGES,
+from cdds.extract.constants import (NUM_PP_HEADER_LINES, TIME_REGEXP,
                                     MOOSE_TAPE_PATTERN)
 from cdds.common import run_command, retry
 from cdds.extract.variables import Variables
@@ -725,24 +725,24 @@ class StreamValidationResult(object):
             Stream name
         """
         self.stream = stream
-        self.file_count_expected = None
-        self.file_count_actual = None
+        self.file_names_expected = None
+        self.file_names_actual = None
         self.file_errors = {}
 
-    def add_file_counts(self, expected, actual):
+    def add_file_names(self, expected_files, actual_files):
         """
-        Stores expected and actual file counts for a given stream.
+        Stores expected and actual files for a given stream.
 
         Parameters
         ----------
-        expected: int
-            Expected number of files in this stream
+        expected: set
+            Expected files in this stream
 
-        actual: int
-            Actual number of files in this stream
+        actual: set
+            Actual files in this stream
         """
-        self.file_count_expected = expected
-        self.file_count_actual = actual
+        self.file_names_expected = expected_files
+        self.file_names_actual = actual_files
 
     def add_file_content_error(self, file_content_error):
         """
@@ -775,8 +775,19 @@ class StreamValidationResult(object):
             logger.critical("Validation for stream {} has failed, copy of the log saved in {}".format(
                 self.stream, validation_report_filepath))
             with open(validation_report_filepath, "w") as fn:
-                msg = "Expected number of files: {}\nActual number of files: {}\n".format(
-                    self.file_count_expected, self.file_count_actual)
+                msg = ""
+                missing_files = sorted(list(self.file_names_expected.difference(self.file_names_actual)))
+                if missing_files:
+                    msg += "{} Missing file(s):\n".format(len(missing_files))
+                    for file in missing_files:
+                        msg += f"{file}\n"
+
+                additional_files = sorted(list(self.file_names_actual.difference(self.file_names_expected)))
+                if additional_files:
+                    msg += "{} Unexpected file(s):\n".format(len(additional_files))
+                    for file in additional_files:
+                        msg += f"{file}\n"
+
                 if self.file_errors:
                     msg += "Problems detected with the following files:\n"
                     for _, file_error in self.file_errors.items():
@@ -795,7 +806,7 @@ class StreamValidationResult(object):
         -------
         : bool
         """
-        return self.file_count_actual == self.file_count_expected and not self.file_errors
+        return self.file_names_expected == self.file_names_actual and not self.file_errors
 
 
 class ValidationResult(object):
@@ -893,6 +904,7 @@ def build_mass_location(mass_data_class: str, suite_id: str, stream: str, stream
     data_source = "moose:/{}/{}/{}.{}".format(mass_data_class, suiteid, stream, streamtype)
     if streamtype == "nc":
         data_source += ".file"
+
     return data_source
 
 
@@ -925,9 +937,9 @@ def get_streams(streaminfo, suite_id, streams=[]):
                 "streamtype": info["type"],
                 "success": None,
                 "start_date": datetime.datetime.strptime(
-                    info["start_date"], "%Y-%m-%d-%H-%M-%S"),
+                    info["start_date"], "%Y-%m-%dT%H:%M:%S"),
                 "end_date": datetime.datetime.strptime(
-                    info["end_date"], "%Y-%m-%d-%H-%M-%S"),
+                    info["end_date"], "%Y-%m-%dT%H:%M:%S"),
                 "suiteid": suite_id
             })
     return streamlist
@@ -1086,7 +1098,7 @@ def fetch_filelist_from_mass(mass_dir, simulation=False):
 
     Returns
     -------
-    dict
+    list
         List of tuples (tape, filename)
     error
         An error output from MOOSE

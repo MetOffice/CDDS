@@ -3,6 +3,10 @@
 
 .. include:: common.txt
 
+Release 2.4.6, June 23, 2023
+============================
+* Add Eday/evspsbl mapping to MIP Convert (CDDSO-291)
+
 Release 2.4.5, May 22, 2023
 ===========================
 * MIP Convert can now correctly output data from CICE daily streams where the time coordinate 

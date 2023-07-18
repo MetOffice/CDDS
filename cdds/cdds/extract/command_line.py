@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2022, Met Office.
+# (C) British Crown Copyright 2016-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`command_line` module contains the main functions for the
@@ -21,7 +21,7 @@ from cdds.extract.halo_removal import dehalo_multiple_files
 from cdds.extract.validate import validate_streams
 from cdds.arguments import read_default_arguments
 from cdds.deprecated.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
-from cdds.common import configure_logger, common_command_line_args, root_dir_args
+from cdds.common import configure_logger, common_command_line_args, root_dir_args, set_calendar
 
 COMPONENT = 'extract'
 
@@ -86,6 +86,7 @@ def main_cdds_extract(arguments=None):
     lang = set_language()
     # Parse the arguments.
     args = parse_cdds_extract_command_line(arguments)
+    set_calendar(args.request)
 
     # Add stream suffix to the log name if running extract just for some streams
     log_name = args.log_name + '_' + "_".join(args.streams) if args.streams else args.log_name
@@ -198,6 +199,7 @@ def parse_validate_streams_command_line(user_arguments):
     request = read_request(arguments.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
     arguments = update_arguments_for_proc_dir(arguments, request, COMPONENT)
     arguments = update_log_dir(arguments, COMPONENT)
+    set_calendar(arguments.request)
     return arguments
 
 
@@ -211,6 +213,7 @@ def main_validate_streams(arguments=None):
         The command line arguments to be parsed.
     """
     args = parse_validate_streams_command_line(arguments)
+    set_calendar(args.request)
 
     # Add stream suffix to the log name if running extract just for some streams
     log_name = args.log_name + '_' + "_".join(args.streams) if args.streams else args.log_name

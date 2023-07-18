@@ -7,15 +7,15 @@ import pytest
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
-                                                                 MODEL_OUTPUT_DIR_SET1,
-                                                                 ROOT_TEST_CASES_DIR,
+                                                                 MODEL_OUTPUT_DIR,
+                                                                 ROOT_OUTPUT_CASES_DIR,
                                                                  ROOT_ANCIL_DIR)
 
 
 class TestCmip66hrPlevPtVortmean(AbstractFunctionalTests):
 
     def get_test_data(self):
-        test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CMIP6_6hrPlevPt_vortmean')
+        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_6hrPlevPt_vortmean')
         return Cmip6TestData(
             mip_table='6hrPlevPt',
             variable='vortmean',
@@ -31,8 +31,8 @@ class TestCmip66hrPlevPtVortmean(AbstractFunctionalTests):
                 },
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
-                    'model_output_dir': MODEL_OUTPUT_DIR_SET1,
-                    'run_bounds': '1950-01-01-00-00-00 1950-01-06-00-00-00',
+                    'model_output_dir': MODEL_OUTPUT_DIR,
+                    'run_bounds': '1950-01-01T00:00:00 1950-01-06T00:00:00',
                     'suite_id': 'ai674'
                 },
                 streams={

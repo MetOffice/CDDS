@@ -60,10 +60,6 @@ def strip_zeros(number):
         return number
 
 
-def request_date_to_iso(datetime_string: str) -> str:
-    return '{}-{}-{}T{}:{}Z'.format(*datetime_string.split('-')[0:5])
-
-
 class DatetimeCalculator():
     """
     A wrapper class for helper datetime functions calculated with a particular calendar.

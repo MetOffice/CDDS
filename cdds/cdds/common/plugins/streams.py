@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2022, Met Office.
+# (C) British Crown Copyright 2022-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`streams` module contains the code required to
@@ -98,6 +98,7 @@ class StreamFileInfo:
 
         if files_per_year == 360:
             expected_files = expected_files + 1
+
         return int(expected_files)
 
 

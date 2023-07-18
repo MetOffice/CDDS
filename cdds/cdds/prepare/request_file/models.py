@@ -139,7 +139,7 @@ class RoseSuiteRequest(Request):
             'model_type': self._suite_info['source-type'].replace(',', ' '),
             'package': arguments.package,
             'request_id': '{model-id}_{experiment-id}_{variant-id}'.format(**self._suite_info),
-            'run_bounds': '{}-00-00-00 {}-00-00-00'.format(self._run_bounds_start_date, self._run_bounds_end_date),
+            'run_bounds': '{}T00:00:00 {}T00:00:00'.format(self._run_bounds_start_date, self._run_bounds_end_date),
             'sub_experiment_id': self._suite_info['sub-experiment-id'],
             'suite_branch': arguments.branch,
             'suite_id': arguments.suite,
@@ -154,13 +154,13 @@ class RoseSuiteRequest(Request):
     def _load_streams_items(self, streams):
         for stream in streams:
             key = 'run_bounds_for_stream_' + stream
-            self._items[key] = '{}-00-00-00 {}-00-00-00'.format(self._run_bounds_start_date, self._run_bounds_end_date)
+            self._items[key] = '{}T00:00:00 {}T00:00:00'.format(self._run_bounds_start_date, self._run_bounds_end_date)
 
     def _load_parent_items(self):
         if self._has_parent():
             parent_items = {
-                'branch_date_in_child': '{start-date}-00-00-00'.format(**self._suite_info),
-                'branch_date_in_parent': '{branch-date}-00-00-00'.format(**self._suite_info),
+                'branch_date_in_child': '{start-date}T00:00:00'.format(**self._suite_info),
+                'branch_date_in_parent': '{branch-date}T00:00:00'.format(**self._suite_info),
                 'parent_base_date': BASE_DATE,
                 'parent_experiment_id': self._suite_info['parent-experiment-id'],
                 'parent_mip': self._suite_info['parent-experiment-mip'],

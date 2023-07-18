@@ -155,6 +155,7 @@ def _read_user_arguments():
     parser.add_argument('--mass_ensemble_member', default=None)
     parser.add_argument('--external_plugin', default='', type=str, help=HELP_EXTERNAL_PLUGIN)
     parser.add_argument('--external_plugin_location', default='', type=str, help=HELP_EXTERNAL_PLUGIN_LOCATION)
+
     # Add arguments common to all scripts.
     common_command_line_args(parser, arguments.log_name, arguments.log_level, __version__)
     return arguments, parser

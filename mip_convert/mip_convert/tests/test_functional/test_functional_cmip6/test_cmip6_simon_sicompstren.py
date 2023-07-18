@@ -7,14 +7,14 @@ import pytest
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
-                                                                 MODEL_OUTPUT_DIR_SET2,
-                                                                 ROOT_TEST_CASES_DIR)
+                                                                 MODEL_OUTPUT_DIR,
+                                                                 ROOT_OUTPUT_CASES_DIR)
 
 
 class TestCmip6SImonSicompstren(AbstractFunctionalTests):
 
     def get_test_data(self):
-        test_location = os.path.join(ROOT_TEST_CASES_DIR, 'test_CMIP6_SImon_sicompstren')
+        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_SImon_sicompstren')
         return Cmip6TestData(
             mip_table='SImon',
             variable='sicompstren',
@@ -30,8 +30,8 @@ class TestCmip6SImonSicompstren(AbstractFunctionalTests):
                     'output_dir': get_output_dir(test_location)
                 },
                 request={
-                    'model_output_dir': MODEL_OUTPUT_DIR_SET2,
-                    'run_bounds': '1854-03-01-00-00-00 1854-04-01-00-00-00',
+                    'model_output_dir': MODEL_OUTPUT_DIR,
+                    'run_bounds': '1854-03-01T00:00:00 1854-04-01T00:00:00',
                     'suite_id': 'u-ar050',
                 },
                 streams={

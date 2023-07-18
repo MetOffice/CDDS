@@ -89,7 +89,7 @@ def convert(parameters):
 
     # Load the replacement coordinates file.
     replacement_coordinates = None
-    if user_config.replacement_coordinates_file is not None:
+    if user_config.replacement_coordinates_file:
         replacement_coordinates = iris.load(user_config.replacement_coordinates_file)
 
     # Retrieve the 'MIP requested variable names' from the 'user configuration file'.
