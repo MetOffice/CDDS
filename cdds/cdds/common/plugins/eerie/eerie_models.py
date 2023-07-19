@@ -25,7 +25,7 @@ class EERIEStore(BaseModelStore):
 
     def __init__(self) -> None:
         model_instances: List[BaseModelParameters] = [
-            HadGEM3_GC5_N640ORCA12_Params(),
+            HadGEM3_GC5_COMA9P9_N640_ORCA12_Params(),
         ]
         self.logger = logging.getLogger(self.__class__.__name__)
         super(EERIEStore, self).__init__(model_instances)
@@ -70,23 +70,23 @@ class EERIEModelId(ModelId):
         """
         return '{}.json'.format(self.value)
 
-    HadGEM3_GC5_N640ORCA12 = 'HadGEM3-GC5-N640ORCA12'
+    HadGEM3_GC5_COMA9P9_N640_ORCA12 = 'HadGEM3-GC5-CoMA9p9-N640-ORCA12'
 
 
-class HadGEM3_GC5_N640ORCA12_Params(BaseModelParameters):
+class HadGEM3_GC5_COMA9P9_N640_ORCA12_Params(BaseModelParameters):
     """
-    Class to store the parameters for the HadGEM3_GC5_N640ORCA12 model.
+    Class to store the parameters for the HadGEM3_GC5_COMA9P9_N640_ORCA12 model.
     """
 
     def __init__(self) -> None:
-        super(HadGEM3_GC5_N640ORCA12_Params, self).__init__(EERIEModelId.HadGEM3_GC5_N640ORCA12)
+        super(HadGEM3_GC5_COMA9P9_N640_ORCA12_Params, self).__init__(EERIEModelId.HadGEM3_GC5_COMA9P9_N640_ORCA12)
 
     @property
     def model_version(self) -> str:
         """
-        Returns the model version of the HadGEM3_GC5_N640ORCA12 model.
+        Returns the model version of the HadGEM3_GC5_COMA9P9_N640_ORCA12 model.
 
-        :return: Model version of HadGEM3_GC5_N640ORCA12
+        :return: Model version of HadGEM3_GC5_COMA9P9_N640_ORCA12
         :rtype: str
         """
         return '5.0'
@@ -94,9 +94,9 @@ class HadGEM3_GC5_N640ORCA12_Params(BaseModelParameters):
     @property
     def data_request_version(self) -> str:
         """
-        Returns the data request version of the HadGEM3_GC5_N640ORCA12 model.
+        Returns the data request version of the HadGEM3_GC5_COMA9P9_N640_ORCA12 model.
 
-        :return: Data request version of HadGEM3_GC5_N640ORCA12
+        :return: Data request version of HadGEM3_GC5_COMA9P9_N640_ORCA12
         :rtype: str
         """
         return ''
@@ -104,9 +104,9 @@ class HadGEM3_GC5_N640ORCA12_Params(BaseModelParameters):
     @property
     def um_version(self) -> str:
         """
-        Returns the UM version of the HadGEM3_GC5p_N216ORCA025 model.
+        Returns the UM version of the HadGEM3-GC5-CoMA9p9-N640-ORCA12 model.
 
-        :return: UM version of HadGEM3_GC5_N640ORCA12
+        :return: UM version of HadGEM3_GC5_COMA9P9_N640_ORCA12
         :rtype: str
         """
         return '12.2'
