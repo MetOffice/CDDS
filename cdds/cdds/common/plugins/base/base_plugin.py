@@ -62,6 +62,21 @@ class MipEra(Enum):
         return False
 
     @staticmethod
+    def is_eerie(mip_era: str) -> bool:
+        """
+        Checks if given project is a GcModelDev project.
+
+        :param mip_era: ID of project to check (case-sensitive check!)
+        :type mip_era: str
+        :return: True if project is a GcModelDev project otherwise False
+        :rtype: bool
+        """
+        for era in [MipEra.EERIE]:
+            if mip_era == era.value:
+                return True
+        return False
+
+    @staticmethod
     def is_cordex(mip_era: str) -> bool:
         for cordex in [MipEra.CORDEX]:
             if mip_era == cordex.value:
