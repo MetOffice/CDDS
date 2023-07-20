@@ -68,6 +68,13 @@ class MipEra(Enum):
                 return True
         return False
 
+    @staticmethod
+    def is_eerie(mip_era: str) -> bool:
+        for eerie in [MipEra.EERIE]:
+            if mip_era == eerie.value:
+                return True
+        return False
+
     CMIP6 = "CMIP6"
     GC_MODEL_DEV = "GCModelDev"
     CORDEX = "CORDEX"

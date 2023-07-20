@@ -15,6 +15,7 @@ from cdds.common.plugins.exceptions import PluginLoadError
 from cdds.common.plugins.base.base_plugin import MipEra
 from cdds.common.plugins.cmip6.cmip6_plugin import Cmip6Plugin
 from cdds.common.plugins.cordex.cordex_plugin import CordexPlugin
+from cdds.common.plugins.eerie.eerie_plugin import EERIEPlugin
 from cdds.common.plugins.gcmodeldev.gcmodeldev_plugin import GCModelDevPlugin
 
 
@@ -46,6 +47,8 @@ def load_plugin(mip_era: str = MipEra.CMIP6.value, plugin_module_path: str = Non
         load_gc_model_dev_plugin(mip_era)
     elif MipEra.is_cordex(mip_era):
         load_cordex_plugin(mip_era)
+    elif MipEra.is_eerie(mip_era):
+        load_eerie_plugin(mip_era)
     else:
         message = 'Plugin for this project "{}" is not found.'.format(mip_era)
         logger.critical(message)
@@ -111,6 +114,25 @@ def load_cordex_plugin(mip_era: str) -> None:
         logger.critical(message)
         raise PluginLoadError(message)
 
+
+def load_eerie_plugin(mip_era: str) -> None:
+    """
+    Loads the EERIE plugin implemented by the CDDS project that is responsible for
+    the project with given ID.
+
+    :param mip_era: MIP era for that the plugin is responsible
+    :type mip_era: str
+    """
+    logger = logging.getLogger(__name__)
+    eerie_plugin = EERIEPlugin()
+
+    if eerie_plugin.is_responsible(mip_era):
+        plugin_store = PluginStore.instance()
+        plugin_store.register_plugin(eerie_plugin)
+    else:
+        message = 'Failed to find EERIE plugin for project "{}"'.format(mip_era)
+        logger.critical(message)
+        raise PluginLoadError(message)
 
 def load_external_plugin(mip_era: str, plugin_module_path: str) -> None:
     """
