@@ -1116,7 +1116,6 @@ def generate_datestamps_pp(start_date: str,
     """
 
     modes = {"daily": ["P1D", "%Y%m%d"],
-             "1 day": ["P1D", "%Y%m%d"],
              "10 day": ["P10D", "%Y%m%d"],
              "monthly": ["P1M", "%Y%b"],
              "season": ["P3M", "%Y"]}
