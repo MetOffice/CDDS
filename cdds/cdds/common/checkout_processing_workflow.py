@@ -9,9 +9,9 @@ import sys
 from pathlib import Path
 from typing import Union
 
+from cdds import _NUMERICAL_VERSION
 from cdds.arguments import read_default_arguments
 from cdds.common.constants import PROCESSING_WORKFLOW
-from cdds.common.request import read_request
 from cdds.common import determine_rose_suite_url
 from cdds.convert.process.workflow_interface import (
     check_svn_location,
@@ -21,7 +21,7 @@ from cdds.convert.process.workflow_interface import (
 
 
 def main_checkout_workflow(arguments: Union[list, None] = None):
-    """Main function for handling checking out the CDDS Processing Suite to a specific
+    """Main function for handling checking out the CDDS Processing Workflow to a specific
     location and updating relevant fields in the rose-suite.conf
 
     :param arguments: Optionally pass in a list of arguments for testing purposes.
@@ -34,23 +34,30 @@ def main_checkout_workflow(arguments: Union[list, None] = None):
     workflow_url = determine_rose_suite_url(PROCESSING_WORKFLOW, args.external_repository)
     workflow_url += args.branch_name
 
-    dst_directory = os.path.expanduser(args.workflow_destination)
-    dst_directory = Path(dst_directory, args.workflow_name)
+    workflow_dst = os.path.expanduser(args.workflow_destination)
+    workflow_dst = Path(workflow_dst, args.workflow_name)
 
-    if not Path(dst_directory).is_dir():
-        Path(dst_directory).mkdir(parents=True)
-    elif Path(dst_directory).is_dir():
-        existing_dir(dst_directory)
+    if not Path(workflow_dst).is_dir():
+        Path(workflow_dst).mkdir(parents=True)
+    elif Path(workflow_dst).is_dir():
+        existing_dir(workflow_dst)
     else:
         raise FileNotFoundError("Could not determine the workflow target directory.")
 
     if check_svn_location(workflow_url):
-        checkout_url(workflow_url, dst_directory)
+        checkout_url(workflow_url, workflow_dst)
 
-    update_rose_conf(args, dst_directory)
+    update_rose_conf(args, workflow_dst)
+    run_macros(workflow_dst)
 
 
-def parse_usr_input(workflow_dst):
+def parse_usr_input(workflow_dst: Path):
+    """Handle user input for deletion of existing workflow.
+
+    :param workflow_dst: Workflow destination
+    :type workflow_dst: Path
+    :raises EOFError:
+    """
     usr_input = input(f"Delete files these files and overwrite existing workflow y/n?\n")
 
     if usr_input not in ["y", "n"]:
@@ -63,7 +70,12 @@ def parse_usr_input(workflow_dst):
         raise EOFError
 
 
-def existing_dir(workflow_dst):
+def existing_dir(workflow_dst: Path):
+    """Check whether the existing directory already contains a workflow.
+
+    :param workflow_dst: Workflow destination
+    :type workflow_dst: Path
+    """
     if not Path(workflow_dst / "flow.cylc").exists():
         print(
             "The target directory already exists but does not contain a workflow. Aborting operation."
@@ -73,47 +85,51 @@ def existing_dir(workflow_dst):
 
     if Path(workflow_dst / "flow.cylc").exists():
         print(f"The target directory {workflow_dst} already contains a workflow.\n")
-        for a, _, c in os.walk(workflow_dst):
-            if c:
-                for file in c:
-                    print("/".join([a, file]))
+        for dirpath, _, filenames in os.walk(workflow_dst):
+            if filenames:
+                for file in filenames:
+                    print("/".join([dirpath, file]))
 
         parse_usr_input(workflow_dst)
 
 
-def update_rose_conf(args, suite_directory: str):
+def update_rose_conf(args, workflow_dst: Path):
     """Update the relevant fields of the copied suite with user provided arguments.
 
     :param args: User arguments from command line
     :type args: argparse.Namespace
-    :param suite_directory: Directory of the copied suite.
-    :type suite_directory: str
+    :param workflow_dst: Directory of the copied suite.
+    :type workflow_dst: Path
     """
-    conf_file = os.path.join(suite_directory, "rose-suite.conf")
+
+    conf_file = Path(workflow_dst, "rose-suite.conf")
+    request_path = str(Path(args.request_path).expanduser().absolute())
+    variables_path = str(Path(args.variables_file).expanduser().absolute())
+
     conf_override_fields = [
-        ("request_path", "REQUEST_JSON_PATH", "env", True),
-        ("variables_file", "USER_VARIABLES_LIST", "template variables", True),
+        ("REQUEST_JSON_PATH", request_path, "env", True),
+        ("USER_VARIABLES_LIST", variables_path, "env", True),
+        ("CDDS_VERSION", _NUMERICAL_VERSION, "env", True),
     ]
-
-    for option, mapping, section_name, raw_value in conf_override_fields:
-        if vars(args)[option]:
-            if option in ["request_path", "variables_file"]:
-                full_path = str(Path(vars(args)[option]).expanduser().absolute())
-                changes_to_apply = {mapping: full_path}
-            else:
-                changes_to_apply = {mapping: vars(args)[option]}
-            update_suite_conf_file(conf_file, section_name, changes_to_apply, raw_value)
-
-    run_macros(suite_directory)
+    print()
+    print("Updating rose-suite.conf values.")
+    for key, value, section_name, raw_value in conf_override_fields:
+        changes_to_apply = {key: value}
+        changes = update_suite_conf_file(conf_file, section_name, changes_to_apply, raw_value)
+        print(changes)
 
 
-def run_macros(workflow_dst):
+def run_macros(workflow_dst: Path):
     macro_cmd_streams = f"rose macro load_streams.LoadStreams --suite-only -y -C {workflow_dst}"
     macro_cmd_workflows = f"rose macro generate_workflow_names.GenerateWorkflowNames --suite-only -y -C {workflow_dst}"
-
+    print()
+    print("Running rose macros.")
     for macro_cmd in [macro_cmd_streams, macro_cmd_workflows]:
-        subprocess.run(macro_cmd.split())
-        Path(workflow_dst / 'rose-app.conf').replace(Path(workflow_dst / 'rose-suite.conf'))
+        cmd = macro_cmd.split()
+        completed_process = subprocess.run(cmd, capture_output=True, encoding="utf-8")
+        print(completed_process.stdout)
+        # needed due to a quirk of using "rose macro" via cmd line which outputs a rose-app.conf
+        Path(workflow_dst / "rose-app.conf").replace(Path(workflow_dst / "rose-suite.conf"))
 
 
 def parse_args(arguments: Union[list, None]) -> argparse.Namespace:
