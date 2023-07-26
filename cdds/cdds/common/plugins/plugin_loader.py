@@ -17,7 +17,6 @@ from cdds.common.plugins.cmip6.cmip6_plugin import Cmip6Plugin
 from cdds.common.plugins.cordex.cordex_plugin import CordexPlugin
 from cdds.common.plugins.eerie.eerie_plugin import EERIEPlugin
 from cdds.common.plugins.gcmodeldev.gcmodeldev_plugin import GCModelDevPlugin
-from cdds.common.plugins.eerie.eerie_plugin import EERIEPlugin
 
 
 def load_plugin(mip_era: str = MipEra.CMIP6.value, plugin_module_path: str = None, plugin_location: str = None) -> None:
