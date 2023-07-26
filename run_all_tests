@@ -44,7 +44,9 @@ def du(path):
     """
     Disk usage in human readable format (e.g. '2,1GB')
     """
-    return subprocess.check_output(['du','-sh', path]).split()[0].decode('utf-8')
+    #return subprocess.check_output(['du','-sh', path]).split()[0].decode('utf-8')
+    out =  subprocess.check_output(['quotas']).decode('utf-8')
+    return [i for i in out.split("\n") if "spice:scratch" in i ][0].split()[1]
 
 
 def parse_arguments():
@@ -61,7 +63,7 @@ def main():
     arguments = parse_arguments()
     start = timer()
     print('Using $SCRATCH ({}) for temporary large volume storage'.format(os.environ['SCRATCH']))
-    print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH'])))
+    print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH']+"/testdata")))
     for package, tests in TESTS_TO_RUN.items():
         print('\nExecuting tests for {}:'.format(package))
         for test in tests:
