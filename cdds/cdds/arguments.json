@@ -1,4 +1,7 @@
 {
+  "checkout_processing_workflow":{
+      "log_name": "checkout_processing_workflow"
+  },
   "mip_table_editor": {
       "log_name": "mip_table_editor"
   },
