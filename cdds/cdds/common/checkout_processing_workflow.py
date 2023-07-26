@@ -34,15 +34,14 @@ def main_checkout_workflow(arguments: Union[list, None] = None):
     workflow_url = determine_rose_suite_url(PROCESSING_WORKFLOW, args.external_repository)
     workflow_url += args.branch_name
 
-    workflow_dst = os.path.expanduser(args.workflow_destination)
-    workflow_dst = Path(workflow_dst, args.workflow_name)
+    workflow_dst = Path(args.workflow_destination, args.workflow_name).expanduser()
 
-    if not Path(workflow_dst).is_dir():
-        Path(workflow_dst).mkdir(parents=True)
-    elif Path(workflow_dst).is_dir():
+    if not workflow_dst.is_dir():
+        workflow_dst.mkdir(parents=True)
+    elif workflow_dst.is_dir():
         existing_dir(workflow_dst)
     else:
-        raise FileNotFoundError("Could not determine the workflow target directory.")
+        raise RuntimeError("Could not determine the workflow target directory.")
 
     if check_svn_location(workflow_url):
         checkout_url(workflow_url, workflow_dst)
@@ -51,18 +50,18 @@ def main_checkout_workflow(arguments: Union[list, None] = None):
     run_macros(workflow_dst)
 
 
-def parse_usr_input(workflow_dst: Path):
+def parse_user_input(workflow_dst: Path):
     """Handle user input for deletion of existing workflow.
 
     :param workflow_dst: Workflow destination
     :type workflow_dst: Path
     :raises EOFError:
     """
-    usr_input = input(f"Delete files these files and overwrite existing workflow y/n?\n")
+    usr_input = input(f"Delete files and overwrite existing workflow y/n?\n")
 
     if usr_input not in ["y", "n"]:
         print(f"{usr_input} is not a valid option. y/n")
-        parse_usr_input(workflow_dst)
+        parse_user_input(workflow_dst)
     elif usr_input == "y":
         shutil.rmtree(workflow_dst)
         return None
@@ -90,7 +89,7 @@ def existing_dir(workflow_dst: Path):
                 for file in filenames:
                     print("/".join([dirpath, file]))
 
-        parse_usr_input(workflow_dst)
+        parse_user_input(workflow_dst)
 
 
 def update_rose_conf(args, workflow_dst: Path):
@@ -98,7 +97,7 @@ def update_rose_conf(args, workflow_dst: Path):
 
     :param args: User arguments from command line
     :type args: argparse.Namespace
-    :param workflow_dst: Directory of the copied suite.
+    :param workflow_dst: Workflow destination
     :type workflow_dst: Path
     """
 
@@ -120,6 +119,11 @@ def update_rose_conf(args, workflow_dst: Path):
 
 
 def run_macros(workflow_dst: Path):
+    """Run the rose macros used for populating the STREAMS and WORKFLOW_NAMES jinja2 variable values.
+
+    :param workflow_dst: Workflow destination
+    :type workflow_dst: Path
+    """
     macro_cmd_streams = f"rose macro load_streams.LoadStreams --suite-only -y -C {workflow_dst}"
     macro_cmd_workflows = f"rose macro generate_workflow_names.GenerateWorkflowNames --suite-only -y -C {workflow_dst}"
     print()
