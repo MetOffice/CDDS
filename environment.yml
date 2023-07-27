@@ -1,9 +1,8 @@
 name: cdds-2.5.0_dev-4
 channels:
-  - conda-main
   - conda-mo-internal
   - conda-forge
-  - conda-r
+  - conda-main
 dependencies:
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=2_gnu
