@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cdds.common.plugins.base.base_models &#8212; CDDS  documentation</title>
+    <title>cdds.common.plugins.base.base_models &#8212; CDDS 2.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/nature.css" />
     <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS 2.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.base.base_models</a></li> 
       </ul>
@@ -37,7 +37,7 @@
           <div class="body" role="main">
             
   <h1>Source code for cdds.common.plugins.base.base_models</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) British Crown Copyright 2021-2022, Met Office.</span>
+<span></span><span class="c1"># (C) British Crown Copyright 2021-2023, Met Office.</span>
 <span class="c1"># Please see LICENSE.rst for license details.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The :mod:`base_models` module contains the code required to</span>
@@ -61,13 +61,13 @@
 
 
 <div class="viewcode-block" id="ModelId"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.ModelId">[docs]</a><span class="k">class</span> <span class="nc">ModelId</span><span class="p">(</span><span class="n">Enum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCEnumMeta</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents the ID of a model.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="ModelId.get_json_file"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.ModelId.get_json_file">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">get_json_file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the json file name for a model containing the model parameters data.</span>
 
 <span class="sd">        :return: Json file name for the model with current ID</span>
@@ -78,7 +78,7 @@
 
 <div class="viewcode-block" id="SizingInfo"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.SizingInfo">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">SizingInfo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents the sizing information of a model and provides functions</span>
 <span class="sd">    to extract data and update data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -88,7 +88,7 @@
     <span class="n">sizing_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span>
 
 <div class="viewcode-block" id="SizingInfo.update"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.SizingInfo.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update the sizing information</span>
 
 <span class="sd">        :param new_data: New data to add or update</span>
@@ -97,7 +97,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sizing_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SizingInfo.get_all"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.SizingInfo.get_all">[docs]</a>    <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the whole sizing information as a dict.</span>
 
 <span class="sd">        :return: Sizing information</span>
@@ -106,7 +106,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizing_data</span></div>
 
 <div class="viewcode-block" id="SizingInfo.get_period"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.SizingInfo.get_period">[docs]</a>    <span class="k">def</span> <span class="nf">get_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get period for given frequency and the shape with given coordinates.</span>
 
 <span class="sd">        :param frequency: Frequency, for example monthly, daily</span>
@@ -144,7 +144,7 @@
 
 
 <div class="viewcode-block" id="BaseModelParameters"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters">[docs]</a><span class="k">class</span> <span class="nc">BaseModelParameters</span><span class="p">(</span><span class="n">ModelParameters</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract class to store the parameters for a model.</span>
 <span class="sd">    The parameters of a model are defined in a json file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -160,7 +160,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_stream_file_info</span><span class="p">:</span> <span class="n">StreamFileInfo</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="BaseModelParameters.temp_space"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.temp_space">[docs]</a>    <span class="k">def</span> <span class="nf">temp_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the temporary space of the given stream.</span>
 
 <span class="sd">        :param stream_id: Stream ID</span>
@@ -172,7 +172,7 @@
         <span class="k">return</span> <span class="n">temp_space</span></div>
 
 <div class="viewcode-block" id="BaseModelParameters.memory"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.memory">[docs]</a>    <span class="k">def</span> <span class="nf">memory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the memory of the given stream.</span>
 
 <span class="sd">        :param stream_id: Stream ID</span>
@@ -183,7 +183,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_memory</span><span class="p">[</span><span class="n">stream_id</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="BaseModelParameters.cycle_length"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.cycle_length">[docs]</a>    <span class="k">def</span> <span class="nf">cycle_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the cycle length of the given stream.</span>
 
 <span class="sd">        :param stream_id: Stream ID</span>
@@ -194,7 +194,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cycle_lengths</span><span class="p">[</span><span class="n">stream_id</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="BaseModelParameters.sizing_info"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.sizing_info">[docs]</a>    <span class="k">def</span> <span class="nf">sizing_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the sizing info for a specific period. The period is specified</span>
 <span class="sd">        by the given frequency and shape coordinates.</span>
 
@@ -208,7 +208,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sizing</span><span class="o">.</span><span class="n">get_period</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BaseModelParameters.full_sizing_info"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.full_sizing_info">[docs]</a>    <span class="k">def</span> <span class="nf">full_sizing_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns all sizing information.</span>
 
 <span class="sd">        :return: Sizing information</span>
@@ -217,7 +217,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sizing</span><span class="o">.</span><span class="n">get_all</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="BaseModelParameters.subdaily_streams"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.subdaily_streams">[docs]</a>    <span class="k">def</span> <span class="nf">subdaily_streams</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a list of subdaily atmospheric streams.</span>
 
 <span class="sd">        :return: Subdaily streams</span>
@@ -226,7 +226,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subdaily_streams</span></div>
 
 <div class="viewcode-block" id="BaseModelParameters.stream_file_info"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.stream_file_info">[docs]</a>    <span class="k">def</span> <span class="nf">stream_file_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StreamFileInfo</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns information about the stream files that the model supports.</span>
 
 <span class="sd">        :return: Information about the stream files</span>
@@ -235,7 +235,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stream_file_info</span></div>
 
 <div class="viewcode-block" id="BaseModelParameters.load_parameters"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.load_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">load_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dir_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadResult</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads parameters from json files contained in the given directory.</span>
 
 <span class="sd">        :param dir_path: Path to the directory containing the json files</span>
@@ -279,7 +279,7 @@
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BaseModelParameters.is_model"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.is_model">[docs]</a>    <span class="k">def</span> <span class="nf">is_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns if the current class represents the given model.</span>
 
 <span class="sd">        :param model_id: Model ID to check</span>
@@ -290,7 +290,7 @@
         <span class="k">return</span> <span class="n">model_id</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_id</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="BaseModelParameters.grid_info"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.grid_info">[docs]</a>    <span class="k">def</span> <span class="nf">grid_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid_type</span><span class="p">:</span> <span class="n">GridType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseGridInfo</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the corresponding grid information for the given grid type.</span>
 
 <span class="sd">        :param grid_type: Grid type (e.g.: ATMOS, OCEAN)</span>
@@ -301,7 +301,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grid_info</span><span class="p">[</span><span class="n">grid_type</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="BaseModelParameters.all_ancil_files"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.all_ancil_files">[docs]</a>    <span class="k">def</span> <span class="nf">all_ancil_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the paths to all ancillary files of this model in the</span>
 <span class="sd">        model directory in given root directory.</span>
 
@@ -322,7 +322,7 @@
         <span class="p">))</span></div>
 
 <div class="viewcode-block" id="BaseModelParameters.all_hybrid_heights_files"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelParameters.all_hybrid_heights_files">[docs]</a>    <span class="k">def</span> <span class="nf">all_hybrid_heights_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root_directory</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the paths to all hybrid heights files of this model in the</span>
 <span class="sd">        given root directory.</span>
 
@@ -341,7 +341,7 @@
 
 
 <div class="viewcode-block" id="BaseModelStore"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelStore">[docs]</a><span class="k">class</span> <span class="nc">BaseModelStore</span><span class="p">(</span><span class="n">ModelsStore</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Singleton class to store for each model the corresponding parameters.</span>
 <span class="sd">    The parameters are defined in json files.</span>
 
@@ -355,14 +355,14 @@
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">_load_default_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Loads information from a json in a specific location. The json contains</span>
 <span class="sd">        the default information for each supported resolution.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="BaseModelStore.overload_params"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelStore.overload_params">[docs]</a>    <span class="k">def</span> <span class="nf">overload_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dir_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadResults</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Overloads model parameters. The new parameters are specified in a json file in the given directory.</span>
 <span class="sd">        The json file name must match following pattern: &lt;model-name&gt;.json</span>
 
@@ -379,7 +379,7 @@
         <span class="k">return</span> <span class="n">results</span></div>
 
 <div class="viewcode-block" id="BaseModelStore.get"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelStore.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseModelParameters</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the model parameters data for the given model.</span>
 
 <span class="sd">        :param model_id: Model ID</span>
@@ -393,7 +393,7 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot find any model parameters for model </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model_id</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="BaseModelStore.get_all"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelStore.get_all">[docs]</a>    <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseModelParameters</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns all model parameters data stored in this model store.</span>
 
 <span class="sd">        :return:</span>
@@ -402,7 +402,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_instances</span></div>
 
 <div class="viewcode-block" id="BaseModelStore.add"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_models.BaseModelStore.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_instance</span><span class="p">:</span> <span class="n">BaseModelParameters</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds the given CmipModelParameters instance to the cache</span>
 
 <span class="sd">        Only used in tests!</span>
@@ -439,13 +439,13 @@
         <li class="right" >
           <a href="../../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS 2.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.base.base_models</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Climate Data Delivery Team.
+        &#169; Copyright British Crown 2015-2023, Met Office.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
     </div>
   </body>
