@@ -5,6 +5,7 @@
 
 Release 2.5.0, July 27, 2023
 ============================
+* Updated CMOR to version 3.7.2, which required iris update to 3.4.1 (CDDSO-321)
 * Relocated test data to enable testing on multiple platforms (CDDSO-278)
 * Change date format in config file to ISO datetime (CDDSO-294, CDDSO-313)
 
