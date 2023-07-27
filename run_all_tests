@@ -44,7 +44,6 @@ def du(path):
     """
     Disk usage in human readable format (e.g. '2,1GB')
     """
-    #return subprocess.check_output(['du','-sh', path]).split()[0].decode('utf-8')
     out =  subprocess.check_output(['quotas']).decode('utf-8')
     return [i for i in out.split("\n") if "spice:scratch" in i ][0].split()[1]
 
