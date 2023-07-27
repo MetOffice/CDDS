@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cdds.common.plugins.base.base_plugin &#8212; CDDS  documentation</title>
+    <title>cdds.common.plugins.base.base_plugin &#8212; CDDS 2.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/nature.css" />
     <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS 2.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.base.base_plugin</a></li> 
       </ul>
@@ -48,7 +48,7 @@
 
 
 <div class="viewcode-block" id="MipEra"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_plugin.MipEra">[docs]</a><span class="k">class</span> <span class="nc">MipEra</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    MIP eras of projects (e.g. cmip6, cmip7, ...)</span>
 
 <span class="sd">    At the moment, only cmip6 is supported. That will change</span>
@@ -57,7 +57,7 @@
 
 <div class="viewcode-block" id="MipEra.from_str"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_plugin.MipEra.from_str">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_str</span><span class="p">(</span><span class="n">str_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MipEra&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the corresponding MIP era to the given string representation.</span>
 
 <span class="sd">        :param str_value: MIP era as string</span>
@@ -72,7 +72,7 @@
 
 <div class="viewcode-block" id="MipEra.is_cmip"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_plugin.MipEra.is_cmip">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">is_cmip</span><span class="p">(</span><span class="n">mip_era</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks if given project is a CMIP project.</span>
 
 <span class="sd">        :param mip_era: ID of project to check (case-sensitive check!)</span>
@@ -87,7 +87,7 @@
 
 <div class="viewcode-block" id="MipEra.is_gcmodeldev"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_plugin.MipEra.is_gcmodeldev">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">is_gcmodeldev</span><span class="p">(</span><span class="n">mip_era</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks if given project is a GcModelDev project.</span>
 
 <span class="sd">        :param mip_era: ID of project to check (case-sensitive check!)</span>
@@ -100,12 +100,20 @@
                 <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span></div>
 
+<div class="viewcode-block" id="MipEra.is_cordex"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_plugin.MipEra.is_cordex">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_cordex</span><span class="p">(</span><span class="n">mip_era</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">cordex</span> <span class="ow">in</span> <span class="p">[</span><span class="n">MipEra</span><span class="o">.</span><span class="n">CORDEX</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">mip_era</span> <span class="o">==</span> <span class="n">cordex</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
     <span class="n">CMIP6</span> <span class="o">=</span> <span class="s2">&quot;CMIP6&quot;</span>
-    <span class="n">GC_MODEL_DEV</span> <span class="o">=</span> <span class="s2">&quot;GCModelDev&quot;</span></div>
+    <span class="n">GC_MODEL_DEV</span> <span class="o">=</span> <span class="s2">&quot;GCModelDev&quot;</span>
+    <span class="n">CORDEX</span> <span class="o">=</span> <span class="s2">&quot;CORDEX&quot;</span></div>
 
 
 <div class="viewcode-block" id="BasePlugin"><a class="viewcode-back" href="../../../../../plugins/plugins.base.html#cdds.common.plugins.base.base_plugin.BasePlugin">[docs]</a><span class="k">class</span> <span class="nc">BasePlugin</span><span class="p">(</span><span class="n">CddsPlugin</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract class that provides some basic functionality for plugins.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -142,13 +150,13 @@
         <li class="right" >
           <a href="../../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS 2.5.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.base.base_plugin</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Climate Data Delivery Team.
+        &#169; Copyright British Crown 2015-2023, Met Office.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
     </div>
   </body>
