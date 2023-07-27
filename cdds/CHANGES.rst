@@ -3,6 +3,20 @@
 
 .. include:: common.txt
 
+Release 2.5.0, July 27, 2023
+============================
+* Migrate CDDS to Cylc 8 (CDDSO-282, CDDSO-285)
+* Introduce gregorian calendar support (CDDSO-231, CDDSO-235, CDDSO-240, CDDSO-244)
+* Plugin and code development to support Regional models for projects such as CORDEX
+  (CDDSO-233, CDDSO-68, CDDSO-74, CDDSO-261, CDDSO-149)
+* CDDS now uses ISO datetime format for all time values in CDDS and MIP Convert config 
+  files (CDDSO-313, CDDSO-45)
+* Relocate test and etc directories to support alternate platforms and migration to 
+  azure SPICE (CDDSO-131, CDDSO-273)
+* Replace pep8 with pycodestyle (CDDSO-207)
+* Separated extract validation into a separate script & task (CDDSO-243)
+* Introduced retries to workflow tasks when submission fails (CDDSO-314)
+
 Release 2.4.7, June 29, 2023
 ============================
 * Fix a bug in the dehaloing script that prevented it from reading default command line
