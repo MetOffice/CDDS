@@ -5,7 +5,7 @@
 
 Release 2.5.0, July 27, 2023
 ============================
-* Migrate CDDS to Cylc 8 (CDDSO-282, CDDSO-285)
+* Migrate CDDS to Cylc 8 (CDDSO-282, CDDSO-285, CDDSO-184)
 * Introduce gregorian calendar support (CDDSO-231, CDDSO-235, CDDSO-240, CDDSO-244)
 * Plugin and code development to support Regional models for projects such as CORDEX
   (CDDSO-233, CDDSO-68, CDDSO-74, CDDSO-261, CDDSO-149)
@@ -16,6 +16,9 @@ Release 2.5.0, July 27, 2023
 * Replace pep8 with pycodestyle (CDDSO-207)
 * Separated extract validation into a separate script & task (CDDSO-243)
 * Introduced retries to workflow tasks when submission fails (CDDSO-314)
+* Amalgamated CDDS processing and ensemble processing workflows. Previous tools based 
+  on u-cq805 and u-cr273 are deprecated (CDDSO-319)
+* Updated CMOR to version 3.7.2, which required iris update to 3.4.1 (CDDSO-321)
 
 Release 2.4.7, June 29, 2023
 ============================
