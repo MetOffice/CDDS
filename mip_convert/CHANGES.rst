@@ -3,6 +3,11 @@
 
 .. include:: common.txt
 
+Release 2.5.0, July 27, 2023
+============================
+* Relocated test data to enable testing on multiple platforms (CDDSO-278)
+* Change date format in config file to ISO datetime (CDDSO-294, CDDSO-313)
+
 Release 2.4.6, June 23, 2023
 ============================
 * Add Eday/evspsbl mapping to MIP Convert (CDDSO-291)
