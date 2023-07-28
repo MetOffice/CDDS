@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2009-2022, Met Office.
+# (C) British Crown Copyright 2009-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The MIP Convert package produces the |output netCDF files| for a |MIP|
@@ -16,5 +16,5 @@ environ["VECLIB_MAXIMUM_THREADS"] = "1"
 environ["NUMEXPR_NUM_THREADS"] = "1"
 
 _DEV = True
-_NUMERICAL_VERSION = '2.5.0'
+_NUMERICAL_VERSION = '2.6.0'
 __version__ = get_version('mip_convert')
