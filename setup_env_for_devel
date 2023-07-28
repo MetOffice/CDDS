@@ -2,15 +2,13 @@
 CDDS_DIR=${1:-$PWD}
 export CDDS_DIR
 export CDDS_PACKAGES="cdds mip_convert"
-export CDDS_TEST_NOATTRIBUTES='!slow,!integration,!crem,!data_request,!mappings,!inprogress,!rabbitMQ'
-export CDDS_TEST_ATTRIBUTES="integration inprogress data_request crem mappings slow rabbitMQ"
 
 export CDDS_PACKAGES
 
 MO_CONDA='/home/h03/cdds/software/miniconda3/bin/activate'
 JASMIN_CONDA='/gws/smf/j04/cmip6_prep/cdds-env-python3/miniconda3/bin/activate'
 
-DEV_ENV='cdds-2.5.0_dev-4'
+DEV_ENV='cdds-2.6_dev-1'
 
 if [ -f ${MO_CONDA} ]; then
     . ${MO_CONDA} ${DEV_ENV}
