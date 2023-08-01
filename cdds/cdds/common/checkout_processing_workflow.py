@@ -5,7 +5,6 @@ import argparse
 import os
 import shutil
 import subprocess
-import sys
 from pathlib import Path
 from typing import Union
 
@@ -36,16 +35,9 @@ def main_checkout_workflow(arguments: Union[list, None] = None):
 
     workflow_dst = Path(args.workflow_destination, args.workflow_name).expanduser()
 
-    if not workflow_dst.is_dir():
-        workflow_dst.mkdir(parents=True)
-    elif workflow_dst.is_dir():
-        existing_dir(workflow_dst)
-    else:
-        raise RuntimeError("Could not determine the workflow target directory.")
-
-    if check_svn_location(workflow_url):
-        checkout_url(workflow_url, workflow_dst)
-
+    validate_arguments(args, workflow_url)
+    create_workflow_dst(workflow_dst)
+    checkout_url(workflow_url, workflow_dst)
     update_rose_conf(args, workflow_dst)
     run_macros(workflow_dst)
 
@@ -69,27 +61,48 @@ def parse_user_input(workflow_dst: Path):
         raise EOFError
 
 
-def existing_dir(workflow_dst: Path):
+def validate_arguments(args, workflow_url: str):
+    """ Perform basic sanity checks on user inputs.
+
+    :param args: User arguments from command line
+    :type args: argparse.Namespace
+    :param workflow_url: Workflow branch url
+    :type workflow_url: str
+    """
+
+    if not check_svn_location(workflow_url):
+        raise RuntimeError(f"No branch at {workflow_url}")
+    if not Path(args.request_path).exists():
+        raise RuntimeError(f"No request file at {args.request_path}")
+    if not Path(args.variables_file).exists():
+        raise RuntimeError(f"No variables file at {args.variables_file}")
+
+
+def create_workflow_dst(workflow_dst: Path):
     """Check whether the existing directory already contains a workflow.
 
     :param workflow_dst: Workflow destination
     :type workflow_dst: Path
     """
-    if not Path(workflow_dst / "flow.cylc").exists():
-        print(
-            "The target directory already exists but does not contain a workflow. Aborting operation."
-        )
 
-        sys.exit(1)
+    if not workflow_dst.is_dir():
+        workflow_dst.mkdir(parents=True)
 
-    if Path(workflow_dst / "flow.cylc").exists():
-        print(f"The target directory {workflow_dst} already contains a workflow.\n")
+    elif not Path(workflow_dst / "flow.cylc").exists():
+        msg = f"Target directory {workflow_dst} exists but is not a workflow. Aborting operation."
+        raise RuntimeError(msg)
+
+    elif Path(workflow_dst / "flow.cylc").exists():
+        print(f"Target directory {workflow_dst} already contains a workflow.\n")
         for dirpath, _, filenames in os.walk(workflow_dst):
             if filenames:
                 for file in filenames:
                     print("/".join([dirpath, file]))
 
         parse_user_input(workflow_dst)
+
+    else:
+        raise RuntimeError(f"Could not create {workflow_dst}")
 
 
 def update_rose_conf(args, workflow_dst: Path):
