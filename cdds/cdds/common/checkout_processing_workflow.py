@@ -31,6 +31,7 @@ def main_checkout_workflow(arguments: Union[list, None] = None):
     args = parse_args(arguments)
 
     workflow_url = determine_rose_suite_url(PROCESSING_WORKFLOW, args.external_repository)
+    breakpoint()
     workflow_url += args.branch_name
 
     workflow_dst = Path(args.workflow_destination, args.workflow_name).expanduser()
@@ -184,7 +185,8 @@ def parse_args(arguments: Union[list, None]) -> argparse.Namespace:
     parser.add_argument(
         "--external_repository",
         action="store_false",
-        help="Don't use external repository",
+        help="Use external repository (https://code.metoffice.gov.uk/svn/roses-u) "
+             "instead of internal mirror (svn://fcm1/roses-u.xm_svn)"
     )
     parsed_arguments = parser.parse_args(arguments)
 
