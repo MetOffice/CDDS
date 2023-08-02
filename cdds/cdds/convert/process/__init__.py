@@ -171,7 +171,15 @@ class ConvertProcess(object):
                        '').format(suite_base_url)
                 self.logger.error(msg)
                 raise RuntimeError(msg)
-        return os.path.join(suite_base_url, self._rose_suite_branch)
+        # Check the branch is also valid
+        suite_full_url = os.path.join(suite_base_url, self._rose_suite_branch)
+        if not workflow_interface.check_svn_location(suite_full_url):
+            msg = ('Could not access branch "{}" at "{}"'
+                   '').format(self._rose_suite_branch, suite_full_url)
+            self.logger.error(msg)
+            raise RuntimeError(msg)
+
+        return suite_full_url
 
     @property
     def suite_destination(self):
