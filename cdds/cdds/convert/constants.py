@@ -15,7 +15,7 @@ FILEPATH_METOFFICE = 'METOFFICE'
 FILEPATH_JASMIN = 'ARCHER'
 
 # When running ncrcat, suppress history update, don't use temporary files and overwrite any existing files
-NCRCAT = ['ncrcat', '-h', '--no_tmp_fl', '-O']
+NCRCAT = ['ncrcat', '-h', '--no_tmp_fl', '--no_cell_methods', '-O']
 NTHREADS_CONCATENATE = 1
 NUM_FILE_COPY_ATTEMPTS = 3  # Number of attempts for copying files to TMPDIR
 ORGANISE_FILES_ENV_VARS = ['START_DATE', 'END_DATE', 'REF_DATE',
