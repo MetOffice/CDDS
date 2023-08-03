@@ -95,7 +95,7 @@ class StringAttributesCheckTask(CheckTask):
             "experiment": validator.experiment_validator(getattr(netcdf_file, "experiment_id")),
             "institution": validator.institution_validator(getattr(netcdf_file, "institution_id")),
             "Conventions": ValidatorFactory.value_in_validator(self.CF_CONVENTIONS),
-            "creation_date": ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ"),
+            "creation_date": ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ", "gregorian"),
             "data_specs_version": ValidatorFactory.value_in_validator([self._cache.mip_tables.version]),
             "license": ValidatorFactory.value_in_validator([self._cache.request.license.strip()]),
             "mip_era": ValidatorFactory.value_in_validator([self._cache.request.mip_era]),
