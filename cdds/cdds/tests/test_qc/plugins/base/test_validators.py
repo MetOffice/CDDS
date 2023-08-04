@@ -3,6 +3,7 @@
 
 import unittest
 import numpy as np
+from metomi.isodatetime.data import Calendar
 from cdds.qc.plugins.base.validators import ControlledVocabularyValidator
 from cdds.qc.plugins.base.validators import ValidatorFactory, ValidationError
 from cdds.tests.test_qc.plugins.constants import CV_REPO
@@ -74,3 +75,12 @@ class TestValidators(unittest.TestCase):
         self.assertRaises(ValidationError, validator_gregorian, "2023-02-30T01:20:05Z")
         self.assertRaises(ValidationError, validator_360day, "2023-07-31T01:20:05Z")
         self.assertIsNone(validator_gregorian("2023-07-31T01:20:05Z"))
+
+    def test_date_validator_calendar_reset(self):
+        Calendar.default().set_mode("360_day")
+        validator_gregorian = ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ", "gregorian")
+        self.assertIsNone(validator_gregorian("2023-07-31T01:20:05Z"))
+        self.assertEquals(Calendar.default().mode, "360_day")
+
+        self.assertRaises(ValidationError, validator_gregorian, "2023-02-30T01:20:05Z")
+        self.assertEquals(Calendar.default().mode, "360_day")

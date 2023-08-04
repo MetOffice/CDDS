@@ -260,9 +260,12 @@ class ValidatorFactory:
         """
         def validator_function(value):
             try:
+                current_mode = Calendar.default().mode
                 Calendar.default().set_mode(calendar)
                 TimePointParser().strptime(value, template)
             except ValueError:
                 raise ValidationError("'{}' is not a valid date in a form of {}".format(value, template))
-
+            finally:
+                # revert to the cached mode
+                Calendar.default().set_mode(current_mode)
         return validator_function
