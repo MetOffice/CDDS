@@ -6,9 +6,10 @@
 Release 2.5.1, August 4, 2023
 =============================
 * Unify CDDS Processing Suite and CDDS Ensemble Suite workflows (CDDSO-319)
-* Disable cell_methods modification by the ncrcat tool in convert
-   concatenation tasks (CDDSO-327)
-* Fix creation_date validation bug in QC (CDDSO-326)
+* Ensure that recent versions of the NCO tools used for concatenation
+  of files do not modify metadata, leading to publication issues (CDDSO-327)
+* Fix creation_date validation bug in QC when data is written on the 31st
+  of a month (CDDSO-326)
 
 Release 2.5.0, July 27, 2023
 ============================
