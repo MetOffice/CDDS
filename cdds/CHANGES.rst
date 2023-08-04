@@ -3,6 +3,13 @@
 
 .. include:: common.txt
 
+Release 2.5.1, August 4, 2023
+=============================
+* Unify CDDS Processing Suite and CDDS Ensemble Suite workflows (CDDSO-319)
+* Disable cell_methods modification by the ncrcat tool in convert
+   concatenation tasks (CDDSO-327)
+* Fix creation_date validation bug in QC (CDDSO-326)
+
 Release 2.5.0, July 27, 2023
 ============================
 * Migrate CDDS to Cylc 8 (CDDSO-282, CDDSO-285, CDDSO-184)

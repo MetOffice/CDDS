@@ -3,6 +3,10 @@
 
 .. include:: common.txt
 
+Release 2.5.1, August 4, 2023
+=============================
+* Add ``zos`` mapping for HadGEM3-GC3p05-N216ORCA025 (CDDSO-328)
+
 Release 2.5.0, July 27, 2023
 ============================
 * Updated CMOR to version 3.7.2, which required iris update to 3.4.1 (CDDSO-321)
