@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 
 import unittest
@@ -66,3 +66,11 @@ class TestValidators(unittest.TestCase):
         self.assertRaises(ValidationError, validator, -4)
         self.assertIsNone(zero_validator(0))
         self.assertIsNone(negative_validator(-1))
+
+    def test_date_validator(self):
+        validator_360day = ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ")
+        validator_gregorian = ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ", "gregorian")
+        self.assertIsNone(validator_360day("2023-02-30T01:20:05Z"))
+        self.assertRaises(ValidationError, validator_gregorian, "2023-02-30T01:20:05Z")
+        self.assertRaises(ValidationError, validator_360day, "2023-07-31T01:20:05Z")
+        self.assertIsNone(validator_gregorian("2023-07-31T01:20:05Z"))
