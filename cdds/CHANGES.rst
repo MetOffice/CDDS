@@ -3,6 +3,13 @@
 
 .. include:: common.txt
 
+Release 2.5.1, August 4, 2023
+=============================
+* Ensure that recent versions of the NCO tools used for concatenation
+  of files do not modify metadata, leading to publication issues (CDDSO-327)
+* Fix creation_date validation bug in QC when data is written on the 31st
+  of a month (CDDSO-326)
+
 Release 2.5.0, July 27, 2023
 ============================
 * Migrate CDDS to Cylc 8 (CDDSO-282, CDDSO-285, CDDSO-184)

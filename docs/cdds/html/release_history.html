@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Release History &#8212; CDDS 2.5.0 documentation</title>
+    <title>Release History &#8212; CDDS 2.5.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="installation.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CDDS 2.5.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CDDS 2.5.1 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Release History</a></li> 
       </ul>
     </div>  
@@ -46,10 +46,19 @@
             
   <section id="release-history">
 <h1>Release History<a class="headerlink" href="#release-history" title="Permalink to this headline">¶</a></h1>
+<section id="release-2-5-1-august-4-2023">
+<h2>Release 2.5.1, August 4, 2023<a class="headerlink" href="#release-2-5-1-august-4-2023" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Ensure that recent versions of the NCO tools used for concatenation
+of files do not modify metadata, leading to publication issues (CDDSO-327)</p></li>
+<li><p>Fix creation_date validation bug in QC when data is written on the 31st
+of a month (CDDSO-326)</p></li>
+</ul>
+</section>
 <section id="release-2-5-0-july-27-2023">
 <h2>Release 2.5.0, July 27, 2023<a class="headerlink" href="#release-2-5-0-july-27-2023" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Migrate CDDS to Cylc 8 (CDDSO-282, CDDSO-285)</p></li>
+<li><p>Migrate CDDS to Cylc 8 (CDDSO-282, CDDSO-285, CDDSO-184)</p></li>
 <li><p>Introduce gregorian calendar support (CDDSO-231, CDDSO-235, CDDSO-240, CDDSO-244)</p></li>
 <li><p>Plugin and code development to support Regional models for projects such as CORDEX
 (CDDSO-233, CDDSO-68, CDDSO-74, CDDSO-261, CDDSO-149)</p></li>
@@ -60,6 +69,9 @@ azure SPICE (CDDSO-131, CDDSO-273)</p></li>
 <li><p>Replace pep8 with pycodestyle (CDDSO-207)</p></li>
 <li><p>Separated extract validation into a separate script &amp; task (CDDSO-243)</p></li>
 <li><p>Introduced retries to workflow tasks when submission fails (CDDSO-314)</p></li>
+<li><p>Amalgamated CDDS processing and ensemble processing workflows. Previous tools based
+on u-cq805 and u-cr273 are deprecated (CDDSO-319)</p></li>
+<li><p>Updated CMOR to version 3.7.2, which required iris update to 3.4.1 (CDDSO-321)</p></li>
 </ul>
 </section>
 <section id="release-2-4-7-june-29-2023">
@@ -1065,6 +1077,7 @@ parents, and retrieves the correct value of the <a class="reference internal" hr
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Release History</a><ul>
+<li><a class="reference internal" href="#release-2-5-1-august-4-2023">Release 2.5.1, August 4, 2023</a></li>
 <li><a class="reference internal" href="#release-2-5-0-july-27-2023">Release 2.5.0, July 27, 2023</a></li>
 <li><a class="reference internal" href="#release-2-4-7-june-29-2023">Release 2.4.7, June 29, 2023</a></li>
 <li><a class="reference internal" href="#release-2-4-6-june-23-2023">Release 2.4.6, June 23, 2023</a></li>
@@ -1180,7 +1193,7 @@ parents, and retrieves the correct value of the <a class="reference internal" hr
         <li class="right" >
           <a href="installation.html" title="Installation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CDDS 2.5.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CDDS 2.5.1 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Release History</a></li> 
       </ul>
     </div>
