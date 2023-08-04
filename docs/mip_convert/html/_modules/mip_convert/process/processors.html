@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mip_convert.process.processors &#8212; MIP Convert 2.4.1 documentation</title>
+    <title>mip_convert.process.processors &#8212; MIP Convert 2.5.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">MIP Convert 2.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">MIP Convert 2.5.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">mip_convert.process.processors</a></li> 
       </ul>
@@ -69,19 +69,19 @@
 
 
 <span class="k">def</span> <span class="nf">_check_daily_cube</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Raise an exception if the cube does not contain daily statistics.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">_start_month_at_index</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return True if date at index in times is at start of month.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">date</span> <span class="o">=</span> <span class="n">times</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">num2date</span><span class="p">(</span><span class="n">times</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">second</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_is_daily</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return True if times is a coordinate for daily data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">st_units</span> <span class="o">=</span> <span class="s1">&#39;days since </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">times</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
@@ -91,7 +91,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">time_deltas</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_range_bounds_months</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return True if the times coordinate spans a whole number of months.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">beg_index</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -114,7 +114,7 @@
 
 
 <span class="k">def</span> <span class="nf">_monthly_mean</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the monthly mean the cube.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">add_month_number</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;month&#39;</span><span class="p">)</span>
@@ -123,7 +123,7 @@
 
 
 <div class="viewcode-block" id="mon_mean_from_day"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.mon_mean_from_day">[docs]</a><span class="k">def</span> <span class="nf">mon_mean_from_day</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate a monthly mean from a cube of daily statistics.</span>
 
 <span class="sd">    This function can be used to calculate quantities such as the</span>
@@ -146,7 +146,7 @@
 
 
 <div class="viewcode-block" id="mdi_to_zero"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.mdi_to_zero">[docs]</a><span class="k">def</span> <span class="nf">mdi_to_zero</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Changes any values corresponding to missing data to zero.</span>
 
 <span class="sd">    Parameters</span>
@@ -165,7 +165,7 @@
 
 
 <div class="viewcode-block" id="fix_parasol_sza_axis"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.fix_parasol_sza_axis">[docs]</a><span class="k">def</span> <span class="nf">fix_parasol_sza_axis</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fixes the vertical axis of a PARASOL reflectance cube (m01s02i348).</span>
 <span class="sd">    Changes the axis from geometric height to solar zenith angle.</span>
 
@@ -188,7 +188,7 @@
 
 
 <div class="viewcode-block" id="area_mean"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.area_mean">[docs]</a><span class="k">def</span> <span class="nf">area_mean</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">areacube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate an area weighted mean of input cube</span>
 
 <span class="sd">    Parameters</span>
@@ -209,7 +209,7 @@
 
 
 <div class="viewcode-block" id="primavera_make_uva100m"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.primavera_make_uva100m">[docs]</a><span class="k">def</span> <span class="nf">primavera_make_uva100m</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The model runs to generate the PRIMAVERA variables ua100m and</span>
 <span class="sd">    va100m contain data on two levels because it wasn&#39;t known which</span>
 <span class="sd">    level users would require when the model runs had to start. This</span>
@@ -233,7 +233,7 @@
 
 
 <div class="viewcode-block" id="scale_epflux"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.scale_epflux">[docs]</a><span class="k">def</span> <span class="nf">scale_epflux</span><span class="p">(</span><span class="n">cube_data</span><span class="p">,</span> <span class="n">cube_heaviside</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Model output for epfy and epfz is in units kg s-2.  We require</span>
 <span class="sd">    units m3 s-2 for CMIP6, and so need to divide by density on</span>
 <span class="sd">    each pressure level.</span>
@@ -264,7 +264,7 @@
 
 
 <div class="viewcode-block" id="tau_pseudo_level"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.tau_pseudo_level">[docs]</a><span class="k">def</span> <span class="nf">tau_pseudo_level</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a cube with corrected tau coordinates (e.g. for use in</span>
 <span class="sd">    `clisccp`)</span>
 
@@ -344,7 +344,7 @@
 
 
 <div class="viewcode-block" id="tile_ids_for_class"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.tile_ids_for_class">[docs]</a><span class="k">def</span> <span class="nf">tile_ids_for_class</span><span class="p">(</span><span class="n">land_class</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a list of tile ids for the land_class</span>
 
 <span class="sd">    Some land classes, such as &#39;tree&#39; are made of more than</span>
@@ -385,7 +385,7 @@
 
 
 <span class="k">def</span> <span class="nf">_pseudo_constraint</span><span class="p">(</span><span class="n">land_class</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return an iris constraint for pseudo levels for this land_class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
@@ -396,7 +396,7 @@
 
 
 <span class="k">def</span> <span class="nf">_collapse_pseudo</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">aggregator</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns cube collased along pseudo_level using aggregator</span>
 <span class="sd">    with kwargs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -409,7 +409,7 @@
 
 
 <div class="viewcode-block" id="land_class_mean"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.land_class_mean">[docs]</a><span class="k">def</span> <span class="nf">land_class_mean</span><span class="p">(</span><span class="n">variable_cube</span><span class="p">,</span> <span class="n">tile_cube</span><span class="p">,</span> <span class="n">land_class</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the cube of the mean variable_cube over a land class.</span>
 
 <span class="sd">    This can be used when the MIP request is for</span>
@@ -441,7 +441,7 @@
 
 
 <div class="viewcode-block" id="land_class_area"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.land_class_area">[docs]</a><span class="k">def</span> <span class="nf">land_class_area</span><span class="p">(</span><span class="n">tile_cube</span><span class="p">,</span> <span class="n">land_frac_cube</span><span class="p">,</span> <span class="n">land_class</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the cube of the area covered by the chosen land class.</span>
 
 <span class="sd">    This can be used when the MIP requests cell_methods: &#39;area:mean&#39;.</span>
@@ -475,7 +475,7 @@
 
 
 <div class="viewcode-block" id="snc_calc"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.snc_calc">[docs]</a><span class="k">def</span> <span class="nf">snc_calc</span><span class="p">(</span><span class="n">variable_cube</span><span class="p">,</span> <span class="n">tile_fraction_cube</span><span class="p">,</span> <span class="n">land_fraction_cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sum of land frac over tiles with snow for the land portion of the grid cell</span>
 <span class="sd">    It is assumed if there is less than 0.1 kg/m2 (0.1 mm SWE) of snow on the</span>
 <span class="sd">    ground there is no snow otherwise we have snow in the Sahara. This threshold</span>
@@ -507,7 +507,7 @@
 
 
 <div class="viewcode-block" id="areacella"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.areacella">[docs]</a><span class="k">def</span> <span class="nf">areacella</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    From a cube containing any data on a model&#39;s standard grid, the area of</span>
 <span class="sd">    each cell is calculated and returned in an Iris cube.</span>
 
@@ -548,7 +548,7 @@
 
 
 <div class="viewcode-block" id="fix_packing_division"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.fix_packing_division">[docs]</a><span class="k">def</span> <span class="nf">fix_packing_division</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    It fixes the zeroes introduced by the loss of precision caused by</span>
 <span class="sd">    packing. It performs a division of 2 cubes of the same shape,</span>
 <span class="sd">    and replaces the zeroes with a new value (0.5*minimum).</span>
@@ -578,7 +578,7 @@
 
 
 <div class="viewcode-block" id="level_sum"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.level_sum">[docs]</a><span class="k">def</span> <span class="nf">level_sum</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the sum over vertical levels of a cube.</span>
 
 <span class="sd">    Parameters</span>
@@ -602,7 +602,7 @@
 
 
 <div class="viewcode-block" id="sum_over_upper_100m"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.sum_over_upper_100m">[docs]</a><span class="k">def</span> <span class="nf">sum_over_upper_100m</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">thickness</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the sum over the upper 100m of a cube.</span>
 
 <span class="sd">    Parameters</span>
@@ -657,7 +657,7 @@
 
 
 <div class="viewcode-block" id="level_mean"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.level_mean">[docs]</a><span class="k">def</span> <span class="nf">level_mean</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">thick</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a mean over the vertical levels of cube weighted by thick</span>
 
 <span class="sd">    Parameters</span>
@@ -676,7 +676,7 @@
 
 
 <div class="viewcode-block" id="vortmean"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.vortmean">[docs]</a><span class="k">def</span> <span class="nf">vortmean</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate the CMIP6 vortmean variable, the mean vorticity over the</span>
 <span class="sd">    850-600 hPa layer.</span>
 
@@ -706,7 +706,7 @@
 
 
 <div class="viewcode-block" id="mask_zeros"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.mask_zeros">[docs]</a><span class="k">def</span> <span class="nf">mask_zeros</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns cube with the data set to masked values where the value is 0.</span>
 
 <span class="sd">    If the cube data is a numpy array containing no zeros then the cube is</span>
@@ -731,7 +731,7 @@
 
 
 <div class="viewcode-block" id="mask_using_cube"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.mask_using_cube">[docs]</a><span class="k">def</span> <span class="nf">mask_using_cube</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">cube_for_mask</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the ``cube`` masked where the data in ``cube_for_mask`` is</span>
 <span class="sd">    less than or equal to zero.</span>
 
@@ -754,7 +754,7 @@
 
 
 <div class="viewcode-block" id="correct_evaporation"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.correct_evaporation">[docs]</a><span class="k">def</span> <span class="nf">correct_evaporation</span><span class="p">(</span><span class="n">cube_evs</span><span class="p">,</span> <span class="n">cube_res</span><span class="p">,</span> <span class="n">cube_area</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return corrected evs data using the residual (i.e. differences</span>
 <span class="sd">    between the total fresh water flux and its reconstruction).</span>
 
@@ -847,7 +847,7 @@
 
 
 <div class="viewcode-block" id="div_by_area"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.div_by_area">[docs]</a><span class="k">def</span> <span class="nf">div_by_area</span><span class="p">(</span><span class="n">incube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Divide the input cube with area of each gridcell</span>
 
 <span class="sd">    Parameters</span>
@@ -867,7 +867,7 @@
 
 
 <div class="viewcode-block" id="mask_copy"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.mask_copy">[docs]</a><span class="k">def</span> <span class="nf">mask_copy</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">cube_mask</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overwrite the mask of a cube.</span>
 
 <span class="sd">    Parameters</span>
@@ -925,7 +925,7 @@
 
 
 <div class="viewcode-block" id="sum_2d_and_3d"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.sum_2d_and_3d">[docs]</a><span class="k">def</span> <span class="nf">sum_2d_and_3d</span><span class="p">(</span><span class="n">cube2d</span><span class="p">,</span> <span class="n">cube3d</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds a 2D cube to the 1st level of a 3D cube (excluding time dimension).</span>
 
 <span class="sd">    Parameters</span>
@@ -948,7 +948,7 @@
 
 
 <div class="viewcode-block" id="eos_insitu"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.eos_insitu">[docs]</a><span class="k">def</span> <span class="nf">eos_insitu</span><span class="p">(</span><span class="n">zt</span><span class="p">,</span> <span class="n">zs</span><span class="p">,</span> <span class="n">zh</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the in-situ density of seawater using a modified version of the</span>
 <span class="sd">    Jackett and McDougall (1995) [eos_insitu_1]_ equation of state.</span>
 
@@ -1047,7 +1047,7 @@
 
 
 <div class="viewcode-block" id="calc_loaddust"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.calc_loaddust">[docs]</a><span class="k">def</span> <span class="nf">calc_loaddust</span><span class="p">(</span><span class="n">total_dust_concentration</span><span class="p">,</span> <span class="n">grid_cell_volume</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the loaddust variable.</span>
 
 <span class="sd">    Parameters</span>
@@ -1081,7 +1081,7 @@
 
 
 <div class="viewcode-block" id="calc_rho_mean"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.calc_rho_mean">[docs]</a><span class="k">def</span> <span class="nf">calc_rho_mean</span><span class="p">(</span><span class="n">thetao</span><span class="p">,</span> <span class="n">so</span><span class="p">,</span> <span class="n">zfullo</span><span class="p">,</span> <span class="n">areacello</span><span class="p">,</span> <span class="n">thkcello</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the global mean in-situ density of seawater using a modified</span>
 <span class="sd">    version of the Jackett and McDougall (1995) [calc_rho_mean_1]_</span>
 <span class="sd">    equation of state.</span>
@@ -1144,7 +1144,7 @@
 
 
 <div class="viewcode-block" id="calc_zostoga"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.calc_zostoga">[docs]</a><span class="k">def</span> <span class="nf">calc_zostoga</span><span class="p">(</span><span class="n">thetao</span><span class="p">,</span> <span class="n">thkcello</span><span class="p">,</span> <span class="n">areacello</span><span class="p">,</span> <span class="n">zfullo_0</span><span class="p">,</span> <span class="n">so_0</span><span class="p">,</span> <span class="n">rho_0_mean</span><span class="p">,</span> <span class="n">deptho_0_mean</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the global mean thermosteric sea level change with</span>
 <span class="sd">    respect to a reference state.</span>
 
@@ -1228,7 +1228,7 @@
 
 
 <div class="viewcode-block" id="trop_o3col"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.trop_o3col">[docs]</a><span class="k">def</span> <span class="nf">trop_o3col</span><span class="p">(</span><span class="n">o3mass</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function will generate a &#39;Tropospheric Ozone Column&#39; diagnostic.</span>
 
 <span class="sd">    Method:</span>
@@ -1275,7 +1275,7 @@
 
 
 <div class="viewcode-block" id="mmr2molefrac"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.mmr2molefrac">[docs]</a><span class="k">def</span> <span class="nf">mmr2molefrac</span><span class="p">(</span><span class="n">mass</span><span class="p">,</span> <span class="n">incube</span><span class="p">,</span> <span class="n">molmass</span><span class="p">,</span> <span class="n">climatology</span><span class="o">=</span><span class="s1">&#39;False&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function converts a 3-D (or 4-D) Mass-mixing-ratio cube to a global</span>
 <span class="sd">    (and annual) mean molefraction</span>
 
@@ -1324,7 +1324,7 @@
 
 
 <div class="viewcode-block" id="combine_sw_lw"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.combine_sw_lw">[docs]</a><span class="k">def</span> <span class="nf">combine_sw_lw</span><span class="p">(</span><span class="n">swcube</span><span class="p">,</span> <span class="n">lwcube</span><span class="p">,</span> <span class="n">swmask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">minval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxval</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Combine cubes containing ShortWave and LongWave band (pseudo-levels)</span>
 <span class="sd">    into a single cube with extended pslev dimension</span>
 
@@ -1359,7 +1359,7 @@
             <span class="n">sw_cub</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_invalid</span><span class="p">(</span><span class="n">sw_cub</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="n">swmask</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="p">[</span><span class="n">swcube</span><span class="p">,</span> <span class="n">lwcube</span><span class="p">]:</span>
             <span class="n">cb</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;unknown&#39;</span><span class="p">)</span>
-            <span class="k">del</span><span class="p">(</span><span class="n">cb</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;STASH&#39;</span><span class="p">])</span>
+            <span class="k">del</span> <span class="n">cb</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="s1">&#39;STASH&#39;</span><span class="p">]</span>
 
     <span class="c1"># Create a cube-list and concatenate</span>
     <span class="n">cube_list</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">CubeList</span><span class="p">([</span><span class="n">swcube</span><span class="p">,</span> <span class="n">lwcube</span><span class="p">])</span>
@@ -1382,7 +1382,7 @@
 
 
 <div class="viewcode-block" id="ocean_quasi_barotropic_streamfunc"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.ocean_quasi_barotropic_streamfunc">[docs]</a><span class="k">def</span> <span class="nf">ocean_quasi_barotropic_streamfunc</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">areacello</span><span class="p">,</span> <span class="n">cube_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the quasi-barotropic streamfunction from the vertically integrated</span>
 <span class="sd">    zonal mass transport.</span>
 
@@ -1432,7 +1432,7 @@
 
 
 <div class="viewcode-block" id="achem_emdrywet"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.achem_emdrywet">[docs]</a><span class="k">def</span> <span class="nf">achem_emdrywet</span><span class="p">(</span><span class="n">mfac</span><span class="p">,</span> <span class="n">incube</span><span class="p">,</span> <span class="n">cube2d</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sumlev</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">areadiv</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function produces Aerosol and Chemistry emission, dry- and</span>
 <span class="sd">    wet-deposition diagnostics via common operations on the input cube.</span>
 
@@ -1473,7 +1473,7 @@
 
 
 <div class="viewcode-block" id="volcello"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.volcello">[docs]</a><span class="k">def</span> <span class="nf">volcello</span><span class="p">(</span><span class="n">thkcello</span><span class="p">,</span> <span class="n">areacello</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the ocean cell volume, product of thkcello (4D) and</span>
 <span class="sd">    areacello (2D).</span>
 
@@ -1496,7 +1496,7 @@
 
 
 <div class="viewcode-block" id="combine_cubes_to_basin_coord"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.combine_cubes_to_basin_coord">[docs]</a><span class="k">def</span> <span class="nf">combine_cubes_to_basin_coord</span><span class="p">(</span><span class="n">cube_global</span><span class="p">,</span> <span class="n">cube_atl</span><span class="p">,</span> <span class="n">cube_indpac</span><span class="p">,</span> <span class="n">mask_global</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mask_atl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mask_indpac</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Combine data for individual basins into a single cube with a basin dimension.</span>
 
 <span class="sd">    Parameters</span>
@@ -1565,7 +1565,7 @@
 
 
 <div class="viewcode-block" id="land_use_tile_mean"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.land_use_tile_mean">[docs]</a><span class="k">def</span> <span class="nf">land_use_tile_mean</span><span class="p">(</span><span class="n">variable_cube</span><span class="p">,</span> <span class="n">tile_fraction_cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the cube of the mean variable_cube over the CMIP6 land use types.</span>
 
 <span class="sd">    Parameters</span>
@@ -1608,7 +1608,7 @@
 
 
 <div class="viewcode-block" id="land_use_tile_area"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.land_use_tile_area">[docs]</a><span class="k">def</span> <span class="nf">land_use_tile_area</span><span class="p">(</span><span class="n">tile_fraction_cube</span><span class="p">,</span> <span class="n">land_fraction_cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns cube of land cover fraction over the CMIP6 land use types.</span>
 
 <span class="sd">    Parameters</span>
@@ -1646,7 +1646,7 @@
 
 
 <div class="viewcode-block" id="land_use_tile_mean_difference"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.land_use_tile_mean_difference">[docs]</a><span class="k">def</span> <span class="nf">land_use_tile_mean_difference</span><span class="p">(</span><span class="n">tile_fraction1</span><span class="p">,</span> <span class="n">tile_fraction2</span><span class="p">,</span> <span class="n">land_fraction_cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns cube of land cover fraction over the CMIP6 land use types,</span>
 <span class="sd">    based on difference between the first 2 cubes.</span>
 
@@ -1671,7 +1671,7 @@
 
 
 <div class="viewcode-block" id="divide_cubes"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.divide_cubes">[docs]</a><span class="k">def</span> <span class="nf">divide_cubes</span><span class="p">(</span><span class="n">cube1</span><span class="p">,</span> <span class="n">cube2</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Divide cube1 by cube2, ignoring any differing coordinates.</span>
 
 <span class="sd">    Parameters</span>
@@ -1726,7 +1726,7 @@
 
 
 <div class="viewcode-block" id="divide_by_mask"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.divide_by_mask">[docs]</a><span class="k">def</span> <span class="nf">divide_by_mask</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">weights_cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Correct the tau pseudo level coordinate data in the supplied cube</span>
 <span class="sd">    and then divide by the weights cube.</span>
 
@@ -1747,7 +1747,7 @@
 
 
 <div class="viewcode-block" id="jpdftaure_divide_by_mask"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.jpdftaure_divide_by_mask">[docs]</a><span class="k">def</span> <span class="nf">jpdftaure_divide_by_mask</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">weights_cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Correct the tau pseudo level coordinate data in the supplied cube</span>
 <span class="sd">    and then divide by the weights cube. Also set the units of the</span>
 <span class="sd">    &quot;height&quot; coordinate (really the &quot;radius&quot; axis) to &quot;micron&quot; and</span>
@@ -1788,7 +1788,7 @@
 
 
 <div class="viewcode-block" id="fix_clmisr_height"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.fix_clmisr_height">[docs]</a><span class="k">def</span> <span class="nf">fix_clmisr_height</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">weights_cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Correct the height coordinate data to reflect the alt16 requested altitudes for</span>
 <span class="sd">    the clmisr variables.</span>
 
@@ -1820,7 +1820,7 @@
 
 
 <span class="k">def</span> <span class="nf">_finalize_lut_cube</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The data on Land Use Tiles needs some final processing:</span>
 <span class="sd">    1) the tiles must be in a specific order</span>
 <span class="sd">    2) all tiles must be pressent</span>
@@ -1863,7 +1863,7 @@
 
 
 <span class="k">def</span> <span class="nf">_lut_area_type</span><span class="p">(</span><span class="n">coordinate</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds land use tile names as an auxiliary coordinate.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">lookup</span> <span class="o">=</span> <span class="p">{</span>
@@ -1877,7 +1877,7 @@
 
 
 <span class="k">def</span> <span class="nf">_lut_categorisation</span><span class="p">(</span><span class="n">coordinate</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reads in a UM/JULES tile ID and returns a CMIP6/LUMIP land use type number</span>
 <span class="sd">    psl=natural=0, crp=crop=1, pst=pasture=2, urb=urban=3</span>
 
@@ -1917,7 +1917,7 @@
 
 
 <div class="viewcode-block" id="calc_fgdms"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.calc_fgdms">[docs]</a><span class="k">def</span> <span class="nf">calc_fgdms</span><span class="p">(</span><span class="n">land_fraction</span><span class="p">,</span> <span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the ``fgdms`` diagnostic by masking out land grid points</span>
 <span class="sd">    from Atmos-surface-DMS emissions. Uses the land_fraction</span>
 <span class="sd">    field in a inverse manner i.e. masks where land_fraction == 1.</span>
@@ -1953,7 +1953,7 @@
 
 
 <div class="viewcode-block" id="remove_altitude_coords"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.remove_altitude_coords">[docs]</a><span class="k">def</span> <span class="nf">remove_altitude_coords</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a cube with the altitude-related coordinates removed.</span>
 
 <span class="sd">    This enables arithmetic to be performed between cubes, where one</span>
@@ -1986,7 +1986,7 @@
 
 
 <div class="viewcode-block" id="mask_polar_column_zonal_means"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.mask_polar_column_zonal_means">[docs]</a><span class="k">def</span> <span class="nf">mask_polar_column_zonal_means</span><span class="p">(</span><span class="n">cube_data</span><span class="p">,</span> <span class="n">cube_heaviside</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a cube with the columns corresponding to the north and south</span>
 <span class="sd">    poles masked out to avoid publishing erroneous data. This is only</span>
 <span class="sd">    intended for the correction of zonal mean diagnostics</span>
@@ -2035,7 +2035,7 @@
 
 
 <div class="viewcode-block" id="hotspot"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.hotspot">[docs]</a><span class="k">def</span> <span class="nf">hotspot</span><span class="p">(</span><span class="n">upward_lw_flux</span><span class="p">,</span> <span class="n">olr_s3</span><span class="p">,</span> <span class="n">olr_s2</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a cube with adjusted time-mean GCM upward LW flux using the</span>
 <span class="sd">    difference between the OLRs diagnosed by Sections 3 &amp; 2.</span>
 
@@ -2079,7 +2079,7 @@
 
 
 <div class="viewcode-block" id="correct_multilevel_metadata"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.correct_multilevel_metadata">[docs]</a><span class="k">def</span> <span class="nf">correct_multilevel_metadata</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a cube with corrected level metadata for multi-level fluxes</span>
 <span class="sd">    between theta levels.</span>
 
@@ -2126,7 +2126,7 @@
 
 
 <div class="viewcode-block" id="mask_vtem"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.mask_vtem">[docs]</a><span class="k">def</span> <span class="nf">mask_vtem</span><span class="p">(</span><span class="n">cube_vtem</span><span class="p">,</span> <span class="n">cube_heaviside</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a cube with all data at and below 700 hPa masked out.</span>
 <span class="sd">    Note that the vtem data is produced as a zonal mean, while the</span>
 <span class="sd">    zonal meaning is done by STASH in the UM. They end up with</span>
@@ -2150,7 +2150,7 @@
 
 
 <div class="viewcode-block" id="zonal_apply_heaviside"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.zonal_apply_heaviside">[docs]</a><span class="k">def</span> <span class="nf">zonal_apply_heaviside</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">cube_heaviside</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Apply the Heaviside field to zonal mean variables after</span>
 <span class="sd">    fixing the longitude coordinate</span>
 
@@ -2175,7 +2175,7 @@
 
 
 <div class="viewcode-block" id="mean_diurnal_cycle"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.mean_diurnal_cycle">[docs]</a><span class="k">def</span> <span class="nf">mean_diurnal_cycle</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the monthly mean diurnal cycle. It averages all</span>
 <span class="sd">    the fields within the same hour for each month. The output</span>
 <span class="sd">    will contain 24 fields for each month.</span>
@@ -2217,7 +2217,7 @@
 
 
 <div class="viewcode-block" id="day_max"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.day_max">[docs]</a><span class="k">def</span> <span class="nf">day_max</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return the max daily value of the cube.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the max daily value of the cube.&quot;&quot;&quot;</span>
 
     <span class="n">add_day_of_month</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;day&#39;</span><span class="p">)</span>
     <span class="n">add_month_number</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;month&#39;</span><span class="p">)</span>
@@ -2227,7 +2227,7 @@
 
 
 <div class="viewcode-block" id="avg_from_hourly"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.avg_from_hourly">[docs]</a><span class="k">def</span> <span class="nf">avg_from_hourly</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">period_in_hours</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Return the n-hour average of the cube &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the n-hour average of the cube &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">_select_n_hourly_period</span><span class="p">(</span><span class="n">period_in_hours</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">_function</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -2244,7 +2244,7 @@
 
 
 <div class="viewcode-block" id="extract_n_hourly"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.extract_n_hourly">[docs]</a><span class="k">def</span> <span class="nf">extract_n_hourly</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">period_in_hours</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extract every &quot;period_in_hours&quot; from cube&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract every &quot;period_in_hours&quot; from cube&quot;&quot;&quot;</span>
 
     <span class="n">hour_sequence</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="n">period_in_hours</span><span class="p">)</span>
     <span class="n">add_hour</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hour&quot;</span><span class="p">)</span>
@@ -2262,7 +2262,7 @@
 
 
 <div class="viewcode-block" id="urot_calc"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.urot_calc">[docs]</a><span class="k">def</span> <span class="nf">urot_calc</span><span class="p">(</span><span class="n">cube_u</span><span class="p">,</span> <span class="n">cube_v</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate the u component with respect to the standard lon-lat system &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the u component with respect to the standard lon-lat system &quot;&quot;&quot;</span>
 
     <span class="n">cube_u_prime</span><span class="p">,</span> <span class="n">cube_v_prime</span> <span class="o">=</span> <span class="n">rotate_winds</span><span class="p">(</span><span class="n">cube_u</span><span class="p">,</span> <span class="n">cube_v</span><span class="p">)</span>
 
@@ -2270,14 +2270,14 @@
 
 
 <div class="viewcode-block" id="vrot_calc"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.vrot_calc">[docs]</a><span class="k">def</span> <span class="nf">vrot_calc</span><span class="p">(</span><span class="n">cube_u</span><span class="p">,</span> <span class="n">cube_v</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Calculate the v component with respect to the standard lon-lat system &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the v component with respect to the standard lon-lat system &quot;&quot;&quot;</span>
     <span class="n">cube_u_prime</span><span class="p">,</span> <span class="n">cube_v_prime</span> <span class="o">=</span> <span class="n">rotate_winds</span><span class="p">(</span><span class="n">cube_u</span><span class="p">,</span> <span class="n">cube_v</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">cube_v_prime</span></div>
 
 
 <div class="viewcode-block" id="urot_calc_extract_n_hourly"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.urot_calc_extract_n_hourly">[docs]</a><span class="k">def</span> <span class="nf">urot_calc_extract_n_hourly</span><span class="p">(</span><span class="n">cube_u</span><span class="p">,</span> <span class="n">cube_v</span><span class="p">,</span> <span class="n">period_in_hours</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extract 6-hourly winds and calculate the u component with respect to the standard lon-lat system &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract 6-hourly winds and calculate the u component with respect to the standard lon-lat system &quot;&quot;&quot;</span>
 
     <span class="n">cube_u</span> <span class="o">=</span> <span class="n">extract_n_hourly</span><span class="p">(</span><span class="n">cube_u</span><span class="p">,</span> <span class="n">period_in_hours</span><span class="p">)</span>
     <span class="n">cube_v</span> <span class="o">=</span> <span class="n">extract_n_hourly</span><span class="p">(</span><span class="n">cube_v</span><span class="p">,</span> <span class="n">period_in_hours</span><span class="p">)</span>
@@ -2286,7 +2286,7 @@
 
 
 <div class="viewcode-block" id="vrot_calc_extract_n_hourly"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.vrot_calc_extract_n_hourly">[docs]</a><span class="k">def</span> <span class="nf">vrot_calc_extract_n_hourly</span><span class="p">(</span><span class="n">cube_u</span><span class="p">,</span> <span class="n">cube_v</span><span class="p">,</span> <span class="n">period_in_hours</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extract 6-hourly winds and calculate the v component with respect to the standard lon-lat system &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract 6-hourly winds and calculate the v component with respect to the standard lon-lat system &quot;&quot;&quot;</span>
 
     <span class="n">cube_u</span> <span class="o">=</span> <span class="n">extract_n_hourly</span><span class="p">(</span><span class="n">cube_u</span><span class="p">,</span> <span class="n">period_in_hours</span><span class="p">)</span>
     <span class="n">cube_v</span> <span class="o">=</span> <span class="n">extract_n_hourly</span><span class="p">(</span><span class="n">cube_v</span><span class="p">,</span> <span class="n">period_in_hours</span><span class="p">)</span>
@@ -2323,7 +2323,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">MIP Convert 2.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">MIP Convert 2.5.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">mip_convert.process.processors</a></li> 
       </ul>
