@@ -223,7 +223,7 @@ class ConvertProcessTest(unittest.TestCase):
 
     @mock.patch('cdds.convert.process.workflow_interface.check_svn_location')
     def test_rose_suite_svn_location_second(self, mock_check_svn):
-        mock_check_svn.side_effect = [False, True]
+        mock_check_svn.side_effect = [False, True, True]
         expected_location = self.repo2 + '/a/a/0/0/0/trunk'
         location = self.process.rose_suite_svn_location
         self.assertEqual(location, expected_location,
