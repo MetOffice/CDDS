@@ -1083,6 +1083,7 @@ def MIP_to_model_axis_name_mapping():
     }
 
 
+# TODO: kerstin delete
 def eorca_resolution_to_mask_slice(model_id, model_component, substream=None):
     """
     Return slice that would correspond to the misshapen top row of eORCA

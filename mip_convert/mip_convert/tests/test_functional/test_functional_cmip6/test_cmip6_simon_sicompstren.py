@@ -32,10 +32,15 @@ class TestCmip6SImonSicompstren(AbstractFunctionalTests):
                 request={
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1854-03-01T00:00:00 1854-04-01T00:00:00',
-                    'suite_id': 'u-ar050',
+                    'suite_id': 'u-ar050'
                 },
                 streams={
                     'inm': {'CMIP6_SImon': 'sicompstren'}
+                },
+                masking={
+                    'inm': {
+                        'cice-U': '-1:,180:'
+                    }
                 },
                 other={
                     'filenames': ['sicompstren_SImon_UKESM1-0-LL_amip_r1i1p1f1_gn_185403-185403.nc'],

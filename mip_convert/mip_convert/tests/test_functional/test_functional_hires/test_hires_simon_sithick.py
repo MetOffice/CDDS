@@ -38,6 +38,11 @@ class TestHiResSimonSithick(AbstractFunctionalTests):
                 streams={
                     'inm': {'CMIP6_SImon': 'sithick'}
                 },
+                masking={
+                    'inm': {
+                        'cice-T': '-1:,2160:'
+                    }
+                },
                 other={
                     'filenames': ['sithick_SImon_HadGEM3-GC31-HH_hist-1950_r1i1p1f1_gn_195101-195101.nc'],
                     'ignore_history': True,

@@ -343,6 +343,7 @@ class SpecificInfo:
     streams: Dict[str, Dict[str, str]] = field(default_factory=dict)
     other: Dict[str, Any] = field(default_factory=dict)
     global_attributes: Dict[str, Any] = field(default_factory=dict)
+    masking: Dict[str, Dict[str, Any]] = field(default_factory=dict)
 
     def as_dict(self) -> Dict[str, Dict[str, Any]]:
         """
@@ -366,6 +367,9 @@ class SpecificInfo:
             'global_attributes': {
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
             },
+            masking: {
+
+            },
             'other': {
             }
         }
@@ -373,7 +377,7 @@ class SpecificInfo:
         :return: Values as directory (like Mip configuration)
         :rtype: Dict[str, Any]
         """
-        excludes = ['common', 'project_id', 'streams']
+        excludes = ['common', 'project_id', 'streams', 'masking']
         items = {
             k: v for k, v in asdict(self).items() if v and k not in excludes
         }
@@ -385,6 +389,18 @@ class SpecificInfo:
         }
         items.update(stream_items)
 
+        if len(self.masking) > 0:
+            items['masking'] = self.masking_as_dict()
+
+        return items
+
+    def masking_as_dict(self):
+        items = {}
+        masking_key = 'stream_{}_{}'
+        for stream, grid_masking in self.masking.items():
+            for grid, value in grid_masking.items():
+                key = masking_key.format(stream, grid)
+                items[key] = value
         return items
 
 

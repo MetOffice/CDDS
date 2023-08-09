@@ -37,10 +37,14 @@ class TestSeasonalOmonTosWithMask(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1976-01-01T00:00:00 1976-01-11T00:00:00',
                     'suite_id': 'ai022',
-                    'mask_slice': '0:100,0:100'
                 },
                 streams={
                     'onb': {'SEASONAL_Omon': 'tos'}
+                },
+                masking={
+                    'onb': {
+                        'default': '0:100,0:100'
+                    }
                 },
                 other={
                     'filenames': ['tos_Omon_UKESM1-0-LL_amip_197601-197601.nc'],
