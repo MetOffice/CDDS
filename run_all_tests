@@ -13,8 +13,6 @@ import sys
 from timeit import default_timer as timer
 from datetime import timedelta
 
-from cdds.common import run_command
-
 CDDS_DIR = os.path.dirname(os.path.realpath(__file__))
 LOG_NAME = os.path.join(CDDS_DIR, 'cdds_test_failures.log')
 ROOT_COMMAND = 'pytest -s'
@@ -46,7 +44,7 @@ def du(path):
     """
     Disk usage in human readable format (e.g. '2,1GB')
     """
-    out = run_command(['quotas'])
+    out =  subprocess.check_output(['quotas']).decode('utf-8')
     try:
         usage = [i for i in out.split("\n") if "spice:scratch" in i ][0].split()[1]
     except:
