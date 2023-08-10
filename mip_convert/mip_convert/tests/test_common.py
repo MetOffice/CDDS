@@ -12,8 +12,7 @@ import unittest
 from mip_convert.common import (check_values_equal,
                                 parse_to_loadables,
                                 Loadable,
-                                remove_extra_time_axis,
-                                eorca_resolution_to_mask_slice)
+                                remove_extra_time_axis)
 from mip_convert.process.config import mappings_config
 from cdds.common.plugins.plugin_loader import load_plugin
 
@@ -395,43 +394,6 @@ class TestRemoveExtraTimeAxis(unittest.TestCase):
         output = self.cube.copy()
         remove_extra_time_axis(output)
         self.assertEqual(output, reference)
-
-
-class TestEOrcaResolutionToMaskSlice(unittest.TestCase):
-    """
-    Tests for eorca_resolution_to_mask_slice
-    """
-    def setUp(self):
-        load_plugin()
-
-    def test_lowres_nemo_T_slice(self):
-        self.assertIsNone(
-            eorca_resolution_to_mask_slice("HadGEM3-GC31-LL", "nemo", "grid-T"))
-
-    def test_lowres_nemo_V_slice(self):
-        self.assertEqual(
-            (Ellipsis, slice(-1, None, None), slice(180, None, None)),
-            eorca_resolution_to_mask_slice("HadGEM3-GC31-LL", "nemo", "grid-V"))
-
-    def test_mediumres_nemo_T_slice(self):
-        self.assertEqual(
-            (Ellipsis, slice(-1, None, None), slice(720, None, None)),
-            eorca_resolution_to_mask_slice("HadGEM3-GC31-MM", "nemo", "grid-T"))
-
-    def test_lowres_cice_U_slice(self):
-        self.assertEqual(
-            (Ellipsis, slice(-1, None, None), slice(180, None, None)),
-            eorca_resolution_to_mask_slice("HadGEM3-GC31-LL", "cice-U", None))
-
-    def test_lowres_cice_T_slice(self):
-        self.assertEqual(
-            None,
-            eorca_resolution_to_mask_slice("HadGEM3-GC31-LL", "cice-T", None))
-
-    def test_mediumres_cice_T_slice(self):
-        self.assertEqual(
-            (Ellipsis, slice(-1, None, None), slice(720, None, None)),
-            eorca_resolution_to_mask_slice("HadGEM3-GC31-MM", "cice-T", None))
 
 
 if __name__ == '__main__':

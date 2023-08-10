@@ -178,7 +178,7 @@ class GridInfo(object, metaclass=ABCMeta):
 
     @property
     @abstractmethod
-    def masks(self) -> Dict[str, OceanGridPolarMask]:
+    def masks(self) -> Dict[str, str]:
         """
         Returns a dictionary of ocean grid polar masks for the grid.
         For example:

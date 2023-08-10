@@ -12,6 +12,7 @@ import os
 from mip_convert.configuration.python_config import PythonConfig
 
 from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.grid import GridType
 from cdds.common.request import read_request
 from cdds.common.variables import RequestedVariablesList
 
@@ -146,17 +147,35 @@ def produce_user_configs(request, requested_variables_list, template,
                 file_suffix = '{}-{}'.format(grid_id, substream)
             logger.info(
                 'Producing user configuration file for "{}"'.format(file_suffix))
+            maskings = get_masking_attributes(request.model_id)
             user_config = OrderedDict()
             user_config.update(deepcopy(metadata))
             user_config['cmor_dataset']['grid'] = grid
             user_config['cmor_dataset']['grid_label'] = grid_label
             user_config['cmor_dataset']['nominal_resolution'] = nominal_resolution
             user_config['global_attributes'] = get_global_attributes(request)
+            if maskings:
+                user_config['masking'] = maskings
             user_config.update(mip_requested_variables)
             filename = template_name.format(file_suffix)
             user_configs[filename] = user_config
 
     return user_configs
+
+
+def get_masking_attributes(model_id):
+    maskings = OrderedDict()
+    plugin = PluginStore.instance().get_plugin()
+    grid_info = plugin.grid_info(model_id, GridType.OCEAN)
+    streams = plugin.models_parameters(model_id).streams()
+    masking_key_template = 'stream_{}_{}'
+    masks = grid_info.masks
+    for stream in streams:
+        if masks:
+            for grid, value in masks.items():
+                key = masking_key_template.format(stream, grid)
+                maskings[key] = value
+    return maskings
 
 
 def get_global_attributes(request):

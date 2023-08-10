@@ -22,7 +22,7 @@ from cdds.common import DATE_TIME_REGEX
 from mip_convert.common import (
     DEFAULT_FILL_VALUE, Longitudes, validate_latitudes, format_date,
     MIP_to_model_axis_name_mapping, apply_time_constraint, raw_to_value,
-    parse_to_loadables, eorca_resolution_to_mask_slice)
+    parse_to_loadables)
 from mip_convert.process.config import mappings_config
 from mip_convert.process.constants import constants, other_constants
 from mip_convert.process.processors import *

@@ -277,8 +277,7 @@ class ProjectInfo:
                 'contact': 'a@b.c',
             },
             request={
-                'child_base_date': '2000-01-01T00:00:00',
-                'mask_slice': 'no_mask'
+                'child_base_date': '2000-01-01T00:00:00'
             },
             global_attributes={
                 'driving_experiment': 'evaluation',

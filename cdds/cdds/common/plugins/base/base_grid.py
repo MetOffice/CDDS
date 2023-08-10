@@ -127,26 +127,27 @@ class OceanBaseGridInfo(BaseGridInfo):
 
     def __init__(self, json: Dict[str, Any] = None) -> None:
         super(OceanBaseGridInfo, self).__init__(GridType.OCEAN, json)
-        self._ocean_grid_polar_masks: Dict[str, OceanGridPolarMask] = {}
+        self._ocean_grid_polar_masks: Dict[str, str] = {}
         self._load_ocean_grid_polar_masks(json)
 
     def _load_ocean_grid_polar_masks(self, json):
         masked_data = json['masked']
         for grid_name, values in masked_data.items():
-            slice_latitude = self._to_slice(values['slice_latitude'])
-            slice_longitude = self._to_slice(values['slice_longitude'])
-            self._ocean_grid_polar_masks[grid_name] = OceanGridPolarMask(grid_name, slice_latitude, slice_longitude)
+            slice_latitude = self._to_mask_slice_str(values['slice_latitude'])
+            slice_longitude = self._to_mask_slice_str(values['slice_longitude'])
+            mask_slice = '{},{}'.format(slice_latitude, slice_longitude)
+            self._ocean_grid_polar_masks[grid_name] = mask_slice
         self._halo_options = json['halo_options']
 
     @staticmethod
-    def _to_slice(arguments):
+    def _to_mask_slice_str(arguments):
         start = arguments[0]
         stop = arguments[1]
         step = arguments[2]
-        return slice(start, stop, step)
+        return '{}:{}:{}'.format(start, stop, step)
 
     @property
-    def masks(self) -> Dict[str, OceanGridPolarMask]:
+    def masks(self) -> Dict[str, str]:
         """
         Returns a dictionary of ocean grid polar masks for the grid.
         For example::
