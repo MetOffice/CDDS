@@ -163,10 +163,8 @@ class GridInfo(object, metaclass=ABCMeta):
         Returns a dictionary of ocean grid polar masks for the grid.
         For example:
         {
-            'grid-V': OceanGridPolarMask(
-                           grid_name: 'grid-V', slice_latitude: [-1, None, None], slice_longitude: [180, None, None]),
-            'cice-U': OceanGridPolarMask(
-                           grid_name: 'cice-U', slice_latitude: [-1, None, None], slice_longitude: [180, None, None])
+            'grid-V': '-1:None:None,180:None:None,
+            'cice-U': '-1:None:None,180:None:None
         }
 
         :return: Ocean grid polar masks stored in a dictionary according their grid names
