@@ -19,7 +19,7 @@ from cdds.common.variables import RequestedVariablesList
 from cdds import __version__
 from cdds.configure.constants import HEADER_TEMPLATE
 from cdds.configure.request import retrieve_required_keys, validate_branch_options, retrieve_request_metadata
-from cdds.configure.variables import retrieve_variables_by_grid
+from cdds.configure.variables import retrieve_variables_by_grid, retrieve_streams_by_grid
 
 
 def produce_user_config_files(arguments):
@@ -135,6 +135,7 @@ def produce_user_configs(request, requested_variables_list, template,
 
     # Retrieve 'MIP requested variables' by grid.
     variables_by_grid = retrieve_variables_by_grid(requested_variables_list)
+    streams = retrieve_streams_by_grid(requested_variables_list)
 
     # Produce the contents of the 'user configuration files' by grid.
     user_configs = OrderedDict()
@@ -147,7 +148,7 @@ def produce_user_configs(request, requested_variables_list, template,
                 file_suffix = '{}-{}'.format(grid_id, substream)
             logger.info(
                 'Producing user configuration file for "{}"'.format(file_suffix))
-            maskings = get_masking_attributes(request.model_id)
+            maskings = get_masking_attributes(request.model_id, streams)
             user_config = OrderedDict()
             user_config.update(deepcopy(metadata))
             user_config['cmor_dataset']['grid'] = grid
@@ -163,11 +164,10 @@ def produce_user_configs(request, requested_variables_list, template,
     return user_configs
 
 
-def get_masking_attributes(model_id):
+def get_masking_attributes(model_id, streams):
     maskings = OrderedDict()
     plugin = PluginStore.instance().get_plugin()
     grid_info = plugin.grid_info(model_id, GridType.OCEAN)
-    streams = plugin.models_parameters(model_id).streams()
     masking_key_template = 'stream_{}_{}'
     masks = grid_info.masks
     for stream in streams:

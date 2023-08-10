@@ -381,8 +381,6 @@ class Variable(object):
                 cube.data = make_masked(cube.data, cube.shape, cube.attributes['fill_value'], cube.data.dtype)
 
     def _apply_mask(self):
-        # TODO: kerstin adjust code
-        logger = logging.getLogger(__name__)
         # expecting format lat_start:lat_stop:lat_stride, lon_start:lon_stop:lon_stride
         masking = self._variable_metadata.masking
         if self._variable_metadata.stream_id in masking:

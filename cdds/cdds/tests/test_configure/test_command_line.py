@@ -168,32 +168,8 @@ class TestMain(unittest.TestCase):
             self.sites_file, self.suite_id)
         self.stream_section = '[stream_ap5]\nCMIP6_Amon = tas\n\n'
         self.masking_section = ('[masking]\n'
-                                'stream_ap4_cice-U = -1:None:None,180:None:None\n'
-                                'stream_ap4_grid-V = -1:None:None,180:None:None\n'
                                 'stream_ap5_cice-U = -1:None:None,180:None:None\n'
-                                'stream_ap5_grid-V = -1:None:None,180:None:None\n'
-                                'stream_ap6_cice-U = -1:None:None,180:None:None\n'
-                                'stream_ap6_grid-V = -1:None:None,180:None:None\n'
-                                'stream_ap7_cice-U = -1:None:None,180:None:None\n'
-                                'stream_ap7_grid-V = -1:None:None,180:None:None\n'
-                                'stream_ap8_cice-U = -1:None:None,180:None:None\n'
-                                'stream_ap8_grid-V = -1:None:None,180:None:None\n'
-                                'stream_ap9_cice-U = -1:None:None,180:None:None\n'
-                                'stream_ap9_grid-V = -1:None:None,180:None:None\n'
-                                'stream_apm_cice-U = -1:None:None,180:None:None\n'
-                                'stream_apm_grid-V = -1:None:None,180:None:None\n'
-                                'stream_apt_cice-U = -1:None:None,180:None:None\n'
-                                'stream_apt_grid-V = -1:None:None,180:None:None\n'
-                                'stream_apu_cice-U = -1:None:None,180:None:None\n'
-                                'stream_apu_grid-V = -1:None:None,180:None:None\n'
-                                'stream_ind_cice-U = -1:None:None,180:None:None\n'
-                                'stream_ind_grid-V = -1:None:None,180:None:None\n'
-                                'stream_inm_cice-U = -1:None:None,180:None:None\n'
-                                'stream_inm_grid-V = -1:None:None,180:None:None\n'
-                                'stream_ond_cice-U = -1:None:None,180:None:None\n'
-                                'stream_ond_grid-V = -1:None:None,180:None:None\n'
-                                'stream_onm_cice-U = -1:None:None,180:None:None\n'
-                                'stream_onm_grid-V = -1:None:None,180:None:None\n\n')
+                                'stream_ap5_grid-V = -1:None:None,180:None:None\n\n')
         self.user_config = (
             self.user_config_file_header + self.cmor_setup_section
             + self.cmor_dataset_section + self.request_section
