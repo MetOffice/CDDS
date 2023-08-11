@@ -165,6 +165,25 @@ def produce_user_configs(request, requested_variables_list, template,
 
 
 def get_masking_attributes(model_id, streams):
+    """
+    Returns the masking for the ocean grid of given model. Only masks for the
+    given streams are loaded.
+
+    The key of the resulted dictionary composed of the prefix stream and the
+    stream name and grid:
+    'stream_<stream_name>_<grid>'
+    If the grid is not given, the masking is valid for all grids of the stream.
+
+    The value is the slices of latitude and longitude as string representation:
+    '<lat_start>:<lat_stop>:<lat_step>,<lon_start>:<lon_stop>:<lon:step>'
+
+    :param model_id: Model id
+    :type model_id: str
+    :param streams: Streams that masking is used
+    :type streams: List[str]
+    :return: A dictionary contains the masks according the stream and grid
+    :rtype: OrderedDict[str, str]
+    """
     maskings = OrderedDict()
     plugin = PluginStore.instance().get_plugin()
     grid_info = plugin.grid_info(model_id, GridType.OCEAN)
