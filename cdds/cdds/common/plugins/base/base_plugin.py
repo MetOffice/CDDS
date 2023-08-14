@@ -47,6 +47,21 @@ class MipEra(Enum):
         return False
 
     @staticmethod
+    def is_cmip_plus(mip_era: str) -> bool:
+        """
+        Checks if given project is a CMIPPlus project.
+
+        :param mip_era: ID of project to check (case-sensitive check!)
+        :type mip_era: str
+        :return: True if project is a CMIPPlus project otherwise False
+        :rtype: bool
+        """
+        for cmip_plus_era in [MipEra.CMIP6_Plus]:
+            if mip_era == cmip_plus_era.value:
+                return True
+        return False
+
+    @staticmethod
     def is_gcmodeldev(mip_era: str) -> bool:
         """
         Checks if given project is a GcModelDev project.
@@ -69,6 +84,7 @@ class MipEra(Enum):
         return False
 
     CMIP6 = "CMIP6"
+    CMIP6_Plus = "CMIP6Plus"
     GC_MODEL_DEV = "GCModelDev"
     CORDEX = "CORDEX"
 
