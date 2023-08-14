@@ -119,6 +119,7 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         self._grid_info: Dict[GridType, BaseGridInfo] = {}
         self._subdaily_streams: List[str] = []
         self._stream_file_info: StreamFileInfo = None
+        self._streams: List[str] = []
 
     def temp_space(self, stream_id: str) -> int:
         """
@@ -186,6 +187,15 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         """
         return self._subdaily_streams
 
+    def streams(self) -> List[str]:
+        """
+        Returns a list of all defined streams.
+
+        :return: Streams
+        :rtype: List[str]
+        """
+        return self._streams
+
     def stream_file_info(self) -> StreamFileInfo:
         """
         Returns information about the stream files that the model supports.
@@ -230,9 +240,11 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
     def _load_stream_file_info(self, json_parameters: Dict[str, Any]) -> None:
         file_frequencies: Dict[str, StreamFileFrequency] = {}
         for frequency, entry in json_parameters.items():
+            streams = entry["streams"]
             file_frequencies.update({
-                stream: StreamFileFrequency(frequency, stream, entry["files_per_year"]) for stream in entry["streams"]
+                stream: StreamFileFrequency(frequency, stream, entry["files_per_year"]) for stream in streams
             })
+            self._streams.extend(streams)
         self._stream_file_info = StreamFileInfo(file_frequencies)
 
     def _get_json_file(self, dir_path: str) -> str:

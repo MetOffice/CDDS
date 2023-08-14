@@ -71,26 +71,6 @@ class GridLabel(Enum, metaclass=ABCEnumMeta):  # type: ignore
         pass
 
 
-@dataclass
-class OceanGridPolarMask:
-    """
-    Represents the polar mask data for ocean grid
-    """
-    grid_name: str
-    slice_latitude: slice
-    slice_longitude: slice
-
-    def slice(self) -> Tuple[Any, slice, slice]:
-        """
-        Applies the result of numpy slice function corresponding to
-        the stored slice latitude and slice longitude.
-
-        :return: Slice for this mask data
-        :rtype: Tuple[ellipsis, slice, slice]
-        """
-        return np.s_[..., self.slice_latitude, self.slice_longitude]
-
-
 class GridInfo(object, metaclass=ABCMeta):
     """
     Stores all information for a specific grid type.
@@ -178,15 +158,13 @@ class GridInfo(object, metaclass=ABCMeta):
 
     @property
     @abstractmethod
-    def masks(self) -> Dict[str, OceanGridPolarMask]:
+    def masks(self) -> Dict[str, str]:
         """
         Returns a dictionary of ocean grid polar masks for the grid.
         For example:
         {
-            'grid-V': OceanGridPolarMask(
-                           grid_name: 'grid-V', slice_latitude: [-1, None, None], slice_longitude: [180, None, None]),
-            'cice-U': OceanGridPolarMask(
-                           grid_name: 'cice-U', slice_latitude: [-1, None, None], slice_longitude: [180, None, None])
+            'grid-V': '-1:None:None,180:None:None,
+            'cice-U': '-1:None:None,180:None:None
         }
 
         :return: Ocean grid polar masks stored in a dictionary according their grid names

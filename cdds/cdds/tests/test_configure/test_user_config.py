@@ -42,6 +42,7 @@ class TestProduceUserConfigs(unittest.TestCase):
         items['branch_method'] = 'no parent'
         self.model_id = 'HadGEM3-GC31-MM'
         self.request = Request(items)
+        self.request.model_id = self.model_id
         self.requested_variables_list_path = 'CMIP6_list.json'
         self.requested_variables_list = {
             'model_id': self.model_id,

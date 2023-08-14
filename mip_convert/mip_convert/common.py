@@ -1083,30 +1083,6 @@ def MIP_to_model_axis_name_mapping():
     }
 
 
-def eorca_resolution_to_mask_slice(model_id, model_component, substream=None):
-    """
-    Return slice that would correspond to the misshapen top row of eORCA
-    grid in a given resolution.
-
-    :param model_id: model ID
-    :type model_id: str
-    :param model_component: model component ('nemo' or 'cice')
-    :type model_component: string
-    :param substream: substream name
-    :type substream: string|None
-    :returns: slice corresponding to the top row(s)
-    :rtype: :class:`slice`|None
-    """
-    try:
-        plugin = PluginStore.instance().get_plugin()
-        grid_info = plugin.grid_info(model_id, GridType.OCEAN)
-        masks = grid_info.masks[substream if substream is not None else model_component]
-        mask_slice = masks.slice()
-    except KeyError:
-        mask_slice = None
-    return mask_slice
-
-
 def cmp_to_key(mycmp):
     """
     Return a callable which can compare two objects using a provided function emulating Python2 cmp().

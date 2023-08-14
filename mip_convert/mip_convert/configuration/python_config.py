@@ -13,6 +13,7 @@ from cdds.common.constants import COMMENT_FORMAT, DATE_TIME_FORMAT
 from cdds.common import remove_newlines
 from mip_convert.configuration.common import AbstractConfig, ValidateConfigError
 from mip_convert.configuration.user_config import cmor_setup_config, cmor_dataset_config, request_config
+from mip_convert.configuration.masking_config import load_mask_from_config
 
 
 class PythonConfig(AbstractConfig):
@@ -277,6 +278,7 @@ class UserConfig(PythonConfig):
         self._all_options = {}
         self._required_options = {}
         self._global_attributes = {}
+        self._masking = {}
         self.streams_to_process = {}
 
         # Validate the sections.
@@ -287,11 +289,16 @@ class UserConfig(PythonConfig):
             attributes=list(self._all_options.keys())))
         self._add_attributes(self._all_options)
         self._add_streams()
+        self._add_masking()
         # The 'history' option from the 'user configuration file' is
         # never used; define a value for it here.
         self.history = history
         # Add the date time format.
         self.TIMEFMT = DATE_TIME_FORMAT
+
+    @property
+    def masking(self):
+        return self._masking
 
     @property
     def global_attributes(self):
@@ -347,6 +354,16 @@ class UserConfig(PythonConfig):
         self.logger.debug('Required options: {}'.format(self._required_options))
         for section, options in self._required_options.items():
             self._validate_required_options(section, options)
+
+    def _add_masking(self):
+        section = 'masking'
+        if self.config.has_section(section):
+            for key, value in self.items(section).items():
+                print(key, value)
+                stream, grid, mask = load_mask_from_config(key, value)
+                stream_masking = self._masking.get(stream, {})
+                stream_masking[grid] = mask
+                self._masking[stream] = stream_masking
 
     def _add_streams(self):
         """

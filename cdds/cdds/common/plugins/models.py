@@ -65,6 +65,10 @@ class ModelParameters(object, metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def streams(self) -> List[str]:
+        pass
+
+    @abstractmethod
     def temp_space(self, stream_id: str) -> int:
         """
         Returns the temporary space of the given stream.
