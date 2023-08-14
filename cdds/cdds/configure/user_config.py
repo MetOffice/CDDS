@@ -12,13 +12,14 @@ import os
 from mip_convert.configuration.python_config import PythonConfig
 
 from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.grid import GridType
 from cdds.common.request import read_request
 from cdds.common.variables import RequestedVariablesList
 
 from cdds import __version__
 from cdds.configure.constants import HEADER_TEMPLATE
 from cdds.configure.request import retrieve_required_keys, validate_branch_options, retrieve_request_metadata
-from cdds.configure.variables import retrieve_variables_by_grid
+from cdds.configure.variables import retrieve_variables_by_grid, retrieve_streams_by_grid
 
 
 def produce_user_config_files(arguments):
@@ -134,6 +135,7 @@ def produce_user_configs(request, requested_variables_list, template,
 
     # Retrieve 'MIP requested variables' by grid.
     variables_by_grid = retrieve_variables_by_grid(requested_variables_list)
+    streams = retrieve_streams_by_grid(requested_variables_list)
 
     # Produce the contents of the 'user configuration files' by grid.
     user_configs = OrderedDict()
@@ -146,17 +148,53 @@ def produce_user_configs(request, requested_variables_list, template,
                 file_suffix = '{}-{}'.format(grid_id, substream)
             logger.info(
                 'Producing user configuration file for "{}"'.format(file_suffix))
+            maskings = get_masking_attributes(request.model_id, streams)
             user_config = OrderedDict()
             user_config.update(deepcopy(metadata))
             user_config['cmor_dataset']['grid'] = grid
             user_config['cmor_dataset']['grid_label'] = grid_label
             user_config['cmor_dataset']['nominal_resolution'] = nominal_resolution
             user_config['global_attributes'] = get_global_attributes(request)
+            if maskings:
+                user_config['masking'] = maskings
             user_config.update(mip_requested_variables)
             filename = template_name.format(file_suffix)
             user_configs[filename] = user_config
 
     return user_configs
+
+
+def get_masking_attributes(model_id, streams):
+    """
+    Returns the masking for the ocean grid of given model. Only masks for the
+    given streams are loaded.
+
+    The key of the resulted dictionary composed of the prefix stream and the
+    stream name and grid:
+    'stream_<stream_name>_<grid>'
+    If the grid is not given, the masking is valid for all grids of the stream.
+
+    The value is the slices of latitude and longitude as string representation:
+    '<lat_start>:<lat_stop>:<lat_step>,<lon_start>:<lon_stop>:<lon:step>'
+
+    :param model_id: Model id
+    :type model_id: str
+    :param streams: Streams that masking is used
+    :type streams: List[str]
+    :return: A dictionary contains the masks according the stream and grid
+    :rtype: OrderedDict[str, str]
+    """
+    maskings = OrderedDict()
+    plugin = PluginStore.instance().get_plugin()
+    grid_info = plugin.grid_info(model_id, GridType.OCEAN)
+    masking_key_template = 'stream_{}_{}'
+    masks = grid_info.masks
+    for stream in streams:
+        if masks:
+            for grid, value in masks.items():
+                key = masking_key_template.format(stream, grid)
+                maskings[key] = value
+    return maskings
 
 
 def get_global_attributes(request):

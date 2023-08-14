@@ -22,7 +22,7 @@ from cdds.common import DATE_TIME_REGEX
 from mip_convert.common import (
     DEFAULT_FILL_VALUE, Longitudes, validate_latitudes, format_date,
     MIP_to_model_axis_name_mapping, apply_time_constraint, raw_to_value,
-    parse_to_loadables, eorca_resolution_to_mask_slice)
+    parse_to_loadables)
 from mip_convert.process.config import mappings_config
 from mip_convert.process.constants import constants, other_constants
 from mip_convert.process.processors import *
@@ -37,7 +37,7 @@ class VariableMetadata(object):
 
     def __init__(self, variable_name, stream_id, substream, mip_table_name, mip_metadata, site_information,
                  hybrid_height_information, replacement_coordinates, model_to_mip_mapping, timestep, run_bounds,
-                 calendar, base_date, deflate_level, shuffle, reference_time=None, mask_slice=None):
+                 calendar, base_date, deflate_level, shuffle, reference_time=None, masking={}):
         """
         Parameters
         ----------
@@ -91,7 +91,7 @@ class VariableMetadata(object):
         self.deflate_level = deflate_level
         self.shuffle = shuffle
         self.reference_time = reference_time
-        self.mask_slice = mask_slice
+        self.masking = masking
         self._validate_timestep()
 
     def _validate_timestep(self):
@@ -381,30 +381,11 @@ class Variable(object):
                 cube.data = make_masked(cube.data, cube.shape, cube.attributes['fill_value'], cube.data.dtype)
 
     def _apply_mask(self):
-        logger = logging.getLogger(__name__)
         # expecting format lat_start:lat_stop:lat_stride, lon_start:lon_stop:lon_stride
-        mask_slice_str = self._variable_metadata.mask_slice
-        if mask_slice_str == 'no_mask':
-            mask = None
-        elif mask_slice_str is not None:
-            # build slices
-            try:
-                lat_str, lon_str = mask_slice_str.replace(' ', '').split(',')
-                lat_slice = slice(*[None if j.lower() in ('none', '') else int(j) for j in lat_str.split(':')])
-                lon_slice = slice(*[None if j.lower() in ('none', '') else int(j) for j in lon_str.split(':')])
-            except (TypeError, ValueError):
-                message = ('mask_slice information must consist of two slice specifications separated by a'
-                           ' comma, received "{}"'.format(mask_slice_str))
-                logger.critical(message)
-                raise RuntimeError(message)
-
-            logger.info('Masking all data using mask slices for latitude and longitude dimensions: "{}"'.format(
-                mask_slice_str))
-            mask = np.s_[..., lat_slice, lon_slice]
-
-        for cube in list(self.input_variables.values()):
-            if mask_slice_str is None:
-                model_id = self.model_to_mip_mapping.model_id
+        masking = self._variable_metadata.masking
+        if self._variable_metadata.stream_id in masking:
+            stream_mask = masking[self._variable_metadata.stream_id]
+            for cube in list(self.input_variables.values()):
                 model_component = cube.attributes['model_component']
                 # If CICE data modify the mode_component value to include grid information.
                 if model_component == 'cice':
@@ -412,11 +393,17 @@ class Variable(object):
                     # "coordinates" netcdf attribute.
                     cice_grid = cube.coord('latitude').var_name[0]
                     model_component = 'cice-{}'.format(cice_grid)
-                mask = eorca_resolution_to_mask_slice(model_id, model_component, self._substream)
-            cube_coord_names = {i.name() for i in cube.coords()}
-            if {'latitude', 'longitude'} <= cube_coord_names and mask is not None:
-                # update the existing mask
-                cube.data[mask] = np.ma.masked
+                if model_component in stream_mask:
+                    mask = stream_mask[model_component].slice()
+                elif 'default' in stream_mask:
+                    mask = stream_mask['default'].slice()
+                else:
+                    mask = None
+                if mask:
+                    cube_coord_names = {i.name() for i in cube.coords()}
+                    if {'latitude', 'longitude'} <= cube_coord_names and mask is not None:
+                        # update the existing mask
+                        cube.data[mask] = np.ma.masked
 
     def _apply_expression(self):
         # Persist the fill_value attribute from the 'input variables' to the 'output variable'.

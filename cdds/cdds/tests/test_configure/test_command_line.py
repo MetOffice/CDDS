@@ -167,10 +167,14 @@ class TestMain(unittest.TestCase):
             self.replacement_coordinates_file, self.run_bounds, self.shuffle,
             self.sites_file, self.suite_id)
         self.stream_section = '[stream_ap5]\nCMIP6_Amon = tas\n\n'
+        self.masking_section = ('[masking]\n'
+                                'stream_ap5_cice-U = -1:None:None,180:None:None\n'
+                                'stream_ap5_grid-V = -1:None:None,180:None:None\n\n')
         self.user_config = (
             self.user_config_file_header + self.cmor_setup_section
             + self.cmor_dataset_section + self.request_section
-            + self.global_attributes_section + self.stream_section)
+            + self.global_attributes_section + self.masking_section
+            + self.stream_section)
         self.requested_variables_list = {
             'experiment_id': self.experiment_id,
             'mip': self.mip,
@@ -264,7 +268,8 @@ class TestMain(unittest.TestCase):
             self.suite_id)
         user_config = (self.user_config_file_header + cmor_setup_section
                        + cmor_dataset_section + request_section
-                       + self.global_attributes_section + self.stream_section)
+                       + self.global_attributes_section + self.masking_section
+                       + self.stream_section)
         reference = {
             self.user_config_template_name.format(self.grid_id): user_config}
         # The output directory must exist before running 'main()'.
@@ -302,7 +307,8 @@ class TestMain(unittest.TestCase):
             self.netcdf_file_action)
         user_config = (self.user_config_file_header + cmor_setup_section
                        + self.cmor_dataset_section + self.request_section
-                       + self.global_attributes_section + self.stream_section)
+                       + self.global_attributes_section + self.masking_section
+                       + self.stream_section)
         reference = {
             self.user_config_template_name.format(self.grid_id): user_config}
         # The output directory must exist before running 'main()'.
@@ -327,7 +333,8 @@ class TestMain(unittest.TestCase):
             self.create_subdirectories, mip_table_dir, self.netcdf_file_action)
         user_config = (self.user_config_file_header + cmor_setup_section
                        + self.cmor_dataset_section + self.request_section
-                       + self.global_attributes_section + self.stream_section)
+                       + self.global_attributes_section + self.masking_section
+                       + self.stream_section)
         reference = {
             self.user_config_template_name.format(self.grid_id): user_config}
         # The output directory must exist before running 'main()'.
@@ -353,7 +360,8 @@ class TestMain(unittest.TestCase):
             self.sites_file, self.suite_id)
         user_config = (self.user_config_file_header + self.cmor_setup_section
                        + self.cmor_dataset_section + request_section
-                       + self.global_attributes_section + self.stream_section)
+                       + self.global_attributes_section + self.masking_section
+                       + self.stream_section)
         reference = {
             self.user_config_template_name.format(self.grid_id): user_config}
         # The output directory must exist before running 'main()'.

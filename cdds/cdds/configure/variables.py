@@ -65,3 +65,26 @@ def retrieve_variables_by_grid(requested_variables):
                 variables_by_grid[grid_info][section][mip_table] += ' '
             variables_by_grid[grid_info][section][mip_table] += variable_name
     return variables_by_grid
+
+
+def retrieve_streams_by_grid(requested_variables):
+    """
+    Returns the streams in the |MIP requested variables|.
+
+    Parameters
+    ----------
+    requested_variables: :class:`cdds.common.variables.RequestedVariablesList`
+        The information from the |requested variables list|.
+
+    Returns
+    -------
+    : list
+        Streams in the |MIP requested variables|
+    """
+    streams = []
+    active_variables = requested_variables.active_variables_by_mip_table
+    for mip_table_id, variable_list in active_variables.items():
+        for variable in variable_list:
+            variable_name, stream_id, substream = variable
+            streams.append(stream_id)
+    return streams

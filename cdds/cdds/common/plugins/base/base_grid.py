@@ -7,7 +7,7 @@ to handle basic grid information of models.
 from abc import ABCMeta
 from typing import Dict, Any, List
 
-from cdds.common.plugins.grid import GridInfo, GridType, OceanGridPolarMask
+from cdds.common.plugins.grid import GridInfo, GridType
 
 
 class BaseGridInfo(GridInfo, metaclass=ABCMeta):
@@ -127,35 +127,34 @@ class OceanBaseGridInfo(BaseGridInfo):
 
     def __init__(self, json: Dict[str, Any] = None) -> None:
         super(OceanBaseGridInfo, self).__init__(GridType.OCEAN, json)
-        self._ocean_grid_polar_masks: Dict[str, OceanGridPolarMask] = {}
+        self._ocean_grid_polar_masks: Dict[str, str] = {}
         self._load_ocean_grid_polar_masks(json)
 
-    def _load_ocean_grid_polar_masks(self, json):
+    def _load_ocean_grid_polar_masks(self, json) -> None:
         masked_data = json['masked']
         for grid_name, values in masked_data.items():
-            slice_latitude = self._to_slice(values['slice_latitude'])
-            slice_longitude = self._to_slice(values['slice_longitude'])
-            self._ocean_grid_polar_masks[grid_name] = OceanGridPolarMask(grid_name, slice_latitude, slice_longitude)
+            slice_latitude = self._to_mask_slice_str(values['slice_latitude'])
+            slice_longitude = self._to_mask_slice_str(values['slice_longitude'])
+            mask_slice = '{},{}'.format(slice_latitude, slice_longitude)
+            self._ocean_grid_polar_masks[grid_name] = mask_slice
         self._halo_options = json['halo_options']
 
     @staticmethod
-    def _to_slice(arguments):
+    def _to_mask_slice_str(arguments):
         start = arguments[0]
         stop = arguments[1]
         step = arguments[2]
-        return slice(start, stop, step)
+        return '{}:{}:{}'.format(start, stop, step)
 
     @property
-    def masks(self) -> Dict[str, OceanGridPolarMask]:
+    def masks(self) -> Dict[str, str]:
         """
         Returns a dictionary of ocean grid polar masks for the grid.
         For example::
 
           {
-            'grid-V': OceanGridPolarMask(
-                           grid_name: 'grid-V', slice_latitude: [-1, None, None], slice_longitude: [180, None, None]),
-            'cice-U': OceanGridPolarMask(
-                           grid_name: 'cice-U', slice_latitude: [-1, None, None], slice_longitude: [180, None, None])
+            'grid-V': '-1:None:None,180:None:None',
+            'cice-U': '-1:None:None,180:None:None
           }
 
         :return: Ocean grid polar masks stored in a dictionary according their grid names
@@ -199,7 +198,7 @@ class AtmosBaseGridInfo(BaseGridInfo):
         super(AtmosBaseGridInfo, self).__init__(GridType.ATMOS, json)
 
     @property
-    def masks(self) -> Dict[str, OceanGridPolarMask]:
+    def masks(self) -> Dict[str, str]:
         """
         Returns a dictionary of ocean grid polar masks for the grid.
         Atmosphere grids have no ocean grid polar masks. So, 'None' will be returned.

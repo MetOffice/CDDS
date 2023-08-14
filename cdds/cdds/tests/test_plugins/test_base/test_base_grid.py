@@ -64,10 +64,8 @@ class TestOceanGridInfo(TestCase):
     def test_masks(self):
         masks = self.ocean_grid_info.masks
 
-        self.assertEqual(masks['grid-V'].slice_latitude, slice(-1, 1, 1))
-        self.assertEqual(masks['grid-V'].slice_longitude, slice(180, 1, 1))
-        self.assertEqual(masks['cice-U'].slice_latitude, slice(-8, 1, 2))
-        self.assertEqual(masks['cice-U'].slice_longitude, slice(728, 1, 2))
+        self.assertEqual(masks['grid-V'], '-1:1:1,180:1:1')
+        self.assertEqual(masks['cice-U'], '-8:1:2,728:1:2')
 
     def test_halo_options(self):
         halo_options = self.ocean_grid_info.halo_options

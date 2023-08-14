@@ -34,6 +34,11 @@ class TestCmip6SIdayMultiple3d(AbstractFunctionalTests):
                     'run_bounds': '1978-10-01T00:00:00 1978-12-01T00:00:00',
                     'suite_id': 'u-al114'
                 },
+                masking={
+                    'ind': {
+                        'cice-U': '-1:,180:'
+                    }
+                },
                 streams={
                     'ind': {'CMIP6_SIday': 'sisnthick sispeed'}
                 },
