@@ -10,7 +10,8 @@ import os
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.request import read_request
 from cdds.extract.common import (
-    check_moo_cmd, configure_mappings, configure_variables, exit_nicely, get_data_target, get_streams, ValidationResult)
+    check_moo_cmd, configure_mappings, configure_variables, exit_nicely, get_data_target, get_streams,
+    get_zero_sized_files, ValidationResult)
 from cdds.extract.constants import GROUP_FOR_DIRECTORY_CREATION
 from cdds.extract.filters import Filters
 from cdds.extract.process import Process
@@ -104,6 +105,10 @@ class ExtractRunner(object):
 
                     # create directory for extracted data from this stream
                     extract_process.create_streamdir(data_target)
+
+                    # test for presence of zero-sized files
+                    files_to_delete = get_zero_sized_files(data_target)
+                    extract_process.delete_files(files_to_delete)
 
                     # create MOOSE filter filess (if requested)
                     # and mass commands
