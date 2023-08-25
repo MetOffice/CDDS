@@ -214,7 +214,6 @@ SCRIPT_TEMPLATE = """#!/bin/bash -l
 """
 SUPPORTED_CALENDARS = ["gregorian", "360_day", "360day"]
 TIME_UNIT_DESCRIPTION = 'days since 1850-01-01'
-TIME_UNIT = cf_units.Unit(TIME_UNIT_DESCRIPTION, calendar='360_day')
 USER_CONFIG_OPTIONS = {
     # section: {option_type: [options]}
     'cmor_setup': {
