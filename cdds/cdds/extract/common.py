@@ -1192,7 +1192,7 @@ def chunk_by_files_and_tapes(fileset: dict, tape_limit: int, file_limit: int) ->
     return chunks
 
 
-def get_zero_sized_files(dirpath : str) -> list:
+def get_zero_sized_files(dirpath: str) -> list:
     """
     Checks if a given directory contain files of zero size and returns them.
 
