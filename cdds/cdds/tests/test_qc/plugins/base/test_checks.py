@@ -54,6 +54,7 @@ class TestGlobalAttributesCheckTask(TestCase):
         self.nc_path = os.path.join(TMP_DIR_FOR_NETCDF_TESTS, "test_file.nc")
         mip_tables = MipTables(os.path.join(MIP_TABLES_DIR, "for_functional_tests"))
         request = Request({
+            "calendar": "360_day",
             "mip_era": "CMIP6",
             "license": ("CMIP6 model data produced by the Met Office Hadley Centre.")
         }, [])

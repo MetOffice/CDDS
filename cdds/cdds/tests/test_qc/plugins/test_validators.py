@@ -31,3 +31,7 @@ class TestParsingDateRanges(unittest.TestCase):
         self.assertTrue(
             "A month cannot have more than 30 days"
             in str(context.exception))
+
+    def test_parsing_date_ranges_gregorian_calendar(self):
+        parse_date_range("19900131-20001231", "day", "gregorian")
+        parse_date_range("19900131-20040229", "day", "gregorian")
