@@ -31,7 +31,6 @@ def main_checkout_workflow(arguments: Union[list, None] = None):
     args = parse_args(arguments)
 
     workflow_url = determine_rose_suite_url(PROCESSING_WORKFLOW, args.external_repository)
-    breakpoint()
     workflow_url += args.branch_name
 
     workflow_dst = Path(args.workflow_destination, args.workflow_name).expanduser()
