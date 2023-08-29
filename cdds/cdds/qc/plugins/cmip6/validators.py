@@ -6,7 +6,7 @@ import re
 import cf_units
 import cftime as cft
 
-from cdds.common.constants import TIME_UNIT
+from cdds.common.constants import TIME_UNIT_DESCRIPTION
 from cdds.common.validation import ValidationError
 from cdds.qc.plugins.base.validators import ControlledVocabularyValidator
 
@@ -92,11 +92,11 @@ def get_numeric_date(calendar: cf_units.Unit, dates: tuple) -> float:
         dates.extend([1] * (3 - len(dates)))
     if calendar.calendar == '360_day' and dates[2] > 30:
         raise ValidationError("A month cannot have more than 30 days")
-    datetime_obj = cft.datetime(*dates, calendar='360_day')
-    return cft.date2num(datetime_obj, 'days since 1850-01-01', '360_day')
+    datetime_obj = cft.datetime(*dates, calendar=calendar.calendar)
+    return cft.date2num(datetime_obj, 'days since 1850-01-01', calendar.calendar)
 
 
-def parse_date_range(daterange: str, frequency: str) -> tuple:
+def parse_date_range(daterange: str, frequency: str, calendar: str = '360_day') -> tuple:
     """
     Parses daterange string and returns start and end points.
     :param daterange: a daterange part of a filename
@@ -117,7 +117,7 @@ def parse_date_range(daterange: str, frequency: str) -> tuple:
     datetime2 = re.match(get_datetime_template(frequency), dateparts[1])
 
     if datetime1 and datetime2:
-        t_unit = TIME_UNIT
+        t_unit = cf_units.Unit(TIME_UNIT_DESCRIPTION, calendar=calendar)
         d1 = get_numeric_date(t_unit, datetime1.groups())
         d2 = get_numeric_date(t_unit, datetime2.groups())
 
