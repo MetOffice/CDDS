@@ -25,6 +25,7 @@ class MipTables(object):
             "standard_name",
             "units",
             "cell_measures",
+            "cell_methods"
         ]
 
         self._tables = {}
