@@ -35,17 +35,20 @@ class TestMipTables(unittest.TestCase):
             'standard_name': 'air_temperature',
             'units': 'K',
             'cell_measures': 'area: areacella',
+            'cell_methods': 'area: time: mean'
         }, mip_tables.get_variable_meta('Amon', 'tas'))
         self.assertEqual({
             'long_name': 'Sea-ice Area Percentage (Ocean Grid)',
             'standard_name': 'sea_ice_area_fraction', 'units': '%',
             'cell_measures': 'area: areacello',
+            'cell_methods': 'area: mean where sea time: mean'
         }, mip_tables.get_variable_meta('SIday', 'siconc'))
         self.assertEqual({
             'long_name': 'Air Temperature',
             'standard_name': 'air_temperature',
             'units': 'K',
             'cell_measures': 'area: areacella',
+            'cell_methods': 'time: mean'
         }, mip_tables.get_variable_meta('Emon', 'ta'))
 
 
