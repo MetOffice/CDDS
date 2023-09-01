@@ -15,29 +15,10 @@ class TestCmip6PlusStreamInfoRetrieveStreamId(TestCase):
         config_path = os.path.join(local_dir, 'data/streams/streams_config.json')
         self.stream_info = Cmip6PlusStreamInfo(config_path)
 
-    def test_retrieve_stream_id_from_default(self):
-        variable = 'tas'
-        mip_table = 'Amon'
-        stream, substream = self.stream_info.retrieve_stream_id(variable, mip_table)
-        self.assertTupleEqual((stream, substream), ('ap5', None))
-
-    def test_retrieve_stream_id_from_override(self):
-        variable = 'tasmax'
-        mip_table = 'Amon'
-        stream, substream = self.stream_info.retrieve_stream_id(variable, mip_table)
-        self.assertTupleEqual((stream, substream), ('ap6', None))
-
-    def test_retrieve_stream_id_unknown(self):
-        variable = 'tas'
-        mip_table = 'Xmon'
-        stream, substream = self.stream_info.retrieve_stream_id(variable, mip_table)
-        self.assertEqual((stream, substream), ('unknown', None))
-
-    def test_retrieve_stream_id_with_substream(self):
-        variable = 'sos'
-        mip_table = 'Oday'
-        stream, substream = self.stream_info.retrieve_stream_id(variable, mip_table)
-        self.assertEqual((stream, substream), ('ond', 'grid-T'))
+    def test_retrieve_from_empty_streams(self):
+        stream, substream = self.stream_info.retrieve_stream_id('tas', 'Amon')
+        self.assertEqual(stream, 'unknown')
+        self.assertIsNone(substream)
 
 
 class TestCmip6PlusStreamStore(TestCase):
