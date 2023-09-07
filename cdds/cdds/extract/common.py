@@ -1110,8 +1110,12 @@ def fetch_filelist_from_mass(mass_dir, simulation=False):
             cmd_out = run_command(["moo", "ls", "-m", mass_dir])
             filelines = cmd_out.split('\n')[0:-1]
             for fileline in filelines:
-                _, tape, _, _, _, filepath = fileline.split()
-                files.append((tape, filepath))
+                try:
+                    _, tape, _, _, _, filepath = fileline.split()
+                    files.append((tape, filepath))
+                except ValueError:
+                    # skip files which hasn't been completely written to the tape system yet
+                    pass
         except RuntimeError as e:
             files = []
             error = str(e)
