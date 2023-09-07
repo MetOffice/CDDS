@@ -1213,6 +1213,8 @@ def get_zero_sized_files(dirpath: str) -> list:
     files_to_remove = []
     for _, _, files in os.walk(dirpath):
         for datafile in files:
-            if os.path.getsize(datafile) == 0:
-                files_to_remove.append(datafile)
+            filepath = os.path.join(dirpath, datafile)
+            if os.path.getsize(filepath) == 0:
+                files_to_remove.append(filepath)
+        break
     return files_to_remove
