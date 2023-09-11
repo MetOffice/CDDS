@@ -17,7 +17,7 @@ from cdds.common.mass_record import MassRecord
 from cdds.archive.constants import (
     DATA_PUBLICATION_STATUS_DICT, SUPERSEDED_INFO_FILE_STR)
 import cdds.archive.mass
-from cdds.common.request import construct_request
+from cdds.common.old_request import construct_request
 from cdds.tests.test_archive import common
 
 

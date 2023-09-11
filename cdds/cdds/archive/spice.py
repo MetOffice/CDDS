@@ -13,7 +13,7 @@ from cdds.common.constants import (
 from cdds.archive.constants import (
     SPICE_STORE_MEMORY, SPICE_STORE_QUEUE,
     SPICE_STORE_SCRIPT_NAME, SPICE_STORE_WALLTIME, STORE_COMMAND)
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.common.spice import submit_spice_job_script, write_spice_job_script
 
 

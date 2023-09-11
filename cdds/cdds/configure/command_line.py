@@ -16,7 +16,7 @@ from cdds.common import (
 
 from cdds import __version__
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.configure.arguments import read_configure_arguments
 from cdds.configure.user_config import produce_user_config_files
 

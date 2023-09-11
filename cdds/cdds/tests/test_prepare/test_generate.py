@@ -13,7 +13,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.common.request import Request
+from cdds.common.old_request import Request
 from cdds.data_request_interface.load import DataRequestWrapper
 from cdds.prepare.data_request import (list_variables_for_experiment)
 from cdds.prepare.generate import BaseVariablesConstructor

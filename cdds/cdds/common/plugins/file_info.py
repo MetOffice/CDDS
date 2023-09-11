@@ -12,7 +12,7 @@ from metomi.isodatetime.parsers import TimePointParser
 from cdds.archive.constants import OUTPUT_FILE_DT_STR
 
 if TYPE_CHECKING:
-    from cdds.common.request import Request
+    from cdds.common.old_request import Request
 
 
 class ModelFileInfo(object, metaclass=ABCMeta):

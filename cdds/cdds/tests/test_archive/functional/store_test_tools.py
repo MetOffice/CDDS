@@ -9,7 +9,7 @@ from enum import Enum
 from typing import List
 
 from cdds.archive.command_line import parse_args_store
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.deprecated.config import FullPaths
 
 

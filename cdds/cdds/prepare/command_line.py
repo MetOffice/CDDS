@@ -15,7 +15,7 @@ from cdds.deprecated.config import update_arguments_for_proc_dir, update_argumen
 
 from cdds import __version__
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY, INVENTORY_DB_FILENAME
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.prepare.alter import alter_variable_list, select_variables
 from cdds.prepare.constants import (ACTIVATE, DEACTIVATE, EPILOG, INSERT, DEACTIVATION_RULE_LOCATION)
 from cdds.prepare.directory_structure import create_cdds_directory_structure

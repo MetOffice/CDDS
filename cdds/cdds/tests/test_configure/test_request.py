@@ -9,7 +9,7 @@ import unittest
 
 from cdds.arguments import read_default_arguments
 
-from cdds.common.request import Request
+from cdds.common.old_request import Request
 from cdds.configure.request import (
     retrieve_required_keys, validate_branch_options, retrieve_request_metadata)
 

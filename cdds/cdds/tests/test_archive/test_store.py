@@ -22,7 +22,7 @@ from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.plugin_loader import load_plugin
 
 import cdds.archive.store
-from cdds.common.request import construct_request
+from cdds.common.old_request import construct_request
 import cdds.tests.test_archive.common
 
 

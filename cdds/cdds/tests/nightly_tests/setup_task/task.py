@@ -5,7 +5,7 @@ import os
 import logging
 
 from cdds.common import configure_logger
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 
 from cdds.tests.nightly_tests.setup_task.common import SetupConfig, SetupPaths
 from cdds.tests.nightly_tests.setup_task.activities import (setup_directory_structure, setup_mass_directories,

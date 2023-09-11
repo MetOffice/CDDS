@@ -25,7 +25,7 @@ from metomi.isodatetime.data import Calendar, TimePoint
 from metomi.isodatetime.parsers import DurationParser, TimePointParser, TimeRecurrenceParser
 
 
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.convert.exceptions import IncompatibleCalendarMode
 from cdds.common.constants import (
     CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX, ROSE_URLS,

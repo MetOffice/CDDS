@@ -52,7 +52,7 @@ class ConfigureArguments(Arguments):
         Adds additional necessary information according the given request.
 
         :param request: Request for the CDDS configure process
-        :type request: `cdds.common.request.Request`
+        :type request: `cdds.common.old_request.Request`
         """
         self.add_ancil_files(request.model_id)
         self.add_hybrid_heights_files(request.model_id)

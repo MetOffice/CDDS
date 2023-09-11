@@ -13,7 +13,7 @@ import unittest
 
 from unittest.mock import patch
 
-from cdds.common.request import Request
+from cdds.common.old_request import Request
 from cdds.arguments import Arguments
 from cdds.deprecated.config import (update_arguments_paths,
                                     use_proc_dir,
