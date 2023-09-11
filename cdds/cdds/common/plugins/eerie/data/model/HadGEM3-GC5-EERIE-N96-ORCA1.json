@@ -2,16 +2,20 @@
   "stream_file_frequency": {
     "quarterly": {
       "streams": [
-        "ond"
         ],
       "files_per_year": 4},
     "monthly": {
       "streams": [
         "ap1",
+        "ap2",
         "ap4",
-        "ap5",
+        "ap6",
+        "ap7",
+        "ap8",
+        "ap9",
+        "apd",
         "apm",
-        "apu",
+        "ond",
         "onm",
         "inm",
         "ind"
@@ -20,11 +24,6 @@
     },
     "10 day": {
       "streams": [
-        "ap6",
-        "ap7",
-        "ap8",
-        "ap9",
-        "apt"
       ],
       "files_per_year": 36
     }
@@ -36,6 +35,7 @@
     "apm": "P5Y",
     "apu": "P5Y",
     "ap6": "P1Y",
+    "apd": "P1Y",
     "ap7": "P3M",
     "ap8": "P1Y",
     "ap9": "P1Y",
@@ -52,6 +52,7 @@
     "apm": "8G",
     "apu": "8G",
     "ap6": "30G",
+    "apd": "30G",
     "ap7": "32G",
     "ap8": "24G",
     "ap9": "64G",
@@ -68,6 +69,7 @@
     "apm": 8192,
     "apu": 20480,
     "ap6": 98304,
+    "apd": 98304,
     "ap7": 65536,
     "ap8": 32768,
     "ap9": 32768,
