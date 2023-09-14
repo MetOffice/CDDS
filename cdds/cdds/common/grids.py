@@ -250,7 +250,9 @@ def default_grid_ids():
         'primSIday': ('atmos', 'native'),
         'GCAmon': ('atmos', 'native'),
         'GCLmon': ('atmos', 'native'),
-        'GCAmon6hrUV': ('atmos', 'uvgrid')
+        'GCAmon6hrUV': ('atmos', 'uvgrid'),
+        'HRday': ('atmos', 'native'),
+        'HROday': ('ocean', 'native')
     }
 
 
