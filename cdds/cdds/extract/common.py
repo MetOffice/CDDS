@@ -535,47 +535,47 @@ def get_bounds_variables(stream, substream="default"):
     try:
         return {
             ("onm", "grid-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
+                "bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds",
                 "deptht_bounds"
             ],
             ("onm", "diad-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
+                "bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds",
                 "deptht_bounds"
             ],
             ("onm", "ptrc-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
+                "bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds",
                 "deptht_bounds"
             ],
             ("onm", "ptrd-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
+                "bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds",
                 "deptht_bounds"
             ],
             ("onm", "grid-U"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
+                "bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds",
                 "depthu_bounds"
             ],
             ("onm", "grid-V"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
+                "bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds",
                 "depthv_bounds"
             ],
             ("onm", "grid-W"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
+                "bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds",
                 "depthw_bounds"
             ],
             ("ond", "grid-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
+                "bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds",
             ],
             ("ond", "diad-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
+                "bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds",
             ],
             ("ond", "ptrc-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
+                "bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds",
             ],
             ("ond", "ptrd-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
+                "bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds",
             ],
             ("ond", "scalar"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
+                "bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds",
             ],
             ("inm", "default"): [
                 "lont_bounds", "latt_bounds", "lonu_bounds", "latu_bounds"
