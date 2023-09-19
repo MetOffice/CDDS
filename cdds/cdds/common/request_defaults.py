@@ -12,7 +12,7 @@ from cdds.common.platforms import whereami, Facility
 
 
 def metadata_defaults(model_id):
-    license = PluginStore.get_plugin().license()
+    license = PluginStore.instance().get_plugin().license()
     facility = whereami()
     if facility == Facility.JASMIN:
         standard_names_dir = '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/standard_names/'
@@ -21,9 +21,9 @@ def metadata_defaults(model_id):
 
     return {
         'calendar': '360_day',
-        'child_base_date': '1850-01-01-00-00-00',
+        'child_base_date': '1850-01-01',
         'license': license,
-        'parent_base_date': '1850-01-01-00-00-00',
+        'parent_base_date': '1850-01-01',
         'parent_model_id': model_id,
         'parent_time_units': 'days since 1850-01-01',
         'standard_names_dir': standard_names_dir,
@@ -32,7 +32,7 @@ def metadata_defaults(model_id):
 
 
 def common_defaults(model_id, experiment_id, variant_label):
-    mip_table_dir = PluginStore.get_plugin().mip_table_dir()
+    mip_table_dir = PluginStore.instance().get_plugin().mip_table_dir()
 
     facility = whereami()
     if facility == Facility.JASMIN:
@@ -66,7 +66,7 @@ def data_defaults():
 
 
 def misc_defaults(model_id):
-    grid_info = PluginStore.get_plugin().grid_info(model_id, GridType.ATMOS)
+    grid_info = PluginStore.instance().get_plugin().grid_info(model_id, GridType.ATMOS)
     atmos_timestep = grid_info.atmos_timestep
 
     return {

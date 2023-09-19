@@ -55,7 +55,7 @@ class MetadataSection(Section):
     parent_model_id: str = ''
     parent_time_units: str = ''
     parent_variant_label: str = ''
-    sub_experiment_id: str = ''
+    sub_experiment_id: str = 'none'
     variant_label: str = ''
     standard_names_version: str = ''
     standard_names_dir: str = ''
