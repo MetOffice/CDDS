@@ -3,7 +3,7 @@
 import unittest
 
 from cdds import __version__
-from cdds.common.request_defaults import (
+from cdds.common.request.request_defaults import (
     metadata_defaults, common_defaults, data_defaults, misc_defaults, inventory_defaults, conversion_defaults
 )
 from cdds.common.plugins.plugin_loader import load_plugin
@@ -24,7 +24,7 @@ class TestMetadataDefaults(TestCase):
     def tearDown(self) -> None:
         PluginStore.clean_instance()
 
-    @mock.patch('cdds.common.request_defaults.whereami')
+    @mock.patch('cdds.common.request.request_defaults.whereami')
     def test_defaults_for_jasmin(self, whereami_mock):
         whereami_mock.return_value = Facility.JASMIN
         expected_defaults = {
@@ -42,7 +42,7 @@ class TestMetadataDefaults(TestCase):
 
         self.assertDictEqual(defaults, expected_defaults)
 
-    @mock.patch('cdds.common.request_defaults.whereami')
+    @mock.patch('cdds.common.request.request_defaults.whereami')
     def test_defaults_for_metoffice(self, whereami_mock):
         whereami_mock.return_value = Facility.MET_OFFICE
         expected_defaults = {
@@ -72,8 +72,8 @@ class TestCommonDefaults(TestCase):
     def tearDown(self) -> None:
         PluginStore.clean_instance()
 
-    @mock.patch('cdds.common.request_defaults.datetime')
-    @mock.patch('cdds.common.request_defaults.whereami')
+    @mock.patch('cdds.common.request.request_defaults.datetime')
+    @mock.patch('cdds.common.request.request_defaults.whereami')
     @mock.patch('cdds.common.plugins.cmip6.cmip6_plugin.whereami')
     def test_defaults_for_jasmin(self, whereami_plugin_mock, whereami_mock, datetime_mock):
         data_version = datetime.utcnow()
@@ -99,8 +99,8 @@ class TestCommonDefaults(TestCase):
 
         self.assertDictEqual(defaults, expected_defaults)
 
-    @mock.patch('cdds.common.request_defaults.datetime')
-    @mock.patch('cdds.common.request_defaults.whereami')
+    @mock.patch('cdds.common.request.request_defaults.datetime')
+    @mock.patch('cdds.common.request.request_defaults.whereami')
     @mock.patch('cdds.common.plugins.cmip6.cmip6_plugin.whereami')
     def test_defaults_for_metoffice(self, whereami_plugin_mock, whereami_mock, datetime_mock):
         data_version = datetime.utcnow()
@@ -190,7 +190,7 @@ class TestInventoryDefaults(TestCase):
             'VolMIP'
         ]
 
-    @mock.patch('cdds.common.request_defaults.whereami')
+    @mock.patch('cdds.common.request.request_defaults.whereami')
     def test_defaults_for_jasmin(self, whereami_mock):
         whereami_mock.return_value = Facility.JASMIN
         expected_defaults = {
@@ -210,7 +210,7 @@ class TestInventoryDefaults(TestCase):
 
         self.assertDictEqual(defaults, expected_defaults)
 
-    @mock.patch('cdds.common.request_defaults.whereami')
+    @mock.patch('cdds.common.request.request_defaults.whereami')
     def test_defaults_for_metoffice(self, whereami_mock):
         whereami_mock.return_value = Facility.MET_OFFICE
         expected_defaults = {
@@ -233,7 +233,7 @@ class TestInventoryDefaults(TestCase):
 
 class TestConversionDefaults(TestCase):
 
-    @mock.patch('cdds.common.request_defaults.whereami')
+    @mock.patch('cdds.common.request.request_defaults.whereami')
     def test_defaults_for_jasmin(self, whereami_mock):
         whereami_mock.return_value = Facility.JASMIN
         expected_defaults = {
@@ -250,7 +250,7 @@ class TestConversionDefaults(TestCase):
 
         self.assertDictEqual(defaults, expected_defaults)
 
-    @mock.patch('cdds.common.request_defaults.whereami')
+    @mock.patch('cdds.common.request.request_defaults.whereami')
     def test_defaults_for_metoffice(self, whereami_mock):
         whereami_mock.return_value = Facility.MET_OFFICE
         expected_defaults = {

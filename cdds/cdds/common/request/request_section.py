@@ -12,7 +12,7 @@ from metomi.isodatetime.data import TimePoint
 from metomi.isodatetime.parsers import TimePointParser
 from typing import Dict, Any, List, Optional
 
-from cdds.common.request_defaults import (
+from cdds.common.request.request_defaults import (
     metadata_defaults, common_defaults, data_defaults, misc_defaults, inventory_defaults, conversion_defaults
 )
 

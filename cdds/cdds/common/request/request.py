@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from metomi.isodatetime.data import Calendar
 from typing import Dict, Any
 
-from cdds.common.request_section import (
+from cdds.common.request.request_section import (
     MetadataSection, CommonSection, DataSection, GlobalAttributesSection, MiscSection,
     InventorySection, ConversionSection
 )

@@ -10,7 +10,7 @@ from cdds.common.platforms import Facility
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.cmip6.cmip6_plugin import CMIP6_LICENSE
-from cdds.common.request_section import MetadataSection
+from cdds.common.request.request_section import MetadataSection
 
 
 class TestMetadataSection(TestCase):
@@ -76,7 +76,7 @@ class TestMetadataSection(TestCase):
 
         self.assertDictEqual(metadata.items, expected_items)
 
-    @mock.patch('cdds.common.request_defaults.whereami')
+    @mock.patch('cdds.common.request.request_defaults.whereami')
     def test_from_config_only_defaults(self, whereami_mock):
         whereami_mock.return_value = Facility.MET_OFFICE
         config = ConfigParser()
@@ -109,7 +109,7 @@ class TestMetadataSection(TestCase):
         self.assertEqual(metadata.model_id, 'HadGEM3-GC31-LL')
         self.assertEqual(metadata.model_type, [])
 
-    @mock.patch('cdds.common.request_defaults.whereami')
+    @mock.patch('cdds.common.request.request_defaults.whereami')
     def test_from_config(self, whereami_mock):
         whereami_mock.return_value = Facility.MET_OFFICE
         config = ConfigParser()

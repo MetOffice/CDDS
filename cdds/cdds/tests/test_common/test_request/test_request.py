@@ -3,7 +3,7 @@
 import os
 import unittest
 
-from cdds.common.request import read_request, Request
+from cdds.common.request.request import read_request, Request
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.tests.test_common.data_for_tests import (expected_test_metadata, expected_test_global_attributes,
@@ -38,7 +38,7 @@ class TestReadRequest(TestCase):
         self.assertDictEqual(request.inventory.items, expected_test_inventory())
         self.assertDictEqual(request.conversion.items, expected_text_conversion())
 
-    @mock.patch('cdds.common.request_defaults.datetime')
+    @mock.patch('cdds.common.request.request_defaults.datetime')
     def test_read_minimal_request(self, datetime_mock):
         data_version = datetime.utcnow()
         datetime_mock.utcnow.return_value = data_version
@@ -66,7 +66,7 @@ class TestWriteRequest(TestCase):
     def tearDown(self) -> None:
         PluginStore.clean_instance()
 
-    @mock.patch('cdds.common.request_defaults.datetime')
+    @mock.patch('cdds.common.request.request_defaults.datetime')
     def test_write_request(self, datetime_mock):
         data_version = datetime(year=2023, month=9, day=21, hour=10, minute=34, second=12)
         datetime_mock.utcnow.return_value = data_version
