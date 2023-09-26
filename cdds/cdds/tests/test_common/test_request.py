@@ -45,6 +45,7 @@ class TestReadRequest(TestCase):
 
         request_path = os.path.join(self.data_dir, 'test_request_minimal.ini')
         request = read_request(request_path)
+        self.maxDiff = None
 
         self.assertDictEqual(request.metadata.items, expected_test_minimal_metadata())
         self.assertDictEqual(request.netcdf_global_attributes.items, {})
@@ -75,6 +76,7 @@ class TestWriteRequest(TestCase):
         request.metadata.model_id = 'UKESM1-0-LL'
         request.metadata.experiment_id = 'piControl'
         request.metadata.variant_label = 'r1i1p1f2'
+        request.common.cdds_version = '2.6.0.dev0'
 
         request.write(config_file)
 

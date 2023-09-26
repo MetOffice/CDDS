@@ -1,5 +1,8 @@
 # (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
+"""
+Module to calculate the defaults for the request configuration.
+"""
 import os
 
 from datetime import datetime
@@ -8,10 +11,21 @@ from cdds import __version__
 from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.platforms import whereami, Facility
+
 from metomi.isodatetime.data import TimePoint
+from typing import Dict, Any
 
 
-def metadata_defaults(model_id):
+def metadata_defaults(model_id: str) -> Dict[str, Any]:
+    """
+    Calculates the defaults for the metadata section of
+    the request configuration with given model ID.
+
+    :param model_id: Model ID
+    :type model_id: str
+    :return: The defaults for the metadata section
+    :rtype: Dict[str, Any]
+    """
     license = PluginStore.instance().get_plugin().license()
     facility = whereami()
     if facility == Facility.JASMIN:
@@ -31,7 +45,21 @@ def metadata_defaults(model_id):
     }
 
 
-def common_defaults(model_id, experiment_id, variant_label):
+def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Dict[str, Any]:
+    """
+    Calculates the defaults for the common section of
+    the request configuration with given model ID,
+    experiment ID and variant label.
+
+    :param model_id: Model ID
+    :type model_id: str
+    :param experiment_id: Experiment ID
+    :type experiment_id: str
+    :param variant_label: Variant label
+    :type variant_label: str
+    :return: The defaults for the common section
+    :rtype: Dict[str, Any]
+    """
     mip_table_dir = PluginStore.instance().get_plugin().mip_table_dir()
     data_version = datetime.utcnow().strftime('%Y-%m-%dT%H%MZ')
 
@@ -56,7 +84,14 @@ def common_defaults(model_id, experiment_id, variant_label):
     }
 
 
-def data_defaults():
+def data_defaults() -> Dict[str, Any]:
+    """
+    Calculates the defaults for the data section of
+    the request configuration.
+
+    :return: The defaults of the data section
+    :rtype: Dict[str, Any]
+    """
     return {
         "mass_data_class": 'crum',
         "output_mass_root": "moose:/adhoc/projects/cdds/",
@@ -67,7 +102,16 @@ def data_defaults():
     }
 
 
-def misc_defaults(model_id):
+def misc_defaults(model_id: str) -> Dict[str, Any]:
+    """
+    Calculates the defaults for the misc section of
+    the request configuration with given model ID.
+
+    :param model_id: Model ID
+    :type model_id: str
+    :return: The defaults for the misc section
+    :rtype: Dict[str, Any]
+    """
     grid_info = PluginStore.instance().get_plugin().grid_info(model_id, GridType.ATMOS)
     atmos_timestep = grid_info.atmos_timestep
 
@@ -76,7 +120,14 @@ def misc_defaults(model_id):
     }
 
 
-def inventory_defaults():
+def inventory_defaults() -> Dict[str, Any]:
+    """
+    Calculates the defaults for the inventory section of
+    the request configuration.
+
+    :return: The defaults for the inventory section
+    :rtype: Dict[str, Any]
+    """
     facility = whereami()
     if facility == Facility.JASMIN:
         inventory_database_location = '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/inventory/inventory.db'
@@ -126,7 +177,14 @@ def inventory_defaults():
     }
 
 
-def conversion_defaults():
+def conversion_defaults() -> Dict[str, Any]:
+    """
+    Calculates the defaults for the conversion section of
+    the request configuration.
+
+    :return: The defaults for the conversion section
+    :rtype: Dict[str, Any]
+    """
     facility = whereami()
     if facility == Facility.JASMIN:
         skip_extract = True

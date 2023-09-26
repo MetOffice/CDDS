@@ -167,7 +167,7 @@ def expected_test_minimal_metadata():
 
 def expected_test_minimal_common(data_version):
     return {
-        'cdds_version': '2.6.0.dev0+CDDSO-296_reimplement_request_class.ff0d0f7-M',
+        'cdds_version': '2.6.0.dev0',
         'data_version': data_version.strftime('%Y-%m-%dT%H%MZ'),
         'external_plugin': '',
         'external_plugin_location': '',

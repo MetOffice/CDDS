@@ -2,21 +2,15 @@
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
-The :mod:`request` module contains the code required to handle the
-information about the request.
+The module contains the code required to handle the information about the request.
 """
 import logging
 
-from abc import ABCMeta, abstractmethod
-from copy import deepcopy
 from configparser import ConfigParser
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from metomi.isodatetime.data import Calendar
-from typing import Dict, Any, List
+from typing import Dict, Any
 
-from cdds.common.request_defaults import (
-    metadata_defaults, common_defaults, data_defaults, misc_defaults, inventory_defaults, conversion_defaults
-)
 from cdds.common.request_section import (
     MetadataSection, CommonSection, DataSection, GlobalAttributesSection, MiscSection,
     InventorySection, ConversionSection
@@ -24,50 +18,11 @@ from cdds.common.request_section import (
 from cdds.common.plugins.plugin_loader import load_plugin
 
 
-def read_request(request_path):
-    """
-    Returns the information from the request.
-
-    :param request_path: The full path to the cfg file containing the information from the request.
-    :type request_path: str
-    :return: The information from the request.
-    :rtype: :class:`cdds.common.request.Request`
-    """
-    logger = logging.getLogger(__name__)
-    logger.debug('Reading request information from "{}"'.format(request_path))
-
-    request_config = ConfigParser()
-    request_config.read(request_path)
-    load_cdds_plugins(request_config)
-
-    calendar = request_config.get('metadata', 'calendar', fallback='360_day')
-    Calendar.default().set_mode(calendar)
-
-    request = Request.from_config(request_config)
-    return request
-
-
-def load_cdds_plugins(request_config: ConfigParser) -> None:
-    """
-    Loads all internal CDDS plugins and external CDDS plugins specified in
-    the request object.
-
-    :param request: The information from the request json file.
-    :type request: ConfigParser
-    """
-    mip_era = request_config.get('metadata', 'mip_era')
-    external_plugin = None
-    external_plugin_location = None
-    if request_config.has_section('common'):
-        if request_config.has_option('common', 'external_plugin'):
-            external_plugin = request_config.get('common', 'external_plugin')
-        if request_config.has_option('common', 'external_plugin_location'):
-            external_plugin_location = request_config.get('common', 'external_plugin_location')
-    load_plugin(mip_era, external_plugin, external_plugin_location)
-
-
 @dataclass
 class Request:
+    """
+    Stores the information about the request.
+    """
     metadata: MetadataSection = MetadataSection()
     netcdf_global_attributes: GlobalAttributesSection = GlobalAttributesSection()
     common: CommonSection = CommonSection()
@@ -77,7 +32,16 @@ class Request:
     conversion: ConversionSection = ConversionSection()
 
     @staticmethod
-    def from_config(config: ConfigParser):
+    def from_config(config: ConfigParser) -> 'Request':
+        """
+        Creates a new request object from given configuration containing all information
+        defined in the given configuration.
+
+        :param config: Parser of request configuration that should be loaded
+        :type config: ConfigParser
+        :return: New request object
+        :rtype: Request
+        """
         return Request(
             metadata=MetadataSection.from_config(config),
             netcdf_global_attributes=GlobalAttributesSection.from_config(config),
@@ -89,7 +53,15 @@ class Request:
         )
 
     @property
-    def items(self):
+    def items(self) -> Dict[str, Any]:
+        """
+        TODO: DEPRECATED METHOD! -> Needs consideration
+        Returns all information of the request as dictionary. Can be a problem
+        if there are sections having same keys.
+
+        :return: Information of the request as dictionary
+        :rtype: Dict[str, Any]
+        """
         all_items = {}
         all_items.update(self.metadata.items)
         all_items.update(self.netcdf_global_attributes.items)
@@ -101,7 +73,15 @@ class Request:
         return all_items
 
     @property
-    def flattened_items(self):
+    def flattened_items(self) -> Dict[str, Any]:
+        """
+        TODO: DEPRECATED METHOD! -> Needs consideration
+        Returns all information of the request in a flatted dictionary structure. Can be a problem
+        if there are sections having same keys.
+
+        :return: Information of the request as flattened dictionary
+        :rtype: Dict[str, Any]
+        """
         stack = [self.items]
         flat_dict = {}
         while stack:
@@ -119,40 +99,55 @@ class Request:
         Returns all items of the global attributes section as a dictionary
 
         :return: Global attributes items
-        :rtype: dict
+        :rtype: Dict[str, Any]
         """
         if self.netcdf_global_attributes:
             return self.netcdf_global_attributes.items
         return {}
 
     @property
-    def items_for_facet_string(self):
-        facet_string_to_attribute_mapping = {
-            'experiment': 'experiment_id',
-            'project': 'mip',
-            'programme': 'mip_era',
-            'model': 'model_id',
-            'realisation': 'variant_label',
-            'request': 'request_id'}
-        return self._get_items(facet_string_to_attribute_mapping)
+    def items_for_facet_string(self) -> Dict[str, Any]:
+        """
+        TODO: Method to consider
+        Returns the items for the facet string.
+
+        :return: Items for the facet string
+        :rtype: Dict[str, Any]
+        """
+        return {
+            'experiment': self.metadata.experiment_id,
+            'project': self.metadata.mip,
+            'programme': self.metadata.mip_era,
+            'model': self.metadata.model_id,
+            'realisation': self.metadata.variant_label,
+            'request': self.common.workflow_basename
+        }
 
     @property
-    def items_for_cmor(self):
-        cmor_to_attribute_mapping = {
-            'activity_id': 'mip',
-            'source_id': 'model_id',
-            'source_type': 'model_type'}
-        return self._get_items(cmor_to_attribute_mapping)
+    def items_for_cmor(self) -> Dict[str, Any]:
+        """
+        TODO: Method to consider
+        Returns all items for |CMOR|.
 
-    def _get_items(self, name_to_attribute_mapping):
-        output_items = self.items
-        for name, attribute in list(name_to_attribute_mapping.items()):
-            if attribute in output_items:
-                del output_items[attribute]
-                output_items[name] = self.items[attribute]
-        return output_items
+        :return: Items for |CMOR|
+        :rtype: Dict[str, Any]
+        """
+        mip = self.metadata.mip
+        model_id = self.metadata.model_id
+        model_type = self.metadata.model_type
+        return {
+            'activity_id': mip,
+            'source_id': model_id,
+            'source_type': model_type
+        }
 
-    def write(self, config_file):
+    def write(self, config_file: str) -> None:
+        """
+        Write the request information to a configuration file.
+
+        :param config_file: Absolute path to the request configruation file
+        :type config_file: str
+        """
         config = ConfigParser()
         self.metadata.add_to_config(config)
         self.netcdf_global_attributes.add_to_config(config)
@@ -164,3 +159,44 @@ class Request:
         self.conversion.add_to_config(config)
         with open(config_file, 'w') as fp:
             config.write(fp)
+
+
+def read_request(request_path: str) -> Request:
+    """
+    Returns the information from the request.
+
+    :param request_path: The full path to the cfg file containing the information from the request.
+    :type request_path: str
+    :return: The information from the request.
+    :rtype: Request
+    """
+    logger = logging.getLogger(__name__)
+    logger.debug('Reading request information from "{}"'.format(request_path))
+
+    request_config = ConfigParser()
+    request_config.read(request_path)
+    load_cdds_plugins(request_config)
+
+    calendar = request_config.get('metadata', 'calendar', fallback='360_day')
+    Calendar.default().set_mode(calendar)
+
+    request = Request.from_config(request_config)
+    return request
+
+
+def load_cdds_plugins(request_config: ConfigParser) -> None:
+    """
+    Loads all internal CDDS plugins and external CDDS plugins specified in the request object.
+
+    :param request_config: Parser of the request configuration contains plugin information
+    :type request_config: ConfigParser
+    """
+    mip_era = request_config.get('metadata', 'mip_era')
+    external_plugin = None
+    external_plugin_location = None
+    if request_config.has_section('common'):
+        if request_config.has_option('common', 'external_plugin'):
+            external_plugin = request_config.get('common', 'external_plugin')
+        if request_config.has_option('common', 'external_plugin_location'):
+            external_plugin_location = request_config.get('common', 'external_plugin_location')
+    load_plugin(mip_era, external_plugin, external_plugin_location)
