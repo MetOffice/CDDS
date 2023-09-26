@@ -1,6 +1,5 @@
 # (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
-import logging
 import unittest
 
 from cdds import __version__
@@ -13,6 +12,7 @@ from cdds.common.plugins.cmip6.cmip6_plugin import CMIP6_LICENSE
 from cdds.common.platforms import Facility
 
 from datetime import datetime
+from metomi.isodatetime.data import TimePoint
 from unittest import TestCase, mock
 
 
@@ -29,9 +29,9 @@ class TestMetadataDefaults(TestCase):
         whereami_mock.return_value = Facility.JASMIN
         expected_defaults = {
             'calendar': '360_day',
-            'child_base_date': '1850-01-01',
+            'child_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
             'license': CMIP6_LICENSE,
-            'parent_base_date': '1850-01-01',
+            'parent_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
             'parent_model_id': self.model_id,
             'parent_time_units': 'days since 1850-01-01',
             'standard_names_dir': '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/standard_names/',
@@ -47,9 +47,9 @@ class TestMetadataDefaults(TestCase):
         whereami_mock.return_value = Facility.MET_OFFICE
         expected_defaults = {
             'calendar': '360_day',
-            'child_base_date': '1850-01-01',
+            'child_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
             'license': CMIP6_LICENSE,
-            'parent_base_date': '1850-01-01',
+            'parent_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
             'parent_model_id': self.model_id,
             'parent_time_units': 'days since 1850-01-01',
             'standard_names_dir': '/home/h03/cdds/etc/standard_names/',
@@ -76,17 +76,18 @@ class TestCommonDefaults(TestCase):
     @mock.patch('cdds.common.request_defaults.whereami')
     @mock.patch('cdds.common.plugins.cmip6.cmip6_plugin.whereami')
     def test_defaults_for_jasmin(self, whereami_plugin_mock, whereami_mock, datetime_mock):
-        data_version = datetime.now()
+        data_version = datetime.utcnow()
         whereami_plugin_mock.return_value = Facility.JASMIN
         whereami_mock.return_value = Facility.JASMIN
-        datetime_mock.now.return_value = data_version
+        datetime_mock.utcnow.return_value = data_version
         expected_defaults = {
             'cdds_version': __version__,
-            'data_version': data_version,
+            'data_version': data_version.strftime('%Y-%m-%dT%H%MZ'),
             'external_plugin': '',
             'external_plugin_location': '',
-            'log_level': logging.INFO,
+            'log_level': 'INFO',
             'mip_table_dir': '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/mip_tables/CMIP6/',
+            'mode': 'strict',
             'root_ancil_dir': '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/ancil/',
             'root_data_dir': '/project/cdds_data',
             'root_proc_dir': '/project/cdds/proc',
@@ -102,17 +103,18 @@ class TestCommonDefaults(TestCase):
     @mock.patch('cdds.common.request_defaults.whereami')
     @mock.patch('cdds.common.plugins.cmip6.cmip6_plugin.whereami')
     def test_defaults_for_metoffice(self, whereami_plugin_mock, whereami_mock, datetime_mock):
-        data_version = datetime.now()
+        data_version = datetime.utcnow()
         whereami_plugin_mock.return_value = Facility.MET_OFFICE
         whereami_mock.return_value = Facility.MET_OFFICE
-        datetime_mock.now.return_value = data_version
+        datetime_mock.utcnow.return_value = data_version
         expected_defaults = {
             'cdds_version': __version__,
-            'data_version': data_version,
+            'data_version': data_version.strftime('%Y-%m-%dT%H%MZ'),
             'external_plugin': '',
             'external_plugin_location': '',
-            'log_level': logging.INFO,
+            'log_level': 'INFO',
             'mip_table_dir': '/home/h03/cdds/etc/mip_tables/CMIP6/',
+            'mode': 'strict',
             'root_ancil_dir': '/home/h03/cdds/etc/ancil/',
             'root_data_dir': '/project/cdds_data',
             'root_proc_dir': '/project/cdds/proc',

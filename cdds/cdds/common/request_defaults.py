@@ -1,6 +1,5 @@
 # (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
-import logging
 import os
 
 from datetime import datetime
@@ -9,6 +8,7 @@ from cdds import __version__
 from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.platforms import whereami, Facility
+from metomi.isodatetime.data import TimePoint
 
 
 def metadata_defaults(model_id):
@@ -21,9 +21,9 @@ def metadata_defaults(model_id):
 
     return {
         'calendar': '360_day',
-        'child_base_date': '1850-01-01',
+        'child_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
         'license': license,
-        'parent_base_date': '1850-01-01',
+        'parent_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
         'parent_model_id': model_id,
         'parent_time_units': 'days since 1850-01-01',
         'standard_names_dir': standard_names_dir,
@@ -33,6 +33,7 @@ def metadata_defaults(model_id):
 
 def common_defaults(model_id, experiment_id, variant_label):
     mip_table_dir = PluginStore.instance().get_plugin().mip_table_dir()
+    data_version = datetime.utcnow().strftime('%Y-%m-%dT%H%MZ')
 
     facility = whereami()
     if facility == Facility.JASMIN:
@@ -41,11 +42,12 @@ def common_defaults(model_id, experiment_id, variant_label):
         root_ancil_dir = '{}/ancil/'.format(os.environ['CDDS_ETC'])
     return {
         'cdds_version': __version__,
-        'data_version': datetime.now(),
+        'data_version': data_version,
         'external_plugin': '',
         'external_plugin_location': '',
-        'log_level': logging.INFO,
+        'log_level': 'INFO',
         'mip_table_dir': mip_table_dir,
+        'mode': 'strict',
         'root_ancil_dir': root_ancil_dir,
         'root_data_dir': '/project/cdds_data',
         'root_proc_dir': '/project/cdds/proc',

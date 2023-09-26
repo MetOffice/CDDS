@@ -11,6 +11,7 @@ from abc import ABCMeta, abstractmethod
 from copy import deepcopy
 from configparser import ConfigParser
 from dataclasses import dataclass, field
+from metomi.isodatetime.data import Calendar
 from typing import Dict, Any, List
 
 from cdds.common.request_defaults import (
@@ -37,35 +38,43 @@ def read_request(request_path):
 
     request_config = ConfigParser()
     request_config.read(request_path)
+    load_cdds_plugins(request_config)
+
+    calendar = request_config.get('metadata', 'calendar', fallback='360_day')
+    Calendar.default().set_mode(calendar)
 
     request = Request.from_config(request_config)
-    load_cdds_plugins(request_config)
     return request
 
 
-def load_cdds_plugins(request):
+def load_cdds_plugins(request_config: ConfigParser) -> None:
     """
     Loads all internal CDDS plugins and external CDDS plugins specified in
     the request object.
 
     :param request: The information from the request json file.
-    :type request: `cdds.common.request.Request`
+    :type request: ConfigParser
     """
+    mip_era = request_config.get('metadata', 'mip_era')
     external_plugin = None
-    if request.common.external_plugin:
-        external_plugin = request.common.external_plugin
-    load_plugin(request.metadata.mip_era, external_plugin, request.common.external_plugin_location)
+    external_plugin_location = None
+    if request_config.has_section('common'):
+        if request_config.has_option('common', 'external_plugin'):
+            external_plugin = request_config.get('common', 'external_plugin')
+        if request_config.has_option('common', 'external_plugin_location'):
+            external_plugin_location = request_config.get('common', 'external_plugin_location')
+    load_plugin(mip_era, external_plugin, external_plugin_location)
 
 
 @dataclass
 class Request:
-    metadata: MetadataSection = None
-    netcdf_global_attributes: GlobalAttributesSection = None
-    common: CommonSection = None
-    data: DataSection = None
-    misc: MiscSection = None
-    inventory: InventorySection = None
-    conversion: ConversionSection = None
+    metadata: MetadataSection = MetadataSection()
+    netcdf_global_attributes: GlobalAttributesSection = GlobalAttributesSection()
+    common: CommonSection = CommonSection()
+    data: DataSection = DataSection()
+    misc: MiscSection = MiscSection()
+    inventory: InventorySection = InventorySection()
+    conversion: ConversionSection = ConversionSection()
 
     @staticmethod
     def from_config(config: ConfigParser):
