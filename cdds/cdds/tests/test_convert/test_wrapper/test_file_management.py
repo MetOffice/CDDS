@@ -450,6 +450,7 @@ class TestMisc(TestCase):
         filelist = [
             '/foo/bar/bh819a.p41997apr.pp',
             '/foo/bar/bh819a.p620620821.pp',
+            '/foo/bar/bh819a.pc20620821_01.pp',
             '/foo/bar/cice_bh819i_1m_20461101-20461201.nc',
             '/foo/bar/nemo_bh819o_1m_21490901-21491001_grid-U.nc',
             '/foo/bar/medusa_bh819o_1m_22450601-22450701_diad-T.nc',
@@ -457,6 +458,7 @@ class TestMisc(TestCase):
         self.assertEqual(['/foo/bar/bh819a.p41997apr.pp'], filter_streams(filelist, 'ap4'))
         self.assertEqual([], filter_streams(filelist, 'ap5'))
         self.assertEqual(['/foo/bar/bh819a.p620620821.pp'], filter_streams(filelist, 'ap6'))
+        self.assertEqual(['/foo/bar/bh819a.pc20620821_01.pp'], filter_streams(filelist, 'apc'))
         self.assertEqual([
             '/foo/bar/nemo_bh819o_1m_21490901-21491001_grid-U.nc',
             '/foo/bar/medusa_bh819o_1m_22450601-22450701_diad-T.nc'], filter_streams(filelist, 'onm'))
