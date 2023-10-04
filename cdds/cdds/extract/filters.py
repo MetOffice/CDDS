@@ -768,7 +768,8 @@ class Filters(object):
             command_output = mass_list_dir(self.source, False)
             if suite not in command_output[0]:
                 suite = self.suite_id.split("-")[1] + self.stream[0]
-
+        else:
+            suite = suite + self.stream[0]
         filenames = [f"{model_realm}_{suite}_{freq}_{date}{grid}.nc" for date in datestamps]
 
         return filenames
