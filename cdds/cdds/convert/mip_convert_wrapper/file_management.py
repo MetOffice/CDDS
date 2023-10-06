@@ -19,7 +19,8 @@ from cdds.convert.constants import (FILEPATH_JASMIN, FILEPATH_METOFFICE,
                                     STREAMS_FILES_REGEX)
 from cdds.convert.mip_convert_wrapper.file_processors import (
     parse_atmos_daily_filename, parse_atmos_monthly_filename,
-    parse_atmos_submonthly_filename, parse_ocean_seaice_filename)
+    parse_atmos_submonthly_filename, parse_ocean_seaice_filename,
+    parse_atmos_hourly_filename)
 
 
 def filter_streams(file_list, stream):
@@ -40,7 +41,7 @@ def filter_streams(file_list, stream):
     """
     if stream[0] == 'a':
         # atmospheric stream
-        pattern = r'[a-z0-9]{5}(\-[ripf0-9]+)?a\.' + stream[1:3] + r'[a-z0-9]+\.pp$'
+        pattern = r'[a-z0-9]{5}(\-[ripf0-9]+)?a\.' + stream[1:3] + r'[a-z0-9\_]+\.pp$'
     elif stream in ['inm', 'ind']:
         pattern = r'cice_[a-z0-9]{5}(\-[ripf0-9]+)?i_1' + stream[-1] + r'_[a-zA-Z0-9\-_]+\.nc$'
     elif stream in ['onm', 'ond']:
@@ -55,6 +56,7 @@ def construct_processors_dict():
         'ap': parse_atmos_monthly_filename,
         'ap_submonthly': parse_atmos_submonthly_filename,
         'ap_daily': parse_atmos_daily_filename,
+        'ap_hourly': parse_atmos_hourly_filename,
         'in': parse_ocean_seaice_filename,
         'on': parse_ocean_seaice_filename,
     }
@@ -113,6 +115,8 @@ def get_paths(suite_name, model_id, stream, substream, start_date: TimePoint, en
         stream_lookup = 'ap_submonthly'
     elif stream_prefix == 'ap' and (files_per_year in [360, 365]):
         stream_lookup = 'ap_daily'
+    elif stream_prefix == 'ap' and (files_per_year in [8640, 8760]):
+        stream_lookup = 'ap_hourly'
 
     # Identify files that are to be expected
 
