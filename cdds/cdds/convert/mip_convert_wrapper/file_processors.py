@@ -113,6 +113,32 @@ def parse_atmos_daily_filename(fname, pattern):
     return file_dict
 
 
+def parse_atmos_hourly_filename(fname, pattern):
+    """
+    Parse filenames of files in the atmosphere stream that contain an hour of data.
+
+    Parameters
+    ----------
+    fname: str
+        The filename to parse.
+    pattern: _sre.SRE_Pattern
+        A compiled regular expression object, for parsing the filename.
+
+    Returns
+    -------
+    file_dict : dict
+        A dictionary with the attributes of the filename, such as start and #
+        end dates.
+    """
+    file_dict = pattern.search(fname).groupdict()
+    start_str = file_dict['start_str'].replace('_', 'T')
+    file_dict['start'] = TimePointParser().parse(start_str, dump_format='%Y%m%dT%H')
+    data_period = Duration(hours=1)
+    file_dict['end'] = file_dict['start'] + data_period
+    file_dict['filename'] = fname
+    return file_dict
+
+
 def parse_ocean_seaice_filename(fname, pattern):
     """
     Parse filenames of files in the ocean or sea-ica streams.

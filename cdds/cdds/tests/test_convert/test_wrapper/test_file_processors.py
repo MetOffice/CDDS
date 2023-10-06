@@ -12,7 +12,7 @@ from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.convert.constants import STREAMS_FILES_REGEX
 from cdds.convert.mip_convert_wrapper.file_processors import (
     parse_atmos_monthly_filename, parse_atmos_submonthly_filename,
-    parse_ocean_seaice_filename
+    parse_ocean_seaice_filename, parse_atmos_hourly_filename
 )
 
 ATMOS_MONTHLY_FILENAMES = [
@@ -132,6 +132,33 @@ ATMOS_SUBMONTHLY_FILENAMES = [
     'aw310a.p619971221.pp',
 ]
 
+ATMOS_HOURLY_FILENAMES = [
+    'aw310a.p619970101_00.pp',
+    'aw310a.p619970101_01.pp',
+    'aw310a.p619970101_02.pp',
+    'aw310a.p619970101_03.pp',
+    'aw310a.p619970101_04.pp',
+    'aw310a.p619970101_05.pp',
+    'aw310a.p619970101_06.pp',
+    'aw310a.p619970101_07.pp',
+    'aw310a.p619970101_08.pp',
+    'aw310a.p619970101_09.pp',
+    'aw310a.p619970101_10.pp',
+    'aw310a.p619970101_11.pp',
+    'aw310a.p619970101_12.pp',
+    'aw310a.p619970101_13.pp',
+    'aw310a.p619970101_14.pp',
+    'aw310a.p619970101_15.pp',
+    'aw310a.p619970101_16.pp',
+    'aw310a.p619970101_17.pp',
+    'aw310a.p619970101_18.pp',
+    'aw310a.p619970101_19.pp',
+    'aw310a.p619970101_20.pp',
+    'aw310a.p619970101_21.pp',
+    'aw310a.p619970101_22.pp',
+    'aw310a.p619970101_23.pp',
+]
+
 OCEAN_FILENAMES = [
     'nemo_aw310o_1m_19970101-19970201_grid-T.nc',
     'nemo_aw310o_1m_19970201-19970301_grid-T.nc',
@@ -216,6 +243,16 @@ class TestProcessors(unittest.TestCase):
             OCEAN_FILENAMES[0], test_pattern)
         expected_start = TimePoint(year=1997, month_of_year=1, day_of_month=1)
         expected_end = TimePoint(year=1997, month_of_year=2, day_of_month=1)
+        expected_suite_id = 'aw310'
+        self.assertEqual(output_file_dict['start'], expected_start)
+        self.assertEqual(output_file_dict['end'], expected_end)
+        self.assertEqual(output_file_dict['suite_id'], expected_suite_id)
+
+    def test_parse_hourly_filename(self):
+        test_pattern = re.compile(STREAMS_FILES_REGEX['ap_hourly'])
+        output_file_dict = parse_atmos_hourly_filename(ATMOS_HOURLY_FILENAMES[0], test_pattern)
+        expected_start = TimePoint(year=1997, month_of_year=1, day_of_month=1, hour_of_day=0)
+        expected_end = TimePoint(year=1997, month_of_year=1, day_of_month=1, hour_of_day=1)
         expected_suite_id = 'aw310'
         self.assertEqual(output_file_dict['start'], expected_start)
         self.assertEqual(output_file_dict['end'], expected_end)
