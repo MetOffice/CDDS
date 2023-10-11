@@ -19,6 +19,7 @@ dependencies:
   - mypy_extensions=0.4.3
   - myst-parser=0.18.1
   - netcdf4=1.6.4
+  - pandas=2.0.3
   - pep8=1.7.1
   - pika=1.2.0
   - pip=21.2.4
