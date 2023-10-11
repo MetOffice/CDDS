@@ -374,7 +374,7 @@ class Filters(object):
 
         return generate_chunks(pp_filelist)
 
-    def _generate_filenames_pp(self, datestamps: List[str]) -> List[str]:
+    def generate_filenames_pp(self, datestamps: List[str]) -> List[str]:
         """Generate .pp filenames. Accounts for cases where ensemble id is
         used in the filename by running a `moo ls` on the source directory
         and checking the returned filenames.
@@ -742,7 +742,7 @@ class Filters(object):
                 status["val"] = "stop"
         return status["val"], self.mass_cmd, error, None
 
-    def _generate_filenames_nc(self, datestamps: List[str], sub_stream: str) -> List[str]:
+    def generate_filenames_nc(self, datestamps: List[str], sub_stream: str) -> List[str]:
         """Generate .nc filenames. Accounts for cases where ensemble id is
         used in the filename by running a `moo ls` on the source directory
         and checking the returned filenames.

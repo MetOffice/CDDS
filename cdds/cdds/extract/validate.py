@@ -64,14 +64,14 @@ def validate_streams(streams, args):
 
         if stream["streamtype"] == "pp":
             datestamps, _ = generate_datestamps_pp(start, end, file_frequency)
-            filenames = mappings._generate_filenames_pp(datestamps)
+            filenames = mappings.generate_filenames_pp(datestamps)
 
         elif stream["streamtype"] == "nc":
             datestamps, _ = generate_datestamps_nc(start, end, file_frequency)
             filenames = []
             substreams = list(mappings.filters.keys())
             for sub_stream in substreams:
-                filenames += mappings._generate_filenames_nc(datestamps, sub_stream)
+                filenames += mappings.generate_filenames_nc(datestamps, sub_stream)
 
         validate(data_target, stream, stash_codes, stream_validation, filenames)
     else:
