@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 
@@ -53,6 +53,10 @@ class TestFilters(unittest.TestCase):
         {"table": "Amon", "name": "tas"},
         {"table": "Amon", "name": "pr"},
         {"table": "Amon", "name": "uo"}
+    ]
+
+    VAR_LIST_OCEAN = [
+        {"table": "Omon", "name": "tos"},
     ]
 
     def setUp(self):
@@ -395,6 +399,187 @@ class TestFilters(unittest.TestCase):
             },
             filters.filters
         )
+
+    @patch("cdds.extract.filters.mass_list_dir")
+    def test_generate_filenames_pp(self, mocked_mass_list_dir):
+        datestamps = ["2005jan", "2005feb", "2005mar"]
+        mocked_mass_list_dir.return_value = [
+            "ca613a.p52005apr.pp",
+            "ca613a.p52005aug.pp",
+            "ca613a.p52005dec.pp",
+            "ca613a.p52005feb.pp",
+            "ca613a.p52005jan.pp",
+            "ca613a.p52005jul.pp",
+            "ca613a.p52005jun.pp",
+            "ca613a.p52005mar.pp",
+            "ca613a.p52005may.pp",
+            "ca613a.p52005nov.pp",
+            "ca613a.p52005oct.pp",
+            "ca613a.p52005sep.pp"
+        ]
+        expected = [
+            "ca613a.p52005jan.pp",
+            "ca613a.p52005feb.pp",
+            "ca613a.p52005mar.pp",
+        ]
+        filters = Filters(var_list=self.VAR_LIST)
+        filters.stream = "ap5"
+        filters.suite_id = "u-ca613"
+
+        filenames = filters.generate_filenames_pp(datestamps)
+        self.assertCountEqual(filenames, expected)
+
+    @patch("cdds.extract.filters.mass_list_dir")
+    def test_generate_filenames_pp_with_ens_id(self, mocked_mass_list_dir):
+        datestamps = ["2005jan", "2005feb", "2005mar"]
+        mocked_mass_list_dir.return_value = [
+            "ca613-r001i1p00464a.p52005apr.pp",
+            "ca613-r001i1p00464a.p52005aug.pp",
+            "ca613-r001i1p00464a.p52005dec.pp",
+            "ca613-r001i1p00464a.p52005feb.pp",
+            "ca613-r001i1p00464a.p52005jan.pp",
+            "ca613-r001i1p00464a.p52005jul.pp",
+            "ca613-r001i1p00464a.p52005jun.pp",
+            "ca613-r001i1p00464a.p52005mar.pp",
+            "ca613-r001i1p00464a.p52005may.pp",
+            "ca613-r001i1p00464a.p52005nov.pp",
+            "ca613-r001i1p00464a.p52005oct.pp",
+            "ca613-r001i1p00464a.p52005sep.pp"
+        ]
+        expected = [
+            "ca613-r001i1p00464a.p52005jan.pp",
+            "ca613-r001i1p00464a.p52005feb.pp",
+            "ca613-r001i1p00464a.p52005mar.pp",
+        ]
+        filters = Filters(var_list=self.VAR_LIST)
+        filters.stream = "ap5"
+        filters.suite_id = "u-ca613"
+        filters.ensemble_member_id = "r001i1p00464"
+
+        filenames = filters.generate_filenames_pp(datestamps)
+        self.assertCountEqual(filenames, expected)
+
+        @patch("cdds.extract.filters.mass_list_dir")
+        def test_generate_filenames_pp_without_ens_id(self, mocked_mass_list_dir):
+            datestamps = ["2005jan", "2005feb", "2005mar"]
+            mocked_mass_list_dir.return_value = [
+                "ca613a.p52005apr.pp",
+                "ca613a.p52005aug.pp",
+                "ca613a.p52005dec.pp",
+                "ca613a.p52005feb.pp",
+                "ca613a.p52005jan.pp",
+                "ca613a.p52005jul.pp",
+                "ca613a.p52005jun.pp",
+                "ca613a.p52005mar.pp",
+                "ca613a.p52005may.pp",
+                "ca613a.p52005nov.pp",
+                "ca613a.p52005oct.pp",
+                "ca613a.p52005sep.pp"
+            ]
+            expected = [
+                "ca613a.p52005jan.pp",
+                "ca613a.p52005feb.pp",
+                "ca613a.p52005mar.pp",
+            ]
+            filters = Filters(var_list=self.VAR_LIST)
+            filters.stream = "ap5"
+            filters.suite_id = "u-ca613"
+            filters.ensemble_member_id = "r001i1p00464"
+
+            filenames = filters.generate_filenames_pp(datestamps)
+            self.assertCountEqual(filenames, expected)
+
+    @patch("cdds.extract.filters.mass_list_dir")
+    def test_generate_filenames_nc(self, mocked_mass_list_dir):
+        datestamps = ["19800101-19800201", "19800201-19800301", "19800301-19800401"]
+        sub_stream = "grid-T"
+        mocked_mass_list_dir.return_value = [
+            "nemo_aw310o_1m_19800101-19800201_grid-T.nc",
+            "nemo_aw310o_1m_19800201-19800301_grid-T.nc",
+            "nemo_aw310o_1m_19800301-19800401_grid-T.nc",
+            "nemo_aw310o_1m_19800401-19800501_grid-T.nc",
+            "nemo_aw310o_1m_19800501-19800601_grid-T.nc",
+            "nemo_aw310o_1m_19800601-19800701_grid-T.nc",
+            "nemo_aw310o_1m_19800701-19800801_grid-T.nc",
+            "nemo_aw310o_1m_19800801-19800901_grid-T.nc",
+            "nemo_aw310o_1m_19800901-19801001_grid-T.nc",
+            "nemo_aw310o_1m_19801001-19801101_grid-T.nc",
+            "nemo_aw310o_1m_19801101-19801201_grid-T.nc",
+            "nemo_aw310o_1m_19801201-19810101_grid-T.nc",
+        ]
+        expected = [
+            "nemo_aw310o_1m_19800101-19800201_grid-T.nc",
+            "nemo_aw310o_1m_19800201-19800301_grid-T.nc",
+            "nemo_aw310o_1m_19800301-19800401_grid-T.nc",
+        ]
+        filters = Filters(var_list=self.VAR_LIST_OCEAN)
+        filters.stream = "onm"
+        filters.suite_id = "u-aw310"
+
+        filenames = filters.generate_filenames_nc(datestamps, sub_stream)
+        self.assertCountEqual(filenames, expected)
+
+    @patch("cdds.extract.filters.mass_list_dir")
+    def test_generate_filenames_nc_with_ens_id(self, mocked_mass_list_dir):
+        datestamps = ["19800101-19800201", "19800201-19800301", "19800301-19800401"]
+        sub_stream = "grid-T"
+        mocked_mass_list_dir.return_value = [
+            "nemo_aw310-r001i1p00000o_1m_19800101-19800201_grid-T.nc",
+            "nemo_aw310-r001i1p00000o_1m_19800201-19800301_grid-T.nc",
+            "nemo_aw310-r001i1p00000o_1m_19800301-19800401_grid-T.nc",
+            "nemo_aw310-r001i1p00000o_1m_19800401-19800501_grid-T.nc",
+            "nemo_aw310-r001i1p00000o_1m_19800501-19800601_grid-T.nc",
+            "nemo_aw310-r001i1p00000o_1m_19800601-19800701_grid-T.nc",
+            "nemo_aw310-r001i1p00000o_1m_19800701-19800801_grid-T.nc",
+            "nemo_aw310-r001i1p00000o_1m_19800801-19800901_grid-T.nc",
+            "nemo_aw310-r001i1p00000o_1m_19800901-19801001_grid-T.nc",
+            "nemo_aw310-r001i1p00000o_1m_19801001-19801101_grid-T.nc",
+            "nemo_aw310-r001i1p00000o_1m_19801101-19801201_grid-T.nc",
+            "nemo_aw310-r001i1p00000o_1m_19801201-19810101_grid-T.nc",
+        ]
+        expected = [
+            "nemo_aw310-r001i1p00000o_1m_19800101-19800201_grid-T.nc",
+            "nemo_aw310-r001i1p00000o_1m_19800201-19800301_grid-T.nc",
+            "nemo_aw310-r001i1p00000o_1m_19800301-19800401_grid-T.nc",
+        ]
+        filters = Filters(var_list=self.VAR_LIST_OCEAN)
+        filters.stream = "onm"
+        filters.suite_id = "u-aw310"
+        filters.ensemble_member_id = "r001i1p00000"
+
+        filenames = filters.generate_filenames_nc(datestamps, sub_stream)
+        self.assertCountEqual(filenames, expected)
+
+        @patch("cdds.extract.filters.mass_list_dir")
+        def test_generate_filenames_nc_without_ens_id(self, mocked_mass_list_dir):
+            datestamps = ["19800101-19800201", "19800201-19800301", "19800301-19800401"]
+            sub_stream = "grid-T"
+            mocked_mass_list_dir.return_value = [
+                "nemo_aw310o_1m_19800101-19800201_grid-T.nc",
+                "nemo_aw310o_1m_19800201-19800301_grid-T.nc",
+                "nemo_aw310o_1m_19800301-19800401_grid-T.nc",
+                "nemo_aw310o_1m_19800401-19800501_grid-T.nc",
+                "nemo_aw310o_1m_19800501-19800601_grid-T.nc",
+                "nemo_aw310o_1m_19800601-19800701_grid-T.nc",
+                "nemo_aw310o_1m_19800701-19800801_grid-T.nc",
+                "nemo_aw310o_1m_19800801-19800901_grid-T.nc",
+                "nemo_aw310o_1m_19800901-19801001_grid-T.nc",
+                "nemo_aw310o_1m_19801001-19801101_grid-T.nc",
+                "nemo_aw310o_1m_19801101-19801201_grid-T.nc",
+                "nemo_aw310o_1m_19801201-19810101_grid-T.nc",
+            ]
+            expected = [
+                "nemo_aw310o_1m_19800101-19800201_grid-T.nc",
+                "nemo_aw310o_1m_19800201-19800301_grid-T.nc",
+                "nemo_aw310o_1m_19800301-19800401_grid-T.nc",
+            ]
+            filters = Filters(var_list=self.VAR_LIST_OCEAN)
+            filters.stream = "onm"
+            filters.suite_id = "u-aw310"
+            filters.ensemble_member_id = "r001i1p00000"
+
+            filenames = filters.generate_filenames_nc(datestamps, sub_stream)
+            self.assertCountEqual(filenames, expected)
 
 
 class TestSubdailyFilters(unittest.TestCase):
