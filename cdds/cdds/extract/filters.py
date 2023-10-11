@@ -374,7 +374,7 @@ class Filters(object):
 
         return generate_chunks(pp_filelist)
 
-    def _generate_filenames_pp(self, datestamps: List[str]) -> List[str]:
+    def generate_filenames_pp(self, datestamps: List[str]) -> List[str]:
         """Generate .pp filenames. Accounts for cases where ensemble id is
         used in the filename by running a `moo ls` on the source directory
         and checking the returned filenames.
@@ -742,7 +742,7 @@ class Filters(object):
                 status["val"] = "stop"
         return status["val"], self.mass_cmd, error, None
 
-    def _generate_filenames_nc(self, datestamps: List[str], sub_stream: str) -> List[str]:
+    def generate_filenames_nc(self, datestamps: List[str], sub_stream: str) -> List[str]:
         """Generate .nc filenames. Accounts for cases where ensemble id is
         used in the filename by running a `moo ls` on the source directory
         and checking the returned filenames.
@@ -760,15 +760,16 @@ class Filters(object):
             model_realm = "cice"
             grid = ""
 
-        suite = self.suite_id.split("-")[1] + self.stream[0]
+        suite = self.suite_id.split("-")[1]
         freq = "1" + self.stream[-1]
 
         if self.ensemble_member_id:
-            suite = "{}-{}".format(suite, self.ensemble_member_id)
+            suite = "{}-{}{}".format(suite, self.ensemble_member_id, self.stream[0])
             command_output = mass_list_dir(self.source, False)
             if suite not in command_output[0]:
-                suite = self.suite_id.split("-")[1]
-
+                suite = self.suite_id.split("-")[1] + self.stream[0]
+        else:
+            suite = suite + self.stream[0]
         filenames = [f"{model_realm}_{suite}_{freq}_{date}{grid}.nc" for date in datestamps]
 
         return filenames
