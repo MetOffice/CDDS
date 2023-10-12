@@ -1,0 +1,54 @@
+{
+  "stream_file_frequency": {
+    "hourly": {
+      "streams": [
+        "apa",
+        "apc"
+      ],
+      "files_per_year": 8760
+    }
+  },
+  "cycle_length": {
+  },
+  "memory": {
+  },
+  "temp_space": {
+  },
+  "sizing_info": {
+  },
+  "subdaily_streams": [],
+  "grid_info": {
+    "atmos": {
+      "atmos_timestep": null,
+      "model_info": null,
+      "nominal_resolution": null,
+      "longitude": null,
+      "latitude": null,
+      "v_latitude": null,
+      "levels": null,
+      "ancil_filenames": [
+        "qrparm.landfrac.pp", "qrparm.soil.pp"
+      ],
+      "hybrid_heights_files": [
+        "atmosphere_theta_levels_85.txt",
+        "atmosphere_rho_levels_86.txt"
+      ]
+    },
+    "ocean": {
+      "model_info": null,
+      "nominal_resolution": null,
+      "longitude": null,
+      "latitude": null,
+      "levels": null,
+      "replacement_coordinates_file": null,
+      "ancil_filenames": [
+        "ocean_constants.nc", "ocean_byte_masks.nc", "ocean_basin.nc", "diaptr_basin_masks.nc", "ocean_zostoga.nc"
+      ],
+      "hybrid_heights_files": [],
+      "masked": {
+      },
+      "halo_options": {
+      }
+    }
+  }
+}
