@@ -473,7 +473,7 @@ class Filters(object):
         """
         file_frequency = self.model_parameters._stream_file_info.file_frequencies[self.stream].frequency
         datestamps, timepoints = generate_datestamps_pp(start, end, file_frequency)
-        filenames = self._generate_filenames_pp(datestamps)
+        filenames = self.generate_filenames_pp(datestamps)
 
         pp_filelist = []
 
