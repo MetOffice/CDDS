@@ -1,8 +1,14 @@
 {
   "default": {
     "Amon": "apm",
-    "GCOyr": "onm"
+    "GCOyr": "onm",
+    "GC1hr": "apc"
   },
   "overrides": {
+    "GC1hr": {
+      "pr": "apa",
+      "psl": "apc",
+      "tas": "apc"
+    }
   }
 }
