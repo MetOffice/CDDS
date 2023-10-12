@@ -332,6 +332,45 @@ class HadREM3_CP4A_2p2km_Params(BaseModelParameters):
         return '10.9'
 
 
+class HadREM3_CP4A_2p2km_Params(BaseModelParameters):
+    """
+    Class to store the parameters fo the HadREM3_CP4A_2p2km model.
+    """
+
+    def __init__(self):
+        super(HadREM3_CP4A_2p2km_Params, self).__init__(GCModelDevModelId.HadREM3_CP4A_2p2km)
+
+    @property
+    def model_version(self) -> str:
+        """
+        Returns the model version of the HadREM3_CP4A_2p2km model.
+
+        :return: Model version of HadREM3_CP4A_2p2km
+        :rtype: str
+        """
+        return '4.0'
+
+    @property
+    def data_request_version(self) -> str:
+        """
+        Returns the data request version of the HadREM3_CP4A_2p2km model.
+
+        :return: Data request version of HadREM3_CP4A_2p2km
+        :rtype: str
+        """
+        return ''
+
+    @property
+    def um_version(self) -> str:
+        """
+        Returns the UM version of the HadREM3_CP4A_2p2km model.
+
+        :return: UM version of HadREM3_CP4A_2p2km
+        :rtype: str
+        """
+        return '10.9'
+
+
 class HadGEM3_GC3p05_N216ORCA025_Params(BaseModelParameters):
     """
     Class to store the parameters for the HadGEM3_GC3p05_N216ORCA025 model.
