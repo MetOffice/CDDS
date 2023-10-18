@@ -6,7 +6,7 @@
     "mass_data_class": "crum",
     "output_mass_root": "",
     "output_mass_suffix": "",
-    "processing_workflow_branch": "cdds_2.5.0",
+    "processing_workflow_branch": "cdds_2.5.2",
     "root_ancil_dir": "/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/ancil/",
     "root_data_dir": "/project/cdds_data",
     "root_hybrid_heights_dir": "/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/vertical_coordinates",
