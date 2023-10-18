@@ -3,6 +3,20 @@
 
 .. include:: common.txt
 
+Release 2.5.2, October 18, 2023
+===============================
+* Polar row masking is now specified directly in the MIP Convert config
+  files (CDDSO-331)
+* Memory, storage and time limits for SLURM jobs are now dynamically
+  calculated after the first three cycles of the processing suite
+  (CDDSO-212)
+* CDDS can now handle hourly data files within a stream (CDDSO-349)
+* The correct filenames for ocean data from ensemble suites are now
+  used again (CDDSO-350)
+* The CDDS suite uses a consistent calendar to the request, which
+  ensures that concatenation processes, QC and archiving are correctly
+  triggered (CDDSO-351)
+
 Release 2.5.1, August 4, 2023
 =============================
 * Ensure that recent versions of the NCO tools used for concatenation
