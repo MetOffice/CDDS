@@ -3,6 +3,13 @@
 
 .. include:: common.txt
 
+Release 2.5.2, October 18, 2023
+===============================
+* Polar row masking is now specified directly in the MIP Convert config
+  files (CDDSO-331)
+* Upgraded CMOR to version 3.7.3, which now permits much larger arrays
+  to be passed for writing without segfaulting (CDDSO-357)
+
 Release 2.5.1, August 4, 2023
 =============================
 * Add ``zos`` mapping for HadGEM3-GC3p05-N216ORCA025 (CDDSO-328)
