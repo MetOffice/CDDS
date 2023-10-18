@@ -16,6 +16,8 @@ Release 2.5.2, October 18, 2023
 * The CDDS suite uses a consistent calendar to the request, which
   ensures that concatenation processes, QC and archiving are correctly
   triggered (CDDSO-351)
+* All options are now passed through to CDDS Convert by the CDDS
+  processing workflow (CDDSO-348)
 
 Release 2.5.1, August 4, 2023
 =============================
