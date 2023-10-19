@@ -162,11 +162,15 @@ class CollectionsCheck(object):
             run_start, run_end, frequency, time_bounds is not None)
         reference_index = 0
         # before checking individual values we'll check run bounds first
-        run_bounds_errors = self._test_time_bounds(var_key, time_axis, time_bounds, point_sequence, bound_sequence)
+        run_bounds_errors, offset_adjustment = self._test_time_bounds(
+            var_key, time_axis, time_bounds, point_sequence, bound_sequence)
         # if they don't match then it doesn't make sense to validate individual points as all coordinate points will be
         # offset relative to reference
         if run_bounds_errors:
             return
+        if offset_adjustment:
+            # remove the first midnight from reference time axis of instantenous variable
+            point_sequence.pop(0)
         for key, vals in time_axis.items():
             if len(vals) > 1 and vals[0] > vals[1]:
                 # for the sake of consistency we retained the reverse coord check
@@ -202,6 +206,7 @@ class CollectionsCheck(object):
 
     def _test_time_bounds(self, var_key, time_axis, time_bounds, point_sequence, bound_sequence):
         tolerance = TIME_TOLERANCE
+        offset_adjustment = False
         first_file = list(time_axis.keys())[0]
         last_file = list(time_axis.keys())[-1]
         if time_bounds is not None:
@@ -216,6 +221,13 @@ class CollectionsCheck(object):
         else:
             start_bound_error = False
             end_bound_error = False
+            # we need to check if the first point is present or missing for instantenous variables and
+            # then adjust the sequence accordingly
+            if (self._test_datetime_sequence(
+                    point_sequence[0], time_axis[first_file][0], 'First point mismatch', tolerance) is not None and
+                self._test_datetime_sequence(
+                    point_sequence[1], time_axis[first_file][0], 'Second bounds mismatch', tolerance) is None):
+                offset_adjustment = True
             tolerance += time_axis[first_file][1] - time_axis[first_file][0]
         start_error = self.add_message(
             first_file, var_key, self._test_datetime_sequence(
@@ -225,7 +237,7 @@ class CollectionsCheck(object):
             last_file, var_key, self._test_datetime_sequence(
                 point_sequence[-1], time_axis[last_file][-1], 'Run bounds mismatch: end of the simulation ',
                 tolerance))
-        return start_error or end_error or start_bound_error or end_bound_error
+        return start_error or end_error or start_bound_error or end_bound_error, offset_adjustment
 
     def add_message(self, filepath, var_key, message):
         """
