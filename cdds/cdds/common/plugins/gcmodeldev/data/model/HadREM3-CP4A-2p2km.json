@@ -5,29 +5,37 @@
         "apa",
         "apc"
       ],
-      "files_per_year": 8760
+      "files_per_year": 8640
     }
   },
   "cycle_length": {
+    "apa": "P1M",
+    "apc": "P1M"
   },
   "memory": {
+    "apa": "40G",
+    "apc": "40G"
   },
   "temp_space": {
+    "apa": 16384,
+    "apc": 16384
   },
   "sizing_info": {
+    "1hr": {
+      "default": 10
+    }
   },
   "subdaily_streams": [],
   "grid_info": {
     "atmos": {
-      "atmos_timestep": null,
-      "model_info": null,
-      "nominal_resolution": null,
-      "longitude": null,
-      "latitude": null,
-      "v_latitude": null,
-      "levels": null,
+      "atmos_timestep": 60,
+      "model_info": "2.2 km grid",
+      "nominal_resolution": "2.5 km",
+      "longitude": 2100,
+      "latitude": 2000,
+      "v_latitude": 2001,
+      "levels": 85,
       "ancil_filenames": [
-        "qrparm.landfrac.pp", "qrparm.soil.pp"
       ],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
@@ -42,7 +50,6 @@
       "levels": null,
       "replacement_coordinates_file": null,
       "ancil_filenames": [
-        "ocean_constants.nc", "ocean_byte_masks.nc", "ocean_basin.nc", "diaptr_basin_masks.nc", "ocean_zostoga.nc"
       ],
       "hybrid_heights_files": [],
       "masked": {
