@@ -133,7 +133,7 @@ def list_all_variables(variables_file, mip_table_path, mip_era):
     variable_list_new : dict
         Dictionary containing each requested variabled as a UserDefinedVariable
     """
-
+    print("Mip table path: {}".format(mip_table_path))
     mt = UserMipTables(mip_table_path)
 
     variables_list = validate_variable_list(mt, variables_file, mip_era)

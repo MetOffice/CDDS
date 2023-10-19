@@ -231,6 +231,7 @@ def default_grid_ids():
         'Emon': ('atmos', 'native'),
         'EmonZ': ('atmos', 'native-zonal'),
         'Esubhr': ('atmos', 'sites'),
+        'GC1hr': ('atmos', 'native'),
         'LImon': ('atmos', 'native'),
         'Lmon': ('atmos', 'native'),
         'Oday': ('ocean', 'native'),
