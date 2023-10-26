@@ -201,4 +201,4 @@ variables:
   CYLC_VERSION: 8
   LC_ALL: en_GB.UTF-8
   TZ: UTC
-prefix: /home/h03/cdds/software/miniconda3/envs/cdds-2.5.0_dev-8
+prefix: /home/h03/cdds/software/miniconda3/envs/cdds-2.5.2_dev-1
