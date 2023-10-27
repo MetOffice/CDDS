@@ -141,13 +141,13 @@ class GlobalModelFileInfo(ModelFileInfo):
     """
 
     _CMOR_FILENAME_PATTERN = (r'([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)_'
-                              r'([a-zA-Z0-9-]+)_(r\d+i\d+p\d+f\d+)_g([a-zA-Z0-9]+)'
+                              r'([a-zA-Z0-9-]+)_([a-zA-Z0-9]+-)?(r\d+i\d+p\d+f\d+)_g([a-zA-Z0-9]+)'
                               r'_((\d+)-(\d+))(-clim)?.nc')
 
     _NC_FILES_TO_ARCHIVE_REGEX = (
         '(?P<out_var_name>[a-zA-Z0-9-]+)_(?P<mip_table_id>[a-zA-Z0-9-]+)_'
         '(?P<model_id>[a-zA-Z0-9-]+)_(?P<experiment_id>[a-zA-Z0-9-]+)_'
-        '(?P<variant_label>[a-zA-Z0-9]+)_(?P<grid>[a-zA-Z0-9]+)_'
+        '(?P<variant_label>[a-zA-Z0-9-]+)_(?P<grid>[a-zA-Z0-9]+)_'
         '(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+)(?P<climatology>-clim)?.nc')
 
     _MASS_ROOT_LOCATION_FACET = 'mip_era|mip|institution_id|model_id|experiment_id|variant_label'
@@ -211,7 +211,10 @@ class GlobalModelFileInfo(ModelFileInfo):
             return False
         if request.experiment_id != match.group('experiment_id'):
             return False
-        if request.variant_label != match.group('variant_label'):
+        if request.sub_experiment_id == 'none' and request.variant_label != match.group('variant_label'):
+            return False
+        if (request.sub_experiment_id != 'none' and
+                match.group('variant_label') != '{0.sub_experiment_id}-{0.variant_label}'.format(request)):
             return False
         if request.model_id != match.group('model_id'):
             return False

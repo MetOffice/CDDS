@@ -48,6 +48,7 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
             'variant_label': 'r1i1p1f2',
             'model_id': 'UKESM1-0-LL',
             'institution_id': 'MOHC',
+            'sub_experiment_id': 'none',
         }
         variable_dict = {
             'out_var_name': 'tas',
@@ -68,6 +69,7 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
             'variant_label': 'r1i1p1f2',
             'model_id': 'UKESM1-0-LL',
             'institution_id': 'MOHC',
+            'sub_experiment_id': 'none',
         }
         variable_dict = {
             'out_var_name': 'tas',
@@ -88,6 +90,7 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
             'variant_label': 'r1i1p1f2',
             'model_id': 'UKESM1-0-LL',
             'institution_id': 'MOHC',
+            'sub_experiment_id': 'none',
         }
         variable_dict = {
             'out_var_name': 'va',
@@ -108,6 +111,7 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
             'variant_label': 'r1i1p1f2',
             'model_id': 'UKESM1-0-LL',
             'institution_id': 'MOHC',
+            'sub_experiment_id': 'none',
         }
         variable_dict = {
             'out_var_name': 'tas',
@@ -128,6 +132,7 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
             'variant_label': 'r1i1p1f90',
             'model_id': 'UKESM1-0-LL',
             'institution_id': 'MOHC',
+            'sub_experiment_id': 'none',
         }
         variable_dict = {
             'out_var_name': 'tas',
@@ -148,6 +153,7 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
             'variant_label': 'r1i1p1f2',
             'model_id': 'HadGEM3-GC31-LL',
             'institution_id': 'MOHC',
+            'sub_experiment_id': 'none',
         }
         variable_dict = {
             'out_var_name': 'tas',
@@ -155,6 +161,27 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
         }
         request = construct_request(request_items)
         nc_file = '/path/to/tas_Amon_UKESM1-0-LL_ssp245_r1i1p1f2_gn_201501-204912.nc'
+
+        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
+
+        self.assertFalse(relevant)
+
+    def test_wrong_sub_experiment_id(self):
+        request_items = {
+            'mip_era': 'CMIP6',
+            'mip': 'CMIP',
+            'experiment_id': 'ssp245',
+            'variant_label': 'r1i1p1f2',
+            'model_id': 'HadGEM3-GC31-LL',
+            'institution_id': 'MOHC',
+            'sub_experiment_id': 'invalid',
+        }
+        variable_dict = {
+            'out_var_name': 'tas',
+            'mip_table_id': 'Amon'
+        }
+        request = construct_request(request_items)
+        nc_file = '/path/to/tas_Amon_UKESM1-0-LL_ssp245_invalid-r1i1p1f2_gn_201501-204912.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
