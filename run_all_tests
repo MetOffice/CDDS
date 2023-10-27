@@ -1,5 +1,5 @@
 #!/usr/bin/env python3.8
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 """
 Run all the tests in the CDDS packages.
 """
@@ -45,7 +45,11 @@ def du(path):
     Disk usage in human readable format (e.g. '2,1GB')
     """
     out =  subprocess.check_output(['quotas']).decode('utf-8')
-    return [i for i in out.split("\n") if "spice:scratch" in i ][0].split()[1]
+    try:
+        usage = [i for i in out.split("\n") if "spice:scratch" in i ][0].split()[1]
+    except:
+        usage = "<quotas command failed>"
+    return usage
 
 
 def parse_arguments():
