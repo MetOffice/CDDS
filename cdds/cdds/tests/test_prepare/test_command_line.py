@@ -56,6 +56,7 @@ class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
         self.model_id = 'UKESM1-0-LL'
         self.model_type = 'AOGCM AER'
         self.experiment_id = 'ssp119'
+        self.sub_experiment_id = 'none'
         self.realisation = 'r1i1p1f1'
         self.request = '{}_{}_{}'.format(
             self.model_id, self.experiment_id, self.realisation)
@@ -94,9 +95,13 @@ class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
     def test_create_cdds_directory_structure(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
         request = {
-            'experiment_id': self.experiment_id, 'mip': self.project,
-            'mip_era': self.mip_era, 'model_id': self.model_id,
-            'model_type': self.model_type, 'package': self.package,
+            'experiment_id': self.experiment_id,
+            'mip': self.project,
+            'mip_era': self.mip_era,
+            'model_id': self.model_id,
+            'model_type': self.model_type,
+            'package': self.package,
+            'sub_experiment_id': self.sub_experiment_id,
             'variant_label': self.realisation}
         self._run(request)
         msg = '"{}" is not a directory'
@@ -162,6 +167,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         self.model_id = 'HadGEM3-GC31-LL'
         self.model_type = 'AOGCM AER'
         self.experiment_id = 'historical'
+        self.sub_experiment_id = 'none'
         self.realisation = 'r1i1p1f1'
         self.request = '{}_{}_{}'.format(
             self.model_id, self.experiment_id, self.realisation)
@@ -225,11 +231,17 @@ class TestMainGenerateVariableList(unittest.TestCase):
         mock_log_datestamp.return_value = self.log_datestamp
         # Required keys are REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS and
         # REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST.
-        request = {'experiment_id': self.experiment_id, 'mip': self.mip,
-                   'mip_era': self.mip_era, 'model_id': self.model_id,
-                   'model_type': self.model_type, 'suite_branch': self.branch,
-                   'suite_id': self.suite_id, 'suite_revision': self.revision,
-                   'request_id': self.request, 'package': self.package}
+        request = {'experiment_id': self.experiment_id,
+                   'mip': self.mip,
+                   'mip_era': self.mip_era,
+                   'model_id': self.model_id,
+                   'model_type': self.model_type,
+                   'suite_branch': self.branch,
+                   'suite_id': self.suite_id,
+                   'suite_revision': self.revision,
+                   'request_id': self.request,
+                   'sub_experiment_id': self.sub_experiment_id,
+                   'package': self.package}
         max_priority = '1'
         mock_log_datestamp.return_value = self.log_datestamp
         # There is no need to test 'checksum', 'production_info' and
@@ -257,11 +269,17 @@ class TestMainGenerateVariableList(unittest.TestCase):
         mock_log_datestamp.return_value = self.log_datestamp
         # Required keys are REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS and
         # REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST.
-        request = {'experiment_id': self.experiment_id, 'mip': self.mip,
-                   'mip_era': self.mip_era, 'model_id': self.model_id,
-                   'model_type': self.model_type, 'suite_branch': self.branch,
-                   'suite_id': self.suite_id, 'suite_revision': self.revision,
-                   'request_id': self.request, 'package': self.package}
+        request = {'experiment_id': self.experiment_id,
+                   'mip': self.mip,
+                   'mip_era': self.mip_era,
+                   'model_id': self.model_id,
+                   'model_type': self.model_type,
+                   'suite_branch': self.branch,
+                   'suite_id': self.suite_id,
+                   'suite_revision': self.revision,
+                   'request_id': self.request,
+                   'sub_experiment_id': self.sub_experiment_id,
+                   'package': self.package}
         max_priority = '1'
         mock_log_datestamp.return_value = self.log_datestamp
         # There is no need to test 'checksum', 'production_info' and
@@ -290,11 +308,17 @@ class TestMainGenerateVariableList(unittest.TestCase):
         mock_log_datestamp.return_value = self.log_datestamp
         # Required keys are REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS and
         # REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST.
-        request = {'experiment_id': self.experiment_id, 'mip': self.mip,
-                   'mip_era': self.mip_era, 'model_id': self.model_id,
-                   'model_type': self.model_type, 'suite_branch': self.branch,
-                   'suite_id': self.suite_id, 'suite_revision': self.revision,
-                   'request_id': self.request, 'package': self.package}
+        request = {'experiment_id': self.experiment_id,
+                   'mip': self.mip,
+                   'mip_era': self.mip_era,
+                   'model_id': self.model_id,
+                   'model_type': self.model_type,
+                   'suite_branch': self.branch,
+                   'suite_id': self.suite_id,
+                   'suite_revision': self.revision,
+                   'request_id': self.request,
+                   'sub_experiment_id': self.sub_experiment_id,
+                   'package': self.package}
         max_priority = '1'
         mock_log_datestamp.return_value = self.log_datestamp
         # There is no need to test 'checksum', 'production_info' and
@@ -327,10 +351,15 @@ class TestMainGenerateVariableList(unittest.TestCase):
         # REQUIRED_KEYS_FOR_PROC_DIRECTORY.
         mock_log_datestamp.return_value = self.log_datestamp
         request = {'experiment_id': self.experiment_id,
-                   'mip_era': self.mip_era, 'mip': self.mip,
-                   'model_id': self.model_id, 'model_type': self.model_type,
-                   'package': self.package, 'suite_branch': self.branch,
-                   'suite_id': self.suite_id, 'suite_revision': self.revision,
+                   'mip_era': self.mip_era,
+                   'mip': self.mip,
+                   'model_id': self.model_id,
+                   'model_type': self.model_type,
+                   'package': self.package,
+                   'suite_branch': self.branch,
+                   'suite_id': self.suite_id,
+                   'suite_revision': self.revision,
+                   'sub_experiment_id': self.sub_experiment_id,
                    'variant_label': self.realisation}
         max_priority = '2'
         # There is no need to test 'checksum', 'production_info' and

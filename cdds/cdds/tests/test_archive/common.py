@@ -10,6 +10,7 @@ REQUEST_ITEMS = {'mip_era': 'dummyera',
                  'variant_label': 'dummyvariant',
                  'model_id': 'dummymodel',
                  'institution_id': 'dummyinst',
+                 'sub_experiment_id': 'none',
                  }
 RV_ACTIVE = [
     {'active': True, 'miptable': 'Amon', 'label': 'tas', 'frequency': 'mon', 'stream': 'ap5'},

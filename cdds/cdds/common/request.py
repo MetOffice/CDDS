@@ -236,10 +236,15 @@ class Request(object):
         str: The |request identifier|.
         """
         _request_id = None
-        if self.model_id is not None and self.experiment_id is not None and (
-                self.variant_label is not None):
+        if (self.sub_experiment_id == "none" and self.model_id is not None and
+                self.experiment_id is not None and self.variant_label is not None):
             _request_id = '{}_{}_{}'.format(self.model_id, self.experiment_id,
                                             self.variant_label)
+        elif (self.sub_experiment_id != "none" and self.model_id is not None and
+                self.experiment_id is not None and self.variant_label is not None):
+            _request_id = '{}_{}_{}-{}'.format(self.model_id, self.experiment_id,
+                                               self.sub_experiment_id, self.variant_label)
+
         return _request_id
 
     @property

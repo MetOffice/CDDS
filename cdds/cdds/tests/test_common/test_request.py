@@ -18,6 +18,8 @@ class TestRequest(unittest.TestCase):
         self.mip_era_value = 'CMIP6'
         self.experiment_id_attribute = 'experiment_id'
         self.experiment_id_value = 'historical'
+        self.sub_experiment_id_attribute = 'sub_experiment_id'
+        self.sub_experiment_id_value = 'none'
         self.stream_attribute_apa = 'run_bounds_for_stream_apa'
         self.stream_bounds_apa = '1851-01-01T00:00:00 1857-01-01T00:00:00'
         self.stream_type_apa = 'pp'
@@ -27,6 +29,7 @@ class TestRequest(unittest.TestCase):
         self.items = {
             self.mip_era_attribute: self.mip_era_value,
             self.experiment_id_attribute: self.experiment_id_value,
+            self.sub_experiment_id_attribute: self.sub_experiment_id_value,
             self.stream_attribute_apa: self.stream_bounds_apa,
             self.stream_attribute_onm: self.stream_bounds_onm,
         }
