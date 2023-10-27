@@ -71,6 +71,7 @@ class TestUseProcDir(unittest.TestCase):
         self.request_file = 'request.json'
         self.config_version = '3.4.5'
         self.experiment_id = 'historical'
+        self.sub_experiment_id = 'none'
         self.mip = 'CMIP'
         self.mip_era = 'CMIP6'
         self.model_id = 'HadGEM3-GC31-HH'
@@ -79,9 +80,13 @@ class TestUseProcDir(unittest.TestCase):
         self.variant_label = 'r1i2p3f4'
         self.items = {
             'config_version': self.config_version,
-            'experiment_id': self.experiment_id, 'mip': self.mip,
-            'mip_era': self.mip_era, 'model_id': self.model_id,
-            'package': self.package, 'variant_label': self.variant_label}
+            'experiment_id': self.experiment_id,
+            'mip': self.mip,
+            'mip_era': self.mip_era,
+            'model_id': self.model_id,
+            'package': self.package,
+            'sub_experiment_id': self.sub_experiment_id,
+            'variant_label': self.variant_label}
         self.request = Request(self.items)
         self.root_config_directory = 'config_files'
         self.root_proc_directory = 'root_proc_dir'
@@ -156,17 +161,22 @@ class TestCDDSConfigGeneral(unittest.TestCase):
         self.mip = 'CMIP'
         self.model_id = 'HadGEM3-GC31-LL'
         self.experiment_id = 'historical'
+        self.sub_experiment_id = 'none'
         self.variant_label = 'r1i1p1f2'
         self.request_id = '{}_{}_{}'.format(
             self.model_id, self.experiment_id, self.variant_label)
         self.package = 'phase1'
         self.items = {
             'config_version': self.config_version,
-            'experiment_id': self.experiment_id, 'mip': self.mip,
-            'mip_era': self.mip_era, 'model_id': self.model_id,
-            'package': self.package, 'variant_label': self.variant_label}
+            'experiment_id': self.experiment_id,
+            'mip': self.mip,
+            'mip_era': self.mip_era,
+            'model_id': self.model_id,
+            'package': self.package,
+            'sub_experiment_id': self.sub_experiment_id,
+            'variant_label': self.variant_label}
         required_keys = ['config_version', 'experiment_id', 'mip', 'mip_era',
-                         'model_id', 'package', 'variant_label']
+                         'model_id', 'package', 'sub_experiment_id', 'variant_label']
         self.request = Request(self.items, required_keys)
         self.data_request_version = '01.00.99'
         self.cmor_version = '9.9.9'
