@@ -27,11 +27,7 @@ def metadata_defaults(model_id: str) -> Dict[str, Any]:
     :rtype: Dict[str, Any]
     """
     license = PluginStore.instance().get_plugin().license()
-    facility = whereami()
-    if facility == Facility.JASMIN:
-        standard_names_dir = '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/standard_names/'
-    else:
-        standard_names_dir = '{}/standard_names/'.format(os.environ['CDDS_ETC'])
+    standard_names_dir = '{}/standard_names/'.format(os.environ['CDDS_ETC'])
 
     return {
         'calendar': '360_day',
@@ -62,12 +58,7 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
     """
     mip_table_dir = PluginStore.instance().get_plugin().mip_table_dir()
     data_version = datetime.utcnow().strftime('%Y-%m-%dT%H%MZ')
-
-    facility = whereami()
-    if facility == Facility.JASMIN:
-        root_ancil_dir = '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/ancil/'
-    else:
-        root_ancil_dir = '{}/ancil/'.format(os.environ['CDDS_ETC'])
+    root_ancil_dir = '{}/ancil/'.format(os.environ['CDDS_ETC'])
     return {
         'cdds_version': __version__,
         'data_version': data_version,
@@ -97,8 +88,8 @@ def data_defaults() -> Dict[str, Any]:
         "output_mass_root": "moose:/adhoc/projects/cdds/",
         "output_mass_suffix": "development",
         "streams": "ap4 ap5 ap6 inm onm",
-        "workflow_branch": 'cdds',
-        "worklow_revision": 'HEAD',
+        "model_workflow_branch": 'cdds',
+        "model_workflow_revision": 'HEAD',
     }
 
 
@@ -128,13 +119,13 @@ def inventory_defaults() -> Dict[str, Any]:
     :return: The defaults for the inventory section
     :rtype: Dict[str, Any]
     """
+    data_request_base_dir = '{}/data_requests/CMIP6'.format(os.environ['CDDS_ETC'])
+
     facility = whereami()
     if facility == Facility.JASMIN:
         inventory_database_location = '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/inventory/inventory.db'
-        data_request_base_dir = '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/data_requests/CMIP6/'
     else:
         inventory_database_location = '/project/cdds/inventory/inventory.db'
-        data_request_base_dir = '{}/data_requests/CMIP6'.format(os.environ['CDDS_ETC'])
 
     return {
         "inventory_check": True,

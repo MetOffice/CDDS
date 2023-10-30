@@ -265,9 +265,9 @@ class DataSection(Section):
     mass_data_class: str = 'crum'
     mass_ensemble_member: str = ''
     start_date: TimePoint = None
-    workflow_id: str = ''
-    workflow_branch: str = 'cdds'
-    worklow_revision: str = 'HEAD'
+    model_workflow_id: str = ''
+    model_workflow_branch: str = 'cdds'
+    model_workflow_revision: str = 'HEAD'
     streams: List[str] = field(default_factory=list)
     variable_list_file: str = ''
     output_mass_root: str = ''
@@ -297,8 +297,8 @@ class DataSection(Section):
         if config.has_section('data'):
             config_items = load_types(dict(config.items('data')), ['streams'])
             # workflow_revision could be an int but we need a string
-            if 'worklow_revision' in config_items:
-                config_items['worklow_revision'] = str(config_items['worklow_revision'])
+            if 'workflow_revision' in config_items:
+                config_items['workflow_revision'] = str(config_items['workflow_revision'])
             expand_paths(config_items, 'variable_list_file')
             values.update(config_items)
         return DataSection(**values)

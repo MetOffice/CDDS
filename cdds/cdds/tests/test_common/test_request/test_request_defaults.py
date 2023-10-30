@@ -24,27 +24,7 @@ class TestMetadataDefaults(TestCase):
     def tearDown(self) -> None:
         PluginStore.clean_instance()
 
-    @mock.patch('cdds.common.request.request_defaults.whereami')
-    def test_defaults_for_jasmin(self, whereami_mock):
-        whereami_mock.return_value = Facility.JASMIN
-        expected_defaults = {
-            'calendar': '360_day',
-            'child_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
-            'license': CMIP6_LICENSE,
-            'parent_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
-            'parent_model_id': self.model_id,
-            'parent_time_units': 'days since 1850-01-01',
-            'standard_names_dir': '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/standard_names/',
-            'standard_names_version': 'latest',
-        }
-
-        defaults = metadata_defaults(self.model_id)
-
-        self.assertDictEqual(defaults, expected_defaults)
-
-    @mock.patch('cdds.common.request.request_defaults.whereami')
-    def test_defaults_for_metoffice(self, whereami_mock):
-        whereami_mock.return_value = Facility.MET_OFFICE
+    def test_defaults(self):
         expected_defaults = {
             'calendar': '360_day',
             'child_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
@@ -73,39 +53,8 @@ class TestCommonDefaults(TestCase):
         PluginStore.clean_instance()
 
     @mock.patch('cdds.common.request.request_defaults.datetime')
-    @mock.patch('cdds.common.request.request_defaults.whereami')
-    @mock.patch('cdds.common.plugins.cmip6.cmip6_plugin.whereami')
-    def test_defaults_for_jasmin(self, whereami_plugin_mock, whereami_mock, datetime_mock):
+    def test_defaults(self, datetime_mock):
         data_version = datetime.utcnow()
-        whereami_plugin_mock.return_value = Facility.JASMIN
-        whereami_mock.return_value = Facility.JASMIN
-        datetime_mock.utcnow.return_value = data_version
-        expected_defaults = {
-            'cdds_version': __version__,
-            'data_version': data_version.strftime('%Y-%m-%dT%H%MZ'),
-            'external_plugin': '',
-            'external_plugin_location': '',
-            'log_level': 'INFO',
-            'mip_table_dir': '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/mip_tables/CMIP6/',
-            'mode': 'strict',
-            'root_ancil_dir': '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/ancil/',
-            'root_data_dir': '/project/cdds_data',
-            'root_proc_dir': '/project/cdds/proc',
-            'simulation': False,
-            'workflow_basename': self.workflow_basename
-        }
-
-        defaults = common_defaults(self.model_id, self.experiment_id, self.variant_label)
-
-        self.assertDictEqual(defaults, expected_defaults)
-
-    @mock.patch('cdds.common.request.request_defaults.datetime')
-    @mock.patch('cdds.common.request.request_defaults.whereami')
-    @mock.patch('cdds.common.plugins.cmip6.cmip6_plugin.whereami')
-    def test_defaults_for_metoffice(self, whereami_plugin_mock, whereami_mock, datetime_mock):
-        data_version = datetime.utcnow()
-        whereami_plugin_mock.return_value = Facility.MET_OFFICE
-        whereami_mock.return_value = Facility.MET_OFFICE
         datetime_mock.utcnow.return_value = data_version
         expected_defaults = {
             'cdds_version': __version__,
@@ -134,8 +83,8 @@ class TestDataDefaults(TestCase):
             "output_mass_root": "moose:/adhoc/projects/cdds/",
             "output_mass_suffix": "development",
             "streams": "ap4 ap5 ap6 inm onm",
-            "workflow_branch": 'cdds',
-            "worklow_revision": 'HEAD'
+            "model_workflow_branch": 'cdds',
+            "model_workflow_revision": 'HEAD'
         }
 
         defaults = data_defaults()
@@ -198,7 +147,7 @@ class TestInventoryDefaults(TestCase):
             "inventory_database_location": '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/inventory/inventory.db',
             "no_auto_deactivation": False,
             'data_request_version': '01.00.29',
-            'data_request_base_dir': '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/data_requests/CMIP6/',
+            'data_request_base_dir': '/home/h03/cdds/etc/data_requests/CMIP6',
             'mips_to_contribute_to': self.mips,
             'mapping_status': 'ok',
             'use_proc_dir': False,

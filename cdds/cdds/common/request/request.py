@@ -6,7 +6,7 @@ The module contains the code required to handle the information about the reques
 """
 import logging
 
-from configparser import ConfigParser
+from configparser import ConfigParser, ExtendedInterpolation
 from dataclasses import dataclass
 from metomi.isodatetime.data import Calendar
 from typing import Dict, Any
@@ -148,7 +148,9 @@ class Request:
         :param config_file: Absolute path to the request configruation file
         :type config_file: str
         """
-        config = ConfigParser()
+        interpolation = ExtendedInterpolation()
+        config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
+        config.optionxform = str  # Preserve case.
         self.metadata.add_to_config(config)
         self.netcdf_global_attributes.add_to_config(config)
         self.common.add_to_config(
@@ -173,11 +175,13 @@ def read_request(request_path: str) -> Request:
     logger = logging.getLogger(__name__)
     logger.debug('Reading request information from "{}"'.format(request_path))
 
-    request_config = ConfigParser()
+    interpolation = ExtendedInterpolation()
+    request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
+    request_config.optionxform = str  # Preserve case.
     request_config.read(request_path)
     load_cdds_plugins(request_config)
 
-    calendar = request_config.get('metadata', 'calendar', fallback='360_day')
+    calendar = request_config.get('metadata', 'calendar')
     Calendar.default().set_mode(calendar)
 
     request = Request.from_config(request_config)

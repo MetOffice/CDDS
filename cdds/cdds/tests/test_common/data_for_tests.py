@@ -74,9 +74,9 @@ def expected_test_data():
         'mass_data_class': 'crum',
         'mass_ensemble_member': '',
         'start_date': TimePoint(year=1970, month_of_year=1, day_of_month=1),
-        'workflow_id': 'u-aw310',
-        'workflow_branch': 'cdds',
-        'worklow_revision': '115492',
+        'model_workflow_id': 'u-aw310',
+        'model_workflow_branch': 'cdds',
+        'model_workflow_revision': 115492,
         'streams': ['ap4', 'ap5'],
         'variable_list_file': '/data/cdds/variables.txt',
         'output_mass_root': 'moose:/adhoc/projects/cdds/',
@@ -193,9 +193,9 @@ def expected_test_minimal_data():
         'start_date': TimePoint(year=1970, month_of_year=1, day_of_month=1),
         'streams': 'ap4 ap5 ap6 inm onm',
         'variable_list_file': '/data/cdds/variables.txt',
-        'workflow_branch': 'cdds',
-        'workflow_id': 'u-aw310',
-        'worklow_revision': 'HEAD'
+        'model_workflow_branch': 'cdds',
+        'model_workflow_id': 'u-aw310',
+        'model_workflow_revision': 'HEAD'
     }
 
 

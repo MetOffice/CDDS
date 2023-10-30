@@ -28,7 +28,7 @@ class TestReadRequest(TestCase):
         PluginStore.clean_instance()
 
     def test_read_request(self):
-        request_path = os.path.join(self.data_dir, 'test_request.ini')
+        request_path = os.path.join(self.data_dir, 'test_request.cfg')
         request = read_request(request_path)
         self.assertDictEqual(request.metadata.items, expected_test_metadata())
         self.assertDictEqual(request.netcdf_global_attributes.items, expected_test_global_attributes())
@@ -43,7 +43,7 @@ class TestReadRequest(TestCase):
         data_version = datetime.utcnow()
         datetime_mock.utcnow.return_value = data_version
 
-        request_path = os.path.join(self.data_dir, 'test_request_minimal.ini')
+        request_path = os.path.join(self.data_dir, 'test_request_minimal.cfg')
         request = read_request(request_path)
         self.maxDiff = None
 
@@ -70,8 +70,8 @@ class TestWriteRequest(TestCase):
     def test_write_request(self, datetime_mock):
         data_version = datetime(year=2023, month=9, day=21, hour=10, minute=34, second=12)
         datetime_mock.utcnow.return_value = data_version
-        expected_output = os.path.join(self.data_dir, 'test_request_output.ini')
-        config_file = os.path.join(self.test_temp_dir, 'request.ini')
+        expected_output = os.path.join(self.data_dir, 'test_request_output.cfg')
+        config_file = os.path.join(self.test_temp_dir, 'request.cfg')
         request = Request()
         request.metadata.model_id = 'UKESM1-0-LL'
         request.metadata.experiment_id = 'piControl'
@@ -86,7 +86,7 @@ class TestWriteRequest(TestCase):
     def read_lines(file_path):
         with open(file_path, 'r') as file:
             content = file.readlines()
-        return content
+        return [line.strip() for line in content]
 
 
 if __name__ == "__main__":
