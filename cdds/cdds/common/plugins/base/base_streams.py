@@ -98,12 +98,14 @@ class BaseStreamInfo(StreamInfo, metaclass=ABCMeta):
         :param configuration: Configuration dictionary
         :type configuration: Dict[str, Any]
         """
-        for mip_table, stream_default in configuration["default"].items():
-            self._streams[mip_table] = StreamIdentifier(mip_table=mip_table, default_stream=stream_default)
-        for mip_table, stream_overrides in configuration["overrides"].items():
-            stream_id = self._streams.get(mip_table, StreamIdentifier(mip_table=mip_table))
-            stream_id.add_overrides(stream_overrides)
-            self._streams[mip_table] = stream_id
+        if 'default' in configuration.keys():
+            for mip_table, stream_default in configuration["default"].items():
+                self._streams[mip_table] = StreamIdentifier(mip_table=mip_table, default_stream=stream_default)
+        if 'overrides' in configuration.keys():
+            for mip_table, stream_overrides in configuration["overrides"].items():
+                stream_id = self._streams.get(mip_table, StreamIdentifier(mip_table=mip_table))
+                stream_id.add_overrides(stream_overrides)
+                self._streams[mip_table] = stream_id
 
     def retrieve_stream_id(self, variable: str, mip_table: str) -> Tuple[str, str]:
         """

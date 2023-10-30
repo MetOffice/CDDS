@@ -2,15 +2,15 @@
 # Please see LICENSE.rst for license details.
 import unittest
 
-from cdds.common.plugins.cmip6.cmip6_attributes import Cmip6GlobalAttributes, AttributesValidator
+from cdds.common.plugins.cmip6_plus.cimp6_plus_attributes import Cmip6PlusGlobalAttributes, AttributeValidator
 
 from unittest import TestCase
 
 
-class TestCmip6GlobalAttributes(TestCase):
+class TestCmip6PlusGlobalAttributes(TestCase):
 
     def setUp(self):
-        self.mip_era = 'CMIP6'
+        self.mip_era = 'CMIP6Plus'
         self.institution_id = 'MOHC'
         self.model_id = 'HadGEM3-GC31-LL'
         self.experiment_id = 'piControl'
@@ -34,12 +34,12 @@ class TestCmip6GlobalAttributes(TestCase):
             self.variant_label
         )
 
-        attributes = Cmip6GlobalAttributes(self.request)
+        attributes = Cmip6PlusGlobalAttributes(self.request)
         actual_url = attributes.further_info_url()
         self.assertEqual(actual_url, expected_url)
 
 
-class TestAttributesValidator(TestCase):
+class TestAttributeValidator(TestCase):
 
     def test_request_equals_expected(self):
         request = {
@@ -49,7 +49,7 @@ class TestAttributesValidator(TestCase):
             'sub_experiment_id': 'none',
             'variant_label': 'r1i1p1f2'
         }
-        AttributesValidator.validate_request_keys(request)
+        AttributeValidator.validate_request_keys(request)
 
     def test_request_contains_more_than_expected(self):
         request = {
@@ -61,7 +61,7 @@ class TestAttributesValidator(TestCase):
             'calendar': '360_day',
             'suite_id': 'u-bx562'
         }
-        AttributesValidator.validate_request_keys(request)
+        AttributeValidator.validate_request_keys(request)
 
     def test_request_contains_less_than_expected(self):
         request = {
@@ -70,7 +70,7 @@ class TestAttributesValidator(TestCase):
             'sub_experiment_id': 'none',
             'variant_label': 'r1i1p1f2'
         }
-        self.assertRaises(ValueError, AttributesValidator.validate_request_keys, request)
+        self.assertRaises(ValueError, AttributeValidator.validate_request_keys, request)
 
 
 if __name__ == '__main__':
