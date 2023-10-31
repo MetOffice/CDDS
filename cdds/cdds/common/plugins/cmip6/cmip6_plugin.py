@@ -6,7 +6,6 @@ The :mod:`cmip6_plugin` module contains the code for the CMIP6 plugin.
 import os
 from typing import Type, Dict, Any
 
-from cdds.common.platforms import Facility, whereami
 from cdds.common.plugins.file_info import ModelFileInfo, GlobalModelFileInfo
 from cdds.common.plugins.grid import GridLabel
 from cdds.common.plugins.models import ModelParameters
