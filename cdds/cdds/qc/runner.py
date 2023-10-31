@@ -104,7 +104,7 @@ class QCRunner(object):
             Path to a directory with standard names table
         standard_names_version: str
             Version of the standard names table.
-        request: cdds.common.request.Request
+        request: cdds.common.old_request.Request
             Request object
         run_id: int
             An arbitrary identifier that can be used for grouping multiple qc

@@ -10,7 +10,7 @@ from cdds.common import create_directory, update_permissions
 from cdds.deprecated.config import FullPaths
 
 from cdds.common.constants import COMPONENT_LIST, REQUIRED_KEYS_FOR_PROC_DIRECTORY
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.prepare.constants import ARCHIVE_LOG_DIRECTORY_PERMISSIONS
 
 

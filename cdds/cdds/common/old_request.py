@@ -33,7 +33,7 @@ def read_request(request_path, required_keys=None, default_items=None):
 
     Returns
     -------
-    : :class:`cdds.common.request.Request`
+    : :class:`cdds.common.old_request.Request`
         The information from the request.
     """
     # Retrieve the logger.
@@ -54,7 +54,7 @@ def load_cdds_plugins(request):
     the request object.
 
     :param request: The information from the request json file.
-    :type request: `cdds.common.request.Request`
+    :type request: `cdds.common.old_request.Request`
     """
     external_plugin = None
     if request.external_plugin:
@@ -77,7 +77,7 @@ def construct_request(items, required_keys=None, default_items=None):
 
     Returns
     -------
-    : :class:`cdds.common.request.Request`
+    : :class:`cdds.common.old_request.Request`
         The information from the request.
     """
     # Add the default items only if they don't already exist in the

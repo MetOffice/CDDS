@@ -6,7 +6,7 @@ from netCDF4 import Dataset
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
 from cdds.common.mip_tables import MipTables
-from cdds.common.request import Request
+from cdds.common.old_request import Request
 
 from cdds.qc.plugins.base.checks import VariableAttributesCheckTask, StringAttributesCheckTask
 from cdds.qc.plugins.base.validators import ControlledVocabularyValidator

@@ -20,7 +20,7 @@ from cdds import __version__
 from cdds.archive.store import store_mip_output_data
 from cdds.archive.spice import run_store_spice_job
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY, PRINT_STACK_TRACE
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 
 COMPONENT = 'archive'
 

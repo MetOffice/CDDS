@@ -9,7 +9,7 @@ import os
 from cdds.deprecated.config import FullPaths
 from cdds.common.constants import (
     LOG_TIMESTAMP_FORMAT, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.common.spice import (submit_spice_job_script, write_spice_job_script)
 from cdds.extract.constants import (QUEUE, EXTRACT_COMMAND, WALLTIME, MEMORY,
                                     LOGNAME, SPICE_SCRIPT_NAME)

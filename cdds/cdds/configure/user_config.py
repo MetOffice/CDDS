@@ -13,7 +13,7 @@ from mip_convert.configuration.python_config import PythonConfig
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.common.variables import RequestedVariablesList
 
 from cdds import __version__
@@ -53,7 +53,7 @@ def read_and_validate_request(request_path, default_request_items, template=True
 
     Returns
     -------
-    : :class:`cdds.common.request.Request`
+    : :class:`cdds.common.old_request.Request`
         The information from the request.
     """
     required_keys = retrieve_required_keys(template, default_request_items.keys())
@@ -68,7 +68,7 @@ def create_user_config_files(request, requested_variables_file, template_name, o
 
     Parameters
     ----------
-    request: :class:`cdds.common.request.Request`
+    request: :class:`cdds.common.old_request.Request`
         The information from the request.
     requested_variables_file: str
         The full path to the |requested variables list|.
@@ -113,7 +113,7 @@ def produce_user_configs(request, requested_variables_list, template,
 
     Parameters
     ----------
-    request: :class:`cdds.common.request.Request`
+    request: :class:`cdds.common.old_request.Request`
         The information from the request.
     requested_variables_list: :class:`cdds.common.variables.RequestedVariablesList`
         The information from the |requested variables list|.
@@ -203,7 +203,7 @@ def get_global_attributes(request):
     given request values.
 
     :param request: Request contains all data to create the global attributes
-    :type request: :class:`cdds.common.request.Request`
+    :type request: :class:`cdds.common.old_request.Request`
     :return: Global attributes as dictionary
     :rtype: dict
     """
@@ -219,7 +219,7 @@ def get_further_info_url(request):
     Returns the further info url according the request values.
 
     :param request: Request containing all values to create the further info url
-    :type request: :class:`cdds.common.request.Request`
+    :type request: :class:`cdds.common.old_request.Request`
     :return: Further info url
     :rtype: str
     """
@@ -236,7 +236,7 @@ def validate_request_with_requested_variables_list(request,
 
     Parameters
     ----------
-    request: :class:`cdds.common.request.Request`
+    request: :class:`cdds.common.old_request.Request`
         The information from the request.
     requested_variables_list: :class:`cdds.common.variables.RequestedVariablesList`
         The information from the |requested variables list|.

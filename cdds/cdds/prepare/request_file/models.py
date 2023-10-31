@@ -9,7 +9,7 @@ from cdds.common.io import read_json
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
-from cdds.common.request import Request
+from cdds.common.old_request import Request
 from cdds.prepare.request_file.constants import (BASE_DATE,
                                                  LICENSES,
                                                  ROSE_SUITE_FILENAME,

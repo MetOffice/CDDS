@@ -26,7 +26,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
         ----------
         root: string
             Path to the root directory of the dataset.
-        request: cdds.common.request.Request
+        request: cdds.common.old_request.Request
             The |Request| json file.
         mip_table: cdds_qc_plugin_cmip6.MipTables
             An object containing information about mip tables associated with the processed request.

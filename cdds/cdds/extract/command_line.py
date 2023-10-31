@@ -12,7 +12,7 @@ import os
 from cdds import __version__
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.extract.common import stream_file_template
 from cdds.extract.lang import set_language
 from cdds.extract.runner import ExtractRunner

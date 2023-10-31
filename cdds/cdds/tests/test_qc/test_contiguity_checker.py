@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 
 import unittest
-from cdds.common.request import Request
+from cdds.common.old_request import Request
 from cdds.qc.common import DatetimeCalculator
 from cdds.qc.contiguity_checker import CollectionsCheck
 

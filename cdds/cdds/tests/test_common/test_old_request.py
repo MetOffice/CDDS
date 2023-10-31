@@ -6,7 +6,7 @@ Tests for :mod:`request.py`.
 """
 import unittest
 
-from cdds.common.request import Request
+from cdds.common.old_request import Request
 
 
 class TestRequest(unittest.TestCase):

@@ -8,7 +8,7 @@ import getpass
 import logging
 import os
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.extract.common import (
     check_moo_cmd, configure_mappings, configure_variables, exit_nicely, get_data_target, get_streams,
     get_zero_sized_files, ValidationResult)

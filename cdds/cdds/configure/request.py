@@ -70,7 +70,7 @@ def validate_branch_options(request):
 
     Parameters
     ----------
-    request: :class:`cdds.common.request.Request`
+    request: :class:`cdds.common.old_request.Request`
         The information about the request.
     """
     required_branch_options = []
@@ -92,7 +92,7 @@ def retrieve_request_metadata(request, template):
 
     Parameters
     ----------
-    request: :class:`cdds.common.request.Request`
+    request: :class:`cdds.common.old_request.Request`
         The information about the request.
     template: bool
         Whether to create template |user configuration files|.
