@@ -37,6 +37,40 @@ class CollectionsCheckTestCase(unittest.TestCase):
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
 
+    def test_internal_contiguity_instantaneous(self):
+        request = Request({
+            'run_bounds': '1850-01-01T00:00:00 1850-03-01T00:00:00',
+            'child_base_date': '1850-01-01T00:00:00',
+            'calendar': '360_day'
+        }, [])
+        cc = CollectionsCheck(request)
+        var_key = 'foo'
+        time_axis = {
+            'bar1.nc': [(i + 0.0) / 24.0 for i in range(1, 24 * 30 + 1)],
+            'bar2.nc': [(i + 0.0) / 24.0 for i in range(24 * 30 + 1, 48 * 30 + 1)],
+        }
+        frequency = 'PT1H'
+        run_start, run_end = request.run_bounds.split(" ")
+        cc.check_contiguity(var_key, time_axis, None, frequency, run_start, run_end)
+        self.assertDictEqual(cc.results, {})
+
+    def test_internal_contiguity_instantaneous_no_adjustment(self):
+        request = Request({
+            'run_bounds': '1850-01-01T00:00:00 1850-03-01T00:00:00',
+            'child_base_date': '1850-01-01T00:00:00',
+            'calendar': '360_day'
+        }, [])
+        cc = CollectionsCheck(request)
+        var_key = 'foo'
+        time_axis = {
+            'bar1.nc': [(i + 0.0) / 24.0 for i in range(24 * 30)],
+            'bar2.nc': [(i + 0.0) / 24.0 for i in range(24 * 30, 48 * 30)],
+        }
+        frequency = 'PT1H'
+        run_start, run_end = request.run_bounds.split(" ")
+        cc.check_contiguity(var_key, time_axis, None, frequency, run_start, run_end)
+        self.assertDictEqual(cc.results, {})
+
     def test_internal_contiguity_valid_time_subsecond_difference(self):
         cc = CollectionsCheck(self.request)
         var_key = 'foo'

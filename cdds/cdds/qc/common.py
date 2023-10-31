@@ -149,6 +149,8 @@ class DatetimeCalculator():
             else:
                 sequence_points.append(current)
             current = timepoint_tuple[2]
+        if not with_bounds:
+            sequence_points.append(current)
         # it's possible that end date is different from the last item in sequence
         return sequence_points, sequence_bounds
 
