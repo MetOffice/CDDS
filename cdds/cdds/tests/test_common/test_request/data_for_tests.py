@@ -86,14 +86,7 @@ def expected_test_data():
 
 def expected_test_misc():
     return {
-        'atmos_timestep': 1200
-    }
-
-
-def expected_test_inventory():
-    return {
-        'inventory_check': True,
-        'inventory_database_location': '/data_requests/CMIP6',
+        'atmos_timestep': 1200,
         'data_request_version': '01.00.29',
         'data_request_base_dir': '/data_requests/CMIP6',
         'mips_to_contribute_to': ['AerChemMIP', 'C4MIP'],
@@ -108,6 +101,13 @@ def expected_test_inventory():
     }
 
 
+def expected_test_inventory():
+    return {
+        'inventory_check': True,
+        'inventory_database_location': '/project/cdds/inventory.db'
+    }
+
+
 def expected_text_conversion():
     return {
         'skip_extract': False,
@@ -119,7 +119,7 @@ def expected_text_conversion():
         'cylc_args': '',
         'no_email_notifications': False,
         'scale_memory_limits': 2.0,
-        'override_cycling_frequency': ['ap4=12', 'ap5=24'],
+        'override_cycling_frequency': ['ap4=P1Y', 'ap5=P2Y'],
         'model_params_dir': ''
     }
 
@@ -188,10 +188,10 @@ def expected_test_minimal_data():
         'end_date': TimePoint(year=2170, month_of_year=1, day_of_month=1),
         'mass_data_class': 'crum',
         'mass_ensemble_member': '',
-        'output_mass_root': 'moose:/adhoc/projects/cdds/',
-        'output_mass_suffix': 'development',
+        'output_mass_root': '',
+        'output_mass_suffix': '',
         'start_date': TimePoint(year=1970, month_of_year=1, day_of_month=1),
-        'streams': 'ap4 ap5 ap6 inm onm',
+        'streams': ['ap4', 'ap5', 'ap6', 'inm', 'onm'],
         'variable_list_file': '/data/cdds/variables.txt',
         'model_workflow_branch': 'cdds',
         'model_workflow_id': 'u-aw310',
@@ -199,14 +199,13 @@ def expected_test_minimal_data():
     }
 
 
-def expected_test_minimal_inventory():
+def expected_test_minimal_misc():
     return {
+        'atmos_timestep': 1200,
         'alternate_data_request_experiment': '',
         'auto_deactivation_rules': '',
         'data_request_base_dir': '/home/h03/cdds/etc/data_requests/CMIP6',
         'data_request_version': '01.00.29',
-        'inventory_check': True,
-        'inventory_database_location': '/project/cdds/inventory/inventory.db',
         'mapping_status': 'ok',
         'max_priority': 2,
         'mip_era_defaults': '',
@@ -237,6 +236,13 @@ def expected_test_minimal_inventory():
         'no_auto_deactivation': False,
         'no_overwrite': False,
         'use_proc_dir': False
+    }
+
+
+def expected_test_minimal_inventory():
+    return {
+        'inventory_check': False,
+        'inventory_database_location': ''
     }
 
 

@@ -164,5 +164,5 @@ class TestMetadataSection(TestCase):
         self.assertListEqual(metadata.model_type, ['AOGCM', 'BGC', 'AER', 'CHEM'])
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

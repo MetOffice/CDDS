@@ -65,8 +65,6 @@ class TestCommonDefaults(TestCase):
             'mip_table_dir': '/home/h03/cdds/etc/mip_tables/CMIP6/',
             'mode': 'strict',
             'root_ancil_dir': '/home/h03/cdds/etc/ancil/',
-            'root_data_dir': '/project/cdds_data',
-            'root_proc_dir': '/project/cdds/proc',
             'simulation': False,
             'workflow_basename': self.workflow_basename
         }
@@ -79,12 +77,10 @@ class TestCommonDefaults(TestCase):
 class TestDataDefaults(TestCase):
     def test_defaults(self):
         expected_defaults = {
-            "mass_data_class": 'crum',
-            "output_mass_root": "moose:/adhoc/projects/cdds/",
-            "output_mass_suffix": "development",
-            "streams": "ap4 ap5 ap6 inm onm",
-            "model_workflow_branch": 'cdds',
-            "model_workflow_revision": 'HEAD'
+            'mass_data_class': 'crum',
+            'streams': 'ap4 ap5 ap6 inm onm',
+            'model_workflow_branch': 'cdds',
+            'model_workflow_revision': 'HEAD'
         }
 
         defaults = data_defaults()
@@ -96,22 +92,6 @@ class TestMiscDefaults(TestCase):
     def setUp(self) -> None:
         load_plugin('CMIP6')
         self.model_id = 'UKESM1-0-LL'
-
-    def tearDown(self) -> None:
-        PluginStore.clean_instance()
-
-    def test_defaults(self):
-        expected_defaults = {
-            "atmos_timestep": 1200
-        }
-
-        defaults = misc_defaults(self.model_id)
-
-        self.assertDictEqual(defaults, expected_defaults)
-
-
-class TestInventoryDefaults(TestCase):
-    def setUp(self) -> None:
         self.mips = [
             'AerChemMIP',
             'C4MIP',
@@ -139,13 +119,13 @@ class TestInventoryDefaults(TestCase):
             'VolMIP'
         ]
 
-    @mock.patch('cdds.common.request.request_defaults.whereami')
-    def test_defaults_for_jasmin(self, whereami_mock):
-        whereami_mock.return_value = Facility.JASMIN
+    def tearDown(self) -> None:
+        PluginStore.clean_instance()
+
+    def test_defaults(self):
         expected_defaults = {
-            "inventory_check": True,
-            "inventory_database_location": '/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/inventory/inventory.db',
-            "no_auto_deactivation": False,
+            'atmos_timestep': 1200,
+            'no_auto_deactivation': False,
             'data_request_version': '01.00.29',
             'data_request_base_dir': '/home/h03/cdds/etc/data_requests/CMIP6',
             'mips_to_contribute_to': self.mips,
@@ -155,24 +135,16 @@ class TestInventoryDefaults(TestCase):
             'no_overwrite': False
         }
 
-        defaults = inventory_defaults()
+        defaults = misc_defaults(self.model_id)
 
         self.assertDictEqual(defaults, expected_defaults)
 
-    @mock.patch('cdds.common.request.request_defaults.whereami')
-    def test_defaults_for_metoffice(self, whereami_mock):
-        whereami_mock.return_value = Facility.MET_OFFICE
+
+class TestInventoryDefaults(TestCase):
+
+    def test_defaults(self):
         expected_defaults = {
-            "inventory_check": True,
-            "inventory_database_location": '/project/cdds/inventory/inventory.db',
-            "no_auto_deactivation": False,
-            'data_request_version': '01.00.29',
-            'data_request_base_dir': '/home/h03/cdds/etc/data_requests/CMIP6',
-            'mips_to_contribute_to': self.mips,
-            'mapping_status': 'ok',
-            'use_proc_dir': False,
-            'max_priority': 2,
-            'no_overwrite': False
+            'inventory_check': False
         }
 
         defaults = inventory_defaults()
@@ -186,13 +158,13 @@ class TestConversionDefaults(TestCase):
     def test_defaults_for_jasmin(self, whereami_mock):
         whereami_mock.return_value = Facility.JASMIN
         expected_defaults = {
-            "cdds_workflow_branch": "cdds_jasmin_2.3",
-            "no_email_notifications": False,
-            "skip_extract": True,
-            "skip_extract_validation": False,
-            "skip_configure": False,
-            "skip_qc": False,
-            "skip_archive": True
+            'cdds_workflow_branch': 'cdds_jasmin_2.3',
+            'no_email_notifications': False,
+            'skip_extract': True,
+            'skip_extract_validation': False,
+            'skip_configure': False,
+            'skip_qc': False,
+            'skip_archive': True
         }
 
         defaults = conversion_defaults()
@@ -203,13 +175,13 @@ class TestConversionDefaults(TestCase):
     def test_defaults_for_metoffice(self, whereami_mock):
         whereami_mock.return_value = Facility.MET_OFFICE
         expected_defaults = {
-            "cdds_workflow_branch": "trunk",
-            "no_email_notifications": False,
-            "skip_extract": False,
-            "skip_extract_validation": False,
-            "skip_configure": False,
-            "skip_qc": False,
-            "skip_archive": False
+            'cdds_workflow_branch': 'trunk',
+            'no_email_notifications': False,
+            'skip_extract': False,
+            'skip_extract_validation': False,
+            'skip_configure': False,
+            'skip_qc': False,
+            'skip_archive': False
         }
 
         defaults = conversion_defaults()
@@ -217,5 +189,5 @@ class TestConversionDefaults(TestCase):
         self.assertDictEqual(defaults, expected_defaults)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
