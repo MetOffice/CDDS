@@ -1,9 +1,9 @@
 # (C) British Crown Copyright 2018-2023, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
-'''
+"""
 The module contains the code required to handle the information about the request.
-'''
+"""
 import logging
 
 from configparser import ConfigParser, ExtendedInterpolation
@@ -20,9 +20,9 @@ from cdds.common.plugins.plugin_loader import load_plugin
 
 @dataclass
 class Request:
-    '''
+    """
     Stores the information about the request.
-    '''
+    """
     metadata: MetadataSection = MetadataSection()
     netcdf_global_attributes: GlobalAttributesSection = GlobalAttributesSection()
     common: CommonSection = CommonSection()
@@ -33,7 +33,7 @@ class Request:
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'Request':
-        '''
+        """
         Creates a new request object from given configuration containing all information
         defined in the given configuration.
 
@@ -41,7 +41,7 @@ class Request:
         :type config: ConfigParser
         :return: New request object
         :rtype: Request
-        '''
+        """
         return Request(
             metadata=MetadataSection.from_config(config),
             netcdf_global_attributes=GlobalAttributesSection.from_config(config),
@@ -54,14 +54,14 @@ class Request:
 
     @property
     def items(self) -> Dict[str, Any]:
-        '''
+        """
         TODO: DEPRECATED METHOD! -> Needs consideration
         Returns all information of the request as dictionary. Can be a problem
         if there are sections having same keys.
 
         :return: Information of the request as dictionary
         :rtype: Dict[str, Any]
-        '''
+        """
         all_items = {}
         all_items.update(self.metadata.items)
         all_items.update(self.netcdf_global_attributes.items)
@@ -74,14 +74,14 @@ class Request:
 
     @property
     def flattened_items(self) -> Dict[str, Any]:
-        '''
+        """
         TODO: DEPRECATED METHOD! -> Needs consideration
         Returns all information of the request in a flatted dictionary structure. Can be a problem
         if there are sections having same keys.
 
         :return: Information of the request as flattened dictionary
         :rtype: Dict[str, Any]
-        '''
+        """
         stack = [self.items]
         flat_dict = {}
         while stack:
@@ -95,25 +95,25 @@ class Request:
 
     @property
     def items_global_attributes(self) -> Dict[str, Any]:
-        '''
+        """
         Returns all items of the global attributes section as a dictionary
 
         :return: Global attributes items
         :rtype: Dict[str, Any]
-        '''
+        """
         if self.netcdf_global_attributes:
             return self.netcdf_global_attributes.items
         return {}
 
     @property
     def items_for_facet_string(self) -> Dict[str, Any]:
-        '''
+        """
         TODO: Method to consider
         Returns the items for the facet string.
 
         :return: Items for the facet string
         :rtype: Dict[str, Any]
-        '''
+        """
         return {
             'experiment': self.metadata.experiment_id,
             'project': self.metadata.mip,
@@ -125,13 +125,13 @@ class Request:
 
     @property
     def items_for_cmor(self) -> Dict[str, Any]:
-        '''
+        """
         TODO: Method to consider
         Returns all items for |CMOR|.
 
         :return: Items for |CMOR|
         :rtype: Dict[str, Any]
-        '''
+        """
         mip = self.metadata.mip
         model_id = self.metadata.model_id
         model_type = self.metadata.model_type
@@ -142,12 +142,12 @@ class Request:
         }
 
     def write(self, config_file: str) -> None:
-        '''
+        """
         Write the request information to a configuration file.
 
         :param config_file: Absolute path to the request configruation file
         :type config_file: str
-        '''
+        """
         interpolation = ExtendedInterpolation()
         config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
         config.optionxform = str  # Preserve case.
@@ -164,14 +164,14 @@ class Request:
 
 
 def read_request(request_path: str) -> Request:
-    '''
+    """
     Returns the information from the request.
 
     :param request_path: The full path to the cfg file containing the information from the request.
     :type request_path: str
     :return: The information from the request.
     :rtype: Request
-    '''
+    """
     logger = logging.getLogger(__name__)
     logger.debug('Reading request information from "{}"'.format(request_path))
 
@@ -189,12 +189,12 @@ def read_request(request_path: str) -> Request:
 
 
 def load_cdds_plugins(request_config: ConfigParser) -> None:
-    '''
+    """
     Loads all internal CDDS plugins and external CDDS plugins specified in the request object.
 
     :param request_config: Parser of the request configuration contains plugin information
     :type request_config: ConfigParser
-    '''
+    """
     mip_era = request_config.get('metadata', 'mip_era')
     external_plugin = None
     external_plugin_location = None

@@ -1,8 +1,8 @@
 # (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
-'''
+"""
 Module for defining and managing the request object
-'''
+"""
 import os
 
 from abc import abstractmethod, ABCMeta
@@ -21,48 +21,48 @@ TIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 
 class Section(object, metaclass=ABCMeta):
-    '''
+    """
     Abstract class to specify a section in the request configuration.
-    '''
+    """
 
     @property
     @abstractmethod
     def items(self) -> Dict[str, Any]:
-        '''
+        """
         Returns all items of the section as a dictionary.
 
         :return: Items as dictionary
         :rtype: Dict[str, Any]
-        '''
+        """
         pass
 
     @staticmethod
     @abstractmethod
     def from_config(config: ConfigParser) -> 'Section':
-        '''
+        """
         Loads the section of a request configuration.
 
         :param config: Parser for the request configuration
         :type config: ConfigParser
         :return: New section object
         :rtype: Section
-        '''
+        """
         pass
 
     @abstractmethod
     def add_to_config(self, config: ConfigParser, *args: Optional[Any]) -> None:
-        '''
+        """
         Adds values defined by the section to given configuration.
 
         :param config: Configuration where values should add to
         :type config: ConfigParser
         :param args: Optional values to consider
         :type args: Optional[Any]
-        '''
+        """
         pass
 
     def _add_to_config_section(self, config: ConfigParser, section: str = '', defaults: Dict[str, Any] = {}) -> None:
-        '''
+        """
         Add values of section to given configuration. If a value is not specified,
         add default value if given.
 
@@ -72,7 +72,7 @@ class Section(object, metaclass=ABCMeta):
         :type section: str
         :param defaults: Default values
         :type defaults: Dict[str, Any]
-        '''
+        """
         config.add_section(section)
         for option, value in self.items.items():
             if not value and option in defaults.keys():
@@ -84,9 +84,9 @@ class Section(object, metaclass=ABCMeta):
 
 @dataclass
 class MetadataSection(Section):
-    '''
+    """
     Represents the metadata section in the request configuration
-    '''
+    """
     branch_date_in_child: TimePoint = None
     branch_date_in_parent: TimePoint = None
     branch_method: str = ''
@@ -113,24 +113,24 @@ class MetadataSection(Section):
 
     @property
     def items(self) -> Dict[str, Any]:
-        '''
+        """
         Returns all items of the metadata section as a dictionary.
 
         :return: Items as dictionary
         :rtype: Dict[str, Any]
-        '''
+        """
         return asdict(self)
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'MetadataSection':
-        '''
+        """
         Loads the metadata section of a request configuration.
 
         :param config: Parser for the request configuration
         :type config: ConfigParser
         :return: New metadata section
         :rtype: MetadataSection
-        '''
+        """
         model_id = config.get('metadata', 'model_id')
         values = metadata_defaults(model_id)
         config_items = load_types(dict(config.items('metadata')), ['model_type'])
@@ -139,63 +139,63 @@ class MetadataSection(Section):
         return MetadataSection(**values)
 
     def add_to_config(self, config: ConfigParser) -> None:
-        '''
+        """
         Adds values defined by the metadata section to given configuration.
 
         :param config: Configuration where values should add to
         :type config: ConfigParser
-        '''
+        """
         defaults = metadata_defaults(self.model_id)
         self._add_to_config_section(config, 'metadata', defaults)
 
 
 @dataclass
 class GlobalAttributesSection(Section):
-    '''
+    """
     Represents the netCDF global attributes section in the request configuration
-    '''
+    """
     attributes: Dict[str, Any] = field(default_factory=dict)
 
     @property
     def items(self) -> Dict[str, Any]:
-        '''
+        """
         Returns all items of the global attributes section as a dictionary.
 
         :return: Items as dictionary
         :rtype: Dict[str, Any]
-        '''
+        """
         return self.attributes
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'GlobalAttributesSection':
-        '''
+        """
         Loads the global attributes section of a request configuration.
 
         :param config: Parser for the request configuration
         :type config: ConfigParser
         :return: New global attributes section
         :rtype: GlobalAttributesSection
-        '''
+        """
         if config.has_section('netcdf_global_attributes'):
             values = dict(config.items('netcdf_global_attributes'))
             return GlobalAttributesSection(attributes=values)
         return GlobalAttributesSection()
 
     def add_to_config(self, config: ConfigParser) -> None:
-        '''
+        """
         Adds values defined by the global attributes section to given configuration.
 
         :param config: Configuration where values should add to
         :type config: ConfigParser
-        '''
+        """
         self._add_to_config_section(config, 'netcdf_global_attributes', {})
 
 
 @dataclass
 class CommonSection(Section):
-    '''
+    """
     Represents the common section in the request configuration
-    '''
+    """
     cdds_version: str = ''
     external_plugin: str = ''
     external_plugin_location: str = ''
@@ -212,24 +212,24 @@ class CommonSection(Section):
 
     @property
     def items(self) -> Dict[str, Any]:
-        '''
+        """
         Returns all items of the common section as a dictionary.
 
         :return: Items as dictionary
         :rtype: Dict[str, Any]
-        '''
+        """
         return asdict(self)
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'CommonSection':
-        '''
+        """
         Loads the common section of a request configuration.
 
         :param config: Parser for the request configuration
         :type config: ConfigParser
         :return: New common section
         :rtype: CommonSection
-        '''
+        """
         model_id = config.get('metadata', 'model_id')
         experiment_id = config.get('metadata', 'experiment_id')
         variant_label = config.get('metadata', 'variant_label')
@@ -240,7 +240,7 @@ class CommonSection(Section):
         return CommonSection(**values)
 
     def add_to_config(self, config: ConfigParser, model_id: str, experiment_id: str, variant_label: str) -> None:
-        '''
+        """
         Adds values defined by the common section to given configuration.
 
         :param config: Configuration where values should add to
@@ -251,16 +251,16 @@ class CommonSection(Section):
         :type experiment_id: str
         :param variant_label: Variable label used to get default values
         :type variant_label: str
-        '''
+        """
         defaults = common_defaults(model_id, experiment_id, variant_label)
         self._add_to_config_section(config, 'common', defaults)
 
 
 @dataclass
 class DataSection(Section):
-    '''
+    """
     Represents the data section in the request configuration
-    '''
+    """
     end_date: TimePoint = None
     mass_data_class: str = 'crum'
     mass_ensemble_member: str = ''
@@ -275,24 +275,24 @@ class DataSection(Section):
 
     @property
     def items(self):
-        '''
+        """
         Returns all items of the data section as a dictionary.
 
         :return: Items as dictionary
         :rtype: Dict[str, Any]
-        '''
+        """
         return asdict(self)
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'DataSection':
-        '''
+        """
         Loads the data section of a request configuration.
 
         :param config: Parser for the request configuration
         :type config: ConfigParser
         :return: New data section
         :rtype: DataSection
-        '''
+        """
         values = data_defaults()
         if config.has_section('data'):
             config_items = load_types(dict(config.items('data')), ['streams'])
@@ -304,21 +304,21 @@ class DataSection(Section):
         return DataSection(**values)
 
     def add_to_config(self, config: ConfigParser) -> None:
-        '''
+        """
         Adds values defined by the data section to given configuration.
 
         :param config: Configuration where values should add to
         :type config: ConfigParser
-        '''
+        """
         defaults = data_defaults()
         self._add_to_config_section(config, 'data', defaults)
 
 
 @dataclass
 class MiscSection(Section):
-    '''
+    """
     Represents the misc section in the request configuration
-    '''
+    """
     atmos_timestep: int = None
     no_auto_deactivation: bool = False
     auto_deactivation_rules: str = ''
@@ -335,24 +335,24 @@ class MiscSection(Section):
 
     @property
     def items(self) -> Dict[str, Any]:
-        '''
+        """
         Returns all items of the misc section as a dictionary.
 
         :return: Items as dictionary
         :rtype: Dict[str, Any]
-        '''
+        """
         return asdict(self)
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'MiscSection':
-        '''
+        """
         Loads the misc section of a request configuration.
 
         :param config: Parser for the request configuration
         :type config: ConfigParser
         :return: New misc section
         :rtype: MiscSection
-        '''
+        """
         model_id = config.get('metadata', 'model_id')
         values = misc_defaults(model_id)
         if config.has_section('misc'):
@@ -361,46 +361,46 @@ class MiscSection(Section):
         return MiscSection(**values)
 
     def add_to_config(self, config: ConfigParser, model_id: str) -> None:
-        '''
+        """
         Adds values defined by the misc section to given configuration.
 
         :param config: Configuration where values should add to
         :type config: ConfigParser
         :param model_id: Model ID used to get default values
         :type model_id: str
-        '''
+        """
         defaults = misc_defaults(model_id)
         self._add_to_config_section(config, 'misc', defaults)
 
 
 @dataclass
 class InventorySection(Section):
-    '''
+    """
     Represents the inventory section in the request configuration
-    '''
+    """
     inventory_check: bool = False
     inventory_database_location: str = ''
 
     @property
     def items(self) -> Dict[str, Any]:
-        '''
+        """
         Returns all items of the inventory section as a dictionary.
 
         :return: Items as dictionary
         :rtype: Dict[str, Any]
-        '''
+        """
         return asdict(self)
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'InventorySection':
-        '''
+        """
         Loads the inventory section of a request configuration.
 
         :param config: Parser for the request configuration
         :type config: ConfigParser
         :return: New inventory section
         :rtype: InventorySection
-        '''
+        """
         values = inventory_defaults()
         if config.has_section('inventory'):
             config_items = load_types(dict(config.items('inventory')))
@@ -408,21 +408,21 @@ class InventorySection(Section):
         return InventorySection(**values)
 
     def add_to_config(self, config: ConfigParser) -> None:
-        '''
+        """
         Adds values defined by the inventory section to given configuration.
 
         :param config: Configuration where values should add to
         :type config: ConfigParser
-        '''
+        """
         defaults = inventory_defaults()
         self._add_to_config_section(config, 'inventory', defaults)
 
 
 @dataclass
 class ConversionSection(Section):
-    '''
+    """
     Represents the conversion section in the request configuration
-    '''
+    """
     skip_extract: bool = False
     skip_extract_validation: bool = False
     skip_configure: bool = False
@@ -437,24 +437,24 @@ class ConversionSection(Section):
 
     @property
     def items(self) -> Dict[str, Any]:
-        '''
+        """
         Returns all items of the conversion section as a dictionary.
 
         :return: Items as dictionary
         :rtype: Dict[str, Any]
-        '''
+        """
         return asdict(self)
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'ConversionSection':
-        '''
+        """
         Loads the conversion section of a request configuration.
 
         :param config: Parser for the request configuration
         :type config: ConfigParser
         :return: New conversion section
         :rtype: ConversionSection
-        '''
+        """
         values = conversion_defaults()
         if config.has_section('conversion'):
             config_items = load_types(dict(config.items('conversion')), ['override_cycling_frequency'])
@@ -462,18 +462,18 @@ class ConversionSection(Section):
         return ConversionSection(**values)
 
     def add_to_config(self, config: ConfigParser) -> None:
-        '''
+        """
         Adds values defined by the conversion section to given configuration.
 
         :param config: Configuration where values should add to
         :type config: ConfigParser
-        '''
+        """
         defaults = conversion_defaults()
         self._add_to_config_section(config, 'conversion', defaults)
 
 
 def load_types(dictionary: Dict[str, str], as_list: List[str] = []) -> Dict[str, Any]:
-    '''
+    """
     Takes a dictionary of string entries and converts the values from str to the specific type,
     like int, list, float, str, bool, TimePoint. The given as_list keys specifies the values
     that should be converted as list of strings.
@@ -484,7 +484,7 @@ def load_types(dictionary: Dict[str, str], as_list: List[str] = []) -> Dict[str,
     :type as_list: List[str]
     :return: Dictionary containing values in the correct types
     :rtype: Dict[str, Any]
-    '''
+    """
     output = {}
     for key, value in dictionary.items():
         if as_list and key in as_list:
@@ -505,14 +505,14 @@ def load_types(dictionary: Dict[str, str], as_list: List[str] = []) -> Dict[str,
 
 
 def expand_paths(dictionary: Dict[str, Any], path_keys: List[str]) -> None:
-    '''
+    """
     Expands the paths in given dictionary for entries with given keys.
 
     :param dictionary: Dictionary
     :type dictionary: Dict[str, Any]
     :param path_keys: Keys of entries that paths should be expanded
     :type path_keys: List[str]
-    '''
+    """
     for path_key in path_keys:
         if path_key in dictionary:
             path = dictionary[path_key]

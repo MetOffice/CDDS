@@ -1,8 +1,8 @@
 # (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
-'''
+"""
 Module to calculate the defaults for the request configuration.
-'''
+"""
 import os
 
 from datetime import datetime
@@ -17,7 +17,7 @@ from typing import Dict, Any
 
 
 def metadata_defaults(model_id: str) -> Dict[str, Any]:
-    '''
+    """
     Calculates the defaults for the metadata section of
     the request configuration with given model ID.
 
@@ -25,7 +25,7 @@ def metadata_defaults(model_id: str) -> Dict[str, Any]:
     :type model_id: str
     :return: The defaults for the metadata section
     :rtype: Dict[str, Any]
-    '''
+    """
     license = PluginStore.instance().get_plugin().license()
     standard_names_dir = '{}/standard_names/'.format(os.environ['CDDS_ETC'])
 
@@ -42,7 +42,7 @@ def metadata_defaults(model_id: str) -> Dict[str, Any]:
 
 
 def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Dict[str, Any]:
-    '''
+    """
     Calculates the defaults for the common section of
     the request configuration with given model ID,
     experiment ID and variant label.
@@ -55,7 +55,7 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
     :type variant_label: str
     :return: The defaults for the common section
     :rtype: Dict[str, Any]
-    '''
+    """
     mip_table_dir = PluginStore.instance().get_plugin().mip_table_dir()
     data_version = datetime.utcnow().strftime('%Y-%m-%dT%H%MZ')
     root_ancil_dir = '{}/ancil/'.format(os.environ['CDDS_ETC'])
@@ -74,13 +74,13 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
 
 
 def data_defaults() -> Dict[str, Any]:
-    '''
+    """
     Calculates the defaults for the data section of
     the request configuration.
 
     :return: The defaults of the data section
     :rtype: Dict[str, Any]
-    '''
+    """
     return {
         'mass_data_class': 'crum',
         'streams': 'ap4 ap5 ap6 inm onm',
@@ -90,7 +90,7 @@ def data_defaults() -> Dict[str, Any]:
 
 
 def misc_defaults(model_id: str) -> Dict[str, Any]:
-    '''
+    """
     Calculates the defaults for the misc section of
     the request configuration with given model ID.
 
@@ -98,7 +98,7 @@ def misc_defaults(model_id: str) -> Dict[str, Any]:
     :type model_id: str
     :return: The defaults for the misc section
     :rtype: Dict[str, Any]
-    '''
+    """
     grid_info = PluginStore.instance().get_plugin().grid_info(model_id, GridType.ATMOS)
     atmos_timestep = grid_info.atmos_timestep
     data_request_base_dir = '{}/data_requests/CMIP6'.format(os.environ['CDDS_ETC'])
@@ -142,26 +142,26 @@ def misc_defaults(model_id: str) -> Dict[str, Any]:
 
 
 def inventory_defaults() -> Dict[str, Any]:
-    '''
+    """
     Calculates the defaults for the inventory section of
     the request configuration.
 
     :return: The defaults for the inventory section
     :rtype: Dict[str, Any]
-    '''
+    """
     return {
         'inventory_check': False
     }
 
 
 def conversion_defaults() -> Dict[str, Any]:
-    '''
+    """
     Calculates the defaults for the conversion section of
     the request configuration.
 
     :return: The defaults for the conversion section
     :rtype: Dict[str, Any]
-    '''
+    """
     facility = whereami()
     if facility == Facility.JASMIN:
         skip_extract = True
