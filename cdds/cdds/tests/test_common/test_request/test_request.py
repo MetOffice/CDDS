@@ -42,7 +42,7 @@ class TestReadRequest(TestCase):
         self.assertDictEqual(request.inventory.items, expected_test_inventory())
         self.assertDictEqual(request.conversion.items, expected_text_conversion())
 
-    @mock.patch('cdds.common.request.request_defaults.datetime')
+    @mock.patch('cdds.common.request.common_section.datetime')
     def test_read_minimal_request(self, datetime_mock):
         data_version = datetime.utcnow()
         datetime_mock.utcnow.return_value = data_version
@@ -69,7 +69,7 @@ class TestWriteRequest(TestCase):
     def tearDown(self) -> None:
         PluginStore.clean_instance()
 
-    @mock.patch('cdds.common.request.request_defaults.datetime')
+    @mock.patch('cdds.common.request.common_section.datetime')
     def test_write_request(self, datetime_mock):
         data_version = datetime(year=2023, month=9, day=21, hour=10, minute=34, second=12)
         datetime_mock.utcnow.return_value = data_version

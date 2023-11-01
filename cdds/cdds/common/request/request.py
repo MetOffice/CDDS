@@ -11,10 +11,13 @@ from dataclasses import dataclass
 from metomi.isodatetime.data import Calendar
 from typing import Dict, Any
 
-from cdds.common.request.request_section import (
-    MetadataSection, CommonSection, DataSection, GlobalAttributesSection, MiscSection,
-    InventorySection, ConversionSection
-)
+from cdds.common.request.metadata_section import MetadataSection
+from cdds.common.request.common_section import CommonSection
+from cdds.common.request.data_section import DataSection
+from cdds.common.request.attributes_section import GlobalAttributesSection
+from cdds.common.request.misc_section import MiscSection
+from cdds.common.request.inventory_section import InventorySection
+from cdds.common.request.conversion_section import ConversionSection
 from cdds.common.plugins.plugin_loader import load_plugin
 
 

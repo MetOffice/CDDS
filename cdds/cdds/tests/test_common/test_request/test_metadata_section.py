@@ -4,13 +4,37 @@ import unittest
 
 from configparser import ConfigParser
 from metomi.isodatetime.data import TimePoint
-from unittest import TestCase, mock
+from unittest import TestCase
 
-from cdds.common.platforms import Facility
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.cmip6.cmip6_plugin import CMIP6_LICENSE
-from cdds.common.request.request_section import MetadataSection
+from cdds.common.request.metadata_section import MetadataSection, metadata_defaults
+
+
+class TestMetadataDefaults(TestCase):
+    def setUp(self) -> None:
+        load_plugin('CMIP6')
+        self.model_id = 'UKESM1-0-LL'
+
+    def tearDown(self) -> None:
+        PluginStore.clean_instance()
+
+    def test_defaults(self):
+        expected_defaults = {
+            'calendar': '360_day',
+            'child_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
+            'license': CMIP6_LICENSE,
+            'parent_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
+            'parent_model_id': self.model_id,
+            'parent_time_units': 'days since 1850-01-01',
+            'standard_names_dir': '/home/h03/cdds/etc/standard_names/',
+            'standard_names_version': 'latest',
+        }
+
+        defaults = metadata_defaults(self.model_id)
+
+        self.assertDictEqual(defaults, expected_defaults)
 
 
 class TestMetadataSection(TestCase):
@@ -76,9 +100,7 @@ class TestMetadataSection(TestCase):
 
         self.assertDictEqual(metadata.items, expected_items)
 
-    @mock.patch('cdds.common.request.request_defaults.whereami')
-    def test_from_config_only_defaults(self, whereami_mock):
-        whereami_mock.return_value = Facility.MET_OFFICE
+    def test_from_config_only_defaults(self):
         config = ConfigParser()
         config.add_section('metadata')
         config.set('metadata', 'model_id', 'HadGEM3-GC31-LL')
@@ -109,9 +131,7 @@ class TestMetadataSection(TestCase):
         self.assertEqual(metadata.model_id, 'HadGEM3-GC31-LL')
         self.assertEqual(metadata.model_type, [])
 
-    @mock.patch('cdds.common.request.request_defaults.whereami')
-    def test_from_config(self, whereami_mock):
-        whereami_mock.return_value = Facility.MET_OFFICE
+    def test_from_config(self):
         config = ConfigParser()
         config.add_section('metadata')
         config.set('metadata', 'branch_date_in_child', '1999-01-01')
