@@ -437,9 +437,9 @@ class Variable(object):
             for (coord, axis_direction) in self._matched_coords:
                 if coord.standard_name == 'forecast_reference_time':
                     # this is populated from mip_convert config file
-                    dt = [int(v) for v in self._variable_metadata.reference_time.split('-')]
+                    dt = [int(v) for v in self._variable_metadata.reference_time.split('T')[0].split('-')]
                     reftime_units = 'days since {}-{:02d}-{:02d}'.format(
-                        *[int(v) for v in self._variable_metadata.base_date.split('-')])
+                        *[int(v) for v in self._variable_metadata.base_date.split('T')[0].split('-')])
                     reftime_calendar = self._variable_metadata.calendar
                     # not sure why including the time {:02d}:{:02d}:{:02d} upsets CMOR in the above, but it does
                     coord.points = [cf_units.date2num(datetime.datetime(*dt), reftime_units, reftime_calendar)]

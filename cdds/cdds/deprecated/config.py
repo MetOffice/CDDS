@@ -743,3 +743,7 @@ class CDDSConfigGeneral(PythonConfig):
             Name of the base directory.
         """
         return self.value('transfer_local', 'base_dir', str)
+
+    @property
+    def reference_time(self):
+        return self.request.reference_time
