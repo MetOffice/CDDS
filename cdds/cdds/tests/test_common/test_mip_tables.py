@@ -16,7 +16,8 @@ class TestMipTables(unittest.TestCase):
 
     def test_all_tables(self):
         mip_tables = MipTables(self._mip_table)
-        self.assertEqual(len(mip_tables.tables), 44)
+        # previously this test was counting the grids file in CMIP6
+        self.assertEqual(len(mip_tables.tables), 43)
 
     def test_version(self):
         mip_tables = MipTables(self._mip_table)

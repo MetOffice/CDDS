@@ -62,6 +62,7 @@ class MIPConfig(JSONConfig):
 
     def __init__(self, read_path):
         self.config = None
+        self._filename = os.path.basename(read_path)
         super(MIPConfig, self).__init__(read_path)
         self._axes = None
 
@@ -76,6 +77,10 @@ class MIPConfig(JSONConfig):
         return self.config['Header']['mip_era']
 
     @property
+    def filename_prefix(self):
+        return self._filename.split('_')[0]
+
+    @property
     def id(self):
         """
         Return the |MIP table identifier|.
@@ -83,7 +88,7 @@ class MIPConfig(JSONConfig):
         :return: the |MIP table identifier|
         :rtype: string
         """
-        return self.config['Header']['table_id'].split()[1]
+        return self.config['Header']['table_id'].split()[-1]
 
     @property
     def name(self):
@@ -94,7 +99,7 @@ class MIPConfig(JSONConfig):
         :rtype: string
         """
         mip_table_name = os.path.basename(self.read_path)
-        constructed_mip_table_name = '{}_{}.json'.format(self.mip_era, self.id)
+        constructed_mip_table_name = '{}_{}.json'.format(self.filename_prefix, self.id)
 
         if constructed_mip_table_name != mip_table_name:
             self.logger.warning(
@@ -145,7 +150,7 @@ class MIPConfig(JSONConfig):
         """
         if self._axes is None:
             mip_table_dir = os.path.dirname(self.read_path)
-            mip_axes_file_name = '{}_coordinate.json'.format(self.mip_era)
+            mip_axes_file_name = '{}_coordinate.json'.format(self.filename_prefix)
             mip_axes_path = os.path.join(mip_table_dir, mip_axes_file_name)
             self._axes = CoordinateConfig(mip_axes_path).axes
         return self._axes

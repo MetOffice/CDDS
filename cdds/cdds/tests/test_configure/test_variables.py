@@ -6,6 +6,7 @@ Tests for :mod:`variables.py`.
 """
 import os
 import unittest
+import unittest.mock
 
 from cdds.common.io import write_json
 from cdds.common.plugins.plugins import PluginStore
@@ -46,8 +47,10 @@ class TestRetrieveVariablesByGrid(unittest.TestCase):
         write_json(self.requested_variables_list_path,
                    requested_variables_list)
 
-    def test_retrieve_variables_by_grid(self):
-        output = retrieve_variables_by_grid(self.obj)
+    @unittest.mock.patch('os.path.exists')
+    def test_retrieve_variables_by_grid(self, mock_exists):
+        mock_exists = True
+        output = retrieve_variables_by_grid(self.obj, 'dummy_mip_table_location')
         # create atmos reference
         grid_id = 'atmos-native'
         grid = 'Native N216 grid; 432 x 324 longitude/latitude'
@@ -72,6 +75,36 @@ class TestRetrieveVariablesByGrid(unittest.TestCase):
             (grid_id_ocean, grid_ocean, grid_label_ocean, nom_res_ocean,
              substream)] = {
                  'stream_onm_grid-T': {'CMIP6_Omon': 'evs'}}
+
+        self.assertEqual(output, reference)
+
+    @unittest.mock.patch('os.path.exists', side_effect=[False, True, False, True])
+    def test_retrieve_variables_by_grid_generic_tables(self, mock_exists):
+        output = retrieve_variables_by_grid(self.obj, 'dummy_mip_table_location')
+        # create atmos reference
+        grid_id = 'atmos-native'
+        grid = 'Native N216 grid; 432 x 324 longitude/latitude'
+        grid_label = Cmip6GridLabel.from_name('native').label
+        grid_info = self.get_grid_info(GridType.ATMOS)
+        nominal_resolution = grid_info.nominal_resolution
+        substream = None
+        reference = {
+            (grid_id, grid, grid_label, nominal_resolution, substream): {
+                'stream_ap5': {'MIP_Amon': 'tas'}}}
+
+        # create ocean reference
+        grid_id_ocean = 'ocean-native'
+        grid_ocean = ('Native eORCA025 tripolar primarily 1/4 deg grid; '
+                      '1440 x 1205 longitude/latitude')
+        grid_label_ocean = Cmip6GridLabel.from_name('native').label
+        grid_info = self.get_grid_info(GridType.OCEAN)
+        nom_res_ocean = grid_info.nominal_resolution
+        substream = 'grid-T'
+        # Construct grid info via update function to include substream.
+        reference[
+            (grid_id_ocean, grid_ocean, grid_label_ocean, nom_res_ocean,
+             substream)] = {
+                 'stream_onm_grid-T': {'MIP_Omon': 'evs'}}
 
         self.assertEqual(output, reference)
 

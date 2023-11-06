@@ -62,7 +62,8 @@ class TestMain(unittest.TestCase):
         self.CMOR_license = self.arguments.license
         self.mip = 'CMIP'
         self.mip_era = 'CMIP6'
-        self.mip_table_dir = '/path/to/MIP/tables/'
+        # MIP tables now needed by configure to confirm that tables used exist
+        self.mip_table_dir = os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/01.00.29')
         self.model_id = 'UKESM1-0-LL'
         # Add ancil files and replacement coordinates file:
         self.arguments.add_ancil_files(self.model_id)

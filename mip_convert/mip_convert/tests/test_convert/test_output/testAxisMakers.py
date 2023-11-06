@@ -70,7 +70,8 @@ class TestAxisExamples(unittest.TestCase):
                         'dimensions': ' '.join(list(axes_dict.values()))
                     }
                 }
-            }
+            },
+            'CMIP5'
         )
         mip_variable = table.getVariable('var')
         return AxisMakerFactory(table, mip_variable, self)
