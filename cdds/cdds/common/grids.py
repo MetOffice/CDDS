@@ -250,6 +250,7 @@ def default_grid_ids():
         'GCLmon': ('atmos', 'native'),
         'LImon': ('atmos', 'native'),
         'Lmon': ('atmos', 'native'),
+        'LPmon': ('atmos', 'native'),
         'OBmon': ('ocean', 'native'),
         'OBmonLev': ('ocean', 'native'),
         'OP3hrPt': ('ocean', 'native'),
