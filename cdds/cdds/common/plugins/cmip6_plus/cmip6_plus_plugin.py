@@ -11,7 +11,7 @@ from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
 from cdds.common.plugins.base.base_plugin import BasePlugin, MipEra
 from cdds.common.plugins.base.base_models import BaseModelParameters
-from cdds.common.plugins.cmip6_plus.cimp6_plus_attributes import Cmip6PlusGlobalAttributes
+from cdds.common.plugins.cmip6_plus.cmip6_plus_attributes import Cmip6PlusGlobalAttributes
 from cdds.common.plugins.cmip6_plus.cmip6_plus_grid import Cmip6PlusGridLabel
 from cdds.common.plugins.cmip6_plus.cmip6_plus_models import Cmip6PlusModelsStore
 from cdds.common.plugins.cmip6_plus.cmip6_plus_streams import Cmip6PlusStreamStore
