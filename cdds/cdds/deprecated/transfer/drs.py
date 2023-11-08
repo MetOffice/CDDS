@@ -299,8 +299,6 @@ class DataRefSyntax(object):
             return False
         facets_to_match_dict = facet_builder_to_match.facets
         for attr in facets_to_match_dict:
-            if attr == 'sub_experiment_id':
-                continue
             if self._facets[attr] != facets_to_match_dict[attr]:
                 matches = False
                 break
