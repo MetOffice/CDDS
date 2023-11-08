@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2023, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -144,15 +144,11 @@ class CVConfig(JSONConfig):
             return self._UNKNOWN
         # Otherwise attempt to get parent activity id from parentage
         # dictionary
-        if mip_era == 'CMIP6':
-            parentage_dict = self._get_parentage_dictionary(info)
-            if parent_experiment_id not in parentage_dict:
-                error_message = 'Parent experiment id "{}" not found in parentage dictionary: "{}"'
-                raise RuntimeError(error_message.format(parent_experiment_id, parentage_dict))
-            return parentage_dict[parent_experiment_id]
-        else:
-            # Retained for compatibility with CMIP5 and other projects
-            return self._get_single_value(CVKey.PARENT_ACTIVITY_ID, info)
+        parentage_dict = self._get_parentage_dictionary(info)
+        if parent_experiment_id not in parentage_dict:
+            error_message = 'Parent experiment id "{}" not found in parentage dictionary: "{}"'
+            raise RuntimeError(error_message.format(parent_experiment_id, parentage_dict))
+        return parentage_dict[parent_experiment_id]
 
     def source(self, source_id):
         """

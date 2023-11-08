@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 
 from os import listdir
@@ -96,15 +96,15 @@ class MipTables(object):
         return self._variables[table]
 
     def _load_tables_from_directory(self, basedir):
+        FILE_SUFFIXES_TO_IGNORE = ['_CV.json', '_coordinate.json', '_grids.json', '_formula_terms.json']
         files = [f for f in listdir(basedir)
-                 if isfile(join(basedir, f)) and f != "CMIP6_CV.json"]
-
+                 if isfile(join(basedir, f)) and all([not f.endswith(i) for i in FILE_SUFFIXES_TO_IGNORE])]
         for filename in files:
             with open(join(basedir, filename)) as json_data:
                 try:
                     d = json.load(json_data)
                     if "Header" in d:
-                        table_name = d["Header"]["table_id"].split(" ")[1]
+                        table_name = d["Header"]["table_id"].split(" ")[-1]
                         if self.version is None:
                             self._version = d["Header"]["data_specs_version"]
                         self._tables[table_name] = d["variable_entry"]

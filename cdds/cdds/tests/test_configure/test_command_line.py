@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2022, Met Office.
+# (C) British Crown Copyright 2018-2023, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = no-member
@@ -62,7 +62,8 @@ class TestMain(unittest.TestCase):
         self.CMOR_license = self.arguments.license
         self.mip = 'CMIP'
         self.mip_era = 'CMIP6'
-        self.mip_table_dir = '/path/to/MIP/tables/'
+        # MIP tables now needed by configure to confirm that tables used exist
+        self.mip_table_dir = os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/01.00.29')
         self.model_id = 'UKESM1-0-LL'
         # Add ancil files and replacement coordinates file:
         self.arguments.add_ancil_files(self.model_id)

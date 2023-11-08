@@ -10,8 +10,8 @@ import os
 import sys
 
 from cdds.arguments import read_default_arguments
-from cdds.common import configure_logger, common_command_line_args, check_directory
-from cdds.deprecated.config import use_proc_dir, update_arguments_paths, update_log_dir
+from cdds.common import configure_logger, common_command_line_args, check_directory, root_dir_args
+from cdds.deprecated.config import use_proc_dir, update_arguments_paths, update_log_dir, update_arguments_for_proc_dir
 
 from cdds import __version__
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
@@ -140,6 +140,7 @@ def parse_transfer_common_args(arguments, description, script_name):
     # Validate the arguments.
     if arguments.use_proc_dir:
         request = read_request(arguments.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
+        update_arguments_for_proc_dir(arguments, request)
         arguments = use_proc_dir(arguments, request, COMPONENT)
 
     if arguments.output_dir is not None:
@@ -216,6 +217,7 @@ def check_args_move_in_mass(arguments):
                             'datasets found for this request will be operated on.'))
 
     common_command_line_args(parser, arguments.log_name, logging.INFO, __version__)
+    root_dir_args(parser, arguments.root_proc_dir, arguments.root_data_dir)
     args = parser.parse_args(user_arguments)
     arguments.add_user_args(args)
 
@@ -224,6 +226,7 @@ def check_args_move_in_mass(arguments):
     # Validate the arguments.
     if arguments.use_proc_dir:
         request = read_request(arguments.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
+        update_arguments_for_proc_dir(arguments, request, COMPONENT)
         arguments = use_proc_dir(arguments, request, COMPONENT)
 
     if arguments.output_dir is not None:
@@ -244,8 +247,7 @@ def transfer_common_command_line_args(parser):
     """
     parser.add_argument('request',
                         help='The full path to the JSON file containing information about the request.')
-    parser.add_argument('-c',
-                        '--root_config',
+    parser.add_argument('--root_config',
                         default=root_config(),
                         help='The root path to the directory containing the CDDS configuration files.')
     parser.add_argument('--simulate',

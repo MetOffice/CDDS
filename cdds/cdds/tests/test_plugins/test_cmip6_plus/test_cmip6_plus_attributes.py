@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 import unittest
 
-from cdds.common.plugins.cmip6_plus.cimp6_plus_attributes import Cmip6PlusGlobalAttributes, AttributeValidator
+from cdds.common.plugins.cmip6_plus.cmip6_plus_attributes import Cmip6PlusGlobalAttributes, AttributeValidator
 
 from unittest import TestCase
 

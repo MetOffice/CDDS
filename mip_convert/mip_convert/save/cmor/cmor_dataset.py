@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`cmor_dataset` module contains the code required to assemble
@@ -176,6 +176,9 @@ class Dataset(object):
             file_handle.write(json.dumps(self.items))
             file_handle.write('\n')
         FILES_TO_REMOVE.append(filename)
+        # log CMOR JSON file content
+        logger = logging.getLogger(__name__)
+        logger.debug('CMOR json file content: {}'.format(json.dumps(self.items)))
         return filename
 
     @property
@@ -222,11 +225,19 @@ class Dataset(object):
     @property
     def _CMOR_filenames(self):
         mip_era = self._user_config.mip_era
+        tables_directory = self._user_config.inpath
         CMOR_filenames = {
-            '_controlled_vocabulary_file': '{}_CV.json'.format(mip_era),
-            '_AXIS_ENTRY_FILE': '{}_coordinate.json'.format(mip_era),
-            '_FORMULA_VAR_FILE': '{}_formula_terms.json'.format(mip_era)
+            '_controlled_vocabulary_file': '{}_CV.json',
+            '_AXIS_ENTRY_FILE': '{}_coordinate.json',
+            '_FORMULA_VAR_FILE': '{}_formula_terms.json'
         }
+        for k, v in CMOR_filenames.items():
+            mip_era_path = os.path.join(tables_directory, v.format(mip_era))
+            if os.path.exists(mip_era_path):
+                CMOR_filenames[k] = v.format(mip_era)
+            else:
+                CMOR_filenames[k] = v.format('MIP')
+
         return CMOR_filenames
 
     def _branch_time(self, branch_time_name, branch_date_name, base_date_name):
