@@ -97,4 +97,4 @@ class GCModelDevPlugin(CddsPlugin):
         return GCMODEL_DEV_LICENSE
 
     def mip_table_dir(self) -> str:
-        return '{}/mip_tables/GCModelDev'.format(os.environ['CDDS_ETC'])
+        return '{}/mip_tables/GCModelDev/0.0.13'.format(os.environ['CDDS_ETC'])

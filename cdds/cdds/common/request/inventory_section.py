@@ -5,6 +5,7 @@ from dataclasses import dataclass, asdict
 from typing import Dict, Any
 
 from cdds.common.request.request_section import Section, load_types
+from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 
 
 def inventory_defaults() -> Dict[str, Any]:
@@ -53,6 +54,11 @@ class InventorySection(Section):
             config_items = load_types(dict(config.items('inventory')))
             values.update(config_items)
         return InventorySection(**values)
+
+    @staticmethod
+    def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'InventorySection':
+        defaults = inventory_defaults()
+        return InventorySection(**defaults)
 
     def add_to_config(self, config: ConfigParser) -> None:
         """

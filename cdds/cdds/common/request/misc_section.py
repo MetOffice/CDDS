@@ -7,6 +7,7 @@ from dataclasses import dataclass, field, asdict
 from typing import List, Dict, Any
 
 from cdds.common.request.request_section import Section, load_types
+from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
 
@@ -108,6 +109,12 @@ class MiscSection(Section):
             config_items = load_types(dict(config.items('misc')), ['mips_to_contribute_to'])
             values.update(config_items)
         return MiscSection(**values)
+
+    @staticmethod
+    def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'MiscSection':
+        model_id = suite_info.data['model-id']
+        defaults = misc_defaults(model_id)
+        return MiscSection(**defaults)
 
     def add_to_config(self, config: ConfigParser, model_id: str) -> None:
         """

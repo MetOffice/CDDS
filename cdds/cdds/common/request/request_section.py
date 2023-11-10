@@ -10,6 +10,8 @@ from configparser import ConfigParser
 from metomi.isodatetime.parsers import TimePointParser
 from typing import Dict, Any, List, Optional
 
+from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
+
 
 TIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
@@ -43,10 +45,10 @@ class Section(object, metaclass=ABCMeta):
         """
         pass
 
-    # @staticmethod
-    # @abstractmethod
-    # def from_rose_suite_info(rose_suite_info: Dict[str, str]) -> 'Section':
-    #     pass
+    @staticmethod
+    @abstractmethod
+    def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'Section':
+        pass
 
     @abstractmethod
     def add_to_config(self, config: ConfigParser, *args: Optional[Any]) -> None:
@@ -125,6 +127,10 @@ def expand_paths(dictionary: Dict[str, Any], path_keys: List[str]) -> None:
     for path_key in path_keys:
         if path_key in dictionary:
             path = dictionary[path_key]
-            if path.startswith('~') or '$' in path:
-                path = os.path.expanduser(os.path.expandvars(path))
-            dictionary[path_key] = os.path.abspath(path)
+            dictionary[path_key] = expand_path(path)
+
+
+def expand_path(path: str) -> str:
+    if path.startswith('~') or '$' in path:
+        path = os.path.expanduser(os.path.expandvars(path))
+    return os.path.abspath(path)

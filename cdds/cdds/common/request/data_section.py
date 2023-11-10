@@ -3,9 +3,11 @@
 from configparser import ConfigParser
 from dataclasses import dataclass, asdict, field
 from metomi.isodatetime.data import TimePoint
+from metomi.isodatetime.parsers import TimePointParser
 from typing import List, Dict, Any
 
 from cdds.common.request.request_section import Section, load_types, expand_paths
+from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 
 
 def data_defaults() -> Dict[str, Any]:
@@ -70,6 +72,26 @@ class DataSection(Section):
             expand_paths(config_items, 'variable_list_file')
             values.update(config_items)
         return DataSection(**values)
+
+    @staticmethod
+    def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'DataSection':
+        defaults = data_defaults()
+
+        data = DataSection(**defaults)
+        data.end_date = suite_info.end_date()
+        data.mass_data_class = arguments.mass_data_class
+        data.start_date = suite_info.start_date()
+        data.streams = arguments.streams
+
+        if arguments.end_date:
+            data.end_date = arguments.end_date
+
+        if arguments.start_date:
+            data.start_date = arguments.start_date
+
+        if arguments.mass_ensemble_member:
+            data.mass_ensemble_member = arguments.mass_ensemble_member
+        return data
 
     def add_to_config(self, config: ConfigParser) -> None:
         """

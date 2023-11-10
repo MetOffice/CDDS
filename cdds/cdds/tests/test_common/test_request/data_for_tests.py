@@ -172,7 +172,7 @@ def expected_test_minimal_common(data_version):
         'external_plugin': '',
         'external_plugin_location': '',
         'log_level': 'INFO',
-        'mip_table_dir': '/home/h03/cdds/etc/mip_tables/CMIP6/',
+        'mip_table_dir': '/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29/',
         'mode': 'strict',
         'package': 'round-1',
         'root_ancil_dir': '/home/h03/cdds/etc/ancil/',

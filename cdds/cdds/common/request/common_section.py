@@ -8,7 +8,8 @@ from configparser import ConfigParser
 from typing import Dict, Any
 
 from cdds import get_version
-from cdds.common.request.request_section import Section, load_types, expand_paths
+from cdds.common.request.request_section import Section, load_types, expand_paths, expand_path
+from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 from cdds.common.plugins.plugins import PluginStore
 
 
@@ -91,6 +92,22 @@ class CommonSection(Section):
         expand_paths(config_items, ['root_proc_dir', 'root_data_dir', 'root_ancil_dir'])
         values.update(config_items)
         return CommonSection(**values)
+
+    @staticmethod
+    def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'CommonSection':
+        model_id = suite_info.data['model-id']
+        experiment_id = suite_info.data['experiment-id']
+        variant_label = suite_info.data['variant-id']
+        defaults = common_defaults(model_id, experiment_id, variant_label)
+
+        common = CommonSection(**defaults)
+        common.external_plugin = arguments.external_plugin
+        common.external_plugin_location = arguments.external_plugin_location
+        common.mip_table_dir = suite_info.mip_table_dir()
+        common.package = arguments.package
+        common.root_proc_dir = expand_path(arguments.root_proc_dir)
+        common.root_data_dir = expand_path(arguments.root_data_dir)
+        return common
 
     def add_to_config(self, config: ConfigParser, model_id: str, experiment_id: str, variant_label: str) -> None:
         """

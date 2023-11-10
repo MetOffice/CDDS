@@ -8,6 +8,7 @@ from metomi.isodatetime.data import TimePoint
 from typing import Dict, List, Any
 
 from cdds.common.request.request_section import Section, load_types, expand_paths
+from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 from cdds.common.plugins.plugins import PluginStore
 
 
@@ -25,7 +26,6 @@ def metadata_defaults(model_id: str) -> Dict[str, Any]:
     standard_names_dir = '{}/standard_names/'.format(os.environ['CDDS_ETC'])
 
     return {
-        'calendar': '360_day',
         'child_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
         'license': license,
         'parent_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
@@ -44,7 +44,7 @@ class MetadataSection(Section):
     branch_date_in_child: TimePoint = None
     branch_date_in_parent: TimePoint = None
     branch_method: str = ''
-    child_base_date: str = ''
+    child_base_date: TimePoint = None
     calendar: str = ''
     experiment_id: str = ''
     institution_id: str = ''
@@ -92,11 +92,36 @@ class MetadataSection(Section):
         values.update(config_items)
         return MetadataSection(**values)
 
-    # @staticmethod
-    # def from_rose_suite_info(rose_suite_info: Dict[str, str]) -> 'Section':
-    #     values = {}
-    #
-    #     return MetadataSection(**values)
+    @staticmethod
+    def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'MetadataSection':
+        model_id = suite_info.data['model-id']
+        defaults = metadata_defaults(model_id)
+
+        metadata = MetadataSection(**defaults)
+        metadata.branch_method = suite_info.branch_method()
+        metadata.child_base_date = TimePoint(year=1850, month_of_year=1, day_of_month=1)
+        metadata.calendar = suite_info.data['calendar']
+        metadata.experiment_id = suite_info.data['experiment-id']
+        metadata.institution_id = suite_info.data['institution']
+        metadata.license = suite_info.license()
+        metadata.mip = suite_info.data['MIP']
+        metadata.mip_era = suite_info.data.get('mip-era', 'CMIP6')
+        metadata.sub_experiment_id = suite_info.data['sub-experiment-id']
+        metadata.variant_label = suite_info.data['variant-id']
+        metadata.model_id = model_id
+        metadata.model_type = suite_info.data['source-type'].split(',')
+
+        if suite_info.has_parent():
+            metadata.branch_date_in_child = suite_info.branch_date_in_child()
+            metadata.branch_date_in_parent = suite_info.branch_date_in_parent()
+            metadata.parent_base_date = TimePoint(year=1850, month_of_year=1, day_of_month=1)
+            metadata.parent_experiment_id = suite_info.data['parent-experiment-id']
+            metadata.parent_mip = suite_info.data['parent-experiment-mip']
+            metadata.parent_mip_era = 'CMIP6'
+            metadata.parent_model_id = suite_info.data['model-id']
+            metadata.parent_time_units = 'days since 1850-01-01'
+            metadata.parent_variant_label = suite_info.data['parent-variant-id']
+        return metadata
 
     def add_to_config(self, config: ConfigParser) -> None:
         """

@@ -30,7 +30,7 @@ class TestCommonDefaults(TestCase):
             'external_plugin': '',
             'external_plugin_location': '',
             'log_level': 'INFO',
-            'mip_table_dir': '/home/h03/cdds/etc/mip_tables/CMIP6/',
+            'mip_table_dir': '/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29/',
             'mode': 'strict',
             'root_ancil_dir': '/home/h03/cdds/etc/ancil/',
             'simulation': False,

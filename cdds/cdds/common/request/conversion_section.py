@@ -6,6 +6,7 @@ from typing import Dict, List, Any
 
 from cdds.common.platforms import Facility, whereami
 from cdds.common.request.request_section import Section, load_types
+from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 
 
 def conversion_defaults() -> Dict[str, Any]:
@@ -85,6 +86,11 @@ class ConversionSection(Section):
             config_items = load_types(dict(config.items('conversion')), ['override_cycling_frequency'])
             values.update(config_items)
         return ConversionSection(**values)
+
+    @staticmethod
+    def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'ConversionSection':
+        defaults = conversion_defaults()
+        return ConversionSection(**defaults)
 
     def add_to_config(self, config: ConfigParser) -> None:
         """

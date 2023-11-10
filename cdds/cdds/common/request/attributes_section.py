@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 from typing import Dict, Any
 
 from cdds.common.request.request_section import Section
+from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 
 
 @dataclass
@@ -37,6 +38,10 @@ class GlobalAttributesSection(Section):
         if config.has_section('netcdf_global_attributes'):
             values = dict(config.items('netcdf_global_attributes'))
             return GlobalAttributesSection(attributes=values)
+        return GlobalAttributesSection()
+
+    @staticmethod
+    def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'GlobalAttributesSection':
         return GlobalAttributesSection()
 
     def add_to_config(self, config: ConfigParser) -> None:

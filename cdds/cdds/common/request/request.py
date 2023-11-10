@@ -18,6 +18,8 @@ from cdds.common.request.attributes_section import GlobalAttributesSection
 from cdds.common.request.misc_section import MiscSection
 from cdds.common.request.inventory_section import InventorySection
 from cdds.common.request.conversion_section import ConversionSection
+from cdds.common.request.rose_suite.suite_info import RoseSuiteArguments, RoseSuiteInfo, load_rose_suite_info
+from cdds.common.request.rose_suite.validation import validate_rose_suite
 from cdds.common.plugins.plugin_loader import load_plugin
 
 
@@ -53,6 +55,18 @@ class Request:
             misc=MiscSection.from_config(config),
             inventory=InventorySection.from_config(config),
             conversion=ConversionSection.from_config(config)
+        )
+
+    @staticmethod
+    def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'Request':
+        return Request(
+            metadata=MetadataSection.from_rose_suite_info(suite_info, arguments),
+            netcdf_global_attributes=GlobalAttributesSection.from_rose_suite_info(suite_info, arguments),
+            common=CommonSection.from_rose_suite_info(suite_info, arguments),
+            data=DataSection.from_rose_suite_info(suite_info, arguments),
+            misc=MiscSection.from_rose_suite_info(suite_info, arguments),
+            inventory=InventorySection.from_rose_suite_info(suite_info, arguments),
+            conversion=ConversionSection.from_rose_suite_info(suite_info, arguments)
         )
 
     @property
@@ -189,6 +203,14 @@ def read_request(request_path: str) -> Request:
 
     request = Request.from_config(request_config)
     return request
+
+
+def read_request_from_rose_suite_info(svn_url: str, arguments: RoseSuiteArguments) -> Request:
+    suite_info = load_rose_suite_info(svn_url, arguments)
+    result = validate_rose_suite(suite_info)
+    if not result:
+        raise RuntimeError('One or more CRITICAL errors. See write_rose_suite_request_*.log file for details.')
+    return Request.from_rose_suite_info(suite_info, arguments)
 
 
 def load_cdds_plugins(request_config: ConfigParser) -> None:

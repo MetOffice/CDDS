@@ -1,6 +1,8 @@
 # (C) British Crown Copyright 2021, Met Office.
 # Please see LICENSE.rst for license details.
 import json
+import os
+import tempfile
 
 from typing import Any, Dict, Tuple
 
@@ -46,3 +48,18 @@ def write_json(json_file: str, data: Dict[str, Any], indent: int = 2, sort_keys:
     """
     with open(json_file, 'w') as file_handle:
         json.dump(data, file_handle, indent=indent, sort_keys=sort_keys, separators=separators, **kwargs)
+
+
+def delete_file(file_path: str) -> None:
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
+
+def write_into_temp_file(data: Any) -> str:
+    id, path = tempfile.mkstemp()
+    try:
+        with open(path, 'w') as temp_file:
+            temp_file.write(str(data))
+    except IOError:
+        raise IOError('Could not write into temp file: {}'.format(path))
+    return path

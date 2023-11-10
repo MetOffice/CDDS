@@ -22,7 +22,6 @@ class TestMetadataDefaults(TestCase):
 
     def test_defaults(self):
         expected_defaults = {
-            'calendar': '360_day',
             'child_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
             'license': CMIP6_LICENSE,
             'parent_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
@@ -107,7 +106,7 @@ class TestMetadataSection(TestCase):
 
         metadata = MetadataSection.from_config(config)
 
-        self.assertEqual(metadata.calendar, '360_day')
+        self.assertEqual(metadata.calendar, '')
         self.assertEqual(metadata.child_base_date, TimePoint(year=1850, month_of_year=1, day_of_month=1))
         self.assertEqual(metadata.license, CMIP6_LICENSE)
         self.assertEqual(metadata.parent_base_date, TimePoint(year=1850, month_of_year=1, day_of_month=1))
