@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2022, Met Office.
+# (C) British Crown Copyright 2018-2023, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 """
@@ -6,6 +6,7 @@ Tests for :mod:`variables.py`.
 """
 import os
 import unittest
+import unittest.mock
 
 from cdds.common.io import write_json
 from cdds.common.plugins.plugins import PluginStore
@@ -13,7 +14,7 @@ from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from cdds.common.variables import RequestedVariablesList
-from cdds.configure.variables import retrieve_variables_by_grid
+from cdds.configure.variables import retrieve_variables_by_grid, identify_mip_table_name
 from cdds.common import set_checksum
 
 
@@ -46,8 +47,10 @@ class TestRetrieveVariablesByGrid(unittest.TestCase):
         write_json(self.requested_variables_list_path,
                    requested_variables_list)
 
-    def test_retrieve_variables_by_grid(self):
-        output = retrieve_variables_by_grid(self.obj)
+    @unittest.mock.patch('os.path.exists')
+    def test_retrieve_variables_by_grid(self, mock_exists):
+        mock_exists = True
+        output = retrieve_variables_by_grid(self.obj, 'dummy_mip_table_location')
         # create atmos reference
         grid_id = 'atmos-native'
         grid = 'Native N216 grid; 432 x 324 longitude/latitude'
@@ -75,6 +78,36 @@ class TestRetrieveVariablesByGrid(unittest.TestCase):
 
         self.assertEqual(output, reference)
 
+    @unittest.mock.patch('os.path.exists', side_effect=[False, True, False, True])
+    def test_retrieve_variables_by_grid_generic_tables(self, mock_exists):
+        output = retrieve_variables_by_grid(self.obj, 'dummy_mip_table_location')
+        # create atmos reference
+        grid_id = 'atmos-native'
+        grid = 'Native N216 grid; 432 x 324 longitude/latitude'
+        grid_label = Cmip6GridLabel.from_name('native').label
+        grid_info = self.get_grid_info(GridType.ATMOS)
+        nominal_resolution = grid_info.nominal_resolution
+        substream = None
+        reference = {
+            (grid_id, grid, grid_label, nominal_resolution, substream): {
+                'stream_ap5': {'MIP_Amon': 'tas'}}}
+
+        # create ocean reference
+        grid_id_ocean = 'ocean-native'
+        grid_ocean = ('Native eORCA025 tripolar primarily 1/4 deg grid; '
+                      '1440 x 1205 longitude/latitude')
+        grid_label_ocean = Cmip6GridLabel.from_name('native').label
+        grid_info = self.get_grid_info(GridType.OCEAN)
+        nom_res_ocean = grid_info.nominal_resolution
+        substream = 'grid-T'
+        # Construct grid info via update function to include substream.
+        reference[
+            (grid_id_ocean, grid_ocean, grid_label_ocean, nom_res_ocean,
+             substream)] = {
+                 'stream_onm_grid-T': {'MIP_Omon': 'evs'}}
+
+        self.assertEqual(output, reference)
+
     def tearDown(self):
         PluginStore.clean_instance()
         filenames = [self.requested_variables_list_path]
@@ -85,6 +118,37 @@ class TestRetrieveVariablesByGrid(unittest.TestCase):
     def get_grid_info(self, grid_type):
         plugin = PluginStore.instance().get_plugin()
         return plugin.grid_info(self.model_id, grid_type)
+
+
+class TestIdentifyMIPTableName(unittest.TestCase):
+
+    @unittest.mock.patch('os.path.exists', side_effect=[True, False])
+    def test_specific(self, mock_exists):
+        mip_era = 'ERAX'
+        mip_table_directory = '/path/to/tables'
+        mip_table_id = 'tablename'
+        expected_table_name = 'ERAX_tablename'
+        table_name = identify_mip_table_name(mip_era, mip_table_directory, mip_table_id)
+
+        self.assertEqual(expected_table_name, table_name)
+
+    @unittest.mock.patch('os.path.exists', side_effect=[False, True])
+    def test_generic(self, mock_exists):
+        mip_era = 'ERAX'
+        mip_table_directory = '/path/to/tables'
+        mip_table_id = 'tablename'
+        expected_table_name = 'MIP_tablename'
+        table_name = identify_mip_table_name(mip_era, mip_table_directory, mip_table_id)
+
+        self.assertEqual(expected_table_name, table_name)
+
+    @unittest.mock.patch('os.path.exists', side_effect=[False, False])
+    def test_no_tables(self, mock_exists):
+        mip_era = 'ERAX'
+        mip_table_directory = '/path/to/tables'
+        mip_table_id = 'tablename'
+        expected_table_name = 'MIP_tablename'
+        self.assertRaises(RuntimeError, identify_mip_table_name, mip_era, mip_table_directory, mip_table_id)
 
 
 if __name__ == '__main__':

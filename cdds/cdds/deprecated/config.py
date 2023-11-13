@@ -324,7 +324,7 @@ def use_proc_dir(arguments, request, component):
         The name of the CDDS component
     """
     # Read and validate the general configuration file.
-    config_general = CDDSConfigGeneral(arguments.root_config, request)
+    config_general = CDDSConfigGeneral(arguments.root_config, request, arguments.root_proc_dir)
 
     # Determine the full paths to any inputs.
     if hasattr(arguments, 'requested_variables_list_file'):
@@ -344,7 +344,7 @@ class CDDSConfigGeneral(PythonConfig):
     Store information read from the general configuration file for CDDS.
     """
 
-    def __init__(self, root_config_directory, request):
+    def __init__(self, root_config_directory, request, root_proc_directory):
         """
         The general configuration file is named ``<mip_era>.cfg`` and
         must be located in the directory
@@ -359,8 +359,11 @@ class CDDSConfigGeneral(PythonConfig):
             The items required to construct the full paths to the
             data and proc directories, see
             :func:`cdds.common.construct_string_from_facet_string`.
+        root_proc_dir: str
+            root proc directory
         """
         self._root_config_directory = root_config_directory
+        self._root_proc_directory = root_proc_directory
         self.request = request
         super(CDDSConfigGeneral, self).__init__(self._read_path)
 
@@ -385,10 +388,6 @@ class CDDSConfigGeneral(PythonConfig):
     @property
     def _root_data_directory(self):
         return self.value('locations', 'dataroot', str)
-
-    @property
-    def _root_proc_directory(self):
-        return self.value('locations', 'procroot', str)
 
     @property
     def _root_ancil_directory(self):

@@ -79,8 +79,8 @@ class TestSendToMassFunctional(unittest.TestCase):
         self.log_filename = (
             '{0}_{1}.log'.format(self.log_name_base, self.log_datestamp))
         command = ('send_to_mass --simulate -l {log_name} -q {request}'
-                   ' -c .'.format(request=self.request_file,
-                                  log_name=self.log_name_base))
+                   ' --root_config .'.format(request=self.request_file,
+                                             log_name=self.log_name_base))
         sys.argv = command.split()
 
         if not os.path.exists(config_dir):

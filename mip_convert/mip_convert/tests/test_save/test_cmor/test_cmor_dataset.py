@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = unused-argument
@@ -7,6 +7,7 @@ Tests for cmor_dataset.py.
 """
 from io import StringIO
 import json
+import os
 from textwrap import dedent
 import unittest
 
@@ -25,6 +26,7 @@ class TestDataset(unittest.TestCase):
     """
 
     def setUp(self):
+        self.maxDiff = None
         load_plugin()
         # Setup 'user_config'.
         self.activity_id_user = 'DCPP'
@@ -36,6 +38,7 @@ class TestDataset(unittest.TestCase):
         self.history = software_versions()[21:]  # Ignore timestamp.
         self.institution_id = 'MOHC'
         self.mip_era = 'CMIP6'
+        self.mip_table_dir = os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/01.00.29')
         self.parent_base_date = '2001-01-01T00:00:00'
         self.source_id = 'HadGEM3-GC31-LL'
         self.source_type_user = 'AOGCM AER BGC'
@@ -51,7 +54,7 @@ class TestDataset(unittest.TestCase):
                                                    self.forcing_index)
         self._user_config_contents = (
             '[cmor_setup]\n'
-            'mip_table_dir:mip_table_dir\n'
+            'mip_table_dir:{mip_table_dir}\n'
             '[cmor_dataset]\n'
             'branch_date_in_parent:{branch_date_in_parent}\n'
             'branch_method:{branch_method}\n'
@@ -83,6 +86,7 @@ class TestDataset(unittest.TestCase):
             'experiment_id': self.experiment_id,
             'institution_id': self.institution_id,
             'mip_era': self.mip_era,
+            'mip_table_dir': self.mip_table_dir,
             'parent_base_date': self.parent_base_date,
             'parent_experiment_id': self.parent_experiment_id,
             'source_id': self.source_id,

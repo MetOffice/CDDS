@@ -1,9 +1,10 @@
-# (C) British Crown Copyright 2009-2022, Met Office.
+# (C) British Crown Copyright 2009-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 A set of classes to represent MIP table entities in object form.
 """
 import json
+import os
 import regex as re
 
 
@@ -20,7 +21,10 @@ def _copy_atts(table_dict):
     make them look like an old style mip table.
     """
     table_dict['atts'] = table_dict['Header']
-    table_dict['atts']['project_id'] = table_dict['Header']['mip_era']
+    try:
+        table_dict['atts']['project_id'] = table_dict['Header']['mip_era']
+    except KeyError:
+        pass
     table_dict['vars'] = table_dict['variable_entry']
     table_dict['axes'] = table_dict['axis_entry']
 
@@ -62,7 +66,8 @@ class MipTableFactory(object):
             match = pattern.match(table_name)
             coordinate_name = table_name.replace(match.group(1), 'coordinate')
             axes_path = self.path_checker.fullFileName(coordinate_name)
-            table_dict.update(_read_json(axes_path))
+            axes_dict = _read_json(axes_path)
+            table_dict['axis_entry'] = axes_dict['axis_entry']
             _copy_atts(table_dict)
         else:
             table_dict = self.parser.parseMipTable(table_path)
@@ -73,7 +78,8 @@ class MipTableFactory(object):
         loads a table with the name table_name
         """
         table_dict = self._read_table_dict(table_name)
-        table = MipTable(table_dict, table_name.endswith('.json'))
+        table_prefix = os.path.basename(table_name).split('_')[0]
+        table = MipTable(table_dict, table_prefix, table_name.endswith('.json'))
         self.tables[table_name] = table
 
     def getTable(self, table_name):
@@ -92,14 +98,16 @@ class MipTable(object):
     This is an incomplete implementation and is simply enough to get going
     """
 
-    def __init__(self, parsed_input, is_json=False):
+    def __init__(self, parsed_input, table_prefix, is_json=False, ):
         """
         return a MipTable based on parsed_input
           parsed_input  - a hierarchical dictionary representation of the
                           table contents
+          table_prefix  - prefix used for table names
         """
         self.input = parsed_input
         self.is_json = is_json
+        self.table_prefix = table_prefix
 
     @property
     def _variables(self):
@@ -111,7 +119,10 @@ class MipTable(object):
     @property
     def project_id(self):
         """return the project id of this table"""
-        return self.input['atts']['project_id']
+        try:
+            return self.input['atts']['project_id']
+        except KeyError:
+            return self.table_prefix
 
     @property
     def table_id(self):
