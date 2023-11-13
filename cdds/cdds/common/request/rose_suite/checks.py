@@ -1,5 +1,8 @@
-# (C) British Crown Copyright 2020-2022, Met Office.
+# (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
+"""
+Module to provide checks for values defined in the rose-suite.info
+"""
 import logging
 import time
 
@@ -33,9 +36,8 @@ class RoseSuiteChecks(object):
         Checks all source types of a rose suite. The controlled vocabulary
         contains the list of allowed source types for the rose suite.
 
-        Returns
-        -------
-        : cdds.common.validation.BaseResult
+        :return: Result of the checks
+        :rtype: BaseCheckResult
         """
         rose_source_types = self._rose_suite.data[ROSE_SUITE_SOURCE_TYPE].split(",")
         allowed_source_types = self._cv_config.allowed_source_types(self._experiment_id)
@@ -44,19 +46,14 @@ class RoseSuiteChecks(object):
 
     def check(self, keys_to_check: Dict[str, str]) -> List[BaseCheckResult]:
         """
-        Checks all rose suite values referring by given keys using the
-        controlled vocabulary as reference.
+        Checks all rose suite values referring by given keys using the controlled vocabulary
+        as reference.
 
-        Parameters
-        ----------
-        keys_to_check: dict
-            a mapping of rose suite keys and controlled vocabulary keys that
-            refer to the values that should be checked.
-
-        Returns
-        -------
-        :bool
-            Have all checks passed?
+        :param keys_to_check: A mapping of rose suite keys and controlled vocabulary keys that
+            refers to the values that should be checked.
+        :type keys_to_check: Dict[str, str]
+        :return: Have all checks passed?
+        :rtype: bool
         """
         checks = self._get_checks()
         return [self._run_check(suite_key, cv_key, checks[suite_key])
@@ -92,9 +89,8 @@ class ChecksFactory(object):
         """
         Returns a check function that checks if a date has the given year.
 
-        Returns
-        -------
-        :function
+        :return: Check function
+        :rtype: Callable[[str, str], BaseCheckResult]
         """
         def check(date: str, year: str) -> BaseCheckResult:
             suite_year = '' if not date else str(time.strptime(date, '%Y-%m-%d').tm_year)
@@ -111,9 +107,8 @@ class ChecksFactory(object):
         Returns a check function that checks if a year is exactly one year
         after another year or if the reference year is 'present'.
 
-        Returns
-        -------
-        :function
+        :return: Check function
+        :rtype: Callable[[str, str], BaseCheckResult]
         """
         def check(year_to_check: str, reference_year: str) -> BaseCheckResult:
             if '' in [year_to_check, reference_year] or 'present' in reference_year:
@@ -130,9 +125,8 @@ class ChecksFactory(object):
         """
         Returns a check function that checks if two parents are the same
 
-        Returns
-        -------
-        :function
+        :return: Check function
+        :rtype: Callable[[str, str], BaseCheckResult]
         """
         def check(parent_to_check: str, reference_parent: str) -> BaseCheckResult:
             normalized_parent = 'no parent' if parent_to_check == 'None' else parent_to_check
@@ -148,9 +142,8 @@ class ChecksFactory(object):
         Returns a check function that checks if each value in a list of values represent
         as a string (separated by commas) is allowed.
 
-        Returns
-        -------
-        :function
+        :return: Check function
+        :rtype: Callable[[str, str], BaseCheckResult]
         """
         def check(values_string: str, allowed_values: List[str]) -> BaseCheckResult:
             passed = all([e in values_string.split(",") for e in allowed_values])
@@ -165,9 +158,8 @@ class ChecksFactory(object):
         """
         Returns a check function that checks if a value is allowed.
 
-        Returns
-        -------
-        :function
+        :return: Check function
+        :rtype: Callable[[str, str], BaseCheckResult]
         """
         def check(value: str, allowed_values: List[str]) -> BaseCheckResult:
             return cls._make_result(value in allowed_values,
@@ -181,9 +173,8 @@ class ChecksFactory(object):
         """
         Returns a check function that checks if a value is allowed.
 
-        Returns
-        -------
-        :function
+        :return: Check function
+        :rtype: Callable[[str, str], BaseCheckResult]
         """
         def check(value: str, allowed_value: str) -> BaseCheckResult:
             return cls._make_result(value in allowed_value,
@@ -197,9 +188,8 @@ class ChecksFactory(object):
         """
         Returns  a check function that checks if each source type is allowed
 
-        Returns
-        -------
-        :function
+        :return: Check function
+        :rtype: Callable[[str, str], BaseCheckResult]
         """
         def check(source_types: List[str], allowed_source_types: List[str]) -> BaseCheckResult:
             passed = all([i in allowed_source_types for i in source_types])
@@ -222,56 +212,170 @@ class Messages:
 
     @classmethod
     def source_types_failed(cls, allowed_types: List[str]) -> str:
+        """
+        Returns the message if the check of the source types failed.
+
+        :param allowed_types: Allowed source types
+        :type allowed_types: List[str]
+        :return: Failed message
+        :rtype: str
+        """
         return 'Not all source types are allowed. Only allow: {}'.format(', '.join(allowed_types))
 
     @classmethod
     def source_types_passed(cls) -> str:
+        """
+        Returns the message if the check of the source types passed.
+
+        :return: Succeed message
+        :rtype: str
+        """
         return 'All source types are allowed and supported'
 
     @classmethod
     def value_allowed_failed(cls, actual: str, allowed_values: List[str]) -> str:
+        """
+        Returns the message if the checked value is not allowed.
+
+        :param actual: Value that was checked
+        :type actual: str
+        :param allowed_values: Allowed values
+        :type allowed_values: List[str]
+        :return: Failed message
+        :rtype: str
+        """
         return 'Value "{}" must be in "[{}]"'.format(actual, ', '.join(allowed_values))
 
     @classmethod
     def value_allowed_passed(cls) -> str:
+        """
+        Returns the message if the checked value is allowed.
+
+        :return: Succeed message
+        :rtype: str
+        """
         return 'Value is valid'
 
     @classmethod
     def mip_allowed_failed(cls, actual: str, allowed_value: str) -> str:
+        """
+        Returns the message if the checked MIP is not allowed.
+
+        :param actual: MIP value that was checked
+        :type actual: str
+        :param allowed_value: Allowed value
+        :type allowed_value: str
+        :return: Failed message
+        :rtype: str
+        """
         return 'Value {} does not match activity-id from CV. Expected {}'.format(actual, allowed_value)
 
     @classmethod
     def mip_allowed_passed(cls) -> str:
+        """
+        Returns the message if the checked MIP is allowed.
+
+        :return: Succeed message
+        :rtype: str
+        """
         return 'MIP is valid'
 
     @classmethod
     def all_values_in_failed(cls, actuals_as_string: str, allowed_elements: List[str]) -> str:
+        """
+        Returns the message if the checked values are not allowed.
+
+        :param actuals_as_string: Values that has been checked as string
+        :type actuals_as_string: str
+        :param allowed_elements: Allowed values
+        :type allowed_elements: str
+        :return: Failed message
+        :rtype: str
+        """
         return 'All values in "[{}]" must also be in "{}"'.format(', '.join(allowed_elements), actuals_as_string)
 
     @classmethod
     def all_values_in_passed(cls) -> str:
+        """
+        Returns the message if the checked values are allowed.
+
+        :return: Succeed message
+        :rtype: str
+        """
         return 'Values are all valid'
 
     @classmethod
     def parent_failed(cls, actual: str, expected: str) -> str:
+        """
+        Returns the message if the checked parent does not equal with the expected parent.
+
+        :param actual: Parent that has been checked
+        :type actual: str
+        :param expected: Expected parent
+        :type expected: str
+        :return: Failed message
+        :rtype: str
+        """
         return 'Parent {} is not valid for this experiment. Expect: {}'.format(actual, expected)
 
     @classmethod
     def parent_passed(cls) -> str:
+        """
+        Returns the message if check of the parent passed.
+
+        :return: Succeed message
+        :rtype: str
+        """
         return 'Parent is set correctly.'
 
     @classmethod
     def one_year_after_failed(cls, actual: str, reference: str) -> str:
+        """
+        Returns the message if the checked year is not one year after the reference year.
+
+        :param actual: Year that has been checked
+        :type actual: str
+        :param reference: Reference year
+        :type reference: str
+        :return: Failed message
+        :rtype: str
+        """
         return 'Year of {} must be exactly one year after {}'.format(actual, reference)
 
     @classmethod
     def one_year_after_passed(cls, actual: str) -> str:
+        """
+        Returns the message if the checked parent does not equal with the expected parent.
+
+        :param actual: Year that has been checked
+        :type actual: str
+        :return: Succeed message
+        :rtype: str
+        """
         return 'Year of date {} is valid.'.format(actual)
 
     @classmethod
     def year_failed(cls, actual: str, expected: str) -> str:
+        """
+        Returns the message if the checked year does not equal with the expected year.
+
+        :param actual: Year that has been checked
+        :type actual: str
+        :param expected: Expected year
+        :type expected: str
+        :return: Failed message
+        :rtype: str
+        """
         return 'Year of date {} must be equal to {}.'.format(actual, expected)
 
     @classmethod
     def year_passed(cls, actual: str) -> str:
+        """
+        Returns the message if the check of the year passed.
+
+        :param actual: Year that has been checked
+        :type actual: str
+        :return: Succeed message
+        :rtype: str
+        """
         return 'Year of date {} is valid.'.format(actual)

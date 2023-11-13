@@ -1,5 +1,8 @@
 # (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
+"""
+Module to provide validation of the values in the rose-suite.info
+"""
 import os
 
 import cdds.common.request.rose_suite.checks as checkers
@@ -17,6 +20,14 @@ ROSE_SUITE_PROJECT = 'project'
 
 
 def validate_rose_suite(rose_suite: RoseSuiteInfo) -> bool:
+    """
+    Validates the values in the given rose-suite.info.
+
+    :param rose_suite: Values in rose-suite.info to check
+    :type rose_suite: RoseSuiteInfo
+    :return: Has validation passed?
+    :rtype: bool
+    """
     if ROSE_SUITE_PROJECT not in rose_suite.data.keys():
         raise ValueError('Missing required project field in rose suite info')
 
@@ -48,10 +59,8 @@ class RoseSuiteValidator:
 
         All entries will be checked before the result will be returned.
 
-        Returns
-        -------
-        : bool
-            True if all checks succeed otherwise False
+        :return: True if all checks succeed otherwise False
+        :rtype: bool
         """
         if not self._rose_suite or not self._rose_suite.data:
             return True
@@ -72,22 +81,17 @@ class KeyMappings:
     @classmethod
     def key_mappings(cls, rose_suite: RoseSuiteInfo, cv: CVConfig) -> Dict[str, str]:
         """
-        Searches for all keys that are in the rose suite and controlled vocabulary
+        Searches for all keys that are in the rose-suite.info and controlled vocabulary
         for an experiment and returns the corresponding key mappings.
 
-        Parameters
-        ----------
-        rose_suite :dict
-            rose suite dictionary
-        cv :mip_convert.configuration.cv_config.CVConfig:
-            the Controlled Vocabularies configuration containing all the information
+        :param rose_suite: The rose-suite.info
+        :type rose_suite: RoseSuiteInfo
+        :param cv: The Controlled Vocabularies configuration containing all the information
             on a particular experiment
-
-        Returns
-        -------
-        : dict
-          mappings of the keys (rose suite key - controlled vocabulary key) that
+        :type cv: CVConfig
+        :return: Mappings of the keys (rose suite key - controlled vocabulary key) that
           are contains in both - rose suite and controlled vocabulary
+        :rtype: Dict[str, str]
         """
         experiment_id = rose_suite.data[ROSE_SUITE_EXPERIMENT_ID]
         cv_experiment = cv.experiment_cv(experiment_id)

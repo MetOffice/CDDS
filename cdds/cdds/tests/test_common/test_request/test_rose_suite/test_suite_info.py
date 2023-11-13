@@ -1,6 +1,7 @@
-# (C) British Crown Copyright 2020-2022, Met Office.
+# (C) British Crown Copyright 2023-2023, Met Office.
 # Please see LICENSE.rst for license details.
 import os
+import unittest
 
 from metomi.isodatetime.parsers import TimePointParser
 from unittest import TestCase
@@ -187,3 +188,7 @@ class TestRoseSuiteInfo(TestCase):
         expected_mip_table_dir = '{}/mip_tables/CMIP6/01.00.29/'.format(os.environ['CDDS_ETC'])
         info = RoseSuiteInfo(self.data)
         self.assertEqual(info.mip_table_dir(), expected_mip_table_dir)
+
+
+if __name__ == '__main__':
+    unittest.main()

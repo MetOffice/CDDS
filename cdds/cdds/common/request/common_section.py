@@ -1,5 +1,8 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2023, Met Office.
 # Please see LICENSE.rst for license details.
+"""
+Module to handle the common section in the request configuration
+"""
 import os
 
 from dataclasses import dataclass, asdict
@@ -95,6 +98,16 @@ class CommonSection(Section):
 
     @staticmethod
     def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'CommonSection':
+        """
+        Loads the common section of a rose-suite.info.
+
+        :param suite_info: The rose-suite.info to be loaded
+        :type suite_info: RoseSuiteInfo
+        :param arguments: Additional arguments to be considered
+        :type arguments: RoseSuiteArguments
+        :return: New common section
+        :rtype: CommonSection
+        """
         model_id = suite_info.data['model-id']
         experiment_id = suite_info.data['experiment-id']
         variant_label = suite_info.data['variant-id']

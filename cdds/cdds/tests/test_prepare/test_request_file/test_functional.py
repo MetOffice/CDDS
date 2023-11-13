@@ -6,7 +6,7 @@ import tempfile
 import os
 import unittest
 
-from cdds.prepare.request_file.command_line import main_write_rose_suite_request_json
+from cdds.prepare.request_file.command_line import main_write_request
 
 from datetime import datetime
 from unittest.mock import patch
@@ -56,8 +56,10 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
         self.expected_request = self.read_file_lines(expected_file_cfg)
 
     @patch('cdds.common.get_log_datestamp')
+    @patch('cdds.common.request.common_section.get_version')
     @patch('cdds.common.request.common_section.datetime')
-    def test_functional(self, datetime_mock, mock_log_datestamp):
+    def test_functional(self, datetime_mock, mock_get_version, mock_log_datestamp):
+        mock_get_version.return_value = 'cdds_2.6.0'
         data_version = datetime(year=2023, month=9, day=21, hour=10, minute=34, second=12)
         datetime_mock.utcnow.return_value = data_version
         mock_log_datestamp.return_value = self.log_date
@@ -65,7 +67,7 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
             self.request_dir, self.request_file, self.suite, self.revision, self.package, self.root_proc_dir,
             self.root_data_dir)).split()
 
-        exit_code = main_write_rose_suite_request_json(arguments)
+        exit_code = main_write_request(arguments)
         request_cfg = self.read_request_file()
 
         self.assertEqual(exit_code, 0)
@@ -94,8 +96,10 @@ class TestWriteRequestForGCModelDev(FunctionalTestCase):
         self.expected_request = self.read_file_lines(expected_file_cfg)
 
     @patch('cdds.common.get_log_datestamp')
+    @patch('cdds.common.request.common_section.get_version')
     @patch('cdds.common.request.common_section.datetime')
-    def test_functional(self, datetime_mock, mock_log_datestamp):
+    def test_functional(self, datetime_mock, mock_get_version, mock_log_datestamp):
+        mock_get_version.return_value = 'cdds_2.6.0'
         mock_log_datestamp.return_value = self.log_date
         data_version = datetime(year=2023, month=9, day=21, hour=10, minute=34, second=12)
         datetime_mock.utcnow.return_value = data_version
@@ -104,7 +108,7 @@ class TestWriteRequestForGCModelDev(FunctionalTestCase):
             self.request_dir, self.request_file, self.suite, self.revision, self.package,
             self.root_proc_dir, self.root_data_dir)).split()
 
-        exit_code = main_write_rose_suite_request_json(arguments)
+        exit_code = main_write_request(arguments)
         request_cfg = self.read_request_file()
 
         self.assertEqual(exit_code, 0)

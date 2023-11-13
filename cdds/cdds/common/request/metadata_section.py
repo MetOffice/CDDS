@@ -1,5 +1,8 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2023, Met Office.
 # Please see LICENSE.rst for license details.
+"""
+Module to handle the metadata section in the request configuration
+"""
 import os
 
 from configparser import ConfigParser
@@ -94,6 +97,16 @@ class MetadataSection(Section):
 
     @staticmethod
     def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'MetadataSection':
+        """
+        Loads the metadata section of a rose-suite.info.
+
+        :param suite_info: The rose-suite.info to be loaded
+        :type suite_info: RoseSuiteInfo
+        :param arguments: Additional arguments to be considered
+        :type arguments: RoseSuiteArguments
+        :return: New metadata section
+        :rtype: MetadataSection
+        """
         model_id = suite_info.data['model-id']
         defaults = metadata_defaults(model_id)
 

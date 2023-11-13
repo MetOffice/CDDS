@@ -97,4 +97,10 @@ class GCModelDevPlugin(CddsPlugin):
         return GCMODEL_DEV_LICENSE
 
     def mip_table_dir(self) -> str:
+        """
+        Returns the path to the MIP table directory that should be used for GCModelDev
+
+        :return: Path to the MIP table directory
+        :rtype: str
+        """
         return '{}/mip_tables/GCModelDev/0.0.13'.format(os.environ['CDDS_ETC'])

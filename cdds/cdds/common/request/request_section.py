@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Module for defining and managing the request object
@@ -48,6 +48,16 @@ class Section(object, metaclass=ABCMeta):
     @staticmethod
     @abstractmethod
     def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'Section':
+        """
+        Loads the section of a rose-suite.info.
+
+        :param suite_info: The rose-suite.info to be loaded
+        :type suite_info: RoseSuiteInfo
+        :param arguments: Additional arguments to be considered
+        :type arguments: RoseSuiteArguments
+        :return: New section
+        :rtype: Section
+        """
         pass
 
     @abstractmethod

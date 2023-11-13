@@ -1,5 +1,8 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2023, Met Office.
 # Please see LICENSE.rst for license details.
+"""
+Module to handle the global attributes section in the request configuration
+"""
 from configparser import ConfigParser
 from dataclasses import dataclass, field
 from typing import Dict, Any
@@ -42,6 +45,16 @@ class GlobalAttributesSection(Section):
 
     @staticmethod
     def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'GlobalAttributesSection':
+        """
+        Loads the global attributes section of a rose-suite.info.
+
+        :param suite_info: The rose-suite.info to be loaded
+        :type suite_info: RoseSuiteInfo
+        :param arguments: Additional arguments to be considered
+        :type arguments: RoseSuiteArguments
+        :return: New global attributes section
+        :rtype: GlobalAttributesSection
+        """
         return GlobalAttributesSection()
 
     def add_to_config(self, config: ConfigParser) -> None:

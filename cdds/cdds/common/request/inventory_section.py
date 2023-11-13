@@ -1,5 +1,8 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2023, Met Office.
 # Please see LICENSE.rst for license details.
+"""
+Module to handle the inventory section in the request configuration
+"""
 from configparser import ConfigParser
 from dataclasses import dataclass, asdict
 from typing import Dict, Any
@@ -57,6 +60,16 @@ class InventorySection(Section):
 
     @staticmethod
     def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'InventorySection':
+        """
+        Loads the inventory section of a rose-suite.info.
+
+        :param suite_info: The rose-suite.info to be loaded
+        :type suite_info: RoseSuiteInfo
+        :param arguments: Additional arguments to be considered
+        :type arguments: RoseSuiteArguments
+        :return: New inventory section
+        :rtype: InventorySection
+        """
         defaults = inventory_defaults()
         return InventorySection(**defaults)
 

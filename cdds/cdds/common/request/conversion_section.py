@@ -1,5 +1,8 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2023, Met Office.
 # Please see LICENSE.rst for license details.
+"""
+Module to handle the conversion section in the request configuration
+"""
 from configparser import ConfigParser
 from dataclasses import dataclass, asdict, field
 from typing import Dict, List, Any
@@ -89,6 +92,16 @@ class ConversionSection(Section):
 
     @staticmethod
     def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'ConversionSection':
+        """
+        Loads the conversion section of a rose-suite.info.
+
+        :param suite_info: The rose-suite.info to be loaded
+        :type suite_info: RoseSuiteInfo
+        :param arguments: Additional arguments to be considered
+        :type arguments: RoseSuiteArguments
+        :return: New conversion section
+        :rtype: ConversionSection
+        """
         defaults = conversion_defaults()
         return ConversionSection(**defaults)
 

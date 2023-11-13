@@ -59,6 +59,17 @@ class Request:
 
     @staticmethod
     def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'Request':
+        """
+        Creates a new request object from given configuration containing all information
+        defined in the given rose-suite.info and into the arguments.
+
+        :param suite_info: The rose-suite.info that information should be loaded
+        :type suite_info: RoseSuiteInfo
+        :param arguments: Additional arguments to consider
+        :type arguments: RoseSuiteArguments
+        :return: New request object
+        :rtype: Request
+        """
         return Request(
             metadata=MetadataSection.from_rose_suite_info(suite_info, arguments),
             netcdf_global_attributes=GlobalAttributesSection.from_rose_suite_info(suite_info, arguments),
@@ -206,6 +217,17 @@ def read_request(request_path: str) -> Request:
 
 
 def read_request_from_rose_suite_info(svn_url: str, arguments: RoseSuiteArguments) -> Request:
+    """
+    Reads the information in the rose-suite.info pointed by the given Subversion URL and loads it
+    into a request object.
+
+    :param svn_url: The Subversion URL where the rose-suite.info is found that should be loaded
+    :type svn_url: str
+    :param arguments: Arguments that needed to be defined to load the rose-suite.info into a request
+    :type arguments: RoseSuiteArguments
+    :return: The information from the rose-suite.info loaded into the request object.
+    :rtype: Request
+    """
     suite_info = load_rose_suite_info(svn_url, arguments)
     result = validate_rose_suite(suite_info)
     if not result:

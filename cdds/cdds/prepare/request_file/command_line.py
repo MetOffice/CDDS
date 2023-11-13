@@ -9,6 +9,8 @@ import argparse
 import logging
 import os
 
+from typing import List
+
 from cdds import __version__
 from cdds.common.request.rose_suite.suite_info import RoseSuiteArguments
 from cdds.prepare.request_file.request import write_request_from_rose_suite_info
@@ -48,9 +50,9 @@ KNOWN_STREAMS = ['apm',  # Atmosphere monthly mean (one or two variables)
                  'onm']  # Ocean & obgc monthly means
 
 
-def main_write_rose_suite_request_json(arguments=None):
+def main_write_request(arguments=None) -> int:
     """
-    Write the request information from the given rose suite info into a JSON file
+    Write the request information from the given rose suite info into a configuration file
 
     Parameters
     ----------
@@ -79,7 +81,7 @@ def main_write_rose_suite_request_json(arguments=None):
     return exit_code
 
 
-def _parse_write_request_json_args(arguments):
+def _parse_write_request_json_args(arguments: List[str]) -> RoseSuiteArguments:
     """
     Return the names of the command line arguments for
     ``write_request_json`` and their validated values.
@@ -99,7 +101,7 @@ def _parse_write_request_json_args(arguments):
 
     Returns
     -------
-    : :class:`cdds.prepare.request_file.models.RoseSuiteArguments`
+    : RoseSuiteArguments
         The names of the command line arguments and their validated
         values.
     """
@@ -111,15 +113,14 @@ def _parse_write_request_json_args(arguments):
     return rose_suite_arguments
 
 
-def _read_user_arguments():
+def _read_user_arguments() -> argparse.ArgumentParser:
     """
     Read all user arguments that are needed to write a request from a rose
     suite info
 
     Returns
     -------
-    : :class:`cdds.prepare.request_file.models.RoseSuiteArguments`,
-      :class:`argparse.ArgumentParser`
+    : :class:`argparse.ArgumentParser`
         The names of the command line arguments and their validated
         values and the corresponding argument parser
     """
