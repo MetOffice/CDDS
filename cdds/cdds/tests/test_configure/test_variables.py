@@ -14,7 +14,7 @@ from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from cdds.common.variables import RequestedVariablesList
-from cdds.configure.variables import retrieve_variables_by_grid
+from cdds.configure.variables import retrieve_variables_by_grid, identify_mip_table_name
 from cdds.common import set_checksum
 
 
@@ -118,6 +118,37 @@ class TestRetrieveVariablesByGrid(unittest.TestCase):
     def get_grid_info(self, grid_type):
         plugin = PluginStore.instance().get_plugin()
         return plugin.grid_info(self.model_id, grid_type)
+
+
+class TestIdentifyMIPTableName(unittest.TestCase):
+
+    @unittest.mock.patch('os.path.exists', side_effect=[True, False])
+    def test_specific(self, mock_exists):
+        mip_era = 'ERAX'
+        mip_table_directory = '/path/to/tables'
+        mip_table_id = 'tablename'
+        expected_table_name = 'ERAX_tablename'
+        table_name = identify_mip_table_name(mip_era, mip_table_directory, mip_table_id)
+
+        self.assertEqual(expected_table_name, table_name)
+
+    @unittest.mock.patch('os.path.exists', side_effect=[False, True])
+    def test_generic(self, mock_exists):
+        mip_era = 'ERAX'
+        mip_table_directory = '/path/to/tables'
+        mip_table_id = 'tablename'
+        expected_table_name = 'MIP_tablename'
+        table_name = identify_mip_table_name(mip_era, mip_table_directory, mip_table_id)
+
+        self.assertEqual(expected_table_name, table_name)
+
+    @unittest.mock.patch('os.path.exists', side_effect=[False, False])
+    def test_no_tables(self, mock_exists):
+        mip_era = 'ERAX'
+        mip_table_directory = '/path/to/tables'
+        mip_table_id = 'tablename'
+        expected_table_name = 'MIP_tablename'
+        self.assertRaises(RuntimeError, identify_mip_table_name, mip_era, mip_table_directory, mip_table_id)
 
 
 if __name__ == '__main__':
