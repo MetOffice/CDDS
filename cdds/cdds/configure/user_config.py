@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2022, Met Office.
+# (C) British Crown Copyright 2018-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`user_config` module contains the code required to produce the
@@ -134,7 +134,7 @@ def produce_user_configs(request, requested_variables_list, template,
     metadata = retrieve_request_metadata(request, template)
 
     # Retrieve 'MIP requested variables' by grid.
-    variables_by_grid = retrieve_variables_by_grid(requested_variables_list)
+    variables_by_grid = retrieve_variables_by_grid(requested_variables_list, request.mip_table_dir)
     streams = retrieve_streams_by_grid(requested_variables_list)
 
     # Produce the contents of the 'user configuration files' by grid.
@@ -160,7 +160,6 @@ def produce_user_configs(request, requested_variables_list, template,
             user_config.update(mip_requested_variables)
             filename = template_name.format(file_suffix)
             user_configs[filename] = user_config
-
     return user_configs
 
 

@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2022, Met Office.
+# (C) British Crown Copyright 2018-2023, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = no-member
@@ -64,7 +64,9 @@ class TestProduceUserConfigs(unittest.TestCase):
         write_json(self.requested_variables_list_path,
                    requested_variables_list)
 
-    def test_multiple_grids(self):
+    @unittest.mock.patch('os.path.exists')
+    def test_multiple_grids(self, mock_exists):
+        mock_exists.return_value = True
         user_configs = produce_user_configs(
             self.request, self.requested_variables, False,
             self.user_config_template_name)
@@ -141,7 +143,9 @@ class TestProduceUserConfigWithGlobalAttributes(unittest.TestCase):
         self.request = Request(items)
         self.set_up_request_variables()
 
-    def test_config_with_global_attributes(self):
+    @unittest.mock.patch('os.path.exists')
+    def test_config_with_global_attributes(self, mock_exists):
+        mock_exists.return_value = True
         config_filename = self.config_template_filename.format('atmos-native')
         reference = {
             'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-MM.piControl.none.r1i1p1f2',

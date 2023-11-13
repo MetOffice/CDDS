@@ -39,7 +39,7 @@ def run_send_to_mass(args):
     request = read_request(
         args.request, required_keys=REQUIRED_KEYS_SEND_TO_MASS)
     logger.info('Reading CDDS General Config')
-    general_config = CDDSConfigGeneral(args.root_config, request)
+    general_config = CDDSConfigGeneral(args.root_config, request, args.root_proc_dir)
     transfer_cfg = cfg_from_cdds_general_config(general_config, request,
                                                 args.mass_location)
     # Construct fixed_facet DataRefSyntax object from request and config

@@ -1,9 +1,12 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 
 from os import listdir
 from os.path import isfile, join
 import json
+
+# If a file matches one of the following suffixes, then it is ignored when loading MIP tables
+NON_TABLE_FILE_SUFFIXES = ['_CV.json', '_coordinate.json', '_grids.json', '_formula_terms.json']
 
 
 class MipTables(object):
@@ -97,14 +100,13 @@ class MipTables(object):
 
     def _load_tables_from_directory(self, basedir):
         files = [f for f in listdir(basedir)
-                 if isfile(join(basedir, f)) and f != "CMIP6_CV.json"]
-
+                 if isfile(join(basedir, f)) and all([not f.endswith(i) for i in NON_TABLE_FILE_SUFFIXES])]
         for filename in files:
             with open(join(basedir, filename)) as json_data:
                 try:
                     d = json.load(json_data)
                     if "Header" in d:
-                        table_name = d["Header"]["table_id"].split(" ")[1]
+                        table_name = d["Header"]["table_id"].split(" ")[-1]
                         if self.version is None:
                             self._version = d["Header"]["data_specs_version"]
                         self._tables[table_name] = d["variable_entry"]

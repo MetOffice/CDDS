@@ -88,11 +88,34 @@ def construct_archive_dir_mass_path(mass_path_root, request):
         The path to the archive directory in MASS for the data of the simulation.
 
     """
+    facet_dict = request.flattened_items
+    update_memberid_if_needed(request.sub_experiment_id, facet_dict)
+
     model_file_info = PluginStore.instance().get_plugin().model_file_info()
     mass_path_suffix = construct_string_from_facet_string(
-        model_file_info.mass_root_location_facet, request.flattened_items
+        model_file_info.mass_root_location_facet, facet_dict
     )
     return os.path.join(mass_path_root, mass_path_suffix)
+
+
+def update_memberid_if_needed(sub_experiment_id, facet_dict):
+    """
+    Update the facet dictionary with the correct "member id" if the
+    sub experiment id is not none. The member id is the sub experiment id
+    and variant label joined by "-".
+
+    Parameters
+    ----------
+    sub_experiment_id: str
+        Sub experiment id
+    facet_dict : dict
+        Facet dictionary
+    """
+    logger = logging.getLogger(__name__)
+    if sub_experiment_id != 'none':
+        member_id = '{sub_experiment_id}-{variant_label}'.format(**facet_dict)
+        facet_dict['variant_label'] = member_id
+        logger.debug('Updated variant_label to be complete member id "{}"'.format(member_id))
 
 
 def get_archive_path(mass_path_root, var_dict, request):
@@ -127,7 +150,7 @@ def get_archive_path(mass_path_root, var_dict, request):
     facet_dict = {'grid_label': grid_label}
     facet_dict.update(var_dict)
     facet_dict.update(request.flattened_items)
-
+    update_memberid_if_needed(request.sub_experiment_id, facet_dict)
     model_file_info = PluginStore.instance().get_plugin().model_file_info()
     mass_path_var_core = construct_string_from_facet_string(model_file_info.mass_location_facet, facet_dict)
     mass_path_var = os.path.join(mass_path_root, mass_path_var_core)

@@ -155,6 +155,14 @@ class DataRefSyntax(object):
                     "Facet \"{}\" not in valid facet list".format(facet))
         # update facets
         self._facets.update(facets_dict)
+        # Handle member id (sub_experiment_id-variant_label)
+        if ('sub_experiment_id' in self._facets and (self._facets['sub_experiment_id'] != 'none')
+                and (self._facets['sub_experiment_id'] not in self._facets['variant_label'])):
+            new_variant_label = '{sub_experiment_id}-{variant_label}'.format(**self._facets)
+            logger = logging.getLogger(__name__)
+            logger.debug('Sub-experiment id found updating variant lable to "{}"'.format(new_variant_label))
+            self._facets['variant_label'] = new_variant_label
+
         # Handlers are something that I do not believe are used in CDDS
         for handler in self._handlers:
             facets_dict = self._handlers[handler](
@@ -207,6 +215,9 @@ class DataRefSyntax(object):
         update -- (bool, optional) update rather than overwrite facets
         """
         drs_facets = self._split_drs_dir(mass_dir)
+        # identify sub_experiment_id from variant label
+        if ('variant_label' in drs_facets) and ('-' in drs_facets['variant_label']):
+            drs_facets['sub_experiment_id'] = drs_facets['variant_label'].split('-')[0]
         self.fill_facets_from_dict(drs_facets, update=update)
         if self.mass_dir_contains_var_dir(mass_dir):
             full_facets = self._split_full_dir(mass_dir)

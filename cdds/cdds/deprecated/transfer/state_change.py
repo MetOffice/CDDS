@@ -38,7 +38,7 @@ def run_move_in_mass(args):
     request = read_request(
         args.request, required_keys=REQUIRED_KEYS_MOVE_IN_MASS)
     logger.info('Reading CDDS General Config')
-    config_general = CDDSConfigGeneral(args.root_config, request)
+    config_general = CDDSConfigGeneral(args.root_config, request, args.root_proc_dir)
     transfer_cfg = cfg_from_cdds_general_config(config_general, request,
                                                 args.mass_location)
     # Attempt to load rabbit credentials

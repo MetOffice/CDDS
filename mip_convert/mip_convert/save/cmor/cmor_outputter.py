@@ -828,7 +828,9 @@ class AxisMakerFactory(object):
         """
         return True if dim_name is a generic_level
         """
-        return dim_name in self._table.generic_levels
+        # if dimension is passed as a blank string this has already been deemed a generic level
+        # TODO: refactor this and the _entry method used by _entry_name
+        return dim_name in self._table.generic_levels or dim_name == ''
 
     def axis_dirs(self):
         """

@@ -127,7 +127,8 @@ class TestUseProcDir(unittest.TestCase):
             'root_config': self.root_config_directory,
             'use_proc_dir': True,
             'output_dir': '',
-            'log_name': self.log_name}
+            'log_name': self.log_name,
+            'root_proc_dir': self.root_proc_directory}
         args = DummyNamespace(configure_params_and_args)
         reference = deepcopy(args)
         reference.requested_variables_list_file = (
@@ -253,7 +254,7 @@ class TestCDDSConfigGeneral(unittest.TestCase):
     @patch('builtins.open')
     def test_cdds_config_general_instantiation(self, mopen):
         mopen.return_value = StringIO(dedent(self.general_config))
-        self.obj = CDDSConfigGeneral(self.root_config_directory, self.request)
+        self.obj = CDDSConfigGeneral(self.root_config_directory, self.request, self.root_proc_directory)
         mopen.assert_called_once_with(self.general_config_path)
 
     def test_data_directory(self):
