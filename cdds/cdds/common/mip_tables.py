@@ -5,6 +5,9 @@ from os import listdir
 from os.path import isfile, join
 import json
 
+# If a file matches one of the following suffixes, then it is ignored when loading MIP tables
+NON_TABLE_FILE_SUFFIXES = ['_CV.json', '_coordinate.json', '_grids.json', '_formula_terms.json']
+
 
 class MipTables(object):
     """A class encapsulating access and basic operations on mip tables"""
@@ -96,9 +99,8 @@ class MipTables(object):
         return self._variables[table]
 
     def _load_tables_from_directory(self, basedir):
-        FILE_SUFFIXES_TO_IGNORE = ['_CV.json', '_coordinate.json', '_grids.json', '_formula_terms.json']
         files = [f for f in listdir(basedir)
-                 if isfile(join(basedir, f)) and all([not f.endswith(i) for i in FILE_SUFFIXES_TO_IGNORE])]
+                 if isfile(join(basedir, f)) and all([not f.endswith(i) for i in NON_TABLE_FILE_SUFFIXES])]
         for filename in files:
             with open(join(basedir, filename)) as json_data:
                 try:
