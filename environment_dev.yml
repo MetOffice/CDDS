@@ -26,7 +26,7 @@ dependencies:
   - charset-normalizer=3.3.0=pyhd8ed1ab_0
   - click=8.1.7=unix_pyh707e725_0
   - cloudpickle=3.0.0=pyhd8ed1ab_0
-  - cmor=3.7.2=py38h7749014_4
+  - cmor=3.7.3=py38h7749014_0
   - colorama=0.4.6=pyhd8ed1ab_0
   - compliance-checker=4.3.4=pyhd8ed1ab_0
   - contourpy=1.1.1=py38h7f3f72f_1
