@@ -303,6 +303,7 @@ def run_command(command, msg=None, exception=None, environment=None):
     return stdoutdata
 
 
+# TODO: moved to cdds.common.paths.file_system.py to avoid package dependencies cycles
 def construct_string_from_facet_string(facet_string, facet_values,
                                        string_type='path'):
     """
@@ -369,141 +370,6 @@ def construct_string_from_facet_string(facet_string, facet_values,
     else:
         constructed_string = '_'.join(facets)
     return constructed_string
-
-
-def update_permissions(path, group, permissions=None):
-    """
-    Set the group and permissions for the file or directory at location path.
-
-    Parameters
-    ----------
-    path: str
-        The full path to the directory to be created.
-    group: str
-        The name of the group to use when creating the directory.
-    permissions: int
-        The permissions to set for this directory, in octal format (e.g. 0775).
-        If none, the default is CDDS_DEFAULT_DIRECTORY_PERMISSIONS.
-
-    Returns
-    -------
-    None
-    """
-    logger = logging.getLogger(__name__)
-    try:
-        gid = grp.getgrnam(group).gr_gid
-    except (TypeError, KeyError):
-        gid = None
-    if gid is None:
-        # if no gid found, return without changing permissions or ownership
-        return
-
-    # set ownership
-    try:
-        os.chown(path, -1, gid)  # Leave uid unchanged.
-        logger.debug(
-            'Group of "{}" changed to "{}"'.format(path, group))
-    except OSError:
-        logger.debug(
-            'Unable to change group of "{}"'.format(path))
-    # set permissions
-    if permissions is None:
-        permissions = CDDS_DEFAULT_DIRECTORY_PERMISSIONS
-    try:
-        os.chmod(path, permissions)
-        logger.debug(
-            'Mode of "{}" changed to "{}"'.format(path, oct(permissions)))
-    except OSError:
-        logger.info(
-            'Unable to change mode of "{}"'.format(path))
-
-
-def create_directory(path, group=None, permissions=None, root_dir=None):
-    """
-    Create the directory ``path`` owned by ``group``, if specified.
-
-    If the directory already exists and ``group`` is specified, the
-    ``group`` of the directory will be updated.
-
-    If the ``group`` is updated, the permissions of the directory will
-    also be updated so that the directory is read, write and executable
-    by the ``group``.
-
-    Parameters
-    ----------
-    path: str
-        The full path to the directory to be created.
-    group: str
-        The name of the group to use when creating the directory.
-    permissions: int
-        The permissions to set for this directory, in octal format (e.g. 0775).
-        If none, the default is CDDS_DEFAULT_DIRECTORY_PERMISSIONS.
-    root_dir: str
-        The path to the root of the CDDS directory. No directories higher
-        up the directory structure will have permissions or ownership changed.
-    """
-    # Retrieve the logger.
-    logger = logging.getLogger(__name__)
-
-    if os.path.isdir(path):
-        logger.warning('Directory "{}" already exists'.format(path))
-    else:
-        os.makedirs(path)
-        logger.debug('Created directory "{}"'.format(path))
-
-    dirs_to_change = get_directories(path, root_dir)
-    for dirpath in dirs_to_change:
-        update_permissions(dirpath, group, permissions)
-
-
-def get_directories(path, root_dir=None):
-    """
-    Return the directories that make up the path provided to the ``path``
-    parameter.
-
-    Parameters
-    ----------
-    path: str
-        The path to get the directories from.
-    root_dir: str
-        The path to the root of the CDDS directory. No directories higher
-        up the directory structure be returned in the directory list.
-
-
-    Returns
-    -------
-    : str
-        The directories.
-
-    Examples
-    --------
-    >>> get_directories('my/test/path')
-    ['my', 'my/test', 'my/test/path']
-
-    >>> get_directories('/starts/with/sep')
-    ['/starts', '/starts/with', '/starts/with/sep']
-    """
-    directories = []
-    dir_list = [i1 for i1 in path.split(os.sep) if i1]
-    dirpath = ''
-    if root_dir:
-        root_dir_list = [i1 for i1 in root_dir.split(os.sep) if i1]
-        # check that the directory is a child of root_dir
-        if root_dir_list == dir_list[:len(root_dir_list)]:
-
-            dir_list = dir_list[len(root_dir_list):]
-            dirpath = root_dir
-        else:
-            if path.startswith(os.sep):
-                dirpath = os.sep
-    else:
-        if path.startswith(os.sep):
-            dirpath = os.sep
-
-    for directory in dir_list:
-        dirpath = os.path.join(dirpath, directory)
-        directories.append(dirpath)
-    return directories
 
 
 def check_directory(directory):

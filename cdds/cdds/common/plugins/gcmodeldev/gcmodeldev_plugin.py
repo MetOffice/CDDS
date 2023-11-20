@@ -85,6 +85,12 @@ class GCModelDevPlugin(CddsPlugin):
         return DefaultGlobalAttributes(request)
 
     def model_file_info(self) -> ModelFileInfo:
+        """
+        Returns the path to the MIP table directory that should be used for the GCModelDev project
+
+        :return: Path to the MIP table directory
+        :rtype: str
+        """
         return GlobalModelFileInfo()
 
     def license(self) -> str:
@@ -104,3 +110,36 @@ class GCModelDevPlugin(CddsPlugin):
         :rtype: str
         """
         return '{}/mip_tables/GCModelDev/0.0.13'.format(os.environ['CDDS_ETC'])
+
+    def proc_directory_facet_string(self) -> str:
+        """
+        Returns the facet string for the CDDS proc directory where the non-data outputs are written.
+
+        Please be aware that the several each facet must be equal to a key in the request.cfg!
+
+        :return: Facet string for the CDDS proc directory
+        :rtype: str
+        """
+        return 'mip_era|mip|workflow_basename|package'
+
+    def data_directory_facet_string(self) -> str:
+        """
+        Returns the facet string for the CDDS data directory where the |model output files| are written.
+
+        Please be aware that the several each facet must be equal to a key in the request.cfg!
+
+        :return: Facet string for the CDDS data directory
+        :rtype: str
+        """
+        return 'mip_era|mip|model_id|experiment_id|variant_label|package'
+
+    def requested_variables_list_facet_string(self) -> str:
+        """
+        Returns the facet string for the |requested variables list| directory.
+
+        Please be aware that the several each facet must be equal to a key in the request.cfg!
+
+        :return: Facet string for the requested variable list directory
+        :rtype: str
+        """
+        pass

@@ -11,6 +11,7 @@ from configparser import ConfigParser
 from typing import Dict, Any
 
 from cdds import get_version
+from cdds.common.constants import LOG_DIRECTORY
 from cdds.common.request.request_section import Section, load_types, expand_paths, expand_path
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 from cdds.common.plugins.plugins import PluginStore
@@ -137,3 +138,55 @@ class CommonSection(Section):
         """
         defaults = common_defaults(model_id, experiment_id, variant_label)
         self._add_to_config_section(config, 'common', defaults)
+
+    def data_directory(self, data_directory_facet: str) -> str:
+        """
+        Returns the data directory path having given facet of the path. The root path to the directory where
+        the |model output files| are written.
+
+        :param data_directory_facet: Suffix facet of the data dir path
+        :type data_directory_facet: str
+        :return: Path to the data directory
+        :rtype: str
+        """
+        return os.path.join(self.root_data_dir, data_directory_facet)
+
+    def proc_directory(self, proc_directory_facet: str):
+        """
+        Returns the proc directory path having given facet of the path. The non-data outputs from each CDDS component
+        are written into the proc directory.
+
+        :param proc_directory_facet: Suffix facet of the proc dir path
+        :type proc_directory_facet: str
+        :return: Path to the proc directory
+        :rtype: str
+        """
+        return os.path.join(self.root_proc_dir, proc_directory_facet)
+
+    def component_directory(self, component: str, proc_directory_facet: str) -> str:
+        """
+        Return the full path to the component-specific directory within the proc directory
+        that matches the given facet.
+
+        :param component: The name of the CDDS component.
+        :type component: str
+        :param proc_directory_facet: Facet of the CDDS proc directory
+        :type proc_directory_facet: str
+        :return: The full path to the component-specific directory within the proc directory.
+        :rtype: str
+        """
+        return os.path.join(self.proc_directory(proc_directory_facet), component)
+
+    def component_log_directory(self, component: str, proc_directory_facet: str) -> str:
+        """
+        Return the full path to the log directory of a CDDS component according to the proc directory
+        matching given facet. This log directory is used for logging.
+
+        :param component: The name of the CDDS component.
+        :type component: str
+        :param proc_directory_facet: Facet of the CDDS proc directory
+        :type proc_directory_facet: str
+        :return: The full path to the common log directory of a CDDS component within the proc directory.
+        :rtype: str
+        """
+        return os.path.join(self.component_directory(component, proc_directory_facet), LOG_DIRECTORY)

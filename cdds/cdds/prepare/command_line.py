@@ -8,6 +8,9 @@ import argparse
 import logging
 import os
 
+from argparse import Namespace
+from typing import List
+
 from cdds.arguments import read_default_arguments
 from cdds.common import (
     configure_logger, common_command_line_args, check_directory, check_file, root_dir_args)
@@ -22,22 +25,23 @@ from cdds.prepare.directory_structure import create_cdds_directory_structure
 from cdds.prepare.generate import generate_variable_list
 
 COMPONENT = 'prepare'
+CREATE_CDDS_DIR_LOG_NAME = 'create_cdds_directory_structure'
 
 
-def main_create_cdds_directory_structure(arguments=None):
+def main_create_cdds_directory_structure(arguments: List[str] = None):
     """
     Create the CDDS directory structure.
 
-    Parameters
-    ----------
-    arguments: list of strings
-        The command line arguments to be parsed.
+    :param arguments: The command line arguments to be parsed.
+    :type arguments: List[str]
+    :return: Exit code
+    :rtype: int
     """
     # Parse the arguments.
     args = parse_create_cdds_directory_structure_args(arguments)
 
     # Create the configured logger.
-    configure_logger(args.log_name, args.log_level, args.append_log)
+    configure_logger(CREATE_CDDS_DIR_LOG_NAME, logging.INFO, False)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
@@ -155,33 +159,22 @@ def main_select_variables(arguments=None):
     return exit_code
 
 
-def parse_create_cdds_directory_structure_args(arguments):
+def parse_create_cdds_directory_structure_args(arguments: List[str]) -> Namespace:
     """
-    Return the names of the command line arguments for
-    ``create_cdds_directory_structure`` and their validated values.
+    Return the names of the command line arguments for ``create_cdds_directory_structure`` and their validated values.
 
-    If this function is called from the Python interpreter with
-    ``arguments`` that contains any of the ``--version``, ``-h`` or
-    ``--help`` options, the Python interpreter will be terminated.
+    If this function is called from the Python interpreter with ``arguments`` that contains any of the ``--version``,
+    ``-h`` or ``--help`` options, the Python interpreter will be terminated.
 
-    The output from this function can be used as the value of the
-    ``arguments`` parameter in the call to
+    The output from this function can be used as the value of the ``arguments`` parameter in the call to
     :func:`cdds.prepare.command_line.main_create_cdds_directory_structure`.
 
-    Parameters
-    ----------
-    arguments: list of strings
-        The command line arguments to be parsed.
-
-    Returns
-    -------
-    : :class:`cdds.arguments.Arguments` object
-        The names of the command line arguments and their validated
-        values.
+    :param arguments: The command line arguments to be parsed.
+    :type arguments: List[str]
+    :return: The names of the command line arguments and their validated values.
+    :rtype: Namespace
     """
     user_arguments = arguments
-    arguments = read_default_arguments('cdds.prepare',
-                                       'create_cdds_directory_structure')
     parser = argparse.ArgumentParser(
         description='Create the CDDS directory structure.',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -190,20 +183,9 @@ def parse_create_cdds_directory_structure_args(arguments):
         'request', help=(
             'The full path to the JSON file containing information about the '
             'request.'))
-    parser.add_argument(
-        '-g', '--group', default=arguments.group, help=(
-            'The name of the group to use when creating the directories. Note '
-            'the group will have read, write and executable permissions on '
-            'all directories created.'))
-    root_dir_args(parser, arguments.root_proc_dir, arguments.root_data_dir)
-    # Add arguments common to all scripts.
-    common_command_line_args(parser, arguments.log_name, arguments.log_level,
-                             __version__)
-    args = parser.parse_args(user_arguments)
-    arguments.add_user_args(args)
-    arguments = update_arguments_paths(arguments)
 
-    return arguments
+    args = parser.parse_args(user_arguments)
+    return args
 
 
 def parse_generate_args(arguments):

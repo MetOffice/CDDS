@@ -6,56 +6,49 @@ This module contains code related to the directory structures for CDDS.
 """
 import logging
 
-from cdds.common import create_directory, update_permissions
-from cdds.deprecated.config import FullPaths
+from argparse import Namespace
 
-from cdds.common.constants import COMPONENT_LIST, REQUIRED_KEYS_FOR_PROC_DIRECTORY
-from cdds.common.old_request import read_request
+from cdds.common.paths.file_system import create_directory, update_permissions
+from cdds.common.request.request import read_request
+from cdds.common.constants import COMPONENT_LIST
 from cdds.prepare.constants import ARCHIVE_LOG_DIRECTORY_PERMISSIONS
 
 
-def create_cdds_directory_structure(arguments):
+CDDS_UNIX_GROUP = 'cdds'
+
+
+def create_cdds_directory_structure(arguments: Namespace):
     """
     Create the CDDS directory structure.
 
-    Parameters
-    ----------
-    arguments: :class:`cdds.arguments.Arguments` object
-        The arguments specific to the `create_cdds_directory_structure` script.
+    :param arguments: The arguments specific to the `create_cdds_directory_structure` script.
+    :type arguments: Namespace
     """
     logger = logging.getLogger(__name__)
-    group = arguments.group
     # Read the request information.
-    request = read_request(arguments.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
+    request = read_request(arguments.request)
 
-    full_paths = FullPaths(arguments, request)
     # Create data directories.
     # Create data directories.
-    create_directory(full_paths.input_data_directory, group,
-                     root_dir=arguments.root_data_dir)
-    create_directory(full_paths.output_data_directory, group,
-                     root_dir=arguments.root_data_dir)
+    create_directory(request.input_data_directory, CDDS_UNIX_GROUP, root_dir=request.common.root_data_dir)
+    create_directory(request.output_data_directory, CDDS_UNIX_GROUP, root_dir=request.common.root_data_dir)
 
     # Create proc directories.
+    root_proc_dir = request.common.root_proc_dir
     for component in COMPONENT_LIST:
-        create_directory(full_paths.component_log_directory(component),
-                         group=group,
-                         root_dir=arguments.root_proc_dir,
-                         )
+        create_directory(request.component_log_directory(component), group=CDDS_UNIX_GROUP, root_dir=root_proc_dir)
 
     # The archive log directory requires different permissions so that logs
     # from the move_in_mass can be written to that directory when running
     # from a server outside the Met Office core network.
-    update_permissions(full_paths.component_log_directory('archive'),
-                       group=group,
-                       permissions=ARCHIVE_LOG_DIRECTORY_PERMISSIONS,
-                       )
+    update_permissions(request.component_log_directory('archive'), group=group,
+                       permissions=ARCHIVE_LOG_DIRECTORY_PERMISSIONS)
     logger.info('------------')
     logger.info('Directories:')
-    logger.info('  proc : "{}"'.format(full_paths.proc_directory))
-    logger.info('  data : "{}"'.format(full_paths.data_directory))
+    logger.info('  proc : "{}"'.format(request.proc_directory))
+    logger.info('  data : "{}"'.format(request.data_directory))
     logger.info('------------')
     logger.info('Useful commands:')
-    logger.info('  ln -s {} proc'.format(full_paths.proc_directory))
-    logger.info('  ln -s {} data'.format(full_paths.data_directory))
+    logger.info('  ln -s {} proc'.format(request.proc_directory))
+    logger.info('  ln -s {} data'.format(request.data_directory))
     logger.info('------------')

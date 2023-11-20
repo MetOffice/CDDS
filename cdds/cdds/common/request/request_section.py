@@ -12,7 +12,6 @@ from typing import Dict, Any, List, Optional
 
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 
-
 TIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 
@@ -118,7 +117,7 @@ def load_types(dictionary: Dict[str, str], as_list: List[str] = []) -> Dict[str,
             output[key] = True
         elif value.lower() == 'false':
             output[key] = False
-        elif key.endswith('_date') or key.startswith('branch_date_'):
+        elif (key.endswith('_date') or key.startswith('branch_date_')) and value:
             output[key] = TimePointParser().parse(value)
         else:
             output[key] = value

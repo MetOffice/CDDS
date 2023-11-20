@@ -139,6 +139,44 @@ class CddsPlugin(object, metaclass=ABCMeta):
         """
         pass
 
+    @abstractmethod
+    def proc_directory_facet_string(self) -> str:
+        """
+        Returns the facet string for the CDDS proc directory where the non-data outputs are written, e.g.
+        mip_era|mip|workflow_basename|package
+
+        Please be aware that the several each facet must be equal to a key in the request.cfg!
+
+        :return: Facet string for the CDDS proc directory
+        :rtype: str
+        """
+        pass
+
+    @abstractmethod
+    def data_directory_facet_string(self) -> str:
+        """
+        Returns the facet string for the CDDS data directory where the |model output files| are written, e.g.
+        mip_era|mip|model_id|experiment_id|variant_label|package
+
+        Please be aware that the several each facet must be equal to a key in the request.cfg!
+
+        :return: Facet string for the CDDS data directory
+        :rtype: str
+        """
+        pass
+
+    @abstractmethod
+    def requested_variables_list_facet_string(self) -> str:
+        """
+        Returns the facet string for the |requested variables list| directory, e.g. mip_era|mip|experiment_id|model_id
+
+        Please be aware that the several each facet must be equal to a key in the request.cfg!
+
+        :return: Facet string for the requested variable list directory
+        :rtype: str
+        """
+        pass
+
     def global_attributes(self, request: Dict[str, Any]) -> GlobalAttributes:
         """
         Returns the global attributes that a supported by that plugin. The given request

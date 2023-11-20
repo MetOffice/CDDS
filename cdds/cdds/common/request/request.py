@@ -5,12 +5,15 @@
 The module contains the code required to handle the information about the request.
 """
 import logging
+import os
 
 from configparser import ConfigParser, ExtendedInterpolation
 from dataclasses import dataclass
 from metomi.isodatetime.data import Calendar
 from typing import Dict, Any
 
+from cdds.common.constants import INPUT_DATA_DIRECTORY, OUTPUT_DATA_DIRECTORY
+from cdds.common.paths.file_system import construct_string_from_facet_string, PathType
 from cdds.common.request.metadata_section import MetadataSection
 from cdds.common.request.common_section import CommonSection
 from cdds.common.request.data_section import DataSection
@@ -21,6 +24,7 @@ from cdds.common.request.conversion_section import ConversionSection
 from cdds.common.request.rose_suite.suite_info import RoseSuiteArguments, RoseSuiteInfo, load_rose_suite_info
 from cdds.common.request.rose_suite.validation import validate_rose_suite
 from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugins import PluginStore
 
 
 @dataclass
@@ -110,15 +114,14 @@ class Request:
         :return: Information of the request as flattened dictionary
         :rtype: Dict[str, Any]
         """
-        stack = [self.items]
         flat_dict = {}
-        while stack:
-            current_dict = stack.pop()
-            for key, value in current_dict.items():
-                if isinstance(value, dict):
-                    stack.append(value)
-                else:
-                    flat_dict[key] = value
+        flat_dict.update(self.netcdf_global_attributes.items)
+        flat_dict.update(self.common.items)
+        flat_dict.update(self.conversion.items)
+        flat_dict.update(self.data.items)
+        flat_dict.update(self.inventory.items)
+        flat_dict.update(self.metadata.items)
+        flat_dict.update(self.misc.items)
         return flat_dict
 
     @property
@@ -132,24 +135,6 @@ class Request:
         if self.netcdf_global_attributes:
             return self.netcdf_global_attributes.items
         return {}
-
-    @property
-    def items_for_facet_string(self) -> Dict[str, Any]:
-        """
-        TODO: Method to consider
-        Returns the items for the facet string.
-
-        :return: Items for the facet string
-        :rtype: Dict[str, Any]
-        """
-        return {
-            'experiment': self.metadata.experiment_id,
-            'project': self.metadata.mip,
-            'programme': self.metadata.mip_era,
-            'model': self.metadata.model_id,
-            'realisation': self.metadata.variant_label,
-            'request': self.common.workflow_basename
-        }
 
     @property
     def items_for_cmor(self) -> Dict[str, Any]:
@@ -168,6 +153,83 @@ class Request:
             'source_id': model_id,
             'source_type': model_type
         }
+
+    @property
+    def output_data_directory(self) -> str:
+        """
+        Returns the full path to the directory where the |output netCDF files| produced by CDDS Convert are written.
+
+        :return: Path to the output data directory
+        :rtype: str
+        """
+        return os.path.join(self.data_directory, OUTPUT_DATA_DIRECTORY)
+
+    @property
+    def proc_directory(self) -> str:
+        """
+        Returns the path to the directory where the non-data outputs from each CDDS component are written.
+
+        :return: Path to the CDDS proc directory
+        :rtype: str
+        """
+        plugin = PluginStore.instance().get_plugin()
+        proc_dir_facet_str = plugin.proc_directory_facet_string()
+        proc_directory_facet = construct_string_from_facet_string(proc_dir_facet_str, self.flattened_items)
+        return self.common.proc_directory(proc_directory_facet)
+
+    @property
+    def input_data_directory(self) -> str:
+        """
+        Returns the full path to the directory where the |model output files| used as input to CDDS Convert
+        are written
+
+        :return: Path to the input data directory
+        :rtype: str
+        """
+        return os.path.join(self.data_directory, INPUT_DATA_DIRECTORY)
+
+    @property
+    def data_directory(self) -> str:
+        """
+        Returns the root path to the CDDS directory where the |model output files| are written.
+
+        :return: Root path to the data directory
+        :rtype: str
+        """
+        plugin = PluginStore.instance().get_plugin()
+        data_dir_facet_str = plugin.data_directory_facet_string()
+        data_directory_facet = construct_string_from_facet_string(data_dir_facet_str, self.flattened_items)
+        return self.common.data_directory(data_directory_facet)
+
+    @property
+    def requested_variables_list_file_name(self) -> str:
+        """
+        Return the filename of the |requested variables list| corresponding to the supplied request.
+
+        :return: The filename of the |requested variables list|.
+        :rtype: str
+        """
+        plugin = PluginStore.instance().get_plugin()
+        requested_vars_facet_str = plugin.requested_variables_list_facet_string()
+        facet_string_filename = construct_string_from_facet_string(
+            requested_vars_facet_str, self.flattened_items, string_type=PathType.FILE_NAME
+        )
+        return '{}.json'.format(facet_string_filename)
+
+    def component_log_directory(self, component: str) -> str:
+        """
+        Return the full path to the common log directory of a CDDS component.
+        This is used for logging if no other log directory is defined.
+
+        :param component: The name of the CDDS component.
+        :type component: str
+        :return: The full path to the common log directory of a CDDS component.
+        :rtype: str
+        """
+        plugin = PluginStore.instance().get_plugin()
+        proc_dir_facet_str = plugin.proc_directory_facet_string()
+        proc_directory_facet = construct_string_from_facet_string(proc_dir_facet_str, self.flattened_items)
+        return self.common.component_log_directory(component, proc_directory_facet)
 
     def write(self, config_file: str) -> None:
         """

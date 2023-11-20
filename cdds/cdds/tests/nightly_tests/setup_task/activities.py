@@ -31,10 +31,7 @@ def setup_directory_structure(config: SetupConfig, request: Request) -> None:
         logger.info('Creating root data dir at {0}'.format(config.root_data_dir))
         os.makedirs(config.root_data_dir)
 
-    log_file = os.path.join(config.test_base_dir, '{0}_create_dir.log'.format(request.package))
-    output_dir_args = ['--root_proc_dir', config.root_proc_dir, '--root_data_dir', config.root_data_dir]
-
-    create_dir_structure_args = [request_file, '--log_name', log_file] + output_dir_args
+    create_dir_structure_args = [request_file]
 
     main_create_cdds_directory_structure(create_dir_structure_args)
 

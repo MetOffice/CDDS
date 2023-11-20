@@ -4,12 +4,12 @@
 """
 Tests for :mod:`command_line.py`.
 """
-import argparse
 from io import StringIO
 import json
 import logging
 import os
 import shutil
+import tempfile
 from textwrap import dedent
 import unittest
 
@@ -18,6 +18,7 @@ from cdds.common.constants import (
 from cdds.common.io import write_json
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.variables import RequestedVariablesList
+from cdds.common.request.request import Request
 
 from cdds.arguments import Arguments
 from cdds.common import set_checksum
@@ -25,6 +26,7 @@ from cdds.common import set_checksum
 from unittest.mock import patch
 import pytest
 
+from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.prepare.alter import ALTER_INSERT_UNKNOWN_FIELD
 from cdds.prepare.command_line import (
     main_create_cdds_directory_structure, main_generate_variable_list,
@@ -50,6 +52,7 @@ class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
     """
 
     def setUp(self):
+        load_plugin()
         self.request_path = 'request1.json'
         self.mip_era = 'CMIP6'
         self.project = 'ScenarioMIP'
@@ -57,21 +60,16 @@ class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
         self.model_type = 'AOGCM AER'
         self.experiment_id = 'ssp119'
         self.realisation = 'r1i1p1f1'
-        self.request = '{}_{}_{}'.format(
+        self.request_id = '{}_{}_{}'.format(
             self.model_id, self.experiment_id, self.realisation)
         self.package = 'phase1'
-        self.root_data_dir = 'data_directory'
-        self.root_proc_dir = 'proc_directory'
+        self.root_data_dir = os.path.join(tempfile.mkdtemp(), 'data_directory')
+        self.root_proc_dir = os.path.join(tempfile.mkdtemp(), 'proc_directory')
         self.log_name = 'create_cdds_directory_structure'
         self.log_datestamp = '2019-11-23T1432Z'
         self.log_path = ''  # this will be constructed later in _main()
-
-    def _write_request(self, request):
-        write_json(self.request_path, request)
-
-    def _write_config(self, filename, config):
-        with open(filename, 'w') as file_handle:
-            file_handle.write(config)
+        os.makedirs(self.root_data_dir)
+        os.makedirs(self.root_proc_dir)
 
     def _construct_log_path(self):
         log_fname = '{0}_{1}.log'.format(self.log_name, self.log_datestamp)
@@ -79,57 +77,53 @@ class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
 
     def _main(self):
         # Use '--quiet' to ensure no log messages are printed to screen.
-        parameters = [
-            self.request_path, '--root_data_dir', self.root_data_dir,
-            '--root_proc_dir', self.root_proc_dir, '--log_name', self.log_name,
-            '--quiet']
+        parameters = [self.request_path]
         self._construct_log_path()
         main_create_cdds_directory_structure(parameters)
 
-    def _run(self, request):
-        self._write_request(request)
+    def _run(self, request: Request):
+        request.write(self.request_path)
         self._main()
 
     @patch('cdds.common.get_log_datestamp')
     def test_create_cdds_directory_structure(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
-        request = {
-            'experiment_id': self.experiment_id, 'mip': self.project,
-            'mip_era': self.mip_era, 'model_id': self.model_id,
-            'model_type': self.model_type, 'package': self.package,
-            'variant_label': self.realisation}
+        request = Request()
+        request.metadata.experiment_id = self.experiment_id
+        request.metadata.mip = self.project
+        request.metadata.mip_era = self.mip_era
+        request.metadata.model_id = self.model_id
+        request.metadata.model_type = self.model_type
+        request.common.package = self.package
+        request.metadata.variant_label = self.realisation
+        request.common.root_proc_dir = self.root_proc_dir
+        request.common.root_data_dir = self.root_data_dir
+        request.common.workflow_basename = self.request_id
         self._run(request)
         msg = '"{}" is not a directory'
 
         # Check input data directory.
         input_data_directory = os.path.join(
-            self.root_data_dir, self.mip_era, self.project, self.model_id,
-            self.experiment_id, self.realisation, self.package,
-            INPUT_DATA_DIRECTORY)
-        self.assertTrue(os.path.isdir(input_data_directory),
-                        msg.format(input_data_directory))
+            self.root_data_dir, self.mip_era, self.project, self.model_id, self.experiment_id,
+            self.realisation, self.package, INPUT_DATA_DIRECTORY)
+        self.assertTrue(os.path.isdir(input_data_directory), msg.format(input_data_directory))
 
         # Check output data directory.
         output_data_directory = os.path.join(
-            self.root_data_dir, self.mip_era, self.project, self.model_id,
-            self.experiment_id, self.realisation, self.package,
-            OUTPUT_DATA_DIRECTORY)
-        self.assertTrue(os.path.isdir(output_data_directory),
-                        msg.format(output_data_directory))
+            self.root_data_dir, self.mip_era, self.project, self.model_id, self.experiment_id,
+            self.realisation, self.package, OUTPUT_DATA_DIRECTORY)
+        self.assertTrue(os.path.isdir(output_data_directory), msg.format(output_data_directory))
 
         # Check component proc directories.
         for component in COMPONENT_LIST:
             component_proc_directory = os.path.join(
-                self.root_proc_dir, self.mip_era, self.project,
-                self.request, self.package, component,
-                LOG_DIRECTORY)
-            self.assertTrue(os.path.isdir(component_proc_directory),
-                            msg.format(component_proc_directory))
+                self.root_proc_dir, self.mip_era, self.project, self.request_id, self.package,
+                component, LOG_DIRECTORY)
+            self.assertTrue(os.path.isdir(component_proc_directory), msg.format(component_proc_directory))
 
     def tearDown(self):
         filenames = [self.request_path, self.log_path]
-        directories = [self.root_data_dir,
-                       self.root_proc_dir]
+        directories = [self.root_data_dir, self.root_proc_dir]
         for filename in filenames:
             if os.path.isfile(filename):
                 os.remove(filename)
@@ -352,7 +346,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
             self.root_proc_dir, self.mip_era, self.mip,
             self.request, self.package, 'prepare')
         log_dir = os.path.join(component_dir, 'log')
-        os.makedirs(log_dir)
+        os.makedirs(log_dir, exist_ok=True)
         self._run(request, False, None, max_priority)
         log_name = os.path.join(log_dir, self.log_name)
         self.assertTrue(os.path.isfile(self.log_path))
