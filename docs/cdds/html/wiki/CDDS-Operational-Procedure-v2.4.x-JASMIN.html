@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Recommended CDDS Operational Procedure (v2.4.5) for use on JASMIN &#8212; CDDS 2.5.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Recommended CDDS Operational Procedure (v2.4.5) for use on JASMIN</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="recommended-cdds-operational-procedure-v2-4-5-for-use-on-jasmin">
+<h1>Recommended CDDS Operational Procedure (v2.4.5) for use on JASMIN<a class="headerlink" href="#recommended-cdds-operational-procedure-v2-4-5-for-use-on-jasmin" title="Permalink to this headline">¶</a></h1>
+<p>The definitions of the italicised phrases can be found in the <a class="reference external" href="https://code.metoffice.gov.uk/doc/cdds/mip_convert/html/glossary.html">Glossary</a>.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">&lt;script&gt;</span> <span class="pre">-h</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;script&gt;</span> <span class="pre">--help</span></code> to print information about the script, including available parameters.</p>
+<p>A simulation for the pre-industrial control from UKESM will be used as an example in these instructions.</p>
+<section id="changes-relative-to-cdds-v2-2-on-jasmin">
+<h2>Changes relative to CDDS v2.2 on JASMIN<a class="headerlink" href="#changes-relative-to-cdds-v2-2-on-jasmin" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>It is now recommended that all processing tasks relying on datasets in MASS are triggered via a single <code class="docutils literal notranslate"><span class="pre">cdds_convert</span></code> script.</p></li>
+</ul>
+<p>Note: errors of the form</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/home/h03/cdds/software/miniconda3/envs/cdds-2.0.0/lib/python3.6/site-packages/dask/config.py:161:<span class="w"> </span>YAMLLoadWarning:<span class="w"> </span>calling<span class="w"> </span>yaml.load<span class="o">()</span><span class="w"> </span>without<span class="w"> </span><span class="nv">Loader</span><span class="o">=</span>...<span class="w"> </span>is<span class="w"> </span>deprecated,<span class="w"> </span>as<span class="w"> </span>the<span class="w"> </span>default<span class="w"> </span>Loader<span class="w"> </span>is<span class="w"> </span>unsafe.<span class="w"> </span>Please<span class="w"> </span><span class="nb">read</span><span class="w"> </span>https://msg.pyyaml.org/load<span class="w"> </span><span class="k">for</span><span class="w"> </span>full<span class="w"> </span>details.
+<span class="w">  </span><span class="nv">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>yaml.load<span class="o">(</span>f.read<span class="o">())</span><span class="w"> </span>or<span class="w"> </span><span class="o">{}</span>
+</pre></div>
+</div>
+<p>will appear in every CDDS command for v2.4.x These can be ignored</p>
+</section>
+<section id="cdds-design-strategy-and-multiple-packages-for-a-simulation">
+<h2>CDDS Design strategy and multiple packages for a simulation<a class="headerlink" href="#cdds-design-strategy-and-multiple-packages-for-a-simulation" title="Permalink to this headline">¶</a></h2>
+<p>CDDS was principally designed for use at the Met Office, but most components should be usable elsewhere.</p>
+<p>New versions of CDDS are being released every 2-3 months on average, and introduce new variables and code improvements. New versions can alter the procedure for working with CDDS, so please ensure you use the corresponding operational procedure.</p>
+<p>Within the Met Office multiple “packages” have been run across each simulation to incrementally produce and publish datasets for newly added and approved variables. For example, at the last count there have been over 10 packages producing and publishing data for the first of each of the UKESM1 piControl, historical and several of the climate change scenario simulations. As we move away from the CMIP6 project, new users of CDDS will probably want to run all or most of their processing in one step (i.e. as a single “package”).</p>
+</section>
+<section id="directories">
+<h2>Directories<a class="headerlink" href="#directories" title="Permalink to this headline">¶</a></h2>
+<p>There are two principal directories used by CDDS;</p>
+<p><strong>The “proc” directory under</strong> <code class="docutils literal notranslate"><span class="pre">$ROOT_PROC_DIR</span></code></p>
+<ul class="simple">
+<li><p>Contains logs and other processing artefacts that is intended to be kept to form part of the audit trail should queries be raised over the data, e.g. <code class="docutils literal notranslate"><span class="pre">/gws/nopw/j04/mohc_shared/users/$USER/proc</span></code></p></li>
+</ul>
+<p><strong>The “data” directory under</strong> <code class="docutils literal notranslate"><span class="pre">$ROOT_DATA_DIR</span></code></p>
+<ul class="simple">
+<li><p>Contains input model data and output netCDF files, e.g. <code class="docutils literal notranslate"><span class="pre">/gws/nopw/j04/mohc_shared/users/$USER/data</span></code></p></li>
+</ul>
+<p>Within the Met Office <code class="docutils literal notranslate"><span class="pre">$ROOT_PROC_DIR</span></code> and <code class="docutils literal notranslate"><span class="pre">$ROOT_DATA_DIR</span></code> are set within the CDDS code, but on JASMIN these should be provided to each CDDS command via the <code class="docutils literal notranslate"><span class="pre">-c</span></code> and <code class="docutils literal notranslate"><span class="pre">-t</span></code> arguments as indicated below.</p>
+<p><strong>Note that these values should be full rather than relative paths when supplied to CDDS Convert</strong>, otherwise there may be problems within the rose suite.</p>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p>Before running the CDDS Operational Procedure, please ensure that:</p>
+<ul class="simple">
+<li><p>you have some data either in MASS or on JASMIN.</p></li>
+<li><p>You are able to access the MOSRS via the command line. Caching your MOSRS username and password will significantly ease this process, see <a class="reference external" href="https://code.metoffice.gov.uk/trac/home/wiki/AuthenticationCaching#JASMIN">here</a>.</p></li>
+</ul>
+<p>If any of the above are not true, please contact the <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">CDDS Team</a>.</p>
+</li>
+</ol>
+</section>
+<section id="activate-the-cdds-install">
+<h2>Activate the CDDS install<a class="headerlink" href="#activate-the-cdds-install" title="Permalink to this headline">¶</a></h2>
+<p>Setup the environment to use the central installation of CDDS and its dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>/gws/smf/j04/cmip6_prep/cdds-env-python3/miniconda3/bin/activate<span class="w"> </span>cdds-&lt;cdds_version&gt;
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">&lt;cdds_version&gt;</span></code> is the version of CDDS you wish to use, e.g. <code class="docutils literal notranslate"><span class="pre">2.4.5</span></code>. Unless instructed otherwise you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and this version should be used in all stages of the package being processed. If in doubt contact the CDDS team for advice.</p>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>If you wish to deactivate the CDDS environment then you can use the command <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">deactivate</span></code>.</p></li>
+<li><p>A full list of available cdds environments can be found using the command <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">env</span> <span class="pre">list</span></code>.</p></li>
+</ul>
+</section>
+<section id="run-cdds-prepare">
+<h2>Run CDDS Prepare<a class="headerlink" href="#run-cdds-prepare" title="Permalink to this headline">¶</a></h2>
+<section id="create-the-request-json-file-using-the-template-shown-below">
+<h3>Create the request JSON file, using the template shown below<a class="headerlink" href="#create-the-request-json-file-using-the-template-shown-below" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;atmos_timestep&quot;</span><span class="p">:</span><span class="s2">&quot;1200&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;branch_date_in_child&quot;</span><span class="p">:</span><span class="s2">&quot;1960-06-01-00-00-00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;branch_date_in_parent&quot;</span><span class="p">:</span><span class="s2">&quot;1960-05-01-00-00-00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;branch_method&quot;</span><span class="p">:</span><span class="s2">&quot;standard&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;calendar&quot;</span><span class="p">:</span><span class="s2">&quot;360_day&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;child_base_date&quot;</span><span class="p">:</span><span class="s2">&quot;1850-01-01-00-00-00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;config_version&quot;</span><span class="p">:</span><span class="s2">&quot;1.0.1&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;experiment_id&quot;</span><span class="p">:</span><span class="s2">&quot;piControl&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;external_plugin&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;external_plugin_location&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;global_attributes&quot;</span><span class="p">:{},</span>
+<span class="w">  </span><span class="nt">&quot;institution_id&quot;</span><span class="p">:</span><span class="s2">&quot;MOHC&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;license&quot;</span><span class="p">:</span><span class="s2">&quot;CMIP6 model data produced by the Met Office Hadley Centre is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (https://creativecommons.org/licenses). Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment. Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file) and at https://ukesm.ac.uk/cmip6. The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law.&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;mass_data_class&quot;</span><span class="p">:</span><span class="s2">&quot;crum&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;mip&quot;</span><span class="p">:</span><span class="s2">&quot;CMIP&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;mip_era&quot;</span><span class="p">:</span><span class="s2">&quot;CMIP6&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;mip_table_dir&quot;</span><span class="p">:</span><span class="s2">&quot;/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/mip_tables/CMIP6/01.00.29&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;model_id&quot;</span><span class="p">:</span><span class="s2">&quot;UKESM1-0-LL&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;model_type&quot;</span><span class="p">:</span><span class="s2">&quot;AOGCM BGC AER CHEM&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;package&quot;</span><span class="p">:</span><span class="s2">&quot;release_testing&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;parent_base_date&quot;</span><span class="p">:</span><span class="s2">&quot;1850-01-01-00-00-00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;parent_experiment_id&quot;</span><span class="p">:</span><span class="s2">&quot;piControl-spinup&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;parent_mip&quot;</span><span class="p">:</span><span class="s2">&quot;CMIP&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;parent_mip_era&quot;</span><span class="p">:</span><span class="s2">&quot;CMIP6&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;parent_model_id&quot;</span><span class="p">:</span><span class="s2">&quot;UKESM1-0-LL&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;parent_time_units&quot;</span><span class="p">:</span><span class="s2">&quot;days since 1850-01-01&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;parent_variant_label&quot;</span><span class="p">:</span><span class="s2">&quot;r1i1p1f2&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;run_bounds&quot;</span><span class="p">:</span><span class="s2">&quot;1960-01-01-00-00-00 1970-01-01-00-00-00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;run_bounds_for_stream_ap4&quot;</span><span class="p">:</span><span class="s2">&quot;1960-01-01-00-00-00 1970-01-01-00-00-00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;run_bounds_for_stream_ap5&quot;</span><span class="p">:</span><span class="s2">&quot;1960-01-01-00-00-00 1970-01-01-00-00-00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;run_bounds_for_stream_ap6&quot;</span><span class="p">:</span><span class="s2">&quot;1960-01-01-00-00-00 1970-01-01-00-00-00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;run_bounds_for_stream_onm&quot;</span><span class="p">:</span><span class="s2">&quot;1960-01-01-00-00-00 1970-01-01-00-00-00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;run_bounds_for_stream_ond&quot;</span><span class="p">:</span><span class="s2">&quot;1960-01-01-00-00-00 1970-01-01-00-00-00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;run_bounds_for_stream_inm&quot;</span><span class="p">:</span><span class="s2">&quot;1960-01-01-00-00-00 1970-01-01-00-00-00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;run_bounds_for_stream_ind&quot;</span><span class="p">:</span><span class="s2">&quot;1960-01-01-00-00-00 1970-01-01-00-00-00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;sub_experiment_id&quot;</span><span class="p">:</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;suite_branch&quot;</span><span class="p">:</span><span class="s2">&quot;cdds&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;suite_id&quot;</span><span class="p">:</span><span class="s2">&quot;u-aw310&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;suite_revision&quot;</span><span class="p">:</span><span class="s2">&quot;115492&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;variant_label&quot;</span><span class="p">:</span><span class="s2">&quot;r1i1p1f2&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The meaning of <code class="docutils literal notranslate"><span class="pre">request.json</span></code> entries is summarised below. Values that most likely need to be changed are indicated in <strong>bold</strong>. Please note that for simulations that have not branched from other simulations, the <code class="docutils literal notranslate"><span class="pre">parent_</span></code> entries should be removed, along with ones related to branching method and times.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">atmos_timestep</span></code>: this is the time step in seconds of the atmosphere model. This should not be changed unless processing data from high resolution model with different time step.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">branch_date_in_child</span></code></strong>: in many cases simulation processed would have been branched from another, parent simulation (e.g. <code class="docutils literal notranslate"><span class="pre">historical</span></code> branches from <code class="docutils literal notranslate"><span class="pre">piControl</span></code>, but <code class="docutils literal notranslate"><span class="pre">ssp245</span></code> branches from <code class="docutils literal notranslate"><span class="pre">historical</span></code>). This entry should be modified to indicate the branching point in the time coordinate as defined in the child (i.e. the one being processed) simulation.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">branch_date_in_parent</span></code></strong>: as above, but the branching point is indicated in time coordinate defined in the parent simulation. This might or might be not different that time coordinate used by the child simulation. For instance, <code class="docutils literal notranslate"><span class="pre">historical</span></code> might branch from the year of 3000 in <code class="docutils literal notranslate"><span class="pre">piControl</span></code>, but the date would be reset to year 1850 in the <code class="docutils literal notranslate"><span class="pre">historical</span></code> simulation itself. However, branching date for scenarios would typically be the same in both parent and child simulations (e.g. 2015 in <code class="docutils literal notranslate"><span class="pre">historical</span></code> and <code class="docutils literal notranslate"><span class="pre">ssp245</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">branch_method</span></code>: The branching method used when creating the child simulation. In most cases this should be left unmodified as <code class="docutils literal notranslate"><span class="pre">standard</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">calendar</span></code>: calendard used by the model. For the HadGEM3/UKESM1 model family, this should be <code class="docutils literal notranslate"><span class="pre">360_day</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">child_base_date</span></code>: The base date the time coordinate is counting from. In most cases this should be left as <code class="docutils literal notranslate"><span class="pre">1850-01-01-00-00-00</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">config_version</span></code>: CDDS configuration version. Should be left as <code class="docutils literal notranslate"><span class="pre">1.0.1</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">experiment_id</span></code></strong>: The experiment id of the processed simulation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">external_plugin</span></code>: This should be left empty unless using plugin configuration features of CDDS.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">external_plugin_location</span></code>: As above.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">global_attributes</span></code>: A dictionary containing additional global attributes to be inserted into netCDF4 output. Should be left as <code class="docutils literal notranslate"><span class="pre">{}</span></code> unless the additional attributes are needed.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">institution_id</span></code></strong>: The id of the institution responsible for the dataset.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">license</span></code></strong>: The license text should contain reference to the institution name and match the generic license template as defined in MIP tables CV.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mass_data_class</span></code>: This is the top-level location of the dataset in MASS. Most likely should be left as <code class="docutils literal notranslate"><span class="pre">crum</span></code> or empty (if not accessing MASS storage).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">mip</span></code></strong>: The MIP the processed simulation belongs to.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mip_era</span></code>: The era of the MIP. Most likely <code class="docutils literal notranslate"><span class="pre">CMIP6</span></code>, but might be something else entirely if processing data from other projects using custom MIP tables.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mip_table_dir</span></code>: The location of MIP Tables describing experiments and produced variables. This should not be changed unless using custom version of MIP tables for bespoke projects.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">model_id</span></code></strong>: The id of the climate model, e.g. <code class="docutils literal notranslate"><span class="pre">UKESM1-0-LL</span></code> or <code class="docutils literal notranslate"><span class="pre">HadGEM3-GC31-LL</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">model_type</span></code></strong>: Typically <code class="docutils literal notranslate"><span class="pre">AOGCM</span> <span class="pre">BGC</span> <span class="pre">AER</span> <span class="pre">CHEM</span></code> for UKESM1, <code class="docutils literal notranslate"><span class="pre">AOGCM</span> <span class="pre">AER</span></code> for HadGEM3. For amip-style experiments use <code class="docutils literal notranslate"><span class="pre">AGCM</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">package</span></code></strong>: This is an arbitrary name denoting processing stage (see <strong>CDDS Design strategy and multiple packages for a simulation</strong> above).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parent_base_date</span></code>: Similar to <code class="docutils literal notranslate"><span class="pre">child_base_date</span></code>, but for the parent simulation.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">parent_experiment_id</span></code></strong>: Similar to <code class="docutils literal notranslate"><span class="pre">experiment</span> <span class="pre">id</span></code>, but for the parent simulation.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">parent_mip</span></code></strong>: Similar to <code class="docutils literal notranslate"><span class="pre">mip</span></code>, but for the parent simulation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parent_mip_era</span></code>: Similar to <code class="docutils literal notranslate"><span class="pre">mip_era</span></code>, but for the parent simulation.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">parent_model_id</span></code></strong>:”UKESM1-0-LL”,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">parent_time_units</span></code>: Time units attribute in the parent simulation. Most likely should be left unmodified as <code class="docutils literal notranslate"><span class="pre">days</span> <span class="pre">since</span> <span class="pre">1850-01-01</span></code>. In the child simulation, this attribute is stored in the time coordinate variable itself.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">parent_variant_label</span></code></strong>: Similar to <code class="docutils literal notranslate"><span class="pre">variant_label</span></code> but for the parent simulation.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">run_bounds</span></code></strong>: Time slice that needs to be processed by CDDS. This might or might not correspond to the whole length of the simulation.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">run_bounds_for_stream_ap4</span></code></strong>, <strong><code class="docutils literal notranslate"><span class="pre">run_bounds_for_stream_ap5</span></code></strong>, etc: For historical reasons run bounds also need to be specified for each data stream.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sub_experiment_id</span></code>: Sub-experiment id.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">suite_branch</span></code>: This is not used after creation of the <code class="docutils literal notranslate"><span class="pre">request.json</span></code> file.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">suite_id</span></code></strong>: Needs to correspond to the correct suite id.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">suite_revision</span></code>: This is not used after creation of the <code class="docutils literal notranslate"><span class="pre">request.json</span></code> file.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">variant_label</span></code></strong>: The variant label in the <code class="docutils literal notranslate"><span class="pre">ripf</span></code> format. Index values need to be larger than 0.</p></li>
+</ul>
+</section>
+<section id="create-the-cdds-directory-structure">
+<h3>Create the CDDS directory structure<a class="headerlink" href="#create-the-cdds-directory-structure" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p>Create the CDDS directory structure for the simulation; the data are stored in <code class="docutils literal notranslate"><span class="pre">&lt;root_data_dir&gt;</span></code>, while the processing artefacts (e.g. logs) are stored separately in <code class="docutils literal notranslate"><span class="pre">&lt;root_proc_dir&gt;</span></code> in directories specific to each CDDS component:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>create_cdds_directory_structure<span class="w"> </span>request.json<span class="w"> </span>-c<span class="w"> </span><span class="nv">$ROOT_PROC</span><span class="w"> </span>-t<span class="w"> </span><span class="nv">$ROOT_DATA</span>
+</pre></div>
+</div>
+</li>
+<li><p>For information: the log file is written to the current working directory</p></li>
+<li><p>Set some useful environmental variables to access the directories:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">CDDS_PROC_DIR</span><span class="o">=</span><span class="nv">$ROOT_PROC_DIR</span>/&lt;mip_era&gt;/&lt;mip&gt;/&lt;model_id&gt;_&lt;experiment_id&gt;_&lt;variant_label&gt;/&lt;package&gt;/
+<span class="nb">export</span><span class="w"> </span><span class="nv">CDDS_DATA_DIR</span><span class="o">=</span><span class="nv">$ROOT_DATA_DIR</span>/&lt;mip_era&gt;/&lt;mip&gt;/&lt;model_id&gt;/&lt;experiment_id&gt;/&lt;variant_label&gt;/&lt;package&gt;/
+ls<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span>
+ls<span class="w"> </span><span class="nv">$CDDS_DATA_DIR</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">CDDS_PROC_DIR</span><span class="o">=</span>/gws/nopw/j04/mohc_shared/users/<span class="nv">$USER</span>/proc/CMIP6/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/cdds-example-1
+<span class="nb">export</span><span class="w"> </span><span class="nv">CDDS_DATA_DIR</span><span class="o">=</span>/gws/nopw/j04/mohc_shared/users/<span class="nv">$USER</span>/data/CMIP6/CMIP/UKESM1-0-LL/piControl/r1i1p1f2/cdds-example-1
+</pre></div>
+</div>
+<p>Symbolic links can be used to persist these paths across sessions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ln<span class="w"> </span>-s<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span><span class="w"> </span>proc
+ln<span class="w"> </span>-s<span class="w"> </span><span class="nv">$CDDS_DATA_DIR</span><span class="w"> </span>data
+</pre></div>
+</div>
+<p>Note that these variables and links are not used by CDDS – they are purely there for your convenience</p>
+</li>
+</ol>
+</section>
+<section id="generate-the-requested-variables-list">
+<h3>Generate the <em>requested variables list</em><a class="headerlink" href="#generate-the-requested-variables-list" title="Permalink to this headline">¶</a></h3>
+<p>Generate the <em>requested variables list</em> for the simulation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>prepare_generate_variable_list<span class="w"> </span>request.json<span class="w"> </span>-p<span class="w">  </span>-c<span class="w"> </span><span class="nv">$ROOT_PROC</span><span class="w"> </span>-t<span class="w"> </span><span class="nv">$ROOT_DATA</span><span class="w"> </span>-r<span class="w"> </span>variables_to_process.txt<span class="w"> </span>--no_inventory_check
+</pre></div>
+</div>
+<p>This command would automatically determine which variables need to be produced for a list of streams contained in the <code class="docutils literal notranslate"><span class="pre">request.json</span></code> file and listed in the <code class="docutils literal notranslate"><span class="pre">variables_to_process.txt</span></code> file.</p>
+<p>The variable list needs to be provided to the script as the <code class="docutils literal notranslate"><span class="pre">-r</span></code> (<code class="docutils literal notranslate"><span class="pre">--user_request_variables</span></code>) argument, in a text file with the following syntax <code class="docutils literal notranslate"><span class="pre">&lt;mip_table&gt;/&lt;variable_name&gt;:&lt;stream&gt;(/&lt;substream&gt;)</span></code>.</p>
+<p>For instance, your <code class="docutils literal notranslate"><span class="pre">variables_to_process.txt</span></code> file could contain the following four lines</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Amon/tas:ap4
+Omon/tos:ap4
+Amon/pr:apm
+Omon/epcalc100:onm/ptrd-T
+</pre></div>
+</div>
+</section>
+<section id="understanding-the-requested-variables-list">
+<h3>Understanding the <em>requested variables list</em><a class="headerlink" href="#understanding-the-requested-variables-list" title="Permalink to this headline">¶</a></h3>
+<p>The requested variables list is a JSON format file containing some information on the experiment being processed obtained from the CMIP6 data request. To allow users to explore the variable list there is now a tool to explore this file;</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>create_variables_table_file<span class="w"> </span><span class="nv">$RVF</span><span class="w"> </span>table.txt
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">$RVF</span></code> contains the location of the requested variables file in the <code class="docutils literal notranslate"><span class="pre">$CDDS_PROC_DIR/prepare</span></code>. This file is a tab separated file (by default), with columns describing various properties of each variable.</p>
+</section>
+</section>
+<section id="run-cdds-extract">
+<h2>Run CDDS Extract<a class="headerlink" href="#run-cdds-extract" title="Permalink to this headline">¶</a></h2>
+<section id="option-1-set-up-input-data-for-processing">
+<h3>Option 1: Set up input data for processing<a class="headerlink" href="#option-1-set-up-input-data-for-processing" title="Permalink to this headline">¶</a></h3>
+<p>Where data is already on disk, i.e. it came from Archer or similar platforms, CDDS Extract is not required, but removing halo rows and columns from NEMO/MEDUSA data is (see below). Note that data should be arranged in the structure</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">   </span><span class="nv">$CDDS_DATA_DIR</span>/
+<span class="w">       </span>input/
+<span class="w">           </span>&lt;suite<span class="w"> </span>id&gt;/
+<span class="w">               </span>&lt;stream<span class="w"> </span><span class="m">1</span>&gt;/
+<span class="w">                   </span>&lt;files&gt;
+<span class="w">               </span>&lt;stream<span class="w"> </span><span class="m">2</span>&gt;/
+<span class="w">                   </span>&lt;files&gt;
+</pre></div>
+</div>
+<p><strong>Removing the Halo from ocean data</strong></p>
+<p>The ocean output from NEMO and MEDUSA contains halo rows and columns with repeated data (this allows easier gradient calculations within the model). We strip these off to avoid presenting data with duplicate data that could confuse inexperienced users.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">remove_ocean_haloes</span></code> script is designed to take a target directory location and a list of files to process, i.e.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>remove_ocean_haloes<span class="w"> </span>&lt;target<span class="w"> </span>directory&gt;<span class="w"> </span><span class="o">[</span>&lt;file1&gt;<span class="w"> </span>&lt;file2&gt;<span class="w"> </span>&lt;file3&gt;<span class="w"> </span>...<span class="o">]</span><span class="w"> </span>&lt;model_id&gt;
+</pre></div>
+</div>
+<p>e.g.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>remove_ocean_haloes<span class="w"> </span>ready_to_process<span class="w"> </span>raw/nemo_be509o_1m_20150101-20150201_grid-T.nc<span class="w"> </span>raw/medusa_be509o_1m_20150101-20150201_ptrc-T.nc<span class="w"> </span>UKESM1-0-LL
+<span class="c1"># or more simply</span>
+remove_ocean_haloes<span class="w"> </span>ready_to_process<span class="w"> </span>raw/*.nc<span class="w"> </span>UKESM1-0-LL
+</pre></div>
+</div>
+<p>Note that the files must have the correct nemo/medusa file name format and CRITICAL errors will be written to a log file. If a command fails to complete (e.g. session on JASMIN is killed) re-running the command should recover from where it left off. If in doubt contact <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">CDDS Team</a>.</p>
+<p>Removing haloes is not a fast process; on LOTUS it runs at around 1.6 GB per hour for a single file at a time. On <a class="reference external" href="https://code.metoffice.gov.uk/trac/cdds/wiki/CDDSExtract/LotusParallelHaloRemoval">LotusParallelHaloRemoval</a> you will find the template for launching a <a class="reference external" href="https://help.jasmin.ac.uk/article/4890-how-to-submit-a-job-to-slurm">job array</a>.</p>
+<p><strong>Constructing the correct directory structure</strong></p>
+<p>If you do not have the directory configuration noted above, but you have data organised by year (as generated on ARCHER) the input folder can be rearranged by grouping data files by stream, using the <code class="docutils literal notranslate"><span class="pre">path_reformatter</span></code> script.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>path_reformatter<span class="w"> </span>&lt;archer_input_dir&gt;<span class="w"> </span>&lt;input_dir&gt;<span class="w"> </span>&lt;suite<span class="w"> </span>id&gt;<span class="w"> </span>&lt;stream<span class="w"> </span>names&gt;
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>path_reformatter<span class="w"> </span><span class="nv">$CDDS_DATA_DIR</span>/original_input<span class="w"> </span><span class="nv">$CDDS_DATA_DIR</span>/input<span class="w"> </span>u-bq244<span class="w"> </span>ap4<span class="w"> </span>ap5<span class="w"> </span>inm<span class="w"> </span>onm
+</pre></div>
+</div>
+<p>This command will create <code class="docutils literal notranslate"><span class="pre">ap4</span></code>, <code class="docutils literal notranslate"><span class="pre">ap5</span></code>, <code class="docutils literal notranslate"><span class="pre">inm</span></code>, and <code class="docutils literal notranslate"><span class="pre">onm</span></code> directories in <code class="docutils literal notranslate"><span class="pre">$CDDS_DATA_DIR/input/u-bq244</span></code>, and populate them with symlinks to all relevant input files.</p>
+<p>After the input data directory has been prepared to conform to CDDS requirements, the next and final step would involve running <code class="docutils literal notranslate"><span class="pre">cdds_convert</span></code> command with the <code class="docutils literal notranslate"><span class="pre">--skip_extract</span></code>, <code class="docutils literal notranslate"><span class="pre">--skip_transfer</span></code> and <code class="docutils literal notranslate"><span class="pre">--skip_extract_validation</span></code> flags.</p>
+</section>
+<section id="option-2-run-cdds-extract">
+<h3>Option 2: Run CDDS Extract<a class="headerlink" href="#option-2-run-cdds-extract" title="Permalink to this headline">¶</a></h3>
+<p>This option is available for simulations run at the Met Office and archived to MASS. This uses filtered extraction and as noted above this can have a significant impact on the performance of CDDS (less data =&gt; faster). Please note that data extraction is now also a part of the <code class="docutils literal notranslate"><span class="pre">cdds_convert</span></code> command.</p>
+</section>
+</section>
+<section id="run-cdds-convert">
+<h2>Run CDDS Convert<a class="headerlink" href="#run-cdds-convert" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p>Connect to the cylc server <code class="docutils literal notranslate"><span class="pre">cylc1</span></code> on JASMIN and export variables used by the JASMIN installation of CDDS (under investigation);</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>cylc1
+<span class="nb">export</span><span class="w"> </span><span class="nv">TMPDIR</span><span class="o">=</span><span class="nv">$PWD</span><span class="w">  </span><span class="c1"># This should not be used but may be causing issues if unset.</span>
+</pre></div>
+</div>
+</li>
+<li><p>Produce the <em>output netCDF files</em> for the simulation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cdds_convert<span class="w"> </span>request.json<span class="w"> </span>-c<span class="w"> </span><span class="nv">$ROOT_PROC</span><span class="w"> </span>-t<span class="w"> </span><span class="nv">$ROOT_DATA</span><span class="w"> </span>--skip_transfer
+</pre></div>
+</div>
+<p>This will launch a series of Rose suite, which would retrieve data from MASS, configure and then trigger processing, one for each stream for which there is processing to do (if a stream is included in the request JSON file, but there are no variables that can be produced from that stream it will be skipped), and then it will run QC checks on resulting datasets.</p>
+</li>
+<li><p>Monitor the progress of the suite using:</p>
+<ul class="simple">
+<li><p>the suite control GUI (use <code class="docutils literal notranslate"><span class="pre">rose</span> <span class="pre">sgc</span> <span class="pre">--name=cdds_&lt;model_id&gt;_&lt;experiment_id&gt;_&lt;variant_label&gt;_&lt;stream_id&gt;</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">rose</span> <span class="pre">sgc</span> <span class="pre">--name=cdds_UKESM1-0-LL_piControl_r1i1p1f2_onm</span></code>)</p></li>
+<li><p>the cylc scan GUI for monitoring running suites (use <code class="docutils literal notranslate"><span class="pre">cylc</span> <span class="pre">gscan</span> <span class="pre">-n</span> <span class="pre">cdds*</span></code>)</p></li>
+</ul>
+</li>
+<li><p>Each suite will send an e-mail when it completes or stalls (i.e. tasks fail in such a way the suite cannot continue). If a suite stalls investigate the logging information available in the job.err files for failed tasks within the suite in order to diagnose issues and contact cdds&#64;metoffice.gov.uk for assistance.</p></li>
+<li><p>Wait for <strong>ALL</strong> suites to complete. You can check the status of all suites using the <code class="docutils literal notranslate"><span class="pre">cylc</span> <span class="pre">gscan</span></code> command or cylc review (see above for links). Note that it can take several days for these suites to complete depending on the volume of data to be produced. Once CDDS the suites from all streams in a package have completed, continue with the next action.</p></li>
+<li><p>For information: the <em>output netCDF files</em> are written to <code class="docutils literal notranslate"><span class="pre">$CDDS_DATA_DIR/output/</span></code>.</p></li>
+</ol>
+</section>
+<section id="check-results-of-cdds-qc">
+<h2>Check results of CDDS QC<a class="headerlink" href="#check-results-of-cdds-qc" title="Permalink to this headline">¶</a></h2>
+<p>The CDDS QC tool double checks that all files match the CMIP6 requirements and looks for missing time records. The purpose of CDDS QC is to identify problems with data sets before they are published, as the effort required to report issues via the <a class="reference external" href="https://errata.es-doc.org">errata system</a>, retract and replace them can be significant.</p>
+<ol class="arabic simple">
+<li><p>For information: the log files are written to <code class="docutils literal notranslate"><span class="pre">$CDDS_PROC_DIR/qualitycheck/log/</span></code></p></li>
+<li><p>For information: the report is written to <code class="docutils literal notranslate"><span class="pre">$CDDS_PROC_DIR/qualitycheck/report_&lt;datetime&gt;.json</span></code>.</p></li>
+<li><p>For information: CDDS QC also writes an approved variables file <code class="docutils literal notranslate"><span class="pre">approved_variables_&lt;datetime&gt;.json</span></code> that lists all the variables that passed QC, and the location in which the files are found. This is used by CDDS Transfer and other tools.</p></li>
+</ol>
+<section id="retaining-information-from-the-cdds-proc-directory">
+<h3>Retaining information from the CDDS Proc directory<a class="headerlink" href="#retaining-information-from-the-cdds-proc-directory" title="Permalink to this headline">¶</a></h3>
+<p>The CDDS proc directory contains all the processing logs and artefacts that we would use to interpret how processing has progressed. Should issues be found with the data later there are various files that we can look into to understand whether there were issues in the processing that were missed. We recommend that you retain the contents of the proc directories, perhaps in the form of a tarball (e.g. <code class="docutils literal notranslate"><span class="pre">tar</span> <span class="pre">-czf</span> <span class="pre">cdds_proc_&lt;model_id&gt;_&lt;experiment_id&gt;_&lt;variant_label&gt;_&lt;package_name&gt;.tgz</span> <span class="pre">$CDDS_PROC_DIR</span></code>).</p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Recommended CDDS Operational Procedure (v2.4.5) for use on JASMIN</a><ul>
+<li><a class="reference internal" href="#changes-relative-to-cdds-v2-2-on-jasmin">Changes relative to CDDS v2.2 on JASMIN</a></li>
+<li><a class="reference internal" href="#cdds-design-strategy-and-multiple-packages-for-a-simulation">CDDS Design strategy and multiple packages for a simulation</a></li>
+<li><a class="reference internal" href="#directories">Directories</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#activate-the-cdds-install">Activate the CDDS install</a></li>
+<li><a class="reference internal" href="#run-cdds-prepare">Run CDDS Prepare</a><ul>
+<li><a class="reference internal" href="#create-the-request-json-file-using-the-template-shown-below">Create the request JSON file, using the template shown below</a></li>
+<li><a class="reference internal" href="#create-the-cdds-directory-structure">Create the CDDS directory structure</a></li>
+<li><a class="reference internal" href="#generate-the-requested-variables-list">Generate the <em>requested variables list</em></a></li>
+<li><a class="reference internal" href="#understanding-the-requested-variables-list">Understanding the <em>requested variables list</em></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#run-cdds-extract">Run CDDS Extract</a><ul>
+<li><a class="reference internal" href="#option-1-set-up-input-data-for-processing">Option 1: Set up input data for processing</a></li>
+<li><a class="reference internal" href="#option-2-run-cdds-extract">Option 2: Run CDDS Extract</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#run-cdds-convert">Run CDDS Convert</a></li>
+<li><a class="reference internal" href="#check-results-of-cdds-qc">Check results of CDDS QC</a><ul>
+<li><a class="reference internal" href="#retaining-information-from-the-cdds-proc-directory">Retaining information from the CDDS Proc directory</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/wiki/CDDS-Operational-Procedure-v2.4.x-JASMIN.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Recommended CDDS Operational Procedure (v2.4.5) for use on JASMIN</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright British Crown 2015-2023, Met Office.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

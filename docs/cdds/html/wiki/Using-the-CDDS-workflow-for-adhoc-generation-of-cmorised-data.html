@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Generating CMORised data with CDDS for an arbitrary activity id / experiment &#8212; CDDS 2.5.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Generating CMORised data with CDDS for an arbitrary activity id / experiment</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="generating-cmorised-data-with-cdds-for-an-arbitrary-activity-id-experiment">
+<h1>Generating CMORised data with CDDS for an arbitrary activity id / experiment<a class="headerlink" href="#generating-cmorised-data-with-cdds-for-an-arbitrary-activity-id-experiment" title="Permalink to this headline">¶</a></h1>
+<p>As of version v2.4.4 CDDS can generate CMORised data for an arbitrary activity id (MIP) or experiment using a cylc suite to manage the whole process.</p>
+<p>To start launch this process the following will be needed;</p>
+<ul class="simple">
+<li><p>a project framework to work within</p></li>
+<li><p>a request JSON file</p></li>
+<li><p>list of the variables you want to process and the streams from which they can be produced</p></li>
+<li><p>local storage ($SCRATCH)</p></li>
+<li><p>a MOOSE account and somewhere to put the data on MASS (optional)</p></li>
+</ul>
+<section id="the-project-framework">
+<h2>The project framework<a class="headerlink" href="#the-project-framework" title="Permalink to this headline">¶</a></h2>
+<p>The tools we have were written primarily for CMIP6 to CMORise HadGEM3 and UKESM1 model output, but can be applied to other projects provided an appropriate set of variable and metadata definitions are available. Defining a new project, e.g. CMIP6, requires a reasonable amount of information as does adding an entirely new model configuration and the CDDS team should be involved in discussions to do this if you need it. However, it is straightforward to use an existing project and include new activities and experiments.</p>
+<p>When run in “relaxed” mode CDDS will allow you to use any value for the <code class="docutils literal notranslate"><span class="pre">mip</span></code> (activity id) and <code class="docutils literal notranslate"><span class="pre">experiment_id</span></code>. We have a general purpose project for users interested in CMORising data for adhoc use called [GCModelDev](link required) which takes the CMIP6 variable definitions and standards, to which we can add new variables as required.  This is not intended for preparing data for immediate publication to locations such as ESGF, but can be used for analysis alongside CMIP6 data and for feeding in to tools that base themselves on the same data structure/standards.</p>
+</section>
+<section id="the-request-json-file">
+<h2>The Request JSON file<a class="headerlink" href="#the-request-json-file" title="Permalink to this headline">¶</a></h2>
+<p>A request JSON file contains a number of fields that guide what CDDS processing does and can be viewed as a “control” file with a reasonable number of arguments. The simplest approach is to copy an existing file and edit certain fields.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="GCModelDev-HadGEM3-GC31-LL-request-file-example.html"><span class="doc std std-doc">GCModelDev HadGEM3-GC31-LL</span></a></p></li>
+<li><p><a class="reference internal" href="GCModelDev-HadGEM3-GC31-LL-request-file-example-%28ens-MASS-data-class%29.html"><span class="doc std std-doc">GCModelDev HadGEM3-GC31-LL using ens class</span></a></p></li>
+<li><p><a class="reference internal" href="GCModelDev-HadGEM3-GC31-MM-request-file-example.html"><span class="doc std std-doc">GCModelDev HadGEM3-GC31-MM</span></a></p></li>
+<li><p><a class="reference internal" href="GCModelDev-UKESM1-0-LL-request-file-example.html"><span class="doc std std-doc">GCModelDev UKESM1-0-LL</span></a></p></li>
+</ul>
+<p>If you are working with a particular model then to set up a new CDDS processing “package”, the user would need to alter the <code class="docutils literal notranslate"><span class="pre">experiment_id</span></code> and/or <code class="docutils literal notranslate"><span class="pre">variant_label</span></code> fields, possibly the <code class="docutils literal notranslate"><span class="pre">mip</span></code>, and the <code class="docutils literal notranslate"><span class="pre">suite_id</span></code> along with a set of streams</p>
+<p>In future this JSON file will be restructured (CDDS v2.6)</p>
+</section>
+<section id="walkthrough">
+<h2>Walkthrough<a class="headerlink" href="#walkthrough" title="Permalink to this headline">¶</a></h2>
+<section id="activate-cdds-tools-version-2-5-0">
+<h3>1. Activate CDDS tools version 2.5.0<a class="headerlink" href="#activate-cdds-tools-version-2-5-0" title="Permalink to this headline">¶</a></h3>
+<p>Open a shell (needs to be bash) and run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="o">~</span><span class="n">cdds</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">setup_env_for_cdds</span> <span class="mf">2.5.0</span>
+</pre></div>
+</div>
+</section>
+<section id="take-copy-of-request-template-json-file">
+<h3>2. Take copy of request template JSON file<a class="headerlink" href="#take-copy-of-request-template-json-file" title="Permalink to this headline">¶</a></h3>
+<p>Confirm/ modify the following fields:</p>
+<ol class="arabic simple">
+<li><p>experiment_id [1]</p></li>
+<li><p>mip [1]</p></li>
+<li><p>suite_id</p></li>
+<li><p>variant_label [2]</p></li>
+<li><p>streams [3], start and end dates [4]</p></li>
+</ol>
+<p>Note that CMIP6 request JSON files can be created using <code class="docutils literal notranslate"><span class="pre">write_rose_suite_request_json</span></code>, see <span class="xref myst">here</span></p>
+<p>[1] Only use letters, numbers and “-”. Processing will likely break if an underscore or space is used.</p>
+<p>[2] Has the form <code class="docutils literal notranslate"><span class="pre">r?i?p?f?</span></code> – each index can be up to 4 digits. Do not use leading zeros (e.g. r0001i1p1f1) as this will cause issues.</p>
+<p>[3] Streams: there needs to be an entry of the form “run_bounds_for_stream_???” for each model output stream you wish to process. The list of streams to process can be cut down when modifying the CDDS suite (see step X), but if there are no variables to be processed for a stream then there may be failures</p>
+<p>[4] Start and end dates: these  appear in the <code class="docutils literal notranslate"><span class="pre">run_bounds</span></code> and <code class="docutils literal notranslate"><span class="pre">run_bounds_for_stream_???</span></code> fields and need to be changed consistently for all streams.  <strong>The format for all date times in CDDS has changed to the ISO datetime format used by Cylc, i.e. <code class="docutils literal notranslate"><span class="pre">YYY-MM-DDTHH:MM:SS</span></code>.</strong></p>
+<p>Note that we will be attempting to make the request file easier to work with in the coming months.</p>
+</section>
+<section id="set-up-a-list-of-variables">
+<h3>3. Set up a list of variables<a class="headerlink" href="#set-up-a-list-of-variables" title="Permalink to this headline">¶</a></h3>
+<p>Create a text file with the list of variables or copy and modify an existing list. Each line in the file should have the form</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">mip</span> <span class="n">table</span><span class="o">&gt;/&lt;</span><span class="n">variable</span> <span class="n">name</span><span class="o">&gt;</span><span class="p">:</span><span class="o">&lt;</span><span class="n">stream</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Amon</span><span class="o">/</span><span class="n">tas</span><span class="p">:</span><span class="n">ap5</span>
+</pre></div>
+</div>
+<p>If you are using a suite with the CMIP6 STASH set up then you can add the default stream to a list of variables using the command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">stream_mappings</span> <span class="o">--</span><span class="n">varfile</span> <span class="o">&lt;</span><span class="n">filename</span> <span class="n">without</span> <span class="n">streams</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">outfile</span> <span class="o">&lt;</span><span class="n">new</span> <span class="n">file</span> <span class="k">with</span> <span class="n">streams</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>If you are not using a suite with the CMIP6 STASH configuration then contact us for advice as this process will need to be performed by hand.</p>
+</section>
+<section id="check-out-a-copy-of-the-cdds-processing-suite">
+<h3>4. check out a copy of the CDDS processing suite<a class="headerlink" href="#check-out-a-copy-of-the-cdds-processing-suite" title="Permalink to this headline">¶</a></h3>
+<p>Run the following command after replacing values within &lt;&gt;</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">checkout_processing_worflow</span> <span class="o">&lt;</span><span class="n">name</span> <span class="k">for</span> <span class="n">processing</span> <span class="n">workflow</span><span class="o">&gt;</span> \
+<span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">request</span> <span class="n">JSON</span><span class="o">&gt;</span> \
+<span class="o">&lt;</span><span class="n">path</span> <span class="n">to</span> <span class="n">text</span> <span class="n">file</span> <span class="k">with</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">variables</span><span class="o">&gt;</span> \
+<span class="o">--</span><span class="n">workflow_destination</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">checkout_processing_workflow</span> <span class="n">my</span><span class="o">-</span><span class="n">cdds</span><span class="o">-</span><span class="n">test</span> \
+<span class="o">~</span><span class="n">hadmm</span><span class="o">/</span><span class="n">CDDS</span><span class="o">/</span><span class="n">relaxed_example</span><span class="o">/</span><span class="n">request</span><span class="o">.</span><span class="n">json</span> \
+<span class="o">~</span><span class="n">hadmm</span><span class="o">/</span><span class="n">CDDS</span><span class="o">/</span><span class="n">relaxed_example</span><span class="o">/</span><span class="n">variables</span> \
+<span class="o">--</span><span class="n">workflow_destination</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>A directory containing a rose suite will be placed in a subdirectory under the location specified in <code class="docutils literal notranslate"><span class="pre">--workflow_destination</span></code>.  If this is not specified it will be checked out under <code class="docutils literal notranslate"><span class="pre">~/roses/</span></code></p>
+</section>
+<section id="edit-the-suite">
+<h3>5. Edit the suite<a class="headerlink" href="#edit-the-suite" title="Permalink to this headline">¶</a></h3>
+<p>NOT YET UPDATED</p>
+<p>cd into the new directory (“my-cdds-test”) and run rose edit</p>
+<p>All useful fields are under the “suite conf” -&gt; “General Configuration” section. You can remove streams at this point if you do not wish to include them in the processing.</p>
+<p>You can select “skip Transfer” if you do not wish to archive data to MASS.</p>
+<p>Data archived to MASS by CDDS will be put into a data structure similar to that used for CMIP (we may be able to reconfigure this at a later date). The bottom level for this will be <output mass root>/<output mass suffix>. You should
+a) modify “output mass root”: insert your moose user name (firstname.surname) into the template provided
+b) check “output mass suffix”: if you want the data to end up in a different location modify this string</p>
+<p>For CMIP6 production work the output mass root should be left blank and the output mass suffix should be <code class="docutils literal notranslate"><span class="pre">production</span></code></p>
+</section>
+<section id="run-the-suite">
+<h3>6. Run the suite<a class="headerlink" href="#run-the-suite" title="Permalink to this headline">¶</a></h3>
+<p>you should see the CDDS processing suite start up running a cdds_setup task, after which there will be one task per stream in the “PROCESSING_QUEUE” group. each of these tasks launches another suite with its name including the stream.</p>
+<p>In the example above the task will launch a single suite called <code class="docutils literal notranslate"><span class="pre">my-cdds-test_ap5</span></code></p>
+<p>Monitor each of the per stream suites</p>
+<p>If there are failures (and there are multiple retries on most tasks, first try retriggering, and if this doesn’t work contact us via <a class="reference external" href="mailto:cdds&#37;&#52;&#48;metoffice&#46;gov&#46;uk">cdds<span>&#64;</span>metoffice<span>&#46;</span>gov<span>&#46;</span>uk</a> for advice.</p>
+<p>If the processing works smoothly then each of the per stream suites should complete and finally the task “cdds_complete” in the CDDS processing suite will complete when it has seen all of the per stream suites shut down.</p>
+<p>Data will end up in MASS under (for this example)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">moose</span><span class="p">:</span><span class="o">/</span><span class="n">adhoc</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="n">matthew</span><span class="o">.</span><span class="n">mizielinski</span><span class="o">/</span><span class="n">cdds_data</span><span class="o">/</span><span class="n">GCModelDev</span><span class="o">/</span><span class="n">MOHCCP</span><span class="o">/</span><span class="n">MOHC</span><span class="o">/</span><span class="n">HadGEM3</span><span class="o">-</span><span class="n">GC31</span><span class="o">-</span><span class="n">LL</span><span class="o">/</span><span class="n">my</span><span class="o">-</span><span class="n">experiment</span><span class="o">-</span><span class="nb">id</span><span class="o">/</span><span class="n">r1i1p1f3</span><span class="o">/</span><span class="n">Amon</span><span class="o">/</span><span class="n">tas</span><span class="o">/</span><span class="n">gn</span><span class="o">/</span><span class="n">embargoed</span><span class="o">/</span><span class="n">v20230511</span><span class="o">/</span><span class="n">tas_Amon_HadGEM3</span><span class="o">-</span><span class="n">GC31</span><span class="o">-</span><span class="n">LL_my</span><span class="o">-</span><span class="n">experiment</span><span class="o">-</span><span class="n">id_r1i1p1f3_gn_197901</span><span class="o">-</span><span class="mf">201412.</span><span class="n">nc</span>
+</pre></div>
+</div>
+<p>and on disk under</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$SCRATCH/cdds_data/GCModelDev/MOHCCP/HadGEM3-GC31-LL/my-experiment-id/r1i1p1f3/round-1/output/ap5/Amon/tas
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Generating CMORised data with CDDS for an arbitrary activity id / experiment</a><ul>
+<li><a class="reference internal" href="#the-project-framework">The project framework</a></li>
+<li><a class="reference internal" href="#the-request-json-file">The Request JSON file</a></li>
+<li><a class="reference internal" href="#walkthrough">Walkthrough</a><ul>
+<li><a class="reference internal" href="#activate-cdds-tools-version-2-5-0">1. Activate CDDS tools version 2.5.0</a></li>
+<li><a class="reference internal" href="#take-copy-of-request-template-json-file">2. Take copy of request template JSON file</a></li>
+<li><a class="reference internal" href="#set-up-a-list-of-variables">3. Set up a list of variables</a></li>
+<li><a class="reference internal" href="#check-out-a-copy-of-the-cdds-processing-suite">4. check out a copy of the CDDS processing suite</a></li>
+<li><a class="reference internal" href="#edit-the-suite">5. Edit the suite</a></li>
+<li><a class="reference internal" href="#run-the-suite">6. Run the suite</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/wiki/Using-the-CDDS-workflow-for-adhoc-generation-of-cmorised-data.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Generating CMORised data with CDDS for an arbitrary activity id / experiment</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright British Crown 2015-2023, Met Office.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

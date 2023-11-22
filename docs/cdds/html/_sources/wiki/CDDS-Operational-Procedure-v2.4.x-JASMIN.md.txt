@@ -1,0 +1,287 @@
+# Recommended CDDS Operational Procedure (v2.4.5) for use on JASMIN
+
+The definitions of the italicised phrases can be found in the [Glossary](https://code.metoffice.gov.uk/doc/cdds/mip_convert/html/glossary.html).
+
+Use `<script> -h` or `<script> --help` to print information about the script, including available parameters. 
+
+A simulation for the pre-industrial control from UKESM will be used as an example in these instructions.
+
+## Changes relative to CDDS v2.2 on JASMIN
+
+* It is now recommended that all processing tasks relying on datasets in MASS are triggered via a single `cdds_convert` script.
+
+
+Note: errors of the form 
+```bash
+/home/h03/cdds/software/miniconda3/envs/cdds-2.0.0/lib/python3.6/site-packages/dask/config.py:161: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  data = yaml.load(f.read()) or {}
+```
+will appear in every CDDS command for v2.4.x These can be ignored
+
+## CDDS Design strategy and multiple packages for a simulation
+
+CDDS was principally designed for use at the Met Office, but most components should be usable elsewhere. 
+
+New versions of CDDS are being released every 2-3 months on average, and introduce new variables and code improvements. New versions can alter the procedure for working with CDDS, so please ensure you use the corresponding operational procedure.
+
+Within the Met Office multiple "packages" have been run across each simulation to incrementally produce and publish datasets for newly added and approved variables. For example, at the last count there have been over 10 packages producing and publishing data for the first of each of the UKESM1 piControl, historical and several of the climate change scenario simulations. As we move away from the CMIP6 project, new users of CDDS will probably want to run all or most of their processing in one step (i.e. as a single "package").
+
+## Directories
+
+There are two principal directories used by CDDS; 
+
+**The "proc" directory under** `$ROOT_PROC_DIR`
+  * Contains logs and other processing artefacts that is intended to be kept to form part of the audit trail should queries be raised over the data, e.g. `/gws/nopw/j04/mohc_shared/users/$USER/proc`
+
+**The "data" directory under** `$ROOT_DATA_DIR`
+  * Contains input model data and output netCDF files, e.g. `/gws/nopw/j04/mohc_shared/users/$USER/data`
+
+Within the Met Office `$ROOT_PROC_DIR` and `$ROOT_DATA_DIR` are set within the CDDS code, but on JASMIN these should be provided to each CDDS command via the `-c` and `-t` arguments as indicated below. 
+
+**Note that these values should be full rather than relative paths when supplied to CDDS Convert**, otherwise there may be problems within the rose suite.
+
+## Requirements
+
+1. Before running the CDDS Operational Procedure, please ensure that:
+   * you have some data either in MASS or on JASMIN.
+   * You are able to access the MOSRS via the command line. Caching your MOSRS username and password will significantly ease this process, see [here](https://code.metoffice.gov.uk/trac/home/wiki/AuthenticationCaching#JASMIN).
+
+   If any of the above are not true, please contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
+
+## Activate the CDDS install
+
+Setup the environment to use the central installation of CDDS and its dependencies:
+   ```bash
+   source /gws/smf/j04/cmip6_prep/cdds-env-python3/miniconda3/bin/activate cdds-<cdds_version>
+   ```
+   where `<cdds_version>` is the version of CDDS you wish to use, e.g. `2.4.5`. Unless instructed otherwise you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and this version should be used in all stages of the package being processed. If in doubt contact the CDDS team for advice.
+
+Notes: 
+* If you wish to deactivate the CDDS environment then you can use the command `conda deactivate`.
+* A full list of available cdds environments can be found using the command `conda env list`. 
+
+## Run CDDS Prepare
+
+### Create the request JSON file, using the template shown below
+
+```json
+{
+  "atmos_timestep":"1200",
+  "branch_date_in_child":"1960-06-01-00-00-00",
+  "branch_date_in_parent":"1960-05-01-00-00-00",
+  "branch_method":"standard",
+  "calendar":"360_day",
+  "child_base_date":"1850-01-01-00-00-00",
+  "config_version":"1.0.1",
+  "experiment_id":"piControl",
+  "external_plugin":"",
+  "external_plugin_location":"",
+  "global_attributes":{},
+  "institution_id":"MOHC",
+  "license":"CMIP6 model data produced by the Met Office Hadley Centre is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (https://creativecommons.org/licenses). Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, including citation requirements and proper acknowledgment. Further information about this data, including some limitations, can be found via the further_info_url (recorded as a global attribute in this file) and at https://ukesm.ac.uk/cmip6. The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law.",
+  "mass_data_class":"crum",
+  "mip":"CMIP",
+  "mip_era":"CMIP6",
+  "mip_table_dir":"/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/mip_tables/CMIP6/01.00.29",
+  "model_id":"UKESM1-0-LL",
+  "model_type":"AOGCM BGC AER CHEM",
+  "package":"release_testing",
+  "parent_base_date":"1850-01-01-00-00-00",
+  "parent_experiment_id":"piControl-spinup",
+  "parent_mip":"CMIP",
+  "parent_mip_era":"CMIP6",
+  "parent_model_id":"UKESM1-0-LL",
+  "parent_time_units":"days since 1850-01-01",
+  "parent_variant_label":"r1i1p1f2",
+  "run_bounds":"1960-01-01-00-00-00 1970-01-01-00-00-00",
+  "run_bounds_for_stream_ap4":"1960-01-01-00-00-00 1970-01-01-00-00-00",
+  "run_bounds_for_stream_ap5":"1960-01-01-00-00-00 1970-01-01-00-00-00",
+  "run_bounds_for_stream_ap6":"1960-01-01-00-00-00 1970-01-01-00-00-00",
+  "run_bounds_for_stream_onm":"1960-01-01-00-00-00 1970-01-01-00-00-00",
+  "run_bounds_for_stream_ond":"1960-01-01-00-00-00 1970-01-01-00-00-00",
+  "run_bounds_for_stream_inm":"1960-01-01-00-00-00 1970-01-01-00-00-00",
+  "run_bounds_for_stream_ind":"1960-01-01-00-00-00 1970-01-01-00-00-00",
+  "sub_experiment_id":"none",
+  "suite_branch":"cdds",
+  "suite_id":"u-aw310",
+  "suite_revision":"115492",
+  "variant_label":"r1i1p1f2"
+}
+```
+
+The meaning of `request.json` entries is summarised below. Values that most likely need to be changed are indicated in **bold**. Please note that for simulations that have not branched from other simulations, the `parent_` entries should be removed, along with ones related to branching method and times.
+
+*  `atmos_timestep`: this is the time step in seconds of the atmosphere model. This should not be changed unless processing data from high resolution model with different time step.
+*  **`branch_date_in_child`**: in many cases simulation processed would have been branched from another, parent simulation (e.g. `historical` branches from `piControl`, but `ssp245` branches from `historical`). This entry should be modified to indicate the branching point in the time coordinate as defined in the child (i.e. the one being processed) simulation.
+*  **`branch_date_in_parent`**: as above, but the branching point is indicated in time coordinate defined in the parent simulation. This might or might be not different that time coordinate used by the child simulation. For instance, `historical` might branch from the year of 3000 in `piControl`, but the date would be reset to year 1850 in the `historical` simulation itself. However, branching date for scenarios would typically be the same in both parent and child simulations (e.g. 2015 in `historical` and `ssp245`).
+*  `branch_method`: The branching method used when creating the child simulation. In most cases this should be left unmodified as `standard`.
+*  `calendar`: calendard used by the model. For the HadGEM3/UKESM1 model family, this should be `360_day`.
+*  `child_base_date`: The base date the time coordinate is counting from. In most cases this should be left as `1850-01-01-00-00-00`.
+*  `config_version`: CDDS configuration version. Should be left as `1.0.1`.
+*  **`experiment_id`**: The experiment id of the processed simulation.
+*  `external_plugin`: This should be left empty unless using plugin configuration features of CDDS.
+*  `external_plugin_location`: As above.
+*  `global_attributes`: A dictionary containing additional global attributes to be inserted into netCDF4 output. Should be left as `{}` unless the additional attributes are needed.
+*  **`institution_id`**: The id of the institution responsible for the dataset.
+*  **`license`**: The license text should contain reference to the institution name and match the generic license template as defined in MIP tables CV.
+*  `mass_data_class`: This is the top-level location of the dataset in MASS. Most likely should be left as `crum` or empty (if not accessing MASS storage).
+*  **`mip`**: The MIP the processed simulation belongs to.
+*  `mip_era`: The era of the MIP. Most likely `CMIP6`, but might be something else entirely if processing data from other projects using custom MIP tables.
+*  `mip_table_dir`: The location of MIP Tables describing experiments and produced variables. This should not be changed unless using custom version of MIP tables for bespoke projects.
+*  **`model_id`**: The id of the climate model, e.g. `UKESM1-0-LL` or `HadGEM3-GC31-LL`.
+*  **`model_type`**: Typically `AOGCM BGC AER CHEM` for UKESM1, `AOGCM AER` for HadGEM3. For amip-style experiments use `AGCM`.
+*  **`package`**: This is an arbitrary name denoting processing stage (see **CDDS Design strategy and multiple packages for a simulation** above).
+*  `parent_base_date`: Similar to `child_base_date`, but for the parent simulation.
+*  **`parent_experiment_id`**: Similar to `experiment id`, but for the parent simulation.
+*  **`parent_mip`**: Similar to `mip`, but for the parent simulation.
+*  `parent_mip_era`: Similar to `mip_era`, but for the parent simulation.
+*  **`parent_model_id`**:"UKESM1-0-LL",
+*  `parent_time_units`: Time units attribute in the parent simulation. Most likely should be left unmodified as `days since 1850-01-01`. In the child simulation, this attribute is stored in the time coordinate variable itself.
+*  **`parent_variant_label`**: Similar to `variant_label` but for the parent simulation.
+*  **`run_bounds`**: Time slice that needs to be processed by CDDS. This might or might not correspond to the whole length of the simulation.
+*  **`run_bounds_for_stream_ap4`**, **`run_bounds_for_stream_ap5`**, etc: For historical reasons run bounds also need to be specified for each data stream.
+*  `sub_experiment_id`: Sub-experiment id.
+*  `suite_branch`: This is not used after creation of the `request.json` file.
+*  **`suite_id`**: Needs to correspond to the correct suite id.
+*  `suite_revision`: This is not used after creation of the `request.json` file.
+*  **`variant_label`**: The variant label in the `ripf` format. Index values need to be larger than 0.
+
+### Create the CDDS directory structure
+
+1. Create the CDDS directory structure for the simulation; the data are stored in `<root_data_dir>`, while the processing artefacts (e.g. logs) are stored separately in `<root_proc_dir>` in directories specific to each CDDS component:
+   ```bash
+   create_cdds_directory_structure request.json -c $ROOT_PROC -t $ROOT_DATA
+   ```
+2. For information: the log file is written to the current working directory
+3. Set some useful environmental variables to access the directories:
+   ```bash
+   export CDDS_PROC_DIR=$ROOT_PROC_DIR/<mip_era>/<mip>/<model_id>_<experiment_id>_<variant_label>/<package>/
+   export CDDS_DATA_DIR=$ROOT_DATA_DIR/<mip_era>/<mip>/<model_id>/<experiment_id>/<variant_label>/<package>/
+   ls $CDDS_PROC_DIR
+   ls $CDDS_DATA_DIR
+   ```
+   Example:
+   ```bash
+   export CDDS_PROC_DIR=/gws/nopw/j04/mohc_shared/users/$USER/proc/CMIP6/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/cdds-example-1
+   export CDDS_DATA_DIR=/gws/nopw/j04/mohc_shared/users/$USER/data/CMIP6/CMIP/UKESM1-0-LL/piControl/r1i1p1f2/cdds-example-1
+   ```
+   Symbolic links can be used to persist these paths across sessions:
+   ```bash
+   ln -s $CDDS_PROC_DIR proc
+   ln -s $CDDS_DATA_DIR data
+   ```
+   Note that these variables and links are not used by CDDS -- they are purely there for your convenience
+
+### Generate the _requested variables list_
+
+Generate the _requested variables list_ for the simulation:
+```bash
+prepare_generate_variable_list request.json -p  -c $ROOT_PROC -t $ROOT_DATA -r variables_to_process.txt --no_inventory_check
+```
+This command would automatically determine which variables need to be produced for a list of streams contained in the `request.json` file and listed in the `variables_to_process.txt` file.
+
+The variable list needs to be provided to the script as the `-r` (`--user_request_variables`) argument, in a text file with the following syntax `<mip_table>/<variable_name>:<stream>(/<substream>)`. 
+
+For instance, your `variables_to_process.txt` file could contain the following four lines
+```bash
+Amon/tas:ap4
+Omon/tos:ap4
+Amon/pr:apm
+Omon/epcalc100:onm/ptrd-T
+```
+
+### Understanding the _requested variables list_
+
+The requested variables list is a JSON format file containing some information on the experiment being processed obtained from the CMIP6 data request. To allow users to explore the variable list there is now a tool to explore this file;
+   ```bash
+   create_variables_table_file $RVF table.txt
+   ```
+where `$RVF` contains the location of the requested variables file in the `$CDDS_PROC_DIR/prepare`. This file is a tab separated file (by default), with columns describing various properties of each variable.
+
+## Run CDDS Extract
+
+### Option 1: Set up input data for processing
+
+Where data is already on disk, i.e. it came from Archer or similar platforms, CDDS Extract is not required, but removing halo rows and columns from NEMO/MEDUSA data is (see below). Note that data should be arranged in the structure
+```bash
+   $CDDS_DATA_DIR/
+       input/
+           <suite id>/
+               <stream 1>/
+                   <files>
+               <stream 2>/
+                   <files>
+```
+
+
+**Removing the Halo from ocean data**
+
+The ocean output from NEMO and MEDUSA contains halo rows and columns with repeated data (this allows easier gradient calculations within the model). We strip these off to avoid presenting data with duplicate data that could confuse inexperienced users.
+
+The `remove_ocean_haloes` script is designed to take a target directory location and a list of files to process, i.e.
+   ```bash
+   remove_ocean_haloes <target directory> [<file1> <file2> <file3> ...] <model_id>
+   ```
+e.g.
+   ```bash
+   remove_ocean_haloes ready_to_process raw/nemo_be509o_1m_20150101-20150201_grid-T.nc raw/medusa_be509o_1m_20150101-20150201_ptrc-T.nc UKESM1-0-LL
+   # or more simply
+   remove_ocean_haloes ready_to_process raw/*.nc UKESM1-0-LL
+   ```
+
+Note that the files must have the correct nemo/medusa file name format and CRITICAL errors will be written to a log file. If a command fails to complete (e.g. session on JASMIN is killed) re-running the command should recover from where it left off. If in doubt contact [CDDS Team](mailto:cdds@metoffice.gov.uk).
+
+Removing haloes is not a fast process; on LOTUS it runs at around 1.6 GB per hour for a single file at a time. On [LotusParallelHaloRemoval](https://code.metoffice.gov.uk/trac/cdds/wiki/CDDSExtract/LotusParallelHaloRemoval) you will find the template for launching a [job array](https://help.jasmin.ac.uk/article/4890-how-to-submit-a-job-to-slurm).
+
+
+**Constructing the correct directory structure**
+
+If you do not have the directory configuration noted above, but you have data organised by year (as generated on ARCHER) the input folder can be rearranged by grouping data files by stream, using the `path_reformatter` script. 
+
+   ```bash
+   path_reformatter <archer_input_dir> <input_dir> <suite id> <stream names>
+   ```
+Example:
+   ```bash
+   path_reformatter $CDDS_DATA_DIR/original_input $CDDS_DATA_DIR/input u-bq244 ap4 ap5 inm onm
+   ```
+
+This command will create `ap4`, `ap5`, `inm`, and `onm` directories in `$CDDS_DATA_DIR/input/u-bq244`, and populate them with symlinks to all relevant input files.
+
+After the input data directory has been prepared to conform to CDDS requirements, the next and final step would involve running `cdds_convert` command with the `--skip_extract`, `--skip_transfer` and `--skip_extract_validation` flags.
+
+### Option 2: Run CDDS Extract
+
+This option is available for simulations run at the Met Office and archived to MASS. This uses filtered extraction and as noted above this can have a significant impact on the performance of CDDS (less data => faster). Please note that data extraction is now also a part of the `cdds_convert` command.
+
+## Run CDDS Convert
+
+1. Connect to the cylc server `cylc1` on JASMIN and export variables used by the JASMIN installation of CDDS (under investigation);
+   ```bash
+   ssh cylc1
+   export TMPDIR=$PWD  # This should not be used but may be causing issues if unset.
+   ```
+2. Produce the _output netCDF files_ for the simulation:
+   ```bash
+   cdds_convert request.json -c $ROOT_PROC -t $ROOT_DATA --skip_transfer
+   ```
+   This will launch a series of Rose suite, which would retrieve data from MASS, configure and then trigger processing, one for each stream for which there is processing to do (if a stream is included in the request JSON file, but there are no variables that can be produced from that stream it will be skipped), and then it will run QC checks on resulting datasets.
+
+1. Monitor the progress of the suite using:
+   * the suite control GUI (use `rose sgc --name=cdds_<model_id>_<experiment_id>_<variant_label>_<stream_id>`, e.g. `rose sgc --name=cdds_UKESM1-0-LL_piControl_r1i1p1f2_onm`)
+   * the cylc scan GUI for monitoring running suites (use `cylc gscan -n cdds*`)
+2. Each suite will send an e-mail when it completes or stalls (i.e. tasks fail in such a way the suite cannot continue). If a suite stalls investigate the logging information available in the job.err files for failed tasks within the suite in order to diagnose issues and contact cdds@metoffice.gov.uk for assistance.
+3. Wait for **ALL** suites to complete. You can check the status of all suites using the `cylc gscan` command or cylc review (see above for links). Note that it can take several days for these suites to complete depending on the volume of data to be produced. Once CDDS the suites from all streams in a package have completed, continue with the next action.
+4. For information: the _output netCDF files_ are written to `$CDDS_DATA_DIR/output/`.
+
+## Check results of CDDS QC
+
+The CDDS QC tool double checks that all files match the CMIP6 requirements and looks for missing time records. The purpose of CDDS QC is to identify problems with data sets before they are published, as the effort required to report issues via the [errata system](https://errata.es-doc.org), retract and replace them can be significant.
+
+1. For information: the log files are written to `$CDDS_PROC_DIR/qualitycheck/log/`
+2. For information: the report is written to `$CDDS_PROC_DIR/qualitycheck/report_<datetime>.json`. 
+3. For information: CDDS QC also writes an approved variables file `approved_variables_<datetime>.json` that lists all the variables that passed QC, and the location in which the files are found. This is used by CDDS Transfer and other tools.
+
+### Retaining information from the CDDS Proc directory
+
+The CDDS proc directory contains all the processing logs and artefacts that we would use to interpret how processing has progressed. Should issues be found with the data later there are various files that we can look into to understand whether there were issues in the processing that were missed. We recommend that you retain the contents of the proc directories, perhaps in the form of a tarball (e.g. `tar -czf cdds_proc_<model_id>_<experiment_id>_<variant_label>_<package_name>.tgz $CDDS_PROC_DIR`).

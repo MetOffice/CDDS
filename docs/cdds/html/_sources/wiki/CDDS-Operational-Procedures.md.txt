@@ -1,6 +1,9 @@
 # CDDS Operational Procedure
 
 ## Met Office CDN
+* v2.5.x:
+  * [CDDS Operational Procedure v2.5 using CDDS workflow](CMIP6-processing-with-CDDS-v2.5-and-the-CDDS-workflow)
+  * [CDDS Operational Procedure v2.5 for adhoc work](Using-the-CDDS-workflow-interface-for-adhoc-generation-of-cmorised-data)
 * v2.4.x:
   * [CDDS Operational Procedure v2.4](CDDS-Operational-Procedure-v2.4) 
   * [CDDS Operational Procedure v2.4 using CDDS suite](CMIP6-processing-with-CDDS-v2.4-and-the-CDDS-processing-suite)

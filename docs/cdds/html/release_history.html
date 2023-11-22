@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Release History &#8212; CDDS 2.5.1 documentation</title>
+    <title>Release History &#8212; CDDS 2.5.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="installation.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CDDS 2.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CDDS 2.5.3 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Release History</a></li> 
       </ul>
     </div>  
@@ -46,6 +46,35 @@
             
   <section id="release-history">
 <h1>Release History<a class="headerlink" href="#release-history" title="Permalink to this headline">¶</a></h1>
+<section id="release-2-5-3-november-22-2023">
+<h2>Release 2.5.3, November 22, 2023<a class="headerlink" href="#release-2-5-3-november-22-2023" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Adaptations needed for new CMIP6Plus MIP tables (CDDSO-336, CDDSO-365)</p></li>
+<li><p>Adaptations needed to support use of sub_experiment_ids that are not
+“none” (CDDSO-365, CDDSO-362)</p></li>
+<li><p>Extract can again correctly retrieve sub-daily data (CDDSO-358)</p></li>
+<li><p>The update_directives script in the per-stream suite now correctly
+calculate upper limits for memory / wall time / local storage (CDDSO-360)</p></li>
+</ul>
+</section>
+<section id="release-2-5-2-october-18-2023">
+<h2>Release 2.5.2, October 18, 2023<a class="headerlink" href="#release-2-5-2-october-18-2023" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Polar row masking is now specified directly in the MIP Convert config
+files (CDDSO-331)</p></li>
+<li><p>Memory, storage and time limits for SLURM jobs are now dynamically
+calculated after the first three cycles of the processing suite
+(CDDSO-212)</p></li>
+<li><p>CDDS can now handle hourly data files within a stream (CDDSO-349)</p></li>
+<li><p>The correct filenames for ocean data from ensemble suites are now
+used again (CDDSO-350)</p></li>
+<li><p>The CDDS suite uses a consistent calendar to the request, which
+ensures that concatenation processes, QC and archiving are correctly
+triggered (CDDSO-351)</p></li>
+<li><p>All options are now passed through to CDDS Convert by the CDDS
+processing workflow (CDDSO-348)</p></li>
+</ul>
+</section>
 <section id="release-2-5-1-august-4-2023">
 <h2>Release 2.5.1, August 4, 2023<a class="headerlink" href="#release-2-5-1-august-4-2023" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -1077,6 +1106,8 @@ parents, and retrieves the correct value of the <a class="reference internal" hr
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Release History</a><ul>
+<li><a class="reference internal" href="#release-2-5-3-november-22-2023">Release 2.5.3, November 22, 2023</a></li>
+<li><a class="reference internal" href="#release-2-5-2-october-18-2023">Release 2.5.2, October 18, 2023</a></li>
 <li><a class="reference internal" href="#release-2-5-1-august-4-2023">Release 2.5.1, August 4, 2023</a></li>
 <li><a class="reference internal" href="#release-2-5-0-july-27-2023">Release 2.5.0, July 27, 2023</a></li>
 <li><a class="reference internal" href="#release-2-4-7-june-29-2023">Release 2.4.7, June 29, 2023</a></li>
@@ -1193,7 +1224,7 @@ parents, and retrieves the correct value of the <a class="reference internal" hr
         <li class="right" >
           <a href="installation.html" title="Installation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">CDDS 2.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">CDDS 2.5.3 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Release History</a></li> 
       </ul>
     </div>
