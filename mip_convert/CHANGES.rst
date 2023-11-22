@@ -3,6 +3,11 @@
 
 .. include:: common.txt
 
+Release 2.5.3, November 22, 2023
+================================
+* Adaptations needed for new CMIP6Plus MIP tables (CDDSO-336, CDDSO-365)
+* Update to version of CMOR to 3.6.3 (CDDSO-368)
+
 Release 2.5.2, October 18, 2023
 ===============================
 * Polar row masking is now specified directly in the MIP Convert config
