@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>cdds.common.plugins.base package &#8212; CDDS 2.5.1 documentation</title>
+    <title>cdds.common.plugins.base package &#8212; CDDS 2.5.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="index.html" title="CDDS plugins"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CDDS plugins</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.base package</a></li> 
       </ul>
@@ -89,7 +89,7 @@ to handle basic grid information of models.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="cdds.common.plugins.base.base_grid.AtmosBaseGridInfo.masks">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">masks</span></span><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">cdds.common.plugins.grid.OceanGridPolarMask</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cdds.common.plugins.base.base_grid.AtmosBaseGridInfo.masks" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">masks</span></span><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cdds.common.plugins.base.base_grid.AtmosBaseGridInfo.masks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a dictionary of ocean grid polar masks for the grid.
 Atmosphere grids have no ocean grid polar masks. So, ‘None’ will be returned.</p>
 <dl class="field-list simple">
@@ -281,14 +281,12 @@ For example:</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="cdds.common.plugins.base.base_grid.OceanBaseGridInfo.masks">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">masks</span></span><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">cdds.common.plugins.grid.OceanGridPolarMask</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cdds.common.plugins.base.base_grid.OceanBaseGridInfo.masks" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">masks</span></span><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cdds.common.plugins.base.base_grid.OceanBaseGridInfo.masks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a dictionary of ocean grid polar masks for the grid.
 For example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s1">&#39;grid-V&#39;</span><span class="p">:</span> <span class="n">OceanGridPolarMask</span><span class="p">(</span>
-                 <span class="n">grid_name</span><span class="p">:</span> <span class="s1">&#39;grid-V&#39;</span><span class="p">,</span> <span class="n">slice_latitude</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">slice_longitude</span><span class="p">:</span> <span class="p">[</span><span class="mi">180</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]),</span>
-  <span class="s1">&#39;cice-U&#39;</span><span class="p">:</span> <span class="n">OceanGridPolarMask</span><span class="p">(</span>
-                 <span class="n">grid_name</span><span class="p">:</span> <span class="s1">&#39;cice-U&#39;</span><span class="p">,</span> <span class="n">slice_latitude</span><span class="p">:</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">slice_longitude</span><span class="p">:</span> <span class="p">[</span><span class="mi">180</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
+  <span class="s1">&#39;grid-V&#39;</span><span class="p">:</span> <span class="s1">&#39;-1:None:None,180:None:None&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;cice-U&#39;</span><span class="p">:</span> <span class="s1">&#39;-1:None:None,180:None:None</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -481,6 +479,20 @@ by the given frequency and shape coordinates.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>StreamFileInfo</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cdds.common.plugins.base.base_models.BaseModelParameters.streams">
+<span class="sig-name descname"><span class="pre">streams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/cdds/common/plugins/base/base_models.html#BaseModelParameters.streams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdds.common.plugins.base.base_models.BaseModelParameters.streams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of all defined streams.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Streams</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[str]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -691,6 +703,11 @@ in the near future.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="cdds.common.plugins.base.base_plugin.MipEra.CMIP6_Plus">
+<span class="sig-name descname"><span class="pre">CMIP6_Plus</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'CMIP6Plus'</span></em><a class="headerlink" href="#cdds.common.plugins.base.base_plugin.MipEra.CMIP6_Plus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="cdds.common.plugins.base.base_plugin.MipEra.CORDEX">
 <span class="sig-name descname"><span class="pre">CORDEX</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'CORDEX'</span></em><a class="headerlink" href="#cdds.common.plugins.base.base_plugin.MipEra.CORDEX" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -727,6 +744,23 @@ in the near future.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>True if project is a CMIP project otherwise False</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cdds.common.plugins.base.base_plugin.MipEra.is_cmip_plus">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">is_cmip_plus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mip_era</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/cdds/common/plugins/base/base_plugin.html#MipEra.is_cmip_plus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdds.common.plugins.base.base_plugin.MipEra.is_cmip_plus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if given project is a CMIPPlus project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mip_era</strong> (<em>str</em>) – ID of project to check (case-sensitive check!)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if project is a CMIPPlus project otherwise False</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>bool</p>
@@ -942,7 +976,7 @@ is NONE, the default stream is returned.</p>
         <li class="right" >
           <a href="index.html" title="CDDS plugins"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >CDDS plugins</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.base package</a></li> 
       </ul>

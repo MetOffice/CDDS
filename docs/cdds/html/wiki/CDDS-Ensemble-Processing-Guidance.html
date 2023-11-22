@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Overview &#8212; CDDS 2.5.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Overview</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>To facilitate processing ensembles using CDDS two suites have been created to automate the numerous manual stepsthat would normally be needed.</p>
+<p>The following preparatory steps are required before processing. Once complete, the only user intervention needed should be monitoring suites and retriggering any failed tasks.</p>
+<ol class="arabic simple">
+<li><p>Creation of a variables file.</p></li>
+<li><p>Creation of <code class="docutils literal notranslate"><span class="pre">request.json</span></code> files.</p></li>
+<li><p>Configuration of the CDDS Ensemble Suite</p></li>
+<li><p>Configuration of the CDDS Processing Suite</p></li>
+</ol>
+</section>
+<section id="creation-of-a-variables-file">
+<h1>1. Creation of a variables file.<a class="headerlink" href="#creation-of-a-variables-file" title="Permalink to this headline">¶</a></h1>
+<p>The variables file uses a simple format. Variables to be processed are declared using MIP Table and variable name seperated by a forward slash, then followed by a colon, and the stream in which the stash code(s) needed for this variable are located. For example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Amon</span><span class="o">/</span><span class="n">tas</span><span class="p">:</span><span class="n">ap1</span>
+<span class="n">Amon</span><span class="o">/</span><span class="n">ts</span><span class="p">:</span><span class="n">ap1</span>
+<span class="n">Emon</span><span class="o">/</span><span class="n">evspsblpot</span><span class="p">:</span><span class="n">ap1</span>
+<span class="n">Lmon</span><span class="o">/</span><span class="n">evspsblveg</span><span class="p">:</span><span class="n">ap1</span>
+<span class="n">GCLmon</span><span class="o">/</span><span class="n">mrrob</span><span class="p">:</span><span class="n">ap1</span>
+<span class="n">Lmon</span><span class="o">/</span><span class="n">mrros</span><span class="p">:</span><span class="n">ap1</span>
+</pre></div>
+</div>
+<p>Some general things to note about variables.</p>
+<ul class="simple">
+<li><p>The variable mapping must exist in CDDS. in the <code class="docutils literal notranslate"><span class="pre">common_mappings</span></code> or the `</p></li>
+<li><p>The variable must also exist in whatever miptables are being used.</p></li>
+<li><p>The required stash codes for the mapping must of course exist in the model output.</p></li>
+</ul>
+</section>
+<section id="creation-of-request-json-files">
+<h1>2. Creation of request.json files.<a class="headerlink" href="#creation-of-request-json-files" title="Permalink to this headline">¶</a></h1>
+<p>A <code class="docutils literal notranslate"><span class="pre">request.json</span></code> file is used to drive CDDS, and one is needed for ever ensemble member. These request files contain</p>
+<p>The only differences between each of the <code class="docutils literal notranslate"><span class="pre">request.json</span></code> files (assuming date ranges for processing and variables will be the same for all members) are the following fields.</p>
+<ul class="simple">
+<li><p>“mass_ensemble_member” Requried for extracting files from MASS</p></li>
+<li><p>“variant_label”</p></li>
+<li><p>“request_id” A unique identifier for the processing.</p></li>
+<li><p>“global_attributes”</p></li>
+</ul>
+<p>The best way to go about this is to create a “template” file with those fields that are identical and then use this template to add this can be done manually or programatically.</p>
+<p>An example of a script used to do this programatically can be found here.</p>
+</section>
+<section id="configuration-of-the-cdds-processing-suite">
+<h1>3. Configuration of the CDDS Processing Suite<a class="headerlink" href="#configuration-of-the-cdds-processing-suite" title="Permalink to this headline">¶</a></h1>
+<p>This suite is used for</p>
+<ul class="simple">
+<li><p>version of cdds</p></li>
+<li><p>define what components of cdds are to run</p></li>
+</ul>
+<p>Unlike the suite in the next section, it is important to make sure that these changes are committed.</p>
+</section>
+<section id="configuration-of-the-cdds-ensemble-suite">
+<h1>4. Configuration of the CDDS Ensemble Suite<a class="headerlink" href="#configuration-of-the-cdds-ensemble-suite" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li><p>Make a copy of the suite <code class="docutils literal notranslate"><span class="pre">rosie</span> <span class="pre">co</span> <span class="pre">u-cr273</span></code></p></li>
+<li><p>Open suite for editing <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">~/roses/u-cr273</span></code> <code class="docutils literal notranslate"><span class="pre">rose</span> <span class="pre">edit</span></code></p></li>
+<li><p>Make the required configuration changes.</p>
+<ol class="arabic simple">
+<li><p>Add the absolute path to the <code class="docutils literal notranslate"><span class="pre">request.json</span></code> files directory.</p></li>
+<li><p>Add the absolute path to the variables file.</p></li>
+<li><p>Run the <code class="docutils literal notranslate"><span class="pre">generatebasenames.GenerateBaseNames</span></code> macro and confirm this has sucessfully populated the Ensemble Member Base Names with the expected ensemble members.</p></li>
+<li><p>Specify the name of the CDDS Processing Branch you commited the changes to in the precious section.</p></li>
+</ol>
+</li>
+<li><p>Save these changes</p></li>
+<li><p>Start the ensemble suite when ready using <code class="docutils literal notranslate"><span class="pre">rose</span> <span class="pre">suite-run</span> <span class="pre">--name=&quot;ukcp_ensemble&quot;</span></code></p></li>
+</ol>
+<p>Unless the</p>
+</section>
+<section id="final-notes">
+<h1>Final Notes<a class="headerlink" href="#final-notes" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Before starting the ensemble suite, it would be wise to do a “test run” first using one of the <code class="docutils literal notranslate"><span class="pre">request.json</span></code> files to confirm that things like MASS extraction works, and all the variables specified can be produced.</p></li>
+<li></li>
+</ul>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Overview</a></li>
+<li><a class="reference internal" href="#creation-of-a-variables-file">1. Creation of a variables file.</a></li>
+<li><a class="reference internal" href="#creation-of-request-json-files">2. Creation of request.json files.</a></li>
+<li><a class="reference internal" href="#configuration-of-the-cdds-processing-suite">3. Configuration of the CDDS Processing Suite</a></li>
+<li><a class="reference internal" href="#configuration-of-the-cdds-ensemble-suite">4. Configuration of the CDDS Ensemble Suite</a></li>
+<li><a class="reference internal" href="#final-notes">Final Notes</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/wiki/CDDS-Ensemble-Processing-Guidance.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Overview</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright British Crown 2015-2023, Met Office.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    </div>
+  </body>
+</html>

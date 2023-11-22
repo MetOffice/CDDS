@@ -1,0 +1,84 @@
+## Overview
+
+To facilitate processing ensembles using CDDS two suites have been created to automate the numerous manual stepsthat would normally be needed.
+
+The following preparatory steps are required before processing. Once complete, the only user intervention needed should be monitoring suites and retriggering any failed tasks.
+
+1. Creation of a variables file.
+2. Creation of `request.json` files.
+3. Configuration of the CDDS Ensemble Suite
+4. Configuration of the CDDS Processing Suite
+
+
+## 1. Creation of a variables file.
+
+The variables file uses a simple format. Variables to be processed are declared using MIP Table and variable name seperated by a forward slash, then followed by a colon, and the stream in which the stash code(s) needed for this variable are located. For example
+
+```
+Amon/tas:ap1
+Amon/ts:ap1
+Emon/evspsblpot:ap1
+Lmon/evspsblveg:ap1
+GCLmon/mrrob:ap1
+Lmon/mrros:ap1
+```
+
+Some general things to note about variables.
+
+- The variable mapping must exist in CDDS. in the `common_mappings` or the `
+- The variable must also exist in whatever miptables are being used.
+- The required stash codes for the mapping must of course exist in the model output.
+
+
+
+## 2. Creation of request.json files.
+
+A `request.json` file is used to drive CDDS, and one is needed for ever ensemble member. These request files contain 
+
+The only differences between each of the `request.json` files (assuming date ranges for processing and variables will be the same for all members) are the following fields.
+- "mass_ensemble_member" Requried for extracting files from MASS
+- "variant_label" 
+- "request_id" A unique identifier for the processing.
+- "global_attributes"
+
+The best way to go about this is to create a "template" file with those fields that are identical and then use this template to add this can be done manually or programatically.
+
+An example of a script used to do this programatically can be found here. 
+
+
+
+
+## 3. Configuration of the CDDS Processing Suite 
+
+This suite is used for 
+
+- version of cdds
+- define what components of cdds are to run
+
+
+Unlike the suite in the next section, it is important to make sure that these changes are committed.
+
+
+
+
+
+## 4. Configuration of the CDDS Ensemble Suite
+
+1. Make a copy of the suite `rosie co u-cr273`
+1. Open suite for editing `cd ~/roses/u-cr273` `rose edit`
+1. Make the required configuration changes.
+    1. Add the absolute path to the `request.json` files directory.
+    1. Add the absolute path to the variables file.
+    1. Run the `generatebasenames.GenerateBaseNames` macro and confirm this has sucessfully populated the Ensemble Member Base Names with the expected ensemble members.
+    1. Specify the name of the CDDS Processing Branch you commited the changes to in the precious section.
+1. Save these changes
+1. Start the ensemble suite when ready using `rose suite-run --name="ukcp_ensemble"` 
+
+Unless the 
+
+
+
+## Final Notes
+
+- Before starting the ensemble suite, it would be wise to do a "test run" first using one of the `request.json` files to confirm that things like MASS extraction works, and all the variables specified can be produced.
+- 
