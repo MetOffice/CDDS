@@ -3,6 +3,15 @@
 
 .. include:: common.txt
 
+Release 2.5.3, November 22, 2023
+================================
+* Adaptations needed for new CMIP6Plus MIP tables (CDDSO-336, CDDSO-365)
+* Adaptations needed to support use of sub_experiment_ids that are not 
+  “none” (CDDSO-365, CDDSO-362)
+* Extract can again correctly retrieve sub-daily data (CDDSO-358)
+* The update_directives script in the per-stream suite now correctly 
+  calculate upper limits for memory / wall time / local storage (CDDSO-360)
+
 Release 2.5.2, October 18, 2023
 ===============================
 * Polar row masking is now specified directly in the MIP Convert config
