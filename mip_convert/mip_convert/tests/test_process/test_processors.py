@@ -921,15 +921,15 @@ class TestAnnualFromMonthly3D(unittest.TestCase):
 
     def setUp(self):
         thickness = np.ones(12 * 3 * 8)
-        for i in range(8 * 6):
-            thickness[i] = 0.5
-        for i in range(8 * 6):
-            thickness[i + 12 * 2 * 8] = 2.0
+        thickness[0:48] = 0.5
+        thickness[192:240] = 2.0
         self.thkcello = self._test_data(thickness.reshape(36, 2, 2, 2), nt=12 * 3)
 
     def test_calculating_thckcello_weights(self):
         weights = calculate_thkcello_weights(self.thkcello)
-        self.assertTrue(True)
+        np.testing.assert_array_almost_equal(np.sum(weights, axis=0),
+                                             np.array([3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0]).reshape(2, 2, 2),
+                                             decimal=12)
 
     def test_test_annual_cube(self):
         thetao = np.ones(12 * 3 * 8) * 280.0
@@ -939,7 +939,8 @@ class TestAnnualFromMonthly3D(unittest.TestCase):
             thetao[i + 12 * 2 * 8] = 330.0
         cube = self._test_data(thetao.reshape(36, 2, 2, 2), nt=12 * 3)
         result = annual_from_monthly_3d(cube, self.thkcello)
-        self.assertTrue(True)
+        expected = np.array([286.0 + 2 / 3] * 8 + [280.0] * 8 + [313.0 + 1 / 3] * 8).reshape(3, 2, 2, 2)
+        np.testing.assert_array_almost_equal(result.data, expected, decimal=12)
 
 
 if __name__ == '__main__':

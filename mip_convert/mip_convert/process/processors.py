@@ -2256,6 +2256,7 @@ def vrot_calc_extract_n_hourly(cube_u, cube_v, period_in_hours=6):
 
 
 def annual_from_monthly_2d(cube):
+    """Calculate annual mean from a two-dimensional cube with monthly data"""
     # check that you have whole years
     ntimes = len(cube.coord('time').points)
     if ntimes % 12 != 0:
@@ -2266,6 +2267,7 @@ def annual_from_monthly_2d(cube):
 
 
 def calculate_thkcello_weights(cube):
+    """Calculates weights corresponding to relative contribution of monthly layer thickness to the annual mean"""
     ntimes = len(cube.coord('time').points)
     if ntimes % 12 != 0:
         raise RuntimeError('The thkcello cube need to have whole years to process annual means')
@@ -2277,6 +2279,8 @@ def calculate_thkcello_weights(cube):
 
 
 def annual_from_monthly_3d(cube, thkcello):
+    """Calculates annual mean from a three-dimensional cube with monthly data. Requires a corresponding thickcello
+    cube to take into account changing thickness of the ocean column."""
     ntimes = len(cube.coord('time').points)
     if ntimes % 12 != 0:
         raise RuntimeError('Need to have whole years to process annual means')
