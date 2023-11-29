@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2022, Met Office.
+# (C) British Crown Copyright 2022-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Module to specify the classes that are needed for storing the information of the test data for
@@ -8,10 +8,12 @@ from abc import ABC
 from dataclasses import dataclass, asdict, field
 from typing import Dict, Any, List
 
-from mip_convert.tests.test_functional.utils.constants import ARISE_LICENSE, CMIP6_LICENSE, CORDEX_LICENSE
+from mip_convert.tests.test_functional.utils.constants import (ARISE_LICENSE, CMIP6_LICENSE, CORDEX_LICENSE,
+                                                               GCMODELDEV_LICENSE)
 from mip_convert.tests.test_functional.utils.directories import (PROJECT_CDDS_DIR,
                                                                  CMIP6_MIP_TABLE_DIR, CORDEX_MIP_TABLE_DIR,
                                                                  ARISE_MIP_TABLE_DIR, SEASONAL_MIP_TABLE_DIR,
+                                                                 NAHOSMIP_MIP_TABLE_DIR,
                                                                  ROOT_REFERENCE_DATA_DIR, ROOT_ANCIL_DIR)
 
 
@@ -332,6 +334,41 @@ class ProjectInfo:
             }
         )
 
+    @classmethod
+    def nahosmip_project_info(cls) -> 'ProjectInfo':
+        """
+        Returns all common values that are specific for CMIP6 projects.
+
+        :return: Values that are specific for CMIP6 projects
+        :rtype: ProjectInfo
+        """
+        return ProjectInfo(
+            project_id='NAHosMIP',
+            cmor_setup={
+                'mip_table_dir': NAHOSMIP_MIP_TABLE_DIR,
+                'netcdf_file_action': 'CMOR_REPLACE_4',
+            },
+            cmor_dataset={
+                'grid': 'not checked',
+                'branch_method': 'no parent',
+                'experiment_id': 'amip',
+                'license': GCMODELDEV_LICENSE,
+                'mip': 'NAHosMIP',
+                'mip_era': 'GCModelDev',
+                'model_id': 'UKESM1-0-LL',
+                'model_type': 'AGCM',
+                'nominal_resolution': '5 km',
+                'sub_experiment_id': 'none',
+                'variant_label': 'r1i1p1f1'
+            },
+            request={
+                'child_base_date': '1850-01-01T00:00:00'
+            },
+            global_attributes={
+                'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
+            }
+        )
+
 
 @dataclass
 class SpecificInfo:
@@ -479,4 +516,15 @@ class CordexTestData(AbstractTestData):
     project_id: str = field(init=False, default_factory=lambda: 'CORDEX')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cordex_project_info())
+    specific_info: SpecificInfo = None
+
+
+@dataclass
+class NAHosMIPTestData(AbstractTestData):
+    """
+    Stores test data for CMIP6 projects
+    """
+    project_id: str = field(init=False, default_factory=lambda: 'NAHosMIP')
+    common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
+    project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.nahosmip_project_info())
     specific_info: SpecificInfo = None

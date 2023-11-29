@@ -1,6 +1,7 @@
 {
   "default": {
-    "Amon": "apm"
+    "Amon": "apm",
+    "GCOyr": "onm"
   },
   "overrides": {
   }

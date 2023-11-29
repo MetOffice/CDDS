@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2022, Met Office.
+# (C) British Crown Copyright 2016-2023, Met Office.
 # Please see LICENSE.rst for license details.
 
 """
@@ -2253,3 +2253,34 @@ def vrot_calc_extract_n_hourly(cube_u, cube_v, period_in_hours=6):
     cube_v = extract_n_hourly(cube_v, period_in_hours)
 
     return vrot_calc(cube_u, cube_v)
+
+
+def annual_from_monthly_2d(cube):
+    # check that you have whole years
+    ntimes = len(cube.coord('time').points)
+    if ntimes % 12 != 0:
+        raise RuntimeError('Need to have whole years to process annual means')
+    iris.coord_categorisation.add_year(cube, 'time')
+    annual_mean_cube = cube.aggregated_by('year', iris.analysis.MEAN)
+    return annual_mean_cube
+
+
+def calculate_thkcello_weights(cube):
+    ntimes = len(cube.coord('time').points)
+    if ntimes % 12 != 0:
+        raise RuntimeError('The thkcello cube need to have whole years to process annual means')
+    iris.coord_categorisation.add_year(cube, 'time')
+    annual_sum = cube.aggregated_by('year', iris.analysis.SUM)
+    for y in range(len(annual_sum.coord('time').points)):
+        cube.data[y * 12:(y + 1) * 12, :, :, :] = cube.data[y * 12:(y + 1) * 12, :, :, :] / annual_sum.data[y, :, :, :]
+    return cube.data
+
+
+def annual_from_monthly_3d(cube, thkcello):
+    ntimes = len(cube.coord('time').points)
+    if ntimes % 12 != 0:
+        raise RuntimeError('Need to have whole years to process annual means')
+    iris.coord_categorisation.add_year(cube, 'time')
+    weights = calculate_thkcello_weights(thkcello)
+    annual_mean_cube = cube.aggregated_by('year', iris.analysis.MEAN, weights=weights)
+    return annual_mean_cube
