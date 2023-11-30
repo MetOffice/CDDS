@@ -2,6 +2,7 @@
 # Please see LICENSE.rst for license details.
 import logging
 from collections import defaultdict
+from typing import Dict, Tuple, List
 
 from cdds.common.mip_tables import UserMipTables
 from cdds.common.plugins.plugins import PluginStore
@@ -9,27 +10,25 @@ from cdds.common.plugins.plugins import PluginStore
 
 class UserDefinedVariable(object):
     """
-    Class to hold information on a user requested variable built from
-    mip tables. It is designed to have close similarity to the
-    DataRequestVariable Class from cdds.data_request_interface.
+    Class to hold information on a user requested variable built from mip tables.
+    It is designed to have close similarity to the DataRequestVariable Class from
+    cdds.prepare.data_request_interface.
     """
 
-    def __init__(self, mip_table, var_name, mip_table_dir, stream=None):
+    def __init__(self, mip_table: str, var_name: str, mip_table_dir: str, stream: str = None) -> None:
         """
-        Construct an object representing a variable from given
-        mip tables, based on its |MIP| table and
-        |MIP requested variable| name.
+        Construct an object representing a variable from given mip tables,
+        based on its |MIP| table and |MIP requested variable| name.
 
-        Parameters
-        ----------
-        mip_table : str, optional
-            |MIP table| for the variable.
-        var_name : str, optional
-            |MIP requested variable name.
-        mip_table_dir : str
-            Directory containing Mip tables
+        :param mip_table: |MIP table| for the variable.
+        :type mip_table: str
+        :param var_name: |MIP requested variable name.
+        :type var_name: str
+        :param mip_table_dir: Directory containing Mip tables
+        :type mip_table_dir: str
+        :param stream: Only consider this stream (optional)
+        :type stream: str
         """
-
         self.mip_table = mip_table
         self.var_name = var_name
         self.stream = stream
@@ -39,7 +38,7 @@ class UserDefinedVariable(object):
 
         self._set_attributes_from_variable()
 
-    def _set_attributes_from_variable(self):
+    def _set_attributes_from_variable(self) -> None:
         # Set attributes from the given mip table
         self.cell_measures = self.var_dict['cell_measures']
         self.cell_methods = self.var_dict['cell_methods']
@@ -57,33 +56,24 @@ class UserDefinedVariable(object):
         self.variable_name = self.var_name
 
 
-def _blank_to_none(value):
+def _blank_to_none(value: str) -> str:
     result = value
     if value == '':
         result = None
     return result
 
 
-def validate_variable_list(mt, variables_file, mip_era):
+def validate_variable_list(mt: UserMipTables, variables_file: str) -> List[Tuple[str, str, str]]:
     """
     Check that the custom requested variables exist in the mip tables
 
-    Parameters
-    ----------
-    mt : cdds.common.mip_tables.UserMipTables
-        Object holding information from the mip tables
-
-    variables_file : str
-        Path to the list of user requested variables
-
-    mip_era : str
-        Mip era
-
-    RETURNS
-    -------
-    variable_list : list
-        List of variables that are confirmed to be in the Mip Tables.
-
+    :param mt: Object holding information from the mip tables
+    :type mt: UserMipTables
+    :param variables_file: Path to the list of user requested variables
+    :type variables_file: str
+    :return: List of variables that are confirmed to be in the Mip Tables.
+        List of tuples: (MIP table, variable, stream/substream)
+    :rtype: List[Tuple[str, str, str]
     """
     logger = logging.getLogger(__name__)
 
@@ -100,46 +90,37 @@ def validate_variable_list(mt, variables_file, mip_era):
             mip_table, variable = var_str.strip().split('/')
             stream_id, substream = stream_info.retrieve_stream_id(variable, mip_table)
             stream_substream = '{}/{}'.format(stream_id, substream) if substream is not None else stream_id
+
         if mip_table not in mt.tables:
             err = 'Requested Mip Table "{}" not found in given Mip Tables'.format(mip_table)
             logger.error(err)
             raise RuntimeError(err)
+
         if variable not in mt.get_variables(mip_table):
             err = 'Requested variable "{}" not found in the "{}" Mip Table'.format(variable, mip_table)
             logger.error(err)
             raise RuntimeError(err)
+
         variable_list.append((mip_table, variable, stream_substream,))
 
     return variable_list
 
 
-def list_all_variables(variables_file, mip_table_path, mip_era):
+def list_all_variables(variables_file: str, mip_table_path: str) -> Dict[str, Dict[str, UserDefinedVariable]]:
     """
     Build a list of all the variables from the mip tables.
 
-    Parameters
-    ----------
-    variables_file : str
-        path to the list of user provided requested variables
-
-    mip_table_path : str
-        path to the mip tables
-
-    mip_era : str
-        Mip era
-
-    RETURNS
-    -------
-    variable_list_new : dict
-        Dictionary containing each requested variabled as a UserDefinedVariable
+    :param variables_file: path to the list of user provided requested variables
+    :type variables_file: str
+    :param mip_table_path: path to the mip tables
+    :type mip_table_path: str
+    :return: Dictionary containing each requested variabled as a UserDefinedVariable
+    :rtype: Dict[str, Dict[str, UserDefinedVariable]]
     """
-
     mt = UserMipTables(mip_table_path)
-
-    variables_list = validate_variable_list(mt, variables_file, mip_era)
+    variables_list = validate_variable_list(mt, variables_file)
 
     variable_list_new = defaultdict(dict)
-
     for table, variable, stream in variables_list:
         variable_list_new[table][variable] = UserDefinedVariable(table, variable, mip_table_path, stream)
 

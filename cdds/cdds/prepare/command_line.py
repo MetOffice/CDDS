@@ -6,6 +6,8 @@ command line scripts in the ``bin`` directory.
 """
 import argparse
 import logging
+
+import traceback
 import os
 
 from argparse import Namespace
@@ -26,6 +28,7 @@ from cdds.prepare.generate import generate_variable_list
 
 COMPONENT = 'prepare'
 CREATE_CDDS_DIR_LOG_NAME = 'create_cdds_directory_structure'
+GENERATE_VARIABLE_LIST_LOG_NAME = 'prepare_generate_variable_list'
 
 
 def main_create_cdds_directory_structure(arguments: List[str] = None):
@@ -59,24 +62,19 @@ def main_create_cdds_directory_structure(arguments: List[str] = None):
     return exit_code
 
 
-def main_generate_variable_list(arguments=None):
+def main_generate_variable_list(arguments: List[str] = None) -> int:
     """
     Generate the |requested variables list|.
 
-    Parameters
-    ----------
-    arguments: list of strings
-        The command line arguments to be parsed.
-
-    Returns
-    -------
-    :int
-        Exit status
+    :param arguments: The command line arguments to be parsed.
+    :type arguments: List[str]
+    :return: Exit status
+    :rtype: int
     """
     args = parse_generate_args(arguments)
 
     # Create the configured logger.
-    configure_logger(args.log_name, args.log_level, args.append_log)
+    configure_logger(GENERATE_VARIABLE_LIST_LOG_NAME, logging.INFO, False)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
@@ -88,6 +86,7 @@ def main_generate_variable_list(arguments=None):
         generate_variable_list(args)
         return 0
     except BaseException as exc:
+        traceback.print_exc()
         logger.exception(exc, exc_info=1)
         return 1
 
@@ -188,127 +187,35 @@ def parse_create_cdds_directory_structure_args(arguments: List[str]) -> Namespac
     return args
 
 
-def parse_generate_args(arguments):
+def parse_generate_args(arguments: List[str]) -> Namespace:
     """
-    Return the names of the command line arguments for
-    ``prepare_generate_variable_list`` and their validated values.
+    Return the names of the command line arguments for ``prepare_generate_variable_list``
+    and their validated values.
 
-    If this function is called from the Python interpreter with
-    ``arguments`` that contains any of the ``--version``, ``-h`` or
-    ``--help`` options, the Python interpreter will be terminated.
-
-    The output from this function can be used as the value of the
-    ``parameters`` parameter in the call to
-    :func:`cdds.prepare.requested_variables.generate_variable_list`.
-
-    Parameters
-    ----------
-    arguments: list of strings
-        The command line arguments to be parsed.
-
-    Returns
-    -------
-    : :class:`cdds.arguments.Arguments` object
-        The names of the command line arguments and their validated
-        values.
+    :param arguments: The command line arguments to be parsed.
+    :type arguments: List[str]
+    :return: The names of the command line arguments and their validated values.
+    :rtype: Namespace
     """
     user_arguments = arguments
-    arguments = read_default_arguments('cdds.prepare',
-                                       'prepare_generate_variable_list')
     parser = argparse.ArgumentParser(
         description='Generate the requested variables list.',
         epilog=EPILOG)
     parser.add_argument(
         'request', help=(
-            'The full path to the JSON file containing the information about '
-            'the request.'))
-    parser.add_argument(
-        '--no_inventory_check', action='store_true',
-        help='Use the inventory to determine if a variable is active or not')
-    parser.add_argument(
-        '-db', '--db_file', default=None,
-        help='The inventory database configuration file. Need to be set if the inventory database should be used.')
-    parser.add_argument(
-        '-d', '--data_request_version', default=arguments.data_request_version,
-        help='The version of the data request.')
-    parser.add_argument(
-        '-m', '--mips', default=arguments.mips,
-        choices=arguments.mips, nargs='*',
-        help='The list of MIPs to contribute to.')
-    parser.add_argument(
-        '-b', '--data_request_base_dir', type=str,
-        default=arguments.data_request_base_dir,
-        help='The full path to base directory containing the data '
-             'request files.')
-    parser.add_argument(
-        '-s', '--mapping_status', default=arguments.mapping_status,
-        choices=['ok', 'embargoed', 'all'],
-        help='The status of the model to MIP mappings.')
-    parser.add_argument(
-        '--alternate_data_request_experiment', type=str, default=None, help=(
-            'Use an alternative experiment_id when querying the data request.'
-            ' **DO NOT USE without guidance from the CDDS team**'))
+            'The full path to the configuration file containing the information about the request.'
+        ))
+
     output_dir_group = parser.add_mutually_exclusive_group()
     output_dir_group.add_argument(
-        '-p', '--use_proc_dir', action='store_true', help=(
-            'Write the requested variables list and log file to the component '
-            'directory in the proc directory as defined by the CDDS '
-            'configuration files.'))
-    output_dir_group.add_argument(
         '-o', '--output_dir', default=None, help=(
-            'The full path to the directory where the file containing the '
-            'requested variable list will be written.'))
-    parser.add_argument(
-        '-x', '--max_priority', type=int, default=arguments.max_priority,
-        help=(
-            'The maximum priority from the data request to be considered when '
-            'selecting MIP requested variables.'))
-    parser.add_argument(
-        '-r', '--user_request_variables', type=str, default=None,
-        help='Path to a user defined list of variables.')
-    parser.add_argument(
-        '-e', '--mip_era_defaults', type=str, default=None,
-        help='Used to specify mip era for mappings defaults, as opposed to mip era from the request file.'
-    )
-    parser.add_argument('--no_overwrite', action='store_true',
-                        help='Do not overwrite existing files.')
-    parser.add_argument('--no_auto_deactivation', action='store_true',
-                        help='Do not use the automatic variable deactivation '
-                             'function.')
-    parser.add_argument('--auto_deactivation_rules_file', type=str,
-                        help='If specified use this file for deactivation rules '
-                             'rather than those hosted at {}'.format(DEACTIVATION_RULE_LOCATION))
+            'The full path to the directory where the file containing the requested variable list will be written.'
+        ))
 
-    root_dir_args(parser, arguments.root_proc_dir, arguments.root_data_dir)
-    # Add arguments common to all scripts.
-    common_command_line_args(parser, arguments.log_name, arguments.log_level,
-                             __version__)
     args = parser.parse_args(user_arguments)
-    arguments.add_user_args(args)
-
-    if not arguments.no_inventory_check and arguments.db_file is None:
-        arguments.db_file = os.path.join(arguments.root_inventory_dir, INVENTORY_DB_FILENAME + '.db')
-
-    arguments = update_arguments_paths(arguments, ['db_file'])
-
-    # Validate the arguments.
-    if args.use_proc_dir:
-        request = read_request(args.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
-        arguments = update_arguments_for_proc_dir(arguments, request, COMPONENT)
-    else:
-        request = read_request(args.request)
-
-    if not arguments.mip_era_defaults:
-        arguments.mip_era_defaults = request.mip_era
-
-    if arguments.output_dir is not None:
-        arguments.output_dir = check_directory(arguments.output_dir)
-
-    if arguments.db_file is not None:
-        check_file(arguments.db_file)
-
-    arguments = update_log_dir(arguments, COMPONENT)
-    return arguments
+    if args.output_dir is not None:
+        args.output_dir = check_directory(args.output_dir)
+    return args
 
 
 def parse_alter_args(arguments):

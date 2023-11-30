@@ -13,12 +13,11 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.common.old_request import Request
-from cdds.data_request_interface.load import DataRequestWrapper
-from cdds.prepare.data_request import (list_variables_for_experiment)
+from cdds.common.request.request import Request
+from cdds.prepare.data_request_interface.data_request_wrapper import DataRequestWrapper
+from cdds.prepare.data_request import list_variables_for_experiment
 from cdds.prepare.generate import BaseVariablesConstructor
 from cdds.tests.test_prepare.stubs import VariableParametersStub
-from cdds.arguments import read_default_arguments, Arguments
 from cdds.common import configure_logger
 from cdds.tests.test_common.common import DummyMapping
 
@@ -37,11 +36,8 @@ class TestResolveRequestedVariables(unittest.TestCase):
         dim_point = ['longitude', 'latitude', 'height2m', 'time1']
         dim_site = ['site', 'height2m', 'time1']
         dim_mean_where_ice_sheet = ['height2m', 'time']
-        template = ('No model to MIP mapping available for "tas" for "{}"')
-        arguments = read_default_arguments('cdds.prepare',
-                                           'prepare_generate_variable_list')
+        template = 'No model to MIP mapping available for "tas" for "{}"'
 
-        self.data_request_base_dir = arguments.data_request_base_dir
         self.model_to_mip_mappings = {
             '3hr': {'tas': DummyMapping(dimension=dim_point,
                                         status='embargoed')},
@@ -80,9 +76,7 @@ class TestResolveRequestedVariables(unittest.TestCase):
             {'active': False,
              'producible': 'yes',
              'cell_methods': 'area: time: mean',
-             'comments': ['MIP table "6hrPlev" not found in model data '
-                          'request',
-                          'No active MIPs for this variable',
+             'comments': ['No active MIPs for this variable',
                           'Priority=99 > MAX_PRIORITY=1',
                           'Variable does not exist in model suite'],
              'dimensions': dim_mean,
@@ -98,8 +92,7 @@ class TestResolveRequestedVariables(unittest.TestCase):
              'producible': 'no',
              'cell_methods': 'area: mean time: point',
              'comments': ['No active MIPs for this variable',
-                          'No model to MIP mapping available for "tas" for '
-                          '"6hrPlevPt"',
+                          'No model to MIP mapping available for "tas" for "6hrPlevPt"',
                           'Priority=99 > MAX_PRIORITY=1',
                           'Variable not enabled in model suite'],
              'dimensions': dim_point,
@@ -208,8 +201,7 @@ class TestResolveRequestedVariables(unittest.TestCase):
 
     def get_stripped_variables(self, data_request_version):
         # Get data request
-        data_request = DataRequestWrapper(data_request_version,
-                                          self.data_request_base_dir)
+        data_request = DataRequestWrapper()
         # Get variables ignore metadata
         variables_dict, _ = list_variables_for_experiment(
             data_request, self.experiment_id)
@@ -223,20 +215,22 @@ class TestResolveRequestedVariables(unittest.TestCase):
 
         return new_variables_dict
 
-    def get_arguments(self):
-        arguments = Arguments({}, {}, {})
-        arguments.__setattr__('mapping_status', self.required_mapping_status)
-        arguments.__setattr__('mips', self.mips)
-        arguments.__setattr__('max_priority', self.max_priority)
-        return arguments
+    def get_request(self):
+        request = Request()
+        request.misc.mapping_status = self.required_mapping_status
+        request.misc.mips_to_contribute_to = self.mips
+        request.misc.max_priority = self.max_priority
+        return request
 
     def test_simple(self):
+        self.maxDiff = None
         data_request_variables = self.get_stripped_variables('01.00.21')
         model_data_request_variables = self.get_stripped_variables('01.00.10')
-        arguments = self.get_arguments()
+        request = self.get_request()
+        request.metadata.mip_era = 'CMIP6'
 
         config = VariableParametersStub(
-            arguments, Request({'mip_era': 'CMIP6'}), data_request_variables, {}, model_data_request_variables,
+            request, data_request_variables, {}, model_data_request_variables,
             self.model_to_mip_mappings, self.model_suite_variables
         )
 
@@ -347,9 +341,9 @@ class TestCheckStatus(unittest.TestCase):
 
     @staticmethod
     def _create_config(mapping_status):
-        arguments = Arguments({}, {}, {})
-        arguments.__setattr__('mapping_status', mapping_status)
-        return VariableParametersStub(arguments=arguments)
+        request = Request()
+        request.misc.mapping_status = mapping_status
+        return VariableParametersStub(request=request)
 
     def test_simple_ok(self):
         config = self._create_config('ok')

@@ -3,13 +3,11 @@
 """
 Module to handle the misc section in the request configuration
 """
-import os
-
 from configparser import ConfigParser
 from dataclasses import dataclass, field, asdict
 from typing import List, Dict, Any
 
-from cdds.common.request.request_section import Section, load_types
+from cdds.common.request.request_section import Section, load_types, expand_paths
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
@@ -27,13 +25,10 @@ def misc_defaults(model_id: str) -> Dict[str, Any]:
     """
     grid_info = PluginStore.instance().get_plugin().grid_info(model_id, GridType.ATMOS)
     atmos_timestep = grid_info.atmos_timestep
-    data_request_base_dir = '{}/data_requests/CMIP6'.format(os.environ['CDDS_ETC'])
 
     return {
         'atmos_timestep': atmos_timestep,
         'no_auto_deactivation': False,
-        'data_request_version': '01.00.29',
-        'data_request_base_dir': data_request_base_dir,
         'mips_to_contribute_to': [
             'AerChemMIP',
             'C4MIP',
@@ -60,7 +55,7 @@ def misc_defaults(model_id: str) -> Dict[str, Any]:
             'VIACSAB',
             'VolMIP'
         ],
-        'mapping_status': 'ok',
+        'mapping_status': 'all',
         'use_proc_dir': False,
         'max_priority': 2,
         'no_overwrite': False
@@ -75,13 +70,11 @@ class MiscSection(Section):
     atmos_timestep: int = None
     no_auto_deactivation: bool = False
     auto_deactivation_rules: str = ''
+    user_requested_variables: str = ''
     # Todo: needs considerations:
-    alternate_data_request_experiment: str = ''
-    data_request_version: str = '01.00.29'
-    data_request_base_dir: str = ''
     mip_era_defaults: str = ''
     mips_to_contribute_to: List[str] = field(default_factory=list)
-    mapping_status: str = 'ok'
+    mapping_status: str = 'all'
     use_proc_dir: bool = False
     max_priority: int = 2
     no_overwrite: bool = False
@@ -110,6 +103,7 @@ class MiscSection(Section):
         values = misc_defaults(model_id)
         if config.has_section('misc'):
             config_items = load_types(dict(config.items('misc')), ['mips_to_contribute_to'])
+            expand_paths(config_items, ['user_requested_variables'])
             values.update(config_items)
         return MiscSection(**values)
 

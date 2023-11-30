@@ -4,19 +4,22 @@
 """
 This module contains the code to generate |requested variables lists|.
 """
-from datetime import datetime
 import os
 import logging
 
 from abc import ABCMeta, abstractmethod
+from argparse import Namespace
+from datetime import datetime
+from typing import List
+
 from cdds.common.io import write_json
 from cdds.common import set_checksum
 from cdds.deprecated.config import FullPaths
 
+from cdds.common.request.request import read_request
+
 from cdds import __version__
-from cdds.common.constants import REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST
 from cdds.common.plugins.plugins import PluginStore
-from cdds.common.old_request import read_request
 from cdds.inventory.dao import InventoryDAO, DBVariableStatus
 from cdds.prepare.auto_deactivation import run_auto_deactivate_variables
 from cdds.prepare.constants import (KNOWN_GOOD_VARIABLES,
@@ -32,7 +35,14 @@ from cdds.prepare.data_request import (check_variable_model_data_request,
 from cdds.prepare.parameters import VariableParameters, UserDefinedVariableParameters
 
 
-def generate_variable_list(arguments):
+def generate_variable_list(arguments: Namespace) -> None:
+    """
+    Generate the |requested variables list|.
+
+    :param arguments: The names of the command line arguments and their validated values.
+    :type arguments: Namespace
+    :raises
+    """
     """
     Generate the |requested variables list|.
 
@@ -52,28 +62,26 @@ def generate_variable_list(arguments):
     logger.debug('CDDS Prepare version "{}"'.format(__version__))
 
     # Read the request information.
-    request = read_request(arguments.request,
-                           REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST)
+    request = read_request(arguments.request)
 
     # Retrieve the name of the 'requested variables list'.
-    full_paths = FullPaths(arguments, request)
-    output_file = full_paths.requested_variables_list_filename
+    output_file = request.requested_variables_list_file_name
     if arguments.output_dir is not None:
         output_file = os.path.join(arguments.output_dir, output_file)
-    if os.path.exists(output_file) and arguments.no_overwrite:
+    if os.path.exists(output_file) and request.misc.no_overwrite:
         raise IOError('Output file "{}" already exists'.format(output_file))
 
     # Bypass data request and build variables directly from tables.
-    if arguments.user_request_variables:
-        config = UserDefinedVariableParameters(arguments, request)
+    if request.misc.user_requested_variables:
+        config = UserDefinedVariableParameters(request)
     else:
-        config = VariableParameters(arguments, request)
+        config = VariableParameters(request)
 
     # Determine which 'MIP requested variables' can and will be produced.
-    if arguments.user_request_variables:
+    if request.misc.user_requested_variables:
         logger.info('Bypassing the Data Request and using Mip Tables.')
         constructor = BypassDataRequestVariablesConstructor(config)
-    elif arguments.no_inventory_check:
+    elif not request.inventory.inventory_check:
         logger.info('No inventory check')
         constructor = BaseVariablesConstructor(config)
     else:
@@ -88,9 +96,10 @@ def generate_variable_list(arguments):
         'Writing the Requested variables list to "{}".'.format(output_file))
     write_json(output_file, requested_variables_list)
 
-    if not arguments.no_auto_deactivation and not arguments.user_request_variables:
+    if not request.misc.no_auto_deactivation and not request.misc.user_requested_variables:
         run_auto_deactivate_variables(
-            arguments.auto_deactivation_rules_file, output_file, request.model_id, request.experiment_id)
+            request.misc.auto_deactivation_rules, output_file, request.metadata.model_id, request.metadata.experiment_id
+        )
 
     logger.info('*** Complete ***')
 
@@ -420,16 +429,13 @@ class AbstractVariablesConstructor(object, metaclass=ABCMeta):
 
 class BaseVariablesConstructor(AbstractVariablesConstructor):
     """
-    Class that provides function for listing variables without
-    any additional database information
+    Class that provides function for listing variables without any additional database information
     """
 
     def __init__(self, config):
         """
-        Parameters
-        ----------
-        config: `cdds.prepare.parameters.VariableParameters` object
-            all input parameters for constructing the list of approved variables
+        :param config:  all input parameters for constructing the list of approved variables
+        :type config: VariableParameters
         """
         super(BaseVariablesConstructor, self).__init__(config)
 

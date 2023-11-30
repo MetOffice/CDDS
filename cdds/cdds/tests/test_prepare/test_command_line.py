@@ -36,12 +36,12 @@ from cdds.tests.test_prepare.common import TEST_RV_DICT, DUMMY_DEACTIVATION_RULE
 
 # The following constant can be worked out using the following code:
 # >>> from cdds.data_request_interface import load, network, navigation
-# >>> dq = load.DataRequestWrapper('01.00.13')
+# >>> dq = load.DataRequestWrapper('01.00.29')
 # >>> dq_network, failures = network.build_data_request_network(dq)
 # >>> historical = dq.get_experiment_uid('historical')
 # >>> v = navigation.get_cmorvar_for_experiment(historical, dq_network)
 # >>> len(v)
-NUMBER_OF_VARIABLES_IN_HISTORICAL_AT_DATA_REQUEST_13 = 1739
+NUMBER_OF_VARIABLES_IN_HISTORICAL_AT_DATA_REQUEST_13 = 1672
 NUMBER_OF_VARIABLES_IN_AMIP_P4K_AT_DATA_REQUEST_13 = 445
 
 
@@ -138,18 +138,17 @@ class TestMainGenerateVariableList(unittest.TestCase):
     Tests for ``main_generate_variable_list`` in :mod:`command_line.py`.
     """
     MODEL_DATA_REQUEST_VERSION = '01.00.10'
-    DATA_REQUEST_VERSION = '01.00.13'
-    KNOWN_GOOD_VARIABLES = {
-        (MODEL_DATA_REQUEST_VERSION, DATA_REQUEST_VERSION): {'Amon': ['pr']}}
+    DATA_REQUEST_VERSION = '01.00.29'
+    KNOWN_GOOD_VARIABLES = {(MODEL_DATA_REQUEST_VERSION, DATA_REQUEST_VERSION): {'Amon': ['pr']}}
 
     def setUp(self):
         load_plugin()
         logging.disable(logging.CRITICAL)
         self.suite_id = 'u-ar766'
         self.branch = 'trunk'
-        self.revision = '77678'
+        self.revision = 77678
         self.checksum = 'md5:f15c9d610da2dfc1f992272a392c57cf'
-        self.request_path = 'request2.json'
+        self.request_path = 'request2.cfg'
         self.auto_deactivation_file = 'auto_deactivate.json'
         self.mip_era = 'CMIP6'
         self.mip = 'CMIP'
@@ -157,8 +156,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         self.model_type = 'AOGCM AER'
         self.experiment_id = 'historical'
         self.realisation = 'r1i1p1f1'
-        self.request = '{}_{}_{}'.format(
-            self.model_id, self.experiment_id, self.realisation)
+        self.request = '{}_{}_{}'.format(self.model_id, self.experiment_id, self.realisation)
         self.package = 'phase1'
         self.root_data_dir = 'data_directory'
         self.root_proc_dir = 'proc_directory'
@@ -166,52 +164,46 @@ class TestMainGenerateVariableList(unittest.TestCase):
         self.model_data_request_version = self.MODEL_DATA_REQUEST_VERSION
         self.filename = '{mip_era}_{mip}_{experiment_id}_{model_id}.json'
         self.requested_variables_list = self.filename.format(
-            mip_era=self.mip_era, mip=self.mip,
-            experiment_id=self.experiment_id, model_id=self.model_id)
-        self.log_name = 'test_main_generate_variable_list'
+            mip_era=self.mip_era, mip=self.mip, experiment_id=self.experiment_id, model_id=self.model_id
+        )
+        self.log_name = 'prepare_generate_variable_list'
         self.log_datestamp = '2019-11-23T1432Z'
         self.log_path = ''  # This will be constructed later
-
-    def _write_request(self, request):
-        write_json(self.request_path, request)
-
-    def _write_config(self, filename, config):
-        with open(filename, 'w') as file_handle:
-            file_handle.write(config)
 
     def _construct_log_path(self):
         log_fname = '{0}_{1}.log'.format(self.log_name, self.log_datestamp)
         self.log_path = log_fname
 
-    def _main(self, use_proc_dir, output_dir, max_priority, additional_parameters):
+    def _main(self, request, use_proc_dir, output_dir, max_priority):
         # Use '--quiet' to ensure no log messages are printed to screen.
+
+        request.misc.use_proc_dir = use_proc_dir
+        request.misc.max_priority = max_priority
+        request.inventory.inventory_check = False
+        request.misc.mips_to_contribute_to = [self.mip]
+        request.misc.max_priority = max_priority
+        request.common.root_data_dir = self.root_data_dir
+        request.common.root_proc_dir = self.root_proc_dir
+        request.write(self.request_path)
+
         parameters = [
             self.request_path,
-            '--no_inventory_check',
-            '--mips', self.mip,
-            '--output_dir', output_dir,
-            '--max_priority', max_priority,
-            '--root_data_dir', self.root_data_dir,
-            '--root_proc_dir', self.root_proc_dir,
-            '--data_request_version', self.DATA_REQUEST_VERSION,
-            '--log_name', self.log_name,
-            '--quiet']
-        parameters += additional_parameters
-        if use_proc_dir:
-            parameters.append('--use_proc_dir')
+            '--output_dir', output_dir
+        ]
         self._construct_log_path()
         return_code = main_generate_variable_list(parameters)
         self.assertEqual(return_code, 0)
 
     def _run(self, request, use_proc_dir, output_dir,
-             max_priority, auto_deactivation_file_name=None, additional_parameters=[]):
-        self._write_request(request)
+             max_priority, auto_deactivation_file_name=None):
         if auto_deactivation_file_name:
             write_json(auto_deactivation_file_name, DUMMY_DEACTIVATION_RULES)
-            additional_parameters += ['--auto_deactivation_rules_file', auto_deactivation_file_name]
+            request.misc.auto_deactivation_rules = auto_deactivation_file_name
+            request.misc.no_auto_deactivation = False
         else:
-            additional_parameters += ['--no_auto_deactivation']
-        self._main(use_proc_dir, output_dir, max_priority, additional_parameters)
+            request.misc.no_auto_deactivation = True
+
+        self._main(request, use_proc_dir, output_dir, max_priority)
 
     @patch('cdds.common.get_log_datestamp')
     @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
@@ -219,11 +211,18 @@ class TestMainGenerateVariableList(unittest.TestCase):
         mock_log_datestamp.return_value = self.log_datestamp
         # Required keys are REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS and
         # REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST.
-        request = {'experiment_id': self.experiment_id, 'mip': self.mip,
-                   'mip_era': self.mip_era, 'model_id': self.model_id,
-                   'model_type': self.model_type, 'suite_branch': self.branch,
-                   'suite_id': self.suite_id, 'suite_revision': self.revision,
-                   'request_id': self.request, 'package': self.package}
+        request = Request()
+        request.metadata.experiment_id = self.experiment_id
+        request.metadata.mip = self.mip
+        request.metadata.mip_era = self.mip_era
+        request.metadata.model_id = self.model_id
+        request.metadata.model_type = self.model_type.split(' ')
+        request.data.model_workflow_branch = self.branch
+        request.data.model_workflow_id = self.suite_id
+        request.data.model_workflow_revision = self.revision
+        request.common.workflow_basename = self.request
+        request.common.package = self.package
+
         max_priority = '1'
         mock_log_datestamp.return_value = self.log_datestamp
         # There is no need to test 'checksum', 'production_info' and
@@ -251,50 +250,22 @@ class TestMainGenerateVariableList(unittest.TestCase):
         mock_log_datestamp.return_value = self.log_datestamp
         # Required keys are REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS and
         # REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST.
-        request = {'experiment_id': self.experiment_id, 'mip': self.mip,
-                   'mip_era': self.mip_era, 'model_id': self.model_id,
-                   'model_type': self.model_type, 'suite_branch': self.branch,
-                   'suite_id': self.suite_id, 'suite_revision': self.revision,
-                   'request_id': self.request, 'package': self.package}
-        max_priority = '1'
-        mock_log_datestamp.return_value = self.log_datestamp
-        # There is no need to test 'checksum', 'production_info' and
-        # 'metadata' ('checksum' changes due to date stamps).
-        reference = {
-            'data_request_version': self.data_request_version,
-            'experiment_id': self.experiment_id,
-            'MAX_PRIORITY': int(max_priority),
-            'mip': self.mip,
-            'MIPS_RESPONDED_TO': [self.mip],
-            'model_id': self.model_id,
-            'model_type': self.model_type,
-            'suite_id': self.suite_id,
-            'suite_branch': self.branch,
-            'suite_revision': self.revision,
-            'status': 'ok',
-            'requested_variables': (
-                NUMBER_OF_VARIABLES_IN_HISTORICAL_AT_DATA_REQUEST_13)}
-        self._run(request, False, None, max_priority,
-                  auto_deactivation_file_name=self.auto_deactivation_file)
-        self.compare(self.requested_variables_list, reference)
+        request = Request()
+        request.metadata.experiment_id = self.experiment_id
+        request.metadata.mip = self.mip
+        request.metadata.mip_era = self.mip_era
+        request.metadata.model_id = self.model_id
+        request.metadata.model_type = self.model_type
+        request.data.model_workflow_branch = self.branch
+        request.data.model_workflow_id = self.suite_id
+        request.data.model_workflow_revision = self.revision
+        request.common.workflow_basename = self.request
+        request.common.package = self.package
 
-    @patch('cdds.common.get_log_datestamp')
-    @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
-    def test_main_alternate_experiment_id(self, mock_log_datestamp):
-        mock_log_datestamp.return_value = self.log_datestamp
-        # Required keys are REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS and
-        # REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST.
-        request = {'experiment_id': self.experiment_id, 'mip': self.mip,
-                   'mip_era': self.mip_era, 'model_id': self.model_id,
-                   'model_type': self.model_type, 'suite_branch': self.branch,
-                   'suite_id': self.suite_id, 'suite_revision': self.revision,
-                   'request_id': self.request, 'package': self.package}
         max_priority = '1'
         mock_log_datestamp.return_value = self.log_datestamp
         # There is no need to test 'checksum', 'production_info' and
         # 'metadata' ('checksum' changes due to date stamps).
-        # We're picking up the variable list from a different experiment;
-        # "amip-p4K" from CFMIP via an optional argument
         reference = {
             'data_request_version': self.data_request_version,
             'experiment_id': self.experiment_id,
@@ -307,10 +278,8 @@ class TestMainGenerateVariableList(unittest.TestCase):
             'suite_branch': self.branch,
             'suite_revision': self.revision,
             'status': 'ok',
-            'requested_variables': (
-                NUMBER_OF_VARIABLES_IN_AMIP_P4K_AT_DATA_REQUEST_13)}
-        self._run(request, False, None, max_priority,
-                  additional_parameters=['--alternate_data_request_experiment', 'amip-p4K'])
+            'requested_variables': NUMBER_OF_VARIABLES_IN_HISTORICAL_AT_DATA_REQUEST_13}
+        self._run(request, False, None, max_priority)
         self.compare(self.requested_variables_list, reference)
 
     @patch('cdds.common.get_log_datestamp')
@@ -320,12 +289,19 @@ class TestMainGenerateVariableList(unittest.TestCase):
         # REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST and
         # REQUIRED_KEYS_FOR_PROC_DIRECTORY.
         mock_log_datestamp.return_value = self.log_datestamp
-        request = {'experiment_id': self.experiment_id,
-                   'mip_era': self.mip_era, 'mip': self.mip,
-                   'model_id': self.model_id, 'model_type': self.model_type,
-                   'package': self.package, 'suite_branch': self.branch,
-                   'suite_id': self.suite_id, 'suite_revision': self.revision,
-                   'variant_label': self.realisation}
+        request = Request()
+        request.metadata.experiment_id = self.experiment_id
+        request.metadata.mip = self.mip
+        request.metadata.mip_era = self.mip_era
+        request.metadata.model_id = self.model_id
+        request.metadata.model_type = self.model_type.split(' ')
+        request.metadata.variant_label = self.realisation
+        request.data.model_workflow_branch = self.branch
+        request.data.model_workflow_id = self.suite_id
+        request.data.model_workflow_revision = self.revision
+        request.common.workflow_basename = self.request
+        request.common.package = self.package
+
         max_priority = '2'
         # There is no need to test 'checksum', 'production_info' and
         # 'metadata' ('checksum' changes due to date stamps).
