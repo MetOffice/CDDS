@@ -2255,22 +2255,39 @@ def vrot_calc_extract_n_hourly(cube_u, cube_v, period_in_hours=6):
     return vrot_calc(cube_u, cube_v)
 
 
+def check_data_is_monthly(cube):
+    """Performs a number of tests to make sure the cube can be annualised"""
+    time_coord = cube.coord('time')
+    if len(time_coord.points) % 12 != 0:
+        raise RuntimeError('Need to have whole years to process annual means')
+    if 'days since' not in str(cube.coord('time').units):
+        time_coord = time_coord.copy()
+        time_coord.convert_units(Unit('days since 1850-01-01', calendar=time_coord.units.calendar))
+    if set(time_coord.points[1:-1] - time_coord.points[0:-2]) - set([28, 29, 30, 31]):
+        raise RuntimeError('Data must have monthly resolution')
+
+
 def annual_from_monthly_2d(cube):
     """Calculate annual mean from a two-dimensional cube with monthly data"""
     # check that you have whole years
-    ntimes = len(cube.coord('time').points)
-    if ntimes % 12 != 0:
-        raise RuntimeError('Need to have whole years to process annual means')
+    check_data_is_monthly(cube)
     iris.coord_categorisation.add_year(cube, 'time')
     annual_mean_cube = cube.aggregated_by('year', iris.analysis.MEAN)
     return annual_mean_cube
 
 
+def annual_from_monthly_2d_masked(cube, mask):
+    """Calculate annual mean from a two-dimensional cube with monthly data"""
+    # check that you have whole years
+    check_data_is_monthly(cube)
+    iris.coord_categorisation.add_year(cube, 'time')
+    annual_mean_cube = cube.aggregated_by('year', iris.analysis.MEAN)
+    return mask_copy(annual_mean_cube, mask)
+
+
 def calculate_thkcello_weights(cube):
     """Calculates weights corresponding to relative contribution of monthly layer thickness to the annual mean"""
-    ntimes = len(cube.coord('time').points)
-    if ntimes % 12 != 0:
-        raise RuntimeError('The thkcello cube need to have whole years to process annual means')
+    check_data_is_monthly(cube)
     iris.coord_categorisation.add_year(cube, 'time')
     annual_sum = cube.aggregated_by('year', iris.analysis.SUM)
     for y in range(len(annual_sum.coord('time').points)):
@@ -2281,10 +2298,18 @@ def calculate_thkcello_weights(cube):
 def annual_from_monthly_3d(cube, thkcello):
     """Calculates annual mean from a three-dimensional cube with monthly data. Requires a corresponding thickcello
     cube to take into account changing thickness of the ocean column."""
-    ntimes = len(cube.coord('time').points)
-    if ntimes % 12 != 0:
-        raise RuntimeError('Need to have whole years to process annual means')
+    check_data_is_monthly(cube)
     iris.coord_categorisation.add_year(cube, 'time')
     weights = calculate_thkcello_weights(thkcello)
     annual_mean_cube = cube.aggregated_by('year', iris.analysis.MEAN, weights=weights)
     return annual_mean_cube
+
+
+def annual_from_monthly_3d_masked(cube, mask, thkcello):
+    """Calculates annual mean from a three-dimensional cube with monthly data. Requires a corresponding thickcello
+    cube to take into account changing thickness of the ocean column."""
+    check_data_is_monthly(cube)
+    iris.coord_categorisation.add_year(cube, 'time')
+    weights = calculate_thkcello_weights(thkcello)
+    annual_mean_cube = cube.aggregated_by('year', iris.analysis.MEAN, weights=weights)
+    return mask_copy(annual_mean_cube, mask)
