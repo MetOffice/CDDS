@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2022, Met Office.
+# (C) British Crown Copyright 2016-2023, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = no-member, no-value-for-parameter
@@ -23,11 +23,14 @@ from mip_convert.process.processors import (
     land_class_area, land_class_mean, level_sum, mask_copy,
     mask_zeros, mask_polar_column_zonal_means,
     mon_mean_from_day,
-    ocean_quasi_barotropic_streamfunc, tile_ids_for_class, volcello, vortmean)
+    ocean_quasi_barotropic_streamfunc, tile_ids_for_class, volcello, vortmean,
+    annual_from_monthly_2d, annual_from_monthly_3d, calculate_thkcello_weights, check_data_is_monthly)
 from mip_convert.tests.common import dummy_cube
 from functools import reduce
 
 _DEFAULT_UNIT = 'days'
+DAYS_IN_MONTH = 30
+MONTHS_IN_YEAR = 12
 
 
 def _time_with_bounds(bounds, unit=_DEFAULT_UNIT):
@@ -875,6 +878,122 @@ class TestFixClmisrHeight(unittest.TestCase):
                                     16000, 18000], 'height', units='m')
         result = fix_clmisr_height(self.input_cube, self.input_weights_cube)
         np.testing.assert_array_equal(result.coord('height'), expected_height)
+
+
+class TestAnnualFromMonthly2D(unittest.TestCase):
+    YEARS = 3
+    HOURS_IN_DAY = 24
+
+    def setUp(self):
+        lat = DimCoord([-45, 45], 'latitude')
+        lon = DimCoord([0, 270], 'longitude')
+        bounds = np.array([[t * DAYS_IN_MONTH, (t + 1) * DAYS_IN_MONTH] for t in range(MONTHS_IN_YEAR * self.YEARS)])
+        time = _time_with_bounds(bounds)
+        dim_coords_and_dims = [(time, 0), (lon, 1), (lat, 2)]
+        cube_shape = tuple([i[0].shape[0] for i in dim_coords_and_dims])
+        self.input_cube = Cube(np.ones(cube_shape), dim_coords_and_dims=dim_coords_and_dims)
+        self.input_cube.data[0:12, :, :] = self.input_cube.data[0:12, :, :] * 2.0  # first year
+        self.input_cube.data[24:36, :, :] = self.input_cube.data[24:36, :, :] * 0.5  # last year
+
+    def test_check_data_is_monthly_wrong_length(self):
+        lat = DimCoord([-45, 45], 'latitude')
+        lon = DimCoord([0, 270], 'longitude')
+        bounds = np.array([[t * DAYS_IN_MONTH, (t + 1) * DAYS_IN_MONTH] for t in range(
+            (MONTHS_IN_YEAR - 1) * self.YEARS)])  # one less month
+        time = _time_with_bounds(bounds)
+        dim_coords_and_dims = [(time, 0), (lon, 1), (lat, 2)]
+        cube_shape = tuple([i[0].shape[0] for i in dim_coords_and_dims])
+        test_cube = Cube(np.ones(cube_shape), dim_coords_and_dims=dim_coords_and_dims)
+        self.assertRaises(RuntimeError, check_data_is_monthly, test_cube)
+
+    def test_check_data_is_monthly_wrong_resolution(self):
+        lat = DimCoord([-45, 45], 'latitude')
+        lon = DimCoord([0, 270], 'longitude')
+        bounds = np.array([[t, t + 1] for t in range(DAYS_IN_MONTH * MONTHS_IN_YEAR * self.YEARS)])
+        time = _time_with_bounds(bounds)
+        dim_coords_and_dims = [(time, 0), (lon, 1), (lat, 2)]
+        cube_shape = tuple([i[0].shape[0] for i in dim_coords_and_dims])
+        test_cube = Cube(np.ones(cube_shape), dim_coords_and_dims=dim_coords_and_dims)
+        self.assertRaises(RuntimeError, check_data_is_monthly, test_cube)
+
+    def test_check_data_is_monthly_hourly_unit(self):
+        lat = DimCoord([-45, 45], 'latitude')
+        lon = DimCoord([0, 270], 'longitude')
+        bounds = np.array([[t * DAYS_IN_MONTH * self.HOURS_IN_DAY,
+                            (t + 1) * DAYS_IN_MONTH * self.HOURS_IN_DAY] for t in range(MONTHS_IN_YEAR * self.YEARS)])
+        time = _time_with_bounds(bounds, 'hours')
+        dim_coords_and_dims = [(time, 0), (lon, 1), (lat, 2)]
+        cube_shape = tuple([i[0].shape[0] for i in dim_coords_and_dims])
+        test_cube = Cube(np.ones(cube_shape), dim_coords_and_dims=dim_coords_and_dims)
+        check_data_is_monthly(test_cube)
+        self.assertEquals(str(test_cube.coord('time').units), 'hours since 01-01-01 00:00:00')
+
+    def test_check_data_is_monthly_hourly_unit_wrong_resolution(self):
+        lat = DimCoord([-45, 45], 'latitude')
+        lon = DimCoord([0, 270], 'longitude')
+        bounds = np.array([[t, t + 1] for t in range(MONTHS_IN_YEAR * self.YEARS)])
+        time = _time_with_bounds(bounds, 'hours')
+        dim_coords_and_dims = [(time, 0), (lon, 1), (lat, 2)]
+        cube_shape = tuple([i[0].shape[0] for i in dim_coords_and_dims])
+        test_cube = Cube(np.ones(cube_shape), dim_coords_and_dims=dim_coords_and_dims)
+        self.assertRaises(RuntimeError, check_data_is_monthly, test_cube)
+
+    def test_annual_cube(self):
+        result = annual_from_monthly_2d(self.input_cube)
+        expected = [[[2., 2.], [2., 2.]], [[1., 1.], [1., 1.]], [[0.5, 0.5], [0.5, 0.5]]]
+        np.testing.assert_array_equal(result.data, expected)
+
+
+class TestAnnualFromMonthly3D(unittest.TestCase):
+    YEARS = 3
+    NX = 2
+    NY = 2
+    NZ = 2
+
+    def _test_data(self, values, nt=2, nz=2, ny=2, nx=2):
+        i_dim = 1
+        data = np.ma.masked_all([i for i in (nt, nz, ny, nx) if i])
+        data.mask[:] = False
+        data.data[:] = values
+        cube = Cube(data)
+
+        bounds = np.array([[t * DAYS_IN_MONTH, (t + 1) * DAYS_IN_MONTH] for t in range(nt)])
+        time = _time_with_bounds(bounds)
+        cube.add_dim_coord(time, 0)
+        for std, var, dim in zip(*[('depth', 'latitude', 'longitude'),
+                                   ('lev', 'lat', 'lon'),
+                                   (nz, ny, nx)]):
+            if dim:
+                dimcoord = DimCoord(list(range(dim)), var_name=var, standard_name=std)
+                cube.add_dim_coord(dimcoord, i_dim)
+
+                i_dim += 1
+        return cube
+
+    def setUp(self):
+        thickness = np.ones(MONTHS_IN_YEAR * self.YEARS * self.NX * self.NY * self.NZ)
+        thickness[0:48] = 0.5  # first year
+        thickness[192:240] = 2.0  # last year
+        self.thkcello = self._test_data(thickness.reshape(self.YEARS * MONTHS_IN_YEAR, self.NX, self.NY, self.NZ),
+                                        nt=self.YEARS * MONTHS_IN_YEAR)
+
+    def test_calculating_thckcello_weights(self):
+        weights = calculate_thkcello_weights(self.thkcello)
+        np.testing.assert_array_almost_equal(np.sum(weights, axis=0),
+                                             np.array([3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0]).reshape(
+                                                 self.NX, self.NY, self.NZ),
+                                             decimal=12)
+
+    def test_test_annual_cube(self):
+        thetao = np.ones(self.YEARS * MONTHS_IN_YEAR * self.NX * self.NY * self.NZ) * 280.0
+        thetao[0:48] = 300.0  # first year
+        thetao[192:240] = 330.0  # last year
+        cube = self._test_data(thetao.reshape(self.YEARS * MONTHS_IN_YEAR, self.NX, self.NY, self.NZ),
+                               nt=self.YEARS * MONTHS_IN_YEAR)
+        result = annual_from_monthly_3d(cube, self.thkcello)
+        expected = np.array([286.0 + 2 / 3] * 8 + [280.0] * 8 + [313.0 + 1 / 3] * 8).reshape(
+            self.YEARS, self.NX, self.NY, self.NZ)
+        np.testing.assert_array_almost_equal(result.data, expected, decimal=12)
 
 
 if __name__ == '__main__':
