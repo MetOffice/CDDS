@@ -2263,7 +2263,7 @@ def check_data_is_monthly(cube):
     if 'days since' not in str(cube.coord('time').units):
         time_coord = time_coord.copy()
         time_coord.convert_units(Unit('days since 1850-01-01', calendar=time_coord.units.calendar))
-    if any(t < 29.0 or t > 31.0 for t in set(time_coord.points[1:] - time_coord.points[0:-1])):
+    if any(t < 28.0 or t > 31.0 for t in set(time_coord.points[1:] - time_coord.points[0:-1])):
         raise RuntimeError('Data must have monthly resolution')
 
 
