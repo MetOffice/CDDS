@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2022, Met Office.
+# (C) British Crown Copyright 2022-2023, Met Office.
 # Please see LICENSE.rst for license details.
 
 ARISE_LICENSE = ('ARISE data produced by MOHC is licensed under the Open Government License v3 '
@@ -25,6 +25,9 @@ CMIP6_LICENSE = ('CMIP6 model data produced by MOHC is licensed '
 
 CORDEX_LICENSE = ('Creative Commons Attribution 4.0 International License '
                   '(CC BY 4.0; https://creativecommons.org/licenses/by/4.0/).')
+
+GCMODELDEV_LICENSE = ('GCModelDev model data is licensed under the Open Government License v3 '
+                      '(https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)')
 
 DEBUG = True
 
