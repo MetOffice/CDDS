@@ -94,8 +94,7 @@ def expected_test_misc():
         'mip_era_defaults': '',
         'no_overwrite': False,
         'no_auto_deactivation': False,
-        'auto_deactivation_rules': '',
-        'user_requested_variables': ''
+        'auto_deactivation_rules': ''
     }
 
 
@@ -230,8 +229,7 @@ def expected_test_minimal_misc():
                                   'VolMIP'],
         'no_auto_deactivation': False,
         'no_overwrite': False,
-        'use_proc_dir': False,
-        'user_requested_variables': ''
+        'use_proc_dir': False
     }
 
 

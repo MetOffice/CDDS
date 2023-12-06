@@ -70,7 +70,7 @@ def create_variable_list(config: SetupConfig) -> None:
         _, variables_file = tempfile.mkstemp()
         with open(variables_file, 'w') as file_handle:
             file_handle.write('\n'.join(config.selected_variables))
-        request.misc.user_requested_variables = variables_file
+        request.data.variable_list_file = variables_file
     request.write(request_file)
 
     generate_variable_list_args = ([request_file])

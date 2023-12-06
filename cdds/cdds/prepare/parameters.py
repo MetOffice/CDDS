@@ -213,10 +213,10 @@ class UserDefinedVariableParameters(VariableParameters):
         logger.info(
             'Building MIP variables from the given mip tables "{}" and a list of requested variables '
             'provided in "{}" with mip era "{}" stream defaults'.format(
-                self._request.common.mip_table_dir, self._request.misc.user_requested_variables,
+                self._request.common.mip_table_dir, self._request.data.variable_list_file,
                 self._request.misc.mip_era_defaults))
 
-        variables = list_all_variables(self._request.misc.user_requested_variables, self._request.common.mip_table_dir)
+        variables = list_all_variables(self._request.data.variable_list_file, self._request.common.mip_table_dir)
         metadata = {}
         return variables, metadata
 
@@ -224,7 +224,7 @@ class UserDefinedVariableParameters(VariableParameters):
         return self._data_request_variables
 
     def _retrieve_model_suite_variables(self) -> Dict[str, List[str]]:
-        with open(self._request.misc.user_requested_variables, 'r') as f:
+        with open(self._request.data.variable_list_file, 'r') as f:
             variables = [variable.strip().split(':')[0] for variable in f.readlines()]
 
         return {'enabled': variables, 'disabled': []}

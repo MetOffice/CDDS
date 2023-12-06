@@ -70,7 +70,6 @@ class MiscSection(Section):
     atmos_timestep: int = None
     no_auto_deactivation: bool = False
     auto_deactivation_rules: str = ''
-    user_requested_variables: str = ''
     # Todo: needs considerations:
     mip_era_defaults: str = ''
     mips_to_contribute_to: List[str] = field(default_factory=list)
@@ -103,7 +102,6 @@ class MiscSection(Section):
         values = misc_defaults(model_id)
         if config.has_section('misc'):
             config_items = load_types(dict(config.items('misc')), ['mips_to_contribute_to'])
-            expand_paths(config_items, ['user_requested_variables'])
             values.update(config_items)
         return MiscSection(**values)
 

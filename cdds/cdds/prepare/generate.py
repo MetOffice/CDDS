@@ -72,13 +72,13 @@ def generate_variable_list(arguments: Namespace) -> None:
         raise IOError('Output file "{}" already exists'.format(output_file))
 
     # Bypass data request and build variables directly from tables.
-    if request.misc.user_requested_variables:
+    if request.data.variable_list_file:
         config = UserDefinedVariableParameters(request)
     else:
         config = VariableParameters(request)
 
     # Determine which 'MIP requested variables' can and will be produced.
-    if request.misc.user_requested_variables:
+    if request.data.variable_list_file:
         logger.info('Bypassing the Data Request and using Mip Tables.')
         constructor = BypassDataRequestVariablesConstructor(config)
     elif not request.inventory.inventory_check:
@@ -96,7 +96,7 @@ def generate_variable_list(arguments: Namespace) -> None:
         'Writing the Requested variables list to "{}".'.format(output_file))
     write_json(output_file, requested_variables_list)
 
-    if not request.misc.no_auto_deactivation and not request.misc.user_requested_variables:
+    if not request.misc.no_auto_deactivation and not request.data.variable_list_file:
         run_auto_deactivate_variables(
             request.misc.auto_deactivation_rules, output_file, request.metadata.model_id, request.metadata.experiment_id
         )
