@@ -5,26 +5,18 @@ This module contains the code required to alter
 |requested variables lists|.
 """
 from collections import defaultdict
-import configparser
 from datetime import datetime
 import json
 import logging
 
 from cdds.common.io import read_json, write_json
-from cdds.common.plugins.exceptions import PluginLoadError
-from cdds.common.plugins.plugins import PluginStore
-from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common import set_checksum
 
 from cdds import __version__
-from cdds.prepare.common import retrieve_mappings
-from cdds.prepare.constants import ACTIVATE, DEACTIVATE, INSERT
+from cdds.prepare.constants import ACTIVATE, DEACTIVATE
 
-from mip_convert.request import get_mip_table
 
-ALTER_INSERT_UNKNOWN_FIELD = 'unknown'
-SUBSET_HISTORY_COMMENT = ('User selected a subset of variables for test '
-                          'purposes.')
+SUBSET_HISTORY_COMMENT = 'User selected a subset of variables for test purposes.'
 
 
 def alter_variable_list(parameters):
@@ -45,20 +37,9 @@ def alter_variable_list(parameters):
     # Load and validate the 'requested variables list'.
     requested_variables = read_json(parameters.rvfile)
 
-    # Load plugin if needed
-    if parameters.change_type == INSERT:
-        # TODO: redesign to allow for external plugins
-        try:
-            load_plugin(requested_variables['mip_era'])
-        except PluginLoadError:
-            logger.critical('Could not load plugin for mip era "{}"'
-                            ''.format(requested_variables['mip_era']))
-            logger.info('This operation cannot be performed for projects with external plugins')
-            raise
     # Construct the list of rules used to determine whether to change
     # the status of the 'MIP requested variable'.
-    change_rules = _construct_change_rules(
-        parameters.vars, parameters.change_type, parameters.default_priority)
+    change_rules = _construct_change_rules(parameters.vars)
     logger.debug('Change rules: \n{}'.format(json.dumps(change_rules)))
     now = _get_now_iso_string()
     history_comment = {
@@ -69,18 +50,9 @@ def alter_variable_list(parameters):
     if 'history' not in requested_variables:
         requested_variables['history'] = []
 
-    if parameters.change_type in [ACTIVATE, DEACTIVATE]:
-        variables_affected, requested_variables = _apply_activate_deactivate(
-            requested_variables, parameters.change_type, change_rules,
-            parameters.comment, now, override=parameters.override)
-    else:  # parameters.change_type == INSERT
-        variables_affected = _apply_insert(
-            requested_variables,
-            change_rules,
-            now,
-            parameters.default_priority,
-            parameters.mip_table_dir
-        )
+    variables_affected, requested_variables = _apply_activate_deactivate(
+        requested_variables, parameters.change_type, change_rules,
+        parameters.comment, now, override=parameters.override)
 
     # Ensure the appropriate metadata will be written to the
     # 'requested variables list'.
@@ -133,8 +105,7 @@ def select_variables(rv_file, variables):
 
     # Construct the list of rules used to determine whether to change
     # the status of the 'MIP requested variable'.
-    change_rules = _construct_change_rules(
-        vars_to_deactivate, DEACTIVATE, 1)
+    change_rules = _construct_change_rules(vars_to_deactivate)
     logger.debug('Change rules: \n{}'.format(json.dumps(change_rules)))
 
     now = _get_now_iso_string()
@@ -166,7 +137,7 @@ def _get_now_iso_string():
     return datetime.now().isoformat()
 
 
-def _construct_change_rules(variables, change_type, default_priority):
+def _construct_change_rules(variables):
     """
     Construct the list of change rules for main_alter_variable_list
 
@@ -174,10 +145,6 @@ def _construct_change_rules(variables, change_type, default_priority):
     ----------
     variables : list
         Variables to change from command line args
-    change_type : str
-        Change type (one of ACTIVATE, DEACTIVATE, INSERT)
-    default_priority : int
-        Priority to assign when inserting a variable
 
     Returns
     -------
@@ -191,8 +158,6 @@ def _construct_change_rules(variables, change_type, default_priority):
             entry, _ = entry.split(';')
         miptable, cmor = entry.split('/')
         change_rule = {'label': cmor, 'miptable': miptable}
-        if change_type == INSERT:
-            change_rule['priority'] = default_priority
         change_rules.append(change_rule)
     return change_rules
 
@@ -328,116 +293,3 @@ def _apply_activate_deactivate(requested_variables, change_type, change_rules,
         entry['comments'].append(additional_comment)
 
     return variables_affected, requested_variables
-
-
-def _apply_insert(requested_variables, change_rules, timestamp, priority,
-                  mip_table_dir):
-    """
-    Insert the variables required, checking first that they do not
-    already exist.
-
-    Parameters
-    ----------
-    requested_variables : dict
-        Data structure describing the |requested variables list| for
-        this experiment.
-    change_rules : list
-        Rules describing which variables are to be inserted.
-    timestamp : str
-        Timestamp for this operation. Included in the comments.
-    priority : int
-        Priority to insert variables with
-    mip_table_dir : str
-        Location of the MIP tables
-
-    Returns
-    -------
-    : defaultdict(list)
-        Dictionary describing the variables inserted.
-    """
-    logger = logging.getLogger(__name__)
-
-    stream_info = PluginStore.instance().get_plugin().stream_info()
-    # Dictionary to describe the changes made by this operation.
-    variables_affected = defaultdict(list)
-    # Identify variables already in the 'requested variables list'.
-    variables_present = [
-        '{miptable}/{label}'.format(**entry)
-        for entry in requested_variables['requested_variables']]
-    change_errors = []
-    for rule in change_rules:
-        variable = '{miptable}/{label}'.format(**rule)
-        if variable in variables_present:
-            # If variable is already present record this.
-            change_errors.append(variable)
-    if change_errors:
-        # If any change errors list them in the error message.
-        msg = ('Cannot insert variables that are already present: "{}"'
-               '').format(', '.join(change_errors))
-        raise RuntimeError(msg)
-
-    # Construct a dictionary that looks like the one produced by
-    # get_data_request_variables, but without querying the data request.
-    dummy_data_request_variables = defaultdict(dict)
-    for rule in change_rules:
-        dummy_data_request_variables[rule['miptable']][rule['label']] = None
-
-    # Retreive the mappings based on the dummy dictionary
-    mip_era = requested_variables['mip_era']
-    logger.debug('Retrieving mappings for "{}"'.format(mip_era))
-    mappings = retrieve_mappings(dummy_data_request_variables,
-                                 mip_era, requested_variables['model_id'])
-    # Load the MIP tables
-    mip_tables = {}
-    for mip_table in mappings:
-        mip_table_json = '{}_{}.json'.format(mip_era, mip_table)
-        logger.debug('Loading mip table "{}" from directory "{}"'.format(
-            mip_table_json, mip_table_dir))
-        mip_tables[mip_table] = get_mip_table(mip_table_dir, mip_table_json)
-
-    # If everything is ok, insert the variables.
-    for rule in change_rules:
-        # Base entry for requested variables list on rule
-        entry = rule
-        # Pick out mapping for this variable
-        mapping = mappings[rule['miptable']][rule['label']]
-        # Pick out MIP table data for this variable
-        if rule['label'] not in mip_tables[rule['miptable']].variables:
-            msg = ('Could not find variable "{label}" in mip table '
-                   '"{miptable}" when reading mip tables from '
-                   '"{mip_table_dir}"'.format(
-                       mip_table_dir=mip_table_dir, **rule))
-            logger.critical(msg)
-            raise RuntimeError(msg)
-        mip_table_data = mip_tables[rule['miptable']].variables[rule['label']]
-        # Is the mapping ok? If not deactivate and critical log.
-        mapping_error = False
-        if isinstance(mapping, configparser.Error):
-            msg = ('Error retrieving mapping for "{miptable}/{label}: '
-                   '"{msg}"'.format(msg=mapping, **rule))
-            logger.critical(msg)
-            raise RuntimeError(msg)
-        else:
-            if mapping.status != 'ok':
-                mapping_error = True
-                logger.critical(
-                    'Attempting to insert variable "{}/{}" with status="{}". '
-                    'Mapping will be inserted as inactive and will require '
-                    'manual activation.'.format(
-                        rule['miptable'], rule['label'], mapping.status))
-        # Populate entry with data where possible
-        stream_id, substream = stream_info.retrieve_stream_id(rule['label'], rule['miptable'])
-        entry['active'] = mapping.status == 'ok'
-        entry['cell_methods'] = mip_table_data['cell_methods']
-        entry['comments'] = ['Inserted {}'.format(timestamp)]
-        entry['dimensions'] = mip_table_data['dimensions']
-        entry['frequency'] = mip_table_data['frequency']
-        entry['in_mappings'] = not mapping_error
-        entry['in_model'] = ALTER_INSERT_UNKNOWN_FIELD
-        entry['priority'] = priority
-        entry['stream'] = '{}/{}'.format(stream_id, substream) if substream is not None else stream_id
-        # Add to requested variables list
-        requested_variables['requested_variables'].append(entry)
-        variables_affected[entry['miptable']].append(entry['label'])
-
-    return variables_affected

@@ -11,10 +11,9 @@ from datetime import datetime
 from unittest.mock import patch
 import unittest
 
-from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.prepare.alter import (_construct_change_rules, _apply_insert,
+from cdds.prepare.alter import (_construct_change_rules,
                                 _apply_activate_deactivate, select_variables)
-from cdds.prepare.constants import DEACTIVATE, ACTIVATE, INSERT, MIP_TABLES_DIR
+from cdds.prepare.constants import DEACTIVATE, ACTIVATE
 
 from cdds.tests.test_prepare.common import (TEST_RV_DICT, SELECT_CHANGE_RULES,
                                             SELECT_DEACTIVATE_HISTORY_COMMENT,
@@ -72,8 +71,7 @@ class TestPrepareSelectAlterVariables(unittest.TestCase):
 
     def test_construct_change_rules(self):
         vars_to_deactivate = ['Amon/pr', 'Amon/uas', 'Amon/vas']
-        output_rules = _construct_change_rules(vars_to_deactivate, DEACTIVATE,
-                                               1)
+        output_rules = _construct_change_rules(vars_to_deactivate)
         expected_rules = SELECT_CHANGE_RULES
         self.assertEqual(expected_rules, output_rules)
 
@@ -106,22 +104,6 @@ class TestPrepareSelectAlterVariables(unittest.TestCase):
         expected_va = defaultdict(list, {'Amon': ['pr', 'uas', 'vas']})
         self.assertEqual(output_rv, expected_rv)
         self.assertEqual(output_va, expected_va)
-
-    def test_apply_insert(self):
-        requested_variables = copy.deepcopy(TEST_RV_DICT)
-        # Plugin needed for identifying streams
-        load_plugin(requested_variables['mip_era'])
-        change_rules = [{'miptable': 'Omon', 'label': 'tos'}]
-        change_dt = datetime(2019, 1, 2)
-        change_dt_stamp = change_dt.isoformat()
-        comment = 'unit test test_apply_insert'
-        result = _apply_insert(requested_variables,
-                               change_rules,
-                               change_dt_stamp,
-                               1,
-                               MIP_TABLES_DIR)
-        expected_result = defaultdict(list, {'Omon': ['tos']})
-        self.assertEqual(result, expected_result)
 
     def test_apply_activate_deactivate_with_directory_paths(self):
         requested_variables = copy.deepcopy(TEST_RV_DICT)

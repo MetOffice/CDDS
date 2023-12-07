@@ -21,7 +21,6 @@ DEACTIVATION_RULE_LOCATION = 'https://code.metoffice.gov.uk/svn/cdds/variable_is
 EPILOG = ('For a full description of this script, please refer to the '
           'documentation available via '
           'https://code.metoffice.gov.uk/doc/cdds/cdds_prepare/index.html')
-INSERT = 'insert'
 FALLBACK_EXPERIMENT_ID = 'piControl'
 
 # 'KNOWN_GOOD_VARIABLES' is a dictionary keyed first by a tuple describing the
