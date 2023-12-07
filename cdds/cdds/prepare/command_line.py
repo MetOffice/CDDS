@@ -10,13 +10,11 @@ import logging
 from argparse import Namespace
 from typing import List
 
-from cdds.arguments import read_default_arguments
-from cdds.common import configure_logger, common_command_line_args, check_directory
-from cdds.deprecated.config import update_arguments_paths, update_log_dir
+from cdds.common import configure_logger, check_directory
 
 from cdds import __version__
 from cdds.prepare.alter import alter_variable_list, select_variables
-from cdds.prepare.constants import ACTIVATE, DEACTIVATE, EPILOG, INSERT
+from cdds.prepare.constants import ACTIVATE, DEACTIVATE, EPILOG
 from cdds.prepare.directory_structure import create_cdds_directory_structure
 from cdds.prepare.generate import generate_variable_list
 
@@ -24,6 +22,8 @@ from cdds.prepare.generate import generate_variable_list
 COMPONENT = 'prepare'
 CREATE_CDDS_DIR_LOG_NAME = 'create_cdds_directory_structure'
 GENERATE_VARIABLE_LIST_LOG_NAME = 'prepare_generate_variable_list'
+PREPARE_ALTER_LOG_NAME = 'cdds_prepare_alter'
+PREPARE_SELECT_VARIABLES_LOG_NAME = 'prepare_select_variables'
 
 
 def main_create_cdds_directory_structure(arguments: List[str] = None):
@@ -101,8 +101,7 @@ def main_alter_variable_list(arguments=None):
     """
     args = parse_alter_args(arguments)
     # Create the configured logger.
-    configure_logger(args.log_name, args.log_level,
-                     args.append_log)
+    configure_logger(PREPARE_ALTER_LOG_NAME, logging.INFO, False)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
@@ -136,8 +135,7 @@ def main_select_variables(arguments=None):
     exit_code = 0
 
     # Create the configured logger.
-    configure_logger(args.log_name, args.log_level,
-                     args.append_log)
+    configure_logger(PREPARE_SELECT_VARIABLES_LOG_NAME, logging.INFO, False)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
@@ -237,8 +235,6 @@ def parse_alter_args(arguments):
         values.
     """
     user_arguments = arguments
-    arguments = read_default_arguments('cdds.prepare',
-                                       'prepare_alter_variable_list')
     parser = argparse.ArgumentParser(
         description=('Alter a requested variables list by activating, '
                      'deactivating or inserting MIP requested variables.'),
@@ -246,7 +242,7 @@ def parse_alter_args(arguments):
     parser.add_argument(
         'rvfile', help='The requested variables list to modify inplace.')
     parser.add_argument(
-        'change_type', choices=[ACTIVATE, DEACTIVATE, INSERT], help=(
+        'change_type', choices=[ACTIVATE, DEACTIVATE], help=(
             'The type of change to make.'))
     parser.add_argument(
         'vars', nargs='+', help=(
@@ -256,39 +252,19 @@ def parse_alter_args(arguments):
     parser.add_argument(
         'comment', help='The reason for the change.')
     parser.add_argument(
-        '--default_priority', type=int,
-        default=arguments.default_priority,
-        help=('The default priority for inserted MIP requested variables.'))
-    parser.add_argument(
-        '-d', '--data_request_version', default=arguments.data_request_version,
-        help=('The version of the data request (used to access MIP tables).'))
-    parser.add_argument(
         '-r', '--override', action='store_true', help=(
             'Ignore in_mapping and in_model flags when activating MIP '
             'requested variables. This should be used with EXTREME care '
             'under guidance from the CDDS team as it overrides the '
             'information obtained from the suite and mappings by '
             'prepare_generate_variable_list'))
-    parser.add_argument(
-        '--mip_table_dir', type=str, default=arguments.mip_table_dir, help=(
-            'MIP table directory to use for "insert" commands (default: {})'
-            ''.format(arguments.mip_table_dir))
-    )
-    common_command_line_args(parser, arguments.log_name, arguments.log_level,
-                             __version__)
 
-    # print('parse user_arguments={0}'.format(user_arguments))
     args = parser.parse_args(user_arguments)
-    arguments.add_user_args(args)
-    arguments = update_arguments_paths(arguments)
-    arguments = update_log_dir(arguments, COMPONENT)
-    return arguments
+    return args
 
 
 def parse_select_variables_args(arguments):
     user_arguments = arguments
-    arguments = read_default_arguments('cdds.prepare',
-                                       'prepare_select_variables')
     parser = argparse.ArgumentParser(
         description='Select a subset of variables to process, turning off '
                     'all other variables in the requested variables file.',
@@ -301,10 +277,6 @@ def parse_select_variables_args(arguments):
             'The MIP requested variables to operate on/insert, e.g. '
             '"Amon/tas day/pr". Note that no attempt is made to validate the '
             'names of MIP requested variables'))
-    common_command_line_args(parser, arguments.log_name, arguments.log_level,
-                             __version__)
+
     args = parser.parse_args(user_arguments)
-    arguments.add_user_args(args)
-    arguments = update_arguments_paths(arguments)
-    arguments = update_log_dir(arguments, COMPONENT)
-    return arguments
+    return args
