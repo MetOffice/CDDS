@@ -303,10 +303,12 @@ def run_command(command, msg=None, exception=None, environment=None):
     return stdoutdata
 
 
-# TODO: moved to cdds.common.paths.file_system.py to avoid package dependencies cycles
+# TODO: moved method to cdds.common.paths.file_system.py to avoid package dependencies cycles
 def construct_string_from_facet_string(facet_string, facet_values,
                                        string_type='path'):
     """
+    DEPRECATED: method is moved to cdds.common.paths.file_system.py
+
     Return the constructed string as described by the ``facet_string``
     and the ``facet_values``.
 

@@ -10,8 +10,7 @@ from cdds.common.plugins.file_info import ModelFileInfo, GlobalModelFileInfo
 from cdds.common.plugins.grid import GridLabel
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
-from cdds.common.plugins.plugins import CddsPlugin
-from cdds.common.plugins.base.base_plugin import MipEra
+from cdds.common.plugins.base.base_plugin import MipEra, BasePlugin
 from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from cdds.common.plugins.attributes import DefaultGlobalAttributes
 from cdds.common.plugins.gcmodeldev.gcmodeldev_models import GCModelDevStore
@@ -22,13 +21,13 @@ GCMODEL_DEV_LICENSE = ('GCModelDev model data is licensed under the Open Governm
                        '(https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/')
 
 
-class GCModelDevPlugin(CddsPlugin):
+class GCModelDevPlugin(BasePlugin):
     """
     Plugin for GCModelDev models
     """
 
     def __init__(self):
-        super(GCModelDevPlugin, self).__init__(MipEra.GC_MODEL_DEV.value)
+        super(GCModelDevPlugin, self).__init__(MipEra.GC_MODEL_DEV)
 
     def models_parameters(self, model_id: str) -> ModelParameters:
         """
@@ -110,36 +109,3 @@ class GCModelDevPlugin(CddsPlugin):
         :rtype: str
         """
         return '{}/mip_tables/GCModelDev/0.0.13'.format(os.environ['CDDS_ETC'])
-
-    def proc_directory_facet_string(self) -> str:
-        """
-        Returns the facet string for the CDDS proc directory where the non-data outputs are written.
-
-        Please be aware that the several each facet must be equal to a key in the request.cfg!
-
-        :return: Facet string for the CDDS proc directory
-        :rtype: str
-        """
-        return 'mip_era|mip|workflow_basename|package'
-
-    def data_directory_facet_string(self) -> str:
-        """
-        Returns the facet string for the CDDS data directory where the |model output files| are written.
-
-        Please be aware that the several each facet must be equal to a key in the request.cfg!
-
-        :return: Facet string for the CDDS data directory
-        :rtype: str
-        """
-        return 'mip_era|mip|model_id|experiment_id|variant_label|package'
-
-    def requested_variables_list_facet_string(self) -> str:
-        """
-        Returns the facet string for the |requested variables list| directory.
-
-        Please be aware that the several each facet must be equal to a key in the request.cfg!
-
-        :return: Facet string for the requested variable list directory
-        :rtype: str
-        """
-        pass

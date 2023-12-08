@@ -16,7 +16,6 @@ import unittest
 from cdds.common.constants import (
     COMPONENT_LIST, INPUT_DATA_DIRECTORY, OUTPUT_DATA_DIRECTORY, LOG_DIRECTORY)
 from cdds.common.io import write_json
-from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.variables import RequestedVariablesList
 from cdds.common.request.request import Request
 

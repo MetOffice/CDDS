@@ -4,13 +4,15 @@
 The :mod:`plugin` module contains the code for the CDDS plugins.
 """
 from abc import ABCMeta, abstractmethod
-from typing import Type, Dict, Any
+from typing import Type, Dict, Any, TYPE_CHECKING
 
 from cdds.common.plugins.grid import GridLabel, GridType, GridInfo
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
 from cdds.common.plugins.file_info import ModelFileInfo
 from cdds.common.plugins.attributes import GlobalAttributes, DefaultGlobalAttributes
+if TYPE_CHECKING:
+    from cdds.common.request.request import Request
 
 
 class CddsPlugin(object, metaclass=ABCMeta):
@@ -140,7 +142,7 @@ class CddsPlugin(object, metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def proc_directory_facet_string(self) -> str:
+    def proc_directory(self, request: 'Request') -> str:
         """
         Returns the facet string for the CDDS proc directory where the non-data outputs are written, e.g.
         mip_era|mip|workflow_basename|package
@@ -153,7 +155,7 @@ class CddsPlugin(object, metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def data_directory_facet_string(self) -> str:
+    def data_directory(self, request: 'Request') -> str:
         """
         Returns the facet string for the CDDS data directory where the |model output files| are written, e.g.
         mip_era|mip|model_id|experiment_id|variant_label|package
@@ -166,7 +168,7 @@ class CddsPlugin(object, metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def requested_variables_list_facet_string(self) -> str:
+    def requested_variables_list_filename(self, request: 'Request') -> str:
         """
         Returns the facet string for the |requested variables list| directory, e.g. mip_era|mip|experiment_id|model_id
 

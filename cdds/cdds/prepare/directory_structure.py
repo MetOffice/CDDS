@@ -5,9 +5,12 @@
 This module contains code related to the directory structures for CDDS.
 """
 import logging
+import os
 
 from argparse import Namespace
 
+from cdds.common.constants import INPUT_DATA_DIRECTORY, OUTPUT_DATA_DIRECTORY, LOG_DIRECTORY
+from cdds.common.plugins.plugins import PluginStore
 from cdds.common.paths.file_system import create_directory, update_permissions
 from cdds.common.request.request import read_request
 from cdds.common.constants import COMPONENT_LIST
@@ -27,28 +30,34 @@ def create_cdds_directory_structure(arguments: Namespace):
     logger = logging.getLogger(__name__)
     # Read the request information.
     request = read_request(arguments.request)
+    plugin = PluginStore.instance().get_plugin()
 
     # Create data directories.
     # Create data directories.
-    create_directory(request.input_data_directory, CDDS_UNIX_GROUP, root_dir=request.common.root_data_dir)
-    create_directory(request.output_data_directory, CDDS_UNIX_GROUP, root_dir=request.common.root_data_dir)
+    input_data_dir = os.path.join(plugin.data_directory(request), INPUT_DATA_DIRECTORY)
+    output_data_dir = os.path.join(plugin.data_directory(request), OUTPUT_DATA_DIRECTORY)
+
+    create_directory(input_data_dir, CDDS_UNIX_GROUP, root_dir=request.common.root_data_dir)
+    create_directory(output_data_dir, CDDS_UNIX_GROUP, root_dir=request.common.root_data_dir)
 
     # Create proc directories.
-    root_proc_dir = request.common.root_proc_dir
+    proc_dir = plugin.proc_directory(request)
     for component in COMPONENT_LIST:
-        create_directory(request.component_log_directory(component), group=CDDS_UNIX_GROUP, root_dir=root_proc_dir)
+        component_log_dir = os.path.join(proc_dir, component, LOG_DIRECTORY)
+        create_directory(component_log_dir, group=CDDS_UNIX_GROUP, root_dir=request.common.root_proc_dir)
 
     # The archive log directory requires different permissions so that logs
     # from the move_in_mass can be written to that directory when running
     # from a server outside the Met Office core network.
-    update_permissions(request.component_log_directory('archive'), group=group,
-                       permissions=ARCHIVE_LOG_DIRECTORY_PERMISSIONS)
+    archive_log_dir = os.path.join(proc_dir, 'archive', LOG_DIRECTORY)
+    update_permissions(archive_log_dir, group=CDDS_UNIX_GROUP, permissions=ARCHIVE_LOG_DIRECTORY_PERMISSIONS)
+
     logger.info('------------')
     logger.info('Directories:')
-    logger.info('  proc : "{}"'.format(request.proc_directory))
-    logger.info('  data : "{}"'.format(request.data_directory))
+    logger.info('  proc : "{}"'.format(plugin.proc_directory(request)))
+    logger.info('  data : "{}"'.format(plugin.data_directory(request)))
     logger.info('------------')
     logger.info('Useful commands:')
-    logger.info('  ln -s {} proc'.format(request.proc_directory))
-    logger.info('  ln -s {} data'.format(request.data_directory))
+    logger.info('  ln -s {} proc'.format(plugin.proc_directory(request)))
+    logger.info('  ln -s {} data'.format(plugin.data_directory(request)))
     logger.info('------------')

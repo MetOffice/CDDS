@@ -40,11 +40,11 @@ class EmptyCddsPlugin(CddsPlugin):
     def mip_table_dir(self) -> str:
         return ''
 
-    def proc_directory_facet_string(self) -> str:
-        return ''
+    def proc_directory(self, request) -> str:
+        pass
 
-    def data_directory_facet_string(self) -> str:
-        return ''
+    def data_directory(self, request) -> str:
+        pass
 
-    def requested_variables_list_facet_string(self) -> str:
+    def requested_variables_list_filename(self, request) -> str:
         pass

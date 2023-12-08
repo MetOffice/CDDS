@@ -3,9 +3,16 @@
 """
 The :mod:`base_plugin` module contains the basic code for plugins.
 """
+import os
+
 from abc import ABC
 from enum import Enum
+from typing import TYPE_CHECKING
+
 from cdds.common.plugins.plugins import CddsPlugin
+
+if TYPE_CHECKING:
+    from cdds.common.request.request import Request
 
 
 class MipEra(Enum):
@@ -81,7 +88,7 @@ class BasePlugin(CddsPlugin, ABC):
     def __init__(self, mip_era: MipEra):
         super(BasePlugin, self).__init__(mip_era.value)
 
-    def proc_directory_facet_string(self) -> str:
+    def proc_directory(self, request: 'Request') -> str:
         """
         Returns the facet string for the CDDS proc directory where the non-data outputs are written.
 
@@ -90,9 +97,15 @@ class BasePlugin(CddsPlugin, ABC):
         :return: Facet string for the CDDS proc directory
         :rtype: str
         """
-        return 'mip_era|mip|workflow_basename|package'
+        return os.path.join(
+            request.common.root_proc_dir,
+            request.metadata.mip_era,
+            request.metadata.mip,
+            request.common.workflow_basename,
+            request.common.package
+        )
 
-    def data_directory_facet_string(self) -> str:
+    def data_directory(self, request: 'Request') -> str:
         """
         Returns the facet string for the CDDS data directory where the |model output files| are written.
 
@@ -101,9 +114,17 @@ class BasePlugin(CddsPlugin, ABC):
         :return: Facet string for the CDDS data directory
         :rtype: str
         """
-        return 'mip_era|mip|model_id|experiment_id|variant_label|package'
+        return os.path.join(
+            request.common.root_data_dir,
+            request.metadata.mip_era,
+            request.metadata.mip,
+            request.metadata.model_id,
+            request.metadata.experiment_id,
+            request.metadata.variant_label,
+            request.common.package
+        )
 
-    def requested_variables_list_facet_string(self) -> str:
+    def requested_variables_list_filename(self, request: 'Request') -> str:
         """
         Returns the facet string for the |requested variables list| directory.
 
@@ -112,4 +133,10 @@ class BasePlugin(CddsPlugin, ABC):
         :return: Facet string for the requested variable list directory
         :rtype: str
         """
-        return 'mip_era|mip|experiment_id|model_id'
+        name = '_'.join([
+            request.metadata.mip_era,
+            request.metadata.mip,
+            request.metadata.experiment_id,
+            request.metadata.model_id
+        ])
+        return '{}.json'.format(name)
