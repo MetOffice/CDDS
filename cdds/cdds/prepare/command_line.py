@@ -7,13 +7,9 @@ command line scripts in the ``bin`` directory.
 import argparse
 import logging
 
-import traceback
-import os
-
 from argparse import Namespace
 from typing import List
 
-from cdds.arguments import read_default_arguments
 from cdds.common import configure_logger, check_directory
 
 from cdds import __version__
@@ -84,7 +80,6 @@ def main_generate_variable_list(arguments: List[str] = None) -> int:
         generate_variable_list(args)
         return 0
     except BaseException as exc:
-        traceback.print_exc()
         logger.exception(exc, exc_info=1)
         return 1
 
