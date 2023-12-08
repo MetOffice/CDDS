@@ -44,9 +44,7 @@ class TestMiscDefaults(TestCase):
     def test_defaults(self):
         expected_defaults = {
             'atmos_timestep': 1200,
-            'no_auto_deactivation': False,
             'mips_to_contribute_to': self.mips,
-            'mapping_status': 'all',
             'use_proc_dir': False,
             'max_priority': 2,
             'no_overwrite': False

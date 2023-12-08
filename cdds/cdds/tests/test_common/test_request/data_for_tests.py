@@ -88,13 +88,10 @@ def expected_test_misc():
     return {
         'atmos_timestep': 1200,
         'mips_to_contribute_to': ['AerChemMIP', 'C4MIP'],
-        'mapping_status': 'ok',
         'use_proc_dir': True,
         'max_priority': 2,
         'mip_era_defaults': '',
         'no_overwrite': False,
-        'no_auto_deactivation': False,
-        'auto_deactivation_rules': ''
     }
 
 
@@ -199,8 +196,6 @@ def expected_test_minimal_data():
 def expected_test_minimal_misc():
     return {
         'atmos_timestep': 1200,
-        'auto_deactivation_rules': '',
-        'mapping_status': 'all',
         'max_priority': 2,
         'mip_era_defaults': '',
         'mips_to_contribute_to': ['AerChemMIP',
@@ -227,7 +222,6 @@ def expected_test_minimal_misc():
                                   'SIMIP',
                                   'VIACSAB',
                                   'VolMIP'],
-        'no_auto_deactivation': False,
         'no_overwrite': False,
         'use_proc_dir': False
     }

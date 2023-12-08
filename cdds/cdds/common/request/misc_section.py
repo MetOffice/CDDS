@@ -7,7 +7,7 @@ from configparser import ConfigParser
 from dataclasses import dataclass, field, asdict
 from typing import List, Dict, Any
 
-from cdds.common.request.request_section import Section, load_types, expand_paths
+from cdds.common.request.request_section import Section, load_types
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
@@ -28,7 +28,6 @@ def misc_defaults(model_id: str) -> Dict[str, Any]:
 
     return {
         'atmos_timestep': atmos_timestep,
-        'no_auto_deactivation': False,
         'mips_to_contribute_to': [
             'AerChemMIP',
             'C4MIP',
@@ -55,7 +54,6 @@ def misc_defaults(model_id: str) -> Dict[str, Any]:
             'VIACSAB',
             'VolMIP'
         ],
-        'mapping_status': 'all',
         'use_proc_dir': False,
         'max_priority': 2,
         'no_overwrite': False
@@ -68,12 +66,9 @@ class MiscSection(Section):
     Represents the misc section in the request configuration
     """
     atmos_timestep: int = None
-    no_auto_deactivation: bool = False
-    auto_deactivation_rules: str = ''
     # Todo: needs considerations:
     mip_era_defaults: str = ''
     mips_to_contribute_to: List[str] = field(default_factory=list)
-    mapping_status: str = 'all'
     use_proc_dir: bool = False
     max_priority: int = 2
     no_overwrite: bool = False

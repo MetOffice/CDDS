@@ -6,25 +6,21 @@ command line scripts in the ``bin`` directory.
 """
 import argparse
 import logging
-
 import traceback
-import os
 
 from argparse import Namespace
 from typing import List
 
 from cdds.arguments import read_default_arguments
-from cdds.common import (
-    configure_logger, common_command_line_args, check_directory, check_file, root_dir_args)
-from cdds.deprecated.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
+from cdds.common import configure_logger, common_command_line_args, check_directory
+from cdds.deprecated.config import update_arguments_paths, update_log_dir
 
 from cdds import __version__
-from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY, INVENTORY_DB_FILENAME
-from cdds.common.old_request import read_request
 from cdds.prepare.alter import alter_variable_list, select_variables
-from cdds.prepare.constants import (ACTIVATE, DEACTIVATE, EPILOG, INSERT, DEACTIVATION_RULE_LOCATION)
+from cdds.prepare.constants import ACTIVATE, DEACTIVATE, EPILOG, INSERT
 from cdds.prepare.directory_structure import create_cdds_directory_structure
 from cdds.prepare.generate import generate_variable_list
+
 
 COMPONENT = 'prepare'
 CREATE_CDDS_DIR_LOG_NAME = 'create_cdds_directory_structure'
@@ -86,8 +82,8 @@ def main_generate_variable_list(arguments: List[str] = None) -> int:
         generate_variable_list(args)
         return 0
     except BaseException as exc:
-        traceback.print_exc()
         logger.exception(exc, exc_info=1)
+        traceback.print_exc()
         return 1
 
 

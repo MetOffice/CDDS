@@ -7,32 +7,18 @@ This module contains the code to generate |requested variables lists|.
 import os
 import logging
 
-from abc import ABCMeta, abstractmethod
 from argparse import Namespace
 from datetime import datetime
-from typing import List
 
 from cdds.common.io import write_json
 from cdds.common import set_checksum
-from cdds.deprecated.config import FullPaths
 
 from cdds.common.request.request import read_request
 
 from cdds import __version__
 from cdds.common.plugins.plugins import PluginStore
-from cdds.inventory.dao import InventoryDAO, DBVariableStatus
-from cdds.prepare.auto_deactivation import run_auto_deactivate_variables
-from cdds.prepare.constants import (KNOWN_GOOD_VARIABLES,
-                                    VARIABLE_IN_INVENTORY_LOG,
-                                    VARIABLE_NOT_IN_INVENTORY_LOG,
-                                    VARIABLE_IN_INVENTORY_COMMENT)
 from cdds.prepare.mapping_status import MappingStatus, ProducibleState
-from cdds.prepare.data_request import (check_variable_model_data_request,
-                                       check_data_request_changes,
-                                       calculate_priority,
-                                       check_priority,
-                                       calculate_ensemble_size)
-from cdds.prepare.parameters import VariableParameters, UserDefinedVariableParameters
+from cdds.prepare.parameters import VariableParameters
 
 
 def generate_variable_list(arguments: Namespace) -> None:
@@ -72,39 +58,22 @@ def generate_variable_list(arguments: Namespace) -> None:
         raise IOError('Output file "{}" already exists'.format(output_file))
 
     # Bypass data request and build variables directly from tables.
-    if request.data.variable_list_file:
-        config = UserDefinedVariableParameters(request)
-    else:
-        config = VariableParameters(request)
+    config = VariableParameters(request)
 
     # Determine which 'MIP requested variables' can and will be produced.
-    if request.data.variable_list_file:
-        logger.info('Bypassing the Data Request and using Mip Tables.')
-        constructor = BypassDataRequestVariablesConstructor(config)
-    elif not request.inventory.inventory_check:
-        logger.info('No inventory check')
-        constructor = BaseVariablesConstructor(config)
-    else:
-        logger.info('Inventory check being performed using database "{}"'.format(arguments.db_file))
-        constructor = InventoryVariablesConstructor(arguments.db_file, config)
+    logger.info('Bypassing the Data Request and using Mip Tables.')
+    constructor = VariablesConstructor(config)
 
     requested_variables_list = constructor.construct_requested_variables_list()
-    constructor.clean_up()
 
     # Write the 'requested variables list'.
-    logger.debug(
-        'Writing the Requested variables list to "{}".'.format(output_file))
+    logger.debug('Writing the Requested variables list to "{}".'.format(output_file))
     write_json(output_file, requested_variables_list)
-
-    if not request.misc.no_auto_deactivation and not request.data.variable_list_file:
-        run_auto_deactivate_variables(
-            request.misc.auto_deactivation_rules, output_file, request.metadata.model_id, request.metadata.experiment_id
-        )
 
     logger.info('*** Complete ***')
 
 
-class AbstractVariablesConstructor(object, metaclass=ABCMeta):
+class VariablesConstructor:
     """
     Abstract class for all classes constructing the
     requested list of variables
@@ -126,7 +95,6 @@ class AbstractVariablesConstructor(object, metaclass=ABCMeta):
         requested_variables = self.resolve_requested_variables()
 
         requested_variables_list = {
-            'data_request_version': self._config.data_request_version,
             'experiment_id': self._config.experiment_id,
             'history': [
                 {'comment': 'Requested variables file created.',
@@ -162,43 +130,20 @@ class AbstractVariablesConstructor(object, metaclass=ABCMeta):
             The resolved |MIP requested variables|.
         """
         requested_variables = []
-
-        for mip_table in sorted(self._config.data_request_variables):
-            for variable_name, variable in sorted(self._config.data_request_variables[mip_table].items()):
+        for mip_table in sorted(self._config.request_variables):
+            for variable_name, variable in sorted(self._config.request_variables[mip_table].items()):
                 comments = []
-                # If the variable is in the model data request get it.
-                model_data_request_variables = self._config.model_data_request_variables
-                model_variable = check_variable_model_data_request(variable, model_data_request_variables, comments)
 
                 # Variable in model check.
                 variable_in_model = self.check_in_model(variable, comments)
 
                 # Mappings check (returns mapping object for use in subsequent checks.
-                variable_in_mappings, mapping = self.check_mappings(variable, comments)
-
-                # Mapping status check.
-                variable_required_status = self.check_status(mapping, comments)
-
-                # Data request check.
-                critical_data_request_changes = check_data_request_changes(variable, model_variable, mapping, comments)
-
-                # Priority check.
-                priority = calculate_priority(self._config.mips, variable)
-                priority_ok = check_priority(priority, self._config.max_priority, comments)
-
-                # Ensemble size check.
-                ensemble_size = calculate_ensemble_size(self._config.mips, variable)
+                variable_in_mappings, _ = self.check_mappings(variable, comments)
 
                 # Combine all above flags to determine whether this variable should be active.
-                active = self.check_active(
-                    variable, model_variable, variable_in_model, variable_in_mappings, variable_required_status,
-                    critical_data_request_changes, priority_ok, comments
-                )
+                active = all([variable_in_model, variable_in_mappings])
 
                 producible_state = self.check_producible(variable_name, mip_table)
-
-                stream_info = self._plugin.stream_info()
-                stream_id, substream = stream_info.retrieve_stream_id(variable_name, mip_table)
 
                 requested_variable = {
                     'active': active,
@@ -211,9 +156,7 @@ class AbstractVariablesConstructor(object, metaclass=ABCMeta):
                     'in_mappings': variable_in_mappings,
                     'label': variable_name,
                     'miptable': mip_table,
-                    'priority': priority,
-                    'ensemble_size': ensemble_size,
-                    'stream': '{}/{}'.format(stream_id, substream) if substream is not None else stream_id
+                    'stream': variable.stream
                 }
                 requested_variables.append(requested_variable)
 
@@ -284,38 +227,6 @@ class AbstractVariablesConstructor(object, metaclass=ABCMeta):
 
         return variable_in_mappings, mapping
 
-    def check_status(self, mapping, comments):
-        """
-        Return whether the status of the |model to MIP mapping| matches the
-        required status.
-
-        Parameters
-        ----------
-        mapping : :class:`VariableModelToMIPMapping`
-            The |model to MIP mapping| for the |MIP requested variable|.
-        comments : list
-            The comments related to the |MIP requested variable|.
-
-        Returns
-        -------
-        : bool
-            Whether the status of the |model to MIP mapping| matches the
-            required status.
-        """
-        mapping_status_required = self._config.mapping_status
-        if mapping is None:
-            variable_required_status = False
-        else:
-            variable_required_status = True
-            if mapping_status_required != 'all' and mapping.status != mapping_status_required:
-                variable_required_status = False
-                comments.append(
-                    'Status requested was "{}" but model to MIP mapping status is '
-                    '"{}"'.format(mapping_status_required, mapping.status)
-                )
-
-        return variable_required_status
-
     @staticmethod
     def check_producible(variable_name, mip_table):
         """
@@ -338,238 +249,3 @@ class AbstractVariablesConstructor(object, metaclass=ABCMeta):
         mapping_data = MappingStatus.get_instance()
         producible = mapping_data.producible(variable_name, mip_table)
         return ProducibleState.to_variables_data_value(producible)
-
-    def check_active(self, variable, model_variable, variable_in_model, variable_in_mappings, variable_required_status,
-                     critical_data_request_changes, priority_ok, comments):
-        """
-        Return whether the |MIP requested variable| should be activated.
-
-        A critical message will be logged if there are important differences
-        between the version of the |data request| used to setup the |model|
-        and the specified version of the |data request|.
-
-        Parameters
-        ----------
-        variable : :class:`DataRequestVariable`
-            The |MIP requested variable| from the |data request|.
-        model_variable : :class:`DataRequestVariable`
-            The |MIP requested variable| from the version of the
-            |data request| used to setup the |model|.
-        variable_in_model : bool
-            Whether the |MIP requested variable| is enabled in the model
-            suite.
-        variable_in_mappings : bool
-            Whether the |MIP requested variable| has an associated
-            |model to MIP mapping|.
-        variable_required_status : bool
-            Whether the status of the |model to MIP mapping| matches the
-            required status.
-        critical_data_request_changes : bool
-            Whether the |MIP requested variable| has changed significantly
-            between the version of the |data request| used to setup the
-            |model| and the specified version of the |data request|.
-        priority_ok : bool
-            Whether the priority of the |MIP requested variable| (which can
-            differ depending on the |MIP|) is equal to or less than the
-            maximum priority.
-        comments : list
-            The comments related to the |MIP requested variable|.
-
-        Returns
-        -------
-        : bool
-            Whether the |MIP requested variable| should be activated.
-        """
-
-        logger = logging.getLogger(__name__)
-        # critical_data_request_changes cannot be True if the variable in question
-        # was not in the data request used to configure the model, i.e. when
-        # model_variable is None.
-        if model_variable is None:
-            critical_data_request_changes = False
-        else:
-            kgv_key = (model_variable.data_request.version, variable.data_request.version)
-            if kgv_key in KNOWN_GOOD_VARIABLES:
-                if self.is_variable_list_in_known_variables(variable, kgv_key):
-                    comments.append('Variable listed in KNOWN_GOOD_VARIABLES for data request version "{}"'
-                                    ''.format(variable.data_request.version))
-                    critical_data_request_changes = False
-
-        additional_checks = self.additional_active_checks(variable, comments)
-
-        active = all([variable_in_model,
-                      variable_in_mappings,
-                      variable_required_status,
-                      not critical_data_request_changes,
-                      priority_ok,
-                      additional_checks])
-
-        # critical log if the data request changes are the only cause for being unable to produce a variable.
-        if critical_data_request_changes and all(
-                [variable_in_model, variable_in_mappings, variable_required_status, priority_ok, additional_checks]):
-            logger.critical(
-                'Variable "{}/{}" not active due to data request changes between model version "{}" and version "{}"'
-                ''.format(variable.mip_table, variable.variable_name, model_variable.data_request.version,
-                          variable.data_request.version))
-        return active
-
-    @abstractmethod
-    def additional_active_checks(self, variable, comments):
-        pass
-
-    @abstractmethod
-    def clean_up(self):
-        pass
-
-    @staticmethod
-    def is_variable_list_in_known_variables(variable, kgv_key):
-        return ((variable.mip_table in KNOWN_GOOD_VARIABLES[kgv_key]) and
-                (variable.variable_name in KNOWN_GOOD_VARIABLES[kgv_key][variable.mip_table]))
-
-
-class BaseVariablesConstructor(AbstractVariablesConstructor):
-    """
-    Class that provides function for listing variables without any additional database information
-    """
-
-    def __init__(self, config):
-        """
-        :param config:  all input parameters for constructing the list of approved variables
-        :type config: VariableParameters
-        """
-        super(BaseVariablesConstructor, self).__init__(config)
-
-    def additional_active_checks(self, variable, comments):
-        return True
-
-    def clean_up(self):
-        pass
-
-
-class BypassDataRequestVariablesConstructor(AbstractVariablesConstructor):
-    """
-    Class that provides function for listing variables without
-    any additional database information
-    """
-
-    def __init__(self, config):
-        """
-        Parameters
-        ----------
-        config: `cdds.prepare.parameters.VariableParameters` object
-            all input parameters for constructing the list of approved variables
-        """
-        super(BypassDataRequestVariablesConstructor, self).__init__(config)
-
-    def resolve_requested_variables(self):
-        """
-        Return the resolved |MIP requested variables|.
-
-        Returns
-        -------
-        : list
-            The resolved |MIP requested variables|.
-        """
-        requested_variables = []
-        for mip_table in sorted(self._config.data_request_variables):
-            for variable_name, variable in sorted(self._config.data_request_variables[mip_table].items()):
-                comments = []
-
-                # Variable in model check.
-                variable_in_model = self.check_in_model(variable, comments)
-
-                # Mappings check (returns mapping object for use in subsequent checks.
-                variable_in_mappings, _ = self.check_mappings(variable, comments)
-
-                # Combine all above flags to determine whether this variable should be active.
-                active = all([variable_in_model, variable_in_mappings])
-
-                producible_state = self.check_producible(variable_name, mip_table)
-
-                requested_variable = {
-                    'active': active,
-                    'producible': producible_state,
-                    'cell_methods': variable.cell_methods,
-                    'comments': sorted(comments),
-                    'dimensions': variable.dimensions,
-                    'frequency': variable.frequency,
-                    'in_model': variable_in_model,
-                    'in_mappings': variable_in_mappings,
-                    'label': variable_name,
-                    'miptable': mip_table,
-                    'stream': variable.stream
-                }
-                requested_variables.append(requested_variable)
-
-        return requested_variables
-
-    def clean_up(self):
-        pass
-
-    def additional_active_checks(self, variable, comments):
-        return True
-
-
-class InventoryVariablesConstructor(AbstractVariablesConstructor):
-    """
-    Class that provides function for listing variables with
-    additional in the inventory database
-    """
-
-    def __init__(self, db_file, config):
-        """
-        Parameters
-        ----------
-        db_file: str
-            path to the inventory database configuration file
-        config: `cdds.prepare.parameters.VariableParameters` object
-            all input parameters for constructing the list of approved variables
-        """
-        super(InventoryVariablesConstructor, self).__init__(config)
-        self._dao = InventoryDAO(db_file)
-        self._db_data = self._dao.get_variables_data(config.model_id, config.experiment_id, config.variant_label)
-
-    def additional_active_checks(self, variable, comments):
-        """
-        Returns if the requested variable is according the inventory database active or not.
-        A variable is active if the status in the inventory database is not 'available' or 'in progress'. If the
-        variable is not found in the inventory database, it is active by default.
-
-        A comment will be added if a variable is inactive.
-
-        Parameters
-        ----------
-        variable: :class:`DataRequestVariable`
-            The |MIP requested variable| from the |data request|.
-        comments: list
-            The comments related to the |MIP requested variable|.
-
-        Returns
-        -------
-        : bool
-            Whether the |MIP requested variable| is activated in the inventory database.
-        """
-        logger = logging.getLogger(__name__)
-        try:
-            is_active = self._check_inventory_status(variable, comments)
-            message = VARIABLE_IN_INVENTORY_LOG.format(variable.mip_table, variable.variable_name, is_active)
-        except KeyError:
-            message = VARIABLE_NOT_IN_INVENTORY_LOG.format(variable.mip_table, variable.variable_name)
-            is_active = True
-        logger.debug(message)
-        return is_active
-
-    def _check_inventory_status(self, variable, comments):
-        db_variable = self._db_data.get_variable(variable.mip_table, variable.variable_name)
-        active_state = DBVariableStatus.AVAILABLE
-        in_progess_state = DBVariableStatus.IN_PROGRESS
-        is_active = db_variable.has_not_status(active_state) and db_variable.has_not_status(in_progess_state)
-
-        if not is_active:
-            comments.append(VARIABLE_IN_INVENTORY_COMMENT.format(
-                db_variable.id, db_variable.version, db_variable.status
-            ))
-        return is_active
-
-    def clean_up(self):
-        self._dao.close()

@@ -16,7 +16,6 @@ import unittest
 from cdds.common.constants import (
     COMPONENT_LIST, INPUT_DATA_DIRECTORY, OUTPUT_DATA_DIRECTORY, LOG_DIRECTORY)
 from cdds.common.io import write_json
-from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.variables import RequestedVariablesList
 from cdds.common.request.request import Request
 
@@ -139,7 +138,6 @@ class TestMainGenerateVariableList(unittest.TestCase):
     """
     MODEL_DATA_REQUEST_VERSION = '01.00.10'
     DATA_REQUEST_VERSION = '01.00.29'
-    KNOWN_GOOD_VARIABLES = {(MODEL_DATA_REQUEST_VERSION, DATA_REQUEST_VERSION): {'Amon': ['pr']}}
 
     def setUp(self):
         load_plugin()
@@ -149,7 +147,6 @@ class TestMainGenerateVariableList(unittest.TestCase):
         self.revision = 77678
         self.checksum = 'md5:f15c9d610da2dfc1f992272a392c57cf'
         self.request_path = 'request2.cfg'
-        self.auto_deactivation_file = 'auto_deactivate.json'
         self.mip_era = 'CMIP6'
         self.mip = 'CMIP'
         self.model_id = 'HadGEM3-GC31-LL'
@@ -166,6 +163,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         self.requested_variables_list = self.filename.format(
             mip_era=self.mip_era, mip=self.mip, experiment_id=self.experiment_id, model_id=self.model_id
         )
+        self.variable_list = tempfile.mktemp()
         self.log_name = 'prepare_generate_variable_list'
         self.log_datestamp = '2019-11-23T1432Z'
         self.log_path = ''  # This will be constructed later
@@ -176,6 +174,9 @@ class TestMainGenerateVariableList(unittest.TestCase):
 
     def _main(self, request, use_proc_dir, output_dir, max_priority):
         # Use '--quiet' to ensure no log messages are printed to screen.
+        variables = ['day/pr:apa']
+        with open(self.variable_list, 'w') as fh:
+            fh.writelines(variables)
 
         request.misc.use_proc_dir = use_proc_dir
         request.misc.max_priority = max_priority
@@ -184,6 +185,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         request.misc.max_priority = max_priority
         request.common.root_data_dir = self.root_data_dir
         request.common.root_proc_dir = self.root_proc_dir
+        request.data.variable_list_file = self.variable_list
         request.write(self.request_path)
 
         parameters = [
@@ -194,23 +196,9 @@ class TestMainGenerateVariableList(unittest.TestCase):
         return_code = main_generate_variable_list(parameters)
         self.assertEqual(return_code, 0)
 
-    def _run(self, request, use_proc_dir, output_dir,
-             max_priority, auto_deactivation_file_name=None):
-        if auto_deactivation_file_name:
-            write_json(auto_deactivation_file_name, DUMMY_DEACTIVATION_RULES)
-            request.misc.auto_deactivation_rules = auto_deactivation_file_name
-            request.misc.no_auto_deactivation = False
-        else:
-            request.misc.no_auto_deactivation = True
-
-        self._main(request, use_proc_dir, output_dir, max_priority)
-
     @patch('cdds.common.get_log_datestamp')
-    @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
     def test_main_single_mip(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
-        # Required keys are REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS and
-        # REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST.
         request = Request()
         request.metadata.experiment_id = self.experiment_id
         request.metadata.mip = self.mip
@@ -228,7 +216,6 @@ class TestMainGenerateVariableList(unittest.TestCase):
         # There is no need to test 'checksum', 'production_info' and
         # 'metadata' ('checksum' changes due to date stamps).
         reference = {
-            'data_request_version': self.data_request_version,
             'experiment_id': self.experiment_id,
             'MAX_PRIORITY': int(max_priority),
             'mip': self.mip,
@@ -238,56 +225,12 @@ class TestMainGenerateVariableList(unittest.TestCase):
             'suite_id': self.suite_id,
             'suite_branch': self.branch,
             'suite_revision': self.revision,
-            'status': 'ok',
-            'requested_variables': (
-                NUMBER_OF_VARIABLES_IN_HISTORICAL_AT_DATA_REQUEST_13)}
-        self._run(request, False, None, max_priority)
+            'requested_variables': 1}
+        self._main(request, False, None, max_priority)
         self.compare(self.requested_variables_list, reference)
 
     @patch('cdds.common.get_log_datestamp')
-    @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
-    def test_main_single_mip_with_auto_deactivation(self, mock_log_datestamp):
-        mock_log_datestamp.return_value = self.log_datestamp
-        # Required keys are REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS and
-        # REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST.
-        request = Request()
-        request.metadata.experiment_id = self.experiment_id
-        request.metadata.mip = self.mip
-        request.metadata.mip_era = self.mip_era
-        request.metadata.model_id = self.model_id
-        request.metadata.model_type = self.model_type
-        request.data.model_workflow_branch = self.branch
-        request.data.model_workflow_id = self.suite_id
-        request.data.model_workflow_revision = self.revision
-        request.common.workflow_basename = self.request
-        request.common.package = self.package
-
-        max_priority = '1'
-        mock_log_datestamp.return_value = self.log_datestamp
-        # There is no need to test 'checksum', 'production_info' and
-        # 'metadata' ('checksum' changes due to date stamps).
-        reference = {
-            'data_request_version': self.data_request_version,
-            'experiment_id': self.experiment_id,
-            'MAX_PRIORITY': int(max_priority),
-            'mip': self.mip,
-            'MIPS_RESPONDED_TO': [self.mip],
-            'model_id': self.model_id,
-            'model_type': self.model_type,
-            'suite_id': self.suite_id,
-            'suite_branch': self.branch,
-            'suite_revision': self.revision,
-            'status': 'ok',
-            'requested_variables': NUMBER_OF_VARIABLES_IN_HISTORICAL_AT_DATA_REQUEST_13}
-        self._run(request, False, None, max_priority)
-        self.compare(self.requested_variables_list, reference)
-
-    @patch('cdds.common.get_log_datestamp')
-    @patch('cdds.prepare.generate.KNOWN_GOOD_VARIABLES', KNOWN_GOOD_VARIABLES)
     def test_main_write_to_component_directory(self, mock_log_datestamp):
-        # Required keys are REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS,
-        # REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST and
-        # REQUIRED_KEYS_FOR_PROC_DIRECTORY.
         mock_log_datestamp.return_value = self.log_datestamp
         request = Request()
         request.metadata.experiment_id = self.experiment_id
@@ -306,7 +249,6 @@ class TestMainGenerateVariableList(unittest.TestCase):
         # There is no need to test 'checksum', 'production_info' and
         # 'metadata' ('checksum' changes due to date stamps).
         reference = {
-            'data_request_version': self.data_request_version,
             'experiment_id': self.experiment_id,
             'MAX_PRIORITY': int(max_priority),
             'mip': self.mip,
@@ -314,8 +256,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
             'model_id': self.model_id,
             'model_type': self.model_type,
             'status': 'ok',
-            'requested_variables': (
-                NUMBER_OF_VARIABLES_IN_HISTORICAL_AT_DATA_REQUEST_13)}
+            'requested_variables': 1}
         # It is expected that the directory structure will be created
         # before running this script.
         component_dir = os.path.join(
@@ -323,7 +264,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
             self.request, self.package, 'prepare')
         log_dir = os.path.join(component_dir, 'log')
         os.makedirs(log_dir, exist_ok=True)
-        self._run(request, False, None, max_priority)
+        self._main(request, False, None, max_priority)
         log_name = os.path.join(log_dir, self.log_name)
         self.assertTrue(os.path.isfile(self.log_path))
         logging.shutdown()  # Required to enable log to be removed in tearDown.
@@ -348,7 +289,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
 
     def tearDown(self):
         filenames = [self.request_path, self.requested_variables_list,
-                     self.log_path, self.auto_deactivation_file]
+                     self.log_path]
         directories = [self.root_proc_dir]
         for filename in filenames:
             if os.path.isfile(filename):

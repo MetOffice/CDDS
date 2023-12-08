@@ -10,11 +10,7 @@ import logging
 
 from typing import Dict, List, Tuple
 
-from cdds.prepare.constants import FALLBACK_EXPERIMENT_ID
 from cdds.prepare.common import retrieve_mappings
-from cdds.prepare.model_config import retrieve_model_suite_variables
-from cdds.prepare.data_request import get_data_request_variables
-from cdds.prepare.data_request_interface.variables import DataRequestVariable
 from cdds.prepare.user_variable import list_all_variables, UserDefinedVariable
 
 from cdds.common.plugins.plugins import PluginStore, CddsPlugin
@@ -66,29 +62,13 @@ class VariableParameters(object):
         self._plugin: CddsPlugin = PluginStore.instance().get_plugin()
         self._model_params: ModelParameters = self._plugin.models_parameters(self._request.metadata.model_id)
 
-        self._data_request_variables, self._experiment_metadata = self._retrieve_data_requested_variables()
-        self._model_data_request_variables = self._retrieve_model_data_request_variables()
+        self._request_variables, self._experiment_metadata = self._retrieve_requested_variables()
         self._model_to_mip_mappings = self._retrieve_model_to_mip_mappings()
         self._model_suite_variables = self._retrieve_model_suite_variables()
 
     @property
-    def data_request_variables(self):
-        return self._data_request_variables
-
-    @property
-    def data_request_experiment(self):
-        """
-        Return the experiment to be used to query the data request.
-        """
-        return self._request.metadata.experiment_id
-
-    @property
-    def model_data_request_variables(self):
-        return self._model_data_request_variables
-
-    @property
-    def model_suite_variables(self):
-        return self._model_suite_variables
+    def request_variables(self):
+        return self._request_variables
 
     @property
     def enabled_suite_variables(self):
@@ -147,67 +127,16 @@ class VariableParameters(object):
         return self._request.misc.max_priority
 
     @property
-    def mapping_status(self) -> str:
-        return self._request.misc.mapping_status
-
-    @property
     def experiment_metadata(self) -> Dict[str, str]:
         return self._experiment_metadata
 
-    @property
-    def data_request_version(self) -> str:
-        return self._experiment_metadata['data_request_version']
-
-    def _retrieve_data_requested_variables(self) -> Tuple[Dict[str, Dict[str, DataRequestVariable]], Dict[str, str]]:
-        # Retrieve the 'MIP requested variables' for the 'experiment' from the specified version of the 'data request'.
-        return get_data_request_variables(self.data_request_experiment)
-
-    def _retrieve_model_data_request_variables(self) -> Dict[str, Dict[str, DataRequestVariable]]:
-        # Use piControl as a fallback, in case experiment was not defined at the time the model was configured.
-        # The metadata from this version of the 'data request' is irrelevant.
-        model_data_request_variables, _ = get_data_request_variables(
-            self.data_request_experiment, FALLBACK_EXPERIMENT_ID)
-        return model_data_request_variables
-
     def _retrieve_model_to_mip_mappings(self) -> Dict[str, Dict[str, VariableModelToMIPMapping]]:
         # Retrieve the 'model to MIP mappings' for the 'MIP requested variables'.
-        return retrieve_mappings(self._data_request_variables,
+        return retrieve_mappings(self._request_variables,
                                  self._request.metadata.mip_era,
                                  self._request.metadata.model_id)
 
-    def _retrieve_model_suite_variables(self) -> Dict[str, List[str]]:
-        logger = logging.getLogger(__name__)
-        # Retrieve the 'MIP requested variables' from the model suite.
-        logger.debug('Retrieving MIP requested variables from model suite '
-                     '"{}/{}@{}"'.format(self._request.data.model_workflow_id,
-                                         self._request.data.model_workflow_branch,
-                                         self._request.data.model_workflow_revision))
-
-        model_types = ' '.join(self._request.metadata.model_type)
-        return retrieve_model_suite_variables(self._model_to_mip_mappings,
-                                              self._request.metadata.mip_era,
-                                              model_types,
-                                              self._request.data.model_workflow_id,
-                                              self._request.data.model_workflow_branch,
-                                              self._request.data.model_workflow_revision)
-
-
-class UserDefinedVariableParameters(VariableParameters):
-    """
-    Stores and manage the request configuration / arguments of the
-    command line to list user defined variables.
-    """
-
-    def __init__(self, request: Request) -> None:
-        """
-        Create new instance
-
-        :param request: The information from the rose suite request.
-        :type request: Request
-        """
-        super(UserDefinedVariableParameters, self).__init__(request)
-
-    def _retrieve_data_requested_variables(self) -> Tuple[Dict[str, Dict[str, UserDefinedVariable]], Dict[str, str]]:
+    def _retrieve_requested_variables(self) -> Tuple[Dict[str, Dict[str, UserDefinedVariable]], Dict[str, str]]:
         # Retrieve the 'MIP requested variables' for the 'experiment' from the specified version of the 'data request'.
         logger = logging.getLogger(__name__)
         logger.info(
@@ -219,9 +148,6 @@ class UserDefinedVariableParameters(VariableParameters):
         variables = list_all_variables(self._request.data.variable_list_file, self._request.common.mip_table_dir)
         metadata = {}
         return variables, metadata
-
-    def _retrieve_model_data_request_variables(self) -> Dict[str, Dict[str, DataRequestVariable]]:
-        return self._data_request_variables
 
     def _retrieve_model_suite_variables(self) -> Dict[str, List[str]]:
         with open(self._request.data.variable_list_file, 'r') as f:
