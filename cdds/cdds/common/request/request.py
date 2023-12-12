@@ -105,26 +105,6 @@ class Request:
         return all_items
 
     @property
-    def flattened_items(self) -> Dict[str, Any]:
-        """
-        TODO: DEPRECATED METHOD! -> Needs consideration
-        Returns all information of the request in a flatted dictionary structure. Can be a problem
-        if there are sections having same keys.
-
-        :return: Information of the request as flattened dictionary
-        :rtype: Dict[str, Any]
-        """
-        flat_dict = {}
-        flat_dict.update(self.netcdf_global_attributes.items)
-        flat_dict.update(self.common.items)
-        flat_dict.update(self.conversion.items)
-        flat_dict.update(self.data.items)
-        flat_dict.update(self.inventory.items)
-        flat_dict.update(self.metadata.items)
-        flat_dict.update(self.misc.items)
-        return flat_dict
-
-    @property
     def items_global_attributes(self) -> Dict[str, Any]:
         """
         Returns all items of the global attributes section as a dictionary

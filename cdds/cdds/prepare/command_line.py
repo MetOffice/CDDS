@@ -181,7 +181,7 @@ def parse_create_cdds_directory_structure_args(arguments: List[str]) -> Namespac
         epilog=EPILOG)
     parser.add_argument(
         'request', help=(
-            'The full path to the JSON file containing information about the '
+            'The full path to the configuration file containing information about the '
             'request.'))
 
     args = parser.parse_args(user_arguments)

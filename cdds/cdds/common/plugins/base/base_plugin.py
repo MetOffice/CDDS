@@ -90,11 +90,11 @@ class BasePlugin(CddsPlugin, ABC):
 
     def proc_directory(self, request: 'Request') -> str:
         """
-        Returns the facet string for the CDDS proc directory where the non-data outputs are written.
+        Returns the CDDS proc directory where the non-data ouputs are written.
 
-        Please be aware that the several each facet must be equal to a key in the request.cfg!
-
-        :return: Facet string for the CDDS proc directory
+        :param request: Information that is needed to define the proc directory
+        :type request: Request
+        :return: Path to the proc directory
         :rtype: str
         """
         return os.path.join(
@@ -107,11 +107,11 @@ class BasePlugin(CddsPlugin, ABC):
 
     def data_directory(self, request: 'Request') -> str:
         """
-        Returns the facet string for the CDDS data directory where the |model output files| are written.
+        Returns the CDDS data directory where the |model output files| are written.
 
-        Please be aware that the several each facet must be equal to a key in the request.cfg!
-
-        :return: Facet string for the CDDS data directory
+        :param request: Information that is needed to define the data directory
+        :type request: Request
+        :return: Path to the data directory
         :rtype: str
         """
         return os.path.join(
@@ -126,11 +126,11 @@ class BasePlugin(CddsPlugin, ABC):
 
     def requested_variables_list_filename(self, request: 'Request') -> str:
         """
-        Returns the facet string for the |requested variables list| directory.
+        Returns the file name of the |requested variables list| file.
 
-        Please be aware that the several each facet must be equal to a key in the request.cfg!
-
-        :return: Facet string for the requested variable list directory
+        :param request: Information that is needed to define the file name of the |requested variables list|
+        :type request: Request
+        :return: File name of the |requested variables list| file
         :rtype: str
         """
         name = '_'.join([

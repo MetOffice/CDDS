@@ -144,12 +144,11 @@ class CddsPlugin(object, metaclass=ABCMeta):
     @abstractmethod
     def proc_directory(self, request: 'Request') -> str:
         """
-        Returns the facet string for the CDDS proc directory where the non-data outputs are written, e.g.
-        mip_era|mip|workflow_basename|package
+        Returns the CDDS proc directory where the non-data ouputs are written.
 
-        Please be aware that the several each facet must be equal to a key in the request.cfg!
-
-        :return: Facet string for the CDDS proc directory
+        :param request: Information that is needed to define the proc directory
+        :type request: Request
+        :return: Path to the proc directory
         :rtype: str
         """
         pass
@@ -157,12 +156,11 @@ class CddsPlugin(object, metaclass=ABCMeta):
     @abstractmethod
     def data_directory(self, request: 'Request') -> str:
         """
-        Returns the facet string for the CDDS data directory where the |model output files| are written, e.g.
-        mip_era|mip|model_id|experiment_id|variant_label|package
+        Returns the CDDS data directory where the |model output files| are written.
 
-        Please be aware that the several each facet must be equal to a key in the request.cfg!
-
-        :return: Facet string for the CDDS data directory
+        :param request: Information that is needed to define the data directory
+        :type request: Request
+        :return: Path to the data directory
         :rtype: str
         """
         pass
@@ -170,11 +168,11 @@ class CddsPlugin(object, metaclass=ABCMeta):
     @abstractmethod
     def requested_variables_list_filename(self, request: 'Request') -> str:
         """
-        Returns the facet string for the |requested variables list| directory, e.g. mip_era|mip|experiment_id|model_id
+        Returns the file name of the |requested variables list| file.
 
-        Please be aware that the several each facet must be equal to a key in the request.cfg!
-
-        :return: Facet string for the requested variable list directory
+        :param request: Information that is needed to define the file name of the |requested variables list|
+        :type request: Request
+        :return: File name of the |requested variables list| file
         :rtype: str
         """
         pass
