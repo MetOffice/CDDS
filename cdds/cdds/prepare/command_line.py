@@ -6,7 +6,6 @@ command line scripts in the ``bin`` directory.
 """
 import argparse
 import logging
-import traceback
 
 from argparse import Namespace
 from typing import List
@@ -83,7 +82,6 @@ def main_generate_variable_list(arguments: List[str] = None) -> int:
         return 0
     except BaseException as exc:
         logger.exception(exc, exc_info=1)
-        traceback.print_exc()
         return 1
 
 

@@ -31,17 +31,7 @@ from cdds.prepare.command_line import (
     main_create_cdds_directory_structure, main_generate_variable_list,
     main_alter_variable_list, parse_alter_args, main_select_variables,
 )
-from cdds.tests.test_prepare.common import TEST_RV_DICT, DUMMY_DEACTIVATION_RULES
-
-# The following constant can be worked out using the following code:
-# >>> from cdds.data_request_interface import load, network, navigation
-# >>> dq = load.DataRequestWrapper('01.00.29')
-# >>> dq_network, failures = network.build_data_request_network(dq)
-# >>> historical = dq.get_experiment_uid('historical')
-# >>> v = navigation.get_cmorvar_for_experiment(historical, dq_network)
-# >>> len(v)
-NUMBER_OF_VARIABLES_IN_HISTORICAL_AT_DATA_REQUEST_13 = 1672
-NUMBER_OF_VARIABLES_IN_AMIP_P4K_AT_DATA_REQUEST_13 = 445
+from cdds.tests.test_prepare.common import TEST_RV_DICT
 
 
 class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):

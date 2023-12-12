@@ -17,8 +17,12 @@ from cdds.common.request.request import read_request
 
 from cdds import __version__
 from cdds.common.plugins.plugins import PluginStore
+from cdds.prepare.constants import (VARIABLE_IN_INVENTORY_LOG,
+                                    VARIABLE_NOT_IN_INVENTORY_LOG,
+                                    VARIABLE_IN_INVENTORY_COMMENT)
 from cdds.prepare.mapping_status import MappingStatus, ProducibleState
 from cdds.prepare.parameters import VariableParameters
+from cdds.inventory.dao import InventoryDAO, DBVariableStatus
 
 
 def generate_variable_list(arguments: Namespace) -> None:
@@ -65,6 +69,9 @@ def generate_variable_list(arguments: Namespace) -> None:
     constructor = VariablesConstructor(config)
 
     requested_variables_list = constructor.construct_requested_variables_list()
+    constructor.clean_up()
+
+    # TODO: take inventory check into account!
 
     # Write the 'requested variables list'.
     logger.debug('Writing the Requested variables list to "{}".'.format(output_file))
@@ -249,3 +256,68 @@ class VariablesConstructor:
         mapping_data = MappingStatus.get_instance()
         producible = mapping_data.producible(variable_name, mip_table)
         return ProducibleState.to_variables_data_value(producible)
+
+    def clean_up(self):
+        pass
+
+
+class InventoryVariablesConstructor(VariablesConstructor):
+    """
+    Class that provides function for listing variables with
+    additional in the inventory database
+    """
+
+    def __init__(self, db_file, config):
+        """
+        Parameters
+        ----------
+        db_file: str
+            path to the inventory database configuration file
+        config: `cdds.prepare.parameters.VariableParameters` object
+            all input parameters for constructing the list of approved variables
+        """
+        super(InventoryVariablesConstructor, self).__init__(config)
+        self._dao = InventoryDAO(db_file)
+        self._db_data = self._dao.get_variables_data(config.model_id, config.experiment_id, config.variant_label)
+
+    def additional_active_checks(self, variable, comments):
+        """
+        Returns if the requested variable is according the inventory database active or not.
+        A variable is active if the status in the inventory database is not 'available' or 'in progress'. If the
+        variable is not found in the inventory database, it is active by default.
+        A comment will be added if a variable is inactive.
+        Parameters
+        ----------
+        variable: :class:`DataRequestVariable`
+            The |MIP requested variable| from the |data request|.
+        comments: list
+            The comments related to the |MIP requested variable|.
+        Returns
+        -------
+        : bool
+            Whether the |MIP requested variable| is activated in the inventory database.
+        """
+        logger = logging.getLogger(__name__)
+        try:
+            is_active = self._check_inventory_status(variable, comments)
+            message = VARIABLE_IN_INVENTORY_LOG.format(variable.mip_table, variable.variable_name, is_active)
+        except KeyError:
+            message = VARIABLE_NOT_IN_INVENTORY_LOG.format(variable.mip_table, variable.variable_name)
+            is_active = True
+        logger.debug(message)
+        return is_active
+
+    def _check_inventory_status(self, variable, comments):
+        db_variable = self._db_data.get_variable(variable.mip_table, variable.variable_name)
+        active_state = DBVariableStatus.AVAILABLE
+        in_progess_state = DBVariableStatus.IN_PROGRESS
+        is_active = db_variable.has_not_status(active_state) and db_variable.has_not_status(in_progess_state)
+
+        if not is_active:
+            comments.append(VARIABLE_IN_INVENTORY_COMMENT.format(
+                db_variable.id, db_variable.version, db_variable.status
+            ))
+        return is_active
+
+    def clean_up(self):
+        self._dao.close()

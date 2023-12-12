@@ -34,3 +34,10 @@ OBGC_MODEL_STRING = 'BGC'
 # object inside the iodef.xml file.
 OCEAN_STREAMS = {'inm': 'd', 'ind': 'h', 'ond': '1d', 'onm': '1m'}
 PRIORITY_UNSET = 99
+
+# Log messages that variable is / is not in inventory:
+VARIABLE_IN_INVENTORY_LOG = 'Variable "{}/{}" is in the inventory database settings active: "{}".'
+VARIABLE_NOT_IN_INVENTORY_LOG = 'Variable "{}/{}" can not be found in the inventory database.'
+
+# Comments of approved variable that in inventory
+VARIABLE_IN_INVENTORY_COMMENT = 'Data set "{}" version "{}" found in inventory with status "{}"'
