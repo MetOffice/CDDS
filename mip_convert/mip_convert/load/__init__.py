@@ -56,8 +56,12 @@ def load(filenames, variable_metadata):
     # Ensure all 'input variables' are on the same grid.
     for axis in ['Y', 'X']:
         if cube.coords(axis=axis):
-            var_names = [cube.coord(axis=axis).var_name
-                         for cube in list(input_variables.values())]
+            try:
+                var_names = [cube.coord(axis=axis).var_name
+                             for cube in list(input_variables.values())]
+            except iris.exceptions.CoordinateNotFoundError:
+                # crude hack to account for ancils that don't have all coordinates
+                var_names = []
             if len(set(var_names)) > 1:
                 raise RuntimeError(
                     'Not all input variables are on the same grid')

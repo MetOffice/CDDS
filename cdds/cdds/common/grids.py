@@ -248,6 +248,7 @@ def default_grid_ids():
         'GCAmon': ('atmos', 'native'),
         'GCAmon6hrUV': ('atmos', 'uvgrid'),
         'GCLmon': ('atmos', 'native'),
+        'GCOyr': ('ocean', 'native'),
         'LImon': ('atmos', 'native'),
         'Lmon': ('atmos', 'native'),
         'LPmon': ('atmos', 'native'),

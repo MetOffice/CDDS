@@ -2280,9 +2280,10 @@ def annual_from_monthly_2d_masked(cube, mask):
     """Calculate annual mean from a two-dimensional cube with monthly data"""
     # check that you have whole years
     check_data_is_monthly(cube)
+    cube = mask_copy(cube, mask)
     iris.coord_categorisation.add_year(cube, 'time')
     annual_mean_cube = cube.aggregated_by('year', iris.analysis.MEAN)
-    return mask_copy(annual_mean_cube, mask)
+    return annual_mean_cube
 
 
 def calculate_thkcello_weights(cube):

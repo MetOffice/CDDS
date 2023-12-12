@@ -91,6 +91,9 @@
     "yr": {
       "default": 100
     },
+    "GCOyr": {
+      "default": 100
+    },
     "yrPt": {
       "default": 100
     },
