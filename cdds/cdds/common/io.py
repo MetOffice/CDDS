@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021, Met Office.
+# (C) British Crown Copyright 2021-2023, Met Office.
 # Please see LICENSE.rst for license details.
 import json
 import os
