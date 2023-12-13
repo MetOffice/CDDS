@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021, Met Office.
+# (C) British Crown Copyright 2021-2023, Met Office.
 # Please see LICENSE.rst for license details.
 import json
 import os
@@ -51,11 +51,25 @@ def write_json(json_file: str, data: Dict[str, Any], indent: int = 2, sort_keys:
 
 
 def delete_file(file_path: str) -> None:
+    """
+    Delete file if exists.
+
+    :param file_path: Path to the file that should be deleted
+    :type file_path: str
+    """
     if os.path.exists(file_path):
         os.remove(file_path)
 
 
 def write_into_temp_file(data: Any) -> str:
+    """
+    Writes the data into a new created temporary file.
+
+    :param data: Data that should be written
+    :type data: Any
+    :return: Path to the new temporary file where data is written to
+    :rtype: str
+    """
     id, path = tempfile.mkstemp()
     try:
         with open(path, 'w') as temp_file:

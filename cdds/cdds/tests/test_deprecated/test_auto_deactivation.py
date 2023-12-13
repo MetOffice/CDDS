@@ -2,13 +2,13 @@
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 """
-Tests for :mod:`alter.py`.
+Tests for :mod:`auto_deactivation.py`.
 """
 import json
 import unittest
 from unittest.mock import patch
 
-from cdds.prepare.auto_deactivation import deactivation_commands
+from cdds.deprecated.auto_deactivation import deactivation_commands
 
 DUMMY_DEACTIVATION = """
 {
@@ -27,8 +27,8 @@ DUMMY_DEACTIVATION = """
 
 
 class TestDeactivationCommands(unittest.TestCase):
-    @patch('cdds.prepare.auto_deactivation.run_command')
-    @patch('cdds.prepare.auto_deactivation.check_svn_location')
+    @patch('cdds.deprecated.auto_deactivation.run_command')
+    @patch('cdds.deprecated.auto_deactivation.check_svn_location')
     def test_simple(self, mock_svn_location, mock_run_command):
         mock_svn_location.return_value = True
         mock_run_command.return_value = DUMMY_DEACTIVATION
@@ -38,7 +38,7 @@ class TestDeactivationCommands(unittest.TestCase):
         result = deactivation_commands('DUMMY_MODEL', 'amip')
         self.assertEqual(expected, result)
 
-    @patch('cdds.prepare.auto_deactivation.read_json')
+    @patch('cdds.deprecated.auto_deactivation.read_json')
     def test_simple_from_file(self, mock_read_json):
         mock_read_json.return_value = json.loads(DUMMY_DEACTIVATION)
 
@@ -47,8 +47,8 @@ class TestDeactivationCommands(unittest.TestCase):
         result = deactivation_commands('DUMMY_MODEL', 'amip', rule_file='dummy.txt')
         self.assertEqual(expected, result)
 
-    @patch('cdds.prepare.auto_deactivation.run_command')
-    @patch('cdds.prepare.auto_deactivation.check_svn_location')
+    @patch('cdds.deprecated.auto_deactivation.run_command')
+    @patch('cdds.deprecated.auto_deactivation.check_svn_location')
     def test_specific(self, mock_svn_location, mock_run_command):
         mock_svn_location.return_value = True
         mock_run_command.return_value = DUMMY_DEACTIVATION
@@ -59,8 +59,8 @@ class TestDeactivationCommands(unittest.TestCase):
         result = deactivation_commands('DUMMY_MODEL', 'piControl')
         self.assertEqual(expected, result)
 
-    @patch('cdds.prepare.auto_deactivation.run_command')
-    @patch('cdds.prepare.auto_deactivation.check_svn_location')
+    @patch('cdds.deprecated.auto_deactivation.run_command')
+    @patch('cdds.deprecated.auto_deactivation.check_svn_location')
     def test_wildcard(self, mock_svn_location, mock_run_command):
         mock_svn_location.return_value = True
         mock_run_command.return_value = DUMMY_DEACTIVATION

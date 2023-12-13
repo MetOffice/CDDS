@@ -87,17 +87,8 @@ def expected_test_data():
 def expected_test_misc():
     return {
         'atmos_timestep': 1200,
-        'data_request_version': '01.00.29',
-        'data_request_base_dir': '/data_requests/CMIP6',
-        'mips_to_contribute_to': ['AerChemMIP', 'C4MIP'],
-        'mapping_status': 'ok',
-        'alternate_data_request_experiment': '',
         'use_proc_dir': True,
-        'max_priority': 2,
-        'mip_era_defaults': '',
         'no_overwrite': False,
-        'no_auto_deactivation': False,
-        'auto_deactivation_rules': ''
     }
 
 
@@ -202,38 +193,6 @@ def expected_test_minimal_data():
 def expected_test_minimal_misc():
     return {
         'atmos_timestep': 1200,
-        'alternate_data_request_experiment': '',
-        'auto_deactivation_rules': '',
-        'data_request_base_dir': '/home/h03/cdds/etc/data_requests/CMIP6',
-        'data_request_version': '01.00.29',
-        'mapping_status': 'ok',
-        'max_priority': 2,
-        'mip_era_defaults': '',
-        'mips_to_contribute_to': ['AerChemMIP',
-                                  'C4MIP',
-                                  'CDRMIP',
-                                  'CFMIP',
-                                  'CMIP',
-                                  'CORDEX',
-                                  'DAMIP',
-                                  'DCPP',
-                                  'DynVar',
-                                  'FAFMIP',
-                                  'GeoMIP',
-                                  'GMMIP',
-                                  'HighResMIP',
-                                  'ISMIP6',
-                                  'LS3MIP',
-                                  'LUMIP',
-                                  'OMIP',
-                                  'PAMIP',
-                                  'PMIP',
-                                  'RFMIP',
-                                  'ScenarioMIP',
-                                  'SIMIP',
-                                  'VIACSAB',
-                                  'VolMIP'],
-        'no_auto_deactivation': False,
         'no_overwrite': False,
         'use_proc_dir': False
     }

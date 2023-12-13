@@ -12,7 +12,6 @@ from typing import Dict, Any, List, Optional
 
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 
-
 TIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 
@@ -88,6 +87,8 @@ class Section(object, metaclass=ABCMeta):
         for option, value in self.items.items():
             if not value and option in defaults.keys():
                 config_value = str(defaults[option])
+            elif type(value) == list:
+                config_value = ' '.join(value) if value else ''
             else:
                 config_value = str(value) if value else ''
             config.set(section, option, config_value)
@@ -118,7 +119,7 @@ def load_types(dictionary: Dict[str, str], as_list: List[str] = []) -> Dict[str,
             output[key] = True
         elif value.lower() == 'false':
             output[key] = False
-        elif key.endswith('_date') or key.startswith('branch_date_'):
+        elif (key.endswith('_date') or key.startswith('branch_date_')) and value:
             output[key] = TimePointParser().parse(value)
         else:
             output[key] = value
@@ -135,9 +136,8 @@ def expand_paths(dictionary: Dict[str, Any], path_keys: List[str]) -> None:
     :type path_keys: List[str]
     """
     for path_key in path_keys:
-        if path_key in dictionary:
-            path = dictionary[path_key]
-            dictionary[path_key] = expand_path(path)
+        if path_key in dictionary and dictionary[path_key]:
+            dictionary[path_key] = expand_path(dictionary[path_key])
 
 
 def expand_path(path: str) -> str:

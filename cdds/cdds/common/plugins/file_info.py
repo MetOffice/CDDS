@@ -11,6 +11,7 @@ from metomi.isodatetime.parsers import TimePointParser
 
 from cdds.archive.constants import OUTPUT_FILE_DT_STR
 
+# Only used for type hints: There would be a package cycle otherwise
 if TYPE_CHECKING:
     from cdds.common.old_request import Request
 

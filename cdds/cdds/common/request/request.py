@@ -5,12 +5,15 @@
 The module contains the code required to handle the information about the request.
 """
 import logging
+import os
 
 from configparser import ConfigParser, ExtendedInterpolation
 from dataclasses import dataclass
 from metomi.isodatetime.data import Calendar
 from typing import Dict, Any
 
+from cdds.common.constants import INPUT_DATA_DIRECTORY, OUTPUT_DATA_DIRECTORY
+from cdds.common.paths.file_system import construct_string_from_facet_string, PathType
 from cdds.common.request.metadata_section import MetadataSection
 from cdds.common.request.common_section import CommonSection
 from cdds.common.request.data_section import DataSection
@@ -21,6 +24,7 @@ from cdds.common.request.conversion_section import ConversionSection
 from cdds.common.request.rose_suite.suite_info import RoseSuiteArguments, RoseSuiteInfo, load_rose_suite_info
 from cdds.common.request.rose_suite.validation import validate_rose_suite
 from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugins import PluginStore
 
 
 @dataclass
@@ -101,27 +105,6 @@ class Request:
         return all_items
 
     @property
-    def flattened_items(self) -> Dict[str, Any]:
-        """
-        TODO: DEPRECATED METHOD! -> Needs consideration
-        Returns all information of the request in a flatted dictionary structure. Can be a problem
-        if there are sections having same keys.
-
-        :return: Information of the request as flattened dictionary
-        :rtype: Dict[str, Any]
-        """
-        stack = [self.items]
-        flat_dict = {}
-        while stack:
-            current_dict = stack.pop()
-            for key, value in current_dict.items():
-                if isinstance(value, dict):
-                    stack.append(value)
-                else:
-                    flat_dict[key] = value
-        return flat_dict
-
-    @property
     def items_global_attributes(self) -> Dict[str, Any]:
         """
         Returns all items of the global attributes section as a dictionary
@@ -132,24 +115,6 @@ class Request:
         if self.netcdf_global_attributes:
             return self.netcdf_global_attributes.items
         return {}
-
-    @property
-    def items_for_facet_string(self) -> Dict[str, Any]:
-        """
-        TODO: Method to consider
-        Returns the items for the facet string.
-
-        :return: Items for the facet string
-        :rtype: Dict[str, Any]
-        """
-        return {
-            'experiment': self.metadata.experiment_id,
-            'project': self.metadata.mip,
-            'programme': self.metadata.mip_era,
-            'model': self.metadata.model_id,
-            'realisation': self.metadata.variant_label,
-            'request': self.common.workflow_basename
-        }
 
     @property
     def items_for_cmor(self) -> Dict[str, Any]:

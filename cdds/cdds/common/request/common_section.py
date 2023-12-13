@@ -11,6 +11,7 @@ from configparser import ConfigParser
 from typing import Dict, Any
 
 from cdds import get_version
+from cdds.common.constants import LOG_DIRECTORY
 from cdds.common.request.request_section import Section, load_types, expand_paths, expand_path
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 from cdds.common.plugins.plugins import PluginStore
@@ -137,3 +138,17 @@ class CommonSection(Section):
         """
         defaults = common_defaults(model_id, experiment_id, variant_label)
         self._add_to_config_section(config, 'common', defaults)
+
+    def component_directory(self, component: str, proc_directory_facet: str) -> str:
+        """
+        Return the full path to the component-specific directory within the proc directory
+        that matches the given facet.
+
+        :param component: The name of the CDDS component.
+        :type component: str
+        :param proc_directory_facet: Facet of the CDDS proc directory
+        :type proc_directory_facet: str
+        :return: The full path to the component-specific directory within the proc directory.
+        :rtype: str
+        """
+        return os.path.join(self.proc_directory(proc_directory_facet), component)

@@ -16,9 +16,9 @@ class RequestedVariablesList(JSONConfig):
     Store the information about the |requested variables list|.
     """
     ALLOWED_ATTRIBUTES = [
-        'checksum', 'data_request_version', 'experiment_id', 'history',
-        'MAX_PRIORITY', 'metadata', 'mip', 'MIPS_RESPONDED_TO', 'model_id',
-        'model_type', 'production_info', 'requested_variables', 'status',
+        'checksum', 'experiment_id', 'history',
+        'metadata', 'mip', 'model_id', 'model_type',
+        'production_info', 'requested_variables', 'status',
         'suite_branch', 'suite_id', 'suite_revision']
 
     def __init__(self, read_path):
