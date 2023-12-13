@@ -55,7 +55,8 @@ def generate_variable_list(arguments: Namespace) -> None:
     request = read_request(arguments.request)
 
     # Retrieve the name of the 'requested variables list'.
-    output_file = request.requested_variables_list_file_name
+    plugin = PluginStore.instance().get_plugin()
+    output_file = plugin.requested_variables_list_filename(request)
     if arguments.output_dir is not None:
         output_file = os.path.join(arguments.output_dir, output_file)
     if os.path.exists(output_file) and request.misc.no_overwrite:
