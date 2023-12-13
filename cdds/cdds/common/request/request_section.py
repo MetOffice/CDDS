@@ -87,6 +87,8 @@ class Section(object, metaclass=ABCMeta):
         for option, value in self.items.items():
             if not value and option in defaults.keys():
                 config_value = str(defaults[option])
+            elif type(value) == list:
+                config_value = ' '.join(value) if value else ''
             else:
                 config_value = str(value) if value else ''
             config.set(section, option, config_value)
@@ -134,9 +136,8 @@ def expand_paths(dictionary: Dict[str, Any], path_keys: List[str]) -> None:
     :type path_keys: List[str]
     """
     for path_key in path_keys:
-        if path_key in dictionary:
-            path = dictionary[path_key]
-            dictionary[path_key] = expand_path(path)
+        if path_key in dictionary and dictionary[path_key]:
+            dictionary[path_key] = expand_path(dictionary[path_key])
 
 
 def expand_path(path: str) -> str:

@@ -44,13 +44,7 @@ class TestMiscDefaults(TestCase):
     def test_defaults(self):
         expected_defaults = {
             'atmos_timestep': 1200,
-            'no_auto_deactivation': False,
-            'data_request_version': '01.00.29',
-            'data_request_base_dir': '/home/h03/cdds/etc/data_requests/CMIP6',
-            'mips_to_contribute_to': self.mips,
-            'mapping_status': 'ok',
             'use_proc_dir': False,
-            'max_priority': 2,
             'no_overwrite': False
         }
 

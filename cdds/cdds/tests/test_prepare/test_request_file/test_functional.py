@@ -52,7 +52,7 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
 
         current_dir = os.path.dirname(os.path.realpath(__file__))
         data_dir = os.path.join(current_dir, 'data', 'functional_tests')
-        expected_file_cfg = os.path.join(data_dir, 'cimp6_request_output.cfg')
+        expected_file_cfg = os.path.join(data_dir, 'cmip6_request_output.cfg')
         self.expected_request = self.read_file_lines(expected_file_cfg)
 
     @patch('cdds.common.get_log_datestamp')

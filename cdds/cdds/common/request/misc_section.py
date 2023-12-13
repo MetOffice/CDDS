@@ -3,8 +3,6 @@
 """
 Module to handle the misc section in the request configuration
 """
-import os
-
 from configparser import ConfigParser
 from dataclasses import dataclass, field, asdict
 from typing import List, Dict, Any
@@ -27,42 +25,10 @@ def misc_defaults(model_id: str) -> Dict[str, Any]:
     """
     grid_info = PluginStore.instance().get_plugin().grid_info(model_id, GridType.ATMOS)
     atmos_timestep = grid_info.atmos_timestep
-    data_request_base_dir = '{}/data_requests/CMIP6'.format(os.environ['CDDS_ETC'])
 
     return {
         'atmos_timestep': atmos_timestep,
-        'no_auto_deactivation': False,
-        'data_request_version': '01.00.29',
-        'data_request_base_dir': data_request_base_dir,
-        'mips_to_contribute_to': [
-            'AerChemMIP',
-            'C4MIP',
-            'CDRMIP',
-            'CFMIP',
-            'CMIP',
-            'CORDEX',
-            'DAMIP',
-            'DCPP',
-            'DynVar',
-            'FAFMIP',
-            'GeoMIP',
-            'GMMIP',
-            'HighResMIP',
-            'ISMIP6',
-            'LS3MIP',
-            'LUMIP',
-            'OMIP',
-            'PAMIP',
-            'PMIP',
-            'RFMIP',
-            'ScenarioMIP',
-            'SIMIP',
-            'VIACSAB',
-            'VolMIP'
-        ],
-        'mapping_status': 'ok',
         'use_proc_dir': False,
-        'max_priority': 2,
         'no_overwrite': False
     }
 
@@ -73,17 +39,8 @@ class MiscSection(Section):
     Represents the misc section in the request configuration
     """
     atmos_timestep: int = None
-    no_auto_deactivation: bool = False
-    auto_deactivation_rules: str = ''
     # Todo: needs considerations:
-    alternate_data_request_experiment: str = ''
-    data_request_version: str = '01.00.29'
-    data_request_base_dir: str = ''
-    mip_era_defaults: str = ''
-    mips_to_contribute_to: List[str] = field(default_factory=list)
-    mapping_status: str = 'ok'
     use_proc_dir: bool = False
-    max_priority: int = 2
     no_overwrite: bool = False
 
     @property
@@ -109,7 +66,7 @@ class MiscSection(Section):
         model_id = config.get('metadata', 'model_id')
         values = misc_defaults(model_id)
         if config.has_section('misc'):
-            config_items = load_types(dict(config.items('misc')), ['mips_to_contribute_to'])
+            config_items = load_types(dict(config.items('misc')))
             values.update(config_items)
         return MiscSection(**values)
 
