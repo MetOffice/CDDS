@@ -117,8 +117,6 @@ OCEAN_ENABLED = {
         'enabled': [True]}}
 
 TEST_RV_DICT = {
-    'MAX_PRIORITY': 2,
-    'MIPS_RESPONDED_TO': ['CMIP'],
     'checksum': 'md5: cf465188aa110808e940b2e8041b1ce4',
     'data_request_version': '01.00.29',
     'experiment_id': 'ssp126',

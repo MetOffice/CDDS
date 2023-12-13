@@ -9,8 +9,8 @@ import json
 import logging
 import re
 
-from .alter import alter_variable_list
-from .constants import DEACTIVATION_RULE_LOCATION
+from cdds.prepare.alter import alter_variable_list
+from cdds.prepare.constants import DEACTIVATION_RULE_LOCATION
 
 from cdds.common.io import read_json
 from cdds.common import run_command, check_svn_location
@@ -19,7 +19,6 @@ from cdds.common import run_command, check_svn_location
 def deactivation_commands(model_id, experiment_id, rule_file=None):
     """
     Return the rules dictionary for the specified model and experiment_id
-
     Parameters
     ----------
     model_id : str
@@ -28,12 +27,10 @@ def deactivation_commands(model_id, experiment_id, rule_file=None):
         Experiment ID, e.g. "amip"
     rule_file: str, optional
         File to load rules from if required. If unspecified retrieve from
-
     Returns
     -------
     : list
         Deactivation commands
-
     Raises
     ------
     RuntimeError
@@ -90,7 +87,6 @@ def deactivation_commands(model_id, experiment_id, rule_file=None):
 def apply_deactivation_rules(rvf_file_location, commands_to_apply):
     """
     Apply deactivation rules to specified file in turn.
-
     Parameters
     ----------
     rvf_file_location : str
@@ -123,7 +119,6 @@ def run_auto_deactivate_variables(auto_deactivation_rules_file, output_file, mod
     Perform the automatic deactivation of variables function on the
     specified output file given the rules file and simulation
     information.
-
     Parameters
     ----------
     auto_deactivation_rules_file : str or None

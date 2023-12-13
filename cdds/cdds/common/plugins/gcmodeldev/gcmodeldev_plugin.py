@@ -10,8 +10,7 @@ from cdds.common.plugins.file_info import ModelFileInfo, GlobalModelFileInfo
 from cdds.common.plugins.grid import GridLabel
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
-from cdds.common.plugins.plugins import CddsPlugin
-from cdds.common.plugins.base.base_plugin import MipEra
+from cdds.common.plugins.base.base_plugin import MipEra, BasePlugin
 from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from cdds.common.plugins.attributes import DefaultGlobalAttributes
 from cdds.common.plugins.gcmodeldev.gcmodeldev_models import GCModelDevStore
@@ -22,13 +21,13 @@ GCMODEL_DEV_LICENSE = ('GCModelDev model data is licensed under the Open Governm
                        '(https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/')
 
 
-class GCModelDevPlugin(CddsPlugin):
+class GCModelDevPlugin(BasePlugin):
     """
     Plugin for GCModelDev models
     """
 
     def __init__(self):
-        super(GCModelDevPlugin, self).__init__(MipEra.GC_MODEL_DEV.value)
+        super(GCModelDevPlugin, self).__init__(MipEra.GC_MODEL_DEV)
 
     def models_parameters(self, model_id: str) -> ModelParameters:
         """
@@ -85,6 +84,12 @@ class GCModelDevPlugin(CddsPlugin):
         return DefaultGlobalAttributes(request)
 
     def model_file_info(self) -> ModelFileInfo:
+        """
+        Returns the path to the MIP table directory that should be used for the GCModelDev project
+
+        :return: Path to the MIP table directory
+        :rtype: str
+        """
         return GlobalModelFileInfo()
 
     def license(self) -> str:
@@ -97,4 +102,10 @@ class GCModelDevPlugin(CddsPlugin):
         return GCMODEL_DEV_LICENSE
 
     def mip_table_dir(self) -> str:
-        return '{}/mip_tables/GCModelDev'.format(os.environ['CDDS_ETC'])
+        """
+        Returns the path to the MIP table directory that should be used for GCModelDev
+
+        :return: Path to the MIP table directory
+        :rtype: str
+        """
+        return '{}/mip_tables/GCModelDev/0.0.13'.format(os.environ['CDDS_ETC'])

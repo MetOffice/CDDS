@@ -115,6 +115,15 @@ class DummyCddsPlugin(CddsPlugin):
     def mip_table_dir(self) -> str:
         pass
 
+    def proc_directory(self, request) -> str:
+        pass
+
+    def data_directory(self, request) -> str:
+        pass
+
+    def requested_variables_list_filename(self, request) -> str:
+        pass
+
 
 class TestConcatenationSetup(unittest.TestCase):
 

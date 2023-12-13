@@ -4,13 +4,17 @@
 The :mod:`plugin` module contains the code for the CDDS plugins.
 """
 from abc import ABCMeta, abstractmethod
-from typing import Type, Dict, Any
+from typing import Type, Dict, Any, TYPE_CHECKING
 
 from cdds.common.plugins.grid import GridLabel, GridType, GridInfo
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
 from cdds.common.plugins.file_info import ModelFileInfo
 from cdds.common.plugins.attributes import GlobalAttributes, DefaultGlobalAttributes
+
+# Only used for type hints: There would be a package cycle otherwise
+if TYPE_CHECKING:
+    from cdds.common.request.request import Request
 
 
 class CddsPlugin(object, metaclass=ABCMeta):
@@ -135,6 +139,42 @@ class CddsPlugin(object, metaclass=ABCMeta):
         Returns the path to the MIP table directory that should be used for project
 
         :return: Path to the MIP table directory
+        :rtype: str
+        """
+        pass
+
+    @abstractmethod
+    def proc_directory(self, request: 'Request') -> str:
+        """
+        Returns the CDDS proc directory where the non-data ouputs are written.
+
+        :param request: Information that is needed to define the proc directory
+        :type request: Request
+        :return: Path to the proc directory
+        :rtype: str
+        """
+        pass
+
+    @abstractmethod
+    def data_directory(self, request: 'Request') -> str:
+        """
+        Returns the CDDS data directory where the |model output files| are written.
+
+        :param request: Information that is needed to define the data directory
+        :type request: Request
+        :return: Path to the data directory
+        :rtype: str
+        """
+        pass
+
+    @abstractmethod
+    def requested_variables_list_filename(self, request: 'Request') -> str:
+        """
+        Returns the file name of the |requested variables list| file.
+
+        :param request: Information that is needed to define the file name of the |requested variables list|
+        :type request: Request
+        :return: File name of the |requested variables list| file
         :rtype: str
         """
         pass
