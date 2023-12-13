@@ -28,34 +28,7 @@ def misc_defaults(model_id: str) -> Dict[str, Any]:
 
     return {
         'atmos_timestep': atmos_timestep,
-        'mips_to_contribute_to': [
-            'AerChemMIP',
-            'C4MIP',
-            'CDRMIP',
-            'CFMIP',
-            'CMIP',
-            'CORDEX',
-            'DAMIP',
-            'DCPP',
-            'DynVar',
-            'FAFMIP',
-            'GeoMIP',
-            'GMMIP',
-            'HighResMIP',
-            'ISMIP6',
-            'LS3MIP',
-            'LUMIP',
-            'OMIP',
-            'PAMIP',
-            'PMIP',
-            'RFMIP',
-            'ScenarioMIP',
-            'SIMIP',
-            'VIACSAB',
-            'VolMIP'
-        ],
         'use_proc_dir': False,
-        'max_priority': 2,
         'no_overwrite': False
     }
 
@@ -67,9 +40,7 @@ class MiscSection(Section):
     """
     atmos_timestep: int = None
     # Todo: needs considerations:
-    mips_to_contribute_to: List[str] = field(default_factory=list)
     use_proc_dir: bool = False
-    max_priority: int = 2
     no_overwrite: bool = False
 
     @property
@@ -95,7 +66,7 @@ class MiscSection(Section):
         model_id = config.get('metadata', 'model_id')
         values = misc_defaults(model_id)
         if config.has_section('misc'):
-            config_items = load_types(dict(config.items('misc')), ['mips_to_contribute_to'])
+            config_items = load_types(dict(config.items('misc')))
             values.update(config_items)
         return MiscSection(**values)
 

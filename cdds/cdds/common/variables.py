@@ -17,8 +17,8 @@ class RequestedVariablesList(JSONConfig):
     """
     ALLOWED_ATTRIBUTES = [
         'checksum', 'experiment_id', 'history',
-        'MAX_PRIORITY', 'metadata', 'mip', 'MIPS_RESPONDED_TO', 'model_id',
-        'model_type', 'production_info', 'requested_variables', 'status',
+        'metadata', 'mip', 'model_id', 'model_type',
+        'production_info', 'requested_variables', 'status',
         'suite_branch', 'suite_id', 'suite_revision']
 
     def __init__(self, read_path):

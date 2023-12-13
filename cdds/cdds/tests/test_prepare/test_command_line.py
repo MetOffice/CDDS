@@ -162,17 +162,14 @@ class TestMainGenerateVariableList(unittest.TestCase):
         log_fname = '{0}_{1}.log'.format(self.log_name, self.log_datestamp)
         self.log_path = log_fname
 
-    def _main(self, request, use_proc_dir, output_dir, max_priority):
+    def _main(self, request, use_proc_dir, output_dir):
         # Use '--quiet' to ensure no log messages are printed to screen.
         variables = ['day/pr:apa']
         with open(self.variable_list, 'w') as fh:
             fh.writelines(variables)
 
         request.misc.use_proc_dir = use_proc_dir
-        request.misc.max_priority = max_priority
         request.inventory.inventory_check = False
-        request.misc.mips_to_contribute_to = [self.mip]
-        request.misc.max_priority = max_priority
         request.common.root_data_dir = self.root_data_dir
         request.common.root_proc_dir = self.root_proc_dir
         request.data.variable_list_file = self.variable_list
@@ -201,22 +198,19 @@ class TestMainGenerateVariableList(unittest.TestCase):
         request.common.workflow_basename = self.request
         request.common.package = self.package
 
-        max_priority = '1'
         mock_log_datestamp.return_value = self.log_datestamp
         # There is no need to test 'checksum', 'production_info' and
         # 'metadata' ('checksum' changes due to date stamps).
         reference = {
             'experiment_id': self.experiment_id,
-            'MAX_PRIORITY': int(max_priority),
             'mip': self.mip,
-            'MIPS_RESPONDED_TO': [self.mip],
             'model_id': self.model_id,
             'model_type': self.model_type,
             'suite_id': self.suite_id,
             'suite_branch': self.branch,
             'suite_revision': self.revision,
             'requested_variables': 1}
-        self._main(request, False, None, max_priority)
+        self._main(request, False, None)
         self.compare(self.requested_variables_list, reference)
 
     @patch('cdds.common.get_log_datestamp')
@@ -235,14 +229,11 @@ class TestMainGenerateVariableList(unittest.TestCase):
         request.common.workflow_basename = self.request
         request.common.package = self.package
 
-        max_priority = '2'
         # There is no need to test 'checksum', 'production_info' and
         # 'metadata' ('checksum' changes due to date stamps).
         reference = {
             'experiment_id': self.experiment_id,
-            'MAX_PRIORITY': int(max_priority),
             'mip': self.mip,
-            'MIPS_RESPONDED_TO': [self.mip],
             'model_id': self.model_id,
             'model_type': self.model_type,
             'status': 'ok',
@@ -254,12 +245,9 @@ class TestMainGenerateVariableList(unittest.TestCase):
             self.request, self.package, 'prepare')
         log_dir = os.path.join(component_dir, 'log')
         os.makedirs(log_dir, exist_ok=True)
-        self._main(request, False, None, max_priority)
-        log_name = os.path.join(log_dir, self.log_name)
+        self._main(request, False, None)
         self.assertTrue(os.path.isfile(self.log_path))
         logging.shutdown()  # Required to enable log to be removed in tearDown.
-        requested_variables_list = os.path.join(
-            component_dir, self.requested_variables_list)
         self.compare(self.requested_variables_list, reference)
 
     def compare(self, requested_variables_list, reference):
@@ -340,8 +328,6 @@ class TestMainAlterVariableList(unittest.TestCase):
         """
         load_plugin()
         self.variable_list = {
-            'MAX_PRIORITY': 2,
-            'MIPS_RESPONDED_TO': ['CMIP'],
             'checksum': None,
             'data_request_version': 'testing',
             'experiment_id': 'piControl',

@@ -119,14 +119,6 @@ class VariableParameters(object):
         return self._request.data.model_workflow_revision
 
     @property
-    def mips(self) -> List[str]:
-        return self._request.misc.mips_to_contribute_to
-
-    @property
-    def max_priority(self) -> int:
-        return self._request.misc.max_priority
-
-    @property
     def experiment_metadata(self) -> Dict[str, str]:
         return self._experiment_metadata
 

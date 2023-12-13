@@ -120,10 +120,6 @@ class VariablesConstructor:
             'suite_revision': self._config.suite_revision
         }
 
-        if self._config.request_mip_era == 'CMIP6':
-            requested_variables_list.update({'MAX_PRIORITY': self._config.max_priority,
-                                             'MIPS_RESPONDED_TO': self._config.mips})
-
         set_checksum(requested_variables_list)
         return requested_variables_list
 

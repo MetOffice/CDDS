@@ -87,9 +87,7 @@ def expected_test_data():
 def expected_test_misc():
     return {
         'atmos_timestep': 1200,
-        'mips_to_contribute_to': ['AerChemMIP', 'C4MIP'],
         'use_proc_dir': True,
-        'max_priority': 2,
         'no_overwrite': False,
     }
 
@@ -195,31 +193,6 @@ def expected_test_minimal_data():
 def expected_test_minimal_misc():
     return {
         'atmos_timestep': 1200,
-        'max_priority': 2,
-        'mips_to_contribute_to': ['AerChemMIP',
-                                  'C4MIP',
-                                  'CDRMIP',
-                                  'CFMIP',
-                                  'CMIP',
-                                  'CORDEX',
-                                  'DAMIP',
-                                  'DCPP',
-                                  'DynVar',
-                                  'FAFMIP',
-                                  'GeoMIP',
-                                  'GMMIP',
-                                  'HighResMIP',
-                                  'ISMIP6',
-                                  'LS3MIP',
-                                  'LUMIP',
-                                  'OMIP',
-                                  'PAMIP',
-                                  'PMIP',
-                                  'RFMIP',
-                                  'ScenarioMIP',
-                                  'SIMIP',
-                                  'VIACSAB',
-                                  'VolMIP'],
         'no_overwrite': False,
         'use_proc_dir': False
     }
