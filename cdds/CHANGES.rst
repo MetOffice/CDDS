@@ -5,7 +5,8 @@
 
 Release 2.5.4, December 13, 2023
 ================================
-* Fix a bug that prevented submission of sub-experiments (CDDSO-371)
+* Corrected an issue with a legacy configuration file that prevented the submission of CMIP6 data (CDDSO-371)
+* Implement annual ocean diagnostics for the `GCOyr` MIP table (CDDSO-369)
 
 Release 2.5.3, November 22, 2023
 ================================

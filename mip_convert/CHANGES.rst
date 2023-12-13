@@ -5,7 +5,7 @@
 
 Release 2.5.4, December 13, 2023
 ================================
-* Fix the `reference_date` parsing logic (CDDSO-363)
+* Fix the `reference_date` parsing logic for variables defined with a forecast time dimension (CDDSO-363)
 * Implement annual ocean diagnostics for the `GCOyr` MIP table (CDDSO-369)
 
 Release 2.5.3, November 22, 2023
