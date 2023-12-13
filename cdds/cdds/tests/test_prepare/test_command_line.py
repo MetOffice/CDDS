@@ -26,7 +26,6 @@ from unittest.mock import patch
 import pytest
 
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.prepare.alter import ALTER_INSERT_UNKNOWN_FIELD
 from cdds.prepare.command_line import (
     main_create_cdds_directory_structure, main_generate_variable_list,
     main_alter_variable_list, parse_alter_args, main_select_variables,
@@ -425,7 +424,7 @@ class TestMainAlterVariableList(unittest.TestCase):
         self.add_variable(label=label, miptable=miptable, active=False)
         self.write_file()
         args = [self.test_filename, 'activate',
-                '{}/{}'.format(miptable, label), 'test comment', '-q']
+                '{}/{}'.format(miptable, label), 'test comment']
         main_alter_variable_list(args)
         self.check_result()
 
@@ -460,7 +459,7 @@ class TestMainAlterVariableList(unittest.TestCase):
         self.add_variable(label=label, miptable=miptable, active=True)
         self.write_file()
         args = [self.test_filename, 'deactivate',
-                '{}/{}'.format(miptable, label), 'test comment', '-q']
+                '{}/{}'.format(miptable, label), 'test comment']
         main_alter_variable_list(args)
         self.check_result(expected_active=[False])
 
@@ -484,36 +483,6 @@ class TestMainAlterVariableList(unittest.TestCase):
     #     main_alter_variable_list(args)
     #     self.check_result(expected_active=[False])
 
-    @patch('cdds.common.get_log_datestamp')
-    def test_insert(self, mock_log_datestamp):
-        """
-        Test the insertion of a variable into a variable list
-        """
-        mock_log_datestamp.return_value = self.log_datestamp
-        self.test_filename = __name__ + '.json'
-        miptable, label = 'Lmon', 'tsl'
-        self.add_variable(label=label, miptable=miptable)
-        inserted_miptable, inserted_label = 'Amon', 'tas'
-        # Most metadata is set to a value to indicate it is unknown.
-        variable_to_insert = {
-            'cell_methods': 'area: time: mean',
-            'dimensions': 'longitude latitude time height2m',
-            'frequency': 'mon',
-            'in_mappings': True,
-            'in_model': ALTER_INSERT_UNKNOWN_FIELD,
-            'label': inserted_label,
-            'miptable': inserted_miptable,
-            'priority': 1,  # All inserted variables get priority 1,
-            'stream': 'ap5'
-        }
-        self.write_file()
-        args = [self.test_filename, 'insert',
-                '{}/{}'.format(inserted_miptable, inserted_label),
-                'test comment', '-q']
-        main_alter_variable_list(args)
-        self.check_result(expected_active=[True, True],
-                          additional_variables=[variable_to_insert])
-
 
 class TestParseAlterArgs(unittest.TestCase):
     """
@@ -526,7 +495,6 @@ class TestParseAlterArgs(unittest.TestCase):
         self.var1 = 'tas/Amon'
         self.var2 = 'pr/day'
         self.comment = 'Must activate tas and pr'
-        self.default_log_name = 'cdds_prepare_alter'
         self.args = [
             self.rvfile, self.change_type, self.var1, self.var2, self.comment]
 
@@ -534,34 +502,13 @@ class TestParseAlterArgs(unittest.TestCase):
         parameters = parse_alter_args(self.args)
         self._assert_default_values(parameters)
 
-    def test_correct_log_name_value(self):
-        # log_name can be set using --log_name.
-        log_name = 'my_log.txt'
-        self.args.extend(['--log_name', log_name])
-        parameters = parse_alter_args(self.args)
-        self.assertEqual(parameters.log_name, log_name)
-
     @patch('builtins.open')
-    @patch('cdds.prepare.command_line.read_default_arguments')
-    def test_fromfile_prefix_chars(self, mock_read_args, mopen):
+    def test_fromfile_prefix_chars(self, mopen):
         filename = 'arg_file'
         args_in_file = '{}\n{}\n{}\n{}\n{}\n'.format(
             self.rvfile, self.change_type, self.var1, self.var2, self.comment)
         mopen.return_value = StringIO(dedent(args_in_file))
-        global_args = {
-            'data_request_version': '01.00.29',
-            'log_level': logging.INFO,
-            'root_data_dir': os.path.join(os.environ['CDDS_ETC'], 'cdds_data'),
-            'root_mip_table_dir': os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/'),
-            'root_proc_dir': os.path.join(os.environ['CDDS_ETC'], 'proc'),
-        }
-        package_args = {}
-        script_args = {'default_priority': 1,
-                       'log_name': 'cdds_prepare_alter'}
 
-        mock_read_args.return_value = Arguments(global_args,
-                                                package_args,
-                                                script_args)
         args = ['@arg_file']
         print(('test args={0}'.format(args)))
         parameters = parse_alter_args(args)
@@ -569,16 +516,11 @@ class TestParseAlterArgs(unittest.TestCase):
         self._assert_default_values(parameters)
 
     def _assert_default_values(self, parameters):
-        self.assertIsInstance(parameters, Arguments)
         self.assertEqual(parameters.rvfile, self.rvfile)
         self.assertEqual(parameters.change_type, self.change_type)
         self.assertEqual(parameters.vars, [self.var1, self.var2])
         self.assertEqual(parameters.comment, self.comment)
-        self.assertEqual(parameters.default_priority, 1)
         self.assertEqual(parameters.override, False)
-        self.assertEqual(parameters.log_name, self.default_log_name)
-        self.assertEqual(parameters.append_log, False)
-        self.assertEqual(parameters.log_level, logging.INFO)
 
 
 if __name__ == '__main__':
