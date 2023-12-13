@@ -11,6 +11,8 @@ from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
 from cdds.common.plugins.file_info import ModelFileInfo
 from cdds.common.plugins.attributes import GlobalAttributes, DefaultGlobalAttributes
+
+# Only used for type hints: There would be a package cycle otherwise
 if TYPE_CHECKING:
     from cdds.common.request.request import Request
 

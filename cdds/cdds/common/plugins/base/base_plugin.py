@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 
 from cdds.common.plugins.plugins import CddsPlugin
 
+# Only used for type hints: There would be a package cycle otherwise
 if TYPE_CHECKING:
     from cdds.common.request.request import Request
 
