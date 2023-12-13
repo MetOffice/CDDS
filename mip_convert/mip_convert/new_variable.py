@@ -12,9 +12,9 @@ import metomi.isodatetime.parsers as parse
 import regex as re
 
 import cf_units
+import cftime
 import iris
 from iris.time import PartialDateTime
-from datetime import datetime
 from iris.util import guess_coord_axis
 import numpy as np
 
@@ -437,12 +437,13 @@ class Variable(object):
             for (coord, axis_direction) in self._matched_coords:
                 if coord.standard_name == 'forecast_reference_time':
                     # this is populated from mip_convert config file
-                    dt = [int(v) for v in self._variable_metadata.reference_time.split('-')]
+                    dt = [int(v) for v in self._variable_metadata.reference_time.split('T')[0].split('-')]
                     reftime_units = 'days since {}-{:02d}-{:02d}'.format(
-                        *[int(v) for v in self._variable_metadata.base_date.split('-')])
+                        *[int(v) for v in self._variable_metadata.base_date.split('T')[0].split('-')])
                     reftime_calendar = self._variable_metadata.calendar
                     # not sure why including the time {:02d}:{:02d}:{:02d} upsets CMOR in the above, but it does
-                    coord.points = [cf_units.date2num(datetime.datetime(*dt), reftime_units, reftime_calendar)]
+                    coord.points = [cf_units.date2num(cftime.datetime(*dt, calendar=reftime_calendar),
+                                                      reftime_units, reftime_calendar)]
                     coord.units = cf_units.Unit(reftime_units, calendar=reftime_calendar)
         elif 'T-reftime' in self._mip_axes_directions_names and not self._variable_metadata.reference_time:
             raise RuntimeError('Parameter "reference_time" not set in request section of config file, '

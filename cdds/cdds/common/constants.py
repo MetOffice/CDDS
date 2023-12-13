@@ -244,7 +244,7 @@ USER_CONFIG_OPTIONS = {
         'optional': [
             'ancil_files', 'atmos_timestep', 'deflate_level',
             'hybrid_heights_files', 'replacement_coordinates_file', 'shuffle',
-            'sites_file'],
+            'sites_file', 'reference_time'],
     },
 }
 VARIANT_LABEL_FORMAT = r'^r(\d+)i(\d+)p(\d+)f(\d+)$'

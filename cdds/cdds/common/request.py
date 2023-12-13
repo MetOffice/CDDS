@@ -182,7 +182,8 @@ class Request(object):
         'model_output_dir', 'model_type', 'mip', 'mip_era', 'netcdf_file_action', 'output_dir', 'package',
         'parent_base_date', 'parent_experiment_id', 'parent_mip', 'parent_mip_era', 'parent_model_id',
         'parent_time_units', 'parent_variant_label', 'replacement_coordinates_file', 'mass_data_class', 'run_bounds',
-        'shuffle', 'sites_file', 'sub_experiment_id', 'suite_branch', 'suite_id', 'suite_revision', 'variant_label'
+        'shuffle', 'sites_file', 'sub_experiment_id', 'suite_branch', 'suite_id', 'suite_revision', 'variant_label',
+        'reference_time'
     ]
 
     def __init__(self, items, required_keys=None):
