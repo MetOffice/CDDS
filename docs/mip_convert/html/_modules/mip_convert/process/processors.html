@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mip_convert.process.processors &#8212; MIP Convert 2.5.1 documentation</title>
+    <title>mip_convert.process.processors &#8212; MIP Convert 2.5.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">MIP Convert 2.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">MIP Convert 2.5.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">mip_convert.process.processors</a></li> 
       </ul>
@@ -37,7 +37,7 @@
           <div class="body" role="main">
             
   <h1>Source code for mip_convert.process.processors</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) British Crown Copyright 2016-2022, Met Office.</span>
+<span></span><span class="c1"># (C) British Crown Copyright 2016-2023, Met Office.</span>
 <span class="c1"># Please see LICENSE.rst for license details.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
@@ -2292,6 +2292,66 @@
     <span class="n">cube_v</span> <span class="o">=</span> <span class="n">extract_n_hourly</span><span class="p">(</span><span class="n">cube_v</span><span class="p">,</span> <span class="n">period_in_hours</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">vrot_calc</span><span class="p">(</span><span class="n">cube_u</span><span class="p">,</span> <span class="n">cube_v</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="check_data_is_monthly"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.check_data_is_monthly">[docs]</a><span class="k">def</span> <span class="nf">check_data_is_monthly</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Performs a number of tests to make sure the cube can be annualised&quot;&quot;&quot;</span>
+    <span class="n">time_coord</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">coord</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_coord</span><span class="o">.</span><span class="n">points</span><span class="p">)</span> <span class="o">%</span> <span class="mi">12</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Need to have whole years to process annual means&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;days since&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">coord</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">units</span><span class="p">):</span>
+        <span class="n">time_coord</span> <span class="o">=</span> <span class="n">time_coord</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">time_coord</span><span class="o">.</span><span class="n">convert_units</span><span class="p">(</span><span class="n">Unit</span><span class="p">(</span><span class="s1">&#39;days since 1850-01-01&#39;</span><span class="p">,</span> <span class="n">calendar</span><span class="o">=</span><span class="n">time_coord</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">calendar</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">t</span> <span class="o">&lt;</span> <span class="mf">28.0</span> <span class="ow">or</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="mf">31.0</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">time_coord</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">time_coord</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Data must have monthly resolution&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="annual_from_monthly_2d"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.annual_from_monthly_2d">[docs]</a><span class="k">def</span> <span class="nf">annual_from_monthly_2d</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate annual mean from a two-dimensional cube with monthly data&quot;&quot;&quot;</span>
+    <span class="c1"># check that you have whole years</span>
+    <span class="n">check_data_is_monthly</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
+    <span class="n">iris</span><span class="o">.</span><span class="n">coord_categorisation</span><span class="o">.</span><span class="n">add_year</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">)</span>
+    <span class="n">annual_mean_cube</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">aggregated_by</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">MEAN</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">annual_mean_cube</span></div>
+
+
+<div class="viewcode-block" id="annual_from_monthly_2d_masked"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.annual_from_monthly_2d_masked">[docs]</a><span class="k">def</span> <span class="nf">annual_from_monthly_2d_masked</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate annual mean from a two-dimensional cube with monthly data&quot;&quot;&quot;</span>
+    <span class="c1"># check that you have whole years</span>
+    <span class="n">check_data_is_monthly</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
+    <span class="n">iris</span><span class="o">.</span><span class="n">coord_categorisation</span><span class="o">.</span><span class="n">add_year</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">)</span>
+    <span class="n">annual_mean_cube</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">aggregated_by</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">MEAN</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mask_copy</span><span class="p">(</span><span class="n">annual_mean_cube</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="calculate_thkcello_weights"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.calculate_thkcello_weights">[docs]</a><span class="k">def</span> <span class="nf">calculate_thkcello_weights</span><span class="p">(</span><span class="n">cube</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates weights corresponding to relative contribution of monthly layer thickness to the annual mean&quot;&quot;&quot;</span>
+    <span class="n">check_data_is_monthly</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
+    <span class="n">iris</span><span class="o">.</span><span class="n">coord_categorisation</span><span class="o">.</span><span class="n">add_year</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">)</span>
+    <span class="n">annual_sum</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">aggregated_by</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">SUM</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">annual_sum</span><span class="o">.</span><span class="n">coord</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">points</span><span class="p">)):</span>
+        <span class="n">cube</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">y</span> <span class="o">*</span> <span class="mi">12</span><span class="p">:(</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">12</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">y</span> <span class="o">*</span> <span class="mi">12</span><span class="p">:(</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">12</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">/</span> <span class="n">annual_sum</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:]</span>
+    <span class="k">return</span> <span class="n">cube</span><span class="o">.</span><span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="annual_from_monthly_3d"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.annual_from_monthly_3d">[docs]</a><span class="k">def</span> <span class="nf">annual_from_monthly_3d</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">thkcello</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates annual mean from a three-dimensional cube with monthly data. Requires a corresponding thickcello</span>
+<span class="sd">    cube to take into account changing thickness of the ocean column.&quot;&quot;&quot;</span>
+    <span class="n">check_data_is_monthly</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
+    <span class="n">iris</span><span class="o">.</span><span class="n">coord_categorisation</span><span class="o">.</span><span class="n">add_year</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">)</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">calculate_thkcello_weights</span><span class="p">(</span><span class="n">thkcello</span><span class="p">)</span>
+    <span class="n">annual_mean_cube</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">aggregated_by</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">MEAN</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">annual_mean_cube</span></div>
+
+
+<div class="viewcode-block" id="annual_from_monthly_3d_masked"><a class="viewcode-back" href="../../../mip_convert/process/processors.html#mip_convert.process.processors.annual_from_monthly_3d_masked">[docs]</a><span class="k">def</span> <span class="nf">annual_from_monthly_3d_masked</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">thkcello</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates annual mean from a three-dimensional cube with monthly data. Requires a corresponding thickcello</span>
+<span class="sd">    cube to take into account changing thickness of the ocean column.&quot;&quot;&quot;</span>
+    <span class="n">check_data_is_monthly</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
+    <span class="n">iris</span><span class="o">.</span><span class="n">coord_categorisation</span><span class="o">.</span><span class="n">add_year</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">)</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">calculate_thkcello_weights</span><span class="p">(</span><span class="n">thkcello</span><span class="p">)</span>
+    <span class="n">annual_mean_cube</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">aggregated_by</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">MEAN</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mask_copy</span><span class="p">(</span><span class="n">annual_mean_cube</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -2323,7 +2383,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">MIP Convert 2.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">MIP Convert 2.5.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">mip_convert.process.processors</a></li> 
       </ul>
