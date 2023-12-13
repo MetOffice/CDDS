@@ -3,6 +3,10 @@
 
 .. include:: common.txt
 
+Release 2.5.4, December 13, 2023
+================================
+* Fix a bug that prevented submission of sub-experiments (CDDSO-371)
+
 Release 2.5.3, November 22, 2023
 ================================
 * Adaptations needed for new CMIP6Plus MIP tables (CDDSO-336, CDDSO-365)

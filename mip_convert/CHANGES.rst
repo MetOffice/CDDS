@@ -3,6 +3,11 @@
 
 .. include:: common.txt
 
+Release 2.5.4, December 13, 2023
+================================
+* Fix the `reference_date` parsing logic (CDDSO-363)
+* Implement annual ocean diagnostics for the `GCOyr` MIP table (CDDSO-369)
+
 Release 2.5.3, November 22, 2023
 ================================
 * Adaptations needed for new CMIP6Plus MIP tables (CDDSO-336, CDDSO-365)
