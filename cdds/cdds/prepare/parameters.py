@@ -141,9 +141,8 @@ class VariableParameters(object):
         logger = logging.getLogger(__name__)
         logger.info(
             'Building MIP variables from the given mip tables "{}" and a list of requested variables '
-            'provided in "{}" with mip era "{}" stream defaults'.format(
-                self._request.common.mip_table_dir, self._request.data.variable_list_file,
-                self._request.misc.mip_era_defaults))
+            'provided in "{}"'.format(
+                self._request.common.mip_table_dir, self._request.data.variable_list_file))
 
         variables = list_all_variables(self._request.data.variable_list_file, self._request.common.mip_table_dir)
         metadata = {}

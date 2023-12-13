@@ -67,7 +67,6 @@ class MiscSection(Section):
     """
     atmos_timestep: int = None
     # Todo: needs considerations:
-    mip_era_defaults: str = ''
     mips_to_contribute_to: List[str] = field(default_factory=list)
     use_proc_dir: bool = False
     max_priority: int = 2
