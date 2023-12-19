@@ -75,6 +75,16 @@ class TestOceanGridInfo(TestCase):
         atoms_timestep = self.ocean_grid_info.atmos_timestep
         self.assertIsNone(atoms_timestep)
 
+    def test_bounds_coordinates(self):
+        bounds_coordinates = self.ocean_grid_info.bounds_coordinates('onm', 'grid-T')
+        self.assertCountEqual(bounds_coordinates, ['bounds_lon', 'bounds_lat', 'time_centered_bounds', 'deptht_bounds'])
+        bounds_coordinates = self.ocean_grid_info.bounds_coordinates('onm', 'diad-T')
+        self.assertCountEqual(bounds_coordinates, ['bounds_lon', 'bounds_lat', 'time_centered_bounds', 'deptht_bounds'])
+        bounds_coordinates = self.ocean_grid_info.bounds_coordinates('onm', 'grid-W')
+        self.assertCountEqual(bounds_coordinates, ['bounds_lon', 'bounds_lat', 'time_centered_bounds', 'depthw_bounds'])
+        bounds_coordinates = self.ocean_grid_info.bounds_coordinates('ind', 'default')
+        self.assertCountEqual(bounds_coordinates, ['lont_bounds', 'latt_bounds', 'lonu_bounds', 'latu_bounds'])
+
 
 class TestAtmosGridInfo(TestCase):
     def setUp(self):
@@ -124,6 +134,10 @@ class TestAtmosGridInfo(TestCase):
     def test_atmos_timestep(self):
         atmos_timestep = self.atmos_grid_info.atmos_timestep
         self.assertEqual(atmos_timestep, 1200)
+
+    def test_bounds_coordinates(self):
+        bounds_coordinates = self.atmos_grid_info.bounds_coordinates('foo', 'bar')
+        self.assertIsNone(bounds_coordinates)
 
 
 if __name__ == '__main__':

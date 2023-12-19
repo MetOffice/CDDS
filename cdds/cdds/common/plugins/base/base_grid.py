@@ -178,6 +178,19 @@ class OceanBaseGridInfo(BaseGridInfo):
         """
         return self._halo_options
 
+    def bounds_coordinates(self, stream: str, substream: str) -> List[str]:
+        if stream == 'onm':
+            bound_coords = [
+                'bounds_lon', 'bounds_lat', 'time_centered_bounds', 'depth{}_bounds'.format(substream[-1].lower())
+            ]
+        elif stream == 'ond':
+            bound_coords = ['bounds_lon', 'bounds_lat', 'time_centered_bounds']
+        elif stream in ['inm', 'ind']:
+            bound_coords = ['lont_bounds', 'latt_bounds', 'lonu_bounds', 'latu_bounds']
+        else:
+            raise ValueError('Bounds coordinatates for stream {}/{} are not implemented'.format(stream, substream))
+        return bound_coords
+
     @property
     def atmos_timestep(self) -> int:
         """
@@ -227,3 +240,6 @@ class AtmosBaseGridInfo(BaseGridInfo):
         :rtype: int
         """
         return self._values['atmos_timestep']
+
+    def bounds_coordinates(self, stream: str, substream: str) -> List[str]:
+        return None

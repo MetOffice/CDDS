@@ -230,3 +230,12 @@ class GridInfo(object, metaclass=ABCMeta):
         :rtype: List[str]
         """
         pass
+
+    @abstractmethod
+    def bounds_coordinates(self, stream: str, substream: str) -> List[str]:
+        """
+        Returns a list of names of bounds coordinates
+        :return: Names of bounds coordinates
+        :rtype: List[str]
+        """
+        pass
