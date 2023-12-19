@@ -179,6 +179,14 @@ class OceanBaseGridInfo(BaseGridInfo):
         return self._halo_options
 
     def bounds_coordinates(self, stream: str, substream: str) -> List[str]:
+        """
+        Returns a list of names of bounds coordinates
+        For example::
+          ['bounds_lon', 'bounds_lat', 'time_centered_bounds', 'depthw_bounds']
+
+        :return: Names of bounds coordinates
+        :rtype: List[str]
+        """
         if stream == 'onm':
             bound_coords = [
                 'bounds_lon', 'bounds_lat', 'time_centered_bounds', 'depth{}_bounds'.format(substream[-1].lower())
@@ -242,4 +250,10 @@ class AtmosBaseGridInfo(BaseGridInfo):
         return self._values['atmos_timestep']
 
     def bounds_coordinates(self, stream: str, substream: str) -> List[str]:
+        """
+        Returns a list of names of bounds coordinates
+
+        :return: Names of bounds coordinates
+        :rtype: List[str]
+        """
         return None
