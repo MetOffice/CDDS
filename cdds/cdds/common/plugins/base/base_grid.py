@@ -183,7 +183,10 @@ class OceanBaseGridInfo(BaseGridInfo):
         Returns a list of names of bounds coordinates
         For example::
           ['bounds_lon', 'bounds_lat', 'time_centered_bounds', 'depthw_bounds']
-
+        :param stream: Name of the stream
+        :type stream: str
+        :param substream: Name of the substream
+        :type substream: str
         :return: Names of bounds coordinates
         :rtype: List[str]
         """
