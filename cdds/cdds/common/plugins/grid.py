@@ -183,34 +183,6 @@ class GridInfo(object, metaclass=ABCMeta):
         """
         pass
 
-    @property
-    @abstractmethod
-    def halo_options(self) -> Dict[str, List[str]]:
-        """
-        Returns the ncks options needed to move ocean holo rows and columns.
-
-        For example:
-        {
-            'grid-T': ['-dx,1,360', '-dy,1,330'],
-            'grid-U': ['-dx,1,360', '-dy,1,330']
-        }
-
-        :return: The ncks options according their gird names
-        :rtype: dict
-        """
-        pass
-
-    @property
-    @abstractmethod
-    def atmos_timestep(self) -> int:
-        """
-        Returns the atmosphere time step.
-
-        :return: Atmosphere time step
-        :rtype: int
-        """
-        pass
-
     @abstractmethod
     def ancil_filenames(self) -> List[str]:
         """
@@ -227,15 +199,6 @@ class GridInfo(object, metaclass=ABCMeta):
         Returns the hybrid heights file names.
 
         :return: Hybrid heights file names
-        :rtype: List[str]
-        """
-        pass
-
-    @abstractmethod
-    def bounds_coordinates(self, stream: str, substream: str) -> List[str]:
-        """
-        Returns a list of names of bounds coordinates
-        :return: Names of bounds coordinates
         :rtype: List[str]
         """
         pass

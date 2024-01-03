@@ -187,6 +187,8 @@ class OceanBaseGridInfo(BaseGridInfo):
         :return: Names of bounds coordinates
         :rtype: List[str]
         """
+        if stream.startswith('o') and substream[-1] not in 'TUVWr':
+            raise RuntimeError('Could not interpret substream "{}"'.format(substream))
         if stream == 'onm':
             bound_coords = [
                 'bounds_lon', 'bounds_lat', 'time_centered_bounds', 'depth{}_bounds'.format(substream[-1].lower())
@@ -198,16 +200,6 @@ class OceanBaseGridInfo(BaseGridInfo):
         else:
             raise ValueError('Bounds coordinatates for stream {}/{} are not implemented'.format(stream, substream))
         return bound_coords
-
-    @property
-    def atmos_timestep(self) -> int:
-        """
-        Returns the atmosphere time step.
-
-        :return: 'None' because ocean grids have atmosphere time step
-        :rtype: int
-        """
-        return None
 
 
 class AtmosBaseGridInfo(BaseGridInfo):
@@ -230,16 +222,6 @@ class AtmosBaseGridInfo(BaseGridInfo):
         return None
 
     @property
-    def halo_options(self) -> Dict[str, List[str]]:
-        """
-        Returns the ncks options needed to move ocean holo rows and columns.
-
-        :return: 'None' because atmosphere grids have ncks options
-        :rtype: dict
-        """
-        return None
-
-    @property
     def atmos_timestep(self) -> int:
         """
         Returns the atmosphere time step.
@@ -248,12 +230,3 @@ class AtmosBaseGridInfo(BaseGridInfo):
         :rtype: int
         """
         return self._values['atmos_timestep']
-
-    def bounds_coordinates(self, stream: str, substream: str) -> List[str]:
-        """
-        Returns a list of names of bounds coordinates
-
-        :return: Names of bounds coordinates
-        :rtype: List[str]
-        """
-        return None
