@@ -124,7 +124,7 @@ class RoseSuiteRequest(Request):
         grid_info = plugin.grid_info(model_id, GridType.ATMOS)
 
         base_items = {
-            'atmos_timestep': str(grid_info.atmos_timestep) if grid_info.get_type() == GridType.ATMOS else '',
+            'atmos_timestep': str(grid_info.atmos_timestep),
             'branch_method': self._get_branch_method(),
             'calendar': self._suite_info['calendar'],
             'child_base_date': BASE_DATE,
