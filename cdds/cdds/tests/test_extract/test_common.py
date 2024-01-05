@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
+# (C) British Crown Copyright 2017-2024, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 
@@ -12,8 +12,7 @@ import shutil
 import pytest
 from unittest.mock import patch
 from cdds.extract.common import (
-    get_bounds_variables, validate_stash_fields, validate_netcdf,
-    check_moo_cmd, calculate_period, FileContentError,
+    validate_stash_fields, validate_netcdf, check_moo_cmd, calculate_period, FileContentError,
     StreamValidationResult, create_dir, build_mass_location, chunk_by_files_and_tapes)
 from cdds.tests.test_common.common import create_simple_netcdf_file
 from cdds.tests.test_extract.common import break_netcdf_file, init_defaultdict
@@ -39,23 +38,6 @@ class TestCommon(unittest.TestCase):
             validation.add_file_names(expected_files, actual_files)
 
             assert validation.valid == expected
-
-    def test_variable_keys(self):
-        self.assertEqual(len(get_bounds_variables("onm", "grid-T")), 4)
-        self.assertEqual(len(get_bounds_variables("onm", "diad-T")), 4)
-        self.assertEqual(len(get_bounds_variables("onm", "ptrc-T")), 4)
-        self.assertEqual(len(get_bounds_variables("onm", "ptrd-T")), 4)
-        self.assertEqual(len(get_bounds_variables("onm", "grid-U")), 4)
-        self.assertEqual(len(get_bounds_variables("onm", "grid-W")), 4)
-        self.assertEqual(len(get_bounds_variables("ond", "grid-T")), 3)
-        self.assertEqual(len(get_bounds_variables("ond", "diad-T")), 3)
-        self.assertEqual(len(get_bounds_variables("ond", "ptrc-T")), 3)
-        self.assertEqual(len(get_bounds_variables("ond", "ptrd-T")), 3)
-        self.assertEqual(len(get_bounds_variables("inm", "default")), 4)
-        self.assertEqual(len(get_bounds_variables("foo", "default")), 0)
-
-        ff = ",".join(get_bounds_variables("onm", "grid-T")) + ","
-        self.assertEqual(ff, "bounds_lon,bounds_lat,time_centered_bounds,deptht_bounds,")
 
     @patch("os.walk")  # decorators are applied in reverse order :S
     @patch("cdds.extract.common.get_stash_from_pp")

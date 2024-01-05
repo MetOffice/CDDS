@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021-2022, Met Office.
+# (C) British Crown Copyright 2021-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`grid` module contains the enums and abstract classes
@@ -180,34 +180,6 @@ class GridInfo(object, metaclass=ABCMeta):
 
         :return: Name of the replacement coordinate file
         :rtype: str
-        """
-        pass
-
-    @property
-    @abstractmethod
-    def halo_options(self) -> Dict[str, List[str]]:
-        """
-        Returns the ncks options needed to move ocean holo rows and columns.
-
-        For example:
-        {
-            'grid-T': ['-dx,1,360', '-dy,1,330'],
-            'grid-U': ['-dx,1,360', '-dy,1,330']
-        }
-
-        :return: The ncks options according their gird names
-        :rtype: dict
-        """
-        pass
-
-    @property
-    @abstractmethod
-    def atmos_timestep(self) -> int:
-        """
-        Returns the atmosphere time step.
-
-        :return: Atmosphere time step
-        :rtype: int
         """
         pass
 

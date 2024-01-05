@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021-2022, Met Office.
+# (C) British Crown Copyright 2021-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`base_grid` module contains the code required
@@ -178,15 +178,31 @@ class OceanBaseGridInfo(BaseGridInfo):
         """
         return self._halo_options
 
-    @property
-    def atmos_timestep(self) -> int:
+    def bounds_coordinates(self, stream: str, substream: str) -> List[str]:
         """
-        Returns the atmosphere time step.
-
-        :return: 'None' because ocean grids have atmosphere time step
-        :rtype: int
+        Returns a list of names of bounds coordinates
+        For example::
+          ['bounds_lon', 'bounds_lat', 'time_centered_bounds', 'depthw_bounds']
+        :param stream: Name of the stream
+        :type stream: str
+        :param substream: Name of the substream
+        :type substream: str
+        :return: Names of bounds coordinates
+        :rtype: List[str]
         """
-        return None
+        if stream.startswith('o') and substream[-1] not in 'TUVWr':
+            raise RuntimeError('Could not interpret substream "{}"'.format(substream))
+        if stream == 'onm':
+            bound_coords = [
+                'bounds_lon', 'bounds_lat', 'time_centered_bounds', 'depth{}_bounds'.format(substream[-1].lower())
+            ]
+        elif stream == 'ond':
+            bound_coords = ['bounds_lon', 'bounds_lat', 'time_centered_bounds']
+        elif stream in ['inm', 'ind']:
+            bound_coords = ['lont_bounds', 'latt_bounds', 'lonu_bounds', 'latu_bounds']
+        else:
+            raise ValueError('Bounds coordinatates for stream {}/{} are not implemented'.format(stream, substream))
+        return bound_coords
 
 
 class AtmosBaseGridInfo(BaseGridInfo):
@@ -204,16 +220,6 @@ class AtmosBaseGridInfo(BaseGridInfo):
         Atmosphere grids have no ocean grid polar masks. So, 'None' will be returned.
 
         :return: 'None' because atmosphere grids have no ocean grid polar masks
-        :rtype: dict
-        """
-        return None
-
-    @property
-    def halo_options(self) -> Dict[str, List[str]]:
-        """
-        Returns the ncks options needed to move ocean holo rows and columns.
-
-        :return: 'None' because atmosphere grids have ncks options
         :rtype: dict
         """
         return None

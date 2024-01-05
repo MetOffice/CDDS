@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2023, Met Office.
+# (C) British Crown Copyright 2016-2024, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -515,77 +515,6 @@ def process_info(args):
      pinfo["architecture"]) = os.uname()
 
     return pinfo
-
-
-def get_bounds_variables(stream, substream="default"):
-    """Returns an array with additional bounds variables for ocean/sea ice fields
-
-    Parameters
-    ----------
-    stream: str
-        Stream name
-    substream: str
-        Substream name
-
-    Returns
-    -------
-    list
-        A list containing variables
-    """
-    try:
-        return {
-            ("onm", "grid-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
-                "deptht_bounds"
-            ],
-            ("onm", "diad-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
-                "deptht_bounds"
-            ],
-            ("onm", "ptrc-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
-                "deptht_bounds"
-            ],
-            ("onm", "ptrd-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
-                "deptht_bounds"
-            ],
-            ("onm", "grid-U"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
-                "depthu_bounds"
-            ],
-            ("onm", "grid-V"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
-                "depthv_bounds"
-            ],
-            ("onm", "grid-W"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
-                "depthw_bounds"
-            ],
-            ("ond", "grid-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
-            ],
-            ("ond", "diad-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
-            ],
-            ("ond", "ptrc-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
-            ],
-            ("ond", "ptrd-T"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
-            ],
-            ("ond", "scalar"): [
-                "bounds_lon", "bounds_lat", "time_centered_bounds",
-            ],
-            ("inm", "default"): [
-                "lont_bounds", "latt_bounds", "lonu_bounds", "latu_bounds"
-            ],
-            ("ind", "default"): [
-                "lont_bounds", "latt_bounds", "lonu_bounds", "latu_bounds"
-            ],
-        }[stream, substream]
-    except KeyError:
-        return []
 
 
 def validate_netcdf(filepath):
