@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2023, Met Office.
+# (C) British Crown Copyright 2016-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Class for creating MOOSE commands for filtered retrievals from MASS
@@ -18,8 +18,8 @@ from cdds.common.mappings.mapping import ModelToMip
 from cdds.common.mass import mass_list_dir
 from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
-from cdds.extract.common import (check_moo_cmd, chunk_by_files_and_tapes, fetch_filelist_from_mass,
-                                 get_bounds_variables, get_stash, get_tape_limit, run_moo_cmd)
+from cdds.extract.common import (check_moo_cmd, chunk_by_files_and_tapes, fetch_filelist_from_mass, get_stash,
+                                 get_tape_limit, run_moo_cmd)
 from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES
 
 
@@ -59,7 +59,7 @@ class Filters(object):
         self.suite_id = None
         self.ensemble_member_id = None
         self.model_id = None
-
+        self.grid_info = None
         self.plugin = None
         self.model_parameters = None
 
@@ -197,12 +197,14 @@ class Filters(object):
         filter_msg_exc = []
         stash_codes = None
         if streamtype == "pp":
+            self.grid_info = self.plugin.grid_info(self.model_id, GridType.ATMOS)
             filter_msg, filter_msg_exc, stash_codes = (
                 self._format_filter_pp(stream)
             )
             status = True
 
         elif streamtype == "nc":
+            self.grid_info = self.plugin.grid_info(self.model_id, GridType.OCEAN)
             filter_msg, filter_msg_exc = (
                 self._format_filter_nc(stream)
             )
@@ -625,8 +627,7 @@ class Filters(object):
                         if substream not in self.filters:
                             self.filters[substream] = ""
                         # add in coordinate bounds if necessary
-                        for coord_bound in get_bounds_variables(
-                                stream, substream):
+                        for coord_bound in self.grid_info.bounds_coordinates(stream, substream):
                             self.filters[substream] += "{},".format(
                                 coord_bound)
 
@@ -785,12 +786,11 @@ class Filters(object):
         variables: str
             comma separated string of variables to be selected
         """
-        grid_info = self.plugin.grid_info(self.model_id, GridType.OCEAN)
         with open(file_name, "w") as file_h:
             # add variable filters to file
             file_h.write("-a\n-v {}".format(variables))
-            if substream in grid_info.halo_options:
-                for ncks_opt in grid_info.halo_options[substream]:
+            if substream in self.grid_info.halo_options:
+                for ncks_opt in self.grid_info.halo_options[substream]:
                     file_h.write("\n{}".format(ncks_opt))
 
     def _update_mass_cmd(self, regexp, filelist, start, end, moo_cmd,

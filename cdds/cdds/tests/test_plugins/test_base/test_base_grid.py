@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021-2022, Met Office.
+# (C) British Crown Copyright 2021-2024, Met Office.
 # Please see LICENSE.rst for license details.
 import unittest
 
@@ -71,9 +71,18 @@ class TestOceanGridInfo(TestCase):
         halo_options = self.ocean_grid_info.halo_options
         self.assertEqual(halo_options['grid-T'], ["-dx,1,360", "-dy,1,330"])
 
-    def test_atmos_timestep(self):
-        atoms_timestep = self.ocean_grid_info.atmos_timestep
-        self.assertIsNone(atoms_timestep)
+    def test_bounds_coordinates(self):
+        bounds_coordinates = self.ocean_grid_info.bounds_coordinates('onm', 'grid-T')
+        self.assertCountEqual(bounds_coordinates, ['bounds_lon', 'bounds_lat', 'time_centered_bounds', 'deptht_bounds'])
+        bounds_coordinates = self.ocean_grid_info.bounds_coordinates('onm', 'diad-T')
+        self.assertCountEqual(bounds_coordinates, ['bounds_lon', 'bounds_lat', 'time_centered_bounds', 'deptht_bounds'])
+        bounds_coordinates = self.ocean_grid_info.bounds_coordinates('onm', 'grid-W')
+        self.assertCountEqual(bounds_coordinates, ['bounds_lon', 'bounds_lat', 'time_centered_bounds', 'depthw_bounds'])
+        bounds_coordinates = self.ocean_grid_info.bounds_coordinates('ind', 'default')
+        self.assertCountEqual(bounds_coordinates, ['lont_bounds', 'latt_bounds', 'lonu_bounds', 'latu_bounds'])
+
+    def test_bounds_coordinates_with_incorrect_stream(self):
+        self.assertRaises(RuntimeError, self.ocean_grid_info.bounds_coordinates, 'onm', 'grid-C')
 
 
 class TestAtmosGridInfo(TestCase):
@@ -116,10 +125,6 @@ class TestAtmosGridInfo(TestCase):
     def test_levels(self):
         levels = self.atmos_grid_info.levels
         self.assertEqual(levels, 85)
-
-    def test_halo_options(self):
-        halo_options = self.atmos_grid_info.halo_options
-        self.assertIsNone(halo_options)
 
     def test_atmos_timestep(self):
         atmos_timestep = self.atmos_grid_info.atmos_timestep
