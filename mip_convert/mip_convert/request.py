@@ -277,8 +277,17 @@ def get_cv_config(user_config):
     :rtype: :class:`configuration.CVConfig` object
     """
     logger = logging.getLogger(__name__)
-    cv_file_name = '{}_CV.json'.format(user_config.mip_era)
-    cv_path = os.path.join(user_config.inpath, cv_file_name)
+
+    possible_CV_file_prefixes = [user_config.mip_era]
+    if 'project_id' in user_config.global_attributes:
+        possible_CV_file_prefixes.append(user_config.global_attributes['project_id'])
+
+    for cv_file_prefix in possible_CV_file_prefixes:
+        cv_file_name = '{}_CV.json'.format(cv_file_prefix)
+        cv_path = os.path.join(user_config.inpath, cv_file_name)
+        if os.path.exists(cv_path):
+            continue
+
     cv_config = CVConfig(cv_path)
     logger.debug('CV file "{}" exists'.format(cv_path))
     return cv_config

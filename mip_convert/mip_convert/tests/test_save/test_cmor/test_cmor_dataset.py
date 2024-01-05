@@ -33,8 +33,8 @@ class TestDataset(unittest.TestCase):
         self.branch_date_in_parent = '2006-01-01T00:00:00'
         self.branch_method = 'standard'
         self.calendar = '360_day'
-        self.experiment_id = 'aqua-control'
-        self.parent_experiment_id = 'no parent'
+        self.experiment_id = 'dcppC-amv-pos'
+        self.parent_experiment_id = 'piControl'
         self.history = software_versions()[21:]  # Ignore timestamp.
         self.institution_id = 'MOHC'
         self.mip_era = 'CMIP6'
@@ -76,7 +76,7 @@ class TestDataset(unittest.TestCase):
             'run_bounds:0000-00-00T00:00:00 0000-00-00T00:00:00\n'
             'suite_id:{suite_id}\n'
             '[global_attributes]\n'
-            'further_info_url:https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.aqua-control.none.r2i4p6f8\n'
+            'further_info_url:https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.dcppC-amv-pos.none.r2i4p6f8\n'
         )
         self._user_config_values = {
             'activity_id': self.activity_id_user,
@@ -106,11 +106,12 @@ class TestDataset(unittest.TestCase):
             'VolMIP': 'Description for VolMIP'}
         self.activity_id = ['DCPP VolMIP']
         self.additional_source_type = ['AER', 'CHEM']
-        self.experiment = 'aquaplanet control'
+        self.experiment = 'Idealised climate impact of positive AMV anomaly pattern'
         self.institution = 'Met Office Hadley Centre'
         self.parent_activity_id = 'CMIP'
         self.required_global_attributes = [
-            'activity_id', 'experiment', 'experiment_id', 'institution_id', 'source', 'source_type'
+            'activity_id', 'branch_method', 'experiment', 'experiment_id', 'institution_id',
+            'source', 'source_type', 'variant_label'
         ]
         self.required_source_type = ['AOGCM', 'BGC']
         self.source = 'Long description of model'
@@ -323,7 +324,7 @@ class TestDataset(unittest.TestCase):
 
     def test_global_attributes(self):
         reference = {
-            'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.aqua-control.none.r2i4p6f8',
+            'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.dcppC-amv-pos.none.r2i4p6f8',
             'mo_runid': self.suite_id
         }
         self.assertEqual(self.obj.global_attributes, reference)

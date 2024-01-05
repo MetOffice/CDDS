@@ -58,8 +58,7 @@ def cmor_dataset_config():
         'source_type', section, value_type='multiple')
     config['parent_model_id'] = _get_config('parent_source_id', section)
     config['variant_label'] = _get_config(
-        'variant_label', section, required_by_mip_convert=True,
-        check_function=check_variant_label_format)
+        'variant_label', section, check_function=check_variant_label_format)
     return config
 
 
