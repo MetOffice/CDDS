@@ -9,8 +9,8 @@ from enum import Enum
 from typing import List
 
 from cdds.archive.command_line import parse_args_store
-from cdds.common.old_request import read_request
-from cdds.deprecated.config import FullPaths
+from cdds.common.request.request import read_request
+from cdds.common.log_file import log_directory
 
 
 DEFAULT_LOG_DATESTAMP = '2019-11-23T1432Z'
@@ -32,6 +32,7 @@ class TestData:
     mass_suffix: str = ''
     log_name: str = ''
     stream: str = ''
+    variables_file: str = ''
 
     @property
     def root_proc_dir(self):
@@ -46,20 +47,31 @@ class TestData:
         return os.path.join(self.test_dir_root, self.data_dir_name)
 
     @property
-    def request_json_path(self):
+    def request_cfg_path(self):
         return os.path.join(self.test_dir_root, self.request_filename)
 
+    def update_request_cfg(self):
+        path = self.request_cfg_path
+        with open(path, 'r') as f:
+            print(f.readlines())
+
+        request = read_request(self.request_cfg_path)
+        request.misc.use_proc_dir = True
+        request.common.root_proc_dir = self.root_proc_dir
+        request.common.root_data_dir = self.root_data_dir
+        request.data.output_mass_root = self.mass_root
+        request.data.output_mass_suffix = self.mass_suffix
+        request.data.variable_list_file = self.variables_file
+        request.common.data_version = self.data_version
+        request.common.simulation = True
+        request.write(self.request_cfg_path)
+
     def get_arguments(self):
+        self.update_request_cfg()
+
         base_arguments = [
-            self.request_json_path,
-            '--use_proc_dir',
-            '--data_version', self.data_version,
-            '--root_proc_dir', self.root_proc_dir,
-            '--root_data_dir', self.root_data_dir,
-            '--output_mass_root', self.mass_root,
-            '--output_mass_suffix', self.mass_suffix,
+            self.request_cfg_path,
             '--log_name', self.log_name,
-            '--simulate',
         ]
         if self.stream:
             base_arguments += ['--stream', self.stream]
@@ -86,10 +98,10 @@ class LogFile:
 
     @classmethod
     def load(cls, test_args: List[str], log_name: str, log_datestamp: str) -> "LogFile":
-        arguments = parse_args_store(test_args, 'cdds_store')
+        arguments = parse_args_store(test_args, log_name)
         request = read_request(arguments.request)
-        full_paths = FullPaths(arguments, request)
-        log_dir = full_paths.log_directory('archive')
+
+        log_dir = log_directory(request, 'archive')
         if arguments.stream:
             log_file_name = '{0}_{1}_{2}.log'.format(log_name, arguments.stream, log_datestamp)
         else:

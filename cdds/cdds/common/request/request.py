@@ -5,15 +5,12 @@
 The module contains the code required to handle the information about the request.
 """
 import logging
-import os
 
 from configparser import ConfigParser, ExtendedInterpolation
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from metomi.isodatetime.data import Calendar
 from typing import Dict, Any
 
-from cdds.common.constants import INPUT_DATA_DIRECTORY, OUTPUT_DATA_DIRECTORY
-from cdds.common.paths.file_system import construct_string_from_facet_string, PathType
 from cdds.common.request.metadata_section import MetadataSection
 from cdds.common.request.common_section import CommonSection
 from cdds.common.request.data_section import DataSection
@@ -24,7 +21,6 @@ from cdds.common.request.conversion_section import ConversionSection
 from cdds.common.request.rose_suite.suite_info import RoseSuiteArguments, RoseSuiteInfo, load_rose_suite_info
 from cdds.common.request.rose_suite.validation import validate_rose_suite
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.common.plugins.plugins import PluginStore
 
 
 @dataclass
@@ -32,13 +28,13 @@ class Request:
     """
     Stores the information about the request.
     """
-    metadata: MetadataSection = MetadataSection()
-    netcdf_global_attributes: GlobalAttributesSection = GlobalAttributesSection()
-    common: CommonSection = CommonSection()
-    data: DataSection = DataSection()
-    misc: MiscSection = MiscSection()
-    inventory: InventorySection = InventorySection()
-    conversion: ConversionSection = ConversionSection()
+    metadata: MetadataSection = field(default_factory=MetadataSection)
+    netcdf_global_attributes: GlobalAttributesSection = field(default_factory=GlobalAttributesSection)
+    common: CommonSection = field(default_factory=CommonSection)
+    data: DataSection = field(default_factory=DataSection)
+    misc: MiscSection = field(default_factory=MiscSection)
+    inventory: InventorySection = field(default_factory=InventorySection)
+    conversion: ConversionSection = field(default_factory=ConversionSection)
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'Request':

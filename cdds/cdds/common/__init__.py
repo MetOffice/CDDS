@@ -801,10 +801,10 @@ def _checksum(obj):
     return 'md5: {}'.format(checksum_hex)
 
 
-DT_ELEMENTS = ['year', 'month', 'day', 'hour', 'minute', 'second']
+DATE_ELEMENTS = ['year', 'month', 'day', 'hour', 'minute', 'second']
 
 
-def get_most_recent_file(dir_to_search, key_str, pattern_str):
+def get_most_recent_file(dir_to_search: str, key: str, pattern: str) -> str:
     """
     Look for the most recent file in a given directory that matches a
     pattern like "<prefix>_YYYY-MM-DDTHHMMDD.<ext>.
@@ -813,9 +813,9 @@ def get_most_recent_file(dir_to_search, key_str, pattern_str):
     ----------
     dir_to_search: str
         The directory to look in.
-    key_str: str
+    key: str
         The string that all filenames of interest contain.
-    pattern_str: str
+    pattern: str
         A regular expression string that matches all filenames of interest.
         The regular expression must include groups for each of the six
         datetime components: year, month, day, hour, minute and second, so that
@@ -827,22 +827,21 @@ def get_most_recent_file(dir_to_search, key_str, pattern_str):
         The full path to the most recent matching file in the directory.
 
     """
-    file_list = [filename for filename in os.listdir(dir_to_search) if
-                 key_str in filename]
-    regex_pattern = re.compile(pattern_str)
-    dt_list = []
+    file_list = [filename for filename in os.listdir(dir_to_search) if key in filename]
+    regex_pattern = re.compile(pattern)
+    date_list = []
     file_dict = {}
     path_most_recent = None
+
     for candidate in file_list:
         match = regex_pattern.match(candidate)
         if match:
-            file_dt = datetime(
-                *[int(match.group(el)) for el in DT_ELEMENTS])
-            dt_list += [file_dt]
+            file_dt = datetime(*[int(match.group(el)) for el in DATE_ELEMENTS])
+            date_list += [file_dt]
             file_dict[file_dt] = candidate
-    if len(dt_list) > 0:
-        path_most_recent = os.path.join(dir_to_search,
-                                        file_dict[sorted(dt_list)[-1]])
+
+    if len(date_list) > 0:
+        path_most_recent = os.path.join(dir_to_search, file_dict[sorted(date_list)[-1]])
     return path_most_recent
 
 
@@ -882,7 +881,7 @@ def get_most_recent_file_by_stream(dir_to_search, key_str, pattern_str):
         if match:
             stream = match.group('stream')
             file_dt = datetime(
-                *[int(match.group(el)) for el in DT_ELEMENTS])
+                *[int(match.group(el)) for el in DATE_ELEMENTS])
             dt_list_by_stream[stream].append(file_dt)
             file_dict[stream][file_dt] = candidate
     path_most_recent_by_stream = {}

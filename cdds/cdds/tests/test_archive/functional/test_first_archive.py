@@ -25,16 +25,17 @@ class TestStoreFirstArchive(StoreTestCase):
 
     @mock.patch('cdds.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
     def test_transfer_functional_usecase1_first_archive(self, mock_log_datestamp):
-        self.test_dir = setup_basic_test_data('piControl_10096_proc', 'piControl_10096_data')
+        self.test_dir, variable_file = setup_basic_test_data('piControl_10096_proc', 'piControl_10096_data')
         test_data = TestData(
             number_variables=1,
             proc_dir_name='piControl_10096_proc',
             test_dir_root=self.test_dir,
             data_dir_name='piControl_10096_data',
-            request_filename='cdds_request_piControl_10096.json',
+            request_filename='cdds_request_piControl_10096.cfg',
             mass_root='moose:/adhoc/projects/cdds/testdata/transfer_functional',
             mass_suffix='use_case_first',
-            log_name='test_transfer_functional_usecase1_first_archive'
+            log_name='test_transfer_functional_usecase1_first_archive',
+            variables_file=variable_file
         )
         test_args = test_data.get_arguments()
 
@@ -50,16 +51,17 @@ class TestStoreFirstArchive(StoreTestCase):
 
     @mock.patch('cdds.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
     def test_transfer_functional_usecase1_first_archive_single_stream(self, mock_log_datestamp):
-        self.test_dir = setup_only_ap5_test_data('piControl_10096_proc', 'piControl_10096_data')
+        self.test_dir, variable_file = setup_only_ap5_test_data('piControl_10096_proc', 'piControl_10096_data')
         test_data = TestData(
             number_variables=1,
             proc_dir_name='piControl_10096_proc',
             test_dir_root=self.test_dir,
             data_dir_name='piControl_10096_data',
-            request_filename='cdds_request_piControl_10096.json',
+            request_filename='cdds_request_piControl_10096.cfg',
             mass_root='moose:/adhoc/projects/cdds/testdata/transfer_functional',
             mass_suffix='use_case_first',
             log_name='test_transfer_functional_usecase1_first_archive_single_stream',
+            variables_file=variable_file,
             stream='ap5'
         )
         test_args = test_data.get_arguments()
