@@ -60,6 +60,11 @@ def parse_cdds_extract_command_line(user_arguments):
     parser.add_argument('--simulation',
                         action='store_true',
                         help='Run Extract in simulation mode')
+    parser.add_argument('--model_params_dir',
+                        dest='model_params_dir',
+                        default=None,
+                        help='If present, the model parameters will be overloaded by the data in the json'
+                             'files containing in the given directory.')
     root_dir_args(parser, arguments.root_proc_dir, arguments.root_data_dir)
 
     # Add arguments common to all scripts.
