@@ -836,9 +836,9 @@ def get_most_recent_file(dir_to_search: str, key: str, pattern: str) -> str:
     for candidate in file_list:
         match = regex_pattern.match(candidate)
         if match:
-            file_dt = datetime(*[int(match.group(el)) for el in DATE_ELEMENTS])
-            date_list += [file_dt]
-            file_dict[file_dt] = candidate
+            file_datetime = datetime(*[int(match.group(element)) for element in DATE_ELEMENTS])
+            date_list += [file_datetime]
+            file_dict[file_datetime] = candidate
 
     if len(date_list) > 0:
         path_most_recent = os.path.join(dir_to_search, file_dict[sorted(date_list)[-1]])

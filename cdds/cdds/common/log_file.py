@@ -42,18 +42,28 @@ def log_directory(request: Request, component: str) -> str:
         proc directory. If no log directory can be found, None will be returned.
     :rtype: str
     """
-    base_output_dir = _get_base_output_dir(request, component)
+    component_proc_dir = _get_component_proc_dir(request, component)
 
-    if base_output_dir is None:
+    if component_proc_dir is None:
         return None
 
-    log_dir = os.path.join(base_output_dir, LOG_DIRECTORY)
+    log_dir = os.path.join(component_proc_dir, LOG_DIRECTORY)
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
     return log_dir
 
 
-def _get_base_output_dir(request: Request, component: str) -> str:
+def _get_component_proc_dir(request: Request, component: str) -> str:
+    """
+    Returns the specific component directory in the CDDS proc directory.
+
+    :param request: Request containing all information about the proc directory
+    :type request: Request
+    :param component: Component
+    :type component: str
+    :return: Path to the specific component directory in the proc directory
+    :rtype: str
+    """
     if request.misc.use_proc_dir:
         plugin = PluginStore.instance().get_plugin()
         proc_directory = plugin.proc_directory(request)

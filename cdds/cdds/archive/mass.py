@@ -457,7 +457,7 @@ def archive_files(mip_approved_variables: List[Dict[str, str]], simulation: bool
 
 def cleanup_archive_dir(archive_root_dir: str, mip_approved_variables: List[Dict[str, str]], simulation: bool) -> None:
     """
-    Archive the files specified by ``mip_approved_variables`` in MASS.
+    Clean up the archived files specified by ``mip_approved_variables`` in MASS by removing all empty directories.
 
     :param archive_root_dir: A dictionary path in MASS.
     :type archive_root_dir: str
