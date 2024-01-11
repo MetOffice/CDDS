@@ -867,6 +867,7 @@ class ConvertProcess(object):
             'EMAIL_NOTIFICATIONS': self._arguments.email_notifications,
             'MIP_CONVERT_CONFIG_DIR': self._full_paths.component_directory('configure'),
             'MODEL_ID': self._request.model_id,
+            'MODEL_PARAMS_DIR': self._arguments.model_params_dir,
             'NTHREADS_CONCATENATE': (NTHREADS_CONCATENATE),
             'OUTPUT_DIR': self._full_paths.output_data_directory,
             'PARALLEL_TASKS': PARALLEL_TASKS,
