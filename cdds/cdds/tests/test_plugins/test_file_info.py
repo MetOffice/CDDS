@@ -1,12 +1,11 @@
 # (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
-import re
 import unittest
 from unittest import TestCase
 
 from metomi.isodatetime.data import TimePoint, Calendar
 
-from cdds.common.old_request import construct_request
+from cdds.common.request.request import Request
 from cdds.common.plugins.file_info import GlobalModelFileInfo, RegionalModelFileInfo
 
 
@@ -41,19 +40,17 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
         self.model_file_info = GlobalModelFileInfo()
 
     def test_relevant_for_archiving(self):
-        request_items = {
-            'mip_era': 'CMIP6',
-            'mip': 'CMIP',
-            'experiment_id': 'ssp245',
-            'variant_label': 'r1i1p1f2',
-            'model_id': 'UKESM1-0-LL',
-            'institution_id': 'MOHC',
-        }
+        request = Request()
+        request.metadata.mip_era = 'CMIP6'
+        request.metadata.mip = 'CMIP'
+        request.metadata.experiment_id = 'ssp245'
+        request.metadata.variant_label = 'r1i1p1f2'
+        request.metadata.model_id = 'UKESM1-0-LL'
+        request.metadata.institution_id = 'MOHC'
         variable_dict = {
             'out_var_name': 'tas',
             'mip_table_id': 'Amon'
         }
-        request = construct_request(request_items)
         nc_file = '/path/to/tas_Amon_UKESM1-0-LL_ssp245_r1i1p1f2_gn_201501-204912.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
@@ -61,19 +58,17 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
         self.assertTrue(relevant)
 
     def test_wrong_mip_table(self):
-        request_items = {
-            'mip_era': 'CMIP6',
-            'mip': 'CMIP',
-            'experiment_id': 'ssp245',
-            'variant_label': 'r1i1p1f2',
-            'model_id': 'UKESM1-0-LL',
-            'institution_id': 'MOHC',
-        }
+        request = Request()
+        request.metadata.mip_era = 'CMIP6'
+        request.metadata.mip = 'CMIP'
+        request.metadata.experiment_id = 'ssp245'
+        request.metadata.variant_label = 'r1i1p1f2'
+        request.metadata.model_id = 'UKESM1-0-LL'
+        request.metadata.institution_id = 'MOHC'
         variable_dict = {
             'out_var_name': 'tas',
             'mip_table_id': 'Emon'
         }
-        request = construct_request(request_items)
         nc_file = '/path/to/tas_Amon_UKESM1-0-LL_ssp245_r1i1p1f2_gn_201501-204912.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
@@ -81,19 +76,17 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_output_variable(self):
-        request_items = {
-            'mip_era': 'CMIP6',
-            'mip': 'CMIP',
-            'experiment_id': 'ssp245',
-            'variant_label': 'r1i1p1f2',
-            'model_id': 'UKESM1-0-LL',
-            'institution_id': 'MOHC',
-        }
+        request = Request()
+        request.metadata.mip_era = 'CMIP6'
+        request.metadata.mip = 'CMIP'
+        request.metadata.experiment_id = 'ssp245'
+        request.metadata.variant_label = 'r1i1p1f2'
+        request.metadata.model_id = 'UKESM1-0-LL'
+        request.metadata.institution_id = 'MOHC'
         variable_dict = {
             'out_var_name': 'va',
             'mip_table_id': 'Amon'
         }
-        request = construct_request(request_items)
         nc_file = '/path/to/tas_Amon_UKESM1-0-LL_ssp245_r1i1p1f2_gn_201501-204912.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
@@ -101,19 +94,17 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_experiment_id(self):
-        request_items = {
-            'mip_era': 'CMIP6',
-            'mip': 'CMIP',
-            'experiment_id': 'highres-future',
-            'variant_label': 'r1i1p1f2',
-            'model_id': 'UKESM1-0-LL',
-            'institution_id': 'MOHC',
-        }
+        request = Request()
+        request.metadata.mip_era = 'CMIP6'
+        request.metadata.mip = 'CMIP'
+        request.metadata.experiment_id = 'highres-future'
+        request.metadata.variant_label = 'r1i1p1f2'
+        request.metadata.model_id = 'UKESM1-0-LL'
+        request.metadata.institution_id = 'MOHC'
         variable_dict = {
             'out_var_name': 'tas',
             'mip_table_id': 'Amon'
         }
-        request = construct_request(request_items)
         nc_file = '/path/to/tas_Amon_UKESM1-0-LL_ssp245_r1i1p1f2_gn_201501-204912.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
@@ -121,19 +112,17 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_variant_label(self):
-        request_items = {
-            'mip_era': 'CMIP6',
-            'mip': 'CMIP',
-            'experiment_id': 'ssp245',
-            'variant_label': 'r1i1p1f90',
-            'model_id': 'UKESM1-0-LL',
-            'institution_id': 'MOHC',
-        }
+        request = Request()
+        request.metadata.mip_era = 'CMIP6'
+        request.metadata.mip = 'CMIP'
+        request.metadata.experiment_id = 'ssp245'
+        request.metadata.variant_label = 'r1i1p1f90'
+        request.metadata.model_id = 'UKESM1-0-LL'
+        request.metadata.institution_id = 'MOHC'
         variable_dict = {
             'out_var_name': 'tas',
             'mip_table_id': 'Amon'
         }
-        request = construct_request(request_items)
         nc_file = '/path/to/tas_Amon_UKESM1-0-LL_ssp245_r1i1p1f2_gn_201501-204912.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
@@ -141,19 +130,17 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_model_id(self):
-        request_items = {
-            'mip_era': 'CMIP6',
-            'mip': 'CMIP',
-            'experiment_id': 'ssp245',
-            'variant_label': 'r1i1p1f2',
-            'model_id': 'HadGEM3-GC31-LL',
-            'institution_id': 'MOHC',
-        }
+        request = Request()
+        request.metadata.mip_era = 'CMIP6'
+        request.metadata.mip = 'CMIP'
+        request.metadata.experiment_id = 'ssp245'
+        request.metadata.variant_label = 'r1i1p1f2'
+        request.metadata.model_id = 'HadGEM3-GC31-LL'
+        request.metadata.institution_id = 'MOHC'
         variable_dict = {
             'out_var_name': 'tas',
             'mip_table_id': 'Amon'
         }
-        request = construct_request(request_items)
         nc_file = '/path/to/tas_Amon_UKESM1-0-LL_ssp245_r1i1p1f2_gn_201501-204912.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
@@ -320,18 +307,16 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
         self.model_file_info = RegionalModelFileInfo()
 
     def test_relevant_for_archiving(self):
-        request_items = {
-            'mip_era': 'CORDEX',
-            'model_id': 'HadGEM3-GC31-MM',
-            'global_attributes': {
-                'driving_experiment': 'evaluation',
-            }
+        request = Request()
+        request.metadata.mip_era = 'CORDEX'
+        request.metadata.model_id = 'HadGEM3-GC31-MM'
+        request.netcdf_global_attributes.attributes = {
+            'driving_experiment': 'evaluation',
         }
         variable_dict = {
             'out_var_name': 'psl',
             'frequency': 'day'
         }
-        request = construct_request(request_items)
         nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
@@ -339,18 +324,16 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
         self.assertTrue(relevant)
 
     def test_wrong_output_variable(self):
-        request_items = {
-            'mip_era': 'CORDEX',
-            'model_id': 'HadGEM3-GC31-MM',
-            'global_attributes': {
-                'driving_experiment': 'evaluation',
-            }
+        request = Request()
+        request.metadata.mip_era = 'CORDEX'
+        request.metadata.model_id = 'HadGEM3-GC31-MM'
+        request.netcdf_global_attributes.attributes = {
+            'driving_experiment': 'evaluation',
         }
         variable_dict = {
             'out_var_name': 'tas',
             'frequency': 'day'
         }
-        request = construct_request(request_items)
         nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
@@ -358,18 +341,16 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_driving_experiment(self):
-        request_items = {
-            'mip_era': 'CORDEX',
-            'model_id': 'HadGEM3-GC31-MM',
-            'global_attributes': {
-                'driving_experiment': 'historical',
-            }
+        request = Request()
+        request.metadata.mip_era = 'CORDEX'
+        request.metadata.model_id = 'HadGEM3-GC31-MM'
+        request.netcdf_global_attributes.attributes = {
+            'driving_experiment': 'historical',
         }
         variable_dict = {
             'out_var_name': 'psl',
             'frequency': 'day'
         }
-        request = construct_request(request_items)
         nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
@@ -377,18 +358,16 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_frequency(self):
-        request_items = {
-            'mip_era': 'CORDEX',
-            'model_id': 'HadGEM3-GC31-MM',
-            'global_attributes': {
-                'driving_experiment': 'historical',
-            }
+        request = Request()
+        request.metadata.mip_era = 'CORDEX'
+        request.metadata.model_id = 'HadGEM3-GC31-MM'
+        request.netcdf_global_attributes.attributes = {
+            'driving_experiment': 'evaluation',
         }
         variable_dict = {
             'out_var_name': 'psl',
             'frequency': 'mon'
         }
-        request = construct_request(request_items)
         nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
@@ -396,18 +375,16 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_model_id(self):
-        request_items = {
-            'mip_era': 'CORDEX',
-            'model_id': 'HadGEM3-GC31-LL',
-            'global_attributes': {
-                'driving_experiment': 'historical',
-            }
+        request = Request()
+        request.metadata.mip_era = 'CORDEX'
+        request.metadata.model_id = 'HadGEM3-GC31-LL'
+        request.netcdf_global_attributes.attributes = {
+            'driving_experiment': 'evaluation',
         }
         variable_dict = {
             'out_var_name': 'psl',
             'frequency': 'day'
         }
-        request = construct_request(request_items)
         nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)

@@ -4,13 +4,7 @@
 """
 Items common to multiple test modules.
 """
-REQUEST_ITEMS = {'mip_era': 'dummyera',
-                 'mip': 'dummymip',
-                 'experiment_id': 'dummy-exp123',
-                 'variant_label': 'dummyvariant',
-                 'model_id': 'dummymodel',
-                 'institution_id': 'dummyinst',
-                 }
+
 RV_ACTIVE = [
     {'active': True, 'miptable': 'Amon', 'label': 'tas', 'frequency': 'mon', 'stream': 'ap5'},
     {'active': True, 'miptable': 'day', 'label': 'ua', 'frequency': 'day', 'stream': 'ap6'},
