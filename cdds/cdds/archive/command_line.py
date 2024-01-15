@@ -16,7 +16,7 @@ from cdds.archive.store import store_mip_output_data
 from cdds.archive.spice import run_store_spice_job
 from cdds.common.constants import PRINT_STACK_TRACE
 
-from cdds.common.log_file import update_log_dir
+from cdds.common.cdds_files.cdds_directories import update_log_dir
 from cdds.common.request.request import read_request
 from typing import List
 

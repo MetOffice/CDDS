@@ -15,7 +15,7 @@ from cdds.archive.constants import (
     SPICE_STORE_SCRIPT_NAME, SPICE_STORE_WALLTIME, STORE_COMMAND)
 from cdds.common.request.request import Request
 from cdds.common.plugins.plugins import PluginStore
-from cdds.common.log_file import log_directory
+from cdds.common.cdds_files.cdds_directories import log_directory
 from cdds.common.spice import submit_spice_job_script, write_spice_job_script
 
 
