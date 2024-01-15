@@ -38,7 +38,8 @@ class FunctionalTest(TestCase):
             'variable_name': 'pr',
             'miptable': 'Amon',
             'priority': '1',
-            'ensemble_size': '2'
+            'ensemble_size': '2',
+            'stream': 'ap5'
         }
         self.expected_row_2 = {
             'active': 'false',
@@ -52,7 +53,8 @@ class FunctionalTest(TestCase):
             'variable_name': 'clt',
             'miptable': '3hr',
             'priority': '1',
-            'ensemble_size': '1000'
+            'ensemble_size': '1000',
+            'stream': 'ap4'
         }
 
         variables = {
@@ -74,7 +76,8 @@ class FunctionalTest(TestCase):
                         'in_model': 'true',
                         'label': 'pr',
                         'miptable': 'Amon',
-                        'priority': '1'
+                        'priority': '1',
+                        'stream': 'ap5'
                     },
                     {
                         'active': 'false',
@@ -94,7 +97,8 @@ class FunctionalTest(TestCase):
                         'in_model': 'true',
                         'label': 'clt',
                         'miptable': '3hr',
-                        'priority': '1'
+                        'priority': '1',
+                        'stream': 'ap4'
                     }
                 ]
         }
@@ -116,7 +120,8 @@ class FunctionalTest(TestCase):
                         'in_model': 'true',
                         'label': 'pr',
                         'miptable': 'Amon',
-                        'priority': '1'
+                        'priority': '1',
+                        'stream': 'ap5'
                     },
                     {
                         'active': 'false',
@@ -135,7 +140,8 @@ class FunctionalTest(TestCase):
                         'in_model': 'true',
                         'label': 'clt',
                         'miptable': '3hr',
-                        'priority': '1'
+                        'priority': '1',
+                        'stream': 'ap4'
                     }
                 ]
         }

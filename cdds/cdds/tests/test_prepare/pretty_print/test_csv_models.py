@@ -28,6 +28,7 @@ class TestWriteCsv(TestCase):
             Field.IN_MAPPINGS.csv: 'true',
             Field.IN_MODEL.csv: 'true',
             Field.PRIORITY.csv: '1',
+            Field.STREAM.csv: 'ap5',
             Field.ENSEMBLE_SIZE.csv: '1000',
             Field.COMMENTS.csv: 'deactivated 2020-04-17T09:21:35.800751'
         }
@@ -43,6 +44,7 @@ class TestWriteCsv(TestCase):
             Field.IN_MAPPINGS.csv: 'true',
             Field.IN_MODEL.csv: 'true',
             Field.PRIORITY.csv: '1',
+            Field.STREAM.csv: 'ap5',
             Field.ENSEMBLE_SIZE.csv: '2',
             Field.COMMENTS.csv: ''
         }
