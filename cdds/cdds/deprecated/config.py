@@ -326,7 +326,7 @@ class CDDSConfigGeneral(PythonConfig):
     def __init__(self, root_config_directory: str, request: Request) -> None:
         """
         The general configuration file is named ``<mip_era>.cfg`` and must be located in the directory
-        ``/<root_config_directory>/<mip_era>/<config_version>/general/``.
+        ``/<root_config_directory>/<mip_era>/<general/``.
 
         :param root_config_directory: The root path to the directory containing the CDDS configuration files.
         :type root_config_directory: str

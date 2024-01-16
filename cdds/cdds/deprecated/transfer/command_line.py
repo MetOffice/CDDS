@@ -67,10 +67,6 @@ def parse_arguments_move_in_mass(arguments: List[str]) -> Namespace:
 
     parser.add_argument('request',
                         help='The full path to the cfg file containing information about the request.')
-    parser.add_argument('-c',
-                        '--root_config',
-                        default=root_config(),
-                        help='The root path to the directory containing the CDDS configuration files.')
     parser.add_argument('-o',
                         '--output_dir',
                         default=None,
