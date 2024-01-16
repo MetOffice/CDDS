@@ -46,7 +46,8 @@ class GCModelDevPlugin(CddsPlugin):
         :param source_dir: Path to the directory containing the files specifies the new values
         :type source_dir: str
         """
-        pass
+        models_store = GCModelDevStore.instance()
+        models_store.overload_params(source_dir)
 
     def grid_labels(self) -> Type[GridLabel]:
         """
