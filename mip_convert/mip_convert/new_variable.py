@@ -371,6 +371,7 @@ class Variable(object):
                 cube.units = cf_units.Unit('unknown')
 
     def _remove_forecast_period(self):
+        # Avoid issues in inconsistent forecast_period (LBFT) values by blanket removal of the coord.
         for cube in self.input_variables.values():
             try:
                 cube.remove_coord("forecast_period")
