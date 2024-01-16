@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`config` module contains the code required to access the
@@ -326,7 +326,7 @@ class CDDSConfigGeneral(PythonConfig):
     def __init__(self, root_config_directory: str, request: Request) -> None:
         """
         The general configuration file is named ``<mip_era>.cfg`` and must be located in the directory
-        ``/<root_config_directory>/<mip_era>/<general/``.
+        ``/<root_config_directory>/<mip_era>/general/``.
 
         :param root_config_directory: The root path to the directory containing the CDDS configuration files.
         :type root_config_directory: str

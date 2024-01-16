@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2022, Met Office.
+# (C) British Crown Copyright 2016-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`command_line` module contains the main functions for the
@@ -14,7 +14,6 @@ from cdds.common import configure_logger, common_command_line_args, check_direct
 from cdds.deprecated.config import update_arguments_paths
 
 from cdds import __version__
-from cdds.deprecated.general_config import root_config
 from cdds.deprecated.transfer.list_queue import print_queue
 from cdds.deprecated.transfer.resend_failed_msgs import resend_failed_msgs
 from cdds.deprecated.transfer.sim_review import do_sim_review
