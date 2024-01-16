@@ -130,6 +130,26 @@ class Request:
             'source_type': model_type
         }
 
+    @property
+    def flattened_items(self):
+        """
+        TODO: DEPRECATED METHOD! -> Needs consideration after refactoring deprecated methods in transfer
+        Returns all items in a flatted dictionary structure
+
+        :return: The information about the request in a flattened version
+        :rtype: dict
+        """
+        stack = [self.items]
+        flat_dict = {}
+        while stack:
+            current_dict = stack.pop()
+            for key, value in current_dict.items():
+                if isinstance(value, dict):
+                    stack.append(value)
+                else:
+                    flat_dict[key] = value
+        return flat_dict
+
     def write(self, config_file: str) -> None:
         """
         Write the request information to a configuration file.

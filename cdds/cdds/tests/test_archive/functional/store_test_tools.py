@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2022, Met Office.
+# (C) British Crown Copyright 2022-2024, Met Office.
 # Please see LICENSE.rst for license details.
 import os
 import tempfile
@@ -10,7 +10,7 @@ from typing import List
 
 from cdds.archive.command_line import parse_args_store
 from cdds.common.request.request import read_request
-from cdds.common.log_file import log_directory
+from cdds.common.cdds_files.cdds_directories import log_directory
 
 
 DEFAULT_LOG_DATESTAMP = '2019-11-23T1432Z'
