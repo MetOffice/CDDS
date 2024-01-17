@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2022, Met Office.
+# (C) British Crown Copyright 2024, Met Office.
 # Please see LICENSE.rst for license details.
 from cdds.archive.command_line import main_store
 from cdds.tests.test_archive.functional.store_test_tools import (DEFAULT_LOG_DATESTAMP, FileState, ArchiveMode,
@@ -49,13 +49,7 @@ class TestStorePrependingToEmbargoed(StoreTestCase):
         )
         test_args = test_data.get_arguments()
 
-        print('')
-        print('============ BEGIN KERSTIN =================')
-
         exit_code = main_store(test_args)
-
-        print('')
-        print('============ END KERSTIN =================')
 
         self.assertEqual(exit_code, 0)
         log_file = LogFile.load(test_args, test_data.log_name, DEFAULT_LOG_DATESTAMP)

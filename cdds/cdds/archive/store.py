@@ -165,7 +165,7 @@ def get_approved_variables(
             prefix = APPROVED_VARS_PREFIX
 
         plugin = PluginStore.instance().get_plugin()
-        proc_directory = plugin.proc_directory(request)
+        proc_directory = plugin.cdds_paths().proc_directory(request)
         component_directory = os.path.join(proc_directory, 'qualitycheck')
 
         mip_approved_variables_path = get_most_recent_file(component_directory, prefix, app_var_regex)

@@ -11,7 +11,6 @@ from configparser import ConfigParser
 from typing import Dict, Any
 
 from cdds import get_version
-from cdds.common.constants import LOG_DIRECTORY
 from cdds.common.request.request_section import Section, load_types, expand_paths, expand_path
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 from cdds.common.plugins.plugins import PluginStore
@@ -32,7 +31,8 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
     :return: The defaults for the common section
     :rtype: Dict[str, Any]
     """
-    mip_table_dir = PluginStore.instance().get_plugin().mip_table_dir()
+    plugin = PluginStore.instance().get_plugin()
+    mip_table_dir = plugin.cdds_paths().mip_table_dir()
     data_version = datetime.utcnow().strftime('%Y-%m-%dT%H%MZ')
     root_ancil_dir = '{}/ancil/'.format(os.environ['CDDS_ETC'])
     root_hybrid_heights_dir = '{}/vertical_coordinates/'.format(os.environ['CDDS_ETC'])

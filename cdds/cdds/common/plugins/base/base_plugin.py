@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021-2022, Met Office.
+# (C) British Crown Copyright 2021-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`base_plugin` module contains the basic code for plugins.
@@ -88,56 +88,3 @@ class BasePlugin(CddsPlugin, ABC):
 
     def __init__(self, mip_era: MipEra):
         super(BasePlugin, self).__init__(mip_era.value)
-
-    def proc_directory(self, request: 'Request') -> str:
-        """
-        Returns the CDDS proc directory where the non-data ouputs are written.
-
-        :param request: Information that is needed to define the proc directory
-        :type request: Request
-        :return: Path to the proc directory
-        :rtype: str
-        """
-        return os.path.join(
-            request.common.root_proc_dir,
-            request.metadata.mip_era,
-            request.metadata.mip,
-            request.common.workflow_basename,
-            request.common.package
-        )
-
-    def data_directory(self, request: 'Request') -> str:
-        """
-        Returns the CDDS data directory where the |model output files| are written.
-
-        :param request: Information that is needed to define the data directory
-        :type request: Request
-        :return: Path to the data directory
-        :rtype: str
-        """
-        return os.path.join(
-            request.common.root_data_dir,
-            request.metadata.mip_era,
-            request.metadata.mip,
-            request.metadata.model_id,
-            request.metadata.experiment_id,
-            request.metadata.variant_label,
-            request.common.package
-        )
-
-    def requested_variables_list_filename(self, request: 'Request') -> str:
-        """
-        Returns the file name of the |requested variables list| file.
-
-        :param request: Information that is needed to define the file name of the |requested variables list|
-        :type request: Request
-        :return: File name of the |requested variables list| file
-        :rtype: str
-        """
-        name = '_'.join([
-            request.metadata.mip_era,
-            request.metadata.mip,
-            request.metadata.experiment_id,
-            request.metadata.model_id
-        ])
-        return '{}.json'.format(name)

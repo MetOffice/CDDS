@@ -15,10 +15,6 @@ from cdds.common.constants import (
     REQUESTED_VARIABLES_LIST_FACET_STRING)
 from cdds.common import construct_string_from_facet_string
 from cdds.common.request.request import Request
-from cdds.common.plugins.plugins import PluginStore
-from cdds.common.cdds_files.cdds_directories import (
-    proc_directory, component_directory, log_directory
-)
 from mip_convert.configuration.python_config import PythonConfig
 
 

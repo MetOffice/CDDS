@@ -7,6 +7,7 @@ command line scripts in the ``bin`` directory.
 """
 import argparse
 import logging
+import os
 
 from argparse import Namespace
 from cdds.common import configure_logger
@@ -16,9 +17,13 @@ from cdds.archive.store import store_mip_output_data
 from cdds.archive.spice import run_store_spice_job
 from cdds.common.constants import PRINT_STACK_TRACE
 
-from cdds.common.cdds_files.cdds_directories import update_log_dir
+from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import read_request
-from typing import List
+from typing import List, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from cdds.common.request.request import Request
+
 
 COMPONENT = 'archive'
 CDDS_STORE_LOG_NAME = 'cdds_store'
@@ -144,3 +149,24 @@ def parse_args_store(user_arguments: List[str], default_log_name: str) -> Namesp
             'i.e., do not create a log file.'))
     args = parser.parse_args(arguments)
     return args
+
+
+def update_log_dir(log_name: str, request: 'Request', component: str) -> str:
+    """
+    Returns the updated log_name value that uses the full path to the log file if a specific log directory of
+    the component can be found.
+
+    :param log_name: The log file name
+    :type log_name: str
+    :param request: Request to process by the component
+    :type request: Request
+    :param component: The name of the CDDS component
+    :type component: str
+    :return: The updated  full path of the log file if a log directory can be found.
+    :rtype: str
+    """
+    plugin = PluginStore.instance().get_plugin()
+    log_dir = plugin.cdds_paths().log_directory(request, component, True)
+    if log_dir is not None:
+        log_name = os.path.join(log_dir, log_name)
+    return log_name
