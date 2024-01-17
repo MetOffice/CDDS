@@ -124,7 +124,7 @@ class HadGEM3_GC3p05_N96ORCA1_Params(BaseModelParameters):
         :rtype: str
         """
         return '10.7'
-        
+
 
 class HadGEM3_GC3p05_N216ORCA025_Params(BaseModelParameters):
     """
