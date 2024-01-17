@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2015-2022, Met Office.
+# (C) British Crown Copyright 2015-2024, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable=no-member, eval-used, wildcard-import
 # pylint: disable=unused-wildcard-import
@@ -351,6 +351,7 @@ class Variable(object):
 
         self.logger.debug('Processing the data ...')
         self._remove_units_from_input_variables_as_necessary()
+        self._remove_forecast_period()
         self._ensure_masked_arrays()
         self._apply_mask()
         self._apply_expression()
@@ -368,6 +369,15 @@ class Variable(object):
         if len(self.input_variables) > 1:
             for cube in list(self.input_variables.values()):
                 cube.units = cf_units.Unit('unknown')
+
+    def _remove_forecast_period(self):
+        # Avoid issues in inconsistent forecast_period (LBFT) values by blanket removal of the coord.
+        for cube in self.input_variables.values():
+            try:
+                cube.remove_coord("forecast_period")
+                self.logger.debug(f'Removed coordinate "forecast_period" from {cube} variable ')
+            except iris.exceptions.CoordinateNotFoundError:
+                pass
 
     def _ensure_masked_arrays(self):
         # This method realises the data.
