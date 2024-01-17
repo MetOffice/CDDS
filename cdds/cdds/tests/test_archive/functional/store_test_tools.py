@@ -8,9 +8,9 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import List
 
+from cdds.common.plugins.plugins import PluginStore
 from cdds.archive.command_line import parse_args_store
 from cdds.common.request.request import read_request
-from cdds.common.cdds_files.cdds_directories import log_directory
 
 
 DEFAULT_LOG_DATESTAMP = '2019-11-23T1432Z'
@@ -101,7 +101,8 @@ class LogFile:
         arguments = parse_args_store(test_args, log_name)
         request = read_request(arguments.request)
 
-        log_dir = log_directory(request, 'archive')
+        plugin = PluginStore.instance().get_plugin()
+        log_dir = plugin.cdds_paths().log_directory(request, 'archive')
         if arguments.stream:
             log_file_name = '{0}_{1}_{2}.log'.format(log_name, arguments.stream, log_datestamp)
         else:

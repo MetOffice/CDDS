@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2024, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -56,7 +56,7 @@ def generate_variable_list(arguments: Namespace) -> None:
 
     # Retrieve the name of the 'requested variables list'.
     plugin = PluginStore.instance().get_plugin()
-    output_file = plugin.requested_variables_list_filename(request)
+    output_file = plugin.cdds_paths().requested_variables_list_filename(request)
     if arguments.output_dir is not None:
         output_file = os.path.join(arguments.output_dir, output_file)
     if os.path.exists(output_file) and request.misc.no_overwrite:

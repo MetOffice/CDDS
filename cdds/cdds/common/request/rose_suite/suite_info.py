@@ -77,7 +77,7 @@ class RoseSuiteInfo:
         :rtype: str
         """
         plugin = PluginStore.instance().get_plugin()
-        return plugin.mip_table_dir()
+        return plugin.cdds_paths().mip_table_dir()
 
     def end_date(self) -> TimePoint:
         """

@@ -10,7 +10,7 @@ import cdds.common.request.rose_suite.checks as checkers
 from typing import Dict
 
 from cdds.common.plugins.plugins import PluginStore
-from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
+from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo
 from cdds.common.configuration.cv_config import CVConfig
 
 
@@ -36,7 +36,7 @@ def validate_rose_suite(rose_suite: RoseSuiteInfo) -> bool:
 
     mip_era = rose_suite.data.get('mip-era', 'CMIP6')
     plugin = PluginStore.instance().get_plugin()
-    cv_path = os.path.join(plugin.mip_table_dir(), '{}_CV.json'.format(mip_era))
+    cv_path = os.path.join(plugin.cdds_paths().mip_table_dir(), '{}_CV.json'.format(mip_era))
 
     checker = RoseSuiteValidator(cv_path, rose_suite)
     return checker.validate()

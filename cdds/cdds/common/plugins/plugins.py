@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021-2022, Met Office.
+# (C) British Crown Copyright 2021-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`plugin` module contains the code for the CDDS plugins.
@@ -6,6 +6,7 @@ The :mod:`plugin` module contains the code for the CDDS plugins.
 from abc import ABCMeta, abstractmethod
 from typing import Type, Dict, Any, TYPE_CHECKING
 
+from cdds.common.plugins.cdds_files import CddsPaths
 from cdds.common.plugins.grid import GridLabel, GridType, GridInfo
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
@@ -133,49 +134,13 @@ class CddsPlugin(object, metaclass=ABCMeta):
         """
         pass
 
-    @abstractmethod
-    def mip_table_dir(self) -> str:
+    def cdds_paths(self) -> CddsPaths:
         """
-        Returns the path to the MIP table directory that should be used for project
+        Returns the path to the CDDS specific directories and files considering
+        the project specific files facets.
 
-        :return: Path to the MIP table directory
-        :rtype: str
-        """
-        pass
-
-    @abstractmethod
-    def proc_directory(self, request: 'Request') -> str:
-        """
-        Returns the CDDS proc directory where the non-data ouputs are written.
-
-        :param request: Information that is needed to define the proc directory
-        :type request: Request
-        :return: Path to the proc directory
-        :rtype: str
-        """
-        pass
-
-    @abstractmethod
-    def data_directory(self, request: 'Request') -> str:
-        """
-        Returns the CDDS data directory where the |model output files| are written.
-
-        :param request: Information that is needed to define the data directory
-        :type request: Request
-        :return: Path to the data directory
-        :rtype: str
-        """
-        pass
-
-    @abstractmethod
-    def requested_variables_list_filename(self, request: 'Request') -> str:
-        """
-        Returns the file name of the |requested variables list| file.
-
-        :param request: Information that is needed to define the file name of the |requested variables list|
-        :type request: Request
-        :return: File name of the |requested variables list| file
-        :rtype: str
+        :return: Paths to the CDDS specific directories and files
+        :rtype: CddsPaths
         """
         pass
 

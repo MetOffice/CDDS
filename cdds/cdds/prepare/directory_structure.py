@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2022, Met Office.
+# (C) British Crown Copyright 2018-2024, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -34,14 +34,14 @@ def create_cdds_directory_structure(arguments: Namespace):
 
     # Create data directories.
     # Create data directories.
-    input_data_dir = os.path.join(plugin.data_directory(request), INPUT_DATA_DIRECTORY)
-    output_data_dir = os.path.join(plugin.data_directory(request), OUTPUT_DATA_DIRECTORY)
+    input_data_dir = os.path.join(plugin.cdds_paths().data_directory(request), INPUT_DATA_DIRECTORY)
+    output_data_dir = os.path.join(plugin.cdds_paths().data_directory(request), OUTPUT_DATA_DIRECTORY)
 
     create_directory(input_data_dir, CDDS_UNIX_GROUP, root_dir=request.common.root_data_dir)
     create_directory(output_data_dir, CDDS_UNIX_GROUP, root_dir=request.common.root_data_dir)
 
     # Create proc directories.
-    proc_dir = plugin.proc_directory(request)
+    proc_dir = plugin.cdds_paths().proc_directory(request)
     for component in COMPONENT_LIST:
         component_log_dir = os.path.join(proc_dir, component, LOG_DIRECTORY)
         create_directory(component_log_dir, group=CDDS_UNIX_GROUP, root_dir=request.common.root_proc_dir)
@@ -54,10 +54,10 @@ def create_cdds_directory_structure(arguments: Namespace):
 
     logger.info('------------')
     logger.info('Directories:')
-    logger.info('  proc : "{}"'.format(plugin.proc_directory(request)))
-    logger.info('  data : "{}"'.format(plugin.data_directory(request)))
+    logger.info('  proc : "{}"'.format(plugin.cdds_paths().proc_directory(request)))
+    logger.info('  data : "{}"'.format(plugin.cdds_paths().data_directory(request)))
     logger.info('------------')
     logger.info('Useful commands:')
-    logger.info('  ln -s {} proc'.format(plugin.proc_directory(request)))
-    logger.info('  ln -s {} data'.format(plugin.data_directory(request)))
+    logger.info('  ln -s {} proc'.format(plugin.cdds_paths().proc_directory(request)))
+    logger.info('  ln -s {} data'.format(plugin.cdds_paths().data_directory(request)))
     logger.info('------------')

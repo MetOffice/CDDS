@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021-2022, Met Office.
+# (C) British Crown Copyright 2021-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`cmip6_plugin` module contains the code for the CMIP6 plugin.
@@ -13,6 +13,7 @@ from cdds.common.plugins.streams import StreamInfo
 from cdds.common.plugins.base.base_plugin import BasePlugin, MipEra
 from cdds.common.plugins.base.base_models import BaseModelParameters
 from cdds.common.plugins.cmip6.cmip6_attributes import Cmip6GlobalAttributes
+from cdds.common.plugins.cmip6.cmip6_cdds_files import Cmip6CddsPaths
 from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from cdds.common.plugins.cmip6.cmip6_models import Cmip6ModelsStore
 from cdds.common.plugins.cmip6.cmip6_streams import Cmip6StreamStore
@@ -119,11 +120,12 @@ class Cmip6Plugin(BasePlugin):
         """
         return CMIP6_LICENSE
 
-    def mip_table_dir(self) -> str:
+    def cdds_paths(self) -> Cmip6CddsPaths:
         """
-        Returns the path to the MIP table directory that should be used for CMIP6
+        Returns the path to the CDDS specific directories and files considering
+        the CMIP6 specific files facets.
 
-        :return: Path to the MIP table directory
-        :rtype: str
+        :return: Paths to the CDDS specific directories and files
+        :rtype: Cmip6CddsPaths
         """
-        return '{}/mip_tables/CMIP6/01.00.29/'.format(os.environ['CDDS_ETC'])
+        return Cmip6CddsPaths()

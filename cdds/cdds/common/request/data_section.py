@@ -6,7 +6,6 @@ Module to handle the data section in the request configuration
 from configparser import ConfigParser
 from dataclasses import dataclass, asdict, field
 from metomi.isodatetime.data import TimePoint
-from metomi.isodatetime.parsers import TimePointParser
 from typing import List, Dict, Any
 
 from cdds.common.request.request_section import Section, load_types, expand_paths

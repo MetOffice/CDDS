@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2022-2022, Met Office.
+# (C) British Crown Copyright 2022-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`gcmodeldev_plugin` module contains the code for the GCModelDev plugin.
@@ -13,6 +13,7 @@ from cdds.common.plugins.streams import StreamInfo
 from cdds.common.plugins.base.base_plugin import MipEra, BasePlugin
 from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from cdds.common.plugins.attributes import DefaultGlobalAttributes
+from cdds.common.plugins.gcmodeldev.gcmodeldev_cdds_files import GCModelDevCddsPaths
 from cdds.common.plugins.gcmodeldev.gcmodeldev_models import GCModelDevStore
 from cdds.common.plugins.gcmodeldev.gcmodeldev_streams import GCModelDevStreamStore
 
@@ -101,11 +102,12 @@ class GCModelDevPlugin(BasePlugin):
         """
         return GCMODEL_DEV_LICENSE
 
-    def mip_table_dir(self) -> str:
+    def cdds_paths(self) -> GCModelDevCddsPaths:
         """
-        Returns the path to the MIP table directory that should be used for GCModelDev
+        Returns the path to the CDDS specific directories and files considering
+        the GCModelDev specific files facets.
 
-        :return: Path to the MIP table directory
-        :rtype: str
+        :return: Paths to the CDDS specific directories and files
+        :rtype: GCModelDevCddsPaths
         """
-        return '{}/mip_tables/GCModelDev/0.0.13'.format(os.environ['CDDS_ETC'])
+        return GCModelDevCddsPaths()

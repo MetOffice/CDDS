@@ -6,7 +6,7 @@ Routines involved multiple tools within CDDS Transfer
 import logging
 import os
 
-from cdds.common.cdds_files.cdds_directories import log_directory
+from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request
 from cdds.deprecated.transfer import config, drs, state
 from cdds.deprecated.config import CDDSConfigGeneral
@@ -71,6 +71,7 @@ def cfg_from_cdds_general_config(general_config: CDDSConfigGeneral, request: Req
     :return: CDDS Transfer config object
     :rtype: config.Config
     """
+    plugin = PluginStore.instance().get_plugin()
     logger = logging.getLogger(__name__)
     # Initialise config
     cfg = config.Config(None)
@@ -91,7 +92,7 @@ def cfg_from_cdds_general_config(general_config: CDDSConfigGeneral, request: Req
     cfg._cp.set(mip_era, 'institution_id', request.metadata.institution_id)
     # Message store information
     cfg._cp.add_section('msg_store')
-    cfg._cp.set('msg_store', 'top_dir', log_directory(request, 'archive'))
+    cfg._cp.set('msg_store', 'top_dir', plugin.cdds_paths().log_directory(request, 'archive'))
     return cfg
 
 

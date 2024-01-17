@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`cordex_plugin` module contains the code for the CORDEX plugin.
@@ -10,6 +10,7 @@ from typing import Type, Dict, Any
 from cdds.common.plugins.base.base_plugin import BasePlugin, MipEra
 from cdds.common.plugins.file_info import ModelFileInfo, RegionalModelFileInfo
 from cdds.common.plugins.cordex.cordex_attributes import CordexGlobalAttributes
+from cdds.common.plugins.cordex.cordex_cdds_files import CordexCddsPaths
 from cdds.common.plugins.cordex.cordex_models import CordexModelStore
 from cdds.common.plugins.cordex.cordex_grid import CordexGridLabel
 from cdds.common.plugins.cordex.cordex_streams import CordexStreamStore
@@ -104,11 +105,12 @@ class CordexPlugin(BasePlugin):
         """
         return CORDEX_LICENSE
 
-    def mip_table_dir(self) -> str:
+    def cdds_paths(self) -> CordexCddsPaths:
         """
-        Returns the path to the MIP table directory that should be used for CORDEX
+        Returns the path to the CDDS specific directories and files considering
+        the CORDEX specific files facets.
 
-        :return: Path to the MIP table directory
-        :rtype: str
+        :return: Paths to the CDDS specific directories and files
+        :rtype: CordexCddsPaths
         """
-        return '{}/mip_tables/CORDEX/for_functional_tests'.format(os.environ['CDDS_ETC'])
+        return CordexCddsPaths()
