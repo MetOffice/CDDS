@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2024, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -35,6 +35,7 @@ class Field(enum.Enum):
     PRIORITY = 'priority', 'priority'
     ENSEMBLE_SIZE = 'ensemble_size', 'ensemble_size'
     COMMENTS = 'comments', 'comments'
+    STREAM = 'stream', 'stream'
 
 
 class JSONType(enum.Enum):
@@ -66,6 +67,7 @@ HEADER_FIELDS = [Field.NAME.csv,
                  Field.IN_MAPPINGS.csv,
                  Field.IN_MODEL.csv,
                  Field.PRIORITY.csv,
+                 Field.STREAM.csv,
                  Field.ENSEMBLE_SIZE.csv,
                  Field.COMMENTS.csv]
 
@@ -81,6 +83,7 @@ MAPPING_FIELDS = {
     Field.IN_MAPPINGS.json: Field.IN_MAPPINGS.csv,
     Field.IN_MODEL.json: Field.IN_MODEL.csv,
     Field.PRIORITY.json: Field.PRIORITY.csv,
+    Field.STREAM.json: Field.STREAM.csv,
     Field.ENSEMBLE_SIZE.json: Field.ENSEMBLE_SIZE.csv,
     Field.COMMENTS.json: Field.COMMENTS.csv
 }
