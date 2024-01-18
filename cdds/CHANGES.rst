@@ -1,7 +1,18 @@
-.. (C) British Crown Copyright 2017-2023, Met Office.
+.. (C) British Crown Copyright 2017-2024, Met Office.
 .. Please see LICENSE.rst for license details.
 
 .. include:: common.txt
+
+Release 2.5.5, January 18, 2024
+===============================
+* The name of netCDF bounds coordinates variables are now configurable via
+  plugins to support retrieval of NEMO4 ocean data (CDDSO-346)
+* `GCModelDev` plugin now has an N96 GC3.05 generic model configuration and the
+  list streams for the N216 equivalent has been extended (CDDSO-381)
+* The option to overload model configuration via command line now correctly
+  operates (CDDSO-376, CDDSO-379, CDDSO-380)
+* The `create_variables_csv_file` script now also outputs the stream for each
+  variable (CDDSO-332)
 
 Release 2.5.4, December 13, 2023
 ================================

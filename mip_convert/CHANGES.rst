@@ -1,7 +1,12 @@
-.. (C) British Crown Copyright 2016-2023, Met Office.
+.. (C) British Crown Copyright 2016-2024, Met Office.
 .. Please see LICENSE.rst for license details.
 
 .. include:: common.txt
+
+Release 2.5.5, January 18, 2024
+===============================
+* Issues with incorrect/inconsistent LBFT codes in PP data (section 3) should no
+  longer break processing (CDDSO-383)
 
 Release 2.5.4, December 13, 2023
 ================================
