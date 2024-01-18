@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2024, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -65,6 +65,7 @@ class CsvPrinter(object):
             Field.IN_MAPPINGS.csv: CsvValue.from_value(),
             Field.IN_MODEL.csv: CsvValue.from_value(),
             Field.PRIORITY.csv: CsvValue.from_value(),
+            Field.STREAM.csv: CsvValue.from_value(),
             Field.ENSEMBLE_SIZE.csv: CsvValue.from_value(),
             Field.COMMENTS.csv: CsvValue.from_list()
         }
@@ -82,6 +83,7 @@ class CsvPrinter(object):
             Field.IN_MAPPINGS.json: JSONType.VALUE,
             Field.IN_MODEL.json: JSONType.VALUE,
             Field.PRIORITY.json: JSONType.VALUE,
+            Field.STREAM.json: JSONType.VALUE,
             Field.ENSEMBLE_SIZE.json: JSONType.VALUE,
             Field.COMMENTS.json: JSONType.LIST
         }

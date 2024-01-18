@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2024, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 import unittest
@@ -35,7 +35,8 @@ class TestCsvPrinter(TestCase):
                         'in_model': 'true',
                         'label': 'pr',
                         'miptable': 'Amon',
-                        'priority': '1'
+                        'priority': '1',
+                        'stream': 'ap5'
                     }
                 ]
         }
@@ -58,7 +59,8 @@ class TestCsvPrinter(TestCase):
                         'in_model': 'true',
                         'label': 'pr',
                         'miptable': 'Amon',
-                        'priority': '1'
+                        'priority': '1',
+                        'stream': 'ap5'
                     }
                 ]
         }
@@ -85,6 +87,7 @@ class TestCsvPrinter(TestCase):
             call(Field.COMMENTS.csv, ''),
             call(Field.NAME.csv, 'pr'),
             call(Field.PRIORITY.csv, '1'),
+            call(Field.STREAM.csv, 'ap5'),
             call(Field.ENSEMBLE_SIZE.csv, '2'),
             call(Field.FREQUENCY.csv, 'mon')], any_order=True)
 
@@ -110,6 +113,7 @@ class TestCsvPrinter(TestCase):
             call(Field.COMMENTS.csv, ''),
             call(Field.NAME.csv, 'pr'),
             call(Field.PRIORITY.csv, '1'),
+            call(Field.STREAM.csv, 'ap5'),
             call(Field.ENSEMBLE_SIZE.csv, '2'),
             call(Field.FREQUENCY.csv, 'mon')], any_order=True)
 
