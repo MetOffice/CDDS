@@ -3,6 +3,11 @@
 
 .. include:: common.txt
 
+Release 2.5.5, January 18, 2024
+===============================
+* Issues with incorrect/inconsistent LBFT codes in PP data (section 3) should no
+  longer break processing (CDDSO-383)
+
 Release 2.5.4, December 13, 2023
 ================================
 * Fix the `reference_date` parsing logic for variables defined with a forecast time dimension (CDDSO-363)
