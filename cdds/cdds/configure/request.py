@@ -7,10 +7,13 @@ information about the request.
 from collections import OrderedDict, defaultdict
 from copy import copy
 import logging
+import metomi.isodatetime.dumpers as dump
+from metomi.isodatetime.data import TimePoint
 
 from cdds.configure.constants import TEMPLATE_OPTIONS
-from cdds.common.constants import USER_CONFIG_OPTIONS
+from cdds.common.constants import USER_CONFIG_OPTIONS, DATE_TIME_FORMAT
 from cdds.common.request.request import Request
+
 
 def retrieve_request_metadata(request: Request, args):
     ordered_metadata = OrderedDict({'cmor_setup': {}, 'cmor_dataset': {}, 'request': {}})
@@ -18,24 +21,35 @@ def retrieve_request_metadata(request: Request, args):
     for item in USER_CONFIG_OPTIONS['cmor_dataset']['required']:
         if item == 'output_dir':
             continue
-        ordered_metadata['cmor_dataset'].update({item: getattr(request.metadata, item)})
+        val = getattr(request.metadata, item)
+        if type(val) is TimePoint:
+            val = dump.TimePointDumper().strftime(val, DATE_TIME_FORMAT)
+        ordered_metadata['cmor_dataset'].update({item: val})
     if request.metadata.branch_method != '':
         for item in USER_CONFIG_OPTIONS['cmor_dataset']['branch']:
-            ordered_metadata['cmor_dataset'].update({item: getattr(request.metadata, item)})
-        ordered_metadata['cmor_dataset'].update({'child_base_date': request.metadata.child_base_date})
-    ordered_metadata['cmor_setup'].update({'cmor_log_file': '{{{{ cmor_log }}}}'})
-    ordered_metadata['cmor_dataset'].update({'output_dir': '{{{{ output_dir }}}}'})
-    ordered_metadata['request'].update({'model_output_dir': '{{{{ input_dir }}}}'})
-    ordered_metadata['request'].update({'run_bounds': '{{{{ start_date }} {{ end_date }}}}'})
-
+            val = getattr(request.metadata, item)
+            if type(val) is TimePoint:
+                val = dump.TimePointDumper().strftime(val, DATE_TIME_FORMAT)
+            ordered_metadata['cmor_dataset'].update({item: val})
+        ordered_metadata['request'].update(
+            {'child_base_date': dump.TimePointDumper().strftime(request.metadata.child_base_date, DATE_TIME_FORMAT)})
+    ordered_metadata['cmor_setup'].update({'cmor_log_file': '{{ cmor_log }}'})
+    ordered_metadata['cmor_dataset'].update({'output_dir': '{{ output_dir }}'})
+    ordered_metadata['request'].update({'model_output_dir': '{{ input_dir }}'})
+    ordered_metadata['request'].update({'run_bounds': '{{ start_date }} {{ end_date }}'})
+    ordered_metadata['request'].update({'suite_id':  request.data.model_workflow_id})
     for section, items in USER_CONFIG_OPTIONS.items():
-        for type, options in items.items():
-            if type == 'optional':
+        for option_type, options in items.items():
+            if option_type == 'optional':
                 for option in options:
                     if option in args.args:
-                        ordered_metadata[section].update({option: args.args[option]})
+                        val = args.args[option]
+                        if type(val) is TimePoint:
+                            val = dump.TimePointDumper().strftime(val, DATE_TIME_FORMAT)
+                        ordered_metadata[section].update({option: val})
 
     return ordered_metadata
+
 
 def required_keys_for_request():
     """
@@ -49,61 +63,6 @@ def required_keys_for_request():
     return [opt for opt_info in list(USER_CONFIG_OPTIONS.values())
             for opt_type, opts in opt_info.items()
             for opt in opts if opt_type == 'required']
-
-
-def retrieve_required_keys(template, ignore_keys=[]):
-    """
-    Return the keys that must exist in the JSON file containing the
-    information from the request for CDDS Configure.
-
-    Parameters
-    ----------
-    template: bool
-        Whether to create template |user configuration files|.
-    ignore_keys: list (optional)
-        The keys that should be ignored for the requirement check.
-
-    Returns
-    -------
-    : list
-        The keys that must exist in the JSON file containing the
-        information from the request for CDDS Configure.
-    """
-    required_keys = sorted(required_keys_for_request())
-
-    # Remove keys if the 'template' argument is provided.
-    if template:
-        required_keys = [
-            key for key in required_keys if key not in list(TEMPLATE_OPTIONS.keys())]
-
-    # Remove keys if a default argument exists.
-    for key in ignore_keys:
-        if key in required_keys:
-            required_keys.remove(key)
-
-    return required_keys
-
-
-def validate_branch_options(request):
-    """
-    Validate the branch options.
-
-    If the ``branch_method`` in the information about the request has a
-    value that is not ``no parent``, the information about the request
-    is validated to ensure that it contains all the required branch
-    options.
-
-    Parameters
-    ----------
-    request: :class:`cdds.common.old_request.Request`
-        The information about the request.
-    """
-    required_branch_options = []
-    if request.branch_method != 'no parent':
-        for options in list(USER_CONFIG_OPTIONS.values()):
-            if 'branch' in options:
-                required_branch_options.extend(options['branch'])
-    request.validate(required_branch_options)
 
 
 def _retrieve_request_metadata(request, template):

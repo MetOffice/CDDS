@@ -46,7 +46,7 @@ def expected_test_metadata():
 
 def expected_test_global_attributes():
     return {
-        'further_info_url': 'https://furtherinfo.es-doc.org/'
+        'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.piControl.none.r1i1p1f2'
     }
 
 
