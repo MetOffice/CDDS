@@ -276,7 +276,10 @@ def default_grid_ids():
         'prim6hrpt': ('atmos', 'native'),
         'primDay': ('atmos', 'native'),
         'primMon': ('atmos', 'native'),
-        'primSIday': ('atmos', 'native')
+        'primSIday': ('atmos', 'native'),
+        'GC1hrPt': ('atmos', 'native'),
+        'GC3hrPt': ('atmos', 'native'),
+        'GCday': ('atmos', 'native'),
     }
 
 
