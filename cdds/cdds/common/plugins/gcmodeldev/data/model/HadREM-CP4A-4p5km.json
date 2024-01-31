@@ -1,5 +1,8 @@
 {
   "stream_file_frequency": {
+    "daily": {
+
+    },
     "hourly": {
       "streams": [
         "apa",
