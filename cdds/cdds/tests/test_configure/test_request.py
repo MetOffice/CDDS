@@ -14,16 +14,6 @@ from cdds.common.request.request import read_request
 from cdds.configure.request import retrieve_request_metadata
 
 
-class mockargs(dict):
-    """Mocked arguments object"""
-    def __init__(self, vals):
-        self.vals = vals
-
-    @property
-    def args(self):
-        return self.vals
-
-
 class TestRetrieveRequestMetadata(unittest.TestCase):
     """
     Tests for :func:`retrieve_request_metadata` in :mod:`request.py`.
@@ -34,7 +24,6 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
         self.data_dir = os.path.join(current_dir, '..', 'test_common', 'test_request', 'data')
         request_path = os.path.join(self.data_dir, 'test_request.cfg')
         self.request = read_request(request_path)
-        self.args = mockargs({'foo': 'bar'})
 
     def test_retrieve_request_metadata(self):
         expected_metadata = OrderedDict(
@@ -42,7 +31,9 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
                 (
                     'cmor_setup', {
                         'mip_table_dir': '/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29',
-                        'cmor_log_file': '{{ cmor_log }}'
+                        'cmor_log_file': '{{ cmor_log }}',
+                        'netcdf_file_action': 'CMOR_REPLACE_4',
+                        'create_subdirectories': 0
                     }
                 ),
                 (
@@ -87,12 +78,28 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
                         'model_output_dir': '{{ input_dir }}',
                         'run_bounds': '{{ start_date }} {{ end_date }}',
                         'child_base_date': '1850-01-01T00:00:00',
-                        'suite_id': 'u-aw310'
+                        'deflate_level': '2',
+                        'suite_id': 'u-aw310',
+                        'ancil_files': ('/project/cdds/ancil/UKESM1-0-LL/qrparm.landfrac.pp '
+                                        '/project/cdds/ancil/UKESM1-0-LL/qrparm.soil.pp '
+                                        '/project/cdds/ancil/UKESM1-0-LL/ocean_constants.nc '
+                                        '/project/cdds/ancil/UKESM1-0-LL/ocean_byte_masks.nc '
+                                        '/project/cdds/ancil/UKESM1-0-LL/ocean_basin.nc '
+                                        '/project/cdds/ancil/UKESM1-0-LL/diaptr_basin_masks.nc '
+                                        '/project/cdds/ancil/UKESM1-0-LL/ocean_zostoga.nc'),
+                        'hybrid_heights_files': (
+                            '/home/h03/cdds/etc/vertical_coordinates/atmosphere_theta_levels_85.txt'
+                            ' /home/h03/cdds/etc/vertical_coordinates/atmosphere_rho_levels_86.txt'),
+                        'replacement_coordinates_file': (
+                            '/home/h03/cdds/etc/horizontal_coordinates/cice_eORCA1_coords.nc'),
+                        'shuffle': True,
+                        'sites_file': '/home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt'
+
                     }
                 )
             ]
         )
-        output = retrieve_request_metadata(self.request, self.args)
+        output = retrieve_request_metadata(self.request)
         self.assertDictEqual(output, expected_metadata)
 
 

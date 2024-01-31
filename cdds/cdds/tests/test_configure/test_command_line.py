@@ -21,7 +21,6 @@ from cdds.common.request.request import read_request
 from cdds.common import set_checksum
 from cdds import __version__
 from cdds.common.constants import TIME_UNIT_DESCRIPTION, COMMENT_FORMAT
-from cdds.configure.arguments import read_configure_arguments
 from cdds.configure.command_line import main
 from cdds.configure.constants import HEADER_TEMPLATE
 
@@ -35,9 +34,7 @@ class TestMain(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
         load_plugin()
-        self.arguments = read_configure_arguments('generate_user_config_files')
-        self.user_config_template_name = (
-            self.arguments.user_config_template_name)
+        self.user_config_template_name = 'mip_convert.cfg.atmos-native'
         self.user_config_file_header = COMMENT_FORMAT.format(
             HEADER_TEMPLATE.format(__version__))
         self.mip_era = 'CMIP6'
@@ -59,23 +56,30 @@ class TestMain(unittest.TestCase):
         self.branch_method = 'standard'
         self.calendar = '360_day'
         self.child_base_date = '1850-01-01T00:00:00'
-        self.create_subdirectories = self.arguments.create_subdirectories
-        self.deflate_level = self.arguments.deflate_level
+        self.create_subdirectories = '0'
+        self.deflate_level = '2'
         self.experiment_id = 'piControl'
         self.institution_id = 'MOHC'
-        self.CMOR_license = self.arguments.license
+        self.CMOR_license = ('CMIP6 model data produced by the Met Office Hadley Centre is licensed under a '
+                             'Creative Commons Attribution-ShareAlike 4.0 '
+                             'International License (https://creativecommons.org/licenses). '
+                             'Consult https://pcmdi.llnl.gov/CMIP6/TermsOfUse for terms of use governing CMIP6 output, '
+                             'including citation requirements and proper acknowledgment. Further information about '
+                             'this data, including some limitations, can be found via the further_info_url (recorded '
+                             'as a global attribute in this file) and at https://ukesm.ac.uk/cmip6. The data '
+                             'producers and data providers make no warranty, either express or implied, '
+                             'including, but not limited to, warranties of merchantability and fitness for a particular'
+                             ' purpose. All liabilities arising from the supply of the information (including any '
+                             'liability arising in negligence) are excluded to the fullest extent permitted by law.')
         self.mip = 'CMIP'
         self.mip_era = 'CMIP6'
         self.mip_table_dir = '/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29'
         self.model_id = 'UKESM1-0-LL'
         # Add ancil files and replacement coordinates file:
-        self.arguments.add_ancil_files(self.model_id)
-        self.arguments.add_replacement_coordinates_file(self.model_id)
-        self.arguments.add_hybrid_heights_files(self.model_id)
         self.model_output_dir = '{{ input_dir }}'
+        self.netcdf_file_action = 'CMOR_REPLACE_4'
         self.cmor_log = '{{ cmor_log }}'
         self.model_type = ['AOGCM', 'BGC', 'AER', 'CHEM']
-        self.netcdf_file_action = self.arguments.netcdf_file_action
         self.output_dir = '{{ output_dir }}'
         self.package = 'configure_functional_test'
         self.parent_base_date = '1850-01-01T00:00:00'
@@ -85,22 +89,29 @@ class TestMain(unittest.TestCase):
         self.parent_time_units = TIME_UNIT_DESCRIPTION
         self.parent_variant_label = 'r1i1p1f2'
         self.run_bounds = '{{ start_date }} {{ end_date }}'
-        self.shuffle = self.arguments.shuffle
+        self.shuffle = 'True'
+        self.sites_file = '/home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt'
         self.sub_experiment_id = 'none'
         self.suite_id = 'u-aw310'
         self.variant_label = 'r1i1p1f2'
         # User config:
-        self.ancil_files = self.arguments.ancil_files
+        self.ancil_files = ('/project/cdds/ancil/UKESM1-0-LL/qrparm.landfrac.pp '
+                            '/project/cdds/ancil/UKESM1-0-LL/qrparm.soil.pp '
+                            '/project/cdds/ancil/UKESM1-0-LL/ocean_constants.nc '
+                            '/project/cdds/ancil/UKESM1-0-LL/ocean_byte_masks.nc '
+                            '/project/cdds/ancil/UKESM1-0-LL/ocean_basin.nc '
+                            '/project/cdds/ancil/UKESM1-0-LL/diaptr_basin_masks.nc '
+                            '/project/cdds/ancil/UKESM1-0-LL/ocean_zostoga.nc')
+
         self.grid_id = 'atmos-native'
         self.grid = 'Native N96 grid; 192 x 144 longitude/latitude'
         self.grid_label = Cmip6GridLabel.from_name('native').label
-        self.hybrid_heights_files = self.arguments.hybrid_heights_files
+        self.hybrid_heights_files = ('/home/h03/cdds/etc/vertical_coordinates/atmosphere_theta_levels_85.txt '
+                                     '/home/h03/cdds/etc/vertical_coordinates/atmosphere_rho_levels_86.txt')
         plugin = PluginStore.instance().get_plugin()
         grid_info = plugin.grid_info(self.model_id, GridType.ATMOS)
         self.nominal_resolution = grid_info.nominal_resolution
-        self.replacement_coordinates_file = (
-            self.arguments.replacement_coordinates_file)
-        self.sites_file = self.arguments.sites_file
+        self.replacement_coordinates_file = '/home/h03/cdds/etc/horizontal_coordinates/cice_eORCA1_coords.nc'
         self.cmor_setup_format = (
             '[cmor_setup]\ncmor_log_file = {}\ncreate_subdirectories = {}\nmip_table_dir = {}\n'
             'netcdf_file_action = {}\n\n')
@@ -177,25 +188,17 @@ class TestMain(unittest.TestCase):
         log_fname = '{0}_{1}.log'.format(self.log_name, self.log_datestamp)
         self.log_path = os.path.join(self.log_dir, log_fname)
 
-    def _main(self, use_proc_dir, template, data_request_version=None):
+    def _main(self, use_proc_dir, template):
         # Use '--quiet' to ensure no log messages are printed to screen.
         args = [self.request_path, '--requested_variables_list_file',
-                self.requested_variables_list_path, '--output_dir',
-                self.output_dir_for_ucf, '--log_name', self.log_name,
-                '--quiet']
-        if use_proc_dir:
-            args.append('--use_proc_dir')
-        if template:
-            args.append('--template')
-        if data_request_version is not None:
-            args.extend(['--data_request_version', data_request_version])
+                self.requested_variables_list_path,  '--output_dir', self.output_dir_for_ucf,]
         self._construct_log_path()
         exit_code = main(args)
         return exit_code
 
-    def _run(self, requested_variables_list, use_proc_dir, template, data_request_version=None):
+    def _run(self, requested_variables_list, use_proc_dir, template):
         write_json(self.requested_variables_list_path, requested_variables_list)
-        exit_code = self._main(use_proc_dir, template, data_request_version)
+        exit_code = self._main(use_proc_dir, template)
         outputs = {
             filename: self._read_config(os.path.join(self.output_dir_for_ucf, filename))
             for filename in os.listdir(self.output_dir_for_ucf) if filename not in ['log']}

@@ -25,6 +25,7 @@ from unittest import TestCase, mock
 class TestReadRequest(TestCase):
 
     def setUp(self) -> None:
+        self.maxDiff = None
         current_dir = os.path.dirname(os.path.realpath(__file__))
         self.data_dir = os.path.join(current_dir, 'data')
 
