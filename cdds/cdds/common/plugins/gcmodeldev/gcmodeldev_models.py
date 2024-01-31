@@ -32,7 +32,7 @@ class GCModelDevStore(BaseModelStore):
             HadGEM3_GC5p_N216ORCA025_Params(),
             UKESM1_0_LL_Params(),
             UKESM1_1_LL_Params(),
-            UKESM1_ice_N96O1_Params()
+            UKESM1_ice_N96O1_Params(),
         ]
         self.logger = logging.getLogger(self.__class__.__name__)
         super(GCModelDevStore, self).__init__(model_instances)
