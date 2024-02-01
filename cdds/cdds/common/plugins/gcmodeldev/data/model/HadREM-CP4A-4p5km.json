@@ -6,26 +6,37 @@
         "apc"
       ],
       "files_per_year": 8640
+    },
+    "daily": {
+      "streams": [
+        "apq"
+      ],
+      "files_per_year": 360
     }
   },
   "cycle_length": {
     "apa": "P1M",
-    "apc": "P1M"
+    "apc": "P1M",
+    "apq": "P1Y"
   },
   "memory": {
     "apa": "40G",
-    "apc": "40G"
+    "apc": "40G",
+    "apq": "32G"
   },
   "temp_space": {
     "apa": 16384,
-    "apc": 16384
+    "apc": 16384,
+    "apq": 131072
   },
   "sizing_info": {
     "1hr": {
       "default": 10
     }
   },
-  "subdaily_streams": [],
+  "subdaily_streams": [
+    "apq"
+  ],
   "grid_info": {
     "atmos": {
       "atmos_timestep": 60,
