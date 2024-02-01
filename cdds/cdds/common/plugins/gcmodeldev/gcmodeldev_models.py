@@ -32,7 +32,7 @@ class GCModelDevStore(BaseModelStore):
             HadGEM3_GC5p_N216ORCA025_Params(),
             UKESM1_0_LL_Params(),
             UKESM1_1_LL_Params(),
-            UKESM1_ice_N96O1_Params(),
+            eUKESM1_1_ice_N96ORCA1_Params(),
         ]
         self.logger = logging.getLogger(self.__class__.__name__)
         super(GCModelDevStore, self).__init__(model_instances)
@@ -85,7 +85,7 @@ class GCModelDevModelId(ModelId):
     HadGEM3_GC5p_N216ORCA025 = 'HadGEM3-GC5p-N216ORCA025'
     UKESM1_0_LL = 'UKESM1-0-LL'
     UKESM1_1_LL = 'UKESM1-1-LL'
-    UKESM1_ICE_N96O1 = 'UKESM1-ice-N96O1'
+    EUKESM1_1_ice_N96ORCA1 = 'eUKESM1-1-ice-N96ORCA1'
 
 
 class HadGEM3_GC3p05_N96ORCA1_Params(BaseModelParameters):
@@ -205,20 +205,20 @@ class HadGEM3_GC5p_N216ORCA025_Params(BaseModelParameters):
         return '12.2'
 
 
-class UKESM1_ice_N96O1_Params(BaseModelParameters):
+class eUKESM1_1_ice_N96ORCA1_Params(BaseModelParameters):
     """
-    Class to store the parameters for the UKESM1_ice_N96O1 model.
+    Class to store the parameters for the eUKESM1_1_ice_N96ORCA1 model.
     """
 
     def __init__(self) -> None:
-        super(UKESM1_ice_N96O1_Params, self).__init__(GCModelDevModelId.UKESM1_ICE_N96O1)
+        super(eUKESM1_1_ice_N96ORCA1_Params, self).__init__(GCModelDevModelId.EUKESM1_1_ice_N96ORCA1)
 
     @property
     def model_version(self) -> str:
         """
-        Returns the model version of the UKESM1_ice_N96O1 model.
+        Returns the model version of the eUKESM1_1_ice_N96ORCA1 model.
 
-        :return: Model version of UKESM1_ice_N96O1
+        :return: Model version of eUKESM1_1_ice_N96ORCA1
         :rtype: str
         """
         return '1.0'
@@ -226,9 +226,9 @@ class UKESM1_ice_N96O1_Params(BaseModelParameters):
     @property
     def data_request_version(self) -> str:
         """
-        Returns the data request version of the UKESM1_ice_N96O1 model.
+        Returns the data request version of the eUKESM1_1_ice_N96ORCA1 model.
 
-        :return: Data request version of UKESM1_ice_N96O1
+        :return: Data request version of eUKESM1_1_ice_N96ORCA1
         :rtype: str
         """
         return '01.00.17'
@@ -236,9 +236,9 @@ class UKESM1_ice_N96O1_Params(BaseModelParameters):
     @property
     def um_version(self) -> str:
         """
-        Returns the UM version of the UKESM1_ice_N96O1 model.
+        Returns the UM version of the eUKESM1_1_ice_N96ORCA1 model.
 
-        :return: UM version of UKESM1_ice_N96O1
+        :return: UM version of eUKESM1_1_ice_N96ORCA1
         :rtype: str
         """
         return '10.8'
