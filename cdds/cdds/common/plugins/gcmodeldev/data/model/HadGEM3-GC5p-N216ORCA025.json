@@ -8,8 +8,7 @@
         "onm",
         "inm",
         "ind"
-      ],
-      "files_per_year": 12
+      ]
     },
     "10 day": {
       "streams": [
@@ -18,20 +17,17 @@
         "ap8",
         "ap9",
         "apt"
-      ],
-      "files_per_year": 36
+      ]
     },
     "daily": {
       "streams": [
         "ap5"
-      ],
-      "files_per_year": 365
+      ]
     },
     "season": {
       "streams": [
         "ond"
-      ],
-      "files_per_year": 4
+      ]
     }
   },
   "cycle_length": {

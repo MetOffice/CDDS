@@ -16,8 +16,7 @@
         "ond",
         "inm",
         "ind"
-      ],
-      "files_per_year": 12
+      ]
     },
     "10 day": {
       "streams": [
@@ -26,8 +25,7 @@
         "ap8",
         "ap9",
         "apt"
-      ],
-      "files_per_year": 36
+      ]
     }
   },
   "cycle_length": {

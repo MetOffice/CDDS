@@ -10,14 +10,12 @@
         "inm",
         "ind",
         "ond"
-      ],
-      "files_per_year": 12
+      ]
     },
     "daily": {
       "streams": [
         "apa"
-      ],
-      "files_per_year": 360
+      ]
     }
   },
   "cycle_length": {

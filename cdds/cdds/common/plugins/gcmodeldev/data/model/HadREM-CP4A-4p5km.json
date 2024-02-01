@@ -1,14 +1,10 @@
 {
   "stream_file_frequency": {
-    "daily": {
-
-    },
     "hourly": {
       "streams": [
         "apa",
         "apc"
-      ],
-      "files_per_year": 8640
+      ]
     }
   },
   "cycle_length": {

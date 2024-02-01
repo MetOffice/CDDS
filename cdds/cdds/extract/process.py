@@ -59,8 +59,6 @@ class Process(object):
         self.input_data_directory = input_data_directory
         self.mass_data_class = self.request.mass_data_class
         model_id = self.request.model_id
-        model_params = PluginStore.instance().get_plugin().models_parameters(model_id)
-        self.stream_file_info = model_params.stream_file_info()
         # start log
         self.start_log()
 
