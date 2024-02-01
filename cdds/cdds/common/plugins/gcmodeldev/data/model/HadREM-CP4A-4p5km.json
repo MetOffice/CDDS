@@ -1,33 +1,61 @@
 {
   "stream_file_frequency": {
-    "hourly": {
-      "streams": [
-        "apa",
-        "apc"
-      ],
-      "files_per_year": 8640
-    },
     "daily": {
       "streams": [
-        "apq"
+        "apa",
+        "apc",
+        "apb",
+        "apd",
+        "ape",
+        "apg",
+        "aph",
+        "apq",
+        "apr"
       ],
       "files_per_year": 360
+    },
+    "monthly": {
+      "streams": [
+        "apm"
+      ],
+      "files_per_year": 12
     }
   },
   "cycle_length": {
-    "apa": "P1M",
-    "apc": "P1M",
-    "apq": "P1Y"
+    "apa": "P1Y",
+    "apb": "P1Y",
+    "apc": "P1Y",
+    "apd": "P1Y",
+    "ape": "P1Y",
+    "apg": "P1Y",
+    "aph": "P1Y",
+    "apq": "P1Y",
+    "apr": "P1Y",
+    "apm": "P1Y"
   },
   "memory": {
-    "apa": "40G",
-    "apc": "40G",
-    "apq": "32G"
+    "apa": "32G",
+    "apb": "32G",
+    "apc": "32G",
+    "apd": "32G",
+    "ape": "32G",
+    "apg": "32G",
+    "aph": "32G",
+    "apq": "32G",
+    "apr": "32G",
+    "apm": "16G"
   },
   "temp_space": {
-    "apa": 16384,
-    "apc": 16384,
-    "apq": 131072
+    "apa": 131072,
+    "apb": 131072,
+    "apc": 131072,
+    "apd": 131072,
+    "ape": 131072,
+    "apg": 131072,
+    "aph": 131072,
+    "apq": 131072,
+    "apr": 131072,
+    "apm": 16384
   },
   "sizing_info": {
     "1hr": {
@@ -35,7 +63,7 @@
     }
   },
   "subdaily_streams": [
-    "apq"
+    "apa", "apb", "apc", "apd", "ape", "apg", "aph", "apq", "apr"
   ],
   "grid_info": {
     "atmos": {
