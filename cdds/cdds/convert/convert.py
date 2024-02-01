@@ -6,7 +6,8 @@ The main gateway module for the cdds_convert application.
 
 import cdds.convert.process
 
-from cdds.configure.user_config import read_and_validate_request, create_user_config_files
+from cdds.configure.user_config import create_user_config_files
+from cdds.common.request.request import read_request
 
 
 def get_cylc_args_list(cylc_args, stream_ids, request_id):
@@ -93,5 +94,6 @@ def run_generate_user_config_files(arguments):
     requested_variables_file = arguments.requested_variables_list_file
     template_name = arguments.user_config_template_name
 
-    request = read_and_validate_request(arguments.request, arguments.args)
-    create_user_config_files(request, requested_variables_file, template_name, arguments.output_cfg_dir)
+    request = read_request(arguments.request)
+    create_user_config_files(request, requested_variables_file, template_name, arguments.output_cfg_dir,
+                             arguments.args)
