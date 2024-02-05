@@ -34,7 +34,7 @@ class TestModelStore(TestCase):
 
         self.assertTrue(result.loaded['HadGEM3-GC31-LL'].loaded)
         self.assertSize(result.loaded, 1)
-        self.assertSize(result.unloaded, 6)
+        self.assertSize(result.unloaded, (len(store.model_instances) - 1))
 
     def assertSize(self, actual, expected_size):
         self.assertEqual(len(actual), expected_size)
