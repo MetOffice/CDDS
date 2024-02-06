@@ -110,7 +110,7 @@ def expected_text_conversion():
         'skip_qc': False,
         'skip_archive': False,
         'cdds_workflow_branch': 'trunk',
-        'cylc_args': '',
+        'cylc_args': ['-v', '--workflow-name=cdds_{request_id}_{stream}'],
         'no_email_notifications': False,
         'scale_memory_limits': 2.0,
         'override_cycling_frequency': ['ap4=P1Y', 'ap5=P2Y'],
@@ -214,7 +214,7 @@ def expected_test_minimal_inventory():
 def expected_test_minimal_conversion():
     return {
         'cdds_workflow_branch': 'trunk',
-        'cylc_args': '',
+        'cylc_args': ['-v'],
         'model_params_dir': '',
         'no_email_notifications': False,
         'override_cycling_frequency': [],

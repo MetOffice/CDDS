@@ -7,20 +7,14 @@ from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request
 
 
+INPUT_DATA_DIRECTORY = 'input'
 OUTPUT_DATA_DIRECTORY = 'output'
 
 
-def proc_directory(request: Request) -> str:
-    """
-    The root path to the directory where the non-data outputs from each CDDS component are written.
-
-    :param request: Request containing all information about the proc directory
-    :type request: Request
-    :return: Path to the CDDS proc directory
-    :rtype: str
-    """
+def input_data_directory(request: Request) -> str:
     plugin = PluginStore.instance().get_plugin()
-    return plugin.proc_directory(request)
+    data_directory = plugin.data_directory(request)
+    return os.path.join(data_directory, INPUT_DATA_DIRECTORY)
 
 
 def component_directory(request: Request, component: str) -> str:
@@ -35,7 +29,9 @@ def component_directory(request: Request, component: str) -> str:
     :rtype: str
     """
     if request.misc.use_proc_dir:
-        return os.path.join(proc_directory(request), component)
+        plugin = PluginStore.instance().get_plugin()
+        proc_directory = plugin.proc_directory(request)
+        return os.path.join(proc_directory, component)
     return None
 
 

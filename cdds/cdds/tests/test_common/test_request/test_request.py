@@ -72,6 +72,7 @@ class TestWriteRequest(TestCase):
 
     @mock.patch('cdds.common.request.common_section.datetime')
     def test_write_request(self, datetime_mock):
+        self.maxDiff = None
         data_version = datetime(year=2023, month=9, day=21, hour=10, minute=34, second=12)
         datetime_mock.utcnow.return_value = data_version
         expected_output = os.path.join(self.data_dir, 'test_request_output.cfg')
