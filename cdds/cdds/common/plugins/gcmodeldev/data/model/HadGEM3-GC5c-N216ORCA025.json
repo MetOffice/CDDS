@@ -7,13 +7,31 @@
       "files_per_year": 4},
     "monthly": {
       "streams": [
+        "ap1",
+        "ap2",
+        "ap3",
         "ap4",
         "ap5",
+        "apa",
+        "apb",
+        "apc",
+        "apd",
+        "ape",
+        "apf",
+        "apg",
+        "aph",
+        "api",
+        "apj",
+        "apk",
+        "apl",
         "apm",
+        "apn",
+        "app",
+        "apq",
         "apu",
-        "onm",
         "inm",
-        "ind"
+        "ind",
+        "onm"
       ],
       "files_per_year": 12
     },
