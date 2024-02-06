@@ -2,12 +2,6 @@
   "package": {
     "simulation": "False"
   },
-  "cdds_convert": {
-    "create_subdirectories": 0,
-    "deflate_level": 2,
-    "netcdf_file_action": "CMOR_REPLACE_4",
-    "shuffle": "True"
-  },
   "run_mip_convert": {
     "log_name": "run_mip_convert",
     "mip_convert_log_base_name": "mip_convert",
