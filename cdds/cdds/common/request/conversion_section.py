@@ -38,6 +38,7 @@ def conversion_defaults() -> Dict[str, Any]:
 
     return {
         'cdds_workflow_branch': cdds_workflow_branch,
+        'cylc_args': '-v',
         'no_email_notifications': False,
         'skip_extract': skip_extract,
         'skip_extract_validation': skip_extract_validation,
@@ -58,7 +59,7 @@ class ConversionSection(Section):
     skip_qc: bool = False
     skip_archive: bool = False
     cdds_workflow_branch: str = ''
-    cylc_args: str = ''
+    cylc_args: List[str] = field(default_factory=list)
     no_email_notifications: bool = False
     scale_memory_limits: float = None
     override_cycling_frequency: List[str] = field(default_factory=list)  # ['stream=frequency']
@@ -86,8 +87,12 @@ class ConversionSection(Section):
         """
         values = conversion_defaults()
         if config.has_section('conversion'):
-            config_items = load_types(dict(config.items('conversion')), ['override_cycling_frequency'])
+            config_items = load_types(dict(config.items('conversion')), ['override_cycling_frequency', 'cylc_args'])
+            new_cylc_args = load_cylc_args(config_items['cylc_args'])
+            config_items['cylc_args'] = new_cylc_args
             values.update(config_items)
+        else:
+            values['cylc_args'] = values['cylc_args'].split(' ')
         return ConversionSection(**values)
 
     @staticmethod
@@ -114,3 +119,21 @@ class ConversionSection(Section):
         """
         defaults = conversion_defaults()
         self._add_to_config_section(config, 'conversion', defaults)
+
+
+def load_cylc_args(cylc_args: List[str]) -> List[str]:
+    if '-v' not in cylc_args:
+        cylc_args += ['-v']
+
+    # If user does not specify a run name for the rose suite, use cdds_{request_id}
+    if '--workflow-name' in cylc_args:
+        name_indices = [index for index, element in enumerate(cylc_args) if '--workflow-name' in element]
+        for index in name_indices:
+            if '=' in cylc_args[index]:
+                index_to_change = index
+            else:
+                index_to_change = index + 1
+            cylc_args[index_to_change] = cylc_args[index_to_change] + '_{stream}'
+    else:
+        cylc_args += ['--workflow-name=cdds_{request_id}_{stream}']
+    return cylc_args

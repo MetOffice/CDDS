@@ -3,7 +3,6 @@
     "simulation": "False"
   },
   "cdds_convert": {
-    "log_name": "cdds_convert",
     "create_subdirectories": 0,
     "deflate_level": 2,
     "netcdf_file_action": "CMOR_REPLACE_4",

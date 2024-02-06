@@ -149,16 +149,5 @@ class CommonSection(Section):
         defaults = common_defaults(model_id, experiment_id, variant_label)
         self._add_to_config_section(config, 'common', defaults)
 
-    def component_directory(self, component: str, proc_directory_facet: str) -> str:
-        """
-        Return the full path to the component-specific directory within the proc directory
-        that matches the given facet.
-
-        :param component: The name of the CDDS component.
-        :type component: str
-        :param proc_directory_facet: Facet of the CDDS proc directory
-        :type proc_directory_facet: str
-        :return: The full path to the component-specific directory within the proc directory.
-        :rtype: str
-        """
-        return os.path.join(self.proc_directory(proc_directory_facet), component)
+    def is_relaxed_cmor(self):
+        return self.mode == 'relaxed'
