@@ -32,7 +32,7 @@ def component_directory(request: Request, component: str) -> str:
         plugin = PluginStore.instance().get_plugin()
         proc_directory = plugin.proc_directory(request)
         return os.path.join(proc_directory, component)
-    return None
+    return ''
 
 
 def output_data_directory(request: Request) -> str:
@@ -68,7 +68,7 @@ def log_directory(request: Request, component: str, create_if_not_exist: bool = 
     """
     component_proc_dir = component_directory(request, component)
 
-    if component_proc_dir is None:
+    if not component_proc_dir:
         return None
 
     log_dir = os.path.join(component_proc_dir, LOG_DIRECTORY)
