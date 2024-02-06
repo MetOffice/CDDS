@@ -819,7 +819,7 @@ class ConvertProcess(object):
             'OUTPUT_DIR': output_data_directory(self._request),
             'PARALLEL_TASKS': PARALLEL_TASKS,
             'REF_DATE': str(self.ref_date),
-            'REQUEST_CONFIG_PATH': request_cfg_path,  # TODO: kerstin Achtung changes in suite!!!
+            'REQUEST_CONFIG_PATH': request_cfg_path,
             'ROOT_DATA_DIR': self._request.common.root_data_dir,
             'ROOT_PROC_DIR': self._request.common.root_proc_dir,
             'RUN_EXTRACT': not self.skip_extract,
