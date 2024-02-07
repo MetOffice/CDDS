@@ -193,9 +193,14 @@ class OceanBaseGridInfo(BaseGridInfo):
         if stream.startswith('o') and substream[-1] not in 'TUVWr':
             raise RuntimeError('Could not interpret substream "{}"'.format(substream))
         if stream == 'onm':
-            bound_coords = [
-                'bounds_lon', 'bounds_lat', 'time_centered_bounds', 'depth{}_bounds'.format(substream[-1].lower())
-            ]
+            if substream == 'scalar':
+                bound_coords = ['time_centered_bounds']
+            elif substream == 'diaptr':
+                bound_coords = ['time_centered_bounds', 'deptht_bounds']
+            else:
+                bound_coords = [
+                    'bounds_lon', 'bounds_lat', 'time_centered_bounds', 'depth{}_bounds'.format(substream[-1].lower())
+                ]
         elif stream == 'ond':
             bound_coords = ['bounds_lon', 'bounds_lat', 'time_centered_bounds']
         elif stream in ['inm', 'ind']:
