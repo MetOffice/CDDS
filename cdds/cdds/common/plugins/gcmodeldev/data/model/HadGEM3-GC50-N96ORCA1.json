@@ -1,10 +1,5 @@
 {
   "stream_file_frequency": {
-    "quarterly": {
-      "streams": [
-        "ond"
-        ],
-      "files_per_year": 4},
     "monthly": {
       "streams": [
         "ap1",
@@ -31,7 +26,8 @@
         "apu",
         "inm",
         "ind",
-        "onm"
+        "onm",
+        "ond"
       ],
       "files_per_year": 12
     },
@@ -47,139 +43,189 @@
     }
   },
   "cycle_length": {
-    "ap4": "P5Y",
-    "ap5": "P5Y",
-    "apm": "P5Y",
-    "apu": "P5Y",
-    "ap6": "P1Y",
-    "ap7": "P3M",
-    "ap8": "P1Y",
+    "ap1": "P1Y",
+    "ap2": "P1Y",
+    "ap3": "P1Y",
+    "ap4": "P1Y",
+    "ap5": "P1Y",
+    "ap6": "P3M",
+    "ap7": "P1M",
+    "ap8": "P6M",
     "ap9": "P1Y",
+    "apa": "P1Y",
+    "apb": "P1Y",
+    "apc": "P1Y",
+    "apd": "P1Y",
+    "ape": "P1Y",
+    "apf": "P1Y",
+    "apg": "P1Y",
+    "aph": "P1Y",
+    "api": "P1Y",
+    "apj": "P1Y",
+    "apk": "P1Y",
+    "apl": "P1Y",
+    "apm": "P1Y",
+    "apn": "P1Y",
+    "app": "P1Y",
+    "apq": "P1Y",
     "apt": "P3M",
+    "apu": "P1Y",
     "ind": "P1Y",
-    "inm": "P5Y",
+    "inm": "P1Y",
     "ond": "P1Y",
-    "onm": "P2Y"
+    "onm": "P3M"
   },
   "memory": {
-    "ap4": "12G",
-    "ap5": "8G",
-    "apm": "8G",
-    "apu": "8G",
-    "ap6": "30G",
+    "ap1": "32G",
+    "ap2": "32G",
+    "ap3": "32G",
+    "ap4": "32G",
+    "ap5": "16G",
+    "ap6": "40G",
     "ap7": "32G",
-    "ap8": "24G",
-    "ap9": "64G",
-    "apt": "12G",
-    "ind": "8G",
+    "ap8": "32G",
+    "ap9": "32G",
+    "apa": "32G",
+    "apb": "32G",
+    "apc": "32G",
+    "apd": "32G",
+    "ape": "32G",
+    "apf": "32G",
+    "apg": "32G",
+    "aph": "32G",
+    "api": "32G",
+    "apj": "32G",
+    "apk": "32G",
+    "apl": "32G",
+    "apm": "16G",
+    "apn": "32G",
+    "app": "32G",
+    "apq": "32G",
+    "apt": "16G",
+    "apu": "16G",
+    "ind": "16G",
     "inm": "8G",
-    "ond": "32G",
-    "onm": "16G"
+    "ond": "128G",
+    "onm": "48G"
   },
   "temp_space": {
-    "ap4": 98304,
-    "ap5": 40960,
-    "apm": 8192,
-    "apu": 20480,
-    "ap6": 98304,
-    "ap7": 65536,
-    "ap8": 32768,
-    "ap9": 32768,
+    "ap1": 131072,
+    "ap2": 131072,
+    "ap3": 131072,
+    "ap4": 131072,
+    "ap5": 65536,
+    "ap6": 196608,
+    "ap7": 196608,
+    "ap8": 196608,
+    "ap9": 65536,
+    "apa": 131072,
+    "apb": 131072,
+    "apc": 131072,
+    "apd": 131072,
+    "ape": 131072,
+    "apf": 131072,
+    "apg": 131072,
+    "aph": 131072,
+    "api": 131072,
+    "apj": 131072,
+    "apk": 131072,
+    "apl": 131072,
+    "apm": 16384,
+    "apn": 131072,
+    "app": 131072,
+    "apq": 131072,
     "apt": 32768,
-    "ind": 8192,
-    "inm": 8192,
-    "ond": 32768,
-    "onm": 32768
+    "apu": 40960,
+    "ind": 16384,
+    "inm": 16384,
+    "ond": 65536,
+    "onm": 196608
   },
   "sizing_info": {
     "mon": {
-      "default": 100,
-      "85-144-192": 50,
-      "85-145-192": 50,
-      "86-144-192": 50,
-      "75-330-360": 50
+      "default": 20,
+      "85-324-432": 10,
+      "85-325-432": 10,
+      "86-324-432": 10,
+      "75-1205-1440": 5
     },
     "monPt": {
-      "default": 100,
-      "85-144-192": 50,
-      "85-145-192": 50,
-      "86-144-192": 50,
-      "75-330-360": 50
+      "default": 20,
+      "85-324-432": 10,
+      "85-325-432": 10,
+      "86-324-432": 10,
+      "75-1205-1440": 10
     },
     "yr": {
-      "default": 100
+      "default": 20
     },
     "yrPt": {
-      "default": 100
+      "default": 20
     },
     "day": {
-      "default": 20,
-      "144-192": 100,
-      "145-192": 100,
-      "19-144-192": 20,
-      "19-145-192": 20,
-      "8-144-192": 50,
-      "8-145-192": 50,
-      "27-144-192": 5,
-      "4-144-192": 10,
-      "5-144-192": 10,
-      "7-144-192": 20,
-      "7-7-144-192": 2,
-      "330-360": 50,
-      "40-144-192": 20,
-      "85-144-192": 10,
-      "85-145-192": 10,
-      "86-144-192": 10
+      "default": 5,
+      "19-324-432": 1,
+      "19-325-432": 1,
+      "27-324-432": 1,
+      "4-324-432": 1,
+      "5-324-432": 1,
+      "7-324-432": 1,
+      "7-7-324-432": 0.5,
+      "1205-1440": 5,
+      "40-324-432": 1,
+      "85-324-432": 1,
+      "85-325-432": 1,
+      "86-324-432": 1
     },
     "6hr": {
-      "default": 10,
-      "144-192": 50,
-      "145-192": 50,
-      "4-144-192": 10,
-      "4-145-192": 10,
-      "3-144-192": 20,
-      "3-145-192": 20,
-      "7-144-192": 10,
-      "7-145-192": 10,
-      "85-144-192": 1,
-      "85-145-192": 1
+      "default": 1,
+      "324-432": 10,
+      "325-432": 10,
+      "4-324-432": 1,
+      "4-325-432": 1,
+      "3-324-432": 1,
+      "3-325-432": 1,
+      "7-324-432": 1,
+      "7-325-432": 1,
+      "85-324-432": 0.25,
+      "85-325-432": 0.25
     },
     "6hrPt": {
-      "default": 10,
-      "144-192": 50,
-      "145-192": 50,
-      "4-144-192": 10,
-      "4-145-192": 10,
-      "3-144-192": 20,
-      "3-145-192": 20,
-      "7-144-192": 10,
-      "7-145-192": 10,
-      "85-144-192": 1,
-      "85-145-192": 1
+      "default": 1,
+      "324-432": 10,
+      "325-432": 10,
+      "4-324-432": 1,
+      "4-325-432": 1,
+      "3-324-432": 1,
+      "3-325-432": 1,
+      "7-324-432": 1,
+      "7-325-432": 1,
+      "85-324-432": 0.25,
+      "85-325-432": 0.25
     },
     "3hr": {
-      "default": 10,
-      "144-192": 50,
-      "145-192": 50,
-      "7-144-192": 10,
-      "7-145-192": 10,
-      "85-144-192": 1,
-      "85-145-192": 1
+      "default": 1,
+      "324-432": 10,
+      "325-432": 10,
+      "7-324-432": 1,
+      "7-325-432": 1,
+      "85-324-432": 0.25,
+      "85-325-432": 0.25
     },
     "3hrPt": {
-      "default": 10,
-      "144-192": 50,
-      "145-192": 50,
-      "7-144-192": 10,
-      "7-145-192": 10,
-      "85-144-192": 1,
-      "85-145-192": 1
+      "default": 1,
+      "324-432": 10,
+      "325-432": 10,
+      "7-324-432": 1,
+      "7-325-432": 1,
+      "85-324-432": 0.25,
+      "85-325-432": 0.25
     },
     "1hr": {
-      "default": 10
+      "default": 1
     },
     "1hrCM": {
-      "default": 10
+      "default": 1
     },
     "subhrPt": {
       "default": 10
@@ -188,12 +234,12 @@
   "subdaily_streams": ["ap6", "ap7", "ap8", "ap9", "apt"],
   "grid_info": {
     "atmos": {
-      "atmos_timestep": 1200,
-      "model_info": "N96 grid",
-      "nominal_resolution": "250 km",
-      "longitude": 192,
-      "latitude": 144,
-      "v_latitude": 145,
+      "atmos_timestep": 900,
+      "model_info": "N216 grid",
+      "nominal_resolution": "100 km",
+      "longitude": 432,
+      "latitude": 324,
+      "v_latitude": 325,
       "levels": 85,
       "ancil_filenames": [
         "qrparm.landfrac.pp", "qrparm.soil.pp"
@@ -204,12 +250,12 @@
       ]
     },
     "ocean": {
-      "model_info": "eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics",
-      "nominal_resolution": "100 km",
-      "longitude": 360,
-      "latitude": 330,
+      "model_info": "eORCA025 tripolar primarily 1/4 deg grid",
+      "nominal_resolution": "25 km",
+      "longitude": 1440,
+      "latitude": 1205,
       "levels": 75,
-      "replacement_coordinates_file": "cice_eORCA1_coords.nc",
+      "replacement_coordinates_file": "cice_eORCA025_coords.nc",
       "ancil_filenames": [
         "ocean_constants.nc", "ocean_byte_masks.nc", "ocean_basin.nc", "diaptr_basin_masks.nc", "ocean_zostoga.nc"
       ],
@@ -217,19 +263,31 @@
       "masked": {
         "grid-V": {
           "slice_latitude": [-1, null, null],
-          "slice_longitude": [180, null, null]
+          "slice_longitude": [null, null, null]
         },
-        "cice-U": {
+        "grid-T": {
           "slice_latitude": [-1, null, null],
-          "slice_longitude": [180, null, null]
+          "slice_longitude": [720, null, null]
+        },
+        "grid-U": {
+          "slice_latitude": [-1, null, null],
+          "slice_longitude": [720, null, null]
+        },
+        "grid-W": {
+          "slice_latitude": [-1, null, null],
+          "slice_longitude": [720, null, null]
+        },
+        "cice-T": {
+          "slice_latitude": [-1, null, null],
+          "slice_longitude": [720, null, null]
         }
       },
       "halo_options": {
-        "grid-T": ["-dx,1,360", "-dy,1,330"],
-        "grid-U": ["-dx,1,360", "-dy,1,330"],
-        "grid-V": ["-dx,1,360", "-dy,1,330"],
-        "grid-W": ["-dx,1,360", "-dy,1,330"],
-        "diaptr": ["-dy,1,330"]
+        "grid-T": ["-dx,1,1440", "-dy,1,1205"],
+        "grid-U": ["-dx,1,1440", "-dy,1,1205"],
+        "grid-V": ["-dx,1,1440", "-dy,1,1205"],
+        "grid-W": ["-dx,1,1440", "-dy,1,1205"],
+        "diaptr": ["-dy,1,1205"]
       }
     }
   }

@@ -111,7 +111,7 @@ class HadGEM3_GC5c_N96ORCA1_Params(BaseModelParameters):
         :return: Model version of HadGEM3_GC5c_N96ORCA1
         :rtype: str
         """
-        pass
+        return '5.0'
 
     @property
     def data_request_version(self) -> str:
@@ -131,7 +131,7 @@ class HadGEM3_GC5c_N96ORCA1_Params(BaseModelParameters):
         :return: UM version of HadGEM3_GC5c_N96ORCA1
         :rtype: str
         """
-        pass
+        return '12.2'
 
 
 class HadGEM3_GC50_N96ORCA1_Params(BaseModelParameters):
@@ -150,7 +150,7 @@ class HadGEM3_GC50_N96ORCA1_Params(BaseModelParameters):
         :return: Model version of HadGEM3_GC50_N96ORCA1
         :rtype: str
         """
-        pass
+        return '5.0'
 
     @property
     def data_request_version(self) -> str:
@@ -170,7 +170,7 @@ class HadGEM3_GC50_N96ORCA1_Params(BaseModelParameters):
         :return: UM version of HadGEM3_GC50_N96ORCA1
         :rtype: str
         """
-        pass
+        return '12.2'
 
 
 class HadGEM3_GC50_N216ORCA025_Params(BaseModelParameters):
@@ -189,7 +189,7 @@ class HadGEM3_GC50_N216ORCA025_Params(BaseModelParameters):
         :return: Model version of HadGEM3_GC50_N216ORCA025
         :rtype: str
         """
-        pass
+        return '5.0'
 
     @property
     def data_request_version(self) -> str:
@@ -209,7 +209,7 @@ class HadGEM3_GC50_N216ORCA025_Params(BaseModelParameters):
         :return: UM version of HadGEM3_GC50_N216ORCA025
         :rtype: str
         """
-        pass
+        return '12.2'
 
 
 class HadGEM3_GC5c_N216ORCA025_Params(BaseModelParameters):
@@ -228,7 +228,7 @@ class HadGEM3_GC5c_N216ORCA025_Params(BaseModelParameters):
         :return: Model version of HadGEM3_GC5c_N216ORCA025
         :rtype: str
         """
-        pass
+        return '5.0'
 
     @property
     def data_request_version(self) -> str:
@@ -248,7 +248,7 @@ class HadGEM3_GC5c_N216ORCA025_Params(BaseModelParameters):
         :return: UM version of HadGEM3_GC5c_N216ORCA025
         :rtype: str
         """
-        pass
+        return '12.2'
 
 
 class HadGEM3_GC3p05_N96ORCA1_Params(BaseModelParameters):
