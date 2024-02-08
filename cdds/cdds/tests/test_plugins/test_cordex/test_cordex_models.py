@@ -110,7 +110,6 @@ class TestModelParameters(TestCase):
         apa_file_info = stream_file_info.file_frequencies["apa"]
         self.assertEqual(apa_file_info.frequency, "daily")
         self.assertEqual(apa_file_info.stream, "apa")
-        self.assertEqual(apa_file_info.file_per_year, 360)
 
     def write_params_file(self, data):
         json_file = os.path.join(self.model_params_dir, 'HadREM3-GA7-05.json')

@@ -39,11 +39,9 @@ class StreamFileFrequency:
     Represents the frequency of files for a stream:
         * frequency (e.g. monthly, daily, ...)
         * name of the stream
-        * files per year
     """
     frequency: str = ""
     stream: str = ""
-    file_per_year: int = 0
 
 
 @dataclass
@@ -53,17 +51,6 @@ class StreamFileInfo:
     the file frequencies of streams.
     """
     file_frequencies: Dict[str, StreamFileFrequency] = field(default_factory=dict)
-
-    def get_files_per_year(self, stream: str) -> int:
-        """
-        Calculates how many files of input data are expected per year for a particular stream.
-
-        :param stream: The name of the stream to get the number of files for
-        :type stream: str
-        :return: Number of files per year for the specified stream
-        :rtype: int
-        """
-        return self.file_frequencies[stream].file_per_year
 
 
 class StreamInfo(object, metaclass=ABCMeta):
