@@ -2,8 +2,11 @@
 # Please see LICENSE.rst for license details.
 import os
 
+from typing import Union
+
 from cdds.common.constants import LOG_DIRECTORY
 from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.grid import GridType
 from cdds.common.request.request import Request
 
 
@@ -12,9 +15,92 @@ OUTPUT_DATA_DIRECTORY = 'output'
 
 
 def input_data_directory(request: Request) -> str:
+    """
+    Returns the full path to the directory where the |model output files| used as input to CDDS Convert are written.
+
+    :param request: Information about the input data directory path facets
+    :type request: Request
+    :return: Path to the directory where the |model output files| are
+    :rtype: str
+    """
     plugin = PluginStore.instance().get_plugin()
     data_directory = plugin.data_directory(request)
     return os.path.join(data_directory, INPUT_DATA_DIRECTORY)
+
+
+def output_data_directory(request: Request) -> str:
+    """
+    Returns the full path to the directory where the |output netCDF files| produced by CDDS Convert are written.
+
+    :param request: Information about the output data directory path facets
+    :type request: Request
+    :return: Path to the directory where the |output netCDF files| are
+    :rtype: str
+    """
+    plugin = PluginStore.instance().get_plugin()
+    data_directory = plugin.data_directory(request)
+    return os.path.join(data_directory, OUTPUT_DATA_DIRECTORY)
+
+
+def requested_variables_file(request: Request) -> str:
+    """
+    Returns the path to the requested variables file.
+
+    :param request: The request configuration for the cdds_convert process
+    :type request: Request
+    :return: Path to the requested variables file
+    :rtype: str
+    """
+    plugin = PluginStore.instance().get_plugin()
+    request_variables_filename = plugin.requested_variables_list_filename(request)
+    return os.path.join(component_directory(request, 'prepare'), request_variables_filename)
+
+
+def ancil_files(request: Request) -> str:
+    """
+    Construct the full paths to the ancillary files.
+
+    :param request: The request configuration for the cdds_convert process
+    :type request: Request
+    :return: The paths to the ancillary files separated by a whitespace
+    :rtype: str
+    """
+    plugin = PluginStore.instance().get_plugin()
+    models_parameters = plugin.models_parameters(request.metadata.model_id)
+    ancil_files = models_parameters.all_ancil_files(request.common.root_ancil_dir)
+    return ' '.join(ancil_files)
+
+
+def replacement_coordinates_file(request: Request) -> str:
+    """
+    Construct the full paths to the replacement coordinates file.
+
+    :param request: The request configuration for the cdds_convert process
+    :type request: Request
+    :return: The path to the replacement coordinates file
+    :rtype: str
+    """
+    plugin = PluginStore.instance().get_plugin()
+    grid_info = plugin.grid_info(request.metadata.model_id, GridType.OCEAN)
+    filename = grid_info.replacement_coordinates_file
+    if filename:
+        return os.path.join(request.common.root_replacement_coordinates_dir, filename)
+    return ''
+
+
+def hybrid_heights_files(request: Request) -> str:
+    """
+    Construct the full paths to the hybrid heights files.
+
+    :param request: The request configuration for the cdds_convert process
+    :type request: Request
+    :return: The paths to the hybrid heights files separated by a whitespace
+    :rtype: str
+    """
+    plugin = PluginStore.instance().get_plugin()
+    models_parameters = plugin.models_parameters(request.metadata.model_id)
+    hybrid_heights_files = models_parameters.all_hybrid_heights_files(request.common.root_hybrid_heights_dir)
+    return ' '.join(hybrid_heights_files)
 
 
 def component_directory(request: Request, component: str) -> str:
@@ -35,21 +121,7 @@ def component_directory(request: Request, component: str) -> str:
     return ''
 
 
-def output_data_directory(request: Request) -> str:
-    """
-    Returns the full path to the directory where the |output netCDF files| produced by CDDS Convert are written.
-
-    :param request: Request containing all information about the output data directory
-    :type request: Request
-    :return: Path to the directory where the |output netCDF files| are written to.
-    :rtype: str
-    """
-    plugin = PluginStore.instance().get_plugin()
-    data_directory = plugin.data_directory(request)
-    return os.path.join(data_directory, OUTPUT_DATA_DIRECTORY)
-
-
-def log_directory(request: Request, component: str, create_if_not_exist: bool = False) -> str:
+def log_directory(request: Request, component: str, create_if_not_exist: bool = False) -> Union[str, None]:
     """
     Return the full path to the directory where the log files for the CDDS component ``component`` are written
     within the proc directory or output dir if chosen.
