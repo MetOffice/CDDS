@@ -102,37 +102,17 @@ def get_paths(suite_name, model_id, stream, substream, start_date: TimePoint, en
                          symlink will be created.
 
     """
-
-    model_params = PluginStore.instance().get_plugin().models_parameters(model_id)
-    stream_file_info = model_params.stream_file_info()
-    stream_prefix = stream[:2]  # `ap`, `in` or `on`
-    if stream_prefix not in ['ap', 'in', 'on']:
-        raise RuntimeError('Stream "{}" not recognised'.format(stream))
-
-    stream_lookup = stream_prefix
-    files_per_year = stream_file_info.get_files_per_year(stream)
-    if stream_prefix == 'ap' and files_per_year == 36:
-        stream_lookup = 'ap_submonthly'
-    elif stream_prefix == 'ap' and (files_per_year in [360, 365]):
-        stream_lookup = 'ap_daily'
-    elif stream_prefix == 'ap' and (files_per_year in [8640, 8760]):
-        stream_lookup = 'ap_hourly'
-
     # Identify files that are to be expected
+    old_input_location = os.path.join(input_dir, suite_name, stream)
 
-    # Identify files that are to be expected
-    if filepath_type == FILEPATH_JASMIN:
-        old_input_location = os.path.join(input_dir, suite_name)
-    elif filepath_type == FILEPATH_METOFFICE:
-        old_input_location = os.path.join(input_dir, suite_name, stream)
-
+    stream_prefix = find_stream_prefix(old_input_location, stream)
     new_input_location = os.path.join(work_dir, suite_name, stream)
     period_start = start_date
     period_end = end_date
 
-    stream_file_regex = STREAMS_FILES_REGEX[stream_lookup]
+    stream_file_regex = STREAMS_FILES_REGEX[stream_prefix]
     file_pattern = re.compile(stream_file_regex)
-    filename_processor = construct_processors_dict()[stream_lookup]
+    filename_processor = construct_processors_dict()[stream_prefix]
 
     # lists to hold Jasmin path params
     all_files = []
@@ -159,6 +139,49 @@ def get_paths(suite_name, model_id, stream, substream, start_date: TimePoint, en
     return (file_list,
             old_input_location,
             new_input_location)
+
+
+def find_stream_prefix(input_location: str, stream: str) -> str:
+    """
+    Finds the stream prefix for a particular stream ('ap', 'in', 'on', 'ap_submonthly, ap_daily, ap_hourly)
+
+    :param input_location: The location of the directory containing the files for the given stream
+    :type input_location: str
+    :param stream: Stream for that prefix should be found
+    :type stream: str
+    :return: Prefix of the given stream
+    :rtype: str
+    """
+    stream_prefix = stream[:2]  # `ap`, `in` or `on`
+    if stream_prefix not in ['ap', 'in', 'on']:
+        raise RuntimeError('Stream "{}" not recognised'.format(stream))
+
+    _, _, files = next(os.walk(input_location))
+    if not files:
+        logger = logging.getLogger(__name__)
+        logger.info("Can't define stream lookup because no files in the input directory.")
+    elif stream_prefix == 'ap':
+        stream_prefix = _ap_stream_prefix(files[0])
+    return stream_prefix
+
+
+def _ap_stream_prefix(filename: str):
+    """
+    Returns the right ap related prefix by checking if the file name matches the appropriated stream type
+    (ap, ap_submonthly, ap_daily, ap_hourly).
+
+    :param filename: File name that should be checked
+    :type filename: str
+    :return:
+    :rtype:
+    """
+    ap_prefixes = ['ap_submonthly', 'ap_daily', 'ap_hourly']
+    for ap_prefix in ap_prefixes:
+        pattern = re.compile(STREAMS_FILES_REGEX[ap_prefix])
+        matches = pattern.match(filename)
+        if matches:
+            return ap_prefix
+    return 'ap'
 
 
 def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
