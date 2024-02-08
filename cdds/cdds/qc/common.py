@@ -65,20 +65,20 @@ class DatetimeCalculator():
     A wrapper class for helper datetime functions calculated with a particular calendar.
     """
 
-    def __init__(self, calendar: str, base_date: str = '1850-01-01T00:00Z'):
+    def __init__(self, calendar: str, base_date: TimePoint = TimePoint(year=1850, month_of_year=1, day_of_month=1)):
         """
         Parameters
         ----------
         calendar: str
             Calendar type (e.g. '360_day'_
-        base_date: str
+        base_date: TimePoint
             Base date of the time axis coordinate
         base_unit: str
             Time unit of the time axis coordinate
         """
         Calendar.default().set_mode(calendar)
         self.calendar = calendar
-        self.base_date = parse.TimePointParser().parse(base_date)
+        self.base_date = base_date
         self.seconds_in_day = Calendar.SECONDS_IN_MINUTE * Calendar.MINUTES_IN_HOUR * Calendar.HOURS_IN_DAY
 
     def days_since_base_date(self, time_point: str) -> float:
@@ -115,7 +115,7 @@ class DatetimeCalculator():
         """
         return parse.DurationParser().parse('P{}D'.format(days)) + self.base_date
 
-    def get_sequence(self, start_date: str, end_date: str, mode: str, with_bounds=True) -> tuple:
+    def get_sequence(self, start_date: TimePoint, end_date: TimePoint, mode: str, with_bounds=True) -> tuple:
         """
         Generates a sequence of time points and bounds between two dates
 
@@ -135,13 +135,11 @@ class DatetimeCalculator():
         : tuple
             A tuple of two lists with sequence time points and bounds
         """
-        start = parse.TimePointParser().parse(start_date)
-        end = parse.TimePointParser().parse(end_date)
         duration = parse.DurationParser().parse('{}'.format(mode))
-        current = start
+        current = start_date
         sequence_points = []
         sequence_bounds = []
-        while current < end:
+        while current < end_date:
             timepoint_tuple = self._get_bounds_and_midpoint(current, duration, with_bounds)
             if with_bounds:
                 sequence_points.append(timepoint_tuple[1])

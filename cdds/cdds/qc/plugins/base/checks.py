@@ -4,6 +4,7 @@ from abc import ABCMeta, abstractmethod
 from netCDF4 import Dataset
 from typing import List, Dict, Any, Callable
 
+from cdds.common.plugins.plugins import PluginStore
 from cdds.common.validation import ValidationError
 from cdds.qc.plugins.base.common import CheckCache
 from cdds.qc.plugins.base.validators import ValidatorFactory
@@ -91,14 +92,15 @@ class StringAttributesCheckTask(CheckTask):
         :type attr_dict: Dict[str, Any]
         """
         validator = self._cache.cv_validator
+
         string_dict = {
             "experiment": validator.experiment_validator(getattr(netcdf_file, "experiment_id")),
             "institution": validator.institution_validator(getattr(netcdf_file, "institution_id")),
             "Conventions": ValidatorFactory.value_in_validator(self.CF_CONVENTIONS),
             "creation_date": ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ", "gregorian"),
             "data_specs_version": ValidatorFactory.value_in_validator([self._cache.mip_tables.version]),
-            "license": ValidatorFactory.value_in_validator([self._cache.request.license.strip()]),
-            "mip_era": ValidatorFactory.value_in_validator([self._cache.request.mip_era]),
+            "license": ValidatorFactory.value_in_validator([self._cache.request.metadata.license.strip()]),
+            "mip_era": ValidatorFactory.value_in_validator([self._cache.request.metadata.mip_era]),
             "product": ValidatorFactory.value_in_validator(["model-output"]),
             "source": ValidatorFactory.string_validator(self.SOURCE_REGEX),
             "tracking_id": validator.tracking_id_validator()

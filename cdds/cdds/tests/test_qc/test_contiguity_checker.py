@@ -2,19 +2,21 @@
 # Please see LICENSE.rst for license details.
 
 import unittest
-from cdds.common.old_request import Request
-from cdds.qc.common import DatetimeCalculator
+from metomi.isodatetime.data import TimePoint
+from metomi.isodatetime.parsers import DurationParser, TimePointParser
+
+from cdds.common.request.request import Request
 from cdds.qc.contiguity_checker import CollectionsCheck
 
 
 class CollectionsCheckTestCase(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
-        self.request = Request({
-            'run_bounds': '1850-01-01T00:00:00 1851-01-01T00:00:00',
-            'child_base_date': '1850-01-01T00:00:00',
-            'calendar': '360_day'
-        }, [])
+        self.request = Request()
+        self.request.metadata.child_base_date = TimePoint(year=1850, month_of_year=1, day_of_month=1)
+        self.request.metadata.calendar = '360_day'
+        self.request.data.start_date = TimePoint(year=1850, month_of_year=1, day_of_month=1)
+        self.request.data.end_date = TimePoint(year=1851, month_of_year=1, day_of_month=1)
 
     def test_adding_messages(self):
         cc = CollectionsCheck(self.request)
@@ -33,7 +35,8 @@ class CollectionsCheckTestCase(unittest.TestCase):
         }
         time_bounds = None
         frequency = 'P1M'  # note that in this and many other tests without run bounds this corresponds to MonPt
-        run_start, run_end = self.request.run_bounds.split(" ")
+        run_start = self.request.data.start_date
+        run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
 
@@ -45,7 +48,8 @@ class CollectionsCheckTestCase(unittest.TestCase):
         }
         time_bounds = None
         frequency = 'P1M'
-        run_start, run_end = self.request.run_bounds.split(" ")
+        run_start = self.request.data.start_date
+        run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
 
@@ -59,7 +63,8 @@ class CollectionsCheckTestCase(unittest.TestCase):
         }
         time_bounds = None
         frequency = 'P1M'
-        run_start, run_end = self.request.run_bounds.split(" ")
+        run_start = self.request.data.start_date
+        run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {
             'bar2.nc': [{'index': 'foo', 'message': 'Time coordinate appears to be reversed'}]})
@@ -72,7 +77,8 @@ class CollectionsCheckTestCase(unittest.TestCase):
         }
         time_bounds = None
         frequency = 'P1M'
-        run_start, run_end = self.request.run_bounds.split(" ")
+        run_start = self.request.data.start_date
+        run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {'bar1.nc': [{'index': 'foo',
                                                        'message': ('Time axis value 330 does not correspond to '
@@ -88,11 +94,11 @@ class CollectionsCheckTestCase(unittest.TestCase):
         self.assertIsNone(msg)
 
     def test_internal_contiguity_diurnal_climatology_gregorian(self):
-        request = Request({
-            'run_bounds': '2007-01-01T00:00:00 2007-03-01T00:00:00',
-            'child_base_date': '2000-01-01T00:00:00',
-            'calendar': 'Gregorian'
-        }, [])
+        request = Request()
+        request.metadata.child_base_date = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        request.metadata.calendar = 'Gregorian'
+        request.data.start_date = TimePoint(year=2007, month_of_year=1, day_of_month=1)
+        request.data.end_date = TimePoint(year=2007, month_of_year=3, day_of_month=1)
         cc = CollectionsCheck(request)
         time_dim = [(i + 0.5) / 24.0 + 2571.0 for i in range(24)] + [(i + 0.5) / 24.0 + 2601.0 for i in range(24)] + \
                    [(i + 0.5) / 24.0 + 2630.0 for i in range(24)]
@@ -145,7 +151,8 @@ class CollectionsCheckTestCase(unittest.TestCase):
                 ((i / 24.0 + 1.0), ((i + 1) / 24.0 + 2.0)) for i in range(24)]
         }
         frequency = '1hrCM'
-        run_start, run_end = self.request.run_bounds.split(" ")
+        run_start = self.request.data.start_date
+        run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {'bar.nc': [
             {'index': 'foo', 'message': 'Time points are not in the middle of time bounds'}]})
@@ -164,17 +171,18 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar3.nc': [(240, 270), (270, 300), (300, 330), (330, 360)]
         }
         frequency = 'P1M'
-        run_start, run_end = self.request.run_bounds.split(" ")
+        run_start = self.request.data.start_date
+        run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
 
     def test_valid_external_contiguity_hourly(self):
         small_number = 1e-8
-        request = Request({
-            'run_bounds': '1850-01-01T00:00:00 1850-01-03T00:00:00',
-            'child_base_date': '1850-01-01T00:00:00',
-            'calendar': '360_day'
-        }, [])
+        request = Request()
+        request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
+        request.data.end_date = TimePointParser().parse('1850-01-03T00:00:00')
+        request.metadata.child_base_date = TimePoint(year=1850, month_of_year=1, day_of_month=1)
+        request.metadata.calendar = '360_day'
         cc = CollectionsCheck(request)
         var_key = 'foo'
         time_axis = {
@@ -186,7 +194,8 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar2.nc': [(i / 24.0, (i + 1) / 24.0) for i in range(24, 48)],
         }
         frequency = 'PT1H'
-        run_start, run_end = request.run_bounds.split(" ")
+        run_start = request.data.start_date
+        run_end = request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
 
@@ -202,7 +211,8 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar2.nc': [((i / 24.0 + 30.0), ((i + 1) / 24.0 + 59.0)) for i in range(24)]
         }
         frequency = '1hrCM'
-        run_start, run_end = self.request.run_bounds.split(" ")
+        run_start = self.request.data.start_date
+        run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
 
@@ -220,7 +230,8 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar3.nc': [(240, 270), (270, 300), (330, 360)]
         }
         frequency = 'P1M'
-        run_start, run_end = self.request.run_bounds.split(" ")
+        run_start = self.request.data.start_date
+        run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         expected = {
             'bar3.nc': [
@@ -256,17 +267,18 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar2.nc': [((i / 24.0 + 60.0), ((i + 1) / 24.0 + 89.0)) for i in range(24)]
         }
         frequency = '1hrCM'
-        run_start, run_end = self.request.run_bounds.split(" ")
+        run_start = self.request.data.start_date
+        run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {'bar2.nc': [{
             'index': 'foo', 'message': 'Climatology time bounds in bar2.nc appear to be mismatched'}]})
 
     def test_time_bounds_in_360day_calendar(self):
-        request = Request({
-            'run_bounds': '1850-01-01T00:00:00 1850-07-01T00:00:00',
-            'child_base_date': '1850-01-01T00:00:00',
-            'calendar': '360_day'
-        }, [])
+        request = Request()
+        request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
+        request.data.end_date = TimePointParser().parse('1850-07-01T00:00:00')
+        request.metadata.child_base_date = TimePointParser().parse('1850-01-01T00:00:00')
+        request.metadata.calendar = '360_day'
         cc = CollectionsCheck(request)
         var_key = 'foo'
         time_axis = {
@@ -278,16 +290,17 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar2.nc': [(90, 120), (120, 150), (150, 180)],
         }
         frequency = 'P1M'
-        run_start, run_end = request.run_bounds.split(" ")
+        run_start = self.request.data.start_date
+        run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
 
     def test_time_bounds_in_gregorian_calendar(self):
-        request = Request({
-            'run_bounds': '1850-01-01T00:00:00 1850-07-01T00:00:00',
-            'child_base_date': '1850-01-01T00:00:00',
-            'calendar': 'Gregorian'
-        }, [])
+        request = Request()
+        request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
+        request.data.end_date = TimePointParser().parse('1850-07-01T00:00:00')
+        request.metadata.child_base_date = TimePointParser().parse('1850-01-01T00:00:00')
+        request.metadata.calendar = 'Gregorian'
         cc = CollectionsCheck(request)
         var_key = 'foo'
         time_axis = {
@@ -299,16 +312,17 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar2.nc': [(90, 120), (120, 151), (151, 181)],
         }
         frequency = 'P1M'
-        run_start, run_end = request.run_bounds.split(" ")
+        run_start = self.request.data.start_date
+        run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
 
     def test_imprecise_run_bounds(self):
-        request = Request({
-            'run_bounds': '1850-01-01T00:00:00 1850-01-02T00:00:00',
-            'child_base_date': '1850-01-01T00:00:00',
-            'calendar': '360_day'
-        }, [])
+        request = Request()
+        request.data.start_date = TimePoint(year=1850, month_of_year=1, day_of_month=1)
+        request.data.end_date = TimePoint(year=1850, month_of_year=1, day_of_month=2)
+        request.metadata.child_base_date = TimePoint(year=1850, month_of_year=1, day_of_month=1)
+        request.metadata.calendar = '360_day'
         cc = CollectionsCheck(request)
         var_key = 'foo'
         time_axis = {
@@ -316,16 +330,17 @@ class CollectionsCheckTestCase(unittest.TestCase):
         }
         time_bounds = None
         frequency = 'PT1200S'
-        run_start, run_end = request.run_bounds.split(" ")
+        run_start = self.request.data.start_date
+        run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertEquals(len(cc.results.keys()), 1)
 
     def test_invalid_time_bounds(self):
-        request = Request({
-            'run_bounds': '1850-01-01T00:00:00 1851-01-01T00:00:00',
-            'child_base_date': '1850-01-01T00:00:00',
-            'calendar': '360_day'
-        }, [])
+        request = Request()
+        request.data.start_date = TimePoint(year=1850, month_of_year=1, day_of_month=1)
+        request.data.end_date = TimePoint(year=1851, month_of_year=1, day_of_month=1)
+        request.metadata.child_base_date = TimePoint(year=1850, month_of_year=1, day_of_month=1)
+        request.metadata.calendar = '360_day'
         cc = CollectionsCheck(request)
         var_key = 'foo'
         time_axis = {
@@ -337,7 +352,8 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar2.nc': [(90, 120), (120, 150), (150, 181)],
         }
         frequency = 'P1M'
-        run_start, run_end = request.run_bounds.split(" ")
+        run_start = self.request.data.start_date
+        run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {'bar2.nc': [
             {

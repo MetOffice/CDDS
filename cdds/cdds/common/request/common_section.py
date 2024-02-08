@@ -162,3 +162,12 @@ class CommonSection(Section):
         :rtype: str
         """
         return os.path.join(self.proc_directory(proc_directory_facet), component)
+
+    def is_relaxed_cmor(self) -> bool:
+        """
+        Returns if the mode is 'relaxed' CMOR.
+
+        :return: If mode is 'relaxed'
+        :rtype: bool
+        """
+        return self.mode == 'relaxed'

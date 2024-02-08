@@ -26,10 +26,12 @@ class StructuredDataset(object, metaclass=ABCMeta):
         ----------
         root: string
             Path to the root directory of the dataset.
-        request: cdds.common.old_request.Request
-            The |Request| json file.
-        mip_table: cdds_qc_plugin_cmip6.MipTables
+        request: cdds.common.request.request.Request
+            The |Request| cfg file.
+        mip_tables: cdds_qc_plugin_cmip6.MipTables
             An object containing information about mip tables associated with the processed request.
+        mip_table: str
+            The MIP table to consider if not given all will consider.
         start: string
             A string representation of a date being the start of a date
             range.
@@ -38,6 +40,8 @@ class StructuredDataset(object, metaclass=ABCMeta):
             range.
         logger: logging.Logger
             A logger instance
+        stream: str
+            The stream to consider.
         """
         if not os.path.isdir(root):
             raise Exception("{} is not a directory".format(root))
