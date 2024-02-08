@@ -113,7 +113,6 @@ class TestModelParameters(TestCase):
         ap4_file_info = stream_file_info.file_frequencies["ap4"]
         self.assertEqual(ap4_file_info.frequency, "monthly")
         self.assertEqual(ap4_file_info.stream, "ap4")
-        self.assertEqual(ap4_file_info.file_per_year, 12)
 
     def write_params_file(self, data):
         json_file = os.path.join(self.model_params_dir, 'HadGEM3-GC31-LL.json')

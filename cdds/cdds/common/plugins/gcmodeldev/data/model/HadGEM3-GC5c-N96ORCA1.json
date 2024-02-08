@@ -3,8 +3,8 @@
     "quarterly": {
       "streams": [
         "ond"
-        ],
-      "files_per_year": 4},
+        ]
+    },
     "monthly": {
       "streams": [
         "ap1",
@@ -32,8 +32,7 @@
         "inm",
         "ind",
         "onm"
-      ],
-      "files_per_year": 12
+      ]
     },
     "10 day": {
       "streams": [
@@ -42,8 +41,7 @@
         "ap8",
         "ap9",
         "apt"
-      ],
-      "files_per_year": 36
+      ]
     }
   },
   "cycle_length": {
