@@ -97,7 +97,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         request.metadata.child_base_date = TimePointParser().parse('2000-01-01T00:00:00')
         request.metadata.calendar = 'Gregorian'
         request.data.start_date = TimePointParser().parse('2007-01-01T00:00:00')
-        request.data.end_date =  TimePointParser().parse('2007-03-01T00:00:00')
+        request.data.end_date = TimePointParser().parse('2007-03-01T00:00:00')
         cc = CollectionsCheck(request)
         time_dim = [(i + 0.5) / 24.0 + 2571.0 for i in range(24)] + [(i + 0.5) / 24.0 + 2601.0 for i in range(24)] + \
                    [(i + 0.5) / 24.0 + 2630.0 for i in range(24)]
@@ -289,8 +289,8 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar2.nc': [(90, 120), (120, 150), (150, 180)],
         }
         frequency = 'P1M'
-        run_start = self.request.data.start_date
-        run_end = self.request.data.end_date
+        run_start = request.data.start_date
+        run_end = request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
 
@@ -311,8 +311,8 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'bar2.nc': [(90, 120), (120, 151), (151, 181)],
         }
         frequency = 'P1M'
-        run_start = self.request.data.start_date
-        run_end = self.request.data.end_date
+        run_start = request.data.start_date
+        run_end = request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {})
 
