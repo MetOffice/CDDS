@@ -1,9 +1,10 @@
-# (C) British Crown Copyright 2017-2023, Met Office.
+# (C) British Crown Copyright 2017-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The main gateway module for the cdds_convert application.
 """
 from argparse import Namespace
+from typing import List
 
 import cdds.convert.process
 
@@ -11,7 +12,7 @@ from cdds.configure.user_config import create_user_config_files
 from cdds.common.request.request import read_request, Request
 
 
-def get_cylc_args_list(cylc_args, stream_ids, request_id):
+def get_cylc_args_list(cylc_args: List[str], stream_ids: List[str], request_id: str) -> List[str]:
     """
 
     Parameters
@@ -91,9 +92,8 @@ def run_generate_user_config_files(arguments):
     _generate_user_config_files(arguments, request)
 
 
-def _generate_user_config_files(arguments, request):
+def _generate_user_config_files(arguments: Namespace, request: Request) -> None:
     requested_variables_file = arguments.requested_variables_list_file
     template_name = arguments.user_config_template_name
 
-    create_user_config_files(request, requested_variables_file, template_name, arguments.output_cfg_dir,
-                             arguments.args)
+    create_user_config_files(request, requested_variables_file, template_name, arguments.output_cfg_dir)

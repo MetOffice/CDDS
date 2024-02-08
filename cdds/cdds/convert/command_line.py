@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Command line interfaces for cdds_convert and mip_concatenate tasks.
@@ -15,17 +15,11 @@ from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request, read_request
 
 from cdds.arguments import read_default_arguments
-from cdds.common import (configure_logger, common_command_line_args,
-                         root_dir_args, mass_output_args, check_directory)
-from cdds.deprecated.config import (update_arguments_for_proc_dir,
-                                    update_arguments_paths,
-                                    update_log_dir)
+from cdds.common import configure_logger, check_directory
 
-from cdds import __version__, _DEV
+from cdds import _DEV
 from cdds.convert.common import validate_archive_data_version, expand_path
-from cdds.common.constants import (REQUIRED_KEYS_FOR_PROC_DIRECTORY,
-                                   DATESTAMP_TEMPLATE, DATESTAMP_PARSER_STR)
-from cdds.common import old_request as old_request
+from cdds.common.constants import DATESTAMP_TEMPLATE
 from cdds.convert.arguments import add_user_config_data_files
 from cdds.convert.exceptions import (OrganiseEnvironmentError,
                                      OrganiseTransposeError,
@@ -82,68 +76,6 @@ def parse_args_cdds_convert() -> Tuple[Namespace, Request]:
                         nargs='*',
                         help='Restrict processing suites to only to these streams.'
                         )
-    # Use a branch of the processing suite other than that specified in the
-    # config project. This is for developing changes to the suite.
-    # parser.add_argument('--rose_suite_branch',
-    #                     type=str,
-    #                     default=arguments.rose_suite_branch,
-    #                     help='For development purposes only.'
-    #                     ) => conversion_section.cdds_workflow_branch
-    # parser.add_argument('--simulation', action='store_true',
-    #                     help='Run cylc workflow in simulation mode')
-
-    # parser.add_argument('--cylc_args',
-    #                     dest='cylc_args',
-    #                     type=str,
-    #                     help='Arguments to be passed to cylc vip. For '
-    #                          'more info on the allowed options, please see'
-    #                          'cylc vip --help.')
-    # parser.add_argument('--skip_extract',
-    #                     dest='skip_extract',
-    #                     action='store_true',
-    #                     default=arguments.skip_extract,
-    #                     help=('Skip the extract task at the start of the suite for each stream. '
-    #                           '[Default: {}]').format(arguments.skip_extract))
-    # parser.add_argument('--skip_qc',
-    #                     dest='skip_qc',
-    #                     action='store_true',
-    #                     default=arguments.skip_qc,
-    #                     help=('Skip the quality control task at the end of the suite for each stream.'
-    #                           '[Default: {}]').format(arguments.skip_qc))
-    # parser.add_argument('--skip_transfer',
-    #                     dest='skip_transfer',
-    #                     action='store_true',
-    #                     default=arguments.skip_transfer,
-    #                     help=('Skip the transfer task at the end of the suite for each stream. '
-    #                           '[Default: {}]').format(arguments.skip_transfer))
-    # parser.add_argument('--skip_extract_validation',
-    #                     dest='skip_extract_validation',
-    #                     action='store_true',
-    #                     default=arguments.skip_extract_validation,
-    #                     help=('Skip validation the end of the extract task. '
-    #                           '[Default: {}]').format(arguments.skip_extract_validation))
-    # mass_output_args(parser, arguments.output_mass_suffix, arguments.output_mass_root)
-
-    # parser.add_argument('--no_email_notifications',
-    #                     dest='email_notifications',
-    #                     help='If present, no email notifications will be '
-    #                          'sent from the processing suites.',
-    #                     action='store_false')
-    #
-    # parser.add_argument('--scale_memory_limits',
-    #                     dest='scale_memory_limits',
-    #                     default=None,
-    #                     type=float,
-    #                     help='Memory scaling factor to be applied to all '
-    #                          'batch jobs. Please contact the CDDS team for '
-    #                          'advice before using this option.')
-    # parser.add_argument('--override_cycling_freq',
-    #                     dest='override_cycling_freq',
-    #                     default=[],
-    #                     nargs='*',
-    #                     help='Override default cycling frequency for specified stream. Each stream should be '
-    #                          'specified along with the cycling frequency using the format "<stream>=<frequency>", '
-    #                          'e.g. "ap7=P3M ap8=P1M".')
 
     parser.add_argument('--model_params_dir',
                         dest='model_params_dir',
@@ -151,34 +83,11 @@ def parse_args_cdds_convert() -> Tuple[Namespace, Request]:
                         help='If present, the model parameters will be overloaded by the data in the json'
                              'files containing in the given directory.')
 
-    # parser.add_argument('--skip_configure',
-    #                     dest='skip_configure',
-    #                     help='If present, the configure step will be skipped.',
-    #                     action='store_true')
-    #
-    # parser.add_argument('--relaxed_cmor',
-    #                     help='If specified, CMIP6 style validation is not performed by CMOR.',
-    #                     action='store_true'
-    #                     )
-    #
-    # parser.add_argument('-d',
-    #                     '--data_request_version',
-    #                     default=arguments.data_request_version,
-    #                     help='The version of the data request.')
-
-    # parser.add_argument('--root_ancil_dir',
-    #                     default=arguments.root_ancil_dir,
-    #                     help='Specify the root path to the location of the ancillary files.'
-    #                          'The files should be located in a sub-directory of this path '
-    #                          'with the name of the model_id.')
-
     parser.add_argument('--archive_data_version',
                         default=DATESTAMP_TEMPLATE.format(dt=datetime.now()),
                         type=validate_archive_data_version,
                         help='Set the version used when archiving data to MASS and constructing '
                              'dataset ids (format vYYYYMMDD)')
-    # root_dir_args(parser, arguments.root_proc_dir, arguments.root_data_dir)
-    # common_command_line_args(parser, arguments.log_name, arguments.log_level, __version__)
 
     args = parser.parse_args()
     request = read_request(args.request)
@@ -196,9 +105,9 @@ def parse_args_cdds_convert() -> Tuple[Namespace, Request]:
         plugin.overload_models_parameters(args.model_params_dir)
 
     if not request.conversion.skip_configure:
-        arguments = add_user_config_data_files(args, request)
+        args = add_user_config_data_files(args, request)
 
-    return arguments, request
+    return args, request
 
 
 def _parse_args_concat_setup():
