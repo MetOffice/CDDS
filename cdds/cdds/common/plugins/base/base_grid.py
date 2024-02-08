@@ -196,7 +196,7 @@ class OceanBaseGridInfo(BaseGridInfo):
             if substream == 'scalar':
                 bound_coords = ['time_centered_bounds']
             elif substream == 'diaptr':
-                bound_coords = ['time_centered_bounds', 'deptht_bounds']
+                bound_coords = ['time_centered_bounds', 'deptht_bounds', 'depthw_bounds']
             else:
                 bound_coords = [
                     'bounds_lon', 'bounds_lat', 'time_centered_bounds', 'depth{}_bounds'.format(substream[-1].lower())
