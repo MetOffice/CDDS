@@ -2,7 +2,6 @@
 # Please see LICENSE.rst for license details.
 
 import metomi.isodatetime.parsers as parse
-import metomi.isodatetime.dumpers as dump
 from metomi.isodatetime.data import Calendar, Duration, TimePoint, get_is_leap_year
 
 """

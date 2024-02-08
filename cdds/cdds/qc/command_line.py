@@ -11,7 +11,6 @@ from netCDF4 import Dataset
 from typing import Tuple, List
 
 from cdds.common import configure_logger, check_directory
-from cdds.deprecated.config import FullPaths
 from cdds.common.cdds_files.cdds_directories import output_data_directory
 
 from cdds.common.plugins.plugins import PluginStore
@@ -85,17 +84,10 @@ def parse_args(arguments: List[str]) -> Tuple[Namespace, Request]:
         description='Check whether the output netCDF files conform to the '
                     'WGCM CMIP standards',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    # root_dir_args(parser, arguments.root_proc_dir, arguments.root_data_dir)
-    # meta_dir_args(parser, arguments.standard_names_dir)
     parser.add_argument(
         'request', help=(
             'The full path to the cfg file containing information about the '
             'request.'))
-    # parser.add_argument(
-    #     '-n', '--standard_names_version',
-    #     default=arguments.standard_names_version, help=(
-    #         'The version of the standard names table.'))
-
     # optional parameter to run qc on a subset of the output
     parser.add_argument('--mip_table', required=False, help=(
         'Restrict the QC only to this one MIP table'))
@@ -107,30 +99,14 @@ def parse_args(arguments: List[str]) -> Tuple[Namespace, Request]:
                         required=False,
                         help=('DEVELOPER option: do not filter issues '
                               'raised by compliance-checker.'))
-    # parser.add_argument('-d', '--data_request_version',
-    #                     default=arguments.data_request_version,
-    #                     help=('The version of the data request.'))
     parser.add_argument('-s', '--stream',
                         default=None,
                         help='Stream selection')
-    # parser.add_argument('--relaxed_cmor',
-    #                     help='If specified, CMIP6 style validation is not performed by QC.',
-    #                     action='store_true'
-    #                     )
     output_dir_group = parser.add_mutually_exclusive_group()
-    # output_dir_group.add_argument(
-    #     '-p', '--use_proc_dir', action='store_true', help=(
-    #         'Read this and write that and log file to the appropriate '
-    #         'component directory in the proc directory as defined by the CDDS '
-    #         'configuration files.'))
     output_dir_group.add_argument(
         '-o', '--output_dir', default=None, help=(
             'The full path to the directory where the output files will be '
             'written.'))
-
-    # Add arguments common to all scripts.
-    # common_command_line_args(parser, arguments.log_name, arguments.log_level,
-    #                          __version__)
     arguments = parser.parse_args(user_arguments)
 
     request = read_request(arguments.request)

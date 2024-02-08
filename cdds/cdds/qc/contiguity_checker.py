@@ -9,8 +9,8 @@ from collections import defaultdict
 
 from cdds.common.request.request import Request
 from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
-from cdds.qc.common import equal_with_tolerance, strip_zeros, DatetimeCalculator
-from cdds.qc.constants import DIURNAL_CLIMATOLOGY, HOURLY_OFFSET, DIURNAL_OFFSETS, SECONDS_IN_DAY, TIME_TOLERANCE
+from cdds.qc.common import equal_with_tolerance, DatetimeCalculator
+from cdds.qc.constants import DIURNAL_CLIMATOLOGY, HOURLY_OFFSET, DIURNAL_OFFSETS, TIME_TOLERANCE
 
 
 class CollectionsCheck(object):
