@@ -5,7 +5,7 @@
     "mass_data_class": "crum",
     "output_mass_root": "",
     "output_mass_suffix": "",
-    "processing_workflow_branch": "cdds_2.5.3",
+    "processing_workflow_branch": "cdds_2.5.6",
     "root_ancil_dir": "${CDDS_ETC}/ancil/",
     "root_data_dir": "/project/cdds_data",
     "root_hybrid_heights_dir": "${CDDS_ETC}/vertical_coordinates",
