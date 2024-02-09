@@ -3,6 +3,15 @@
 
 .. include:: common.txt
 
+Release 2.5.6, February 09, 2024
+================================
+* Added HadGEM3-GC5 and eUKESM1-1-ice model configurations to GCModelDev
+  plugin (CDDSO-390, CDDSO-391)
+* Extraction code now correctly handles coordinate variables when
+  extracting data from NEMO diaptr and scalar files (CDDSO-394)
+* The data version used in archiving can now be specified in the CDDS workflow
+  to support additional runs of CDDS appending to the same data set (CDDSO-393)
+
 Release 2.5.5, January 18, 2024
 ===============================
 * The name of netCDF bounds coordinates variables are now configurable via
