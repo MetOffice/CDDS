@@ -1,18 +1,15 @@
 {
   "stream_file_frequency": {
-    "monthly": {
-      "streams": [
-        "ap4",
-        "ap5",
-        "apm",
-        "apu",
-        "onm",
-        "inm",
-        "ind",
-        "ond"
-      ],
-      "files_per_year": 12
-    }
+    "monthly": [
+      "ap4",
+      "ap5",
+      "apm",
+      "apu",
+      "onm",
+      "inm",
+      "ind",
+      "ond"
+    ]
   },
   "cycle_length": {
   },
@@ -33,7 +30,8 @@
       "v_latitude": null,
       "levels": null,
       "ancil_filenames": [
-        "qrparm.landfrac.pp", "qrparm.soil.pp"
+        "qrparm.landfrac.pp",
+        "qrparm.soil.pp"
       ],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
@@ -48,7 +46,11 @@
       "levels": null,
       "replacement_coordinates_file": null,
       "ancil_filenames": [
-        "ocean_constants.nc", "ocean_byte_masks.nc", "ocean_basin.nc", "diaptr_basin_masks.nc", "ocean_zostoga.nc"
+        "ocean_constants.nc",
+        "ocean_byte_masks.nc",
+        "ocean_basin.nc",
+        "diaptr_basin_masks.nc",
+        "ocean_zostoga.nc"
       ],
       "hybrid_heights_files": [],
       "masked": {

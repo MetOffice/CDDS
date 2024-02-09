@@ -1,28 +1,22 @@
 {
   "stream_file_frequency": {
-    "monthly": {
-      "streams": [
-        "ap4",
-        "ap5",
-        "apm",
-        "apu",
-        "onm",
-        "ond",
-        "inm",
-        "ind"
-      ],
-      "files_per_year": 12
-    },
-    "10 day": {
-      "streams": [
-        "ap6",
-        "ap7",
-        "ap8",
-        "ap9",
-        "apt"
-      ],
-      "files_per_year": 36
-    }
+    "monthly": [
+      "ap4",
+      "ap5",
+      "apm",
+      "apu",
+      "onm",
+      "ond",
+      "inm",
+      "ind"
+    ],
+    "10 day": [
+      "ap6",
+      "ap7",
+      "ap8",
+      "ap9",
+      "apt"
+    ]
   },
   "cycle_length": {
     "ap4": "P1Y",

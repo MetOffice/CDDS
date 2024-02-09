@@ -239,10 +239,9 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
 
     def _load_stream_file_info(self, json_parameters: Dict[str, Any]) -> None:
         file_frequencies: Dict[str, StreamFileFrequency] = {}
-        for frequency, entry in json_parameters.items():
-            streams = entry["streams"]
+        for frequency, streams in json_parameters.items():
             file_frequencies.update({
-                stream: StreamFileFrequency(frequency, stream, entry["files_per_year"]) for stream in streams
+                stream: StreamFileFrequency(frequency, stream) for stream in streams
             })
             self._streams.extend(streams)
         self._stream_file_info = StreamFileInfo(file_frequencies)

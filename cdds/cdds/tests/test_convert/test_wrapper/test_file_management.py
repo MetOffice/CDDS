@@ -7,11 +7,8 @@ import os
 
 from cdds.common.plugins.plugin_loader import load_plugin
 
-from cdds.convert.mip_convert_wrapper.file_management import (
-    get_paths, copy_to_staging_dir, link_data, filter_streams
-)
-from cdds.tests.test_convert.test_wrapper.test_file_processors import (
-    ATMOS_MONTHLY_FILENAMES, OCEAN_FILENAMES)
+from cdds.convert.mip_convert_wrapper.file_management import get_paths, copy_to_staging_dir, link_data, filter_streams
+from cdds.tests.test_convert.test_wrapper.test_file_processors import ATMOS_MONTHLY_FILENAMES, OCEAN_FILENAMES
 from metomi.isodatetime.data import TimePoint, Calendar
 from unittest import main, mock, TestCase
 
@@ -252,12 +249,15 @@ class TestMisc(TestCase):
         load_plugin()
         Calendar.default().set_mode('360_day')
 
+    @mock.patch('os.walk')
     @mock.patch('os.listdir')
-    def test_get_paths(self, mock_list_dir):
+    def test_get_paths(self, mock_list_dir, mock_os_walk):
         """
         Tests the file_management.get_paths function.
         """
         mock_list_dir.return_value = ATMOS_MONTHLY_FILENAMES
+        mock_os_walk.return_value = iter([("foo", ["bar"], ["aw310a.p41997apr.pp"])])
+        # mock_os_walk.return_value = ("/path/to/input/dir/u-RUNID/ap4", [""], ("aw310a.p41997apr.pp",))
         suite_name = 'u-RUNID'
         stream = 'ap4'
         substream = ''
@@ -303,12 +303,14 @@ class TestMisc(TestCase):
 
         self.assertListEqual(expected_file_list, output_file_list)
 
+    @mock.patch('os.walk')
     @mock.patch('os.listdir')
-    def test_get_paths_substreams(self, mock_list_dir):
+    def test_get_paths_substreams(self, mock_list_dir, mock_os_walk):
         """
         Tests the file_management.get_paths function.
         """
         mock_list_dir.return_value = OCEAN_FILENAMES
+        mock_os_walk.return_value = iter([("foo", ["bar"], ["nemo_aw310o_1m_19970101-19970201_grid-T.nc"])])
         suite_name = 'u-RUNID'
         stream = 'onm'
         substream = 'grid-T'
