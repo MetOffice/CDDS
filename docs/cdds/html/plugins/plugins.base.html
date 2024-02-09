@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>cdds.common.plugins.base package &#8212; CDDS 2.5.4 documentation</title>
+    <title>cdds.common.plugins.base package &#8212; CDDS 2.5.6 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/nature.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="index.html" title="CDDS plugins"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.6 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CDDS plugins</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.base package</a></li> 
       </ul>
@@ -69,20 +69,6 @@ to handle basic grid information of models.</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="cdds.common.plugins.base.base_grid.AtmosBaseGridInfo.halo_options">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">halo_options</span></span><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#cdds.common.plugins.base.base_grid.AtmosBaseGridInfo.halo_options" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the ncks options needed to move ocean holo rows and columns.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>‘None’ because atmosphere grids have ncks options</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -244,16 +230,26 @@ grid info classes should inherit.</p>
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">cdds.common.plugins.base.base_grid.</span></span><span class="sig-name descname"><span class="pre">OceanBaseGridInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cdds/common/plugins/base/base_grid.html#OceanBaseGridInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdds.common.plugins.base.base_grid.OceanBaseGridInfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#cdds.common.plugins.base.base_grid.BaseGridInfo" title="cdds.common.plugins.base.base_grid.BaseGridInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdds.common.plugins.base.base_grid.BaseGridInfo</span></code></a></p>
 <p>Stores the information for an ocean grid</p>
-<dl class="py property">
-<dt class="sig sig-object py" id="cdds.common.plugins.base.base_grid.OceanBaseGridInfo.atmos_timestep">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">atmos_timestep</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#cdds.common.plugins.base.base_grid.OceanBaseGridInfo.atmos_timestep" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the atmosphere time step.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cdds.common.plugins.base.base_grid.OceanBaseGridInfo.bounds_coordinates">
+<span class="sig-name descname"><span class="pre">bounds_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substream</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/cdds/common/plugins/base/base_grid.html#OceanBaseGridInfo.bounds_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdds.common.plugins.base.base_grid.OceanBaseGridInfo.bounds_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of names of bounds coordinates
+For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;bounds_lon&#39;</span><span class="p">,</span> <span class="s1">&#39;bounds_lat&#39;</span><span class="p">,</span> <span class="s1">&#39;time_centered_bounds&#39;</span><span class="p">,</span> <span class="s1">&#39;depthw_bounds&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>‘None’ because ocean grids have atmosphere time step</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stream</strong> (<em>str</em>) – Name of the stream</p></li>
+<li><p><strong>substream</strong> (<em>str</em>) – Name of the substream</p></li>
+</ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>int</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Names of bounds coordinates</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[str]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -976,7 +972,7 @@ is NONE, the default stream is returned.</p>
         <li class="right" >
           <a href="index.html" title="CDDS plugins"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">CDDS 2.5.6 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >CDDS plugins</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.base package</a></li> 
       </ul>
