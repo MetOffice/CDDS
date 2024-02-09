@@ -14,3 +14,6 @@ class TestStreamFileFrequency(TestCase):
 
     def test_create_with_invalid_frequency(self):
         self.assertRaises(ValueError, StreamFileFrequency, "invalid_frequency", "ap4")
+
+    def test_create_with_empty_frequency(self):
+        self.assertRaises(ValueError, StreamFileFrequency, stream="ap4")

@@ -12,7 +12,7 @@ from abc import ABCMeta, abstractmethod
 from typing import Tuple, Dict
 
 
-VALID_STREAM_FREQUENCIES = ['season', 'quarterly', 'monthly', '10 day', 'daily', 'hourly']
+VALID_STREAM_FREQUENCIES = ['quarterly', 'monthly', '10 day', 'daily', 'hourly']
 
 
 @dataclass
