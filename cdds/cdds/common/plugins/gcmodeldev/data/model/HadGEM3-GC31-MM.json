@@ -1,26 +1,22 @@
 {
   "stream_file_frequency": {
-    "monthly": {
-      "streams": [
-        "ap4",
-        "ap5",
-        "apm",
-        "apu",
-        "onm",
-        "ond",
-        "inm",
-        "ind"
-      ]
-    },
-    "10 day": {
-      "streams": [
-        "ap6",
-        "ap7",
-        "ap8",
-        "ap9",
-        "apt"
-      ]
-    }
+    "monthly": [
+      "ap4",
+      "ap5",
+      "apm",
+      "apu",
+      "onm",
+      "ond",
+      "inm",
+      "ind"
+    ],
+    "10 day": [
+      "ap6",
+      "ap7",
+      "ap8",
+      "ap9",
+      "apt"
+    ]
   },
   "cycle_length": {
     "ap4": "P1Y",
@@ -157,7 +153,13 @@
       "default": 10
     }
   },
-  "subdaily_streams": ["ap6", "ap7", "ap8", "ap9", "apt"],
+  "subdaily_streams": [
+    "ap6",
+    "ap7",
+    "ap8",
+    "ap9",
+    "apt"
+  ],
   "grid_info": {
     "atmos": {
       "atmos_timestep": 900,
@@ -168,7 +170,8 @@
       "v_latitude": 325,
       "levels": 85,
       "ancil_filenames": [
-        "qrparm.landfrac.pp", "qrparm.soil.pp"
+        "qrparm.landfrac.pp",
+        "qrparm.soil.pp"
       ],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
@@ -183,37 +186,95 @@
       "levels": 75,
       "replacement_coordinates_file": "cice_eORCA025_coords.nc",
       "ancil_filenames": [
-        "ocean_constants.nc", "ocean_byte_masks.nc", "ocean_basin.nc", "diaptr_basin_masks.nc", "ocean_zostoga.nc"
+        "ocean_constants.nc",
+        "ocean_byte_masks.nc",
+        "ocean_basin.nc",
+        "diaptr_basin_masks.nc",
+        "ocean_zostoga.nc"
       ],
       "hybrid_heights_files": [],
       "masked": {
         "grid-V": {
-          "slice_latitude": [-1, null, null],
-          "slice_longitude": [null, null, null]
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            null,
+            null,
+            null
+          ]
         },
         "grid-T": {
-          "slice_latitude": [-1, null, null],
-          "slice_longitude": [720, null, null]
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            720,
+            null,
+            null
+          ]
         },
         "grid-U": {
-          "slice_latitude": [-1, null, null],
-          "slice_longitude": [720, null, null]
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            720,
+            null,
+            null
+          ]
         },
         "grid-W": {
-          "slice_latitude": [-1, null, null],
-          "slice_longitude": [720, null, null]
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            720,
+            null,
+            null
+          ]
         },
         "cice-T": {
-          "slice_latitude": [-1, null, null],
-          "slice_longitude": [720, null, null]
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            720,
+            null,
+            null
+          ]
         }
       },
       "halo_options": {
-        "grid-T": ["-dx,1,1440", "-dy,1,1205"],
-        "grid-U": ["-dx,1,1440", "-dy,1,1205"],
-        "grid-V": ["-dx,1,1440", "-dy,1,1205"],
-        "grid-W": ["-dx,1,1440", "-dy,1,1205"],
-        "diaptr": ["-dy,1,1205"]
+        "grid-T": [
+          "-dx,1,1440",
+          "-dy,1,1205"
+        ],
+        "grid-U": [
+          "-dx,1,1440",
+          "-dy,1,1205"
+        ],
+        "grid-V": [
+          "-dx,1,1440",
+          "-dy,1,1205"
+        ],
+        "grid-W": [
+          "-dx,1,1440",
+          "-dy,1,1205"
+        ],
+        "diaptr": [
+          "-dy,1,1205"
+        ]
       }
     }
   }

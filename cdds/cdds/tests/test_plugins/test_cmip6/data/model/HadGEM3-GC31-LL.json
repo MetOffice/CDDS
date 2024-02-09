@@ -1,26 +1,22 @@
 {
   "stream_file_frequency": {
-    "monthly": {
-      "streams": [
-        "ap4",
-        "ap5",
-        "apm",
-        "apu",
-        "onm",
-        "inm",
-        "ind",
-        "ond"
-      ]
-    },
-    "10 day": {
-      "streams": [
-        "ap6",
-        "ap7",
-        "ap8",
-        "ap9",
-        "apt"
-      ]
-    }
+    "monthly": [
+      "ap4",
+      "ap5",
+      "apm",
+      "apu",
+      "onm",
+      "inm",
+      "ind",
+      "ond"
+    ],
+    "10 day": [
+      "ap6",
+      "ap7",
+      "ap8",
+      "ap9",
+      "apt"
+    ]
   },
   "cycle_length": {
     "ap4": "P5Y",
@@ -180,23 +176,62 @@
       "replacement_coordinates_file": "cice_eORCA1_coords.nc",
       "masked": {
         "grid-V": {
-          "slice_latitude": [-1, null, null],
-          "slice_longitude": [180, null, null]
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            180,
+            null,
+            null
+          ]
         },
         "cice-U": {
-          "slice_latitude": [-1, null, null],
-          "slice_longitude": [180, null, null]
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            180,
+            null,
+            null
+          ]
         }
       },
       "halo_options": {
-        "grid-T": ["-dx,1,360", "-dy,1,330"],
-        "grid-U": ["-dx,1,360", "-dy,1,330"],
-        "grid-V": ["-dx,1,360", "-dy,1,330"],
-        "grid-W": ["-dx,1,360", "-dy,1,330"],
-        "diad-T": ["-dx,1,360", "-dy,1,330"],
-        "ptrc-T": ["-dx,1,360", "-dy,1,330"],
-        "ptrd-T": ["-dx,1,360", "-dy,1,330"],
-        "diaptr": ["-dy,1,330"]
+        "grid-T": [
+          "-dx,1,360",
+          "-dy,1,330"
+        ],
+        "grid-U": [
+          "-dx,1,360",
+          "-dy,1,330"
+        ],
+        "grid-V": [
+          "-dx,1,360",
+          "-dy,1,330"
+        ],
+        "grid-W": [
+          "-dx,1,360",
+          "-dy,1,330"
+        ],
+        "diad-T": [
+          "-dx,1,360",
+          "-dy,1,330"
+        ],
+        "ptrc-T": [
+          "-dx,1,360",
+          "-dy,1,330"
+        ],
+        "ptrd-T": [
+          "-dx,1,360",
+          "-dy,1,330"
+        ],
+        "diaptr": [
+          "-dy,1,330"
+        ]
       }
     }
   }

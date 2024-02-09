@@ -9,7 +9,10 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime
 from abc import ABCMeta, abstractmethod
-from typing import Tuple, List, Dict
+from typing import Tuple, Dict
+
+
+VALID_STREAM_FREQUENCIES = ['season', 'quarterly', 'monthly', '10 day', 'daily', 'hourly']
 
 
 @dataclass
@@ -42,6 +45,10 @@ class StreamFileFrequency:
     """
     frequency: str = ""
     stream: str = ""
+
+    def __post_init__(self):
+        if self.frequency not in VALID_STREAM_FREQUENCIES:
+            raise ValueError('The frequency of a stream must be one of {}.'.format(VALID_STREAM_FREQUENCIES))
 
 
 @dataclass
