@@ -3,6 +3,14 @@
 
 .. include:: common.txt
 
+Release 2.5.6, February 09, 2024
+================================
+* Updated mapping for fco2nat to use anomalous LBTIM code in UKESM model data.
+  This change makes no difference to the output data, but keeps consistency
+  with previous CMIP6 data production (CDDSO-394)
+* Added GCAmon6hr/tas mapping (tas, but with monthly means sampled every 6 hours) to GCModel Dev (CDDSO-389)
+* Added new variables for UKCP to GCModelDev (CDDSO-388)
+
 Release 2.5.5, January 18, 2024
 ===============================
 * Issues with incorrect/inconsistent LBFT codes in PP data (section 3) should no
