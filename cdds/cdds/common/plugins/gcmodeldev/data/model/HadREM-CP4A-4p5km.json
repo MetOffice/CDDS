@@ -68,8 +68,8 @@
   "grid_info": {
     "atmos": {
       "atmos_timestep": 60,
-      "model_info": "2.2 km grid",
-      "nominal_resolution": "2.5 km",
+      "model_info": "4.5 km grid",
+      "nominal_resolution": "4.5 km",
       "longitude": 2100,
       "latitude": 2000,
       "v_latitude": 2001,

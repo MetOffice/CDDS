@@ -417,9 +417,7 @@ class Filters(object):
 
         # Lexicographic sort works on these files frequencies without intervention i.e.
         # partial years do not need to be treated as a special case.
-        logger = logging.getLogger(__name__)
-        logger.info("ppfile list: {}".format(pp_filelist))
-        if file_frequency in ["10 day", "daily", "hourly"]:
+        if file_frequency in ["10 day", "daily"]:
             return f'["{pp_filelist[0]["filename"]}".."{pp_filelist[-1]["filename"]}"]'
 
         if file_frequency == "monthly":

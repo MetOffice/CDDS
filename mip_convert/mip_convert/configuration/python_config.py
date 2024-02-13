@@ -52,7 +52,6 @@ class PythonConfig(AbstractConfig):
         """
         config_to_read = self._config()
         if isinstance(read_path, dict):
-            print("Read path: {}".format(read_path))
             config_to_read.read_dict(read_path)
         else:
             config_to_read.read_file(open(read_path), read_path)
