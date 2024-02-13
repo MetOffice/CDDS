@@ -361,8 +361,6 @@ class Filters(object):
         logger = logging.getLogger(__name__)
 
         def generate_chunks(chunk):
-            logger.info("Testing chunk from {} to {} ({} files)".format(
-                str(chunk[0]["timepoint"]), str(chunk[-1]["timepoint"]), len(chunk)))
             self.call_counter += 1
             if self.call_counter > self.call_limit:
                 raise RecursionError
@@ -370,7 +368,8 @@ class Filters(object):
             valid = self._check_block_size_pp(test_file, override_simulate=True)
             if valid["val"] == "ok":
                 self.call_counter = 0
-                logger.info("Chunk size {} accepted".format(len(chunk)))
+                logger.info("Chunking identified: Retrieving data from {} to {} ({} files)".format(
+                    str(chunk[0]["timepoint"]), str(chunk[-1]["timepoint"]), len(chunk)))
                 return [chunk]
 
             mid_point = len(chunk) // 2
