@@ -367,6 +367,7 @@ class Filters(object):
             test_file = self._create_filterfile_pp(chunk, test_mode=True)
             valid, _ = self._check_block_size_pp(test_file, override_simulate=True)
             if valid["val"] == "ok":
+                self.call_counter = 0
                 return [chunk]
 
             mid_point = len(chunk) // 2
