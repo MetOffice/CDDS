@@ -1,0 +1,100 @@
+{
+  "stream_file_frequency": {
+    "daily": {
+      "streams": [
+        "apa",
+        "apc",
+        "apb",
+        "apd",
+        "ape",
+        "apg",
+        "aph",
+        "apq",
+        "apr"
+      ],
+      "files_per_year": 360
+    },
+    "monthly": {
+      "streams": [
+        "apm"
+      ],
+      "files_per_year": 12
+    }
+  },
+  "cycle_length": {
+    "apa": "P1Y",
+    "apb": "P1Y",
+    "apc": "P1Y",
+    "apd": "P1Y",
+    "ape": "P1Y",
+    "apg": "P1Y",
+    "aph": "P1Y",
+    "apq": "P1Y",
+    "apr": "P1Y",
+    "apm": "P1Y"
+  },
+  "memory": {
+    "apa": "32G",
+    "apb": "32G",
+    "apc": "32G",
+    "apd": "32G",
+    "ape": "32G",
+    "apg": "32G",
+    "aph": "32G",
+    "apq": "32G",
+    "apr": "32G",
+    "apm": "16G"
+  },
+  "temp_space": {
+    "apa": 131072,
+    "apb": 131072,
+    "apc": 131072,
+    "apd": 131072,
+    "ape": 131072,
+    "apg": 131072,
+    "aph": 131072,
+    "apq": 131072,
+    "apr": 131072,
+    "apm": 16384
+  },
+  "sizing_info": {
+    "1hr": {
+      "default": 10
+    }
+  },
+  "subdaily_streams": [
+    "apa", "apb", "apc", "apd", "ape", "apg", "aph", "apq", "apr"
+  ],
+  "grid_info": {
+    "atmos": {
+      "atmos_timestep": 60,
+      "model_info": "4.5 km grid",
+      "nominal_resolution": "4.5 km",
+      "longitude": 2100,
+      "latitude": 2000,
+      "v_latitude": 2001,
+      "levels": 85,
+      "ancil_filenames": [
+      ],
+      "hybrid_heights_files": [
+        "atmosphere_theta_levels_85.txt",
+        "atmosphere_rho_levels_86.txt"
+      ]
+    },
+    "ocean": {
+      "model_info": null,
+      "nominal_resolution": null,
+      "longitude": null,
+      "latitude": null,
+      "levels": null,
+      "replacement_coordinates_file": null,
+      "ancil_filenames": [
+      ],
+      "hybrid_heights_files": [],
+      "masked": {
+      },
+      "halo_options": {
+      }
+    }
+  }
+}
