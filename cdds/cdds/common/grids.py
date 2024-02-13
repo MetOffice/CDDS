@@ -245,12 +245,9 @@ def default_grid_ids():
         'Emon': ('atmos', 'native'),
         'EmonZ': ('atmos', 'native-zonal'),
         'Esubhr': ('atmos', 'sites'),
-        'GCAmon': ('atmos', 'native'),
         'GCAmon6hr': ('atmos', 'native'),
-        'GCAmon6hrUV': ('atmos', 'uvgrid'),
         'GCAmonUV': ('atmos', 'uvgrid'),
-        'GCLmon': ('atmos', 'native'),
-        'GCOyr': ('ocean', 'native'),
+        'GC1hr': ('atmos', 'native'),
         'LImon': ('atmos', 'native'),
         'Lmon': ('atmos', 'native'),
         'LPmon': ('atmos', 'native'),
@@ -275,7 +272,14 @@ def default_grid_ids():
         'prim6hrpt': ('atmos', 'native'),
         'primDay': ('atmos', 'native'),
         'primMon': ('atmos', 'native'),
-        'primSIday': ('atmos', 'native')
+        'primSIday': ('atmos', 'native'),
+        'GCAmon': ('atmos', 'native'),
+        'GCLmon': ('atmos', 'native'),
+        'GCAmon6hrUV': ('atmos', 'uvgrid'),
+        'GC1hrPt': ('atmos', 'native'),
+        'GC3hrPt': ('atmos', 'native'),
+        'GCday': ('atmos', 'native'),
+        'GCOyr': ('ocean', 'native')
     }
 
 
