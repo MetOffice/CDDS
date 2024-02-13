@@ -361,11 +361,8 @@ class Filters(object):
         logger = logging.getLogger(__name__)
 
         def generate_chunks(chunk):
-            #print(chunk)
-            logger.info("Testing chunk from {} to {} ({} files)".format(str(chunk[0]["timepoint"]),
-                                                                  str(chunk[-1]["timepoint"]),
-                                                                  len(chunk))
-                        )
+            logger.info("Testing chunk from {} to {} ({} files)".format(
+                str(chunk[0]["timepoint"]), str(chunk[-1]["timepoint"]), len(chunk)))
             self.call_counter += 1
             if self.call_counter > self.call_limit:
                 raise RecursionError
