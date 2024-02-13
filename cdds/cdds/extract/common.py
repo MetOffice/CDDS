@@ -131,7 +131,7 @@ def validate_stash_fields(path, stash_codes, validation_result):
                     validation_result.add_file_content_error(error)
 
 
-def run_moo_cmd(sub_cmd, args, simulate=False):
+def run_moo_cmd(sub_cmd, args, simulate=False, verbose=True):
     """Executes a MOOSE command as a subprocess.
 
     Parameters
@@ -142,6 +142,8 @@ def run_moo_cmd(sub_cmd, args, simulate=False):
         List of arguments to the MOOSE command
     simulate: bool
         If True then moo comands will be simulated
+    verbose: bool
+        If True will dump moose commands as info instead of debug messages
     Returns
     -------
     int
@@ -152,8 +154,12 @@ def run_moo_cmd(sub_cmd, args, simulate=False):
         command submitted
     """
     logger = logging.getLogger(__name__)
+    if verbose:
+        logger_cmd = logger.info
+    else:
+        logger_cmd = logger.debug
     command = ["moo", sub_cmd] + args
-    logger.info("moo command: '{}'".format(repr(command)))
+    logger_cmd("moo command: '{}'".format(repr(command)))
     if simulate:
         return_code = 0
         command_output = "SIMULATED"
@@ -164,7 +170,7 @@ def run_moo_cmd(sub_cmd, args, simulate=False):
         while process.poll() is None:
             output = process.stdout.readline()
             if len(output) > 0:
-                logger.info("moo output: '{}'".format(output.strip()))
+                logger_cmd("moo output: '{}'".format(output.strip()))
             command_output += output
         return_code = process.returncode
     return return_code, command_output, command

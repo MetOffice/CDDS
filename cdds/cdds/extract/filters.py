@@ -20,7 +20,7 @@ from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
 from cdds.extract.common import (check_moo_cmd, chunk_by_files_and_tapes, fetch_filelist_from_mass, get_stash,
                                  get_tape_limit, run_moo_cmd)
-from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES
+from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES, MOOSE_CALL_LIMIT
 
 
 class Filters(object):
@@ -357,17 +357,23 @@ class Filters(object):
         :rtype: List[List[Dict]]
         """
         self.call_counter = 0
-        self.call_limit = 20
+        self.call_limit = MOOSE_CALL_LIMIT
+        logger = logging.getLogger(__name__)
 
         def generate_chunks(chunk):
+            #print(chunk)
+            logger.info("Testing chunk from {} to {} ({} files)".format(str(chunk[0]["timepoint"]),
+                                                                  str(chunk[-1]["timepoint"]),
+                                                                  len(chunk))
+                        )
             self.call_counter += 1
             if self.call_counter > self.call_limit:
                 raise RecursionError
-
             test_file = self._create_filterfile_pp(chunk, test_mode=True)
-            valid, _ = self._check_block_size_pp(test_file, override_simulate=True)
+            valid = self._check_block_size_pp(test_file, override_simulate=True)
             if valid["val"] == "ok":
                 self.call_counter = 0
+                logger.info("Chunk size {} accepted".format(len(chunk)))
                 return [chunk]
 
             mid_point = len(chunk) // 2
@@ -580,10 +586,10 @@ class Filters(object):
             simulate = self.simulation
 
         param_args = ["-n", filterfile, self.source, self.target]
-        code, cmd_out, command = run_moo_cmd("select", param_args, simulate)
+        code, cmd_out, command = run_moo_cmd("select", param_args, simulate, False)
         status = check_moo_cmd(code, cmd_out)
         status['command'] = " ".join(command)
-        return status, cmd_out
+        return status
 
 # ----- NC specialisation methods ---------------------------------------------
     def _format_filter_nc(self, stream):

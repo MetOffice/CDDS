@@ -30,6 +30,7 @@ MAX_EXTRACT_BLOCKS = 240
 MEMORY = '2G'
 MONTHLY_DATESTAMP_PATTERN_APRIL = "{}a.p{}{}apr.pp"
 MONTHLY_DATESTAMP_PATTERN_SEPTEMBER = "{}a.p{}{}sep.pp"
+MOOSE_CALL_LIMIT = 20
 MOOSE_LS_PAGESIZE = 25000  # lines
 MOOSE_LS_MAX_PAGES = 1000  # max number of pages
 MOOSE_MAX_NC_FILES = 1000  # max number of files per moo filter command
