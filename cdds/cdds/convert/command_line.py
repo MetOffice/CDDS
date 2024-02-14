@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2024, Met Office.
+# (C) British Crown Copyright 2017-2022, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Command line interfaces for cdds_convert and mip_concatenate tasks.
@@ -7,7 +7,6 @@ import argparse
 import logging
 
 from argparse import Namespace
-from datetime import datetime
 from typing import Tuple
 
 from cdds.common.plugins.plugin_loader import load_plugin
@@ -18,9 +17,8 @@ from cdds.arguments import read_default_arguments
 from cdds.common import configure_logger, check_directory
 
 from cdds import _DEV
-from cdds.convert.common import validate_archive_data_version, expand_path
-from cdds.common.constants import DATESTAMP_TEMPLATE
-from cdds.convert.arguments import add_user_config_data_files
+from cdds.convert.common import expand_path
+from cdds.convert.arguments import add_user_config_data_files, ConvertArguments
 from cdds.convert.exceptions import (OrganiseEnvironmentError,
                                      OrganiseTransposeError,
                                      WrapperEnvironmentError,
@@ -45,7 +43,7 @@ def main_cdds_convert() -> int:
     """
     arguments, request = parse_args_cdds_convert()
 
-    configure_logger(CONVERT_LOG_NAME, logging.INFO, False)
+    configure_logger(CONVERT_LOG_NAME, request.common.log_level, False)
 
     try:
         run_cdds_convert(arguments, request)
@@ -57,12 +55,12 @@ def main_cdds_convert() -> int:
     return exit_code
 
 
-def parse_args_cdds_convert() -> Tuple[Namespace, Request]:
+def parse_args_cdds_convert() -> Tuple[ConvertArguments, Request]:
     """
     Returns the command line arguments and the request for 'cdds_convert'
 
     :return: Tuple of command line arguments and request object
-    :rtype: Tuple[Namespace, Request]
+    :rtype: Tuple[ConvertArguments, Request]
     """
     description = 'CDDS convert process initiator'
     parser = argparse.ArgumentParser(description=description)
@@ -77,37 +75,26 @@ def parse_args_cdds_convert() -> Tuple[Namespace, Request]:
                         help='Restrict processing suites to only to these streams.'
                         )
 
-    parser.add_argument('--model_params_dir',
-                        dest='model_params_dir',
-                        default=None,
-                        help='If present, the model parameters will be overloaded by the data in the json'
-                             'files containing in the given directory.')
-
-    parser.add_argument('--archive_data_version',
-                        default=DATESTAMP_TEMPLATE.format(dt=datetime.now()),
-                        type=validate_archive_data_version,
-                        help='Set the version used when archiving data to MASS and constructing '
-                             'dataset ids (format vYYYYMMDD)')
-
     args = parser.parse_args()
     request = read_request(args.request)
 
     if _DEV and request.data.output_mass_suffix == "production":
         raise ArgumentError("Cannot archive data to production location in development mode")
 
-    expand_path(args.model_params_dir)
+    expand_path(request.conversion.model_params_dir)
 
     # Get Cdds plugin and overload model related values if necessary
     plugin = PluginStore.instance().get_plugin()
 
-    if args.model_params_dir is not None:
-        check_directory(args.model_params_dir)
-        plugin.overload_models_parameters(args.model_params_dir)
+    if request.conversion.model_params_dir:
+        check_directory(request.conversion.model_params_dir)
+        plugin.overload_models_parameters(request.conversion.model_params_dir)
 
+    arguments = ConvertArguments(request_path=args.request, streams=args.streams)
     if not request.conversion.skip_configure:
-        args = add_user_config_data_files(args, request)
+        arguments = add_user_config_data_files(arguments, request)
 
-    return args, request
+    return arguments, request
 
 
 def _parse_args_concat_setup():

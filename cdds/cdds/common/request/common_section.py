@@ -168,6 +168,5 @@ class CommonSection(Section):
         Returns if the mode is 'relaxed' CMOR.
 
         :return: If mode is 'relaxed'
-        :rtype: bool
         """
         return self.mode == 'relaxed'

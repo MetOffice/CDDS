@@ -1,18 +1,18 @@
-# (C) British Crown Copyright 2017-2024, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The main gateway module for the cdds_convert application.
 """
 from argparse import Namespace
-from typing import List
 
 import cdds.convert.process
 
 from cdds.configure.user_config import create_user_config_files
 from cdds.common.request.request import read_request, Request
+from cdds.convert.arguments import ConvertArguments
 
 
-def get_cylc_args_list(cylc_args: List[str], stream_ids: List[str], request_id: str) -> List[str]:
+def get_cylc_args_list(cylc_args, stream_ids, request_id):
     """
 
     Parameters
@@ -49,12 +49,12 @@ def get_cylc_args_list(cylc_args: List[str], stream_ids: List[str], request_id: 
     return cylc_args_list
 
 
-def run_cdds_convert(arguments: Namespace, request: Request) -> None:
+def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
     """
     Start a workflow to process data for each stream of processing.
 
     :param arguments: The arguments specific to the 'cdds_convert' script.
-    :type arguments: Namespace
+    :type arguments: ConvertArguments
     :param request: The request information of 'cdds_convert'
     :type request: Request
     """
@@ -79,21 +79,6 @@ def run_cdds_convert(arguments: Namespace, request: Request) -> None:
         )
 
 
-def run_generate_user_config_files(arguments):
-    """
-    Generates the |user configuration files| respectively to data in the given arguments.
-
-    Parameters
-    ----------
-    arguments: :class:`cdds.arguments.Arguments` object
-        The arguments specific to the `cdds_convert` script.
-    """
-    request = read_request(arguments.request)
-    _generate_user_config_files(arguments, request)
-
-
-def _generate_user_config_files(arguments: Namespace, request: Request) -> None:
+def _generate_user_config_files(arguments: ConvertArguments, request: Request) -> None:
     requested_variables_file = arguments.requested_variables_list_file
-    template_name = arguments.user_config_template_name
-
-    create_user_config_files(request, requested_variables_file, template_name, arguments.output_cfg_dir)
+    create_user_config_files(request, requested_variables_file, arguments.output_cfg_dir)

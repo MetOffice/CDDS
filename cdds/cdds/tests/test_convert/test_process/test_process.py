@@ -20,8 +20,8 @@ from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
 from cdds.common.request.request import Request
 from cdds.convert.constants import NTHREADS_CONCATENATE, PARALLEL_TASKS
 from cdds.convert.process import ConvertProcess
+from cdds.convert.arguments import ConvertArguments
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.deprecated.config import FullPaths
 
 
 def get_request():
@@ -156,25 +156,7 @@ class DummyConvertProcess(ConvertProcess):
         self._request.conversion.skip_extract_validation = self.skip_extract_validation
         self._request.data.streams = ['stream1', 'stream2']
 
-        arg_dict = {
-            # 'rose_suite': 'u-ak283',
-            # 'rose_suite_branch': 'tags/1.1.3',
-            # 'convert_memory': 20000,
-            # 'email_notifications': False,
-            # 'nthreads_concatenate': 1,
-            # 'output_mass_root': 'moose://dummy/archive/path',
-            # 'output_mass_suffix': 'fake_suffix',
-            # 'parallel_tasks': 60,
-            # 'suite_run_args': '-no-gcontrol',
-            # 'simulation': False,
-            'request': '/path/to/dummy/request.cfg',
-            # 'root_data_dir': '/path/to/dummy/data/dir/',
-            # 'root_proc_dir': '/path/to/dummy/proc/dir/',
-            'user_config_template_name': 'mip_convert.cfg.{}',
-        }
-
-        DummyArgs = collections.namedtuple('DummyArgs', list(arg_dict.keys()))
-        self._arguments = DummyArgs(**arg_dict)
+        self._arguments = ConvertArguments(request_path='/path/to/dummy/request.cfg')
 
         self._streams = ['stream1', 'stream2']
 
@@ -430,7 +412,7 @@ class ConvertProcessTest(unittest.TestCase):
         input_dir = input_data_directory(self.process.request)
         mip_convert_config_dir = component_directory(self.process.request, 'configure')
         mip_convert_proc_dir = component_directory(self.process.request, 'convert')
-        request_cfg_path = self.process._arguments.request
+        request_cfg_path = self.process._arguments.request_path
         mip_era = 'CMIP6'
         expected_update_kwargs_suite = {
             'MIP_ERA': mip_era,
