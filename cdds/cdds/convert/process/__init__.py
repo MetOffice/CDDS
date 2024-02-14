@@ -11,7 +11,7 @@ import re
 import shutil
 
 from argparse import Namespace
-from typing import List, Dict, Tuple, Union, Set
+from typing import List, Dict, Tuple, Union, Set, TYPE_CHECKING
 
 from metomi.isodatetime.data import Calendar
 from metomi.isodatetime.parsers import (DurationParser, TimeRecurrenceParser)
@@ -30,19 +30,22 @@ from cdds.convert.process import workflow_interface
 from cdds.convert.process.memory import scale_memory
 from mip_convert.configuration.python_config import PythonConfig
 
+if TYPE_CHECKING:
+    from cdds.convert.arguments import ConvertArguments
+
 
 class ConvertProcess(object):
     """
     The CDDS Convert process for managing the running of mip_convert.
     """
 
-    def __init__(self, arguments: Namespace, request: Request):
+    def __init__(self, arguments: 'ConvertArguments', request: Request):
         """
 
         Constructor for the ConvertProcess class.
         Parameters
         ----------
-        arguments: :class:`cdds.arguments.Arguments` object
+        arguments: ConvertArguments object
             The arguments specific to the `cdds_convert` script.
         """
         self.logger = logging.getLogger(__name__)
@@ -95,7 +98,7 @@ class ConvertProcess(object):
 
         self._calculate_concat_task_periods()
 
-        self.archive_data_version = arguments.archive_data_version
+        self.archive_data_version = request.data.mass_data_archive_version
 
     def set_calendar(self) -> None:
         """
@@ -255,7 +258,7 @@ class ConvertProcess(object):
             rejected_streams_cli = [stream for stream in self._streams_requested if stream not in streams_to_process]
             if rejected_streams_cli:
                 self.logger.info(
-                    'The following streams were specified on the command line, but will not be processed'
+                    'The following streams were specified on the command line, but will not be processed '
                     'because they are not present in the JSON request file:\n{stream_list}'
                     ''.format(stream_list=' '.join(rejected_streams_cli))
                 )
@@ -789,10 +792,10 @@ class ConvertProcess(object):
         # In order to run subtasks in the convert suite (extract, QC and transfer), the suite needs to know
         # the path to the request cfg file. This path is often specified as a relative path, so we need to
         # get the absolute path if this is the case to pass to the suite config.
-        if os.path.isabs(self._arguments.request):
-            request_cfg_path = self._arguments.request
+        if os.path.isabs(self._arguments.request_path):
+            request_cfg_path = self._arguments.request_path
         else:
-            request_cfg_path = os.path.abspath(self._arguments.request)
+            request_cfg_path = os.path.abspath(self._arguments.request_path)
 
         use_external_plugin = False
         external_plugin = ''
@@ -857,7 +860,7 @@ class ConvertProcess(object):
         components = self.stream_components
         required_memory = {c: self._model_params.memory(stream) for c in components[stream]}
         # Scale memory limits if included on command line
-        if self._arguments.scale_memory_limits is not None:
+        if self._request.conversion.scale_memory_limits is not None:
             required_memory = {
                 component: scale_memory(mem_limit, self._request.conversion.scale_memory_limits)
                 for component, mem_limit in required_memory.items()

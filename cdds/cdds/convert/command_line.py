@@ -7,7 +7,6 @@ import argparse
 import logging
 
 from argparse import Namespace
-from datetime import datetime
 from typing import Tuple
 
 from cdds.common.plugins.plugin_loader import load_plugin
@@ -15,18 +14,11 @@ from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request, read_request
 
 from cdds.arguments import read_default_arguments
-from cdds.common import (configure_logger, common_command_line_args,
-                         root_dir_args, mass_output_args, check_directory)
-from cdds.deprecated.config import (update_arguments_for_proc_dir,
-                                    update_arguments_paths,
-                                    update_log_dir)
+from cdds.common import configure_logger, check_directory
 
-from cdds import __version__, _DEV
-from cdds.convert.common import validate_archive_data_version, expand_path
-from cdds.common.constants import (REQUIRED_KEYS_FOR_PROC_DIRECTORY,
-                                   DATESTAMP_TEMPLATE, DATESTAMP_PARSER_STR)
-from cdds.common import old_request as old_request
-from cdds.convert.arguments import add_user_config_data_files
+from cdds import _DEV
+from cdds.convert.common import expand_path
+from cdds.convert.arguments import add_user_config_data_files, ConvertArguments
 from cdds.convert.exceptions import (OrganiseEnvironmentError,
                                      OrganiseTransposeError,
                                      WrapperEnvironmentError,
@@ -51,7 +43,7 @@ def main_cdds_convert() -> int:
     """
     arguments, request = parse_args_cdds_convert()
 
-    configure_logger(CONVERT_LOG_NAME, logging.INFO, False)
+    configure_logger(CONVERT_LOG_NAME, request.common.log_level, False)
 
     try:
         run_cdds_convert(arguments, request)
@@ -63,12 +55,12 @@ def main_cdds_convert() -> int:
     return exit_code
 
 
-def parse_args_cdds_convert() -> Tuple[Namespace, Request]:
+def parse_args_cdds_convert() -> Tuple[ConvertArguments, Request]:
     """
     Returns the command line arguments and the request for 'cdds_convert'
 
     :return: Tuple of command line arguments and request object
-    :rtype: Tuple[Namespace, Request]
+    :rtype: Tuple[ConvertArguments, Request]
     """
     description = 'CDDS convert process initiator'
     parser = argparse.ArgumentParser(description=description)
@@ -82,103 +74,6 @@ def parse_args_cdds_convert() -> Tuple[Namespace, Request]:
                         nargs='*',
                         help='Restrict processing suites to only to these streams.'
                         )
-    # Use a branch of the processing suite other than that specified in the
-    # config project. This is for developing changes to the suite.
-    # parser.add_argument('--rose_suite_branch',
-    #                     type=str,
-    #                     default=arguments.rose_suite_branch,
-    #                     help='For development purposes only.'
-    #                     ) => conversion_section.cdds_workflow_branch
-    # parser.add_argument('--simulation', action='store_true',
-    #                     help='Run cylc workflow in simulation mode')
-
-    # parser.add_argument('--cylc_args',
-    #                     dest='cylc_args',
-    #                     type=str,
-    #                     help='Arguments to be passed to cylc vip. For '
-    #                          'more info on the allowed options, please see'
-    #                          'cylc vip --help.')
-    # parser.add_argument('--skip_extract',
-    #                     dest='skip_extract',
-    #                     action='store_true',
-    #                     default=arguments.skip_extract,
-    #                     help=('Skip the extract task at the start of the suite for each stream. '
-    #                           '[Default: {}]').format(arguments.skip_extract))
-    # parser.add_argument('--skip_qc',
-    #                     dest='skip_qc',
-    #                     action='store_true',
-    #                     default=arguments.skip_qc,
-    #                     help=('Skip the quality control task at the end of the suite for each stream.'
-    #                           '[Default: {}]').format(arguments.skip_qc))
-    # parser.add_argument('--skip_transfer',
-    #                     dest='skip_transfer',
-    #                     action='store_true',
-    #                     default=arguments.skip_transfer,
-    #                     help=('Skip the transfer task at the end of the suite for each stream. '
-    #                           '[Default: {}]').format(arguments.skip_transfer))
-    # parser.add_argument('--skip_extract_validation',
-    #                     dest='skip_extract_validation',
-    #                     action='store_true',
-    #                     default=arguments.skip_extract_validation,
-    #                     help=('Skip validation the end of the extract task. '
-    #                           '[Default: {}]').format(arguments.skip_extract_validation))
-    # mass_output_args(parser, arguments.output_mass_suffix, arguments.output_mass_root)
-
-    # parser.add_argument('--no_email_notifications',
-    #                     dest='email_notifications',
-    #                     help='If present, no email notifications will be '
-    #                          'sent from the processing suites.',
-    #                     action='store_false')
-    #
-    # parser.add_argument('--scale_memory_limits',
-    #                     dest='scale_memory_limits',
-    #                     default=None,
-    #                     type=float,
-    #                     help='Memory scaling factor to be applied to all '
-    #                          'batch jobs. Please contact the CDDS team for '
-    #                          'advice before using this option.')
-    # parser.add_argument('--override_cycling_freq',
-    #                     dest='override_cycling_freq',
-    #                     default=[],
-    #                     nargs='*',
-    #                     help='Override default cycling frequency for specified stream. Each stream should be '
-    #                          'specified along with the cycling frequency using the format "<stream>=<frequency>", '
-    #                          'e.g. "ap7=P3M ap8=P1M".')
-
-    parser.add_argument('--model_params_dir',
-                        dest='model_params_dir',
-                        default=None,
-                        help='If present, the model parameters will be overloaded by the data in the json'
-                             'files containing in the given directory.')
-
-    # parser.add_argument('--skip_configure',
-    #                     dest='skip_configure',
-    #                     help='If present, the configure step will be skipped.',
-    #                     action='store_true')
-    #
-    # parser.add_argument('--relaxed_cmor',
-    #                     help='If specified, CMIP6 style validation is not performed by CMOR.',
-    #                     action='store_true'
-    #                     )
-    #
-    # parser.add_argument('-d',
-    #                     '--data_request_version',
-    #                     default=arguments.data_request_version,
-    #                     help='The version of the data request.')
-
-    # parser.add_argument('--root_ancil_dir',
-    #                     default=arguments.root_ancil_dir,
-    #                     help='Specify the root path to the location of the ancillary files.'
-    #                          'The files should be located in a sub-directory of this path '
-    #                          'with the name of the model_id.')
-
-    parser.add_argument('--archive_data_version',
-                        default=DATESTAMP_TEMPLATE.format(dt=datetime.now()),
-                        type=validate_archive_data_version,
-                        help='Set the version used when archiving data to MASS and constructing '
-                             'dataset ids (format vYYYYMMDD)')
-    # root_dir_args(parser, arguments.root_proc_dir, arguments.root_data_dir)
-    # common_command_line_args(parser, arguments.log_name, arguments.log_level, __version__)
 
     args = parser.parse_args()
     request = read_request(args.request)
@@ -186,17 +81,18 @@ def parse_args_cdds_convert() -> Tuple[Namespace, Request]:
     if _DEV and request.data.output_mass_suffix == "production":
         raise ArgumentError("Cannot archive data to production location in development mode")
 
-    expand_path(args.model_params_dir)
+    expand_path(request.conversion.model_params_dir)
 
     # Get Cdds plugin and overload model related values if necessary
     plugin = PluginStore.instance().get_plugin()
 
-    if args.model_params_dir is not None:
-        check_directory(args.model_params_dir)
-        plugin.overload_models_parameters(args.model_params_dir)
+    if request.conversion.model_params_dir:
+        check_directory(request.conversion.model_params_dir)
+        plugin.overload_models_parameters(request.conversion.model_params_dir)
 
+    arguments = ConvertArguments(request_path=args.request, streams=args.streams)
     if not request.conversion.skip_configure:
-        arguments = add_user_config_data_files(args, request)
+        arguments = add_user_config_data_files(arguments, request)
 
     return arguments, request
 

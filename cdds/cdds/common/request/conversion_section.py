@@ -8,7 +8,7 @@ from dataclasses import dataclass, asdict, field
 from typing import Dict, List, Any
 
 from cdds.common.platforms import Facility, whereami
-from cdds.common.request.request_section import Section, load_types
+from cdds.common.request.request_section import Section, load_types, expand_paths
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 
 
@@ -88,6 +88,7 @@ class ConversionSection(Section):
         values = conversion_defaults()
         if config.has_section('conversion'):
             config_items = load_types(dict(config.items('conversion')), ['override_cycling_frequency', 'cylc_args'])
+            expand_paths(config_items, ['model_params_dir'])
             new_cylc_args = load_cylc_args(config_items['cylc_args'])
             config_items['cylc_args'] = new_cylc_args
             values.update(config_items)
@@ -122,6 +123,16 @@ class ConversionSection(Section):
 
 
 def load_cylc_args(cylc_args: List[str]) -> List[str]:
+    """
+    Load and update the cylc arguments for the CDDS processing suite. Therefore, it checks of
+    the -v option is always given and that a workflow-name (default: cdds_{request_id}_{stream})
+    is provided.
+
+    :param cylc_args: Cylc arguments to load and updated
+    :type cylc_args: List[str]
+    :return: Cylc arguments for CDDS processing suite
+    :rtype: List[str]
+    """
     if '-v' not in cylc_args:
         cylc_args += ['-v']
 

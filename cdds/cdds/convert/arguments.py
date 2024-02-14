@@ -2,14 +2,27 @@
 # Please see LICENSE.rst for license details.
 import os
 
-from argparse import Namespace
+from dataclasses import dataclass, field
+from typing import List
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
 from cdds.common.request.request import Request
 
 
-def add_user_config_data_files(arguments: Namespace, request: Request) -> Namespace:
+@dataclass
+class ConvertArguments:
+    request_path: str = ''
+    streams: List[str] = field(default=list)
+    ancil_files: str = ''
+    replacement_coordinates_file: str = ''
+    hybrid_heights_files: str = ''
+    requested_variables_list_file: str = ''
+    output_cfg_dir: str = ''
+    user_config_template_name: str = 'mip_convert.cfg.{}'
+
+
+def add_user_config_data_files(arguments: ConvertArguments, request: Request) -> ConvertArguments:
     """
     Add all additional data files for producing |user configuration files| during cdds convert to the arguments.
     Following data files will be updated:
@@ -17,12 +30,12 @@ def add_user_config_data_files(arguments: Namespace, request: Request) -> Namesp
     - the replacement coordinates file
     - the hybrid heights files
 
-    :param arguments:
-    :type arguments:
-    :param request:
-    :type request:
-    :return:
-    :rtype:
+    :param arguments: Commandline convert arguments
+    :type arguments: ConvertArguments
+    :param request: Information in the request.cfg
+    :type request: Request
+    :return: Updated commandline convert arguments
+    :rtype: ConvertArguments
     """
     ancil_files = get_ancil_files(request)
     replacment_coordinates_file = get_replacement_coordinates_file(request)
@@ -31,11 +44,11 @@ def add_user_config_data_files(arguments: Namespace, request: Request) -> Namesp
     output_cfg_dir = get_component_dir(request, 'configure')
     requested_variables_list_file = get_requested_variables_file(request)
 
-    setattr(arguments, 'ancil_files', ancil_files)
-    setattr(arguments, 'replacement_coordinates_file', replacment_coordinates_file)
-    setattr(arguments, 'hybrid_heights_files', hybrid_heights_files)
-    setattr(arguments, 'requested_variables_list_file', requested_variables_list_file)
-    setattr(arguments, 'output_cfg_dir', output_cfg_dir)
+    arguments.ancil_files = ancil_files
+    arguments.replacement_coordinates_file = replacment_coordinates_file
+    arguments.hybrid_heights_files = hybrid_heights_files
+    arguments.requested_variables_list_file = requested_variables_list_file
+    arguments.output_cfg_dir = output_cfg_dir
     return arguments
 
 

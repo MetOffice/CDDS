@@ -149,5 +149,11 @@ class CommonSection(Section):
         defaults = common_defaults(model_id, experiment_id, variant_label)
         self._add_to_config_section(config, 'common', defaults)
 
-    def is_relaxed_cmor(self):
+    def is_relaxed_cmor(self) -> bool:
+        """
+        Returns if relaxed CMOR is enabled.
+
+        :return: If relaxed CMOR is enabled
+        :rtype: bool
+        """
         return self.mode == 'relaxed'
