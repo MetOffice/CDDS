@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2021, Met Office.
+# (C) British Crown Copyright 2019-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`constants` module contains constants (values that should never
@@ -27,9 +27,11 @@ LOGNAME = "extract_{}.log"
 LOG_NAME_SPICE = 'extract_spice.log'
 LOG_LEVEL = logging.INFO
 MAX_EXTRACT_BLOCKS = 240
+MAX_MOOSE_LOG_MESSAGE = 500
 MEMORY = '2G'
 MONTHLY_DATESTAMP_PATTERN_APRIL = "{}a.p{}{}apr.pp"
 MONTHLY_DATESTAMP_PATTERN_SEPTEMBER = "{}a.p{}{}sep.pp"
+MOOSE_CALL_LIMIT = 20
 MOOSE_LS_PAGESIZE = 25000  # lines
 MOOSE_LS_MAX_PAGES = 1000  # max number of pages
 MOOSE_MAX_NC_FILES = 1000  # max number of files per moo filter command
