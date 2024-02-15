@@ -160,7 +160,7 @@ def run_moo_cmd(sub_cmd, args, simulate=False, verbose=True):
         logger_cmd = logger.debug
     command = ["moo", sub_cmd] + args
     to_log = repr(command)
-    to_log = to_log[0:MAX_MOOSE_LOG_MESSAGE] + '..' if len(to_log) > MAX_MOOSE_LOG_MESSAGE else to_log
+    to_log = to_log[0:MAX_MOOSE_LOG_MESSAGE] + '...' if len(to_log) > MAX_MOOSE_LOG_MESSAGE else to_log
     logger_cmd("moo command: '{}'".format(to_log))
     if simulate:
         return_code = 0

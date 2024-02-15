@@ -582,7 +582,7 @@ class Filters(object):
             simulate = self.simulation
 
         param_args = ["-n", filterfile, self.source, self.target]
-        code, cmd_out, command = run_moo_cmd("select", param_args, simulate, False)
+        code, cmd_out, command = run_moo_cmd("select", param_args, simulate=simulate, verbose=False)
         status = check_moo_cmd(code, cmd_out)
         status['command'] = " ".join(command)
         return status
