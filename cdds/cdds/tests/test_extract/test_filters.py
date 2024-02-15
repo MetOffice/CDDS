@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2023, Met Office.
+# (C) British Crown Copyright 2017-2024, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 
@@ -580,6 +580,39 @@ class TestFilters(unittest.TestCase):
 
             filenames = filters.generate_filenames_nc(datestamps, sub_stream)
             self.assertCountEqual(filenames, expected)
+
+    @patch("cdds.extract.filters.Filters._create_filterfile_pp")
+    @patch("cdds.extract.filters.Filters._check_block_size_pp")
+    @patch("cdds.extract.filters.MOOSE_CALL_LIMIT", 5)
+    def test_moo_filter_chunk_pp_filelist(self, mock_block_size, mock_f):
+
+        mock_block_size.side_effect = [
+            {"val": "fail"}, {"val": "fail"}, {"val": "fail"},
+            {"val": "ok"}, {"val": "fail"}, {"val": "ok"},
+            {"val": "ok"}, {"val": "fail"}, {"val": "ok"},
+            {"val": "ok"}, {"val": "fail"}, {"val": "fail"},
+            {"val": "ok"}, {"val": "ok"}, {"val": "ok"}
+        ]
+        filters = Filters(procdir="foo")
+        filelist_pp = [{"timepoint": str(i)} for i in range(50)]
+        chunk_list = filters._chunk_pp_filelist(filelist_pp)
+        self.assertEqual(15, mock_block_size.call_count)
+        self.assertEqual(8, len(chunk_list))
+
+    @patch("cdds.extract.filters.Filters._create_filterfile_pp")
+    @patch("cdds.extract.filters.Filters._check_block_size_pp")
+    @patch("cdds.extract.filters.MOOSE_CALL_LIMIT", 3)
+    def test_moo_filter_chunk_pp_filelist_with_recursion_error(self, mock_block_size, mock_f):
+        mock_block_size.side_effect = [
+            {"val": "fail"}, {"val": "fail"}, {"val": "fail"},
+            {"val": "ok"}, {"val": "fail"}, {"val": "ok"},
+            {"val": "ok"}, {"val": "fail"}, {"val": "ok"},
+            {"val": "ok"}, {"val": "fail"}, {"val": "fail"},
+            {"val": "ok"}, {"val": "ok"}, {"val": "ok"}
+        ]
+        filters = Filters(procdir="foo")
+        filelist_pp = [{"timepoint": str(i)} for i in range(50)]
+        self.assertRaises(RecursionError, filters._chunk_pp_filelist, filelist_pp)
 
 
 class TestSubdailyFilters(unittest.TestCase):
