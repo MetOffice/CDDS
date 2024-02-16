@@ -57,7 +57,7 @@ class Process(object):
         self.missing_var = []
         self.request = request
         self.input_data_directory = input_data_directory
-        self.mass_data_class = self.request.mass_data_class
+        self.mass_data_class = self.request.data.mass_data_class
         model_id = self.request.model_id
         model_params = PluginStore.instance().get_plugin().models_parameters(model_id)
         self.stream_file_info = model_params.stream_file_info()
@@ -114,9 +114,9 @@ class Process(object):
             Log message.
         """
         log_msg = self.lang["request_detail"].format(
-            self.request.mip_era, self.request.mip,
-            self.request.experiment_id, self.request.suite_id,
-            self.request.model_id,
+            self.request.metadata.mip_era, self.request.metadata.mip,
+            self.request.metadata.experiment_id, self.request.data.model_workflow_id,
+            self.request.metadata.model_id,
             self.input_data_directory
         )
         log_msg += "\n       data streams:\n"
