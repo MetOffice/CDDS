@@ -60,6 +60,30 @@
   "sizing_info": {
     "1hr": {
       "default": 10
+    },
+    "1hrPt": {
+      "default": 10
+    },
+    "3hr": {
+      "default": 10
+    },
+    "3hrPt": {
+      "default": 10
+    },
+    "6hr": {
+      "default": 10
+    },
+    "6hrPt": {
+      "default": 10
+    },
+    "day": {
+      "default": 10
+    },
+    "mon": {
+      "default": 10
+    },
+    "monPt": {
+      "default": 10
     }
   },
   "subdaily_streams": [
