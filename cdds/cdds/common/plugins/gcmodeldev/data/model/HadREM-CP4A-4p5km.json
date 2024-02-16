@@ -22,15 +22,15 @@
     }
   },
   "cycle_length": {
-    "apa": "P1Y",
-    "apb": "P1Y",
-    "apc": "P1Y",
-    "apd": "P1Y",
-    "ape": "P1Y",
-    "apg": "P1Y",
-    "aph": "P1Y",
-    "apq": "P1Y",
-    "apr": "P1Y",
+    "apa": "P1M",
+    "apb": "P1M",
+    "apc": "P1M",
+    "apd": "P1M",
+    "ape": "P1M",
+    "apg": "P1M",
+    "aph": "P1M",
+    "apq": "P1M",
+    "apr": "P1M",
     "apm": "P1Y"
   },
   "memory": {
