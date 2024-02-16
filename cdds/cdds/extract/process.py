@@ -13,7 +13,7 @@ import logging
 from cdds.common.plugins.plugins import PluginStore
 from cdds.extract.common import (
     build_mass_location, process_info, exit_nicely, create_dir,
-    check_moo_cmd, run_moo_cmd
+    check_moo_cmd, run_moo_cmd, get_streamtype
 )
 from cdds.extract.constants import GROUP_FOR_DIRECTORY_CREATION, STREAMDIR_PERMISSIONS
 from cdds.extract.filters import FilterFileException
@@ -176,10 +176,10 @@ class Process(object):
         """
         return build_mass_location(
             self.mass_data_class,
-            self.request.suite_id,
-            stream["stream"],
-            stream["streamtype"],
-            self.request.mass_ensemble_member)
+            self.request.data.model_workflow_id,
+            stream,
+            get_streamtype(stream),
+            self.request.data.mass_ensemble_member)
 
     def configure_commands(self, mappings, stream, data_source,
                            data_target):

@@ -5,9 +5,8 @@ import logging
 import os
 
 from cdds.common import generate_datestamps_pp, generate_datestamps_nc
-from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.plugins.plugins import PluginStore
-from cdds.common.old_request import read_request
+from cdds.common.request.request import read_request
 from cdds.extract.common import (
     configure_mappings, configure_variables,
     get_data_target, get_streams,
@@ -21,8 +20,8 @@ from cdds.deprecated.config import FullPaths
 def validate_streams(streams, args):
     logger = logging.getLogger(__name__)
 
-    request = read_request(args.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
-    full_paths = FullPaths(args, request)
+    request = read_request(args.request)
+    # full_paths = FullPaths(args, request)
     model_params = PluginStore.instance().get_plugin().models_parameters(request.model_id)
     stream_file_info = model_params.stream_file_info()
     stream_details = get_streams(request.streaminfo, request.suite_id, streams)
