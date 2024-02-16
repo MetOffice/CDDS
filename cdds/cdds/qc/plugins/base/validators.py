@@ -5,7 +5,7 @@ import re
 
 from metomi.isodatetime.data import Calendar
 from metomi.isodatetime.parsers import TimePointParser
-from typing import Callable, List, Dict, Any, Union
+from typing import Callable, List, Any, Union
 
 from cdds.common.validation import ValidationError
 from mip_convert.configuration.cv_config import CVConfig

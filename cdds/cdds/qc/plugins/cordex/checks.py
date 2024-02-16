@@ -5,7 +5,6 @@ from typing import Dict, Any
 
 from cdds.qc.plugins.base.common import CheckCache
 from cdds.qc.plugins.base.checks import CheckTask
-from cdds.qc.plugins.base.validators import ValidatorFactory
 
 
 class CordexAttributesCheckTask(CheckTask):

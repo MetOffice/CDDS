@@ -7,6 +7,9 @@ from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request
 
 
+OUTPUT_DATA_DIRECTORY = 'output'
+
+
 def proc_directory(request: Request) -> str:
     """
     The root path to the directory where the non-data outputs from each CDDS component are written.
@@ -34,6 +37,20 @@ def component_directory(request: Request, component: str) -> str:
     if request.misc.use_proc_dir:
         return os.path.join(proc_directory(request), component)
     return None
+
+
+def output_data_directory(request: Request) -> str:
+    """
+    Returns the full path to the directory where the |output netCDF files| produced by CDDS Convert are written.
+
+    :param request: Request containing all information about the output data directory
+    :type request: Request
+    :return: Path to the directory where the |output netCDF files| are written to.
+    :rtype: str
+    """
+    plugin = PluginStore.instance().get_plugin()
+    data_directory = plugin.data_directory(request)
+    return os.path.join(data_directory, OUTPUT_DATA_DIRECTORY)
 
 
 def log_directory(request: Request, component: str, create_if_not_exist: bool = False) -> str:

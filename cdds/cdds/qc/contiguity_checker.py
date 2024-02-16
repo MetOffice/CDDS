@@ -7,9 +7,10 @@ Contiguity checker.
 """
 from collections import defaultdict
 
+from cdds.common.request.request import Request
 from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
-from cdds.qc.common import equal_with_tolerance, strip_zeros, DatetimeCalculator
-from cdds.qc.constants import DIURNAL_CLIMATOLOGY, HOURLY_OFFSET, DIURNAL_OFFSETS, SECONDS_IN_DAY, TIME_TOLERANCE
+from cdds.qc.common import equal_with_tolerance, DatetimeCalculator
+from cdds.qc.constants import DIURNAL_CLIMATOLOGY, HOURLY_OFFSET, DIURNAL_OFFSETS, TIME_TOLERANCE
 
 
 class CollectionsCheck(object):
@@ -18,13 +19,13 @@ class CollectionsCheck(object):
     name = "collections"
     supported_ds = [Cmip6Dataset]
 
-    def __init__(self, request):
+    def __init__(self, request: Request):
         """
         A constructor.
         """
         self.request = request
         self.calendar_calculator = DatetimeCalculator(
-            self.request.calendar, self.request.child_base_date)
+            self.request.metadata.calendar, self.request.metadata.child_base_date)
         self.results = defaultdict(list)
 
     def perform_checks(self, ds):
@@ -64,8 +65,9 @@ class CollectionsCheck(object):
 
         # checks only if more than one file in the aggregated dict
         for var_key, filepaths in list(aggregated.items()):
-            time_axis, time_bounds, frequency = ds.variable_time_axis(var_key, self.request.atmos_timestep)
-            run_start, run_end = self.request.run_bounds.split(" ")
+            time_axis, time_bounds, frequency = ds.variable_time_axis(var_key, self.request.misc.atmos_timestep)
+            run_start = self.request.data.start_date
+            run_end = self.request.data.end_date
             self.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         return "Time contiguity check", self.results
 
