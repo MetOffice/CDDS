@@ -58,7 +58,7 @@ class Process(object):
         self.request = request
         self.input_data_directory = input_data_directory
         self.mass_data_class = self.request.data.mass_data_class
-        model_id = self.request.model_id
+        model_id = self.request.metadata.model_id
         model_params = PluginStore.instance().get_plugin().models_parameters(model_id)
         self.stream_file_info = model_params.stream_file_info()
         # start log
@@ -87,7 +87,7 @@ class Process(object):
         logger.info(self.lang["script_info"].format(
             self.pinfo["pid"], self.pinfo["host"], self.pinfo["user"]))
 
-    def stream_completion_message(self, stream, end_msg):
+    def stream_completion_message(self, stream, end_msg, success):
         """Returns a message marking the end of processing of each data stream
 
         Parameters
@@ -95,14 +95,14 @@ class Process(object):
         stream: dict
             stream attributes
         """
-        if stream["success"]:
-            self.stream_summary[stream["stream"]] = "ok"
+        if success:
+            self.stream_summary[stream] = "ok"
             msg = self.lang["stream_end_success"].format(
-                stream["stream"], end_msg)
+                stream, end_msg)
         else:
-            self.stream_summary[stream["stream"]] = "fail"
+            self.stream_summary[stream] = "fail"
             msg = self.lang["stream_end_fail"].format(
-                stream["stream"], end_msg)
+                stream, end_msg)
         return msg
 
     def request_detail(self):
@@ -120,10 +120,10 @@ class Process(object):
             self.input_data_directory
         )
         log_msg += "\n       data streams:\n"
-        for key, item in self.request.streaminfo.items():
+        for stream in self.request.data.streams:
             log_msg += self.lang["data_detail"].format(
-                self.request.suite_id, key, item["type"],
-                item["start_date"], item["end_date"])
+                self.request.data.model_workflow_id, stream, get_streamtype(stream),
+                self.request.data.start_date, self.request.data.end_date)
         return log_msg
 
     def create_streamdir(self, data_target, lcase=False):
@@ -213,7 +213,7 @@ class Process(object):
         # format filters for this stream
         logger = logging.getLogger(__name__)
         format_status, filter_msg, filter_msg_exc, stash_codes = (
-            mappings.format_filter(stream["streamtype"], stream["stream"]))
+            mappings.format_filter(get_streamtype(stream), stream))
 
         status = ""
         mass_cmd = ""

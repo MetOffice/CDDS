@@ -908,43 +908,6 @@ def build_mass_location(mass_data_class: str, suite_id: str, stream: str, stream
     return data_source
 
 
-def get_streams(streaminfo, suite_id, streams=[]):
-    """Creates list of streams
-    Checks that all data streams are of the right type and returns stream
-    info removing any streams that the user wishes to be skipped
-
-    Parameters
-    ----------
-    streaminfo: dict
-        Information about requested streams from the request file
-    suite_id: str
-        Suite id
-    streams: list
-        If not empty, the function will return only a subset of streams contained
-        in this parameter
-
-    Returns
-    -------
-    list of dict
-        attributes for each stream to be processed - dict per stream
-    """
-
-    streamlist = []
-    for name, info in streaminfo.items():
-        if not streams or name in streams:
-            streamlist.append({
-                "stream": name,
-                "streamtype": info["type"],
-                "success": None,
-                "start_date": datetime.datetime.strptime(
-                    info["start_date"], "%Y-%m-%dT%H:%M:%S"),
-                "end_date": datetime.datetime.strptime(
-                    info["end_date"], "%Y-%m-%dT%H:%M:%S"),
-                "suiteid": suite_id
-            })
-    return streamlist
-
-
 def configure_variables(variable_file):
     """Gets required variable information for this request
     Gets configuration file from a json configuration file.
@@ -1221,9 +1184,9 @@ def get_zero_sized_files(dirpath: str) -> list:
         break
     return files_to_remove
 
+
 def get_streamtype(stream: str) -> str:
     if 'ap' in stream:
         return 'pp'
     else:
         return 'nc'
-

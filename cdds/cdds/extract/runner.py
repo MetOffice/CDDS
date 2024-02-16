@@ -10,12 +10,12 @@ import os
 from cdds.common.request.request import read_request
 from cdds.common.constants import INPUT_DATA_DIRECTORY
 from cdds.extract.common import (
-    check_moo_cmd, configure_mappings, configure_variables, exit_nicely, get_data_target, get_streams,
+    check_moo_cmd, configure_mappings, configure_variables, exit_nicely, get_data_target,
     get_zero_sized_files, ValidationResult)
 from cdds.extract.constants import GROUP_FOR_DIRECTORY_CREATION
 from cdds.extract.filters import Filters
 from cdds.extract.process import Process
-from cdds.deprecated.config import FullPaths
+from cdds.common.plugins.plugins import PluginStore
 
 
 class ExtractRunner(object):
@@ -51,22 +51,18 @@ class ExtractRunner(object):
         logger.info("EXTRACT PROCESS starting ---- ")
         logger.info(self.lang["user_settings"].format(
             getpass.getuser(), GROUP_FOR_DIRECTORY_CREATION))
-        logger.info(extract_process.request_detail())
 
         # get data streams to be extracted - excludes streams to be skipped
-        streams = [stream for stream in request.data.streams.split() if stream in self.args.streams
-                   ] if self.args.streams else request.data.streams.split()
+        streams = [stream for stream in request.data.streams if stream in self.args.streams
+                   ] if self.args.streams else request.data.streams
         if not streams:
             overall_summary = self.lang["stream_not_selected"]
             overall_result = "failed"
         else:
             # get output variables for request - configure MASS filters
-            var_list = configure_variables(
-                os.path.join(proc_directory, 'prepare'),
-                plugin.requested_variables_list_filename(request))
-
+            var_list = configure_variables(os.path.join(proc_directory, 'prepare',
+                                                        plugin.requested_variables_list_filename(request)))
             # configure mappings for each variables
-
             mappings = Filters(
                 proc_directory,
                 var_list,
@@ -79,8 +75,9 @@ class ExtractRunner(object):
 
         stream_validation = ValidationResult()
         stream_count = 0
-
+        stream_success = {}
         for stream in streams:
+            stream_success[stream] = True
             # Skip the ancil stream as fixed fields are read from local files
             if stream == "ancil":
                 logger.info(self.lang["stream_ancil"])
@@ -145,7 +142,7 @@ class ExtractRunner(object):
                                 msg = self.lang["block_success"].format(
                                     blocknum, status["msg"])
                             else:
-                                stream["success"] = False
+                                stream_success[stream] = False
                                 overall_result = "quality"
                                 msg = self.lang["block_fail"].format(
                                     blocknum, status["msg"])
@@ -166,7 +163,7 @@ class ExtractRunner(object):
                     stash_codes = {}
                 # log stream completion and update progress in CREM
                 logger.info(extract_process.stream_completion_message(
-                    stream, "[{} of {}]".format(stream_count, len(streams))))
+                    stream, "[{} of {}]".format(stream_count, len(streams)), stream_success[stream]))
                 # do validation check for this stream and write to log
                 substreams = list(mappings.filters.keys())
             else:
@@ -178,7 +175,7 @@ class ExtractRunner(object):
                 else:
                     overall_result = "failed"
                 logger.info(extract_process.stream_completion_message(
-                    stream, end_msg))
+                    stream, end_msg, stream_success[stream]))
             # ---- end of stream loop ----
         # log end of process
         logger.info("{}: {}".format(
