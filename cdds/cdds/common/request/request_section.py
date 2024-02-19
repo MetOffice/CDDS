@@ -110,7 +110,7 @@ def load_types(dictionary: Dict[str, str], as_list: List[str] = []) -> Dict[str,
     output = {}
     for key, value in dictionary.items():
         if as_list and key in as_list:
-            output[key] = value.split(' ')
+            output[key] = value.split(' ') if value else []
         elif value.isnumeric():
             output[key] = int(value)
         elif value.replace('.', '', 1).isnumeric():

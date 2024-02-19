@@ -58,10 +58,16 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
     @patch('cdds.common.get_log_datestamp')
     @patch('cdds.common.request.common_section.get_version')
     @patch('cdds.common.request.common_section.datetime')
-    def test_functional(self, datetime_mock, mock_get_version, mock_log_datestamp):
+    @patch('cdds.common.request.data_section.datetime')
+    def test_functional(self, data_section_datetime_mock, common_section_datetime_mock,
+                        mock_get_version, mock_log_datestamp):
         mock_get_version.return_value = 'cdds_2.6.0'
         data_version = datetime(year=2023, month=9, day=21, hour=10, minute=34, second=12)
-        datetime_mock.utcnow.return_value = data_version
+        common_section_datetime_mock.utcnow.return_value = data_version
+
+        archiv_version = datetime(year=2024, month=1, day=1, hour=10, minute=34, second=12)
+        data_section_datetime_mock.now.return_value = archiv_version
+
         mock_log_datestamp.return_value = self.log_date
         arguments = ('-o {} -f {} {} cdds {} {} onm -c {} -t {}'.format(
             self.request_dir, self.request_file, self.suite, self.revision, self.package, self.root_proc_dir,
@@ -98,11 +104,16 @@ class TestWriteRequestForGCModelDev(FunctionalTestCase):
     @patch('cdds.common.get_log_datestamp')
     @patch('cdds.common.request.common_section.get_version')
     @patch('cdds.common.request.common_section.datetime')
-    def test_functional(self, datetime_mock, mock_get_version, mock_log_datestamp):
+    @patch('cdds.common.request.data_section.datetime')
+    def test_functional(self, data_section_datetime_mock, common_section_datetime_mock,
+                        mock_get_version, mock_log_datestamp):
         mock_get_version.return_value = 'cdds_2.6.0'
         mock_log_datestamp.return_value = self.log_date
         data_version = datetime(year=2023, month=9, day=21, hour=10, minute=34, second=12)
-        datetime_mock.utcnow.return_value = data_version
+        common_section_datetime_mock.utcnow.return_value = data_version
+
+        archiv_version = datetime(year=2024, month=1, day=1, hour=10, minute=34, second=12)
+        data_section_datetime_mock.now.return_value = archiv_version
 
         arguments = ('-o {} -f {} {} cdds {} {} ap4 ap5 ap6 -c {} -t {}'.format(
             self.request_dir, self.request_file, self.suite, self.revision, self.package,

@@ -13,6 +13,7 @@ class TestConversionDefaults(TestCase):
         whereami_mock.return_value = Facility.JASMIN
         expected_defaults = {
             'cdds_workflow_branch': 'cdds_jasmin_2.3',
+            'cylc_args': '-v',
             'no_email_notifications': False,
             'skip_extract': True,
             'skip_extract_validation': False,
@@ -30,6 +31,7 @@ class TestConversionDefaults(TestCase):
         whereami_mock.return_value = Facility.MET_OFFICE
         expected_defaults = {
             'cdds_workflow_branch': 'trunk',
+            'cylc_args': '-v',
             'no_email_notifications': False,
             'skip_extract': False,
             'skip_extract_validation': False,
