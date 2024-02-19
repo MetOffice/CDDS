@@ -65,7 +65,6 @@ class ConvertProcess(object):
         assert os.access(proc_dir, os.W_OK), ('Permissions on processing directory "{}" do not allow writing'
                                               '').format(proc_dir)
 
-        os.path.join(proc_dir, 'convert', 'log')
         logdir = os.path.join(proc_dir, 'convert', 'log')
         if not os.path.isdir(logdir):
             os.makedirs(logdir)
