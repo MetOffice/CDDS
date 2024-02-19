@@ -12,7 +12,7 @@ import sqlite3
 
 import netCDF4
 
-from metomi.isodatetime.data import TimePoint, Calendar, Duration
+from metomi.isodatetime.data import TimePoint, Calendar, Duration, get_is_leap_year
 from metomi.isodatetime.parsers import TimePointParser
 
 from cdds.common.constants import LOG_TIMESTAMP_FORMAT
@@ -252,16 +252,40 @@ def times_from_filename(filename):
     tuple
         start date and end dates in units specified by TIME_UNITS
     """
-    max_days_in_month = Calendar.default().MAX_DAYS_IN_MONTH
     facets = filename.strip('.nc').split('_')
     time_facets = facets[-1].split('-')
 
     start = to_iso_format(time_facets[0])
+
+    max_days_in_month = _get_max_days_in_month(time_facets[1])
     end = to_iso_format(time_facets[1], '12', str(max_days_in_month))
 
     start_date = TimePointParser().parse(start)
     end_date = TimePointParser().parse(end)
     return start_date, end_date
+
+
+def _get_max_days_in_month(time_str: str):
+    """
+    Returns the maximal days in a month. If the time string is 6 character long, then the first four characters
+    specifies the year and the last two characters the month. If the time string is longer or shorter than 6
+    characters than the maximal days of December is returned.
+
+    :param time_str: Time
+    :type time_str: str
+    :return: Maximal days in a month
+    :rtype: int
+    """
+    max_days_in_month = Calendar.default().MAX_DAYS_IN_MONTH
+    if len(time_str) == 6:
+        year = int(time_str[:-2])
+        month = int(time_str[-2:])
+
+        if get_is_leap_year(year):
+            max_days_in_month = Calendar.default().DAYS_IN_MONTHS_LEAP[month - 1]
+        else:
+            max_days_in_month = Calendar.default().DAYS_IN_MONTHS[month - 1]
+    return max_days_in_month
 
 
 def to_iso_format(time_str: str, default_month='01', default_day_in_month='01') -> str:

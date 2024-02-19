@@ -136,11 +136,44 @@ class TestConcatenation(unittest.TestCase):
                                       TimePoint(year=1860, month_of_year=12, day_of_month=30)),
                 'test_185001-185911.nc': (TimePoint(year=1850, month_of_year=1, day_of_month=1),
                                           TimePoint(year=1859, month_of_year=11, day_of_month=30)),
+                'test_200001-200002.nc': (TimePoint(year=2000, month_of_year=1, day_of_month=1),
+                                          TimePoint(year=2000, month_of_year=2, day_of_month=30)),
                 'test_18500101-18591115.nc': (TimePoint(year=1850, month_of_year=1, day_of_month=1),
                                               TimePoint(year=1859, month_of_year=11, day_of_month=15)),
                 'test_185001010600-185903141800.nc': (
                     TimePoint(year=1850, month_of_year=1, day_of_month=1, hour_of_day=6),
                     TimePoint(year=1859, month_of_year=3, day_of_month=14, hour_of_day=18))}
+        for filename, expected in spec.items():
+            output = concatenation_setup.times_from_filename(filename)
+            self.assertEqual(output, expected,
+                             'Problem with file {}:\n  {}\n  {}'.format(filename, expected, output))
+
+    def test_times_from_filename_for_gregorian_calendar(self):
+        Calendar.default().set_mode('gregorian')
+        spec = {
+            'test_1850-1860.nc': (TimePoint(year=1850, month_of_year=1, day_of_month=1),
+                                  TimePoint(year=1860, month_of_year=12, day_of_month=31)),
+            'test_185004-186004.nc': (TimePoint(year=1850, month_of_year=4, day_of_month=1),
+                                      TimePoint(year=1860, month_of_year=4, day_of_month=30)),
+            'test_18500101-18591115.nc': (TimePoint(year=1850, month_of_year=1, day_of_month=1),
+                                          TimePoint(year=1859, month_of_year=11, day_of_month=15)),
+            'test_185001010600-185903141800.nc': (
+                TimePoint(year=1850, month_of_year=1, day_of_month=1, hour_of_day=6),
+                TimePoint(year=1859, month_of_year=3, day_of_month=14, hour_of_day=18))
+        }
+
+        for filename, expected in spec.items():
+            output = concatenation_setup.times_from_filename(filename)
+            self.assertEqual(output, expected,
+                             'Problem with file {}:\n  {}\n  {}'.format(filename, expected, output))
+
+    def test_times_from_filename_for_gregorian_calendar_leap_year(self):
+        Calendar.default().set_mode('gregorian')
+        spec = {
+            'test_200002-200002.nc': (TimePoint(year=2000, month_of_year=2, day_of_month=1),
+                                      TimePoint(year=2000, month_of_year=2, day_of_month=29))
+        }
+
         for filename, expected in spec.items():
             output = concatenation_setup.times_from_filename(filename)
             self.assertEqual(output, expected,
