@@ -6,14 +6,12 @@ Command line interfaces for cdds_convert and mip_concatenate tasks.
 import argparse
 import logging
 
-from argparse import Namespace
 from typing import Tuple
 
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request, read_request
 
-from cdds.arguments import read_default_arguments
 from cdds.common import configure_logger, check_directory
 
 from cdds import _DEV
@@ -196,7 +194,6 @@ def main_run_mip_convert(arguments=None):
 
 def _parse_run_mip_convert_parameters(arguments):
     user_arguments = arguments
-    arguments = read_default_arguments('cdds.convert', 'run_mip_convert')
 
     description = 'Arguments for running MIP convert'
     parser = argparse.ArgumentParser(description=description, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -216,8 +213,8 @@ def _parse_run_mip_convert_parameters(arguments):
                         help='If specified, CMIP6 style validation is not performed by CMOR.',
                         action='store_true'
                         )
-    parsed_arguments = parser.parse_args(args=user_arguments)
-    arguments.add_user_args(parsed_arguments)
+    arguments = parser.parse_args(args=user_arguments)
+
     load_plugin(arguments.mip_era, arguments.external_plugin, arguments.external_plugin_location)
     return arguments
 
