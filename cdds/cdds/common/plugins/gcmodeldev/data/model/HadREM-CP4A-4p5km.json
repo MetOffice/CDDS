@@ -22,43 +22,67 @@
     }
   },
   "cycle_length": {
-    "apa": "P1Y",
-    "apb": "P1Y",
-    "apc": "P1Y",
-    "apd": "P1Y",
-    "ape": "P1Y",
-    "apg": "P1Y",
-    "aph": "P1Y",
-    "apq": "P1Y",
-    "apr": "P1Y",
+    "apa": "P1M",
+    "apb": "P1M",
+    "apc": "P1M",
+    "apd": "P1M",
+    "ape": "P1M",
+    "apg": "P1M",
+    "aph": "P1M",
+    "apq": "P1M",
+    "apr": "P1M",
     "apm": "P1Y"
   },
   "memory": {
-    "apa": "32G",
-    "apb": "32G",
-    "apc": "32G",
-    "apd": "32G",
-    "ape": "32G",
-    "apg": "32G",
-    "aph": "32G",
-    "apq": "32G",
-    "apr": "32G",
-    "apm": "16G"
+    "apa": "64G",
+    "apb": "64G",
+    "apc": "64G",
+    "apd": "64G",
+    "ape": "64G",
+    "apg": "64G",
+    "aph": "64G",
+    "apq": "64G",
+    "apr": "64G",
+    "apm": "64G"
   },
   "temp_space": {
-    "apa": 131072,
-    "apb": 131072,
-    "apc": 131072,
-    "apd": 131072,
-    "ape": 131072,
-    "apg": 131072,
-    "aph": 131072,
-    "apq": 131072,
-    "apr": 131072,
-    "apm": 16384
+    "apa": 262144,
+    "apb": 262144,
+    "apc": 262144,
+    "apd": 262144,
+    "ape": 262144,
+    "apg": 262144,
+    "aph": 262144,
+    "apq": 262144,
+    "apr": 262144,
+    "apm": 262144
   },
   "sizing_info": {
     "1hr": {
+      "default": 10
+    },
+    "1hrPt": {
+      "default": 10
+    },
+    "3hr": {
+      "default": 10
+    },
+    "3hrPt": {
+      "default": 10
+    },
+    "6hr": {
+      "default": 10
+    },
+    "6hrPt": {
+      "default": 10
+    },
+    "day": {
+      "default": 10
+    },
+    "mon": {
+      "default": 10
+    },
+    "monPt": {
       "default": 10
     }
   },
