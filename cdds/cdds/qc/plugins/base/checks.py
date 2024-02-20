@@ -76,8 +76,6 @@ class StringAttributesCheckTask(CheckTask):
     """
     SOURCE_REGEX: str = r"^([a-zA-Z\d\-_\.\s]+) \(\d{4}\)"
 
-    CF_CONVENTIONS: List[str] = ["CF-1.7", "CF-1.7 CMIP-6.2", "CF-1.7 CMIP-6.5", "CF-1.7 CMIP-6.2 UGRID-1.0"]
-
     def __init__(self, check_cache: CheckCache) -> None:
         super(StringAttributesCheckTask, self).__init__(check_cache)
 
@@ -94,7 +92,7 @@ class StringAttributesCheckTask(CheckTask):
         string_dict = {
             "experiment": validator.experiment_validator(getattr(netcdf_file, "experiment_id")),
             "institution": validator.institution_validator(getattr(netcdf_file, "institution_id")),
-            "Conventions": ValidatorFactory.value_in_validator(self.CF_CONVENTIONS),
+            "Conventions": self._cache.cv_validator.conventions_validator(),
             "creation_date": ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ", "gregorian"),
             "data_specs_version": ValidatorFactory.value_in_validator([self._cache.mip_tables.version]),
             "license": ValidatorFactory.value_in_validator([self._cache.request.license.strip()]),
