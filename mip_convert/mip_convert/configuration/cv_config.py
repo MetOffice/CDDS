@@ -250,6 +250,13 @@ class CVConfig(JSONConfig):
         return result
 
     @property
+    def conventions(self):
+        """
+        Return the first element of the Conventions attribute
+        """
+        return self._get_values_from_cv("Conventions")[0].replace('\\', '')
+
+    @property
     def required_global_attributes(self):
         """
         Return the required global attributes specified by the CV file.

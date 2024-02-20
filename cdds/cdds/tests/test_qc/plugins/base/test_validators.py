@@ -19,6 +19,12 @@ class TestCVValidator(unittest.TestCase):
         self.assertIsNone(validator("hdl:21.14100/foobar"))
         self.assertRaises(ValidationError, validator, "hdl:12345")
 
+    def test_conventions_validator(self):
+        validator = self.cv_validator.conventions_validator()
+        self.assertIsNone(validator("CF-1.7 CMIP-6.2 UGRID-1.0"))
+        self.assertIsNone(validator("CF-1.7 CMIP-6.2"))
+        self.assertRaises(ValidationError, validator, "CF-1.7 CMIP-6.3")
+
 
 class TestValidators(unittest.TestCase):
 

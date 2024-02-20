@@ -24,6 +24,12 @@ class ControlledVocabularyValidator:
         """
         self._cv = CVConfig(repo_location)
 
+    def conventions_validator(self):
+        """
+        Generate a validator for the convention string
+        """
+        return ValidatorFactory.string_validator(self._cv.conventions)
+
     def experiment_validator(self, experiment_id):
         """
         Generate a validator for the experiment information.
