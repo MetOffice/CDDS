@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2024, Met Office.
 # Please see LICENSE.rst for license details.
 import os
 
@@ -7,9 +7,10 @@ from unittest import TestCase
 from unittest.mock import patch, MagicMock
 from cdds.common.mip_tables import MipTables
 from cdds.common.request import Request
+from cdds.common.validation import ValidationError
 
 from cdds.qc.plugins.base.checks import VariableAttributesCheckTask, StringAttributesCheckTask
-from cdds.qc.plugins.base.validators import ControlledVocabularyValidator
+from cdds.qc.plugins.base.validators import ControlledVocabularyValidator, ValidatorFactory
 from cdds.qc.plugins.cmip6.validators import Cmip6CVValidator
 from cdds.qc.plugins.base.common import CheckCache
 from cdds.tests.test_common.common import create_simple_netcdf_file
@@ -74,3 +75,18 @@ class TestGlobalAttributesCheckTask(TestCase):
             self.class_under_test._messages,
             ["Mandatory attribute creation_date: "
              "'2022-02-31T21:16:47Z' is not a valid date in a form of %Y-%m-%dT%H:%M:%SZ"])
+
+
+class TestConventionsCheck(TestCase):
+
+    def test_valid_convention_cf17(self):
+        validator = ValidatorFactory.value_in_validator(StringAttributesCheckTask.CF_CONVENTIONS)
+        validator("CF-1.7")
+
+    def test_valid_convention_cf17_cmip65(self):
+        validator = ValidatorFactory.value_in_validator(StringAttributesCheckTask.CF_CONVENTIONS)
+        validator("CF-1.7 CMIP-6.5")
+
+    def test_invalid_convention(self):
+        validator = ValidatorFactory.value_in_validator(StringAttributesCheckTask.CF_CONVENTIONS)
+        self.assertRaises(ValidationError, validator, "CF-1.7 CMIP-6.4")

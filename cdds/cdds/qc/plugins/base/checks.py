@@ -76,7 +76,7 @@ class StringAttributesCheckTask(CheckTask):
     """
     SOURCE_REGEX: str = r"^([a-zA-Z\d\-_\.\s]+) \(\d{4}\)"
 
-    CF_CONVENTIONS: List[str] = ["CF-1.7", "CF-1.7 CMIP-6.2", "CF-1.7 CMIP-6.2 UGRID-1.0"]
+    CF_CONVENTIONS: List[str] = ["CF-1.7", "CF-1.7 CMIP-6.2", "CF-1.7 CMIP-6.5", "CF-1.7 CMIP-6.2 UGRID-1.0"]
 
     def __init__(self, check_cache: CheckCache) -> None:
         super(StringAttributesCheckTask, self).__init__(check_cache)
