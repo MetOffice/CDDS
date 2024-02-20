@@ -3,6 +3,10 @@
 
 .. include:: common.txt
 
+Release 2.5.7, February 21, 2024
+================================
+* Additional Mappings for the HadREM3-CP4A-4p5km model (CDDSO-354, CDDSO-405)
+
 Release 2.5.6, February 09, 2024
 ================================
 * Updated mapping for fco2nat to use anomalous LBTIM code in UKESM model data.
