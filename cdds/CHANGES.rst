@@ -3,6 +3,15 @@
 
 .. include:: common.txt
 
+Release 2.5.7, February 21, 2024
+================================
+* Chunking of large moose queries in Extract is now correctly handled (CDDSO-398)
+* QC now supports Conventions field in a more portable way (CDDSO-407)
+* Concatenation code can now cope with monthly files of monthly mean
+  data (CDDSO-405)
+* Extensions and fixes to support CP4A processing via GCModel Dev (CDDSO-354,
+  CDDSO-401, CDDSO-405)
+
 Release 2.5.6, February 09, 2024
 ================================
 * Added HadGEM3-GC5 and eUKESM1-1-ice model configurations to GCModelDev
