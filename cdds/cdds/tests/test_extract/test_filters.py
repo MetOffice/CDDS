@@ -8,7 +8,6 @@ Tests for extract filters.
 from copy import deepcopy
 import logging
 import unittest
-import datetime
 import os
 from unittest.mock import patch
 from metomi.isodatetime.parsers import TimePointParser
@@ -83,9 +82,8 @@ class TestFilters(unittest.TestCase):
 
         stream = "inm"
         filters = Filters(procdir="foo")
-        filters.request = self.request
-        filters.request.data.start_date = TimePointParser().parse('1990-01-01T00:00:00Z')
-        filters.request.data.end_date = TimePointParser().parse('1991-01-01T00:00:00Z')
+        filters.start_date = TimePointParser().parse('1990-01-01T00:00:00Z')
+        filters.end_date = TimePointParser().parse('1991-01-01T00:00:00Z')
 
         filters.filters = {"default": "foo"}
         status, mass_command, _, _ = filters.mass_command(
@@ -158,9 +156,8 @@ class TestFilters(unittest.TestCase):
         stream = "inm"
         filters = Filters(procdir="foo")
         filters.filters = {"default": "foo"}
-        filters.request = self.request
-        filters.request.data.start_date = TimePointParser().parse('1990-01-01T00:00:00Z')
-        filters.request.data.end_date = TimePointParser().parse('1991-01-01T00:00:00Z')
+        filters.start_date = TimePointParser().parse('1990-01-01T00:00:00Z')
+        filters.end_date = TimePointParser().parse('1991-01-01T00:00:00Z')
         status, mass_commands, _, _ = filters.mass_command(
             stream, mass_location, "foo")
         self.assertEqual(status, "ok")
@@ -226,9 +223,8 @@ class TestFilters(unittest.TestCase):
         stream = "inm"
         filters = Filters(procdir="foo")
         filters.filters = {"default": "foo"}
-        filters.request = self.request
-        filters.request.data.start_date = TimePointParser().parse('1990-01-01T00:00:00Z')
-        filters.request.data.end_date = TimePointParser().parse('1990-11-01T00:00:00Z')
+        filters.start_date = TimePointParser().parse('1990-01-01T00:00:00Z')
+        filters.end_date = TimePointParser().parse('1990-11-01T00:00:00Z')
         status, mass_commands, _, _ = filters.mass_command(
             stream, mass_location, "foo")
         self.assertEqual(status, "ok")

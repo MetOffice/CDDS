@@ -19,10 +19,10 @@ from cdds.extract.runner import ExtractRunner
 from cdds.extract.spice import run_extract_spice_batch_job
 from cdds.extract.halo_removal import dehalo_multiple_files
 from cdds.extract.validate import validate_streams
-from cdds.arguments import read_default_arguments
-from cdds.common import configure_logger, common_command_line_args, set_calendar
+from cdds.common import configure_logger
 
 COMPONENT = 'extract'
+LOG_NAME = 'cdds_extract'
 
 
 def parse_cdds_extract_command_line(user_arguments):
@@ -47,24 +47,14 @@ def parse_cdds_extract_command_line(user_arguments):
     : :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated values.
     """
-    arguments = read_default_arguments('cdds.extract', 'cdds_extract')
-
     parser = argparse.ArgumentParser(description='Extract the requested data from MASS on SPICE via a batch job')
     parser.add_argument('request',
-                        help='The full path to the YAML file containing the information from the request.')
+                        help='The full path to the cfg file containing the information from the request.')
     parser.add_argument('-s',
                         '--streams',
                         default=None, nargs='*',
                         help='Restrict extraction only to these streams')
-    parser.add_argument('--simulation',
-                        action='store_true',
-                        help='Run Extract in simulation mode')
-
-    # Add arguments common to all scripts.
-    common_command_line_args(parser, arguments.log_name, arguments.log_level, __version__)
-    parsed_args = parser.parse_args(user_arguments)
-
-    arguments.add_user_args(parsed_args)
+    arguments = parser.parse_args(user_arguments)
     return arguments
 
 
@@ -81,13 +71,12 @@ def main_cdds_extract(arguments=None):
     # Parse the arguments.
     args = parse_cdds_extract_command_line(arguments)
     request = read_request(args.request)
-    set_calendar(request)
 
     # Add stream suffix to the log name if running extract just for some streams
-    log_name = args.log_name + '_' + "_".join(args.streams) if args.streams else args.log_name
+    log_name = LOG_NAME + '_' + "_".join(args.streams) if args.streams else LOG_NAME
 
     # Create the configured logger.
-    configure_logger(log_name, logging.INFO, False)
+    configure_logger(log_name, request.common.log_level, False)
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
 
@@ -116,8 +105,6 @@ def parse_remove_ocean_haloes_command_line(user_arguments):
     : :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated values.
     """
-    arguments = read_default_arguments('cdds.extract', 'remove_ocean_haloes')
-
     parser = argparse.ArgumentParser(description='Strip ocean haloes from multiple files')
     parser.add_argument('destination', help='Directory to write stripped files to')
     parser.add_argument('filenames', nargs='+', help='Files to strip haloes from')
@@ -125,7 +112,6 @@ def parse_remove_ocean_haloes_command_line(user_arguments):
     parser.add_argument('--overwrite', help='Overwrite files in target directory')
     parser.add_argument('--mip_era', default='CMIP6', help='The cdds plugin to load, "CMIP6" loaded by default')
     parser.add_argument('--plugin_module', help='The directory of an external plugin module')
-    common_command_line_args(parser, arguments.log_name, arguments.log_level, __version__)
 
     return parser.parse_args(user_arguments)
 
@@ -146,7 +132,6 @@ def parse_validate_streams_command_line(user_arguments):
         The names of the command line arguments and their validated values.
     """
 
-    arguments = read_default_arguments('cdds.extract', 'validate_streams')
     parser = argparse.ArgumentParser(description='Validate extracted data')
     parser.add_argument('request',
                         help='The full path to the JSON file containing the information from the request.')
@@ -155,9 +140,7 @@ def parse_validate_streams_command_line(user_arguments):
                         default=None, nargs='*',
                         help='Restrict validation only to these streams')
     # Add arguments common to all scripts.
-    common_command_line_args(parser, arguments.log_name, arguments.log_level, __version__)
-    parsed_args = parser.parse_args(user_arguments)
-    arguments.add_user_args(parsed_args)
+    arguments = parser.parse_args(user_arguments)
     return arguments
 
 
@@ -172,13 +155,12 @@ def main_validate_streams(arguments=None):
     """
     args = parse_validate_streams_command_line(arguments)
     request = read_request(args.request)
-    set_calendar(request)
 
     # Add stream suffix to the log name if running extract just for some streams
-    log_name = args.log_name + '_' + "_".join(args.streams) if args.streams else args.log_name
+    log_name = LOG_NAME + '_' + "_".join(args.streams) if args.streams else LOG_NAME
 
     # Create the configured logger.
-    configure_logger(log_name, logging.INFO, False)
+    configure_logger(log_name, request.common.log_level, False)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
@@ -220,7 +202,7 @@ def main_remove_ocean_haloes(arguments=None):
     args = parse_remove_ocean_haloes_command_line(arguments)
 
     # Create the configured logger.
-    configure_logger(args.log_name, logging.INFO, False)
+    configure_logger(LOG_NAME, logging.INFO, False)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)

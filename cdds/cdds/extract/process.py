@@ -72,14 +72,14 @@ class Process(object):
             streams = ""
         else:
             streams = "--streams" + " " * 12 + ",".join(self.args.streams)
-        simulation = "" if self.args.simulation is None else "--simulation"
+        simulation = "" if self.request.common.simulation is None else "--simulation"
         logger = logging.getLogger(__name__)
         logger.info(
             self.lang["arg_settings"].format(
                 self.args.request,
                 streams,
-                self.args.root_proc_dir,
-                self.args.root_data_dir,
+                self.request.common.root_proc_dir,
+                self.request.common.root_data_dir,
                 simulation
             )
         )
@@ -314,7 +314,7 @@ class Process(object):
 
         code, cmd_out, _ = run_moo_cmd(cmd["moo_cmd"],
                                        cmd["param_args"],
-                                       self.args.simulation)
+                                       self.request.common.simulation)
 
         logger.debug(self.lang["moose_output"].format(
             code, cmd_out))

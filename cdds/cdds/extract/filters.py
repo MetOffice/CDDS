@@ -6,12 +6,12 @@ using SELECT and FILTER
 
 """
 
-from cftime import datetime as cf_datetime
 import logging
 import re
 from collections import defaultdict
 from operator import itemgetter
 from typing import Dict, List, Tuple
+from metomi.isodatetime.data import TimePoint
 
 from cdds.common import netCDF_regexp, generate_datestamps_pp
 from cdds.common.mappings.mapping import ModelToMip
@@ -20,7 +20,7 @@ from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
 from cdds.extract.common import (check_moo_cmd, chunk_by_files_and_tapes, fetch_filelist_from_mass, get_streamtype,
                                  get_bounds_variables, get_stash, get_tape_limit, run_moo_cmd)
-from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES
+from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES, STREAMTYPE_PP, STREAMTYPE_NC
 
 
 class Filters(object):
@@ -79,7 +79,8 @@ class Filters(object):
         self.model_id = request.metadata.model_id
         self.plugin = PluginStore.instance().get_plugin()
         self.model_parameters = self.plugin.models_parameters(self.model_id)
-        self.request = request
+        self.start_date = request.data.start_date
+        self.end_date = request.data.end_date
         # initialise mappings request structure
         mapping_request = {
             "process": {
@@ -241,12 +242,12 @@ class Filters(object):
         self.target = target
         self.stream = stream
         code = None
-        if get_streamtype(stream) == "pp":
+        if get_streamtype(stream) == STREAMTYPE_PP:
             status, self.mass_cmd, error, code = self._mass_cmd_pp(
-                self.request.data.start_date, self.request.data.end_date)
-        elif get_streamtype(stream) == "nc":
+                self.start_date, self.end_date)
+        elif get_streamtype(stream) == STREAMTYPE_NC:
             status, self.mass_cmd, error, code = self._mass_cmd_nc(
-                self.request.data.start_date, self.request.data.end_date)
+                self.start_date, self.end_date)
 
         return status, self.mass_cmd, error, code
 
@@ -459,14 +460,14 @@ class Filters(object):
 
         return pp_file
 
-    def _create_pp_filelist(self, start: str, end: str) -> List[Dict]:
+    def _create_pp_filelist(self, start: TimePoint, end: TimePoint) -> List[Dict]:
         """Create a list of expected .pp files where each file is represented
         as a dictionary with two values, TimePoint and filename.
 
         :param start: Start run bound
-        :type start: str
+        :type start: TimePoint
         :param end: End run bound
-        :type end: str
+        :type end: TimePoint
         :return: A pp_filelist
         :rtype: List[Dict]
         """
@@ -482,7 +483,7 @@ class Filters(object):
 
         return pp_filelist
 
-    def _mass_cmd_pp(self, start: cf_datetime, end: cf_datetime) -> Tuple[str, List[Dict], str, int]:
+    def _mass_cmd_pp(self, start: TimePoint, end: TimePoint) -> Tuple[str, List[Dict], str, int]:
         """Create the list of mass commands and respective filter files needed for a given
         stream.
 
@@ -495,7 +496,6 @@ class Filters(object):
         :rtype: Tuple[str, List[Dict], str, int]
         """
         self.mass_cmd = []
-        start, end = start.strftime("%Y%m%d"), end.strftime("%Y%m%d")
         pp_filelist = self._create_pp_filelist(start, end)
         chunks = self._chunk_pp_filelist(pp_filelist)
 
@@ -801,8 +801,6 @@ class Filters(object):
             if result:
                 files_found += 1
                 _, file_start, file_end, _ = result.groups()
-                # start_dt = cf_datetime.strptime(file_start, "%Y%m%d")
-                # end_dt = cf_datetime.strptime(file_end, "%Y%m%d")
                 if file_start >= start.strftime("%Y%m%d") and file_end <= end.strftime("%Y%m%d"):
                     files_on_tapes[tape].append(nc_file)
         if not files_found:

@@ -14,6 +14,7 @@ from cdds.extract.common import (
     validate_stash_fields, validate_netcdf,
     StreamValidationResult, build_mass_location,
 )
+from cdds.extract.constants import STREAMTYPE_PP, STREAMTYPE_NC
 from cdds.extract.filters import Filters
 
 
@@ -39,7 +40,7 @@ def validate_streams(streams, args):
         file_type = get_streamtype(stream)
         mappings.source = build_mass_location(request.data.mass_data_class,
                                               request.data.model_workflow_id,
-                                              streams,
+                                              stream,
                                               file_type,
                                               request.data.mass_ensemble_member)
     else:
@@ -47,8 +48,6 @@ def validate_streams(streams, args):
     mappings.stream = stream
 
     # generate expected filenames
-    start = request.data.start_date.strftime("%Y%m%d")
-    end = request.data.end_date.strftime("%Y%m%d")
     file_frequency = stream_file_info.file_frequencies[stream].frequency
 
     stream_validation = StreamValidationResult(stream)
@@ -58,12 +57,12 @@ def validate_streams(streams, args):
                                       request.data.model_workflow_id, stream)
         streamtype = get_streamtype(stream)
         _, _, _, stash_codes = (mappings.format_filter(streamtype, stream))
-        if streamtype == "pp":
-            datestamps, _ = generate_datestamps_pp(start, end, file_frequency)
+        if streamtype == STREAMTYPE_PP:
+            datestamps, _ = generate_datestamps_pp(request.data.start_date, request.data.end_date, file_frequency)
             filenames = mappings._generate_filenames_pp(datestamps)
 
-        elif streamtype == "nc":
-            datestamps, _ = generate_datestamps_nc(start, end, file_frequency)
+        elif streamtype == STREAMTYPE_NC:
+            datestamps, _ = generate_datestamps_nc(request.data.start_date, request.data.end_date, file_frequency)
             filenames = []
             substreams = list(mappings.filters.keys())
             for sub_stream in substreams:
@@ -96,9 +95,9 @@ def validate(path, stream, stash_codes, validation_result, filenames):
     """
     streamtype = get_streamtype(stream)
     validate_file_names(path, validation_result, filenames, streamtype)
-    if streamtype == "pp":
+    if streamtype == STREAMTYPE_PP:
         validate_directory_pp(path, stash_codes, validation_result)
-    elif streamtype == "nc":
+    elif streamtype == STREAMTYPE_NC:
         validate_directory_netcdf(path, validation_result)
 
 
