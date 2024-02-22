@@ -14,6 +14,7 @@ from cdds.common import (construct_string_from_facet_string, netCDF_regexp, get_
                          get_most_recent_file_by_stream, generate_datestamps_pp, generate_datestamps_nc)
 
 from metomi.isodatetime.data import Calendar
+from metomi.isodatetime.parsers import TimePointParser
 
 
 class TestNetcdfRegexp(unittest.TestCase):
@@ -234,25 +235,29 @@ class TestGenerateDatetampsGregorian:
     Calendar.default().set_mode("gregorian")
 
     def test_daily_pp(self):
-        start, end = "19800101", "19800104"
+        start = TimePointParser().parse('1980-01-01T00:00:00Z')
+        end = TimePointParser().parse('1980-01-04T00:00:00Z')
         expected = ["19800101", "19800102", "19800103"]
         actual, _ = generate_datestamps_pp(start, end, "daily")
         assert expected == actual
 
     def test_monthly_pp(self):
-        start, end = "19791201", "19800401"
+        start = TimePointParser().parse('1979-12-01T00:00:00Z')
+        end = TimePointParser().parse('1980-04-01T00:00:00Z')
         expected = ["1979dec", "1980jan", "1980feb", "1980mar"]
         actual, _ = generate_datestamps_pp(start, end, "monthly")
         assert expected == actual
 
     def test_season_pp(self):
-        start, end = "19791201", "19800901"
+        start = TimePointParser().parse('1979-12-01T00:00:00Z')
+        end = TimePointParser().parse('1980-09-01T00:00:00Z')
         expected = ["1979djf", "1980mam", "1980jja"]
         actual, _ = generate_datestamps_pp(start, end, "season")
         assert expected == actual
 
     def test_monthly_nc(self):
-        start, end = "19800101", "19800401"
+        start = TimePointParser().parse('1980-01-01T00:00:00Z')
+        end = TimePointParser().parse('1980-04-01T00:00:00Z')
         expected = ["19800101-19800201",
                     "19800201-19800301",
                     "19800301-19800401"]
@@ -260,7 +265,8 @@ class TestGenerateDatetampsGregorian:
         assert expected == actual
 
     def test_quarterly_nc(self):
-        start, end = "19800101", "19810101"
+        start = TimePointParser().parse('1980-01-01T00:00:00Z')
+        end = TimePointParser().parse('1981-01-01T00:00:00Z')
         expected = ["19800101-19800401",
                     "19800401-19800701",
                     "19800701-19801001",
@@ -277,7 +283,8 @@ class TestGenerateDatestamps360Day:
     Calendar.default().set_mode("360_day")
 
     def test_10_day(self):
-        start, end = "19800101", "19800201"
+        start = TimePointParser().parse('1980-01-01T00:00:00Z')
+        end = TimePointParser().parse('1980-02-01T00:00:00Z')
         expected = ["19800101", "19800111", "19800121"]
         actual, _ = generate_datestamps_pp(start, end, "10 day")
         assert expected == actual

@@ -39,5 +39,7 @@ QUEUE = 'long'
 SPICE_SCRIPT_NAME = 'cdds_extract_spice.sh'
 SUBDAILY_DATESTAMP_PATTERN = "{}a.p{}{}{:02d}{:02d}.pp"
 STREAMDIR_PERMISSIONS = 0o777
+STREAMTYPE_PP = 'pp'
+STREAMTYPE_NC = 'nc'
 TIME_REGEXP = r'time(_counter)?\s=\sUNLIMITED\s;\s\/\/\s\((\d+)\scurrently\)'
 WALLTIME = '2-00:00:00'

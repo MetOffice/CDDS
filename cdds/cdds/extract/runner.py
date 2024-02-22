@@ -7,15 +7,15 @@ CDDS class for setting up and running Extract processes.
 import getpass
 import logging
 import os
-from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
-from cdds.common.old_request import read_request
+from cdds.common.request.request import read_request
+from cdds.common.constants import INPUT_DATA_DIRECTORY
 from cdds.extract.common import (
-    check_moo_cmd, configure_mappings, configure_variables, exit_nicely, get_data_target, get_streams,
+    check_moo_cmd, configure_mappings, configure_variables, exit_nicely, get_data_target,
     get_zero_sized_files, ValidationResult)
 from cdds.extract.constants import GROUP_FOR_DIRECTORY_CREATION
 from cdds.extract.filters import Filters
 from cdds.extract.process import Process
-from cdds.deprecated.config import FullPaths
+from cdds.common.plugins.plugins import PluginStore
 
 
 class ExtractRunner(object):
@@ -41,64 +41,61 @@ class ExtractRunner(object):
         """Main control sequence for extract process"""
         logger = logging.getLogger(__name__)
         # initialise extract_process and add project related configuration
-        request = read_request(self.args.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
-        full_paths = FullPaths(self.args, request)
-        extract_process = Process(self.lang, self.args, request, full_paths.input_data_directory)
+        request = read_request(self.args.request)
+        plugin = PluginStore.instance().get_plugin()
+        proc_directory = plugin.proc_directory(request)
+        input_data_dir = os.path.join(plugin.data_directory(request), INPUT_DATA_DIRECTORY)
+        extract_process = Process(self.lang, self.args, request, input_data_dir)
 
         # log start of processing
         logger.info("EXTRACT PROCESS starting ---- ")
         logger.info(self.lang["user_settings"].format(
             getpass.getuser(), GROUP_FOR_DIRECTORY_CREATION))
-        logger.info(extract_process.request_detail())
 
         # get data streams to be extracted - excludes streams to be skipped
-        streams = get_streams(request.streaminfo,
-                              request.suite_id,
-                              self.args.streams)
-
+        streams = [stream for stream in request.data.streams if stream in self.args.streams
+                   ] if self.args.streams else request.data.streams
         if not streams:
             overall_summary = self.lang["stream_not_selected"]
             overall_result = "failed"
         else:
             # get output variables for request - configure MASS filters
-            var_list = configure_variables(os.path.join(
-                full_paths.component_directory("prepare"),
-                full_paths.requested_variables_list_filename))
-
+            var_list = configure_variables(os.path.join(proc_directory, 'prepare',
+                                                        plugin.requested_variables_list_filename(request)))
             # configure mappings for each variables
             mappings = Filters(
-                full_paths.proc_directory,
+                proc_directory,
                 var_list,
-                self.args.simulation
+                request.common.simulation
             )
-            mappings.set_mappings(self.args.mip_table_dir, request)
+            mappings.set_mappings(request)
             mapping_status = configure_mappings(mappings)
             overall_summary = ""
             overall_result = "success"
 
         stream_validation = ValidationResult()
         stream_count = 0
-
-        for _, stream in enumerate(streams):
+        stream_success = {}
+        for stream in streams:
+            stream_success[stream] = True
             # Skip the ancil stream as fixed fields are read from local files
             if stream == "ancil":
                 logger.info(self.lang["stream_ancil"])
                 continue
             # loop over streams in order requested, omit streams set to 'skip'
-            stream["success"] = True
             stream_count += 1
-            stream_validation.add_validation_result(stream["stream"])
+            stream_validation.add_validation_result(stream)
             logger.info(
                 self.lang["stream_start"].format(
-                    stream["stream"], stream["start_date"],
-                    stream["end_date"]))
+                    stream, request.data.start_date,
+                    request.data.end_date))
 
             # process stream if no missing filters and check option is not skip
-            if stream["stream"] in mapping_status:
+            if stream in mapping_status:
 
                 # get data source and target for this stream
                 data_source = extract_process.get_data_source(stream)
-                data_target = get_data_target(full_paths.input_data_directory, stream)
+                data_target = get_data_target(input_data_dir, request.data.model_workflow_id, stream)
 
                 # check data stream exists in MASS
                 if extract_process.request_exists(data_source):
@@ -119,11 +116,10 @@ class ExtractRunner(object):
                     # if status is skip OR mass_cmd is empty
                     # then skip this stream
                     if status == "skip" or not mass_cmd:
-                        stream["success"] = False
                         overall_result = "failed"
                         logger.critical(
                             self.lang["stream_skip_data"].format(
-                                stream["stream"], err
+                                stream, err
                             )
                         )
 
@@ -137,7 +133,7 @@ class ExtractRunner(object):
                             # log this MASS request
                             logger.info(
                                 self.lang["block_start"].format(
-                                    stream["stream"], blocknum, block["start"],
+                                    stream, blocknum, block["start"],
                                     block["end"]))
 
                             code, output = extract_process.mass_request(block)
@@ -146,7 +142,7 @@ class ExtractRunner(object):
                                 msg = self.lang["block_success"].format(
                                     blocknum, status["msg"])
                             else:
-                                stream["success"] = False
+                                stream_success[stream] = False
                                 overall_result = "quality"
                                 msg = self.lang["block_fail"].format(
                                     blocknum, status["msg"])
@@ -163,25 +159,23 @@ class ExtractRunner(object):
                         # ---- end of retrieve block loop ----
 
                 else:
-                    stream["success"] = False
                     overall_result = "failed"
                     stash_codes = {}
                 # log stream completion and update progress in CREM
                 logger.info(extract_process.stream_completion_message(
-                    stream, "[{} of {}]".format(stream_count, len(streams))))
+                    stream, "[{} of {}]".format(stream_count, len(streams)), stream_success[stream]))
                 # do validation check for this stream and write to log
                 substreams = list(mappings.filters.keys())
             else:
                 end_msg = "skipped [{} of {}]".format(stream_count,
                                                       len(streams))
-                if stream["stream"] not in mapping_status:
+                if stream not in mapping_status:
                     end_msg += (" WARNING - there are no variables "
                                 "requiring this stream")
                 else:
-                    stream["success"] = False
                     overall_result = "failed"
                 logger.info(extract_process.stream_completion_message(
-                    stream, end_msg))
+                    stream, end_msg, stream_success[stream]))
             # ---- end of stream loop ----
         # log end of process
         logger.info("{}: {}".format(
