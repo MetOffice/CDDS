@@ -80,7 +80,8 @@ def main_cdds_extract(arguments=None):
     lang = set_language()
     # Parse the arguments.
     args = parse_cdds_extract_command_line(arguments)
-    set_calendar(args.request)
+    request = read_request(args.request)
+    set_calendar(request)
 
     # Add stream suffix to the log name if running extract just for some streams
     log_name = args.log_name + '_' + "_".join(args.streams) if args.streams else args.log_name
@@ -170,7 +171,8 @@ def main_validate_streams(arguments=None):
         The command line arguments to be parsed.
     """
     args = parse_validate_streams_command_line(arguments)
-    set_calendar(args.request)
+    request = read_request(args.request)
+    set_calendar(request)
 
     # Add stream suffix to the log name if running extract just for some streams
     log_name = args.log_name + '_' + "_".join(args.streams) if args.streams else args.log_name

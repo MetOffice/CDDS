@@ -25,7 +25,6 @@ from metomi.isodatetime.data import Calendar, TimePoint
 from metomi.isodatetime.parsers import DurationParser, TimePointParser, TimeRecurrenceParser
 
 
-from cdds.common.request.request import read_request
 from cdds.convert.exceptions import IncompatibleCalendarMode
 from cdds.common.constants import (
     CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX, ROSE_URLS,
@@ -951,15 +950,13 @@ def retry(func: Optional[Callable] = None, exception: Type[Exception] = Exceptio
     return wrapper
 
 
-def set_calendar(request_file: str):
+def set_calendar(request):
     """ Set the metomi.isodatetime calendar based on a request.json file.
 
     :param request_file: Path to a request.json file.
     :type request_file: str
     :raises IncompatibleCalendarMode:
     """
-    request = read_request(request_file)
-
     if request.metadata.calendar in SUPPORTED_CALENDARS:
         Calendar.default().set_mode(request.metadata.calendar)
     else:
