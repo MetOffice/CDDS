@@ -12,48 +12,59 @@ from unittest import mock
 
 from metomi.isodatetime.parsers import TimePointParser
 
+from cdds.common.cdds_files.cdds_directories import component_directory, input_data_directory, output_data_directory
 import cdds.convert.process.workflow_interface as suite
 from cdds import _DEV, _NUMERICAL_VERSION
 from cdds.common import ROSE_URLS
 from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
-from cdds.common.old_request import construct_request
+from cdds.common.request.request import Request
 from cdds.convert.constants import NTHREADS_CONCATENATE, PARALLEL_TASKS
 from cdds.convert.process import ConvertProcess
-from cdds.deprecated.config import FullPaths
+from cdds.convert.arguments import ConvertArguments
+from cdds.common.plugins.plugin_loader import load_plugin
 
-REQUEST_JSON_DICT = {
-    'atmos_timestep': 1200,
-    'branch_date_in_child': '1850-01-01T00:00:00',
-    'branch_date_in_parent': '2450-01-01T00:00:00',
-    'branch_method': 'continuation',
-    'calendar': '360_day',
-    'child_base_date': '1850-01-01T00:00:00',
-    'config_version': '0.6.0',
-    'experiment_id': 'piControl',
-    'institution_id': 'MOHC',
-    'license': 'This is a test license',
-    'mip': 'CMIP',
-    'mip_era': 'CMIP6',
-    'model_id': 'dummymodel',
-    'model_type': 'AOGCM AER',
-    'package': 'cdds635_req_int_json_test',
-    'parent_base_date': '1850-01-01T00:00:00',
-    'parent_mip': 'CMIP',
-    'parent_model_id': 'HadGEM3-GC31-LL',
-    'parent_time_units': 'days since 1850-01-01T00:00:00',
-    'parent_variant_label': 'r1i1p1f1',
-    'request_id': 'dummyrequest',
-    'run_bounds': '1850-01-01T00:00:00 1900-01-01T00:00:00',
-    'run_bounds_for_stream_stream1':
-        '1850-01-01T00:00:00 1900-01-01T00:00:00',
-    'run_bounds_for_stream_stream2':
-        '1850-01-01T00:00:00 1900-01-01T00:00:00',
-    'sub_experiment_id': 'none',
-    'suite_branch': 'cdds',
-    'suite_id': 'u-ar766',
-    'suite_revision': '90000',
-    'variant_label': 'r1i1p1f1'
-}
+
+def get_request():
+    request = Request()
+    request.metadata.branch_date_in_child = '1850-01-01T00:00:00'
+    request.metadata.branch_date_in_parent = '2450-01-01T00:00:00'
+    request.metadata.branch_method = 'continuation'
+    request.metadata.calendar = '360_day'
+    request.metadata.child_base_date = '1850-01-01T00:00:00'
+    request.metadata.experiment_id = 'piControl'
+    request.metadata.institution_id = 'MOHC'
+    request.metadata.license = 'This is a test license'
+    request.metadata.mip = 'CMIP'
+    request.metadata.mip_era = 'CMIP6'
+    request.metadata.model_id = 'dummymodel'
+    request.metadata.model_type = 'AOGCM AER'
+    request.metadata.parent_base_date = '1850-01-01T00:00:00'
+    request.metadata.parent_mip = 'CMIP'
+    request.metadata.parent_model_id = 'HadGEM3-GC31-LL'
+    request.metadata.parent_time_units = 'days since 1850-01-01T00:00:00'
+    request.metadata.parent_variant_label = 'r1i1p1f1'
+    request.metadata.sub_experiment_id = 'none'
+    request.metadata.variant_label = 'r1i1p1f1'
+    request.common.package = 'cdds635_req_int_json_test'
+    request.data.model_workflow_id = 'dummyrequest'
+    request.data.model_workflow_branch = 'cdds'
+    request.data.model_workflow_revision = '90000'
+    request.conversion.cdds_workflow_branch = 'tags/1.1.3'
+    request.conversion.no_email_notifications = True,
+    request.data.output_mass_suffix = 'fake_suffix'
+    request.data.output_mass_root = 'moose://dummy/archive/path'
+    request.misc.atmos_timestep = 1200
+    request.conversion.cylc_args = ['-v', '-no-gcontrol']
+    request.common.simulation = False
+    request.common.root_data_dir = '/path/to/dummy/data/dir/'
+    request.common.root_proc_dir = '/path/to/dummy/proc/dir/'
+    request.common.mode = 'strict'
+    request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
+    request.data.end_date = TimePointParser().parse('1900-01-01T00:00:00')
+    request.misc.use_proc_dir = True
+    return request
+
+
 CONFIG = '''
 [locations]
 dataroot = /data_root
@@ -130,7 +141,7 @@ class DummyConvertProcess(ConvertProcess):
         self._project = 'TEST'
         self._crem_request_pk = 0
         self._convert_suite = 'u-aa000'
-        self._request = construct_request(REQUEST_JSON_DICT, None, None)
+        self._request = get_request()
         self.set_calendar()
         self.run_configure = False
         self.skip_extract = False
@@ -138,38 +149,16 @@ class DummyConvertProcess(ConvertProcess):
         self.skip_transfer = False
         self.skip_extract_validation = False
         self._streams_requested = []
-        arg_dict = {
-            'mip_era': 'ARISE',
-            'rose_suite': 'u-ak283',
-            'rose_suite_branch': 'tags/1.1.3',
-            'convert_memory': 20000,
-            'email_notifications': False,
-            'model_params_dir': '',
-            'nthreads_concatenate': 1,
-            'output_mass_root': 'moose://dummy/archive/path',
-            'output_mass_suffix': 'fake_suffix',
-            'parallel_tasks': 60,
-            'suite_run_args': '-no-gcontrol',
-            'simulation': False,
-            'request': '/path/to/dummy/request.json',
-            'root_data_dir': '/path/to/dummy/data/dir/',
-            'root_proc_dir': '/path/to/dummy/proc/dir/',
-            'skip_extract': self.skip_extract,
-            'skip_qc': self.skip_qc,
-            'skip_transfer': self.skip_transfer,
-            'skip_extract_validation': self.skip_extract_validation,
-            'user_config_template_name': 'mip_convert.cfg.{}',
-            'override_cycling_freq': '',
-            'external_plugin': '',
-            'external_plugin_location': '',
-            'relaxed_cmor': False
-        }
+        self._request.conversion.skip_extract = self.skip_extract
+        self._request.conversion.skip_qc = self.skip_qc
+        self._request.conversion.skip_archive = self.skip_transfer
+        self._request.conversion.skip_extract_validation = self.skip_extract_validation
+        self._request.data.streams = ['stream1', 'stream2']
 
-        DummyArgs = collections.namedtuple('DummyArgs', list(arg_dict.keys()))
-        self._arguments = DummyArgs(**arg_dict)
+        self._arguments = ConvertArguments(request_path='/path/to/dummy/request.cfg')
 
-        self._full_paths = FullPaths(self._arguments, self._request, )
         self._streams = ['stream1', 'stream2']
+
         self._model_params = DummyModelParameters()
         self.logdir = '/dummy/log/dir'
         self.stream_components = collections.defaultdict(
@@ -184,6 +173,10 @@ class DummyConvertProcess(ConvertProcess):
 
         self._calculate_concat_task_periods()
         self.archive_data_version = 'v20010101'
+
+    @property
+    def request(self):
+        return self._request
 
     @property
     def output_data_path(self):
@@ -207,6 +200,7 @@ class DummyConvertProcess(ConvertProcess):
 class ConvertProcessTest(unittest.TestCase):
 
     def setUp(self):
+        load_plugin()
         self.process = DummyConvertProcess()
         self.process.set_branch('trunk')
         self.repo1 = ROSE_URLS['u']['internal']
@@ -300,8 +294,7 @@ class ConvertProcessTest(unittest.TestCase):
                                mock_pyconf):
         mock_isdir.return_value = True
         mock_exists.return_value = True
-        mip_convert_config_dir = self.process._full_paths.component_directory(
-            'configure')
+        mip_convert_config_dir = component_directory(self.process.request, 'configure')
         mock_glob.return_value = [
             os.path.join(mip_convert_config_dir, 'mip_convert.cfg.comp1'),
             os.path.join(mip_convert_config_dir, 'mip_convert.cfg.comp2'),
@@ -353,8 +346,7 @@ class ConvertProcessTest(unittest.TestCase):
         mock_isdir.return_value = True
         mock_exists.return_value = True
         self.process._streams_requested = ['stream1']
-        mip_convert_config_dir = self.process._full_paths.component_directory(
-            'configure')
+        mip_convert_config_dir = component_directory(self.process.request, 'configure')
         mock_glob.return_value = [
             os.path.join(mip_convert_config_dir, 'mip_convert.cfg.comp1'),
             os.path.join(mip_convert_config_dir, 'mip_convert.cfg.comp2'),
@@ -415,19 +407,17 @@ class ConvertProcessTest(unittest.TestCase):
         start_date = TimePointParser().parse("19600101")
         end_date = TimePointParser().parse("21800101")
         mock_run_bounds.return_value = (start_date, end_date)
-        output_dir = self.process._full_paths.output_data_directory
-        input_dir = self.process._full_paths.input_data_directory
-        mip_convert_config_dir = self.process._full_paths.component_directory(
-            'configure')
-        mip_convert_proc_dir = self.process._full_paths.component_directory(
-            'convert')
-        request_json_path = self.process._arguments.request
-        mip_era = 'ARISE'
+        output_dir = output_data_directory(self.process.request)
+        input_dir = input_data_directory(self.process.request)
+        mip_convert_config_dir = component_directory(self.process.request, 'configure')
+        mip_convert_proc_dir = component_directory(self.process.request, 'convert')
+        request_cfg_path = self.process._arguments.request_path
+        mip_era = 'CMIP6'
         expected_update_kwargs_suite = {
             'MIP_ERA': mip_era,
             'CDDS_CONVERT_PROC_DIR': mip_convert_proc_dir,
             'CDDS_VERSION': _NUMERICAL_VERSION,
-            'CALENDAR': self.process._request.calendar,
+            'CALENDAR': self.process.request.metadata.calendar,
             'DEV_MODE': _DEV,
             'END_DATE': str(end_date),
             'INPUT_DIR': input_dir,
@@ -438,18 +428,18 @@ class ConvertProcessTest(unittest.TestCase):
             'OUTPUT_DIR': output_dir,
             'PARALLEL_TASKS': PARALLEL_TASKS,
             'REF_DATE': str(self.process.ref_date),
-            'REQUEST_JSON_PATH': request_json_path,
-            'ROOT_DATA_DIR': self.process._arguments.root_data_dir,
-            'ROOT_PROC_DIR': self.process._arguments.root_proc_dir,
-            'RUN_EXTRACT': not self.process._arguments.skip_extract,
-            'RUN_EXTRACT_VALIDATION': not self.process._arguments.skip_extract_validation,
-            'RUN_QC': not self.process._arguments.skip_qc,
-            'RUN_TRANSFER': not self.process._arguments.skip_transfer,
+            'REQUEST_CONFIG_PATH': request_cfg_path,
+            'ROOT_DATA_DIR': self.process.request.common.root_data_dir,
+            'ROOT_PROC_DIR': self.process.request.common.root_proc_dir,
+            'RUN_EXTRACT': not self.process.request.conversion.skip_extract,
+            'RUN_EXTRACT_VALIDATION': not self.process.request.conversion.skip_extract_validation,
+            'RUN_QC': not self.process.request.conversion.skip_qc,
+            'RUN_TRANSFER': not self.process.request.conversion.skip_archive,
             'START_DATE': str(start_date),
             'TARGET_SUITE_NAME': expected_suite_name,
             'OUTPUT_MASS_ROOT': 'moose://dummy/archive/path',
             'OUTPUT_MASS_SUFFIX': 'fake_suffix',
-            'EMAIL_NOTIFICATIONS': self.process._arguments.email_notifications,
+            'EMAIL_NOTIFICATIONS': not self.process.request.conversion.no_email_notifications,
             'USE_EXTERNAL_PLUGIN': False,
             'RELAXED_CMOR': False
         }

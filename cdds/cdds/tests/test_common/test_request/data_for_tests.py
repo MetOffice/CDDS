@@ -1,8 +1,9 @@
 # (C) British Crown Copyright 2023-2024, Met Office.
 # Please see LICENSE.rst for license details.
-import datetime
-
+from datetime import datetime
 from metomi.isodatetime.data import TimePoint
+
+from cdds.common.request.data_section import MASS_DATA_ARCHIVE_DATESTAMP
 
 
 def expected_test_metadata():
@@ -76,6 +77,7 @@ def expected_test_data():
         'end_date': TimePoint(year=2170, month_of_year=1, day_of_month=1),
         'mass_data_class': 'crum',
         'mass_ensemble_member': '',
+        'mass_data_archive_version': 'v20240101',
         'start_date': TimePoint(year=1970, month_of_year=1, day_of_month=1),
         'model_workflow_id': 'u-aw310',
         'model_workflow_branch': 'cdds',
@@ -110,7 +112,7 @@ def expected_text_conversion():
         'skip_qc': False,
         'skip_archive': False,
         'cdds_workflow_branch': 'trunk',
-        'cylc_args': '',
+        'cylc_args': ['-v', '--workflow-name=cdds_{request_id}_{stream}'],
         'no_email_notifications': False,
         'scale_memory_limits': 2.0,
         'override_cycling_frequency': ['ap4=P1Y', 'ap5=P2Y'],
@@ -180,10 +182,11 @@ def expected_test_minimal_common(data_version):
     }
 
 
-def expected_test_minimal_data():
+def expected_test_minimal_data(archive_version: datetime):
     return {
         'end_date': TimePoint(year=2170, month_of_year=1, day_of_month=1),
         'mass_data_class': 'crum',
+        'mass_data_archive_version': archive_version.strftime(MASS_DATA_ARCHIVE_DATESTAMP),
         'mass_ensemble_member': '',
         'output_mass_root': '',
         'output_mass_suffix': '',
@@ -214,7 +217,7 @@ def expected_test_minimal_inventory():
 def expected_test_minimal_conversion():
     return {
         'cdds_workflow_branch': 'trunk',
-        'cylc_args': '',
+        'cylc_args': ['-v'],
         'model_params_dir': '',
         'no_email_notifications': False,
         'override_cycling_frequency': [],
