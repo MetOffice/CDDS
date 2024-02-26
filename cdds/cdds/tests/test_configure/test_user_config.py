@@ -20,13 +20,12 @@ from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 
-from cdds.arguments import read_default_arguments
 from cdds.common import set_checksum
 
 from cdds.common.request.request import read_request
 from cdds.common.variables import RequestedVariablesList
-from cdds.configure.request import required_keys_for_request
 from cdds.configure.user_config import produce_user_configs
+from cdds.configure.constants import FILENAME_TEMPLATE
 
 
 class TestProduceUserConfigs(unittest.TestCase):
@@ -35,8 +34,6 @@ class TestProduceUserConfigs(unittest.TestCase):
     """
     def setUp(self):
         load_plugin()
-        self.arguments = read_default_arguments('cdds.configure', 'cdds.configure')
-        self.user_config_template_name = self.arguments.user_config_template_name
         current_dir = os.path.dirname(os.path.realpath(__file__))
         self.data_dir = os.path.join(current_dir, '..', 'test_common', 'test_request', 'data')
         request_path = os.path.join(self.data_dir, 'test_request.cfg')
@@ -65,11 +62,10 @@ class TestProduceUserConfigs(unittest.TestCase):
 
 
     def test_multiple_grids(self):
-        user_configs = produce_user_configs(self.request, self.requested_variables,
-                                            self.user_config_template_name, self.arguments)
-        atmos_native_filename = self.user_config_template_name.format(
+        user_configs = produce_user_configs(self.request, self.requested_variables, FILENAME_TEMPLATE)
+        atmos_native_filename = FILENAME_TEMPLATE.format(
             'atmos-native')
-        atmos_zonal_filename = self.user_config_template_name.format(
+        atmos_zonal_filename = FILENAME_TEMPLATE.format(
             'atmos-uvgrid-zonal')
         filenames = [atmos_native_filename, atmos_zonal_filename]
         self.assertEqual(sorted(user_configs.keys()), filenames)

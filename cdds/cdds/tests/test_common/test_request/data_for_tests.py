@@ -62,6 +62,9 @@ def expected_test_common():
         'root_proc_dir': '/project/cdds/proc',
         'root_data_dir': '/project/cdds/data',
         'root_ancil_dir': '/project/cdds/ancil',
+        'root_hybrid_heights_dir': '/home/h03/cdds/etc/vertical_coordinates',
+        'root_replacement_coordinates_dir': '/home/h03/cdds/etc/horizontal_coordinates',
+        'sites_file': '/home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt',
         'simulation': False,
         'log_level': 'INFO',
         'data_version': 'v20191128'
@@ -169,6 +172,9 @@ def expected_test_minimal_common(data_version):
         'root_ancil_dir': '/home/h03/cdds/etc/ancil/',
         'root_data_dir': '/project/cdds_data',
         'root_proc_dir': '/project/cdds/proc',
+        'root_hybrid_heights_dir': '/home/h03/cdds/etc/vertical_coordinates/',
+        'root_replacement_coordinates_dir': '/home/h03/cdds/etc/horizontal_coordinates/',
+        'sites_file': '/home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt',
         'simulation': False,
         'workflow_basename': 'UKESM1-0-LL_piControl_r1i1p1f2'
     }

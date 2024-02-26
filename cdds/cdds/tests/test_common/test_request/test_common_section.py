@@ -11,6 +11,7 @@ from cdds.common.request.common_section import common_defaults
 
 class TestCommonDefaults(TestCase):
     def setUp(self) -> None:
+        self.maxDiff = None
         load_plugin('CMIP6')
         self.model_id = 'UKESM1-0-LL'
         self.experiment_id = 'piControl'
@@ -33,7 +34,10 @@ class TestCommonDefaults(TestCase):
             'mip_table_dir': '/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29/',
             'mode': 'strict',
             'root_ancil_dir': '/home/h03/cdds/etc/ancil/',
+            'root_hybrid_heights_dir': '/home/h03/cdds/etc/vertical_coordinates/',
+            'root_replacement_coordinates_dir': '/home/h03/cdds/etc/horizontal_coordinates/',
             'simulation': False,
+            'sites_file': '/home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt',
             'workflow_basename': self.workflow_basename
         }
 

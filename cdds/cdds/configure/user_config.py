@@ -17,7 +17,7 @@ from cdds.common.request.request import read_request
 from cdds.common.variables import RequestedVariablesList
 
 from cdds import __version__
-from cdds.configure.constants import HEADER_TEMPLATE
+from cdds.configure.constants import HEADER_TEMPLATE, FILENAME_TEMPLATE
 from cdds.configure.request import retrieve_request_metadata
 from cdds.configure.variables import retrieve_variables_by_grid, retrieve_streams_by_grid
 
@@ -33,11 +33,10 @@ def produce_user_config_files(arguments):
     """
     request = read_request(arguments.request)
 
-    create_user_config_files(request, arguments.requested_variables_list_file, arguments.user_config_template_name,
-                             arguments.output_dir, arguments)
+    create_user_config_files(request, arguments.requested_variables_list_file, arguments.output_dir)
 
 
-def create_user_config_files(request, requested_variables_file, template_name, output_dir=None, args=None):
+def create_user_config_files(request, requested_variables_file, output_dir=None):
     """
     Creates the |user configuration files|.
 
@@ -59,7 +58,7 @@ def create_user_config_files(request, requested_variables_file, template_name, o
     requested_variables_list = RequestedVariablesList(requested_variables_file)
 
     # Determine the contents of the 'user configuration file'.
-    user_configs = produce_user_configs(request, requested_variables_list, template_name, args)
+    user_configs = produce_user_configs(request, requested_variables_list, FILENAME_TEMPLATE)
 
     # Write 'user configuration file'.
     header = HEADER_TEMPLATE.format(__version__)
@@ -71,7 +70,7 @@ def create_user_config_files(request, requested_variables_file, template_name, o
         PythonConfig(user_config).write(filename, header=header)
 
 
-def produce_user_configs(request, requested_variables_list, template_name, args):
+def produce_user_configs(request, requested_variables_list, template_name):
     """
     Return the contents of the |user configuration files|.
 
@@ -100,7 +99,7 @@ def produce_user_configs(request, requested_variables_list, template_name, args)
     logger = logging.getLogger(__name__)
 
     # Retrieve metadata common to all 'user configuration files'.
-    metadata = retrieve_request_metadata(request, args)
+    metadata = retrieve_request_metadata(request)
 
     # Retrieve 'MIP requested variables' by grid.
     variables_by_grid = retrieve_variables_by_grid(requested_variables_list, request.mip_table_dir)
@@ -124,6 +123,7 @@ def produce_user_configs(request, requested_variables_list, template_name, args)
             user_config['cmor_dataset']['grid_label'] = grid_label
             user_config['cmor_dataset']['nominal_resolution'] = nominal_resolution
             user_config['global_attributes'] = get_global_attributes(request)
+            user_config['request']['suite_id'] = request.data.model_workflow_id
             if maskings:
                 user_config['masking'] = maskings
             user_config.update(mip_requested_variables)
