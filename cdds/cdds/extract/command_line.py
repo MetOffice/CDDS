@@ -10,9 +10,8 @@ import logging
 import os
 
 from cdds import __version__
-from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.common.old_request import read_request
+from cdds.common.request.request import read_request
 from cdds.extract.common import stream_file_template
 from cdds.extract.lang import set_language
 from cdds.extract.runner import ExtractRunner
@@ -52,7 +51,7 @@ def parse_cdds_extract_command_line(user_arguments):
 
     parser = argparse.ArgumentParser(description='Extract the requested data from MASS on SPICE via a batch job')
     parser.add_argument('request',
-                        help='The full path to the JSON file containing the information from the request.')
+                        help='The full path to the YAML file containing the information from the request.')
     parser.add_argument('-s',
                         '--streams',
                         default=None, nargs='*',
@@ -60,22 +59,12 @@ def parse_cdds_extract_command_line(user_arguments):
     parser.add_argument('--simulation',
                         action='store_true',
                         help='Run Extract in simulation mode')
-    parser.add_argument('--model_params_dir',
-                        dest='model_params_dir',
-                        default=None,
-                        help='If present, the model parameters will be overloaded by the data in the json'
-                             'files containing in the given directory.')
-    root_dir_args(parser, arguments.root_proc_dir, arguments.root_data_dir)
 
     # Add arguments common to all scripts.
     common_command_line_args(parser, arguments.log_name, arguments.log_level, __version__)
     parsed_args = parser.parse_args(user_arguments)
 
     arguments.add_user_args(parsed_args)
-    arguments = update_arguments_paths(arguments)
-    request = read_request(arguments.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
-    arguments = update_arguments_for_proc_dir(arguments, request, COMPONENT)
-    arguments = update_log_dir(arguments, COMPONENT)
     return arguments
 
 
@@ -195,16 +184,10 @@ def parse_validate_streams_command_line(user_arguments):
                         '--streams',
                         default=None, nargs='*',
                         help='Restrict validation only to these streams')
-    root_dir_args(parser, arguments.root_proc_dir, arguments.root_data_dir)
     # Add arguments common to all scripts.
     common_command_line_args(parser, arguments.log_name, arguments.log_level, __version__)
     parsed_args = parser.parse_args(user_arguments)
     arguments.add_user_args(parsed_args)
-    arguments = update_arguments_paths(arguments)
-    request = read_request(arguments.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
-    arguments = update_arguments_for_proc_dir(arguments, request, COMPONENT)
-    arguments = update_log_dir(arguments, COMPONENT)
-    set_calendar(arguments.request)
     return arguments
 
 

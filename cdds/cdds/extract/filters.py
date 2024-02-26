@@ -63,13 +63,11 @@ class Filters(object):
         self.plugin = None
         self.model_parameters = None
 
-    def set_mappings(self, mip_table_dir, request):
+    def set_mappings(self, request):
         """Get the |model to MIP mappings|.
 
         Parameters
         ----------
-        mip_table_dir: str
-            pathname to directory holding mip tables for this request
         request: cdds.common.old_request.Request
             key science parameter values for this request
 
@@ -78,23 +76,23 @@ class Filters(object):
         bool
             true if all mappings configured, else false
         """
-        self.model_id = request.model_id
+        self.model_id = request.metadata.model_id
         self.plugin = PluginStore.instance().get_plugin()
         self.model_parameters = self.plugin.models_parameters(self.model_id)
         # initialise mappings request structure
         mapping_request = {
             "process": {
-                "type": "extract_filters", "tabledir": mip_table_dir
+                "type": "extract_filters", "tabledir": request.common.mip_table_dir
             },
-            "science": {"mip_era": request.mip_era,
-                        "mip": request.mip,
-                        "model_id": request.model_id,
+            "science": {"mip_era": request.metadata.mip_era,
+                        "mip": request.metadata.mip,
+                        "model_id": request.metadata.model_id,
                         "model_ver": self.model_parameters.model_version,
-                        "experiment_id": request.experiment_id,
-                        "suite_id": request.suite_id}
+                        "experiment_id": request.metadata.experiment_id,
+                        "suite_id": request.data.model_workflow_id}
         }
-        self.suite_id = request.suite_id
-        self.ensemble_member_id = request.mass_ensemble_member
+        self.suite_id = request.data.model_workflow_id
+        self.ensemble_member_id = request.data.mass_ensemble_member
         # add list of requested variables to request structure
         mapping_request.update(self.var_list)
 

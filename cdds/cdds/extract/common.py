@@ -1007,22 +1007,24 @@ def configure_mappings(mappings):
     return stream_mapping
 
 
-def get_data_target(input_data_directory, stream):
+def get_data_target(input_data_directory, suite_id, stream):
     """Returns target location for extracted data
 
     Parameters
     ----------
     input_data_directory: str
         directory with model input data
-    stream: dict
-        stream attributes
+    suite_id: str
+        model workflow id
+    stream: str
+        stream name
 
     Returns
     -------
     str
         data target string for use in MOOSE commands
     """
-    return os.path.join(input_data_directory, stream["suiteid"], stream["stream"])
+    return os.path.join(input_data_directory, suite_id, stream)
 
 
 def fetch_filelist_from_mass(mass_dir, simulation=False):
@@ -1155,3 +1157,10 @@ def get_zero_sized_files(dirpath: str) -> list:
                 files_to_remove.append(filepath)
         break
     return files_to_remove
+
+def get_streamtype(stream: str) -> str:
+    if 'ap' in stream:
+        return 'pp'
+    else:
+        return 'nc'
+
