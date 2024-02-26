@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2022, Met Office.
+# (C) British Crown Copyright 2016-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`command_line` module contains the main functions for the
