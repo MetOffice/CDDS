@@ -18,7 +18,7 @@ from cdds.common.variables import RequestedVariablesList
 
 from cdds import __version__
 from cdds.configure.constants import HEADER_TEMPLATE
-from cdds.configure.request import retrieve_required_keys, validate_branch_options, retrieve_request_metadata
+from cdds.configure.request import retrieve_request_metadata
 from cdds.configure.variables import retrieve_variables_by_grid, retrieve_streams_by_grid
 
 
