@@ -10,7 +10,32 @@ import logging
 
 from cdds.configure.constants import TEMPLATE_OPTIONS
 from cdds.common.constants import USER_CONFIG_OPTIONS
+from cdds.common.request.request import Request
 
+def retrieve_request_metadata(request: Request, args):
+    ordered_metadata = OrderedDict({'cmor_setup': {}, 'cmor_dataset': {}, 'request': {}})
+    ordered_metadata['cmor_setup'].update({'mip_table_dir': request.common.mip_table_dir})
+    for item in USER_CONFIG_OPTIONS['cmor_dataset']['required']:
+        if item == 'output_dir':
+            continue
+        ordered_metadata['cmor_dataset'].update({item: getattr(request.metadata, item)})
+    if request.metadata.branch_method != '':
+        for item in USER_CONFIG_OPTIONS['cmor_dataset']['branch']:
+            ordered_metadata['cmor_dataset'].update({item: getattr(request.metadata, item)})
+        ordered_metadata['cmor_dataset'].update({'child_base_date': request.metadata.child_base_date})
+    ordered_metadata['cmor_setup'].update({'cmor_log_file': '{{{{ cmor_log }}}}'})
+    ordered_metadata['cmor_dataset'].update({'output_dir': '{{{{ output_dir }}}}'})
+    ordered_metadata['request'].update({'model_output_dir': '{{{{ input_dir }}}}'})
+    ordered_metadata['request'].update({'run_bounds': '{{{{ start_date }} {{ end_date }}}}'})
+
+    for section, items in USER_CONFIG_OPTIONS.items():
+        for type, options in items.items():
+            if type == 'optional':
+                for option in options:
+                    if option in args.args:
+                        ordered_metadata[section].update({option: args.args[option]})
+
+    return ordered_metadata
 
 def required_keys_for_request():
     """
@@ -81,7 +106,7 @@ def validate_branch_options(request):
     request.validate(required_branch_options)
 
 
-def retrieve_request_metadata(request, template):
+def _retrieve_request_metadata(request, template):
     """
     Return the metadata common to all |user configuration files|.
 
@@ -106,7 +131,7 @@ def retrieve_request_metadata(request, template):
     for section, options in USER_CONFIG_OPTIONS.items():
         # Required options.
         required_options = copy(options['required'])
-        if request.branch_method != 'no parent':
+        if request.metadata.branch_method != 'no parent':
             if 'branch' in options:
                 required_options.extend(options['branch'])
         for option in required_options:
@@ -142,7 +167,7 @@ def _get_value(request, option, template):
     else:
         get_value_from_request = True
     if get_value_from_request:
-        value = getattr(request, option, None)
+        value = request.items.get(option)
     return value
 
 

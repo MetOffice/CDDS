@@ -26,8 +26,7 @@ from cdds.common import set_checksum
 from cdds.common.old_request import Request
 from cdds.common.variables import RequestedVariablesList
 from cdds.configure.request import required_keys_for_request
-from cdds.configure.user_config import (
-    produce_user_configs, validate_request_with_requested_variables_list)
+from cdds.configure.user_config import produce_user_configs
 
 
 class TestProduceUserConfigs(unittest.TestCase):
@@ -181,45 +180,6 @@ class TestProduceUserConfigWithGlobalAttributes(unittest.TestCase):
         set_checksum(self.variables)
         write_json(self.variables_file, self.variables)
         self.requested_variables = RequestedVariablesList(self.variables_file)
-
-
-class TestValidateRequestWithRequestedVariablesList(unittest.TestCase):
-    """
-    Tests for :func:`validate_request_with_requested_variables_list`
-    in :mod:`user_config.py`.
-    """
-    def setUp(self):
-        self.items = {
-            key: '' for key in Request.ALLOWED_ATTRIBUTES}
-        self.mip_era = 'CMIP6'
-        self.items['mip_era'] = self.mip_era
-        self.read_path = '/path/to/{}_rvl'.format(self.mip_era)
-        self.requested_variables = {
-            key: '' for key in RequestedVariablesList.ALLOWED_ATTRIBUTES}
-        set_checksum(self.requested_variables)
-        self.requested_variables_list = json.dumps(self.requested_variables)
-
-    @patch('builtins.open')
-    def _instantiate_requested_variables_list(self, mopen):
-        mopen.return_value = StringIO(dedent(self.requested_variables_list))
-        requested_variables_list = RequestedVariablesList(self.read_path)
-        mopen.assert_called_once_with(self.read_path)
-        return requested_variables_list
-
-    def test_consistent(self):
-        request = Request(self.items)
-        requested_variables_list = self._instantiate_requested_variables_list()
-        self.assertIsNone(
-            validate_request_with_requested_variables_list(
-                request, requested_variables_list))
-
-    def test_not_consistent(self):
-        self.items['model_id'] = 'model id'
-        request = Request(self.items)
-        requested_variables_list = self._instantiate_requested_variables_list()
-        self.assertRaises(
-            RuntimeError, validate_request_with_requested_variables_list,
-            request, requested_variables_list)
 
 
 if __name__ == '__main__':

@@ -13,7 +13,7 @@ from mip_convert.configuration.python_config import PythonConfig
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
-from cdds.common.old_request import read_request
+from cdds.common.request.request import read_request
 from cdds.common.variables import RequestedVariablesList
 
 from cdds import __version__
@@ -31,38 +31,13 @@ def produce_user_config_files(arguments):
     arguments: :class:`cdds.configure.cdds.arguments.ConfigureArguments`
         The arguments specific to the `configure` script.
     """
-    # Read and validate the information from the request.
-    request = read_and_validate_request(arguments.request, arguments.args, arguments.template)
+    request = read_request(arguments.request)
 
     create_user_config_files(request, arguments.requested_variables_list_file, arguments.user_config_template_name,
-                             arguments.output_dir, arguments.template)
+                             arguments.output_dir, arguments)
 
 
-def read_and_validate_request(request_path, default_request_items, template=True):
-    """
-    Read and validate the information from the request for producing the |user configuration files|.
-
-    Parameters
-    ----------
-    request_path: str
-        The full path to the JSON file containing the information from the request.
-    default_request_items: dict
-        The default items to be added to the request.
-    template: bool (optional)
-        Whether to create template |user configuration files|. Default: True.
-
-    Returns
-    -------
-    : :class:`cdds.common.old_request.Request`
-        The information from the request.
-    """
-    required_keys = retrieve_required_keys(template, default_request_items.keys())
-    request = read_request(request_path, required_keys, default_request_items)
-    validate_branch_options(request)
-    return request
-
-
-def create_user_config_files(request, requested_variables_file, template_name, output_dir=None, template=True):
+def create_user_config_files(request, requested_variables_file, template_name, output_dir=None, args=None):
     """
     Creates the |user configuration files|.
 
@@ -83,11 +58,8 @@ def create_user_config_files(request, requested_variables_file, template_name, o
     # Read and validate the information from the 'requested variables list'.
     requested_variables_list = RequestedVariablesList(requested_variables_file)
 
-    # Ensure the information from the request and the information from the 'requested variables list' are consistent.
-    validate_request_with_requested_variables_list(request, requested_variables_list)
-
     # Determine the contents of the 'user configuration file'.
-    user_configs = produce_user_configs(request, requested_variables_list, template, template_name)
+    user_configs = produce_user_configs(request, requested_variables_list, template_name, args)
 
     # Write 'user configuration file'.
     header = HEADER_TEMPLATE.format(__version__)
@@ -99,8 +71,7 @@ def create_user_config_files(request, requested_variables_file, template_name, o
         PythonConfig(user_config).write(filename, header=header)
 
 
-def produce_user_configs(request, requested_variables_list, template,
-                         template_name):
+def produce_user_configs(request, requested_variables_list, template_name, args):
     """
     Return the contents of the |user configuration files|.
 
@@ -117,8 +88,6 @@ def produce_user_configs(request, requested_variables_list, template,
         The information from the request.
     requested_variables_list: :class:`cdds.common.variables.RequestedVariablesList`
         The information from the |requested variables list|.
-    template: bool
-        Whether to create template |user configuration files|.
     template_name: string
         The template for the name of the |user configuration files|.
 
@@ -131,7 +100,7 @@ def produce_user_configs(request, requested_variables_list, template,
     logger = logging.getLogger(__name__)
 
     # Retrieve metadata common to all 'user configuration files'.
-    metadata = retrieve_request_metadata(request, template)
+    metadata = retrieve_request_metadata(request, args)
 
     # Retrieve 'MIP requested variables' by grid.
     variables_by_grid = retrieve_variables_by_grid(requested_variables_list, request.mip_table_dir)
@@ -148,7 +117,7 @@ def produce_user_configs(request, requested_variables_list, template,
                 file_suffix = '{}-{}'.format(grid_id, substream)
             logger.info(
                 'Producing user configuration file for "{}"'.format(file_suffix))
-            maskings = get_masking_attributes(request.model_id, streams)
+            maskings = get_masking_attributes(request.metadata.model_id, streams)
             user_config = OrderedDict()
             user_config.update(deepcopy(metadata))
             user_config['cmor_dataset']['grid'] = grid
@@ -225,36 +194,3 @@ def get_further_info_url(request):
     plugin = PluginStore.instance().get_plugin()
     global_attributes = plugin.global_attributes(request.items)
     return global_attributes.further_info_url()
-
-
-def validate_request_with_requested_variables_list(request,
-                                                   requested_variables_list):
-    """
-    Ensure the information from the request is consistent with the
-    information from the requested variables.
-
-    Parameters
-    ----------
-    request: :class:`cdds.common.old_request.Request`
-        The information from the request.
-    requested_variables_list: :class:`cdds.common.variables.RequestedVariablesList`
-        The information from the |requested variables list|.
-    """
-    # Retrieve the logger.
-    logger = logging.getLogger(__name__)
-
-    common_keys = set(request.ALLOWED_ATTRIBUTES).intersection(
-        set(requested_variables_list.ALLOWED_ATTRIBUTES))
-
-    for key in common_keys:
-        request_value = getattr(request, key)
-        rvl_value = getattr(requested_variables_list, key)
-        if request_value == rvl_value:
-            logger.debug(
-                '"{}" is consistent between the request JSON file and the '
-                'the requested variables list'.format(key))
-        else:
-            raise RuntimeError(
-                '"{}" is not consistent between the request JSON file ({}) '
-                'and the requested variables list ({})'.format(
-                    key, request_value, rvl_value))

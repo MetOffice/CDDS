@@ -54,12 +54,12 @@ class ConfigureArguments(Arguments):
         :param request: Request for the CDDS configure process
         :type request: `cdds.common.old_request.Request`
         """
-        self.add_ancil_files(request.model_id)
-        self.add_hybrid_heights_files(request.model_id)
-        self.add_replacement_coordinates_file(request.model_id)
+        self.add_ancil_files(request.metadata.model_id)
+        self.add_hybrid_heights_files(request.metadata.model_id)
+        self.add_replacement_coordinates_file(request.metadata.model_id)
 
-        self._add_attribute('institution_id', request.institution_id)
-        self._add_attribute('license', request.license)
+        self._add_attribute('institution_id', request.metadata.institution_id)
+        self._add_attribute('license', request.metadata.license)
 
     def add_ancil_files(self, model_id):
         """
