@@ -24,7 +24,7 @@ from cdds.common.constants import (APPROVED_VARS_PREFIX,
                                    APPROVED_VARS_FILENAME_STREAM_REGEX,
                                    DATESTAMP_TEMPLATE, DATESTAMP_PARSER_STR)
 from cdds.common.variables import RequestedVariablesList
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 
 
 def store_mip_output_data(arguments):
@@ -281,7 +281,7 @@ def retrieve_file_paths(mip_approved_variables, request):
         A list of dictionaries, each dictionary containing all the information
         specific to one | MIP output variable| required to archive the
         relevant |output netCDF files|.
-    request: :class:`cdds.common.request.Request`
+    request: :class:`cdds.common.old_request.Request`
         The information about the request being processed by this package.
 
     Returns

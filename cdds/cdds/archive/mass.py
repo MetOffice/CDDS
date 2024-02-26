@@ -36,7 +36,7 @@ def construct_mass_paths(mip_approved_variables, request, mass_path_root,
         A list of dictionaries, each dictionary containing all the information
         specific to one |MIP output variable| required to archive the
         relevant |output netCDF files|.
-    request: :class:`cdds.common.request.Request`
+    request: :class:`cdds.common.old_request.Request`
         The information about the request being processed by this package.
     mass_path_root: str
         The path to the root mass location for archiving data.
@@ -79,7 +79,7 @@ def construct_archive_dir_mass_path(mass_path_root, request):
     ----------
     mass_path_root: str
         The path to the root mass location for archiving data.
-    request: :class:`cdds.common.request.Request`
+    request: :class:`cdds.common.old_request.Request`
         The information about the request of the simulation being processed by this package.
 
     Returns
@@ -131,7 +131,7 @@ def get_archive_path(mass_path_root, var_dict, request):
         A dictionary containing all the  information specific to
         this | MIP output variable| required to archive the relevant
         |output netCDF files|.
-    request: :class:`cdds.common.request.Request`
+    request: :class:`cdds.common.old_request.Request`
         The information about the request being processed by this package.
 
 

@@ -16,7 +16,7 @@ from cdds.deprecated.config import FullPaths
 from cdds import __version__
 from cdds.common.constants import REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST
 from cdds.common.plugins.plugins import PluginStore
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.inventory.dao import InventoryDAO, DBVariableStatus
 from cdds.prepare.auto_deactivation import run_auto_deactivate_variables
 from cdds.prepare.constants import (KNOWN_GOOD_VARIABLES,

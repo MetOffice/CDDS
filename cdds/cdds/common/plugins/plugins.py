@@ -119,6 +119,26 @@ class CddsPlugin(object, metaclass=ABCMeta):
         """
         pass
 
+    @abstractmethod
+    def license(self) -> str:
+        """
+        Returns the license for the project
+
+        :return: License
+        :rtype: str
+        """
+        pass
+
+    @abstractmethod
+    def mip_table_dir(self) -> str:
+        """
+        Returns the path to the MIP table directory that should be used for project
+
+        :return: Path to the MIP table directory
+        :rtype: str
+        """
+        pass
+
     def global_attributes(self, request: Dict[str, Any]) -> GlobalAttributes:
         """
         Returns the global attributes that a supported by that plugin. The given request

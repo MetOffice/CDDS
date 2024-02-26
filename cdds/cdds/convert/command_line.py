@@ -20,7 +20,7 @@ from cdds.deprecated.config import (update_arguments_for_proc_dir,
 from cdds import __version__, _DEV
 from cdds.common.constants import (REQUIRED_KEYS_FOR_PROC_DIRECTORY,
                                    DATESTAMP_TEMPLATE, DATESTAMP_PARSER_STR)
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.convert.arguments import update_user_config_data_files
 from cdds.convert.exceptions import (OrganiseEnvironmentError,
                                      OrganiseTransposeError,

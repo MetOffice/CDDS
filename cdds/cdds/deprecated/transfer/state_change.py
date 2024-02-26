@@ -7,7 +7,7 @@ withdrawn).
 """
 import logging
 
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.deprecated.transfer import dds, state
 from cdds.deprecated.transfer.common import (
     load_rabbit_mq_credentials, cfg_from_cdds_general_config,

@@ -5,7 +5,7 @@ import os
 import tempfile
 
 from cdds.common.mass import mass_isdir, mass_mkdir
-from cdds.common.request import Request
+from cdds.common.old_request import Request
 from cdds.prepare.command_line import main_create_cdds_directory_structure, main_generate_variable_list
 from cdds.tests.nightly_tests.setup_task.common import SetupConfig, SetupPaths
 

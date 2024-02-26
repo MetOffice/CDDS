@@ -3,6 +3,8 @@
 """
 The :mod:`cordex_plugin` module contains the code for the CORDEX plugin.
 """
+import os
+
 from typing import Type, Dict, Any
 
 from cdds.common.plugins.base.base_plugin import BasePlugin, MipEra
@@ -15,6 +17,10 @@ from cdds.common.plugins.attributes import GlobalAttributes
 from cdds.common.plugins.grid import GridLabel
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
+
+
+CORDEX_LICENSE = ('Creative Commons Attribution 4.0 International License '
+                  '(CC BY 4.0; https://creativecommons.org/licenses/by/4.0/).')
 
 
 class CordexPlugin(BasePlugin):
@@ -88,3 +94,21 @@ class CordexPlugin(BasePlugin):
         :rtype: RegionalModelFileInfo
         """
         return RegionalModelFileInfo()
+
+    def license(self) -> str:
+        """
+        Returns the license for CORDEX
+
+        :return: License
+        :rtype: str
+        """
+        return CORDEX_LICENSE
+
+    def mip_table_dir(self) -> str:
+        """
+        Returns the path to the MIP table directory that should be used for CORDEX
+
+        :return: Path to the MIP table directory
+        :rtype: str
+        """
+        return '{}/mip_tables/CORDEX/for_functional_tests'.format(os.environ['CDDS_ETC'])

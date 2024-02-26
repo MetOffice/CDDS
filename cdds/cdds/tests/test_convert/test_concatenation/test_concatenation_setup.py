@@ -109,6 +109,12 @@ class DummyCddsPlugin(CddsPlugin):
     def model_file_info(self) -> ModelFileInfo:
         pass
 
+    def license(self) -> str:
+        pass
+
+    def mip_table_dir(self) -> str:
+        pass
+
 
 class TestConcatenationSetup(unittest.TestCase):
 

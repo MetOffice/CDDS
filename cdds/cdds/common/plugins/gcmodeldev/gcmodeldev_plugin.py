@@ -3,6 +3,7 @@
 """
 The :mod:`gcmodeldev_plugin` module contains the code for the GCModelDev plugin.
 """
+import os
 from typing import Type, Dict, Any
 
 from cdds.common.plugins.file_info import ModelFileInfo, GlobalModelFileInfo
@@ -15,6 +16,10 @@ from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from cdds.common.plugins.attributes import DefaultGlobalAttributes
 from cdds.common.plugins.gcmodeldev.gcmodeldev_models import GCModelDevStore
 from cdds.common.plugins.gcmodeldev.gcmodeldev_streams import GCModelDevStreamStore
+
+
+GCMODEL_DEV_LICENSE = ('GCModelDev model data is licensed under the Open Government License v3 '
+                       '(https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/')
 
 
 class GCModelDevPlugin(CddsPlugin):
@@ -82,3 +87,15 @@ class GCModelDevPlugin(CddsPlugin):
 
     def model_file_info(self) -> ModelFileInfo:
         return GlobalModelFileInfo()
+
+    def license(self) -> str:
+        """
+        Returns the license GCModelDev
+
+        :return: License
+        :rtype: str
+        """
+        return GCMODEL_DEV_LICENSE
+
+    def mip_table_dir(self) -> str:
+        return '{}/mip_tables/GCModelDev'.format(os.environ['CDDS_ETC'])

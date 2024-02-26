@@ -15,7 +15,7 @@ from cdds.deprecated.config import FullPaths, update_arguments_for_proc_dir, upd
 
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.mip_tables import MipTables
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds import __version__
 from cdds.qc.constants import COMPONENT, QC_DB_FILENAME
 from cdds.qc.suite import QCSuite
@@ -82,7 +82,7 @@ def parse_args(arguments):
     : :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated
         values.
-    : :class:`cdds.common.request.Request` object
+    : :class:`cdds.common.old_request.Request` object
         The |Request| object.
     """
     user_arguments = arguments
@@ -166,7 +166,7 @@ def run_and_report(args, request):
     args: cdds.arguments.Arguments
         The names of the command line arguments and their validated
         values.
-    request: cdds.common.request.Request
+    request: cdds.common.old_request.Request
         The |Request| json file.
     """
     logger = logging.getLogger()

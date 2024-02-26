@@ -18,7 +18,7 @@ from cdds import _DEV, _NUMERICAL_VERSION, __version__
 from cdds.common import determine_rose_suite_url
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.plugins.plugins import PluginStore
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.common.variables import RequestedVariablesList
 from cdds.convert.constants import (NTHREADS_CONCATENATE, PARALLEL_TASKS,
                                     ROSE_SUITE_ID, SECTION_TEMPLATE)

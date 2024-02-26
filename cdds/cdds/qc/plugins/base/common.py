@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 
 from cdds.common.mip_tables import MipTables
-from cdds.common.request import Request
+from cdds.common.old_request import Request
 from cdds.qc.plugins.base.validators import ControlledVocabularyValidator
 
 

@@ -6,7 +6,7 @@ from unittest import TestCase
 
 from metomi.isodatetime.data import TimePoint, Calendar
 
-from cdds.common.request import construct_request
+from cdds.common.old_request import construct_request
 from cdds.common.plugins.file_info import GlobalModelFileInfo, RegionalModelFileInfo
 
 

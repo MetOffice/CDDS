@@ -7,7 +7,7 @@ import os
 from cdds.common import generate_datestamps_pp, generate_datestamps_nc
 from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.plugins.plugins import PluginStore
-from cdds.common.request import read_request
+from cdds.common.old_request import read_request
 from cdds.extract.common import (
     configure_mappings, configure_variables,
     get_data_target, get_streams,

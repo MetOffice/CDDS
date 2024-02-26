@@ -23,7 +23,7 @@ from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from cdds.arguments import read_default_arguments
 from cdds.common import set_checksum
 
-from cdds.common.request import Request
+from cdds.common.old_request import Request
 from cdds.common.variables import RequestedVariablesList
 from cdds.configure.request import required_keys_for_request
 from cdds.configure.user_config import (

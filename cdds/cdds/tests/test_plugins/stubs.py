@@ -33,3 +33,9 @@ class EmptyCddsPlugin(CddsPlugin):
 
     def model_file_info(self) -> ModelFileInfo:
         return None
+
+    def license(self) -> str:
+        return ''
+
+    def mip_table_dir(self) -> str:
+        return ''

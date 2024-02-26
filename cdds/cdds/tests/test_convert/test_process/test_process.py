@@ -16,7 +16,7 @@ import cdds.convert.process.workflow_interface as suite
 from cdds import _DEV, _NUMERICAL_VERSION
 from cdds.common import ROSE_URLS
 from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
-from cdds.common.request import construct_request
+from cdds.common.old_request import construct_request
 from cdds.convert.constants import NTHREADS_CONCATENATE, PARALLEL_TASKS
 from cdds.convert.process import ConvertProcess
 from cdds.deprecated.config import FullPaths
