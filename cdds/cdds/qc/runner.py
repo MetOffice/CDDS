@@ -92,7 +92,7 @@ class QCRunner(object):
             self.check_suite.checkers[checker_name](), inspect.ismethod)
         return [x[0] for x in methods if x[0].startswith("check_")]
 
-    def run_tests(self, mip_tables_dir, standard_names_dir, standard_names_version, request, run_id=None):
+    def run_tests(self, mip_tables_dir, request, run_id=None):
         """
         Runs all ioos and ad-hoc checks
 
@@ -100,11 +100,7 @@ class QCRunner(object):
         ----------
         mip_tables_dir: str
             Path to a directory with mip tables files
-        standard_names_dir: str
-            Path to a directory with standard names table
-        standard_names_version: str
-            Version of the standard names table.
-        request: cdds.common.old_request.Request
+        request: cdds.common.request.request.Request
             Request object
         run_id: int
             An arbitrary identifier that can be used for grouping multiple qc
@@ -115,7 +111,7 @@ class QCRunner(object):
         : int
             Run id of the test.
         """
-        cv_location = os.path.join(mip_tables_dir, '{}_CV.json'.format(request.mip_era))
+        cv_location = os.path.join(mip_tables_dir, '{}_CV.json'.format(request.metadata.mip_era))
         conf = {
             "cmip6": {
                 "mip_tables_dir": mip_tables_dir,
@@ -124,8 +120,8 @@ class QCRunner(object):
                 "relaxed_cmor": self.relaxed_cmor
             },
             "cf17": {
-                "standard_names_version": standard_names_version,
-                "standard_names_dir": standard_names_dir
+                "standard_names_version": request.metadata.standard_names_version,
+                "standard_names_dir": request.metadata.standard_names_dir
             },
             "cordex": {
                 "mip_tables_dir": mip_tables_dir,

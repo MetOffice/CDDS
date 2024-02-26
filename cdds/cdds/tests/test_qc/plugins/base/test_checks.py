@@ -2,11 +2,13 @@
 # Please see LICENSE.rst for license details.
 import os
 
+from metomi.isodatetime.data import Calendar
 from netCDF4 import Dataset
 from unittest import TestCase
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock
 from cdds.common.mip_tables import MipTables
-from cdds.common.old_request import Request
+from cdds.common.request.request import Request
+from cdds.common.plugins.plugin_loader import load_plugin
 
 from cdds.qc.plugins.base.checks import VariableAttributesCheckTask, StringAttributesCheckTask
 from cdds.qc.plugins.base.validators import ControlledVocabularyValidator
@@ -51,13 +53,13 @@ class TestVariableAttributesCheckTask(TestCase):
 class TestGlobalAttributesCheckTask(TestCase):
 
     def setUp(self):
+        load_plugin()
         self.nc_path = os.path.join(TMP_DIR_FOR_NETCDF_TESTS, "test_file.nc")
         mip_tables = MipTables(os.path.join(MIP_TABLES_DIR, "for_functional_tests"))
-        request = Request({
-            "calendar": "360_day",
-            "mip_era": "CMIP6",
-            "license": ("CMIP6 model data produced by the Met Office Hadley Centre.")
-        }, [])
+        request = Request()
+        request.metadata.calendar = "360_day"
+        request.metadata.mip_era = "CMIP6"
+        request.metadata.license = "CMIP6 model data produced by the Met Office Hadley Centre."
         cache = CheckCache(request, mip_tables, Cmip6CVValidator(CV_REPO))
         self.class_under_test = StringAttributesCheckTask(cache)
 
