@@ -11,6 +11,7 @@ import os
 
 from cdds import __version__
 from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.cdds_files.cdds_directories import output_data_directory
 from cdds.common.request.request import read_request
 from cdds.extract.common import stream_file_template
 from cdds.extract.lang import set_language
@@ -19,8 +20,7 @@ from cdds.extract.spice import run_extract_spice_batch_job
 from cdds.extract.halo_removal import dehalo_multiple_files
 from cdds.extract.validate import validate_streams
 from cdds.arguments import read_default_arguments
-from cdds.deprecated.config import update_arguments_for_proc_dir, update_arguments_paths, update_log_dir
-from cdds.common import configure_logger, common_command_line_args, root_dir_args, set_calendar
+from cdds.common import configure_logger, common_command_line_args, set_calendar
 
 COMPONENT = 'extract'
 
@@ -86,44 +86,13 @@ def main_cdds_extract(arguments=None):
     log_name = args.log_name + '_' + "_".join(args.streams) if args.streams else args.log_name
 
     # Create the configured logger.
-    configure_logger(log_name, args.log_level, args.append_log)
-
+    configure_logger(log_name, logging.INFO, False)
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
 
     try:
         runner = ExtractRunner(args, lang)
         runner.run_extract()
-        exit_code = 0
-    except BaseException as exc:
-        logger.critical(exc, exc_info=1)
-        exit_code = 1
-    return exit_code
-
-
-def main_cdds_extract_spice(arguments=None):
-    """
-    Extract the requested data from MASS on SPICE via a batch job.
-
-    Parameters
-    ----------
-    arguments: list of strings
-        The command line arguments to be parsed.
-    """
-    # Parse the arguments.
-    args = parse_cdds_extract_command_line(arguments)
-
-    # Create the configured logger.
-    configure_logger(args.log_name, logging.ERROR, args.append_log)
-
-    # Retrieve the logger.
-    logger = logging.getLogger(__name__)
-
-    # Log version.
-    logger.info('Using Extract version {}'.format(__version__))
-
-    try:
-        run_extract_spice_batch_job(args)
         exit_code = 0
     except BaseException as exc:
         logger.critical(exc, exc_info=1)
@@ -207,7 +176,7 @@ def main_validate_streams(arguments=None):
     log_name = args.log_name + '_' + "_".join(args.streams) if args.streams else args.log_name
 
     # Create the configured logger.
-    configure_logger(log_name, args.log_level, args.append_log)
+    configure_logger(log_name, logging.INFO, False)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
@@ -249,7 +218,7 @@ def main_remove_ocean_haloes(arguments=None):
     args = parse_remove_ocean_haloes_command_line(arguments)
 
     # Create the configured logger.
-    configure_logger(args.log_name, args.log_level, args.append_log)
+    configure_logger(args.log_name, logging.INFO, False)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
