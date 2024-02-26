@@ -3,6 +3,8 @@
 """
 The :mod:`cmip6_plus_plugin` module contains the code for the CMIP6Plus plugin.
 """
+import os
+
 from typing import Type, Dict, Any
 
 from cdds.common.plugins.file_info import ModelFileInfo, GlobalModelFileInfo
@@ -15,6 +17,15 @@ from cdds.common.plugins.cmip6_plus.cmip6_plus_attributes import Cmip6PlusGlobal
 from cdds.common.plugins.cmip6_plus.cmip6_plus_grid import Cmip6PlusGridLabel
 from cdds.common.plugins.cmip6_plus.cmip6_plus_models import Cmip6PlusModelsStore
 from cdds.common.plugins.cmip6_plus.cmip6_plus_streams import Cmip6PlusStreamStore
+
+
+CMIP6_Plus_LICENSE = ('CMIP6Plus model data produced by .* is licensed under a Creative Commons '
+                      'License (https://creativecommons.org/). Consult https://pcmdi.llnl.gov/CMIP6Plus/TermsOfUse '
+                      'for terms of use governing CMIP6Plus output, including citation requirements and proper '
+                      'acknowledgment. The data producers and data providers make no warranty, either express or '
+                      'implied, including, but not limited to, warranties of merchantability and fitness for a '
+                      'particular purpose. All liabilities arising from the supply of the information (including '
+                      'any liability arising in negligence) are excluded to the fullest extent permitted by law.')
 
 
 class Cmip6PlusPlugin(BasePlugin):
@@ -88,3 +99,21 @@ class Cmip6PlusPlugin(BasePlugin):
         :rtype: GlobalModelFileInfo
         """
         return GlobalModelFileInfo()
+
+    def license(self) -> str:
+        """
+        Returns the license for CMIP6Plus
+
+        :return: License
+        :rtype: str
+        """
+        return CMIP6_Plus_LICENSE
+
+    def mip_table_dir(self) -> str:
+        """
+        Returns the path to the MIP table directory that should be used for CMIP6Plus
+
+        :return: Path to the MIP table directory
+        :rtype: str
+        """
+        return '{}/mip_tables/CMIP6Plus/'.format(os.environ['CDDS_ETC'])
