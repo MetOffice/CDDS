@@ -112,6 +112,7 @@ def update_arguments_for_proc_dir(arguments, request, component):
 
 def update_log_dir(arguments, component):
     """
+    DEPRECATED: Moved to cdds.common.log_file
     Return the argumentas as provided to the ``arguments`` parameter
     with the updated log_name value that uses the full path to the
     log file if a specific log directory of the component can be
@@ -243,6 +244,7 @@ class FullPaths(object):
 
     def log_directory(self, component):
         """
+        DEPRECATED: Moved to cdds.common.log_file
         Return the full path to the directory where the log files for
         the CDDS component ``component`` are written within the proc
         directory or output dir if chosen.
