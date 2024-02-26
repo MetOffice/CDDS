@@ -3,8 +3,8 @@
 # Please see LICENSE.rst for license details.
 import sys
 
-from cdds.prepare.request_file.command_line import main_write_rose_suite_request_json
+from cdds.prepare.request_file.command_line import main_write_request
 
 
 if __name__ == '__main__':
-    sys.exit(main_write_rose_suite_request_json())
+    sys.exit(main_write_request())

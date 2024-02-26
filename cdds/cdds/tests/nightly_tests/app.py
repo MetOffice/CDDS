@@ -9,7 +9,7 @@ import shutil
 from cdds.tests.nightly_tests.app_config import AppConfig
 from cdds.tests.nightly_tests.arguments import CmdArgs
 from cdds.tests.nightly_tests.common import NameListFilter, makedirs
-from cdds.prepare.request_file.command_line import main_write_rose_suite_request_json
+from cdds.prepare.request_file.command_line import main_write_request
 
 
 class NightlyApp(object, metaclass=ABCMeta):
@@ -152,7 +152,7 @@ class CreateRequestJsonApp(NightlyApp):
             else:
                 self.logger.info("Generate new request json")
                 arguments = self.build_write_request_json_args(suite)
-                exit_code = main_write_rose_suite_request_json(arguments)
+                exit_code = main_write_request(arguments)
                 if exit_code != 0:
                     msg = self.APP_ERROR.format(suite['id_suite'], self.log_file)
                     self.logger.error(msg)

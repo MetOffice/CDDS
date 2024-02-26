@@ -1,19 +1,18 @@
-# (C) British Crown Copyright 2020-2022, Met Office.
+# (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
-# pylint: disable = no-member
 import logging
 import os.path
 import unittest
 
 from cdds.common import configure_logger
-from cdds.prepare.request_file.validator import RoseSuiteValidator
-from unittest.mock import patch, MagicMock
+from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo
+from cdds.common.request.rose_suite.validation import RoseSuiteValidator
 
 
 class TestValidator(unittest.TestCase):
 
     def setUp(self):
-        self.rose_suite = {
+        self.rose_suite: RoseSuiteInfo = RoseSuiteInfo({
             'start-date': '1850-01-01',
             'sub-experiment-id': 'none',
             'owner': 'cooper',
@@ -39,7 +38,7 @@ class TestValidator(unittest.TestCase):
             'title': 'UKESM1 historical',
             'source-type': 'AOGCM,BGC,AER,CHEM',
             'end-date': '2015-01-01'
-        }
+        })
 
         self.path_to_cv = os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/01.00.29/CMIP6_CV.json')
 
@@ -52,7 +51,7 @@ class TestValidator(unittest.TestCase):
         self.assertTrue(valid)
 
     def test_validate_invalid_data(self):
-        self.rose_suite['parent-experiment-mip'] = 'historical'
+        self.rose_suite.data['parent-experiment-mip'] = 'historical'
         configure_logger(None, logging.CRITICAL, False)
 
         validator = RoseSuiteValidator(self.path_to_cv, self.rose_suite)
@@ -61,7 +60,8 @@ class TestValidator(unittest.TestCase):
         self.assertFalse(valid)
 
     def test_nothing_to_validate(self):
-        validator = RoseSuiteValidator(self.path_to_cv, {})
+        empty_suite_info = RoseSuiteInfo({})
+        validator = RoseSuiteValidator(self.path_to_cv, empty_suite_info)
         valid = validator.validate()
         self.assertTrue(valid)
 

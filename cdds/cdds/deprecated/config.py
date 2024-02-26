@@ -140,6 +140,7 @@ def update_log_dir(arguments, component):
 
 class FullPaths(object):
     """
+    TODO: deprecated Now provided by the new request object
     Store information about the full paths used by CDDS.
     """
 

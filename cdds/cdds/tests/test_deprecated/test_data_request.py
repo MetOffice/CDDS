@@ -1,14 +1,14 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2023, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = too-many-instance-attributes, no-value-for-parameter
 """
-Tests for :mod:`cdds.prepare.data_request`.
+Tests for :mod:`cdds.deprecated.data_request`.
 """
 from unittest.mock import MagicMock
 import unittest
 
-from cdds.prepare.data_request import (
+from cdds.deprecated.data_request import (
     calculate_ensemble_size, calculate_priority, check_data_request_changes,
     check_priority, positive_is_compatible, PRIORITY_UNSET)
 
