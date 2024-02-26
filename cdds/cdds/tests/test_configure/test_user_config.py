@@ -60,7 +60,6 @@ class TestProduceUserConfigs(unittest.TestCase):
         write_json(self.requested_variables_list_path,
                    requested_variables_list)
 
-
     def test_multiple_grids(self):
         user_configs = produce_user_configs(self.request, self.requested_variables, FILENAME_TEMPLATE)
         atmos_native_filename = FILENAME_TEMPLATE.format(

@@ -13,7 +13,7 @@ from mip_convert.configuration.python_config import PythonConfig
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
-from cdds.common.request.request import read_request
+from cdds.common.request.request import read_request, Request
 from cdds.common.variables import RequestedVariablesList
 
 from cdds import __version__
@@ -70,7 +70,7 @@ def create_user_config_files(request, requested_variables_file, output_dir=None)
         PythonConfig(user_config).write(filename, header=header)
 
 
-def produce_user_configs(request, requested_variables_list, template_name):
+def produce_user_configs(request: Request, requested_variables_list: RequestedVariablesList, template_name: str):
     """
     Return the contents of the |user configuration files|.
 
@@ -83,7 +83,7 @@ def produce_user_configs(request, requested_variables_list, template_name):
 
     Parameters
     ----------
-    request: :class:`cdds.common.old_request.Request`
+    request: Request
         The information from the request.
     requested_variables_list: :class:`cdds.common.variables.RequestedVariablesList`
         The information from the |requested variables list|.
@@ -102,7 +102,7 @@ def produce_user_configs(request, requested_variables_list, template_name):
     metadata = retrieve_request_metadata(request)
 
     # Retrieve 'MIP requested variables' by grid.
-    variables_by_grid = retrieve_variables_by_grid(requested_variables_list, request.mip_table_dir)
+    variables_by_grid = retrieve_variables_by_grid(requested_variables_list, request.common.mip_table_dir)
     streams = retrieve_streams_by_grid(requested_variables_list)
 
     # Produce the contents of the 'user configuration files' by grid.

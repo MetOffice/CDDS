@@ -49,13 +49,7 @@ class TestStorePrependingToEmbargoed(StoreTestCase):
         )
         test_args = test_data.get_arguments()
 
-        print('')
-        print('============ BEGIN KERSTIN =================')
-
         exit_code = main_store(test_args)
-
-        print('')
-        print('============ END KERSTIN =================')
 
         self.assertEqual(exit_code, 0)
         log_file = LogFile.load(test_args, test_data.log_name, DEFAULT_LOG_DATESTAMP)
