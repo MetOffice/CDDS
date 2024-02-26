@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2022, Met Office.
+# (C) British Crown Copyright 2018-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Top level routines involved in changing states of data to MASS, i.e.
@@ -7,7 +7,10 @@ withdrawn).
 """
 import logging
 
-from cdds.common.old_request import read_request
+from argparse import Namespace
+from typing import List
+
+from cdds.common.request.request import read_request
 from cdds.deprecated.transfer import dds, state
 from cdds.deprecated.transfer.common import (
     load_rabbit_mq_credentials, cfg_from_cdds_general_config,
@@ -16,83 +19,55 @@ from cdds.deprecated.transfer.drs import filter_filesets
 from cdds.deprecated.transfer.moo_cmd import LS_ONLY
 from cdds.deprecated.config import CDDSConfigGeneral
 
-REQUIRED_KEYS_MOVE_IN_MASS = []
-FACETS_OMITTED_FOR_MOVE_IN_MASS = ['package']
 
-
-def run_move_in_mass(args):
+def run_move_in_mass(args: Namespace) -> None:
     """
-    Perform a state change process; load the request and configuration
-    information, identify files in MASS to change state, perform the
-    moves required and send appropriate messages to the CEDA rabbit MQ
-    server.
+    Perform a state change process; load the request and configuration information, identify files in MASS
+    to change state, perform the moves required and send appropriate messages to the CEDA rabbit MQ server.
 
-    Parameters
-    ----------
-    args : :class:`argparse.Namespace`
-        Command line arguments
+    :param args: Parsed command line arguments
+    :type args: Namespace
     """
     logger = logging.getLogger(__name__)
     # Read request, construct configs
     logger.info('Reading request from "{}"'.format(args.request))
-    request = read_request(
-        args.request, required_keys=REQUIRED_KEYS_MOVE_IN_MASS)
+    request = read_request(args.request)
     logger.info('Reading CDDS General Config')
-    config_general = CDDSConfigGeneral(args.root_config, request, args.root_proc_dir)
-    transfer_cfg = cfg_from_cdds_general_config(config_general, request,
-                                                args.mass_location)
+    config_general = CDDSConfigGeneral(args.root_config, request)
+    transfer_cfg = cfg_from_cdds_general_config(config_general, request)
+
     # Attempt to load rabbit credentials
     success = load_rabbit_mq_credentials(transfer_cfg)
-    if not success and not args.simulate:
-        msg = ('A Rabbit MQ server cannot be contacted so messages cannot '
-               'be sent.')
-        logger.critical(msg)
-        raise RuntimeError(msg)
+    if not success and not request.common.simulation:
+        message = 'A Rabbit MQ server cannot be contacted so messages cannot be sent.'
+        logger.critical(message)
+        raise RuntimeError(message)
 
-    drs_fixed_facet_builder = drs_facet_builder_from_request(request,
-                                                             transfer_cfg)
-    remove_move_in_mass_omitted_facets(drs_fixed_facet_builder)
+    drs_fixed_facet_builder = drs_facet_builder_from_request(request, transfer_cfg)
     logger.info('Using following facets to identify data sets to move: "{}"'
                 ''.format(repr(drs_fixed_facet_builder.facets)))
-    transfer_service = dds.DataTransfer(transfer_cfg, request.mip_era)
-    if args.simulate:
-        logger.info('Cannot fully simulate `move_in_mass`. '
-                    'Allowing moo ls commands')
+
+    transfer_service = dds.DataTransfer(transfer_cfg, request.metadata.mip_era)
+    if request.common.simulation:
+        logger.info('Cannot fully simulate `move_in_mass`. Allowing moo ls commands')
         transfer_service._simulation = LS_ONLY
-    logger.info('Searching mass for file sets in state "{}"'
-                ''.format(args.original_state))
-    filesets = find_mass(drs_fixed_facet_builder, args.original_state,
-                         transfer_service)
-    if args.variables_list_file:
-        logger.info('Limiting state change to variables specified in "{}"'
-                    ''.format(args.variables_list_file))
-        variables_to_operate_on = read_variables_list_file(
-            args.variables_list_file)
+    logger.info('Searching mass for file sets in state "{}"'.format(args.original_state))
+
+    filesets = find_mass(drs_fixed_facet_builder, args.original_state, transfer_service)
+    if request.data.variable_list_file:
+        logger.info('Limiting state change to variables specified in "{}"'.format(request.data.variable_list_file))
+        variables_to_operate_on = read_variables_list_file(request.data.variable_list_file)
         filter_filesets(filesets, variables_to_operate_on)
+
     log_filesets(filesets)
     try:
         logger.info('Moving file sets to state "{}"'.format(args.new_state))
-        move_in_mass(
-            filesets, transfer_service, args.original_state, args.new_state)
+        move_in_mass(filesets, transfer_service, args.original_state, args.new_state)
         logger.info('Moving complete')
     except Exception as err:
         logger.critical('Moving failed')
         logger.exception(err)
         raise
-
-
-def remove_move_in_mass_omitted_facets(drs_fixed_facet_builder):
-    """
-    Delete keys from the facet dictionary in the supplied object that
-    prevent move_in_mass from working.
-
-    Parameters
-    ----------
-    drs_fixed_facet_builder: :class:`cdds.deprecated.transfer.drs.DataRefSyntax`
-        Fixed facet object
-    """
-    for facet in FACETS_OMITTED_FOR_MOVE_IN_MASS:
-        del drs_fixed_facet_builder._facets[facet]
 
 
 def move_in_mass(filesets, transfer_service, original_state, new_state):
