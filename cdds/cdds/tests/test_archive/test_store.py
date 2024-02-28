@@ -9,8 +9,6 @@ import cftime
 import collections
 import logging
 import os
-import re
-import unittest
 import unittest.mock
 
 from io import StringIO
@@ -22,7 +20,7 @@ from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.plugin_loader import load_plugin
 
 import cdds.archive.store
-from cdds.common.request import construct_request
+from cdds.common.request.request import Request
 import cdds.tests.test_archive.common
 
 
@@ -79,7 +77,13 @@ class TestRetrieveFilePaths(unittest.TestCase):
     def setUp(self):
         Calendar.default().set_mode('360_day')
         load_plugin()
-        self.request_items = cdds.tests.test_archive.common.REQUEST_ITEMS
+        self.request = Request()
+        self.request.metadata.mip_era = 'dummyera'
+        self.request.metadata.mip = 'dummymip'
+        self.request.metadata.experiment_id = 'dummy-exp123'
+        self.request.metadata.variant_label = 'dummyvariant'
+        self.request.metadata.model_id = 'dummymodel'
+        self.request.metadata.institution_id = 'dummyinst'
 
     def tearDown(self):
         PluginStore.clean_instance()
@@ -113,10 +117,12 @@ class TestRetrieveFilePaths(unittest.TestCase):
             '{variant_label}_{grid}_{start_date}-{end_date}.nc')
         var_files = []
         reference_vars = []
+
+        request_items = self.request.metadata.items
         for var_dict in mip_approved_vars:
             test_dict = {}
             test_dict.update(var_dict)
-            test_dict.update(self.request_items)
+            test_dict.update(request_items)
             test_dict.update(additional_ids[var_dict['variable_id']])
             fname1 = os.path.join(output_path,
                                   var_dict['stream_id'],
@@ -132,9 +138,7 @@ class TestRetrieveFilePaths(unittest.TestCase):
         mock_os_listdir.side_effect = var_files
         mock_os_isdir.return_value = True
 
-        request = construct_request(self.request_items)
-        output_vars = cdds.archive.store.retrieve_file_paths(
-            mip_approved_vars, request)
+        output_vars = cdds.archive.store.retrieve_file_paths(mip_approved_vars, self.request)
         self.assertEqual(len(reference_vars), len(output_vars))
         for ref_var, out_var in zip(reference_vars, output_vars):
             self.assertDictEqual(ref_var, out_var)

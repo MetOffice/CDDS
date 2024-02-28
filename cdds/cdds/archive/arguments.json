@@ -1,9 +1,0 @@
-{
-    "cdds_store": {
-        "log_name": "cdds_store"
-    },
-    "cdds_store_spice": {
-        "log_name": "cdds_store_spice"
-    }
-
-}

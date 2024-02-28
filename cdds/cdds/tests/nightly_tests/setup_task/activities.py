@@ -5,9 +5,9 @@ import os
 import tempfile
 
 from cdds.common.mass import mass_isdir, mass_mkdir
-from cdds.common.request import Request
+from cdds.common.request.request import Request, read_request
 from cdds.prepare.command_line import main_create_cdds_directory_structure, main_generate_variable_list
-from cdds.tests.nightly_tests.setup_task.common import SetupConfig, SetupPaths
+from cdds.tests.nightly_tests.setup_task.common import SetupConfig
 
 
 def setup_directory_structure(config: SetupConfig, request: Request) -> None:
@@ -31,10 +31,7 @@ def setup_directory_structure(config: SetupConfig, request: Request) -> None:
         logger.info('Creating root data dir at {0}'.format(config.root_data_dir))
         os.makedirs(config.root_data_dir)
 
-    log_file = os.path.join(config.test_base_dir, '{0}_create_dir.log'.format(request.package))
-    output_dir_args = ['--root_proc_dir', config.root_proc_dir, '--root_data_dir', config.root_data_dir]
-
-    create_dir_structure_args = [request_file, '--log_name', log_file] + output_dir_args
+    create_dir_structure_args = [request_file]
 
     main_create_cdds_directory_structure(create_dir_structure_args)
 
@@ -67,34 +64,31 @@ def create_variable_list(config: SetupConfig) -> None:
     :type config: SetupConfig
     """
     request_file = config.request_json
-    selected_vars_arg = []
+    request = read_request(request_file)
 
     if config.selected_variables:
         _, variables_file = tempfile.mkstemp()
         with open(variables_file, 'w') as file_handle:
             file_handle.write('\n'.join(config.selected_variables))
-        selected_vars_arg = ['-r', variables_file]
+        request.data.variable_list_file = variables_file
+    request.write(request_file)
 
-    output_dir_args = ['--root_proc_dir', config.root_proc_dir, '--root_data_dir', config.root_data_dir]
-    mapping_status_arg = ['--mapping_status', config.mapping_status]
-
-    generate_variable_list_args = ([request_file, '--use_proc_dir'] + output_dir_args + mapping_status_arg +
-                                   ['--no_inventory_check'] + selected_vars_arg)
+    generate_variable_list_args = ([request_file])
 
     main_generate_variable_list(generate_variable_list_args)
 
 
-def link_input_data(config: SetupConfig, full_paths: SetupPaths) -> None:
+def link_input_data(config: SetupConfig, request: Request) -> None:
     """
     Linked the current input data dir to the directory where the |model output files| used as
     input to CDDS Convert are written.
 
     :param config: Contains information about the root of the current input data dir
     :type config: SetupConfig
-    :param full_paths: Contains information about the targeted input data dir
-    :type full_paths: SetupPaths
+    :param request: Contains information about the targeted input data dir
+    :type request: Request
     """
     if config.input_data:
         # setup link to data on disk
         suite_id = os.path.normpath(config.input_data).split(os.sep)[-1]
-        os.symlink(config.input_data, os.path.join(full_paths.input_data_directory, suite_id))
+        os.symlink(config.input_data, os.path.join(request.input_data_directory, suite_id))

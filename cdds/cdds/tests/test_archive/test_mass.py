@@ -17,14 +17,20 @@ from cdds.common.mass_record import MassRecord
 from cdds.archive.constants import (
     DATA_PUBLICATION_STATUS_DICT, SUPERSEDED_INFO_FILE_STR)
 import cdds.archive.mass
-from cdds.common.request import construct_request
+from cdds.common.request.request import Request
 from cdds.tests.test_archive import common
 
 
 class TestMassPaths(unittest.TestCase):
     def setUp(self):
         load_plugin()
-        self.request_items = common.REQUEST_ITEMS
+        self.request = Request()
+        self.request.metadata.mip_era = 'dummyera'
+        self.request.metadata.mip = 'dummymip'
+        self.request.metadata.experiment_id = 'dummy-exp123'
+        self.request.metadata.variant_label = 'dummyvariant'
+        self.request.metadata.model_id = 'dummymodel'
+        self.request.metadata.institution_id = 'dummyinst'
 
     def tearDown(self):
         PluginStore.clean_instance()
@@ -36,17 +42,16 @@ class TestMassPaths(unittest.TestCase):
         grid = 'dummygrid'
         mock_grid_info.return_value = (None, None, grid, None)
         mass_root = 'moose://root/mass/location/'
-        request = construct_request(self.request_items)
-        date_stamp = 'v20121221'
-        archive_state = 'dummystate'
         var_dict = {'mip_table_id': 'Amon', 'variable_id': 'tas',
                     'stream_id': 'ap5', 'out_var_name': 'tas'}
-        output_path = cdds.archive.mass.get_archive_path(mass_root, var_dict,
-                                                         request)
-        reference_path = os.path.join(mass_root, request.mip_era, request.mip,
-                                      request.institution_id, request.model_id,
-                                      request.experiment_id,
-                                      request.variant_label,
+        output_path = cdds.archive.mass.get_archive_path(mass_root, var_dict, self.request)
+        reference_path = os.path.join(mass_root,
+                                      self.request.metadata.mip_era,
+                                      self.request.metadata.mip,
+                                      self.request.metadata.institution_id,
+                                      self.request.metadata.model_id,
+                                      self.request.metadata.experiment_id,
+                                      self.request.metadata.variant_label,
                                       var_dict['mip_table_id'],
                                       var_dict['out_var_name'], grid, )
         self.assertEqual(reference_path, output_path)
@@ -73,9 +78,8 @@ class TestMassPaths(unittest.TestCase):
             path_list += [path1]
 
         mock_mass_path.side_effect = path_list
-        request = construct_request(self.request_items)
         output_vars = cdds.archive.mass.construct_mass_paths(var_list,
-                                                             request,
+                                                             self.request,
                                                              mass_root,
                                                              datestamp_str,
                                                              new_status)

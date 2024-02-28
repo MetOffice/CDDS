@@ -20,25 +20,13 @@ class CddsSetupApp(NightlyApp):
         self._parse_app_config()
 
         test_base_dir = getattr(self.cli_args, 'test_base_dir', None)
-        request_json = getattr(self.cli_args, 'request_json', None)
+        request_json = getattr(self.cli_args, 'request_cfg', None)
         input_data = getattr(self.cli_args, 'input-data', None)
-        root_proc_dir = getattr(self.cli_args, 'root_proc_dir', '/project/cdds/proc')
-        root_data_dir = getattr(self.cli_args, 'root_data_dir', '/project/cdds_data')
-        package = getattr(self.cli_args, 'package', None)
-        mapping_status = getattr(self.cli_args, 'mapping-status', 'ok')
-        output_mass_suffix = getattr(self.cli_args, 'output_mass_suffix', 'development')
-        output_mass_root = getattr(self.cli_args, 'output_mass_root', 'moose:/adhoc/projects/cdds/')
 
         self.setup_config = SetupConfig(
             test_base_dir=test_base_dir,
             request_json=request_json,
             input_data=input_data,
-            root_proc_dir=root_proc_dir,
-            root_data_dir=root_data_dir,
-            package=package,
-            mapping_status=mapping_status,
-            output_mass_suffix=output_mass_suffix,
-            output_mass_root=output_mass_root
         )
 
     @property
@@ -51,27 +39,11 @@ class CddsSetupApp(NightlyApp):
              "help": "Pathname of app configuration file."},
             {"names": ["-t", "--test_base_dir"],
              "help": "The path to the suite-share-directory/clyc-task-directory"},
-            {"names": ["-r", "--request_json"],
-             "help": "The full path to the JSON file containing information about the request."},
+            {"names": ["-r", "--request_cfg"],
+             "help": "The full path to the configuration file containing information about the request."},
             {"names": ["--input-data"],
              "help": "Input data path for the current package"},
-            {"names": ["--root_proc_dir"],
-             "help": "The root path to the proc directory.",
-             "default": '/project/cdds/proc'},
-            {"names": ["--root_data_dir"],
-             "help": "The root path to the data directory.",
-             "default": '/project/cdds_data'},
-            {"names": ["--package"], "help": "Name of the current cylc task package"},
-            {"names": ["--mapping-status"],
-             "help": "The status of mappings allowed to be processed.",
-             "default": 'ok'},
-            {"names": ["--output_mass_suffix"],
-             "help": 'Sub-directory in MASS to use when moving data. This directory is appended to the default'
-                     'root CDDS mass location - {cdds_mass}. ',
-             "default": 'development'},
-            {"names": ["--output_mass_root"],
-             "help": "Full path to the root mass location to use for archiving the output data.",
-             "default": 'moose:/adhoc/projects/cdds/'}
+            {"names": ["--package"], "help": "Name of the current cylc task package"}
         ]
 
     def run(self) -> None:

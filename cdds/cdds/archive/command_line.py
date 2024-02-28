@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2022, Met Office.
+# (C) British Crown Copyright 2019-2024, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -8,47 +8,45 @@ command line scripts in the ``bin`` directory.
 import argparse
 import logging
 
-from metomi.isodatetime.data import Calendar
-
-from cdds.arguments import read_default_arguments
-from cdds.common import (
-    configure_logger, common_command_line_args, check_directory,
-    root_dir_args, mass_output_args)
-from cdds.deprecated.config import update_arguments_for_proc_dir, update_log_dir
+from argparse import Namespace
+from cdds.common import configure_logger
 
 from cdds import __version__
 from cdds.archive.store import store_mip_output_data
 from cdds.archive.spice import run_store_spice_job
-from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY, PRINT_STACK_TRACE
-from cdds.common.request import read_request
+from cdds.common.constants import PRINT_STACK_TRACE
+
+from cdds.common.cdds_files.cdds_directories import update_log_dir
+from cdds.common.request.request import read_request
+from typing import List
 
 COMPONENT = 'archive'
+CDDS_STORE_LOG_NAME = 'cdds_store'
+CDDS_STORE_SPICE_LOG_NAME = 'cdds_store_spice'
 
 
-def main_store(arguments=None):
+def main_store(arguments: List[str] = None) -> int:
     """
     Archive the |output netCDF files| in MASS.
 
-    Parameters
-    ----------
-    arguments: list of strings
-        The command line arguments to be parsed.
+    :param arguments: The command line arguments to be parsed.
+    :type arguments: List[str]
+    :return: Exit code
+    :rtype: int
     """
     # Parse the arguments.
-    args = parse_args_store(arguments, 'cdds_store')
+    args = parse_args_store(arguments, CDDS_STORE_LOG_NAME)
 
-    # Create the configured logger.
-    configure_logger(args.log_name, args.log_level, args.append_log, stream=args.stream)
+    request = read_request(args.request)
 
-    # Retrieve the logger.
+    log_name = update_log_dir(args.log_name, request, COMPONENT)
+    configure_logger(log_name, logging.INFO, False, stream=args.stream)
     logger = logging.getLogger(__name__)
-
-    # Log version.
     logger.info('Using CDDS Transfer version {}'.format(__version__))
 
     exit_code = 0
     try:
-        num_critical_issues = store_mip_output_data(args)
+        num_critical_issues = store_mip_output_data(request, args.stream, args.mip_approved_variables_path)
         if num_critical_issues > 0:
             exit_code = 1
     except BaseException as exc:
@@ -58,20 +56,22 @@ def main_store(arguments=None):
     return exit_code
 
 
-def main_store_spice(arguments=None):
+def main_store_spice(arguments: List[str] = None) -> int:
     """
     Run a job on SPICE to archive the |output netCDF files| to MASS.
 
-    Parameters
-    ----------
-    arguments: list of strings
-        The command line arguments to be parsed.
+    :param arguments: The command line arguments to be parsed.
+    :type arguments: List[str]
+    :return: Exit code
+    :rtype: int
     """
     # Parse the arguments.
-    args = parse_args_store(arguments, 'cdds_store_spice')
+    args = parse_args_store(arguments, CDDS_STORE_SPICE_LOG_NAME)
 
-    # Create the configured logger.
-    configure_logger(args.log_name, args.log_level, args.append_log, stream=args.stream)
+    request = read_request(args.request)
+
+    log_name = update_log_dir(args.log_name, request, COMPONENT)
+    configure_logger(log_name, logging.INFO, False, stream=args.stream)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
@@ -80,7 +80,7 @@ def main_store_spice(arguments=None):
     logger.info('Using CDDS Transfer version {}'.format(__version__))
 
     try:
-        run_store_spice_job(args)
+        run_store_spice_job(request)
         exit_code = 0
     except BaseException as exc:
         logger.critical(exc, exc_info=PRINT_STACK_TRACE)
@@ -103,101 +103,44 @@ def main_publish(arguments=None):
     raise NotImplementedError()
 
 
-def parse_args_store(user_arguments, script_name):
+def parse_args_store(user_arguments: List[str], default_log_name: str) -> Namespace:
     """
-    Return the names of the command line arguments for
-    ``cdds_store`` and their validated values.
+    Return the names of the command line arguments for ``cdds_store`` and their validated values.
 
-    If this function is called from the Python interpreter with
-    ``arguments`` that contains any of the ``--version``, ``-h`` or
-    ``--help`` options, the Python interpreter will be terminated.
+    If this function is called from the Python interpreter with ``arguments`` that contains any
+    of the ``--version``, ``-h`` or ``--help`` options, the Python interpreter will be terminated.
 
-    The output from this function can be used as the value of the
-    ``arguments`` parameter in the call to
-    :func:`cdds.archive.command_line.main`.
-
-    Parameters
-    ----------
-    user_arguments: list of strings
-        The command line arguments to be parsed.
-
-    Returns
-    -------
-    : :class:`cdds.arguments.Arguments` object
-        The names of the command line arguments and their validated
-        values.
+    :param user_arguments: The command line arguments to be parsed.
+    :type user_arguments: List[str]
+    :param default_log_name: The default log file name if not given by the arguments
+    :type default_log_name: str
+    :return: The names of the command line arguments and their validated values.
+    :rtype: Namespace
     """
     arguments = user_arguments
-    user_arguments = read_default_arguments('cdds.archive', script_name)
     parser = argparse.ArgumentParser(
         description='Archive the output netCDF files in MASS.',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         'request', help=(
-            'The full path to the JSON file containing the information from '
+            'The full path to the configuration file containing the information from '
             'the request.'))
-    parser.add_argument(
-        '--simulate', action='store_true',
-        help='Simulation mode. Moose commands are printed rather than run')
-
-    mass_output_args(parser, user_arguments.output_mass_suffix,
-                     user_arguments.output_mass_root)
-
-    var_list_group = parser.add_mutually_exclusive_group()
     help_msg = ('The full path to the file containing the MIP requested '
                 'variables that have passed quality control and approved for '
                 'archiving. The variables are listed in the form '
                 '"<mip_table_id>/<mip_requested_variable_name>", one per '
                 'line.')
-    var_list_group.add_argument(
-        '-m', '--mip_approved_variables_path', default='', help=help_msg)
-    help_msg = 'The full path to the requested variables list file.'
-    var_list_group.add_argument(
-        '-r', '--requested_variables_list_file', help=help_msg)
-
-    output_dir_group = parser.add_mutually_exclusive_group()
-    output_dir_group.add_argument(
-        '-p', '--use_proc_dir', action='store_true', help=(
-            'Read this and write that and log file to the appropriate '
-            'component directory in the proc directory.'))
-    output_dir_group.add_argument(
-        '-o', '--output_dir', default=None, help=(
-            'The full path to the directory where the output files will be '
-            'written.'))
+    parser.add_argument('-m', '--mip_approved_variables_path', default='', help=help_msg)
     help_msg = ('Specify the stream from which to archive. If not specified, '
                 'data from all streams present will be archived.')
     parser.add_argument('--stream', help=help_msg)
 
-    help_msg = ('The date stamp to use as the version for publication of '
-                'these |MIP requested variables|.')
-    parser.add_argument('--data_version', help=help_msg, default=None)
-
-    root_dir_args(parser, user_arguments.root_proc_dir, user_arguments.root_data_dir)
-
-    # Add arguments common to all scripts.
-    common_command_line_args(parser, user_arguments.log_name, user_arguments.log_level,
-                             __version__)
+    # Only for functional tests:
+    parser.add_argument(
+        '-l', '--log_name', default=default_log_name, help=(
+            'The name of the log file. The log file will be written to the '
+            'current working directory unless the full path is provided. Set '
+            'the value to an empty string to only send messages to the screen '
+            'i.e., do not create a log file.'))
     args = parser.parse_args(arguments)
-    user_arguments.add_user_args(args)
-
-    # Validate the arguments.
-    if not user_arguments.use_proc_dir and not (
-            user_arguments.requested_variables_list_file):
-        raise parser.error(
-            'Please either provide the full path to the requested variables '
-            'list file via -r or use -p')
-
-    request = read_request(user_arguments.request)
-    if request.calendar:
-        Calendar.default().set_mode(request.calendar)
-    else:
-        Calendar.default().set_mode('360_day')
-
-    if user_arguments.use_proc_dir:
-        request = read_request(user_arguments.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
-        user_arguments = update_arguments_for_proc_dir(user_arguments, request, COMPONENT)
-    if user_arguments.output_dir is not None:
-        user_arguments.output_dir = check_directory(user_arguments.output_dir)
-
-    user_arguments = update_log_dir(user_arguments, COMPONENT)
-    return user_arguments
+    return args

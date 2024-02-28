@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2023, Met Office.
+# (C) British Crown Copyright 2019-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Module for the main function for the mip convert wrapper run in the suite.
@@ -19,6 +19,8 @@ from cdds.convert.exceptions import WrapperEnvironmentError, WrapperMissingFiles
 from cdds.convert.mip_convert_wrapper.actions import (check_disk_usage, manage_critical_issues, manage_logs,
                                                       report_disk_usage, run_mip_convert)
 from cdds.convert.mip_convert_wrapper.common import print_env
+from cdds.convert.mip_convert_wrapper.constants import (USER_CONFIG_TEMPLATE_NAME, CMOR_LOG_FILENAME_TEMPLATE,
+                                                        MIP_CONVERT_LOG_BASE_NAME, RUN_MIP_CONVERT_LOG_NAME)
 from cdds.convert.mip_convert_wrapper.config_updater import calculate_mip_convert_run_bounds, setup_cfg_file
 from cdds.convert.mip_convert_wrapper.file_management import copy_to_staging_dir, get_paths, link_data
 
@@ -29,7 +31,7 @@ def run_mip_convert_wrapper(arguments):
     the mip_convert.cfg config file and run mip_convert.
     """
     exit_code = 0
-    configure_logger(arguments.log_name, 0, append_log=False)
+    configure_logger(RUN_MIP_CONVERT_LOG_NAME, 0, append_log=False)
     logger = logging.getLogger(__name__)
     logger.info('Starting MIP Convert Wrapper.')
 
@@ -148,21 +150,20 @@ def run_mip_convert_wrapper(arguments):
                        start_date,
                        end_date,
                        timestamp,
-                       arguments.user_config_template_name,
-                       arguments.cmor_log_filename_template,
+                       USER_CONFIG_TEMPLATE_NAME,
+                       CMOR_LOG_FILENAME_TEMPLATE,
                        )
     except Exception as error:
         logger.critical('Setup_cfg_file failed with error: "{}"'.format(error))
         logger.info(print_env())
         raise error
 
-    mip_convert_log_arg = arguments.mip_convert_log_base_name
-    mip_convert_log = '{0}_{1}.log'.format(arguments.mip_convert_log_base_name,
+    mip_convert_log = '{0}_{1}.log'.format(MIP_CONVERT_LOG_BASE_NAME,
                                            timestamp)
     # Run mip convert
     exit_code = run_mip_convert(stream, dummy_run, timestamp,
-                                arguments.user_config_template_name,
-                                mip_convert_log_arg,
+                                USER_CONFIG_TEMPLATE_NAME,
+                                MIP_CONVERT_LOG_BASE_NAME,
                                 arguments.mip_era,
                                 arguments.external_plugin,
                                 arguments.external_plugin_location,

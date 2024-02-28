@@ -1,0 +1,138 @@
+# (C) British Crown Copyright 2023-2024, Met Office.
+# Please see LICENSE.rst for license details.
+"""
+Module to handle the data section in the request configuration
+"""
+from configparser import ConfigParser
+from datetime import datetime
+from dataclasses import dataclass, asdict, field
+from metomi.isodatetime.data import TimePoint
+from typing import List, Dict, Any
+
+from cdds.common.request.request_section import Section, load_types, expand_paths
+from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
+
+
+MASS_DATA_ARCHIVE_DATESTAMP = 'v%Y%m%d'
+
+
+def data_defaults() -> Dict[str, Any]:
+    """
+    Calculates the defaults for the data section of
+    the request configuration.
+
+    :return: The defaults of the data section
+    :rtype: Dict[str, Any]
+    """
+    mass_data_archive_version = datetime.now().strftime(MASS_DATA_ARCHIVE_DATESTAMP)
+    return {
+        'mass_data_class': 'crum',
+        'mass_data_archive_version': mass_data_archive_version,
+        'streams': 'ap4 ap5 ap6 inm onm',
+        'model_workflow_branch': 'cdds',
+        'model_workflow_revision': 'HEAD',
+    }
+
+
+@dataclass
+class DataSection(Section):
+    """
+    Represents the data section in the request configuration
+    """
+    end_date: TimePoint = None
+    mass_data_class: str = 'crum'
+    mass_data_archive_version: str = ''
+    mass_ensemble_member: str = ''
+    start_date: TimePoint = None
+    model_workflow_id: str = ''
+    model_workflow_branch: str = 'cdds'
+    model_workflow_revision: str = 'HEAD'
+    streams: List[str] = field(default_factory=list)
+    variable_list_file: str = ''
+    output_mass_root: str = ''
+    output_mass_suffix: str = ''
+
+    @property
+    def items(self):
+        """
+        Returns all items of the data section as a dictionary.
+
+        :return: Items as dictionary
+        :rtype: Dict[str, Any]
+        """
+        return asdict(self)
+
+    @staticmethod
+    def from_config(config: ConfigParser) -> 'DataSection':
+        """
+        Loads the data section of a request configuration.
+
+        :param config: Parser for the request configuration
+        :type config: ConfigParser
+        :return: New data section
+        :rtype: DataSection
+        """
+        values = data_defaults()
+        if config.has_section('data'):
+            config_items = load_types(dict(config.items('data')), ['streams'])
+            # workflow_revision could be an int but we need a string
+            if 'workflow_revision' in config_items:
+                config_items['workflow_revision'] = str(config_items['workflow_revision'])
+            if 'mass_data_archive_version' in config_items:
+                validate_archive_data_version(config_items['mass_data_archive_version'])
+            expand_paths(config_items, 'variable_list_file')
+            values.update(config_items)
+        return DataSection(**values)
+
+    @staticmethod
+    def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'DataSection':
+        """
+        Loads the data section of a rose-suite.info.
+
+        :param suite_info: The rose-suite.info to be loaded
+        :type suite_info: RoseSuiteInfo
+        :param arguments: Additional arguments to be considered
+        :type arguments: RoseSuiteArguments
+        :return: New data section
+        :rtype: DataSection
+        """
+        defaults = data_defaults()
+
+        data = DataSection(**defaults)
+        data.end_date = suite_info.end_date()
+        data.mass_data_class = arguments.mass_data_class
+        data.start_date = suite_info.start_date()
+        data.streams = arguments.streams
+
+        if arguments.end_date:
+            data.end_date = arguments.end_date
+
+        if arguments.start_date:
+            data.start_date = arguments.start_date
+
+        if arguments.mass_ensemble_member:
+            data.mass_ensemble_member = arguments.mass_ensemble_member
+        return data
+
+    def add_to_config(self, config: ConfigParser) -> None:
+        """
+        Adds values defined by the data section to given configuration.
+
+        :param config: Configuration where values should add to
+        :type config: ConfigParser
+        """
+        defaults = data_defaults()
+        self._add_to_config_section(config, 'data', defaults)
+
+
+def validate_archive_data_version(mass_data_version: str):
+    """
+    Checks if the archive data version has the expected date format. If not an exception will be raised
+
+    :param mass_data_version: Archive data version as string
+    :type mass_data_version: str
+    """
+    try:
+        datetime.strptime(mass_data_version, MASS_DATA_ARCHIVE_DATESTAMP)
+    except ValueError:
+        raise ValueError('Archive data version must have format "{}"'.format(MASS_DATA_ARCHIVE_DATESTAMP))

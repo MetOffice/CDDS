@@ -8,43 +8,14 @@ Tests for extract filters.
 from copy import deepcopy
 import logging
 import unittest
-import datetime
+import os
 from unittest.mock import patch
+from metomi.isodatetime.parsers import TimePointParser
 
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.extract.filters import Filters
 from cdds.common import configure_logger
-
-
-class MockRequest:
-
-    @property
-    def mip_era(self):
-        return "CMIP6"
-
-    @property
-    def mip(self):
-        return "CMIP"
-
-    @property
-    def model_id(self):
-        return "HadGEM3-GC31-LL"
-
-    @property
-    def experiment_id(self):
-        return "piControl"
-
-    @property
-    def suite_id(self):
-        return "u-bg466"
-
-    @property
-    def mass_data_class(self):
-        return "crum"
-
-    @property
-    def mass_ensemble_member(self):
-        return None
+from cdds.common.request.request import read_request
 
 
 class TestFilters(unittest.TestCase):
@@ -62,62 +33,62 @@ class TestFilters(unittest.TestCase):
     def setUp(self):
         load_plugin()
         self.maxDiff = None
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        self.data_dir = os.path.join(current_dir, '..', 'test_common', 'test_request', 'data')
+        request_path = os.path.join(self.data_dir, 'test_request.cfg')
+        self.request = read_request(request_path)
 
     @patch("cdds.extract.filters.get_tape_limit")
     @patch("cdds.extract.filters.Filters._create_filterfile_nc")
     @patch("cdds.extract.filters.fetch_filelist_from_mass")
     def test_daterange_selection(self, mock_filters_subroutine, mock_f, mock_tape_limit):
-        root = "moose:/crum/u-an914/inm.nc.file/"
+        root = "moose:/crum/u-aw310/inm.nc.file/"
         tape = "TAPE1"
         expected_command = (
             "moo filter -i -d foo/extract/inm_defaults.dff "
-            "{root}cice_an914i_1m_19900101-19900201.nc "
-            "{root}cice_an914i_1m_19900201-19900301.nc "
-            "{root}cice_an914i_1m_19900301-19900401.nc "
-            "{root}cice_an914i_1m_19900401-19900501.nc "
-            "{root}cice_an914i_1m_19900501-19900601.nc "
-            "{root}cice_an914i_1m_19900601-19900701.nc "
-            "{root}cice_an914i_1m_19900701-19900801.nc "
-            "{root}cice_an914i_1m_19900801-19900901.nc "
-            "{root}cice_an914i_1m_19900901-19901001.nc "
-            "{root}cice_an914i_1m_19901001-19901101.nc "
-            "{root}cice_an914i_1m_19901101-19901201.nc "
-            "{root}cice_an914i_1m_19901201-19910101.nc "
+            "{root}cice_aw310i_1m_19900101-19900201.nc "
+            "{root}cice_aw310i_1m_19900201-19900301.nc "
+            "{root}cice_aw310i_1m_19900301-19900401.nc "
+            "{root}cice_aw310i_1m_19900401-19900501.nc "
+            "{root}cice_aw310i_1m_19900501-19900601.nc "
+            "{root}cice_aw310i_1m_19900601-19900701.nc "
+            "{root}cice_aw310i_1m_19900701-19900801.nc "
+            "{root}cice_aw310i_1m_19900801-19900901.nc "
+            "{root}cice_aw310i_1m_19900901-19901001.nc "
+            "{root}cice_aw310i_1m_19901001-19901101.nc "
+            "{root}cice_aw310i_1m_19901101-19901201.nc "
+            "{root}cice_aw310i_1m_19901201-19910101.nc "
             "foo"
         ).format(root=root)
 
         moo_ls_response = [
-            "cice_an914i_1m_19900101-19900201.nc",
-            "cice_an914i_1m_19900201-19900301.nc",
-            "cice_an914i_1m_19900301-19900401.nc",
-            "cice_an914i_1m_19900401-19900501.nc",
-            "cice_an914i_1m_19900501-19900601.nc",
-            "cice_an914i_1m_19900601-19900701.nc",
-            "cice_an914i_1m_19900701-19900801.nc",
-            "cice_an914i_1m_19900801-19900901.nc",
-            "cice_an914i_1m_19900901-19901001.nc",
-            "cice_an914i_1m_19901001-19901101.nc",
-            "cice_an914i_1m_19901101-19901201.nc",
-            "cice_an914i_1m_19901201-19910101.nc",
-            "cice_an914i_1m_19910101-19910201.nc",
-            "cice_an914i_1m_19910201-19910301.nc",
+            "cice_aw310i_1m_19900101-19900201.nc",
+            "cice_aw310i_1m_19900201-19900301.nc",
+            "cice_aw310i_1m_19900301-19900401.nc",
+            "cice_aw310i_1m_19900401-19900501.nc",
+            "cice_aw310i_1m_19900501-19900601.nc",
+            "cice_aw310i_1m_19900601-19900701.nc",
+            "cice_aw310i_1m_19900701-19900801.nc",
+            "cice_aw310i_1m_19900801-19900901.nc",
+            "cice_aw310i_1m_19900901-19901001.nc",
+            "cice_aw310i_1m_19901001-19901101.nc",
+            "cice_aw310i_1m_19901101-19901201.nc",
+            "cice_aw310i_1m_19901201-19910101.nc",
+            "cice_aw310i_1m_19910101-19910201.nc",
+            "cice_aw310i_1m_19910201-19910301.nc",
         ]
         mock_filters_subroutine.return_value = ([
             (tape, "{}{}".format(root, s)) for s in moo_ls_response
         ], None)
 
         mock_tape_limit.return_value = (50, None)
-        start = datetime.datetime(1990, 1, 1, 0, 0, 0)
-        end = datetime.datetime(1991, 1, 1, 0, 0, 0)
-        mass_location = "moose:/crum/u-an914/inm.nc.file/"
+        mass_location = "moose:/crum/u-aw310/inm.nc.file/"
 
-        stream = {
-            "stream": "inm",
-            "streamtype": "nc",
-            "start_date": start,
-            "end_date": end
-        }
+        stream = "inm"
         filters = Filters(procdir="foo")
+        filters.start_date = TimePointParser().parse('1990-01-01T00:00:00Z')
+        filters.end_date = TimePointParser().parse('1991-01-01T00:00:00Z')
+
         filters.filters = {"default": "foo"}
         status, mass_command, _, _ = filters.mass_command(
             stream, mass_location, "foo")
@@ -135,67 +106,62 @@ class TestFilters(unittest.TestCase):
     @patch("cdds.extract.filters.fetch_filelist_from_mass")
     @patch("cdds.extract.filters.MOOSE_MAX_NC_FILES", 5)
     def test_moo_filter_chunking_odd(self, mock_filters_subroutine, mock_f, mock_tape_limit):
-        root = "moose:/crum/u-an914/inm.nc.file/"
+        root = "moose:/crum/u-aw310/inm.nc.file/"
         tape = "TAPE1"
         expected_commands = [
             (
                 "moo filter -i -d foo/extract/inm_defaults.dff "
-                "{root}cice_an914i_1m_19900101-19900201.nc "
-                "{root}cice_an914i_1m_19900201-19900301.nc "
-                "{root}cice_an914i_1m_19900301-19900401.nc "
-                "{root}cice_an914i_1m_19900401-19900501.nc "
-                "{root}cice_an914i_1m_19900501-19900601.nc "
+                "{root}cice_aw310i_1m_19900101-19900201.nc "
+                "{root}cice_aw310i_1m_19900201-19900301.nc "
+                "{root}cice_aw310i_1m_19900301-19900401.nc "
+                "{root}cice_aw310i_1m_19900401-19900501.nc "
+                "{root}cice_aw310i_1m_19900501-19900601.nc "
                 "foo"
             ).format(root=root),
             (
                 "moo filter -i -d foo/extract/inm_defaults.dff "
-                "{root}cice_an914i_1m_19900601-19900701.nc "
-                "{root}cice_an914i_1m_19900701-19900801.nc "
-                "{root}cice_an914i_1m_19900801-19900901.nc "
-                "{root}cice_an914i_1m_19900901-19901001.nc "
-                "{root}cice_an914i_1m_19901001-19901101.nc "
+                "{root}cice_aw310i_1m_19900601-19900701.nc "
+                "{root}cice_aw310i_1m_19900701-19900801.nc "
+                "{root}cice_aw310i_1m_19900801-19900901.nc "
+                "{root}cice_aw310i_1m_19900901-19901001.nc "
+                "{root}cice_aw310i_1m_19901001-19901101.nc "
                 "foo"
             ).format(root=root),
             (
                 "moo filter -i -d foo/extract/inm_defaults.dff "
-                "{root}cice_an914i_1m_19901101-19901201.nc "
-                "{root}cice_an914i_1m_19901201-19910101.nc "
+                "{root}cice_aw310i_1m_19901101-19901201.nc "
+                "{root}cice_aw310i_1m_19901201-19910101.nc "
                 "foo"
             ).format(root=root)
         ]
 
         moo_ls_response = [
-            "cice_an914i_1m_19900101-19900201.nc",
-            "cice_an914i_1m_19900201-19900301.nc",
-            "cice_an914i_1m_19900301-19900401.nc",
-            "cice_an914i_1m_19900401-19900501.nc",
-            "cice_an914i_1m_19900501-19900601.nc",
-            "cice_an914i_1m_19900601-19900701.nc",
-            "cice_an914i_1m_19900701-19900801.nc",
-            "cice_an914i_1m_19900801-19900901.nc",
-            "cice_an914i_1m_19900901-19901001.nc",
-            "cice_an914i_1m_19901001-19901101.nc",
-            "cice_an914i_1m_19901101-19901201.nc",
-            "cice_an914i_1m_19901201-19910101.nc",
-            "cice_an914i_1m_19910101-19910201.nc",
-            "cice_an914i_1m_19910201-19910301.nc",
+            "cice_aw310i_1m_19900101-19900201.nc",
+            "cice_aw310i_1m_19900201-19900301.nc",
+            "cice_aw310i_1m_19900301-19900401.nc",
+            "cice_aw310i_1m_19900401-19900501.nc",
+            "cice_aw310i_1m_19900501-19900601.nc",
+            "cice_aw310i_1m_19900601-19900701.nc",
+            "cice_aw310i_1m_19900701-19900801.nc",
+            "cice_aw310i_1m_19900801-19900901.nc",
+            "cice_aw310i_1m_19900901-19901001.nc",
+            "cice_aw310i_1m_19901001-19901101.nc",
+            "cice_aw310i_1m_19901101-19901201.nc",
+            "cice_aw310i_1m_19901201-19910101.nc",
+            "cice_aw310i_1m_19910101-19910201.nc",
+            "cice_aw310i_1m_19910201-19910301.nc",
         ]
         mock_filters_subroutine.return_value = ([
             (tape, "{}{}".format(root, s)) for s in moo_ls_response
         ], None)
         mock_tape_limit.return_value = (50, None)
-        start = datetime.datetime(1990, 1, 1, 0, 0, 0)
-        end = datetime.datetime(1991, 1, 1, 0, 0, 0)
-        mass_location = "moose:/crum/u-an914/inm.nc.file/"
+        mass_location = "moose:/crum/u-aw310/inm.nc.file/"
 
-        stream = {
-            "stream": "inm",
-            "streamtype": "nc",
-            "start_date": start,
-            "end_date": end
-        }
+        stream = "inm"
         filters = Filters(procdir="foo")
         filters.filters = {"default": "foo"}
+        filters.start_date = TimePointParser().parse('1990-01-01T00:00:00Z')
+        filters.end_date = TimePointParser().parse('1991-01-01T00:00:00Z')
         status, mass_commands, _, _ = filters.mass_command(
             stream, mass_location, "foo")
         self.assertEqual(status, "ok")
@@ -213,61 +179,56 @@ class TestFilters(unittest.TestCase):
     @patch("cdds.extract.filters.fetch_filelist_from_mass")
     @patch("cdds.extract.filters.MOOSE_MAX_NC_FILES", 5)
     def test_moo_filter_chunking_even(self, mock_filters_subroutine, mock_f, mock_tape_limit):
-        root = "moose:/crum/u-an914/inm.nc.file/"
+        root = "moose:/crum/u-aw310/inm.nc.file/"
         tape = "TAPE1"
         expected_commands = [
             (
                 "moo filter -i -d foo/extract/inm_defaults.dff "
-                "{root}cice_an914i_1m_19900101-19900201.nc "
-                "{root}cice_an914i_1m_19900201-19900301.nc "
-                "{root}cice_an914i_1m_19900301-19900401.nc "
-                "{root}cice_an914i_1m_19900401-19900501.nc "
-                "{root}cice_an914i_1m_19900501-19900601.nc "
+                "{root}cice_aw310i_1m_19900101-19900201.nc "
+                "{root}cice_aw310i_1m_19900201-19900301.nc "
+                "{root}cice_aw310i_1m_19900301-19900401.nc "
+                "{root}cice_aw310i_1m_19900401-19900501.nc "
+                "{root}cice_aw310i_1m_19900501-19900601.nc "
                 "foo"
             ).format(root=root),
             (
                 "moo filter -i -d foo/extract/inm_defaults.dff "
-                "{root}cice_an914i_1m_19900601-19900701.nc "
-                "{root}cice_an914i_1m_19900701-19900801.nc "
-                "{root}cice_an914i_1m_19900801-19900901.nc "
-                "{root}cice_an914i_1m_19900901-19901001.nc "
-                "{root}cice_an914i_1m_19901001-19901101.nc "
+                "{root}cice_aw310i_1m_19900601-19900701.nc "
+                "{root}cice_aw310i_1m_19900701-19900801.nc "
+                "{root}cice_aw310i_1m_19900801-19900901.nc "
+                "{root}cice_aw310i_1m_19900901-19901001.nc "
+                "{root}cice_aw310i_1m_19901001-19901101.nc "
                 "foo"
             ).format(root=root),
         ]
 
         moo_ls_response = [
-            "cice_an914i_1m_19900101-19900201.nc",
-            "cice_an914i_1m_19900201-19900301.nc",
-            "cice_an914i_1m_19900301-19900401.nc",
-            "cice_an914i_1m_19900401-19900501.nc",
-            "cice_an914i_1m_19900501-19900601.nc",
-            "cice_an914i_1m_19900601-19900701.nc",
-            "cice_an914i_1m_19900701-19900801.nc",
-            "cice_an914i_1m_19900801-19900901.nc",
-            "cice_an914i_1m_19900901-19901001.nc",
-            "cice_an914i_1m_19901001-19901101.nc",
-            "cice_an914i_1m_19901101-19901201.nc",
-            "cice_an914i_1m_19901201-19910101.nc",
-            "cice_an914i_1m_19910101-19910201.nc",
-            "cice_an914i_1m_19910201-19910301.nc",
+            "cice_aw310i_1m_19900101-19900201.nc",
+            "cice_aw310i_1m_19900201-19900301.nc",
+            "cice_aw310i_1m_19900301-19900401.nc",
+            "cice_aw310i_1m_19900401-19900501.nc",
+            "cice_aw310i_1m_19900501-19900601.nc",
+            "cice_aw310i_1m_19900601-19900701.nc",
+            "cice_aw310i_1m_19900701-19900801.nc",
+            "cice_aw310i_1m_19900801-19900901.nc",
+            "cice_aw310i_1m_19900901-19901001.nc",
+            "cice_aw310i_1m_19901001-19901101.nc",
+            "cice_aw310i_1m_19901101-19901201.nc",
+            "cice_aw310i_1m_19901201-19910101.nc",
+            "cice_aw310i_1m_19910101-19910201.nc",
+            "cice_aw310i_1m_19910201-19910301.nc",
         ]
         mock_filters_subroutine.return_value = ([
             (tape, "{}{}".format(root, s)) for s in moo_ls_response
         ], None)
         mock_tape_limit.return_value = (50, None)
-        start = datetime.datetime(1990, 1, 1, 0, 0, 0)
-        end = datetime.datetime(1990, 11, 1, 0, 0, 0)
-        mass_location = "moose:/crum/u-an914/inm.nc.file/"
+        mass_location = "moose:/crum/u-aw310/inm.nc.file/"
 
-        stream = {
-            "stream": "inm",
-            "streamtype": "nc",
-            "start_date": start,
-            "end_date": end
-        }
+        stream = "inm"
         filters = Filters(procdir="foo")
         filters.filters = {"default": "foo"}
+        filters.start_date = TimePointParser().parse('1990-01-01T00:00:00Z')
+        filters.end_date = TimePointParser().parse('1990-11-01T00:00:00Z')
         status, mass_commands, _, _ = filters.mass_command(
             stream, mass_location, "foo")
         self.assertEqual(status, "ok")
@@ -299,7 +260,7 @@ class TestFilters(unittest.TestCase):
                  "name": "pr", "status": "embargoed", "table": "Amon"},
                 {"name": "uo", "status": "unknown", "table": "Amon"}]}
         mock_mass_filters.return_value = model_to_mip_response
-        filters.set_mappings("", MockRequest())
+        filters.set_mappings(self.request)
 
         self.assertDictEqual({"ap5": [{"var": "pr", "table": "Amon"}]},
                              filters.get_embargoed_mappings())
@@ -381,7 +342,7 @@ class TestFilters(unittest.TestCase):
             ]
         }
         mock_mass_filters.return_value = model_to_mip_response
-        filters.set_mappings("", MockRequest())
+        filters.set_mappings(self.request)
         _, filter_msg, filter_msg_exec, _ = filters.format_filter(
             "pp", "ap5")
         self.assertEqual(1, len(filter_msg))
@@ -624,6 +585,10 @@ class TestSubdailyFilters(unittest.TestCase):
     def setUp(self):
         load_plugin()
         self.maxDiff = None
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        self.data_dir = os.path.join(current_dir, '..', 'test_common', 'test_request', 'data')
+        request_path = os.path.join(self.data_dir, 'test_request.cfg')
+        self.request = read_request(request_path)
         configure_logger(None, logging.CRITICAL, False)
 
     @patch("cdds.extract.filters.ModelToMip.mass_filters")
@@ -645,7 +610,7 @@ class TestSubdailyFilters(unittest.TestCase):
             ]
         }
         mock_mass_filters.return_value = model_to_mip_response
-        filters.set_mappings("", MockRequest())
+        filters.set_mappings(self.request)
         _, filter_msg, filter_msg_exec, _ = filters.format_filter(
             "pp", "ap7")
         self.assertEqual(1, len(filter_msg))

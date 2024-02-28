@@ -32,16 +32,17 @@ class TestStoreAppendOrRecover(StoreTestCase):
 
     @mock.patch('cdds.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
     def test_transfer_functional_usecase2_append_or_recover(self, mock_log_datestamp):
-        self.test_dir = setup_basic_test_data('piControl_10096_proc', 'piControl_10096_data')
+        self.test_dir, variables_file = setup_basic_test_data('piControl_10096_proc', 'piControl_10096_data')
         test_data = TestData(
             number_variables=1,
             proc_dir_name='piControl_10096_proc',
             test_dir_root=self.test_dir,
             data_dir_name='piControl_10096_data',
-            request_filename='cdds_request_piControl_10096.json',
+            request_filename='cdds_request_piControl_10096.cfg',
             mass_root='moose:/adhoc/projects/cdds/testdata/transfer_functional',
             mass_suffix='use_case_continuing',
-            log_name='test_transfer_functional_usecase2_append_or_recover'
+            log_name='test_transfer_functional_usecase2_append_or_recover',
+            variables_file=variables_file
         )
         test_args = test_data.get_arguments()
 

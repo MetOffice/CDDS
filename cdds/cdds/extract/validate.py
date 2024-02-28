@@ -5,69 +5,64 @@ import logging
 import os
 
 from cdds.common import generate_datestamps_pp, generate_datestamps_nc
-from cdds.common.constants import REQUIRED_KEYS_FOR_PROC_DIRECTORY
 from cdds.common.plugins.plugins import PluginStore
-from cdds.common.request import read_request
+from cdds.common.cdds_files.cdds_directories import component_directory, log_directory
+from cdds.common.request.request import read_request
 from cdds.extract.common import (
     configure_mappings, configure_variables,
-    get_data_target, get_streams,
+    get_data_target, get_streamtype,
     validate_stash_fields, validate_netcdf,
     StreamValidationResult, build_mass_location,
 )
+from cdds.extract.constants import STREAMTYPE_PP, STREAMTYPE_NC
 from cdds.extract.filters import Filters
-from cdds.deprecated.config import FullPaths
 
 
 def validate_streams(streams, args):
     logger = logging.getLogger(__name__)
 
-    request = read_request(args.request, REQUIRED_KEYS_FOR_PROC_DIRECTORY)
-    full_paths = FullPaths(args, request)
-    model_params = PluginStore.instance().get_plugin().models_parameters(request.model_id)
+    request = read_request(args.request)
+    plugin = PluginStore.instance().get_plugin()
+    model_params = plugin.models_parameters(request.metadata.model_id)
     stream_file_info = model_params.stream_file_info()
-    stream_details = get_streams(request.streaminfo, request.suite_id, streams)
-    stream = stream_details[0]
+    stream = streams[0]
 
-    var_list = configure_variables(os.path.join(full_paths.component_directory("prepare"),
-                                                full_paths.requested_variables_list_filename))
+    var_list = configure_variables(os.path.join(component_directory(request, "prepare"),
+                                                plugin.requested_variables_list_filename(request)))
 
     # configure mappings for each variables
-    mappings = Filters(full_paths.proc_directory, var_list)
-    mappings.set_mappings(args.mip_table_dir, request)
+    mappings = Filters(plugin.proc_directory(request), var_list)
+    mappings.set_mappings(request)
     mapping_status = configure_mappings(mappings)
 
-    if request.mass_ensemble_member:
-        mappings.ensemble_member_id = request.mass_ensemble_member
-        file_type = stream["streamtype"]
-        mappings.source = build_mass_location(request.mass_data_class,
-                                              request.suite_id,
-                                              streams[0],
+    if request.data.mass_ensemble_member:
+        mappings.ensemble_member_id = request.data.mass_ensemble_member
+        file_type = get_streamtype(stream)
+        mappings.source = build_mass_location(request.data.mass_data_class,
+                                              request.data.model_workflow_id,
+                                              stream,
                                               file_type,
-                                              request.mass_ensemble_member)
+                                              request.data.mass_ensemble_member)
     else:
         mappings.ensemble_member_id = None
-    mappings.stream = streams[0]
+    mappings.stream = stream
 
     # generate expected filenames
-    start, end = request.run_bounds.split()
-    file_frequency = stream_file_info.file_frequencies[streams[0]].frequency
+    file_frequency = stream_file_info.file_frequencies[stream].frequency
 
-    if not stream_details:
-        logger.info('Command line stream selection {[]} not found in the request file'.format(', '.join(streams)))
-    # we're no longer looping through multiple streams
+    stream_validation = StreamValidationResult(stream)
 
-    stream_validation = StreamValidationResult(stream['stream'])
-
-    if stream['stream'] in mapping_status:
-        data_target = get_data_target(full_paths.input_data_directory, stream)
-        _, _, _, stash_codes = (mappings.format_filter(stream['streamtype'], stream['stream']))
-
-        if stream["streamtype"] == "pp":
-            datestamps, _ = generate_datestamps_pp(start, end, file_frequency)
+    if stream in mapping_status:
+        data_target = get_data_target(os.path.join(plugin.data_directory(request), 'input'),
+                                      request.data.model_workflow_id, stream)
+        streamtype = get_streamtype(stream)
+        _, _, _, stash_codes = (mappings.format_filter(streamtype, stream))
+        if streamtype == STREAMTYPE_PP:
+            datestamps, _ = generate_datestamps_pp(request.data.start_date, request.data.end_date, file_frequency)
             filenames = mappings.generate_filenames_pp(datestamps)
 
-        elif stream["streamtype"] == "nc":
-            datestamps, _ = generate_datestamps_nc(start, end, file_frequency)
+        elif streamtype == STREAMTYPE_NC:
+            datestamps, _ = generate_datestamps_nc(request.data.start_date, request.data.end_date, file_frequency)
             filenames = []
             substreams = list(mappings.filters.keys())
             for sub_stream in substreams:
@@ -75,8 +70,8 @@ def validate_streams(streams, args):
 
         validate(data_target, stream, stash_codes, stream_validation, filenames)
     else:
-        logger.info('skipped [{}]: there are no variables requiring this stream'.format(stream['stream']))
-    stream_validation.log_results(full_paths.log_directory("extract"))
+        logger.info('skipped [{}]: there are no variables requiring this stream'.format(stream))
+    stream_validation.log_results(log_directory(request, "extract"))
 
     return stream_validation
 
@@ -98,10 +93,11 @@ def validate(path, stream, stash_codes, validation_result, filenames):
     validation_result: cdds.common.StreamValidationResult
         An object to hold results from the stream validation
     """
-    validate_file_names(path, validation_result, filenames, stream["streamtype"])
-    if stream["streamtype"] == "pp":
+    streamtype = get_streamtype(stream)
+    validate_file_names(path, validation_result, filenames, streamtype)
+    if streamtype == STREAMTYPE_PP:
         validate_directory_pp(path, stash_codes, validation_result)
-    elif stream["streamtype"] == "nc":
+    elif streamtype == STREAMTYPE_NC:
         validate_directory_netcdf(path, validation_result)
 
 

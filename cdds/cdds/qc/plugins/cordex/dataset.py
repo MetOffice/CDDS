@@ -112,7 +112,7 @@ class CordexDataset(StructuredDataset):
             try:
                 _, _ = parse_date_range(filename_parts[8],
                                         ds.getncattr("frequency"),
-                                        self._request.calendar)
+                                        self._request.metadata.calendar)
             except AttributeError:
                 messages.append(
                     "Unable to validate filename (frequency not "

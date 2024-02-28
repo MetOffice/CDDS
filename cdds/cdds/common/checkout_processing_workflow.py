@@ -119,7 +119,7 @@ def update_rose_conf(args, workflow_dst: Path):
     variables_path = str(Path(args.variables_file).expanduser().absolute())
 
     conf_override_fields = [
-        ("REQUEST_JSON_PATH", request_path, "env", True),
+        ("REQUEST_CONFIG_PATH", request_path, "env", True),
         ("USER_VARIABLES_LIST", variables_path, "env", True),
         ("CDDS_VERSION", _NUMERICAL_VERSION, "env", True),
     ]

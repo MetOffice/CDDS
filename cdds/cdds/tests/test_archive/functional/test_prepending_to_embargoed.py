@@ -32,17 +32,20 @@ class TestStorePrependingToEmbargoed(StoreTestCase):
 
     @mock.patch('cdds.common.get_log_datestamp', return_value=DEFAULT_LOG_DATESTAMP)
     def test_transfer_functional_usecase10_prepending_to_embargoed(self, mock_log_datestamp):
-        self.test_dir = setup_prepending_to_embargoed_test_data('piControl_10096_proc', 'piControl_10096_data')
+        self.test_dir, variable_file = setup_prepending_to_embargoed_test_data(
+            'piControl_10096_proc', 'piControl_10096_data'
+        )
         test_data = TestData(
             number_variables=1,
             data_version='v20191120',
             proc_dir_name='piControl_10096_proc',
             test_dir_root=self.test_dir,
             data_dir_name='piControl_10096_data',
-            request_filename='cdds_request_piControl_10096.json',
+            request_filename='cdds_request_piControl_10096.cfg',
             mass_root='moose:/adhoc/projects/cdds/testdata/transfer_functional',
             mass_suffix='use_case_10',
-            log_name='test_transfer_functional_usecase10_prepending'
+            log_name='test_transfer_functional_usecase10_prepending',
+            variables_file=variable_file
         )
         test_args = test_data.get_arguments()
 

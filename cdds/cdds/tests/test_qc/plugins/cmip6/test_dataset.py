@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 
 import unittest
-from cdds.common.request import Request
+from cdds.common.request.request import Request
 from cdds.common.mip_tables import MipTables
 from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
 from cdds.tests.test_qc.plugins.constants import MIP_TABLES_DIR
@@ -25,9 +25,8 @@ class Cmip6DatasetTestCase(unittest.TestCase):
     @patch('logging.Logger')
     @patch('netCDF4.Dataset')
     def test_filename_checker_mocked(self, ds, logger):
-        request = Request({
-            'calendar': '360_day'
-        })
+        request = Request()
+        request.metadata.calendar = '360_day'
 
         def ncattrs(name):
             return {
@@ -72,10 +71,11 @@ class Cmip6DatasetTestCase(unittest.TestCase):
         self.assertIn(("Variant label r2i1p1f1 is not consistent with "
                        "file contents (r1i1p1f1)"), messages)
 
-    @patch('cdds.common.request.Request')
     @patch('logging.Logger')
     @patch('netCDF4.Dataset')
-    def test_filename_checker_inconsistent_attributes(self, ds, logger, request):
+    def test_filename_checker_inconsistent_attributes(self, ds, logger):
+        request = Request()
+
         def ncattrs(name):
             return {
                 "table_id": "Amon",
@@ -120,9 +120,9 @@ class Cmip6DatasetTestCase(unittest.TestCase):
         self.assertFalse(passed)
         self.assertCountEqual(expected_errors, messages)
 
-    @patch('cdds.common.request.Request')
     @patch('logging.Logger')
-    def test_walking_directories(self, logger, request):
+    def test_walking_directories(self, logger):
+        request = Request()
         dirlist = ['onm_mip_convert', 'onm_concat', 'onm']
         for directory in dirlist:
             dirpath = os.path.join(
@@ -137,9 +137,9 @@ class Cmip6DatasetTestCase(unittest.TestCase):
         filelist = structured_dataset.walk_directory()
         self.assertEqual(len(filelist), 1)
 
-    @patch('cdds.common.request.Request')
     @patch('logging.Logger')
-    def test_walking_directories_with_stream_selection(self, logger, request):
+    def test_walking_directories_with_stream_selection(self, logger):
+        request = Request()
         dirlist = ['ap4', 'ap5', 'onm']
         for directory in dirlist:
             dirpath = os.path.join(
@@ -152,11 +152,11 @@ class Cmip6DatasetTestCase(unittest.TestCase):
         filelist = structured_dataset.walk_directory()
         self.assertEqual(len(filelist), 1)
 
-    @patch('cdds.common.request.Request')
     @patch('logging.Logger')
     @patch('os.walk')
     def test_mip_requested_variable_name_is_present_in_dataset(
-            self, os_walk, logger, request):
+            self, os_walk, logger):
+        request = Request()
 
         class MockedDataset(object):
 

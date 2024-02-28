@@ -3,10 +3,13 @@
 """
 The main gateway module for the cdds_convert application.
 """
+from argparse import Namespace
 
 import cdds.convert.process
 
-from cdds.configure.user_config import read_and_validate_request, create_user_config_files
+from cdds.configure.user_config import create_user_config_files
+from cdds.common.request.request import read_request, Request
+from cdds.convert.arguments import ConvertArguments
 
 
 def get_cylc_args_list(cylc_args, stream_ids, request_id):
@@ -46,23 +49,19 @@ def get_cylc_args_list(cylc_args, stream_ids, request_id):
     return cylc_args_list
 
 
-def run_cdds_convert(arguments, cylc_args):
+def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
     """
     Start a workflow to process data for each stream of processing.
 
-    Parameters
-    ----------
-    arguments: :class:`cdds.arguments.Arguments` object
-        The arguments specific to the `cdds_convert` script.
-    cylc_args: list
-        List of string objects that will be passed as arguments to the
-        cylc vip command.
-
+    :param arguments: The arguments specific to the 'cdds_convert' script.
+    :type arguments: ConvertArguments
+    :param request: The request information of 'cdds_convert'
+    :type request: Request
     """
-    if not arguments.skip_configure:
-        run_generate_user_config_files(arguments)
+    if not request.conversion.skip_configure:
+        _generate_user_config_files(arguments, request)
 
-    process = cdds.convert.process.ConvertProcess(arguments)
+    process = cdds.convert.process.ConvertProcess(arguments, request)
 
     process.validate_streams()
     process.checkout_convert_workflow()
@@ -72,26 +71,14 @@ def run_cdds_convert(arguments, cylc_args):
     # e.g. cylc vip --opt-conf-key=ap4
     streams_info = process.stream_components
     streams = list(streams_info.keys())
-    stream_args_list = get_cylc_args_list(cylc_args, streams,
-                                          process.request_id)
+    stream_args_list = get_cylc_args_list(request.conversion.cylc_args, streams, process.request_id)
     for cylc_args_stream in stream_args_list:
         process.submit_workflow(
-            simulation=arguments.simulation,
+            simulation=request.common.simulation,
             cylc_args=cylc_args_stream,
         )
 
 
-def run_generate_user_config_files(arguments):
-    """
-    Generates the |user configuration files| respectively to data in the given arguments.
-
-    Parameters
-    ----------
-    arguments: :class:`cdds.arguments.Arguments` object
-        The arguments specific to the `cdds_convert` script.
-    """
+def _generate_user_config_files(arguments: ConvertArguments, request: Request) -> None:
     requested_variables_file = arguments.requested_variables_list_file
-    template_name = arguments.user_config_template_name
-
-    request = read_and_validate_request(arguments.request, arguments.args)
-    create_user_config_files(request, requested_variables_file, template_name, arguments.output_cfg_dir)
+    create_user_config_files(request, requested_variables_file, arguments.output_cfg_dir)

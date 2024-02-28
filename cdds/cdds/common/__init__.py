@@ -25,7 +25,6 @@ from metomi.isodatetime.data import Calendar, TimePoint
 from metomi.isodatetime.parsers import DurationParser, TimePointParser, TimeRecurrenceParser
 
 
-from cdds.common.request import read_request
 from cdds.convert.exceptions import IncompatibleCalendarMode
 from cdds.common.constants import (
     CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX, ROSE_URLS,
@@ -303,9 +302,12 @@ def run_command(command, msg=None, exception=None, environment=None):
     return stdoutdata
 
 
+# TODO: moved method to cdds.common.paths.file_system.py to avoid package dependencies cycles
 def construct_string_from_facet_string(facet_string, facet_values,
                                        string_type='path'):
     """
+    DEPRECATED: method is moved to cdds.common.paths.file_system.py
+
     Return the constructed string as described by the ``facet_string``
     and the ``facet_values``.
 
@@ -369,141 +371,6 @@ def construct_string_from_facet_string(facet_string, facet_values,
     else:
         constructed_string = '_'.join(facets)
     return constructed_string
-
-
-def update_permissions(path, group, permissions=None):
-    """
-    Set the group and permissions for the file or directory at location path.
-
-    Parameters
-    ----------
-    path: str
-        The full path to the directory to be created.
-    group: str
-        The name of the group to use when creating the directory.
-    permissions: int
-        The permissions to set for this directory, in octal format (e.g. 0775).
-        If none, the default is CDDS_DEFAULT_DIRECTORY_PERMISSIONS.
-
-    Returns
-    -------
-    None
-    """
-    logger = logging.getLogger(__name__)
-    try:
-        gid = grp.getgrnam(group).gr_gid
-    except (TypeError, KeyError):
-        gid = None
-    if gid is None:
-        # if no gid found, return without changing permissions or ownership
-        return
-
-    # set ownership
-    try:
-        os.chown(path, -1, gid)  # Leave uid unchanged.
-        logger.debug(
-            'Group of "{}" changed to "{}"'.format(path, group))
-    except OSError:
-        logger.debug(
-            'Unable to change group of "{}"'.format(path))
-    # set permissions
-    if permissions is None:
-        permissions = CDDS_DEFAULT_DIRECTORY_PERMISSIONS
-    try:
-        os.chmod(path, permissions)
-        logger.debug(
-            'Mode of "{}" changed to "{}"'.format(path, oct(permissions)))
-    except OSError:
-        logger.info(
-            'Unable to change mode of "{}"'.format(path))
-
-
-def create_directory(path, group=None, permissions=None, root_dir=None):
-    """
-    Create the directory ``path`` owned by ``group``, if specified.
-
-    If the directory already exists and ``group`` is specified, the
-    ``group`` of the directory will be updated.
-
-    If the ``group`` is updated, the permissions of the directory will
-    also be updated so that the directory is read, write and executable
-    by the ``group``.
-
-    Parameters
-    ----------
-    path: str
-        The full path to the directory to be created.
-    group: str
-        The name of the group to use when creating the directory.
-    permissions: int
-        The permissions to set for this directory, in octal format (e.g. 0775).
-        If none, the default is CDDS_DEFAULT_DIRECTORY_PERMISSIONS.
-    root_dir: str
-        The path to the root of the CDDS directory. No directories higher
-        up the directory structure will have permissions or ownership changed.
-    """
-    # Retrieve the logger.
-    logger = logging.getLogger(__name__)
-
-    if os.path.isdir(path):
-        logger.warning('Directory "{}" already exists'.format(path))
-    else:
-        os.makedirs(path)
-        logger.debug('Created directory "{}"'.format(path))
-
-    dirs_to_change = get_directories(path, root_dir)
-    for dirpath in dirs_to_change:
-        update_permissions(dirpath, group, permissions)
-
-
-def get_directories(path, root_dir=None):
-    """
-    Return the directories that make up the path provided to the ``path``
-    parameter.
-
-    Parameters
-    ----------
-    path: str
-        The path to get the directories from.
-    root_dir: str
-        The path to the root of the CDDS directory. No directories higher
-        up the directory structure be returned in the directory list.
-
-
-    Returns
-    -------
-    : str
-        The directories.
-
-    Examples
-    --------
-    >>> get_directories('my/test/path')
-    ['my', 'my/test', 'my/test/path']
-
-    >>> get_directories('/starts/with/sep')
-    ['/starts', '/starts/with', '/starts/with/sep']
-    """
-    directories = []
-    dir_list = [i1 for i1 in path.split(os.sep) if i1]
-    dirpath = ''
-    if root_dir:
-        root_dir_list = [i1 for i1 in root_dir.split(os.sep) if i1]
-        # check that the directory is a child of root_dir
-        if root_dir_list == dir_list[:len(root_dir_list)]:
-
-            dir_list = dir_list[len(root_dir_list):]
-            dirpath = root_dir
-        else:
-            if path.startswith(os.sep):
-                dirpath = os.sep
-    else:
-        if path.startswith(os.sep):
-            dirpath = os.sep
-
-    for directory in dir_list:
-        dirpath = os.path.join(dirpath, directory)
-        directories.append(dirpath)
-    return directories
 
 
 def check_directory(directory):
@@ -933,10 +800,10 @@ def _checksum(obj):
     return 'md5: {}'.format(checksum_hex)
 
 
-DT_ELEMENTS = ['year', 'month', 'day', 'hour', 'minute', 'second']
+DATE_ELEMENTS = ['year', 'month', 'day', 'hour', 'minute', 'second']
 
 
-def get_most_recent_file(dir_to_search, key_str, pattern_str):
+def get_most_recent_file(dir_to_search: str, key: str, pattern: str) -> str:
     """
     Look for the most recent file in a given directory that matches a
     pattern like "<prefix>_YYYY-MM-DDTHHMMDD.<ext>.
@@ -945,9 +812,9 @@ def get_most_recent_file(dir_to_search, key_str, pattern_str):
     ----------
     dir_to_search: str
         The directory to look in.
-    key_str: str
+    key: str
         The string that all filenames of interest contain.
-    pattern_str: str
+    pattern: str
         A regular expression string that matches all filenames of interest.
         The regular expression must include groups for each of the six
         datetime components: year, month, day, hour, minute and second, so that
@@ -959,22 +826,21 @@ def get_most_recent_file(dir_to_search, key_str, pattern_str):
         The full path to the most recent matching file in the directory.
 
     """
-    file_list = [filename for filename in os.listdir(dir_to_search) if
-                 key_str in filename]
-    regex_pattern = re.compile(pattern_str)
-    dt_list = []
+    file_list = [filename for filename in os.listdir(dir_to_search) if key in filename]
+    regex_pattern = re.compile(pattern)
+    date_list = []
     file_dict = {}
     path_most_recent = None
+
     for candidate in file_list:
         match = regex_pattern.match(candidate)
         if match:
-            file_dt = datetime(
-                *[int(match.group(el)) for el in DT_ELEMENTS])
-            dt_list += [file_dt]
-            file_dict[file_dt] = candidate
-    if len(dt_list) > 0:
-        path_most_recent = os.path.join(dir_to_search,
-                                        file_dict[sorted(dt_list)[-1]])
+            file_datetime = datetime(*[int(match.group(element)) for element in DATE_ELEMENTS])
+            date_list += [file_datetime]
+            file_dict[file_datetime] = candidate
+
+    if len(date_list) > 0:
+        path_most_recent = os.path.join(dir_to_search, file_dict[sorted(date_list)[-1]])
     return path_most_recent
 
 
@@ -1014,7 +880,7 @@ def get_most_recent_file_by_stream(dir_to_search, key_str, pattern_str):
         if match:
             stream = match.group('stream')
             file_dt = datetime(
-                *[int(match.group(el)) for el in DT_ELEMENTS])
+                *[int(match.group(el)) for el in DATE_ELEMENTS])
             dt_list_by_stream[stream].append(file_dt)
             file_dict[stream][file_dt] = candidate
     path_most_recent_by_stream = {}
@@ -1084,23 +950,21 @@ def retry(func: Optional[Callable] = None, exception: Type[Exception] = Exceptio
     return wrapper
 
 
-def set_calendar(request_file: str):
+def set_calendar(request):
     """ Set the metomi.isodatetime calendar based on a request.json file.
 
     :param request_file: Path to a request.json file.
     :type request_file: str
     :raises IncompatibleCalendarMode:
     """
-    request = read_request(request_file)
-
-    if request.calendar in SUPPORTED_CALENDARS:
-        Calendar.default().set_mode(request.calendar)
+    if request.metadata.calendar in SUPPORTED_CALENDARS:
+        Calendar.default().set_mode(request.metadata.calendar)
     else:
         raise IncompatibleCalendarMode
 
 
-def generate_datestamps_pp(start_date: str,
-                           end_date: str,
+def generate_datestamps_pp(start_date: TimePoint,
+                           end_date: TimePoint,
                            file_frequency: str) -> Tuple[List[str], List[TimePoint]]:
     """ Generate common datestamp strings used by .pp files.
 
@@ -1145,8 +1009,8 @@ def generate_datestamps_pp(start_date: str,
     return datestamps, timepoints
 
 
-def generate_datestamps_nc(start_date: str,
-                           end_date: str,
+def generate_datestamps_nc(start_date: TimePoint,
+                           end_date: TimePoint,
                            file_frequency: str) -> Tuple[List[str], List[TimePoint]]:
     """Generate common datestamp stings used for .nc files.
 
@@ -1180,25 +1044,21 @@ def generate_datestamps_nc(start_date: str,
     return datestamps, timepoints
 
 
-def generate_time_points(start_date: Union[str, TimePoint],
-                         end_date: Union[str, TimePoint],
+def generate_time_points(start_date: TimePoint,
+                         end_date: TimePoint,
                          duration: str) -> List[TimePoint]:
     """A convenience function for generating a list of TimePoint objects.
 
-    :param start_date: ISO style string or TimePoint (Inclusive)
-    :type start_date: Union[str, TimePoint]
-    :param end_date: ISO style string or TimePoint (Exclusive)
-    :type end_date: Union[str, TimePoint]
+    :param start_date: TimePoint
+    :type start_date: TimePoint
+    :param end_date: TimePoint
+    :type end_date: TimePoint
     :param duration: ISO formatted duration string
     :type duration: str
     :return: List of TimePoint objects
     :rtype: List[TimePoint]
     """
-    if isinstance(start_date, TimePoint):
-        start_date = str(start_date)
-
-    if isinstance(end_date, str):
-        end_date = TimePointParser().parse(end_date)
+    start_date = str(start_date)
 
     recurrence_string = f"R/{start_date}/{duration}"
     time_recurrence = TimeRecurrenceParser().parse(recurrence_string)

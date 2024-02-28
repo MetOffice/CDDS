@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
+# (C) British Crown Copyright 2018-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Routines involved multiple tools within CDDS Transfer
@@ -6,7 +6,10 @@ Routines involved multiple tools within CDDS Transfer
 import logging
 import os
 
+from cdds.common.cdds_files.cdds_directories import log_directory
+from cdds.common.request.request import Request
 from cdds.deprecated.transfer import config, drs, state
+from cdds.deprecated.config import CDDSConfigGeneral
 
 SYSTEMS_ALLOWED_TO_SEND_MESSAGES = ['els055', 'els056']
 
@@ -55,28 +58,18 @@ def load_rabbit_mq_credentials(cfg):
     return success
 
 
-def cfg_from_cdds_general_config(general_config, request, mass_location):
+def cfg_from_cdds_general_config(general_config: CDDSConfigGeneral, request: Request) -> config.Config:
     """
-    Return a configuration object constructed from the supplied
-    CDDSGeneralConfig plus information from the request. This is a
-    nasty hack, as the actual replacement of the
-    config objects within cdds.deprecated.transfer will take too much work.
+    Return a configuration object constructed from the supplied CDDSGeneralConfig plus information from the request.
+    This is a nasty hack, as the actual replacement of the config objects within cdds.deprecated.transfer will take
+    too much work.
 
-    Parameters
-    ----------
-    general_config : :class:`cdds.deprecate.config.CDDSGeneralConfig`
-        config object
-    request : :class:`cdds.common.request.Request`
-        Request object
-    mass_location : str
-        Sub directory within MASS to use for archiving. Must be either
-        `PRODUCTION_MASS_DIR` or `DEVELOPMENT_MASS_DIR` from
-        :mod:`cdds.deprecated.transfer.archive`.
-
-    Returns
-    -------
-    : :class:`cdds.deprecated.transfer.config.Config`
-        CDDS Transfer config object
+    :param general_config: config object
+    :type general_config: CDDSConfigGeneral
+    :param request: Request object
+    :type request: Request
+    :return: CDDS Transfer config object
+    :rtype: config.Config
     """
     logger = logging.getLogger(__name__)
     # Initialise config
@@ -89,49 +82,34 @@ def cfg_from_cdds_general_config(general_config, request, mass_location):
         cfg._cp.set(mip_era, field, value)
     # Add information from transfer_mass and transfer_local section
     cfg._cp.add_section('mass')
-    mass_dir = os.path.join(general_config.transfer_mass_top_dir,
-                            mass_location)
-    logger.debug('Setting top level MASS directory to "{}"'
-                 ''.format(mass_dir))
+    mass_dir = os.path.join(request.data.output_mass_root, request.data.output_mass_suffix)
+    logger.debug('Setting top level MASS directory to "{}"'.format(mass_dir))
     cfg._cp.set('mass', 'top_dir', mass_dir)
-    cfg._cp.add_section('local')
-    cfg._cp.set('local', 'base_dir', general_config.transfer_local_base_dir)
-
-    # The "top_dir", or root directory for data, is obtained from the request.
-    # TODO: Shouldn't use non-public method :(
-    cfg._cp.set('local', 'top_dir', general_config._root_data_directory)
     # The institution_id is not present anywhere in the DRS or file names.
     # As such I've chosen to copy it in here, rather than hard coding it into
     # the config files
-    cfg._cp.set(mip_era, 'institution_id', request.institution_id)
+    cfg._cp.set(mip_era, 'institution_id', request.metadata.institution_id)
     # Message store information
     cfg._cp.add_section('msg_store')
-    cfg._cp.set('msg_store', 'top_dir',
-                general_config.log_directory('archive'))
+    cfg._cp.set('msg_store', 'top_dir', log_directory(request, 'archive'))
     return cfg
 
 
-def drs_facet_builder_from_request(request, cfg):
+def drs_facet_builder_from_request(request: Request, cfg: CDDSConfigGeneral) -> drs.DataRefSyntax:
     """
-    Return the :class:`DataRefSyntax` object constructed from the
-    request and config objects
+    Return the :class:`DataRefSyntax` object constructed from the request and config objects
 
-    Parameters
-    ----------
-    request : :class:`cdds.common.request.Request`
-        Request information
-    cfg : :class:`cdds.deprecated.transfer.config.Config`
-        CDDS Transfer config object
-
-    Returns
-    -------
-    : :class:`cdds.deprecated.transfer.drs.DataRefSyntax`
-        Object describing the drs fixed facets.
+    :param request: Request information
+    :type request: Request
+    :param cfg: CDDS Transfer config object
+    :type cfg: CDDSConfigGeneral
+    :return: Object describing the drs fixed facets.
+    :rtype: drs.DataRefSyntax
     """
     logger = logging.getLogger(__name__)
-    drs_fixed_facet_builder = drs.DataRefSyntax(cfg, request.mip_era)
+    drs_fixed_facet_builder = drs.DataRefSyntax(cfg, request.metadata.mip_era)
     valid_items = {}
-    for field, value in request.items.items():
+    for field, value in request.flattened_items:
         if ' ' in value:
             new_value = value.split(' ')[0]
             logger.debug('Found value "{}" for facet "{}". Using "{}"'.format(value, field, new_value))

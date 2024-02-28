@@ -1,0 +1,10 @@
+#!/usr/bin/env python3.8
+# (C) British Crown Copyright 2018-2022, Met Office.
+# Please see LICENSE.rst for license details.
+import sys
+
+from cdds.prepare.request_file.command_line import main_write_request
+
+
+if __name__ == '__main__':
+    sys.exit(main_write_request())
