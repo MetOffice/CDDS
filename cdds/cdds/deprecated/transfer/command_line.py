@@ -20,6 +20,7 @@ from cdds.deprecated.transfer.resend_failed_msgs import resend_failed_msgs
 from cdds.deprecated.transfer.sim_review import do_sim_review
 from cdds.deprecated.transfer.state import known_states
 from cdds.deprecated.transfer.state_change import run_move_in_mass
+from cdds.deprecated.transfer.constants import KNOWN_RABBITMQ_QUEUES
 
 PACKAGE = 'cdds.deprecated.transfer'
 COMPONENT = 'archive'
@@ -142,12 +143,14 @@ def main_list_queue() -> int:
     """
     log_name = 'list_queue'
 
-    KNOWN_QUEUES = ['CMIP6_available', 'CMIP6_withdrawn']
-
     parser = argparse.ArgumentParser(
         description='CDDS submission/withdrawal queue lister. Only functions on els05[56].')
-    parser.add_argument('queue', choices=KNOWN_QUEUES, help='Name of the queue to list')
-    parser.add_argument('--full', action='store_true', help='Full message output rather than just dataset ids')
+    parser.add_argument('queue', choices=KNOWN_RABBITMQ_QUEUES,
+                        help='Name of the queue to list')
+    parser.add_argument('--full', action='store_true',
+                        help='Full message output rather than just dataset ids')
+    common_command_line_args(parser, log_name, logging.INFO, __version__)
+
     args = parser.parse_args()
 
     # Create the configured logger.
