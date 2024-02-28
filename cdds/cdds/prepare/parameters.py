@@ -28,7 +28,7 @@ class VariableParameters(object):
     arguments: `argparse.Namespace` object
         The names of the command line arguments
 
-    request: class:`cdds.common.old_request.Request`
+    request: class:`cdds.common.request.request.Request`
         The information from the CREM / rose suite request.
 
     data_request_variables: dict of :class:`DataRequestVariables`

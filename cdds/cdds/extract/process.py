@@ -36,7 +36,7 @@ class Process(object):
             language strings for log messages etc
         opts: dict
             script options
-        request: cdds.common.old_request.Request
+        request: cdds.common.request.request.Request
             the request object
         input_data_directory: str
             path to the input data directory

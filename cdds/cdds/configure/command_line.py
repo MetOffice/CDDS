@@ -9,6 +9,7 @@ import argparse
 import logging
 
 from cdds.common import configure_logger
+from cdds.common.request.request import read_request
 
 from cdds import __version__
 from cdds.configure.user_config import produce_user_config_files
@@ -27,9 +28,10 @@ def main(arguments=None):
     """
     # Parse the arguments.
     args = parse_args(arguments)
+    request = read_request(args.request)
 
     # Create the configured logger.
-    configure_logger('produce_user_config_files', logging.INFO, False)
+    configure_logger('produce_user_config_files', request.common.log_level, False)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
@@ -38,7 +40,7 @@ def main(arguments=None):
     logger.info('Using CDDS Configure version {}'.format(__version__))
 
     try:
-        produce_user_config_files(args)
+        produce_user_config_files(request, args)
         exit_code = 0
     except BaseException as exc:
         logger.critical(exc, exc_info=1)
@@ -79,7 +81,7 @@ def parse_args(arguments):
             'list.'))
     parser.add_argument(
         'request', help=(
-            'The full path to the JSON file containing the information from '
+            'The full path to the cfg file containing the information from '
             'the request.'))
     parser.add_argument(
         '-r', '--requested_variables_list_file', help=(

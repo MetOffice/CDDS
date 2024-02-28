@@ -69,7 +69,7 @@ class Filters(object):
 
         Parameters
         ----------
-        request: cdds.common.old_request.Request
+        request: cdds.common.request.request.Request
             key science parameter values for this request
 
         Returns

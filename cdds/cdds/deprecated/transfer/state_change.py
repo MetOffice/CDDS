@@ -8,9 +8,8 @@ withdrawn).
 import logging
 
 from argparse import Namespace
-from typing import List
 
-from cdds.common.request.request import read_request
+from cdds.common.request.request import read_request, Request
 from cdds.deprecated.transfer import dds, state
 from cdds.deprecated.transfer.common import (
     load_rabbit_mq_credentials, cfg_from_cdds_general_config,
@@ -20,18 +19,18 @@ from cdds.deprecated.transfer.moo_cmd import LS_ONLY
 from cdds.deprecated.config import CDDSConfigGeneral
 
 
-def run_move_in_mass(args: Namespace) -> None:
+def run_move_in_mass(request: Request, args: Namespace) -> None:
     """
     Perform a state change process; load the request and configuration information, identify files in MASS
     to change state, perform the moves required and send appropriate messages to the CEDA rabbit MQ server.
 
+    :param request: The information contains in the request cfg file
+    :type request: Request
     :param args: Parsed command line arguments
     :type args: Namespace
     """
     logger = logging.getLogger(__name__)
-    # Read request, construct configs
-    logger.info('Reading request from "{}"'.format(args.request))
-    request = read_request(args.request)
+    # Construct configs
     logger.info('Reading CDDS General Config')
     config_general = CDDSConfigGeneral(args.root_config, request)
     transfer_cfg = cfg_from_cdds_general_config(config_general, request)
