@@ -235,7 +235,8 @@ class TestGenerateDatetampsGregorian:
     Calendar.default().set_mode("gregorian")
 
     def test_hourly_pp(self):
-        start, end = "19800101", "19800102"
+        start = TimePointParser().parse('1980-01-01T00:00:00Z')
+        end = TimePointParser().parse('1980-01-02T00:00:00Z')
         expected = ["19800101_00",
                     "19800101_01",
                     "19800101_02",
