@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2021, Met Office.
+# (C) British Crown Copyright 2016-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """Classes to interact with RabbitMQ and its messages.
 
@@ -25,6 +25,7 @@ import json
 import os
 
 from cdds.deprecated.transfer import rabbit
+from cdds.deprecated.transfer.constants import KNOWN_RABBITMQ_QUEUES
 
 
 class Message(object):
@@ -364,10 +365,9 @@ class Queue(object):
     """
 
     KNOWN_QUEUES = {
-        "moose": {"suffix": ["CMIP6_available", "CMIP6_withdrawn",
-                             "CMIP6_available_test", "CMIP6_withdrawn_test",
+        "moose": {"suffix": ["CMIP6_available_test", "CMIP6_withdrawn_test",
                              "testing_available", "testing_withdrawn",
-                             "available", "withdrawn"],
+                             "available", "withdrawn"] + KNOWN_RABBITMQ_QUEUES,
                   "message": MooseMessage},
         "admin": {"suffix": ["critical", "info"],
                   "message": AdminMessage}}
