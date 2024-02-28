@@ -963,8 +963,8 @@ def set_calendar(request):
         raise IncompatibleCalendarMode
 
 
-def generate_datestamps_pp(start_date: str,
-                           end_date: str,
+def generate_datestamps_pp(start_date: TimePoint,
+                           end_date: TimePoint,
                            file_frequency: str) -> Tuple[List[str], List[TimePoint]]:
     """ Generate common datestamp strings used by .pp files.
 
@@ -1009,8 +1009,8 @@ def generate_datestamps_pp(start_date: str,
     return datestamps, timepoints
 
 
-def generate_datestamps_nc(start_date: str,
-                           end_date: str,
+def generate_datestamps_nc(start_date: TimePoint,
+                           end_date: TimePoint,
                            file_frequency: str) -> Tuple[List[str], List[TimePoint]]:
     """Generate common datestamp stings used for .nc files.
 
@@ -1044,25 +1044,21 @@ def generate_datestamps_nc(start_date: str,
     return datestamps, timepoints
 
 
-def generate_time_points(start_date: Union[str, TimePoint],
-                         end_date: Union[str, TimePoint],
+def generate_time_points(start_date: TimePoint,
+                         end_date: TimePoint,
                          duration: str) -> List[TimePoint]:
     """A convenience function for generating a list of TimePoint objects.
 
-    :param start_date: ISO style string or TimePoint (Inclusive)
-    :type start_date: Union[str, TimePoint]
-    :param end_date: ISO style string or TimePoint (Exclusive)
-    :type end_date: Union[str, TimePoint]
+    :param start_date: TimePoint
+    :type start_date: TimePoint
+    :param end_date: TimePoint
+    :type end_date: TimePoint
     :param duration: ISO formatted duration string
     :type duration: str
     :return: List of TimePoint objects
     :rtype: List[TimePoint]
     """
-    if isinstance(start_date, TimePoint):
-        start_date = str(start_date)
-
-    if isinstance(end_date, str):
-        end_date = TimePointParser().parse(end_date)
+    start_date = str(start_date)
 
     recurrence_string = f"R/{start_date}/{duration}"
     time_recurrence = TimeRecurrenceParser().parse(recurrence_string)

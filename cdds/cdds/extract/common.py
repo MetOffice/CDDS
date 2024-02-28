@@ -5,7 +5,6 @@
 Utility functions for extract processing.
 """
 
-import datetime
 import logging
 import sys
 import pwd
@@ -16,7 +15,7 @@ import re
 from collections import defaultdict
 from operator import itemgetter
 from cdds.extract.constants import (NUM_PP_HEADER_LINES, TIME_REGEXP, MAX_MOOSE_LOG_MESSAGE,
-                                    MOOSE_TAPE_PATTERN)
+                                    MOOSE_TAPE_PATTERN, STREAMTYPE_PP, STREAMTYPE_NC)
 from cdds.common import run_command, retry
 from cdds.extract.variables import Variables
 
@@ -783,7 +782,7 @@ class ValidationResult(object):
         return self.validated_streams[stream]
 
 
-def stream_file_template(stream, suite_id):
+def stream_file_template(stream, model_workflow_id):
     """
     Returns glob template for data files from particular stream.
 
@@ -791,8 +790,8 @@ def stream_file_template(stream, suite_id):
     ----------
     stream: str
         Stream name
-    suite_id: str
-        Suite id (e.g. 'u-as744')
+    model_worflow_id: str
+        Workflow id (e.g. 'u-as744')
 
     Returns
     -------
@@ -800,18 +799,18 @@ def stream_file_template(stream, suite_id):
         Glob templates.
     """
     if stream.startswith('ap'):
-        filename_templates = ['{}a.p{}*'.format(suite_id.split('-')[1], stream[2]), ]
+        filename_templates = ['{}a.p{}*'.format(model_workflow_id.split('-')[1], stream[2]), ]
     elif stream.startswith('o'):
-        filename_templates = ['nemo_{}o_1{}_*'.format(suite_id.split('-')[1], stream[2]),
-                              'medusa_{}o_1{}_*'.format(suite_id.split('-')[1], stream[2])]
+        filename_templates = ['nemo_{}o_1{}_*'.format(model_workflow_id.split('-')[1], stream[2]),
+                              'medusa_{}o_1{}_*'.format(model_workflow_id.split('-')[1], stream[2])]
     elif stream.startswith('i'):
-        filename_templates = ['cice_{}i_1{}_*'.format(suite_id.split('-')[1], stream[2])]
+        filename_templates = ['cice_{}i_1{}_*'.format(model_workflow_id.split('-')[1], stream[2])]
     else:
         raise InputError('Unknown stream type')
     return filename_templates
 
 
-def build_mass_location(mass_data_class: str, suite_id: str, stream: str, streamtype: str,
+def build_mass_location(mass_data_class: str, model_workflow_id: str, stream: str, streamtype: str,
                         mass_ensemble_member: str = None) -> str:
     """
     Returns root of the location of the dataset in MASS.
@@ -820,8 +819,8 @@ def build_mass_location(mass_data_class: str, suite_id: str, stream: str, stream
     ----------
         mass_root: str
             The root of the MASS location of a given dataset type
-        suite_id: str
-            Full suite id (e.g. u-as777)
+        model_workflow_id: str
+            Full model workflow id (e.g. u-as777)
         stream: str
             Stream name (e.g. ap4)
         streamtype: str
@@ -835,10 +834,10 @@ def build_mass_location(mass_data_class: str, suite_id: str, stream: str, stream
     """
     assert mass_data_class in ["crum", "ens"], "MASS data class must have a value of 'crum' or 'ens'"
     if mass_ensemble_member:
-        suiteid = "{}/{}".format(suite_id, mass_ensemble_member)
+        workflowid = "{}/{}".format(model_workflow_id, mass_ensemble_member)
     else:
-        suiteid = suite_id.split("/")[0]
-    data_source = "moose:/{}/{}/{}.{}".format(mass_data_class, suiteid, stream, streamtype)
+        workflowid = model_workflow_id.split("/")[0]
+    data_source = "moose:/{}/{}/{}.{}".format(mass_data_class, workflowid, stream, streamtype)
     if streamtype == "nc":
         data_source += ".file"
 
@@ -970,14 +969,14 @@ def configure_mappings(mappings):
     return stream_mapping
 
 
-def get_data_target(input_data_directory, suite_id, stream):
+def get_data_target(input_data_directory, model_workflow_id, stream):
     """Returns target location for extracted data
 
     Parameters
     ----------
     input_data_directory: str
         directory with model input data
-    suite_id: str
+    model_workflow_id: str
         model workflow id
     stream: str
         stream name
@@ -987,7 +986,7 @@ def get_data_target(input_data_directory, suite_id, stream):
     str
         data target string for use in MOOSE commands
     """
-    return os.path.join(input_data_directory, suite_id, stream)
+    return os.path.join(input_data_directory, model_workflow_id, stream)
 
 
 def fetch_filelist_from_mass(mass_dir, simulation=False):
@@ -1123,7 +1122,20 @@ def get_zero_sized_files(dirpath: str) -> list:
 
 
 def get_streamtype(stream: str) -> str:
+    """
+    A helper function to determine stream type based on its name.
+
+    Parameters
+    ----------
+    stream : str
+        Stream name
+
+    Returns
+    -------
+    str
+        'pp' or 'nc'
+    """
     if 'ap' in stream:
-        return 'pp'
+        return STREAMTYPE_PP
     else:
-        return 'nc'
+        return STREAMTYPE_NC

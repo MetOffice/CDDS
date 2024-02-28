@@ -66,7 +66,7 @@ class ExtractRunner(object):
             mappings = Filters(
                 proc_directory,
                 var_list,
-                self.args.simulation
+                request.common.simulation
             )
             mappings.set_mappings(request)
             mapping_status = configure_mappings(mappings)
