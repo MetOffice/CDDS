@@ -179,7 +179,7 @@ class CddsPlugin(object, metaclass=ABCMeta):
         """
         pass
 
-    def global_attributes(self, request: Dict[str, Any]) -> GlobalAttributes:
+    def global_attributes(self, request: 'Request') -> GlobalAttributes:
         """
         Returns the global attributes that a supported by that plugin. The given request
         contains all information about the global attributes.

@@ -11,12 +11,10 @@ import os
 
 from cdds import __version__
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.common.cdds_files.cdds_directories import output_data_directory
 from cdds.common.request.request import read_request
 from cdds.extract.common import stream_file_template
 from cdds.extract.lang import set_language
 from cdds.extract.runner import ExtractRunner
-from cdds.extract.spice import run_extract_spice_batch_job
 from cdds.extract.halo_removal import dehalo_multiple_files
 from cdds.extract.validate import validate_streams
 from cdds.common import configure_logger

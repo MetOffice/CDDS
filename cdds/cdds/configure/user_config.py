@@ -4,6 +4,7 @@
 The :mod:`user_config` module contains the code required to produce the
 |user configuration files|.
 """
+from argparse import Namespace
 from collections import OrderedDict
 from copy import deepcopy
 import logging
@@ -13,7 +14,7 @@ from mip_convert.configuration.python_config import PythonConfig
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
-from cdds.common.request.request import read_request, Request
+from cdds.common.request.request import Request
 from cdds.common.variables import RequestedVariablesList
 
 from cdds import __version__
@@ -22,17 +23,15 @@ from cdds.configure.request import retrieve_request_metadata
 from cdds.configure.variables import retrieve_variables_by_grid, retrieve_streams_by_grid
 
 
-def produce_user_config_files(arguments):
+def produce_user_config_files(request: Request, arguments: Namespace) -> None:
     """
     Produce the |user configuration files|.
 
-    Parameters
-    ----------
-    arguments: :class:`cdds.configure.cdds.arguments.ConfigureArguments`
-        The arguments specific to the `configure` script.
+    :param request: Information of the request cfg file
+    :type request: Request
+    :param arguments: The arguments specific to the `configure` script.
+    :type arguments: Namespace
     """
-    request = read_request(arguments.request)
-
     create_user_config_files(request, arguments.requested_variables_list_file, arguments.output_dir)
 
 
@@ -42,7 +41,7 @@ def create_user_config_files(request, requested_variables_file, output_dir=None)
 
     Parameters
     ----------
-    request: :class:`cdds.common.old_request.Request`
+    request: :class:`cdds.common.request.request.Request`
         The information from the request.
     requested_variables_file: str
         The full path to the |requested variables list|.
@@ -171,7 +170,7 @@ def get_global_attributes(request):
     given request values.
 
     :param request: Request contains all data to create the global attributes
-    :type request: :class:`cdds.common.old_request.Request`
+    :type request: :class:`cdds.common.request.request.Request`
     :return: Global attributes as dictionary
     :rtype: dict
     """
@@ -187,10 +186,10 @@ def get_further_info_url(request):
     Returns the further info url according the request values.
 
     :param request: Request containing all values to create the further info url
-    :type request: :class:`cdds.common.old_request.Request`
+    :type request: :class:`cdds.common.request.request.Request`
     :return: Further info url
     :rtype: str
     """
     plugin = PluginStore.instance().get_plugin()
-    global_attributes = plugin.global_attributes(request.items)
+    global_attributes = plugin.global_attributes(request)
     return global_attributes.further_info_url()

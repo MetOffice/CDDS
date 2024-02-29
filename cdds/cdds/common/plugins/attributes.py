@@ -1,7 +1,10 @@
-# (C) British Crown Copyright 2022, Met Office.
+# (C) British Crown Copyright 2022-2024, Met Office.
 # Please see LICENSE.rst for license details.
 from abc import ABCMeta, abstractmethod
-from typing import Dict, Any
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from cdds.common.request.request import Request
 
 
 class GlobalAttributes(object, metaclass=ABCMeta):
@@ -9,8 +12,8 @@ class GlobalAttributes(object, metaclass=ABCMeta):
     Abstract class to store and manage global attributes of a plugin
     """
 
-    def __init__(self, request: Dict[str, Any]) -> None:
-        self._request: Dict[str, Any] = request
+    def __init__(self, request: 'Request') -> None:
+        self._request: 'Request' = request
 
     @abstractmethod
     def further_info_url(self) -> str:
@@ -28,7 +31,7 @@ class DefaultGlobalAttributes(GlobalAttributes):
     Default global attributes for plugins.
     """
 
-    def __init__(self, request: Dict[str, Any] = {}) -> None:
+    def __init__(self, request: 'Request' = None) -> None:
         super(DefaultGlobalAttributes, self).__init__(request)
 
     def further_info_url(self) -> str:

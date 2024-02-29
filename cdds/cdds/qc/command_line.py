@@ -42,7 +42,7 @@ def main_quality_control(arguments=None):
     log_name = update_log_dir(QC_LOG_NAME, COMPONENT)
 
     # Create the configured logger.
-    configure_logger(log_name, logging.INFO, False, stream=args.stream)
+    configure_logger(log_name, request.common.log_level, False, stream=args.stream)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)

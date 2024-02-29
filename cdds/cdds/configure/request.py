@@ -65,7 +65,7 @@ def _retrieve_request_metadata(request, template):
 
     Parameters
     ----------
-    request: :class:`cdds.common.old_request.Request`
+    request: :class:`cdds.common.request.request.Request`
         The information about the request.
     template: bool
         Whether to create template |user configuration files|.
