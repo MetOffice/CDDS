@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2022-2023, Met Office.
+# (C) British Crown Copyright 2022-2024, Met Office.
 # Please see LICENSE.rst for license details.
 from cdds.common.plugins.attributes import GlobalAttributes
 from typing import TYPE_CHECKING

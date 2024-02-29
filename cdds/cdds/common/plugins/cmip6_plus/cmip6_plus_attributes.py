@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`cmip6_plus_attributes` module contains the code required to
