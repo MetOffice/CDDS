@@ -3,7 +3,7 @@
 
 .. include:: common.txt
 
-Release 2.5.7, February 28, 2024
+Release 2.5.8, February 29, 2024
 ================================
 * No changes
 
