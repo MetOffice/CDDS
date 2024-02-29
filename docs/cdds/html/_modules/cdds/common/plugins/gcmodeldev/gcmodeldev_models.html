@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cdds.common.plugins.gcmodeldev.gcmodeldev_models &#8212; CDDS  documentation</title>
+    <title>cdds.common.plugins.gcmodeldev.gcmodeldev_models &#8212; CDDS 2.5.8 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/nature.css" />
     <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
@@ -25,7 +25,7 @@
         <li class="right" >
           <a href="../../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS 2.5.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.gcmodeldev.gcmodeldev_models</a></li> 
       </ul>
@@ -37,7 +37,7 @@
           <div class="body" role="main">
             
   <h1>Source code for cdds.common.plugins.gcmodeldev.gcmodeldev_models</h1><div class="highlight"><pre>
-<span></span><span class="c1"># (C) British Crown Copyright 2022-2022, Met Office.</span>
+<span></span><span class="c1"># (C) British Crown Copyright 2022-2024, Met Office.</span>
 <span class="c1"># Please see LICENSE.rst for license details.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The :mod:`gcmodeldev_models` module contains the code required to</span>
@@ -49,12 +49,12 @@
 
 <span class="kn">from</span> <span class="nn">cdds.common.plugins.cmip6.cmip6_models</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">HadGEM3_GC31_LL_Params</span><span class="p">,</span> <span class="n">HadGEM3_GC31_MM_Params</span><span class="p">,</span> <span class="n">UKESM1_0_LL_Params</span><span class="p">,</span> <span class="n">UKESM1_1_LL_Params</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">cdds.common.plugins.base.base_models</span> <span class="kn">import</span> <span class="n">BaseModelParameters</span><span class="p">,</span> <span class="n">BaseModelStore</span>
+<span class="kn">from</span> <span class="nn">cdds.common.plugins.base.base_models</span> <span class="kn">import</span> <span class="n">BaseModelParameters</span><span class="p">,</span> <span class="n">ModelId</span><span class="p">,</span> <span class="n">BaseModelStore</span>
 <span class="kn">from</span> <span class="nn">cdds.common.plugins.common</span> <span class="kn">import</span> <span class="n">LoadResults</span>
 
 
 <div class="viewcode-block" id="GCModelDevStore"><a class="viewcode-back" href="../../../../../plugins/plugins.gcmodeldev.html#cdds.common.plugins.gcmodeldev.gcmodeldev_models.GCModelDevStore">[docs]</a><span class="k">class</span> <span class="nc">GCModelDevStore</span><span class="p">(</span><span class="n">BaseModelStore</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Singleton class to store for each model the corresponding parameters.</span>
 <span class="sd">    The parameters are defined in json files. The default parameters are</span>
 <span class="sd">    stored in the data/model directory.</span>
@@ -66,15 +66,24 @@
         <span class="n">model_instances</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BaseModelParameters</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">HadGEM3_GC31_LL_Params</span><span class="p">(),</span>
             <span class="n">HadGEM3_GC31_MM_Params</span><span class="p">(),</span>
+            <span class="n">HadGEM3_GC3p05_N96ORCA1_Params</span><span class="p">(),</span>
+            <span class="n">HadGEM3_GC3p05_N216ORCA025_Params</span><span class="p">(),</span>
+            <span class="n">HadGEM3_GC5p_N216ORCA025_Params</span><span class="p">(),</span>
+            <span class="n">HadGEM3_GC5c_N96ORCA1_Params</span><span class="p">(),</span>
+            <span class="n">HadGEM3_GC5c_N216ORCA025_Params</span><span class="p">(),</span>
+            <span class="n">HadGEM3_GC50_N96ORCA1_Params</span><span class="p">(),</span>
+            <span class="n">HadGEM3_GC50_N216ORCA025_Params</span><span class="p">(),</span>
+            <span class="n">HadREM_CP4A_4p5km_Params</span><span class="p">(),</span>
             <span class="n">UKESM1_0_LL_Params</span><span class="p">(),</span>
-            <span class="n">UKESM1_1_LL_Params</span><span class="p">()</span>
+            <span class="n">UKESM1_1_LL_Params</span><span class="p">(),</span>
+            <span class="n">eUKESM1_1_ice_N96ORCA1_Params</span><span class="p">(),</span>
         <span class="p">]</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">GCModelDevStore</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model_instances</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GCModelDevStore</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model_instances</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GCModelDevStore.create_instance"><a class="viewcode-back" href="../../../../../plugins/plugins.gcmodeldev.html#cdds.common.plugins.gcmodeldev.gcmodeldev_models.GCModelDevStore.create_instance">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">create_instance</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;GCModelDevStore&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a new class instance.</span>
 
 <span class="sd">        :return: New class instance</span>
@@ -96,6 +105,387 @@
             <span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">error_messages</span><span class="p">))</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">error_messages</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="GCModelDevModelId"><a class="viewcode-back" href="../../../../../plugins/plugins.gcmodeldev.html#cdds.common.plugins.gcmodeldev.gcmodeldev_models.GCModelDevModelId">[docs]</a><span class="k">class</span> <span class="nc">GCModelDevModelId</span><span class="p">(</span><span class="n">ModelId</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents the ID of a GCModelDev model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">get_json_file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the json file name for a model containing the model ID as identifier.</span>
+
+<span class="sd">        :return: Json file name for the model with current ID</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.json&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="n">HadREM3_GA7_05</span> <span class="o">=</span> <span class="s1">&#39;HadREM3-GA7-05&#39;</span>
+    <span class="n">HadGEM3_GC31_LL</span> <span class="o">=</span> <span class="s1">&#39;HadGEM3-GC31-LL&#39;</span>
+    <span class="n">HadGEM3_GC31_MM</span> <span class="o">=</span> <span class="s1">&#39;HadGEM3-GC31-MM&#39;</span>
+    <span class="n">HadGEM3_GC3p05_N96ORCA1</span> <span class="o">=</span> <span class="s1">&#39;HadGEM3-GC3p05-N96ORCA1&#39;</span>
+    <span class="n">HadGEM3_GC3p05_N216ORCA025</span> <span class="o">=</span> <span class="s1">&#39;HadGEM3-GC3p05-N216ORCA025&#39;</span>
+    <span class="n">HadGEM3_GC5p_N216ORCA025</span> <span class="o">=</span> <span class="s1">&#39;HadGEM3-GC5p-N216ORCA025&#39;</span>
+    <span class="n">HadGEM3_GC5c_N96ORCA1</span> <span class="o">=</span> <span class="s1">&#39;HadGEM3-GC5c-N96ORCA1&#39;</span>
+    <span class="n">HadGEM3_GC5c_N216ORCA025</span> <span class="o">=</span> <span class="s1">&#39;HadGEM3-GC5c-N216ORCA025&#39;</span>
+    <span class="n">HadGEM3_GC50_N96ORCA1</span> <span class="o">=</span> <span class="s1">&#39;HadGEM3-GC50-N96ORCA1&#39;</span>
+    <span class="n">HadGEM3_GC50_N216ORCA025</span> <span class="o">=</span> <span class="s1">&#39;HadGEM3-GC50-N216ORCA025&#39;</span>
+    <span class="n">HadREM_CP4A_4p5km</span> <span class="o">=</span> <span class="s1">&#39;HadREM-CP4A-4p5km&#39;</span>
+    <span class="n">UKESM1_0_LL</span> <span class="o">=</span> <span class="s1">&#39;UKESM1-0-LL&#39;</span>
+    <span class="n">UKESM1_1_LL</span> <span class="o">=</span> <span class="s1">&#39;UKESM1-1-LL&#39;</span>
+    <span class="n">EUKESM1_1_ice_N96ORCA1</span> <span class="o">=</span> <span class="s1">&#39;eUKESM1-1-ice-N96ORCA1&#39;</span></div>
+
+
+<div class="viewcode-block" id="HadGEM3_GC5c_N96ORCA1_Params"><a class="viewcode-back" href="../../../../../plugins/plugins.gcmodeldev.html#cdds.common.plugins.gcmodeldev.gcmodeldev_models.HadGEM3_GC5c_N96ORCA1_Params">[docs]</a><span class="k">class</span> <span class="nc">HadGEM3_GC5c_N96ORCA1_Params</span><span class="p">(</span><span class="n">BaseModelParameters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store the parameters for the HadGEM3_GC5c_N96ORCA1 model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HadGEM3_GC5c_N96ORCA1_Params</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">GCModelDevModelId</span><span class="o">.</span><span class="n">HadGEM3_GC5c_N96ORCA1</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the model version of the HadGEM3_GC5c_N96ORCA1 model.</span>
+
+<span class="sd">        :return: Model version of HadGEM3_GC5c_N96ORCA1</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;5.0&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_request_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the data request version of the HadGEM3_GC5c_N96ORCA1 model.</span>
+
+<span class="sd">        :return: Data request version of HadGEM3_GC5c_N96ORCA1</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">um_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the UM version of the HadGEM3_GC5c_N96ORCA1 model.</span>
+
+<span class="sd">        :return: UM version of HadGEM3_GC5c_N96ORCA1</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;12.2&#39;</span></div>
+
+
+<div class="viewcode-block" id="HadGEM3_GC50_N96ORCA1_Params"><a class="viewcode-back" href="../../../../../plugins/plugins.gcmodeldev.html#cdds.common.plugins.gcmodeldev.gcmodeldev_models.HadGEM3_GC50_N96ORCA1_Params">[docs]</a><span class="k">class</span> <span class="nc">HadGEM3_GC50_N96ORCA1_Params</span><span class="p">(</span><span class="n">BaseModelParameters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store the parameters for the HadGEM3_GC50_N96ORCA1 model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HadGEM3_GC50_N96ORCA1_Params</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">GCModelDevModelId</span><span class="o">.</span><span class="n">HadGEM3_GC50_N96ORCA1</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the model version of the HadGEM3_GC50_N96ORCA1 model.</span>
+
+<span class="sd">        :return: Model version of HadGEM3_GC50_N96ORCA1</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;5.0&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_request_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the data request version of the HadGEM3_GC50_N96ORCA1 model.</span>
+
+<span class="sd">        :return: Data request version of HadGEM3_GC50_N96ORCA1</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">um_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the UM version of the HadGEM3_GC50_N96ORCA1 model.</span>
+
+<span class="sd">        :return: UM version of HadGEM3_GC50_N96ORCA1</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;12.2&#39;</span></div>
+
+
+<div class="viewcode-block" id="HadGEM3_GC50_N216ORCA025_Params"><a class="viewcode-back" href="../../../../../plugins/plugins.gcmodeldev.html#cdds.common.plugins.gcmodeldev.gcmodeldev_models.HadGEM3_GC50_N216ORCA025_Params">[docs]</a><span class="k">class</span> <span class="nc">HadGEM3_GC50_N216ORCA025_Params</span><span class="p">(</span><span class="n">BaseModelParameters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store the parameters for the HadGEM3_GC50_N216ORCA025 model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HadGEM3_GC50_N216ORCA025_Params</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">GCModelDevModelId</span><span class="o">.</span><span class="n">HadGEM3_GC50_N216ORCA025</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the model version of the HadGEM3_GC50_N216ORCA025 model.</span>
+
+<span class="sd">        :return: Model version of HadGEM3_GC50_N216ORCA025</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;5.0&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_request_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the data request version of the HadGEM3_GC50_N216ORCA025 model.</span>
+
+<span class="sd">        :return: Data request version of HadGEM3_GC50_N216ORCA025</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">um_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the UM version of the HadGEM3_GC50_N216ORCA025 model.</span>
+
+<span class="sd">        :return: UM version of HadGEM3_GC50_N216ORCA025</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;12.2&#39;</span></div>
+
+
+<div class="viewcode-block" id="HadGEM3_GC5c_N216ORCA025_Params"><a class="viewcode-back" href="../../../../../plugins/plugins.gcmodeldev.html#cdds.common.plugins.gcmodeldev.gcmodeldev_models.HadGEM3_GC5c_N216ORCA025_Params">[docs]</a><span class="k">class</span> <span class="nc">HadGEM3_GC5c_N216ORCA025_Params</span><span class="p">(</span><span class="n">BaseModelParameters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store the parameters for the HadGEM3_GC5c_N216ORCA025 model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HadGEM3_GC5c_N216ORCA025_Params</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">GCModelDevModelId</span><span class="o">.</span><span class="n">HadGEM3_GC5c_N216ORCA025</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">         Returns the model version of the HadGEM3_GC5c_N216ORCA025 model.</span>
+
+<span class="sd">        :return: Model version of HadGEM3_GC5c_N216ORCA025</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;5.0&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_request_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the data request version of the HadGEM3_GC5c_N216ORCA025 model.</span>
+
+<span class="sd">        :return: Data request version of HadGEM3_GC5c_N216ORCA025</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">um_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the UM version of the HadGEM3_GC5c_N216ORCA025 model.</span>
+
+<span class="sd">        :return: UM version of HadGEM3_GC5c_N216ORCA025</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;12.2&#39;</span></div>
+
+
+<div class="viewcode-block" id="HadGEM3_GC3p05_N96ORCA1_Params"><a class="viewcode-back" href="../../../../../plugins/plugins.gcmodeldev.html#cdds.common.plugins.gcmodeldev.gcmodeldev_models.HadGEM3_GC3p05_N96ORCA1_Params">[docs]</a><span class="k">class</span> <span class="nc">HadGEM3_GC3p05_N96ORCA1_Params</span><span class="p">(</span><span class="n">BaseModelParameters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store the parameters for the HadGEM3_GC3p05_N96ORCA1 model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HadGEM3_GC3p05_N96ORCA1_Params</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">GCModelDevModelId</span><span class="o">.</span><span class="n">HadGEM3_GC3p05_N96ORCA1</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the model version of the HadGEM3_GC3p05_N96ORCA1 model.</span>
+
+<span class="sd">        :return: Model version of HadGEM3_GC3p05_N96ORCA1</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;3.05&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_request_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the data request version of the HadGEM3_GC3p05_N96ORCA1 model.</span>
+
+<span class="sd">        :return: Data request version of HadGEM3_GC3p05_N96ORCA1</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">um_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the UM version of the HadGEM3_GC3p05_N96ORCA1 model.</span>
+
+<span class="sd">        :return: UM version of HadGEM3_GC3p05_N96ORCA1</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;10.7&#39;</span></div>
+
+
+<div class="viewcode-block" id="HadREM_CP4A_4p5km_Params"><a class="viewcode-back" href="../../../../../plugins/plugins.gcmodeldev.html#cdds.common.plugins.gcmodeldev.gcmodeldev_models.HadREM_CP4A_4p5km_Params">[docs]</a><span class="k">class</span> <span class="nc">HadREM_CP4A_4p5km_Params</span><span class="p">(</span><span class="n">BaseModelParameters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store the parameters fo the HadREM_CP4A_4p5km model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HadREM_CP4A_4p5km_Params</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">GCModelDevModelId</span><span class="o">.</span><span class="n">HadREM_CP4A_4p5km</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the model version of the HadREM_CP4A_4p5km model.</span>
+
+<span class="sd">        :return: Model version of HadREM_CP4A_4p5km</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;4.0&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_request_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the data request version of the HadREM_CP4A_4p5km model.</span>
+
+<span class="sd">        :return: Data request version of HadREM_CP4A_4p5km</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">um_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the UM version of the HadREM_CP4A_4p5km model.</span>
+
+<span class="sd">        :return: UM version of HadREM_CP4A_4p5km</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;10.9&#39;</span></div>
+
+
+<div class="viewcode-block" id="HadGEM3_GC3p05_N216ORCA025_Params"><a class="viewcode-back" href="../../../../../plugins/plugins.gcmodeldev.html#cdds.common.plugins.gcmodeldev.gcmodeldev_models.HadGEM3_GC3p05_N216ORCA025_Params">[docs]</a><span class="k">class</span> <span class="nc">HadGEM3_GC3p05_N216ORCA025_Params</span><span class="p">(</span><span class="n">BaseModelParameters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store the parameters for the HadGEM3_GC3p05_N216ORCA025 model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HadGEM3_GC3p05_N216ORCA025_Params</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">GCModelDevModelId</span><span class="o">.</span><span class="n">HadGEM3_GC3p05_N216ORCA025</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the model version of the HadGEM3_GC3p05_N216ORCA025 model.</span>
+
+<span class="sd">        :return: Model version of HadGEM3_GC3p05_N216ORCA025</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;3.05&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_request_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the data request version of the HadGEM3_GC3p05_N216ORCA025 model.</span>
+
+<span class="sd">        :return: Data request version of HadGEM3_GC3p05_N216ORCA025</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">um_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the UM version of the HadGEM3_GC3p05_N216ORCA025 model.</span>
+
+<span class="sd">        :return: UM version of HadGEM3_GC3p05_N216ORCA025</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;10.7&#39;</span></div>
+
+
+<div class="viewcode-block" id="HadGEM3_GC5p_N216ORCA025_Params"><a class="viewcode-back" href="../../../../../plugins/plugins.gcmodeldev.html#cdds.common.plugins.gcmodeldev.gcmodeldev_models.HadGEM3_GC5p_N216ORCA025_Params">[docs]</a><span class="k">class</span> <span class="nc">HadGEM3_GC5p_N216ORCA025_Params</span><span class="p">(</span><span class="n">BaseModelParameters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store the parameters for the HadGEM3_GC5p_N216ORCA025 model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HadGEM3_GC5p_N216ORCA025_Params</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">GCModelDevModelId</span><span class="o">.</span><span class="n">HadGEM3_GC5p_N216ORCA025</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the model version of the HadGEM3_GC5p_N216ORCA025 model.</span>
+
+<span class="sd">        :return: Model version of HadGEM3_GC5p_N216ORCA025</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;5.0&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_request_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the data request version of the HadGEM3_GC5p_N216ORCA025 model.</span>
+
+<span class="sd">        :return: Data request version of HadGEM3_GC5p_N216ORCA025</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">um_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the UM version of the HadGEM3_GC5p_N216ORCA025 model.</span>
+
+<span class="sd">        :return: UM version of HadGEM3_GC5p_N216ORCA025</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;12.2&#39;</span></div>
+
+
+<div class="viewcode-block" id="eUKESM1_1_ice_N96ORCA1_Params"><a class="viewcode-back" href="../../../../../plugins/plugins.gcmodeldev.html#cdds.common.plugins.gcmodeldev.gcmodeldev_models.eUKESM1_1_ice_N96ORCA1_Params">[docs]</a><span class="k">class</span> <span class="nc">eUKESM1_1_ice_N96ORCA1_Params</span><span class="p">(</span><span class="n">BaseModelParameters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to store the parameters for the eUKESM1_1_ice_N96ORCA1 model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">eUKESM1_1_ice_N96ORCA1_Params</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">GCModelDevModelId</span><span class="o">.</span><span class="n">EUKESM1_1_ice_N96ORCA1</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the model version of the eUKESM1_1_ice_N96ORCA1 model.</span>
+
+<span class="sd">        :return: Model version of eUKESM1_1_ice_N96ORCA1</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;1.0&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data_request_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the data request version of the eUKESM1_1_ice_N96ORCA1 model.</span>
+
+<span class="sd">        :return: Data request version of eUKESM1_1_ice_N96ORCA1</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;01.00.17&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">um_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the UM version of the eUKESM1_1_ice_N96ORCA1 model.</span>
+
+<span class="sd">        :return: UM version of eUKESM1_1_ice_N96ORCA1</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;10.8&#39;</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -127,13 +517,13 @@
         <li class="right" >
           <a href="../../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">CDDS 2.5.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">cdds.common.plugins.gcmodeldev.gcmodeldev_models</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2022, The Climate Data Delivery Team.
+        &#169; Copyright British Crown 2015-2023, Met Office.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
     </div>
   </body>

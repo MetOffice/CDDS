@@ -3,6 +3,12 @@
 
 .. include:: common.txt
 
+Release 2.5.8, February 29, 2024
+================================
+* Added submission queues to support CMIP6Plus publication (CDDSO-413)
+* Removed modified time check from CDDS workflow to avoid workflow freezing when 
+  moved to a different cylc server (CDDSO-405)
+
 Release 2.5.7, February 21, 2024
 ================================
 * Chunking of large moose queries in Extract is now correctly handled (CDDSO-398)
