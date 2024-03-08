@@ -14,6 +14,7 @@ from cdds.common.io import write_json
 from cdds.common import set_checksum
 
 from cdds.common.request.request import read_request
+from cdds.common.cdds_files.cdds_directories import requested_variables_file
 
 from cdds import __version__
 from cdds.common.plugins.plugins import PluginStore
@@ -55,8 +56,7 @@ def generate_variable_list(arguments: Namespace) -> None:
     request = read_request(arguments.request)
 
     # Retrieve the name of the 'requested variables list'.
-    plugin = PluginStore.instance().get_plugin()
-    output_file = plugin.requested_variables_list_filename(request)
+    output_file = requested_variables_file(request)
     if arguments.output_dir is not None:
         output_file = os.path.join(arguments.output_dir, output_file)
     if os.path.exists(output_file) and request.misc.no_overwrite:
@@ -75,7 +75,7 @@ def generate_variable_list(arguments: Namespace) -> None:
     # TODO: take inventory check into account!
 
     # Write the 'requested variables list'.
-    logger.debug('Writing the Requested variables list to "{}".'.format(output_file))
+    logger.info('Writing the Requested variables list to "{}".'.format(output_file))
     write_json(output_file, requested_variables_list)
 
     logger.info('*** Complete ***')

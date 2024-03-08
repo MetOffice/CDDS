@@ -114,11 +114,9 @@ def component_directory(request: Request, component: str) -> str:
     :return: Path to the specific component directory in the proc directory
     :rtype: str
     """
-    if request.misc.use_proc_dir:
-        plugin = PluginStore.instance().get_plugin()
-        proc_directory = plugin.proc_directory(request)
-        return os.path.join(proc_directory, component)
-    return ''
+    plugin = PluginStore.instance().get_plugin()
+    proc_directory = plugin.proc_directory(request)
+    return os.path.join(proc_directory, component)
 
 
 def log_directory(request: Request, component: str, create_if_not_exist: bool = False) -> Union[str, None]:

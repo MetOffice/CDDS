@@ -9,7 +9,6 @@ import shutil
 from cdds.tests.nightly_tests.app_config import AppConfig
 from cdds.tests.nightly_tests.arguments import CmdArgs
 from cdds.tests.nightly_tests.common import NameListFilter, makedirs
-from cdds.prepare.request_file.command_line import main_write_request
 
 
 class NightlyApp(object, metaclass=ABCMeta):
@@ -104,16 +103,16 @@ class NightlyApp(object, metaclass=ABCMeta):
             raise
 
 
-class CreateRequestJsonApp(NightlyApp):
+class CreateRequestApp(NightlyApp):
     """
     App used by nightly tests to create the request json for each suite defined
     in the rose-app.conf by calling the corresponding method in CDDS.
     """
-    APP_ERROR = 'Failed to create request.json for suite {}. For more information check log file: {}'
+    APP_ERROR = 'Failed to create request.cfg for suite {}. For more information check log file: {}'
     COUNT = 0
 
     def __init__(self, *args, **kwargs):
-        super(CreateRequestJsonApp, self).__init__(*args, **kwargs)
+        super(CreateRequestApp, self).__init__(*args, **kwargs)
         app_name = self.__class__.__name__
         self._parse_cli_args(app_name)
         self._parse_app_config()
@@ -147,16 +146,14 @@ class CreateRequestJsonApp(NightlyApp):
         for suite in suites:
             present_request = suite['use_present_request']
             if present_request:
-                self.logger.info("Copy existing request.json from {} to {}".format(present_request, self.request_file))
+                self.logger.info('Copy existing request.cfg from {} to {}'.format(present_request, self.request_file))
                 shutil.copyfile(present_request, self.request_file)
             else:
-                self.logger.info("Generate new request json")
-                arguments = self.build_write_request_json_args(suite)
-                exit_code = main_write_request(arguments)
-                if exit_code != 0:
-                    msg = self.APP_ERROR.format(suite['id_suite'], self.log_file)
-                    self.logger.error(msg)
-                    raise AppError(msg)
+                file_name = 'cdds_request_{}.cfg'.format(self.task_package)
+                file_path = os.path.join(os.getenv('CDDS_SRC_DIR'), 'cdds/cdds/tests/nightly_tests/requests',
+                                         file_name)
+                self.logger.info("Generate new request cfg from source in {}".format(file_path))
+                shutil.copyfile(file_path, self.request_file)
 
     def build_write_request_json_args(self, suite):
         """
@@ -175,23 +172,9 @@ class CreateRequestJsonApp(NightlyApp):
             list of command line arguments and their options
         """
         args = (CmdArgs()
-                .with_arg(suite['id_suite'])
-                .with_arg(suite['name_branch'])
-                .with_arg(suite['revision'])
-                .with_arg(suite['rnd_package'])
-                .with_args(suite['streams'])
                 .with_option('-o', self.request_dir)
                 .with_option('-f', self.request_file_name)
                 .with_option('-l', self.log_file))
-
-        start_date = suite['suite_start']
-        if start_date and start_date != '':
-            args = args.with_option('--start_date', start_date)
-
-        end_date = suite['suite_end']
-        if end_date and end_date != '':
-            args = args.with_option('--end_date', end_date)
-
         return args.get()
 
 

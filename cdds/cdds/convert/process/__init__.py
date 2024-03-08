@@ -366,7 +366,6 @@ class ConvertProcess(object):
         of components for that stream. This dictionary is stored in the
         self.stream_components object attribute.
         """
-
         stream_grids = collections.defaultdict(list)
         substreams_dict = collections.defaultdict(dict)
         cfg_dir = component_directory(self._request, 'configure')
@@ -860,7 +859,7 @@ class ConvertProcess(object):
         components = self.stream_components
         required_memory = {c: self._model_params.memory(stream) for c in components[stream]}
         # Scale memory limits if included on command line
-        if self._request.conversion.scale_memory_limits is not None:
+        if self._request.conversion.scale_memory_limits != '':
             required_memory = {
                 component: scale_memory(mem_limit, self._request.conversion.scale_memory_limits)
                 for component, mem_limit in required_memory.items()
