@@ -59,6 +59,8 @@ def generate_variable_list(arguments: Namespace) -> None:
         plugin = PluginStore.instance().get_plugin()
         request_variables_filename = plugin.requested_variables_list_filename(request)
         output_file = os.path.join(arguments.output_dir, request_variables_filename)
+    else:
+        output_file = requested_variables_file(request)
     if os.path.exists(output_file) and request.misc.no_overwrite:
         raise IOError('Output file "{}" already exists'.format(output_file))
 
