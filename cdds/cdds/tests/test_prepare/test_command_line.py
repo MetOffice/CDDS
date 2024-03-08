@@ -41,7 +41,7 @@ class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
 
     def setUp(self):
         load_plugin()
-        self.request_path = 'request1.json'
+        self.request_path = 'request.cfg'
         self.mip_era = 'CMIP6'
         self.project = 'ScenarioMIP'
         self.model_id = 'UKESM1-0-LL'
@@ -198,6 +198,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         request.data.model_workflow_branch = self.branch
         request.data.model_workflow_id = self.suite_id
         request.data.model_workflow_revision = self.revision
+        request.data.variable_list_file = self.variable_list
         request.common.workflow_basename = self.request
         request.common.package = self.package
 
@@ -213,7 +214,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
             'suite_branch': self.branch,
             'suite_revision': self.revision,
             'requested_variables': 1}
-        self._main(request, False, None)
+        self._main(request, False, '.')
         self.compare(self.requested_variables_list, reference)
 
     @patch('cdds.common.get_log_datestamp')
@@ -224,12 +225,13 @@ class TestMainGenerateVariableList(unittest.TestCase):
         request.metadata.mip = self.mip
         request.metadata.mip_era = self.mip_era
         request.metadata.model_id = self.model_id
-        request.metadata.model_type = self.model_type.split(' ')
+        request.metadata.model_type = self.model_type
         request.metadata.variant_label = self.realisation
         request.metadata.sub_experiment_id = self.sub_experiment_id
         request.data.model_workflow_branch = self.branch
         request.data.model_workflow_id = self.suite_id
         request.data.model_workflow_revision = self.revision
+        request.data.variable_list_file = self.variable_list
         request.common.workflow_basename = self.request
         request.common.package = self.package
 
@@ -249,7 +251,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
             self.request, self.package, 'prepare')
         log_dir = os.path.join(component_dir, 'log')
         os.makedirs(log_dir, exist_ok=True)
-        self._main(request, False, None)
+        self._main(request, False, '.')
         self.assertTrue(os.path.isfile(self.log_path))
         logging.shutdown()  # Required to enable log to be removed in tearDown.
         self.compare(self.requested_variables_list, reference)

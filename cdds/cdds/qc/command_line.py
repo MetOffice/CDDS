@@ -143,8 +143,8 @@ def run_and_report(args: Namespace, request: Request) -> dict:  # TODO: kerstin 
 
     mip_tables = MipTables(mip_table_dir)
 
-    ds = Cmip6Dataset(basedir, request, mip_tables, args.mip_table, None, None,
-                        logging.getLogger(__name__), args.stream)
+    ds = Cmip6Dataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
+                      args.stream)
     ds.load_dataset(Dataset)
     cdds_runner.init_suite(QCSuite(), ds, request.common.is_relaxed_cmor())
     run_id = cdds_runner.run_tests(mip_table_dir, request)

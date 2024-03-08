@@ -86,7 +86,6 @@ def update_arguments_paths(arguments, additional_paths_ids=[]):
     return arguments
 
 
-
 def update_log_dir(arguments, component):
     """
     DEPRECATED: Moved to cdds.common.cdds_directories.log_directory

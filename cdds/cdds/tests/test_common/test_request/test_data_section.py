@@ -3,7 +3,7 @@
 from datetime import datetime
 from unittest import TestCase, mock
 
-from cdds.common.request.data_section import data_defaults, MASS_DATA_ARCHIVE_DATESTAMP
+from cdds.common.request.data_section import data_defaults
 
 
 class TestDataDefaults(TestCase):
@@ -14,7 +14,6 @@ class TestDataDefaults(TestCase):
         datetime_mock.now.return_value = archive_version
         expected_defaults = {
             'mass_data_class': 'crum',
-            'mass_data_archive_version': archive_version.strftime(MASS_DATA_ARCHIVE_DATESTAMP),
             'streams': 'ap4 ap5 ap6 inm onm',
             'model_workflow_branch': 'cdds',
             'model_workflow_revision': 'HEAD'
