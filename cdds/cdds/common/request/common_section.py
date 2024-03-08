@@ -33,7 +33,7 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
     :rtype: Dict[str, Any]
     """
     mip_table_dir = PluginStore.instance().get_plugin().mip_table_dir()
-    data_version = datetime.utcnow().strftime('v%Y%m%d')
+    data_version = datetime.utcnow().strftime(DATESTAMP_PARSER_STR)
     root_ancil_dir = '{}/ancil/'.format(os.environ['CDDS_ETC'])
     root_hybrid_heights_dir = '{}/vertical_coordinates/'.format(os.environ['CDDS_ETC'])
     root_replacement_coordinates_dir = '{}/horizontal_coordinates/'.format(os.environ['CDDS_ETC'])
