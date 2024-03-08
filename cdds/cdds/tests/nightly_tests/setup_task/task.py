@@ -5,6 +5,7 @@ import os
 import logging
 
 from cdds.common import configure_logger
+from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import read_request
 
 from cdds.tests.nightly_tests.setup_task.common import SetupConfig
@@ -29,9 +30,13 @@ def main(config: SetupConfig) -> None:
     setup_directory_structure(config, request)
     setup_mass_directories(config)
 
+    plugin = PluginStore.instance().get_plugin()
+    data_directory = plugin.data_directory(request)
+    proc_directory = plugin.proc_directory(request)
+
     # creating symlinks from the test directory to the data and proc directories on /project
-    os.symlink(request.data_directory, os.path.join(config.test_base_dir, '{0}_data'.format(request.package)))
-    os.symlink(request.proc_directory, os.path.join(config.test_base_dir, '{0}_proc'.format(request.package)))
+    os.symlink(data_directory, os.path.join(config.test_base_dir, '{0}_data'.format(request.common.package)))
+    os.symlink(proc_directory, os.path.join(config.test_base_dir, '{0}_proc'.format(request.common.package)))
 
     create_variable_list(config)
     link_input_data(config, request)

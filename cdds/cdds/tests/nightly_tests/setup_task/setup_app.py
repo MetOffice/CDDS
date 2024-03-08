@@ -20,13 +20,15 @@ class CddsSetupApp(NightlyApp):
         self._parse_app_config()
 
         test_base_dir = getattr(self.cli_args, 'test_base_dir', None)
-        request_json = getattr(self.cli_args, 'request_cfg', None)
+        request_cfg = getattr(self.cli_args, 'request_cfg', None)
         input_data = getattr(self.cli_args, 'input-data', None)
+        package = getattr(self.cli_args, 'package', None)
 
         self.setup_config = SetupConfig(
             test_base_dir=test_base_dir,
-            request_json=request_json,
+            request_cfg=request_cfg,
             input_data=input_data,
+            package=package
         )
 
     @property

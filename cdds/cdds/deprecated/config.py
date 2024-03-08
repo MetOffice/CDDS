@@ -86,35 +86,6 @@ def update_arguments_paths(arguments, additional_paths_ids=[]):
     return arguments
 
 
-def update_arguments_for_proc_dir(arguments, request, component):
-    """
-    Return the arguments as provided to the ``arguments`` parameter
-    with the values updated to use the proc directory.
-
-    Parameters
-    ----------
-    arguments: :class:`cdds.arguments.Arguments`
-        The arguments.
-    request: :class:`cdds.deprecate.config.Request`
-        The information from the request.
-    component: str
-        The name of the CDDS component.
-
-    Returns
-    -------
-    : :class:`cdds.arguments.Arguments`
-        The arguments updated to use the proc directory.
-    """
-    # Determine the full paths to any inputs.
-    full_paths = FullPaths(arguments, request)
-    if hasattr(arguments, 'requested_variables_list_file'):
-        arguments.requested_variables_list_file = (
-            full_paths.requested_variables_list_file)
-
-    # Determine the full paths to the outputs.
-    arguments.output_dir = full_paths.component_directory(component)
-    return arguments
-
 
 def update_log_dir(arguments, component):
     """
