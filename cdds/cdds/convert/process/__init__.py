@@ -97,7 +97,7 @@ class ConvertProcess(object):
 
         self._calculate_concat_task_periods()
 
-        self.archive_data_version = request.data.mass_data_archive_version
+        self.archive_data_version = request.common.data_version
 
     def set_calendar(self) -> None:
         """

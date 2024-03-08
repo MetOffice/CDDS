@@ -13,9 +13,6 @@ from cdds.common.request.request_section import Section, load_types, expand_path
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 
 
-MASS_DATA_ARCHIVE_DATESTAMP = 'v%Y%m%d'
-
-
 def data_defaults() -> Dict[str, Any]:
     """
     Calculates the defaults for the data section of
@@ -24,10 +21,8 @@ def data_defaults() -> Dict[str, Any]:
     :return: The defaults of the data section
     :rtype: Dict[str, Any]
     """
-    mass_data_archive_version = datetime.now().strftime(MASS_DATA_ARCHIVE_DATESTAMP)
     return {
         'mass_data_class': 'crum',
-        'mass_data_archive_version': mass_data_archive_version,
         'streams': 'ap4 ap5 ap6 inm onm',
         'model_workflow_branch': 'cdds',
         'model_workflow_revision': 'HEAD',
@@ -41,7 +36,6 @@ class DataSection(Section):
     """
     end_date: TimePoint = None
     mass_data_class: str = 'crum'
-    mass_data_archive_version: str = ''
     mass_ensemble_member: str = ''
     start_date: TimePoint = None
     model_workflow_id: str = ''
@@ -78,8 +72,6 @@ class DataSection(Section):
             # workflow_revision could be an int but we need a string
             if 'workflow_revision' in config_items:
                 config_items['workflow_revision'] = str(config_items['workflow_revision'])
-            if 'mass_data_archive_version' in config_items:
-                validate_archive_data_version(config_items['mass_data_archive_version'])
             expand_paths(config_items, 'variable_list_file')
             values.update(config_items)
         return DataSection(**values)
@@ -123,16 +115,3 @@ class DataSection(Section):
         """
         defaults = data_defaults()
         self._add_to_config_section(config, 'data', defaults)
-
-
-def validate_archive_data_version(mass_data_version: str):
-    """
-    Checks if the archive data version has the expected date format. If not an exception will be raised
-
-    :param mass_data_version: Archive data version as string
-    :type mass_data_version: str
-    """
-    try:
-        datetime.strptime(mass_data_version, MASS_DATA_ARCHIVE_DATESTAMP)
-    except ValueError:
-        raise ValueError('Archive data version must have format "{}"'.format(MASS_DATA_ARCHIVE_DATESTAMP))

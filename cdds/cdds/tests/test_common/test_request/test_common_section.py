@@ -27,7 +27,7 @@ class TestCommonDefaults(TestCase):
         datetime_mock.utcnow.return_value = data_version
         expected_defaults = {
             'cdds_version': __version__,
-            'data_version': data_version.strftime('%Y-%m-%dT%H%MZ'),
+            'data_version': data_version.strftime('v%Y%m%d'),
             'external_plugin': '',
             'external_plugin_location': '',
             'log_level': 'INFO',

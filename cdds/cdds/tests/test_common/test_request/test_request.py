@@ -92,7 +92,6 @@ class TestWriteRequest(TestCase):
         request.common.root_proc_dir = '/project/cdds/proc'
         request.data.output_mass_root = 'moose:/adhoc/projects/cdds/'
         request.data.output_mass_suffix = 'development'
-        request.data.mass_data_archive_version = 'v20240101'
 
         request.write(config_file)
 

@@ -80,7 +80,7 @@ class TestMain(unittest.TestCase):
         self.model_output_dir = '{{ input_dir }}'
         self.netcdf_file_action = 'CMOR_REPLACE_4'
         self.cmor_log = '{{ cmor_log }}'
-        self.model_type = ['AOGCM', 'BGC', 'AER', 'CHEM']
+        self.model_type = 'AOGCM BGC AER CHEM'
         self.output_dir = '{{ output_dir }}'
         self.package = 'configure_functional_test'
         self.parent_base_date = '1850-01-01T00:00:00'
