@@ -859,7 +859,7 @@ class ConvertProcess(object):
         components = self.stream_components
         required_memory = {c: self._model_params.memory(stream) for c in components[stream]}
         # Scale memory limits if included on command line
-        if self._request.conversion.scale_memory_limits != '':
+        if self._request.conversion.scale_memory_limits:
             required_memory = {
                 component: scale_memory(mem_limit, self._request.conversion.scale_memory_limits)
                 for component, mem_limit in required_memory.items()
