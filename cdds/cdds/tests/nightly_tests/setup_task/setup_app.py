@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2022, Met Office.
+# (C) British Crown Copyright 2022-2024, Met Office.
 # Please see LICENSE.rst for license details.
 from typing import Dict, Any, List
 
@@ -22,13 +22,11 @@ class CddsSetupApp(NightlyApp):
         test_base_dir = getattr(self.cli_args, 'test_base_dir', None)
         request_cfg = getattr(self.cli_args, 'request_cfg', None)
         input_data = getattr(self.cli_args, 'input-data', None)
-        package = getattr(self.cli_args, 'package', None)
 
         self.setup_config = SetupConfig(
             test_base_dir=test_base_dir,
             request_cfg=request_cfg,
-            input_data=input_data,
-            package=package
+            input_data=input_data
         )
 
     @property
@@ -44,8 +42,7 @@ class CddsSetupApp(NightlyApp):
             {"names": ["-r", "--request_cfg"],
              "help": "The full path to the configuration file containing information about the request."},
             {"names": ["--input-data"],
-             "help": "Input data path for the current package"},
-            {"names": ["--package"], "help": "Name of the current cylc task package"}
+             "help": "Input data path for the current package"}
         ]
 
     def run(self) -> None:

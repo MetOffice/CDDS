@@ -55,12 +55,13 @@ def generate_variable_list(arguments: Namespace) -> None:
     # Read the request information.
     request = read_request(arguments.request)
     # Retrieve the name of the 'requested variables list'.
+    plugin = PluginStore.instance().get_plugin()
+    request_variables_filename = plugin.requested_variables_list_filename(request)
     if arguments.output_dir is not None:
-        plugin = PluginStore.instance().get_plugin()
-        request_variables_filename = plugin.requested_variables_list_filename(request)
         output_file = os.path.join(arguments.output_dir, request_variables_filename)
     else:
-        output_file = requested_variables_file(request)
+        # use proc directory
+        output_file = os.path.join(plugin.proc_directory(request), 'prepare', request_variables_filename)
     if os.path.exists(output_file) and request.misc.no_overwrite:
         raise IOError('Output file "{}" already exists'.format(output_file))
 

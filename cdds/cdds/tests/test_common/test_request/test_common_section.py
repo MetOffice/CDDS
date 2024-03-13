@@ -21,13 +21,9 @@ class TestCommonDefaults(TestCase):
     def tearDown(self) -> None:
         PluginStore.clean_instance()
 
-    @mock.patch('cdds.common.request.common_section.datetime')
-    def test_defaults(self, datetime_mock):
-        data_version = datetime.utcnow()
-        datetime_mock.utcnow.return_value = data_version
+    def test_defaults(self):
         expected_defaults = {
             'cdds_version': __version__,
-            'data_version': data_version.strftime('v%Y%m%d'),
             'external_plugin': '',
             'external_plugin_location': '',
             'log_level': 'INFO',

@@ -9,6 +9,7 @@ from dataclasses import dataclass, asdict, field
 from metomi.isodatetime.data import TimePoint
 from typing import List, Dict, Any
 
+from cdds.common.constants import DATESTAMP_PARSER_STR
 from cdds.common.request.request_section import Section, load_types, expand_paths
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 
@@ -22,6 +23,7 @@ def data_defaults() -> Dict[str, Any]:
     :rtype: Dict[str, Any]
     """
     return {
+        'data_version': datetime.utcnow().strftime(DATESTAMP_PARSER_STR),
         'mass_data_class': 'crum',
         'streams': 'ap4 ap5 ap6 inm onm',
         'model_workflow_branch': 'cdds',
@@ -34,6 +36,7 @@ class DataSection(Section):
     """
     Represents the data section in the request configuration
     """
+    data_version: str = ''
     end_date: TimePoint = None
     mass_data_class: str = 'crum'
     mass_ensemble_member: str = ''
