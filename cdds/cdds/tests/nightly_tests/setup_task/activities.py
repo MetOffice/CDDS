@@ -49,7 +49,7 @@ def setup_mass_directories(config: SetupConfig) -> None:
     request_file = config.request_cfg
     request = read_request(request_file)
 
-    package_name = request.common.package
+    package_name = config.package  # shouldn't that come from the request file?
     mass_root = request.data.output_mass_root
     mass_suffix = request.data.output_mass_suffix
     mass_package_location = os.path.join(mass_root, mass_suffix, package_name)

@@ -150,8 +150,7 @@ class CreateRequestApp(NightlyApp):
                 shutil.copyfile(present_request, self.request_file)
             else:
                 file_name = 'cdds_request_{}.cfg'.format(self.task_package)
-                file_path = os.path.join(os.getenv('CDDS_SRC_DIR'), 'cdds/cdds/tests/nightly_tests/requests',
-                                         file_name)
+                file_path = os.path.join(os.getenv('CYLC_WORKFLOW_RUN_DIR'), 'requests', file_name)
                 self.logger.info("Generate new request cfg from source in {}".format(file_path))
                 shutil.copyfile(file_path, self.request_file)
 
