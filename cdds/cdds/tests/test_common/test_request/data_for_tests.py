@@ -53,7 +53,6 @@ def expected_test_global_attributes():
 
 def expected_test_common():
     return {
-        'cdds_version': '',
         'external_plugin': '',
         'external_plugin_location': '',
         'mip_table_dir': '/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29',
@@ -163,7 +162,6 @@ def expected_test_minimal_metadata():
 
 def expected_test_minimal_common(data_version):
     return {
-        'cdds_version': '2.6.0.dev0',
         'data_version': data_version.strftime('%Y-%m-%dT%H%MZ'),
         'external_plugin': '',
         'external_plugin_location': '',
