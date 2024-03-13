@@ -46,9 +46,9 @@ def store_mip_output_data(request: Request, stream: str, mip_approved_variables_
 
     # Read the request information.
 
-    if request.common.data_version:
+    if request.data.data_version:
         try:
-            datestamp_obj = datetime.datetime.strptime(request.common.data_version, DATESTAMP_PARSER_STR)
+            datestamp_obj = datetime.datetime.strptime(request.data.data_version, DATESTAMP_PARSER_STR)
         except ValueError:
             raise RuntimeError('Invalid data version timestamp supplied.')
     else:

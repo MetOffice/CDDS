@@ -64,13 +64,13 @@ def expected_test_common():
         'root_replacement_coordinates_dir': '/home/h03/cdds/etc/horizontal_coordinates',
         'sites_file': '/home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt',
         'simulation': False,
-        'log_level': 'INFO',
-        'data_version': 'v20191128'
+        'log_level': 'INFO'
     }
 
 
 def expected_test_data():
     return {
+        'data_version': 'v20191128',
         'end_date': TimePoint(year=2170, month_of_year=1, day_of_month=1),
         'mass_data_class': 'crum',
         'mass_ensemble_member': '',
@@ -157,9 +157,8 @@ def expected_test_minimal_metadata():
     }
 
 
-def expected_test_minimal_common(data_version):
+def expected_test_minimal_common():
     return {
-        'data_version': data_version.strftime('%Y-%m-%dT%H%MZ'),
         'external_plugin': '',
         'external_plugin_location': '',
         'log_level': 'INFO',
@@ -177,8 +176,9 @@ def expected_test_minimal_common(data_version):
     }
 
 
-def expected_test_minimal_data(archive_version: datetime):
+def expected_test_minimal_data(data_version: datetime):
     return {
+        'data_version': data_version.strftime('v%Y%m%d'),
         'end_date': TimePoint(year=2170, month_of_year=1, day_of_month=1),
         'mass_data_class': 'crum',
         'mass_ensemble_member': '',

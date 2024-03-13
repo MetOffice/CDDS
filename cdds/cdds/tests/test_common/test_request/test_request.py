@@ -43,23 +43,19 @@ class TestReadRequest(TestCase):
         self.assertDictEqual(request.inventory.items, expected_test_inventory())
         self.assertDictEqual(request.conversion.items, expected_text_conversion())
 
-    @mock.patch('cdds.common.request.common_section.datetime')
     @mock.patch('cdds.common.request.data_section.datetime')
-    def test_read_minimal_request(self, data_section_datetime_mock, common_section_datetime_mock):
+    def test_read_minimal_request(self, data_section_datetime_mock):
         data_version = datetime.utcnow()
-        common_section_datetime_mock.utcnow.return_value = data_version
-
-        archive_version = datetime.now()
-        data_section_datetime_mock.now.return_value = archive_version
+        data_section_datetime_mock.utcnow.return_value = data_version
 
         request_path = os.path.join(self.data_dir, 'test_request_minimal.cfg')
         request = read_request(request_path)
 
         self.assertDictEqual(request.metadata.items, expected_test_minimal_metadata())
         self.assertDictEqual(request.netcdf_global_attributes.items, {})
-        self.assertDictEqual(request.common.items, expected_test_minimal_common(data_version))
+        self.assertDictEqual(request.common.items, expected_test_minimal_common())
         self.assertDictEqual(request.misc.items, expected_test_minimal_misc())
-        self.assertDictEqual(request.data.items, expected_test_minimal_data(archive_version))
+        self.assertDictEqual(request.data.items, expected_test_minimal_data(data_version))
         self.assertDictEqual(request.inventory.items, expected_test_minimal_inventory())
         self.assertDictEqual(request.conversion.items, expected_test_minimal_conversion())
 
@@ -74,11 +70,11 @@ class TestWriteRequest(TestCase):
     def tearDown(self) -> None:
         PluginStore.clean_instance()
 
-    @mock.patch('cdds.common.request.common_section.datetime')
-    def test_write_request(self, common_section_datetime_mock):
+    @mock.patch('cdds.common.request.data_section.datetime')
+    def test_write_request(self, data_section_datetime_mock):
         self.maxDiff = None
         data_version = datetime(year=2023, month=9, day=21, hour=10, minute=34, second=12)
-        common_section_datetime_mock.utcnow.return_value = data_version
+        data_section_datetime_mock.utcnow.return_value = data_version
 
         expected_output = os.path.join(self.data_dir, 'test_request_output.cfg')
         config_file = os.path.join(self.test_temp_dir, 'request.cfg')
@@ -91,6 +87,7 @@ class TestWriteRequest(TestCase):
         request.common.root_proc_dir = '/project/cdds/proc'
         request.data.output_mass_root = 'moose:/adhoc/projects/cdds/'
         request.data.output_mass_suffix = 'development'
+        request.data.data_version = data_version.strftime('v%Y%m%d')
 
         request.write(config_file)
 
