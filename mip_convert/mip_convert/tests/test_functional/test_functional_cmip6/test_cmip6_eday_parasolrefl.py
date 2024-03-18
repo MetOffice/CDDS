@@ -18,7 +18,7 @@ class TestCmip6EdayParasolRefl(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_Eday_parasolRefl')
         return Cmip6TestData(
             mip_table='Eday',
-            variable='parasolRefl',
+            variables=['parasolRefl'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

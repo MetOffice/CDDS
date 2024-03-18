@@ -18,7 +18,7 @@ class TestCmip6FxAreacella(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_fx_areacella')
         return Cmip6TestData(
             mip_table='fx',
-            variable='areacella',
+            variables=['areacella'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

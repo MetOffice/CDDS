@@ -13,7 +13,7 @@ import unittest
 
 from mip_convert.configuration.json_config import MIPConfig
 from mip_convert import request
-from mip_convert.request import (
+from mip_convert.requested_variables import (
     get_model_to_mip_mappings, get_mip_table, get_variable_model_to_mip_mapping, get_requested_variables
 )
 

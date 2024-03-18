@@ -45,6 +45,7 @@ def conversion_defaults() -> Dict[str, Any]:
         'skip_configure': skip_configure,
         'skip_qc': skip_qc,
         'skip_archive': skip_archive,
+        'continue_if_mip_convert_failed': False
     }
 
 
@@ -64,6 +65,7 @@ class ConversionSection(Section):
     scale_memory_limits: float = None
     override_cycling_frequency: List[str] = field(default_factory=list)  # ['stream=frequency']
     model_params_dir: str = ''
+    continue_if_mip_convert_failed: bool = False
 
     @property
     def items(self) -> Dict[str, Any]:

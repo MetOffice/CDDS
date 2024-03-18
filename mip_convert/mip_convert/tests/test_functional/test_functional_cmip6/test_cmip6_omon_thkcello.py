@@ -18,7 +18,7 @@ class TestCmip6OmonThkcello(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_Omon_thkcello')
         return Cmip6TestData(
             mip_table='Omon',
-            variable='thkcello',
+            variables=['thkcello'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

@@ -18,7 +18,7 @@ class TestCmip6DayZgDeflation(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_day_zg_deflation')
         return Cmip6TestData(
             mip_table='day',
-            variable='zg_deflation',
+            variables=['zg_deflation'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

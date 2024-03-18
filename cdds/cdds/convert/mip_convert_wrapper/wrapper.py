@@ -172,11 +172,12 @@ def run_mip_convert_wrapper(arguments):
     # If exit code is 2 then MIP Convert has run, but hasn't been able to do
     # everything asked of it. The CDDS approach to this is to continue on
     # but log the failure in a critical issues log.
-    if exit_code == 2:
-        exit_code = manage_critical_issues(
-            exit_code, cdds_convert_proc_dir, mip_convert_log,
-            fields_to_log=[cylc_task_name, cylc_task_cycle_point,
-                           cylc_task_try])
+    if exit_code > 0:
+        manage_critical_issues(
+            cdds_convert_proc_dir, mip_convert_log,
+            fields_to_log=[cylc_task_name, cylc_task_cycle_point, cylc_task_try])
+        if not arguments.continue_if_mip_convert_failed:
+            exit_code = 0
 
     # move file from staging directory to output directory
     if staging_dir:

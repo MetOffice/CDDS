@@ -18,7 +18,7 @@ class TestCordexMonUv(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CORDEX_mon_uv')
         return CordexTestData(
             mip_table='mon',
-            variable='uv',
+            variables=['uv'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

@@ -17,7 +17,7 @@ class TestARISEEmonHussLut(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_ARISE_Emon_hussLut')
         return AriseTestData(
             mip_table='Emon',
-            variable='hussLut',
+            variables=['hussLut'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

@@ -18,7 +18,7 @@ class TestCmip6EmonSconcdust(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_Emon_sconcdust')
         return Cmip6TestData(
             mip_table='Emon',
-            variable='sconcdust',
+            variables=['sconcdust'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

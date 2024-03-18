@@ -214,7 +214,7 @@ def report_disk_usage(staging_dir):
     logger.info(du_msg)
 
 
-def manage_critical_issues(exit_code, mip_convert_config_dir, mip_convert_log,
+def manage_critical_issues(mip_convert_config_dir, mip_convert_log,
                            fields_to_log=None):
     """
     Identify critical issues logged by MIP Convert and copy them to a
@@ -222,8 +222,6 @@ def manage_critical_issues(exit_code, mip_convert_config_dir, mip_convert_log,
 
     Parameters
     ----------
-    exit_code : int
-        Exit code returned by MIP Convert.
     mip_convert_config_dir : str
         Name of directory containing MIP Convert config files.
     mip_convert_log: str
@@ -252,12 +250,11 @@ def manage_critical_issues(exit_code, mip_convert_config_dir, mip_convert_log,
     # Just in case an error code is raised for a separate reason;
     if not critical_issues_list:
         logger.debug('No CRITICAL messages found')
-        return exit_code
+    else:
 
-    with open(critical_issues_file, 'a') as critical_issues_log:
-        for issue in critical_issues_list:
-            line = '|'.join(fields_to_log + [mip_convert_log, issue])
-            critical_issues_log.write(line + '\n')
-    logger.info('Wrote "{}" critical issues to log file "{}"'.format(
-        len(critical_issues_list), critical_issues_file))
-    return 0
+        with open(critical_issues_file, 'a') as critical_issues_log:
+            for issue in critical_issues_list:
+                line = '|'.join(fields_to_log + [mip_convert_log, issue])
+                critical_issues_log.write(line + '\n')
+        logger.info('Wrote "{}" critical issues to log file "{}"'.format(
+            len(critical_issues_list), critical_issues_file))
