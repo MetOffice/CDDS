@@ -18,7 +18,7 @@ class TestHiResSimonSiu(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_HIRES_SImon_siu')
         return HiResTestData(
             mip_table='SImon',
-            variable='siu',
+            variables=['siu'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

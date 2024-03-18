@@ -832,7 +832,8 @@ class ConvertProcess(object):
             'START_DATE': str(start_date),
             'TARGET_SUITE_NAME': self.target_suite_name,
             'USE_EXTERNAL_PLUGIN': use_external_plugin,
-            'RELAXED_CMOR': self._request.common.is_relaxed_cmor()
+            'RELAXED_CMOR': self._request.common.is_relaxed_cmor(),
+            'CONTINUE_IF_MIP_CONVERT_FAILED': self._request.conversion.continue_if_mip_convert_failed
         }
         if use_external_plugin:
             changes_to_apply_all['EXTERNAL_PLUGIN'] = external_plugin

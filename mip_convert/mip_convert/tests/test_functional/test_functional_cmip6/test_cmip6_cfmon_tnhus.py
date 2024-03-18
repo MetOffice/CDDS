@@ -18,7 +18,7 @@ class TestCmip6CFmonTnhus(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_CFmon_tnhus')
         return Cmip6TestData(
             mip_table='CFmon',
-            variable='tnhus',
+            variables=['tnhus'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

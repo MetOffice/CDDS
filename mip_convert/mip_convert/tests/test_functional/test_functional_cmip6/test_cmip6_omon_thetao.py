@@ -18,7 +18,7 @@ class TestCmip6OmonThetao(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_Omon_thetao')
         return Cmip6TestData(
             mip_table='Omon',
-            variable='thetao',
+            variables=['thetao'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

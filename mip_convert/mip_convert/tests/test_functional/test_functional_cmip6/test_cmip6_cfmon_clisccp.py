@@ -18,7 +18,7 @@ class TestCmip6CFmonClisccp(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_CFmon_clisccp')
         return Cmip6TestData(
             mip_table='CFmon',
-            variable='clisccp',
+            variables=['clisccp'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

@@ -4,6 +4,8 @@ import os
 
 import pytest
 
+from unittest import mock
+
 from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
@@ -18,7 +20,7 @@ class TestCmip66hrPlevPtVortmean(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_6hrPlevPt_vortmean')
         return Cmip6TestData(
             mip_table='6hrPlevPt',
-            variable='vortmean',
+            variables=['vortmean'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location
@@ -48,3 +50,10 @@ class TestCmip66hrPlevPtVortmean(AbstractFunctionalTests):
     @pytest.mark.slow
     def test_cmip6_6hr_plev_pt_vortmean(self):
         self.check_convert()
+
+    @pytest.mark.slow
+    @mock.patch('mip_convert.request.produce_mip_requested_variable')
+    def test_cmip6_6hr_plev_pt_vortmean_failed_with_error(self, produce_mip_requested_variable_mock):
+        produce_mip_requested_variable_mock.side_effect = ValueError()
+        self.check_convert_with_error(1)
+        self.assertEqual(produce_mip_requested_variable_mock.call_count, 1)

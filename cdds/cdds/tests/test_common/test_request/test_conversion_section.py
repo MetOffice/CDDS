@@ -19,7 +19,8 @@ class TestConversionDefaults(TestCase):
             'skip_extract_validation': False,
             'skip_configure': False,
             'skip_qc': False,
-            'skip_archive': True
+            'skip_archive': True,
+            'continue_if_mip_convert_failed': False
         }
 
         defaults = conversion_defaults()
@@ -37,7 +38,8 @@ class TestConversionDefaults(TestCase):
             'skip_extract_validation': False,
             'skip_configure': False,
             'skip_qc': False,
-            'skip_archive': False
+            'skip_archive': False,
+            'continue_if_mip_convert_failed': False
         }
 
         defaults = conversion_defaults()

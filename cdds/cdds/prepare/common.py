@@ -9,7 +9,7 @@ import configparser
 
 from collections import defaultdict
 from cdds.common.mappings.ancils import remove_ancils_from_mapping
-from mip_convert.request import get_model_to_mip_mappings, get_variable_model_to_mip_mapping
+from mip_convert.requested_variables import get_model_to_mip_mappings, get_variable_model_to_mip_mapping
 
 
 def retrieve_mappings(data_request_variables, mip_era, model_id):

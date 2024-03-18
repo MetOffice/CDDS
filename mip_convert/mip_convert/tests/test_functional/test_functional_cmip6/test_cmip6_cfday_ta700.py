@@ -18,7 +18,7 @@ class TestCmip6CFdayTa700(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_CFday_ta700')
         return Cmip6TestData(
             mip_table='CFday',
-            variable='ta700',
+            variables=['ta700'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

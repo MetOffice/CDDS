@@ -6,11 +6,10 @@ import argparse
 import logging
 import os
 import unittest
-from unittest.mock import call, patch
+from unittest.mock import patch
 
 from cdds.common.plugins.plugin_loader import load_plugin
 from mip_convert.command_line import LOG_LEVEL, LOG_NAME, parse_parameters
-from mip_convert.request import get_input_files
 
 
 class TestParseParameters(unittest.TestCase):
@@ -121,62 +120,6 @@ class TestParseParameters(unittest.TestCase):
         config_file = 'random_file'
         parameters = [config_file]
         self.assertRaises(IOError, parse_parameters, parameters)
-
-    @patch('glob.glob')
-    def test_get_input_files(self, mock_glob):
-        root_load_path = '/dummy/file/location'
-        suite_id = 'u-aa000'
-        stream_id = 'onm'
-        substream = None
-        ancil_files = None
-
-        dummy_filenames = ['nemo_aa000_1m_19800101_91800701_grid-T.nc',
-                           'nemo_aa000_1m_19800101_91800701_grid-U.nc',
-                           'nemo_aa000_1m_19800101_91800701_grid-V.nc',
-                           'nemo_aa000_1m_19800101_91800701_grid-W.nc']
-        expected_output = [
-            os.path.join(root_load_path, suite_id, stream_id, dummy_file) for dummy_file in dummy_filenames
-        ]
-        mock_glob.side_effect = [None, expected_output]
-
-        test_output = get_input_files(root_load_path=root_load_path,
-                                      suite_id=suite_id,
-                                      stream_id=stream_id,
-                                      substream=substream,
-                                      ancil_files=ancil_files)
-
-        call_list1 = [
-            call(os.path.join(root_load_path, suite_id, stream_id, '*{0}').format(extension))
-            for extension in ['.pp', '.nc']
-        ]
-        mock_glob.assert_has_calls(call_list1)
-        self.assertEqual(test_output, expected_output)
-
-    @patch('glob.glob')
-    def test_get_input_files_substreams(self, mock_glob):
-        root_load_path = '/dummy/file/location'
-        suite_id = 'u-aa000'
-        stream_id = 'onm'
-        substream = 'grid-T'
-        ancil_files = None
-
-        dummy_filenames = ['nemo_aa000_1m_19800101_91800701_grid-T.nc',
-                           'nemo_aa000_1m_19800101_91800701_grid-U.nc',
-                           'nemo_aa000_1m_19800101_91800701_grid-V.nc',
-                           'nemo_aa000_1m_19800101_91800701_grid-W.nc']
-
-        expected_output = [os.path.join(root_load_path, suite_id, stream_id, dummy_filenames[0])]
-        mock_glob.side_effect = [None, expected_output]
-        test_output = get_input_files(root_load_path=root_load_path,
-                                      suite_id=suite_id,
-                                      stream_id=stream_id,
-                                      substream=substream,
-                                      ancil_files=ancil_files)
-
-        calls = [call(os.path.join(root_load_path, suite_id, stream_id, '*{0}{1}').format(substream, extension))
-                 for extension in ['.pp', '.nc']]
-        mock_glob.assert_has_calls(calls)
-        self.assertEqual(test_output, expected_output)
 
 
 class TestEnvironment(unittest.TestCase):

@@ -116,7 +116,8 @@ def expected_text_conversion():
         'no_email_notifications': False,
         'scale_memory_limits': 2.0,
         'override_cycling_frequency': ['ap4=P1Y', 'ap5=P2Y'],
-        'model_params_dir': ''
+        'model_params_dir': '',
+        'continue_if_mip_convert_failed': True
     }
 
 
@@ -221,6 +222,7 @@ def expected_test_minimal_conversion():
         'model_params_dir': '',
         'no_email_notifications': False,
         'override_cycling_frequency': [],
+        'continue_if_mip_convert_failed': False,
         'scale_memory_limits': None,
         'skip_archive': False,
         'skip_configure': False,

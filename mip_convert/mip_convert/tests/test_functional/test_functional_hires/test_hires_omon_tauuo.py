@@ -18,7 +18,7 @@ class TestHiResOmonTauuo(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_HIRES_Omon_tauuo')
         return HiResTestData(
             mip_table='Omon',
-            variable='tauuo',
+            variables=['tauuo'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

@@ -102,7 +102,7 @@ class TestWriteRequest(TestCase):
     def read_lines(file_path):
         with open(file_path, 'r') as file:
             content = file.readlines()
-        return [line.strip() for line in content]
+        return [line.strip() for line in content if line.strip()]
 
 
 if __name__ == '__main__':

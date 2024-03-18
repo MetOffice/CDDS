@@ -17,7 +17,7 @@ class TestCmip6AERmonPhalf(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_AERmon_phalf')
         return Cmip6TestData(
             mip_table='AERmon',
-            variable='phalf',
+            variables=['phalf'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

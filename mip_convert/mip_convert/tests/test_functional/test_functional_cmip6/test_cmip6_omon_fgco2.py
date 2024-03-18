@@ -17,7 +17,7 @@ class TestCmip6OmonFgco2(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_Omon_fgco2')
         return Cmip6TestData(
             mip_table='Omon',
-            variable='fgco2',
+            variables=['fgco2'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

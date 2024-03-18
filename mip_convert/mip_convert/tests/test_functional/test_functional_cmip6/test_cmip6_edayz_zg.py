@@ -18,7 +18,7 @@ class TestCmip6EdayZZg(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_EdayZ_zg')
         return Cmip6TestData(
             mip_table='EdayZ',
-            variable='zg',
+            variables=['zg'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

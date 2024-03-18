@@ -16,7 +16,7 @@ class TestCmip6SImonSndmassmelt(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_SImon_sndmassmelt')
         return Cmip6TestData(
             mip_table='SImon',
-            variable='sndmassmelt',
+            variables=['sndmassmelt'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

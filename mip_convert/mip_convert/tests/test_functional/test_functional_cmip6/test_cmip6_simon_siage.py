@@ -19,7 +19,7 @@ class TestCmip6SImonSiage(AbstractFunctionalTests):
         replacement_file = os.path.join(os.environ['CDDS_ETC'], 'horizontal_coordinates/cice_eORCA1_coords.nc')
         return Cmip6TestData(
             mip_table='SImon',
-            variable='siage',
+            variables=['siage'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

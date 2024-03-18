@@ -44,9 +44,11 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         """
         pass
 
-    def convert(self, filenames: List[str], relaxed_cmor: bool) -> Tuple[List[str], List[str]]:
+    def convert(
+            self, filenames: List[str], relaxed_cmor: bool, expected_exit_code: int = 0
+    ) -> Tuple[List[str], List[str]]:
         input_directory = self.input_dir.format(
-            self.test_info.project_id, self.test_info.mip_table, self.test_info.variable
+            self.test_info.project_id, self.test_info.mip_table, '_'.join(self.test_info.variables)
         )
         write_user_configuration_file(self.os_handle, self.test_info)
         reference_data_directory = os.path.join(ROOT_REFERENCE_CASES_DIR, input_directory)
@@ -82,7 +84,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         os.umask(original_umask)
 
         sys.stderr = original_stderr
-        if return_code != 0:
+        if return_code != expected_exit_code:
             raise RuntimeError('MIP Convert failed. Please check "{}"'.format(log_name))
 
         # Provide help if the output file does not exist.
@@ -95,6 +97,11 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         if relaxed_cmor:
             parameters = parameters + ['--relaxed_cmor']
         return parameters
+
+    def check_convert_with_error(self, expected_error_code: int) -> None:
+        other_items = self.test_info.specific_info.other
+        filenames = other_items['filenames']
+        self.convert(filenames, False, expected_error_code)
 
     def check_convert(self, relaxed_cmor: bool = False, use_fast_comparison: bool = False) -> None:
         other_items = self.test_info.specific_info.other
