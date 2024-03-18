@@ -87,7 +87,6 @@ class TestWriteRequest(TestCase):
         request.metadata.experiment_id = 'piControl'
         request.metadata.variant_label = 'r1i1p1f2'
         request.metadata.calendar = '360_day'
-        request.common.cdds_version = '2.6.0.dev0'
         request.common.root_data_dir = '/project/cdds_data'
         request.common.root_proc_dir = '/project/cdds/proc'
         request.data.output_mass_root = 'moose:/adhoc/projects/cdds/'

@@ -39,7 +39,6 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
     root_replacement_coordinates_dir = '{}/horizontal_coordinates/'.format(os.environ['CDDS_ETC'])
     sites_file = '{}/cfmip2/cfmip2-sites-orog.txt'.format(os.environ['CDDS_ETC'])
     return {
-        'cdds_version': get_version('cdds'),
         'data_version': data_version,
         'external_plugin': '',
         'external_plugin_location': '',
@@ -60,7 +59,6 @@ class CommonSection(Section):
     """
     Represents the common section in the request configuration
     """
-    cdds_version: str = ''
     external_plugin: str = ''
     external_plugin_location: str = ''
     mip_table_dir: str = ''
