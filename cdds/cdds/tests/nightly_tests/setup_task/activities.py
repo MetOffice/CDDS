@@ -68,7 +68,7 @@ def create_variable_list(config: SetupConfig) -> None:
     """
     request_file = config.request_cfg
     request = read_request(request_file)
-
+    print("selected variables ", config.selected_variables)
     if config.selected_variables:
         variables_file = os.path.join(component_directory(request, 'prepare'), 'variables_file.txt')
         with open(variables_file, 'w') as file_handle:

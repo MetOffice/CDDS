@@ -29,7 +29,7 @@ def retrieve_request_metadata(request: Request):
         if type(val) is TimePoint:
             val = dump.TimePointDumper().strftime(val, DATE_TIME_FORMAT)
         ordered_metadata['cmor_dataset'].update({item: val})
-    if request.metadata.branch_method != '':
+    if request.metadata.branch_method not in ['', 'no parent'] :
         for item in USER_CONFIG_OPTIONS['cmor_dataset']['branch']:
             val = getattr(request.metadata, item)
             if type(val) is TimePoint:
