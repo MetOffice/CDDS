@@ -141,7 +141,7 @@ class CreateRequestApp(NightlyApp):
         Run application: Create the request JSON file of the rose suite info specified
         by the values of the app configuration and command line parameters.
         """
-        makedirs(self.request_dir)
+        # makedirs(self.request_dir)
         suites = self.app_config.iterate_namelist('suites', NameListFilter.task_suite, self.task_package)
         for suite in suites:
             present_request = suite['use_present_request']
@@ -152,7 +152,7 @@ class CreateRequestApp(NightlyApp):
                 file_name = 'cdds_request_{}.cfg'.format(self.task_package)
                 file_path = os.path.join(os.getenv('CYLC_WORKFLOW_RUN_DIR'), 'requests', file_name)
                 self.logger.info("Generate new request cfg from source in {}".format(file_path))
-                shutil.copyfile(file_path, self.request_file)
+                # shutil.copyfile(file_path, self.request_file)
 
     def build_write_request_json_args(self, suite):
         """

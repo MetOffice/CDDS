@@ -243,7 +243,7 @@ class Dataset(object):
     def _branch_time(self, branch_time_name, branch_date_name, base_date_name):
         branch_time = {}
         if branch_date_name in self._user_config.cmor_dataset:
-            if self._user_config.cmor_dataset[branch_date_name] == 'N/A':
+            if self._user_config.cmor_dataset[branch_date_name] in ['N/A', '']:
                 value = 0.
             else:
                 value = (self._time_from_option(branch_date_name) - self._time_from_option(base_date_name))

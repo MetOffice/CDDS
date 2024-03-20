@@ -128,7 +128,7 @@ class ConvertProcess(object):
         :return: Name of the suite that will be run
         :rtype: str
         """
-        return '{0}_{1}'.format(self._convert_suite, self._request.data.model_workflow_id)
+        return '{0}_{1}'.format(self._convert_suite, self._request.common.workflow_basename)
 
     def set_branch(self, branch_path: str) -> None:
         """
@@ -238,7 +238,7 @@ class ConvertProcess(object):
         :return: The |request identifier| for the current package.
         :rtype: str
         """
-        return self._request.data.model_workflow_id
+        return self._request.common.workflow_basename
 
     @property
     def streams(self) -> List[str]:
