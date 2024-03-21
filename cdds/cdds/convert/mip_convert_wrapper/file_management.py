@@ -104,6 +104,7 @@ def get_paths(suite_name, model_id, stream, substream, start_date: TimePoint, en
     """
     # Identify files that are to be expected
     old_input_location = os.path.join(input_dir, suite_name, stream)
+
     stream_prefix = find_stream_prefix(old_input_location, stream)
     new_input_location = os.path.join(work_dir, suite_name, stream)
     period_start = start_date
