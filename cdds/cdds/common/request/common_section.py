@@ -6,7 +6,6 @@ Module to handle the common section in the request configuration
 import os
 
 from dataclasses import dataclass, asdict
-from datetime import datetime
 from configparser import ConfigParser
 from typing import Dict, Any
 
@@ -33,13 +32,11 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
     :rtype: Dict[str, Any]
     """
     mip_table_dir = PluginStore.instance().get_plugin().mip_table_dir()
-    data_version = datetime.utcnow().strftime('%Y-%m-%dT%H%MZ')
     root_ancil_dir = '{}/ancil/'.format(os.environ['CDDS_ETC'])
     root_hybrid_heights_dir = '{}/vertical_coordinates/'.format(os.environ['CDDS_ETC'])
     root_replacement_coordinates_dir = '{}/horizontal_coordinates/'.format(os.environ['CDDS_ETC'])
     sites_file = '{}/cfmip2/cfmip2-sites-orog.txt'.format(os.environ['CDDS_ETC'])
     return {
-        'data_version': data_version,
         'external_plugin': '',
         'external_plugin_location': '',
         'log_level': 'INFO',
@@ -73,7 +70,6 @@ class CommonSection(Section):
     sites_file: str = ''
     simulation: bool = False
     log_level: str = 'INFO'
-    data_version: str = ''
 
     @property
     def items(self) -> Dict[str, Any]:

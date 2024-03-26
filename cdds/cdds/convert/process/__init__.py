@@ -97,7 +97,7 @@ class ConvertProcess(object):
 
         self._calculate_concat_task_periods()
 
-        self.archive_data_version = request.data.mass_data_archive_version
+        self.archive_data_version = request.data.data_version
 
     def set_calendar(self) -> None:
         """
@@ -128,7 +128,7 @@ class ConvertProcess(object):
         :return: Name of the suite that will be run
         :rtype: str
         """
-        return '{0}_{1}'.format(self._convert_suite, self._request.data.model_workflow_id)
+        return '{0}_{1}'.format(self._convert_suite, self._request.common.workflow_basename)
 
     def set_branch(self, branch_path: str) -> None:
         """
@@ -238,7 +238,7 @@ class ConvertProcess(object):
         :return: The |request identifier| for the current package.
         :rtype: str
         """
-        return self._request.data.model_workflow_id
+        return self._request.common.workflow_basename
 
     @property
     def streams(self) -> List[str]:
@@ -366,7 +366,6 @@ class ConvertProcess(object):
         of components for that stream. This dictionary is stored in the
         self.stream_components object attribute.
         """
-
         stream_grids = collections.defaultdict(list)
         substreams_dict = collections.defaultdict(dict)
         cfg_dir = component_directory(self._request, 'configure')
@@ -860,7 +859,7 @@ class ConvertProcess(object):
         components = self.stream_components
         required_memory = {c: self._model_params.memory(stream) for c in components[stream]}
         # Scale memory limits if included on command line
-        if self._request.conversion.scale_memory_limits is not None:
+        if self._request.conversion.scale_memory_limits:
             required_memory = {
                 component: scale_memory(mem_limit, self._request.conversion.scale_memory_limits)
                 for component, mem_limit in required_memory.items()

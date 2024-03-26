@@ -118,6 +118,8 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
             maskings = get_masking_attributes(request.metadata.model_id, streams)
             user_config = OrderedDict()
             user_config.update(deepcopy(metadata))
+            # lists need to be flattened again
+            user_config['cmor_dataset']['model_type'] = ' '.join(user_config['cmor_dataset']['model_type'])
             user_config['cmor_dataset']['grid'] = grid
             user_config['cmor_dataset']['grid_label'] = grid_label
             user_config['cmor_dataset']['nominal_resolution'] = nominal_resolution

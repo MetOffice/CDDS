@@ -29,14 +29,14 @@ def retrieve_request_metadata(request: Request):
         if type(val) is TimePoint:
             val = dump.TimePointDumper().strftime(val, DATE_TIME_FORMAT)
         ordered_metadata['cmor_dataset'].update({item: val})
-    if request.metadata.branch_method != '':
+    if request.metadata.branch_method not in ['', 'no parent']:
         for item in USER_CONFIG_OPTIONS['cmor_dataset']['branch']:
             val = getattr(request.metadata, item)
             if type(val) is TimePoint:
                 val = dump.TimePointDumper().strftime(val, DATE_TIME_FORMAT)
             ordered_metadata['cmor_dataset'].update({item: val})
-        ordered_metadata['request'].update(
-            {'child_base_date': dump.TimePointDumper().strftime(request.metadata.child_base_date, DATE_TIME_FORMAT)})
+    ordered_metadata['request'].update(
+        {'child_base_date': dump.TimePointDumper().strftime(request.metadata.child_base_date, DATE_TIME_FORMAT)})
     ordered_metadata['cmor_setup'].update({'cmor_log_file': '{{ cmor_log }}'})
     ordered_metadata['cmor_setup'].update({'netcdf_file_action': NETCDF_FILE_ACTION})
     ordered_metadata['cmor_setup'].update({'create_subdirectories': CREATE_SUBDIRECTORIES})

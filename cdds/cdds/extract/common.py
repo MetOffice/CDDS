@@ -882,10 +882,9 @@ def configure_variables(variable_file):
     logger.info("""
     variables file specification
     - file:       {}
-    - request:    {}
     - mip:        {}
     - experiment: {}""".format(
-        os.path.basename(variable_file), variables["data_request_version"],
+        os.path.basename(variable_file),
         variables["mip"], variables["experiment_id"]))
 
     # log requested variables for which extraction will be attempted

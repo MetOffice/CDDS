@@ -21,6 +21,7 @@ from cdds.common.constants import (APPROVED_VARS_PREFIX,
                                    APPROVED_VARS_FILENAME_REGEX,
                                    APPROVED_VARS_FILENAME_STREAM_REGEX,
                                    DATESTAMP_TEMPLATE, DATESTAMP_PARSER_STR)
+from cdds.common.cdds_files.cdds_directories import requested_variables_file
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request
 from cdds.common.variables import RequestedVariablesList
@@ -45,9 +46,9 @@ def store_mip_output_data(request: Request, stream: str, mip_approved_variables_
 
     # Read the request information.
 
-    if request.common.data_version:
+    if request.data.data_version:
         try:
-            datestamp_obj = datetime.datetime.strptime(request.common.data_version, DATESTAMP_PARSER_STR)
+            datestamp_obj = datetime.datetime.strptime(request.data.data_version, DATESTAMP_PARSER_STR)
         except ValueError:
             raise RuntimeError('Invalid data version timestamp supplied.')
     else:
@@ -57,7 +58,6 @@ def store_mip_output_data(request: Request, stream: str, mip_approved_variables_
 
     logger.info('Running CDDS archive for the following package:\nrequest_id: {request_id}\npackage: {package}\n'
                 ''.format(package=request.common.package, request_id=request.data.model_workflow_id))
-
     mip_approved_variables = get_variables_to_process(request, mip_approved_variables_file, stream)
     mip_approved_variables = retrieve_file_paths(mip_approved_variables, request)
 
@@ -103,8 +103,7 @@ def get_variables_to_process(
     :rtype: List[Dict[str, str]]
     """
     logger = logging.getLogger(__name__)
-
-    active_list = get_active_variables(request.data.variable_list_file)
+    active_list = get_active_variables(requested_variables_file(request))
     approved_list = get_approved_variables(request, mip_approved_variables_file, selected_stream)
 
     # merge the active and approved variables lists

@@ -11,7 +11,7 @@ from netCDF4 import Dataset
 from typing import Tuple, List
 
 from cdds.common import configure_logger, check_directory
-from cdds.common.cdds_files.cdds_directories import output_data_directory
+from cdds.common.cdds_files.cdds_directories import component_directory, output_data_directory
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.mip_tables import MipTables
@@ -39,7 +39,7 @@ def main_quality_control(arguments=None):
     """
     # Parse the arguments.
     args, request = parse_args(arguments)
-    log_name = update_log_dir(QC_LOG_NAME, COMPONENT)
+    log_name = update_log_dir(QC_LOG_NAME, request, COMPONENT)
 
     # Create the configured logger.
     configure_logger(log_name, request.common.log_level, False, stream=args.stream)
@@ -131,8 +131,9 @@ def run_and_report(args: Namespace, request: Request) -> dict:  # TODO: kerstin 
     :rtype: dict
     """
     logger = logging.getLogger()
-    logger.info('Writing report to {}'.format(args.output_dir))
-    db_path = os.path.join(args.output_dir, QC_DB_FILENAME)
+    output_dir = component_directory(request, 'qualitycheck') if request.misc.use_proc_dir else args.output_dir
+    logger.info('Writing report to {}'.format(output_dir))
+    db_path = os.path.join(output_dir, QC_DB_FILENAME)
 
     basedir = output_data_directory(request)
     cdds_runner = QCRunner(db_path)
@@ -140,10 +141,11 @@ def run_and_report(args: Namespace, request: Request) -> dict:  # TODO: kerstin 
 
     mip_table_dir = PluginStore.instance().get_plugin().mip_table_dir()
 
-    mip_tables = MipTables(mip_table_dir, args.mip_table, None, None, logging.getLogger(__name__), args.stream)
+    mip_tables = MipTables(mip_table_dir)
 
-    ds = Cmip6Dataset(basedir, request, mip_tables)
+    ds = Cmip6Dataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
+                      args.stream)
     ds.load_dataset(Dataset)
     cdds_runner.init_suite(QCSuite(), ds, request.common.is_relaxed_cmor())
     run_id = cdds_runner.run_tests(mip_table_dir, request)
-    return cdds_runner.generate_report(run_id, args.output_dir, args.do_not_filter, args.details)
+    return cdds_runner.generate_report(run_id, output_dir, args.do_not_filter, args.details)

@@ -5,6 +5,7 @@ import os
 from dataclasses import dataclass, field
 from typing import List
 
+from cdds.common.cdds_files.cdds_directories import requested_variables_file
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
 from cdds.common.request.request import Request
@@ -42,7 +43,7 @@ def add_user_config_data_files(arguments: ConvertArguments, request: Request) ->
     hybrid_heights_files = get_hybrid_heights_files(request)
 
     output_cfg_dir = get_component_dir(request, 'configure')
-    requested_variables_list_file = get_requested_variables_file(request)
+    requested_variables_list_file = requested_variables_file(request)
 
     arguments.ancil_files = ancil_files
     arguments.replacement_coordinates_file = replacment_coordinates_file
@@ -50,20 +51,6 @@ def add_user_config_data_files(arguments: ConvertArguments, request: Request) ->
     arguments.requested_variables_list_file = requested_variables_list_file
     arguments.output_cfg_dir = output_cfg_dir
     return arguments
-
-
-def get_requested_variables_file(request: Request) -> str:
-    """
-    Returns the path to the requested variables file.
-
-    :param request: The request configuration for the cdds_convert process
-    :type request: Request
-    :return: Path to the requested variables file
-    :rtype: str
-    """
-    plugin = PluginStore.instance().get_plugin()
-    request_variables_filename = plugin.requested_variables_list_filename(request)
-    return os.path.join(get_component_dir(request, 'prepare'), request_variables_filename)
 
 
 def get_component_dir(request: Request, component: str):

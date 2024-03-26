@@ -62,7 +62,7 @@ class TestData:
         request.data.output_mass_root = self.mass_root
         request.data.output_mass_suffix = self.mass_suffix
         request.data.variable_list_file = self.variables_file
-        request.common.data_version = self.data_version
+        request.data.data_version = self.data_version
         request.common.simulation = True
         request.write(self.request_cfg_path)
 
