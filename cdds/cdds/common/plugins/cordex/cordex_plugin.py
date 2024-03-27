@@ -29,7 +29,7 @@ class CordexPlugin(BasePlugin):
     """
 
     def __init__(self) -> None:
-        super(CordexPlugin, self).__init__(MipEra.CORDEX)
+        super(CordexPlugin, self).__init__(MipEra.CORDEX.value)
 
     def models_parameters(self, model_id: str) -> ModelParameters:
         """

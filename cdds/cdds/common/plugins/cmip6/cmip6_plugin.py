@@ -44,7 +44,7 @@ class Cmip6Plugin(BasePlugin):
     """
 
     def __init__(self):
-        super(Cmip6Plugin, self).__init__(MipEra.CMIP6)
+        super(Cmip6Plugin, self).__init__(MipEra.CMIP6.value)
 
     def models_parameters(self, model_id: str) -> ModelParameters:
         """

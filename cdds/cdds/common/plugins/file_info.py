@@ -23,7 +23,8 @@ class ModelFileInfo(object, metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def mass_location_suffix(self, request, mip_table, variable, grid_label) -> str:
+    def mass_location_suffix(
+            self, request: 'Request', mip_table: str, variable: str, grid_label: str, frequency: str) -> str:
         """
         Returns the suffix to the MASS location for the simulation model files of a variable
 
@@ -35,6 +36,8 @@ class ModelFileInfo(object, metaclass=ABCMeta):
         :type variable: str
         :param grid_label: Grid label
         :type grid_label: str
+        :param frequency: Frequency of the variable
+        :type: str
         :return: The suffix to the MASS location for the simulation model files of a variable
         :rtype: str
         """
@@ -167,7 +170,8 @@ class GlobalModelFileInfo(ModelFileInfo):
     def __init__(self):
         super(GlobalModelFileInfo, self).__init__()
 
-    def mass_location_suffix(self, request, mip_table, variable, grid_label) -> str:
+    def mass_location_suffix(
+            self, request: 'Request', mip_table: str, variable: str, grid_label: str, frequency: str) -> str:
         """
         Returns the suffix to the MASS location for the simulation model files of a variable
 
@@ -179,6 +183,8 @@ class GlobalModelFileInfo(ModelFileInfo):
         :type variable: str
         :param grid_label: Grid label
         :type grid_label: str
+        :param frequency: Frequency of the variable
+        :type: str
         :return: The suffix to the MASS location for the simulation model files of a variable
         :rtype: str
         """
@@ -276,7 +282,8 @@ class RegionalModelFileInfo(ModelFileInfo):
     def __init__(self):
         super(RegionalModelFileInfo, self).__init__()
 
-    def mass_location_suffix(self, request: 'Request', mip_table: str, variable: str, grid_label: str) -> str:
+    def mass_location_suffix(
+            self, request: 'Request', mip_table: str, variable: str, grid_label: str, frequency: str) -> str:
         """
         Returns the suffix to the MASS location for the simulation model files of a variable
 
@@ -288,13 +295,15 @@ class RegionalModelFileInfo(ModelFileInfo):
         :type variable: str
         :param grid_label: Grid label
         :type grid_label: str
+        :param frequency: Frequency of the variable
+        :type: str
         :return: The suffix to the MASS location for the simulation model files of a variable
         :rtype: str
         """
         mass_root_location = self.mass_root_location_suffix(request)
         return os.path.join(
             mass_root_location,
-            request.netcdf_global_attributes.attributes['frequency'],
+            frequency,
             variable
         )
 
