@@ -1,0 +1,45 @@
+site_name: Climate Data Dissemination System
+theme:
+  name: material
+  features:
+    - navigation.tabs
+nav:
+  - Home:
+    - About: index.md
+    - Changelog: CHANGES.rst
+  - Operational Procedure:
+    - CMIP6: operational_procedure/cmip6.md
+    - CMIP6 Plus: operational_procedure/cmip6_plus.md
+    - GCModelDev: operational_procedure/gcmodeldev.md
+  - Tutorials:
+    - Search Inventory: tutorials/search_inventory.md
+    - CDDS Extract: tutorials/extract.md
+    - Add a Mapping: tutorials/add_mapping.md
+  - API Documentation: reference/
+markdown_extensions:
+  - admonition
+  - attr_list
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+extra:
+  version:
+    provider: mike
+plugins:
+- search  
+- gen-files:
+    scripts:
+    - scripts/gen_api_docs.py
+- literate-nav:
+    nav_file: SUMMARY.md
+- mkdocstrings:
+    handlers:
+      python:
+        options:
+          docstring_style: sphinx
+- section-index
