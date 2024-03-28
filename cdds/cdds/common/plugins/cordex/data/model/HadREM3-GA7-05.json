@@ -35,7 +35,7 @@
     "atmos": {
       "atmos_timestep": null,
       "model_info": "",
-      "nominal_resolution": "250 km",
+      "nominal_resolution": "25 km",
       "longitude": null,
       "latitude": null,
       "v_latitude": null,
