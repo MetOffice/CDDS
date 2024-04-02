@@ -43,7 +43,7 @@ class TestMassPaths(unittest.TestCase):
         mock_grid_info.return_value = (None, None, grid, None)
         mass_root = 'moose://root/mass/location/'
         var_dict = {'mip_table_id': 'Amon', 'variable_id': 'tas',
-                    'stream_id': 'ap5', 'out_var_name': 'tas'}
+                    'stream_id': 'ap5', 'out_var_name': 'tas', 'frequency': 'mon'}
         output_path = cdds.archive.mass.get_archive_path(mass_root, var_dict, self.request)
         reference_path = os.path.join(mass_root,
                                       self.request.metadata.mip_era,

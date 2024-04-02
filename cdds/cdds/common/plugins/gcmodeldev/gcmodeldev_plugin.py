@@ -27,7 +27,7 @@ class GCModelDevPlugin(BasePlugin):
     """
 
     def __init__(self):
-        super(GCModelDevPlugin, self).__init__(MipEra.GC_MODEL_DEV)
+        super(GCModelDevPlugin, self).__init__(MipEra.GC_MODEL_DEV.value)
 
     def models_parameters(self, model_id: str) -> ModelParameters:
         """

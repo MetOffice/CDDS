@@ -102,8 +102,8 @@ class BasePlugin(CddsPlugin, ABC):
     Abstract class that provides some basic functionality for plugins.
     """
 
-    def __init__(self, mip_era: MipEra):
-        super(BasePlugin, self).__init__(mip_era.value)
+    def __init__(self, mip_era: str):
+        super(BasePlugin, self).__init__(mip_era)
 
     def proc_directory(self, request: 'Request') -> str:
         """

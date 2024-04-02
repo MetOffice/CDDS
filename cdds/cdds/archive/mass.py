@@ -115,6 +115,7 @@ def get_archive_path(mass_path_root: str, var_dict: Dict[str, str], request: Req
     """
     mip_table = var_dict['mip_table_id']
     variable = var_dict['variable_id']
+    frequency = var_dict['frequency']
 
     _, _, grid_label, _ = retrieve_grid_info(variable,
                                              mip_table,
@@ -124,7 +125,7 @@ def get_archive_path(mass_path_root: str, var_dict: Dict[str, str], request: Req
 
     update_memberid_if_needed(request)
     model_file_info = PluginStore.instance().get_plugin().model_file_info()
-    mass_path_var_core = model_file_info.mass_location_suffix(request, mip_table, variable, grid_label)
+    mass_path_var_core = model_file_info.mass_location_suffix(request, mip_table, variable, grid_label, frequency)
     mass_path_var = os.path.join(mass_path_root, mass_path_var_core)
     return mass_path_var
 
