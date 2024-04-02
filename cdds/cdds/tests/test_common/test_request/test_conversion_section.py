@@ -14,7 +14,7 @@ class TestConversionDefaults(TestCase):
         expected_defaults = {
             'cdds_workflow_branch': 'cdds_jasmin_2.3',
             'cylc_args': '-v',
-            'no_email_notifications': False,
+            'no_email_notifications': True,
             'skip_extract': True,
             'skip_extract_validation': False,
             'skip_configure': False,
@@ -32,7 +32,7 @@ class TestConversionDefaults(TestCase):
         expected_defaults = {
             'cdds_workflow_branch': 'trunk',
             'cylc_args': '-v',
-            'no_email_notifications': False,
+            'no_email_notifications': True,
             'skip_extract': False,
             'skip_extract_validation': False,
             'skip_configure': False,

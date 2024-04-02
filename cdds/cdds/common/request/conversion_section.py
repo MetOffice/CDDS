@@ -39,7 +39,7 @@ def conversion_defaults() -> Dict[str, Any]:
     return {
         'cdds_workflow_branch': cdds_workflow_branch,
         'cylc_args': '-v',
-        'no_email_notifications': False,
+        'no_email_notifications': True,
         'skip_extract': skip_extract,
         'skip_extract_validation': skip_extract_validation,
         'skip_configure': skip_configure,
@@ -60,7 +60,7 @@ class ConversionSection(Section):
     skip_archive: bool = False
     cdds_workflow_branch: str = ''
     cylc_args: List[str] = field(default_factory=list)
-    no_email_notifications: bool = False
+    no_email_notifications: bool = True
     scale_memory_limits: float = None
     override_cycling_frequency: List[str] = field(default_factory=list)  # ['stream=frequency']
     model_params_dir: str = ''
