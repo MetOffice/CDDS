@@ -3,12 +3,8 @@
 from abc import ABCMeta, abstractmethod
 import argparse
 import logging
-import os
-import shutil
 
 from cdds.tests.nightly_tests.app_config import AppConfig
-from cdds.tests.nightly_tests.arguments import CmdArgs
-from cdds.tests.nightly_tests.common import NameListFilter
 
 
 class NightlyApp(object, metaclass=ABCMeta):
@@ -101,101 +97,3 @@ class NightlyApp(object, metaclass=ABCMeta):
         except Exception:
             self.logger.error("Error parsing configuration file %s", config_file)
             raise
-
-
-class CreateRequestApp(NightlyApp):
-    """
-    App used by nightly tests to create the request json for each suite defined
-    in the rose-app.conf by calling the corresponding method in CDDS.
-    """
-    APP_ERROR = 'Failed to create request.cfg for suite {}. For more information check log file: {}'
-    COUNT = 0
-
-    def __init__(self, *args, **kwargs):
-        super(CreateRequestApp, self).__init__(*args, **kwargs)
-        app_name = self.__class__.__name__
-        self._parse_cli_args(app_name)
-        self._parse_app_config()
-
-        self.task_package = getattr(self.cli_args, 'package', None)
-        self.request_file = getattr(self.cli_args, 'output_file', None)
-        self.request_file_name = os.path.basename(self.request_file)
-        self.request_dir = os.path.dirname(self.request_file)
-        self.log_file = os.path.join(self.request_dir, 'create_request_json.log')
-
-    @property
-    def cli_spec(self):
-        """
-        Defines the command-line parameters for the app:
-            -c/--config-file: Path to the app configuration file
-            -o/--output-file: Path to the request output JSON file
-        """
-        return [
-            {"names": ["-c", "--config-file"], "help": "Pathname of app configuration file"},
-            {"names": ["-o", "--output-file"], "help": "Path to the request output JSON file"},
-            {"names": ["-p", "--package"], "help": "Name of the current cylc task package"}
-        ]
-
-    def run(self):
-        """
-        Run application: Create the request JSON file of the rose suite info specified
-        by the values of the app configuration and command line parameters.
-        """
-        suites = self.app_config.iterate_namelist('suites', NameListFilter.task_suite, self.task_package)
-        for suite in suites:
-            present_request = suite['use_present_request']
-            if present_request:
-                self.logger.info('Copy existing request.cfg from {} to {}'.format(present_request, self.request_file))
-                shutil.copyfile(present_request, self.request_file)
-            else:
-                file_name = 'cdds_request_{}.cfg'.format(self.task_package)
-                file_path = os.path.join(os.getenv('CYLC_WORKFLOW_RUN_DIR'), 'requests', file_name)
-                self.logger.info("Using request cfg from source in {}".format(file_path))
-
-    def build_write_request_json_args(self, suite):
-        """
-        Build the arguments that is needed to run the call the
-        `main_write_rose_suite_request_json` method.
-
-        Parameters
-        ----------
-        suite: :dict
-            Row of a name list entry containing all information of a suite that
-            is needed to find the corresponding rose suite info.
-
-        Returns
-        -------
-        :list
-            list of command line arguments and their options
-        """
-        args = (CmdArgs()
-                .with_option('-o', self.request_dir)
-                .with_option('-f', self.request_file_name)
-                .with_option('-l', self.log_file))
-        return args.get()
-
-
-class AppError(Exception):
-    """
-    Exception raised if running the app failed.
-    """
-
-    def __init__(self, app_name, log_file_path):
-        """
-        Initialise the exception with an error message containing the name
-        of the app and the path to the log file that contains more information
-        why the app failed.
-
-        Parameters
-        ----------
-        app_name: :str
-            Name of the app that raise the error.
-
-        log_file_path: :str
-            Path to the log file that contains more information about the failure
-        """
-        super(AppError, self).__init__()
-        self.msg = 'Failed to run App "{}". For more information check log file: "{}"'.format(app_name, log_file_path)
-
-    def __str__(self):
-        return repr(self.msg)
