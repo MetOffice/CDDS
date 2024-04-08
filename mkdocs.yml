@@ -4,6 +4,7 @@ theme:
   features:
     - navigation.tabs
     - navigation.expand
+    - content.tabs.link
 nav:
   - Home:
     - About: index.md
