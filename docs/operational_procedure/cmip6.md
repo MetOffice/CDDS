@@ -17,26 +17,27 @@ When you see the :material-ticket: icon this means
 Before running the CDDS Operational Procedure, please ensure that:
 
 - [x] you own a _CDDS operational simulation ticket_ (see the [list of CDDS operational simulation tickets](https://code.metoffice.gov.uk/trac/cdds/wiki/CMIP6Simulations)) that will monitor the processing of a CMIP6 simulation using CDDS.
-- [x] you belong to the `cdds` group 
-  - type `groups` on the command line to print the groups a user is in
-- [x] you have write permissions to `moose:/adhoc/projects/cdds/` on MASS, i.e. is your moose username included in the access control list output by the command
+- [x] you belong to the `cdds` group
+!!! tip 
+    type `groups` on the command line to print the groups a user is in
+- [x] you have write permissions to `moose:/adhoc/projects/cdds/` on MASS
+!!! tip
+    You can check if you have correct permissions by running following command and check if your moose username is included in the access control list output:
     ```bash
     moo getacl moose:/adhoc/projects/cdds
     ```
 - [x] you use a bash shell. CDDS uses Conda. Conda can experience problems when running in any other shells except of bash.
-- [x] You can check which shell you use by following command:
+!!! tip 
+    You can check which shell you use by following command:
     ```bash
     echo $SHELL
     ```
-- [x] If the result is not ```/bin/bash```, you can switch to a bash shell by running:
+    If the result is not ```/bin/bash```, you can switch to a bash shell by running:
     ```bash
     /bin/bash
     ```
 
 If any of the above are not true please contact the [CDDS Team](mailto:cdds@metoffice.gov.uk) for guidance.
-
-!!! note
-    Previously a `.cdds_credentials` file was required in order to connect to CREM, but this is no longer required for CDDS users following the retirement of CREM.
 
 ### Partial processing of a simulation
 
@@ -52,60 +53,60 @@ When you take any action please ensure that you update your _CDDS operational si
 
 ## Set up the CDDS operational simulation ticket
 
-:material-ticket: Select `start work` on the _CDDS operational simulation ticket_ (so that the status is `in_progress`) to indicate that work is starting. 
+:ticket: Select `start work` on the _CDDS operational simulation ticket_ (so that the status is `in_progress`) to indicate that work is starting. 
 
 ## Activate the CDDS install
 
 === "MOHC"
 
-1. Setup the environment to use the central installation of CDDS and its dependencies:
-    ```bash
-    source ~cdds/bin/setup_env_for_cdds <cdds_version>
-    ```
-    where `<cdds_version>` is the version of CDDS you wish to use, e.g. `2.5.0`. Unless instructed otherwise 
-    you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
-    this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
-    for advice.
+    1. Setup the environment to use the central installation of CDDS and its dependencies:
+       ```bash
+       source ~cdds/bin/setup_env_for_cdds <cdds_version>
+       ```
+       where `<cdds_version>` is the version of CDDS you wish to use, e.g. `2.5.0`. Unless instructed otherwise 
+       you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
+       this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
+       for advice.
 
-2. **Ticket**: Record the version of CDDS being used on the _CDDS operational simulation ticket_.
+    2. **Ticket**: Record the version of CDDS being used on the _CDDS operational simulation ticket.
 
 === "JASMIN"
 
-1. Setup the environment to use the central installation of CDDS and its dependencies:
-    ```bash
-    source ~cdds/bin/setup_env_for_cdds <cdds_version>
-    ```
-    where `<cdds_version>` is the version of CDDS you wish to use, e.g. `2.5.0`. Unless instructed otherwise 
-    you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
-    this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
-    for advice.
+    1. Setup the environment to use the central installation of CDDS and its dependencies:
+       ```bash
+       source ~cdds/bin/setup_env_for_cdds <cdds_version>
+       ```
+       where `<cdds_version>` is the version of CDDS you wish to use, e.g. `2.5.0`. Unless instructed otherwise 
+       you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
+       this version should be used in all stages of the package being processed. If in doubt contact the CDDS team  
+       for advice.
 
-2. **Ticket**: Record the version of CDDS being used on the _CDDS operational simulation ticket_.
+    2. **Ticket**: Record the version of CDDS being used on the _CDDS operational simulation ticket_.
 
 
-3. Setup the environment to use the central installation of CDDS and its dependencies:
-    ```bash
-    source ~cdds/bin/setup_env_for_cdds <cdds_version>
-    ```
-    where `<cdds_version>` is the version of CDDS you wish to use, e.g. `2.5.0`. Unless instructed otherwise 
-    you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
-    this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
-    for advice.
+    3. Setup the environment to use the central installation of CDDS and its dependencies:
+       ```bash
+       source ~cdds/bin/setup_env_for_cdds <cdds_version>
+       ```
+       where `<cdds_version>` is the version of CDDS you wish to use, e.g. `2.5.0`. Unless instructed otherwise 
+       you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
+       this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
+       for advice.
 
-4. **Ticket**: Record the version of CDDS being used on the _CDDS operational simulation ticket_.
+    4. **Ticket**: Record the version of CDDS being used on the _CDDS operational simulation ticket_.
 
-Notes: 
- * The available version numbers for this script can be found [here](https://code.metoffice.gov.uk/trac/cdds/browser/main/tags), but the above command may lead to unexpected results if you attempt activate versions before `1.1.2`.
- * If you wish to deactivate the CDDS environment then you can use the command `conda deactivate`.
+!!! note
+    * The available version numbers for this script can be found [here](https://code.metoffice.gov.uk/trac/cdds/browser/main/tags), but the above command may lead to unexpected results if you attempt activate versions before `1.1.2`.
+    * If you wish to deactivate the CDDS environment then you can use the command `conda deactivate`.
 
-## Create the request JSON file
+## Create the request configuration file
 
-Following the retirement of CREM the request JSON file is constructed from information in the `rose-suite.info` files within each suite. 
+Following the retirement of CREM the request configuration file is constructed from information in the `rose-suite.info` files within each suite. 
 
 !!! important
     the rose-suite.info file contains incorrect information this will be propagated through CDDS. As such it is critically important that the information in these files is correct
 
-To construct the request JSON file take the following steps
+To construct the request configuration file take the following steps
 
 1. Set up a working directory
     ```bash
@@ -122,17 +123,24 @@ To construct the request JSON file take the following steps
       ```bash
       rosie lookup --prefix=u --query project eq u-cmip6 and idx eq <suite id> and branch eq <branch>
       ```
-3. Create the request JSON file;
+3. Create the request configuration file;
     ```bash
-    write_rose_suite_request_json <suite id> <branch> <revision> <package name> [<list of streams>]
+    write_request <suite id> <branch> <revision> <package name> [<list of streams>] -c <pah to proc dir> -t <path to data dir>
     ```
     e.g.
     ```bash
-    write_rose_suite_request_json u-aw310 cdds 115492 round-20 ap4 ap5 ap6 onm inm
+    write_request u-aw310 cdds 115492 round-20 ap4 ap5 ap6 onm inm -c cdds-example-1/proc -t cdds-example-1/data
     ```
+
+!!! note
+    The proc directory and data directory must not exist at this moment. It will be created later when checking out the checkout and configure the CDDS suite.
+    For big data, we recommend to use the folders in the scratch directory.
+
+!!! tip
     If necessary the start and end dates for processing can be overridden using the `--start_date` and `--end_date` arguments. Please consult with the [CDDS Team](mailto:cdds@metoffice.gov.uk) if you believe this is necessary.
 
-4. For information: the log file and request JSON file are written to the current working directory
+!!! info
+    The log file and request configuration file are written to the current working directory
 
 ## Prepare a list of variables to process
 
@@ -152,20 +160,40 @@ If you are using a suite with the CMIP6 STASH set up then you can add the defaul
 stream_mappings --varfile <filename without streams> --outfile <new file with streams>
 ```
 If you are not using a suite with the CMIP6 STASH configuration then contact us for advice as this process will need to be performed by hand.
-## Checkout and configure the CDDS suite
+## Configure request configuration
+!!! important
+    The `request.cfg` file contains all information that is needed to process the data through CDDS. The creation of the file does not set all values. So, it must be adjusted manually.
 
+You need to adjust your `request.cfg`:
+
+1. Open the `request.cfg` via a text editor, e.g. `vi` or `gedit`
+
+2. Following values need to be set manually:
+
+| Value                 | Description                                                                     |
+|:----------------------|:--------------------------------------------------------------------------------|
+| `variable_list_file`  | Path to your variables file                                                     |
+| `output_mass_root`    | Path to the moose loction where the data should be archived starts with `moose:` |
+| `output_mass_suffix`  | Sub-directory in MASS to used when moving data.                                 |
+
+
+!!! note
+    Please check the other values as well and do adjustments as needed. For any help, please contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
+
+
+## Checkout and configure the CDDS suite
 
 Run the following command after replacing values within <>
 ```
 checkout_processing_workflow <name for processing suite> \
-<path to request JSON> \
+<path to request configuration> \
 <path to text file with list of variables> \
 --workflow_destination .
 ```
 e.g.
 ```
 checkout_processing_workflow my-cdds-test \
-~hadmm/CDDS/example/request.json \
+~hadmm/CDDS/example/request.cfg \
 ~hadmm/CDDS/example/variables \
 --workflow_destination .
 ```
