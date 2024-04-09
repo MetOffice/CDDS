@@ -64,7 +64,7 @@ def main_write_request(arguments=None) -> int:
     : int
         exit status - 0 everything went fine, 1 an exception occurred
     """
-    log_name = 'write_rose_suite_request'
+    log_name = 'write_request'
     user_arguments = _parse_write_request_json_args(arguments)
 
     configure_logger(log_name, 'INFO', True)
@@ -124,8 +124,6 @@ def _read_user_arguments() -> argparse.ArgumentParser:
         The names of the command line arguments and their validated
         values and the corresponding argument parser
     """
-    current_dir = os.path.dirname(os.path.realpath(__file__))
-
     parser = argparse.ArgumentParser(description=DESCRIPTION_ARGUMENTS,
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
@@ -135,7 +133,7 @@ def _read_user_arguments() -> argparse.ArgumentParser:
     parser.add_argument('package', help=HELP_PACKAGE_ARG)
     parser.add_argument('streams', help=HELP_STREAMS_ARG, nargs='+', choices=KNOWN_STREAMS)
     parser.add_argument('-f', '--output_file_name', default='request.cfg', help=HELP_OUTPUT_FILE_ARG)
-    parser.add_argument('-o', '--output_dir', default=current_dir, help=HELP_OUTPUT_DIR_ARG)
+    parser.add_argument('-o', '--output_dir', default='.', help=HELP_OUTPUT_DIR_ARG)
     parser.add_argument('--start_date', help=HELP_DATES.format('start'))
     parser.add_argument('--end_date', help=HELP_DATES.format('end'))
     parser.add_argument('--mass_data_class', default='crum', help=HELP_MASS_DATA_CLASS)
