@@ -18,7 +18,7 @@ class TestCmip6OmonSoga(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_Omon_soga')
         return Cmip6TestData(
             mip_table='Omon',
-            variable='soga',
+            variables=['soga'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

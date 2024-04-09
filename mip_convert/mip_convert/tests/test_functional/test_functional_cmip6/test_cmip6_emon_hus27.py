@@ -18,7 +18,7 @@ class TestCmip6EmonHus27(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_Emon_hus27')
         return Cmip6TestData(
             mip_table='Emon',
-            variable='hus27',
+            variables=['hus27'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

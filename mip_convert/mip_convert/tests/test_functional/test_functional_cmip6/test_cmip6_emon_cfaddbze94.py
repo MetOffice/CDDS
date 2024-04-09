@@ -18,7 +18,7 @@ class TestCmip6EmonCfadDbze94(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_Emon_cfadDbze94')
         return Cmip6TestData(
             mip_table='Emon',
-            variable='cfadDbze94',
+            variables=['cfadDbze94'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

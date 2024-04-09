@@ -17,7 +17,7 @@ class TestCmip6SIdayMultiple3d(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_SIday_multiple_3d')
         return Cmip6TestData(
             mip_table='SIday',
-            variable='multiple_3d',
+            variables=['multiple_3d'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

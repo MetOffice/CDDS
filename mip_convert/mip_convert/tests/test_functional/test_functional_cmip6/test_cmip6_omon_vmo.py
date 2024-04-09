@@ -18,7 +18,7 @@ class TestCmip6OmonVmo(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_Omon_vmo')
         return Cmip6TestData(
             mip_table='Omon',
-            variable='vmo',
+            variables=['vmo'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

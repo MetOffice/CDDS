@@ -18,7 +18,7 @@ class TestCmip6OmonHfbasin(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_Omon_hfbasin')
         return Cmip6TestData(
             mip_table='Omon',
-            variable='hfbasin',
+            variables=['hfbasin'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

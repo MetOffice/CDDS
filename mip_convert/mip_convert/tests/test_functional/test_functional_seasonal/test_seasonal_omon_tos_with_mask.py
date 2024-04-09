@@ -18,7 +18,7 @@ class TestSeasonalOmonTosWithMask(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_SEASONAL_Omon_tos')
         return SeasonalTestData(
             mip_table='Omon',
-            variable='tos',
+            variables=['tos'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location
