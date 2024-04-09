@@ -1,8 +1,5 @@
 # Release Procedure
 
-!!! warning
-    This documentation is currently under construction and may not be up to date.
-
 ## Inform users of the upcoming change (if necessary)
 
 !!! info

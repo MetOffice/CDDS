@@ -18,6 +18,7 @@ nav:
   - Developer Documentation:
     - Documentation: developer_documentation/building_documentation.md
     - Release Procedure: developer_documentation/release_procedure.md
+    - CDDS Installation: developer_documentation/cdds_installation.md
     - Development Practices:
       - developer_documentation/development_practices.md
       - Coding Guidelines: developer_documentation/coding_guidelines.md
