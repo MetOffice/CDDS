@@ -1,19 +1,30 @@
-# (C) British Crown Copyright 2015-2021, Met Office.
+# (C) British Crown Copyright 2015-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Setup script for the MIP Convert package.
 """
-import imp
 import os
 from setuptools import setup, find_packages
+from typing import AnyStr
+from importlib.machinery import SourceFileLoader
 
 
-def extract_version():
+def extract_version(module_name: str) -> AnyStr:
     """
-    Return the version number of MIP Convert.
+    Returns the version number of the module.
+
+    Parameters
+    ----------
+    module_name: str
+        Name of the module
+
+    Returns
+    -------
+    str
+        The CDDS module version
     """
-    filename = os.path.join('mip_convert', '__init__.py')
-    imported_module = imp.load_source('__init__', filename)
+    filename = os.path.join(module_name, '__init__.py')
+    imported_module = SourceFileLoader(module_name, filename).load_module()
     version = imported_module.__version__
     return version
 
@@ -73,7 +84,7 @@ def find_scripts(directories):
 
 
 setup(name='mip_convert',
-      version=extract_version(),
+      version=extract_version('mip_convert'),
       description=('The MIP Convert package enables a user to produce the'
                    'output netCDF files for a MIP using model output files.'),
       long_description=extract_readme(),
