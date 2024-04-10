@@ -67,17 +67,7 @@ def create_variable_list(config: SetupConfig) -> None:
     :type config: SetupConfig
     """
     request_file = config.request_cfg
-    request = read_request(request_file)
-
-    if config.selected_variables:
-        variables_file = os.path.join(component_directory(request, 'prepare'), 'variables_file.txt')
-        with open(variables_file, 'w') as file_handle:
-            file_handle.write('\n'.join(config.selected_variables))
-        request.data.variable_list_file = variables_file
-    request.write(request_file)
-
     generate_variable_list_args = ([request_file])
-
     main_generate_variable_list(generate_variable_list_args)
 
 
