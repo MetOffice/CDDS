@@ -1,8 +1,6 @@
-#!/usr/bin/env python
 # (C) British Crown Copyright 2024, Met Office.
 # Please see LICENSE.rst for license details.
-import argparse
-import sys
+import logging
 
 from metomi.isodatetime.parsers import TimePointParser
 
@@ -11,8 +9,10 @@ from cdds.common.io import read_json
 from cdds.common.request.request import Request
 
 
-def transform_request_json(input_json, output_cfg):
+def transform_request(input_json, output_cfg):
+    logger = logging.getLogger(__name__)
 
+    logger.info('Read request json from {}'.format(input_json))
     json_request = read_json(input_json)
 
     external_plugin = json_request.get('external_plugin', '')
@@ -87,22 +87,5 @@ def transform_request_json(input_json, output_cfg):
 
     cfg_request.netcdf_global_attributes.attributes = json_request.get('global_attributes', {})
 
+    logger.info('Write request configuration into {}'.format(output_cfg))
     cfg_request.write(output_cfg)
-
-
-def parse_arguments():
-    parser = argparse.ArgumentParser(description='Run all tests configuration')
-    parser.add_argument('input_json',
-                        help='Path to the input request.json that should be transformed')
-    parser.add_argument('output_cfg',
-                        help='Path to the output request.cfg file where the transformed request.json is written to.')
-    return parser.parse_args()
-
-
-def main():
-    arguments = parse_arguments()
-    transform_request_json(arguments.input_json, arguments.output_cfg)
-
-
-if __name__ == '__main__':
-    sys.exit(main())
