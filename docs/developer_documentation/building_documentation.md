@@ -2,7 +2,7 @@
 
     This documentation is currently under construction and may not be up to date.
 
-# Modifying and Building the CDDS Documentation
+## Modifying and Building the CDDS Documentation
 
 This page gives an overview of the general philosophy of the CDDS documentation.
 The current documentation is based upon `mkdocs` and is built and managed using two main packages.

@@ -1,3 +1,7 @@
+!!! warning
+
+    This documentation is currently under construction and may not be up to date.
+
 1. Create a test class (pattern: test_<project_id>_<mip_table>_<variable>) in mip_convert.tests.test_functional.<project_id>.
 
 1. Import the functional tests class for MIP convert tests

@@ -68,8 +68,9 @@ The file content should start with `ssh-rsa`.
 Clone working copy of cdds-testing-project
 Use following command to clone the cdds-testing-project:
 
+```bash
 git clone git@github.com:MetOffice/CDDS.git
-
+```
 
 ## Git Basics
 

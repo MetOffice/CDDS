@@ -1,3 +1,7 @@
+!!! warning
+
+    This documentation is currently under construction and may not be up to date.
+
 ## Create a Jira Issue
 
 Each change should be described in a Jira issue.
@@ -96,24 +100,26 @@ That combine latest and the current commit to one commit. Using this one allows 
 
 Remote commit:
 
-
-
+```bash
 git push origin
+```
+
 To be more explicit, you can add the branch name you want to commit to:
 
-
-
+```bash
 git push origin <branch_name_to_commit_to>
-Tests
+```
+
+### Tests
+
 Make sure that unit tests covers your code changes, see Unit Tests 
 
 If there were changes in CDDS Transfer, also run integration tests with RabbitMQ, see CDDS Transfer Tests With RabbitMQ 
-
 - Run the unit tests regularly
 
 It is a good approach to ensure that every time you push a commit to the repository that the tests pass successfully.
 
-## Documentation
+### Documentation
 
 - Document your code. Try to be short but precise.
 - Briefly describe the work on the Jira issue
@@ -136,12 +142,13 @@ It is a good approach to ensure that every time you push a commit to the reposit
 1. If you need to do any changes, assign the issue back to you and put it back into In progress.
 1. If the main reviewer is happy with the changes and no comments or issues are needed to addressed anymore, the issue will moved to Approved and re-assigned to you. Now, you can merge your changes
 
-### Merge changes
+## Merge changes
 You have two possibilities how to merge a branch - via command line or using Github.
 
-#### Merge to parent branch
+### Merge to parent branch
 
-Via Command Line
+#### Via Command Line
+
 Go to the parent branch to merge to (normally: main or the release branch)
 
 ```bash
@@ -177,12 +184,14 @@ You could face merging conflicts that you need to solve before you can end the m
 
 1. remove branch if working on `main`
 
-Cherry pick changes on main branch (or any other branches)
+### Cherry pick changes on main branch (or any other branches)
+
 If your parent branch is a release branch, you also need to merge the changes into the main branch. Therefore, cherry picking is the best to do. You can do this after merging your changes into the release branch.
 
 Cherry picking into other branches are following the same pattern!
 
-Via Command Line
+#### Via Command Line
+
 Find the commit id of the merge commit into the parent branch, you have done in the previous step:
 
 Go to the parent branch
@@ -193,8 +202,10 @@ git checkout <parent-branch>
 
 Find your commit ID:
 
-
+```bash
 git log
+```
+
 This list all the previous commits in decreasing order. Each merge entry looks like:
 
 
@@ -240,8 +251,10 @@ Check if all (unit) tests succeed!
 
 Push the changes 
 
-Using Github
+#### Using Github
+
 For using cherry-picking, see Cherry-picking a commit in GitHub Desktop - GitHub Docs 
 
-Close the Jira issue
+## Close the Jira issue
+
 Move the Jira issue to Done
