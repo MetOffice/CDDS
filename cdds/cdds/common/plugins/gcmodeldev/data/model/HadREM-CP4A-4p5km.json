@@ -59,22 +59,22 @@
   },
   "sizing_info": {
     "1hr": {
-      "default": 10
+      "default": 5
     },
     "1hrPt": {
-      "default": 10
+      "default": 5
     },
     "3hr": {
-      "default": 10
+      "default": 5
     },
     "3hrPt": {
-      "default": 10
+      "default": 5
     },
     "6hr": {
-      "default": 10
+      "default": 5
     },
     "6hrPt": {
-      "default": 10
+      "default": 5
     },
     "day": {
       "default": 10
