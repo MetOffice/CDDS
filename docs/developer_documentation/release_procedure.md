@@ -106,7 +106,7 @@ Follow the instructions provided in the [CDDS installation]()
 
 - [x] The test must be executed as `cdds` user
       ```bash
-      export SRCDIR=/home/h03/cdds/software/miniconda3/envs/cdds-X.Y.Z/lib/python3.8/site-packages/
+      export SRCDIR=$HOME/software/miniconda3/envs/cdds-X.Y.Z/lib/python3.8/site-packages/
       echo "# Executing tests for cdds:"
       pytest -s $SRCDIR/cdds --doctest-modules -m 'not slow and not integration and not rabbitMQ and not data_request'
       pytest -s $SRCDIR/cdds -m slow
@@ -117,3 +117,4 @@ Follow the instructions provided in the [CDDS installation]()
       pytest -s $SRCDIR/mip_convert -m mappings
       pytest -s $SRCDIR/mip_convert -m slow
       ```
+      where `X.Y.Z` is the version number of CDDS.

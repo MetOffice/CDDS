@@ -1,12 +1,7 @@
 # CDDS Installation
 
-!!! info
-    For installation of CDDS using Subersion, please use: [CDDS Installation (Subversion)](https://code.metoffice.gov.uk/trac/cdds/wiki/CDDSInstallation2)
-
 !!! warning
     This page is still work-in-progress! Please work closely with the CDDS team when installing CDDS.
-
-## Install new version of CDDS
 
 === "On Met Office"
 
@@ -20,7 +15,7 @@
            ```
     - [x] Activate Conda mamba environment (to make installation quicker):
           ```bash
-          . /home/h03/cdds/software/miniconda3/bin/activate mamba
+          . $HOME/software/miniconda3/bin/activate mamba
           ```
     - [x] Obtain environment file:
           ```bash
@@ -35,6 +30,7 @@
           ```bash
           mamba env create -f environment.yml -p $HOME/software/miniconda3/envs/cdds-X.Y.Z
           ```
+          where `X.Y.Z` is the new version number of CDDS
 
     !!! note
         This has been updated following the roll out of Conda to MO systems. If the `-p` option is omitted then the installation will end up 
@@ -47,8 +43,9 @@
     - [x] Activate environment and set `CDDS_ENV_COMMAND` variable:
           ```bash
           conda activate cdds-X.Y.Z
-          conda env config vars set CDDS_ENV_COMMAND="source /home/h03/cdds/software/miniconda3/bin/activate cdds-X.Y.Z"
+          conda env config vars set CDDS_ENV_COMMAND="source $HOME/software/miniconda3/bin/activate cdds-X.Y.Z"
           ```
+          where `X.Y.Z` is the new version number of CDDS
     - [x] Confirm environment variables:
           ```bash
           # get out of cdds environment
@@ -62,6 +59,9 @@
           You should see `en_GB.UTF-8` for `LC_ALL` and the command set above for `CDDS_ENV_COMMAND`.
 
 === "On Jasmin"
+    !!! warning
+        This section will be updated soon
+
     !!! info
         The recommended location for installation is `miniconda3` environment under `/gws/smf/j04/cmip6_prep/cdds-env-python3/miniconda3`
 
@@ -83,6 +83,7 @@
           ```bash
           conda env create -f environment.yml -n cdds-X.Y.Z
           ```
+          where `X.Y.Z` is the new version number of CDDS
     - [x] Activate environment and set `CDDS_ENV_COMMAND` variable
           ```bash
           conda activate cdds-X.Y.Z
@@ -103,10 +104,3 @@
           echo $CDDS_ENV_COMMAND
           ```
           You should see `en_GB.UTF-8` for `LC_ALL` and the command set above for `CDDS_ENV_COMMAND`.
-
-
-## Install the CDDS documentation
-
-!!! warning
-    The documentation is moved to MkDocs. At the moment, there is no specific installation procedure, yet. Please, speak with 
-    the CDDS team how to install the documentation properly.
