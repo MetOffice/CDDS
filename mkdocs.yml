@@ -16,21 +16,28 @@ nav:
     - Add a Variable Mapping: tutorials/add_mapping.md
     - Add a Plugin: tutorials/add_plugin.md
   - Developer Documentation:
-    - Documentation: developer_documentation/building_documentation.md
+    - developer_documentation/index.md
     - Release Procedure: developer_documentation/release_procedure.md
     - Development Practices:
       - developer_documentation/development_practices.md
       - Coding Guidelines: developer_documentation/coding_guidelines.md
-      - Review Guidelines: developer_documentation/review_guidelines.md
-      - Working with Github: developer_documentation/github.md
+      - Development Workflow: developer_documentation/development_workflow.md
+      - Review Process: developer_documentation/review_process.md
+      - Working with Github and Git: developer_documentation/github.md
+      - Working with Jira: developer_documentation/jira.md
+      - Managing Conda Environments: developer_documentation/managing_environments.md
+      - Documentation: developer_documentation/building_documentation.md
     - Testing:
-      - Unit Testing and pytest: developer_documentation/unittests.md
+      - Unit Testing: developer_documentation/unittests.md
+      - Pytest: developer_documentation/pytest.md
       - Nightly Tests: developer_documentation/nightly_tests.md
       - Mip Convert Functional Tests: developer_documentation/mip_convert_functional_tests.md
   - CDDS Components:
+    - cdds_components/index.md
     - convert: cdds_components/convert.md
     - extract: cdds_components/extract.md
     - qc: cdds_components/qc.md
+    - transfer: cdds_components/transfer.md
   - API Documentation: reference/
 markdown_extensions:
   - admonition
