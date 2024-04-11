@@ -265,7 +265,7 @@ thetaot300 = onm/grid-T
             "UKESM1-0-LL_Omon_mappings.cfg": False,
             "UKESM1-0-LL_day_mappings.cfg": False,
             "UKESM1-0-LL_6hrPlev_mappings.cfg": False,
-            }
+        }
         if mock_streams_cfg:
             results["streams.cfg"] = True
             mock_open(self, "streams.cfg", TestMassFilters.fake_streams())
