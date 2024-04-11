@@ -73,30 +73,30 @@ where `<release_version>` is e.g. `1.0`.
 
 ### Create a tag
 
-#### Using command line
+=== "Using command line"
 
-Only those that have admin permissions on the CDDS repository can create tags.
+    Only those that have admin permissions on the CDDS repository can create tags.
 
-- [x] Switch to the branch you want to tag (normally, the release branch) and ***make sure you have pulled changes on github to your local branch – 
+    - [x] Switch to the branch you want to tag (normally, the release branch) and ***make sure you have pulled changes on github to your local branch – 
       failure to do this can lead to installation errors that manifest as failure to build wheels***
-- [x] Create the tag:
-      ```bash
-      git tag <tagname> -a
-      ```
-      The `<tagname>` normally is the release version, e.g. `v2.1.2`.
-- [x] Push the tag to the branch:
-      ```bash
-      git push origin <tagname>
-      ```
-- [x] To show all tags and check if your tag is successfully created, run:
-      ```bash
-      git tag
-      ```
+    - [x] Create the tag:
+          ```bash
+          git tag <tagname> -a
+          ```
+          The `<tagname>` normally is the release version, e.g. `v2.1.2`.
+    - [x] Push the tag to the branch:
+          ```bash
+          git push origin <tagname>
+          ```
+    - [x] To show all tags and check if your tag is successfully created, run:
+          ```bash
+          git tag
+          ```
 
-#### Using GitHub
+=== "Using GitHub"
 
-!!! info
-    Github has a good documentation about release processes, see: [Managing releases - GitHub Docs](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
+    !!! info
+        Github has a good documentation about release processes, see: [Managing releases - GitHub Docs](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
 
 ### Install the code
 
@@ -118,3 +118,59 @@ Follow the instructions provided in the [CDDS installation]()
       pytest -s $SRCDIR/mip_convert -m slow
       ```
       where `X.Y.Z` is the version number of CDDS.
+
+!!! info
+    Slow unit tests for `transfer` and `cdds_configure` will display error messages to standard output. This is intentional, 
+    and does not indicate the tests fail (see `transfer.tests.test_command_line.TestMainStore.test_transfer_functional_failing_moo()` 
+    for details).
+
+### Restore development mode and bump version
+
+- [x] Update the development tag and version number in `<cdds_component>/<cdds_component>/__init__.py`:
+      ```bash
+      _DEV = True
+      _NUMERICAL_VERSION = '<next_version>'
+      ```
+      where `<next_version>` is the next minor version, e.g. `2.1.2`.
+- [x] Commit and push the change directly to the release branch. The commit message should be:
+      ```bash
+      <ticket_number>: Restore development mode.
+      ```
+
+### Ensure release note changes propagate into the main branch
+
+=== "Using cherry-pick"
+    
+    - [x] Ensure local copy of both `main` and `release_branch` are up to date.
+    - [x] On the main branch use the `git cherry-pick` command to pull in just the `CHANGES.rst` updates with release notes and commit them.
+
+=== "Using merge"
+    
+    If you are unable to use the cherry-pick for the changes then the following may be useful.
+    
+    - [x] `git merge` the release branch into the trunk e.g., `git merge v2.3_release --no-commit`
+    - [x] Inspect the differences in the local copy of the main branch
+    - [x] Revert any changes other than to the `CHANGES.rst` file
+    - [x] Commit and push changes to the main branch.
+
+
+!!!important
+    **Do not delete the release branch! (expect Matthew Mizielinski told you so)**
+
+### Create Release on GitHub
+
+Create a release on github from the tag. Include all major release notes and ensure that all links back to Jira work as expected. 
+Create a discussion announcement from the release.
+
+### Close Jira ticket
+
+Set the status of the Jira ticket to `Done`.
+
+### Complete the milestone
+
+For completing the milestone, have a chat with [Matthew Mizielinski](mailto:matthew.mizielinski@metoffice.gov.uk) which Jira epic needs 
+to be updated or even closed.
+
+!!!info
+    The list of Milestone epics can be found at the [road map page](https://metoffice.atlassian.net/jira/software/projects/CDDSO/boards/634/roadmap) 
+    in Jira.
