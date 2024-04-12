@@ -45,17 +45,16 @@ table will be returned with a stream of "unknown". If the stream is
 unknown but the variable has a mapping in the common mappings file, the
 constraints from that mapping will be included.
 """
-import argparse
 import configparser
-import json
-import os.path
 
-from cdds.common import check_file, compare_versions
+from cdds.common import compare_versions
 from cdds.common.constants import NC_CONSTRAINT_NOT_FOR_MOOSE, PP_HEADER_CORRECTIONS
 from cdds.common.mappings.ancils import remove_ancils_from_mapping
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.pp import stash_to_int
-import mip_convert.requested_variables as mip_request
+
+from mip_convert.mip_table import get_model_to_mip_mappings
+from mip_convert.requested_variables import get_variable_model_to_mip_mapping
 
 
 def _as_constraints(mapping):
@@ -168,7 +167,7 @@ class ModelToMip(object):
 
                 try:
                     variable_mapping = (
-                        mip_request.get_variable_model_to_mip_mapping(
+                        get_variable_model_to_mip_mapping(
                             model_mapping, variable_name, mip_table))
                     # Remove ancillaries from mapping to avoid attempting
                     # to retrieve them from MASS.
@@ -266,7 +265,7 @@ class ModelToMip(object):
 
     def _mapping_for_model(self, mip_table_id):
         mip_table_name = self.project + "_" + mip_table_id
-        model_mapping = mip_request.get_model_to_mip_mappings(
+        model_mapping = get_model_to_mip_mappings(
             self._to_map["science"]["model_id"], mip_table_name)
         return model_mapping
 

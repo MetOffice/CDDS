@@ -2,137 +2,21 @@
 # Please see LICENSE.rst for license details.
 import logging
 
-from dataclasses import dataclass
 from iris.cube import CubeList
 from typing import List, Dict, Tuple
 
 from mip_convert.configuration.text_config import HybridHeightConfig, SitesConfig
 from mip_convert.configuration.python_config import UserConfig
-from mip_convert.common import RelativePathError
 
 from mip_convert.load import load
-from mip_convert.load.pp.pp import PpError
-from mip_convert.load.pp.pp_axis import PpAxisError, ExtractorException
-from mip_convert.load.pp.pp_variable import PpVariableError
-from mip_convert.load.pp.aggregator import AggregatorError
 
-from mip_convert.model_date import CdDateError
 from mip_convert.new_variable import VariableMetadata
 from mip_convert.configuration.json_config import MIPConfig
 from mip_convert.configuration.python_config import ModelToMIPMappingConfig
 
-from mip_convert.process.mapping_config import MappingTableError
-from mip_convert.process.process import ProcessorError
-from mip_convert.process.quality_control import OutOfBoundsError
-
 from mip_convert.save import save
 from mip_convert.save.cmor import cmor_lite
-from mip_convert.mip_table import get_model_to_mip_mappings
-from mip_convert.variable import VariableError
-from mip_convert.mip_table import get_mip_table, get_variable_model_to_mip_mapping, get_variable_mip_metadata
-from mip_convert.model_output_files import get_files_to_produce_output_netcdf_files
-
-
-@dataclass
-class ConverterCache:
-    total_number_of_variables: int = 0
-    total_number_of_variables_with_unknown_error: int = 0
-    exit_code: int = 0
-
-    def clean_cache(self):
-        self.total_number_of_variables = 0
-        self.total_number_of_variables_with_unknown_error = 0
-        self.exit_code = 0
-
-
-class RequestedVariablesConverter:
-    KNOWN_ERRORS = (
-        ValueError, IOError, PpError, AggregatorError, PpAxisError,
-        ExtractorException, PpVariableError,
-        VariableError, RelativePathError, MappingTableError,
-        OutOfBoundsError, CdDateError, ProcessorError, RuntimeError)
-
-    def __init__(self, user_config: UserConfig, site_information: SitesConfig,
-                 hybrid_height_information: HybridHeightConfig, replacement_coordinates: CubeList) -> None:
-        self.user_config = user_config
-        self.site_information = site_information
-        self.hybrid_height_information = hybrid_height_information
-        self.replacement_coordinates = replacement_coordinates
-        self.cache = ConverterCache()
-
-    def convert(self, requested_variables: Dict[Tuple[str, str, str], List[str]]) -> int:
-        self.cache.clean_cache()
-        logger = logging.getLogger(__name__)
-
-        # For each 'MIP requested variable name' produce the
-        # 'output netCDF files'.
-        for (stream_id, substream, mip_table_name), variable_names in list(requested_variables.items()):
-            msg_template = 'MIP requested variable names for stream identifier '
-            if substream is None:
-                msg_template += '"{stream_id}" and MIP table "{mip_table_name}": "{variable_names}"'
-            else:
-                msg_template += ('"{stream_id}", substream {substream}, and MIP table "{mip_table_name}": '
-                                 '"{variable_names}"')
-
-            logger.debug(msg_template.format(stream_id=stream_id,
-                                             mip_table_name=mip_table_name,
-                                             substream=substream,
-                                             variable_names=variable_names))
-
-            # Determine the list of filenames required to produce the
-            # 'output netCDF files' for the 'MIP requested variables'.
-            filenames = get_files_to_produce_output_netcdf_files(
-                self.user_config.root_load_path,
-                self.user_config.suite_id,
-                stream_id,
-                substream,
-                self.user_config.ancil_files
-            )
-
-            # Read and validate the 'model to MIP mappings'.
-            model_to_mip_mappings = get_model_to_mip_mappings(self.user_config.source_id, mip_table_name)
-
-            # Read and validate the 'MIP table'.
-            mip_table_name_json = mip_table_name + '.json'
-            mip_table = get_mip_table(self.user_config.inpath, mip_table_name_json)
-
-            self.convert_variables(
-                variable_names, stream_id, substream, mip_table, model_to_mip_mappings, filenames, mip_table_name
-            )
-
-        if self.cache.total_number_of_variables_with_unknown_error == self.cache.total_number_of_variables:
-            logger.info('Critical Errors of unknown type found in all variables, therefore MIP convert has failed.')
-            self.cache.exit_code = 1
-
-        return self.cache.exit_code
-
-    def convert_variables(self, variable_names: List[str], stream_id: str, substream: str, mip_table: MIPConfig,
-                          model_to_mip_mappings: ModelToMIPMappingConfig, filenames: List[str], mip_table_name: str
-                          ) -> None:
-        logger = logging.getLogger(__name__)
-        for variable_name in variable_names:
-            self.cache.total_number_of_variables += 1
-            try:
-                produce_mip_requested_variable(variable_name, stream_id, substream, mip_table, self.user_config,
-                                               self.site_information, self.hybrid_height_information,
-                                               self.replacement_coordinates,
-                                               model_to_mip_mappings, filenames)
-            except self.KNOWN_ERRORS as known_error:
-                self.cache.exit_code = 2
-                message = 'Unable to produce MIP requested variable "{}" for "{}": {}'
-                logger.critical(message.format(variable_name, mip_table_name, known_error))
-                logger.exception(known_error)
-            except Exception as error:
-                self.cache.total_number_of_variables_with_unknown_error += 1
-                self.cache.exit_code = 2
-                message = 'Unable to produce MIP requested variable "{}" for "{}": {}'
-                logger.critical(message.format(variable_name, mip_table_name, error))
-                logger.exception(error)
-                continue
-
-    # Only for testing!
-    def exit_code(self) -> int:
-        return self.cache.exit_code
+from mip_convert.mip_table import get_variable_model_to_mip_mapping, get_variable_mip_metadata
 
 
 def get_requested_variables(
