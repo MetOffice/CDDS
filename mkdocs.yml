@@ -30,6 +30,9 @@ nav:
       - Unit Testing and pytest: developer_documentation/unittests.md
       - Nightly Tests: developer_documentation/nightly_tests.md
       - Mip Convert Functional Tests: developer_documentation/mip_convert_functional_tests.md
+    - Plugins:
+        - Available Plugins: developer_documentation/plugins/available_plugins.md
+        - Plugin Framework: developer_documentation/plugins/plugin_framework.md
   - CDDS Components:
     - convert: cdds_components/convert.md
     - extract: cdds_components/extract.md
@@ -38,6 +41,7 @@ nav:
 markdown_extensions:
   - admonition
   - attr_list
+  - md_in_html
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.tasklist:
