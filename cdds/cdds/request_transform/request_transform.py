@@ -1,5 +1,8 @@
 # (C) British Crown Copyright 2024, Met Office.
 # Please see LICENSE.rst for license details.
+"""
+Module to transform a request JSON object into a request configuration object
+"""
 import logging
 
 from metomi.isodatetime.parsers import TimePointParser
@@ -9,7 +12,16 @@ from cdds.common.io import read_json
 from cdds.common.request.request import Request
 
 
-def transform_request(input_json, output_cfg):
+def transform_request(input_json: str, output_cfg: str) -> None:
+    """
+    Transforms the request JSON from the input file into a request configuration
+    with corresponding information and writes it into to given output file.
+
+    :param input_json: Input file containing the request JSON information
+    :type input_json: str
+    :param output_cfg: Output file where the request cfg will be written to
+    :type output_cfg: str
+    """
     logger = logging.getLogger(__name__)
 
     logger.info('Read request json from {}'.format(input_json))
