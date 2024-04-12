@@ -34,16 +34,16 @@
     "apm": "P1Y"
   },
   "memory": {
-    "apa": "32G",
-    "apb": "32G",
-    "apc": "32G",
-    "apd": "32G",
-    "ape": "32G",
-    "apg": "32G",
-    "aph": "32G",
-    "apq": "32G",
-    "apr": "32G",
-    "apm": "16G"
+    "apa": "90G",
+    "apb": "90G",
+    "apc": "90G",
+    "apd": "90G",
+    "ape": "90G",
+    "apg": "90G",
+    "aph": "90G",
+    "apq": "90G",
+    "apr": "90G",
+    "apm": "90G"
   },
   "temp_space": {
     "apa": 131072,
@@ -59,6 +59,30 @@
   },
   "sizing_info": {
     "1hr": {
+      "default": 5
+    },
+    "1hrPt": {
+      "default": 5
+    },
+    "3hr": {
+      "default": 5
+    },
+    "3hrPt": {
+      "default": 5
+    },
+    "6hr": {
+      "default": 5
+    },
+    "6hrPt": {
+      "default": 5
+    },
+    "day": {
+      "default": 10
+    },
+    "mon": {
+      "default": 10
+    },
+    "monPt": {
       "default": 10
     }
   },

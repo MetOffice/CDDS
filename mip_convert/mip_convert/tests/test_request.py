@@ -84,13 +84,18 @@ class TestGetModelToMIPMappings(unittest.TestCase):
         mip_table_name = 'CMIP6_Amon'
         filenames = [
             'common_mappings.cfg',
-            '{base_model_configuration}_mappings.cfg'.format(base_model_configuration=base_model_configuration),
             '{mip_table_id}_mappings.cfg'.format(mip_table_id=mip_table_id),
+            '{base_model_configuration}_mappings.cfg'.format(base_model_configuration=base_model_configuration),
             '{base_model_configuration}_{mip_table_id}_mappings.cfg'.format(
                 base_model_configuration=base_model_configuration,
-                mip_table_id=mip_table_id)
+                mip_table_id=mip_table_id),
+            '{model_configuration}_mappings.cfg'.format(model_configuration=model_configuration),
+            '{model_configuration}_{mip_table_id}_mappings.cfg'.format(
+                model_configuration=model_configuration,
+                mip_table_id=mip_table_id),
         ]
-        paths = [os.path.join(self.dirname, filename) for filename in filenames]
+        possiblepaths = [os.path.join(self.dirname, filename) for filename in filenames]
+        paths = [i for i in possiblepaths if os.path.exists(i)]
         self._obj_instantiation(mock_open, model_configuration, mip_table_name, paths)
 
     def _obj_instantiation(self, mock_open, model_configuration, mip_table_name, paths):

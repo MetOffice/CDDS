@@ -115,14 +115,16 @@ def get_model_to_mip_mappings(model_id: str, mip_table_name: str) -> ModelToMIPM
     base_model_configuration = model_id.split('-')[0]
 
     hierarchy = [
-        '{base_model_configuration}_{suffix}'.format(base_model_configuration=base_model_configuration, suffix=suffix),
-        '{model_configuration}_{suffix}'.format(model_configuration=model_id, suffix=suffix),
         '{mip_table_id}_{suffix}'.format(mip_table_id=mip_table_id, suffix=suffix),
+        '{base_model_configuration}_{suffix}'.format(base_model_configuration=base_model_configuration, suffix=suffix),
         '{base_model_configuration}_{mip_table_id}_{suffix}'.format(base_model_configuration=base_model_configuration,
                                                                     mip_table_id=mip_table_id,
-                                                                    suffix=suffix)
+                                                                    suffix=suffix),
+        '{model_configuration}_{suffix}'.format(model_configuration=model_id, suffix=suffix),
+        '{model_configuration}_{mip_table_id}_{suffix}'.format(model_configuration=model_id,
+                                                               mip_table_id=mip_table_id,
+                                                               suffix=suffix),
     ]
-
     for filename in hierarchy:
         pathname = os.path.join(dirname, filename)
         if os.path.isfile(pathname):
