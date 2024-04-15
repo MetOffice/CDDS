@@ -441,7 +441,8 @@ class ConvertProcessTest(unittest.TestCase):
             'OUTPUT_MASS_SUFFIX': 'fake_suffix',
             'EMAIL_NOTIFICATIONS': not self.process.request.conversion.no_email_notifications,
             'USE_EXTERNAL_PLUGIN': False,
-            'RELAXED_CMOR': False
+            'RELAXED_CMOR': False,
+            'CONTINUE_IF_MIP_CONVERT_FAILED': False
         }
         if 'CDDS_DIR' in os.environ:
             expected_update_kwargs_suite['CDDS_DIR'] = os.environ['CDDS_DIR']

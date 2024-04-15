@@ -253,7 +253,19 @@ thetaot300 = onm/grid-T
             "UKESM1_Lmon_mappings.cfg": False,
             "UKESM1_Omon_mappings.cfg": False,
             "UKESM1_day_mappings.cfg": False,
-            "UKESM1_6hrPlev_mappings.cfg": False}
+            "UKESM1_6hrPlev_mappings.cfg": False,
+            "UKESM1-0-LL_Amon_mappings.cfg": False,
+            "UKESM1-0-LL_CFday_mappings.cfg": False,
+            "UKESM1-0-LL_CFmon_mappings.cfg": False,
+            "UKESM1-0-LL_Eday_mappings.cfg": False,
+            "UKESM1-0-LL_EdayZ_mappings.cfg": False,
+            "UKESM1-0-LL_Emon_mappings.cfg": False,
+            "UKESM1-0-LL_EmonZ_mappings.cfg": False,
+            "UKESM1-0-LL_Lmon_mappings.cfg": False,
+            "UKESM1-0-LL_Omon_mappings.cfg": False,
+            "UKESM1-0-LL_day_mappings.cfg": False,
+            "UKESM1-0-LL_6hrPlev_mappings.cfg": False,
+        }
         if mock_streams_cfg:
             results["streams.cfg"] = True
             mock_open(self, "streams.cfg", TestMassFilters.fake_streams())

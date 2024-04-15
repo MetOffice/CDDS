@@ -18,7 +18,7 @@ class TestNAHosMIPGCOyrHfds(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_NAHosMIP_GCOyr_hfds')
         return NAHosMIPTestData(
             mip_table='GCOyr',
-            variable='hfds',
+            variables=['hfds'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

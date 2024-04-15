@@ -17,7 +17,7 @@ class TestCmip6SImonSicompstren(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_SImon_sicompstren')
         return Cmip6TestData(
             mip_table='SImon',
-            variable='sicompstren',
+            variables=['sicompstren'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

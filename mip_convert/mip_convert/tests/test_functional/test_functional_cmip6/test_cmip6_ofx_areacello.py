@@ -18,7 +18,7 @@ class TestCmip6OfxAreacello(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_Ofx_areacello')
         return Cmip6TestData(
             mip_table='Ofx',
-            variable='areacello',
+            variables=['areacello'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

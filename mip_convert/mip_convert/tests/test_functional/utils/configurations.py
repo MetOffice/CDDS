@@ -447,7 +447,7 @@ class AbstractTestData(ABC):
     """
     project_id: str = ''
     mip_table: str = ''
-    variable: str = ''
+    variables: List[str] = field(default_factory=list)
     common_info: CommonInfo = field(default_factory=lambda: CommonInfo())
     project_info: ProjectInfo = None
     specific_info: SpecificInfo = None

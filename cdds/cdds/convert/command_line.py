@@ -213,6 +213,10 @@ def _parse_run_mip_convert_parameters(arguments):
                         help='If specified, CMIP6 style validation is not performed by CMOR.',
                         action='store_true'
                         )
+    parser.add_argument('--continue_if_mip_convert_failed',
+                        help='Mark task as succeed even if mip convert failed.',
+                        action='store_true'
+                        )
     arguments = parser.parse_args(args=user_arguments)
 
     load_plugin(arguments.mip_era, arguments.external_plugin, arguments.external_plugin_location)

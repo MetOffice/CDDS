@@ -1,26 +1,31 @@
-# (C) British Crown Copyright 2021-2022, Met Office.
+# (C) British Crown Copyright 2021-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Setup script for CDDS.
 """
-import imp
 import os
 
 from setuptools import setup, find_packages
 from typing import List, AnyStr, Tuple, Union, Any
+from importlib.machinery import SourceFileLoader
 
 
-def extract_version() -> AnyStr:
+def extract_version(module_name: str) -> AnyStr:
     """
-    Returns the version number of CDDS.
+    Returns the version number of the module.
+
+    Parameters
+    ----------
+    module_name: str
+        Name of the module
 
     Returns
     -------
     str
         The CDDS module version
     """
-    filename: str = os.path.join('cdds', '__init__.py')
-    imported_module = imp.load_source('__init__', filename)
+    filename: str = os.path.join(module_name, '__init__.py')
+    imported_module = SourceFileLoader(module_name, filename).load_module()
     return imported_module.__version__
 
 
@@ -108,7 +113,7 @@ def find_doc_files() -> List[Tuple[str, List[str]]]:
 
 setup(
     name='cdds',
-    version=extract_version(),
+    version=extract_version('cdds'),
     description=(
         'The cdds package contains the code behind the "Climate Data Dissemination System", '
         'designed to process and publish data to CMIP6 and similar projects'

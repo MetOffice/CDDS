@@ -18,7 +18,7 @@ class TestCmip6AERmonReffclwtop(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP6_AERmon_reffclwtop')
         return Cmip6TestData(
             mip_table='AERmon',
-            variable='reffclwtop',
+            variables=['reffclwtop'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location

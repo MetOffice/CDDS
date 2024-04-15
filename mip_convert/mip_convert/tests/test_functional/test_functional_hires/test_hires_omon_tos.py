@@ -18,7 +18,7 @@ class TestHiResOmonTos(AbstractFunctionalTests):
         test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_HIRES_Omon_tos')
         return HiResTestData(
             mip_table='Omon',
-            variable='tos',
+            variables=['tos'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location
