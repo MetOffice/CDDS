@@ -16,21 +16,8 @@ from mip_convert.save.setup_cmor import setup_cmor
 
 from mip_convert.configuration.text_config import HybridHeightConfig, SitesConfig
 from mip_convert.configuration.python_config import UserConfig
-from mip_convert.common import RelativePathError
-
-from mip_convert.load.pp.pp import PpError
-from mip_convert.load.pp.pp_axis import PpAxisError, ExtractorException
-from mip_convert.load.pp.pp_variable import PpVariableError
-from mip_convert.load.pp.aggregator import AggregatorError
-
-from mip_convert.model_date import CdDateError
-
-from mip_convert.process.mapping_config import MappingTableError
-from mip_convert.process.process import ProcessorError
-from mip_convert.process.quality_control import OutOfBoundsError
 
 from mip_convert.mip_table import get_model_to_mip_mappings
-from mip_convert.variable import VariableError
 from mip_convert.mip_table import get_mip_table
 from mip_convert.model_output_files import get_files_to_produce_output_netcdf_files
 
