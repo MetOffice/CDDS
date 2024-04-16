@@ -53,7 +53,7 @@ def transform_request(input_json: str, output_cfg: str) -> None:
         cfg_request.metadata.parent_time_units = json_request['parent_time_units']
         cfg_request.metadata.parent_variant_label = json_request['parent_variant_label']
 
-    cfg_request.metadata.child_base_date = TimePointParser().parse(json_request['child_base_date'])
+    cfg_request.metadata.base_date = TimePointParser().parse(json_request['child_base_date'])
     cfg_request.metadata.calendar = json_request['calendar']
     cfg_request.metadata.experiment_id = json_request['experiment_id']
     cfg_request.metadata.institution_id = json_request['institution_id']

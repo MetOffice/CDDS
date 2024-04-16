@@ -12,7 +12,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
         self.request = Request()
-        self.request.metadata.child_base_date = TimePointParser().parse('1850-01-01T00:00:00')
+        self.request.metadata.base_date = TimePointParser().parse('1850-01-01T00:00:00')
         self.request.metadata.calendar = '360_day'
         self.request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
         self.request.data.end_date = TimePointParser().parse('1851-01-01T00:00:00')
@@ -126,7 +126,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
 
     def test_internal_contiguity_diurnal_climatology_gregorian(self):
         request = Request()
-        request.metadata.child_base_date = TimePointParser().parse('2000-01-01T00:00:00')
+        request.metadata.base_date = TimePointParser().parse('2000-01-01T00:00:00')
         request.metadata.calendar = 'Gregorian'
         request.data.start_date = TimePointParser().parse('2007-01-01T00:00:00')
         request.data.end_date = TimePointParser().parse('2007-03-01T00:00:00')
@@ -212,7 +212,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         request = Request()
         request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.data.end_date = TimePointParser().parse('1850-01-03T00:00:00')
-        request.metadata.child_base_date = TimePointParser().parse('1850-01-01T00:00:00')
+        request.metadata.base_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.metadata.calendar = '360_day'
         cc = CollectionsCheck(request)
         var_key = 'foo'
@@ -308,7 +308,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         request = Request()
         request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.data.end_date = TimePointParser().parse('1850-07-01T00:00:00')
-        request.metadata.child_base_date = TimePointParser().parse('1850-01-01T00:00:00')
+        request.metadata.base_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.metadata.calendar = '360_day'
         cc = CollectionsCheck(request)
         var_key = 'foo'
@@ -330,7 +330,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         request = Request()
         request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.data.end_date = TimePointParser().parse('1850-07-01T00:00:00')
-        request.metadata.child_base_date = TimePointParser().parse('1850-01-01T00:00:00')
+        request.metadata.base_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.metadata.calendar = 'Gregorian'
         cc = CollectionsCheck(request)
         var_key = 'foo'
@@ -352,7 +352,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         request = Request()
         request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.data.end_date = TimePointParser().parse('1850-01-02T00:00:00')
-        request.metadata.child_base_date = TimePointParser().parse('1850-01-01T00:00:00')
+        request.metadata.base_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.metadata.calendar = '360_day'
         cc = CollectionsCheck(request)
         var_key = 'foo'
@@ -370,7 +370,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         request = Request()
         request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.data.end_date = TimePointParser().parse('1851-01-01T00:00:00')
-        request.metadata.child_base_date = TimePointParser().parse('1850-01-01T00:00:00')
+        request.metadata.base_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.metadata.calendar = '360_day'
         cc = CollectionsCheck(request)
         var_key = 'foo'
