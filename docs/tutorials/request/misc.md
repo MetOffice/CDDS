@@ -1,4 +1,4 @@
-# Miscellaneous Section
+# Miscellany Section
 
 The `misc` in the request configuration contains any settings that do not fit in any other section.
 
@@ -13,7 +13,7 @@ The `misc` in the request configuration contains any settings that do not fit in
 :   write log files to the appropriate component directory in the proc directory as defined by the common section in the 
     request configuration.
 
-    **Default:** `False`
+    **Default:** `True`
 
 `no_overwrite`
 :   do not overwrite files in data directory defined by the common section in the request configuration.

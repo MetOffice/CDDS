@@ -5,18 +5,10 @@ processed.
 
 ## Configuration Values
 
-`branch_date_in_child`
-:   branch data with respect to child's time axis. 
-    *Format:* `yyyy-mm-ddTHH:MM:SSZ`, e.g. `1990-01-01T00:00:00Z`
-
-`branch_date_in_parent`
-:   branch date with respect to parent time axis
-    *Format:* `yyyy-mm-ddTHH:MM:SSZ`, e.g. `2000-01-01T00:00:00Z`
-
 `branch_method`
 :   branching procedure - `standard`, `continuation` or `no parent`
 
-`child_base_date`
+`base_date`
 :   used to define the units of the time coordinate in the netCDF file.
     *Format:* `yyyy-mm-ddTHH:MM:SSZ`, e.g. `1850-01-01T00:00:00Z`
 
@@ -26,10 +18,10 @@ processed.
 :   that should be used - `360_day` or `gregorian`
 
 `experiment_id`
-:   root experiment identifier
+:   experiment identifier
 
 `institution_id`
-:   institution identifier, e.g. `MOHC` for `Met Office Hadley Center`
+:   institution identifier, e.g. `MOHC` for `Met Office Hadley Centre`
 
 `license`
 :   license restrictions. It ensures that anyone using the files has access to the terms of use.
@@ -41,6 +33,35 @@ processed.
 
 `mip_era`
 :   the associated cycle, e.g. `CMIP6`, `GCDevModel`, `CORDEX`
+
+`sub_experiment_id`
+:   identifier of the sub experiment. For example, it is needed for CMIP6 hindcast or forecast experiments to indicate 
+    start year. If no sub experiment is given, set it to `none`
+
+    **Default:** `none`
+
+`variant_label`
+:   the label of the variant of the experiment that should be considered.
+
+`model_id`
+:   a short name identifying the model, also know as `source_id`, e.g. `HadGEM3-GC31-LL`.
+
+`model_type`
+:   a text code identifying which model components are used in the given experiments separated by white spaces, 
+    e.g. `AOGCM AER BGC`
+
+
+### Configuration values for parent experiment
+
+Following configuration values are only needed to be set if the `branch_method` is `standard` or `continuation`:
+
+`branch_date_in_child`
+:   branch data with respect to child's time axis. 
+    *Format:* `yyyy-mm-ddTHH:MM:SSZ`, e.g. `1990-01-01T00:00:00Z`
+
+`branch_date_in_parent`
+:   branch date with respect to parent time axis
+    *Format:* `yyyy-mm-ddTHH:MM:SSZ`, e.g. `2000-01-01T00:00:00Z`
 
 `parent_base_date`
 :   used to define the units of the time coordinate in the netCDF files. 
@@ -70,31 +91,6 @@ processed.
 `parent_variant_label`
 :   the label of the specific variant of the parent experiment that should be considered.
 
-`sub_experiment_id`
-:   identifier of the sub experiment. For example, it is needed for CMIP6 hindcast or forecast experiments to indicate 
-    start year. If no sub experiment is given, set it to `none`
-
-    **Default:** `none`
-
-`variant_label`
-:   the label of the variant of the experiment that should be considered.
-
-`standard_names_dir`
-:   the directory containing the standard names that should be used.
-
-    **Default**: Path to the standard names directory located in the CDDS home directory
-
-`standard_names_version`
-:   the version of the standard name directory that should be used.
-
-    **Default:** `latest`
-
-`model_id`
-:   a short name identifying the model, e.g. `HadGEM3-GC31-LL`.
-
-`model_type`
-:   a text code identifying which model components are used in the given experiments separated by white spaces, 
-    e.g. `AOGCM AER BGC`
 
 ## Examples
 

@@ -58,6 +58,16 @@ the path to the external plugin.
 
     **Default:** Path to the file containing the site information located in the CDDS home directory
 
+`standard_names_dir`
+:   the directory containing the standard names that should be used.
+
+    **Default**: Path to the standard names directory located in the CDDS home directory
+
+`standard_names_version`
+:   the version of the standard name directory that should be used.
+
+    **Default:** `latest`
+
 `simulation`
 :   if the moose commands should be only simulated. The commands will be printed rather than run.
 
