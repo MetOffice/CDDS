@@ -88,7 +88,9 @@ def transform_request(input_json: str, output_cfg: str) -> None:
     logger.info('The "cdds_workflow_branch" must be set manually. It should be the branch of the tag or trunk you want '
                 'to use to process CDDS.')
 
-    cfg_request.data.data_version = ''
+    # Set data version to empty white space to make sure that it won't be set to the default
+    cfg_request.data.data_version = ' '
+
     cfg_request.data.end_date = TimePointParser().parse(end_date)
     cfg_request.data.mass_data_class = json_request.get('mass_data_class', 'crum')
     cfg_request.data.mass_ensemble_member = json_request.get('mass_ensemble_member', '')
