@@ -42,6 +42,7 @@ def transform_request(input_json: str, output_cfg: str) -> None:
     cfg_request.metadata.branch_method = branch_method
 
     if branch_method != 'no parent':
+        logger.info('Set parent properties')
         cfg_request.metadata.branch_date_in_child = TimePointParser().parse(json_request['branch_date_in_child'])
         cfg_request.metadata.branch_date_in_parent = TimePointParser().parse(json_request['branch_date_in_parent'])
         cfg_request.metadata.parent_base_date = TimePointParser().parse(json_request['parent_base_date'])
@@ -71,16 +72,23 @@ def transform_request(input_json: str, output_cfg: str) -> None:
     cfg_request.common.package = json_request['package']
     cfg_request.common.workflow_basename = json_request['request_id']
 
+    logger.info('The path to the root proc directory ("{root_proc_dir}") and the path to the data directory '
+                '("root_data_dir") must be set in the common section manually.')
+
     cfg_request.conversion.skip_extract = False
     cfg_request.conversion.skip_extract_validation = False
     cfg_request.conversion.skip_configure = False
     cfg_request.conversion.skip_qc = False
     cfg_request.conversion.skip_archive = False
-    cfg_request.conversion.cdds_workflow_branch = 'trunk'
+    cfg_request.conversion.cdds_workflow_branch = ''
     cfg_request.conversion.no_email_notifications = True
     cfg_request.conversion.scale_memory_limits = None
     cfg_request.conversion.override_cycling_frequency = []
 
+    logger.info('The "cdds_workflow_branch" must be set manually. It should be the branch of the tag or trunk you want '
+                'to use to process CDDS.')
+
+    cfg_request.data.data_version = ''
     cfg_request.data.end_date = TimePointParser().parse(end_date)
     cfg_request.data.mass_data_class = json_request.get('mass_data_class', 'crum')
     cfg_request.data.mass_ensemble_member = json_request.get('mass_ensemble_member', '')
@@ -90,14 +98,20 @@ def transform_request(input_json: str, output_cfg: str) -> None:
     cfg_request.data.model_workflow_revision = json_request.get('suite_revision', 'HEAD')
     cfg_request.data.streams = streams
 
+    logger.info('The path to the variable list file ("variable_list_file") must be set in the data section manually.')
+    logger.info('Following MASS related values must be set manually in the data section: {}'
+                ''.format(', '.join(['output_mass_root', 'output_mass_suffix', 'data_version'])))
+
     cfg_request.inventory.inventory_check = False
     cfg_request.inventory.inventory_database_location = ''
 
     cfg_request.misc.atmos_timestep = int(json_request['atmos_timestep'])
-    cfg_request.misc.use_proc_dir = False
+    cfg_request.misc.use_proc_dir = True
     cfg_request.misc.no_overwrite = False
 
     cfg_request.netcdf_global_attributes.attributes = json_request.get('global_attributes', {})
 
     logger.info('Write request configuration into {}'.format(output_cfg))
+    logger.info('Please, check all configuration settings before running CDDS.')
+
     cfg_request.write(output_cfg)
