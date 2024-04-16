@@ -44,7 +44,7 @@ class TestMiscDefaults(TestCase):
     def test_defaults(self):
         expected_defaults = {
             'atmos_timestep': 1200,
-            'use_proc_dir': False,
+            'use_proc_dir': True,
             'no_overwrite': False
         }
 
