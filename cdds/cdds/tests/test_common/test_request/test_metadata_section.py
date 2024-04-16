@@ -26,9 +26,7 @@ class TestMetadataDefaults(TestCase):
             'license': CMIP6_LICENSE,
             'parent_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
             'parent_model_id': self.model_id,
-            'parent_time_units': 'days since 1850-01-01',
-            'standard_names_dir': '/home/h03/cdds/etc/standard_names/',
-            'standard_names_version': 'latest',
+            'parent_time_units': 'days since 1850-01-01'
         }
 
         defaults = metadata_defaults(self.model_id)
@@ -65,8 +63,6 @@ class TestMetadataSection(TestCase):
             parent_variant_label='r1i1p1f2',
             sub_experiment_id='none',
             variant_label='r1i2p3f4',
-            standard_names_version='62',
-            standard_names_dir='/home/h04/cdds/standard_names',
             model_id='HadGEM3-GC31-LL',
             model_type=['AOGCM']
         )
@@ -91,8 +87,6 @@ class TestMetadataSection(TestCase):
             'parent_model_id': 'UKESM1-0-LL',
             'parent_time_units': 'days since 1850-01-01',
             'parent_variant_label': 'r1i1p1f2',
-            'standard_names_dir': '/home/h04/cdds/standard_names',
-            'standard_names_version': '62',
             'sub_experiment_id': 'none',
             'variant_label': 'r1i2p3f4'
         }
@@ -113,8 +107,6 @@ class TestMetadataSection(TestCase):
         self.assertEqual(metadata.parent_experiment_id, '')
         self.assertEqual(metadata.parent_model_id, 'HadGEM3-GC31-LL')
         self.assertEqual(metadata.parent_time_units, 'days since 1850-01-01')
-        self.assertEqual(metadata.standard_names_dir, '/home/h03/cdds/etc/standard_names/')
-        self.assertEqual(metadata.standard_names_version, 'latest')
         self.assertEqual(metadata.branch_date_in_child, None)
         self.assertEqual(metadata.branch_date_in_parent, None)
         self.assertEqual(metadata.branch_method, '')
@@ -151,8 +143,6 @@ class TestMetadataSection(TestCase):
         config.set('metadata', 'parent_variant_label', 'r1i1p1f2')
         config.set('metadata', 'sub_experiment_id', 'none')
         config.set('metadata', 'variant_label', 'r1i2p3f4')
-        config.set('metadata', 'standard_names_version', '6.2.0')
-        config.set('metadata', 'standard_names_dir', '/home/h04/cdds/standard_names')
         config.set('metadata', 'model_id', 'HadGEM3-GC31-LL')
         config.set('metadata', 'model_type', 'AOGCM BGC AER CHEM')
 
@@ -177,8 +167,6 @@ class TestMetadataSection(TestCase):
         self.assertEqual(metadata.parent_variant_label, 'r1i1p1f2')
         self.assertEqual(metadata.sub_experiment_id, 'none')
         self.assertEqual(metadata.variant_label, 'r1i2p3f4')
-        self.assertEqual(metadata.standard_names_version, '6.2.0')
-        self.assertEqual(metadata.standard_names_dir, '/home/h04/cdds/standard_names')
         self.assertEqual(metadata.model_id, 'HadGEM3-GC31-LL')
         self.assertListEqual(metadata.model_type, ['AOGCM', 'BGC', 'AER', 'CHEM'])
 

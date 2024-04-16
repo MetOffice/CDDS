@@ -33,6 +33,8 @@ class TestCommonDefaults(TestCase):
             'root_replacement_coordinates_dir': '/home/h03/cdds/etc/horizontal_coordinates/',
             'simulation': False,
             'sites_file': '/home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt',
+            'standard_names_dir': '/home/h03/cdds/etc/standard_names/',
+            'standard_names_version': 'latest',
             'workflow_basename': self.workflow_basename
         }
 

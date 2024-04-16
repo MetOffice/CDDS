@@ -34,8 +34,6 @@ def expected_test_metadata():
         'parent_variant_label': 'r1i1p1f2',
         'sub_experiment_id': 'none',
         'variant_label': 'r1i1p1f2',
-        'standard_names_version': 'latest',
-        'standard_names_dir': '/etc/standard_names',
         'model_id': 'UKESM1-0-LL',
         'model_type': [
             'AOGCM', 'BGC', 'AER', 'CHEM'
@@ -63,6 +61,8 @@ def expected_test_common():
         'root_hybrid_heights_dir': '/home/h03/cdds/etc/vertical_coordinates',
         'root_replacement_coordinates_dir': '/home/h03/cdds/etc/horizontal_coordinates',
         'sites_file': '/home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt',
+        'standard_names_version': 'latest',
+        'standard_names_dir': '/etc/standard_names',
         'simulation': False,
         'log_level': 'INFO'
     }
@@ -151,8 +151,6 @@ def expected_test_minimal_metadata():
         'parent_model_id': 'UKESM1-0-LL',
         'parent_time_units': 'days since 1850-01-01',
         'parent_variant_label': 'r1i1p1f2',
-        'standard_names_dir': '/home/h03/cdds/etc/standard_names/',
-        'standard_names_version': 'latest',
         'sub_experiment_id': 'none',
         'variant_label': 'r1i1p1f2'
     }
@@ -172,6 +170,8 @@ def expected_test_minimal_common():
         'root_hybrid_heights_dir': '/home/h03/cdds/etc/vertical_coordinates/',
         'root_replacement_coordinates_dir': '/home/h03/cdds/etc/horizontal_coordinates/',
         'sites_file': '/home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt',
+        'standard_names_dir': '/home/h03/cdds/etc/standard_names/',
+        'standard_names_version': 'latest',
         'simulation': False,
         'workflow_basename': 'UKESM1-0-LL_piControl_r1i1p1f2'
     }
