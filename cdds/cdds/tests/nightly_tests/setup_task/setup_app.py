@@ -1,10 +1,18 @@
 # (C) British Crown Copyright 2022-2024, Met Office.
 # Please see LICENSE.rst for license details.
+import os
+import logging
+
 from typing import Dict, Any, List
 
+from cdds.common import configure_logger
+from cdds.common.plugins.plugins import PluginStore
+from cdds.common.request.request import read_request
+
 from cdds.tests.nightly_tests.app import NightlyApp
-from cdds.tests.nightly_tests.setup_task.common import NameListFilter, SetupConfig
-from cdds.tests.nightly_tests.setup_task.task import main
+from cdds.tests.nightly_tests.setup_task.common import SetupConfig
+from cdds.tests.nightly_tests.setup_task.activities import (setup_directory_structure, setup_mass_directories,
+                                                            create_variable_list, link_input_data)
 
 
 class CddsSetupApp(NightlyApp):
@@ -50,26 +58,28 @@ class CddsSetupApp(NightlyApp):
 
     def run(self) -> None:
         """
-        Run application: Setup the CDDS directories and MASS directories and generate the
-        variables list by the values of the app configuration and command line parameters.
+        Run application: Setup the necessary CDDS directory and MASS directories. Then, generate
+        the |requested variables list|. Finally, link the input directory to the corresponding CDDS
+        directory where the |model output files| used as input to CDDS Convert are written.
         """
-        selected_variables_entries = self.app_config.iterate_namelist(
-            'selected-variables', NameListFilter.selected_variables, self.setup_config.package
+        request_cfg_path = self.setup_config.request_cfg
+        request = read_request(request_cfg_path)
+        configure_logger('cdds_setup.log', logging.INFO, False)
+
+        setup_directory_structure(self.setup_config, request)
+        setup_mass_directories(self.setup_config)
+
+        plugin = PluginStore.instance().get_plugin()
+        data_directory = plugin.data_directory(request)
+        proc_directory = plugin.proc_directory(request)
+
+        # creating symlinks from the test directory to the data and proc directories on /project
+        os.symlink(
+            data_directory, os.path.join(self.setup_config.test_base_dir, '{0}_data'.format(request.common.package))
         )
-        selected_variables = []
-        for entry in selected_variables_entries:
-            mip_table = entry['selected_mip_table']
-            variable = entry['selected_variable']
-            streams = entry.get('selected_streams', '')
-            if streams:
-                stream_list = streams.split(',')
-                for stream in stream_list:
-                    selected_variable = '{}/{}:{}'.format(mip_table, variable, stream)
-                    selected_variables.append(selected_variable)
-            else:
-                selected_variable = '{}/{}'.format(mip_table, variable)
-                selected_variables.append(selected_variable)
+        os.symlink(
+            proc_directory, os.path.join(self.setup_config.test_base_dir, '{0}_proc'.format(request.common.package))
+        )
 
-        self.setup_config.selected_variables = selected_variables
-
-        main(self.setup_config)
+        create_variable_list(self.setup_config)
+        link_input_data(self.setup_config, request)

@@ -18,39 +18,3 @@ class SetupConfig:
     request_cfg: str = None
     input_data: str = None
     package: str = None
-    selected_variables: List[str] = None
-
-
-class NameListFilter:
-    """
-    Class storing filter functions for a namelist in a Rose configuration
-    """
-
-    @classmethod
-    def enabled(cls, name_list_item):
-        """
-        Filters all items that have a property `enabled` and that
-        property value is `true`
-
-        :param name_list_item: Current item of a name list
-        :type name_list_item: dict
-        :return: Indicates if the item's property `enabled` is set to `true`
-        :rtype: bool
-        """
-        return name_list_item['enabled'].lower() == 'true'
-
-    @classmethod
-    def selected_variables(cls, name_list_item: Dict[str, Any], package: str):
-        """
-        Filters all items that property `enabled` is true and the property
-        `test_package` equals to the given task package.
-
-        :param name_list_item: Current item of a name list
-        :type name_list_item: dict
-        :param package: The current cylc task package
-        :type package: str
-        :return: Indicates if the item matches the conditions or not
-        :rtype: bool
-        """
-        test_packages_list: list = name_list_item['test_packages'].split(',')
-        return cls.enabled(name_list_item) and package in test_packages_list
