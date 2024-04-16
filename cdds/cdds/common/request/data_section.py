@@ -75,7 +75,7 @@ class DataSection(Section):
             # workflow_revision could be an int but we need a string
             if 'workflow_revision' in config_items:
                 config_items['workflow_revision'] = str(config_items['workflow_revision'])
-            expand_paths(config_items, 'variable_list_file')
+            expand_paths(config_items, ['variable_list_file'])
             values.update(config_items)
         return DataSection(**values)
 
