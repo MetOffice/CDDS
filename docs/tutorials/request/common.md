@@ -69,7 +69,7 @@ the path to the external plugin.
     **Default:** `latest`
 
 `simulation`
-:   if the moose commands should be only simulated. The commands will be printed rather than run.
+:   if set to `True` CDDS operation will be simulated
 
 `log_level`
 :   identify which log level should be used for logging - `CRITICAL`, `INFO` or `DEBUG`
