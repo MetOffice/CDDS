@@ -142,7 +142,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
 #    def test_internal_contiguity_diurnal_climatology_obs4mips(self):
 #        request = Request({
 #            'run_bounds': '2007-01-01T00:00:00 2009-01-01T00:00:00',
-#            'child_base_date': '2000-01-01T00:00:00',
+#            'base_date': '2000-01-01T00:00:00',
 #            'calendar': 'Gregorian'
 #        }, [])
 #        cc = CollectionsCheck(request)

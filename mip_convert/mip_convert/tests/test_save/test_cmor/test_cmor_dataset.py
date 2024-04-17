@@ -71,7 +71,7 @@ class TestDataset(unittest.TestCase):
             'sub_experiment_id:{sub_experiment_id}\n'
             'variant_label:{variant_label}\n'
             '[request]\n'
-            'child_base_date:0000-00-00T00:00:00\n'
+            'base_date:0000-00-00T00:00:00\n'
             'model_output_dir:model_output_dir\n'
             'run_bounds:0000-00-00T00:00:00 0000-00-00T00:00:00\n'
             'suite_id:{suite_id}\n'
