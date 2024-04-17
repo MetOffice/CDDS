@@ -120,8 +120,8 @@ class QCRunner(object):
                 "relaxed_cmor": self.relaxed_cmor
             },
             "cf17": {
-                "standard_names_version": request.metadata.standard_names_version,
-                "standard_names_dir": request.metadata.standard_names_dir
+                "standard_names_version": request.common.standard_names_version,
+                "standard_names_dir": request.common.standard_names_dir
             },
             "cordex": {
                 "mip_tables_dir": mip_tables_dir,

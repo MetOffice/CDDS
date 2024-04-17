@@ -36,6 +36,8 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
     root_hybrid_heights_dir = '{}/vertical_coordinates/'.format(os.environ['CDDS_ETC'])
     root_replacement_coordinates_dir = '{}/horizontal_coordinates/'.format(os.environ['CDDS_ETC'])
     sites_file = '{}/cfmip2/cfmip2-sites-orog.txt'.format(os.environ['CDDS_ETC'])
+    standard_names_dir = '{}/standard_names/'.format(os.environ['CDDS_ETC'])
+
     return {
         'external_plugin': '',
         'external_plugin_location': '',
@@ -46,6 +48,8 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
         'root_hybrid_heights_dir': root_hybrid_heights_dir,
         'root_replacement_coordinates_dir': root_replacement_coordinates_dir,
         'sites_file': sites_file,
+        'standard_names_dir': standard_names_dir,
+        'standard_names_version': 'latest',
         'simulation': False,
         'workflow_basename': '{}_{}_{}'.format(model_id, experiment_id, variant_label)
     }
@@ -68,6 +72,8 @@ class CommonSection(Section):
     root_hybrid_heights_dir: str = ''
     root_replacement_coordinates_dir: str = ''
     sites_file: str = ''
+    standard_names_version: str = ''
+    standard_names_dir: str = ''
     simulation: bool = False
     log_level: str = 'INFO'
 
@@ -97,7 +103,8 @@ class CommonSection(Section):
         values = common_defaults(model_id, experiment_id, variant_label)
         config_items = load_types(dict(config.items('common')))
         expand_paths(config_items, ['root_proc_dir', 'root_data_dir', 'root_ancil_dir',
-                                    'root_hybrid_heights_dir', 'root_replacement_coordinates_dir', 'sites_file'])
+                                    'root_hybrid_heights_dir', 'root_replacement_coordinates_dir',
+                                    'sites_file', 'standard_names_dir'])
         values.update(config_items)
         return CommonSection(**values)
 

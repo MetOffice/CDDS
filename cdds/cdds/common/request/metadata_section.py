@@ -26,7 +26,6 @@ def metadata_defaults(model_id: str) -> Dict[str, Any]:
     :rtype: Dict[str, Any]
     """
     license = PluginStore.instance().get_plugin().license()
-    standard_names_dir = '{}/standard_names/'.format(os.environ['CDDS_ETC'])
 
     return {
         'child_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
@@ -34,8 +33,6 @@ def metadata_defaults(model_id: str) -> Dict[str, Any]:
         'parent_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
         'parent_model_id': model_id,
         'parent_time_units': 'days since 1850-01-01',
-        'standard_names_dir': standard_names_dir,
-        'standard_names_version': 'latest',
     }
 
 
@@ -63,8 +60,6 @@ class MetadataSection(Section):
     parent_variant_label: str = ''
     sub_experiment_id: str = 'none'
     variant_label: str = ''
-    standard_names_version: str = ''
-    standard_names_dir: str = ''
     model_id: str = ''
     model_type: List[str] = field(default_factory=list)
 
@@ -91,7 +86,6 @@ class MetadataSection(Section):
         model_id = config.get('metadata', 'model_id')
         values = metadata_defaults(model_id)
         config_items = load_types(dict(config.items('metadata')), ['model_type'])
-        expand_paths(config_items, ['standard_names_dir'])
         values.update(config_items)
         return MetadataSection(**values)
 
