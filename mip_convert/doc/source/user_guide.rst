@@ -261,7 +261,7 @@ Whenever a parent exists, the following options must be specified:
 +---------------------------------+-----------------+-----------+
 
 [1] CMOR requires ``branch_time_in_child`` and ``branch_time_in_parent``, which
-is determined from the options ``child_base_date`` (see the
+is determined from the options ``base_date`` (see the
 :ref:`request <request_section>` section) / ``parent_base_date`` (the
 base date of the ``child_experiment_id`` / ``parent_experiment_id``) and
 ``branch_date_in_child`` / ``branch_date_in_parent`` (the date in the
@@ -269,7 +269,7 @@ base date of the ``child_experiment_id`` / ``parent_experiment_id``) and
 branches) from the :ref:`cmor_dataset <cmor_dataset_section>` section in the
 |user configuration file| by taking the difference (in days) between the
 ``branch_date_in_child`` / ``branch_date_in_parent`` and the
-``child_base_date`` / ``parent_base_date``. If ``branch_date_in_child`` or
+``base_date`` / ``parent_base_date``. If ``branch_date_in_child`` or
 ``branch_date_in_parent`` is ``N/A`` then ``branch_time_in_parent`` is set to
 0. 
 
@@ -297,7 +297,7 @@ options, which are used by MIP Convert:
 | ``atmos_timestep``                   |             | MIP Convert  | The atmospheric model timestep in integer        | [1]   |
 |                                      |             |              | seconds.                                         |       |
 +--------------------------------------+-------------+--------------+--------------------------------------------------+-------+
-| ``child_base_date``                  | MIP Convert | MIP Convert  | The date in the form ``YYYY-MM-DD-hh-mm-ss``.    | [2]   |
+| ``base_date``                  | MIP Convert | MIP Convert  | The date in the form ``YYYY-MM-DD-hh-mm-ss``.    | [2]   |
 +--------------------------------------+-------------+--------------+--------------------------------------------------+-------+
 | ``deflate_level``                    |             | MIP Convert  | The deflation level when writing the             |       |
 |                                      |             |              | |output netCDF file| from 0 (no compression) to  |       |
@@ -342,7 +342,7 @@ options, which are used by MIP Convert:
 which have |model to MIP mappings| that depend on the atmospheric model
 timestep, i.e., the expression contains ``ATMOS_TIMESTEP``.
 
-[2] The ``child_base_date`` is used to define the units of the time coordinate
+[2] The ``base_date`` is used to define the units of the time coordinate
 in the |output netCDF file| and is specified by the |MIP|.
 
 [3] The file containing the information about the hybrid heights has the
