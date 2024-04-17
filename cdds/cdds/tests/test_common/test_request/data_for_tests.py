@@ -198,7 +198,7 @@ def expected_test_minimal_misc():
     return {
         'atmos_timestep': 1200,
         'no_overwrite': False,
-        'use_proc_dir': False
+        'use_proc_dir': True
     }
 
 
