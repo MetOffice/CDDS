@@ -15,6 +15,15 @@ nav:
     - Search Inventory: tutorials/search_inventory.md
     - Add a Variable Mapping: tutorials/add_mapping.md
     - Add a Plugin: tutorials/add_plugin.md
+    - Request Configuration:
+      -  tutorials/request/config_request.md
+      - Metadata Section: tutorials/request/metadata.md
+      - Common Section: tutorials/request/common.md
+      - Data Section: tutorials/request/data.md
+      - Inventory Section: tutorials/request/inventory.md
+      - Conversion Section: tutorials/request/conversion.md
+      - Global Attributes Section: tutorials/request/global_attributes.md
+      - Misc Section: tutorials/request/misc.md
   - Developer Documentation:
     - developer_documentation/index.md
     - Documentation: developer_documentation/building_documentation.md
@@ -31,6 +40,10 @@ nav:
       - Working with Jira: developer_documentation/jira.md
       - Managing Conda Environments: developer_documentation/managing_environments.md
       - Documentation: developer_documentation/building_documentation.md
+      - Review Guidelines: developer_documentation/review_guidelines.md
+      - Working with Github: developer_documentation/github.md
+    - Request:
+        - Request Architecture: developer_documentation/request/request.md
     - Testing:
       - Unit Testing: developer_documentation/unittests.md
       - Pytest: developer_documentation/pytest.md
@@ -49,6 +62,7 @@ nav:
 markdown_extensions:
   - admonition
   - attr_list
+  - def_list
   - md_in_html
   - pymdownx.details
   - pymdownx.superfences
