@@ -176,7 +176,8 @@ def run_mip_convert_wrapper(arguments):
         manage_critical_issues(
             cdds_convert_proc_dir, mip_convert_log,
             fields_to_log=[cylc_task_name, cylc_task_cycle_point, cylc_task_try])
-        if not arguments.continue_if_mip_convert_failed:
+        does_mip_convert_failed = (exit_code == 1 or exit_code == 2)
+        if does_mip_convert_failed and arguments.continue_if_mip_convert_failed:
             exit_code = 0
 
     # move file from staging directory to output directory
