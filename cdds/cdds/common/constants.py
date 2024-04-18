@@ -98,8 +98,6 @@ DATE_TIME_REGEX = (
     r'(?P<minute>\d{2}):(?P<second>\d{2})')
 DAYS_IN_MONTH = 30
 DAYS_IN_YEAR = 360
-GLOBAL_ARGUMENTS_FILENAME = 'global_arguments.json'
-GLOBAL_ARGUMENTS_FILENAME_JASMIN = 'global_arguments_jasmin.json'
 JASMIN_URL_IDS = {'.ac.uk'}
 
 INPUT_DATA_DIRECTORY = 'input'

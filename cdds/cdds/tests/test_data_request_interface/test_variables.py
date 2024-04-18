@@ -4,11 +4,11 @@
 """
 Tests for :mod:`variable.py`
 """
+import os
 import unittest
 
 import pytest
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.arguments import read_default_arguments
 from cdds.data_request_interface.load import (DataRequestWrapper,
                                               ExperimentNotFoundError)
 from cdds.data_request_interface.variables import (
@@ -20,9 +20,7 @@ class TestDataRequestVariable(unittest.TestCase):
 
     def setUp(self):
         load_plugin()
-        args = read_default_arguments('cdds.prepare',
-                                      'prepare_generate_variable_list')
-        self.data_request_dir = args.data_request_base_dir
+        self.data_request_dir = os.path.join(os.environ['CDDS_ETC'], 'data_requests', 'CMIP6')
         self.data_request = DataRequestWrapper('01.00.21',
                                                self.data_request_dir)
         self.variable = DataRequestVariable(
@@ -166,9 +164,7 @@ class TestDataRequestVariable(unittest.TestCase):
 
 class TestDescribeDifferences(unittest.TestCase):
     def setUp(self):
-        args = read_default_arguments('cdds.prepare',
-                                      'prepare_generate_variable_list')
-        self.data_request_dir = args.data_request_base_dir
+        self.data_request_dir = os.path.join(os.environ['CDDS_ETC'], 'data_requests', 'CMIP6')
         self.data_request = DataRequestWrapper('01.00.21',
                                                self.data_request_dir)
         self.variable = DataRequestVariable(
@@ -244,9 +240,7 @@ class TestRetrieveVariables(unittest.TestCase):
     def setUp(self):
         load_plugin()
         self.data_request_version = '01.00.21'
-        args = read_default_arguments('cdds.prepare',
-                                      'prepare_generate_variable_list')
-        self.data_request_dir = args.data_request_base_dir
+        self.data_request_dir = os.path.join(os.environ['CDDS_ETC'], 'data_requests', 'CMIP6')
         self.data_request = DataRequestWrapper(self.data_request_version,
                                                self.data_request_dir)
 

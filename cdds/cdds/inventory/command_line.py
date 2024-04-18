@@ -10,7 +10,6 @@ import os
 import shutil
 
 from cdds import __version__
-from cdds.arguments import read_default_arguments
 from cdds.common import configure_logger, common_command_line_args, get_log_datestamp, mass_output_args
 from cdds.common.constants import INVENTORY_DB_FILENAME, INVENTORY_FACET_LIST
 from cdds.common.mass import mass_list_dir, mass_list_files_recursively
@@ -74,12 +73,10 @@ def parse_args(arguments):
 
     Returns
     -------
-    : :class:`cdds.arguments.Arguments`
+    : :class:`args.Namespace`
         The names of the command line arguments and their validated
         values.
     """
-    user_arguments = arguments
-    arguments = read_default_arguments('cdds', 'populate_inventory')
     parser = argparse.ArgumentParser(
         description=__doc__.replace('|', ''),
         formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -92,11 +89,9 @@ def parse_args(arguments):
 
     mass_output_args(parser, arguments.output_mass_suffix, arguments.output_mass_root)
     # Add arguments common to all scripts.
-    common_command_line_args(parser, arguments.log_name, arguments.log_level,
-                             __version__)
-    args = parser.parse_args(user_arguments)
-    arguments.add_user_args(args)
-    return arguments
+    common_command_line_args(parser, 'inventory', logging.INFO, __version__)
+    parsed_arguments = parser.parse_args(arguments)
+    return parsed_arguments
 
 
 def parse_line(line):
