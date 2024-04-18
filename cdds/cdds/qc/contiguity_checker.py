@@ -25,7 +25,7 @@ class CollectionsCheck(object):
         """
         self.request = request
         self.calendar_calculator = DatetimeCalculator(
-            self.request.metadata.calendar, self.request.metadata.child_base_date)
+            self.request.metadata.calendar, self.request.metadata.base_date)
         self.results = defaultdict(list)
 
     def perform_checks(self, ds):

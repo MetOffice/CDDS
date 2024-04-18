@@ -351,7 +351,7 @@ class ConvertProcess(object):
         :return: The reference date in the form 18500101
         :rtype: TimePoint
         """
-        return self._request.metadata.child_base_date
+        return self._request.metadata.base_date
 
     def _build_stream_components(self) -> None:
         """

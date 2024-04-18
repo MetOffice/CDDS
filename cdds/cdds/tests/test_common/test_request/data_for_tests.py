@@ -9,7 +9,7 @@ def expected_test_metadata():
         'branch_date_in_child': TimePoint(year=1960, month_of_year=1, day_of_month=1),
         'branch_date_in_parent': TimePoint(year=1960, month_of_year=1, day_of_month=1),
         'branch_method': 'standard',
-        'child_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
+        'base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
         'calendar': '360_day',
         'experiment_id': 'piControl',
         'institution_id': 'MOHC',
@@ -123,7 +123,7 @@ def expected_test_minimal_metadata():
         'branch_date_in_parent': TimePoint(year=1960, month_of_year=1, day_of_month=1),
         'branch_method': 'standard',
         'calendar': '360_day',
-        'child_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
+        'base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
         'experiment_id': 'piControl',
         'institution_id': 'MOHC',
         'license': 'CMIP6 model data produced by MOHC is licensed under a Creative '

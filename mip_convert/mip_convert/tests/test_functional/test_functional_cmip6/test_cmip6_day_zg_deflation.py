@@ -48,7 +48,7 @@ class TestCmip6DayZgDeflation(AbstractFunctionalTests):
                 },
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
-                    'child_base_date': '1950-01-01T00:00:00',
+                    'base_date': '1950-01-01T00:00:00',
                     'deflate_level': 3,
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1950-01-01T00:00:00 1950-02-01T00:00:00',

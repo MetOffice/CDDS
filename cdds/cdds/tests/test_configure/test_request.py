@@ -77,7 +77,7 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
                     'request', {
                         'model_output_dir': '{{ input_dir }}',
                         'run_bounds': '{{ start_date }} {{ end_date }}',
-                        'child_base_date': '1850-01-01T00:00:00',
+                        'base_date': '1850-01-01T00:00:00',
                         'deflate_level': '2',
                         'suite_id': 'u-aw310',
                         'ancil_files': ('/project/cdds/ancil/UKESM1-0-LL/qrparm.landfrac.pp '

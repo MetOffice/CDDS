@@ -240,7 +240,7 @@ USER_CONFIG_OPTIONS = {
     },
     'request': {
         'required': [
-            'child_base_date', 'model_output_dir', 'run_bounds', 'suite_id'],
+            'base_date', 'model_output_dir', 'run_bounds', 'suite_id'],
         'optional': [
             'ancil_files', 'atmos_timestep', 'deflate_level',
             'hybrid_heights_files', 'replacement_coordinates_file', 'shuffle',

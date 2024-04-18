@@ -28,7 +28,7 @@ def metadata_defaults(model_id: str) -> Dict[str, Any]:
     license = PluginStore.instance().get_plugin().license()
 
     return {
-        'child_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
+        'base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
         'license': license,
         'parent_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
         'parent_model_id': model_id,
@@ -44,7 +44,7 @@ class MetadataSection(Section):
     branch_date_in_child: TimePoint = None
     branch_date_in_parent: TimePoint = None
     branch_method: str = ''
-    child_base_date: TimePoint = None
+    base_date: TimePoint = None
     calendar: str = ''
     experiment_id: str = ''
     institution_id: str = ''
@@ -106,7 +106,7 @@ class MetadataSection(Section):
 
         metadata = MetadataSection(**defaults)
         metadata.branch_method = suite_info.branch_method()
-        metadata.child_base_date = TimePoint(year=1850, month_of_year=1, day_of_month=1)
+        metadata.base_date = TimePoint(year=1850, month_of_year=1, day_of_month=1)
         metadata.calendar = suite_info.data['calendar']
         metadata.experiment_id = suite_info.data['experiment-id']
         metadata.institution_id = suite_info.data['institution']
