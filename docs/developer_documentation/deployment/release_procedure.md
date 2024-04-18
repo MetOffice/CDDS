@@ -7,7 +7,7 @@
 
 ## Make the appropriate changes to the code
 
-### CDDS Convert Suite (u-ak283)
+### CDDS Convert workflow (u-ak283)
 
 If there have been [any changes](https://code.metoffice.gov.uk/trac/roses-u/diff?new_path=%2Fa%2Fk%2F2%2F8%2F3%2Ftags%2F1.1.1&old_path=%2Fa%2Fk%2F2%2F8%2F3%2Ftrunk&new_rev=121711&old_rev=126177) 
 to the [CDDS Convert suite](https://code.metoffice.gov.uk/trac/roses-u/browser/a/k/2/8/3/) since the last tag, tag the CDDS Convert suite:
@@ -16,9 +16,9 @@ to the [CDDS Convert suite](https://code.metoffice.gov.uk/trac/roses-u/browser/a
 fcm copy --parents https://code.metoffice.gov.uk/svn/roses-u/a/k/2/8/3/cdds_release_<release_branch_version> https://code.metoffice.gov.uk/svn/roses-u/a/k/2/8/3/tags/<tag>
 ```
 
-where `<tag>` is the CDDS version number, e.g. `1.0.1` and `<release_branch_version>` is major or minor version numbers, e.g. `1.0`.
+where `<tag>` is the CDDS version number, e.g. `1.0.1` and `<release_branch_version>` is major or minor version numbers, e.g. `1.0`. For JASMIN please append `_JASMIN` to the tag name and use `cdds_jasmin_<release_branch_version>` as the release branch.
 
-If the suite release branch for this version does not yet exist, create a release branch from the trunk as follows:
+If the workflow release branch for this version does not yet exist, create one from the trunk using:
 
 ```bash
 fcm bc cdds_release_<release_branch_version> https://code.metoffice.gov.uk/svn/roses-u/a/k/2/8/3/trunk
