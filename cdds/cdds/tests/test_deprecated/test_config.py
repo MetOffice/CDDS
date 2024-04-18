@@ -8,13 +8,14 @@ Tests for :mod:`config.py`.
 import os
 import unittest
 
-from cdds.arguments import Arguments
+from argparse import Namespace
+
 from cdds.deprecated.config import update_arguments_paths
 
 
 class TestUpdateArgumentsPaths(unittest.TestCase):
     def setUp(self):
-        self.arguments = Arguments({}, {}, {})
+        self.arguments = Namespace()
 
     def test_path_is_already_absolute(self):
         self.arguments.__setattr__('output_dir', '/tmp')
