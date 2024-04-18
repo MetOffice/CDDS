@@ -11,6 +11,7 @@ nav:
     - CMIP6: operational_procedure/cmip6.md
     - CMIP6 Plus: operational_procedure/cmip6_plus.md
     - GCModelDev: operational_procedure/gcmodeldev.md
+    - Simulation Review Procedure: operational_procedure/sim_review.md
   - Tutorials:
     - Search Inventory: tutorials/search_inventory.md
     - Add a Variable Mapping: tutorials/add_mapping.md
