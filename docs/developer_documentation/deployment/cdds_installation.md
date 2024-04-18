@@ -46,7 +46,7 @@
           conda env config vars set CDDS_ENV_COMMAND="source $HOME/software/miniconda3/bin/activate cdds-X.Y.Z"
           ```
           where `X.Y.Z` is the new version number of CDDS
-    - [x] Set default branch name for CDDS convert workflow (u-ak283). At the Met Office this will be `tags/X.Y.W` where `X.Y.W` is the most recent tag of the workflow (this is not updated for every version of CDDS)
+    - [x] Set default branch name for CDDS Convert workflow (`u-ak283`). At the Met Office this will be `tags/X.Y.W` where `X.Y.W` is the most recent tag of the workflow (this is not updated for every version of CDDS)
           ```bash
           conda env config vars set CDDS_CONVERT_WORKFLOW_BRANCH="tags/X.Y.W"
           ```
