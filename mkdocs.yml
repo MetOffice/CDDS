@@ -15,6 +15,7 @@ nav:
     - Search Inventory: tutorials/search_inventory.md
     - Add a Variable Mapping: tutorials/add_mapping.md
     - Add a Plugin: tutorials/add_plugin.md
+    - Mip Convert User Guide: tutorials/mip_convert.md
   - Developer Documentation:
     - developer_documentation/index.md
     - Documentation: developer_documentation/building_documentation.md
@@ -47,7 +48,11 @@ markdown_extensions:
   - admonition
   - attr_list
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.emoji
