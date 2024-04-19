@@ -4,7 +4,7 @@
 
 | Responsible                        | Code Base                                                                                            |
 |:-----------------------------------|:-----------------------------------------------------------------------------------------------------|
-| [CDDS Team](cdds@metoffive.gov.uk) | [Link to code on GitHub](https://github.com/MetOffice/CDDS/tree/main/cdds/cdds/common/plugins/cmip6) |
+| [CDDS Team](mailto:cdds@metoffice.gov.uk) | [Link to code on GitHub](https://github.com/MetOffice/CDDS/tree/main/cdds/cdds/common/plugins/cmip6) |
 
 The CMIP6 plugin provides all functionality needed for supporting CMIP6 projects. This is the default plugin for CDDS. When no plugin is given, 
 the CMIP6 plugin will be loaded.
@@ -16,7 +16,7 @@ CDDS team to make some improvements.
 
 | Responsible                        | Code Base                                                                                                  |
 |:-----------------------------------|:-----------------------------------------------------------------------------------------------------------|
-| [CDDS Team](cdds@metoffive.gov.uk) | [Link to code on GitHub](https://github.com/MetOffice/CDDS/tree/main/cdds/cdds/common/plugins/cmip6_plus)  |
+| [CDDS Team](mailto:cdds@metoffice.gov.uk) | [Link to code on GitHub](https://github.com/MetOffice/CDDS/tree/main/cdds/cdds/common/plugins/cmip6_plus)  |
 
 The CMIP6Plus plugin provides all functionality needed for supporting CMIP6Plus projects. This plugin is loaded if your MIP era in the request 
 configuration file is `CMIP6Plus`.
@@ -28,7 +28,7 @@ CDDS team to make some improvements.
 
 | Responsible                        | Code Base                                                                                              |
 |:-----------------------------------|:-------------------------------------------------------------------------------------------------------|
-| [CDDS Team](cdds@metoffive.gov.uk) | [Link to code on GitHub](https://github.com/MetOffice/CDDS/tree/main/cdds/cdds/common/plugins/cordex)  |
+| [CDDS Team](mailto:cdds@metoffice.gov.uk) | [Link to code on GitHub](https://github.com/MetOffice/CDDS/tree/main/cdds/cdds/common/plugins/cordex)  |
 
 The CORDEX plugin provides all functionality needed for supporting CORDEX project. It is the only plugin that handles regional models and is 
 supported by the CDDS team. This plugin is loaded if your MIP era in the request configuration file is `CORDEX`.
@@ -40,7 +40,7 @@ CDDS team to make some improvements.
 
 | Responsible                        | Code Base                                                                                                 |
 |:-----------------------------------|:----------------------------------------------------------------------------------------------------------|
-| [CDDS Team](cdds@metoffive.gov.uk) | [Link to code on GitHub](https://github.com/MetOffice/CDDS/tree/main/cdds/cdds/common/plugins/gcmodeldev) |
+| [CDDS Team](mailto:cdds@metoffice.gov.uk) | [Link to code on GitHub](https://github.com/MetOffice/CDDS/tree/main/cdds/cdds/common/plugins/gcmodeldev) |
 
 The GCModelDev plugin provides all functionality needed for supporting adhoc use of CDDS. This plugin is loaded if your MIP era in the 
 request configuration file is `GCModelDev`.
