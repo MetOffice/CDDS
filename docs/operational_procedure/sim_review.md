@@ -66,10 +66,6 @@ expected to do this part.
 - [x] When `move_in_mass` has completed, check for errors in the log file: `$CDDS_PROC_DIR/archive/log/move_in_mass_<date-time>.log`
 
 !!! info
-    Use `grep` to search for any `ERROR` messages in the log file:
-    ```bash
-    grep "ERROR" $CDDS_PROC_DIR/archive/log/move_in_mass_<date-time>.log
-    ```
     Use `grep` to search for any `CRITICAL` messages in the log file:
     ```bash
     grep "CRITICAL" $CDDS_PROC_DIR/archive/log/move_in_mass_<date-time>.log
@@ -78,11 +74,16 @@ expected to do this part.
 
 - [x] Confirm that the last line includes the phrase `Moving complete`.
 
-- [x] Confirm that there is a message for each data set there.
+- [x] Check the message queue to confirm that messages are waiting for processing.
 
-- [x] Check the message queue to confirm that messages are waiting for processing using:
+!!! info
+    - For CMIP6, you can use following command to confirm that shows the messages are waiting for processing:
       ```bash
       list_queue CMIP6_available
+      ```
+    - For CMIP6Plus, you can use following command to confirm that shows the messages are waiting for processing:
+      ```bash
+      list_queue CMIP6Plus_available
       ```
 
 - [x] Once you are happy that the `move_in_mass` command has executed successfully, add a message stating this to the 
