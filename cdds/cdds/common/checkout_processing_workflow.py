@@ -156,6 +156,8 @@ def parse_args(arguments: Union[list, None]) -> argparse.Namespace:
     :return: The configured argpase object.
     :rtype: argparse.Namespace
     """
+    default_branch = os.environ.get('CDDS_PROCESSING_WORKFLOW_BRANCH', 'trunk')
+
     parser = argparse.ArgumentParser()
     parser.add_argument("workflow_name", help="Desired workflow name")
     parser.add_argument(
@@ -170,7 +172,7 @@ def parse_args(arguments: Union[list, None]) -> argparse.Namespace:
     )
     parser.add_argument(
         "--branch_name",
-        default='trunk',
+        default=default_branch,
         help="Use an alternative branch.",
     )
     parser.add_argument(
