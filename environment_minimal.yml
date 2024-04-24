@@ -6,11 +6,11 @@ channels:
 dependencies:
   - cf-units=3.2.0
   - cftime=1.6.2
-  - cmor=3.7.3
+  - cmor=3.8.0
   - compliance-checker=4.3.4
   - dask-core=2023.5
   - debugpy=1.6.6
-  - iris=3.4.1
+  - iris=3.7.1
   - libmo_unpack=3.1.2
   - metomi-isodatetime=1!3.0.0
   - mike=2.0.0
@@ -37,7 +37,7 @@ dependencies:
   - pyproj=3.5.0
   - pytest=7.1.2
   - pytest-cov=3.0.0
-  - python=3.8.17
+  - python=3.10.14
   - regex=2021.8.3
   - scipy=1.10.1
   - sphinx=4.2.0
