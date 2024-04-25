@@ -15,7 +15,7 @@ nav:
     - Search Inventory: tutorials/search_inventory.md
     - Add a Variable Mapping: tutorials/add_mapping.md
     - Add a Plugin: tutorials/add_plugin.md
-    - Mip Convert User Guide: tutorials/mip_convert.md
+    - MIP Convert User Guide: tutorials/mip_convert.md
   - Developer Documentation:
     - developer_documentation/index.md
     - Documentation: developer_documentation/building_documentation.md

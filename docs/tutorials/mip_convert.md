@@ -4,7 +4,7 @@ The [`mip_convert`](https://github.com/MetOffice/CDDS/blob/main/mip_convert) pac
 
 ``` mermaid
 graph LR
-  A[model output .pp data] --> C[Mip Convert + CMOR];
+  A[model output .pp data] --> C[MIP Convert + CMOR];
   B[model output .nc data] --> C;
   C --> D[CF/CMIP6 Compliant .nc data];
 ```  
@@ -52,24 +52,28 @@ graph LR
     For help or to report an issue, please see `support`.
 
 
-### Selected Mip Convert Arguments
+### Selected MIP Convert Arguments
 
 | <div style="width:195px">Argument</div>                          | Description    |
 |-----------------------------------|----------------|
 | `config_file`                     | The name of the user configuration file. For more information, please see the MIP Convert user guide |
-| `-s` or `--stream_identifiers`| The stream identifiers to process. If all streams should be processed, do not specify this option. |
-| `--relaxed-cmor`                | If specified, CMIP6 style validation is not performed by CMOR. If the  validation is run then the following fields are not checked; `model_id` (`source_id`),    `experiment_id`, `further_info_url`, `grid_label`, `parent_experiment_id`, `sub_experiment_id`.  |
-| `--mip_era`                     | The MIP era (e.g. CMIP6). |
-| `--external_plugin`             | Module path to external CDDS plugin (e.g. `arise.plugin`) |
-| `--external_plugin_location`    | Path to the external plugin implementation   (e.g. `/project/cdds/arise`) |
-
+| `-s` or `--stream_identifiers`    | The stream identifiers to process. If all streams should be processed, do not specify this option. |
+| `--relaxed-cmor`                  | If specified, CMIP6 style validation is not performed by CMOR. If the  validation is run then the following fields are not checked; `model_id` (`source_id`),    `experiment_id`, `further_info_url`, `grid_label`, `parent_experiment_id`, `sub_experiment_id`.  |
+| `--mip_era`                       | The MIP era (e.g. CMIP6). |
+| `--external_plugin`               | Module path to external CDDS plugin (e.g. `arise.plugin`) |
+| `--external_plugin_location`      | Path to the external plugin implementation   (e.g. `/project/cdds/arise`) |
 
 ### Example Usage
 
-1. Run for CMIP6 projects:
-    ``mip_convert.cfg -s ap4``
-1. Run for Non-CMIP6 projects for example for ARISE projects:
-    ``mip_convert.cfg -s ap4 --mip_era ARISE --relaxed_cmor --external_plugin arise.plugin --external_plugin_location /projects/cdds/arise``
+!!! example "Run for all streams with full checking of metadata"
+    ```bash
+    mip_convert mip_convert.cfg
+    ```
+
+!!! example "Run for a single stream in relaxed mode"
+    ```bash
+    mip_convert mip_convert.cfg -s ap4 --relaxed_cmors
+    ```
 
 
 ## User Configuration File Reference
@@ -99,11 +103,11 @@ For a description of each option please see the documentation for [cmor_setup()]
 
 |          Option           | Required by |   Used by             | CMOR Name    |
 |---------------------------|-------------|-----------------------|--------------|
-| ``mip_table_dir``         | MIP Convert | CMOR + MIP Convert    | `[inpath]`   |
+| ``mip_table_dir``         | MIP Convert | CMOR + MIP Convert    | `inpath`     |
 | ``netcdf_file_action``    |             | CMOR                  |              |
 | ``set_verbosity``         |             | CMOR                  |              |
 | ``exit_control``          |             | CMOR                  |              |
-| ``cmor_log_file``         |             | CMOR                  | `[log_file]` |
+| ``cmor_log_file``         |             | CMOR                  | `log_file`   |
 | ``create_subdirectories`` |             | CMOR                  |              |
 
 !!! tip
@@ -138,6 +142,8 @@ The required `cmor_dataset` section contains the following options used for [cmo
 | ``variant_info``                |                    | CMOR               | [1]     |
 | ``variant_label``               | MIP Convert + CMOR | MIP Convert + CMOR | [1]     |
 
+**Notes**
+
 1. For a description of each option, please see the `CMIP6 Global Attributes document`_.
 1. See calendars for allowed values.
 1. It is recommended to use the ``comment`` to record any perturbed physicsdetails.
@@ -155,23 +161,25 @@ MIP Convert determines:
 
 !!! info "Whenever a parent experiment exists the following options must also be specified."
 
-|              Option             |     Used by     |   Notes   |
-|---------------------------------|-----------------|-----------|
-| ``branch_date_in_child``        | MIP Convert     | [1][2][3] |
-| ``branch_date_in_parent``       | MIP Convert     | [1][2][3] |
-| ``parent_base_date``            | MIP Convert     | [1][2]    |
-| ``parent_experiment_id``        | CMOR            | [3]       |
-| ``parent_mip_era``              | CMOR            | [3]       |
-| ``parent_model_id``             | CMOR            | [3][4]    |
-| ``parent_time_units``           | CMOR            | [3]       |
-| ``parent_variant_label``        | CMOR            | [3]       |
-
-1. CMOR requires ``branch_time_in_child`` and ``branch_time_in_parent``, which is determined from the options ``base_date`` (see the `request <request_section>` section) / ``parent_base_date`` (the base date of the ``child_experiment_id`` / ``parent_experiment_id``) and ``branch_date_in_child`` / ``branch_date_in_parent`` (the date in the ``child_experiment_id`` / ``parent_experiment_id`` from which the experiment branches) from the `cmor_dataset <cmor_dataset_section>` section in the |user configuration file| by taking the difference (in days) between the ``branch_date_in_child`` / ``branch_date_in_parent`` and the ``base_date`` / ``parent_base_date``. If ``branch_date_in_child`` or ``branch_date_in_parent`` is ``N/A`` then ``branch_time_in_parent`` is set to 0.
-1. Dates should be provided in the form ``YYYY-MM-DD-hh-mm-ss``.
-1. For a description of each option, please see the [CMIP6 Global Attributes document](https://docs.google.com/document/d/1h0r8RZr_f3-8egBMMh7aqLwy3snpD6_MrDz1q8n5XUk).
-1. See ``parent_source_id`` in the [CMIP6 Global Attributes document](https://docs.google.com/document/d/1h0r8RZr_f3-8egBMMh7aqLwy3snpD6_MrDz1q8n5XUk).
-
-
+    |              Option             |     Used by     |   Notes   |
+    |---------------------------------|-----------------|-----------|
+    | ``branch_date_in_child``        | MIP Convert     | [1][2][3] |
+    | ``branch_date_in_parent``       | MIP Convert     | [1][2][3] |
+    | ``parent_base_date``            | MIP Convert     | [1][2]    |
+    | ``parent_experiment_id``        | CMOR            | [3]       |
+    | ``parent_mip_era``              | CMOR            | [3]       |
+    | ``parent_model_id``             | CMOR            | [3][4]    |
+    | ``parent_time_units``           | CMOR            | [3]       |
+    | ``parent_variant_label``        | CMOR            | [3]       |
+    
+    **Notes**
+    
+    1. CMOR requires ``branch_time_in_child`` and ``branch_time_in_parent``, which is determined from the options ``base_date`` (see the `request <request_section>` section) / ``parent_base_date`` (the base date of the ``child_experiment_id`` / ``parent_experiment_id``) and ``branch_date_in_child`` / ``branch_date_in_parent`` (the date in the ``child_experiment_id`` / ``parent_experiment_id`` from which the experiment branches) from the `cmor_dataset <cmor_dataset_section>` section in the |user configuration file| by taking the difference (in days) between the ``branch_date_in_child`` / ``branch_date_in_parent`` and the ``base_date`` / ``parent_base_date``. If ``branch_date_in_child`` or ``branch_date_in_parent`` is ``N/A`` then ``branch_time_in_parent`` is set to 0.
+    2. Dates should be provided in the form `YYYY-MM-DDThh:mm:ssZ`.
+    3. For a description of each option, please see the [CMIP6 Global Attributes document](https://docs.google.com/document/d/1h0r8RZr_f3-8egBMMh7aqLwy3snpD6_MrDz1q8n5XUk).
+    4. See ``parent_source_id`` in the [CMIP6 Global Attributes document](https://docs.google.com/document/d/1h0r8RZr_f3-8egBMMh7aqLwy3snpD6_MrDz1q8n5XUk).
+    
+    
 ### **request**
 
 The required `request` section contains the following options which are used only by MIP Convert.
@@ -180,17 +188,19 @@ The required `request` section contains the following options which are used onl
 |---------------------------------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------|
 | `ancil_files`                         |             | A space separated list of the full paths to any required ancillary files.                                                                                                              |       |
 | `atmos_timestep`                      |             | The atmospheric model timestep in integer seconds.                                                                                                                                     | [1]   |
-| `base_date`                           | Yes         | The date in the form `YYYY-MM-DD-hh-mm-ss`.                                                                                                                                            | [2]   |
+| `base_date`                           | Yes         | The date in the form `YYYY-MM-DDThh:mm:ss`.                                                                                                                                            | [2]   |
 | `deflate_level`                       |             | The deflation level when writing the output netCDF file from 0 (no compression) to 9 (maximum compression).                                                                            |       |
 | `hybrid_heights_file`                 |             | A space separated list of the full path to the files containing the information about the hybrid heights.                                                                              | [3]   |
-| `mask_slice`                          | Yes         | Optional slicing expression for masking data in the form of `n:m,i:j`, or `no_mask`                                                                                                    | [4]   |
+| `mask_slice`                          | Yes         | Optional slicing expression for masking data in the form of `n:m,i:j`, or `no_mask`                                                                                                    | [4][8]   |
 | `model_output_dir`                    | Yes         | The full path to the root directory containing the model output files.                                                                                                                 | [5]   |
 | `reference_time`                      | Yes         | The reference time used to construct `reftime` and `leadtime` coordinates. Only used if these coordinates are specified corresponding variable entries in the MIP table                |       |
 | `replacement_coordinates_file`        |             | The full path to the netCDF file containing area variables that refer to the horizontal coordinates that should be used to replace the corresponding values in the model output files. | [6]   |
-| `run_bounds`                          | Yes         | The start and end time in the form `<start_time> <end_time>`, where `<start_time>` and `<end_time>` are in the form `YYYY-MM-DD-hh-mm-ss`.                                             |       |
+| `run_bounds`                          | Yes         | The start and end time in the form `<start_time> <end_time>`, where `<start_time>` and `<end_time>` are in the form `YYYY-MM-DDThh:mm:ss`.                                             |       |
 | `shuffle`                             |             | Whether to shuffle when writing the output netCDF file.                                                                                                                                |       |
 | `sites_file`                          |             | The full path to the file containing the information about the sites.                                                                                                                  | [7]   |
 | `suite_id`                            | Yes         | The suite identifier of the model.                                                                                                                                                     |       |
+
+**Notes**
 
 1. The ``atmos_timestep`` is required for atmospheric tendency diagnostics, which have model to MIP mappings that depend on the atmospheric model timestep, i.e., the expression contains ``ATMOS_TIMESTEP``.
 1. The ``base_date`` is used to define the units of the time coordinate in the output netCDF file and is specified by the MIP.
@@ -207,20 +217,21 @@ The required `request` section contains the following options which are used onl
 1. Currently, only CICE horizontal coordinates can be replaced.
 1. The file containing the information about the sites has the following columns;
     1. the ``site number`` (int)
-    2. the ``longitude`` (float, from 0 to 360) [degrees]
-    3. the ``latitude`` (float, from -90 to 90) [degrees]
-    4. the ``orography`` (float) [metres] and a ``comment`` (string).
+    1. the ``longitude`` (float, from 0 to 360) [degrees]
+    1. the ``latitude`` (float, from -90 to 90) [degrees]
+    1. the ``orography`` (float) [metres] and a ``comment`` (string).
+1. This is usually only used to mask ocean/seaice data as part of a CDDS run.
 
-### **stream_stream_id**
+### **stream_<\stream_id>**
 
-The required `stream_\<stream_id\> <stream_stream_id>` section, where the ``<stream_id>`` is the stream identifier, contains options equal to the name of the MIP table and values equal to a space-separated list of MIP requested variable names.
-Multiple `stream_\<stream_id\> <stream_stream_id>` sections can be defined.
+The required `[stream_<stream_id>]` section, where the ``<stream_id>`` is the stream identifier, contains options equal to the name of the MIP table and values equal to a space-separated list of MIP requested variable names.
+Multiple `[stream_<stream_id>]` sections can be defined.
 
 !!! note 
     All output netCDF files are created for a stream before moving onto the next stream.
 
 !!! example
-    If we wanted to produce the following variables `Amon/tas`, `Amon/pr`, `Emon/ps`, `Amon/tasmax`, `day/tasmin`.
+    If we wanted to produce the following variables `Amon/tas`, `Amon/pr`, `Emon/ps`, `Amon/tasmax`, `day/tasmin` using the `CMIP6` tables.
 
     1. We need two `stream_stream_id` sections as the list of MIP requested variables span streams `ap5` and `ap6`.
     2. Within each of these sections we specify the mip table in the form `<MIP_ERA>_<MIP_TABLE>:`
@@ -240,6 +251,7 @@ Multiple `stream_\<stream_id\> <stream_stream_id>` sections can be defined.
 ### **masking**
 
 The optional `masking` section is used if a particular stream needs to be masked.
+This is usually only used for polar row masking in NEMO & CICE output
 
 !!! example
     ```config
