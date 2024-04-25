@@ -30,7 +30,7 @@ def get_request():
     request.metadata.branch_date_in_parent = '2450-01-01T00:00:00'
     request.metadata.branch_method = 'continuation'
     request.metadata.calendar = '360_day'
-    request.metadata.child_base_date = '1850-01-01T00:00:00'
+    request.metadata.base_date = '1850-01-01T00:00:00'
     request.metadata.experiment_id = 'piControl'
     request.metadata.institution_id = 'MOHC'
     request.metadata.license = 'This is a test license'

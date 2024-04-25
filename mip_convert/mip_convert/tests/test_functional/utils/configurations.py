@@ -109,7 +109,7 @@ class ProjectInfo:
                 'branch_method': 'no parent'
             },
              'request': {
-                'child_base_date': '2000-01-01T00:00:00'
+                'base_date': '2000-01-01T00:00:00'
             },
              'global_attributes': {
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
@@ -153,7 +153,7 @@ class ProjectInfo:
                 'variant_label': 'r1i1p1f1'
             },
             request={
-                'child_base_date': '2000-01-01T00:00:00'
+                'base_date': '2000-01-01T00:00:00'
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
@@ -196,7 +196,7 @@ class ProjectInfo:
                 'variant_label': 'r1i1p1f1'
             },
             request={
-                'child_base_date': '1950-01-01T00:00:00'
+                'base_date': '1950-01-01T00:00:00'
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
@@ -239,7 +239,7 @@ class ProjectInfo:
                 'parent_variant_label': 'r1i1p1f2',
             },
             request={
-                'child_base_date': '2000-01-01T00:00:00'
+                'base_date': '2000-01-01T00:00:00'
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.historical.none.r1i1p1f2'
@@ -279,7 +279,7 @@ class ProjectInfo:
                 'contact': 'a@b.c',
             },
             request={
-                'child_base_date': '2000-01-01T00:00:00'
+                'base_date': '2000-01-01T00:00:00'
             },
             global_attributes={
                 'driving_experiment': 'evaluation',
@@ -327,7 +327,7 @@ class ProjectInfo:
                 'variant_label': 'r1i1p1f1'
             },
             request={
-                'child_base_date': '2000-01-01T00:00:00'
+                'base_date': '2000-01-01T00:00:00'
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
@@ -362,7 +362,7 @@ class ProjectInfo:
                 'variant_label': 'r1i1p1f1'
             },
             request={
-                'child_base_date': '1850-01-01T00:00:00'
+                'base_date': '1850-01-01T00:00:00'
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
@@ -395,7 +395,7 @@ class SpecificInfo:
                 'branch_method': 'standard'
             },
             'request': {
-                'child_base_date': '2000-01-01T00:00:00'
+                'base_date': '2000-01-01T00:00:00'
             },
             'streams_ap4': {
                 'CMIP6_Emon': 'taxmas'

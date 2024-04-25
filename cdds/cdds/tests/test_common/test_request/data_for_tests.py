@@ -9,7 +9,7 @@ def expected_test_metadata():
         'branch_date_in_child': TimePoint(year=1960, month_of_year=1, day_of_month=1),
         'branch_date_in_parent': TimePoint(year=1960, month_of_year=1, day_of_month=1),
         'branch_method': 'standard',
-        'child_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
+        'base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
         'calendar': '360_day',
         'experiment_id': 'piControl',
         'institution_id': 'MOHC',
@@ -34,8 +34,6 @@ def expected_test_metadata():
         'parent_variant_label': 'r1i1p1f2',
         'sub_experiment_id': 'none',
         'variant_label': 'r1i1p1f2',
-        'standard_names_version': 'latest',
-        'standard_names_dir': '/etc/standard_names',
         'model_id': 'UKESM1-0-LL',
         'model_type': [
             'AOGCM', 'BGC', 'AER', 'CHEM'
@@ -63,6 +61,8 @@ def expected_test_common():
         'root_hybrid_heights_dir': '/home/h03/cdds/etc/vertical_coordinates',
         'root_replacement_coordinates_dir': '/home/h03/cdds/etc/horizontal_coordinates',
         'sites_file': '/home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt',
+        'standard_names_version': 'latest',
+        'standard_names_dir': '/etc/standard_names',
         'simulation': False,
         'log_level': 'INFO'
     }
@@ -123,7 +123,7 @@ def expected_test_minimal_metadata():
         'branch_date_in_parent': TimePoint(year=1960, month_of_year=1, day_of_month=1),
         'branch_method': 'standard',
         'calendar': '360_day',
-        'child_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
+        'base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
         'experiment_id': 'piControl',
         'institution_id': 'MOHC',
         'license': 'CMIP6 model data produced by MOHC is licensed under a Creative '
@@ -151,8 +151,6 @@ def expected_test_minimal_metadata():
         'parent_model_id': 'UKESM1-0-LL',
         'parent_time_units': 'days since 1850-01-01',
         'parent_variant_label': 'r1i1p1f2',
-        'standard_names_dir': '/home/h03/cdds/etc/standard_names/',
-        'standard_names_version': 'latest',
         'sub_experiment_id': 'none',
         'variant_label': 'r1i1p1f2'
     }
@@ -172,6 +170,8 @@ def expected_test_minimal_common():
         'root_hybrid_heights_dir': '/home/h03/cdds/etc/vertical_coordinates/',
         'root_replacement_coordinates_dir': '/home/h03/cdds/etc/horizontal_coordinates/',
         'sites_file': '/home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt',
+        'standard_names_dir': '/home/h03/cdds/etc/standard_names/',
+        'standard_names_version': 'latest',
         'simulation': False,
         'workflow_basename': 'UKESM1-0-LL_piControl_r1i1p1f2'
     }
@@ -198,7 +198,7 @@ def expected_test_minimal_misc():
     return {
         'atmos_timestep': 1200,
         'no_overwrite': False,
-        'use_proc_dir': False
+        'use_proc_dir': True
     }
 
 

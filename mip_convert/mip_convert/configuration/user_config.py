@@ -80,7 +80,7 @@ def request_config():
     config['atmos_timestep'] = _get_config(
         'atmos_timestep', section, python_type=int, default_value=True,
         check_function=check_number)
-    config['child_base_date'] = _get_config(
+    config['base_date'] = _get_config(
         'base_date', section, required_by_mip_convert=True,
         check_function=check_date_format)
     config['deflate_level'] = _get_config(

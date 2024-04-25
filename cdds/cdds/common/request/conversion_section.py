@@ -6,6 +6,7 @@ Module to handle the conversion section in the request configuration
 from configparser import ConfigParser
 from dataclasses import dataclass, asdict, field
 from typing import Dict, List, Any
+import os
 
 from cdds.common.platforms import Facility, whereami
 from cdds.common.request.request_section import Section, load_types, expand_paths
@@ -21,21 +22,21 @@ def conversion_defaults() -> Dict[str, Any]:
     :rtype: Dict[str, Any]
     """
     facility = whereami()
+
+    # Defaults
+    skip_extract = False
+    skip_extract_validation = False
+    skip_configure = False
+    skip_qc = False
+    skip_archive = False
+
+    # JASMIN exceptions
     if facility == Facility.JASMIN:
         skip_extract = True
-        skip_extract_validation = False
-        skip_configure = False
-        skip_qc = False
         skip_archive = True
-        cdds_workflow_branch = 'cdds_jasmin_2.3'
-    else:
-        skip_extract = False
-        skip_extract_validation = False
-        skip_configure = False
-        skip_qc = False
-        skip_archive = False
-        cdds_workflow_branch = 'trunk'
 
+    # Retrieve default workflow branch name from environment
+    cdds_workflow_branch = os.environ.get('CDDS_CONVERT_WORKFLOW_BRANCH', 'trunk')
     return {
         'cdds_workflow_branch': cdds_workflow_branch,
         'cylc_args': '-v',

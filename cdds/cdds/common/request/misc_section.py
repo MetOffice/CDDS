@@ -28,7 +28,7 @@ def misc_defaults(model_id: str) -> Dict[str, Any]:
 
     return {
         'atmos_timestep': atmos_timestep,
-        'use_proc_dir': False,
+        'use_proc_dir': True,
         'no_overwrite': False
     }
 
@@ -40,7 +40,7 @@ class MiscSection(Section):
     """
     atmos_timestep: int = None
     # Todo: needs considerations:
-    use_proc_dir: bool = False
+    use_proc_dir: bool = True
     no_overwrite: bool = False
 
     @property

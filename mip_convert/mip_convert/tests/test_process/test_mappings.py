@@ -11,7 +11,7 @@ from mip_convert.configuration.python_config import ModelToMIPMappingConfig
 
 import mip_convert
 from mip_convert.process import REQUIRED_OPTIONS
-from mip_convert.requested_variables import get_model_to_mip_mappings
+from mip_convert.mip_table import get_model_to_mip_mappings
 
 
 PATH_TO_PROCESS = os.path.join(os.path.dirname(os.path.realpath(mip_convert.__file__)), 'process')

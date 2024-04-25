@@ -5,12 +5,14 @@
 The module contains the code required to handle the information about the request.
 """
 import logging
+import os
 
 from configparser import ConfigParser, ExtendedInterpolation
 from dataclasses import dataclass, field
 from metomi.isodatetime.data import Calendar
 from typing import Dict, Any
 
+from cdds.common.configparser.interpolation import EnvInterpolation
 from cdds.common.request.metadata_section import MetadataSection
 from cdds.common.request.common_section import CommonSection
 from cdds.common.request.data_section import DataSection
@@ -184,7 +186,7 @@ def read_request(request_path: str) -> Request:
     logger = logging.getLogger(__name__)
     logger.debug('Reading request information from "{}"'.format(request_path))
 
-    interpolation = ExtendedInterpolation()
+    interpolation = EnvInterpolation()
     request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
     request_config.optionxform = str  # Preserve case.
     request_config.read(request_path)
