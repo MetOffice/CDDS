@@ -42,9 +42,7 @@ the model to MIP mapping configuration files.
 
 ### The `[variable name]` Section(s)
 
-The `[variable name]` sections provide the
-model to MIP mapping corresponding to the specified MIP requested variable
-and contain the following required options:
+The `[variable name]` sections provide the model to MIP mapping corresponding to the specified MIP requested variable and contains the following required options:
 
 | <div style="width:110px">Required Options</div> |                                   Description                                                         | Notes  |
 |--------------------------------------|------------------------------------------------------------------------------------------------------------------|--------|
@@ -54,6 +52,7 @@ and contain the following required options:
 | `positive`                           | The direction of a vertical energy (heat) flux or surface momentum flux (stress) input; use 'up' or 'down' depending on whether the direction is positive when it is directed upward or downward, respectively. This argument is required for vertical energy and salt fluxes, for flux correction fields, and for surface stress.| [1]   |
 | `status`                             | The status of the MIP requested variable. Valid values are `ok` and `embargoed`.                                 | [2][3] |
 | `units`                              | The units of the data of the MIP requested variable i.e., after the `expression` has been applied.               |        |
+
 
 **Notes**
 
@@ -70,6 +69,8 @@ The following options are optional:
 | ``component``    | A space-separated list of components that the model to MIP mapping is valid for.                     |       |
 | ``valid_min``    | The minimum valid value for the data of the MIP requested variable; values in the data lower than this value are replaced with zero. |       |
 
+### Constructing an Expression
+
 Each input variable in an expression must contain one of the following:
 
 | <div style="width:110px">Expression Items</div>  | File Type |                                       Description                                       | Notes |
@@ -77,7 +78,7 @@ Each input variable in an expression must contain one of the following:
 | ``stash``         | PP        | LBUSER(4), STASH Code, see Chapter 4 (page 25) of UMDP F03    |       |
 | ``variable_name`` | netCDF    | The name of the data variable in the model output files that is used to create the input variable.   |       |
 
-!!! example "Example 1. One to one mapping"
+!!! example "Example 1. One to One Mapping"
 
     * ``expression = m01s03i236``
     * ``expression = sitemptop``
@@ -141,7 +142,8 @@ The following constraints can currently be used in an ``expression``:
 ## How to Add a New Model to MIP mapping
 
 !!! note
-    If you want to add your changes to CDDS then you must follow the development workflow, see [Development Workflow](../developer_documentation/development_workflow.md). 
+    If you want to contribute your changes to CDDS then you must follow the development workflow.
+    See the [Developer Documentation](../developer_documentation/development_practices.md) pages for guidance.
 
 
 ### Requried Information
