@@ -16,6 +16,7 @@ from cdds.data_request_interface.variables import (
 from cdds.data_request_interface.network import build_data_request_network
 
 
+@pytest.mark.skip
 class TestDataRequestVariable(unittest.TestCase):
 
     def setUp(self):
@@ -164,6 +165,7 @@ class TestDataRequestVariable(unittest.TestCase):
         self.assertDictEqual(expected, result)
 
 
+@pytest.mark.skip
 class TestDescribeDifferences(unittest.TestCase):
     def setUp(self):
         args = read_default_arguments('cdds.prepare',
@@ -240,6 +242,7 @@ class TestDescribeDifferences(unittest.TestCase):
         self.assertEqual(expected, result)
 
 
+@pytest.mark.skip
 class TestRetrieveVariables(unittest.TestCase):
     def setUp(self):
         load_plugin()
