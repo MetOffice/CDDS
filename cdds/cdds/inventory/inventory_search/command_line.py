@@ -8,7 +8,7 @@ from cdds.common.constants import INVENTORY_DB_FILENAME, INVENTORY_FACET_LIST, I
 from cdds.inventory.inventory_search.search import perform_user_query
 
 
-DEFAULT_MASS_PRODUCTION_OUTPUT = 'moose:/adhoc/projects/cdds/production/'
+MASS_PRODUCTION_LOCATION = 'moose:/adhoc/projects/cdds/production/'
 
 
 def main_user_search():
@@ -50,7 +50,7 @@ def parse_args():
                         metavar='')
     parser.add_argument('-l', '--mass_suffix',
                         help='Specify where the inventory should look in MASS. ',
-                        default=DEFAULT_MASS_PRODUCTION_OUTPUT,
+                        default=MASS_PRODUCTION_LOCATION,
                         metavar='')
     args = parser.parse_args()
 
