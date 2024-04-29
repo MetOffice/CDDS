@@ -8,6 +8,9 @@ from cdds.common.constants import INVENTORY_DB_FILENAME, INVENTORY_FACET_LIST, I
 from cdds.inventory.inventory_search.search import perform_user_query
 
 
+DEFAULT_MASS_PRODUCTION_OUTPUT = 'moose:/adhoc/projects/cdds/production/'
+
+
 def main_user_search():
     """
     Contains the main function calls for performing a search of the inventory.db
@@ -32,7 +35,6 @@ def parse_args():
         Contains the user arguments and default arguments
     """
     default_inventory_path = os.path.join(INVENTORY_ROOT_DIR, '{}.db'.format(INVENTORY_DB_FILENAME))
-    default_mass_location = 'moose:/projects/adhoc/cdds/production/'
 
     parser = argparse.ArgumentParser('A commandline tool for querying the inventory.db database.')
     parser.add_argument('facet_pattern')
@@ -48,7 +50,7 @@ def parse_args():
                         metavar='')
     parser.add_argument('-l', '--mass_suffix',
                         help='Specify where the inventory should look in MASS. ',
-                        default=default_mass_location,
+                        default=DEFAULT_MASS_PRODUCTION_OUTPUT,
                         metavar='')
     args = parser.parse_args()
 
