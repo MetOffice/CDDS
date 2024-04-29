@@ -5,9 +5,7 @@ The :mod:`constants` module contains constants (values that should never
 be changes by a user and exist for readability and maintainability
 purposes) for all CDDS components.
 """
-import numpy as np
-
-import cf_units
+import os
 
 
 # Note that orography (m01s00i033) must not go in this list
@@ -102,6 +100,7 @@ JASMIN_URL_IDS = {'.ac.uk'}
 
 INPUT_DATA_DIRECTORY = 'input'
 INVENTORY_DB_FILENAME = 'inventory'
+INVENTORY_ROOT_DIR = os.path.join(os.environ['CDDS_ETC'], 'inventory')
 INVENTORY_FACET_LIST = ["mip_era", "mip", "institution", "model", "experiment", "variant", "mip_table", "variable",
                         "grid", "status", "timestamp"]
 INVENTORY_HEADINGS = ['Mip Era', 'Mip', 'Institute', 'Model', 'Experiment', 'Variant', 'Mip Table', 'Variable Name',

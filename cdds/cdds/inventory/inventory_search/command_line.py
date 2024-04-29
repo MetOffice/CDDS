@@ -4,7 +4,7 @@
 import argparse
 import os
 
-from cdds.common.constants import INVENTORY_DB_FILENAME, INVENTORY_FACET_LIST
+from cdds.common.constants import INVENTORY_DB_FILENAME, INVENTORY_FACET_LIST, INVENTORY_ROOT_DIR
 from cdds.inventory.inventory_search.search import perform_user_query
 
 
@@ -31,6 +31,9 @@ def parse_args():
     args : argparse.Namespace
         Contains the user arguments and default arguments
     """
+    default_inventory_path = os.path.join(INVENTORY_ROOT_DIR, '{}.db'.format(INVENTORY_DB_FILENAME))
+    default_mass_location = 'moose:/projects/adhoc/cdds/production/'
+
     parser = argparse.ArgumentParser('A commandline tool for querying the inventory.db database.')
     parser.add_argument('facet_pattern')
     parser.add_argument('-s', '--show_location',
@@ -41,9 +44,11 @@ def parse_args():
                         action='store_true')
     parser.add_argument('-i', '--inventory_path',
                         help='Specify a path to a different inventory database file',
+                        default=default_inventory_path,
                         metavar='')
     parser.add_argument('-l', '--mass_suffix',
                         help='Specify where the inventory should look in MASS. ',
+                        default=default_mass_location,
                         metavar='')
     args = parser.parse_args()
 
