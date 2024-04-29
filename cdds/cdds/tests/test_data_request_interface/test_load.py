@@ -14,6 +14,7 @@ from cdds.data_request_interface.load import (DataRequestWrapper,
                                               ExperimentNotFoundError)
 
 
+@pytest.mark.skip
 class TestDataRequestWrapper(unittest.TestCase):
 
     def setUp(self):

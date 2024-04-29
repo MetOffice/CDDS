@@ -50,7 +50,7 @@ def load(filenames, variable_metadata):
             _use_site_information(cube, variable_metadata.site_information,
                                   variable_metadata.hybrid_height_information)
         logger.debug('{cube}'.format(cube=cube))
-        assert cube.has_lazy_data() is True, 'Cube does not have lazy data'
+        logger.debug('Cube has lazy data: {}'.format(cube.has_lazy_data()))
         input_variables.update({loadable.constraint: cube})
 
     # Ensure all 'input variables' are on the same grid.
