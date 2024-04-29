@@ -1,6 +1,6 @@
-# Generating CMORised data with CDDS for simulations using the CDDS Suite
+# Generating CMORised data with CDDS for CMIP6 / CMIP6 Plus simulations using the CDDS Suite
 
-See also [guidance for adhoc generation of CMORised data](https://github.com/MetOffice/CDDS/wiki/Using-the-CDDS-suite-interface-for-adhoc-generation-of-cmorised-data).
+See also [guidance for adhoc generation of CMORised data](../gcmodeldev).
 
 !!! tip
     Use `<script> -h` or `<script> --help` to print information about the script, including available parameters.
@@ -13,7 +13,7 @@ See also [guidance for adhoc generation of CMORised data](https://github.com/Met
 Before running the CDDS Operational Procedure, please ensure that:
 
 - [x] you own a *CDDS operational simulation ticket* (see the [list of CDDS operational simulation tickets](https://code.metoffice.gov.uk/trac/cdds/wiki/CMIP6Simulations)) 
-      that will monitor the processing of a CMIP6 simulation using CDDS.
+      that will monitor the processing of a CMIP6 / CMIP6 Plus simulation using CDDS.
 
 - [x] you belong to the `cdds` group
 
@@ -93,8 +93,7 @@ and if support is needed contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
     2. **Ticket**: Record the version of CDDS being used on the *CDDS operational simulation ticket*.
 
 !!! note
-    * The available version numbers for this script can be found [here](https://code.metoffice.gov.uk/trac/cdds/browser/main/tags), 
-      but the above command may lead to unexpected results if you attempt activate versions before `1.1.2`.
+    * The available version numbers for this script can be found [here](https://github.com/MetOffice/CDDS/tags)
     * If you wish to deactivate the CDDS environment then you can use the command `conda deactivate`.
 
 ## Create the request configuration file
@@ -194,6 +193,9 @@ You need to adjust your `request.cfg`:
 
 !!! note
     Please check the other values as well and do adjustments as needed. For any help, please contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
+
+!!! info
+    The MIP era (`CMIP6` or `CIMP6 Plus`) you are using is defined in the value `mip_era` of the `metdata` section.
 
 ## Create the CDDS directories
 
