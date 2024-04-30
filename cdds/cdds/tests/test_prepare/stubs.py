@@ -3,7 +3,6 @@
 # pylint: disable = no-member
 from cdds.common.request.request import Request
 from cdds.prepare.parameters import VariableParameters
-from cdds.arguments import Arguments
 
 
 class VariableParametersStub(VariableParameters):

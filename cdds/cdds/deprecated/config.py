@@ -56,14 +56,14 @@ def update_arguments_paths(arguments, additional_paths_ids=[]):
 
     Parameters
     ----------
-    arguments: :class:`cdds.arguments.Arguments`
+    arguments: :class:`argparse.Namespace`
         arguments object that contains paths that should be updated
     additional_paths_ids: list of path ids (optional)
         ids of path attributes that should be updated, too
 
     Returns
     -------
-    : :class:`cdds.arguments.Arguments`
+    : :class:`argparse.Namespace`
         arguments object that contains updated paths
     """
     global_path_ids = [

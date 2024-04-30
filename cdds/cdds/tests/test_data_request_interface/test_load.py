@@ -5,11 +5,11 @@
 """
 Tests for :mod:`cdds.data_request_interface.load`.
 """
+import os
 import unittest
 
 import pytest
 
-from cdds.arguments import read_default_arguments
 from cdds.data_request_interface.load import (DataRequestWrapper,
                                               ExperimentNotFoundError)
 
@@ -19,9 +19,7 @@ class TestDataRequestWrapper(unittest.TestCase):
 
     def setUp(self):
         self.data_request_version = '01.00.21'
-        args = read_default_arguments('cdds.prepare',
-                                      'prepare_generate_variable_list')
-        self.data_request_dir = args.data_request_base_dir
+        self.data_request_dir = os.path.join(os.environ['CDDS_ETC'], 'data_requests', 'CMIP6')
         self.data_request = DataRequestWrapper(self.data_request_version,
                                                self.data_request_dir)
         self.historical_uid = 'f16fc5c4-dd9e-11e6-b89b-ac72891c3257'

@@ -19,7 +19,6 @@ from cdds.common.io import write_json
 from cdds.common.variables import RequestedVariablesList
 from cdds.common.request.request import Request
 
-from cdds.arguments import Arguments
 from cdds.common import set_checksum
 
 from unittest.mock import patch
