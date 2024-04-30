@@ -29,7 +29,7 @@ Before running the CDDS Operational Procedure, please ensure that:
         moo getacl moose:/adhoc/projects/cdds
         ```
 
-- [x] you use a bash shell. CDDS uses Conda. Conda can experience problems when running in any other shells except of bash.
+- [x] you use a bash shell. CDDS uses Conda which can experience problems running in a shell other than bash.
 
     !!! tip 
         You can check which shell you use by following command:
@@ -87,7 +87,7 @@ and if support is needed contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
        ```
        where `<cdds_version>` is the version of CDDS you wish to use, e.g. `3.3.0`. Unless instructed otherwise 
        you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
-       this version should be used in all stages of the package being processed. If in doubt contact the CDDS team  
+       this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
        for advice.
 
     2. **Ticket**: Record the version of CDDS being used on the *CDDS operational simulation ticket*.
@@ -101,7 +101,7 @@ and if support is needed contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
 The request configuration file is constructed from information in the `rose-suite.info` files within each suite. 
 
 !!! important
-    The `rose-suite.info` file contains incorrect information this will be propagated through CDDS. As such it is 
+    If the `rose-suite.info` file contains incorrect information, this will be propagated through CDDS. As such it is 
     critically important that the information in these files is correct
 
 To construct the request configuration file take the following steps
@@ -139,7 +139,7 @@ To construct the request configuration file take the following steps
         data directory.
 
 !!! note
-    The proc directory and data directory must not exist at this moment. For big data, we recommend to use the folders 
+    The CDDS proc directory and CDDS data directory must not exist at this moment. For big data, we recommend to use the folders 
     in the scratch directory.
 
 !!! tip
@@ -155,16 +155,18 @@ To construct the request configuration file take the following steps
     This method does not refer to the data request or CDDS inventory database (to check which datasets have been previously produced), 
     so care should be taken with the choice of variables.
 
-Create a text file with the list of variables or copy and modify an existing list. Each line in the file should have the form
-```bash
-<mip table>/<variable name>:<stream>
-```
+1. Create a text file with the list of variables or copy and modify an existing list. Each line in the file should have the form
+   ```bash
+   <mip table>/<variable name>:<stream>
+   ```
 
-??? example
-    For example process the variable `tas` for the MIP table `Amon` when processing the `ap5` stream:
-    ```bash
-    Amon/tas:ap5
-    ```
+    ??? example
+        For example process the variable `tas` for the MIP table `Amon` when processing the `ap5` stream:
+        ```bash
+        Amon/tas:ap5
+        ```
+
+2. Set the value `variable_list_file` in the request configuration to the path of the created variable file.
 
 !!! note
     If you are using a suite with the CMIP6 STASH set up then you can add the default stream to a list of variables using the command
@@ -197,52 +199,76 @@ You need to adjust your `request.cfg`:
 !!! info
     The MIP era (`CMIP6` or `CIMP6 Plus`) you are using is defined in the value `mip_era` of the `metdata` section.
 
-## Create the CDDS directories
-
-The CDDS proc directory and CDDS data directory are specified in the request configuration file - `root_proc_dir` and `root_data_dir`.
-
-This both directories needs to be created with the right directory structure, you can do this by running following command:
-```bash
-create_cdds_directory_structure <path to the request configuration>
-```
-where in the request configuration file the `root_proc_dir` and `root_data_dir` are set to the paths where your CDDS 
-directories should be created.
-
-??? example
-    For example, the `root_proc_dir` is set to `cdds-example-1/proc` in the request configuration file and the 
-    `root_data_dir` to `cdds-example-1/data`. After running following command:
-    ```bash
-    create_cdds_directory_structure request.cfg
-    ```
-    both directories were set up with the right directory structure at `cdds-example-1/proc` and `cdds-example-1/data`.
-
-
 ## Checkout and configure the CDDS suite
 
-Run the following command after replacing values within `<>`:
-```
-checkout_processing_workflow <name for processing suite> \
-<path to request configuration> \
---workflow_destination .
-```
+1. Run the following command after replacing values within `<>`:
+   ```bash
+   checkout_processing_workflow <name for processing suite> \
+   <path to request configuration> \
+   --workflow_destination .
+   ```
 
-??? example
-    Checkout the CDDS processing suite with the name `my-cdds-test` and the request file location `~hadmm/CDDS/example/request.cfg`:
-    ```
-    checkout_processing_workflow my-cdds-test \
-    ~hadmm/CDDS/example/request.cfg \
-    --workflow_destination .
-    ```
+    ??? example
+        Checkout the CDDS processing suite with the name `my-cdds-test` and the request file location `/home/foo/cdds-example-1/request.cfg`:
+        ```
+        checkout_processing_workflow my-cdds-test \
+        /home/foo/cdds-example-1/request.cfg \
+        --workflow_destination .
+        ```
+
+    !!! info
+        A directory containing a rose workflow will be placed in a subdirectory under the location specified in `--suite_destination`.  
+        If this is not specified it will be checked out under `~/roses/`
+
+2. **This step is optional:** Set some useful environmental variables to access the CDDS directories:
+   ```bash
+   export CDDS_PROC_DIR=/<root_proc_dir>/<mip_era>/<mip>/<model_id>_<experiment_id>_<variant_label>/<package>/
+   export CDDS_DATA_DIR=/<root_data_dir>/<mip_era>/<mip>/<model_id>/<experiment_id>/<variant_label>/<package>/
+   ls $CDDS_PROC_DIR
+   ls $CDDS_DATA_DIR
+   ```
+   where you must replace all values within `<>`. The `root_proc_dir` and `root_data_dir` are the values that has been 
+   specified in the request configuration.
+   
+    ??? example
+        Assume:
+
+        * Path to the root proc directory is `/home/foo/cdds-example-1/proc`.
+        * Path to the root data directory is `/home/foo/cdds-example-1/data`.
+        * MIP era is `CMIP6` and MIP `CMIP`.
+        * Model ID is `UKESM1-0-LL` for experiment `piControl` with variant label `r1i1p1f2` and package `round-1`
+
+        Then the command to set the environmental variables is:
+        ```bash
+        export CDDS_PROC_DIR=/home/foo/cdds-example-1/data/CMIP6/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
+        export CDDS_DATA_DIR=/home/foo/cdds-example-1/data/CMIP6/CMIP/UKESM1-0-LL/piControl/r1i1p1f2/round-1/
+        ```
+
+3. Run the suite:
+   ```bash
+   cd <name for processing suite>
+   cylc vip .
+   ```
+   
+    ??? example
+        If the name of the processing suite is `my-cdds-test`, then run:
+        ```bash
+        cd my-cdds-test
+        cylc vip .
+        ```
 
 !!! info
-    A directory containing a rose workflow will be placed in a subdirectory under the location specified in `--suite_destination`.  
-    If this is not specified it will be checked out under `~/roses/`
+    Cylc 8 is used for running the processing suite. You can do this by running following command before 
+    running the suite:
+    ```bash
+    export CYLC_VERSION=8
+    ```
 
 ## Monitor conversion suites
 
-Each of the suites launched by CDDS Convert requires monitoring. This can be done using the command line tool `cylc gui` 
-to obtain a window with an updating summary of suites progress or equivalently the [Cylc Review](http://fcm1/cylc-review/) 
-online tools.
+For each stream a CDDS Convert suite will be triggered by the processing suite. Each of the suites launched by CDDS Convert 
+requires monitoring. This can be done using the command line tool `cylc gui` to obtain a window with an updating summary 
+of suites progress or equivalently the [Cylc Review](http://fcm1/cylc-review/) online tools.
 
 Conversion suites will usually be named `cdds_<model id>_<experiment id>_<variant_label>_<stream>` and each stream will 
 run completely independently.
