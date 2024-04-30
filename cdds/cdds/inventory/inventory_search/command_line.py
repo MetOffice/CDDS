@@ -48,7 +48,7 @@ def parse_args():
                         help='Specify a path to a different inventory database file',
                         default=default_inventory_path,
                         metavar='')
-    parser.add_argument('-l', '--mass_suffix',
+    parser.add_argument('-l', '--mass_location',
                         help='Specify where the inventory should look in MASS. ',
                         default=MASS_PRODUCTION_LOCATION,
                         metavar='')
