@@ -139,13 +139,13 @@ def get_request_files(request_location: str) -> list:
     if os.path.isfile(request_location):
         request_files = [request_location]
     elif os.path.isdir(request_location):
-        glob_string = os.path.join(request_location, "request*.cfg")
+        glob_string = os.path.join(request_location, "*request*.cfg")
         request_files = glob.glob(glob_string)
     else:
         raise IOError(f"{request_location} is not a file/directory.")
 
     if not request_files:
-        raise IOError(f"No request files matching the glob 'request*.cfg' were found in {request_location}")
+        raise IOError(f"No request files matching the glob '*request*.cfg' were found in {request_location}")
 
     return request_files
 
@@ -160,17 +160,15 @@ def update_workflow_names(request_location: str, conf_file: Path) -> None:
     """
     request_files = get_request_files(request_location)
 
-    streams = set()
     workflow_names = []
 
     for request_file in request_files:
         request = read_request(request_file)
-
-        streams.update(set(request.data.streams))
-        workflow_names.append((f"cdds_{request.common.workflow_basename}", request_file))
+        workflow_names.append(("cdds_{}".format(request.common.workflow_basename),
+                               request_file,
+                               request.data.streams))
 
     conf_override_fields = {
-        "STREAMS": list(streams),
         "WORKFLOW_NAMES": workflow_names,
     }
 
