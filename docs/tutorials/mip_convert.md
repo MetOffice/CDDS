@@ -72,7 +72,7 @@ graph LR
 
 !!! example "Run for a single stream in relaxed mode"
     ```bash
-    mip_convert mip_convert.cfg -s ap4 --relaxed_cmors
+    mip_convert mip_convert.cfg -s ap4 --relaxed_cmor
     ```
 
 
