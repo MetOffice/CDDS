@@ -139,8 +139,9 @@ To construct the request configuration file take the following steps
         data directory.
 
 !!! note
-    The CDDS proc directory and CDDS data directory must not exist at this moment. For big data, we recommend to use the folders 
-    in the scratch directory.
+    Be careful when re-running CDDS using the same request configuration file: pre-existing data will cause problems for 
+    the extraction tasks and pre-existing logs in the proc directory may cause issues when diagnosing problems. If in 
+    doubt use a different package name in the request configuration file.
 
 !!! tip
     If necessary the start and end dates for processing can be overridden using the `--start_date` and `--end_date` 
