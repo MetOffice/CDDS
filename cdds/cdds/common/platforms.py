@@ -11,10 +11,7 @@ import cdds
 
 from enum import Enum
 
-from cdds.common.constants import (ARGUMENTS_FILENAME,
-                                   GLOBAL_ARGUMENTS_FILENAME,
-                                   GLOBAL_ARGUMENTS_FILENAME_JASMIN,
-                                   JASMIN_URL_IDS)
+from cdds.common.constants import JASMIN_URL_IDS
 
 
 class Facility(Enum):
@@ -23,65 +20,6 @@ class Facility(Enum):
     """
     JASMIN = 'Jasmin',
     MET_OFFICE = 'Met Office'
-
-
-class System:
-    """
-    Represents the underlying system and provides methods to
-    get specific information based on the system
-    """
-    GLOBAL_ARGS_FILENAMES = {
-        Facility.JASMIN: GLOBAL_ARGUMENTS_FILENAME_JASMIN,
-        Facility.MET_OFFICE: GLOBAL_ARGUMENTS_FILENAME
-    }
-
-    def __init__(self, facility=None):
-        self._facility = facility if facility else whereami()
-
-    @property
-    def facility(self):
-        """
-        Returns the facility where the system runs on.
-
-        Returns
-        -------
-        : Facility
-            The facility where the system runs on.
-        """
-        return self._facility
-
-    def default_global_args_file(self):
-        """
-        Returns the path to the global arguments file for the system.
-
-        Returns
-        -------
-        : str
-            Path to the global arguments file.
-        """
-        cdds_dir = os.path.dirname(
-            os.path.abspath(cdds.__file__)
-        )
-        global_args_filename = self.GLOBAL_ARGS_FILENAMES[self.facility]
-        return os.path.join(cdds_dir, global_args_filename)
-
-    def default_package_args_file(self, package_name):
-        """
-        Returns the path to the arguments file of the given package for the system.
-
-        Parameters
-        ----------
-        package_name: str
-            Name of the package.
-
-        Returns
-        -------
-        : str
-            Path to the arguments file of the package.
-        """
-        imported_package = importlib.import_module(package_name)
-        package_dir = os.path.dirname(os.path.abspath(imported_package.__file__))
-        return os.path.join(package_dir, ARGUMENTS_FILENAME)
 
 
 def whereami():

@@ -11,7 +11,6 @@ import logging
 import os
 
 from cdds import __version__
-from cdds.arguments import read_default_arguments
 from cdds.common import configure_logger, common_command_line_args, check_directory
 from cdds.deprecated.config import update_arguments_paths
 from cdds.prepare.pretty_print.constants import HEADER_FIELDS
@@ -61,12 +60,11 @@ def _parse_arguments(arguments):
 
     Returns
     -------
-    : :class:`cdds.arguments.Arguments` object
+    : :class:`argparse.Namespace` object
         The names of the command line arguments and their validated
         values.
     """
     user_arguments = arguments
-    arguments = read_default_arguments('cdds.prepare', 'create_variables_table_file')
     parser = argparse.ArgumentParser(
         description='Transform and write a requested variables list into a table',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -74,10 +72,8 @@ def _parse_arguments(arguments):
     parser.add_argument('output_file', help='The full path to the output file.')
     parser.add_argument('--delimiter', default=csv.excel_tab.delimiter,
                         help='The delimiter between the fields in a row of the output file. Default is tab.')
-    common_command_line_args(parser, arguments.log_name, arguments.log_level, __version__)
-    parsed_arguments = parser.parse_args(user_arguments)
-
-    arguments.add_user_args(parsed_arguments)
+    common_command_line_args(parser, 'create_variables_table_file', logging.INFO, __version__)
+    arguments = parser.parse_args(user_arguments)
     arguments = update_arguments_paths(arguments, ['output_file'])
 
     output_dir = os.path.dirname(arguments.output_file)

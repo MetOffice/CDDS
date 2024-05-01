@@ -5,7 +5,6 @@ import argparse
 import logging
 
 from cdds import __version__
-from cdds.arguments import read_default_arguments
 from cdds.common import configure_logger, common_command_line_args
 from cdds.deprecated.mip_table_editor.mip_tables import ControlledVocabulary, MipTableVariable, MipTable
 
@@ -112,9 +111,6 @@ def parse_args(arguments):
     args: argparse.Namespace
 
     """
-
-    user_arguments = arguments
-    arguments = read_default_arguments('cdds', 'mip_table_editor')
     parser = argparse.ArgumentParser(prog='A command line tool for modifying Mip Tables and the Controlled Vocabulary.',
                                      epilog=EPILOG_TEXT,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -146,9 +142,6 @@ def parse_args(arguments):
                         help='Specify an editor to use instead of $EDITOR.',
                         default=None,
                         metavar='')
-    common_command_line_args(parser, arguments.log_name, arguments.log_level,
-                             __version__)
-    args = parser.parse_args(user_arguments)
-    arguments.add_user_args(args)
-
-    return arguments
+    common_command_line_args(parser, 'mip_table_editor', logging.INFO, __version__)
+    parsed_arguments = parser.parse_args(arguments)
+    return parsed_arguments

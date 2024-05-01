@@ -8,8 +8,6 @@ from collections import OrderedDict, defaultdict
 import unittest
 import os
 
-from cdds.arguments import read_default_arguments
-import metomi.isodatetime.parsers as parse
 from cdds.common.request.request import read_request
 from cdds.configure.request import retrieve_request_metadata
 

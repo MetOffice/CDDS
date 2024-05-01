@@ -9,7 +9,6 @@ from pathlib import Path
 from typing import Union
 
 from cdds import _NUMERICAL_VERSION
-from cdds.arguments import read_default_arguments
 from cdds.common import determine_rose_suite_url
 from cdds.common.constants import PROCESSING_WORKFLOW
 from cdds.common.request.request import read_request
@@ -184,8 +183,7 @@ def parse_args(arguments: Union[list, None]) -> argparse.Namespace:
     :return: The configured argpase object.
     :rtype: argparse.Namespace
     """
-    default_arguments = read_default_arguments("cdds", "checkout_processing_workflow")
-
+    default_branch = os.environ.get('CDDS_PROCESSING_WORKFLOW_BRANCH', 'trunk')
     parser = argparse.ArgumentParser()
     parser.add_argument("workflow_name", help="Desired workflow name")
     parser.add_argument(
@@ -195,7 +193,7 @@ def parse_args(arguments: Union[list, None]) -> argparse.Namespace:
     )
     parser.add_argument(
         "--branch_name",
-        default=default_arguments.processing_workflow_branch,
+        default=default_branch,
         help="Use an alternative branch.",
     )
     parser.add_argument(
