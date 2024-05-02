@@ -1,4 +1,4 @@
-# Generating CMORised data with CDDS for CMIP6 / CMIP6 Plus simulations using the CDDS Suite
+# Generating CMORised data with CDDS for CMIP6 / CMIP6 Plus simulations using the CDDS Workflow
 
 See also [guidance for adhoc generation of CMORised data](../gcmodeldev).
 
@@ -42,6 +42,14 @@ Before running the CDDS Operational Procedure, please ensure that:
         ```
 
 If any of the above are not true please contact the [CDDS Team](mailto:cdds@metoffice.gov.uk) for guidance.
+
+### Packages
+
+CDDS is designed to handle a "package" of simulation data at one time; a set of variables from a particular simulation 
+run. Multiple "packages" can be run for a given simulation to add new or corrected variables to the archive. Each package 
+should be run using a separate processing (`proc`) and `data` directory. The simplest way to separate two run throughs 
+of CDDS is to use a different package name. This is set either when running the `write_request` script below or by modifying 
+the request configuration itself.
 
 ### Partial processing of a simulation
 
@@ -98,7 +106,7 @@ and if support is needed contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
 
 ## Create the request configuration file
 
-The request configuration file is constructed from information in the `rose-suite.info` files within each suite. 
+The request configuration file is constructed from information in the `rose-suite.info` files within each workflow. 
 
 !!! important
     If the `rose-suite.info` file contains incorrect information, this will be propagated through CDDS. As such it is 
@@ -114,29 +122,28 @@ To construct the request configuration file take the following steps
     ```
     Add the location of your working directory to the *CDDS operational simulation ticket*.
 
-2. Collect required information on the rose suite for the simulation;
-    * suite id, e.g. `u-aw310`
+2. Collect required information on the rose workflow for the simulation;
+    * workflow id, e.g. `u-aw310`
     * branch, e.g. `cdds`
     * revision
 
     !!! info
-        You can find the latest revision of the suite branch by using following command:
+        You can find the revision of the workflow branch for a CMIP6 workflow by using the following command:
         ```bash 
-        rosie lookup --prefix=u --query project eq u-cmip6 and idx eq <suite id> and branch eq <branch>
+        rosie lookup --prefix=u --query project eq u-cmip6 and id eq u-aw310 and branch eq cdds
         ```
 
 3. Create the request configuration file;
     ```bash
-    write_request <suite id> <branch> <revision> <package name> [<list of streams>] -c <pah to proc dir> -t <path to data dir>
+    write_request <workflow id> <branch> <revision> <package name> [<list of streams>] -c <path to proc dir> -t <path to data dir>
     ```
 
     ??? example
         Create a request configuration file for the rose suite `u-aw310`, branch `cdds` and package `round-20`:
         ```bash
-        write_request u-aw310 cdds 115492 round-20 ap4 ap5 ap6 onm inm -c cdds-example-1/proc -t cdds-example-1/data
+        write_request u-aw310 cdds 115492 round-20 ap4 ap5 ap6 onm inm \
+        -c /project/cdds/proc -t /project/cdds_data
         ```
-        where `cdds-example-1/proc` is the path to the CDDS proc directory and `cdds-example-1/data` the path to the CDDS 
-        data directory.
 
 !!! note
     Be careful when re-running CDDS using the same request configuration file: pre-existing data will cause problems for 
@@ -170,11 +177,11 @@ To construct the request configuration file take the following steps
 2. Set the value `variable_list_file` in the request configuration to the path of the created variable file.
 
 !!! note
-    If you are using a suite with the CMIP6 STASH set up then you can add the default stream to a list of variables using the command
+    If you are using a workflow with the CMIP6 STASH set up then you can add the default stream to a list of variables using the command
     ```
     stream_mappings --varfile <filename without streams> --outfile <new file with streams>
     ```
-    If you are not using a suite with the CMIP6 STASH configuration then contact us for advice as this process will need to be performed by hand.
+    If you are not using a workflow with the CMIP6 STASH configuration then contact us for advice as this process will need to be performed by hand.
 
 ## Configure request configuration
 !!! important
@@ -200,17 +207,17 @@ You need to adjust your `request.cfg`:
 !!! info
     The MIP era (`CMIP6` or `CIMP6 Plus`) you are using is defined in the value `mip_era` of the `metdata` section.
 
-## Checkout and configure the CDDS suite
+## Checkout and configure the CDDS workflow
 
 1. Run the following command after replacing values within `<>`:
    ```bash
-   checkout_processing_workflow <name for processing suite> \
+   checkout_processing_workflow <name for processing workflow> \
    <path to request configuration> \
    --workflow_destination .
    ```
 
     ??? example
-        Checkout the CDDS processing suite with the name `my-cdds-test` and the request file location `/home/foo/cdds-example-1/request.cfg`:
+        Checkout the CDDS processing workflow with the name `my-cdds-test` and the request file location `/home/foo/cdds-example-1/request.cfg`:
         ```
         checkout_processing_workflow my-cdds-test \
         /home/foo/cdds-example-1/request.cfg \
@@ -218,7 +225,7 @@ You need to adjust your `request.cfg`:
         ```
 
     !!! info
-        A directory containing a rose workflow will be placed in a subdirectory under the location specified in `--suite_destination`.  
+        A directory containing a rose workflow will be placed in a subdirectory under the location specified in `--workflow_destination`.  
         If this is not specified it will be checked out under `~/roses/`
 
 2. **This step is optional:** Set some useful environmental variables to access the CDDS directories:
@@ -245,48 +252,48 @@ You need to adjust your `request.cfg`:
         export CDDS_DATA_DIR=/home/foo/cdds-example-1/data/CMIP6/CMIP/UKESM1-0-LL/piControl/r1i1p1f2/round-1/
         ```
 
-3. Run the suite:
+3. Run the workflow:
    ```bash
-   cd <name for processing suite>
+   cd <name for processing workflow>
    cylc vip .
    ```
    
     ??? example
-        If the name of the processing suite is `my-cdds-test`, then run:
+        If the name of the processing workflow is `my-cdds-test`, then run:
         ```bash
         cd my-cdds-test
         cylc vip .
         ```
 
 !!! info
-    Cylc 8 is used for running the processing suite. You can do this by running following command before 
-    running the suite:
+    Cylc 8 is used for running the processing workflow. You can do this by running following command before 
+    running the workflow:
     ```bash
     export CYLC_VERSION=8
     ```
 
-## Monitor conversion suites
+## Monitor conversion workflows
 
-For each stream a CDDS Convert suite will be triggered by the processing suite. Each of the suites launched by CDDS Convert 
+For each stream a CDDS Convert workflow will be triggered by the processing workflow. Each of the workflows launched by CDDS Convert 
 requires monitoring. This can be done using the command line tool `cylc gui` to obtain a window with an updating summary 
-of suites progress or equivalently the [Cylc Review](http://fcm1/cylc-review/) online tools.
+of workflows progress or equivalently the [Cylc Review](http://fcm1/cylc-review/) online tools.
 
-Conversion suites will usually be named `cdds_<model id>_<experiment id>_<variant_label>_<stream>` and each stream will 
+Conversion workflows will usually be named `cdds_<model id>_<experiment id>_<variant_label>_<stream>` and each stream will 
 run completely independently.
-If a suite has issues, due to task failure, it will stall, and you will receive an e-mail.
+If a workflow has issues, due to task failure, it will stall, and you will receive an e-mail.
 
 If you hit issues or are unsure how to proceed update the *CDDS operational simulation ticket* for your package with 
 anything you believe is relevant (include the location of your working directory) and contact the [CDDS Team](mailto:cdds@metoffice.gov.uk) 
 for advice.
 
-The conversion suites run the following steps
+The conversion workflows run the following steps
 
 - [x] `run_extract_<stream>`
 
     ??? info "Extract"
         * Run CDDS Extract for this stream. 
         * Runs in `long` queue with a wall time of 2 days.
-        * If there are any issues with extracting data they will be reported in the `job.err` log file in the suite and the 
+        * If there are any issues with extracting data they will be reported in the `job.err` log file in the workflow and the 
           `$CDDS_PROC_DIR/extract/log/cdds_extract_<stream>_<date stamp>.log` log file and the task will fail.
         * The extraction task will automatically resubmit 4 times if it fails and manual intervention is required to proceed.
         * Most issues are related to either MASS (i.e. moo commands failing), file system anomalies (failure to create files /directories) or running out of time.
@@ -316,7 +323,7 @@ The conversion suites run the following steps
 
     ??? info "MIP Convert"
         * Run MIP Convert to produce output files for a small time window for this simulation.
-        * Will retry up to 3 times before suite stalls.
+        * Will retry up to 3 times before workflow stalls.
         * CRITICAL issues are appended to `$CDDS_PROC_DIR/convert/log/critical_issues.log`. 
           These will likely need user action to correct for. So, update your *CDDS operational simulation ticket* and 
           contact [CDDS Team](mailto:cdds@metoffice.gov.uk) for advice.
@@ -329,6 +336,9 @@ The conversion suites run the following steps
     ??? info "MIP Convert Finaliser"
         This ensures that concatenation tasks are launched once all MIP Convert tasks have been successfully performed 
         for a particular time range. This step **should** never fail.
+
+    ??? note
+        If this task fails, the reason is that the adjustment of the memory and time limits failed. So, please resubmit the task.
 
 - [x] `organise_files_<stream>`
 
@@ -353,7 +363,7 @@ The conversion suites run the following steps
 
     ??? info "MIP Concatenate Batch"
         * Perform the concatenation commands (`ncrcat`) required to join small files together. 
-        * Runs in `long` queue with a wall time of 2 days and can retry up to 3 times before suite stalls 
+        * Runs in `long` queue with a wall time of 2 days and can retry up to 3 times before workflow stalls 
           (failures are usually due to running out of time while performing a concatenation).
         * Only one `mip_concatenate_batch_<stream>` task can run at one time.
         * Issues can be identified using:
@@ -412,22 +422,22 @@ The conversion suites run the following steps
 - [x] `completion_<stream>`
 
     ??? info "Completion"
-        This is a dummy task that is the last thing to run in the suite -- this is to allow inter suite dependencies by 
+        This is a dummy task that is the last thing to run in the workflow -- this is to allow inter workflow dependencies by 
         allowing the `CDDS workflow` to monitor whether each per stream workflow has completed.
 
-If all goes well the suite will complete, and you will receive an email confirming that the suite has shutdown containing content of the form:
+If all goes well the workflow will complete, and you will receive an email confirming that the workflow has shutdown containing content of the form:
 ```
 Message: AUTOMATIC
-See: http://fcm1/cylc-review/taskjobs/<user id>/<suite name>
+See: http://fcm1/cylc-review/taskjobs/<user id>/<workflow name>
 ```
 
 ## Prepare *CDDS operational simulation ticket* for review & submission
 
-Once all suites for a particular package have completed update your *CDDS operational simulation ticket* confirming that 
+Once all workflows for a particular package have completed update your *CDDS operational simulation ticket* confirming that 
 the Extract, Convert, QC and Transfer tasks have been completed.
 
 !!! note
-    You can check if suites has completed by using the command `cylc gscan` or using the cylc review tool.
+    You can check if workflows has completed by using the command `cylc gscan` or using the cylc review tool.
 
 - [x] Copy the request JSON file and any logs to `$CDDS_PROC_DIR`
       ```bash
@@ -457,7 +467,7 @@ the Extract, Convert, QC and Transfer tasks have been completed.
     cd <path to the data directory>
     rm -rf input output
     ```
-2. Delete all suites used:
+2. Delete all workflows used:
     ```bash
     cylc clean cdds_<model_id>_<experiment_id>_<variant_label>_<stream>
     ```
@@ -465,7 +475,10 @@ the Extract, Convert, QC and Transfer tasks have been completed.
     ```bash
     ls -d ~/cylc-run/cdds_<model_id>_<experiment_id>_<variant_label>_* | xargs cylc clean -y
     ```
-    which should find and clear all suites associated with the model, experiment and variant label specified.
+    which should find and clear all workflows associated with the model, experiment and variant label specified.
+
+    !!! note
+        The pattern of the workflows can differ. You can find the pattern in the request configuration (`workflow_basename`).
 
 3. Update and close the *CDDS operational simulation ticket*
   
