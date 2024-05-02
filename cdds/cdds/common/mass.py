@@ -591,27 +591,27 @@ def run_mass_command(command):
 
     if return_code == 2 and 'TSSC_FILE_DOES_NOT_EXIST' in stderr:
         not_exist_error = MassFailure.NOT_EXIST_ERROR
-        logger.debug(not_exist_error.get_message(command))
+        logger.debug(not_exist_error.get_message(command, stdout, stderr))
         raise FileNotExistMassError(command)
     elif return_code == 2:
         user_error = MassFailure.USER_ERROR
-        logger.critical(user_error.get_message(command))
+        logger.critical(user_error.get_message(command, stdout, stderr))
         raise MassError(user_error, command)
     elif return_code == 3:
         system_error = MassFailure.SYSTEM_ERROR
-        logger.critical(system_error.get_message(command))
+        logger.critical(system_error.get_message(command, stdout, stderr))
         raise MassError(system_error, command)
     elif return_code == 4:
         client_error = MassFailure.CLIENT_ERROR
-        logger.critical(client_error.get_message(command))
+        logger.critical(client_error.get_message(command, stdout, stderr))
         raise MassError(client_error, command)
     elif return_code == 5:
         access_error = MassFailure.ACCESS_ERROR
-        logger.critical(access_error.get_message(command))
+        logger.critical(access_error.get_message(command, stdout, stderr))
         raise MassError(access_error, command)
     elif return_code == 10:
         access_error = MassFailure.DIR_ALREADY_EXIST_ERROR
-        logger.debug(access_error.get_message(command))
+        logger.debug(access_error.get_message(command, stdout, stderr))
         raise DirAlreadyExistMassError(command)
     elif return_code != 0:
         command_str = ' '.join(command)
