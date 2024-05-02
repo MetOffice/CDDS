@@ -23,9 +23,9 @@ class MassFailure(Enum):
         command_str = ' '.join(command)
         message_template = '{} while running MASS command: "{}".\n{}'
         if stdout:
-            message_template += '\n{}'.format(stdout)
+            message_template += '\nMOO command standard output: "{}"'.format(stdout)
         if stderr:
-            message_template += '\n{}'.format(stderr)
+            message_template += '\nMOO command standard error "{}"'.format(stderr)
         return message_template.format(self.label, command_str, self.description)
 
     NOT_EXIST_ERROR = (
