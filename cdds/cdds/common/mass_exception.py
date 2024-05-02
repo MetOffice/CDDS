@@ -19,9 +19,13 @@ class MassFailure(Enum):
         self.code = code
         self.description = description
 
-    def get_message(self, command):
+    def get_message(self, command, stdout=None, stderr=None):
         command_str = ' '.join(command)
         message_template = '{} while running MASS command: "{}".\n{}'
+        if stdout:
+            message_template += '\n{}'.format(stdout)
+        if stderr:
+            message_template += '\n{}'.format(stderr)
         return message_template.format(self.label, command_str, self.description)
 
     NOT_EXIST_ERROR = (
