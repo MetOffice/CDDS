@@ -74,7 +74,7 @@ class ConvertProcess(object):
         self.skip_qc = request.conversion.skip_qc
         self.skip_transfer = request.conversion.skip_archive
 
-        self._streams_requested = self._request.data.streams
+        self._streams_requested = self._arguments.streams
         self._model_params = self._plugin.models_parameters(self._request.metadata.model_id)
 
         # Pick up conversion suite name from the config project

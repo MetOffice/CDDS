@@ -1,16 +1,17 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2024, Met Office.
 # Please see LICENSE.rst for license details.
 
 import argparse
+import glob
 import os
 import shutil
-import subprocess
 from pathlib import Path
 from typing import Union
 
 from cdds import _NUMERICAL_VERSION
-from cdds.common.constants import PROCESSING_WORKFLOW
 from cdds.common import determine_rose_suite_url
+from cdds.common.constants import PROCESSING_WORKFLOW
+from cdds.common.request.request import read_request
 from cdds.convert.process.workflow_interface import (
     check_svn_location,
     checkout_url,
@@ -38,7 +39,6 @@ def main_checkout_workflow(arguments: Union[list, None] = None):
     create_workflow_dst(workflow_dst)
     checkout_url(workflow_url, workflow_dst)
     update_rose_conf(args, workflow_dst)
-    run_macros(workflow_dst)
 
 
 def parse_user_input(workflow_dst: Path):
@@ -48,7 +48,7 @@ def parse_user_input(workflow_dst: Path):
     :type workflow_dst: Path
     :raises EOFError:
     """
-    usr_input = input(f"Delete files and overwrite existing workflow y/n?\n")
+    usr_input = input("Delete files and overwrite existing workflow y/n?\n")
 
     if usr_input not in ["y", "n"]:
         print(f"{usr_input} is not a valid option. y/n")
@@ -73,8 +73,6 @@ def validate_arguments(args, workflow_url: str):
         raise RuntimeError(f"No branch at {workflow_url}")
     if not Path(args.request_path).exists():
         raise RuntimeError(f"No request file at {args.request_path}")
-    if not Path(args.variables_file).exists():
-        raise RuntimeError(f"No variables file at {args.variables_file}")
 
 
 def create_workflow_dst(workflow_dst: Path):
@@ -115,37 +113,66 @@ def update_rose_conf(args, workflow_dst: Path):
 
     conf_file = Path(workflow_dst, "rose-suite.conf")
     request_path = str(Path(args.request_path).expanduser().absolute())
-    variables_path = str(Path(args.variables_file).expanduser().absolute())
 
-    conf_override_fields = [
-        ("REQUEST_CONFIG_PATH", request_path, "env", True),
-        ("USER_VARIABLES_LIST", variables_path, "env", True),
-        ("CDDS_VERSION", _NUMERICAL_VERSION, "env", True),
-    ]
+    conf_override_fields = {
+        "CDDS_VERSION": _NUMERICAL_VERSION,
+    }
     print()
     print("Updating rose-suite.conf values.")
-    for key, value, section_name, raw_value in conf_override_fields:
-        changes_to_apply = {key: value}
-        changes = update_suite_conf_file(conf_file, section_name, changes_to_apply, raw_value)
-        print(changes)
+
+    changes = update_suite_conf_file(conf_file, "env", conf_override_fields, raw_value=True)
+    print(changes)
+
+    update_workflow_names(request_path, conf_file)
 
 
-def run_macros(workflow_dst: Path):
-    """Run the rose macros used for populating the STREAMS and WORKFLOW_NAMES jinja2 variable values.
+def get_request_files(request_location: str) -> list:
+    """Return a list of the full paths of the request cfg files.
 
-    :param workflow_dst: Workflow destination
-    :type workflow_dst: Path
+    :param request_location: Path to request file(s)
+    :type request_location: str
+    :raises IOError: If request_location is invalid.
+    :raises IOError: If no request files are found.
+    :rtype: list
     """
-    macro_cmd_streams = f"rose macro load_streams.LoadStreams --suite-only -y -C {workflow_dst}"
-    macro_cmd_workflows = f"rose macro generate_workflow_names.GenerateWorkflowNames --suite-only -y -C {workflow_dst}"
-    print()
-    print("Running rose macros.")
-    for macro_cmd in [macro_cmd_streams, macro_cmd_workflows]:
-        cmd = macro_cmd.split()
-        completed_process = subprocess.run(cmd, capture_output=True, encoding="utf-8")
-        print(completed_process.stdout)
-        # needed due to a quirk of using "rose macro" via cmd line which outputs a rose-app.conf
-        Path(workflow_dst / "rose-app.conf").replace(Path(workflow_dst / "rose-suite.conf"))
+    if os.path.isfile(request_location):
+        request_files = [request_location]
+    elif os.path.isdir(request_location):
+        glob_string = os.path.join(request_location, "*request*.cfg")
+        request_files = glob.glob(glob_string)
+    else:
+        raise IOError(f"{request_location} is not a file/directory.")
+
+    if not request_files:
+        raise IOError(f"No request files matching the glob '*request*.cfg' were found in {request_location}")
+
+    return request_files
+
+
+def update_workflow_names(request_location: str, conf_file: Path) -> None:
+    """ Populate the Jinja2 variables in the rose-suite.conf
+
+    :param request_location: Path to request file(s)
+    :type request_location: str
+    :param conf_file: Path to rose-suite.conf
+    :type conf_file: Path
+    """
+    request_files = get_request_files(request_location)
+
+    workflow_names = []
+
+    for request_file in request_files:
+        request = read_request(request_file)
+        workflow_names.append(("cdds_{}".format(request.common.workflow_basename),
+                               request_file,
+                               request.data.streams))
+
+    conf_override_fields = {
+        "WORKFLOW_NAMES": workflow_names,
+    }
+
+    changes = update_suite_conf_file(conf_file, "template variables", conf_override_fields, False)
+    print(changes)
 
 
 def parse_args(arguments: Union[list, None]) -> argparse.Namespace:
@@ -162,12 +189,7 @@ def parse_args(arguments: Union[list, None]) -> argparse.Namespace:
     parser.add_argument(
         "request_path",
         default=None,
-        help="Either, a path to a request.json file, or directory containing request*.json files",
-    )
-    parser.add_argument(
-        "variables_file",
-        default=None,
-        help="The user variables file",
+        help="Either, a path to a request.cfg file, or directory containing request*.cfg files",
     )
     parser.add_argument(
         "--branch_name",
