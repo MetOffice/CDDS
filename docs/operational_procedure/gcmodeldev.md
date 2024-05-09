@@ -32,8 +32,7 @@ If any of the above are not true please contact the [CDDS Team](mailto:cdds@meto
 
 On occasion issues will arise with tasks performed by users of CDDS and these will trigger `CRITICAL` error messages in 
 the logs and usually require user intervention. Many simple issues (MASS/MOOSE or file system problems) can be resolved 
-by re-triggering tasks. When you take any action please ensure that you update your *CDDS operational simulation ticket* 
-and if support is needed contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
+by re-triggering tasks. Support is available via the [CDDS Team](mailto:cdds@metoffice.gov.uk).
 
 ## The project framework
 The tools we have were written primarily for CMIP6 to CMORise HadGEM3 and UKESM1 model output, but can be applied to other 
