@@ -20,6 +20,17 @@ class Section(object, metaclass=ABCMeta):
     Abstract class to specify a section in the request configuration.
     """
 
+    @classmethod
+    @abstractmethod
+    def name(cls) -> str:
+        """
+        Name of the section that is used in the request configuration file.
+
+        :return: Name that is also used in the configuration file
+        :rtype: str
+        """
+        pass
+
     @property
     @abstractmethod
     def items(self) -> Dict[str, Any]:

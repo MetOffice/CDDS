@@ -56,10 +56,8 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
         self.expected_request = self.read_file_lines(expected_file_cfg)
 
     @patch('cdds.common.get_log_datestamp')
-    @patch('cdds.common.request.common_section.get_version')
     @patch('cdds.common.request.data_section.datetime')
-    def test_functional(self, data_section_datetime_mock, mock_get_version, mock_log_datestamp):
-        mock_get_version.return_value = 'cdds_2.6.0'
+    def test_functional(self, data_section_datetime_mock, mock_log_datestamp):
         data_version = datetime(year=2023, month=9, day=21, hour=10, minute=34, second=12)
         data_section_datetime_mock.utcnow.return_value = data_version
 
@@ -97,10 +95,8 @@ class TestWriteRequestForGCModelDev(FunctionalTestCase):
         self.expected_request = self.read_file_lines(expected_file_cfg)
 
     @patch('cdds.common.get_log_datestamp')
-    @patch('cdds.common.request.common_section.get_version')
     @patch('cdds.common.request.data_section.datetime')
-    def test_functional(self, data_section_datetime_mock, mock_get_version, mock_log_datestamp):
-        mock_get_version.return_value = 'cdds_2.6.0'
+    def test_functional(self, data_section_datetime_mock, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_date
         data_version = datetime(year=2023, month=9, day=21, hour=10, minute=34, second=12)
         data_section_datetime_mock.utcnow.return_value = data_version

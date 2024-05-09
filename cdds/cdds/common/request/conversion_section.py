@@ -11,6 +11,7 @@ import os
 from cdds.common.platforms import Facility, whereami
 from cdds.common.request.request_section import Section, load_types, expand_paths
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
+from cdds.common.request.validations.pre_validations import do_pre_validations
 
 
 def conversion_defaults() -> Dict[str, Any]:
@@ -68,6 +69,16 @@ class ConversionSection(Section):
     model_params_dir: str = ''
     continue_if_mip_convert_failed: bool = False
 
+    @classmethod
+    def name(cls) -> str:
+        """
+        Name of the conversion section that is used in the request configuration file.
+
+        :return: Name that is also used in the configuration file
+        :rtype: str
+        """
+        return 'conversion'
+
     @property
     def items(self) -> Dict[str, Any]:
         """
@@ -89,8 +100,10 @@ class ConversionSection(Section):
         :rtype: ConversionSection
         """
         values = conversion_defaults()
-        if config.has_section('conversion'):
-            config_items = load_types(dict(config.items('conversion')), ['override_cycling_frequency', 'cylc_args'])
+        section_name = ConversionSection.name()
+        if config.has_section(section_name):
+            do_pre_validations(config, ConversionSection)
+            config_items = load_types(dict(config.items(section_name)), ['override_cycling_frequency', 'cylc_args'])
             expand_paths(config_items, ['model_params_dir'])
             new_cylc_args = load_cylc_args(config_items['cylc_args'])
             config_items['cylc_args'] = new_cylc_args
@@ -122,7 +135,7 @@ class ConversionSection(Section):
         :type config: ConfigParser
         """
         defaults = conversion_defaults()
-        self._add_to_config_section(config, 'conversion', defaults)
+        self._add_to_config_section(config, ConversionSection.name(), defaults)
 
 
 def load_cylc_args(cylc_args: List[str]) -> List[str]:
