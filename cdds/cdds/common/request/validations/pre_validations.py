@@ -36,7 +36,7 @@ def do_pre_validations(config: ConfigParser, section: Section) -> None:
             continue
 
         if key not in resolved_field_types.keys():
-            error_message = 'Unknown property "{}" in section "{}" defined'.format(key, section.name())
+            error_message = 'Section "{}" contains unrecognised entry "{}" defined'.format(section.name(), key)
             logger.critical(error_message)
             raise ValueError(error_message)
 
@@ -85,7 +85,7 @@ def validate_bool(value: str, key: str, section: str):
     :type section: str
     """
     logger = logging.getLogger(__name__)
-    if value.lower() != 'false' and value.lower() != 'true':
+    if value.lower() not in ['true', 'false']:
         error_message = 'The value of "{}" in section "{}" must be False or True'.format(key, section)
         logger.critical(error_message)
         raise ValueError(error_message)

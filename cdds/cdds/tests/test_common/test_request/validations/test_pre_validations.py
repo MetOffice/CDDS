@@ -18,7 +18,7 @@ class TestPreValidations(TestCase):
 
         self.assertRaisesRegex(
             ValueError,
-            'Unknown property "foo" in section "metadata" defined',
+            'Section "metadata" contains unrecognised entry "foo" defined',
             do_pre_validations,
             config,
             MetadataSection
