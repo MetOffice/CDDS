@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2023, Met Office.
+# (C) British Crown Copyright 2017-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`common` module contains common library functions used by
@@ -13,6 +13,7 @@ import os
 import platform
 import re
 import subprocess
+import sys
 import time
 from collections import defaultdict
 from datetime import datetime
@@ -94,12 +95,17 @@ def configure_logger(log_name, log_level, append_log, threaded=False,
         logger.addHandler(file_handler)
 
     # Create a console handler for the logger.
-    console_handler = logging.StreamHandler()
+    console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(log_level)
     console_formatter = logging.Formatter('%(message)s')
     console_handler.setFormatter(console_formatter)
+
+    console_handler_err = logging.StreamHandler(sys.stderr)
+    console_handler_err.setLevel(logging.ERROR)
+    console_handler_err.setFormatter(console_formatter)
     # Configure the logger by adding the console handler.
     logger.addHandler(console_handler)
+    logger.addHandler(console_handler_err)
 
 
 def common_command_line_args(parser, default_log_name, log_level, version):
