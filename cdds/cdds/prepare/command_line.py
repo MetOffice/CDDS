@@ -6,11 +6,14 @@ command line scripts in the ``bin`` directory.
 """
 import argparse
 import logging
+import os
 
 from argparse import Namespace
 from typing import List
 
 from cdds.common import configure_logger, check_directory
+from cdds.common.cdds_files.cdds_directories import update_log_dir
+from cdds.common.request.request import read_request
 
 from cdds import __version__
 from cdds.prepare.alter import alter_variable_list, select_variables
@@ -67,9 +70,15 @@ def main_generate_variable_list(arguments: List[str] = None) -> int:
     :rtype: int
     """
     args = parse_generate_args(arguments)
+    request = read_request(args.request)
+
+    if not args.output_dir:
+        log_name = update_log_dir(GENERATE_VARIABLE_LIST_LOG_NAME, request, 'prepare')
+    else:
+        log_name = os.path.join(args.output_dir, GENERATE_VARIABLE_LIST_LOG_NAME)
 
     # Create the configured logger.
-    configure_logger(GENERATE_VARIABLE_LIST_LOG_NAME, logging.INFO, False)
+    configure_logger(log_name, logging.INFO, False)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)

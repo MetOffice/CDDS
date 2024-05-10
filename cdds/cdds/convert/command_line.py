@@ -13,6 +13,7 @@ from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request, read_request
 
 from cdds.common import configure_logger, check_directory
+from cdds.common.cdds_files.cdds_directories import update_log_dir
 
 from cdds import _DEV
 from cdds.convert.common import expand_path
@@ -41,7 +42,9 @@ def main_cdds_convert() -> int:
     """
     arguments, request = parse_args_cdds_convert()
 
-    configure_logger(CONVERT_LOG_NAME, request.common.log_level, False)
+    log_name = update_log_dir(CONVERT_LOG_NAME, request, 'convert')
+
+    configure_logger(log_name, request.common.log_level, False)
 
     try:
         run_cdds_convert(arguments, request)

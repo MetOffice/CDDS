@@ -248,7 +248,9 @@ def organise_files():
     Get the required parameters from environment variables, set up the
     mip_convert.cfg file and run mip_convert
     """
-    configure_logger('organise_files', 0, append_log=False)
+    # do not have access to request here, pick proc dir from environment
+    log_dir = os.path.join(os.environ['CDDS_CONVERT_PROC_DIR'], 'log')
+    configure_logger(os.path.join(log_dir, 'organise_files'), 0, append_log=False)
     logger = logging.getLogger(__name__)
 
     logger.info('***organise_files starting***')
