@@ -4,12 +4,12 @@ theme:
   features:
     - navigation.tabs
     - navigation.expand
+    - content.tabs.link
 nav:
   - Home:
     - About: index.md
   - Operational Procedures:
-    - CMIP6: operational_procedure/cmip6.md
-    - CMIP6 Plus: operational_procedure/cmip6_plus.md
+    - CMIP6 and CMIP6 Plus: operational_procedure/cmip6.md
     - GCModelDev: operational_procedure/gcmodeldev.md
     - Simulation Review Procedure: operational_procedure/sim_review.md
   - Tutorials:
