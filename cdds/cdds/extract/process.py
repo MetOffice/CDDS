@@ -148,6 +148,7 @@ class Process(object):
             msg = ("Problem creating subdirectory {} in directory path {} [{} - [{}:{}]]".format(
                 subdirpath, directory, os.strerror(exc.errno), user, group))
             status = "failed"
+            success = False
         if success and (status == "created" or status == "exists"):
             if status == "created":
                 logger.info(
