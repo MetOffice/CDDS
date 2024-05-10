@@ -12,6 +12,7 @@ from typing import List, Dict, Any
 from cdds.common.constants import DATESTAMP_PARSER_STR
 from cdds.common.request.request_section import Section, load_types, expand_paths
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
+from cdds.common.request.validations.pre_validations import do_pre_validations
 
 
 def data_defaults() -> Dict[str, Any]:
@@ -49,6 +50,15 @@ class DataSection(Section):
     output_mass_root: str = ''
     output_mass_suffix: str = ''
 
+    @classmethod
+    def name(cls) -> str:
+        """
+        Name of the data section that is used in the request configuration file.
+
+        :return: Name that is also used in the configuration file
+        :rtype: str        """
+        return 'data'
+
     @property
     def items(self):
         """
@@ -70,8 +80,10 @@ class DataSection(Section):
         :rtype: DataSection
         """
         values = data_defaults()
-        if config.has_section('data'):
-            config_items = load_types(dict(config.items('data')), ['streams'])
+        section_name = DataSection.name()
+        if config.has_section(section_name):
+            do_pre_validations(config, DataSection)
+            config_items = load_types(dict(config.items(section_name)), ['streams'])
             # workflow_revision could be an int but we need a string
             if 'workflow_revision' in config_items:
                 config_items['workflow_revision'] = str(config_items['workflow_revision'])
@@ -117,4 +129,4 @@ class DataSection(Section):
         :type config: ConfigParser
         """
         defaults = data_defaults()
-        self._add_to_config_section(config, 'data', defaults)
+        self._add_to_config_section(config, DataSection.name(), defaults)

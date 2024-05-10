@@ -18,6 +18,16 @@ class GlobalAttributesSection(Section):
     """
     attributes: Dict[str, Any] = field(default_factory=dict)
 
+    @classmethod
+    def name(cls) -> str:
+        """
+        Name of the attributes section that is used in the request configuration file.
+
+        :return: Name that is also used in the configuration file
+        :rtype: str
+        """
+        return 'netcdf_global_attributes'
+
     @property
     def items(self) -> Dict[str, Any]:
         """
@@ -38,8 +48,9 @@ class GlobalAttributesSection(Section):
         :return: New global attributes section
         :rtype: GlobalAttributesSection
         """
-        if config.has_section('netcdf_global_attributes'):
-            values = dict(config.items('netcdf_global_attributes'))
+        section_name = GlobalAttributesSection.name()
+        if config.has_section(section_name):
+            values = dict(config.items(section_name))
             return GlobalAttributesSection(attributes=values)
         return GlobalAttributesSection()
 
@@ -64,4 +75,4 @@ class GlobalAttributesSection(Section):
         :param config: Configuration where values should add to
         :type config: ConfigParser
         """
-        self._add_to_config_section(config, 'netcdf_global_attributes', {})
+        self._add_to_config_section(config, GlobalAttributesSection.name(), {})

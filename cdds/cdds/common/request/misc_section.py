@@ -4,11 +4,13 @@
 Module to handle the misc section in the request configuration
 """
 from configparser import ConfigParser
-from dataclasses import dataclass, field, asdict
-from typing import List, Dict, Any
+from dataclasses import dataclass, asdict
+from typing import Dict, Any
 
 from cdds.common.request.request_section import Section, load_types
+from cdds.common.request.metadata_section import MetadataSection
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
+from cdds.common.request.validations.pre_validations import do_pre_validations
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
 
@@ -43,6 +45,16 @@ class MiscSection(Section):
     use_proc_dir: bool = True
     no_overwrite: bool = False
 
+    @classmethod
+    def name(cls) -> str:
+        """
+        Name of the misc section that is used in the request configuration file.
+
+        :return: Name that is also used in the configuration file
+        :rtype: str
+        """
+        return 'misc'
+
     @property
     def items(self) -> Dict[str, Any]:
         """
@@ -63,10 +75,12 @@ class MiscSection(Section):
         :return: New misc section
         :rtype: MiscSection
         """
-        model_id = config.get('metadata', 'model_id')
+        model_id = config.get(MetadataSection.name(), 'model_id')
         values = misc_defaults(model_id)
-        if config.has_section('misc'):
-            config_items = load_types(dict(config.items('misc')))
+        section_name = MiscSection.name()
+        if config.has_section(section_name):
+            do_pre_validations(config, MiscSection)
+            config_items = load_types(dict(config.items(section_name)))
             values.update(config_items)
         return MiscSection(**values)
 
@@ -96,4 +110,4 @@ class MiscSection(Section):
         :type model_id: str
         """
         defaults = misc_defaults(model_id)
-        self._add_to_config_section(config, 'misc', defaults)
+        self._add_to_config_section(config, MiscSection.name(), defaults)

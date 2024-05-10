@@ -9,10 +9,10 @@ from dataclasses import dataclass, asdict
 from configparser import ConfigParser
 from typing import Dict, Any
 
-from cdds import get_version
-from cdds.common.constants import LOG_DIRECTORY
 from cdds.common.request.request_section import Section, load_types, expand_paths, expand_path
+from cdds.common.request.metadata_section import MetadataSection
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
+from cdds.common.request.validations.pre_validations import do_pre_validations
 from cdds.common.plugins.plugins import PluginStore
 
 
@@ -77,6 +77,16 @@ class CommonSection(Section):
     simulation: bool = False
     log_level: str = 'INFO'
 
+    @classmethod
+    def name(cls) -> str:
+        """
+        Name of the common section that is used in the request configuration file.
+
+        :return: Name that is also used in the configuration file
+        :rtype: str
+        """
+        return 'common'
+
     @property
     def items(self) -> Dict[str, Any]:
         """
@@ -97,11 +107,12 @@ class CommonSection(Section):
         :return: New common section
         :rtype: CommonSection
         """
-        model_id = config.get('metadata', 'model_id')
-        experiment_id = config.get('metadata', 'experiment_id')
-        variant_label = config.get('metadata', 'variant_label')
+        model_id = config.get(MetadataSection.name(), 'model_id')
+        experiment_id = config.get(MetadataSection.name(), 'experiment_id')
+        variant_label = config.get(MetadataSection.name(), 'variant_label')
         values = common_defaults(model_id, experiment_id, variant_label)
-        config_items = load_types(dict(config.items('common')))
+        do_pre_validations(config, CommonSection)
+        config_items = load_types(dict(config.items(CommonSection.name())))
         expand_paths(config_items, ['root_proc_dir', 'root_data_dir', 'root_ancil_dir',
                                     'root_hybrid_heights_dir', 'root_replacement_coordinates_dir',
                                     'sites_file', 'standard_names_dir'])
@@ -148,7 +159,7 @@ class CommonSection(Section):
         :type variant_label: str
         """
         defaults = common_defaults(model_id, experiment_id, variant_label)
-        self._add_to_config_section(config, 'common', defaults)
+        self._add_to_config_section(config, CommonSection.name(), defaults)
 
     def is_relaxed_cmor(self) -> bool:
         """

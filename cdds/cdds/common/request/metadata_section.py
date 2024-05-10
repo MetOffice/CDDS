@@ -3,15 +3,14 @@
 """
 Module to handle the metadata section in the request configuration
 """
-import os
-
 from configparser import ConfigParser
 from dataclasses import dataclass, field, asdict
 from metomi.isodatetime.data import TimePoint
 from typing import Dict, List, Any
 
-from cdds.common.request.request_section import Section, load_types, expand_paths
+from cdds.common.request.request_section import Section, load_types
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
+from cdds.common.request.validations.pre_validations import do_pre_validations
 from cdds.common.plugins.plugins import PluginStore
 
 
@@ -63,6 +62,16 @@ class MetadataSection(Section):
     model_id: str = ''
     model_type: List[str] = field(default_factory=list)
 
+    @classmethod
+    def name(cls) -> str:
+        """
+        Name of the metadata section that is used in the request configuration file.
+
+        :return: Name that is also used in the configuration file
+        :rtype: str
+        """
+        return 'metadata'
+
     @property
     def items(self) -> Dict[str, Any]:
         """
@@ -83,9 +92,11 @@ class MetadataSection(Section):
         :return: New metadata section
         :rtype: MetadataSection
         """
-        model_id = config.get('metadata', 'model_id')
+        section_name = MetadataSection.name()
+        model_id = config.get(section_name, 'model_id')
         values = metadata_defaults(model_id)
-        config_items = load_types(dict(config.items('metadata')), ['model_type'])
+        do_pre_validations(config, MetadataSection)
+        config_items = load_types(dict(config.items(section_name)), ['model_type'])
         values.update(config_items)
         return MetadataSection(**values)
 
@@ -138,4 +149,4 @@ class MetadataSection(Section):
         :type config: ConfigParser
         """
         defaults = metadata_defaults(self.model_id)
-        self._add_to_config_section(config, 'metadata', defaults)
+        self._add_to_config_section(config, MetadataSection.name(), defaults)

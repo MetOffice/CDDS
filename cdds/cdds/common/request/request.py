@@ -5,7 +5,6 @@
 The module contains the code required to handle the information about the request.
 """
 import logging
-import os
 
 from configparser import ConfigParser, ExtendedInterpolation
 from dataclasses import dataclass, field

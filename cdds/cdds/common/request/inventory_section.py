@@ -9,6 +9,7 @@ from typing import Dict, Any
 
 from cdds.common.request.request_section import Section, load_types
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
+from cdds.common.request.validations.pre_validations import do_pre_validations
 
 
 def inventory_defaults() -> Dict[str, Any]:
@@ -32,6 +33,16 @@ class InventorySection(Section):
     inventory_check: bool = False
     inventory_database_location: str = ''
 
+    @classmethod
+    def name(cls) -> str:
+        """
+        Name of the inventory section that is used in the request configuration file.
+
+        :return: Name that is also used in the configuration file
+        :rtype: str
+        """
+        return 'inventory'
+
     @property
     def items(self) -> Dict[str, Any]:
         """
@@ -53,8 +64,10 @@ class InventorySection(Section):
         :rtype: InventorySection
         """
         values = inventory_defaults()
-        if config.has_section('inventory'):
-            config_items = load_types(dict(config.items('inventory')))
+        section_name = InventorySection.name()
+        if config.has_section(section_name):
+            do_pre_validations(config, InventorySection)
+            config_items = load_types(dict(config.items(section_name)))
             values.update(config_items)
         return InventorySection(**values)
 
@@ -81,4 +94,4 @@ class InventorySection(Section):
         :type config: ConfigParser
         """
         defaults = inventory_defaults()
-        self._add_to_config_section(config, 'inventory', defaults)
+        self._add_to_config_section(config, InventorySection.name(), defaults)
