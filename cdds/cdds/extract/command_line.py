@@ -10,6 +10,7 @@ import logging
 import os
 
 from cdds import __version__
+from cdds.common.cdds_files.cdds_directories import update_log_dir
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.request.request import read_request
 from cdds.extract.common import stream_file_template
@@ -72,6 +73,7 @@ def main_cdds_extract(arguments=None):
 
     # Add stream suffix to the log name if running extract just for some streams
     log_name = LOG_NAME + '_' + "_".join(args.streams) if args.streams else LOG_NAME
+    log_name = update_log_dir(log_name, request, 'extract')
 
     # Create the configured logger.
     configure_logger(log_name, request.common.log_level, False)
@@ -155,7 +157,8 @@ def main_validate_streams(arguments=None):
     request = read_request(args.request)
 
     # Add stream suffix to the log name if running extract just for some streams
-    log_name = LOG_NAME + '_' + "_".join(args.streams) if args.streams else LOG_NAME
+    log_name = 'validate' + '_' + "_".join(args.streams) if args.streams else LOG_NAME
+    log_name = update_log_dir(log_name, request, 'extract')
 
     # Create the configured logger.
     configure_logger(log_name, request.common.log_level, False)
