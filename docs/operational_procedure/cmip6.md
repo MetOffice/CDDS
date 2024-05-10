@@ -278,7 +278,7 @@ For each stream a CDDS Convert workflow will be triggered by the processing work
 requires monitoring. This can be done using the command line tool `cylc gui` to obtain a window with an updating summary 
 of workflows progress or equivalently the [Cylc Review](http://fcm1/cylc-review/) online tools.
 
-Conversion workflows will usually be named `cdds_<model id>_<experiment id>_<variant_label>_<stream>` and each stream will 
+Conversion workflows will usually be named `cdds_<workflow_base_name>_<stream>` and each stream will 
 run completely independently.
 If a workflow has issues, due to task failure, it will stall, and you will receive an e-mail.
 
@@ -293,18 +293,18 @@ The conversion workflows run the following steps
     ??? info "Extract"
         * Run CDDS Extract for this stream. 
         * Runs in `long` queue with a wall time of 2 days.
-        * If there are any issues with extracting data they will be reported in the `job.err` log file in the workflow and the 
+        * If there are any issues with extracting data they will be reported in the `job.out` log file in the workflow and the 
           `$CDDS_PROC_DIR/extract/log/cdds_extract_<stream>_<date stamp>.log` log file and the task will fail.
         * The extraction task will automatically resubmit 4 times if it fails and manual intervention is required to proceed.
         * Most issues are related to either MASS (i.e. moo commands failing), file system anomalies (failure to create files /directories) or running out of time.
-        * Identify issues either by searching for "CRITICAL" in the `job.err` logs in Cylc Review or by using 
+        * Identify issues either by searching for "CRITICAL" in the `job.out` logs in Cylc Review or by using 
           ```bash 
           grep CRITICAL $CDDS_PROC_DIR/extract/log/cdds_extract_<stream>_<date stamp>.log
           ```
         * If the issue appears to be due to MASS issues you can re-run the failed CDDS Extract job by re-triggering the 
           `run_extract_<stream>` task via the cylc gui or via the cylc command line tools:
           ```bash
-          cylc trigger cdds_<model id>_<experiment id>_<variant label>_<stream> run_extract_<stream>:failed
+          cylc trigger cdds_<workflow_base_name>_<stream> run_extract_<stream>:failed
           ```
         * If in doubt update your *CDDS operational simulation ticket* and contact [CDDS Team](mailto:cdds@metoffice.gov.uk) for advice.
 
@@ -469,16 +469,13 @@ the Extract, Convert, QC and Transfer tasks have been completed.
     ```
 2. Delete all workflows used:
     ```bash
-    cylc clean cdds_<model_id>_<experiment_id>_<variant_label>_<stream>
+    cylc clean cdds_<workflow_base_name>_<stream>
     ```
     for each `<stream>` processed, or 
     ```bash
-    ls -d ~/cylc-run/cdds_<model_id>_<experiment_id>_<variant_label>_* | xargs cylc clean -y
+    ls -d ~/cylc-run/cdds_<workflow_base_name>_* | xargs cylc clean -y
     ```
     which should find and clear all workflows associated with the model, experiment and variant label specified.
-
-    !!! note
-        The pattern of the workflows can differ. You can find the pattern in the request configuration (`workflow_basename`).
 
 3. Update and close the *CDDS operational simulation ticket*
   
