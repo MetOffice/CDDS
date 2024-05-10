@@ -249,7 +249,7 @@ def organise_files():
     mip_convert.cfg file and run mip_convert
     """
     # do not have access to request here, pick proc dir from environment
-    log_dir = os.path.join(os.environ['CDDS_CONVERT_PROC_DIR'], 'log')
+    log_dir = os.path.join(os.environ['PROC_DIR'], 'log')
     configure_logger(os.path.join(log_dir, 'organise_files'), 0, append_log=False)
     logger = logging.getLogger(__name__)
 
