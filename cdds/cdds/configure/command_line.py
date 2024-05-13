@@ -10,6 +10,7 @@ import logging
 
 from cdds.common import configure_logger
 from cdds.common.request.request import read_request
+from cdds.common.cdds_files.cdds_directories import update_log_dir
 
 from cdds import __version__
 from cdds.configure.user_config import produce_user_config_files
@@ -30,8 +31,10 @@ def main(arguments=None):
     args = parse_args(arguments)
     request = read_request(args.request)
 
+    log_name = update_log_dir('produce_user_config_files', request, 'configure')
+
     # Create the configured logger.
-    configure_logger('produce_user_config_files', request.common.log_level, False)
+    configure_logger(log_name, request.common.log_level, False)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)

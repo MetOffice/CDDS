@@ -12,6 +12,7 @@ from argparse import Namespace
 from typing import List
 
 from cdds.common import configure_logger, common_command_line_args, check_directory
+from cdds.common.cdds_files.cdds_directories import update_log_dir
 from cdds.common.request.request import read_request
 from cdds.deprecated.config import update_arguments_paths
 
@@ -41,7 +42,8 @@ def main_move_in_mass(arguments: List[str] = None) -> int:
     args = parse_arguments_move_in_mass(arguments)
     request = read_request(args.request)
 
-    configure_logger(LOG_NAME_MOVE_IN_MASS, request.common.log_level, False)
+    log_file = update_log_dir(LOG_NAME_MOVE_IN_MASS, request, 'archive')
+    configure_logger(log_file, request.common.log_level, False)
 
     logger = logging.getLogger(__name__)
     logger.info('Using CDDS Transfer version {}'.format(__version__))
