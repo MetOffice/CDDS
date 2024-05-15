@@ -6,6 +6,8 @@
 Release 3.0.0, May 15, 2024
 ===========================
 * MIP Convert now returns exit codes correctly (CDDSO-387)
+* The field `child_base_date` in the `request` section of the MIP Convert Config file has been 
+  renamed for clarity to `base_date` (CDDSO-455)
 
 Release 2.5.8, February 28, 2024
 ================================
