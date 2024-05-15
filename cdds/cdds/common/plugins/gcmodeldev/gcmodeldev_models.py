@@ -35,6 +35,7 @@ class GCModelDevStore(BaseModelStore):
             HadGEM3_GC50_N96ORCA1_Params(),
             HadGEM3_GC50_N216ORCA025_Params(),
             HadREM_CP4A_4p5km_Params(),
+            HadREM3_RAL1T_Params(),
             UKESM1_0_LL_Params(),
             UKESM1_1_LL_Params(),
             eUKESM1_1_ice_N96ORCA1_Params(),
@@ -93,6 +94,7 @@ class GCModelDevModelId(ModelId):
     HadGEM3_GC50_N96ORCA1 = 'HadGEM3-GC50-N96ORCA1'
     HadGEM3_GC50_N216ORCA025 = 'HadGEM3-GC50-N216ORCA025'
     HadREM_CP4A_4p5km = 'HadREM-CP4A-4p5km'
+    HadREM3_RAL1T = 'HadREM3-RAL1T'
     UKESM1_0_LL = 'UKESM1-0-LL'
     UKESM1_1_LL = 'UKESM1-1-LL'
     EUKESM1_1_ice_N96ORCA1 = 'eUKESM1-1-ice-N96ORCA1'
@@ -447,3 +449,45 @@ class eUKESM1_1_ice_N96ORCA1_Params(BaseModelParameters):
         :rtype: str
         """
         return '10.8'
+
+
+class HadREM3_RAL1T_Params(BaseModelParameters):
+    """
+    Class to store the parameters for the HadREM3_GA7_05 model.
+    Note: At the moment, there are no sizing info, memory parameters,
+    cycle length parameters, temp space parameters or data request
+    version for this type of model.
+    """
+
+    def __init__(self) -> None:
+        super(HadREM3_RAL1T_Params, self).__init__(GCModelDevModelId.HadREM3_RAL1T)
+
+    @property
+    def model_version(self) -> str:
+        """
+        Returns the model version of the HadREM3_GA7_05 model.
+
+        :return: Model version of HadREM3_GA7_05
+        :rtype: str
+        """
+        return '4.0'
+
+    @property
+    def data_request_version(self) -> str:
+        """
+        Returns the data request version of the HadREM3_GA7_05 model.
+
+        :return: Data request version of HadREM3_GA7_05
+        :rtype: str
+        """
+        return ''
+
+    @property
+    def um_version(self) -> str:
+        """
+        Returns the UM version of the HadREM3_GA7_05 model.
+
+        :return: UM version of HadREM3_GA7_05
+        :rtype: str
+        """
+        return '10.9'

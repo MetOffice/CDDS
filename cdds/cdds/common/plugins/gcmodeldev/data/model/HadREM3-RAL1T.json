@@ -1,0 +1,123 @@
+{
+  "stream_file_frequency": {
+    "monthly": {
+      "streams": [
+        "ap4",
+        "ap5",
+        "apm",
+        "onm",
+        "inm",
+        "ind",
+        "ond"
+      ],
+      "files_per_year": 12
+    },
+    "daily": {
+      "streams": [
+        "apa",
+        "apb",
+        "apc",
+        "apd",
+        "ape",
+        "apf",
+        "apg",
+        "aph",
+        "apl",
+        "apt",
+        "apu",
+        "apv"
+      ],
+      "files_per_year": 365
+    }
+  },
+  "cycle_length": {
+    "apa": "P1Y",
+    "apb": "P1Y",
+    "apc": "P1Y",
+    "apd": "P1Y",
+    "ape": "P1Y",
+    "apf": "P1Y",
+    "apg": "P1Y",
+    "aph": "P1Y",
+    "apl": "P1Y",
+    "apt": "P1Y",
+    "apu": "P1Y",
+    "apv": "P1Y"
+  },
+  "memory": {
+    "apa": "64G",
+    "apb": "64G",
+    "apc": "64G",
+    "apd": "64G",
+    "ape": "64G",
+    "apf": "64G",
+    "apg": "64G",
+    "aph": "64G",
+    "apl": "64G",
+    "apt": "64G",
+    "apu": "64G",
+    "apv": "64G"
+  },
+  "temp_space": {
+    "apa": 131072,
+    "apb": 131072,
+    "apc": 131072,
+    "apd": 131072,
+    "ape": 131072,
+    "apf": 131072,
+    "apg": 131072,
+    "aph": 131072,
+    "apl": 131072,
+    "apt": 131072,
+    "apu": 131072,
+    "apv": 131072
+  },
+  "sizing_info": {
+    "mon": {
+      "default": 5
+    },
+    "day": {
+      "default": 5
+    },
+    "1hr":{
+      "default": 1
+    },
+    "1hrPt":{
+      "default": 1
+    }
+  },
+  "subdaily_streams": [],
+  "grid_info": {
+    "atmos": {
+      "atmos_timestep": null,
+      "model_info": "",
+      "nominal_resolution": "4.5 km",
+      "longitude": null,
+      "latitude": null,
+      "v_latitude": null,
+      "levels": null,
+      "ancil_filenames": [
+        
+      ],
+      "hybrid_heights_files": [
+        "atmosphere_theta_levels_85.txt",
+        "atmosphere_rho_levels_86.txt"
+      ]
+    },
+    "ocean": {
+      "model_info": "",
+      "nominal_resolution": "",
+      "longitude": null,
+      "latitude": null,
+      "levels": null,
+      "replacement_coordinates_file": null,
+      "ancil_filenames": [
+      ],
+      "hybrid_heights_files": [],
+      "masked": {
+      },
+      "halo_options": {
+      }
+    }
+  }
+}
