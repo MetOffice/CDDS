@@ -1,0 +1,2192 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>MIP Convert User Guide - Climate Data Dissemination System</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#overview" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Climate Data Dissemination System" class="md-header__button md-logo" aria-label="Climate Data Dissemination System" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Climate Data Dissemination System
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              MIP Convert User Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../operational_procedure/cmip6/" class="md-tabs__link">
+        Operational Procedures
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../search_inventory/" class="md-tabs__link md-tabs__link--active">
+        Tutorials
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../developer_documentation/" class="md-tabs__link">
+      Developer Documentation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../cdds_components/" class="md-tabs__link">
+      CDDS Components
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../reference/SUMMARY/" class="md-tabs__link">
+      API Documentation
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Climate Data Dissemination System" class="md-nav__button md-logo" aria-label="Climate Data Dissemination System" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Climate Data Dissemination System
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Operational Procedures
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Operational Procedures" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Operational Procedures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/cmip6/" class="md-nav__link">
+        CMIP6 and CMIP6 Plus
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/gcmodeldev/" class="md-nav__link">
+        GCModelDev
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/sim_review/" class="md-nav__link">
+        Simulation Review Procedure
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Tutorials
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Tutorials" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Tutorials
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../search_inventory/" class="md-nav__link">
+        Search Inventory
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_mapping/" class="md-nav__link">
+        Add a Variable Mapping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_plugin/" class="md-nav__link">
+        Add a Plugin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          MIP Convert User Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        MIP Convert User Guide
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recommended-reading" class="md-nav__link">
+    Recommended Reading
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-guide" class="md-nav__link">
+    Quick Start Guide
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start Guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#selected-mip-convert-arguments" class="md-nav__link">
+    Selected MIP Convert Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage" class="md-nav__link">
+    Example Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-configuration-file-reference" class="md-nav__link">
+    User Configuration File Reference
+  </a>
+  
+    <nav class="md-nav" aria-label="User Configuration File Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common" class="md-nav__link">
+    COMMON
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cmor_setup" class="md-nav__link">
+    cmor_setup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cmor_dataset" class="md-nav__link">
+    cmor_dataset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    request
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stream_stream_id" class="md-nav__link">
+    stream_&lt;\stream_id&gt;
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#masking" class="md-nav__link">
+    masking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#global_attributes" class="md-nav__link">
+    global_attributes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../request/config_request/">Request Configuration</a>
+          
+            <label for="__nav_3_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Request Configuration" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_5">
+          <span class="md-nav__icon md-icon"></span>
+          Request Configuration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/metadata/" class="md-nav__link">
+        Metadata Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/common/" class="md-nav__link">
+        Common Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/data/" class="md-nav__link">
+        Data Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/inventory/" class="md-nav__link">
+        Inventory Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/conversion/" class="md-nav__link">
+        Conversion Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/global_attributes/" class="md-nav__link">
+        Global Attributes Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/misc/" class="md-nav__link">
+        Misc Section
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../developer_documentation/">Developer Documentation</a>
+          
+            <label for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Developer Documentation" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Documentation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/building_documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Deployment" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/release_procedure/" class="md-nav__link">
+        Release Procedure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/cdds_installation/" class="md-nav__link">
+        CDDS Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/infrastructure/" class="md-nav__link">
+        Infrastructure
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_3" type="checkbox" id="__nav_4_3" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../developer_documentation/development_practices/">Development Practices</a>
+          
+            <label for="__nav_4_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Development Practices" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_3">
+          <span class="md-nav__icon md-icon"></span>
+          Development Practices
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/coding_guidelines/" class="md-nav__link">
+        Coding Guidelines
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/development_workflow/" class="md-nav__link">
+        Development Workflow
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/review_process/" class="md-nav__link">
+        Review Process
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/github/" class="md-nav__link">
+        Working with Github and Git
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/jira/" class="md-nav__link">
+        Working with Jira
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/managing_environments/" class="md-nav__link">
+        Managing Conda Environments
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/building_documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/review_guidelines.md" class="md-nav__link">
+        Review Guidelines
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/github/" class="md-nav__link">
+        Working with Github
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_4" type="checkbox" id="__nav_4_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_4">
+          Request
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Request" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_4">
+          <span class="md-nav__icon md-icon"></span>
+          Request
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/request/request/" class="md-nav__link">
+        Request Architecture
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_5" type="checkbox" id="__nav_4_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_5">
+          Testing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Testing" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Testing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/unittests/" class="md-nav__link">
+        Unit Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/pytest/" class="md-nav__link">
+        Pytest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/nightly_tests/" class="md-nav__link">
+        Nightly Tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/mip_convert_functional_tests/" class="md-nav__link">
+        Mip Convert Functional Tests
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_6" type="checkbox" id="__nav_4_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_6">
+          Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Plugins" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_6">
+          <span class="md-nav__icon md-icon"></span>
+          Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/plugins/available_plugins/" class="md-nav__link">
+        Available Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/plugins/plugin_framework/" class="md-nav__link">
+        Plugin Framework
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../cdds_components/">CDDS Components</a>
+          
+            <label for="__nav_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="CDDS Components" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          CDDS Components
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/convert/" class="md-nav__link">
+        convert
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/extract/" class="md-nav__link">
+        extract
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/qc/" class="md-nav__link">
+        qc
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/transfer/" class="md-nav__link">
+        transfer
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/SUMMARY/" class="md-nav__link">
+        API Documentation
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recommended-reading" class="md-nav__link">
+    Recommended Reading
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-guide" class="md-nav__link">
+    Quick Start Guide
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start Guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#selected-mip-convert-arguments" class="md-nav__link">
+    Selected MIP Convert Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage" class="md-nav__link">
+    Example Usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-configuration-file-reference" class="md-nav__link">
+    User Configuration File Reference
+  </a>
+  
+    <nav class="md-nav" aria-label="User Configuration File Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common" class="md-nav__link">
+    COMMON
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cmor_setup" class="md-nav__link">
+    cmor_setup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cmor_dataset" class="md-nav__link">
+    cmor_dataset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    request
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stream_stream_id" class="md-nav__link">
+    stream_&lt;\stream_id&gt;
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#masking" class="md-nav__link">
+    masking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#global_attributes" class="md-nav__link">
+    global_attributes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>MIP Convert User Guide</h1>
+
+<h2 id="overview">Overview</h2>
+<p>The <a href="https://github.com/MetOffice/CDDS/blob/main/mip_convert"><code>mip_convert</code></a> package enables a user to produce the output netCDF files for a MIP using model output files.</p>
+<pre class="mermaid"><code>graph LR
+  A[model output .pp data] --&gt; C[MIP Convert + CMOR];
+  B[model output .nc data] --&gt; C;
+  C --&gt; D[CF/CMIP6 Compliant .nc data];</code></pre>
+<ol>
+<li>The user makes requests for one or more MIP requested variables by providing specific information (including the appropriate MIP requested variable names) in the user configuration file.</li>
+<li>The information required to produce the MIP requested variables is gathered from the user configuration file, the model to MIP mapping configuration files and the appropriate MIP table, in that order.</li>
+<li>The following steps are then performed for each MIP requested variable name in the user configuration file to produce the output netCDF files:<ol>
+<li>load the relevant data from the model output files into one or more input variables depending on whether there is a one-to-one / simple arithmetic relationship between the MIP output variable and the input variables or if the MIP output variable is based on an arithmetic combination of two or more input variables, respectively, using Iris and the information provided in the user configuration file and the model to MIP mapping configuration files.</li>
+<li>process the input variable / input variables to produce the MIP output variable using the information provided in the model to MIP mapping configuration files.</li>
+<li>save the MIP output variable to an output netCDF file using CMOR and the information provided in the user configuration file and the appropriate MIP table.</li>
+</ol>
+</li>
+</ol>
+<h3 id="recommended-reading">Recommended Reading</h3>
+<ul>
+<li>The <a href="https://cmor.llnl.gov/#design-considerations-and-overview">Design Considerations and Overview</a> section in the CMOR Documentation.</li>
+</ul>
+<h2 id="quick-start-guide">Quick Start Guide</h2>
+<ol>
+<li>
+<p>Download the template user configuration file <a href="https://github.com/MetOffice/CDDS/blob/main/mip_convert/etc/mip_convert.cfg"><code>mip_convert.cfg</code></a>.</p>
+</li>
+<li>
+<p>Make the appropriate edits to the template user configuration file using the information provided in the "User Configuration File" section and the specified sections in the <a href="https://cmor.llnl.gov/">CMOR Documentation</a>.</p>
+</li>
+<li>
+<p>Source an environment with <code>cdds</code> and verify that <code>mip_convert</code> runs.
+    <div class="highlight"><pre><span></span><code>mip_convert<span class="w"> </span>-h
+</code></pre></div></p>
+</li>
+<li>
+<p>Produce the output netCDF files by running <code>mip_convert</code> and passing in the modified user configuration file as an argument.
+    <div class="highlight"><pre><span></span><code>mip_convert<span class="w"> </span>mip_convert.cfg
+</code></pre></div></p>
+</li>
+<li>
+<p>Check the exit code
+    <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$?</span>
+</code></pre></div></p>
+<table>
+<thead>
+<tr>
+<th>Exit Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>No errors were raised during processing.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>An exception was raised and no MIP requested variables were produced.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>One or more MIP requested variables were produced but not <em>all</em> variables were produced. See the <code>CRITICAL</code> messages in the log for further information about the MIP requested variables not produced.</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Check that the output netCDF files are as expected.
+    For help or to report an issue, please see <code>support</code>.</p>
+</li>
+</ol>
+<h3 id="selected-mip-convert-arguments">Selected MIP Convert Arguments</h3>
+<table>
+<thead>
+<tr>
+<th><div style="width:195px">Argument</div></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config_file</code></td>
+<td>The name of the user configuration file. For more information, please see the MIP Convert user guide</td>
+</tr>
+<tr>
+<td><code>-s</code> or <code>--stream_identifiers</code></td>
+<td>The stream identifiers to process. If all streams should be processed, do not specify this option.</td>
+</tr>
+<tr>
+<td><code>--relaxed-cmor</code></td>
+<td>If specified, CMIP6 style validation is not performed by CMOR. If the  validation is run then the following fields are not checked; <code>model_id</code> (<code>source_id</code>),    <code>experiment_id</code>, <code>further_info_url</code>, <code>grid_label</code>, <code>parent_experiment_id</code>, <code>sub_experiment_id</code>.</td>
+</tr>
+<tr>
+<td><code>--mip_era</code></td>
+<td>The MIP era (e.g. CMIP6).</td>
+</tr>
+<tr>
+<td><code>--external_plugin</code></td>
+<td>Module path to external CDDS plugin (e.g. <code>arise.plugin</code>)</td>
+</tr>
+<tr>
+<td><code>--external_plugin_location</code></td>
+<td>Path to the external plugin implementation   (e.g. <code>/project/cdds/arise</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example-usage">Example Usage</h3>
+<div class="admonition example">
+<p class="admonition-title">Run for all streams with full checking of metadata</p>
+<div class="highlight"><pre><span></span><code>mip_convert<span class="w"> </span>mip_convert.cfg
+</code></pre></div>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Run for a single stream in relaxed mode</p>
+<div class="highlight"><pre><span></span><code>mip_convert<span class="w"> </span>mip_convert.cfg<span class="w"> </span>-s<span class="w"> </span>ap4<span class="w"> </span>--relaxed_cmor
+</code></pre></div>
+</div>
+<h2 id="user-configuration-file-reference">User Configuration File Reference</h2>
+<p>The user configuration file provides the information required by MIP Convert to produce the output netCDF files.
+It contains the following sections, some of which are optional.</p>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[COMMON]</code></td>
+<td>Convenience for setting up shared config values.</td>
+</tr>
+<tr>
+<td><code>[cmor_setup]</code></td>
+<td>Passed through to CMOR's <code>cmor_setup()</code> routine.</td>
+</tr>
+<tr>
+<td><code>[cmor_dataset]</code></td>
+<td>Passed through to CMOR's <code>cmor_data_set_json()</code> routine.</td>
+</tr>
+<tr>
+<td><code>[request]</code></td>
+<td>Configure <code>mip_convert</code> including input data.</td>
+</tr>
+<tr>
+<td><code>[stream_&lt;stream_id&gt;]</code></td>
+<td>The variables to produce from a particular <code>&lt;stream_id&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>[masking]</code></td>
+<td>Apply polar row masking if needed.</td>
+</tr>
+<tr>
+<td><code>[global_attributes]</code></td>
+<td>Add global attributes to the output netCDF.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="common"><strong>COMMON</strong></h3>
+<p>The optional <code>[COMMON]</code> section.</p>
+<h3 id="cmor_setup"><strong>cmor_setup</strong></h3>
+<p>The <code>[cmor_setup]</code> section contains the following options which are used by <code>cmor_setup()</code>.
+For a description of each option please see the documentation for <a href="https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_setup">cmor_setup()</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Required by</th>
+<th>Used by</th>
+<th>CMOR Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mip_table_dir</code></td>
+<td>MIP Convert</td>
+<td>CMOR + MIP Convert</td>
+<td><code>inpath</code></td>
+</tr>
+<tr>
+<td><code>netcdf_file_action</code></td>
+<td></td>
+<td>CMOR</td>
+<td></td>
+</tr>
+<tr>
+<td><code>set_verbosity</code></td>
+<td></td>
+<td>CMOR</td>
+<td></td>
+</tr>
+<tr>
+<td><code>exit_control</code></td>
+<td></td>
+<td>CMOR</td>
+<td></td>
+</tr>
+<tr>
+<td><code>cmor_log_file</code></td>
+<td></td>
+<td>CMOR</td>
+<td><code>log_file</code></td>
+</tr>
+<tr>
+<td><code>create_subdirectories</code></td>
+<td></td>
+<td>CMOR</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>When configuring a user configuration file, the <code>mip_table_dir</code> is likely to be the only value that will need modification.</p>
+</div>
+<h3 id="cmor_dataset"><strong>cmor_dataset</strong></h3>
+<p>The required <code>cmor_dataset</code> section contains the following options used for <a href="https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_dataset_json">cmor_data_set_json()</a></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Required by</th>
+<th>Used by</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>branch_method</code></td>
+<td>MIP Convert + CMOR</td>
+<td>MIP Convert + CMOR</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td><code>calendar</code></td>
+<td>MIP Convert + CMOR</td>
+<td>MIP Convert + CMOR</td>
+<td>[2]</td>
+</tr>
+<tr>
+<td><code>comment</code></td>
+<td></td>
+<td>CMOR</td>
+<td>[1][3]</td>
+</tr>
+<tr>
+<td><code>contact</code></td>
+<td></td>
+<td>CMOR</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td><code>experiment_id</code></td>
+<td>MIP Convert + CMOR</td>
+<td>MIP Convert + CMOR</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td><code>grid</code></td>
+<td>CMOR</td>
+<td>CMOR</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td><code>grid_label</code></td>
+<td>CMOR</td>
+<td>CMOR</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td><code>institution_id</code></td>
+<td>MIP Convert + CMOR</td>
+<td>MIP Convert + CMOR</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td><code>license</code></td>
+<td>CMOR</td>
+<td>CMOR</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td><code>mip</code></td>
+<td>CMOR</td>
+<td>CMOR</td>
+<td>[1][4]</td>
+</tr>
+<tr>
+<td><code>mip_era</code></td>
+<td>MIP Convert + CMOR</td>
+<td>MIP Convert + CMOR</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td><code>model_id</code></td>
+<td>MIP Convert + CMOR</td>
+<td>MIP Convert + CMOR</td>
+<td>[1][5]</td>
+</tr>
+<tr>
+<td><code>model_type</code></td>
+<td>CMOR</td>
+<td>CMOR</td>
+<td>[1][6]</td>
+</tr>
+<tr>
+<td><code>nominal_resolution</code></td>
+<td>CMOR</td>
+<td>CMOR</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td><code>output_dir</code></td>
+<td>MIP Convert + CMOR</td>
+<td>MIP Convert + CMOR</td>
+<td>[7]</td>
+</tr>
+<tr>
+<td><code>output_file_template</code></td>
+<td></td>
+<td>CMOR</td>
+<td></td>
+</tr>
+<tr>
+<td><code>output_path_template</code></td>
+<td></td>
+<td>CMOR</td>
+<td></td>
+</tr>
+<tr>
+<td><code>references</code></td>
+<td></td>
+<td>CMOR</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td><code>sub_experiment_id</code></td>
+<td>MIP Convert + CMOR</td>
+<td>MIP Convert</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td><code>variant_info</code></td>
+<td></td>
+<td>CMOR</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td><code>variant_label</code></td>
+<td>MIP Convert + CMOR</td>
+<td>MIP Convert + CMOR</td>
+<td>[1]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes</strong></p>
+<ol>
+<li>For a description of each option, please see the <code>CMIP6 Global Attributes document</code>_.</li>
+<li>See calendars for allowed values.</li>
+<li>It is recommended to use the <code>comment</code> to record any perturbed physicsdetails.</li>
+<li>See MIP.</li>
+<li>See model identifier.</li>
+<li>See model type.</li>
+<li>See <code>outpath</code> in the documentation for <code>cmor_dataset_json</code>_.</li>
+</ol>
+<p>MIP Convert determines:</p>
+<ul>
+<li>the <code>experiment</code>, <code>institution</code>, <code>source</code>, <code>sub_experiment</code> from the CV file using the <code>experiment_id</code>, <code>institution_id</code>, <code>source_id</code> and <code>sub_experiment_id</code>, respectively</li>
+<li>the <code>forcing_index</code>, <code>initialization_index</code>, <code>physics_index</code> and <code>realization_index</code> from the <code>variant_label</code></li>
+<li>the <code>further_info_url</code> and <code>tracking_prefix</code> based on the information from the CV file</li>
+<li>the <code>history</code></li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Whenever a parent experiment exists the following options must also be specified.</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Used by</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>branch_date_in_child</code></td>
+<td>MIP Convert</td>
+<td>[1][2][3]</td>
+</tr>
+<tr>
+<td><code>branch_date_in_parent</code></td>
+<td>MIP Convert</td>
+<td>[1][2][3]</td>
+</tr>
+<tr>
+<td><code>parent_base_date</code></td>
+<td>MIP Convert</td>
+<td>[1][2]</td>
+</tr>
+<tr>
+<td><code>parent_experiment_id</code></td>
+<td>CMOR</td>
+<td>[3]</td>
+</tr>
+<tr>
+<td><code>parent_mip_era</code></td>
+<td>CMOR</td>
+<td>[3]</td>
+</tr>
+<tr>
+<td><code>parent_model_id</code></td>
+<td>CMOR</td>
+<td>[3][4]</td>
+</tr>
+<tr>
+<td><code>parent_time_units</code></td>
+<td>CMOR</td>
+<td>[3]</td>
+</tr>
+<tr>
+<td><code>parent_variant_label</code></td>
+<td>CMOR</td>
+<td>[3]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes</strong></p>
+<ol>
+<li>CMOR requires <code>branch_time_in_child</code> and <code>branch_time_in_parent</code>, which is determined from the options <code>base_date</code> (see the <code>request &lt;request_section&gt;</code> section) / <code>parent_base_date</code> (the base date of the <code>child_experiment_id</code> / <code>parent_experiment_id</code>) and <code>branch_date_in_child</code> / <code>branch_date_in_parent</code> (the date in the <code>child_experiment_id</code> / <code>parent_experiment_id</code> from which the experiment branches) from the <code>cmor_dataset &lt;cmor_dataset_section&gt;</code> section in the |user configuration file| by taking the difference (in days) between the <code>branch_date_in_child</code> / <code>branch_date_in_parent</code> and the <code>base_date</code> / <code>parent_base_date</code>. If <code>branch_date_in_child</code> or <code>branch_date_in_parent</code> is <code>N/A</code> then <code>branch_time_in_parent</code> is set to 0.</li>
+<li>Dates should be provided in the form <code>YYYY-MM-DDThh:mm:ssZ</code>.</li>
+<li>For a description of each option, please see the <a href="https://docs.google.com/document/d/1h0r8RZr_f3-8egBMMh7aqLwy3snpD6_MrDz1q8n5XUk">CMIP6 Global Attributes document</a>.</li>
+<li>See <code>parent_source_id</code> in the <a href="https://docs.google.com/document/d/1h0r8RZr_f3-8egBMMh7aqLwy3snpD6_MrDz1q8n5XUk">CMIP6 Global Attributes document</a>.</li>
+</ol>
+</div>
+<h3 id="request"><strong>request</strong></h3>
+<p>The required <code>request</code> section contains the following options which are used only by MIP Convert.</p>
+<table>
+<thead>
+<tr>
+<th><div style="width:125px">Option</div></th>
+<th>Required</th>
+<th>Description</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ancil_files</code></td>
+<td></td>
+<td>A space separated list of the full paths to any required ancillary files.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>atmos_timestep</code></td>
+<td></td>
+<td>The atmospheric model timestep in integer seconds.</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td><code>base_date</code></td>
+<td>Yes</td>
+<td>The date in the form <code>YYYY-MM-DDThh:mm:ss</code>.</td>
+<td>[2]</td>
+</tr>
+<tr>
+<td><code>deflate_level</code></td>
+<td></td>
+<td>The deflation level when writing the output netCDF file from 0 (no compression) to 9 (maximum compression).</td>
+<td></td>
+</tr>
+<tr>
+<td><code>hybrid_heights_file</code></td>
+<td></td>
+<td>A space separated list of the full path to the files containing the information about the hybrid heights.</td>
+<td>[3]</td>
+</tr>
+<tr>
+<td><code>mask_slice</code></td>
+<td>Yes</td>
+<td>Optional slicing expression for masking data in the form of <code>n:m,i:j</code>, or <code>no_mask</code></td>
+<td>[4][8]</td>
+</tr>
+<tr>
+<td><code>model_output_dir</code></td>
+<td>Yes</td>
+<td>The full path to the root directory containing the model output files.</td>
+<td>[5]</td>
+</tr>
+<tr>
+<td><code>reference_time</code></td>
+<td>Yes</td>
+<td>The reference time used to construct <code>reftime</code> and <code>leadtime</code> coordinates. Only used if these coordinates are specified corresponding variable entries in the MIP table</td>
+<td></td>
+</tr>
+<tr>
+<td><code>replacement_coordinates_file</code></td>
+<td></td>
+<td>The full path to the netCDF file containing area variables that refer to the horizontal coordinates that should be used to replace the corresponding values in the model output files.</td>
+<td>[6]</td>
+</tr>
+<tr>
+<td><code>run_bounds</code></td>
+<td>Yes</td>
+<td>The start and end time in the form <code>&lt;start_time&gt; &lt;end_time&gt;</code>, where <code>&lt;start_time&gt;</code> and <code>&lt;end_time&gt;</code> are in the form <code>YYYY-MM-DDThh:mm:ss</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>shuffle</code></td>
+<td></td>
+<td>Whether to shuffle when writing the output netCDF file.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sites_file</code></td>
+<td></td>
+<td>The full path to the file containing the information about the sites.</td>
+<td>[7]</td>
+</tr>
+<tr>
+<td><code>suite_id</code></td>
+<td>Yes</td>
+<td>The suite identifier of the model.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes</strong></p>
+<ol>
+<li>The <code>atmos_timestep</code> is required for atmospheric tendency diagnostics, which have model to MIP mappings that depend on the atmospheric model timestep, i.e., the expression contains <code>ATMOS_TIMESTEP</code>.</li>
+<li>The <code>base_date</code> is used to define the units of the time coordinate in the output netCDF file and is specified by the MIP.</li>
+<li>The file containing the information about the hybrid heights has the following columns;<ol>
+<li>the <code>model level number</code> (int)</li>
+<li>the <code>a_value</code> (float)</li>
+<li>the <code>a_lower_bound</code> (float)</li>
+<li>the <code>a_upper_bound</code> (float)</li>
+<li>the <code>b_value</code> (float)</li>
+<li>the <code>b_lower_bound</code> (float)</li>
+<li>the <code>b_upper_bound</code> (float)</li>
+</ol>
+</li>
+<li>If not specified, <code>mip_convert</code> will try to retrieve masking expressions from plugins (this is a default behaviour for CMIP6-like processing). Putting <code>no_mask</code> into configuration file allows <code>mip_convert</code> to process model output that does not require any masking; custom masks can be specified and passed to <code>mip_convert</code> without plugins dependencies.</li>
+<li>It is expected that the model output files are located in the directory <code>&lt;model_output_dir&gt;/&lt;suite_id&gt;/&lt;stream_id&gt;/</code>, where the <code>&lt;suite_id&gt;</code> is the suite identifier and the <code>&lt;stream_id&gt;</code> is the |stream identifier|. Note that MIP Convert will load all the files in this directory and then use the <code>run_bounds</code> to select the required data; when selecting a short time period from a large number of |model output files| it is recommended to copy the relevant files to an empty directory to save time when loading.</li>
+<li>Currently, only CICE horizontal coordinates can be replaced.</li>
+<li>The file containing the information about the sites has the following columns;<ol>
+<li>the <code>site number</code> (int)</li>
+<li>the <code>longitude</code> (float, from 0 to 360) [degrees]</li>
+<li>the <code>latitude</code> (float, from -90 to 90) [degrees]</li>
+<li>the <code>orography</code> (float) [metres] and a <code>comment</code> (string).</li>
+</ol>
+</li>
+<li>This is usually only used to mask ocean/seaice data as part of a CDDS run.</li>
+</ol>
+<h3 id="stream_stream_id"><strong>stream_&lt;\stream_id&gt;</strong></h3>
+<p>The required <code>[stream_&lt;stream_id&gt;]</code> section, where the <code>&lt;stream_id&gt;</code> is the stream identifier, contains options equal to the name of the MIP table and values equal to a space-separated list of MIP requested variable names.
+Multiple <code>[stream_&lt;stream_id&gt;]</code> sections can be defined.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All output netCDF files are created for a stream before moving onto the next stream.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>If we wanted to produce the following variables <code>Amon/tas</code>, <code>Amon/pr</code>, <code>Emon/ps</code>, <code>Amon/tasmax</code>, <code>day/tasmin</code> using the <code>CMIP6</code> tables.</p>
+<ol>
+<li>We need two <code>stream_stream_id</code> sections as the list of MIP requested variables span streams <code>ap5</code> and <code>ap6</code>.</li>
+<li>Within each of these sections we specify the mip table in the form <code>&lt;MIP_ERA&gt;_&lt;MIP_TABLE&gt;:</code></li>
+<li>Then the list of variables names as a space seperated list.</li>
+</ol>
+<div class="highlight"><pre><span></span><code>[stream_ap5]
+CMIP6_Amon: tas pr
+CMIP6_Emon: ps
+
+[stream_ap6]
+CMIP6_Amon: tasmax
+CMIP6_day: tasmin
+</code></pre></div>
+</div>
+<h3 id="masking"><strong>masking</strong></h3>
+<p>The optional <code>masking</code> section is used if a particular stream needs to be masked.
+This is usually only used for polar row masking in NEMO &amp; CICE output</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code>[masking]
+stream_inm_cice-T: -1:,180:
+</code></pre></div>
+</div>
+<h3 id="global_attributes"><strong>global_attributes</strong></h3>
+<p>The optional <code>global_attributes</code> section.
+Any information provided in the optional <code>global_attributes &lt;global_attributes&gt;</code> section will be written to the header of the output netCDF files.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../add_plugin/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Add a Plugin" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Add a Plugin
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../request/config_request/" class="md-footer__link md-footer__link--next" aria-label="Next: Request Configuration" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Request Configuration
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.expand", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
