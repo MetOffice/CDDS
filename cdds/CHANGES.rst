@@ -5,18 +5,23 @@
 
 Release 3.0.0, May 15, 2024
 ===========================
-* Rewrite the interface of the request
+* The request JSON file, used to control CDDS in previous versions, has been
+  replaced with a config file containing all required options and the command
+  line interfaces to CDDS tools have been correspondingly updated
   (CDDSO-434, CDDSO-466, CDDSO-424, CDDSO-301, CDDSO-411, CDDSO-299, CDDSO-298,
    CDDSO-296, CDDSO-297, CDDSO-438, CDDSO-423, CDDSO-386, CDDSO-300, CDDSO-395)
-* Documentation via mkdocs
+* CDDS Documentation is now maintained through mkdocs and served via github pages
   (CDDSO-427, CDDSO-430, CDDSO-409, CDDSO-429, CDDSO-426, CDDSO-425, CDDSO-428,
    CDDSO-443, CDDSO-446, CDDSO-442)
-* Updated handling of MIP convert exit codes (CDDSO-387)
-* Updated getting CDDS Convert workflow branch by environment variable (CDDSO-452)
-* Ensured Python logger sends messages to appropriate place (CDDSO-34)
-* Updated CMOR to v3.8 and Python to 3.10 (CDDSO-411)
-* Prevented issue with quotas command failing nightly tests (CDDSO-335)
-* Removed files per year from model json (CDSSO-307)
+* MIP Convert failure will now lead to cylc task failure if the 
+  ``continue_if_mip_convert_failed`` setting in the request (``[conversion]`` section)
+  is set to False in the request config file (CDDSO-387)
+* The branch of the CDDS Convert workflow being used by default is controlled by the 
+  ``CDDS_CONVERT_WORKFLOW_BRANCH`` environment variable (CDDSO-452)
+* Log messages are now sent to standard out by default, and will appear in job.out 
+  files within the cylc log directory (CDDSO-34)
+* CMOR has been updated to v3.8 and Python to 3.10 (CDDSO-411)
+* Simplified model config files by removing `files_per_year` field (CDSSO-307)
 
 Release 2.5.8, February 29, 2024
 ================================

@@ -5,11 +5,9 @@
 
 Release 3.0.0, May 15, 2024
 ===========================
-* Updated environment variables for rose suite configuration respect to new
-  request interface (CDDSO-299)
-* Updated handling of MIP convert exit codes (CDDSO-387)
+* MIP Convert now returns exit codes correctly (CDDSO-387)
 
-Release 2.5.7, February 28, 2024
+Release 2.5.8, February 28, 2024
 ================================
 * No changes
 
