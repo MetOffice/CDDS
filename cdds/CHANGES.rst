@@ -3,6 +3,21 @@
 
 .. include:: common.txt
 
+Release 3.0.0, May 15, 2024
+===========================
+* Rewrite the interface of the request
+  (CDDSO-434, CDDSO-466, CDDSO-424, CDDSO-301, CDDSO-411, CDDSO-299, CDDSO-298,
+   CDDSO-296, CDDSO-297, CDDSO-438, CDDSO-423, CDDSO-386, CDDSO-300, CDDSO-395)
+* Documentation via mkdocs
+  (CDDSO-427, CDDSO-430, CDDSO-409, CDDSO-429, CDDSO-426, CDDSO-425, CDDSO-428,
+   CDDSO-443, CDDSO-446, CDDSO-442)
+* Updated handling of MIP convert exit codes (CDDSO-387)
+* Updated getting CDDS Convert workflow branch by environment variable (CDDSO-452)
+* Ensured Python logger sends messages to appropriate place (CDDSO-34)
+* Updated CMOR to v3.8 and Python to 3.10 (CDDSO-411)
+* Prevented issue with quotas command failing nightly tests (CDDSO-335)
+* Removed files per year from model json (CDSSO-307)
+
 Release 2.5.8, February 29, 2024
 ================================
 * Added submission queues to support CMIP6Plus publication (CDDSO-413)
