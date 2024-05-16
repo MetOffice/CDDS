@@ -39,7 +39,7 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
     def setUp(self):
         logging.disable(logging.CRITICAL)
         self.log_date = '2020-04-27T1432Z'
-        self.log_name = 'write_rose_suite_request'
+        self.log_name = 'write_request'
         self.log_file_path = '{0}_{1}.log'.format(self.log_name, self.log_date)
 
         self.request_file = 'request.cfg'
@@ -79,7 +79,7 @@ class TestWriteRequestForGCModelDev(FunctionalTestCase):
         logging.disable(logging.CRITICAL)
 
         self.log_date = '2020-04-27T1432Z'
-        self.log_name = 'write_rose_suite_request'
+        self.log_name = 'write_request'
         self.log_file_path = '{0}_{1}.log'.format(self.log_name, self.log_date)
         self.request_file = 'request.json'
         self.request_dir = tempfile.mkdtemp('request')
