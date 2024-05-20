@@ -42,8 +42,12 @@ class TestMain(unittest.TestCase):
         current_dir = os.path.dirname(os.path.realpath(__file__))
         test_request_path = os.path.join(current_dir, '..', 'test_common', 'test_request', 'data', 'test_request.cfg')
         self.request = read_request(test_request_path)
-        self.request.misc.use_proc_dir = False
-        _, self.request_path = tempfile.mkstemp(prefix='request')
+        self.request.misc.use_proc_dir = True
+        _, self.request_path = tempfile.mkstemp(prefix='request_')
+        root_proc_dir = tempfile.mkdtemp(prefix='root_proc_')
+        root_data_dir = tempfile.mkdtemp(prefix='root_data_')
+        self.request.common.root_proc_dir = root_proc_dir
+        self.request.common.root_data_dir = root_data_dir
         self.request.write(self.request_path)
 
         self.root_proc_directory = os.path.join(self.temp_dir, 'proc_dir')
