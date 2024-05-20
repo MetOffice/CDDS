@@ -24,7 +24,7 @@ from cdds.configure.command_line import main
 from cdds.configure.constants import HEADER_TEMPLATE
 
 
-# @pytest.mark.slow
+@pytest.mark.slow
 class TestMain(unittest.TestCase):
     """
     Tests for :func:`main` in :mod:`command_line.py`.
