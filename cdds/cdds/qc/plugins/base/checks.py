@@ -161,6 +161,7 @@ class VariableAttributesCheckTask(CheckTask):
                             external_vars.append(external_var)
             except AttributeError as e:
                 self._messages.append("Cannot retrieve variable attribute {}".format(attr_key))
+                var_attr[attr_key] = None
         if len(external_vars):
             self._validate_external_variables(netcdf_file, external_vars)
         try:
@@ -168,6 +169,8 @@ class VariableAttributesCheckTask(CheckTask):
                 try:
                     if key_meta not in ["missing_value", "_FillValue"]:
                         if key_meta == "cell_measures" and val_meta in ["--OPT", "--MODEL"]:
+                            continue
+                        elif var_attr[key_meta] is None:
                             continue
                         elif var_attr[key_meta] != val_meta:
                             self._messages.append("Variable attribute {} has value of {} instead of {}".format(
