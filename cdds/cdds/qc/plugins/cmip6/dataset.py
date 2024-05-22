@@ -126,7 +126,7 @@ class Cmip6Dataset(StructuredDataset):
 
         if filename_parts[1] in self._mip_tables.tables:
             if filename_parts[0] not in (
-                    self._mip_tables.get_variables(filename_parts[1])):
+                    self._mip_tables.get_outname_variables(filename_parts[1])):
                 valid_filename = False
                 messages.append(
                     "Invalid variable {} in the filename {}".format(
