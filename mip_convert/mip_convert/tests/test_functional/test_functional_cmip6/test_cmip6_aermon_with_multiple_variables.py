@@ -48,25 +48,25 @@ class TestCmip6AERmonWithMultipleVariables(AbstractFunctionalTests):
 
     @pytest.mark.slow
     def test_cmip6_aermon_multiple_variables(self):
-        self.check_convert()
+        self.check_convert(log_file_identifier='multiple_variables')
 
     @pytest.mark.slow
     @mock.patch('mip_convert.request.produce_mip_requested_variable')
     def test_cmip6_aermon_multiple_variables_failed_with_error(self, produce_mip_requested_variable_mock):
         produce_mip_requested_variable_mock.side_effect = [ValueError(), ValueError()]
-        self.check_convert_with_error(1)
+        self.check_convert_with_error(1, log_file_identifier='all_variables_failed')
         self.assertEqual(produce_mip_requested_variable_mock.call_count, 2)
 
     @pytest.mark.slow
     @mock.patch('mip_convert.request.produce_mip_requested_variable')
     def test_cmip6_aermon_first_variable_failed_with_error(self, produce_mip_requested_variable_mock):
         produce_mip_requested_variable_mock.side_effect = [ValueError(), None]
-        self.check_convert_with_error(2)
+        self.check_convert_with_error(2, log_file_identifier='first_variable_failed')
         self.assertEqual(produce_mip_requested_variable_mock.call_count, 2)
 
     @pytest.mark.slow
     @mock.patch('mip_convert.request.produce_mip_requested_variable')
     def test_cmip6_aermon_second_variable_failed_with_error(self, produce_mip_requested_variable_mock):
         produce_mip_requested_variable_mock.side_effect = [None, ValueError()]
-        self.check_convert_with_error(2)
+        self.check_convert_with_error(2, log_file_identifier='second_variable_failed')
         self.assertEqual(produce_mip_requested_variable_mock.call_count, 2)

@@ -55,5 +55,5 @@ class TestCmip66hrPlevPtVortmean(AbstractFunctionalTests):
     @mock.patch('mip_convert.request.produce_mip_requested_variable')
     def test_cmip6_6hr_plev_pt_vortmean_failed_with_error(self, produce_mip_requested_variable_mock):
         produce_mip_requested_variable_mock.side_effect = ValueError()
-        self.check_convert_with_error(1)
+        self.check_convert_with_error(1, log_file_identifier='with_error')
         self.assertEqual(produce_mip_requested_variable_mock.call_count, 1)
