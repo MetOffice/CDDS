@@ -50,10 +50,9 @@ class TestMain(unittest.TestCase):
         self.request.common.root_data_dir = root_data_dir
         self.request.write(self.request_path)
 
-        self.root_proc_directory = os.path.join(self.temp_dir, 'proc_dir')
         self.output_dir_for_ucf = os.path.join(self.temp_dir, 'random_directory_name')
         self.log_dir = os.path.join(self.output_dir_for_ucf, 'log')
-        self.log_name = 'test_main'
+        self.log_name = 'produce_user_config_files'
         self.log_datestamp = '2019-11-23T1432'
         self.log_path = ''  # to be constructed later
         # Request:
