@@ -41,13 +41,15 @@ class TestMain(unittest.TestCase):
         self.temp_dir = tempfile.mkdtemp()
         self.requested_variables_list_path = os.path.join(self.temp_dir, 'CMIP6_list.json')
         current_dir = os.path.dirname(os.path.realpath(__file__))
-        self.request_path = os.path.join(current_dir, '..', 'test_common', 'test_request', 'data', 'test_request.cfg')
-        self.request = read_request(self.request_path)
+        test_request_path = os.path.join(current_dir, '..', 'test_common', 'test_request', 'data', 'test_request.cfg')
+        self.request = read_request(test_request_path)
+        self.request.common.root_proc_dir = os.path.join(self.temp_dir, 'proc_dir')
+        self.request_path = tempfile.mktemp(prefix='request_')
+        self.request.write(self.request_path)
 
-        self.root_proc_directory = os.path.join(self.temp_dir, 'proc_dir')
         self.output_dir_for_ucf = os.path.join(self.temp_dir, 'random_directory_name')
         self.log_dir = os.path.join(self.output_dir_for_ucf, 'log')
-        self.log_name = 'test_main'
+        self.log_name = 'produce_user_config_files'
         self.log_datestamp = '2019-11-23T1432'
         self.log_path = ''  # to be constructed later
         # Request:

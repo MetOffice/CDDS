@@ -39,7 +39,7 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
     def setUp(self):
         logging.disable(logging.CRITICAL)
         self.log_date = '2020-04-27T1432Z'
-        self.log_name = 'write_rose_suite_request'
+        self.log_name = 'write_request'
         self.log_file_path = '{0}_{1}.log'.format(self.log_name, self.log_date)
 
         self.request_file = 'request.cfg'
@@ -47,8 +47,8 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
         self.suite = 'u-bc179'
         self.revision = '155209'
         self.package = 'round-1-part-1'
-        self.root_data_dir = '/project/cdds_data'
-        self.root_proc_dir = '/project/cdds/proc'
+        self.root_data_dir = '/path/to/data'
+        self.root_proc_dir = '/path/to/proc'
 
         current_dir = os.path.dirname(os.path.realpath(__file__))
         data_dir = os.path.join(current_dir, 'data', 'functional_tests')
@@ -79,15 +79,15 @@ class TestWriteRequestForGCModelDev(FunctionalTestCase):
         logging.disable(logging.CRITICAL)
 
         self.log_date = '2020-04-27T1432Z'
-        self.log_name = 'write_rose_suite_request'
+        self.log_name = 'write_request'
         self.log_file_path = '{0}_{1}.log'.format(self.log_name, self.log_date)
         self.request_file = 'request.json'
         self.request_dir = tempfile.mkdtemp('request')
         self.suite = 'u-cm644'
         self.revision = '227413'
         self.package = 'cddso130 '
-        self.root_data_dir = '/project/cdds_data'
-        self.root_proc_dir = '/project/cdds/proc'
+        self.root_data_dir = '/path/to/data'
+        self.root_proc_dir = '/path/to/proc'
 
         current_dir = os.path.dirname(os.path.realpath(__file__))
         data_dir = os.path.join(current_dir, 'data', 'functional_tests')
