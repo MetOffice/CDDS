@@ -1,6 +1,7 @@
 # (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
 import os
+import unittest
 
 from metomi.isodatetime.data import Calendar
 from netCDF4 import Dataset
@@ -16,7 +17,8 @@ from cdds.qc.plugins.cmip6.validators import Cmip6CVValidator
 from cdds.qc.plugins.base.common import CheckCache
 from cdds.tests.test_common.common import create_simple_netcdf_file
 from cdds.tests.test_qc.plugins.constants import (MIP_TABLES_DIR, CV_REPO, TMP_DIR_FOR_NETCDF_TESTS, MINIMAL_CDL,
-                                                  CORRECT_VARIABLE_METADATA_CDL, INCONSISTENT_VARIABLE_METADATA_CDL,
+                                                  CORRECT_VARIABLE_METADATA_CDL, MISSING_VARIABLE_METADATA_CDL,
+                                                  INCONSISTENT_VARIABLE_METADATA_CDL,
                                                   GLOBAL_ATTRIBUTES_CDL)
 
 
@@ -35,6 +37,27 @@ class TestVariableAttributesCheckTask(TestCase):
         create_simple_netcdf_file(CORRECT_VARIABLE_METADATA_CDL, self.nc_path)
         netcdf_file = Dataset(self.nc_path, 'a')
         attr_dict = {"table_id": "Amon", "variable_id": "rsut"}
+        self.class_under_test.execute(netcdf_file, attr_dict)
+        self.maxDiff = None
+        self.assertListEqual(self.class_under_test._messages, [])
+
+    def test_variable_metadata_missing_standard_name(self):
+        create_simple_netcdf_file(MISSING_VARIABLE_METADATA_CDL, self.nc_path)
+        netcdf_file = Dataset(self.nc_path, 'a')
+        attr_dict = {"table_id": "Amon", "variable_id": "rsut"}
+        self.class_under_test.execute(netcdf_file, attr_dict)
+        self.maxDiff = None
+        self.assertListEqual(self.class_under_test._messages, [
+            "Cannot retrieve variable attribute standard_name"])
+
+    def test_variable_metadata_missing_standard_name_in_mip_tables(self):
+        create_simple_netcdf_file(MISSING_VARIABLE_METADATA_CDL, self.nc_path)
+        netcdf_file = Dataset(self.nc_path, 'a')
+        attr_dict = {"table_id": "Amon", "variable_id": "rsut"}
+        mip_tables = MipTables(os.path.join(MIP_TABLES_DIR, "for_functional_tests"))
+        mip_tables._tables["Amon"]["rsut"]["standard_name"] = ""
+        cache = CheckCache(MagicMock(), mip_tables, ControlledVocabularyValidator(CV_REPO))
+        self.class_under_test = VariableAttributesCheckTask(cache)
         self.class_under_test.execute(netcdf_file, attr_dict)
         self.maxDiff = None
         self.assertListEqual(self.class_under_test._messages, [])
@@ -76,3 +99,7 @@ class TestGlobalAttributesCheckTask(TestCase):
             self.class_under_test._messages,
             ["Mandatory attribute creation_date: "
              "'2022-02-31T21:16:47Z' is not a valid date in a form of %Y-%m-%dT%H:%M:%SZ"])
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -150,6 +150,10 @@ class VariableAttributesCheckTask(CheckTask):
                 if attr_key == "cell_measures" and (var_meta[attr_key] in ["", "--OPT", "--MODEL"]):
                     # this will handle cases like global and zonal means
                     continue
+                elif attr_key == "standard_name" and var_meta[attr_key] == "":
+                    # CMOR doesn't generate this attribute if it is empty in mip tables
+                    # so we don't want to have an exception thrown here
+                    continue
                 var_attr[attr_key] = netcdf_file.variables[attr_dict["variable_id"]].getncattr(attr_key)
                 if attr_key == "cell_measures":
                     # check consistency with external variables
@@ -158,6 +162,7 @@ class VariableAttributesCheckTask(CheckTask):
                             external_vars.append(external_var)
             except AttributeError as e:
                 self._messages.append("Cannot retrieve variable attribute {}".format(attr_key))
+                var_attr[attr_key] = None
         if len(external_vars):
             self._validate_external_variables(netcdf_file, external_vars)
         try:
@@ -165,6 +170,8 @@ class VariableAttributesCheckTask(CheckTask):
                 try:
                     if key_meta not in ["missing_value", "_FillValue"]:
                         if key_meta == "cell_measures" and val_meta in ["--OPT", "--MODEL"]:
+                            continue
+                        elif var_attr[key_meta] is None:
                             continue
                         elif var_attr[key_meta] != val_meta:
                             self._messages.append("Variable attribute {} has value of {} instead of {}".format(

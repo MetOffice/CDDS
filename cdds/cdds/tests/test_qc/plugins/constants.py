@@ -70,6 +70,43 @@ data:
 }
 """
 
+MISSING_VARIABLE_METADATA_CDL = """
+netcdf filename {
+dimensions:
+    lat = 1 ;
+    lon = 1 ;
+    time = UNLIMITED ; // (1 currently)
+variables:
+    double lat(lat) ;
+    double lon(lon) ;
+    float rsut(time, lat, lon) ;
+            rsut:frequency = "mon" ;
+            rsut:modeling_realm = "atmos" ;
+            rsut:units = "W m-2" ;
+            rsut:cell_methods = "area: time: mean" ;
+            rsut:cell_measures = "area: areacella" ;
+            rsut:long_name = "TOA Outgoing Shortwave Radiation" ;
+            rsut:comment = "at the top of the atmosphere" ;
+            rsut:dimensions = "longitude latitude time" ;
+            rsut:out_name = "rsut" ;
+            rsut:type = "real" ;
+            rsut:positive = "up" ;
+            rsut:missing_value = 1.e+20 ;
+            rsut:_FillValue = 1.e+20 ;
+            rsut:original_name = "foo" ;
+    double time(time) ;
+
+// global attributes:
+    :Conventions = "CF-1.7 CMIP-6.2" ;
+    :external_variables = "areacella" ;
+data:
+ lat = -89.375 ;
+ lon = 0.9375 ;
+ rsut = 213.0 ;
+ time = 45 ;
+}
+"""
+
 INCONSISTENT_VARIABLE_METADATA_CDL = """
 netcdf filename {
 dimensions:
