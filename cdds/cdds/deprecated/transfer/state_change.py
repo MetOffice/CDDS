@@ -32,7 +32,7 @@ def run_move_in_mass(request: Request, args: Namespace) -> None:
     logger = logging.getLogger(__name__)
     # Construct configs
     logger.info('Reading CDDS General Config')
-    config_general = CDDSConfigGeneral(args.root_config, request)
+    config_general = CDDSConfigGeneral(request)
     transfer_cfg = cfg_from_cdds_general_config(config_general, request)
 
     # Attempt to load rabbit credentials

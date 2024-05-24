@@ -19,6 +19,7 @@ from cdds.common.plugins.plugins import PluginStore
 from cdds.common.cdds_files.cdds_directories import (
     component_directory, log_directory
 )
+from cdds.deprecated.general_config import root_config
 from mip_convert.configuration.python_config import PythonConfig
 
 
@@ -293,18 +294,16 @@ class CDDSConfigGeneral(PythonConfig):
     Store information read from the general configuration file for CDDS.
     """
 
-    def __init__(self, root_config_directory: str, request: Request) -> None:
+    def __init__(self, request: Request) -> None:
         """
         The general configuration file is named ``<mip_era>.cfg`` and must be located in the directory
         ``/<root_config_directory>/<mip_era>/general/``.
 
-        :param root_config_directory: The root path to the directory containing the CDDS configuration files.
-        :type root_config_directory: str
         :param request: The request containing the required values to construct the paths
             to the data and proc directories
         :type request: Request
         """
-        self._root_config_directory = root_config_directory
+        self._root_config_directory = root_config()
         self._root_proc_directory = request.common.root_proc_dir
         self.request = request
         super(CDDSConfigGeneral, self).__init__(self._read_path)
