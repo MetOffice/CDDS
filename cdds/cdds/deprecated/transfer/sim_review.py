@@ -16,6 +16,8 @@ import subprocess
 from cdds.common.constants import COMPONENT_LIST, APPROVED_VARS_DATETIME_STREAM_REGEX, APPROVED_VARS_FILENAME_TEMPLATE
 from cdds.common.io import read_json
 from cdds.common import get_most_recent_file_by_stream
+from cdds.common.request.request import Request
+from cdds.common.plugins.plugins import PluginStore
 
 
 def filter_critical_issues(issue_list):
@@ -296,23 +298,17 @@ def show_submission_command(proc_dir, recent_approved_path):
                 ''.format(proc_dir=proc_dir, recent_approved_path=recent_approved_path))
 
 
-def do_sim_review(arguments):
+def do_sim_review(request: Request) -> None:
     """
     The main work function for the simulation review script.
 
-    Parameters
-    ----------
-    arguments: :class:`argparse.Namespace`
-       Command line argument namespace.
-
-    Returns
-    -------
-    None
+    :param request: The request configuration to consider
+    :type request: Request
     """
     # Set up the relevant paths
-    logger = logging.getLogger(__name__)
-    proc_dir = arguments.cdds_proc_dir
-    data_dir = arguments.cdds_data_dir
+    plugin = PluginStore.instance().get_plugin()
+    proc_dir = plugin.proc_directory(request)
+    data_dir = plugin.data_directory(request)
 
     if not os.path.isdir(proc_dir):
         msg = ('The specified proc dir {0} is not a valid directory, please '
