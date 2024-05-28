@@ -9,6 +9,10 @@ Common routines for CDDS CF checker
 """
 
 
+class NoDataForQualityCheck(Exception):
+    pass
+
+
 def equal_with_tolerance(a, b, tolerance):
     """
     Compare two numbers and return True if their difference is outside

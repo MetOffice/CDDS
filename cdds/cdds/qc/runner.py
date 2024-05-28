@@ -14,6 +14,7 @@ from cdds.common.constants import (
 )
 from cdds.common.sqlite import execute_insert_query
 from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
+from cdds.qc.common import NoDataForQualityCheck
 from cdds.qc.models import (
     setup_db,
     get_qc_runs, get_qc_files, get_error_counts, get_aggregated_errors,
@@ -134,6 +135,11 @@ class QCRunner(object):
                 msg = "Could not find qc plugin {}. Please make sure it has been installed.".format(checker_key)
                 self.logger.critical(msg)
                 raise ModuleNotFoundError(msg)
+
+        if self.dataset.file_count <= 0:
+            message = 'No data found for QC to check.'
+            self.logger.critical(message)
+            raise NoDataForQualityCheck(message)
 
         if run_id is None:
             run_id = int(time.time())
