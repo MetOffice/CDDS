@@ -31,7 +31,6 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         load_plugin()
         self.input_dir = 'test_{}_{}_{}'
         self.os_handle, self.config_file = mkstemp()
-        # self.mip_convert_log = 'mip_convert_{}.log'.format(os.environ['USER'])
         self.test_info: AbstractTestData = self.get_test_data()
 
     @abstractmethod
@@ -98,7 +97,8 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
             parameters = parameters + ['--relaxed_cmor']
         return parameters
 
-    def get_mip_convert_log_filename(self, identifier):
+    @staticmethod
+    def get_mip_convert_log_filename(identifier):
         if identifier:
             return 'mip_convert_{}_{}.log'.format(os.environ['USER'], identifier)
         return 'mip_convert_{}.log'.format(os.environ['USER'])
