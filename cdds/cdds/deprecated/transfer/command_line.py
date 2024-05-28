@@ -114,7 +114,7 @@ def main_sim_review() -> int:
     logger.info('Using CDDS Transfer version {}'.format(__version__))
 
     try:
-        do_sim_review(request)
+        do_sim_review(request, args.request)
         exit_code = 0
     except BaseException as exc:
         exit_code = 1

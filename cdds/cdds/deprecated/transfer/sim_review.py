@@ -275,7 +275,7 @@ def _join_approved_files(path_file_dict):
     return combined_file_path
 
 
-def show_submission_command(proc_dir, recent_approved_path):
+def show_submission_command(request_file_path, recent_approved_path):
     """
     Constructs and displays scp commands to be used by the reviewer to copy
     the files needed by the move_in_mass command to the server where the
@@ -283,8 +283,8 @@ def show_submission_command(proc_dir, recent_approved_path):
 
     Parameters
     ----------
-    proc_dir: str
-        Path to the proc directory for this package.
+    request_file_path: str
+        Path to the request configuration for this package.
     recent_approved_path: str
         The path to the most recent approved variables list.
     Returns
@@ -293,17 +293,19 @@ def show_submission_command(proc_dir, recent_approved_path):
     """
     logger = logging.getLogger(__name__)
     logger.info('\nCommand for data submission:')
-    logger.info('move_in_mass {proc_dir}/request.json \\\n-p --original_state=embargoed --new_state=available '
+    logger.info('move_in_mass {request} \\\n-p --original_state=embargoed --new_state=available '
                 '--mass_location=production \\\n--variables_list_file={recent_approved_path}'
-                ''.format(proc_dir=proc_dir, recent_approved_path=recent_approved_path))
+                ''.format(request=request_file_path, recent_approved_path=recent_approved_path))
 
 
-def do_sim_review(request: Request) -> None:
+def do_sim_review(request: Request, request_file_path: str) -> None:
     """
     The main work function for the simulation review script.
 
     :param request: The request configuration to consider
     :type request: Request
+    :param request_file_path: Path to the given request configuration file
+    :type request_file_path: str
     """
     # Set up the relevant paths
     plugin = PluginStore.instance().get_plugin()
@@ -332,4 +334,4 @@ def do_sim_review(request: Request) -> None:
 
     recent_approved_path = display_approved_variables(qc_dir)
 
-    show_submission_command(proc_dir, recent_approved_path)
+    show_submission_command(request_file_path, recent_approved_path)
