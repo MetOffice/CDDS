@@ -10,15 +10,25 @@ from cdds.common.request.request import Request
 def clean_workflows(request: Request):
     check_if_cylc8_env()
 
-    workflow_basename = request.common.workflow_basename
+    workflow_name = 'cdds_{request_id}_{stream}'
+    for argument in request.conversion.cylc_args:
+        if argument.startswith("--workflow-name"):
+            workflow_name = argument.split("=")[1]
+
+    request_id = request.common.workflow_basename
+
     for stream in request.data.streams:
-        stream_workflow = '{}_{}'.format(workflow_basename, stream)
+        stream_workflow = workflow_name.format(request_id=request_id, stream=stream)
         clean_workflow(stream_workflow)
 
 
 def clean_workflow(workflow_name: str):
+    logger = logging.getLogger(__name__)
+    logger.info('Clean workflow {}'.format(workflow_name))
+
     clean_command = ['cylc', 'clean', workflow_name]
-    run_command(clean_command)
+    stdout = run_command(clean_command)
+    logger.info(stdout)
 
 
 def check_if_cylc8_env():

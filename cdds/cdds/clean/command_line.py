@@ -13,7 +13,7 @@ from typing import List
 CDDS_CLEAN_LOG = 'cdds_clean'
 
 
-def run_cdds_clean(arguments: List[str]) -> int:
+def run_cdds_clean(arguments: List[str] = None) -> int:
     args = parse_arguments(arguments)
     request = read_request(args.request)
 
