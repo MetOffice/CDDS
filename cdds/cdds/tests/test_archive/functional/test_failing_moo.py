@@ -1,5 +1,7 @@
-# (C) British Crown Copyright 2022, Met Office.
-# Please see LICENSE.rst for license details.
+# THIS FILE IS PART OF CDDS
+# Copyright (C) British Crown (Met Office) & Contributors.
+# Licenced under the BSD 3 clause license https://opensource.org/license/bsd-3-clause
+# See the LICENSE file in the top level of this repository for full details.
 from cdds.archive.command_line import main_store
 from cdds.tests.test_archive.functional.store_test_tools import DEFAULT_LOG_DATESTAMP, TestData, LogFile
 from cdds.tests.test_archive.functional.store_test_case import StoreTestCase

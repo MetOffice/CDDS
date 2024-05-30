@@ -1,5 +1,7 @@
-# (C) British Crown Copyright 2022, Met Office.
-# Please see LICENSE.rst for license details.
+# THIS FILE IS PART OF CDDS
+# Copyright (C) British Crown (Met Office) & Contributors.
+# Licenced under the BSD 3 clause license https://opensource.org/license/bsd-3-clause
+# See the LICENSE file in the top level of this repository for full details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 """
 Tests for coding standards and copyright headers.
@@ -14,8 +16,11 @@ import pycodestyle
 
 import cdds
 
-COPYRIGHT_TEMPLATE = ('{start_comment} (C) British Crown Copyright {years}, Met Office.'
-                      '\n{start_comment} Please see LICENSE.rst for license details.')
+COPYRIGHT_TEMPLATE = ('{start_comment} THIS FILE IS PART OF CDDS'
+                      '\n{start_comment} Copyright (C) British Crown (Met Office) & Contributors.'
+                      '\n{start_comment} Licenced under the BSD 3 clause license '
+                      'https://opensource.org/license/bsd-3-clause'
+                      '\n{start_comment} See the LICENSE file in the top level of this repository for full details.')
 
 
 @pytest.mark.style
@@ -52,7 +57,6 @@ class TestCodingStandards(unittest.TestCase):
         # Add optional shebang.
         copyright_format = r'((\#\!.*)\n)?' + re.escape(COPYRIGHT_TEMPLATE)
         copyright_format = copyright_format.replace(r'\{start_comment\}', r'(\#|\.{2}|\-{2})')
-        copyright_format = copyright_format.replace(r'\{years\}', r'(.*?)')
         copyright_pattern = re.compile(copyright_format)
 
         copyright_files = self.get_copyright_files()

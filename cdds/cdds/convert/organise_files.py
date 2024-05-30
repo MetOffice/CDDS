@@ -1,5 +1,7 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# THIS FILE IS PART OF CDDS
+# Copyright (C) British Crown (Met Office) & Contributors.
+# Licenced under the BSD 3 clause license https://opensource.org/license/bsd-3-clause
+# See the LICENSE file in the top level of this repository for full details.
 """
 Wrapper for mip_concatenate_setup to run within a Rose suite using environment
 variables to obtain arguments
