@@ -47,8 +47,8 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
         self.suite = 'u-bc179'
         self.revision = '155209'
         self.package = 'round-1-part-1'
-        self.root_data_dir = '/project/cdds_data'
-        self.root_proc_dir = '/project/cdds/proc'
+        self.root_data_dir = '/data/scratch/piotr.florek/cdds_data'
+        self.root_proc_dir = '/data/scratch/piotr.florek/cdds_proc'
 
         current_dir = os.path.dirname(os.path.realpath(__file__))
         data_dir = os.path.join(current_dir, 'data', 'functional_tests')
@@ -67,9 +67,9 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
             self.root_data_dir)).split()
 
         exit_code = main_write_request(arguments)
+        self.assertEqual(exit_code, 0)
         request_cfg = self.read_request_file()
 
-        self.assertEqual(exit_code, 0)
         self.assertListEqual(self.expected_request, request_cfg)
 
 
@@ -81,13 +81,13 @@ class TestWriteRequestForGCModelDev(FunctionalTestCase):
         self.log_date = '2020-04-27T1432Z'
         self.log_name = 'write_rose_suite_request'
         self.log_file_path = '{0}_{1}.log'.format(self.log_name, self.log_date)
-        self.request_file = 'request.json'
+        self.request_file = 'request.cfg'
         self.request_dir = tempfile.mkdtemp('request')
         self.suite = 'u-cm644'
         self.revision = '227413'
         self.package = 'cddso130 '
-        self.root_data_dir = '/project/cdds_data'
-        self.root_proc_dir = '/project/cdds/proc'
+        self.root_data_dir = '/data/scratch/piotr.florek/cdds_data'
+        self.root_proc_dir = '/data/scratch/piotr.florek/cdds_proc'
 
         current_dir = os.path.dirname(os.path.realpath(__file__))
         data_dir = os.path.join(current_dir, 'data', 'functional_tests')
@@ -104,11 +104,9 @@ class TestWriteRequestForGCModelDev(FunctionalTestCase):
         arguments = ('-o {} -f {} {} cdds {} {} ap4 ap5 ap6 -c {} -t {}'.format(
             self.request_dir, self.request_file, self.suite, self.revision, self.package,
             self.root_proc_dir, self.root_data_dir)).split()
-
         exit_code = main_write_request(arguments)
-        request_cfg = self.read_request_file()
-
         self.assertEqual(exit_code, 0)
+        request_cfg = self.read_request_file()
         self.assertListEqual(self.expected_request, request_cfg)
 
 

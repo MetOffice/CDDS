@@ -101,13 +101,13 @@ class TestRoseSuiteArgumentsFromUserArgs(TestCase):
         self.assertEqual(suite_arguments.root_data_dir, '')
 
     def test_from_user_args_with_root_dirs(self):
-        self.user_args.root_proc_dir = '/project/cdds/proc'
-        self.user_args.root_data_dir = '/project/cdds/data'
+        self.user_args.root_proc_dir = '/data/scratch/piotr.florek/cdds_proc'
+        self.user_args.root_data_dir = '/data/scratch/piotr.florek/cdds_data'
 
         suite_arguments = RoseSuiteArguments.from_user_args(self.user_args)
 
-        self.assertEqual(suite_arguments.root_proc_dir, '/project/cdds/proc')
-        self.assertEqual(suite_arguments.root_data_dir, '/project/cdds/data')
+        self.assertEqual(suite_arguments.root_proc_dir, '/data/scratch/piotr.florek/cdds_proc')
+        self.assertEqual(suite_arguments.root_data_dir, '/data/scratch/piotr.florek/cdds_data')
         self.assertEqual(suite_arguments.external_plugin, '')
         self.assertEqual(suite_arguments.external_plugin_location, '')
         self.assertEqual(suite_arguments.suite, 'u-bn333')
@@ -185,7 +185,7 @@ class TestRoseSuiteInfo(TestCase):
         self.assertEqual(info.end_date(), expected_date)
 
     def test_mip_table_dir(self):
-        expected_mip_table_dir = '{}/mip_tables/CMIP6/01.00.29/'.format(os.environ['CDDS_ETC'])
+        expected_mip_table_dir = os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP6', '01.00.29')
         info = RoseSuiteInfo(self.data)
         self.assertEqual(info.mip_table_dir(), expected_mip_table_dir)
 

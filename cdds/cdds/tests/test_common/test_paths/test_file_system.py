@@ -20,7 +20,7 @@ class TestCreateDirectory(TestCase):
         self.path = None
         self.default_mode = oct(0o755)
         self.expected_mode = oct(0o775)  # rwxrwxr-x
-        self.group = 'cdds'
+        self.group = 'cdds-access'  # 'cdds'
         self.primary_group = grp.getgrgid(os.getegid()).gr_name
 
     def _run(self, path, group=None):

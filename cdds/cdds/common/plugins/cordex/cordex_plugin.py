@@ -111,4 +111,4 @@ class CordexPlugin(BasePlugin):
         :return: Path to the MIP table directory
         :rtype: str
         """
-        return '{}/mip_tables/CORDEX/for_functional_tests'.format(os.environ['CDDS_ETC'])
+        return os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CORDEX', 'for_functional_tests')

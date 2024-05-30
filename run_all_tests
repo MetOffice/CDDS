@@ -66,7 +66,8 @@ def main():
     arguments = parse_arguments()
     start = timer()
     print('Using $SCRATCH ({}) for temporary large volume storage'.format(os.environ['SCRATCH']))
-    print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH']+"/testdata")))
+    # not yet implemented on Azure
+    # print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH']+"/testdata")))
     for package, tests in TESTS_TO_RUN.items():
         print('\nExecuting tests for {}:'.format(package))
         for test in tests:
