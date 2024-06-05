@@ -87,8 +87,8 @@ def parse_arguments_move_in_mass(arguments: List[str]) -> Namespace:
 
     args = parser.parse_args(arguments)
 
-    if arguments.output_dir is not None:
-        arguments.output_dir = check_directory(arguments.output_dir)
+    if args.output_dir is not None:
+        args.output_dir = check_directory(args.output_dir)
     return args
 
 
