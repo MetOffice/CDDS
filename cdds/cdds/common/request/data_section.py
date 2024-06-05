@@ -110,6 +110,9 @@ class DataSection(Section):
         data.mass_data_class = arguments.mass_data_class
         data.start_date = suite_info.start_date()
         data.streams = arguments.streams
+        data.model_workflow_id = arguments.suite
+        data.model_workflow_branch = arguments.branch
+        data.model_workflow_revision = arguments.revision
 
         if arguments.end_date:
             data.end_date = arguments.end_date
