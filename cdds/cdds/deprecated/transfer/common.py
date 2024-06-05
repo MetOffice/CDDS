@@ -74,7 +74,7 @@ def cfg_from_cdds_general_config(general_config: CDDSConfigGeneral, request: Req
     logger = logging.getLogger(__name__)
     # Initialise config
     cfg = config.Config(None)
-    mip_era = request.mip_era
+    mip_era = request.metadata.mip_era
     # Add mip_era section and insert information from the general
     # config file
     cfg._cp.add_section(mip_era)
@@ -109,12 +109,12 @@ def drs_facet_builder_from_request(request: Request, cfg: CDDSConfigGeneral) -> 
     logger = logging.getLogger(__name__)
     drs_fixed_facet_builder = drs.DataRefSyntax(cfg, request.metadata.mip_era)
     valid_items = {}
-    for field, value in request.flattened_items:
-        if ' ' in value:
+    for field, value in request.flattened_items.items():
+        if isinstance(value, str) and ' ' in value:
             new_value = value.split(' ')[0]
             logger.debug('Found value "{}" for facet "{}". Using "{}"'.format(value, field, new_value))
             value = new_value
-        if field in drs_fixed_facet_builder._project_config['valid']:
+        if field in drs_fixed_facet_builder._project_config['valid'].split('|'):
             valid_items[field] = value
     drs_fixed_facet_builder.fill_facets_from_dict(valid_items)
     return drs_fixed_facet_builder
