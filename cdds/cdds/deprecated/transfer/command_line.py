@@ -14,7 +14,7 @@ from typing import List
 from cdds.common import configure_logger, common_command_line_args, check_directory
 from cdds.common.cdds_files.cdds_directories import update_log_dir
 from cdds.common.request.request import read_request
-from cdds.deprecated.config import update_arguments_paths
+from cdds.common.plugins.plugin_loader import load_plugin
 
 from cdds import __version__
 from cdds.deprecated.transfer.list_queue import print_queue
@@ -101,8 +101,11 @@ def main_sim_review() -> int:
     """
     args = parse_sim_review_args()
 
+    request = read_request(args.request)
+    load_plugin(request.metadata.mip_era, request.common.external_plugin, request.common.external_plugin_location)
+
     # Create the configured logger.
-    configure_logger(args.log_name, args.log_level, args.append_log)
+    configure_logger('sim_review', request.common.log_level, False)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
@@ -111,7 +114,7 @@ def main_sim_review() -> int:
     logger.info('Using CDDS Transfer version {}'.format(__version__))
 
     try:
-        do_sim_review(args)
+        do_sim_review(request, args.request)
         exit_code = 0
     except BaseException as exc:
         exit_code = 1
@@ -128,13 +131,10 @@ def parse_sim_review_args() -> Namespace:
     """
     log_name = 'sim_review'
     parser = argparse.ArgumentParser()
-    parser.add_argument('cdds_proc_dir', help='The location of the CDDS proc dir.', type=str)
-    parser.add_argument('cdds_data_dir', help='The location of the CDDS data dir.', type=str)
+    parser.add_argument('request', help='The location of the request configuration', type=str)
     common_command_line_args(parser, log_name, logging.INFO, __version__)
 
-    args = parser.parse_args()
-    args = update_arguments_paths(args, ['cdds_proc_dir', 'cdds_data_dir'])
-    return args
+    return parser.parse_args()
 
 
 def main_list_queue() -> int:

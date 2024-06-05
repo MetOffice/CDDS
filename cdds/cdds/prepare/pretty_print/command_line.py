@@ -12,7 +12,6 @@ import os
 
 from cdds import __version__
 from cdds.common import configure_logger, common_command_line_args, check_directory
-from cdds.deprecated.config import update_arguments_paths
 from cdds.prepare.pretty_print.constants import HEADER_FIELDS
 from cdds.prepare.pretty_print.pretty_print import CsvPrinter
 
@@ -74,7 +73,9 @@ def _parse_arguments(arguments):
                         help='The delimiter between the fields in a row of the output file. Default is tab.')
     common_command_line_args(parser, 'create_variables_table_file', logging.INFO, __version__)
     arguments = parser.parse_args(user_arguments)
-    arguments = update_arguments_paths(arguments, ['output_file'])
+
+    output_file = os.path.abspath(arguments.output_file)
+    arguments.output_file = output_file
 
     output_dir = os.path.dirname(arguments.output_file)
     check_directory(output_dir)
