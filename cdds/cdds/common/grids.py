@@ -283,7 +283,8 @@ def default_grid_ids():
         'GC3hr': ('atmos', 'native'),
         'GC3hrPt': ('atmos', 'native'),
         'GCday': ('atmos', 'native'),
-        'GCOyr': ('ocean', 'native')
+        'GCOyr': ('ocean', 'native'),
+        'GCAERmon': ('atmos', 'native'),
     }
 
 
