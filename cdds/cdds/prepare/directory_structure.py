@@ -6,6 +6,7 @@ This module contains code related to the directory structures for CDDS.
 """
 import logging
 import os
+import shutil
 
 from argparse import Namespace
 
@@ -34,14 +35,23 @@ def create_cdds_directory_structure(arguments: Namespace):
 
     # Create data directories.
     # Create data directories.
-    input_data_dir = os.path.join(plugin.data_directory(request), INPUT_DATA_DIRECTORY)
-    output_data_dir = os.path.join(plugin.data_directory(request), OUTPUT_DATA_DIRECTORY)
+    data_dir = plugin.data_directory(request)
+    if request.conversion.delete_preexisting_data_dir and os.path.exists(data_dir):
+        logger.info('Delete existing CDDS data directory at: {}'.format(data_dir))
+        shutil.rmtree(data_dir)
+
+    input_data_dir = os.path.join(data_dir, INPUT_DATA_DIRECTORY)
+    output_data_dir = os.path.join(data_dir, OUTPUT_DATA_DIRECTORY)
 
     create_directory(input_data_dir, CDDS_UNIX_GROUP, root_dir=request.common.root_data_dir)
     create_directory(output_data_dir, CDDS_UNIX_GROUP, root_dir=request.common.root_data_dir)
 
     # Create proc directories.
     proc_dir = plugin.proc_directory(request)
+    if request.conversion.delete_preexisting_proc_dir and os.path.exists(proc_dir):
+        logger.info('Delete existing CDDS proc directory at: {}'.format(proc_dir))
+        shutil.rmtree(proc_dir)
+
     for component in COMPONENT_LIST:
         component_log_dir = os.path.join(proc_dir, component, LOG_DIRECTORY)
         create_directory(component_log_dir, group=CDDS_UNIX_GROUP, root_dir=request.common.root_proc_dir)
