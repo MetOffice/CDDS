@@ -736,7 +736,7 @@ class Filters(object):
                             regexp = netCDF_regexp(None, None, self.ensemble_member_id)
                         else:
                             # only nemo and medusa can be sub-streamed
-                             regexp = netCDF_regexp("nemo|medusa", substream, self.ensemble_member_id)
+                            regexp = netCDF_regexp("nemo|medusa", substream, self.ensemble_member_id)
                         self._update_mass_cmd(
                             regexp, filelist, start, end, "filter",
                             ["-i", "-d", file_name], MOOSE_MAX_NC_FILES
@@ -822,7 +822,7 @@ class Filters(object):
             )
         tape_limit, error = get_tape_limit(simulation=self.simulation)
         if error:
-            raise(MooseException(error))
+            raise MooseException(error)
         chunks = chunk_by_files_and_tapes(files_on_tapes, tape_limit, MOOSE_MAX_NC_FILES)
         for chunk in chunks:
             cmd = {
@@ -844,6 +844,7 @@ class Filters(object):
 
 class FilterFileException(IOError):
     pass
+
 
 class MooseException(Exception):
     pass
