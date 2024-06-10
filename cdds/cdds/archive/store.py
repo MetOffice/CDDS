@@ -293,7 +293,7 @@ def retrieve_file_paths(mip_approved_variables: List[Dict[str, str]], request: R
                    'so no data will be archived for this variable.'.format(**var_dict))
         logger.critical(message)
 
-    if len(valid_vars) <= 0:
+    if len(valid_vars) == 0:
         message = 'No data found to archive.'
         logger.critical(message)
         raise NoDataToArchiveError(message)

@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2023, Met Office.
+# (C) British Crown Copyright 2018-2024, Met Office.
 # Please see LICENSE.rst for license details.
 
 import logging
@@ -136,7 +136,7 @@ class QCRunner(object):
                 self.logger.critical(msg)
                 raise ModuleNotFoundError(msg)
 
-        if self.dataset.file_count <= 0:
+        if self.dataset.file_count == 0:
             message = 'No data found for QC to check.'
             self.logger.critical(message)
             raise NoDataForQualityCheck(message)
