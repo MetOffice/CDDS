@@ -469,13 +469,8 @@ the Extract, Convert, QC and Transfer tasks have been completed.
     ```
 2. Delete all workflows used:
     ```bash
-    cylc clean cdds_<workflow_base_name>_<stream>
+    cdds_clean <path to the request configuration>
     ```
-    for each `<stream>` processed, or 
-    ```bash
-    ls -d ~/cylc-run/cdds_<workflow_base_name>_* | xargs cylc clean -y
-    ```
-    which should find and clear all workflows associated with the model, experiment and variant label specified.
 
 3. Update and close the *CDDS operational simulation ticket*
   
