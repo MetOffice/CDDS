@@ -22,6 +22,8 @@ def clean_workflows(request: Request) -> None:
     workflow_name = 'cdds_{request_id}_{stream}'
     for argument in request.conversion.cylc_args:
         if argument.startswith("--workflow-name"):
+            # When loading the conversion section the `_{stream}` will already be added if
+            # the `--workflow-name` is already be set. So, no need here to add `_{stream}`.
             workflow_name = argument.split("=")[1]
 
     request_id = request.common.workflow_basename
