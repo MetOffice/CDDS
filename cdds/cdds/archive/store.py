@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2022, Met Office.
+# (C) British Crown Copyright 2019-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`mass` module contains the code required to archive
@@ -13,6 +13,7 @@ import re
 from typing import List, Dict
 
 from cdds.archive.constants import DATA_PUBLICATION_STATUS_DICT
+from cdds.archive.exception import NoDataToArchiveError
 from cdds.archive.mass import (archive_files, construct_mass_paths, construct_archive_dir_mass_path,
                                check_stored_status, cleanup_archive_dir)
 from cdds.common import get_most_recent_file
@@ -270,8 +271,10 @@ def retrieve_file_paths(mip_approved_variables: List[Dict[str, str]], request: R
         if os.path.isdir(path_to_var):
             valid_fname = functools.partial(model_file_info.is_relevant_for_archiving, request, var_dict)
             file_list = os.listdir(path_to_var)
-            start_date, end_date = model_file_info.get_date_range(file_list, var_dict['frequency'])
-            data_files = [os.path.join(path_to_var, fname) for fname in file_list if valid_fname(fname)]
+            data_files = []
+            if len(file_list) > 0:
+                start_date, end_date = model_file_info.get_date_range(file_list, var_dict['frequency'])
+                data_files = [os.path.join(path_to_var, fname) for fname in file_list if valid_fname(fname)]
 
             if data_files:
                 df_str = '\n'.join(data_files)
@@ -289,5 +292,10 @@ def retrieve_file_paths(mip_approved_variables: List[Dict[str, str]], request: R
         message = ('{mip_table_id}/{variable_id}: This variable does not have valid MIP output data files, '
                    'so no data will be archived for this variable.'.format(**var_dict))
         logger.critical(message)
+
+    if len(valid_vars) == 0:
+        message = 'No data found to archive.'
+        logger.critical(message)
+        raise NoDataToArchiveError(message)
 
     return valid_vars
