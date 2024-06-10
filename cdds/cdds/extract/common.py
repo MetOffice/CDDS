@@ -367,8 +367,6 @@ def create_dir(directory, permissions, user, group):
             subdirpath = "{}{}{}".format(subdirpath, sep, subdir)
             if not os.path.exists(subdirpath):
                 os.mkdir(subdirpath, permissions)
-                os.chown(subdirpath, uid, gid)
-                os.chmod(subdirpath, permissions)
 
         msg = "Directory created : {}".format(directory)
         status = "created"
