@@ -150,7 +150,7 @@ def find_local(top_dir, drs_fixed_facet_builder, transfer_service):
     Parameters
     ----------
     top_dir : str
-        Top level data directory, e.g. `/data/scratch/piotr.florek/cdds_data`
+        Top level data directory, e.g. `/data/users/cdds/root_data`
     drs_fixed_facet_builder : :class:`cdds.deprecated.transfer.drs.DataRefSyntax`
         Object describing the facets to match against
     transfer_service : :class:`cdds.deprecated.transfer.dds.DataTransfer`

@@ -51,16 +51,16 @@ def expected_test_common():
     return {
         'external_plugin': '',
         'external_plugin_location': '',
-        'mip_table_dir': '/data/scratch/piotr.florek/cdds_etc/mip_tables/CMIP6/01.00.29',
+        'mip_table_dir': '/data/users/cdds/etc/mip_tables/CMIP6/01.00.29',
         'mode': 'strict',
         'package': 'round-1',
         'workflow_basename': 'UKESM1-0-LL_piControl_r1i1p1f2',
-        'root_proc_dir': '/data/scratch/piotr.florek/cdds_proc',
-        'root_data_dir': '/data/scratch/piotr.florek/cdds_data',
-        'root_ancil_dir': '/data/scratch/piotr.florek/cdds_etc/ancil',
-        'root_hybrid_heights_dir': '/data/scratch/piotr.florek/cdds_etc/vertical_coordinates',
-        'root_replacement_coordinates_dir': '/data/scratch/piotr.florek/cdds_etc/horizontal_coordinates',
-        'sites_file': '/data/scratch/piotr.florek/cdds_etc/cfsites/cfmip2-sites-orog.txt',
+        'root_proc_dir': '/data/users/cdds/root_proc',
+        'root_data_dir': '/data/users/cdds/root_data',
+        'root_ancil_dir': '/data/users/cdds/etc/ancil',
+        'root_hybrid_heights_dir': '/data/users/cdds/etc/vertical_coordinates',
+        'root_replacement_coordinates_dir': '/data/users/cdds/etc/horizontal_coordinates',
+        'sites_file': '/data/users/cdds/etc/cfsites/cfmip2-sites-orog.txt',
         'standard_names_version': 'latest',
         'standard_names_dir': '/etc/standard_names',
         'simulation': False,
@@ -96,7 +96,7 @@ def expected_test_misc():
 def expected_test_inventory():
     return {
         'inventory_check': True,
-        'inventory_database_location': '/data/scratch/piotr.florek/cdds_etc/inventory.db'
+        'inventory_database_location': '/data/users/cdds/etc/inventory.db'
     }
 
 
@@ -161,16 +161,16 @@ def expected_test_minimal_common():
         'external_plugin': '',
         'external_plugin_location': '',
         'log_level': 'INFO',
-        'mip_table_dir': '/data/scratch/piotr.florek/cdds_etc/mip_tables/CMIP6/01.00.29',
+        'mip_table_dir': '/data/users/cdds/etc/mip_tables/CMIP6/01.00.29',
         'mode': 'strict',
         'package': 'round-1',
-        'root_ancil_dir': '/data/scratch/piotr.florek/cdds_etc/ancil',
-        'root_data_dir': '/data/scratch/piotr.florek/cdds_data',
-        'root_proc_dir': '/data/scratch/piotr.florek/cdds_proc',
-        'root_hybrid_heights_dir': '/data/scratch/piotr.florek/cdds_etc/vertical_coordinates',
-        'root_replacement_coordinates_dir': '/data/scratch/piotr.florek/cdds_etc/horizontal_coordinates',
-        'sites_file': '/data/scratch/piotr.florek/cdds_etc/cfsites/cfmip2-sites-orog.txt',
-        'standard_names_dir': '/data/scratch/piotr.florek/cdds_etc/standard_names',
+        'root_ancil_dir': '/data/users/cdds/etc/ancil',
+        'root_data_dir': '/data/users/cdds/root_data',
+        'root_proc_dir': '/data/users/cdds/root_proc',
+        'root_hybrid_heights_dir': '/data/users/cdds/etc/vertical_coordinates',
+        'root_replacement_coordinates_dir': '/data/users/cdds/etc/horizontal_coordinates',
+        'sites_file': '/data/users/cdds/etc/cfsites/cfmip2-sites-orog.txt',
+        'standard_names_dir': '/data/users/cdds/etc/standard_names',
         'standard_names_version': 'latest',
         'simulation': False,
         'workflow_basename': 'UKESM1-0-LL_piControl_r1i1p1f2'

@@ -101,13 +101,13 @@ class TestRoseSuiteArgumentsFromUserArgs(TestCase):
         self.assertEqual(suite_arguments.root_data_dir, '')
 
     def test_from_user_args_with_root_dirs(self):
-        self.user_args.root_proc_dir = '/data/scratch/piotr.florek/cdds_proc'
-        self.user_args.root_data_dir = '/data/scratch/piotr.florek/cdds_data'
+        self.user_args.root_proc_dir = '/data/users/cdds/root_proc'
+        self.user_args.root_data_dir = '/data/users/cdds/root_data'
 
         suite_arguments = RoseSuiteArguments.from_user_args(self.user_args)
 
-        self.assertEqual(suite_arguments.root_proc_dir, '/data/scratch/piotr.florek/cdds_proc')
-        self.assertEqual(suite_arguments.root_data_dir, '/data/scratch/piotr.florek/cdds_data')
+        self.assertEqual(suite_arguments.root_proc_dir, '/data/users/cdds/root_proc')
+        self.assertEqual(suite_arguments.root_data_dir, '/data/users/cdds/root_data')
         self.assertEqual(suite_arguments.external_plugin, '')
         self.assertEqual(suite_arguments.external_plugin_location, '')
         self.assertEqual(suite_arguments.suite, 'u-bn333')

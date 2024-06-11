@@ -47,8 +47,8 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
         self.suite = 'u-bc179'
         self.revision = '155209'
         self.package = 'round-1-part-1'
-        self.root_data_dir = '/data/scratch/piotr.florek/cdds_data'
-        self.root_proc_dir = '/data/scratch/piotr.florek/cdds_proc'
+        self.root_data_dir = '/data/users/cdds/root_data'
+        self.root_proc_dir = '/data/users/cdds/root_proc'
 
         current_dir = os.path.dirname(os.path.realpath(__file__))
         data_dir = os.path.join(current_dir, 'data', 'functional_tests')
@@ -86,8 +86,8 @@ class TestWriteRequestForGCModelDev(FunctionalTestCase):
         self.suite = 'u-cm644'
         self.revision = '227413'
         self.package = 'cddso130 '
-        self.root_data_dir = '/data/scratch/piotr.florek/cdds_data'
-        self.root_proc_dir = '/data/scratch/piotr.florek/cdds_proc'
+        self.root_data_dir = '/data/users/cdds/root_data'
+        self.root_proc_dir = '/data/users/cdds/root_proc'
 
         current_dir = os.path.dirname(os.path.realpath(__file__))
         data_dir = os.path.join(current_dir, 'data', 'functional_tests')

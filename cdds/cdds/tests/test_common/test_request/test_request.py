@@ -83,8 +83,8 @@ class TestWriteRequest(TestCase):
         request.metadata.experiment_id = 'piControl'
         request.metadata.variant_label = 'r1i1p1f2'
         request.metadata.calendar = '360_day'
-        request.common.root_data_dir = '/data/scratch/piotr.florek/cdds_data'
-        request.common.root_proc_dir = '/data/scratch/piotr.florek/cdds_proc'
+        request.common.root_data_dir = '/data/users/cdds/root_data'
+        request.common.root_proc_dir = '/data/users/cdds/root_proc'
         request.data.output_mass_root = 'moose:/adhoc/projects/cdds/'
         request.data.output_mass_suffix = 'development'
         request.data.data_version = data_version.strftime('v%Y%m%d')

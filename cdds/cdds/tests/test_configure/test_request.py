@@ -28,7 +28,7 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
             [
                 (
                     'cmor_setup', {
-                        'mip_table_dir': '/data/scratch/piotr.florek/cdds_etc/mip_tables/CMIP6/01.00.29',
+                        'mip_table_dir': '/data/users/cdds/etc/mip_tables/CMIP6/01.00.29',
                         'cmor_log_file': '{{ cmor_log }}',
                         'netcdf_file_action': 'CMOR_REPLACE_4',
                         'create_subdirectories': 0
@@ -78,20 +78,20 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
                         'base_date': '1850-01-01T00:00:00',
                         'deflate_level': '2',
                         'suite_id': 'u-aw310',
-                        'ancil_files': ('/data/scratch/piotr.florek/cdds_etc/ancil/UKESM1-0-LL/qrparm.landfrac.pp '
-                                        '/data/scratch/piotr.florek/cdds_etc/ancil/UKESM1-0-LL/qrparm.soil.pp '
-                                        '/data/scratch/piotr.florek/cdds_etc/ancil/UKESM1-0-LL/ocean_constants.nc '
-                                        '/data/scratch/piotr.florek/cdds_etc/ancil/UKESM1-0-LL/ocean_byte_masks.nc '
-                                        '/data/scratch/piotr.florek/cdds_etc/ancil/UKESM1-0-LL/ocean_basin.nc '
-                                        '/data/scratch/piotr.florek/cdds_etc/ancil/UKESM1-0-LL/diaptr_basin_masks.nc '
-                                        '/data/scratch/piotr.florek/cdds_etc/ancil/UKESM1-0-LL/ocean_zostoga.nc'),
+                        'ancil_files': ('/data/users/cdds/etc/ancil/UKESM1-0-LL/qrparm.landfrac.pp '
+                                        '/data/users/cdds/etc/ancil/UKESM1-0-LL/qrparm.soil.pp '
+                                        '/data/users/cdds/etc/ancil/UKESM1-0-LL/ocean_constants.nc '
+                                        '/data/users/cdds/etc/ancil/UKESM1-0-LL/ocean_byte_masks.nc '
+                                        '/data/users/cdds/etc/ancil/UKESM1-0-LL/ocean_basin.nc '
+                                        '/data/users/cdds/etc/ancil/UKESM1-0-LL/diaptr_basin_masks.nc '
+                                        '/data/users/cdds/etc/ancil/UKESM1-0-LL/ocean_zostoga.nc'),
                         'hybrid_heights_files': (
-                            '/data/scratch/piotr.florek/cdds_etc/vertical_coordinates/atmosphere_theta_levels_85.txt'
-                            ' /data/scratch/piotr.florek/cdds_etc/vertical_coordinates/atmosphere_rho_levels_86.txt'),
+                            '/data/users/cdds/etc/vertical_coordinates/atmosphere_theta_levels_85.txt'
+                            ' /data/users/cdds/etc/vertical_coordinates/atmosphere_rho_levels_86.txt'),
                         'replacement_coordinates_file': (
-                            '/data/scratch/piotr.florek/cdds_etc/horizontal_coordinates/cice_eORCA1_coords.nc'),
+                            '/data/users/cdds/etc/horizontal_coordinates/cice_eORCA1_coords.nc'),
                         'shuffle': True,
-                        'sites_file': '/data/scratch/piotr.florek/cdds_etc/cfsites/cfmip2-sites-orog.txt'
+                        'sites_file': '/data/users/cdds/etc/cfsites/cfmip2-sites-orog.txt'
 
                     }
                 )

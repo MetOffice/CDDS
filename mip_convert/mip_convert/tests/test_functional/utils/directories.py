@@ -2,9 +2,9 @@
 # Please see LICENSE.rst for license details.
 import os
 
-PROJECT_CDDS_DIR = '/project/cdds_data'
+PROJECT_CDDS_DIR = '/data/users/cdds/testdata/'
 OUTPUT_CDDS_DIR = os.environ['SCRATCH']
-ROOT_REFERENCE_DATA_DIR = os.path.join(PROJECT_CDDS_DIR, 'testdata', 'diagnostics')
+ROOT_REFERENCE_DATA_DIR = os.path.join(PROJECT_CDDS_DIR,  'diagnostics')
 ROOT_REFERENCE_CASES_DIR = os.path.join(ROOT_REFERENCE_DATA_DIR, 'test_cases_python3')
 ROOT_OUTPUT_DATA_DIR = os.path.join(OUTPUT_CDDS_DIR, 'testdata', 'diagnostics')
 ROOT_OUTPUT_CASES_DIR = os.path.join(ROOT_OUTPUT_DATA_DIR, 'test_cases_python3')
