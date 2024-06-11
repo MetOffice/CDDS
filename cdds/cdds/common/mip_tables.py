@@ -98,13 +98,6 @@ class MipTables(object):
         """
         return self._variables[table]
 
-    def get_outname_variables(self, table):
-        variables = self.get_variables(table)
-        mapped_variables = set()
-        for variable in variables:
-            mapped_variables.add(self._name_mappings[(table, variable)])
-        return mapped_variables
-
     def _load_tables_from_directory(self, basedir):
         files = [f for f in listdir(basedir)
                  if isfile(join(basedir, f)) and all([not f.endswith(i) for i in NON_TABLE_FILE_SUFFIXES])]
