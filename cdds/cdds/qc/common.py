@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2023, Met Office.
+# (C) British Crown Copyright 2019-2024, Met Office.
 # Please see LICENSE.rst for license details.
 
 import metomi.isodatetime.parsers as parse
@@ -7,6 +7,10 @@ from metomi.isodatetime.data import Calendar, Duration, TimePoint, get_is_leap_y
 """
 Common routines for CDDS CF checker
 """
+
+
+class NoDataForQualityCheck(Exception):
+    pass
 
 
 def equal_with_tolerance(a, b, tolerance):

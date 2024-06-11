@@ -162,6 +162,6 @@ def update_log_dir(log_name: str, request: Request, component: str) -> str:
     :rtype: str
     """
     log_dir = log_directory(request, component, True)
-    if log_dir is not None:
+    if log_dir is not None and request.misc.use_proc_dir:
         log_name = os.path.join(log_dir, log_name)
     return log_name

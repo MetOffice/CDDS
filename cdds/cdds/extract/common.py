@@ -363,10 +363,6 @@ def create_dir(directory, permissions):
             subdirpath = "{}{}{}".format(subdirpath, sep, subdir)
             if not os.path.exists(subdirpath):
                 os.mkdir(subdirpath, permissions)
-                # this won't be supported on Azure SPICE
-                # os.chown(subdirpath, uid, gid)
-                os.chmod(subdirpath, permissions)
-
         msg = "Directory created : {}".format(directory)
         status = "created"
 

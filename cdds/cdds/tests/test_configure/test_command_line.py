@@ -5,7 +5,6 @@
 """
 Tests for :mod:`command_line.py`.
 """
-import logging
 import os
 import tempfile
 import unittest.mock
@@ -41,13 +40,19 @@ class TestMain(unittest.TestCase):
         self.temp_dir = tempfile.mkdtemp()
         self.requested_variables_list_path = os.path.join(self.temp_dir, 'CMIP6_list.json')
         current_dir = os.path.dirname(os.path.realpath(__file__))
-        self.request_path = os.path.join(current_dir, '..', 'test_common', 'test_request', 'data', 'test_request.cfg')
-        self.request = read_request(self.request_path)
+        test_request_path = os.path.join(current_dir, '..', 'test_common', 'test_request', 'data', 'test_request.cfg')
+        self.request = read_request(test_request_path)
+        self.request.misc.use_proc_dir = True
+        _, self.request_path = tempfile.mkstemp(prefix='request_')
+        root_proc_dir = tempfile.mkdtemp(prefix='root_proc_')
+        root_data_dir = tempfile.mkdtemp(prefix='root_data_')
+        self.request.common.root_proc_dir = root_proc_dir
+        self.request.common.root_data_dir = root_data_dir
+        self.request.write(self.request_path)
 
-        self.root_proc_directory = os.path.join(self.temp_dir, 'proc_dir')
         self.output_dir_for_ucf = os.path.join(self.temp_dir, 'random_directory_name')
         self.log_dir = os.path.join(self.output_dir_for_ucf, 'log')
-        self.log_name = 'test_main'
+        self.log_name = 'produce_user_config_files'
         self.log_datestamp = '2019-11-23T1432'
         self.log_path = ''  # to be constructed later
         # Request:
@@ -191,7 +196,7 @@ class TestMain(unittest.TestCase):
         log_fname = '{0}_{1}.log'.format(self.log_name, self.log_datestamp)
         self.log_path = os.path.join(self.log_dir, log_fname)
 
-    def _main(self, use_proc_dir, template):
+    def _main(self):
         # Use '--quiet' to ensure no log messages are printed to screen.
         args = [self.request_path, '--requested_variables_list_file',
                 self.requested_variables_list_path,  '--output_dir', self.output_dir_for_ucf,]
@@ -199,9 +204,9 @@ class TestMain(unittest.TestCase):
         exit_code = main(args)
         return exit_code
 
-    def _run(self, requested_variables_list, use_proc_dir, template):
+    def _run(self, requested_variables_list):
         write_json(self.requested_variables_list_path, requested_variables_list)
-        exit_code = self._main(use_proc_dir, template)
+        exit_code = self._main()
         outputs = {
             filename: self._read_config(os.path.join(self.output_dir_for_ucf, filename))
             for filename in os.listdir(self.output_dir_for_ucf) if filename not in ['log']}
@@ -213,11 +218,9 @@ class TestMain(unittest.TestCase):
         reference = {self.user_config_template_name.format(
             self.grid_id): self.user_config}
         # The output directory must exist before running 'main()'.
-        use_proc_dir = False
         if not os.path.exists(self.output_dir_for_ucf):
             os.mkdir(self.output_dir_for_ucf)
-        template = False
-        output, exit_code = self._run(self.requested_variables_list, use_proc_dir, template)
+        output, exit_code = self._run(self.requested_variables_list)
         self.assertEqual(exit_code, 0)
         self.assertEqual(output, reference)
 

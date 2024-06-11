@@ -12,7 +12,7 @@ steps can only be performed by a member of the CDDS teams with the required perm
       All the following checks can be combined in a single command by running:
       ```bash
       . ~cdds/bin/setup_env_for_cdds <version>
-      cdds_sim_review $CDDS_PROC_DIR $CDDS_DATA_DIR
+      cdds_sim_review <location of request.cfg>
       ```
 
 - [x] Check the critical issues log in the `critical_issues.log` for each component. 

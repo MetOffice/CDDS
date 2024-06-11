@@ -96,10 +96,12 @@ class Section(object, metaclass=ABCMeta):
         """
         config.add_section(section)
         for option, value in self.items.items():
-            if not value and option in defaults.keys():
+            if not value and not type(value) == bool and option in defaults.keys():
                 config_value = str(defaults[option])
             elif type(value) == list:
                 config_value = ' '.join(value) if value else ''
+            elif type(value) == bool:
+                config_value = str(value)
             else:
                 config_value = str(value) if value else ''
             config.set(section, option, config_value)
