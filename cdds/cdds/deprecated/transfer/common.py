@@ -137,6 +137,8 @@ def drs_facet_builder_from_request(request, cfg):
             logger.debug('Found value "{}" for facet "{}". Using "{}"'.format(value, field, new_value))
             value = new_value
         if field in drs_fixed_facet_builder._project_config['valid']:
+            if field == 'sub_experiment_id' and value == 'none':
+                continue
             valid_items[field] = value
     drs_fixed_facet_builder.fill_facets_from_dict(valid_items)
     return drs_fixed_facet_builder
