@@ -122,8 +122,8 @@ class MipTables(object):
                             self._variables[table_name].append(
                                 key)
                             self._name_mappings[(
-                                table_name, key
-                            )] = var_meta["out_name"]
+                                table_name, var_meta["out_name"]
+                            )] = key
                 except ValueError:
                     pass
         if len(list(self._tables.keys())) == 0:
