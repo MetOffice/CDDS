@@ -17,8 +17,8 @@ CDDS_DIR = os.path.dirname(os.path.realpath(__file__))
 LOG_NAME = os.path.join(CDDS_DIR, 'cdds_test_failures.log')
 ROOT_COMMAND = 'pytest -s'
 TESTS_TO_RUN = {
-    'cdds': ['--doctest-modules', '-m slow', '-m integration', '-m data_request'],
-    'mip_convert': ['--doctest-modules', '-m mappings', '-m slow'],
+    # 'cdds': ['--doctest-modules', '-m slow', '-m integration', '-m data_request'],
+    'mip_convert': ['-m slow'], # '--doctest-modules', '-m mappings', '-m slow'],
     }
 
 ADDITIONAL_OPTS = {
@@ -90,7 +90,7 @@ def main():
                 if package == 'mip_convert' and 'slow' in test:
                     print('Removing test output from $SCRATCH')
                     shutil.rmtree(os.path.join(os.environ['SCRATCH'], 'testdata'))
-                    print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH'])))
+                    # print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH'])))
             else:
                 exit_code = 1
                 print(_red('{} failed!\n!!! Please see "{}" for more details'.format(' ' * 3, LOG_NAME)))

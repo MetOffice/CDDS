@@ -12,7 +12,7 @@ from datetime import datetime
 from mip_convert.tests.test_functional.utils.constants import DEBUG, COMPARE_NETCDF, COMPARE_NETCDF_META
 
 
-def quick_compare(outputs, hashes):
+def quick_compare(outputs, hashes, references=[]):
     """
     Performs a fast comparison of file contents using hashed data
 
@@ -26,12 +26,19 @@ def quick_compare(outputs, hashes):
     :rtype: List[str]
     """
 
-    diffs = []
-    for output, hash in zip(outputs, hashes):
-        cl = iris.load(output)
-        hashed_cubes = ''
+    def get_hash(filepath):
+        cl = iris.load(filepath)
+        hashed = ''
         for cube in cl:
-            hashed_cubes += hashlib.md5(cube.data).hexdigest()
+            hashed += hashlib.md5(cube.data).hexdigest()
+        return hashed
+
+    diffs = []
+    if references and not hashes:
+        for reference in references:
+            hashes.append(get_hash(reference))
+    for output, hash in zip(outputs, hashes):
+        hashed_cubes = get_hash(output)
         if hashed_cubes != hash:
             diffs.append('Output file {} hash ({}) differs from reference hash ({})'.format(
                 output, hashed_cubes, hash
