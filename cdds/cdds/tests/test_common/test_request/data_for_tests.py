@@ -113,7 +113,9 @@ def expected_text_conversion():
         'scale_memory_limits': 2.0,
         'override_cycling_frequency': ['ap4=P1Y', 'ap5=P2Y'],
         'model_params_dir': '',
-        'continue_if_mip_convert_failed': True
+        'continue_if_mip_convert_failed': True,
+        'delete_preexisting_proc_dir': True,
+        'delete_preexisting_data_dir': True
     }
 
 
@@ -222,5 +224,7 @@ def expected_test_minimal_conversion():
         'skip_configure': False,
         'skip_extract': False,
         'skip_extract_validation': False,
-        'skip_qc': False
+        'skip_qc': False,
+        'delete_preexisting_proc_dir': False,
+        'delete_preexisting_data_dir': False
     }
