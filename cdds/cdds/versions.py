@@ -32,6 +32,7 @@ def get_version(package: str) -> str:
     numerical_version = '_NUMERICAL_VERSION'
     dev = '_DEV'
     imported_package = __import__(package)
+    version = ''
     if hasattr(imported_package, numerical_version):
         version = getattr(imported_package, numerical_version)
     if hasattr(imported_package, dev):
