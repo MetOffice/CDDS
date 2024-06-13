@@ -16,6 +16,8 @@ class TestConversionDefaults(TestCase):
         expected_defaults = {
             'cdds_workflow_branch': 'mocked',
             'cylc_args': '-v',
+            'delete_preexisting_proc_dir': False,
+            'delete_preexisting_data_dir': False,
             'no_email_notifications': True,
             'skip_extract': True,
             'skip_extract_validation': False,
@@ -36,6 +38,8 @@ class TestConversionDefaults(TestCase):
         expected_defaults = {
             'cdds_workflow_branch': 'mocked',
             'cylc_args': '-v',
+            'delete_preexisting_proc_dir': False,
+            'delete_preexisting_data_dir': False,
             'no_email_notifications': True,
             'skip_extract': False,
             'skip_extract_validation': False,
@@ -56,6 +60,8 @@ class TestConversionDefaults(TestCase):
         expected_defaults = {
             'cdds_workflow_branch': 'trunk',
             'cylc_args': '-v',
+            'delete_preexisting_proc_dir': False,
+            'delete_preexisting_data_dir': False,
             'no_email_notifications': True,
             'skip_extract': False,
             'skip_extract_validation': False,
