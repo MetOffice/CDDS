@@ -113,7 +113,7 @@ class MipTables(object):
                         self._variables[table_name] = []
                         for key, var_meta in d["variable_entry"].items():
                             self._variables[table_name].append(
-                                var_meta["out_name"])
+                                key)
                             self._name_mappings[(
                                 table_name, var_meta["out_name"]
                             )] = key
