@@ -43,7 +43,9 @@ class TestCordexMonUv(AbstractFunctionalTests):
                         'vas_Europe_HadGEM3-GC31-MM_evaluation_r1i1p1_HadREM3-GA7-05_v1_mon_200001-200002.nc'
                     ],
                     'ignore_history': True,
-                    'other_options': '-B'
+                    'other_options': '-B',
+                    'tolerance_value': 0.0000001  # pyproj4 calculations for rotated grids are slightly off on Azure
+                                                  # so we added tiny tolerances to handle the differences
                 }
             )
         )
