@@ -47,7 +47,9 @@ def conversion_defaults() -> Dict[str, Any]:
         'skip_configure': skip_configure,
         'skip_qc': skip_qc,
         'skip_archive': skip_archive,
-        'continue_if_mip_convert_failed': False
+        'continue_if_mip_convert_failed': False,
+        'delete_preexisting_proc_dir': False,
+        'delete_preexisting_data_dir': False
     }
 
 
@@ -68,6 +70,8 @@ class ConversionSection(Section):
     override_cycling_frequency: List[str] = field(default_factory=list)  # ['stream=frequency']
     model_params_dir: str = ''
     continue_if_mip_convert_failed: bool = False
+    delete_preexisting_proc_dir: bool = False
+    delete_preexisting_data_dir: bool = False
 
     @classmethod
     def name(cls) -> str:

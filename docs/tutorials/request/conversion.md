@@ -60,6 +60,16 @@ The `conversion` in the request configuration contains settings that specify how
 
     **Default:** `False`
 
+`delete_preexisting_proc_dir`
+:   specify if a pre-existing CDDS proc directory will be deleted when creating the CDDS directories.
+
+    **Default:** `False`
+
+`delete_preexisting_data_dir`
+:   specify if a pre-existing CDDS data directory will be deleted when creating the CDDS directories.
+
+    **Default:** `False`
+
 ## Examples
 
 !!! example
@@ -77,4 +87,6 @@ The `conversion` in the request configuration contains settings that specify how
     override_cycling_frequency = ap7=P3M
     model_params_dir = /home/user/model_params.json
     continue_if_mip_convert_failed = False
+    delete_preexisting_proc_dir = False
+    delete_preexisting_data_dir = False
     ```
