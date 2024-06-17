@@ -39,8 +39,8 @@ class TestCordexMonUv(AbstractFunctionalTests):
                 },
                 other={
                     'filenames': [
-                        'uas_Europe_HadGEM3-GC31-MM_evaluation_r1i1p1_HadREM3-GA7-05_v1_mon_200001-200002.nc',
-                        'vas_Europe_HadGEM3-GC31-MM_evaluation_r1i1p1_HadREM3-GA7-05_v1_mon_200001-200002.nc'
+                        'uas_EUR-11_HadGEM3-GC31-MM_evaluation_r1i1p1f2_MOHC_HadREM3-GA7-05_v1-r1_mon_200001-200002.nc',
+                        'vas_EUR-11_HadGEM3-GC31-MM_evaluation_r1i1p1f2_MOHC_HadREM3-GA7-05_v1-r1_mon_200001-200002.nc'
                     ],
                     'ignore_history': True,
                     'other_options': '-B'

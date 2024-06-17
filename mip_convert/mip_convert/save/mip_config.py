@@ -119,6 +119,7 @@ class MipTable(object):
     @property
     def project_id(self):
         """return the project id of this table"""
+        raise RuntimeError()
         try:
             return self.input['atts']['project_id']
         except KeyError:
@@ -143,7 +144,7 @@ class MipTable(object):
         the table name is distinct from the table id as it usually include the project
         name too.
         """
-        name = self.project_id + '_' + self.table_id
+        name = self.table_prefix + '_' + self.table_id
         if self.is_json:
             name = name + '.json'
         return name

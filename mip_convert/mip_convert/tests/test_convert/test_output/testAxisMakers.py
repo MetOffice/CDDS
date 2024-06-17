@@ -71,7 +71,7 @@ class TestAxisExamples(unittest.TestCase):
                     }
                 }
             },
-            'CMIP5'
+            project_id
         )
         mip_variable = table.getVariable('var')
         return AxisMakerFactory(table, mip_variable, self)
