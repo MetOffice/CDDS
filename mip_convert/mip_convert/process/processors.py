@@ -193,6 +193,30 @@ def primavera_make_uva100m(cube):
     return cube
 
 
+def primavera_make_uva150m(cube):
+    """
+    The model runs to generate the PRIMAVERA variables ua150m and
+    va100m contain data on two levels because it wasn't known which
+    level users would require when the model runs had to start. This
+    function returns a cube on model level 4, which is now known to be
+    the desired level. The coordinate ``level_height`` is renamed to
+    ``height100m``.
+
+    Parameters
+    ----------
+    cube: :class:`iris.cube.Cube`
+        A cube containing two levels.
+
+    Returns
+    -------
+    : :class:`iris.cube.Cube`
+        A cube containing model level 4.
+    """
+    cube = cube.extract(iris.Constraint(model_level_number=4))
+    cube.coord('level_height').rename('height150m')
+    return cube
+
+
 def scale_epflux(cube_data, cube_heaviside):
     """
     Model output for epfy and epfz is in units kg s-2.  We require
@@ -398,6 +422,38 @@ def land_class_mean(variable_cube, tile_cube, land_class=None):
     result = variable_cube.extract(pseudo_constraint)
     tile_cube = tile_cube.extract(pseudo_constraint)
     result = _collapse_pseudo(result, MEAN, weights=tile_cube.data)
+    return result
+
+
+def land_class_sum(variable_cube, tile_cube, land_class=None):
+    """
+    Returns the cube of the sum variable_cube over a land class.
+
+    This can be used when the MIP request is for
+    cell_methods: 'area: sum where land'.
+
+    Parameters
+    ----------
+
+    variable_cube: :class:`iris.cube.Cube`
+                  the cube containing the input variable on the JULES tiles.
+
+    tile_cube: :class:`iris.cube.Cube`
+                  the fraction of land covered by each JULES tile.
+
+    land_class: str
+                  the vegetation class to sum over.
+
+    Returns
+    -------
+
+    : :class:`iris.cube.Cube`
+                  cube of the sum of the variable over land_class.
+    """
+    pseudo_constraint = _pseudo_constraint(land_class)
+    result = variable_cube.extract(pseudo_constraint)
+    tile_cube = tile_cube.extract(pseudo_constraint)
+    result = _collapse_pseudo(result, SUM, weights=tile_cube.data)
     return result
 
 
