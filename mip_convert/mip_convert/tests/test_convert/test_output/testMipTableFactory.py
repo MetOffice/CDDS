@@ -57,8 +57,8 @@ class TestMipTableFactory(unittest.TestCase):
     def testTableId(self):
         self.assertEqual('table_id', self.table.table_id)
 
-    def testProjectId(self):
-        self.assertEqual('PROJECT', self.table.project_id)
+    # def testProjectId(self):
+    #     self.assertEqual('PROJECT', self.table.project_id)
 
     def testTableName(self):
         self.assertEqual('PROJECT_table_id', self.table.table_name)

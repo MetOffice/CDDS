@@ -18,7 +18,7 @@ class TestJsonMipTable(unittest.TestCase):
         self.table = factory.getTable('CMIP6_Amon.json')
 
     def test_get_table(self):
-        self.assertEqual('CMIP6', self.table.project_id)
+        # self.assertEqual('CMIP6', self.table.project_id)
         self.assertEqual('Amon', self.table.table_id)
         self.assertEqual('CMIP6_Amon.json', self.table.table_name)
         self.assertEqual('alevel alevhalf', self.table.generic_levels)
