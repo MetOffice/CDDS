@@ -3,6 +3,11 @@
 
 .. include:: common.txt
 
+Release 2.5.9, June 25, 2024
+============================
+* Added new MIP tables (GC3hrPtUV, GCAmon6hr, GCAmonUV, GC3hr, GC1hr) and mappings for CP4A, along with
+  sizing and memory configuration tuning for new diagnostics (CDDSO-414, CDDSO-463).
+
 Release 2.5.8, February 29, 2024
 ================================
 * No changes
