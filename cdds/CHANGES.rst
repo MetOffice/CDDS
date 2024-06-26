@@ -23,6 +23,12 @@ Release 3.0.0, May 15, 2024
 * CMOR has been updated to v3.8 and Python to 3.10 (CDDSO-411)
 * Simplified model config files by removing `files_per_year` field (CDSSO-307)
 
+Release 2.5.9, June 25, 2024
+============================
+* Fixed a bug in submission code that made archiving script unusable (CDDSO-477)
+* QC now allows missing standard name attribute if it is defined as empty
+  in MIP Tables (CDDSO-478)
+
 Release 2.5.8, February 29, 2024
 ================================
 * Added submission queues to support CMIP6Plus publication (CDDSO-413)

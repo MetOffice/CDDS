@@ -9,6 +9,11 @@ Release 3.0.0, May 15, 2024
 * The field `child_base_date` in the `request` section of the MIP Convert Config file has been 
   renamed for clarity to `base_date` (CDDSO-455)
 
+Release 2.5.9, June 25, 2024
+============================
+* Added new MIP tables (GC3hrPtUV, GCAmon6hr, GCAmonUV, GC3hr, GC1hr) and mappings for CP4A, along with
+  sizing and memory configuration tuning for new diagnostics (CDDSO-414, CDDSO-463).
+
 Release 2.5.8, February 28, 2024
 ================================
 * No changes
