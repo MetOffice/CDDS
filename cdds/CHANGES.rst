@@ -3,6 +3,12 @@
 
 .. include:: common.txt
 
+Release 2.5.9, June 25, 2024
+============================
+* Fixed a bug in submission code that made archiving script unusable (CDDSO-477)
+* QC now allows missing standard name attribute if it is defined as empty
+  in MIP Tables (CDDSO-478)
+
 Release 2.5.8, February 29, 2024
 ================================
 * Added submission queues to support CMIP6Plus publication (CDDSO-413)
