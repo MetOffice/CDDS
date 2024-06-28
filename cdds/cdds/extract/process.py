@@ -15,7 +15,7 @@ from cdds.extract.common import (
     build_mass_location, process_info, exit_nicely, create_dir,
     check_moo_cmd, run_moo_cmd, get_streamtype
 )
-from cdds.extract.constants import GROUP_FOR_DIRECTORY_CREATION, STREAMDIR_PERMISSIONS
+from cdds.extract.constants import STREAMDIR_PERMISSIONS
 from cdds.extract.filters import FilterFileException
 
 
@@ -142,8 +142,7 @@ class Process(object):
             data_target = data_target.lower()
         try:
             success, (status, msg) = create_dir(
-                data_target, STREAMDIR_PERMISSIONS, getpass.getuser(),
-                GROUP_FOR_DIRECTORY_CREATION)
+                data_target, STREAMDIR_PERMISSIONS)
         except OSError as exc:
             msg = ("Problem creating subdirectory {} in directory path {} [{} - [{}:{}]]".format(
                 subdirpath, directory, os.strerror(exc.errno), user, group))

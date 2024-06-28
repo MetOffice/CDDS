@@ -330,7 +330,7 @@ def exit_nicely(msg, success=False):
 
 
 @retry(exception=OSError, retries=3)
-def create_dir(directory, permissions, user, group):
+def create_dir(directory, permissions):
     """Creates directory path (unless it already exists) with requested
     ownership and permissions. Because of the @retry decorator
     the execution of the function will be attempted 3 times.
@@ -341,11 +341,6 @@ def create_dir(directory, permissions, user, group):
         path for the directory to be created
     permissions: oct
         permissions in standard format (e.g 0775)
-    user: str
-        user name for file ownership permissions
-    group: str
-        group name for file ownership permissions
-
     Returns
     -------
     bool
@@ -358,8 +353,8 @@ def create_dir(directory, permissions, user, group):
         status = "exists"
     else:
         subdirpath = ''
-        uid = pwd.getpwnam(user).pw_uid
-        gid = grp.getgrnam(group).gr_gid
+        # uid = pwd.getpwnam(user).pw_uid
+        # gid = grp.getgrnam(group).gr_gid
 
         sep = os.sep
         subdirs = [subdir for subdir in directory.split(sep) if subdir]

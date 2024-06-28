@@ -213,15 +213,15 @@ class TestDirectoryCreation(unittest.TestCase):
         mocked_mkdir.side_effect = OSError('foo')
         try:
             success, (status, msg) = create_dir(
-                os.path.join(self.test_datadir, 'bar'), 0o777, getpass.getuser(), 'users')
+                os.path.join(self.test_datadir, 'bar'), 0o777)
         except OSError:
             self.assertEqual(mocked_mkdir.call_count, 3)
 
     def test_dir_creation(self):
-        success, (status, msg) = create_dir(os.path.join(self.test_datadir, 'bar'), 0o777, getpass.getuser(), 'users')
+        success, (status, msg) = create_dir(os.path.join(self.test_datadir, 'bar'), 0o777)
         self.assertTrue(success)
         self.assertEqual(status, 'created')
-        success, (status, msg) = create_dir(os.path.join(self.test_datadir, 'bar'), 0o777, getpass.getuser(), 'users')
+        success, (status, msg) = create_dir(os.path.join(self.test_datadir, 'bar'), 0o777)
         self.assertTrue(success)
         self.assertEqual(status, 'exists')
 

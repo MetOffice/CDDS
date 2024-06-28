@@ -2,7 +2,7 @@
 # Please see LICENSE.rst for license details.
 import os
 
-PROJECT_CDDS_DIR = '/project/cdds_data'
+PROJECT_CDDS_DIR = '/gws/nopw/j04/mohc_shared/cdds/'
 OUTPUT_CDDS_DIR = os.environ['SCRATCH']
 ROOT_REFERENCE_DATA_DIR = os.path.join(PROJECT_CDDS_DIR, 'testdata', 'diagnostics')
 ROOT_REFERENCE_CASES_DIR = os.path.join(ROOT_REFERENCE_DATA_DIR, 'test_cases_python3')
