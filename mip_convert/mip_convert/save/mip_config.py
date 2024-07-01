@@ -117,15 +117,6 @@ class MipTable(object):
         return self.input['vars']
 
     @property
-    def project_id(self):
-        """return the project id of this table"""
-        raise RuntimeError()
-        try:
-            return self.input['atts']['project_id']
-        except KeyError:
-            return self.table_prefix
-
-    @property
     def table_id(self):
         """
         returns the id of this table

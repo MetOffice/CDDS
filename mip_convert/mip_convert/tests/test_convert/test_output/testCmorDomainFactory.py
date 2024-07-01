@@ -26,7 +26,6 @@ class DummyTableFactory(object):
         self.table_id = table_id
         result = self.tables[table_id]
         result.table_name = table_id
-        result.project_id, result.table_id = result.table_name.split('_')
         result.table_id = table_id
         return result
 
