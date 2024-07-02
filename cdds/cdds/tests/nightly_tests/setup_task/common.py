@@ -16,5 +16,4 @@ class SetupConfig:
     """
     test_base_dir: str = None
     request_cfg: str = None
-    input_data: str = None
     package: str = None

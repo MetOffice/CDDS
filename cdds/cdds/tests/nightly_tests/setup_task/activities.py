@@ -69,19 +69,3 @@ def create_variable_list(config: SetupConfig) -> None:
     request_file = config.request_cfg
     generate_variable_list_args = ([request_file])
     main_generate_variable_list(generate_variable_list_args)
-
-
-def link_input_data(config: SetupConfig, request: Request) -> None:
-    """
-    Linked the current input data dir to the directory where the |model output files| used as
-    input to CDDS Convert are written.
-
-    :param config: Contains information about the root of the current input data dir
-    :type config: SetupConfig
-    :param request: Contains information about the targeted input data dir
-    :type request: Request
-    """
-    if config.input_data:
-        # setup link to data on disk
-        suite_id = os.path.normpath(config.input_data).split(os.sep)[-1]
-        os.symlink(config.input_data, os.path.join(input_data_directory(request), suite_id))

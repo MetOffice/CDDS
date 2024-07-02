@@ -12,7 +12,7 @@ from cdds.common.request.request import read_request
 from cdds.tests.nightly_tests.app import NightlyApp
 from cdds.tests.nightly_tests.setup_task.common import SetupConfig
 from cdds.tests.nightly_tests.setup_task.activities import (setup_directory_structure, setup_mass_directories,
-                                                            create_variable_list, link_input_data)
+                                                            create_variable_list)
 
 
 class CddsSetupApp(NightlyApp):
@@ -29,13 +29,11 @@ class CddsSetupApp(NightlyApp):
 
         test_base_dir = getattr(self.cli_args, 'test_base_dir', None)
         request_cfg = getattr(self.cli_args, 'request_cfg', None)
-        input_data = getattr(self.cli_args, 'input-data', None)
         package = getattr(self.cli_args, 'package', None)
 
         self.setup_config = SetupConfig(
             test_base_dir=test_base_dir,
             request_cfg=request_cfg,
-            input_data=input_data,
             package=package
         )
 
@@ -51,8 +49,6 @@ class CddsSetupApp(NightlyApp):
              "help": "The path to the suite-share-directory/clyc-task-directory"},
             {"names": ["-r", "--request_cfg"],
              "help": "The full path to the configuration file containing information about the request."},
-            {"names": ["--input-data"],
-             "help": "Input data path for the current package"},
             {"names": ["--package"], "help": "Name of the current cylc task package"}
         ]
 
@@ -82,4 +78,3 @@ class CddsSetupApp(NightlyApp):
         )
 
         create_variable_list(self.setup_config)
-        link_input_data(self.setup_config, request)
