@@ -139,7 +139,7 @@ def run_and_report(args: Namespace, request: Request) -> dict:  # TODO: kerstin 
     cdds_runner = QCRunner(db_path)
     logger.info('Setting up a dataset for {}'.format(basedir))
 
-    mip_table_dir = PluginStore.instance().get_plugin().mip_table_dir()
+    mip_table_dir = request.common.mip_table_dir
 
     mip_tables = MipTables(mip_table_dir)
 
