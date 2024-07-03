@@ -107,7 +107,7 @@ def update_permissions(path: str, group: str, permissions: int = CDDS_DEFAULT_DI
         logger.info('Unable to change mode of "{}"'.format(path))
 
 
-def create_directory(path: str, group: str = None, permissions: int = CDDS_DEFAULT_DIRECTORY_PERMISSIONS,
+def create_directory(path: str,  # group: str = None, permissions: int = CDDS_DEFAULT_DIRECTORY_PERMISSIONS,
                      root_dir: str = None) -> None:
     """
     Create the directory ``path`` owned by ``group``, if specified.
@@ -137,9 +137,9 @@ def create_directory(path: str, group: str = None, permissions: int = CDDS_DEFAU
         os.makedirs(path)
         logger.debug('Created directory "{}"'.format(path))
 
-    dirs_to_change = get_directories(path, root_dir)
-    for dirpath in dirs_to_change:
-        update_permissions(dirpath, group, permissions)
+    # dirs_to_change = get_directories(path, root_dir)
+    # for dirpath in dirs_to_change:
+    #    update_permissions(dirpath, group, permissions)
 
 
 def get_directories(path: str, root_dir: str = None) -> str:

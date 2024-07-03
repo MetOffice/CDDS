@@ -89,7 +89,7 @@ def main():
                 if package == 'mip_convert' and 'slow' in test:
                     print('Removing test output from $SCRATCH')
                     shutil.rmtree(os.path.join(os.environ['SCRATCH'], 'testdata'))
-                    print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH'])))
+                    # print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH'])))
             else:
                 exit_code = 1
                 print(_red('{} failed!\n!!! Please see "{}" for more details'.format(' ' * 3, LOG_NAME)))
