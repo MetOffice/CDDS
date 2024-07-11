@@ -372,6 +372,9 @@ class Filters(object):
                 logger.info("Chunking identified: Retrieving data from {} to {} ({} files)".format(
                     str(chunk[0]["timepoint"]), str(chunk[-1]["timepoint"]), len(chunk)))
                 return [chunk]
+            elif valid["val"] == "stop":
+                raise MooseException(
+                    "Could not access the dataset ({})".format(valid["msg"]))
 
             mid_point = len(chunk) // 2
             sub_chunk_1, sub_chunk_2 = chunk[:mid_point], chunk[mid_point:]

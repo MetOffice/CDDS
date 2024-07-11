@@ -221,6 +221,9 @@ def check_moo_cmd(code, output):
         "TSSC_QUERY_MATCHES_TOO_MANY_RESULTS":
             {"val": "skip", "code": "limit_exceeded",
              "msg": "too many results"},
+        "TSSC_COLLECTION_DOES_NOT_EXIST":
+            {"val": "stop", "code": "collection_not_exist",
+             "msg": "collection does not exist"},
         "TSSC_QUERY_MATCHES_NO_RESULTS":
             {"val": "skip", "code": "no_matches",
              "msg": "no matching files to retrieve"},
