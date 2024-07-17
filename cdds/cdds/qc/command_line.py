@@ -22,6 +22,7 @@ from cdds.qc.constants import COMPONENT, QC_DB_FILENAME
 from cdds.qc.suite import QCSuite
 from cdds.qc.runner import QCRunner
 from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
+from cdds.qc.plugins.cordex.dataset import CordexDataset
 
 
 QC_LOG_NAME = 'cdds_qc'
@@ -143,8 +144,13 @@ def run_and_report(args: Namespace, request: Request) -> dict:  # TODO: kerstin 
 
     mip_tables = MipTables(mip_table_dir)
 
-    ds = Cmip6Dataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
-                      args.stream)
+    if request.metadata.mip_era == 'CORDEX':
+        ds = CordexDataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
+                           args.stream)
+    else:
+        ds = Cmip6Dataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
+                          args.stream)
+
     ds.load_dataset(Dataset)
     cdds_runner.init_suite(QCSuite(), ds, request.common.is_relaxed_cmor())
     run_id = cdds_runner.run_tests(mip_table_dir, request)

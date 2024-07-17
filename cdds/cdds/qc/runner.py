@@ -13,7 +13,7 @@ from cdds.common.constants import (
     APPROVED_VARS_FILENAME_STREAM_TEMPLATE,
 )
 from cdds.common.sqlite import execute_insert_query
-from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
+from cdds.qc.plugins.base.dataset import StructuredDataset
 from cdds.qc.common import NoDataForQualityCheck
 from cdds.qc.models import (
     setup_db,
@@ -63,7 +63,7 @@ class QCRunner(object):
         """
 
         assert isinstance(check_suite, CheckSuite)
-        assert isinstance(dataset, Cmip6Dataset)
+        assert isinstance(dataset, StructuredDataset)
 
         self.check_suite = check_suite
         self.check_suite.load_all_available_checkers()

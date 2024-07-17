@@ -104,6 +104,10 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
     variables_by_grid = retrieve_variables_by_grid(requested_variables_list, request.common.mip_table_dir)
     streams = retrieve_streams_by_grid(requested_variables_list)
 
+    # Output file template from the plugins
+    plugin = PluginStore.instance().get_plugin()
+    output_file_template = plugin.model_file_info().output_file_template
+
     # Produce the contents of the 'user configuration files' by grid.
     user_configs = OrderedDict()
     for grid_info, mip_requested_variables in variables_by_grid.items():
@@ -123,6 +127,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
             user_config['cmor_dataset']['grid'] = grid
             user_config['cmor_dataset']['grid_label'] = grid_label
             user_config['cmor_dataset']['nominal_resolution'] = nominal_resolution
+            user_config['cmor_dataset']['output_file_template'] = output_file_template
             user_config['global_attributes'] = get_global_attributes(request)
             user_config['request']['suite_id'] = request.data.model_workflow_id
             if maskings:
