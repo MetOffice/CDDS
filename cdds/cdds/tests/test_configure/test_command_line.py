@@ -33,6 +33,7 @@ class TestMain(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
         load_plugin()
+        plugin = PluginStore.instance().get_plugin()
         self.user_config_template_name = 'mip_convert.cfg.atmos-native'
         self.user_config_file_header = COMMENT_FORMAT.format(
             HEADER_TEMPLATE.format(__version__))
@@ -87,6 +88,7 @@ class TestMain(unittest.TestCase):
         self.cmor_log = '{{ cmor_log }}'
         self.model_type = 'AOGCM BGC AER CHEM'
         self.output_dir = '{{ output_dir }}'
+        self.output_file_template = plugin.model_file_info().output_file_template
         self.package = 'configure_functional_test'
         self.parent_base_date = '1850-01-01T00:00:00'
         self.parent_experiment_id = 'piControl-spinup'
@@ -114,7 +116,6 @@ class TestMain(unittest.TestCase):
         self.grid_label = Cmip6GridLabel.from_name('native').label
         self.hybrid_heights_files = ('/home/h03/cdds/etc/vertical_coordinates/atmosphere_theta_levels_85.txt '
                                      '/home/h03/cdds/etc/vertical_coordinates/atmosphere_rho_levels_86.txt')
-        plugin = PluginStore.instance().get_plugin()
         grid_info = plugin.grid_info(self.model_id, GridType.ATMOS)
         self.nominal_resolution = grid_info.nominal_resolution
         self.replacement_coordinates_file = '/home/h03/cdds/etc/horizontal_coordinates/cice_eORCA1_coords.nc'
@@ -131,7 +132,7 @@ class TestMain(unittest.TestCase):
             'calendar = {}\nexperiment_id = {}\ngrid = {}\ngrid_label = {}\n'
             'institution_id = {}\nlicense = {}\nmip = {}\nmip_era = {}\n'
             'model_id = {}\nmodel_type = {}\nnominal_resolution = {}\n'
-            'output_dir = {}\nparent_base_date = {}\n'
+            'output_dir = {}\noutput_file_template = {}\nparent_base_date = {}\n'
             'parent_experiment_id = {}\nparent_mip_era = {}\n'
             'parent_model_id = {}\nparent_time_units = {}\n'
             'parent_variant_label = {}\nsub_experiment_id = {}\n'
@@ -141,11 +142,10 @@ class TestMain(unittest.TestCase):
             self.branch_method, self.calendar, self.experiment_id, self.grid,
             self.grid_label, self.institution_id, self.CMOR_license, self.mip,
             self.mip_era, self.model_id, self.model_type,
-            self.nominal_resolution, self.output_dir, self.parent_base_date,
-            self.parent_experiment_id, self.parent_mip_era,
-            self.parent_model_id, self.parent_time_units,
-            self.parent_variant_label, self.sub_experiment_id,
-            self.variant_label)
+            self.nominal_resolution, self.output_dir, self.output_file_template,
+            self.parent_base_date, self.parent_experiment_id, self.parent_mip_era,
+            self.parent_model_id, self.parent_time_units, self.parent_variant_label,
+            self.sub_experiment_id, self.variant_label)
         self.global_attributes_format = (
             '[global_attributes]\nfurther_info_url = https://furtherinfo.es-doc.org/{}.{}.{}.{}.{}.{}\n\n'
         )

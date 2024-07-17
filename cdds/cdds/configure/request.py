@@ -54,56 +54,6 @@ def retrieve_request_metadata(request: Request):
     return ordered_metadata
 
 
-def _retrieve_request_metadata(request, template):
-    """
-    Return the metadata common to all |user configuration files|.
-
-    The metadata common to all |user configuration files| are returned
-    as a nested dictionary that can be written to a file via
-    :mod:`configparser`, e.g. ``{section1: {option1: value1, option2:
-    value2}, {section2: {}}``.
-
-    Parameters
-    ----------
-    request: :class:`cdds.common.request.request.Request`
-        The information about the request.
-    template: bool
-        Whether to create template |user configuration files|.
-
-    Returns
-    -------
-    : dict
-        The metadata common to all |user configuration files|.
-    """
-    metadata = defaultdict(dict)
-    for section, options in USER_CONFIG_OPTIONS.items():
-        # Required options.
-        required_options = copy(options['required'])
-        if request.metadata.branch_method != 'no parent':
-            if 'branch' in options:
-                required_options.extend(options['branch'])
-        for option in required_options:
-            value = _get_value(request, option, template)
-            if value is None:  # Shouldn't happen if required_keys is correct.
-                raise AttributeError(
-                    'Request must contain "{}"'.format(option))
-            _add_items(metadata, section, option, value)
-        # Optional options.
-        optional_options = options['optional']
-        for option in optional_options:
-            value = _get_value(request, option, template)
-            if value is not None:
-                _add_items(metadata, section, option, value)
-
-    # Order metadata.
-    ordered_metadata = OrderedDict()
-    for section in ['cmor_setup', 'cmor_dataset', 'request', 'global_attributes']:
-        items = OrderedDict(sorted(metadata[section].items()))
-        ordered_metadata[section] = items
-
-    return ordered_metadata
-
-
 def _get_value(request, option, template):
     get_value_from_request = False
     if template:

@@ -321,7 +321,9 @@ class TestRegionalModelFileIsCmorFile(TestCase):
         self.assertFalse(result)
 
     def test_cmor_file(self):
-        filename = 'psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
+        filename = ('hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_MOHC_HadREM3-GA7-05_version_'
+                    'realizationday_20230101-20231230.nc')
+
         result = self.model_file_info.is_cmor_file(filename)
         self.assertTrue(result)
 

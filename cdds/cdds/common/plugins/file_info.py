@@ -60,6 +60,11 @@ class ModelFileInfo(object, metaclass=ABCMeta):
     def _nc_files_to_archive_regex(self) -> str:
         pass
 
+    @property
+    @abstractmethod
+    def output_file_template(self) -> str:
+        pass
+
     @abstractmethod
     def is_cmor_file(self, filename: str) -> bool:
         """
@@ -167,6 +172,8 @@ class GlobalModelFileInfo(ModelFileInfo):
     _MASS_ROOT_LOCATION_FACET = 'mip_era|mip|institution_id|model_id|experiment_id|variant_label'
     _MASS_SUFFIX_LOCATION_FACET = '|mip_table_id|out_var_name|grid_label'
 
+    _OUTPUT_FILE_TEMPLATE = '<variable_id><table><source_id><experiment_id><variant_label>'
+
     def __init__(self):
         super(GlobalModelFileInfo, self).__init__()
 
@@ -212,6 +219,10 @@ class GlobalModelFileInfo(ModelFileInfo):
     @property
     def _nc_files_to_archive_regex(self) -> str:
         return self._NC_FILES_TO_ARCHIVE_REGEX
+
+    @property
+    def output_file_template(self) -> str:
+        return self._OUTPUT_FILE_TEMPLATE
 
     def is_cmor_file(self, filename) -> bool:
         """
@@ -265,9 +276,10 @@ class RegionalModelFileInfo(ModelFileInfo):
     """
     Provides methods to manage and check netCDF files from regional simulation models
     """
+
     _CMOR_FILENAME_PATTERN = (r'([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_'
-                              r'(r\d+i\d+p\d+f\d+)_([a-zA-Z0-9-]+)'
-                              r'_((\d+)-(\d+)).nc')
+                              r'(r\d+i\d+p\d+f\d+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_'
+                              r'([a-zA-Z0-9-]+)_((\d+)-(\d+)).nc')
 
     _NC_FILES_TO_ARCHIVE_REGEX = (
         '(?P<out_var_name>[a-zA-Z0-9-]+)_(?P<frequency>[a-zA-Z0-9]+)_(?P<model_id>[a-zA-Z0-9-]+)_'
@@ -278,6 +290,9 @@ class RegionalModelFileInfo(ModelFileInfo):
     _MASS_ROOT_LOCATION_FACET = ('domain|institution_id|driving_source_id|experiment_id|driving_model_ensemble_member|'
                                  'model_id|driving_variant_label')
     _MASS_SUFFIX_LOCATION_FACET = '|frequency|out_var_name'
+
+    _OUTPUT_FILE_TEMPLATE = ('<variable_id><domain_id><driving_source_id><driving_experiment_id><driving_variant_label>'
+                             '<institution_id><source_id><version_realization><frequency>')
 
     def __init__(self):
         super(RegionalModelFileInfo, self).__init__()
@@ -329,6 +344,10 @@ class RegionalModelFileInfo(ModelFileInfo):
     @property
     def _nc_files_to_archive_regex(self) -> str:
         return self._NC_FILES_TO_ARCHIVE_REGEX
+
+    @property
+    def output_file_template(self) -> str:
+        return self._OUTPUT_FILE_TEMPLATE
 
     def is_cmor_file(self, filename) -> bool:
         """

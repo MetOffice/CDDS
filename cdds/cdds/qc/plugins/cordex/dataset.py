@@ -1,6 +1,6 @@
 # (C) British Crown Copyright 2023, Met Office.
 # Please see LICENSE.rst for license details.
-
+import logging
 import re
 from cdds.qc.plugins.base.dataset import StructuredDataset
 from cdds.qc.plugins.cmip6.validators import parse_date_range, ValidationError
@@ -39,14 +39,15 @@ class CordexDataset(StructuredDataset):
         """
         Tests filename's facets against a CV, e.g.
 
-        <variable_id>               pr
-        <domain>                    ALP-3
-        <driving_model_id>          ECMWF-ERAINT
-        <experiment_id>             evaluation
-        <driving_ensemble_member>   r1i1p1
-        <model_id>                  CLMcom-KIT-CCLM5-0-14
-        <rcm_version_id>            fpsconv-x2yn2-v1
-        <frequency>                 1hr
+        <variable_id>               hus1000
+        <domain_id>                 EUR-11
+        <driving_source_id>         HadREM3-GA7-05
+        <driving_experiment_id>     evaluation
+        <driving_variant_label>     r1i1p1f2
+        <institution_id>            MOHC
+        <source_id>                 HadREM3-GA7-05
+        <version_realization>       fpsconv-x2yn2-v1
+        <frequency>                 realizationday
         [<time_range>]              200001010030-200012312330
         .nc
 
@@ -61,9 +62,16 @@ class CordexDataset(StructuredDataset):
         bool, list
             check's results (valid or not) and error messages
         """
+        logger = logging.getLogger(__name__)
+        logger.debug("Check filename: {}".format(filename))
+
         filename_parts = filename.split('.')[0].split('_')
         template_dict = {
+            "domain_id": 1,
+            "driving_source_id": 2,
             "experiment_id": 3,
+            "institution_id": 5,
+            "source_id": 6
         }
 
         messages = []
@@ -96,21 +104,22 @@ class CordexDataset(StructuredDataset):
                 "but missing in the filename")
             valid_filename = False
 
-        label_candidate = member_id[0]
-        if re.match(r"^r\d+i\d+p\d+$", label_candidate) is None:
+        esemble_candidate = member_id[0]
+        if re.match(r"^r\d+i\d+p\d+f\d+$", esemble_candidate) is None:
             valid_filename = False
-            messages.append("Invalid driving ensemble member {}".format(label_candidate))
+            messages.append("Invalid driving ensemble member {}".format(esemble_candidate))
         else:
-            esemble_member = ds.getncattr("driving_ensemble_member")
-            if esemble_member != label_candidate:
+            esemble_candidate = esemble_candidate.split('f')[0]
+            esemble_member = ds.getncattr("driving_model_ensemble_member")
+            if esemble_member != esemble_candidate:
                 valid_filename = False
                 messages.append(
                     "Driving ensemble member {} is not consistent with file "
-                    "contents ({})".format(label_candidate, esemble_member))
+                    "contents ({})".format(esemble_candidate, esemble_member))
 
-        if len(filename_parts) == 9:
+        if len(filename_parts) == 10:
             try:
-                _, _ = parse_date_range(filename_parts[8],
+                _, _ = parse_date_range(filename_parts[9],
                                         ds.getncattr("frequency"),
                                         self._request.metadata.calendar)
             except AttributeError:
@@ -120,6 +129,12 @@ class CordexDataset(StructuredDataset):
             except ValidationError as e:
                 valid_filename = False
                 messages.append(str(e))
+
+        if valid_filename:
+            logger.debug("Filename is valid.")
+        else:
+            logger.debug("Filename is invalid with messages: {}".format(messages))
+
         return valid_filename, messages
 
     def _aggregate_files(self):
@@ -145,11 +160,12 @@ class CordexDataset(StructuredDataset):
                     'table_id',
                     'variable_id',
                     'domain',
-                    'driving_model_id',
-                    'driving_ensemble_member',
-                    'model_id',
-                    'rcm_version_id',
-                    'frequency'
+                    'driving_experiment_id',
+                    'driving_model_ensemble_member',
+                    'source_id',
+                    'variant_label',
+                    'frequency',
+                    'rcm_version_id'
                 ]
                 try:
                     file_index = '_'.join([ds.getncattr(x) for x in attrs])
