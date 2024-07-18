@@ -155,18 +155,20 @@ class CordexDataset(StructuredDataset):
             with self._loader_class(filepath) as ds:
                 attrs = [
                     'mip_era',
+                    'source_id',
                     'experiment_id',
                     'sub_experiment_id',
                     'table_id',
+                    'variant_label',
                     'variable_id',
+                    'grid_label',
                     'domain',
                     'driving_experiment_id',
                     'driving_model_ensemble_member',
-                    'source_id',
-                    'variant_label',
                     'frequency',
                     'rcm_version_id'
                 ]
+
                 try:
                     file_index = '_'.join([ds.getncattr(x) for x in attrs])
                     try:
