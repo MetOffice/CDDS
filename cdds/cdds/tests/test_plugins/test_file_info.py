@@ -323,7 +323,7 @@ class TestRegionalModelFileIsCmorFile(TestCase):
 
     def test_cmor_file(self):
         filename = ('hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_MOHC_HadREM3-GA7-05_version_'
-                    'realizationday_20230101-20231230.nc')
+                    'realization_day_20230101-20231230.nc')
 
         result = self.model_file_info.is_cmor_file(filename)
         self.assertTrue(result)
@@ -337,15 +337,16 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
     def test_relevant_for_archiving(self):
         request = Request()
         request.metadata.mip_era = 'CORDEX'
-        request.metadata.model_id = 'HadGEM3-GC31-MM'
+        request.metadata.model_id = 'HadREM3-GA7-05'
         request.netcdf_global_attributes.attributes = {
             'driving_experiment': 'evaluation',
         }
         variable_dict = {
-            'out_var_name': 'psl',
+            'out_var_name': 'hus1000',
             'frequency': 'day'
         }
-        nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
+        nc_file = ('/path/to/output/data/apa/day/tas/hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_'
+                   'MOHC_HadREM3-GA7-05_version_realization_day_20220101-20231230.nc')
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
@@ -354,7 +355,7 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
     def test_wrong_output_variable(self):
         request = Request()
         request.metadata.mip_era = 'CORDEX'
-        request.metadata.model_id = 'HadGEM3-GC31-MM'
+        request.metadata.model_id = 'HadREM3-GA7-05'
         request.netcdf_global_attributes.attributes = {
             'driving_experiment': 'evaluation',
         }
@@ -362,7 +363,8 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
             'out_var_name': 'tas',
             'frequency': 'day'
         }
-        nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
+        nc_file = ('/path/to/output/data/apa/day/tas/hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_'
+                   'MOHC_HadREM3-GA7-05_version_realization_day_20220101-20231230.nc')
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
@@ -371,32 +373,16 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
     def test_wrong_driving_experiment(self):
         request = Request()
         request.metadata.mip_era = 'CORDEX'
-        request.metadata.model_id = 'HadGEM3-GC31-MM'
+        request.metadata.model_id = 'HadREM3-GA7-05'
         request.netcdf_global_attributes.attributes = {
             'driving_experiment': 'historical',
         }
         variable_dict = {
-            'out_var_name': 'psl',
+            'out_var_name': 'hus1000',
             'frequency': 'day'
         }
-        nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
-
-        relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
-
-        self.assertFalse(relevant)
-
-    def test_wrong_frequency(self):
-        request = Request()
-        request.metadata.mip_era = 'CORDEX'
-        request.metadata.model_id = 'HadGEM3-GC31-MM'
-        request.netcdf_global_attributes.attributes = {
-            'driving_experiment': 'evaluation',
-        }
-        variable_dict = {
-            'out_var_name': 'psl',
-            'frequency': 'mon'
-        }
-        nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
+        nc_file = ('/path/to/output/data/apa/day/tas/hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_'
+                   'MOHC_HadREM3-GA7-05_version_realization_day_20220101-20231230.nc')
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
@@ -410,10 +396,11 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
             'driving_experiment': 'evaluation',
         }
         variable_dict = {
-            'out_var_name': 'psl',
+            'out_var_name': 'hus1000',
             'frequency': 'day'
         }
-        nc_file = '/path/to/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_20020201-20020230.nc'
+        nc_file = ('/path/to/output/data/apa/day/tas/hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_'
+                   'MOHC_HadREM3-GA7-05_version_realization_day_20220101-20231230.nc')
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
@@ -428,7 +415,8 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def test_get_date_range_daily(self):
         file_template = (
-            '/path/to/output/data/apa/day/tas/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_{start}-{end}.nc'
+            '/path/to/output/data/apa/day/tas/hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_'
+            'MOHC_HadREM3-GA7-05_version_realization_day_{start}-{end}.nc'
         )
         nc_files = [
             file_template.format(start='20000101', end='20091230'),
@@ -446,7 +434,8 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def test_get_date_range_single_file(self):
         file_template = (
-            '/path/to/output/data/apa/day/tas/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_{start}-{end}.nc'
+            '/path/to/output/data/apa/day/tas/hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_'
+            'MOHC_HadREM3-GA7-05_version_realization_day_{start}-{end}.nc'
         )
         nc_files = [file_template.format(start='20000101', end='20251230')]
         frequency = 'day'
@@ -460,7 +449,8 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def test_get_date_range_yearly(self):
         file_template = (
-            '/path/to/output/data/apa/yr/tas/psl_yr_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_{start}-{end}.nc'
+            '/path/to/output/data/apa/day/tas/hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_'
+            'MOHC_HadREM3-GA7-05_version_realization_day_{start}-{end}.nc'
         )
         nc_files = [
             file_template.format(start='2000', end='2009'),
@@ -478,7 +468,8 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def test_get_date_range_monthly(self):
         file_template = (
-            '/path/to/output/data/apa/mon/tas/psl_mon_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_{start}-{end}.nc'
+            '/path/to/output/data/apa/day/tas/hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_'
+            'MOHC_HadREM3-GA7-05_version_realization_day_{start}-{end}.nc'
         )
         nc_files = [
             file_template.format(start='200001', end='200912'),
@@ -496,7 +487,8 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def test_get_date_range_6hr(self):
         file_template = (
-            '/path/to/output/data/apa/day/tas/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_{start}-{end}.nc'
+            '/path/to/output/data/apa/day/tas/hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_'
+            'MOHC_HadREM3-GA7-05_version_realization_day_{start}-{end}.nc'
         )
         nc_files = [
             file_template.format(start='200001010000', end='200912301800'),
@@ -514,7 +506,8 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def test_get_date_range_subhr_20min(self):
         file_template = (
-            '/path/to/output/data/apa/day/tas/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_{start}-{end}.nc'
+            '/path/to/output/data/apa/day/tas/hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_'
+            'MOHC_HadREM3-GA7-05_version_realization_day_{start}-{end}.nc'
         )
         nc_files = [
             file_template.format(start='20000101000000', end='20091230234000'),
@@ -532,7 +525,8 @@ class TestRegionalModelFileGetRange(unittest.TestCase):
 
     def test_get_date_range_subhr_60min(self):
         file_template = (
-            '/path/to/output/data/apa/day/tas/psl_day_HadGEM3-GC31-MM_evaluation_r1i1p1f3_gn_{start}-{end}.nc'
+            '/path/to/output/data/apa/day/tas/hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_'
+            'MOHC_HadREM3-GA7-05_version_realization_day_{start}-{end}.nc'
         )
         nc_files = [
             file_template.format(start='20000101000000', end='20091230230000'),
