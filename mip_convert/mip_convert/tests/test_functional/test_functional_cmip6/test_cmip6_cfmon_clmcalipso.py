@@ -40,6 +40,7 @@ class TestCmip6CFmonClmcalipso(AbstractFunctionalTests):
                     'ap5': {'CMIP6_CFmon': 'clmcalipso'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['clmcalipso_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_197904-197904.nc'],
                     'ignore_history': True,
                 }

@@ -39,6 +39,7 @@ class TestHiResOmonTauvo(AbstractFunctionalTests):
                     'onm': {'CMIP6_Omon': 'tauvo'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['tauvo_Omon_HadGEM3-GC31-HH_hist-1950_r1i1p1f1_gn_195101-195101.nc'],
                     'ignore_history': True,
                     'hash': ['391b62b18d4d6166516a6730c3ee1bd8']

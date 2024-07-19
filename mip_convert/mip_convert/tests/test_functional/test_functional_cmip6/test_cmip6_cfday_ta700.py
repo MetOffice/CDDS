@@ -40,6 +40,7 @@ class TestCmip6CFdayTa700(AbstractFunctionalTests):
                     'ap6': {'CMIP6_CFday': 'ta700'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['ta700_CFday_UKESM1-0-LL_amip_r1i1p1f1_gn_18550511-18550520.nc'],
                     'ignore_history': True,
                 }

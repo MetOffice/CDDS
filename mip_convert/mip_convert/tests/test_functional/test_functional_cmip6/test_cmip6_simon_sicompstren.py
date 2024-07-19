@@ -43,6 +43,7 @@ class TestCmip6SImonSicompstren(AbstractFunctionalTests):
                     }
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['sicompstren_SImon_UKESM1-0-LL_amip_r1i1p1f1_gn_185403-185403.nc'],
                     'ignore_history': True,
                 }

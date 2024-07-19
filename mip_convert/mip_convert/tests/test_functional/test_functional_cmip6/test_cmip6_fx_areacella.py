@@ -42,6 +42,7 @@ class TestCmip6FxAreacella(AbstractFunctionalTests):
                     'ancil': {'CMIP6_fx': 'areacella'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['areacella_fx_UKESM1-0-LL_amip_r1i1p1f1_gn.nc'],
                     'ignore_history': True,
                 }

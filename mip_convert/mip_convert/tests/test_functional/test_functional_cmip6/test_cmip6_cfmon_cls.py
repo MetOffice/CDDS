@@ -38,6 +38,7 @@ class TestCmip6CFmonCls(AbstractFunctionalTests):
                     'ap5': {'CMIP6_CFmon': 'cls'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['cls_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_197904-197904.nc'],
                     'ignore_history': True,
                 }

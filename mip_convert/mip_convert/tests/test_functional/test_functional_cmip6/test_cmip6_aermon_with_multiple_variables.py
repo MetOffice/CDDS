@@ -39,6 +39,7 @@ class TestCmip6AERmonWithMultipleVariables(AbstractFunctionalTests):
                     'ap4': {'CMIP6_AERmon': 'phalf rlutaf'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['phalf_AERmon_UKESM1-0-LL_amip_r1i1p1f1_gn_234506-234506.nc',
                                   'rlutaf_AERmon_UKESM1-0-LL_amip_r1i1p1f1_gn_234506-234506.nc'],
                     'ignore_history': True,

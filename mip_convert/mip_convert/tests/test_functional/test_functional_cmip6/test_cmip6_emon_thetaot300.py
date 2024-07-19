@@ -37,6 +37,7 @@ class TestCmip6EmonThetaot300(AbstractFunctionalTests):
                     'onm': {'CMIP6_Emon': 'thetaot300'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['thetaot300_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_185001-185001.nc'],
                     'ignore_history': True,
                 }

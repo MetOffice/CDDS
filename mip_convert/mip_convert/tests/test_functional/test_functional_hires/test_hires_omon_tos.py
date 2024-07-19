@@ -39,6 +39,7 @@ class TestHiResOmonTos(AbstractFunctionalTests):
                     'onm': {'CMIP6_Omon': 'tos'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['tos_Omon_HadGEM3-GC31-HH_hist-1950_r1i1p1f1_gn_195101-195101.nc'],
                     'ignore_history': True,
                     'hash': ['139cb11391233d344460d7f7bae8f320']

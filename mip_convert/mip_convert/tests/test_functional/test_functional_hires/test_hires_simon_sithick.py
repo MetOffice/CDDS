@@ -44,6 +44,7 @@ class TestHiResSimonSithick(AbstractFunctionalTests):
                     }
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['sithick_SImon_HadGEM3-GC31-HH_hist-1950_r1i1p1f1_gn_195101-195101.nc'],
                     'ignore_history': True,
                     'hash': ['26765fc25ebce3a23713708a134c5329']
