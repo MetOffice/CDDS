@@ -40,6 +40,7 @@ class TestCmip6AERmonReffclwtop(AbstractFunctionalTests):
                     'ap4': {'CMIP6_AERmon': 'reffclwtop'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['reffclwtop_AERmon_UKESM1-0-LL_amip_r1i1p1f1_gn_185105-185105.nc'],
                     'ignore_history': True,
                 }

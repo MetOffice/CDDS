@@ -39,6 +39,7 @@ class TestCmip6EmonCfadDbze94(AbstractFunctionalTests):
                     'ap5': {'CMIP6_Emon': 'cfadDbze94'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['cfadDbze94_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_198305-198305.nc'],
                     'ignore_history': True,
                 }

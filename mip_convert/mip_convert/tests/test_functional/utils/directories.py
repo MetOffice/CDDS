@@ -4,16 +4,17 @@ import os
 
 PROJECT_CDDS_DIR = '/project/cdds_data'
 OUTPUT_CDDS_DIR = os.environ['SCRATCH']
+CDDS_ETC = os.environ['CDDS_ETC']
 ROOT_REFERENCE_DATA_DIR = os.path.join(PROJECT_CDDS_DIR, 'testdata', 'diagnostics')
-ROOT_REFERENCE_CASES_DIR = os.path.join(ROOT_REFERENCE_DATA_DIR, 'test_cases_python3')
+ROOT_REFERENCE_CASES_DIR = os.path.join(CDDS_ETC, 'testdata', 'functional_tests', 'mip_convert')
 ROOT_OUTPUT_DATA_DIR = os.path.join(OUTPUT_CDDS_DIR, 'testdata', 'diagnostics')
-ROOT_OUTPUT_CASES_DIR = os.path.join(ROOT_OUTPUT_DATA_DIR, 'test_cases_python3')
+ROOT_OUTPUT_CASES_DIR = os.path.join(ROOT_OUTPUT_DATA_DIR, 'testdata', 'functional_tests', 'mip_convert')
 
 TEST_DIR_NAME_TEMPLATE = 'test_{project}_{mip_table}_{variable}'
 
-ROOT_ANCIL_DIR = os.path.join(os.environ['CDDS_ETC'], 'ancil')
+ROOT_ANCIL_DIR = os.path.join(CDDS_ETC, 'ancil')
 
-ROOT_MIP_TABLES_DIR = os.path.join(os.environ['CDDS_ETC'], 'mip_tables')
+ROOT_MIP_TABLES_DIR = os.path.join(CDDS_ETC, 'mip_tables')
 CORDEX_MIP_TABLE_DIR = '{}/CORDEX/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)
 ARISE_MIP_TABLE_DIR = '{}/ARISE/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)
 CMIP6_MIP_TABLE_DIR = '{}/CMIP6/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)

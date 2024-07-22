@@ -40,6 +40,7 @@ class TestCmip6EmonSconcdust(AbstractFunctionalTests):
                     'ap5': {'CMIP6_Emon': 'sconcdust'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['sconcdust_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_197904-197904.nc'],
                     'ignore_history': True,
                 }

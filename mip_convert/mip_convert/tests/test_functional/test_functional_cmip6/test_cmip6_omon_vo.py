@@ -39,6 +39,7 @@ class TestCmip6OmonVo(AbstractFunctionalTests):
                     'onm_grid-V': {'CMIP6_Omon': 'vo'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['vo_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_196001-196003.nc'],
                 }
             )

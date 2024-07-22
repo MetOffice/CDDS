@@ -41,6 +41,7 @@ class TestCmip6SImonSiage(AbstractFunctionalTests):
                     'inm': {'CMIP6_SImon': 'siage'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['siage_SImon_UKESM1-0-LL_amip_r1i1p1f1_gn_185403-185404.nc'],
                     'ignore_history': True,
                 }
