@@ -40,7 +40,6 @@ def conversion_defaults() -> Dict[str, Any]:
     cdds_workflow_branch = os.environ.get('CDDS_CONVERT_WORKFLOW_BRANCH', 'trunk')
     return {
         'cdds_workflow_branch': cdds_workflow_branch,
-        'cylc_args': '-v',
         'no_email_notifications': True,
         'skip_extract': skip_extract,
         'skip_extract_validation': skip_extract_validation,
@@ -113,7 +112,10 @@ class ConversionSection(Section):
             config_items['cylc_args'] = new_cylc_args
             values.update(config_items)
         else:
-            values['cylc_args'] = values['cylc_args'].split(' ')
+            if 'cylc_args' in values:
+                values['cylc_args'] = values['cylc_args'].split(' ')
+            else:
+                values['cylc_args'] = []
         return ConversionSection(**values)
 
     @staticmethod
