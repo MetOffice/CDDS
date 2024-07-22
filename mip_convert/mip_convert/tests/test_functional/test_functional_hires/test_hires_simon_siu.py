@@ -39,6 +39,7 @@ class TestHiResSimonSiu(AbstractFunctionalTests):
                     'inm': {'CMIP6_SImon': 'siu'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['siu_SImon_HadGEM3-GC31-HH_hist-1950_r1i1p1f1_gn_195101-195101.nc'],
                     'ignore_history': True,
                     'hash': ['629afe5c244613decaa2223cae9b7530']

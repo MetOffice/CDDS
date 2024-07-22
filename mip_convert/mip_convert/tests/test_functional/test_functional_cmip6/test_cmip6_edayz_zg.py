@@ -62,6 +62,7 @@ class TestCmip6EdayZZg(AbstractFunctionalTests):
                                         'none.r1i1p1f1'
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['zg_EdayZ_HadGEM3-GC31-LL_highres-future_r1i1p1f1_gn_19500101-19500130.nc'],
                     'ignore_history': True,
                 }

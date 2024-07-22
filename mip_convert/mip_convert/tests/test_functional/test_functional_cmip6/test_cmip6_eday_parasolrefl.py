@@ -41,6 +41,7 @@ class TestCmip6EdayParasolRefl(AbstractFunctionalTests):
                     'ap6': {'CMIP6_Eday': 'parasolRefl'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['parasolRefl_Eday_UKESM1-0-LL_amip_r1i1p1f1_gn_19790101-19790130.nc'],
                     'ignore_history': True,
                 }

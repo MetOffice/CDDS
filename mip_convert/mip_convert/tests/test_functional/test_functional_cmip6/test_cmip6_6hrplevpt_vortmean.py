@@ -41,6 +41,7 @@ class TestCmip66hrPlevPtVortmean(AbstractFunctionalTests):
                     'ap7': {'CMIP6_6hrPlevPt': 'vortmean'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['vortmean_6hrPlevPt_UKESM1-0-LL_amip_r1i1p1f1_gn_195001010600-195001060000.nc'],
                     'ignore_history': True
                 }

@@ -43,6 +43,7 @@ class TestCmip6SIdayMultiple3d(AbstractFunctionalTests):
                     'ind': {'CMIP6_SIday': 'sisnthick sispeed'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': [
                         'sisnthick_SIday_UKESM1-0-LL_amip_r1i1p1f1_gn_19781001-19781130.nc',
                         'sispeed_SIday_UKESM1-0-LL_amip_r1i1p1f1_gn_19781001-19781130.nc'

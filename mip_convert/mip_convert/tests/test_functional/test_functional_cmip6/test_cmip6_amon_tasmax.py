@@ -37,6 +37,7 @@ class TestCmip6AmonTasmax(AbstractFunctionalTests):
                     'apa': {'CMIP6_Amon': 'tasmax'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['tasmax_Amon_UKESM1-0-LL_amip_r1i1p1f1_gn_202101-202101.nc'],
                     'ignore_history': True,
                 }
@@ -45,4 +46,5 @@ class TestCmip6AmonTasmax(AbstractFunctionalTests):
 
     @pytest.mark.slow
     def test_cmip6_amon_tasmax(self):
+        self.maxDiff = None
         self.check_convert()
