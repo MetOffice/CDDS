@@ -15,7 +15,6 @@ class TestConversionDefaults(TestCase):
         whereami_mock.return_value = Facility.JASMIN
         expected_defaults = {
             'cdds_workflow_branch': 'mocked',
-            'cylc_args': '-v',
             'delete_preexisting_proc_dir': False,
             'delete_preexisting_data_dir': False,
             'no_email_notifications': True,
@@ -37,7 +36,6 @@ class TestConversionDefaults(TestCase):
         whereami_mock.return_value = Facility.MET_OFFICE
         expected_defaults = {
             'cdds_workflow_branch': 'mocked',
-            'cylc_args': '-v',
             'delete_preexisting_proc_dir': False,
             'delete_preexisting_data_dir': False,
             'no_email_notifications': True,
@@ -59,7 +57,6 @@ class TestConversionDefaults(TestCase):
         whereami_mock.return_value = Facility.MET_OFFICE
         expected_defaults = {
             'cdds_workflow_branch': 'trunk',
-            'cylc_args': '-v',
             'delete_preexisting_proc_dir': False,
             'delete_preexisting_data_dir': False,
             'no_email_notifications': True,

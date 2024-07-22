@@ -40,7 +40,6 @@ def conversion_defaults() -> Dict[str, Any]:
     cdds_workflow_branch = os.environ.get('CDDS_CONVERT_WORKFLOW_BRANCH', 'trunk')
     return {
         'cdds_workflow_branch': cdds_workflow_branch,
-        'cylc_args': '-v',
         'no_email_notifications': True,
         'skip_extract': skip_extract,
         'skip_extract_validation': skip_extract_validation,
@@ -113,7 +112,10 @@ class ConversionSection(Section):
             config_items['cylc_args'] = new_cylc_args
             values.update(config_items)
         else:
-            values['cylc_args'] = values['cylc_args'].split(' ')
+            if 'cylc_args' in values:
+                values['cylc_args'] = values['cylc_args'].split(' ')
+            else:
+                values['cylc_args'] = []
         return ConversionSection(**values)
 
     @staticmethod
@@ -145,17 +147,13 @@ class ConversionSection(Section):
 def load_cylc_args(cylc_args: List[str]) -> List[str]:
     """
     Load and update the cylc arguments for the CDDS processing suite. Therefore, it checks of
-    the -v option is always given and that a workflow-name (default: cdds_{request_id}_{stream})
-    is provided.
+    that a workflow-name (default: cdds_{request_id}_{stream}) is provided.
 
     :param cylc_args: Cylc arguments to load and updated
     :type cylc_args: List[str]
     :return: Cylc arguments for CDDS processing suite
     :rtype: List[str]
     """
-    if '-v' not in cylc_args:
-        cylc_args += ['-v']
-
     # If user does not specify a run name for the rose suite, use cdds_{request_id}
     if '--workflow-name' in cylc_args:
         name_indices = [index for index, element in enumerate(cylc_args) if '--workflow-name' in element]
