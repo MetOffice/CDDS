@@ -8,7 +8,7 @@ CDDS_ETC = os.environ['CDDS_ETC']
 ROOT_REFERENCE_DATA_DIR = os.path.join(PROJECT_CDDS_DIR, 'testdata', 'diagnostics')
 ROOT_REFERENCE_CASES_DIR = os.path.join(CDDS_ETC, 'testdata', 'functional_tests', 'mip_convert')
 ROOT_OUTPUT_DATA_DIR = os.path.join(OUTPUT_CDDS_DIR, 'testdata', 'diagnostics')
-ROOT_OUTPUT_CASES_DIR = os.path.join(CDDS_ETC, 'testdata', 'functional_tests', 'mip_convert')
+ROOT_OUTPUT_CASES_DIR = os.path.join(ROOT_OUTPUT_DATA_DIR, 'testdata', 'functional_tests', 'mip_convert')
 
 TEST_DIR_NAME_TEMPLATE = 'test_{project}_{mip_table}_{variable}'
 
