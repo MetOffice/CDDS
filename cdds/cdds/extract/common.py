@@ -199,95 +199,46 @@ def check_moo_cmd(code, output):
     """
 
     # default status
-    status = {"val": "ok", "code": "request_ok", "msg": ""}
-
-    # error config for code 2
-    cfg2 = {
-        "ERROR_CLIENT_PATH_ALREADY_EXISTS":
-            {"val": "ok", "code": "already_exists",
-             "msg": "some file(s) already existed"},
-        "ERROR_CLIENT_PATH_DOES_NOT_EXIST":
-            {"val": "stop", "code": "path_not_exist",
-             "msg": "target directory does not exist"},
-        "ERROR_CLIENT_INSUFFICIENT_DISK_SPACE":
-            {"val": "stop", "code": "disk_space",
-             "msg": "insufficient disk space available"},
-        "TSSC_EXCEEDS_DATA_VOLUME_LIMIT":
-            {"val": "skip", "code": "limit_exceeded", "msg": "volume too big"},
-        "TSSC_EXCEEDS_FILE_NUMBER_LIMIT":
-            {"val": "skip", "code": "limit_exceeded", "msg": "too many files"},
-        "TSSC_SPANS_TOO_MANY_RESOURCES":
-            {"val": "skip", "code": "limit_exceeded", "msg": "too many tapes"},
-        "TSSC_QUERY_MATCHES_TOO_MANY_RESULTS":
-            {"val": "skip", "code": "limit_exceeded",
-             "msg": "too many results"},
-        "TSSC_COLLECTION_DOES_NOT_EXIST":
-            {"val": "stop", "code": "collection_not_exist",
-             "msg": "collection does not exist"},
-        "TSSC_QUERY_MATCHES_NO_RESULTS":
-            {"val": "skip", "code": "no_matches",
-             "msg": "no matching files to retrieve"},
-        "SSC_TASK_REJECTION":
-            {"val": "skip", "code": "rejected", "msg": (
-                "task rejected:\n{}".format(output))},
-        "ERROR_TRANSFER":
-            {"val": "stop", "code": "rejected", "msg": "data transfer error"}
-    }
-
-    # error config for code 3
-    cfg3 = {
-        "SSC_STORAGE_SYSTEM_UNAVAILABLE":
-            {"val": "stop", "code": "system_unavailable",
-             "msg": "storage system not available"},
-        "ncks: ERROR":
-            {"val": "skip", "code": "rejected",
-             "msg": "error with ncks filtering "
-                    "(possibly requested variable not found)"},
-    }
-
-    if code != 0 and code != 17:
-        # default output
-        status = {"val": "stop", "code": "rejected",
-                  "msg": "moo command error (code: {})\noutput: {})".format(
-                      code, output)}
-
-        # check for specific code config matches
-        if code == 2:
-            errors = 0
-            for key, value in cfg2.items():
-                if key in output:
-                    if key == "SSC_TASK_REJECTION" and errors > 0:
-                        continue
-                    status = value
-                    # special case for no match on nc variable
-                    if "does not match" in output:
-                        status['val'] = "skip"
-                        err_str = output.rpartition(
-                            " is not in and/or does not match")
-                        status['msg'] = \
-                            "requested variable not found " \
-                            "[{} and maybe others]".format(
-                                err_str[0].split()[-1])
-                    errors += 1
-        elif code == 3:
-            for key, value in cfg3.items():
-                if key in output:
-                    status = value
-
+    STOP_ERRORS = [
+        'PATH_DOES_NOT_EXIST', 'INSUFFICIENT_DISK_SPACE', 'COLLECTION_DOES_NOT_EXIST', 'ERROR_TRANSFER',
+        'STORAGE_SYSTEM_UNAVAILABLE'
+    ]
+    SKIP_ERRORS = [
+        'EXCEEDS_DATA_VOLUME_LIMIT', 'EXCEEDS_FILE_NUMBER_LIMIT', 'SPANS_TOO_MANY_RESOURCES',
+        'QUERY_MATCHES_TOO_MANY_RESULTS', 'QUERY_MATCHES_NO_RESULTS', 'does not match',
+        'ncks: ERROR'
+    ]
+    OK_ERRORS = ['PATH_ALREADY_EXISTS']
+    if code == 0:
+        status = 'ok'
+    elif code == 2:
+        if any(output in s for s in STOP_ERRORS):
+            status = 'stop'
+        elif any(output in s for s in SKIP_ERRORS):
+            status = 'skip'
+        elif any(output in s for s in OK_ERRORS):
+            status = 'ok'
         else:
-            status = {"val": "stop", "code": "other_error",
-                      "msg": "unknown system error"}
+            # note that once new MOOSE User Guide is available it would be better to map all
+            # codes and expected Extract behaviour explicitly
+            status = 'stop'
+    elif code == 3:
+        if any(output in s for s in STOP_ERRORS):
+            status = 'stop'
+        if any(output in s for s in SKIP_ERRORS):
+            status = 'skip'
     elif code == 17:
-        status['msg'] = output
-        status['code'] = 'already_exists'
-
+        # already exists
+        status = 'ok'
+    else:
+        status = 'stop'
     return status
 
 
 def makefacetstring(facetmap, param, delimiter="/"):
     """Creates directory path from information facets.
     For example a facetmap of 'project|experiment|realisation'
-    would be rendered to a facet string like 'ScenarioMIP/ssp_24/r1i1p1f1'
+    would be rendered to a facet string like 'S cenarioMIP/ssp_24/r1i1p1f1'
 
     Parameters
     ----------

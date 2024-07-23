@@ -279,7 +279,6 @@ class Process(object):
         """
         cmd = {"moo_cmd": "test", "param_args": ["-d", request_source]}
         code, output = self.mass_request(cmd)
-        status = check_moo_cmd(code, output)
         logger = logging.getLogger(__name__)
         if code == 0 and output.strip() == 'true':
             msg = self.lang["stream_exists_ok"].format(request_source)
@@ -287,7 +286,7 @@ class Process(object):
             logger.info(msg)
         else:
             msg = self.lang["stream_exists_fail"].format(
-                request_source, code, status["msg"])
+                request_source, code, output.strip())
             exists = False
             logger.critical(msg)
         return exists

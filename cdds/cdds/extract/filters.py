@@ -366,15 +366,15 @@ class Filters(object):
             if self.call_counter > self.call_limit:
                 raise RecursionError
             test_file = self._create_filterfile_pp(chunk, test_mode=True)
-            valid = self._check_block_size_pp(test_file, override_simulate=True)
-            if valid["val"] == "ok":
+            valid, moo_output = self._check_block_size_pp(test_file, override_simulate=True)
+            if valid == "ok":
                 self.call_counter = 0
                 logger.info("Chunking identified: Retrieving data from {} to {} ({} files)".format(
                     str(chunk[0]["timepoint"]), str(chunk[-1]["timepoint"]), len(chunk)))
                 return [chunk]
-            elif valid["val"] == "stop":
+            elif valid == "stop":
                 raise MooseException(
-                    "Could not access the dataset ({})".format(valid["msg"]))
+                    "Could not access the dataset ({})".format(moo_output))
 
             mid_point = len(chunk) // 2
             sub_chunk_1, sub_chunk_2 = chunk[:mid_point], chunk[mid_point:]
@@ -576,8 +576,7 @@ class Filters(object):
 
         Returns
         -------
-        dict
-            status information
+           tuple (str, str): status information, output from MOOSE
         """
         if override_simulate:
             simulate = False
@@ -587,8 +586,7 @@ class Filters(object):
         param_args = ["-n", filterfile, self.source, self.target]
         code, cmd_out, command = run_moo_cmd("select", param_args, simulate=simulate, verbose=False)
         status = check_moo_cmd(code, cmd_out)
-        status['command'] = " ".join(command)
-        return status
+        return status, cmd_out
 
 # ----- NC specialisation methods ---------------------------------------------
     def _format_filter_nc(self, stream):
