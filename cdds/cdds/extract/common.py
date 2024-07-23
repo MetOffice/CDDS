@@ -238,7 +238,7 @@ def check_moo_cmd(code, output):
 def makefacetstring(facetmap, param, delimiter="/"):
     """Creates directory path from information facets.
     For example a facetmap of 'project|experiment|realisation'
-    would be rendered to a facet string like 'S cenarioMIP/ssp_24/r1i1p1f1'
+    would be rendered to a facet string like 'ScenarioMIP/ssp_24/r1i1p1f1'
 
     Parameters
     ----------
