@@ -17,7 +17,7 @@ import sys
 import time
 from collections import defaultdict
 from datetime import datetime
-from distutils.version import StrictVersion
+from packaging.version import parse as parse_version
 from functools import partial, wraps
 from typing import Any, Callable, List, Optional, Tuple, Type, Union
 
@@ -658,15 +658,15 @@ def compare_versions(version_to_compare, version_with_expression):
     ranges_match = ranges_pattern.match(version_with_expression)
     if lt_gt_match:
         equation = (
-            'StrictVersion("{version_to_compare}"){symbol}'
-            'StrictVersion("{version}")'.format(
+            'parse_version("{version_to_compare}"){symbol}'
+            'parse_version("{version}")'.format(
                 version_to_compare=version_to_compare,
                 symbol=lt_gt_match.group(1), version=lt_gt_match.group(2)))
     elif ranges_match:
         equation = (
-            'StrictVersion("{min_version}")<='
-            'StrictVersion("{version_to_compare}")<='
-            'StrictVersion("{max_version}")'.format(
+            'parse_version("{min_version}")<='
+            'parse_version("{version_to_compare}")<='
+            'parse_version("{max_version}")'.format(
                 min_version=ranges_match.group(1),
                 version_to_compare=version_to_compare,
                 max_version=ranges_match.group(2)))
