@@ -297,7 +297,7 @@ options, which are used by MIP Convert:
 | ``atmos_timestep``                   |             | MIP Convert  | The atmospheric model timestep in integer        | [1]   |
 |                                      |             |              | seconds.                                         |       |
 +--------------------------------------+-------------+--------------+--------------------------------------------------+-------+
-| ``base_date``                  | MIP Convert | MIP Convert  | The date in the form ``YYYY-MM-DD-hh-mm-ss``.    | [2]   |
+| ``base_date``                        | MIP Convert | MIP Convert  | The date in the form ``YYYY-MM-DD-hh-mm-ss``.    | [2]   |
 +--------------------------------------+-------------+--------------+--------------------------------------------------+-------+
 | ``deflate_level``                    |             | MIP Convert  | The deflation level when writing the             |       |
 |                                      |             |              | |output netCDF file| from 0 (no compression) to  |       |
