@@ -39,10 +39,10 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
 ]
-from distutils.version import StrictVersion
+from packaging.version import parse as parse_version
 import sphinx
 version_string = '.'.join(str(item) for item in sphinx.version_info[0:2])
-if StrictVersion(version_string) <= StrictVersion('1.3'):
+if parse_version(version_string) <= parse_version('1.3'):
     extensions.append('sphinxcontrib.napoleon')
 else:
     extensions.append('sphinx.ext.napoleon')
