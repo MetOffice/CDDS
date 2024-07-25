@@ -22,7 +22,7 @@ EPILOG = ('For a full description of this script, please refer to the '
           'documentation available via '
           'https://code.metoffice.gov.uk/doc/cdds/cdds_prepare/index.html')
 
-MIP_TABLES_DIR = '{}/mip_tables/CMIP6/01.00.29'.format(os.environ['CDDS_ETC'])
+MIP_TABLES_DIR = os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP6', '01.00.29')
 MODEL_TYPE_MAP = {'atmos': ('AGCM', 'AOGCM'),
                   'ocean': ('AOGCM', 'OGCM')}
 OBGC_MODEL_STRING = 'BGC'

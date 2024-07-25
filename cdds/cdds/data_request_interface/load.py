@@ -8,7 +8,7 @@ import os
 
 from dreqPy import dreq as data_request_lib
 
-DATA_REQUEST_BASE_DIR = os.path.join(os.environ['CDDS_ETC'], 'data_requests/CMIP6')
+DATA_REQUEST_BASE_DIR = os.path.join(os.environ['CDDS_ETC'], 'data_requests', 'CMIP6')
 
 # The following items were found by searching through the attributes of the
 # dreq module and picking out strings that contain the current version number.
