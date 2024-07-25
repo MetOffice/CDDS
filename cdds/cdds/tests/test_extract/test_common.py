@@ -163,12 +163,12 @@ class TestCommon(unittest.TestCase):
         moo_output = ("(SSC_TASK_REJECTION) one or more tasks are rejected. "
                       "(TSSC_INVALID_SET) invalid path to a data set")
         status = check_moo_cmd(code, moo_output)
-        self.assertEqual("rejected", status["code"])
+        self.assertEqual("stop", status)
 
         moo_output = ("(SSC_TASK_REJECTION) one or more tasks are rejected. "
                       "(TSSC_SPANS_TOO_MANY_RESOURCES) ")
         status = check_moo_cmd(code, moo_output)
-        self.assertEqual("limit_exceeded", status["code"])
+        self.assertEqual("stop", status)
 
 
 class TestCalculatePeriods(unittest.TestCase):
