@@ -124,7 +124,7 @@ def set_language():
         # blocks
         "block_start": "stream {} request: {}  [{} to {}]  ----------------",
         "block_fail": "CRITICAL: block {}: extraction FAILED - {}",
-        "block_success": "block {}: extraction SUCCESS - {}",
+        "block_success": "block {}: extraction SUCCESS",
 
         # moose
         "moose_request": "MOOSE request: {} [{}]",

@@ -548,11 +548,11 @@ class TestFilters(unittest.TestCase):
     def test_moo_filter_chunk_pp_filelist(self, mock_block_size, mock_f):
 
         mock_block_size.side_effect = [
-            {"val": "fail"}, {"val": "fail"}, {"val": "fail"},
-            {"val": "ok"}, {"val": "fail"}, {"val": "ok"},
-            {"val": "ok"}, {"val": "fail"}, {"val": "ok"},
-            {"val": "ok"}, {"val": "fail"}, {"val": "fail"},
-            {"val": "ok"}, {"val": "ok"}, {"val": "ok"}
+            ("fail", ""), ("fail", ""), ("fail", ""),
+            ("ok", ""), ("fail", ""), ("ok", ""),
+            ("ok", ""), ("fail", ""), ("ok", ""),
+            ("ok", ""), ("fail", ""), ("fail", ""),
+            ("ok", ""), ("ok", ""), ("ok", "")
         ]
         filters = Filters(procdir="foo")
         filelist_pp = [{"timepoint": str(i)} for i in range(50)]
@@ -565,11 +565,11 @@ class TestFilters(unittest.TestCase):
     @patch("cdds.extract.filters.MOOSE_CALL_LIMIT", 3)
     def test_moo_filter_chunk_pp_filelist_with_recursion_error(self, mock_block_size, mock_f):
         mock_block_size.side_effect = [
-            {"val": "fail"}, {"val": "fail"}, {"val": "fail"},
-            {"val": "ok"}, {"val": "fail"}, {"val": "ok"},
-            {"val": "ok"}, {"val": "fail"}, {"val": "ok"},
-            {"val": "ok"}, {"val": "fail"}, {"val": "fail"},
-            {"val": "ok"}, {"val": "ok"}, {"val": "ok"}
+            ("fail", ""), ("fail", ""), ("fail", ""),
+            ("ok", ""), ("fail", ""), ("ok", ""),
+            ("ok", ""), ("fail", ""), ("ok", ""),
+            ("ok", ""), ("fail", ""), ("fail", ""),
+            ("ok", ""), ("ok", ""), ("ok", "")
         ]
         filters = Filters(procdir="foo")
         filelist_pp = [{"timepoint": str(i)} for i in range(50)]
