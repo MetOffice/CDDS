@@ -185,7 +185,7 @@ class TestRoseSuiteInfo(TestCase):
         self.assertEqual(info.end_date(), expected_date)
 
     def test_mip_table_dir(self):
-        expected_mip_table_dir = '{}/mip_tables/CMIP6/01.00.29/'.format(os.environ['CDDS_ETC'])
+        expected_mip_table_dir = os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP6', '01.00.29')
         info = RoseSuiteInfo(self.data)
         self.assertEqual(info.mip_table_dir(), expected_mip_table_dir)
 

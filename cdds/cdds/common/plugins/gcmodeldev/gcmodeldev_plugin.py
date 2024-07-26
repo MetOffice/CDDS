@@ -109,4 +109,4 @@ class GCModelDevPlugin(BasePlugin):
         :return: Path to the MIP table directory
         :rtype: str
         """
-        return '{}/mip_tables/GCModelDev/0.0.13'.format(os.environ['CDDS_ETC'])
+        return os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'GCModelDev', '0.0.13')

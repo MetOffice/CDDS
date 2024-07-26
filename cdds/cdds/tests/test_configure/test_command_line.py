@@ -79,7 +79,7 @@ class TestMain(unittest.TestCase):
         self.mip = 'CMIP'
         self.mip_era = 'CMIP6'
         # MIP tables now needed by configure to confirm that tables used exist
-        self.mip_table_dir = os.path.join(os.environ['CDDS_ETC'], 'mip_tables/CMIP6/01.00.29')
+        self.mip_table_dir = os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP6', '01.00.29')
         self.model_id = 'UKESM1-0-LL'
         # Add ancil files and replacement coordinates file:
         self.model_output_dir = '{{ input_dir }}'
@@ -96,28 +96,31 @@ class TestMain(unittest.TestCase):
         self.parent_variant_label = 'r1i1p1f2'
         self.run_bounds = '{{ start_date }} {{ end_date }}'
         self.shuffle = 'True'
-        self.sites_file = '/home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt'
+        self.sites_file = os.path.join(os.environ['CDDS_ETC'], 'cfmip2', 'cfmip2-sites-orog.txt')
         self.sub_experiment_id = 'none'
         self.suite_id = 'u-aw310'
         self.variant_label = 'r1i1p1f2'
         # User config:
-        self.ancil_files = ('/project/cdds/ancil/UKESM1-0-LL/qrparm.landfrac.pp '
-                            '/project/cdds/ancil/UKESM1-0-LL/qrparm.soil.pp '
-                            '/project/cdds/ancil/UKESM1-0-LL/ocean_constants.nc '
-                            '/project/cdds/ancil/UKESM1-0-LL/ocean_byte_masks.nc '
-                            '/project/cdds/ancil/UKESM1-0-LL/ocean_basin.nc '
-                            '/project/cdds/ancil/UKESM1-0-LL/diaptr_basin_masks.nc '
-                            '/project/cdds/ancil/UKESM1-0-LL/ocean_zostoga.nc')
-
+        self.ancil_files = ' '.join(
+            [os.path.join(os.environ['CDDS_ETC'], 'ancil', 'UKESM1-0-LL', ancil_file)
+             for ancil_file in ['qrparm.landfrac.pp',
+                                'qrparm.soil.pp',
+                                'ocean_constants.nc',
+                                'ocean_byte_masks.nc',
+                                'ocean_basin.nc',
+                                'diaptr_basin_masks.nc',
+                                'ocean_zostoga.nc']])
         self.grid_id = 'atmos-native'
         self.grid = 'Native N96 grid; 192 x 144 longitude/latitude'
         self.grid_label = Cmip6GridLabel.from_name('native').label
-        self.hybrid_heights_files = ('/home/h03/cdds/etc/vertical_coordinates/atmosphere_theta_levels_85.txt '
-                                     '/home/h03/cdds/etc/vertical_coordinates/atmosphere_rho_levels_86.txt')
+        self.hybrid_heights_files = (
+            os.path.join(os.environ['CDDS_ETC'], 'vertical_coordinates', 'atmosphere_theta_levels_85.txt ') +
+            os.path.join(os.environ['CDDS_ETC'], 'vertical_coordinates', 'atmosphere_rho_levels_86.txt'))
         plugin = PluginStore.instance().get_plugin()
         grid_info = plugin.grid_info(self.model_id, GridType.ATMOS)
         self.nominal_resolution = grid_info.nominal_resolution
-        self.replacement_coordinates_file = '/home/h03/cdds/etc/horizontal_coordinates/cice_eORCA1_coords.nc'
+        self.replacement_coordinates_file = os.path.join(os.environ['CDDS_ETC'],
+                                                         'horizontal_coordinates', 'cice_eORCA1_coords.nc')
         self.cmor_setup_format = (
             '[cmor_setup]\ncmor_log_file = {}\ncreate_subdirectories = {}\nmip_table_dir = {}\n'
             'netcdf_file_action = {}\n\n')

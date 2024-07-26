@@ -5,7 +5,7 @@ import unittest
 import os
 from cdds.common.mip_tables import MipTables
 
-MIP_TABLES_DIR = os.path.join(os.environ["CDDS_ETC"], "mip_tables/CMIP6")
+MIP_TABLES_DIR = os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP6')
 
 
 class TestMipTables(unittest.TestCase):

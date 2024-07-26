@@ -32,11 +32,11 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
     :rtype: Dict[str, Any]
     """
     mip_table_dir = PluginStore.instance().get_plugin().mip_table_dir()
-    root_ancil_dir = '{}/ancil/'.format(os.environ['CDDS_ETC'])
-    root_hybrid_heights_dir = '{}/vertical_coordinates/'.format(os.environ['CDDS_ETC'])
-    root_replacement_coordinates_dir = '{}/horizontal_coordinates/'.format(os.environ['CDDS_ETC'])
-    sites_file = '{}/cfmip2/cfmip2-sites-orog.txt'.format(os.environ['CDDS_ETC'])
-    standard_names_dir = '{}/standard_names/'.format(os.environ['CDDS_ETC'])
+    root_ancil_dir = os.path.join(os.environ['CDDS_ETC'], 'ancil')
+    root_hybrid_heights_dir = os.path.join(os.environ['CDDS_ETC'], 'vertical_coordinates')
+    root_replacement_coordinates_dir = os.path.join(os.environ['CDDS_ETC'], 'horizontal_coordinates')
+    sites_file = os.path.join(os.environ['CDDS_ETC'], 'cfmip2', 'cfmip2-sites-orog.txt')
+    standard_names_dir = os.path.join(os.environ['CDDS_ETC'], 'standard_names')
 
     return {
         'external_plugin': '',
