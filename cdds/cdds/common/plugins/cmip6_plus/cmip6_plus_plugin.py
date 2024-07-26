@@ -116,4 +116,4 @@ class Cmip6PlusPlugin(BasePlugin):
         :return: Path to the MIP table directory
         :rtype: str
         """
-        return '{}/mip_tables/CMIP6Plus/'.format(os.environ['CDDS_ETC'])
+        return os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP6Plus')
