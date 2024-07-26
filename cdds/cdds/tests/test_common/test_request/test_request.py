@@ -86,6 +86,13 @@ class TestWriteRequest(TestCase):
         request.metadata.calendar = '360_day'
         request.common.root_data_dir = '/path/to/data'
         request.common.root_proc_dir = '/path/to/proc'
+        request.common.mip_table_dir = '${CDDS_ETC}/mip_tables/CMIP6/01.00.29/'
+        request.common.root_ancil_dir = '${CDDS_ETC}/ancil/'
+        request.common.root_hybrid_heights_dir = '${CDDS_ETC}/vertical_coordinates/'
+        request.common.root_replacement_coordinates_dir = '${CDDS_ETC}/horizontal_coordinates/'
+        request.common.sites_file = '${CDDS_ETC}/cfmip2/cfmip2-sites-orog.txt'
+        request.common.standard_names_dir = '${CDDS_ETC}/standard_names/'
+
         request.data.output_mass_root = 'moose:/adhoc/projects/cdds/'
         request.data.output_mass_suffix = 'development'
         request.data.data_version = data_version.strftime('v%Y%m%d')
