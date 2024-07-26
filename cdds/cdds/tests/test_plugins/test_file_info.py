@@ -5,8 +5,8 @@ from unittest import TestCase
 
 from metomi.isodatetime.data import TimePoint, Calendar
 
-from cdds.common.request.request import Request
 from cdds.common.plugins.file_info import GlobalModelFileInfo, RegionalModelFileInfo
+from cdds.tests.factories.request_factory import simple_request
 
 
 class TestGlobalModelFileIsCmorFile(TestCase):
@@ -40,7 +40,7 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
         self.model_file_info = GlobalModelFileInfo()
 
     def test_relevant_for_archiving(self):
-        request = Request()
+        request = simple_request()
         request.metadata.mip_era = 'CMIP6'
         request.metadata.mip = 'CMIP'
         request.metadata.experiment_id = 'ssp245'
@@ -59,7 +59,7 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
         self.assertTrue(relevant)
 
     def test_wrong_mip_table(self):
-        request = Request()
+        request = simple_request()
         request.metadata.mip_era = 'CMIP6'
         request.metadata.mip = 'CMIP'
         request.metadata.experiment_id = 'ssp245'
@@ -78,7 +78,7 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_output_variable(self):
-        request = Request()
+        request = simple_request()
         request.metadata.mip_era = 'CMIP6'
         request.metadata.mip = 'CMIP'
         request.metadata.experiment_id = 'ssp245'
@@ -97,7 +97,7 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_experiment_id(self):
-        request = Request()
+        request = simple_request()
         request.metadata.mip_era = 'CMIP6'
         request.metadata.mip = 'CMIP'
         request.metadata.experiment_id = 'highres-future'
@@ -116,7 +116,7 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_variant_label(self):
-        request = Request()
+        request = simple_request()
         request.metadata.mip_era = 'CMIP6'
         request.metadata.mip = 'CMIP'
         request.metadata.experiment_id = 'ssp245'
@@ -135,7 +135,7 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_model_id(self):
-        request = Request()
+        request = simple_request()
         request.metadata.mip_era = 'CMIP6'
         request.metadata.mip = 'CMIP'
         request.metadata.experiment_id = 'ssp245'
@@ -154,7 +154,7 @@ class TestGlobalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_sub_experiment_id(self):
-        request = Request()
+        request = simple_request()
         request.metadata.mip_era = 'CMIP6'
         request.metadata.mip = 'CMIP'
         request.metadata.experiment_id = 'ssp245'
@@ -332,7 +332,7 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
         self.model_file_info = RegionalModelFileInfo()
 
     def test_relevant_for_archiving(self):
-        request = Request()
+        request = simple_request()
         request.metadata.mip_era = 'CORDEX'
         request.metadata.model_id = 'HadGEM3-GC31-MM'
         request.netcdf_global_attributes.attributes = {
@@ -349,7 +349,7 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
         self.assertTrue(relevant)
 
     def test_wrong_output_variable(self):
-        request = Request()
+        request = simple_request()
         request.metadata.mip_era = 'CORDEX'
         request.metadata.model_id = 'HadGEM3-GC31-MM'
         request.netcdf_global_attributes.attributes = {
@@ -366,7 +366,7 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_driving_experiment(self):
-        request = Request()
+        request = simple_request()
         request.metadata.mip_era = 'CORDEX'
         request.metadata.model_id = 'HadGEM3-GC31-MM'
         request.netcdf_global_attributes.attributes = {
@@ -383,7 +383,7 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_frequency(self):
-        request = Request()
+        request = simple_request()
         request.metadata.mip_era = 'CORDEX'
         request.metadata.model_id = 'HadGEM3-GC31-MM'
         request.netcdf_global_attributes.attributes = {
@@ -400,7 +400,7 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
         self.assertFalse(relevant)
 
     def test_wrong_model_id(self):
-        request = Request()
+        request = simple_request()
         request.metadata.mip_era = 'CORDEX'
         request.metadata.model_id = 'HadGEM3-GC31-LL'
         request.netcdf_global_attributes.attributes = {

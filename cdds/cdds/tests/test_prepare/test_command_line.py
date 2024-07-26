@@ -30,6 +30,7 @@ from cdds.prepare.command_line import (
     main_alter_variable_list, parse_alter_args, main_select_variables,
 )
 from cdds.tests.test_prepare.common import TEST_RV_DICT
+from cdds.tests.factories.request_factory import simple_request
 
 
 class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
@@ -76,7 +77,7 @@ class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
     @patch('cdds.common.get_log_datestamp')
     def test_create_cdds_directory_structure(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
-        request = Request()
+        request = simple_request()
         request.metadata.experiment_id = self.experiment_id
         request.metadata.mip = self.project
         request.metadata.mip_era = self.mip_era
@@ -187,7 +188,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
     @patch('cdds.common.get_log_datestamp')
     def test_main_single_mip(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
-        request = Request()
+        request = simple_request()
         request.metadata.experiment_id = self.experiment_id
         request.metadata.mip = self.mip
         request.metadata.mip_era = self.mip_era
@@ -219,7 +220,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
     @patch('cdds.common.get_log_datestamp')
     def test_main_write_to_component_directory(self, mock_log_datestamp):
         mock_log_datestamp.return_value = self.log_datestamp
-        request = Request()
+        request = simple_request()
         request.metadata.experiment_id = self.experiment_id
         request.metadata.mip = self.mip
         request.metadata.mip_era = self.mip_era

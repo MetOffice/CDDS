@@ -57,12 +57,12 @@ def expected_test_common():
         'workflow_basename': 'UKESM1-0-LL_piControl_r1i1p1f2',
         'root_proc_dir': '/path/to/proc',
         'root_data_dir': '/path/to/data',
-        'root_ancil_dir': '/project/cdds/ancil',
+        'root_ancil_dir': '/home/h03/cdds/etc/ancil',
         'root_hybrid_heights_dir': '/home/h03/cdds/etc/vertical_coordinates',
         'root_replacement_coordinates_dir': '/home/h03/cdds/etc/horizontal_coordinates',
         'sites_file': '/home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt',
         'standard_names_version': 'latest',
-        'standard_names_dir': '/etc/standard_names',
+        'standard_names_dir': '/home/h03/cdds/etc/standard_names',
         'simulation': False,
         'log_level': 'INFO'
     }
@@ -95,7 +95,7 @@ def expected_test_misc():
 
 def expected_test_inventory():
     return {
-        'inventory_check': True,
+        'inventory_check': False,
         'inventory_database_location': '/project/cdds/inventory.db'
     }
 

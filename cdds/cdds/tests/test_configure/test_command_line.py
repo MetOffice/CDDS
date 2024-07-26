@@ -101,13 +101,13 @@ class TestMain(unittest.TestCase):
         self.suite_id = 'u-aw310'
         self.variant_label = 'r1i1p1f2'
         # User config:
-        self.ancil_files = ('/project/cdds/ancil/UKESM1-0-LL/qrparm.landfrac.pp '
-                            '/project/cdds/ancil/UKESM1-0-LL/qrparm.soil.pp '
-                            '/project/cdds/ancil/UKESM1-0-LL/ocean_constants.nc '
-                            '/project/cdds/ancil/UKESM1-0-LL/ocean_byte_masks.nc '
-                            '/project/cdds/ancil/UKESM1-0-LL/ocean_basin.nc '
-                            '/project/cdds/ancil/UKESM1-0-LL/diaptr_basin_masks.nc '
-                            '/project/cdds/ancil/UKESM1-0-LL/ocean_zostoga.nc')
+        self.ancil_files = ('/home/h03/cdds/etc/ancil/UKESM1-0-LL/qrparm.landfrac.pp '
+                            '/home/h03/cdds/etc/ancil/UKESM1-0-LL/qrparm.soil.pp '
+                            '/home/h03/cdds/etc/ancil/UKESM1-0-LL/ocean_constants.nc '
+                            '/home/h03/cdds/etc/ancil/UKESM1-0-LL/ocean_byte_masks.nc '
+                            '/home/h03/cdds/etc/ancil/UKESM1-0-LL/ocean_basin.nc '
+                            '/home/h03/cdds/etc/ancil/UKESM1-0-LL/diaptr_basin_masks.nc '
+                            '/home/h03/cdds/etc/ancil/UKESM1-0-LL/ocean_zostoga.nc')
 
         self.grid_id = 'atmos-native'
         self.grid = 'Native N96 grid; 192 x 144 longitude/latitude'

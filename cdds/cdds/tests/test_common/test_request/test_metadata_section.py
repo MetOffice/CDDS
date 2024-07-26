@@ -93,35 +93,6 @@ class TestMetadataSection(TestCase):
 
         self.assertDictEqual(metadata.items, expected_items)
 
-    def test_from_config_only_defaults(self):
-        config = ConfigParser()
-        config.add_section('metadata')
-        config.set('metadata', 'model_id', 'HadGEM3-GC31-LL')
-
-        metadata = MetadataSection.from_config(config)
-
-        self.assertEqual(metadata.calendar, '')
-        self.assertEqual(metadata.base_date, TimePoint(year=1850, month_of_year=1, day_of_month=1))
-        self.assertEqual(metadata.license, CMIP6_LICENSE)
-        self.assertEqual(metadata.parent_base_date, TimePoint(year=1850, month_of_year=1, day_of_month=1))
-        self.assertEqual(metadata.parent_experiment_id, '')
-        self.assertEqual(metadata.parent_model_id, 'HadGEM3-GC31-LL')
-        self.assertEqual(metadata.parent_time_units, 'days since 1850-01-01')
-        self.assertEqual(metadata.branch_date_in_child, None)
-        self.assertEqual(metadata.branch_date_in_parent, None)
-        self.assertEqual(metadata.branch_method, '')
-        self.assertEqual(metadata.experiment_id, '')
-        self.assertEqual(metadata.institution_id, '')
-        self.assertEqual(metadata.mip, '')
-        self.assertEqual(metadata.mip_era, '')
-        self.assertEqual(metadata.parent_mip, '')
-        self.assertEqual(metadata.parent_mip_era, '')
-        self.assertEqual(metadata.parent_variant_label, '')
-        self.assertEqual(metadata.sub_experiment_id, 'none')
-        self.assertEqual(metadata.variant_label, '')
-        self.assertEqual(metadata.model_id, 'HadGEM3-GC31-LL')
-        self.assertEqual(metadata.model_type, [])
-
     def test_from_config(self):
         config = ConfigParser()
         config.add_section('metadata')

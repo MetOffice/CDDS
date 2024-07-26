@@ -78,13 +78,13 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
                         'base_date': '1850-01-01T00:00:00',
                         'deflate_level': '2',
                         'suite_id': 'u-aw310',
-                        'ancil_files': ('/project/cdds/ancil/UKESM1-0-LL/qrparm.landfrac.pp '
-                                        '/project/cdds/ancil/UKESM1-0-LL/qrparm.soil.pp '
-                                        '/project/cdds/ancil/UKESM1-0-LL/ocean_constants.nc '
-                                        '/project/cdds/ancil/UKESM1-0-LL/ocean_byte_masks.nc '
-                                        '/project/cdds/ancil/UKESM1-0-LL/ocean_basin.nc '
-                                        '/project/cdds/ancil/UKESM1-0-LL/diaptr_basin_masks.nc '
-                                        '/project/cdds/ancil/UKESM1-0-LL/ocean_zostoga.nc'),
+                        'ancil_files': ('/home/h03/cdds/etc/ancil/UKESM1-0-LL/qrparm.landfrac.pp '
+                                        '/home/h03/cdds/etc/ancil/UKESM1-0-LL/qrparm.soil.pp '
+                                        '/home/h03/cdds/etc/ancil/UKESM1-0-LL/ocean_constants.nc '
+                                        '/home/h03/cdds/etc/ancil/UKESM1-0-LL/ocean_byte_masks.nc '
+                                        '/home/h03/cdds/etc/ancil/UKESM1-0-LL/ocean_basin.nc '
+                                        '/home/h03/cdds/etc/ancil/UKESM1-0-LL/diaptr_basin_masks.nc '
+                                        '/home/h03/cdds/etc/ancil/UKESM1-0-LL/ocean_zostoga.nc'),
                         'hybrid_heights_files': (
                             '/home/h03/cdds/etc/vertical_coordinates/atmosphere_theta_levels_85.txt'
                             ' /home/h03/cdds/etc/vertical_coordinates/atmosphere_rho_levels_86.txt'),

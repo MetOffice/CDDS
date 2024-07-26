@@ -17,14 +17,14 @@ from cdds.common.mass_record import MassRecord
 from cdds.archive.constants import (
     DATA_PUBLICATION_STATUS_DICT, SUPERSEDED_INFO_FILE_STR)
 import cdds.archive.mass
-from cdds.common.request.request import Request
+from cdds.tests.factories.request_factory import simple_request
 from cdds.tests.test_archive import common
 
 
 class TestMassPaths(unittest.TestCase):
     def setUp(self):
         load_plugin()
-        self.request = Request()
+        self.request = simple_request()
         self.request.metadata.mip_era = 'dummyera'
         self.request.metadata.mip = 'dummymip'
         self.request.metadata.experiment_id = 'dummy-exp123'

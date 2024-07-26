@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2023-2024, Met Office.
 # Please see LICENSE.rst for license details.
-from datetime import datetime
 from unittest import TestCase, mock
 
-from cdds import __version__
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.request.common_section import common_defaults
