@@ -39,6 +39,7 @@ class TestCmip6EmonLoaddust(AbstractFunctionalTests):
                     'ap5': {'CMIP6_Emon': 'loaddust'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['loaddust_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_196002-196003.nc'],
                     'ignore_history': True,
                 }

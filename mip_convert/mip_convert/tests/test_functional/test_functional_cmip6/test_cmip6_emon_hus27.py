@@ -39,6 +39,7 @@ class TestCmip6EmonHus27(AbstractFunctionalTests):
                     'ap5': {'CMIP6_Emon': 'hus27'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['hus_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_196003-196003.nc'],
                     'ignore_history': True,
                 }

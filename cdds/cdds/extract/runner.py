@@ -138,22 +138,22 @@ class ExtractRunner(object):
 
                             code, output = extract_process.mass_request(block)
                             status = check_moo_cmd(code, output)
-                            if status["val"] == "ok":
+                            if status == "ok":
                                 msg = self.lang["block_success"].format(
-                                    blocknum, status["msg"])
+                                    blocknum)
                             else:
                                 stream_success[stream] = False
                                 overall_result = "quality"
                                 msg = self.lang["block_fail"].format(
-                                    blocknum, status["msg"])
+                                    blocknum, output)
 
                             logger.info(msg)
 
-                            if status["val"] == "stop":
+                            if status == "stop":
                                 logger.info("{}: {}".format(
                                     self.lang["extract_failed"],
                                     self.lang["moose_fail"].format(
-                                        status["code"], status["msg"])))
+                                        code, output)))
                                 exit_nicely(self.lang["script_end"])
 
                         # ---- end of retrieve block loop ----

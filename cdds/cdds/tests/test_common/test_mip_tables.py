@@ -5,7 +5,7 @@ import unittest
 import os
 from cdds.common.mip_tables import MipTables
 
-MIP_TABLES_DIR = os.path.join(os.environ["CDDS_ETC"], "mip_tables/CMIP6")
+MIP_TABLES_DIR = os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP6')
 
 
 class TestMipTables(unittest.TestCase):
@@ -27,7 +27,7 @@ class TestMipTables(unittest.TestCase):
         mip_tables = MipTables(self._mip_table)
         self.assertIn('tas', mip_tables.get_variables('Amon'))
         self.assertIn('siconc', mip_tables.get_variables('SIday'))
-        self.assertIn('ta', mip_tables.get_variables('Emon'))
+        self.assertIn('ta27', mip_tables.get_variables('Emon'))
 
     def test_variable_metadata(self):
         mip_tables = MipTables(self._mip_table)

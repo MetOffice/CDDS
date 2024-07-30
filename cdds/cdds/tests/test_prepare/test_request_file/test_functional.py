@@ -31,7 +31,7 @@ class FunctionalTestCase(TestCase):
     def read_file_lines(path):
         with open(path) as file_handler:
             lines = file_handler.readlines()
-            return [line.strip() for line in lines]
+            return [os.path.expandvars(line.strip()) for line in lines]
 
 
 class TestWriteRequestForCMIP6(FunctionalTestCase):

@@ -2,6 +2,7 @@
 # Please see LICENSE.rst for license details.
 from datetime import datetime
 from metomi.isodatetime.data import TimePoint
+import os
 
 
 def expected_test_metadata():
@@ -51,18 +52,18 @@ def expected_test_common():
     return {
         'external_plugin': '',
         'external_plugin_location': '',
-        'mip_table_dir': '/data/users/cdds/etc/mip_tables/CMIP6/01.00.29',
+        'mip_table_dir': os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP6', '01.00.29'),
         'mode': 'strict',
         'package': 'round-1',
         'workflow_basename': 'UKESM1-0-LL_piControl_r1i1p1f2',
         'root_proc_dir': '/path/to/proc',
         'root_data_dir': '/path/to/data',
-        'root_ancil_dir': '/data/users/cdds/etc/ancil',
-        'root_hybrid_heights_dir': '/data/users/cdds/etc/vertical_coordinates',
-        'root_replacement_coordinates_dir': '/data/users/cdds/etc/horizontal_coordinates',
-        'sites_file': '/data/users/cdds/etc/cfsites/cfmip2-sites-orog.txt',
+        'root_ancil_dir': os.path.join(os.environ['CDDS_ETC'], 'ancil'),
+        'root_hybrid_heights_dir': os.path.join(os.environ['CDDS_ETC'], 'vertical_coordinates'),
+        'root_replacement_coordinates_dir': os.path.join(os.environ['CDDS_ETC'], 'horizontal_coordinates'),
+        'sites_file': os.path.join(os.environ['CDDS_ETC'], 'cfmip2', 'cfmip2-sites-orog.txt'),
         'standard_names_version': 'latest',
-        'standard_names_dir': '/etc/standard_names',
+        'standard_names_dir': os.path.join(os.environ['CDDS_ETC'], 'standard_names'),
         'simulation': False,
         'log_level': 'INFO'
     }
@@ -163,16 +164,16 @@ def expected_test_minimal_common():
         'external_plugin': '',
         'external_plugin_location': '',
         'log_level': 'INFO',
-        'mip_table_dir': '/data/users/cdds/etc/mip_tables/CMIP6/01.00.29',
+        'mip_table_dir': os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP6', '01.00.29'),
         'mode': 'strict',
         'package': 'round-1',
-        'root_ancil_dir': '/data/users/cdds/etc/ancil',
+        'root_ancil_dir': os.path.join(os.environ['CDDS_ETC'], 'ancil'),
         'root_data_dir': '/path/to/data',
         'root_proc_dir': '/path/to/proc',
-        'root_hybrid_heights_dir': '/data/users/cdds/etc/vertical_coordinates',
-        'root_replacement_coordinates_dir': '/data/users/cdds/etc/horizontal_coordinates',
-        'sites_file': '/data/users/cdds/etc/cfsites/cfmip2-sites-orog.txt',
-        'standard_names_dir': '/data/users/cdds/etc/standard_names',
+        'root_hybrid_heights_dir': os.path.join(os.environ['CDDS_ETC'], 'vertical_coordinates'),
+        'root_replacement_coordinates_dir': os.path.join(os.environ['CDDS_ETC'], 'horizontal_coordinates'),
+        'sites_file': os.path.join(os.environ['CDDS_ETC'], 'cfmip2', 'cfmip2-sites-orog.txt'),
+        'standard_names_dir': os.path.join(os.environ['CDDS_ETC'], 'standard_names'),
         'standard_names_version': 'latest',
         'simulation': False,
         'workflow_basename': 'UKESM1-0-LL_piControl_r1i1p1f2'

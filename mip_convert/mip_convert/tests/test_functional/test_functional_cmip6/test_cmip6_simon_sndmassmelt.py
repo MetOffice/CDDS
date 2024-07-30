@@ -39,6 +39,7 @@ class TestCmip6SImonSndmassmelt(AbstractFunctionalTests):
                     'inm': {'CMIP6_SImon': 'sndmassmelt'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['sndmassmelt_SImon_UKESM1-0-LL_amip_r1i1p1f1_185403-185403.nc'],
                     'ignore_history': True,
                 }

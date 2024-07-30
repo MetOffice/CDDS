@@ -40,6 +40,7 @@ class TestCmip6CFmonTnhus(AbstractFunctionalTests):
                     'apu': {'CMIP6_CFmon': 'tnhus'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['tnhus_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_190204-190204.nc'],
                     'ignore_history': True,
                 }

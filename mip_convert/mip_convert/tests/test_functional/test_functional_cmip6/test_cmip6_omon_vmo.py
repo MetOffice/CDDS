@@ -41,6 +41,7 @@ class TestCmip6OmonVmo(AbstractFunctionalTests):
                     'onm': {'CMIP6_Omon': 'vmo'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['vmo_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_185203-185203.nc'],
                 }
             )

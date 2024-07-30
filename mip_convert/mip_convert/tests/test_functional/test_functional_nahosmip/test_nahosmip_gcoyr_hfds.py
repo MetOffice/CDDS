@@ -40,6 +40,7 @@ class TestNAHosMIPGCOyrHfds(AbstractFunctionalTests):
                     'onm': {'GCModelDev_GCOyr': 'hfds'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['hfds_GCOyr_UKESM1-0-LL_amip_r1i1p1f1_1960-1961.nc'],
                     'ignore_history': True,
                     'tolerance_value': 1e-14

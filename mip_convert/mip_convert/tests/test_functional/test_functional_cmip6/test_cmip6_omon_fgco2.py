@@ -37,6 +37,7 @@ class TestCmip6OmonFgco2(AbstractFunctionalTests):
                     'onm': {'CMIP6_Omon': 'fgco2'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['fgco2_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_185001-185002.nc'],
                     'ignore_history': True,
                     'tolerance_value': 1e-14

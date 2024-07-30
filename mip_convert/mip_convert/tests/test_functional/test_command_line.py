@@ -44,7 +44,8 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         pass
 
     def convert(
-            self, filenames: List[str], relaxed_cmor: bool, mip_convert_log: str, expected_exit_code: int = 0
+            self, filenames: List[str], reference_version: str, relaxed_cmor: bool,
+            mip_convert_log: str, expected_exit_code: int = 0
     ) -> Tuple[List[str], List[str]]:
         input_directory = self.input_dir.format(
             self.test_info.project_id, self.test_info.mip_table, '_'.join(self.test_info.variables)
@@ -58,7 +59,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         Path(output_directory).mkdir(exist_ok=True, parents=True)
 
         output_files = [os.path.join(output_directory, filename) for filename in filenames]
-        reference_dir = os.path.join(reference_data_directory, REFERENCE_OUTPUT_DIR_NAME)
+        reference_dir = os.path.join(reference_data_directory, REFERENCE_OUTPUT_DIR_NAME, reference_version)
         reference_files = [os.path.join(reference_dir, filename) for filename in filenames]
 
         # Provide help if the reference file does not exist.
@@ -107,19 +108,21 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         mip_convert_log = self.get_mip_convert_log_filename(log_file_identifier)
         other_items = self.test_info.specific_info.other
         filenames = other_items['filenames']
-        self.convert(filenames, False, mip_convert_log, expected_error_code)
+        reference_version = other_items['reference_version']
+        self.convert(filenames, reference_version, False, mip_convert_log, expected_error_code)
 
     def check_convert(
             self, relaxed_cmor: bool = False, use_fast_comparison: bool = False, log_file_identifier: str = '') -> None:
         mip_convert_log = self.get_mip_convert_log_filename(log_file_identifier)
         other_items = self.test_info.specific_info.other
+        reference_version = other_items['reference_version']
         filenames = other_items['filenames']
 
         ignore_history = other_items.get('ignore_history', False)
         tolerance_value = other_items.get('tolerance_value')
         other_options = other_items.get('other_options')
 
-        outputs, references = self.convert(filenames, relaxed_cmor, mip_convert_log)
+        outputs, references = self.convert(filenames, reference_version, relaxed_cmor, mip_convert_log)
         if use_fast_comparison:
             if 'hash' not in other_items:
                 print('Hash strings have not been calculated for files {}'.format(', '.join(filenames)))

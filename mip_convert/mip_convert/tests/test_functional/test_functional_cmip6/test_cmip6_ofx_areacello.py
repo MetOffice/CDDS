@@ -41,6 +41,7 @@ class TestCmip6OfxAreacello(AbstractFunctionalTests):
                     'ancil': {'CMIP6_Ofx': 'areacello'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['areacello_Ofx_UKESM1-0-LL_amip_r1i1p1f1_gn.nc'],
                     'ignore_history': True,
                 }

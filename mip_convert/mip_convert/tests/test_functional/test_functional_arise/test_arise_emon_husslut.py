@@ -37,6 +37,7 @@ class TestARISEEmonHussLut(AbstractFunctionalTests):
                     'ap5': {'ARISE_Emon': 'hussLut'}
                 },
                 other={
+                    'reference_version': 'v1',
                     'filenames': ['hussLut_Emon_UKESM1-0-LL_arise-sai-1p5_r1i1p1f2_gn_185001-185002.nc'],
                     'ignore_history': True
                 }

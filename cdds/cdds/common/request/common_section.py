@@ -35,7 +35,7 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
     root_ancil_dir = os.path.join(os.environ['CDDS_ETC'], 'ancil')
     root_hybrid_heights_dir = os.path.join(os.environ['CDDS_ETC'], 'vertical_coordinates')
     root_replacement_coordinates_dir = os.path.join(os.environ['CDDS_ETC'], 'horizontal_coordinates')
-    sites_file = os.path.join(os.environ['CDDS_ETC'], 'cfsites', 'cfmip2-sites-orog.txt')
+    sites_file = os.path.join(os.environ['CDDS_ETC'], 'cfmip2', 'cfmip2-sites-orog.txt')
     standard_names_dir = os.path.join(os.environ['CDDS_ETC'], 'standard_names')
 
     return {
