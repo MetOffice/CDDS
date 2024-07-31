@@ -132,10 +132,10 @@ def parse_parameters(args):
                         action='version',
                         version=('%(prog)s {version}'.format(version=__version__))
                         )
-    parser.add_argument('--mip_era',
+    parser.add_argument('--plugin_id',
                         default='CMIP6',
                         type=str,
-                        help='The MIP era (e.g. CMIP6)')
+                        help='The plugin id (e.g. CMIP6)')
     parser.add_argument('--external_plugin',
                         default='',
                         type=str,
@@ -145,7 +145,7 @@ def parse_parameters(args):
                         type=str,
                         help='Path to the external plugin implementation')
     parameters = parser.parse_args(args=args)
-    load_plugin(parameters.mip_era, parameters.external_plugin, parameters.external_plugin_location)
+    load_plugin(parameters.plugin_id, parameters.external_plugin, parameters.external_plugin_location)
 
     # Validate the parameters.
     check_file(parameters.config_file)

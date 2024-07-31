@@ -224,11 +224,13 @@ def load_cdds_plugins(request_config: ConfigParser) -> None:
     :param request_config: Parser of the request configuration contains plugin information
     :type request_config: ConfigParser
     """
-    mip_era = request_config.get('metadata', 'mip_era')
+    plugin_id = request_config.get('metadata', 'mip_era')
     external_plugin = None
     external_plugin_location = None
     if request_config.has_option('common', 'external_plugin'):
         external_plugin = request_config.get('common', 'external_plugin')
     if request_config.has_option('common', 'external_plugin_location'):
         external_plugin_location = request_config.get('common', 'external_plugin_location')
-    load_plugin(mip_era, external_plugin, external_plugin_location)
+    if request_config.has_option('common', 'force_plugin') and request_config.get('common', 'force_plugin'):
+        plugin_id = request_config.get('common', 'force_plugin')
+    load_plugin(plugin_id, external_plugin, external_plugin_location)

@@ -294,7 +294,7 @@ class RegionalModelFileInfo(ModelFileInfo):
                                   '(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+).nc')
 
     _OUTPUT_FILE_TEMPLATE = ('<variable_id><domain_id><driving_source_id><driving_experiment_id><driving_variant_label>'
-                             '<institution_id><source_id><version_realization>_<frequency>')
+                             '<institution_id><source_id><version_realization><frequency>')
 
     def __init__(self):
         super(RegionalModelFileInfo, self).__init__()

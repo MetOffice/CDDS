@@ -108,7 +108,7 @@ class MipTables(object):
                     if "Header" in d:
                         table_name = d["Header"]["table_id"].split(" ")[-1]
                         if self.version is None:
-                            self._version = d["Header"]["data_specs_version"]
+                            self._version = d["Header"].get("data_specs_version", None)
                         self._tables[table_name] = d["variable_entry"]
                         self._variables[table_name] = []
                         for key, var_meta in d["variable_entry"].items():
