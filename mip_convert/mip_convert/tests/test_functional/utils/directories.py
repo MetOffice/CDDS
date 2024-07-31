@@ -4,7 +4,7 @@ import os
 
 OUTPUT_CDDS_DIR = os.environ['SCRATCH']
 CDDS_ETC = os.environ['CDDS_ETC']
-ROOT_REFERENCE_DATA_DIR = os.path.join(CDDS_ETC 'testdata', 'diagnostics')  # this should be symlinked to /project/cdds_data on-prem
+ROOT_REFERENCE_DATA_DIR = os.path.join(CDDS_ETC, 'testdata', 'diagnostics')  # symlinked to /project/cdds_data on-prem
 ROOT_REFERENCE_CASES_DIR = os.path.join(CDDS_ETC, 'testdata', 'functional_tests', 'mip_convert')
 ROOT_OUTPUT_DATA_DIR = os.path.join(OUTPUT_CDDS_DIR, 'testdata', 'diagnostics')
 ROOT_OUTPUT_CASES_DIR = os.path.join(ROOT_OUTPUT_DATA_DIR, 'testdata', 'functional_tests', 'mip_convert')
