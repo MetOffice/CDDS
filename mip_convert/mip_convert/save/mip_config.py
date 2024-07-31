@@ -62,7 +62,7 @@ class MipTableFactory(object):
         table_path = self.path_checker.fullFileName(table_name)
         if table_name.endswith('.json'):
             table_dict = _read_json(table_path)
-            pattern = re.compile(r'[a-zA-Z0-9]+_([a-zA-Z0-9]+).json')
+            pattern = re.compile(r'[a-zA-Z0-9-]+_([a-zA-Z0-9]+).json')
             match = pattern.match(table_name)
             coordinate_name = table_name.replace(match.group(1), 'coordinate')
             axes_path = self.path_checker.fullFileName(coordinate_name)

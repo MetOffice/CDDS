@@ -795,6 +795,10 @@ class ConvertProcess(object):
         else:
             request_cfg_path = os.path.abspath(self._arguments.request_path)
 
+        plugin_id = self._request.metadata.mip_era
+        if self._request.common.force_plugin:
+            plugin_id = self._request.common.force_plugin
+
         use_external_plugin = False
         external_plugin = ''
         external_plugin_location = ''
@@ -804,7 +808,7 @@ class ConvertProcess(object):
             external_plugin_location = self._request.common.external_plugin_location
 
         changes_to_apply_all = {
-            'MIP_ERA': self._request.metadata.mip_era,
+            'PLUGIN_ID': plugin_id,
             'CDDS_CONVERT_PROC_DIR': component_directory(self._request, 'convert'),
             'CDDS_VERSION': _NUMERICAL_VERSION,
             'CALENDAR': self._request.metadata.calendar,

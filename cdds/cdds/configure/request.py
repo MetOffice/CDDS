@@ -40,8 +40,13 @@ def retrieve_request_metadata(request: Request):
     ordered_metadata['cmor_setup'].update({'cmor_log_file': '{{ cmor_log }}'})
     ordered_metadata['cmor_setup'].update({'netcdf_file_action': NETCDF_FILE_ACTION})
     ordered_metadata['cmor_setup'].update({'create_subdirectories': CREATE_SUBDIRECTORIES})
+
     ordered_metadata['cmor_dataset'].update({'output_dir': '{{ output_dir }}'})
     ordered_metadata['cmor_dataset'].update({'license': request.metadata.license})
+    if request.metadata.experiment_id:
+        ordered_metadata['cmor_dataset'].update({'experiment_id': request.metadata.experiment_id})
+        ordered_metadata['cmor_dataset'].update({'sub_experiment_id': request.metadata.sub_experiment_id})
+
     ordered_metadata['request'].update({'model_output_dir': '{{ input_dir }}'})
     ordered_metadata['request'].update({'run_bounds': '{{ start_date }} {{ end_date }}'})
     ordered_metadata['request'].update({'suite_id':  request.data.model_workflow_id})

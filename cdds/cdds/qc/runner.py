@@ -112,7 +112,12 @@ class QCRunner(object):
         : int
             Run id of the test.
         """
-        cv_location = os.path.join(mip_tables_dir, '{}_CV.json'.format(request.metadata.mip_era))
+        cv_prefix = request.metadata.mip_era
+        if 'project_id' in request.netcdf_global_attributes.attributes:
+            cv_prefix = request.netcdf_global_attributes.attributes['project_id']
+
+        cv_location = os.path.join(mip_tables_dir, '{}_CV.json'.format(cv_prefix))
+
         conf = {
             "cmip6": {
                 "mip_tables_dir": mip_tables_dir,

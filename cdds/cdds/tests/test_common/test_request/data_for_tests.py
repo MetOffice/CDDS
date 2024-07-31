@@ -49,6 +49,7 @@ def expected_test_global_attributes():
 
 def expected_test_common():
     return {
+        'force_plugin': '',
         'external_plugin': '',
         'external_plugin_location': '',
         'mip_table_dir': '/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29',
@@ -160,6 +161,7 @@ def expected_test_minimal_metadata():
 
 def expected_test_minimal_common():
     return {
+        'force_plugin': '',
         'external_plugin': '',
         'external_plugin_location': '',
         'log_level': 'INFO',
