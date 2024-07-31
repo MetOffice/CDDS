@@ -37,7 +37,7 @@ OROGRAPHY_STASH = 33
 LSM_STASH = 30
 
 # Default settings for CFMIP2 properties.
-CFMIP2_COORD_DIR = os.path.join(os.environ['CDDS_ETC'], 'cfsites')
+CFMIP2_COORD_DIR = os.path.join(os.environ['CDDS_ETC'], 'cfmip2')
 CFMIP2_COORD_FILE_URL = 'file://{}/cfmip2-sites-orog.txt'.format(CFMIP2_COORD_DIR)
 
 
