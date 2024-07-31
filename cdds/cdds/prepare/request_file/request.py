@@ -28,10 +28,10 @@ def write_request_from_rose_suite_info(arguments: RoseSuiteArguments) -> None:
     svn_url = get_svn_url(arguments)
     request = read_request_from_rose_suite_info(svn_url, arguments)
 
-    json_file = arguments.request_file
-    logger.info('Writing request cfg file to "{}"'.format(json_file))
+    cfg_file = arguments.request_file
+    logger.info('Writing request cfg file to "{}"'.format(cfg_file))
 
-    request.write(json_file)
+    request.write(cfg_file)
     logger.debug('Successfully completed.')
 
 

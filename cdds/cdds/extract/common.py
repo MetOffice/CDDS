@@ -8,7 +8,6 @@ Utility functions for extract processing.
 import logging
 import sys
 import pwd
-import grp
 import os
 import subprocess
 import re
@@ -308,8 +307,6 @@ def create_dir(directory, permissions):
         status = "exists"
     else:
         subdirpath = ''
-        # uid = pwd.getpwnam(user).pw_uid
-        # gid = grp.getgrnam(group).gr_gid
 
         sep = os.sep
         subdirs = [subdir for subdir in directory.split(sep) if subdir]
@@ -317,6 +314,7 @@ def create_dir(directory, permissions):
             subdirpath = "{}{}{}".format(subdirpath, sep, subdir)
             if not os.path.exists(subdirpath):
                 os.mkdir(subdirpath, permissions)
+
         msg = "Directory created : {}".format(directory)
         status = "created"
 
