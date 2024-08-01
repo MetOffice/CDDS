@@ -187,8 +187,10 @@ class QCRunner(object):
                 self.db.commit()
                 qc_dataset_id = cursor.lastrowid
                 with self.check_suite.load_dataset(data_file) as ds:
-                    output = self.check_suite.run(
-                        ds, conf, [], "cf17", "cmip6")
+                    if request.metadata.mip_era == 'CORDEX' or request.common.force_plugin == 'CORDEX':
+                        output = self.check_suite.run(ds, conf, [], "cf17", "cordex")
+                    else:
+                        output = self.check_suite.run(ds, conf, [], "cf17", "cmip6")
                 invalid = self._parse_and_log(cursor, output, qc_dataset_id)
                 if data_file in crs[1] and crs[1][data_file]:
                     for msg in crs[1][data_file]:
