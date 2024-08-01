@@ -12,6 +12,7 @@ from cdds.common.constants import (
     APPROVED_VARS_FILENAME_TEMPLATE,
     APPROVED_VARS_FILENAME_STREAM_TEMPLATE,
 )
+from cdds.common.plugins.plugins import PluginStore
 from cdds.common.sqlite import execute_insert_query
 from cdds.qc.plugins.base.dataset import StructuredDataset
 from cdds.qc.common import NoDataForQualityCheck
@@ -112,11 +113,9 @@ class QCRunner(object):
         : int
             Run id of the test.
         """
-        cv_prefix = request.metadata.mip_era
-        if 'project_id' in request.netcdf_global_attributes.attributes:
-            cv_prefix = request.netcdf_global_attributes.attributes['project_id']
-
-        cv_location = os.path.join(mip_tables_dir, '{}_CV.json'.format(cv_prefix))
+        plugin = PluginStore.instance().get_plugin()
+        cv_prefix = plugin.mip_table_prefix()
+        cv_location = os.path.join(mip_tables_dir, '{}{}_CV.json'.format(cv_prefix, request.metadata.mip_era))
 
         conf = {
             "cmip6": {

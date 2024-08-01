@@ -279,7 +279,7 @@ class RegionalModelFileInfo(ModelFileInfo):
 
     _CMOR_FILENAME_PATTERN = (r'([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_'
                               r'(r\d+i\d+p\d+f\d+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_'
-                              r'([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_((\d+)-(\d+)).nc')
+                              r'([a-zA-Z0-9-]+)_((\d+)-(\d+)).nc')
 
     _NC_FILES_TO_ARCHIVE_REGEX = ('(?P<out_var_name>[a-zA-Z0-9-]+)_'
                                   '(?P<domain_id>[a-zA-Z0-9-]+)_'
@@ -289,7 +289,6 @@ class RegionalModelFileInfo(ModelFileInfo):
                                   '(?P<institution_id>[a-zA-Z0-9-]+)_'
                                   '(?P<model_id>[a-zA-Z0-9-]+)_'
                                   '(?P<version>[a-zA-Z0-9-]+)_'
-                                  '(?P<realization>[a-zA-Z0-9-]+)_'
                                   '(?P<frequency>[a-zA-Z0-9-]+)_'
                                   '(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+).nc')
 
