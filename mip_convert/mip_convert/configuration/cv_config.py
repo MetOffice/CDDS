@@ -14,7 +14,9 @@ class CVKey(object):
 
     ACTIVITY_ID = 'activity_id'
     EXPERIMENT_ID = 'experiment_id'
+    DRIVING_EXPERIMENT_ID = 'driving_experiment_id'
     EXPERIMENT = 'experiment'
+    DRIVING_EXPERIMENT = 'driving_experiment'
     FREQUENCY = 'frequency'
     GRID_LABEL = 'grid_label'
     INSTITUTION_ID = 'institution_id'
@@ -110,6 +112,22 @@ class CVConfig(JSONConfig):
         info = self._get_value_from_cv(CVKey.EXPERIMENT_ID, experiment_id)
         if info and CVKey.EXPERIMENT in info:
             value = info[CVKey.EXPERIMENT]
+        return value
+
+    def driving_experiment(self, driving_experiment_id):
+        """
+        Return the long description of the |driving experiment| specified by
+        the CV file.
+
+        Parameters
+        ----------
+        driving_experiment_id: str
+            The |driving experiment identifier|.
+        """
+        value = self._UNKNOWN
+        info = self._get_value_from_cv(CVKey.DRIVING_EXPERIMENT_ID, driving_experiment_id)
+        if info and CVKey.DRIVING_EXPERIMENT_ID in info:
+            value = info[CVKey.DRIVING_EXPERIMENT_ID]
         return value
 
     def institution(self, institution_id):

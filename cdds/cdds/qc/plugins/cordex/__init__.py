@@ -74,7 +74,6 @@ class CordexCheck(BaseNCCheck):
 
         attr_dict = self._generate_attribute_dictionary(netcdf_file)
         check_tasks = [
-            RunIndexAttributesCheckTask(self.__cache),
             MandatoryTextAttributesCheckTask(self.__cache),
             OptionalTextAttributesCheckTask(self.__cache),
             StringAttributesCheckTask(self.__cache),
@@ -93,12 +92,10 @@ class CordexCheck(BaseNCCheck):
 
     def _generate_attribute_dictionary(self, netcdf_file: Dataset) -> Dict[str, Any]:
         attr_dict = {
-            "forcing_index": None,
-            "realization_index": None,
-            "initialization_index": None,
-            "physics_index": None,
-            "experiment_id": None,
-            "sub_experiment_id": None,
+            "driving_experiment_id": None,
+            "driving_variant_label": None,
+            "version_realization": None,
+            "driving_source_id": None,
             "variant_label": None,
             "mip_era": None,
             "source_id": None,
