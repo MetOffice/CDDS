@@ -12,7 +12,6 @@ from cdds.common.constants import INPUT_DATA_DIRECTORY
 from cdds.extract.common import (
     check_moo_cmd, configure_mappings, configure_variables, exit_nicely, get_data_target,
     get_zero_sized_files, ValidationResult)
-from cdds.extract.constants import GROUP_FOR_DIRECTORY_CREATION
 from cdds.extract.filters import Filters
 from cdds.extract.process import Process
 from cdds.common.plugins.plugins import PluginStore
@@ -50,7 +49,7 @@ class ExtractRunner(object):
         # log start of processing
         logger.info("EXTRACT PROCESS starting ---- ")
         logger.info(self.lang["user_settings"].format(
-            getpass.getuser(), GROUP_FOR_DIRECTORY_CREATION))
+            getpass.getuser()))
 
         # get data streams to be extracted - excludes streams to be skipped
         streams = [stream for stream in request.data.streams if stream in self.args.streams

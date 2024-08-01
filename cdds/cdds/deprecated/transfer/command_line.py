@@ -42,7 +42,7 @@ def main_move_in_mass(arguments: List[str] = None) -> int:
     args = parse_arguments_move_in_mass(arguments)
     request = read_request(args.request)
 
-    log_file = update_log_dir(LOG_NAME_MOVE_IN_MASS, request, 'archive')
+    log_file = LOG_NAME_MOVE_IN_MASS
     configure_logger(log_file, request.common.log_level, False)
 
     logger = logging.getLogger(__name__)
