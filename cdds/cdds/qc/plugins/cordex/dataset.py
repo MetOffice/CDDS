@@ -46,8 +46,8 @@ class CordexDataset(StructuredDataset):
         <driving_variant_label>     r1i1p1f2
         <institution_id>            MOHC
         <source_id>                 HadREM3-GA7-05
-        <version_realization>       fpsconv-x2yn2-v1
-        <frequency>                 realizationday
+        <versionrealization>        fpsconv-x2yn2-v1
+        <frequency>                 day
         [<time_range>]              200001010030-200012312330
         .nc
 
@@ -69,7 +69,7 @@ class CordexDataset(StructuredDataset):
         template_dict = {
             "domain_id": 1,
             "driving_source_id": 2,
-            "experiment_id": 3,
+            "driving_experiment_id": 3,
             "institution_id": 5,
             "source_id": 6
         }
@@ -109,8 +109,7 @@ class CordexDataset(StructuredDataset):
             valid_filename = False
             messages.append("Invalid driving ensemble member {}".format(esemble_candidate))
         else:
-            esemble_candidate = esemble_candidate.split('f')[0]
-            esemble_member = ds.getncattr("driving_model_ensemble_member")
+            esemble_member = ds.getncattr("driving_variant_label")
             if esemble_member != esemble_candidate:
                 valid_filename = False
                 messages.append(
@@ -156,17 +155,15 @@ class CordexDataset(StructuredDataset):
                 attrs = [
                     'mip_era',
                     'source_id',
-                    'experiment_id',
-                    'sub_experiment_id',
                     'table_id',
                     'variant_label',
-                    'variable_id',
                     'grid_label',
                     'domain',
                     'driving_experiment_id',
-                    'driving_model_ensemble_member',
                     'frequency',
-                    'rcm_version_id'
+                    'version_realization',
+                    'driving_source_id',
+                    'driving_variant_label'
                 ]
 
                 try:
