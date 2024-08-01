@@ -8,7 +8,6 @@ from mip_convert.tests.test_functional.test_command_line import AbstractFunction
 from mip_convert.tests.test_functional.utils.configurations import Cmip6TestData, SpecificInfo
 from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, get_output_dir,
                                                                  MODEL_OUTPUT_DIR,
-                                                                 PROJECT_CDDS_DIR,
                                                                  ROOT_OUTPUT_CASES_DIR)
 
 

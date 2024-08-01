@@ -10,8 +10,7 @@ from typing import Dict, Any, List
 
 from mip_convert.tests.test_functional.utils.constants import (ARISE_LICENSE, CMIP6_LICENSE, CORDEX_LICENSE,
                                                                GCMODELDEV_LICENSE)
-from mip_convert.tests.test_functional.utils.directories import (PROJECT_CDDS_DIR,
-                                                                 CMIP6_MIP_TABLE_DIR, CORDEX_MIP_TABLE_DIR,
+from mip_convert.tests.test_functional.utils.directories import (CMIP6_MIP_TABLE_DIR, CORDEX_MIP_TABLE_DIR,
                                                                  ARISE_MIP_TABLE_DIR, SEASONAL_MIP_TABLE_DIR,
                                                                  NAHOSMIP_MIP_TABLE_DIR,
                                                                  ROOT_REFERENCE_DATA_DIR, ROOT_ANCIL_DIR)
@@ -66,7 +65,6 @@ class CommonInfo:
         """
         return CommonInfo(
             common={
-                'root_test_dir': PROJECT_CDDS_DIR,
                 'root_test_location': ROOT_REFERENCE_DATA_DIR,
                 'root_ancil_dir': ROOT_ANCIL_DIR
             },

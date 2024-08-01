@@ -66,9 +66,6 @@ def get_request():
 
 
 CONFIG = '''
-[locations]
-dataroot = /data_root
-procroot = /proc_root
 
 [facetmaps]
 # facet structure for root data directory
