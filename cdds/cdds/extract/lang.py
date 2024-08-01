@@ -179,9 +179,7 @@ def set_language():
             """,
         "user_settings":
             """
-            User details
-               user    {}
-               group   {}
+            Username {}
             """,
 
         # user emails

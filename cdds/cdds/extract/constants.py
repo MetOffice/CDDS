@@ -22,7 +22,6 @@ GRID_LOOKUPS = {"diad-T": "medusa",
                 "grid-V": "nemo",
                 "grid-W": "nemo",
                 "scalar": "nemo"}
-GROUP_FOR_DIRECTORY_CREATION = "users"
 LOGNAME = "extract_{}.log"
 LOG_NAME_SPICE = 'extract_spice.log'
 LOG_LEVEL = logging.INFO

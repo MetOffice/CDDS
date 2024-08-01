@@ -15,7 +15,7 @@ from cdds.extract.common import (
     build_mass_location, process_info, exit_nicely, create_dir,
     check_moo_cmd, run_moo_cmd, get_streamtype
 )
-from cdds.extract.constants import GROUP_FOR_DIRECTORY_CREATION, STREAMDIR_PERMISSIONS
+from cdds.extract.constants import STREAMDIR_PERMISSIONS
 from cdds.extract.filters import FilterFileException
 
 
