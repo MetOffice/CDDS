@@ -336,14 +336,14 @@ class RegionalModelFileInfo(ModelFileInfo):
         return os.path.join(
             request.netcdf_global_attributes.attributes['project_id'],
             request.metadata.mip_era,
-            request.netcdf_global_attributes.attributes['activity_id'],
+            request.metadata.mip,
             request.netcdf_global_attributes.attributes['domain'],
             request.metadata.institution_id,
             request.netcdf_global_attributes.attributes['driving_source_id'],
             request.netcdf_global_attributes.attributes['driving_experiment'],
             request.netcdf_global_attributes.attributes['driving_variant_label'],
             request.metadata.model_id,
-            request.netcdf_global_attributes.attributes['rcm_version_id']
+            request.netcdf_global_attributes.attributes['version_realization']
         )
 
     @property

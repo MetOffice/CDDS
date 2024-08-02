@@ -345,8 +345,8 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
             'out_var_name': 'hus1000',
             'frequency': 'day'
         }
-        nc_file = ('/path/to/output/data/apa/day/tas/hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_'
-                   'MOHC_HadREM3-GA7-05_version_realization_day_20220101-20231230.nc')
+        nc_file = ('/path/to/output/data/apa/EUR-11/hus1000/hus1000_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_'
+                   'HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc')
 
         relevant = self.model_file_info.is_relevant_for_archiving(request, variable_dict, nc_file)
 
