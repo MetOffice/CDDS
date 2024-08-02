@@ -25,15 +25,15 @@ class CordexDatasetTestCase(unittest.TestCase):
 
         def ncattrs(name):
             return {
-                'experiment_id': 'evaluation',
-                'sub_experiment_id': 'none',
-                'table_id': 'hus1000',
+                'table_id': 'day',
                 'domain_id': 'EUR-11',
-                'driving_source_id': 'HadREM3-GA7-05',
+                'driving_experiment_id': 'evaluation',
+                'driving_source_id': 'HadGEM3-GC31-LL',
                 'driving_model_ensemble_member': 'r1i1p1',
+                'driving_variant_label': 'r1i1p1f3',
                 'institution_id': 'MOHC',
                 'source_id': 'HadREM3-GA7-05',
-                'version_realization': 'version',
+                'version_realization': 'v1-r1',
                 'frequency': 'day'
             }[name]
 
@@ -41,8 +41,7 @@ class CordexDatasetTestCase(unittest.TestCase):
         ds.hasattr.return_value = True
 
         filename = (
-            "hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1f2_MOHC_HadREM3-GA7-05_version_"
-            "realizationday_20220101-20231230.nc"
+            "hus1000_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc"
         )
         structured_dataset = CordexDataset('.', request, self.mip_tables,
                                            None, None, None, logger)
@@ -52,8 +51,7 @@ class CordexDatasetTestCase(unittest.TestCase):
         self.assertEqual([], messages)
 
         filename = (
-            "hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1x1_MOHC_HadREM3-GA7-05_version_"
-            "realizationday_20220101-20231230.nc"
+            "hus1000_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1x1_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc"
         )
         passed, messages = structured_dataset.check_filename(ds, filename)
         self.assertFalse(passed)
@@ -63,42 +61,38 @@ class CordexDatasetTestCase(unittest.TestCase):
     @patch('netCDF4.Dataset')
     def test_filename_checker_inconsistent_attributes(self, ds, logger):
         request = Request()
+        request.metadata.calendar = '360_day'
 
         def ncattrs(name):
             return {
-                'experiment_id': 'spinup',
-                'sub_experiment_id': 'none',
                 'table_id': 'pr',
                 'domain_id': 'ALP-3',
+                'driving_experiment_id': 'evaluation',
                 'driving_source_id': 'CLMcom-KIT-CCLM5-0-14',
                 'driving_model_ensemble_member': 'r1i1p1',
+                'driving_variant_label': 'r1i1p1f3',
                 'institution_id': 'WD',
                 'source_id': 'CLMcom-KIT-CCLM5-0-14',
-                'version_realization': 'fpsconv-x2yn2-v1',
-                'frequency': 'mon'
+                'version_realization': 'v1-r1',
+                'frequency': 'day'
             }[name]
 
         ds.getncattr = ncattrs
         ds.hasattr.return_value = True
 
         expected_errors = [
-            ("domain_id's value 'ALP-3' doesn't match filename hus1000_EUR-11_HadREM3-GA7-05_"
-             "evaluation_r1i1p1x1_MOHC_HadREM3-GA7-05_version_realizationday_20220101-20231230.nc"),
-            ("driving_source_id's value 'CLMcom-KIT-CCLM5-0-14' doesn't match filename hus1000_EUR-11_HadREM3-GA7-05_"
-             "evaluation_r1i1p1x1_MOHC_HadREM3-GA7-05_version_realizationday_20220101-20231230.nc"),
-            ("experiment_id's value 'spinup' doesn't match filename hus1000_EUR-11_HadREM3-GA7-05_"
-             "evaluation_r1i1p1x1_MOHC_HadREM3-GA7-05_version_realizationday_20220101-20231230.nc"),
-            ("institution_id's value 'WD' doesn't match filename hus1000_EUR-11_HadREM3-GA7-05_"
-             "evaluation_r1i1p1x1_MOHC_HadREM3-GA7-05_version_realizationday_20220101-20231230.nc"),
-            ("source_id's value 'CLMcom-KIT-CCLM5-0-14' doesn't match filename hus1000_EUR-11_HadREM3-GA7-05_"
-             "evaluation_r1i1p1x1_MOHC_HadREM3-GA7-05_version_realizationday_20220101-20231230.nc"),
-            'Invalid driving ensemble member r1i1p1x1',
-            "Daterange '20220101-20231230' does not match frequency 'mon'"
+            ("domain_id's value 'ALP-3' doesn't match filename hus1000_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3"
+             "_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc"),
+            ("driving_source_id's value 'CLMcom-KIT-CCLM5-0-14' doesn't match filename hus1000_EUR-11_HadGEM3-GC31-LL"
+             "_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc"),
+            ("institution_id's value 'WD' doesn't match filename hus1000_EUR-11_HadGEM3-GC31-LL_evaluation"
+             "_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc"),
+            ("source_id's value 'CLMcom-KIT-CCLM5-0-14' doesn't match filename hus1000_EUR-11_HadGEM3-GC31-LL_"
+             "evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc")
         ]
 
         filename = (
-            "hus1000_EUR-11_HadREM3-GA7-05_evaluation_r1i1p1x1_MOHC_HadREM3-GA7-05_version_"
-            "realizationday_20220101-20231230.nc"
+            "hus1000_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc"
         )
         structured_dataset = CordexDataset('.', request, self.mip_tables,
                                            None, None, None, logger)

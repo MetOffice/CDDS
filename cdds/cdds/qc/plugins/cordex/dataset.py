@@ -96,14 +96,6 @@ class CordexDataset(StructuredDataset):
         # member_id might be just a variant_label or contain a subexperiment_id
         member_id = filename_parts[4].split('-')
 
-        # member_id should only contain variant_label
-        if (hasattr(ds, "sub_experiment_id") and
-                ds.getncattr("sub_experiment_id") != "none"):
-            messages.append(
-                "sub_experiment_id present in file's global attributes "
-                "but missing in the filename")
-            valid_filename = False
-
         esemble_candidate = member_id[0]
         if re.match(r"^r\d+i\d+p\d+f\d+$", esemble_candidate) is None:
             valid_filename = False
