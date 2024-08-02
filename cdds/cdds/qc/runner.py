@@ -169,21 +169,37 @@ class QCRunner(object):
         for index in aggr:
             for data_file in aggr[index]:
                 drs = index.split('_')
-                execute_insert_query(cursor, "qc_dataset", {
-                    "qc_run_id": qc_run_id,
-                    "filename": os.path.basename(data_file),
-                    "variable_directory": os.path.dirname(data_file),
-                    "summary": SUMMARY_STARTED,
-                    "realization_index": index,
-                    "model": drs[1],
-                    "experiment": (drs[2] + " : " + drs[3]
-                                   if drs[3] != 'none' else drs[2]),
-                    "mip_table": drs[4],
-                    "variant": drs[5],
-                    "variable": drs[6],
-                    "variable_name": self.dataset.var_names[index],
-                    "grid": drs[7],
-                })
+                if request.metadata.mip_era == 'CORDEX' or request.common.force_plugin == 'CORDEX':
+                    execute_insert_query(cursor, "qc_dataset", {
+                        "qc_run_id": qc_run_id,
+                        "filename": os.path.basename(data_file),
+                        "variable_directory": os.path.dirname(data_file),
+                        "summary": SUMMARY_STARTED,
+                        "realization_index": index,
+                        "model": drs[1],
+                        "experiment": drs[6],
+                        "mip_table": drs[2],
+                        "variant": drs[3],
+                        "variable": self.dataset.var_names[index],
+                        "variable_name": self.dataset.var_names[index],
+                        "grid": drs[4],
+                    })
+                else:
+                    execute_insert_query(cursor, "qc_dataset", {
+                        "qc_run_id": qc_run_id,
+                        "filename": os.path.basename(data_file),
+                        "variable_directory": os.path.dirname(data_file),
+                        "summary": SUMMARY_STARTED,
+                        "realization_index": index,
+                        "model": drs[1],
+                        "experiment": (drs[2] + " : " + drs[3]
+                                       if drs[3] != 'none' else drs[2]),
+                        "mip_table": drs[4],
+                        "variant": drs[5],
+                        "variable": drs[6],
+                        "variable_name": self.dataset.var_names[index],
+                        "grid": drs[7],
+                    })
                 self.db.commit()
                 qc_dataset_id = cursor.lastrowid
                 with self.check_suite.load_dataset(data_file) as ds:
