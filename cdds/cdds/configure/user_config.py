@@ -127,7 +127,8 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
             user_config['cmor_dataset']['grid'] = grid
             user_config['cmor_dataset']['grid_label'] = grid_label
             user_config['cmor_dataset']['nominal_resolution'] = nominal_resolution
-            user_config['cmor_dataset']['output_file_template'] = output_file_template
+            if output_file_template:
+                user_config['cmor_dataset']['output_file_template'] = output_file_template
             user_config['global_attributes'] = get_global_attributes(request)
             user_config['request']['suite_id'] = request.data.model_workflow_id
             if maskings:

@@ -110,7 +110,7 @@ class CordexPlugin(BasePlugin):
         :return: Path to the MIP table directory
         :rtype: str
         """
-        return '/net/home/h04/kschmatz/workspace/cordex-cmip6-cmor-tables/Tables'
+        return os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CORDEX', 'cordex-cmip6-cmor-tables', 'Tables')
 
     def mip_table_prefix(self):
         return 'CORDEX-'

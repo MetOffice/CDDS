@@ -172,8 +172,6 @@ class GlobalModelFileInfo(ModelFileInfo):
     _MASS_ROOT_LOCATION_FACET = 'mip_era|mip|institution_id|model_id|experiment_id|variant_label'
     _MASS_SUFFIX_LOCATION_FACET = '|mip_table_id|out_var_name|grid_label'
 
-    _OUTPUT_FILE_TEMPLATE = '<variable_id><table><source_id><experiment_id><variant_label>'
-
     def __init__(self):
         super(GlobalModelFileInfo, self).__init__()
 
@@ -222,7 +220,7 @@ class GlobalModelFileInfo(ModelFileInfo):
 
     @property
     def output_file_template(self) -> str:
-        return self._OUTPUT_FILE_TEMPLATE
+        return ''
 
     def is_cmor_file(self, filename) -> bool:
         """
