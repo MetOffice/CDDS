@@ -169,7 +169,7 @@ class QCRunner(object):
         for index in aggr:
             for data_file in aggr[index]:
                 drs = index.split('_')
-                if request.metadata.mip_era == 'CORDEX' or request.common.force_plugin == 'CORDEX':
+                if request.common.force_plugin == 'CORDEX':
                     execute_insert_query(cursor, "qc_dataset", {
                         "qc_run_id": qc_run_id,
                         "filename": os.path.basename(data_file),
@@ -203,7 +203,7 @@ class QCRunner(object):
                 self.db.commit()
                 qc_dataset_id = cursor.lastrowid
                 with self.check_suite.load_dataset(data_file) as ds:
-                    if request.metadata.mip_era == 'CORDEX' or request.common.force_plugin == 'CORDEX':
+                    if request.common.force_plugin == 'CORDEX':
                         output = self.check_suite.run(ds, conf, [], "cf17", "cordex")
                     else:
                         output = self.check_suite.run(ds, conf, [], "cf17", "cmip6")

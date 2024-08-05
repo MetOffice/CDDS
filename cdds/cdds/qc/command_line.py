@@ -144,7 +144,7 @@ def run_and_report(args: Namespace, request: Request) -> dict:  # TODO: kerstin 
 
     mip_tables = MipTables(mip_table_dir)
 
-    if request.metadata.mip_era == 'CORDEX' or request.common.force_plugin == 'CORDEX':
+    if request.common.force_plugin == 'CORDEX':
         ds = CordexDataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
                            args.stream)
     else:
