@@ -196,11 +196,11 @@ def primavera_make_uva100m(cube):
 def primavera_make_uva150m(cube):
     """
     The model runs to generate the PRIMAVERA variables ua150m and
-    va100m contain data on two levels because it wasn't known which
+    va150m contain data on two levels because it wasn't known which
     level users would require when the model runs had to start. This
     function returns a cube on model level 4, which is now known to be
     the desired level. The coordinate ``level_height`` is renamed to
-    ``height100m``.
+    ``height150m``.
 
     Parameters
     ----------

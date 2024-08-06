@@ -54,7 +54,7 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
         'standard_names_dir': standard_names_dir,
         'standard_names_version': 'latest',
         'simulation': False,
-        'workflow_basename': '{}_{}_{}'.format(model_id, experiment_id, variant_label)
+        'workflow_basename': workflow_basename
     }
 
 
