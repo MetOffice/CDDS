@@ -64,6 +64,9 @@ class MetadataSection(Section):
     model_type: List[str] = field(default_factory=list)
 
     def __post_init__(self):
+        """
+        Pre-validates the values of the section before create it
+        """
         validate_metadata_section(self)
 
     @classmethod

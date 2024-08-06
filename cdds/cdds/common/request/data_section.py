@@ -52,6 +52,9 @@ class DataSection(Section):
     output_mass_suffix: str = ''
 
     def __post_init__(self):
+        """
+        Pre-validates the values of the section before create it
+        """
         validate_data_section(self)
 
     @classmethod

@@ -79,6 +79,9 @@ class CommonSection(Section):
     log_level: str = 'INFO'
 
     def __post_init__(self):
+        """
+        Pre-validates the values of the section before create it
+        """
         validate_common_section(self)
 
     @classmethod

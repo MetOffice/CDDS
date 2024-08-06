@@ -1,5 +1,8 @@
 # (C) British Crown Copyright 2024, Met Office.
 # Please see LICENSE.rst for license details.
+"""
+Module to provide validators and validations of request sections
+"""
 import os
 
 from dataclasses import dataclass, field
@@ -12,6 +15,9 @@ if TYPE_CHECKING:
 
 @dataclass
 class SectionValidator:
+    """
+    Validator to validate a section in the request.cfg
+    """
     section: 'Section' = None
     valid: bool = True
     messages: List[str] = field(default_factory=list)
@@ -23,8 +29,21 @@ class SectionValidator:
 
 
 class CommonSectionValidator(SectionValidator):
+    """
+    Validator to validate common section in the request.cfg
+    """
 
     def validate(self) -> Tuple[bool, List[str]]:
+        """
+        Validate the section:
+            * Check if external plugin is specified and valid
+            * Check if mode allowed
+            * Check if the paths of the directories exist
+            * Check if path to site file exist
+
+        :return: is valid or not and a list of messages
+        :rtype: bool, List[str]
+        """
         self._validate_external_plugin()
         self._validate_mode()
         self._validate_directories()
@@ -60,8 +79,19 @@ class CommonSectionValidator(SectionValidator):
 
 
 class MetadataSectionValidator(SectionValidator):
+    """
+    Validator to validate metadata section in the request.cfg
+    """
 
     def validate(self) -> Tuple[bool, List[str]]:
+        """
+        Validate the section:
+            * Check if branch method and calendar are supported
+            * Check necessary values are set
+
+        :return: is valid or not and a list of messages
+        :rtype: bool, List[str]
+        """
         self._validate_allowed_values()
         self._validate_if_values_exist()
         return self.valid, self.messages
@@ -108,9 +138,18 @@ class MetadataSectionValidator(SectionValidator):
 
 
 class SectionValidatorFactory:
+    """
+    Factory to create section validators
+    """
 
     @classmethod
     def allowed_values_validator(cls) -> Callable[[str, List[Any], str], Tuple[bool, str]]:
+        """
+        Returns validator to validate if a value is contained in a list of allowed values.
+
+        :return: validate function
+        :rtype: Callable[[str, List[Any], str], Tuple[bool, str]]:
+        """
 
         def validate(value, allowed_values, property_name):
             if value not in allowed_values:
@@ -122,6 +161,12 @@ class SectionValidatorFactory:
 
     @classmethod
     def directory_validator(cls) -> Callable[[str, str], Tuple[bool, str]]:
+        """
+        Returns validator to validate if a given path is a path to an existing directory.
+
+        :return: validate function
+        :rtype: Callable[[str, str], Tuple[bool, str]]
+        """
 
         def validate(path, property_name):
             if path:
@@ -137,6 +182,12 @@ class SectionValidatorFactory:
 
     @classmethod
     def file_validator(cls) -> Callable[[str, str], Tuple[bool, str]]:
+        """
+        Returns a validator to validate if a given path is a path to an existing file.
+
+        :return: validate function
+        :rtype: Callable[[str, str], Tuple[bool, str]]
+        """
 
         def validate(path, property_name):
             if path:
@@ -153,6 +204,12 @@ class SectionValidatorFactory:
 
     @classmethod
     def external_plugin_validator(cls) -> Callable[[str, str], Tuple[bool, str]]:
+        """
+        Returns a validator to validate if given external plugin values are valid.
+
+        :return: validate function
+        :rtype: Callable[[str, str], Tuple[bool, str]]
+        """
 
         def validate(external_plugin, external_plugin_location):
             if external_plugin:
@@ -170,6 +227,12 @@ class SectionValidatorFactory:
 
     @classmethod
     def start_before_end_validator(cls) -> Callable[[TimePoint, TimePoint, str, str], Tuple[bool, str]]:
+        """
+        Returns a validator to validate if given start date is before given end date.
+
+        :return: validate function
+        :rtype: Callable[[TimePoint, TimePoint, str, str], Tuple[bool, str]]
+        """
 
         def validate(start: TimePoint, end: TimePoint, start_property_name: str, end_property_name: str):
             if end <= start:
@@ -181,6 +244,12 @@ class SectionValidatorFactory:
 
     @classmethod
     def exist_validator(cls) -> Callable[[str, str], Tuple[bool, str]]:
+        """
+        Returns a validator to validate if given value exist and set.
+
+        :return: validate function
+        :rtype: Callable[[str, str], Tuple[bool, str]]
+        """
 
         def validate(value: str, property_name: str):
             if not value:
