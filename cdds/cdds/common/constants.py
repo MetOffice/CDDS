@@ -221,12 +221,12 @@ USER_CONFIG_OPTIONS = {
     },
     'cmor_dataset': {
         'required': [
-            'branch_method', 'calendar', 'experiment_id', 'institution_id',
+            'branch_method', 'calendar', 'institution_id',
             'license', 'mip', 'mip_era', 'model_id', 'model_type',
-            'output_dir', 'sub_experiment_id', 'variant_label'],
+            'output_dir', 'variant_label'],
         'required_for_grid': ['grid', 'grid_label', 'nominal_resolution'],
         'optional': [
-            'comment', 'contact',
+            'experiment_id', 'sub_experiment_id', 'comment', 'contact',
             'grid_resolution',  # required for CMIP5 functional tests
             'output_file_template', 'output_path_template', 'references',
             'variant_info'],

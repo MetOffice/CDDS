@@ -39,7 +39,7 @@ class TestParseParameters(unittest.TestCase):
                                       external_plugin_location='',
                                       log_level=10,
                                       log_name='output.log',
-                                      mip_era='CMIP6',
+                                      plugin_id='CMIP6',
                                       relaxed_cmor=False,
                                       stream_identifiers=None)
         self.assertEqual(ret_val1, expected)
@@ -60,7 +60,7 @@ class TestParseParameters(unittest.TestCase):
                                       external_plugin_location='',
                                       log_level=10,
                                       log_name='output.log',
-                                      mip_era='CMIP6',
+                                      plugin_id='CMIP6',
                                       relaxed_cmor=True,
                                       stream_identifiers=None)
         self.assertEqual(ret_val1, expected)

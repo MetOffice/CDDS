@@ -11,6 +11,7 @@ from typing import Dict, Any
 
 from cdds.common.request.request_section import Section, load_types, expand_paths, expand_path
 from cdds.common.request.metadata_section import MetadataSection
+from cdds.common.request.attributes_section import GlobalAttributesSection
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 from cdds.common.request.validations.pre_validations import do_pre_validations
 from cdds.common.plugins.plugins import PluginStore
@@ -37,8 +38,10 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
     root_replacement_coordinates_dir = os.path.join(os.environ['CDDS_ETC'], 'horizontal_coordinates')
     sites_file = os.path.join(os.environ['CDDS_ETC'], 'cfmip2', 'cfmip2-sites-orog.txt')
     standard_names_dir = os.path.join(os.environ['CDDS_ETC'], 'standard_names')
+    workflow_basename = '{}_{}_{}'.format(model_id, experiment_id, variant_label)
 
     return {
+        'force_plugin': '',
         'external_plugin': '',
         'external_plugin_location': '',
         'log_level': 'INFO',
@@ -51,7 +54,7 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
         'standard_names_dir': standard_names_dir,
         'standard_names_version': 'latest',
         'simulation': False,
-        'workflow_basename': '{}_{}_{}'.format(model_id, experiment_id, variant_label)
+        'workflow_basename': workflow_basename
     }
 
 
@@ -60,6 +63,7 @@ class CommonSection(Section):
     """
     Represents the common section in the request configuration
     """
+    force_plugin: str = ''
     external_plugin: str = ''
     external_plugin_location: str = ''
     mip_table_dir: str = ''
@@ -108,8 +112,15 @@ class CommonSection(Section):
         :rtype: CommonSection
         """
         model_id = config.get(MetadataSection.name(), 'model_id')
-        experiment_id = config.get(MetadataSection.name(), 'experiment_id')
         variant_label = config.get(MetadataSection.name(), 'variant_label')
+
+        experiment_id = 'none'
+        if config.has_option(MetadataSection.name(), 'experiment_id'):
+            experiment_id = config.get(MetadataSection.name(), 'experiment_id')
+        elif (config.has_section(GlobalAttributesSection.name()) and
+              config.has_option(GlobalAttributesSection.name(), 'driving_experiment_id')):
+            experiment_id = config.get(GlobalAttributesSection.name(), 'driving_experiment_id')
+
         values = common_defaults(model_id, experiment_id, variant_label)
         do_pre_validations(config, CommonSection)
         config_items = load_types(dict(config.items(CommonSection.name())))

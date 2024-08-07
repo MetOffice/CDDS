@@ -62,7 +62,7 @@ class MipTableFactory(object):
         table_path = self.path_checker.fullFileName(table_name)
         if table_name.endswith('.json'):
             table_dict = _read_json(table_path)
-            pattern = re.compile(r'[a-zA-Z0-9]+_([a-zA-Z0-9]+).json')
+            pattern = re.compile(r'[a-zA-Z0-9-]+_([a-zA-Z0-9]+).json')
             match = pattern.match(table_name)
             coordinate_name = table_name.replace(match.group(1), 'coordinate')
             axes_path = self.path_checker.fullFileName(coordinate_name)
@@ -117,14 +117,6 @@ class MipTable(object):
         return self.input['vars']
 
     @property
-    def project_id(self):
-        """return the project id of this table"""
-        try:
-            return self.input['atts']['project_id']
-        except KeyError:
-            return self.table_prefix
-
-    @property
     def table_id(self):
         """
         returns the id of this table
@@ -143,7 +135,7 @@ class MipTable(object):
         the table name is distinct from the table id as it usually include the project
         name too.
         """
-        name = self.project_id + '_' + self.table_id
+        name = self.table_prefix + '_' + self.table_id
         if self.is_json:
             name = name + '.json'
         return name

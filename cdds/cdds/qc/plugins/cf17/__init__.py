@@ -64,7 +64,7 @@ class CF17Check(CF1_7Check):
             Result of the version validation
         """
 
-        valid_conventions = ["CF-1.7", "CMIP-6.2"]
+        valid_conventions = ["CF-1.7", "CF-1.11", "CMIP-6.2"]
         if hasattr(ds, "Conventions"):
             conventions = re.split(r",|\s+", getattr(ds, "Conventions", ""))
             if any((c.strip() in valid_conventions for c in conventions)):
