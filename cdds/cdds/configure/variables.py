@@ -9,6 +9,7 @@ import logging
 import os
 
 from cdds.common.grids import retrieve_grid_info, grid_overrides
+from cdds.common.plugins.plugins import PluginStore
 
 
 def retrieve_variables_by_grid(requested_variables, mip_table_directory):
@@ -71,7 +72,7 @@ def retrieve_variables_by_grid(requested_variables, mip_table_directory):
     return variables_by_grid
 
 
-def identify_mip_table_name(mip_era, mip_table_directory, mip_table_id):
+def identify_mip_table_name(mip_era, mip_table_directory, mip_table_id, prefix=''):
     """
     Identify whether the MIP being used is a generic table (named MIP_XXX.json)
     or a specific one (named <MIP_ERA>_XXX.json) and return the corresponding file name
@@ -96,7 +97,8 @@ def identify_mip_table_name(mip_era, mip_table_directory, mip_table_id):
         If no appropriate file can be found on disk
     """
     logger = logging.getLogger(__name__)
-    specific_mip_table = '{}_{}'.format(mip_era, mip_table_id)
+    plugin = PluginStore.instance().get_plugin()
+    specific_mip_table = '{}{}_{}'.format(plugin.mip_table_prefix(), mip_era, mip_table_id)
     if not os.path.exists(os.path.join(mip_table_directory, specific_mip_table + '.json')):
         logger.debug('Could not find specific MIP table "{}" in directory "{}".'.format(
                      specific_mip_table, mip_table_directory))

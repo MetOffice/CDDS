@@ -122,6 +122,9 @@ class TestRetrieveVariablesByGrid(unittest.TestCase):
 
 class TestIdentifyMIPTableName(unittest.TestCase):
 
+    def setUp(self):
+        load_plugin()
+
     @unittest.mock.patch('os.path.exists', side_effect=[True, False])
     def test_specific(self, mock_exists):
         mip_era = 'ERAX'

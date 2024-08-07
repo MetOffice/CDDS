@@ -109,14 +109,14 @@ def _parse_args_concat_setup():
     parser.add_argument('log_file', type=str, help='Log file')
     parser.add_argument('--append_log', action='store_true',
                         help='Append to existing log file')
-    parser.add_argument('--mip_era', default='CMIP6', type=str,
-                        help='The MIP era (e.g. CMIP6)')
+    parser.add_argument('--plugin_id', default='CMIP6', type=str,
+                        help='The plugin id (e.g. CMIP6)')
     parser.add_argument('--external_plugin', default='', type=str,
                         help='Module path to external CDDS plugin')
     parser.add_argument('--external_plugin_location', default='', type=str,
                         help='Path to external CDDS plugin implementation')
     arguments = parser.parse_args()
-    load_plugin(arguments.mip_era, arguments.external_plugin, arguments.external_plugin_location)
+    load_plugin(arguments.plugin_id, arguments.external_plugin, arguments.external_plugin_location)
     return arguments.config_file, arguments.log_file, arguments.append_log
 
 
@@ -200,10 +200,10 @@ def _parse_run_mip_convert_parameters(arguments):
 
     description = 'Arguments for running MIP convert'
     parser = argparse.ArgumentParser(description=description, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--mip_era',
+    parser.add_argument('--plugin_id',
                         default='CMIP6',
                         type=str,
-                        help='The MIP era (e.g. CMIP6)')
+                        help='The plugin id (e.g. CMIP6)')
     parser.add_argument('--external_plugin',
                         default='',
                         type=str,
@@ -222,7 +222,7 @@ def _parse_run_mip_convert_parameters(arguments):
                         )
     arguments = parser.parse_args(args=user_arguments)
 
-    load_plugin(arguments.mip_era, arguments.external_plugin, arguments.external_plugin_location)
+    load_plugin(arguments.plugin_id, arguments.external_plugin, arguments.external_plugin_location)
     return arguments
 
 

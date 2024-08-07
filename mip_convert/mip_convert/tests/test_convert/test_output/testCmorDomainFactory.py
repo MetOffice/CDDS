@@ -26,7 +26,6 @@ class DummyTableFactory(object):
         self.table_id = table_id
         result = self.tables[table_id]
         result.table_name = table_id
-        result.project_id, result.table_id = result.table_name.split('_')
         result.table_id = table_id
         return result
 
@@ -34,7 +33,7 @@ class DummyTableFactory(object):
 class DummyTable(object):
     generic_levels = 'alevel alevhalf olevel'
 
-    def __init__(self, varis, axes):
+    def __init__(self, varis, axes, table_prefix):
         self.variables = {}
         for var in varis:
             self.variables[var.entry] = var
@@ -43,6 +42,8 @@ class DummyTable(object):
         for axis in axes:
             if axis.entry != 'olevel':
                 self.axes[axis.entry] = axis
+
+        self.table_prefix = table_prefix
 
     def hasVariable(self, variable):
         return variable in self.variables
@@ -96,7 +97,7 @@ class BaseCmorDomainFactoryTest(unittest.TestCase):
 
     def _makeMap(self):
         self.valid_table = 'valid_table'
-        tables = {self.valid_table: DummyTable(self.vars, self.axes)}
+        tables = {self.valid_table: DummyTable(self.vars, self.axes, 'valid')}
         self.mapper = CmorDomainFactory(DummyTableFactory(tables, 'table_root'))
         self.mapper.cmor = self
 

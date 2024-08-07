@@ -164,7 +164,7 @@ def run_mip_convert_wrapper(arguments):
     exit_code = run_mip_convert(stream, dummy_run, timestamp,
                                 USER_CONFIG_TEMPLATE_NAME,
                                 MIP_CONVERT_LOG_BASE_NAME,
-                                arguments.mip_era,
+                                arguments.plugin_id,
                                 arguments.external_plugin,
                                 arguments.external_plugin_location,
                                 arguments.relaxed_cmor)

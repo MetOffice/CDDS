@@ -11,17 +11,21 @@
       "ond"
     ],
     "daily": [
-      "apa"
+      "apa",
+      "ap6"
     ]
   },
   "cycle_length": {
-    "apa": "P1Y"
+    "apa": "P1Y",
+    "ap6": "P1Y"
   },
   "memory": {
-    "apa": "32G"
+    "apa": "32G",
+    "ap6": "32G"
   },
   "temp_space": {
-    "apa": 131072
+    "apa": 131072,
+    "ap6": 131072
   },
   "sizing_info": {
     "day": {

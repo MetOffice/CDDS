@@ -23,6 +23,7 @@ class TestCommonDefaults(TestCase):
 
     def test_defaults(self):
         expected_defaults = {
+            'force_plugin': '',
             'external_plugin': '',
             'external_plugin_location': '',
             'log_level': 'INFO',

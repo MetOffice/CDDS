@@ -19,8 +19,7 @@ from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
 
 
-CORDEX_LICENSE = ('Creative Commons Attribution 4.0 International License '
-                  '(CC BY 4.0; https://creativecommons.org/licenses/by/4.0/).')
+CORDEX_LICENSE = 'https://cordex.org/data-access/cordex-cmip6-data/cordex-cmip6-terms-of-use'
 
 
 class CordexPlugin(BasePlugin):
@@ -111,4 +110,7 @@ class CordexPlugin(BasePlugin):
         :return: Path to the MIP table directory
         :rtype: str
         """
-        return os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CORDEX', 'for_functional_tests')
+        return os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CORDEX', 'cordex-cmip6-cmor-tables', 'Tables')
+
+    def mip_table_prefix(self):
+        return 'CORDEX-'

@@ -8,19 +8,14 @@ from cdds.tests.test_qc.plugins.constants import CORDEX_MIP_TABLES_DIR
 from cdds.tests.factories.request_factory import simple_request
 from unittest.mock import patch
 import os
-import shutil
+import tempfile
 
 
 class CordexDatasetTestCase(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
         self.mip_tables = MipTables(CORDEX_MIP_TABLES_DIR)
-        self.test_datadir = os.path.join(
-            os.path.dirname(os.path.realpath(__file__)), 'test_datadir')
-        os.mkdir(self.test_datadir)
-
-    def tearDown(self):
-        shutil.rmtree(self.test_datadir)
+        self.test_datadir = tempfile.mkdtemp(prefix='test_datadir')
 
     @patch('logging.Logger')
     @patch('netCDF4.Dataset')
@@ -30,37 +25,37 @@ class CordexDatasetTestCase(unittest.TestCase):
 
         def ncattrs(name):
             return {
-                'experiment_id': 'evaluation',
-                'sub_experiment_id': 'none',
-                'table_id': 'pr',
-                'domain': 'ALP-3',
-                'driving_model_id': 'ECMWF-ERAINT',
-                'driving_ensemble_member': 'r1i1p1',
-                'model_id': 'CLMcom-KIT-CCLM5-0-14',
-                'rcm_version_id': 'fpsconv-x2yn2-v1',
-                'frequency': '1hr'
+                'table_id': 'day',
+                'domain_id': 'EUR-11',
+                'driving_experiment_id': 'evaluation',
+                'driving_source_id': 'HadGEM3-GC31-LL',
+                'driving_model_ensemble_member': 'r1i1p1',
+                'driving_variant_label': 'r1i1p1f3',
+                'institution_id': 'MOHC',
+                'source_id': 'HadREM3-GA7-05',
+                'version_realization': 'v1-r1',
+                'frequency': 'day'
             }[name]
 
         ds.getncattr = ncattrs
         ds.hasattr.return_value = True
 
         filename = (
-            "pr_ALP-3_ECMWF-ERAINT_evaluation_r1i1p1_CLMcom-KIT-CCLM5-0-"
-            "14_fpsconv-x2yn2-v1_1hr_200001010030-200012302330.nc"
+            "hus1000_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc"
         )
         structured_dataset = CordexDataset('.', request, self.mip_tables,
                                            None, None, None, logger)
         passed, messages = structured_dataset.check_filename(ds, filename)
+
         self.assertTrue(passed)
         self.assertEqual([], messages)
 
         filename = (
-            "pr_ALP-3_ECMWF-ERAINT_evaluation_r2i1p1f1_CLMcom-KIT-CCLM5-0-"
-            "14_fpsconv-x2yn2-v1_1hr_200001010030-200012302330.nc"
+            "hus1000_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1x1_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc"
         )
         passed, messages = structured_dataset.check_filename(ds, filename)
         self.assertFalse(passed)
-        self.assertIn("Invalid driving ensemble member r2i1p1f1", messages)
+        self.assertIn("Invalid driving ensemble member r1i1p1x1", messages)
 
     @patch('logging.Logger')
     @patch('netCDF4.Dataset')
@@ -69,31 +64,34 @@ class CordexDatasetTestCase(unittest.TestCase):
 
         def ncattrs(name):
             return {
-                'experiment_id': 'spinup',
-                'sub_experiment_id': 'none',
                 'table_id': 'pr',
-                'domain': 'ALP-3',
-                'driving_model_id': 'ECMWF-ERAINT',
-                'driving_ensemble_member': 'r1i1p1',
-                'model_id': 'CLMcom-KIT-CCLM5-0-14',
-                'rcm_version_id': 'fpsconv-x2yn2-v1',
-                'frequency': 'mon'
+                'domain_id': 'ALP-3',
+                'driving_experiment_id': 'evaluation',
+                'driving_source_id': 'CLMcom-KIT-CCLM5-0-14',
+                'driving_model_ensemble_member': 'r1i1p1',
+                'driving_variant_label': 'r1i1p1f3',
+                'institution_id': 'WD',
+                'source_id': 'CLMcom-KIT-CCLM5-0-14',
+                'version_realization': 'v1-r1',
+                'frequency': 'day'
             }[name]
 
         ds.getncattr = ncattrs
         ds.hasattr.return_value = True
 
         expected_errors = [
-            "experiment_id's value 'spinup' doesn't match filename "
-            "pr_ALP-3_ECMWF-ERAINT_evaluation_r2i1p1_CLMcom-KIT-CCLM5-0-14_fpsconv-x2yn2-v1_1hr"
-            "_200001010030-200012302330.nc",
-            "Driving ensemble member r2i1p1 is not consistent with file contents (r1i1p1)",
-            "Daterange '200001010030-200012302330' does not match frequency 'mon'"
+            ("domain_id's value 'ALP-3' doesn't match filename hus1000_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3"
+             "_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc"),
+            ("driving_source_id's value 'CLMcom-KIT-CCLM5-0-14' doesn't match filename hus1000_EUR-11_HadGEM3-GC31-LL"
+             "_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc"),
+            ("institution_id's value 'WD' doesn't match filename hus1000_EUR-11_HadGEM3-GC31-LL_evaluation"
+             "_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc"),
+            ("source_id's value 'CLMcom-KIT-CCLM5-0-14' doesn't match filename hus1000_EUR-11_HadGEM3-GC31-LL_"
+             "evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc")
         ]
 
         filename = (
-            "pr_ALP-3_ECMWF-ERAINT_evaluation_r2i1p1_CLMcom-KIT-CCLM5-0-"
-            "14_fpsconv-x2yn2-v1_1hr_200001010030-200012302330.nc"
+            "hus1000_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc"
         )
         structured_dataset = CordexDataset('.', request, self.mip_tables,
                                            None, None, None, logger)
