@@ -5,6 +5,7 @@
 The module contains the code required to handle the information about the request.
 """
 import logging
+import os.path
 
 from configparser import ConfigParser, ExtendedInterpolation
 from dataclasses import dataclass, field
@@ -19,6 +20,7 @@ from cdds.common.request.attributes_section import GlobalAttributesSection
 from cdds.common.request.misc_section import MiscSection
 from cdds.common.request.inventory_section import InventorySection
 from cdds.common.request.conversion_section import ConversionSection
+from cdds.common.request.request_section import expand_path
 from cdds.common.request.rose_suite.suite_info import RoseSuiteArguments, RoseSuiteInfo, load_rose_suite_info
 from cdds.common.request.rose_suite.validation import validate_rose_suite
 from cdds.common.plugins.plugin_loader import load_plugin
@@ -189,8 +191,16 @@ def read_request(request_path: str) -> Request:
     request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
     request_config.optionxform = str  # Preserve case.
     request_config.read(request_path)
-    load_cdds_plugins(request_config)
+    if request_config.has_section('inheritance'):
+        template = request_config.get('inheritance', 'template')
+        if template:
+            template_path = expand_path(template)
+            interpolation = EnvInterpolation()
+            request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
+            request_config.optionxform = str  # Preserve case.
+            request_config.read([template_path, request_path])
 
+    load_cdds_plugins(request_config)
     calendar = request_config.get('metadata', 'calendar')
     Calendar.default().set_mode(calendar)
 
