@@ -60,6 +60,11 @@ class ModelFileInfo(object, metaclass=ABCMeta):
     def _nc_files_to_archive_regex(self) -> str:
         pass
 
+    @property
+    @abstractmethod
+    def output_file_template(self) -> str:
+        pass
+
     @abstractmethod
     def is_cmor_file(self, filename: str) -> bool:
         """
@@ -213,6 +218,10 @@ class GlobalModelFileInfo(ModelFileInfo):
     def _nc_files_to_archive_regex(self) -> str:
         return self._NC_FILES_TO_ARCHIVE_REGEX
 
+    @property
+    def output_file_template(self) -> str:
+        return ''
+
     def is_cmor_file(self, filename) -> bool:
         """
         Checks if the given file name matches the expected cmor file name pattern.
@@ -265,19 +274,24 @@ class RegionalModelFileInfo(ModelFileInfo):
     """
     Provides methods to manage and check netCDF files from regional simulation models
     """
+
     _CMOR_FILENAME_PATTERN = (r'([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_'
-                              r'(r\d+i\d+p\d+f\d+)_([a-zA-Z0-9-]+)'
-                              r'_((\d+)-(\d+)).nc')
+                              r'(r\d+i\d+p\d+f\d+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_'
+                              r'([a-zA-Z0-9-]+)_((\d+)-(\d+)).nc')
 
-    _NC_FILES_TO_ARCHIVE_REGEX = (
-        '(?P<out_var_name>[a-zA-Z0-9-]+)_(?P<frequency>[a-zA-Z0-9]+)_(?P<model_id>[a-zA-Z0-9-]+)_'
-        '(?P<driving_experiment>[a-zA-Z0-9-]+)_'
-        '(?P<driving_variant_label>[a-zA-Z0-9]+)_(?P<grid>[a-zA-Z0-9]+)_'
-        '(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+).nc')
+    _NC_FILES_TO_ARCHIVE_REGEX = ('(?P<out_var_name>[a-zA-Z0-9-]+)_'
+                                  '(?P<domain_id>[a-zA-Z0-9-]+)_'
+                                  '(?P<driving_model_id>[a-zA-Z0-9-]+)_'
+                                  '(?P<driving_experiment>[a-zA-Z0-9-]+)_'
+                                  '(?P<driving_variant_label>[a-zA-Z0-9-]+)_'
+                                  '(?P<institution_id>[a-zA-Z0-9-]+)_'
+                                  '(?P<model_id>[a-zA-Z0-9-]+)_'
+                                  '(?P<version>[a-zA-Z0-9-]+)_'
+                                  '(?P<frequency>[a-zA-Z0-9-]+)_'
+                                  '(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+).nc')
 
-    _MASS_ROOT_LOCATION_FACET = ('domain|institution_id|driving_source_id|experiment_id|driving_model_ensemble_member|'
-                                 'model_id|driving_variant_label')
-    _MASS_SUFFIX_LOCATION_FACET = '|frequency|out_var_name'
+    _OUTPUT_FILE_TEMPLATE = ('<variable_id><domain_id><driving_source_id><driving_experiment_id><driving_variant_label>'
+                             '<institution_id><source_id><version_realization><frequency>')
 
     def __init__(self):
         super(RegionalModelFileInfo, self).__init__()
@@ -316,19 +330,27 @@ class RegionalModelFileInfo(ModelFileInfo):
         :return: The suffix to the MASS root location containing all simulation model files
         :rtype: str
         """
+
         return os.path.join(
+            request.netcdf_global_attributes.attributes['project_id'],
+            request.metadata.mip_era,
+            request.metadata.mip,
             request.netcdf_global_attributes.attributes['domain'],
             request.metadata.institution_id,
             request.netcdf_global_attributes.attributes['driving_source_id'],
-            request.metadata.experiment_id,
-            request.netcdf_global_attributes.attributes['driving_model_ensemble_member'],
-            request.metadata.model_id,
+            request.netcdf_global_attributes.attributes['driving_experiment'],
             request.netcdf_global_attributes.attributes['driving_variant_label'],
+            request.metadata.model_id,
+            request.netcdf_global_attributes.attributes['version_realization']
         )
 
     @property
     def _nc_files_to_archive_regex(self) -> str:
         return self._NC_FILES_TO_ARCHIVE_REGEX
+
+    @property
+    def output_file_template(self) -> str:
+        return self._OUTPUT_FILE_TEMPLATE
 
     def is_cmor_file(self, filename) -> bool:
         """
@@ -364,8 +386,6 @@ class RegionalModelFileInfo(ModelFileInfo):
         if request.metadata.model_id != match.group('model_id'):
             return False
         if variable_dict['out_var_name'] != match.group('out_var_name'):
-            return False
-        if variable_dict['frequency'] != match.group('frequency'):
             return False
         if global_attributes['driving_experiment'] != match.group('driving_experiment'):
             return False

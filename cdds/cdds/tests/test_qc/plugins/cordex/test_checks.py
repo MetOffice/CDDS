@@ -45,4 +45,4 @@ class TestCVAttributesCheckTask(TestCase):
         self.nc_file.experiment_id = "evaluation"
         self.class_under_test.execute(self.nc_file, attr_dict)
         self.assertListEqual(self.class_under_test._messages,
-                             ['Mandatory attribute driving_experiment_id: Value: invalid, Expected: evaluation'])
+                             ['Mandatory attribute driving_experiment_id: Value: invalid, Expected: unknown'])

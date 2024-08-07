@@ -14,7 +14,9 @@ class CVKey(object):
 
     ACTIVITY_ID = 'activity_id'
     EXPERIMENT_ID = 'experiment_id'
+    DRIVING_EXPERIMENT_ID = 'driving_experiment_id'
     EXPERIMENT = 'experiment'
+    DRIVING_EXPERIMENT = 'driving_experiment'
     FREQUENCY = 'frequency'
     GRID_LABEL = 'grid_label'
     INSTITUTION_ID = 'institution_id'
@@ -52,10 +54,10 @@ class CVConfig(JSONConfig):
         """
         Return the version number of the CV file.
         """
-        version_metadata = self.config['CV']['version_metadata']
-        if 'CV_collection_version' in version_metadata:
+        version_metadata = self.config['CV'].get('version_metadata', {})
+        if version_metadata and 'CV_collection_version' in version_metadata:
             cv_version = version_metadata['CV_collection_version']
-        elif 'latest_tag_point' in version_metadata:
+        elif version_metadata and 'latest_tag_point' in version_metadata:
             cv_version = version_metadata['latest_tag_point']
         else:
             cv_version = None
@@ -108,8 +110,24 @@ class CVConfig(JSONConfig):
         """
         value = self._UNKNOWN
         info = self._get_value_from_cv(CVKey.EXPERIMENT_ID, experiment_id)
-        if CVKey.EXPERIMENT in info:
+        if info and CVKey.EXPERIMENT in info:
             value = info[CVKey.EXPERIMENT]
+        return value
+
+    def driving_experiment(self, driving_experiment_id):
+        """
+        Return the long description of the |driving experiment| specified by
+        the CV file.
+
+        Parameters
+        ----------
+        driving_experiment_id: str
+            The |driving experiment identifier|.
+        """
+        value = self._UNKNOWN
+        info = self._get_value_from_cv(CVKey.DRIVING_EXPERIMENT_ID, driving_experiment_id)
+        if info and CVKey.DRIVING_EXPERIMENT_ID in info:
+            value = info[CVKey.DRIVING_EXPERIMENT_ID]
         return value
 
     def institution(self, institution_id):
@@ -338,7 +356,7 @@ class CVConfig(JSONConfig):
     def _get_value_from_cv(self, attribute, key):
         value = 'unknown'
         attributes = self._get_values_from_cv(attribute)
-        if key in attributes:
+        if attributes and key in attributes:
             value = attributes[key]
         return value
 

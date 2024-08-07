@@ -17,7 +17,7 @@ class CheckTask(object, metaclass=ABCMeta):
     def __init__(self, check_cache: CheckCache) -> None:
         self._cache = check_cache
         self._messages: List[str] = []
-        self.relaxed_cmor = False
+        self.relaxed_cmor = check_cache.request.common.is_relaxed_cmor()
 
     @abstractmethod
     def execute(self, netcdf_file, attr_dict) -> None:
@@ -90,23 +90,28 @@ class StringAttributesCheckTask(CheckTask):
         """
         validator = self._cache.cv_validator
 
-        string_dict = {
-            "experiment": validator.experiment_validator(getattr(netcdf_file, "experiment_id")),
-            "institution": validator.institution_validator(getattr(netcdf_file, "institution_id")),
-            "Conventions": self._cache.cv_validator.conventions_validator(),
-            "creation_date": ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ", "gregorian"),
-            "data_specs_version": ValidatorFactory.value_in_validator([self._cache.mip_tables.version]),
-            "license": ValidatorFactory.value_in_validator([self._cache.request.metadata.license.strip()]),
-            "mip_era": ValidatorFactory.value_in_validator([self._cache.request.metadata.mip_era]),
-            "product": ValidatorFactory.value_in_validator(["model-output"]),
-            "source": ValidatorFactory.string_validator(self.SOURCE_REGEX),
-            "tracking_id": validator.tracking_id_validator()
-        }
         if self.relaxed_cmor:
-            string_dict.pop("experiment")
-            string_dict.pop("source")
-            string_dict.pop("data_specs_version")
-            string_dict.pop("Conventions")
+            string_dict = {
+                "institution": validator.institution_validator(getattr(netcdf_file, "institution_id")),
+                "creation_date": ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ", "gregorian"),
+                "license": ValidatorFactory.value_in_validator([self._cache.request.metadata.license.strip()]),
+                "mip_era": ValidatorFactory.value_in_validator([self._cache.request.metadata.mip_era]),
+                "product": ValidatorFactory.value_in_validator(["model-output"]),
+                "tracking_id": validator.tracking_id_validator()
+            }
+        else:
+            string_dict = {
+                "experiment": validator.experiment_validator(getattr(netcdf_file, "experiment_id")),
+                "institution": validator.institution_validator(getattr(netcdf_file, "institution_id")),
+                "Conventions": self._cache.cv_validator.conventions_validator(),
+                "creation_date": ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ", "gregorian"),
+                "data_specs_version": ValidatorFactory.value_in_validator([self._cache.mip_tables.version]),
+                "license": ValidatorFactory.value_in_validator([self._cache.request.metadata.license.strip()]),
+                "mip_era": ValidatorFactory.value_in_validator([self._cache.request.metadata.mip_era]),
+                "product": ValidatorFactory.value_in_validator(["model-output"]),
+                "source": ValidatorFactory.string_validator(self.SOURCE_REGEX),
+                "tracking_id": validator.tracking_id_validator()
+            }
 
         for k, v in string_dict.items():
             self._exists_and_valid(netcdf_file, k, v)
@@ -215,23 +220,9 @@ class ComplexAttributesCheckTask(CheckTask):
         :type attr_dict: Dict[str, Any]
         """
         derived_dict = {
-            "further_info_url": ValidatorFactory.value_in_validator(
-                [
-                    attr_dict["further_info_url"]
-                ]
-            ),
             "variable_id": ValidatorFactory.value_in_validator(
                 self._cache.mip_tables.get_variables(
                     attr_dict["table_id"])
-            ),
-            "variant_label": ValidatorFactory.value_in_validator(
-                [
-                    "r{}i{}p{}f{}".format(
-                        attr_dict["realization_index"],
-                        attr_dict["initialization_index"],
-                        attr_dict["physics_index"],
-                        attr_dict["forcing_index"]),
-                ]
             )
         }
         for k, v in derived_dict.items():

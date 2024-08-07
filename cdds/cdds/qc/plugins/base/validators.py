@@ -46,6 +46,22 @@ class ControlledVocabularyValidator:
         """
         return ValidatorFactory.value_in_validator([self._cv.experiment(experiment_id)])
 
+    def driving_experiment_id(self, driving_experiment_id):
+        """
+        Generate a validator for the driving experiment information.
+
+        Parameters
+        ----------
+        experiment_id: str
+            driving_experiment_id of the driving experiment that will be validated.
+
+        Returns
+        -------
+        function:
+            Validator function
+        """
+        return ValidatorFactory.value_in_validator([self._cv.driving_experiment(driving_experiment_id)])
+
     def institution_validator(self, institution_id):
         """
         Generate a validator for the institution information.

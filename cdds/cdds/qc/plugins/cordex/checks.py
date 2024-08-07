@@ -27,7 +27,8 @@ class CordexAttributesCheckTask(CheckTask):
         """
         validator = self._cache.cv_validator
         cordex_dict = {
-            "driving_experiment_id": validator.driving_experiment_validator(getattr(netcdf_file, "experiment_id")),
+            "driving_experiment_id": validator.driving_experiment_id(
+                getattr(netcdf_file, "driving_experiment_id")),
         }
         for k, v in cordex_dict.items():
             self._exists_and_valid(netcdf_file, k, v)

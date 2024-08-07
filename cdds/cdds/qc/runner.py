@@ -12,8 +12,9 @@ from cdds.common.constants import (
     APPROVED_VARS_FILENAME_TEMPLATE,
     APPROVED_VARS_FILENAME_STREAM_TEMPLATE,
 )
+from cdds.common.plugins.plugins import PluginStore
 from cdds.common.sqlite import execute_insert_query
-from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
+from cdds.qc.plugins.base.dataset import StructuredDataset
 from cdds.qc.common import NoDataForQualityCheck
 from cdds.qc.models import (
     setup_db,
@@ -63,7 +64,7 @@ class QCRunner(object):
         """
 
         assert isinstance(check_suite, CheckSuite)
-        assert isinstance(dataset, Cmip6Dataset)
+        assert isinstance(dataset, StructuredDataset)
 
         self.check_suite = check_suite
         self.check_suite.load_all_available_checkers()
@@ -112,7 +113,10 @@ class QCRunner(object):
         : int
             Run id of the test.
         """
-        cv_location = os.path.join(mip_tables_dir, '{}_CV.json'.format(request.metadata.mip_era))
+        plugin = PluginStore.instance().get_plugin()
+        cv_prefix = plugin.mip_table_prefix()
+        cv_location = os.path.join(mip_tables_dir, '{}{}_CV.json'.format(cv_prefix, request.metadata.mip_era))
+
         conf = {
             "cmip6": {
                 "mip_tables_dir": mip_tables_dir,
@@ -165,26 +169,44 @@ class QCRunner(object):
         for index in aggr:
             for data_file in aggr[index]:
                 drs = index.split('_')
-                execute_insert_query(cursor, "qc_dataset", {
-                    "qc_run_id": qc_run_id,
-                    "filename": os.path.basename(data_file),
-                    "variable_directory": os.path.dirname(data_file),
-                    "summary": SUMMARY_STARTED,
-                    "realization_index": index,
-                    "model": drs[1],
-                    "experiment": (drs[2] + " : " + drs[3]
-                                   if drs[3] != 'none' else drs[2]),
-                    "mip_table": drs[4],
-                    "variant": drs[5],
-                    "variable": drs[6],
-                    "variable_name": self.dataset.var_names[index],
-                    "grid": drs[7],
-                })
+                if request.common.force_plugin == 'CORDEX':
+                    execute_insert_query(cursor, "qc_dataset", {
+                        "qc_run_id": qc_run_id,
+                        "filename": os.path.basename(data_file),
+                        "variable_directory": os.path.dirname(data_file),
+                        "summary": SUMMARY_STARTED,
+                        "realization_index": index,
+                        "model": drs[1],
+                        "experiment": drs[6],
+                        "mip_table": drs[2],
+                        "variant": drs[3],
+                        "variable": self.dataset.var_names[index],
+                        "variable_name": self.dataset.var_names[index],
+                        "grid": drs[4],
+                    })
+                else:
+                    execute_insert_query(cursor, "qc_dataset", {
+                        "qc_run_id": qc_run_id,
+                        "filename": os.path.basename(data_file),
+                        "variable_directory": os.path.dirname(data_file),
+                        "summary": SUMMARY_STARTED,
+                        "realization_index": index,
+                        "model": drs[1],
+                        "experiment": (drs[2] + " : " + drs[3]
+                                       if drs[3] != 'none' else drs[2]),
+                        "mip_table": drs[4],
+                        "variant": drs[5],
+                        "variable": drs[6],
+                        "variable_name": self.dataset.var_names[index],
+                        "grid": drs[7],
+                    })
                 self.db.commit()
                 qc_dataset_id = cursor.lastrowid
                 with self.check_suite.load_dataset(data_file) as ds:
-                    output = self.check_suite.run(
-                        ds, conf, [], "cf17", "cmip6")
+                    if request.common.force_plugin == 'CORDEX':
+                        output = self.check_suite.run(ds, conf, [], "cf17", "cordex")
+                    else:
+                        output = self.check_suite.run(ds, conf, [], "cf17", "cmip6")
                 invalid = self._parse_and_log(cursor, output, qc_dataset_id)
                 if data_file in crs[1] and crs[1][data_file]:
                     for msg in crs[1][data_file]:

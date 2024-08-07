@@ -143,6 +143,9 @@ class CddsPlugin(object, metaclass=ABCMeta):
         """
         pass
 
+    def mip_table_prefix(self):
+        return ''
+
     @abstractmethod
     def proc_directory(self, request: 'Request') -> str:
         """

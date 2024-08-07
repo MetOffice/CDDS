@@ -47,7 +47,7 @@ class UserDefinedVariable(object):
         self.dimensions = self.var_dict['dimensions'].split()
         self.frequency = self.var_dict['frequency']
         self.long_name = self.var_dict['long_name']
-        self.modeling_realm = self.var_dict['modeling_realm']
+        self.modeling_realm = self.var_dict.get('modeling_realm', None)
         self.output_variable_name = self.var_name
         self.positive = _blank_to_none(self.var_dict['positive'])
         self.standard_name = self.var_dict['standard_name']

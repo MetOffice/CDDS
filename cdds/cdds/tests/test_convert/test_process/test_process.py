@@ -411,7 +411,7 @@ class ConvertProcessTest(unittest.TestCase):
         request_cfg_path = self.process._arguments.request_path
         mip_era = 'CMIP6'
         expected_update_kwargs_suite = {
-            'MIP_ERA': mip_era,
+            'PLUGIN_ID': mip_era,
             'CDDS_CONVERT_PROC_DIR': mip_convert_proc_dir,
             'CDDS_VERSION': _NUMERICAL_VERSION,
             'CALENDAR': self.process.request.metadata.calendar,

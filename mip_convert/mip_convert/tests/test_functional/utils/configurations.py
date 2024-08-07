@@ -259,21 +259,16 @@ class ProjectInfo:
                 'netcdf_file_action': 'CMOR_REPLACE_4',
             },
             cmor_dataset={
-                'branch_method': 'no parent',
-                'experiment_id': 'evaluation',
-                'grid': 'Model grid',
-                'grid_label': 'gn',
                 'institution_id': 'MOHC',
                 'license': CORDEX_LICENSE,
-                'mip_era': 'CORDEX',
-                'mip': 'CORDEX',
+                'mip_era': 'CMIP6',
+                'mip': 'RCM',
                 'model_id': 'HadREM3-GA7-05',
                 'model_type': 'ARCM AER',
                 'nominal_resolution': '12.5 km',
-                'output_file_template': ('<variable_id><domain><driving_source_id><experiment_id>'
-                                         '<driving_model_ensemble_member><source_id><rcm_version_id><frequency>'),
-                'sub_experiment_id': 'none',
-                'variant_label': 'r1i1p1f1',
+                'output_file_template': (
+                    '<variable_id><domain_id><driving_source_id><driving_experiment_id>'
+                    '<driving_variant_label><institution_id><source_id><version_realization><frequency>'),
                 'contact': 'a@b.c',
             },
             request={
@@ -284,15 +279,12 @@ class ProjectInfo:
                 'driving_experiment_id': 'evaluation',
                 'driving_institution_id': 'MOHC',
                 'driving_source_id': 'HadGEM3-GC31-MM',
-                'driving_model_ensemble_member': 'r1i1p1',
-                'driving_experiment_name': 'evaluation',
                 'driving_variant_label': 'r1i1p1f2',
-                'nesting_levels': 1,
-                'rcm_version_id': 'v1',
-                'project_id': 'CORDEX-FPSCONV',
+                'native_resolution': '50 km',
+                'version_realization': 'v1-r1',
+                'project_id': 'CORDEX',
                 'domain_id': 'EUR-11',
                 'domain': 'Europe',
-                'source_configuration_id': 'v1.0',
                 'further_info_url': 'https://furtherinfo.es-doc.org/'
             }
         )

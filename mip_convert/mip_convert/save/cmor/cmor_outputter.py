@@ -722,12 +722,8 @@ class AxisMakerFactory(object):
         self._cmor = cmor
         self._table_name = table.table_name
 
-    @property
-    def _project(self):
-        return self._table.project_id
-
     def grid_table(self):
-        name = self.GRID_TABLE % self._project
+        name = self.GRID_TABLE % self._table.table_prefix
         if self._table_name.endswith('.json'):
             name = name + '.json'
         return name

@@ -72,16 +72,22 @@ class Dataset(object):
         RuntimeError: if any |MIP| is inconsistent with the values
             specified for the |experiment| from the CVs.
         """
+        logger = logging.getLogger(__name__)
         for activity_id in self._user_config.activity_id:
             # First ensure the value of 'activity_id' provided by the 'user configuration file' is a valid value.
             self._cv_config.validate_with_error(activity_id, 'activity_ids')
 
             # Then ensure the value is consistent with the value for the experiment from the CVs.
-            experiment_id = self._user_config.experiment_id
-            cv_activity_id = self._cv_config.activity_id(experiment_id)
-            if activity_id not in cv_activity_id:
-                message = '"{}" is inconsistent with the values specified for the experiment "{}" from the CVs ("{}")'
-                raise RuntimeError(message.format(activity_id, experiment_id, ' '.join(cv_activity_id)))
+            if 'experiment_id' in self._cv_config._get_values_from_cv('required_global_attributes'):
+                experiment_id = self._user_config.experiment_id
+                cv_activity_id = self._cv_config.activity_id(experiment_id)
+                if activity_id not in cv_activity_id:
+                    message = ('"{}" is inconsistent with the values specified for the '
+                               'experiment "{}" from the CVs ("{}")')
+                    raise RuntimeError(message.format(activity_id, experiment_id, ' '.join(cv_activity_id)))
+            else:
+                logger.debug('Could not validate activity id (mip), for experiment as experiment_id is not '
+                             'a required global attribute')
 
     def validate_source_type_values(self):
         """
@@ -102,29 +108,37 @@ class Dataset(object):
             |user configuration file| are inconsistent with the values
             specified for the |experiment| from the CVs.
         """
-        experiment_id = self._user_config.experiment_id
+        logger = logging.getLogger(__name__)
         user_source_types = self._user_config.source_type
         for source_type in user_source_types:
             # First ensure the value of 'source_type' provided by the 'user configuration file' is a valid value.
             self._cv_config.validate_with_error(source_type, 'source_types')
 
-        # Then ensure the required values for the experiment from the CVs are provided by the 'user configuration file'.
-        required_source_types = self._cv_config.required_source_type(experiment_id)
-        for required_source_type in required_source_types:
-            if required_source_type not in self._user_config.source_type:
-                message = 'Required model type "{}" for experiment "{}" not present'
-                raise RuntimeError(message.format(required_source_type, experiment_id))
+        if 'experiment_id' in self._cv_config._get_values_from_cv('required_global_attributes'):
+            experiment_id = self._user_config.experiment_id
+            # Then ensure the required values for the experiment from the CVs are provided by the
+            # 'user configuration file'.
+            required_source_types = self._cv_config.required_source_type(experiment_id)
+            for required_source_type in required_source_types:
+                if required_source_type not in self._user_config.source_type:
+                    message = 'Required model type "{}" for experiment "{}" not present'
+                    raise RuntimeError(message.format(required_source_type, experiment_id))
 
-        # Finally ensure any additional values for the experiment from the CVs are consistent with the values
-        # provided by the 'user configuration file'.
-        additional_source_types = self._cv_config.additional_source_type(experiment_id)
-        invalid = set(user_source_types).difference(set(required_source_types)).difference(set(additional_source_types))
+            # Finally ensure any additional values for the experiment from the CVs are consistent with the values
+            # provided by the 'user configuration file'.
+            additional_source_types = self._cv_config.additional_source_type(experiment_id)
+            invalid = set(user_source_types).difference(
+                set(required_source_types)).difference(set(additional_source_types))
 
-        if invalid:
-            raise RuntimeError(
-                '"{}" is inconsistent with the additional values specified for the experiment "{}" from the CVs ("{}")'
-                ''.format(' '.join(sorted(invalid)), experiment_id, ' '.join(additional_source_types))
-            )
+            if invalid:
+                raise RuntimeError(
+                    '"{}" is inconsistent with the additional values specified for the experiment "{}" '
+                    'from the CVs ("{}")'.format(' '.join(sorted(invalid)), experiment_id,
+                                                 ' '.join(additional_source_types))
+                )
+        else:
+            logger.debug('Could not validate source type for experiment as experiment_id is not '
+                         'a required global attribute')
 
     @property
     def items(self):
@@ -195,36 +209,61 @@ class Dataset(object):
 
     @property
     def _items_from_variant_label(self):
+        logger = logging.getLogger(__name__)
         pattern = re.compile(VARIANT_LABEL_FORMAT)
-        match = pattern.match(self._user_config.variant_label)
-        items_from_variant_label = {
-            'realization_index': match.group(1),
-            'initialization_index': match.group(2),
-            'physics_index': match.group(3),
-            'forcing_index': match.group(4)
-        }
+        if 'variant_label' in self._cv_config._get_values_from_cv('required_global_attributes'):
+            match = pattern.match(self._user_config.variant_label)
+            items_from_variant_label = {
+                'realization_index': match.group(1),
+                'initialization_index': match.group(2),
+                'physics_index': match.group(3),
+                'forcing_index': match.group(4)
+            }
+        else:
+            logger.debug('Could not populate CMIP6 style indices as variant_label not present')
+            items_from_variant_label = {}
+
         return items_from_variant_label
 
     @property
     def _items_from_CV(self):
+        logger = logging.getLogger(__name__)
         items_from_CV = {
             'cv_version': self._cv_config.version,
-            'experiment': self._cv_config.experiment(self._user_config.experiment_id),
-            'institution': self._cv_config.institution(self._user_config.institution_id),
-            'source': self._cv_config.source(self._user_config.source_id),
-            'sub_experiment': self._cv_config.sub_experiment(self._user_config.sub_experiment_id),
             'tracking_prefix': self._cv_config.tracking_prefix
         }
-        if self._user_config.branch_method != 'no parent':
+        required_global_attributes = self._cv_config._get_values_from_cv('required_global_attributes')
+        # Could break this out as a constant, but these have to correspond to
+        # implemented methods on the CVConfig class.
+        items_from_CV_mapping = {
+            'experiment': 'experiment_id',
+            'institution': 'institution_id',
+            'source': 'source_id',
+            'sub_experiment': 'sub_experiment_id',
+        }
+        for val, val_id in items_from_CV_mapping.items():
+            if hasattr(self._user_config, val_id):
+                items_from_CV[val] = getattr(self._cv_config, val)(getattr(self._user_config, val_id))
+            else:
+                logger.debug('Field "{}" not added as "{}" not found in required '
+                             'global attributes'.format(val, val_id))
+        # can only check parent activity id where it is relevant.
+        # Assume that if branch_method is defined, as in CMIP6, then parent_activity_id should be obtained in the
+        # CMIP6 fashion
+        if hasattr(self._user_config, 'branch_method') and self._user_config.branch_method != 'no parent':
             parent_activity_id = self._cv_config.parent_activity_id(self._user_config.experiment_id,
                                                                     self._user_config.parent_experiment_id,
                                                                     self._user_config.mip_era)
             items_from_CV['parent_activity_id'] = parent_activity_id
+        else:
+            logger.debug('Parent information not included as "branch_method" not included in '
+                         'user config')
         return items_from_CV
 
     @property
     def _CMOR_filenames(self):
         mip_era = self._user_config.mip_era
+        project_id = self.global_attributes.get('project_id', None)
         tables_directory = self._user_config.inpath
         CMOR_filenames = {
             '_controlled_vocabulary_file': '{}_CV.json',
@@ -232,10 +271,15 @@ class Dataset(object):
             '_FORMULA_VAR_FILE': '{}_formula_terms.json'
         }
         for k, v in CMOR_filenames.items():
-            mip_era_path = os.path.join(tables_directory, v.format(mip_era))
-            if os.path.exists(mip_era_path):
-                CMOR_filenames[k] = v.format(mip_era)
-            else:
+            file_found = False
+            for file_prefix in [mip_era, project_id]:
+                mip_era_path = os.path.join(tables_directory, v.format(file_prefix))
+                if os.path.exists(mip_era_path):
+                    CMOR_filenames[k] = v.format(file_prefix)
+                    file_found = True
+                    continue
+
+            if not file_found:
                 CMOR_filenames[k] = v.format('MIP')
 
         return CMOR_filenames
