@@ -4,6 +4,9 @@
 There is a request object that represents the corresponding request configuration file. Each section in the request
 configuration file is represented by a request section object:
 
+`Inheritance`
+:   contains setting to load template for given request
+
 `Metadata`
 :   contains all metadata settings like the model ID or the MIP era
 

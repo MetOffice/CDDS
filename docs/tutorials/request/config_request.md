@@ -2,6 +2,9 @@
 
 The request configuration consists of following different sections:
 
+`inheritance`
+:   contains a setting that specify a template for the request. This section is optional.
+
 `metadata`
 :   contains all metadata settings about the experiment that should be processed, like the model ID or the MIP era.
 
