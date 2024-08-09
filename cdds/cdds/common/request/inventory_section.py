@@ -35,6 +35,9 @@ class InventorySection(Section):
     inventory_database_location: str = ''
 
     def __post_init__(self):
+        """
+        Pre-validates the values of the section before create it
+        """
         validate_inventory_section(self)
 
     @classmethod

@@ -1,5 +1,8 @@
 # (C) British Crown Copyright 2024, Met Office.
 # Please see LICENSE.rst for license details.
+"""
+Module to provide validations for each request section
+"""
 import os
 
 
@@ -20,7 +23,13 @@ if TYPE_CHECKING:
     from cdds.common.request.request import Request
 
 
-def validate_common_section(section: 'CommonSection') -> Tuple[bool, List[str]]:
+def validate_common_section(section: 'CommonSection') -> None:
+    """
+    Validates given common section and raises an error if validation failed.
+
+    :param section: common section to validate
+    :type section: 'CommonSection'
+    """
     validator = CommonSectionValidator(section=section)
     valid, messages = validator.validate()
 
@@ -28,7 +37,13 @@ def validate_common_section(section: 'CommonSection') -> Tuple[bool, List[str]]:
         raise AttributeError('\n'.join(messages))
 
 
-def validate_data_section(section: 'DataSection'):
+def validate_data_section(section: 'DataSection') -> None:
+    """
+    Validates given data sections and raises an error if validation failed.
+
+    :param section: data section to validate
+    :type section: 'DataSection'
+    """
     if section.start_date and section.end_date:
         validate_start_before_end = SectionValidatorFactory.start_before_end_validator()
         valid, message = validate_start_before_end(section.start_date, section.end_date, 'start_date', 'end_date')
@@ -36,7 +51,13 @@ def validate_data_section(section: 'DataSection'):
             raise AttributeError(message)
 
 
-def validate_inventory_section(section: 'InventorySection'):
+def validate_inventory_section(section: 'InventorySection') -> None:
+    """
+    Validates given inventory section and raises an error if validation failed.
+
+    :param section: inventory section to validate
+    :type section: 'InventorySection'
+    """
     if section.inventory_check:
         validate_file = SectionValidatorFactory.file_validator()
         valid, message = validate_file(section.inventory_database_location, 'inventory_database_location')
@@ -44,7 +65,13 @@ def validate_inventory_section(section: 'InventorySection'):
             raise AttributeError(message)
 
 
-def validate_metadata_section(section: 'MetadataSection'):
+def validate_metadata_section(section: 'MetadataSection') -> None:
+    """
+    Validates given metadata section and raises an error if validation failed.
+
+    :param section: metadata section to validate
+    :type section: 'MetadataSection'
+    """
     validator = MetadataSectionValidator(section=section)
     valid, messages = validator.validate()
 
@@ -52,7 +79,13 @@ def validate_metadata_section(section: 'MetadataSection'):
         raise AttributeError('\n'.join(messages))
 
 
-def validate_request(request: 'Request'):
+def validate_request(request: 'Request') -> None:
+    """
+    Validates given request against the controlled vocabulary
+
+    :param request: request to validate
+    :type request: 'Request'
+    """
     mip_era = request.metadata.mip_era
 
     if request.common.mip_table_dir:

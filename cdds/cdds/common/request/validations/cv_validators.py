@@ -1,5 +1,8 @@
 # (C) British Crown Copyright 2024, Met Office.
 # Please see LICENSE.rst for license details.
+"""
+Module to validate request against the controlled vocabulary
+"""
 import os
 
 from typing import Callable, TYPE_CHECKING
@@ -14,6 +17,12 @@ class CVValidatorFactory:
 
     @classmethod
     def path_validator(cls) -> Callable[[str], None]:
+        """
+        Returns a validator to validate the path to the controlled vocabulary
+
+        :return: validate function
+        :rtype: Callable[[str], None]
+        """
         def validate(path):
             if not os.path.exists(path):
                 raise CVPathError()
@@ -23,6 +32,12 @@ class CVValidatorFactory:
 
     @classmethod
     def institution_validator(cls) -> Callable[[CVConfig, 'Request'], None]:
+        """
+        Returns a validator to validate institution ID against the institution IDs in the CV.
+
+        :return: validate function
+        :rtype: Callable[[CVConfig, 'Request'], None]
+        """
         def validate(cv_config: CVConfig, request: 'Request'):
             cv_institution = cv_config.institution(request.metadata.institution_id)
             if cv_institution == 'unknown':
@@ -31,6 +46,12 @@ class CVValidatorFactory:
 
     @classmethod
     def model_validator(cls) -> Callable[[CVConfig, 'Request'], None]:
+        """
+        Returns a validator to validate the model ID against the model IDs in the CV.
+
+        :return: validate function
+        :rtype: Callable[[CVConfig, 'Request'], None]
+        """
         def validate(cv_config: CVConfig, request: 'Request'):
             source = cv_config.source(request.metadata.model_id)
             if source == 'unknown':
@@ -39,6 +60,12 @@ class CVValidatorFactory:
 
     @classmethod
     def experiment_validator(cls) -> Callable[[CVConfig, 'Request'], None]:
+        """
+        Returns a validator to validate the experiment ID against the experiment IDs in the CV.
+
+        :return: validate function
+        :rtype: Callable[[CVConfig, 'Request'], None]
+        """
         def validate(cv_config: CVConfig, request: 'Request'):
             experiment = cv_config.experiment(request.metadata.experiment_id)
             if experiment == 'unknown':
@@ -52,6 +79,13 @@ class CVValidatorFactory:
 
     @classmethod
     def model_types_validator(cls) -> Callable[[CVConfig, 'Request'], None]:
+        """
+        Returns validator to validate the model types against the allowed and required
+        model types in the CV.
+
+        :return: validate function
+        :rtype: Callable[[CVConfig, 'Request'], None]
+        """
         def validate(cv_config: CVConfig, request: 'Request'):
             allowed_model_types = cv_config.allowed_source_types(request.metadata.experiment_id)
             model_types = request.metadata.model_type
@@ -69,6 +103,13 @@ class CVValidatorFactory:
 
     @classmethod
     def parent_validator(cls) -> Callable[[CVConfig, 'Request'], None]:
+        """
+        Returns a validator to validate the values related to the parent experiment id
+        against the values in the CV.
+
+        :return: validate function
+        :rtype: Callable[[CVConfig, 'Request'], None]
+        """
         def validate(cv_config: CVConfig, request: 'Request'):
             experiment = request.metadata.experiment_id
             parent_experiment = request.metadata.parent_experiment_id
