@@ -77,7 +77,6 @@ class TestMetdataValidator(TestCase):
             'branch_method': 'no parent',
             'calendar': '360_day',
             'mip': 'CMIP',
-            'experiment_id': 'piControl',
             'mip_era': 'CMIP6',
             'model_id': 'UKESM1-0-LL',
             'variant_label': 'r1i1p1f1'
@@ -115,7 +114,6 @@ class TestMetdataValidator(TestCase):
         self.assertListEqual(messages, [
             'Property "mip" must be set.',
             'Property "base_date" must be set.',
-            'Property "experiment_id" must be set.',
             'Property "mip_era" must be set.',
             'Property "model_id" must be set.',
             'Property "variant_label" must be set.'

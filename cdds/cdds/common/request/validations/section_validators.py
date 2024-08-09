@@ -112,7 +112,6 @@ class MetadataSectionValidator(SectionValidator):
         values_must_set_dict = {
             'mip': self.section.mip,
             'base_date': self.section.base_date,
-            'experiment_id': self.section.experiment_id,
             'mip_era': self.section.mip_era,
             'model_id': self.section.model_id,
             'variant_label': self.section.variant_label,
