@@ -3,6 +3,9 @@
 """
 Module providing functionality to validate request configuration
 """
+from typing import List
+from argparse import Namespace, ArgumentParser
+
 from cdds.validate.validations import do_request_validations
 
 

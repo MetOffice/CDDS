@@ -17,7 +17,7 @@ class TestValidations(TestCase):
     @patch('logging.Logger')
     def test_cmip6_validations(self, logger):
         request_to_validate = os.path.join(self.data_dir, 'cmip6_request_no_parent.cfg')
-        valid, messages =do_request_validations(request_to_validate)
+        valid, messages = do_request_validations(request_to_validate)
         self.assertTrue(valid)
         self.assertListEqual(messages, [])
 
@@ -29,7 +29,7 @@ class TestValidations(TestCase):
         self.assertListEqual(messages, [])
 
     @patch('logging.Logger')
-    def test_cmip6_parent_validations(self, logger):
+    def test_cordex_validations(self, logger):
         request_to_validate = os.path.join(self.data_dir, 'cordex_request.cfg')
         valid, messages = do_request_validations(request_to_validate)
         self.assertTrue(valid)
