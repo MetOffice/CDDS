@@ -97,7 +97,7 @@ def expected_test_misc():
 
 def expected_test_inventory():
     return {
-        'inventory_check': True,
+        'inventory_check': False,
         'inventory_database_location': os.path.join(os.environ['CDDS_ETC'], 'inventory', 'inventory.db')
     }
 

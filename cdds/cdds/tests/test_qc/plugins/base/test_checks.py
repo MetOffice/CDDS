@@ -2,12 +2,10 @@
 # Please see LICENSE.rst for license details.
 import os
 
-from metomi.isodatetime.data import Calendar
 from netCDF4 import Dataset
 from unittest import TestCase
 from unittest.mock import MagicMock
 from cdds.common.mip_tables import MipTables
-from cdds.common.request.request import Request
 from cdds.common.plugins.plugin_loader import load_plugin
 
 from cdds.qc.plugins.base.checks import VariableAttributesCheckTask, StringAttributesCheckTask
@@ -18,6 +16,7 @@ from cdds.tests.test_common.common import create_simple_netcdf_file
 from cdds.tests.test_qc.plugins.constants import (MIP_TABLES_DIR, CV_REPO, TMP_DIR_FOR_NETCDF_TESTS, MINIMAL_CDL,
                                                   CORRECT_VARIABLE_METADATA_CDL, INCONSISTENT_VARIABLE_METADATA_CDL,
                                                   GLOBAL_ATTRIBUTES_CDL)
+from cdds.tests.factories.request_factory import simple_request
 
 
 class TestVariableAttributesCheckTask(TestCase):
@@ -56,7 +55,7 @@ class TestGlobalAttributesCheckTask(TestCase):
         load_plugin()
         self.nc_path = os.path.join(TMP_DIR_FOR_NETCDF_TESTS, "test_file.nc")
         mip_tables = MipTables(os.path.join(MIP_TABLES_DIR, "for_functional_tests"))
-        request = Request()
+        request = simple_request()
         request.metadata.calendar = "360_day"
         request.metadata.mip_era = "CMIP6"
         request.metadata.license = "CMIP6 model data produced by the Met Office Hadley Centre."

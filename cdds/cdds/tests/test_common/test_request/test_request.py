@@ -3,9 +3,10 @@
 import os
 import unittest
 
-from cdds.common.request.request import read_request, Request
+from cdds.common.request.request import read_request
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.tests.factories.request_factory import simple_request
 from cdds.tests.test_common.test_request.data_for_tests import (expected_test_metadata, expected_test_global_attributes,
                                                                 expected_test_common, expected_test_data,
                                                                 expected_test_misc,
@@ -78,7 +79,7 @@ class TestWriteRequest(TestCase):
 
         expected_output = os.path.join(self.data_dir, 'test_request_output.cfg')
         config_file = os.path.join(self.test_temp_dir, 'request.cfg')
-        request = Request()
+        request = simple_request()
         request.metadata.model_id = 'UKESM1-0-LL'
         request.metadata.experiment_id = 'piControl'
         request.metadata.variant_label = 'r1i1p1f2'
@@ -95,6 +96,7 @@ class TestWriteRequest(TestCase):
         request.data.output_mass_root = 'moose:/adhoc/projects/cdds/'
         request.data.output_mass_suffix = 'development'
         request.data.data_version = data_version.strftime('v%Y%m%d')
+        request.data.variable_list_file = ''
         request.write(config_file)
 
         self.assertListEqual(self.read_lines(config_file), self.read_lines(expected_output))

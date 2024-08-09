@@ -21,6 +21,7 @@ from cdds.common.request.inventory_section import InventorySection
 from cdds.common.request.conversion_section import ConversionSection
 from cdds.common.request.rose_suite.suite_info import RoseSuiteArguments, RoseSuiteInfo, load_rose_suite_info
 from cdds.common.request.rose_suite.validation import validate_rose_suite
+from cdds.common.request.request_validations import validate_request
 from cdds.common.plugins.plugin_loader import load_plugin
 
 
@@ -173,7 +174,7 @@ class Request:
             config.write(fp)
 
 
-def read_request(request_path: str) -> Request:
+def read_request(request_path: str, skip_cv_validations=False) -> Request:
     """
     Returns the information from the request.
 
@@ -195,6 +196,8 @@ def read_request(request_path: str) -> Request:
     Calendar.default().set_mode(calendar)
 
     request = Request.from_config(request_config)
+    if not skip_cv_validations:
+        validate_request(request)
     return request
 
 

@@ -10,6 +10,7 @@ from typing import Dict, Any
 from cdds.common.request.request_section import Section, load_types
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 from cdds.common.request.validations.pre_validations import do_pre_validations
+from cdds.common.request.request_validations import validate_inventory_section
 
 
 def inventory_defaults() -> Dict[str, Any]:
@@ -32,6 +33,9 @@ class InventorySection(Section):
     """
     inventory_check: bool = False
     inventory_database_location: str = ''
+
+    def __post_init__(self):
+        validate_inventory_section(self)
 
     @classmethod
     def name(cls) -> str:

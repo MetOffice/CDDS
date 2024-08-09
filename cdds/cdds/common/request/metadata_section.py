@@ -11,6 +11,7 @@ from typing import Dict, List, Any
 from cdds.common.request.request_section import Section, load_types
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 from cdds.common.request.validations.pre_validations import do_pre_validations
+from cdds.common.request.request_validations import validate_metadata_section
 from cdds.common.plugins.plugins import PluginStore
 
 
@@ -61,6 +62,9 @@ class MetadataSection(Section):
     variant_label: str = ''
     model_id: str = ''
     model_type: List[str] = field(default_factory=list)
+
+    def __post_init__(self):
+        validate_metadata_section(self)
 
     @classmethod
     def name(cls) -> str:
@@ -113,33 +117,32 @@ class MetadataSection(Section):
         :rtype: MetadataSection
         """
         model_id = suite_info.data['model-id']
-        defaults = metadata_defaults(model_id)
+        values = metadata_defaults(model_id)
 
-        metadata = MetadataSection(**defaults)
-        metadata.branch_method = suite_info.branch_method()
-        metadata.base_date = TimePoint(year=1850, month_of_year=1, day_of_month=1)
-        metadata.calendar = suite_info.data['calendar']
-        metadata.experiment_id = suite_info.data['experiment-id']
-        metadata.institution_id = suite_info.data['institution']
-        metadata.license = suite_info.license()
-        metadata.mip = suite_info.data['MIP']
-        metadata.mip_era = suite_info.data.get('mip-era', 'CMIP6')
-        metadata.sub_experiment_id = suite_info.data['sub-experiment-id']
-        metadata.variant_label = suite_info.data['variant-id']
-        metadata.model_id = model_id
-        metadata.model_type = suite_info.data['source-type'].split(',')
+        values['branch_method'] = suite_info.branch_method()
+        values['base_date'] = TimePoint(year=1850, month_of_year=1, day_of_month=1)
+        values['calendar'] = suite_info.data['calendar']
+        values['experiment_id'] = suite_info.data['experiment-id']
+        values['institution_id'] = suite_info.data['institution']
+        values['license'] = suite_info.license()
+        values['mip'] = suite_info.data['MIP']
+        values['mip_era'] = suite_info.data.get('mip-era', 'CMIP6')
+        values['sub_experiment_id'] = suite_info.data['sub-experiment-id']
+        values['variant_label'] = suite_info.data['variant-id']
+        values['model_id'] = model_id
+        values['model_type'] = suite_info.data['source-type'].split(',')
 
         if suite_info.has_parent():
-            metadata.branch_date_in_child = suite_info.branch_date_in_child()
-            metadata.branch_date_in_parent = suite_info.branch_date_in_parent()
-            metadata.parent_base_date = TimePoint(year=1850, month_of_year=1, day_of_month=1)
-            metadata.parent_experiment_id = suite_info.data['parent-experiment-id']
-            metadata.parent_mip = suite_info.data['parent-experiment-mip']
-            metadata.parent_mip_era = 'CMIP6'
-            metadata.parent_model_id = suite_info.data['model-id']
-            metadata.parent_time_units = 'days since 1850-01-01'
-            metadata.parent_variant_label = suite_info.data['parent-variant-id']
-        return metadata
+            values['branch_date_in_child'] = suite_info.branch_date_in_child()
+            values['branch_date_in_parent'] = suite_info.branch_date_in_parent()
+            values['parent_base_date'] = TimePoint(year=1850, month_of_year=1, day_of_month=1)
+            values['parent_experiment_id'] = suite_info.data['parent-experiment-id']
+            values['parent_mip'] = suite_info.data['parent-experiment-mip']
+            values['parent_mip_era'] = 'CMIP6'
+            values['parent_model_id'] = suite_info.data['model-id']
+            values['parent_time_units'] = 'days since 1850-01-01'
+            values['parent_variant_label'] = suite_info.data['parent-variant-id']
+        return MetadataSection(**values)
 
     def add_to_config(self, config: ConfigParser) -> None:
         """
