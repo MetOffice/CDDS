@@ -174,7 +174,7 @@ class Request:
             config.write(fp)
 
 
-def read_request(request_path: str, skip_cv_validations=False) -> Request:
+def read_request(request_path: str) -> Request:
     """
     Returns the information from the request.
 
@@ -196,7 +196,7 @@ def read_request(request_path: str, skip_cv_validations=False) -> Request:
     Calendar.default().set_mode(calendar)
 
     request = Request.from_config(request_config)
-    if not skip_cv_validations:
+    if not request.common.is_relaxed_cmor():
         validate_request(request)
     return request
 
