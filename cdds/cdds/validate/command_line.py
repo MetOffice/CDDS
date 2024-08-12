@@ -3,9 +3,12 @@
 """
 Module providing functionality to validate request configuration
 """
-from typing import List
-from argparse import Namespace, ArgumentParser
+import logging
 
+from typing import List
+from argparse import Namespace, ArgumentParser, ArgumentDefaultsHelpFormatter
+
+from cdds.common import configure_logger
 from cdds.validate.validations import do_request_validations
 
 
