@@ -80,4 +80,7 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
         valid = False
         messages.append(e.args[0])
 
+    if valid:
+        logger.info('Request configuration is valid.')
+
     return valid, messages
