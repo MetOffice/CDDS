@@ -15,8 +15,9 @@ from cdds.common.request.request import Request
 
 
 def simple_request():
-    variable_list_file = tempfile.NamedTemporaryFile(prefix='variable')
-    variable_list_file.write(b'Amon/tas:ap5')
+    variable_list_file = tempfile.mktemp()
+    with open(variable_list_file, 'w') as fh:
+        fh.writelines(['Amon/tas:ap5'])
 
     root_proc_dir = tempfile.mkdtemp(prefix='proc')
     root_data_dir = tempfile.mkdtemp(prefix='data')
@@ -35,7 +36,7 @@ def simple_request():
         streams=['ap4', 'ap5', 'ap6'],
         output_mass_root='',
         output_mass_suffix='',
-        variable_list_file=variable_list_file.name
+        variable_list_file=variable_list_file
     )
     common_section = CommonSection(
         mip_table_dir='/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29/',

@@ -44,16 +44,21 @@ def validate_data_section(section: 'DataSection') -> None:
     :param section: data section to validate
     :type section: 'DataSection'
     """
+    valid = True
+    messages = []
     validate_file = SectionValidatorFactory.file_validator()
     valid, message = validate_file(section.variable_list_file, 'variable_list_file')
     if not valid:
-        raise AttributeError(message)
+        messages.append(message)
 
     if section.start_date and section.end_date:
         validate_start_before_end = SectionValidatorFactory.start_before_end_validator()
         valid, message = validate_start_before_end(section.start_date, section.end_date, 'start_date', 'end_date')
         if not valid:
-            raise AttributeError(message)
+            messages.append(message)
+
+    if not valid:
+        raise AttributeError('\n'.join(messages))
 
 
 def validate_inventory_section(section: 'InventorySection') -> None:

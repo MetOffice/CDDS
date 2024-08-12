@@ -46,6 +46,7 @@ class TestValidations(TestCase):
              'The "root_ancil_dir" does not exist.\n'
              'The "mip_table_dir" does not exist.\n'
              'The "sites_file" does not exist.'),
-            '"start_date" must be before "end_date"',
+            ('The "variable_list_file" does not exist.\n'
+             '"start_date" must be before "end_date"'),
             'The "inventory_database_location" does not exist.'
         ])
