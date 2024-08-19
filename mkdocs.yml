@@ -19,6 +19,7 @@ nav:
     - MIP Convert User Guide: tutorials/mip_convert.md
     - Request Configuration:
       -  tutorials/request/config_request.md
+      - Inheritance Section: tutorials/request/inheritance.md
       - Metadata Section: tutorials/request/metadata.md
       - Common Section: tutorials/request/common.md
       - Data Section: tutorials/request/data.md
