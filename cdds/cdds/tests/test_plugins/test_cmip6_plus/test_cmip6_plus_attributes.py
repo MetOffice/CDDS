@@ -3,7 +3,7 @@
 import unittest
 
 from cdds.common.plugins.cmip6_plus.cmip6_plus_attributes import Cmip6PlusGlobalAttributes, AttributesValidator
-from cdds.common.request.request import Request
+from cdds.tests.factories.request_factory import simple_request
 
 from unittest import TestCase
 
@@ -17,7 +17,7 @@ class TestCmip6PlusGlobalAttributes(TestCase):
         self.experiment_id = 'piControl'
         self.sub_experiment_id = 'none'
         self.variant_label = 'r1i1p1f2'
-        self.request = Request()
+        self.request = simple_request()
         self.request.metadata.institution_id = self.institution_id
         self.request.metadata.model_id = self.model_id
         self.request.metadata.experiment_id = self.experiment_id
@@ -41,7 +41,7 @@ class TestCmip6PlusGlobalAttributes(TestCase):
 class TestAttributeValidator(TestCase):
 
     def test_request_valid(self):
-        request = Request()
+        request = simple_request()
         request.metadata.institution_id = 'MOHC'
         request.metadata.model_id = 'HadGEM3-GC31-LL'
         request.metadata.experiment_id = 'piControl'
@@ -50,7 +50,7 @@ class TestAttributeValidator(TestCase):
         AttributesValidator.validate_request(request)
 
     def test_request_no_institution_id(self):
-        request = Request()
+        request = simple_request()
         request.metadata.institution_id = ''
         request.metadata.model_id = 'HadGEM3-GC31-LL'
         request.metadata.experiment_id = 'piControl'
@@ -60,7 +60,7 @@ class TestAttributeValidator(TestCase):
         self.assertRaises(ValueError, AttributesValidator.validate_request, request)
 
     def test_request_no_model_id(self):
-        request = Request()
+        request = simple_request()
         request.metadata.institution_id = 'MOHC'
         request.metadata.model_id = ''
         request.metadata.experiment_id = 'piControl'
@@ -70,7 +70,7 @@ class TestAttributeValidator(TestCase):
         self.assertRaises(ValueError, AttributesValidator.validate_request, request)
 
     def test_request_no_experiment_id(self):
-        request = Request()
+        request = simple_request()
         request.metadata.institution_id = 'MOHC'
         request.metadata.model_id = 'HadGEM3-GC31-LL'
         request.metadata.experiment_id = ''
@@ -80,7 +80,7 @@ class TestAttributeValidator(TestCase):
         self.assertRaises(ValueError, AttributesValidator.validate_request, request)
 
     def test_request_no_sub_experiment_id(self):
-        request = Request()
+        request = simple_request()
         request.metadata.institution_id = 'MOHC'
         request.metadata.model_id = 'HadGEM3-GC31-LL'
         request.metadata.experiment_id = 'piControl'
@@ -90,7 +90,7 @@ class TestAttributeValidator(TestCase):
         self.assertRaises(ValueError, AttributesValidator.validate_request, request)
 
     def test_request_no_variant_label(self):
-        request = Request()
+        request = simple_request()
         request.metadata.institution_id = 'MOHC'
         request.metadata.model_id = 'HadGEM3-GC31-LL'
         request.metadata.experiment_id = 'piControl'

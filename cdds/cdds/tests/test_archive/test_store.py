@@ -20,8 +20,8 @@ from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.plugin_loader import load_plugin
 
 import cdds.archive.store
-from cdds.common.request.request import Request
 import cdds.tests.test_archive.common
+from cdds.tests.factories.request_factory import simple_request
 
 
 class TestGetVariables(unittest.TestCase):
@@ -77,7 +77,7 @@ class TestRetrieveFilePaths(unittest.TestCase):
     def setUp(self):
         Calendar.default().set_mode('360_day')
         load_plugin()
-        self.request = Request()
+        self.request = simple_request()
         self.request.metadata.mip_era = 'dummyera'
         self.request.metadata.mip = 'dummymip'
         self.request.metadata.experiment_id = 'dummy-exp123'

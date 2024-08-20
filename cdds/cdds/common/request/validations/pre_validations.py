@@ -32,7 +32,8 @@ def do_pre_validations(config: ConfigParser, section: Section) -> None:
 
     for key, value in config_values.items():
         if not value:
-            logger.debug('Value of property "{}" is not defined in section "{}". Skip pre-validations.')
+            logger.debug(('Value of property "{}" is not defined in section "{}". Skip pre-validations.'
+                          '').format(key, section.name()))
             continue
 
         if key not in resolved_field_types.keys():
