@@ -21,6 +21,14 @@ from cdds.common.request.validations.exceptions import CVPathError, CVEntryError
 
 
 def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
+    """
+    Validates request stored at given path
+
+    :param request_path: Path to the request to validate
+    :type request_path: str
+    :return: Is valid and a list of messages
+    :rtype: Tuple[bool, List[str]]
+    """
     logger = logging.getLogger(__name__)
     valid = True
     messages = []

@@ -16,6 +16,14 @@ CDDS_VALIDATE_LOG = 'cdds_request_validations'
 
 
 def run_request_validations(arguments: List[str] = None) -> int:
+    """
+    Runs validations for the request given in the command line arguments
+
+    :param arguments: List of command line arguments
+    :type arguments: List[str]
+    :return: Exit code
+    :rtype: int
+    """
     args = parse_arguments(arguments)
 
     configure_logger(CDDS_VALIDATE_LOG, logging.INFO, False)
