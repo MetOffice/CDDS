@@ -71,6 +71,8 @@ def expected_test_common():
 
 
 def expected_test_data():
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    variable_file = os.path.join(current_dir, 'data', 'variables.txt')
     return {
         'data_version': 'v20191128',
         'end_date': TimePoint(year=2170, month_of_year=1, day_of_month=1),
@@ -81,7 +83,7 @@ def expected_test_data():
         'model_workflow_branch': 'cdds',
         'model_workflow_revision': 115492,
         'streams': ['ap4', 'ap5'],
-        'variable_list_file': '/data/users/cdds/variables.txt',
+        'variable_list_file': '',
         'output_mass_root': 'moose:/adhoc/projects/cdds/',
         'output_mass_suffix': 'development'
     }
@@ -97,7 +99,7 @@ def expected_test_misc():
 
 def expected_test_inventory():
     return {
-        'inventory_check': True,
+        'inventory_check': False,
         'inventory_database_location': os.path.join(os.environ['CDDS_ETC'], 'inventory', 'inventory.db')
     }
 
@@ -183,6 +185,8 @@ def expected_test_minimal_common():
 
 
 def expected_test_minimal_data(data_version: datetime):
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    variable_file = os.path.join(current_dir, 'data', 'variables.txt')
     return {
         'data_version': data_version.strftime('v%Y%m%d'),
         'end_date': TimePoint(year=2170, month_of_year=1, day_of_month=1),
@@ -192,7 +196,7 @@ def expected_test_minimal_data(data_version: datetime):
         'output_mass_suffix': '',
         'start_date': TimePoint(year=1970, month_of_year=1, day_of_month=1),
         'streams': ['ap4', 'ap5', 'ap6', 'inm', 'onm'],
-        'variable_list_file': '/data/users/cdds/variables.txt',
+        'variable_list_file': '',
         'model_workflow_branch': 'cdds',
         'model_workflow_id': 'u-aw310',
         'model_workflow_revision': 'HEAD'

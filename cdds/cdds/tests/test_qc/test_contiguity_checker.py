@@ -4,14 +4,14 @@
 import unittest
 from metomi.isodatetime.parsers import TimePointParser
 
-from cdds.common.request.request import Request
 from cdds.qc.contiguity_checker import CollectionsCheck
+from cdds.tests.factories.request_factory import simple_request
 
 
 class CollectionsCheckTestCase(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
-        self.request = Request()
+        self.request = simple_request()
         self.request.metadata.base_date = TimePointParser().parse('1850-01-01T00:00:00')
         self.request.metadata.calendar = '360_day'
         self.request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
@@ -125,7 +125,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         self.assertIsNone(msg)
 
     def test_internal_contiguity_diurnal_climatology_gregorian(self):
-        request = Request()
+        request = simple_request()
         request.metadata.base_date = TimePointParser().parse('2000-01-01T00:00:00')
         request.metadata.calendar = 'Gregorian'
         request.data.start_date = TimePointParser().parse('2007-01-01T00:00:00')
@@ -209,7 +209,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
 
     def test_valid_external_contiguity_hourly(self):
         small_number = 1e-8
-        request = Request()
+        request = simple_request()
         request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.data.end_date = TimePointParser().parse('1850-01-03T00:00:00')
         request.metadata.base_date = TimePointParser().parse('1850-01-01T00:00:00')
@@ -305,7 +305,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             'index': 'foo', 'message': 'Climatology time bounds in bar2.nc appear to be mismatched'}]})
 
     def test_time_bounds_in_360day_calendar(self):
-        request = Request()
+        request = simple_request()
         request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.data.end_date = TimePointParser().parse('1850-07-01T00:00:00')
         request.metadata.base_date = TimePointParser().parse('1850-01-01T00:00:00')
@@ -327,7 +327,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         self.assertDictEqual(cc.results, {})
 
     def test_time_bounds_in_gregorian_calendar(self):
-        request = Request()
+        request = simple_request()
         request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.data.end_date = TimePointParser().parse('1850-07-01T00:00:00')
         request.metadata.base_date = TimePointParser().parse('1850-01-01T00:00:00')
@@ -349,7 +349,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         self.assertDictEqual(cc.results, {})
 
     def test_imprecise_run_bounds(self):
-        request = Request()
+        request = simple_request()
         request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.data.end_date = TimePointParser().parse('1850-01-02T00:00:00')
         request.metadata.base_date = TimePointParser().parse('1850-01-01T00:00:00')
@@ -367,7 +367,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         self.assertEquals(len(cc.results.keys()), 1)
 
     def test_invalid_time_bounds(self):
-        request = Request()
+        request = simple_request()
         request.data.start_date = TimePointParser().parse('1850-01-01T00:00:00')
         request.data.end_date = TimePointParser().parse('1851-01-01T00:00:00')
         request.metadata.base_date = TimePointParser().parse('1850-01-01T00:00:00')

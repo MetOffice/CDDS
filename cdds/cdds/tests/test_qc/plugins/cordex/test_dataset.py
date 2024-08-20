@@ -2,10 +2,10 @@
 # Please see LICENSE.rst for license details.
 
 import unittest
-from cdds.common.request.request import Request
 from cdds.common.mip_tables import MipTables
 from cdds.qc.plugins.cordex.dataset import CordexDataset
 from cdds.tests.test_qc.plugins.constants import CORDEX_MIP_TABLES_DIR
+from cdds.tests.factories.request_factory import simple_request
 from unittest.mock import patch
 import os
 import tempfile
@@ -20,7 +20,7 @@ class CordexDatasetTestCase(unittest.TestCase):
     @patch('logging.Logger')
     @patch('netCDF4.Dataset')
     def test_filename_checker_mocked(self, ds, logger):
-        request = Request()
+        request = simple_request()
         request.metadata.calendar = '360_day'
 
         def ncattrs(name):
@@ -60,8 +60,7 @@ class CordexDatasetTestCase(unittest.TestCase):
     @patch('logging.Logger')
     @patch('netCDF4.Dataset')
     def test_filename_checker_inconsistent_attributes(self, ds, logger):
-        request = Request()
-        request.metadata.calendar = '360_day'
+        request = simple_request()
 
         def ncattrs(name):
             return {
@@ -102,7 +101,7 @@ class CordexDatasetTestCase(unittest.TestCase):
 
     @patch('logging.Logger')
     def test_walking_directories(self, logger):
-        request = Request()
+        request = simple_request()
         dirlist = ['onm_mip_convert', 'onm_concat', 'onm']
         for directory in dirlist:
             dirpath = os.path.join(
@@ -119,7 +118,7 @@ class CordexDatasetTestCase(unittest.TestCase):
 
     @patch('logging.Logger')
     def test_walking_directories_with_stream_selection(self, logger):
-        request = Request()
+        request = simple_request()
         dirlist = ['ap4', 'ap5', 'onm']
         for directory in dirlist:
             dirpath = os.path.join(

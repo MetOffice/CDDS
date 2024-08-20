@@ -5,8 +5,8 @@ import os
 
 from unittest import TestCase, mock
 
+from cdds.tests.factories.request_factory import simple_request
 from cdds.clean.workflows import clean_workflows
-from cdds.common.request.request import Request
 
 
 class TestCleanWorkflows(TestCase):
@@ -19,7 +19,7 @@ class TestCleanWorkflows(TestCase):
         mock_run_command.return_value = '8'
         ap6_workflow = 'cdds_workflow_ap6'
 
-        request = Request()
+        request = simple_request()
         request.common.workflow_basename = 'workflow'
         request.data.streams = ['ap6']
         request.conversion.cylc_args = ['--workflow-name=cdds_{request_id}_{stream}']
@@ -38,7 +38,7 @@ class TestCleanWorkflows(TestCase):
         ap5_workflow = 'cdds_workflow_ap5'
         ap4_workflow = 'cdds_workflow_ap4'
 
-        request = Request()
+        request = simple_request()
         request.common.workflow_basename = 'workflow'
         request.data.streams = ['ap6', 'ap5', 'ap4']
         request.conversion.cylc_args = ['--workflow-name=cdds_{request_id}_{stream}']
@@ -55,7 +55,7 @@ class TestCleanWorkflows(TestCase):
     def test_clean_workflow_customised_workflow_name(self, mock_run_command):
         mock_run_command.return_value = '8'
 
-        request = Request()
+        request = simple_request()
         request.common.workflow_basename = 'workflow'
         request.data.streams = ['ap6']
         request.conversion.cylc_args = ['--workflow-name=cdds_my_workflow_{stream}']
@@ -71,7 +71,7 @@ class TestCleanWorkflows(TestCase):
     def test_clean_workflow_wrong_cylc_version(self, mock_run_command):
         mock_run_command.return_value = '7'
 
-        request = Request()
+        request = simple_request()
         request.common.workflow_basename = 'workflow'
         request.data.streams = ['ap6', 'ap5', 'ap4']
         request.conversion.cylc_args = ['--workflow-name=cdds_{request_id}_{stream}']

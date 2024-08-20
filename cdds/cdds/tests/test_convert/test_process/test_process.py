@@ -17,15 +17,15 @@ import cdds.convert.process.workflow_interface as suite
 from cdds import _DEV, _NUMERICAL_VERSION
 from cdds.common import ROSE_URLS
 from cdds.common.plugins.base.base_models import BaseModelParameters, SizingInfo
-from cdds.common.request.request import Request
 from cdds.convert.constants import NTHREADS_CONCATENATE, PARALLEL_TASKS
 from cdds.convert.process import ConvertProcess
 from cdds.convert.arguments import ConvertArguments
 from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.tests.factories.request_factory import simple_request
 
 
 def get_request():
-    request = Request()
+    request = simple_request()
     request.metadata.branch_date_in_child = '1850-01-01T00:00:00'
     request.metadata.branch_date_in_parent = '2450-01-01T00:00:00'
     request.metadata.branch_method = 'continuation'
