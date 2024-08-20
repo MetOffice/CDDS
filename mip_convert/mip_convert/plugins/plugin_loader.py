@@ -19,6 +19,20 @@ INTERNAL_PLUGINS: List[MappingPlugin] = [HadGEM3MappingPlugin()]
 
 
 def load_plugin(model_id: str, plugin_module_path: str = None, plugin_location: str = None) -> None:
+    """
+    Searches for a Mapping plugin that is responsible for the model with given ID,
+    loads it and registers it.
+
+    The search is done on the implemented plugins of the Mapping project and on the
+    plugins implemented in the module at the given module path.
+
+    :param model_id: The MIP era that plugin is responsible for (Default: CMIP6)
+    :type model_id:
+    :param plugin_module_path:
+    :type plugin_module_path:
+    :param plugin_location:
+    :type plugin_location:
+    """
     if plugin_location:
         sys.path.append(plugin_location)
 
