@@ -123,6 +123,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         other_options = other_items.get('other_options')
 
         outputs, references = self.convert(filenames, reference_version, relaxed_cmor, mip_convert_log)
+
         if use_fast_comparison:
             if 'hash' not in other_items:
                 print('Hash strings have not been calculated for files {}'.format(', '.join(filenames)))
