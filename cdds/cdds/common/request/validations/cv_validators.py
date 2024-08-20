@@ -14,6 +14,9 @@ if TYPE_CHECKING:
 
 
 class CVValidatorFactory:
+    """
+    Provides validators against the controlled vocabulary
+    """
 
     @classmethod
     def path_validator(cls) -> Callable[[str], None]:
