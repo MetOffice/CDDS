@@ -253,39 +253,43 @@ class ProjectInfo:
         :rtype: ProjectInfo
         """
         return ProjectInfo(
-            project_id='CORDEX',
+            project_id='CORDEX-CMIP6',
             cmor_setup={
                 'mip_table_dir': CORDEX_MIP_TABLE_DIR,
                 'netcdf_file_action': 'CMOR_REPLACE_4',
             },
             cmor_dataset={
+                'branch_method': 'no parent',
+                'grid': 'Native ; None x None longitude/latitude',
                 'institution_id': 'MOHC',
                 'license': CORDEX_LICENSE,
                 'mip_era': 'CMIP6',
-                'mip': 'RCM',
+                'mip': 'DD',
                 'model_id': 'HadREM3-GA7-05',
-                'model_type': 'ARCM AER',
-                'nominal_resolution': '12.5 km',
+                'model_type': 'ARCM',
+                'nominal_resolution': '25 km',
                 'output_file_template': (
-                    '<variable_id><domain_id><driving_source_id><driving_experiment_id>'
-                    '<driving_variant_label><institution_id><source_id><version_realization><frequency>'),
-                'contact': 'a@b.c',
+                    '<variable_id><domain_id><driving_source_id><driving_experiment_id><driving_variant_label>'
+                    '<institution_id><source_id><version_realization><frequency>'),
+                'variant_label': 'r1i1p1f3'
             },
             request={
-                'base_date': '2000-01-01T00:00:00'
+                'base_date': '1850-01-01T00:00:00'
             },
             global_attributes={
+                'contact': 'a.b.c',
+                'domain': 'Europe',
+                'domain_id': 'EUR-11',
                 'driving_experiment': 'evaluation',
                 'driving_experiment_id': 'evaluation',
+                'driving_experiment_name': 'evaluation',
                 'driving_institution_id': 'MOHC',
-                'driving_source_id': 'HadGEM3-GC31-MM',
-                'driving_variant_label': 'r1i1p1f2',
-                'native_resolution': '50 km',
-                'version_realization': 'v1-r1',
-                'project_id': 'CORDEX',
-                'domain_id': 'EUR-11',
-                'domain': 'Europe',
-                'further_info_url': 'https://furtherinfo.es-doc.org/'
+                'driving_source_id': 'HadGEM3-GC31-LL',
+                'driving_variant_label': 'r1i1p1f3',
+                'further_info_url': 'None',
+                'project_id': 'CORDEX-CMIP6',
+                'source_configuration_id': 'v1.0',
+                'version_realization': 'v1-r1'
             }
         )
 
@@ -503,7 +507,7 @@ class CordexTestData(AbstractTestData):
     """
     Stores test data for CMIP6 projects
     """
-    project_id: str = field(init=False, default_factory=lambda: 'CORDEX')
+    project_id: str = field(init=False, default_factory=lambda: 'CORDEX-CMIP6')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cordex_project_info())
     specific_info: SpecificInfo = None

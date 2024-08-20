@@ -12,13 +12,13 @@ from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, g
                                                                  ROOT_OUTPUT_CASES_DIR)
 
 
-class TestCordexMonUv(AbstractFunctionalTests):
+class TestCordexCmip6DayHus1000(AbstractFunctionalTests):
 
     def get_test_data(self):
-        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CORDEX_mon_uv')
+        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CORDEX-CMIP6_day_hus1000')
         return CordexTestData(
-            mip_table='mon',
-            variables=['uv'],
+            mip_table='day',
+            variables=['hus1000'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location
@@ -30,18 +30,19 @@ class TestCordexMonUv(AbstractFunctionalTests):
                     'output_dir': get_output_dir(test_location)
                 },
                 request={
+                    'ancil_files': '',
                     'model_output_dir': MODEL_OUTPUT_DIR,
-                    'run_bounds': '2000-01-01T00:00:00 2000-03-01T00:00:00',
-                    'suite_id': 'u-ax977'
+                    'run_bounds': '2022-01-01T00:00:00 2022-03-01T00:00:00',
+                    'suite_id': 'u-db737'
                 },
                 streams={
-                    'apm': {'CORDEX_mon': 'uas vas'}
+                    'ap6': {'CORDEX-CMIP6_day': 'hus1000'}
                 },
                 other={
                     'reference_version': 'v1',
                     'filenames': [
-                        'uas_EUR-11_HadGEM3-GC31-MM_evaluation_r1i1p1f2_MOHC_HadREM3-GA7-05_v1-r1_mon_200001-200002.nc',
-                        'vas_EUR-11_HadGEM3-GC31-MM_evaluation_r1i1p1f2_MOHC_HadREM3-GA7-05_v1-r1_mon_200001-200002.nc'
+                        'hus1000_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_'
+                        '20220101-20220230.nc',
                     ],
                     'ignore_history': True,
                     'other_options': '-B',
@@ -51,8 +52,6 @@ class TestCordexMonUv(AbstractFunctionalTests):
             )
         )
 
-    @pytest.mark.skip
-    def test_cordex_mon_uv(self):
-        # Skip because the output file template changed for cordex in CDDSO-421
-        # Fix will be done in CDDSO-499
+    @pytest.mark.slow
+    def test_cordex_cmip6_day_hus1000(self):
         self.check_convert(relaxed_cmor=True)
