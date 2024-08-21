@@ -2,6 +2,6 @@
 # Please see LICENSE.rst for license details.
 from cdds.versions import get_version
 
-_DEV = True
+_DEV = False
 _NUMERICAL_VERSION = '3.0.1'
 __version__ = get_version('cdds')
