@@ -5,19 +5,19 @@
 
 Release 3.0.1, August 21, 2024
 ==============================
-* Remove default ``-v`` option when running CDDS Convert workflow (CDDSO-490)
-* New option to delte pre-existing proc directory and data directory in ``request.cfg`` (CDDS-408)
+* Verbose mode is not added as default option when running CDDS Convert workflow to avoid Cylc issue (CDDSO-490)
+* Added new options to delete pre-existing proc and data directories in ``request.cfg`` (CDDS-408)
 * Changes to port CDDS to Azure (CDDS-481, CDDSO-497)
-* Let QC and archive fail if nothing is to check or to archive (CDDSO-459)
-* Handle failed ``moo`` command status properly (CDDSO-487)
-* Add a new additional exit condition when no chunks can be generated during extract (CDDSO-487)
-* Update prepare to accept variables like 6hrPlevPt/zg7h (CDDSO-473)
-* Accept no request configuration when running sim review script (CDDSO-461)
-* New script ``cdds_clean`` to clean out the CDDS workflows per stream (CDDSO-450)
-* Add support for CORDEX (CDDSO-421)
-* Replace hardcoded paths using the ``CDDS_ETC`` variable in tests (CDDSO-492)
-* Extract will fail now if the tape inventory check failed on the MASS level (CDDSO-482)
-* Add validations for the request configuration (CDDSO-292)
+* QC and archive will now fail if nothing is to check or to archive (CDDSO-459)
+* Improved handling of failed ``moo`` commands (CDDSO-487)
+* Extract will now fail when it cannot identify the chunking for ``moo`` commands (CDDSO-487)
+* Prepare to accept variables like 6hrPlevPt/zg7h (CDDSO-473)
+* The sim review script now accepts the request config file as its input argument (CDDSO-461)
+* Added a new script ``cdds_clean`` to clean out the CDDS Convert workflows (CDDSO-450)
+* Added support for CORDEX (CDDSO-421)
+* Replacde hardcoded paths using the ``CDDS_ETC`` variable in tests (CDDSO-492)
+* Extract will now fail if the tape check fails (CDDSO-482)
+* Added validations for many fields within the request config file (CDDSO-292)
 * Allow inheritance of request fields from a template (CDDSO-496)
 
 Release 3.0.0, May 15, 2024

@@ -6,10 +6,9 @@
 Release 3.0.1, August 21, 2024
 ==============================
 * Separated test reference data by versions in MIP Convert functional tests (CDDSO-400)
-* Add a log identifier to separate log files of multiple functional tests in the same
+* Added a log identifier to separate log files of multiple functional tests in the same
   test class (CDDSO-476)
-* Add mappings for CORDEX (CDDSO-421)
-
+* Added mappings for CORDEX (CDDSO-421)
 
 Release 3.0.0, May 15, 2024
 ===========================
