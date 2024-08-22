@@ -299,6 +299,24 @@ class TestOrganiseConcatenations(unittest.TestCase):
                                                      output_dir)
         self.assertEqual(expected_time_chunks, output_time_chunks)
 
+    def test_organise_concatenations_aligned_less_than_1yr_gregorian_calendar(self):
+        Calendar.default().set_mode('gregorian')
+        concat_cycle = 50
+        concat_window = 0.25
+        mip_convert_cycle_length = 5
+        (reference_date, start_date, end_date, filenames,
+         expected_time_chunks, output_dir) = self._generate_test_data(
+            1850, 1950, 2150, 2000, 2050, concat_cycle, 1,
+            mip_convert_cycle_length)
+
+        output_time_chunks = organise_concatenations(reference_date,
+                                                     start_date,
+                                                     end_date,
+                                                     concat_window,
+                                                     filenames,
+                                                     output_dir)
+        self.assertEqual(expected_time_chunks, output_time_chunks)
+
     def test_organise_concatenations_aligned_35yr(self):
         concat_cycle = 35
         concat_window = 35
