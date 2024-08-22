@@ -56,7 +56,7 @@ def organise_concatenations(reference_date, start_date, end_date,
         concatenated to create it.
     """
     reinitialisation_days = Calendar.default().DAYS_IN_YEAR * reinitialisation_years
-    reinit_duration = Duration(days=reinitialisation_days)
+    reinit_duration = Duration(days=int(reinitialisation_days))
     chunk_start = reference_date
     chunk_end = chunk_start + reinit_duration
     chunk_end = chunk_end if chunk_end < end_date else end_date
