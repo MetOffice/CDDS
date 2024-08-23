@@ -420,7 +420,6 @@ class ConvertProcessTest(unittest.TestCase):
             'INPUT_DIR': input_dir,
             'MIP_CONVERT_CONFIG_DIR': mip_convert_config_dir,
             'MODEL_ID': 'dummymodel',
-            'MODEL_PARAMS_DIR': '',
             'NTHREADS_CONCATENATE': NTHREADS_CONCATENATE,
             'OUTPUT_DIR': output_dir,
             'PARALLEL_TASKS': PARALLEL_TASKS,
