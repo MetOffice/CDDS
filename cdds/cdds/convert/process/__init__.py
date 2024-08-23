@@ -814,7 +814,6 @@ class ConvertProcess(object):
             'CALENDAR': self._request.metadata.calendar,
             'DEV_MODE': _DEV,
             'END_DATE': str(end_date),
-            'MODEL_PARAMS_DIR': self._request.conversion.model_params_dir,
             'INPUT_DIR': input_data_directory(self._request),
             'OUTPUT_MASS_ROOT': self._request.data.output_mass_root,
             'OUTPUT_MASS_SUFFIX': self._request.data.output_mass_suffix,
