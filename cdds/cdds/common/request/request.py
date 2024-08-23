@@ -25,6 +25,7 @@ from cdds.common.request.rose_suite.suite_info import RoseSuiteArguments, RoseSu
 from cdds.common.request.rose_suite.validation import validate_rose_suite
 from cdds.common.request.request_validations import validate_request
 from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugins import PluginStore
 
 
 @dataclass
@@ -208,6 +209,9 @@ def read_request(request_path: str) -> Request:
     request = Request.from_config(request_config)
     if not request.common.is_relaxed_cmor():
         validate_request(request)
+    if request.conversion.model_params_dir:
+        plugin = PluginStore.instance().get_plugin()
+        plugin.overload_models_parameters(request.conversion.model_params_dir)
     return request
 
 
