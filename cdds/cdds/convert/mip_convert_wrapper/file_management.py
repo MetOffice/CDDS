@@ -175,7 +175,7 @@ def _ap_stream_prefix(filename: str):
     :return:
     :rtype:
     """
-    ap_prefixes = ['ap_submonthly', 'ap_daily', 'ap_hourly']
+    ap_prefixes = ['ap_daily', 'ap_hourly', 'ap_submonthly']
     for ap_prefix in ap_prefixes:
         pattern = re.compile(STREAMS_FILES_REGEX[ap_prefix])
         matches = pattern.match(filename)
