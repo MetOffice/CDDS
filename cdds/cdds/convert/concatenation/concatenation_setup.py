@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 CMOR netCDF file aggregation routines
@@ -12,7 +12,7 @@ import sqlite3
 
 import netCDF4
 
-from metomi.isodatetime.data import TimePoint, Calendar, Duration
+from metomi.isodatetime.data import TimePoint, Calendar, Duration, get_is_leap_year
 from metomi.isodatetime.parsers import TimePointParser
 
 from cdds.common.constants import LOG_TIMESTAMP_FORMAT
@@ -252,16 +252,27 @@ def times_from_filename(filename):
     tuple
         start date and end dates in units specified by TIME_UNITS
     """
-    max_days_in_month = Calendar.default().MAX_DAYS_IN_MONTH
     facets = filename.strip('.nc').split('_')
     time_facets = facets[-1].split('-')
 
     start = to_iso_format(time_facets[0])
+    max_days_in_month = get_maximal_days_in_month(time_facets[1])
     end = to_iso_format(time_facets[1], '12', str(max_days_in_month))
 
     start_date = TimePointParser().parse(start)
     end_date = TimePointParser().parse(end)
     return start_date, end_date
+
+
+def get_maximal_days_in_month(time_str, default_month=12):
+    calender = Calendar.default()
+    year = int(time_str[:4])
+    month = default_month
+    if len(time_str) > 4:
+        month = int(time_str[4:6])
+    if get_is_leap_year(year):
+        return calender.DAYS_IN_MONTHS_LEAP[(month - 1)]
+    return calender.DAYS_IN_MONTHS[(month - 1)]
 
 
 def to_iso_format(time_str: str, default_month='01', default_day_in_month='01') -> str:
