@@ -526,6 +526,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../inheritance/" class="md-nav__link">
+        Inheritance Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../metadata/" class="md-nav__link">
         Metadata Section
       </a>
@@ -1393,6 +1407,16 @@ using the format <code>&lt;stream&gt;=&lt;frequency&gt;</code>, e.g. <code>ap7=P
 <p>specify if the MIP convert task will fail if any errors occur or only if the data of <em>all</em> streams can not be processed.</p>
 <p><strong>Default:</strong> <code>False</code></p>
 </dd>
+<dt><code>delete_preexisting_proc_dir</code></dt>
+<dd>
+<p>specify if a pre-existing CDDS proc directory will be deleted when creating the CDDS directories.</p>
+<p><strong>Default:</strong> <code>False</code></p>
+</dd>
+<dt><code>delete_preexisting_data_dir</code></dt>
+<dd>
+<p>specify if a pre-existing CDDS data directory will be deleted when creating the CDDS directories.</p>
+<p><strong>Default:</strong> <code>False</code></p>
+</dd>
 </dl>
 <h2 id="examples">Examples</h2>
 <div class="admonition example">
@@ -1410,6 +1434,8 @@ using the format <code>&lt;stream&gt;=&lt;frequency&gt;</code>, e.g. <code>ap7=P
 <span class="l l-Scalar l-Scalar-Plain">override_cycling_frequency = ap7=P3M</span>
 <span class="l l-Scalar l-Scalar-Plain">model_params_dir = /home/user/model_params.json</span>
 <span class="l l-Scalar l-Scalar-Plain">continue_if_mip_convert_failed = False</span>
+<span class="l l-Scalar l-Scalar-Plain">delete_preexisting_proc_dir = False</span>
+<span class="l l-Scalar l-Scalar-Plain">delete_preexisting_data_dir = False</span>
 </code></pre></div>
 </div>
 

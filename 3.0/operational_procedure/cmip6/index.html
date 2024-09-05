@@ -655,6 +655,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../tutorials/request/inheritance/" class="md-nav__link">
+        Inheritance Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../tutorials/request/metadata/" class="md-nav__link">
         Metadata Section
       </a>
@@ -2037,12 +2051,8 @@ rm<span class="w"> </span>-rf<span class="w"> </span>input<span class="w"> </spa
 </code></pre></div></li>
 <li>
 <p>Delete all workflows used:
-    <div class="highlight"><pre><span></span><code>cylc<span class="w"> </span>clean<span class="w"> </span>cdds_&lt;workflow_base_name&gt;_&lt;stream&gt;
-</code></pre></div>
-    for each <code>&lt;stream&gt;</code> processed, or 
-    <div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-d<span class="w"> </span>~/cylc-run/cdds_&lt;workflow_base_name&gt;_*<span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>cylc<span class="w"> </span>clean<span class="w"> </span>-y
-</code></pre></div>
-    which should find and clear all workflows associated with the model, experiment and variant label specified.</p>
+    <div class="highlight"><pre><span></span><code>cdds_clean<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>request<span class="w"> </span>configuration&gt;
+</code></pre></div></p>
 </li>
 <li>
 <p>Update and close the <em>CDDS operational simulation ticket</em></p>
