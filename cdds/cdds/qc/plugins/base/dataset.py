@@ -57,6 +57,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
         self._dataset = []
         self._aggregated = {}
         self._var_names = {}
+        self._global_attribute_cache = {}
 
     @classmethod
     @abstractmethod
@@ -166,7 +167,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
                 time_axis[filepath] = nc_file.variables["time"][:].data
                 if "time_bnds" in nc_file.variables:
                     time_bnds[filepath] = nc_file.variables["time_bnds"][:].data
-                frequency_code = nc_file.getncattr("frequency")
+                frequency_code = self.getncattr("frequency", nc_file)
                 if frequency_code == 'subhrPt':
                     if variable_id.startswith("rs") or variable_id.startswith("rl"):
                         # despite the frequency code, radiation variables are on hourly timepoints
@@ -178,7 +179,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
                     frequency = DIURNAL_CLIMATOLOGY
                     time_bnds[filepath] = nc_file.variables["climatology_bnds"][:].data
                 else:
-                    frequency = FREQ_DICT[nc_file.getncattr("frequency")]
+                    frequency = FREQ_DICT[self.getncattr("frequency", nc_file)]
         if len(time_bnds.keys()) == 0:
             time_bnds = None
         return (time_axis, time_bnds, frequency)
@@ -230,3 +231,14 @@ class StructuredDataset(object, metaclass=ABCMeta):
         self._logger.info('Added {} files to the dataset'.format(
             self._file_count))
         return dataset
+
+    def getncattr(self, attrname, ncfile, check_existence=False):
+        ncpath = ncfile.filepath()
+        if filepath not in self._global_attribute_cache:
+            self._global_attribute_cache[filepath] = {}
+        if attrname not in self._global_attribute_cache[filepath]:
+            if check_existence and not hasattr(ncfile, attrname):
+                self._global_attribute_cache[filepath][attrname] = None
+            else:
+                self._global_attribute_cache[filepath][attrname] = ncfile.getncattr(attrname)
+        return self._global_attribute_cache[filepath][attrname]
