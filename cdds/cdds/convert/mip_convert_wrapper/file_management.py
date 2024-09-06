@@ -105,7 +105,7 @@ def get_paths(suite_name, model_id, stream, substream, start_date: TimePoint, en
     # Identify files that are to be expected
     old_input_location = os.path.join(input_dir, suite_name, stream)
 
-    stream_prefix = find_stream_prefix(old_input_location, stream)
+    stream_prefix = find_stream_prefix(model_id, stream)
     new_input_location = os.path.join(work_dir, suite_name, stream)
     period_start = start_date
     period_end = end_date
@@ -141,11 +141,11 @@ def get_paths(suite_name, model_id, stream, substream, start_date: TimePoint, en
             new_input_location)
 
 
-def find_stream_prefix(input_location: str, stream: str) -> str:
+def find_stream_prefix(model_id: str, stream: str) -> str:
     """
     Finds the stream prefix for a particular stream ('ap', 'in', 'on', 'ap_submonthly, ap_daily, ap_hourly)
 
-    :param input_location: The location of the directory containing the files for the given stream
+    :param input_location: Model ID that stream prefix should be found
     :type input_location: str
     :param stream: Stream for that prefix should be found
     :type stream: str
@@ -156,31 +156,37 @@ def find_stream_prefix(input_location: str, stream: str) -> str:
     if stream_prefix not in ['ap', 'in', 'on']:
         raise RuntimeError('Stream "{}" not recognised'.format(stream))
 
-    _, _, files = next(os.walk(input_location))
-    if not files:
-        logger = logging.getLogger(__name__)
-        logger.info("Can't define stream lookup because no files in the input directory.")
-    elif stream_prefix == 'ap':
-        stream_prefix = _ap_stream_prefix(files[0])
+    if stream_prefix == 'ap':
+        stream_prefix = _ap_stream_prefix(model_id, stream)
     return stream_prefix
 
 
-def _ap_stream_prefix(filename: str):
+def _ap_stream_prefix(model_id: str, stream: str) -> str:
     """
-    Returns the right ap related prefix by checking if the file name matches the appropriated stream type
+    Returns the right ap related prefix by checking if the stream frequency
     (ap, ap_submonthly, ap_daily, ap_hourly).
 
-    :param filename: File name that should be checked
-    :type filename: str
-    :return:
-    :rtype:
+    :param model_id: Model ID that streams should be checked
+    :type model_id: str
+    :param stream: Stream that should be checked
+    :type stream: str
+    :return: The right ap related prefix
+    :rtype: str
     """
     ap_prefixes = ['ap_submonthly', 'ap_daily', 'ap_hourly']
-    for ap_prefix in ap_prefixes:
-        pattern = re.compile(STREAMS_FILES_REGEX[ap_prefix])
-        matches = pattern.match(filename)
-        if matches:
-            return ap_prefix
+    plugin = PluginStore.instance().get_plugin()
+    stream_file_info = plugin.models_parameters(model_id).stream_file_info()
+    frequency = stream_file_info.file_frequencies[stream].frequency
+
+    if frequency == 'daily':
+        return 'ap_daily'
+
+    if frequency == '10 day':
+        return 'ap_submonthly'
+
+    if frequency == 'hourly':
+        return 'ap_hourly'
+
     return 'ap'
 
 
