@@ -60,7 +60,7 @@ def parse_request_validations_arguments(arguments: List[str]) -> Namespace:
     return parser.parse_args(arguments)
 
 
-def run_model_params_validations(arguments: List[str]) -> int:
+def run_model_params_validations(arguments: List[str] = None) -> int:
     """
     Runs validations for the model parameters files directory given in the command line arguments
 
