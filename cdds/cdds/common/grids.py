@@ -280,6 +280,7 @@ def default_grid_ids():
         'GCLmon': ('atmos', 'native'),
         'GC1hr': ('atmos', 'native'),
         'GC1hrPt': ('atmos', 'native'),
+        'GC1hrPtB': ('atmos', 'native'),
         'GC3hr': ('atmos', 'native'),
         'GC3hrPt': ('atmos', 'native'),
         'GCday': ('atmos', 'native'),
