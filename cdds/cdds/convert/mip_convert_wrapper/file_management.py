@@ -173,7 +173,6 @@ def _ap_stream_prefix(model_id: str, stream: str) -> str:
     :return: The right ap related prefix
     :rtype: str
     """
-    ap_prefixes = ['ap_submonthly', 'ap_daily', 'ap_hourly']
     plugin = PluginStore.instance().get_plugin()
     stream_file_info = plugin.models_parameters(model_id).stream_file_info()
     frequency = stream_file_info.file_frequencies[stream].frequency
