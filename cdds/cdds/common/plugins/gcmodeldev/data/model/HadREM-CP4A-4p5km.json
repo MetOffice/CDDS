@@ -1,8 +1,8 @@
 {
   "stream_file_frequency": {
-    "daily": {
-      "streams": [
+    "daily": [
         "apa",
+        "ap1",
         "apc",
         "apb",
         "apd",
@@ -12,17 +12,13 @@
         "apq",
         "apr"
       ],
-      "files_per_year": 360
-    },
-    "monthly": {
-      "streams": [
+    "monthly": [
         "apm"
-      ],
-      "files_per_year": 12
-    }
+      ]
   },
   "cycle_length": {
     "apa": "P1Y",
+    "ap1": "P1Y",
     "apb": "P1Y",
     "apc": "P1Y",
     "apd": "P1Y",
@@ -35,6 +31,7 @@
   },
   "memory": {
     "apa": "90G",
+    "ap1": "90G",
     "apb": "90G",
     "apc": "90G",
     "apd": "90G",
@@ -47,6 +44,7 @@
   },
   "temp_space": {
     "apa": 131072,
+    "ap1": 131072,
     "apb": 131072,
     "apc": 131072,
     "apd": 131072,
