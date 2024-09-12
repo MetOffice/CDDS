@@ -174,7 +174,7 @@ class CollectionsCheck(object):
         if offset_adjustment:
             # remove the first midnight from reference time axis of instantenous variable
             point_sequence.pop(0)
-            # testing total length of the sequence
+        # testing total length of the sequence
         total_length = sum([len(vals) for vals in time_axis.values()])
         if total_length != len(point_sequence):
             for key in time_axis.keys():
