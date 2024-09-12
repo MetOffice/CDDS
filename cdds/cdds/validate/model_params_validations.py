@@ -12,7 +12,7 @@ from cdds.common.io import read_json
 from cdds.common.request.request import read_request
 
 
-FREQUENCIES = ['monthly', '10 day', 'quarterly', 'daily']
+FREQUENCIES = ['monthly', '10 day', 'quarterly', 'daily', 'hourly']
 
 
 def do_model_params_validations(request_path: str) -> None:
@@ -191,26 +191,36 @@ class ModelParamsFileValidator:
     def _validate_cylc_length(self, expected_streams: Set[str], cylc_lengths: Dict[str, Any]) -> None:
         cylc_lengths_streams = set(cylc_lengths.keys())
         if not expected_streams.issubset(cylc_lengths_streams):
-            message = 'There are streams that have no cylc length defined.'
+            missing_streams = self._get_subset(expected_streams, cylc_lengths_streams)
+            message = 'Following streams have no cylc length defined: {}'.format(', '.join(missing_streams))
             self._valid = False
             self._error_messages.append(message)
 
     def _validate_memory(self, expected_streams: Set[str], memories: Dict[str, Any]) -> None:
         memories_streams = set(memories.keys())
         if not expected_streams.issubset(memories_streams):
-            message = 'There are streams that have no memory defined.'
+            missing_streams = self._get_subset(expected_streams, memories_streams)
+            message = 'Following streams have no memory defined: {}'.format(', '.join(missing_streams))
             self._valid = False
             self._error_messages.append(message)
 
     def _validate_temp_space(self, expected_streams: Set[str], temp_spaces: Dict[str, Any]) -> None:
         temp_space_streams = set(temp_spaces.keys())
         if not expected_streams.issubset(temp_space_streams):
-            message = 'There are streams that have no temp space defined.'
+            missing_streams = self._get_subset(expected_streams, temp_space_streams)
+            message = 'Following streams have no temp space defined: {}'.format(', '.join(missing_streams))
             self._valid = False
             self._error_messages.append(message)
 
     def _validate_sub_dailys_streams(self, expected_streams: Set[str], subdaily_streams: List[str]) -> None:
         if not set(subdaily_streams).issubset(expected_streams):
-            message = 'There are sub daily streams defined that are not present in the streams section.'
+            missing_streams = self._get_subset(subdaily_streams, expected_streams)
+            message = ('Following sub daily streams are defined but are not present in the streams section: '
+                       '{}').format(', '.join(missing_streams))
             self._valid = False
             self._error_messages.append(message)
+
+    def _get_subset(self, expected_items: Set[str], actual_items: Set[str]) -> Set[str]:
+        return sorted([
+            item for item in expected_items if item not in actual_items
+        ])

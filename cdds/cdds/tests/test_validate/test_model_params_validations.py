@@ -32,10 +32,10 @@ class TestModelParamsFileValidation(TestCase):
         self.assertFalse(validator.valid)
         self.assertFalse(validator.warning)
         self.assertListEqual(validator.error_messages, [
-            'There are streams that have no cylc length defined.',
-            'There are streams that have no memory defined.',
-            'There are streams that have no temp space defined.',
-            'There are sub daily streams defined that are not present in the streams section.'
+            'Following streams have no cylc length defined: ap4',
+            'Following streams have no memory defined: ap5, apm, apu',
+            'Following streams have no temp space defined: ap5',
+            'Following sub daily streams are defined but are not present in the streams section: ap1'
         ])
         self.assertListEqual(validator.warning_messages(), [])
 
