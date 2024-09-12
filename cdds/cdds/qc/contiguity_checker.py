@@ -174,6 +174,14 @@ class CollectionsCheck(object):
         if offset_adjustment:
             # remove the first midnight from reference time axis of instantenous variable
             point_sequence.pop(0)
+            # testing total length of the sequence
+        total_length = sum([len(vals) for vals in time_axis.values()])
+        if total_length != len(point_sequence):
+            for key in time_axis.keys():
+                self.add_message(key, var_key, 'The total length of time coordinate ({}) is different from '
+                                               'what is implied by time bounds and time frequency ({})'.format(
+                    total_length, len(point_sequence)))
+            return
         for key, vals in time_axis.items():
             if len(vals) > 1 and vals[0] > vals[1]:
                 # for the sake of consistency we retained the reverse coord check
