@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2023, Met Office.
+# (C) British Crown Copyright 2018-2024, Met Office.
 # Please see LICENSE.rst for license details.
 
 
@@ -178,9 +178,9 @@ class CollectionsCheck(object):
         total_length = sum([len(vals) for vals in time_axis.values()])
         if total_length != len(point_sequence):
             for key in time_axis.keys():
-                self.add_message(key, var_key, 'The total length of time coordinate ({}) is different from '
-                                               'what is implied by time bounds and time frequency ({})'.format(
-                    total_length, len(point_sequence)))
+                self.add_message(key, var_key, 'The total length of time coordinate, {}, is different from {} '
+                                               'implied by time bounds ({}-{}) and time frequency ({})'.format(
+                    total_length, len(point_sequence), run_start, run_end))
             return
         for key, vals in time_axis.items():
             if len(vals) > 1 and vals[0] > vals[1]:
