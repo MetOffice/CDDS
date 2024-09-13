@@ -1,15 +1,16 @@
-# (C) British Crown Copyright 2018-2023, Met Office.
+# (C) British Crown Copyright 2018-2024, Met Office.
 # Please see LICENSE.rst for license details.
 
 import argparse
 import logging
 import json
 import os
+import sys
 
 from argparse import Namespace
 from netCDF4 import Dataset
 from typing import Tuple, List
-
+from datetime import datetime
 from cdds.common import configure_logger, check_directory
 from cdds.common.cdds_files.cdds_directories import component_directory, output_data_directory
 
@@ -138,12 +139,11 @@ def run_and_report(args: Namespace, request: Request) -> dict:  # TODO: kerstin 
 
     basedir = output_data_directory(request)
     cdds_runner = QCRunner(db_path)
-    logger.info('Setting up a dataset for {}'.format(basedir))
+    logger.info(str(datetime.now()) + 'Setting up a dataset for {}'.format(basedir))
 
     mip_table_dir = request.common.mip_table_dir
 
     mip_tables = MipTables(mip_table_dir)
-
     if request.common.force_plugin == 'CORDEX':
         ds = CordexDataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
                            args.stream)

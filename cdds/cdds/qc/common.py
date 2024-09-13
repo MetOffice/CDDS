@@ -9,6 +9,23 @@ Common routines for CDDS CF checker
 """
 
 
+class GlobalAttributesCache:
+
+    def __init__(self):
+        self._cache = {}
+
+    def getncattr(self, attrname, ncfile, check_existence=False):
+        ncpath = ncfile.filepath()
+        if ncpath not in self._cache:
+            self._cache[ncpath] = {}
+        if attrname not in self._cache[ncpath]:
+            if check_existence and not hasattr(ncfile, attrname):
+                self._cache[ncpath][attrname] = None
+            else:
+                self._cache[ncpath][attrname] = ncfile.getncattr(attrname)
+        return self._cache[ncpath][attrname]
+
+
 class NoDataForQualityCheck(Exception):
     pass
 

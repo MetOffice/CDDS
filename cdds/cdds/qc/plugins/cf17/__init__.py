@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2024, Met Office.
 # Please see LICENSE.rst for license details.
 
 import numpy as np
@@ -44,6 +44,7 @@ class CF17Check(CF1_7Check):
                 table_file = "cf-standard-name-table.xml"
         except KeyError:
             table_file = "cf-standard-name-table.xml"
+        self.global_attributes_cache = kwargs["config"]["global_attributes_cache"]
         self._std_names = StandardNameTable(
             os.path.join(standard_names_dir, table_file))
 
@@ -65,8 +66,9 @@ class CF17Check(CF1_7Check):
         """
 
         valid_conventions = ["CF-1.7", "CF-1.11", "CMIP-6.2"]
-        if hasattr(ds, "Conventions"):
-            conventions = re.split(r",|\s+", getattr(ds, "Conventions", ""))
+        conventions = self.global_attributes_cache.getncattr("Conventions", ds, True)
+        if conventions is not None:
+            conventions = re.split(r",|\s+", conventions)
             if any((c.strip() in valid_conventions for c in conventions)):
                 valid = True
                 reasoning = []

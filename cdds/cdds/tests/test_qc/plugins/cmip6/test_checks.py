@@ -2,6 +2,7 @@
 # Please see LICENSE.rst for license details.
 import os
 
+import unittest
 from netCDF4 import Dataset
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
@@ -10,6 +11,7 @@ from cdds.common.mip_tables import MipTables
 from cdds.qc.plugins.cmip6.checks import ParentConsistencyCheckTask, CVAttributesCheckTask
 from cdds.qc.plugins.cmip6.validators import Cmip6CVValidator
 from cdds.qc.plugins.base.common import CheckCache
+from cdds.qc.common import GlobalAttributesCache
 from cdds.tests.test_common.common import create_simple_netcdf_file
 from cdds.tests.test_qc.plugins.constants import (MIP_TABLES_DIR, CV_REPO, TMP_DIR_FOR_NETCDF_TESTS, MINIMAL_CDL,
                                                   CORRECT_VARIABLE_METADATA_CDL, INCONSISTENT_VARIABLE_METADATA_CDL)
@@ -21,7 +23,7 @@ class TestParentConsistencyCheckTask(TestCase):
         create_simple_netcdf_file(MINIMAL_CDL, self.nc_path)
         self.nc_file = Dataset(self.nc_path, 'a')
         mip_tables = MipTables(os.path.join(MIP_TABLES_DIR, "for_functional_tests"))
-        cache = CheckCache(MagicMock(), mip_tables, Cmip6CVValidator(CV_REPO))
+        cache = CheckCache(MagicMock(), mip_tables, Cmip6CVValidator(CV_REPO), GlobalAttributesCache())
         self.class_under_test = ParentConsistencyCheckTask(cache)
         self.experiment_id = "a4SST"
         self.attr_dict = {
@@ -80,7 +82,7 @@ class TestCVAttributesCheckTask(TestCase):
         create_simple_netcdf_file(MINIMAL_CDL, self.nc_path)
         self.nc_file = Dataset(self.nc_path, 'a')
         mip_tables = MipTables(os.path.join(MIP_TABLES_DIR, "for_functional_tests"))
-        cache = CheckCache(MagicMock(), mip_tables, Cmip6CVValidator(CV_REPO))
+        cache = CheckCache(MagicMock(), mip_tables, Cmip6CVValidator(CV_REPO), GlobalAttributesCache())
         self.class_under_test = CVAttributesCheckTask(cache)
         self.experiment_id = "a4SST"
 
@@ -97,3 +99,7 @@ class TestCVAttributesCheckTask(TestCase):
         self.class_under_test.validate_cv_attribute(self.nc_file, "activity_id", None, " ")
         self.assertListEqual(self.class_under_test._messages,
                              ['Attribute \'activity_id\': "Foo" does not belong to CV collection "activity_id"'])
+
+
+if __name__ == "__main__":
+    unittest.main()

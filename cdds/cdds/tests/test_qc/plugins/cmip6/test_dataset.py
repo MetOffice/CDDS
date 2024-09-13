@@ -161,7 +161,7 @@ class Cmip6DatasetTestCase(unittest.TestCase):
         class MockedDataset(object):
 
             def __init__(self, filepath):
-                self.filepath = filepath
+                self._filepath = filepath
 
             def __enter__(self):
                 return self
@@ -185,6 +185,9 @@ class Cmip6DatasetTestCase(unittest.TestCase):
 
             def hasattr(self, name):
                 return True
+
+            def filepath(self):
+                return ""
 
         os_walk.return_value = [
             ("foo", ("bar",), ("ta_day_HadGEM3-GC31-LL_piControl_"

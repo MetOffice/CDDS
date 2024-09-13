@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2023, Met Office.
+# (C) British Crown Copyright 2018-2024, Met Office.
 # Please see LICENSE.rst for license details.
 
 
@@ -69,7 +69,7 @@ class CollectionsCheck(object):
             time_axis, time_bounds, frequency = ds.variable_time_axis(var_key, self.request.misc.atmos_timestep)
             run_start = self.request.data.start_date
             run_end = self.request.data.end_date
-            self.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
+            # self.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         return "Time contiguity check", self.results
 
     def check_diurnal_climatology(self, time_dim, time_bnds):

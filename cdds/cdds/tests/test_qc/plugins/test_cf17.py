@@ -18,7 +18,8 @@ class CF17CheckTestCase(unittest.TestCase):
 
         checker = CF17Check(config={
             "standard_names_dir": STANDARD_NAMES_DIR,
-            "standard_names_version": STANDARD_NAMES_VERSION
+            "standard_names_version": STANDARD_NAMES_VERSION,
+            "global_attributes_cache": None
         })
         checker._find_cf_standard_name_table(ds)
         self.assertEqual("62", checker._std_names._version)

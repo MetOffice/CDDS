@@ -122,16 +122,19 @@ class QCRunner(object):
                 "mip_tables_dir": mip_tables_dir,
                 "cv_location": cv_location,
                 "request": request,
-                "relaxed_cmor": self.relaxed_cmor
+                "relaxed_cmor": self.relaxed_cmor,
+                "global_attributes_cache": self.dataset.global_attributes_cache
             },
             "cf17": {
                 "standard_names_version": request.common.standard_names_version,
-                "standard_names_dir": request.common.standard_names_dir
+                "standard_names_dir": request.common.standard_names_dir,
+                "global_attributes_cache": self.dataset.global_attributes_cache
             },
             "cordex": {
                 "mip_tables_dir": mip_tables_dir,
                 "cv_location": cv_location,
-                "request": request
+                "request": request,
+                "global_attributes_cache": self.dataset.global_attributes_cache
             }
         }
         for checker_key in conf.keys():
@@ -147,7 +150,7 @@ class QCRunner(object):
 
         if run_id is None:
             run_id = int(time.time())
-        self.logger.info("Starting QC tests")
+        self.logger.info(str(datetime.datetime.now()) + " Starting QC tests")
         cursor = self.db.cursor()
         execute_insert_query(cursor, "qc_run", {
             "basepath": self.dataset.root,
@@ -157,12 +160,12 @@ class QCRunner(object):
         self.db.commit()
         qc_run_id = cursor.lastrowid
         contiguity_checker = CollectionsCheck(request)
-        self.logger.info("Checking filenames")
+        self.logger.info(str(datetime.datetime.now()) + " Checking filenames")
         file_errors = self.dataset.check_filenames_and_sizes()
-        self.logger.info("Checking time contiguity")
+        self.logger.info(str(datetime.datetime.now()) + " Checking time contiguity")
         crs = contiguity_checker.perform_checks(self.dataset)
         aggr = self.dataset.get_aggregated_files(False)
-        self.logger.info("Checking individual files")
+        self.logger.info(str(datetime.datetime.now()) + " Checking individual files")
 
         est_count = self.dataset.file_count
         counter = 0
