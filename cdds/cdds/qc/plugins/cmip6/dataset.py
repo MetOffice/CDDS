@@ -12,8 +12,7 @@ class Cmip6Dataset(StructuredDataset):
     Can be sliced by a MIP table and time period.
     """
 
-    def __init__(self, root, request, mip_tables, mip_table=None, start=None, end=None,
-                 logger=None, stream=None):
+    def __init__(self, root, request, mip_tables, mip_table=None, start=None, end=None, logger=None, stream=None):
         super(Cmip6Dataset, self).__init__(root, request, mip_tables, mip_table, start, end, logger, stream)
 
     def load_dataset(self, loader_class):

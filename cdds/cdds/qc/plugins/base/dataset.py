@@ -6,7 +6,6 @@ import os
 
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
-from datetime import datetime
 from cdds.qc.constants import DIURNAL_CLIMATOLOGY, EXCLUDE_DIRECTORIES_REGEXP, FREQ_DICT, MAX_FILESIZE, SECONDS_IN_DAY
 from cdds.qc.common import GlobalAttributesCache
 

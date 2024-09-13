@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2024, Met Office.
+# (C) British Crown Copyright 2017-2023, Met Office.
 # Please see LICENSE.rst for license details.
 
 import re
@@ -38,7 +38,7 @@ class Cmip6CVValidator(ControlledVocabularyValidator):
                     self._does_not_exist_or_valid(v, k, input_data)
                 else:
                     self._exists_and_valid(v, k, input_data)
-        except (NameError, KeyError) as e:
+        except (NameError, KeyError):
             # unable to validate consistency
             raise ValidationError("Unable to check consistency with the parent, please check CVs")
 

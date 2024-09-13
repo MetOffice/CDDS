@@ -1,8 +1,7 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2024, Met Office.
 # Please see LICENSE.rst for license details.
 import os
 
-import unittest
 from netCDF4 import Dataset
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
@@ -99,7 +98,3 @@ class TestCVAttributesCheckTask(TestCase):
         self.class_under_test.validate_cv_attribute(self.nc_file, "activity_id", None, " ")
         self.assertListEqual(self.class_under_test._messages,
                              ['Attribute \'activity_id\': "Foo" does not belong to CV collection "activity_id"'])
-
-
-if __name__ == "__main__":
-    unittest.main()

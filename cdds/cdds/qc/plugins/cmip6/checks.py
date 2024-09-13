@@ -116,7 +116,7 @@ class ParentConsistencyCheckTask(CheckTask):
             self._cache.cv_validator.validate_parent_consistency(netcdf_file, attr_dict['experiment_id'], False)
         except (AttributeError, ValidationError) as e:
             self._messages.append(str(e))
-        except (NameError, KeyError) as e:
+        except (NameError, KeyError):
             # unable to validate consistency
             self._messages.append("Unable to check consistency with the parent, please check CVs")
 
@@ -138,8 +138,7 @@ class CVAttributesCheckTask(CheckTask):
     def __init__(self, check_cache: CheckCache) -> None:
         super(CVAttributesCheckTask, self).__init__(check_cache)
 
-    def execute(self, netcdf_file: Dataset,
-                attr_dict: Dict[str, Any]) -> None:
+    def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
         """
         Checks attributes defined in the CMIP6 controlled vocabulary.
 
@@ -153,8 +152,7 @@ class CVAttributesCheckTask(CheckTask):
         self.validate_cv_attribute(netcdf_file, "source_type", None, " ")
         self.validate_cv_attribute(netcdf_file, "activity_id", None, " ", self.relaxed_cmor)
         self.validate_cv_attribute(netcdf_file, "experiment_id", None, None, self.relaxed_cmor)
-        self.validate_cv_attribute(netcdf_file, "sub_experiment_id", None,
-                                   None, self.relaxed_cmor)
+        self.validate_cv_attribute(netcdf_file, "sub_experiment_id", None, None, self.relaxed_cmor)
 
     def validate_cv_attribute(
             self, netcdf_file: Dataset, collection: str, nc_name: str = None, sep: str = None, relaxed: bool = False

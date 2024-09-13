@@ -150,7 +150,7 @@ class QCRunner(object):
 
         if run_id is None:
             run_id = int(time.time())
-        self.logger.info(str(datetime.datetime.now()) + " Starting QC tests")
+        self.logger.info("Starting QC tests")
         cursor = self.db.cursor()
         execute_insert_query(cursor, "qc_run", {
             "basepath": self.dataset.root,
@@ -160,12 +160,12 @@ class QCRunner(object):
         self.db.commit()
         qc_run_id = cursor.lastrowid
         contiguity_checker = CollectionsCheck(request)
-        self.logger.info(str(datetime.datetime.now()) + " Checking filenames")
+        self.logger.info("Checking filenames")
         file_errors = self.dataset.check_filenames_and_sizes()
-        self.logger.info(str(datetime.datetime.now()) + " Checking time contiguity")
+        self.logger.info("Checking time contiguity")
         crs = contiguity_checker.perform_checks(self.dataset)
         aggr = self.dataset.get_aggregated_files(False)
-        self.logger.info(str(datetime.datetime.now()) + " Checking individual files")
+        self.logger.info("Checking individual files")
 
         est_count = self.dataset.file_count
         counter = 0
