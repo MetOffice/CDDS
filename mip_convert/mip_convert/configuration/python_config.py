@@ -280,6 +280,7 @@ class UserConfig(PythonConfig):
         self._global_attributes = {}
         self._masking = {}
         self.streams_to_process = {}
+        self.stream_project_prefix = ''
 
         # Validate the sections.
         self._validate_sections()
@@ -386,10 +387,12 @@ class UserConfig(PythonConfig):
                 # e.g. stream_onm_grid-T
                 section_elements = section.split('_')
                 if len(section_elements) == 2:
-                    (_, stream_id) = section_elements
+                    (prefix, stream_id) = section_elements
                     substream = None
+                    self.stream_project_prefix = prefix
                 elif len(section_elements) == 3:
-                    (_, stream_id, substream) = section_elements
+                    (prefix, stream_id, substream) = section_elements
+                    self.stream_project_prefix = prefix
                 else:
                     raise ValidateConfigError('The "stream" section in the user configuration file is invalid')
 
