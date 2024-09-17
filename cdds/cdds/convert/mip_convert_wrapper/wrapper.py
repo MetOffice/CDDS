@@ -14,6 +14,8 @@ from metomi.isodatetime.parsers import TimePointParser
 
 from cdds.common import configure_logger
 from cdds.common.constants import LOG_TIMESTAMP_FORMAT
+from cdds.common.cdds_files.cdds_directories import input_data_directory, output_data_directory, component_directory
+from cdds.common.request.request import read_request
 from cdds.convert.constants import FILEPATH_METOFFICE
 from cdds.convert.exceptions import WrapperEnvironmentError, WrapperMissingFilesError
 from cdds.convert.mip_convert_wrapper.actions import (check_disk_usage, manage_critical_issues, manage_logs,
@@ -25,7 +27,7 @@ from cdds.convert.mip_convert_wrapper.config_updater import calculate_mip_conver
 from cdds.convert.mip_convert_wrapper.file_management import copy_to_staging_dir, get_paths, link_data
 
 
-def run_mip_convert_wrapper(arguments):
+def run_mip_convert_wrapper():
     """
     Retrieve the required parameters from environment variables, set up
     the mip_convert.cfg config file and run mip_convert.
@@ -52,23 +54,25 @@ def run_mip_convert_wrapper(arguments):
         cylc_task_cycle_point = os.environ['CYLC_TASK_CYCLE_POINT']
         dummy_run = os.environ['DUMMY_RUN'] == 'TRUE'
         simulation_end_date = os.environ['END_DATE']
-        input_dir = os.environ['INPUT_DIR']
-        mip_convert_config_dir = os.environ['MIP_CONVERT_CONFIG_DIR']
-        cdds_convert_proc_dir = os.environ['CDDS_CONVERT_PROC_DIR']
+        # input_dir = os.environ['INPUT_DIR']
+        # cdds_convert_proc_dir = os.environ['CDDS_CONVERT_PROC_DIR']
         output_dir = os.environ['OUTPUT_DIR']
         stream = os.environ['STREAM']
         substream = os.environ['SUBSTREAM']
         suite_name = os.environ['SUITE_NAME']
         staging_dir = os.environ.get('STAGING_DIR', '')
-        model_id = os.environ['MODEL_ID']
-        calendar = os.environ['CALENDAR']
+        request_path = os.environ['REQUEST_CONFIG_PATH']
     except KeyError as ke1:
         err_msg = 'Expected environment variable {var} not found.'
         err_msg = err_msg.format(var=ke1)
         raise WrapperEnvironmentError(err_msg)
 
-    logger.info('Setting Calendar: {}'.format(calendar))
-    Calendar.default().set_mode(calendar)
+    logger.info('Read request from {}'.format(request_path))
+    request = read_request(request_path)
+
+    cdds_convert_proc_dir = component_directory(request, 'convert')
+    input_dir = input_data_directory(request)
+    mip_convert_config_dir = component_directory(request, 'configure')
 
     # Calculate start and end dates for this step
     # Final date is the 1st of January in the year after final_year (the final
@@ -107,7 +111,7 @@ def run_mip_convert_wrapper(arguments):
     (expected_files,
      old_input_dir,
      new_input_dir) = get_paths(suite_name,
-                                model_id,
+                                request.metadata.model_id,
                                 stream,
                                 substream,
                                 start_date,
@@ -160,14 +164,19 @@ def run_mip_convert_wrapper(arguments):
 
     mip_convert_log = '{0}_{1}.log'.format(MIP_CONVERT_LOG_BASE_NAME,
                                            timestamp)
+
+    plugin_id = request.metadata.mip_era
+    if request.common.force_plugin:
+        plugin_id = request.common.force_plugin
+
     # Run mip convert
     exit_code = run_mip_convert(stream, dummy_run, timestamp,
                                 USER_CONFIG_TEMPLATE_NAME,
                                 MIP_CONVERT_LOG_BASE_NAME,
-                                arguments.plugin_id,
-                                arguments.external_plugin,
-                                arguments.external_plugin_location,
-                                arguments.relaxed_cmor)
+                                plugin_id,
+                                request.common.external_plugin,
+                                request.common.external_plugin_location,
+                                request.common.is_relaxed_cmor())
 
     # If exit code is 2 then MIP Convert has run, but hasn't been able to do
     # everything asked of it. The CDDS approach to this is to continue on
@@ -177,7 +186,7 @@ def run_mip_convert_wrapper(arguments):
             cdds_convert_proc_dir, mip_convert_log,
             fields_to_log=[cylc_task_name, cylc_task_cycle_point, cylc_task_try])
         mip_convert_internal_failure = (exit_code == 1 or exit_code == 2)
-        if mip_convert_internal_failure and arguments.continue_if_mip_convert_failed:
+        if mip_convert_internal_failure and request.conversion.continue_if_mip_convert_failed:
             exit_code = 0
 
     # move file from staging directory to output directory
