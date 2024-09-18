@@ -155,7 +155,8 @@ class CordexDataset(StructuredDataset):
                     'frequency',
                     'version_realization',
                     'driving_source_id',
-                    'driving_variant_label'
+                    'driving_variant_label',
+                    'variable_id'
                 ]
 
                 try:
