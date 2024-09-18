@@ -59,7 +59,7 @@ def get_cv_config(user_config):
 
     mip_era = user_config.mip_era
     possible_CV_file_prefixes = [mip_era]
-    possible_CV_file_prefixes.append(user_config.stream_project_prefix)
+    possible_CV_file_prefixes.append(user_config.mip_table_prefix)
 
     if 'project_id' in user_config.global_attributes:
         project_id = user_config.global_attributes['project_id']

@@ -280,7 +280,7 @@ class UserConfig(PythonConfig):
         self._global_attributes = {}
         self._masking = {}
         self.streams_to_process = {}
-        self.stream_project_prefix = ''
+        self.mip_table_prefix = ''
 
         # Validate the sections.
         self._validate_sections()
@@ -387,16 +387,19 @@ class UserConfig(PythonConfig):
                 # e.g. stream_onm_grid-T
                 section_elements = section.split('_')
                 if len(section_elements) == 2:
-                    (prefix, stream_id) = section_elements
+                    (_, stream_id) = section_elements
                     substream = None
-                    self.stream_project_prefix = prefix
                 elif len(section_elements) == 3:
-                    (prefix, stream_id, substream) = section_elements
-                    self.stream_project_prefix = prefix
+                    (_, stream_id, substream) = section_elements
                 else:
                     raise ValidateConfigError('The "stream" section in the user configuration file is invalid')
 
                 for mip_table_name in self.options(section):
+                    if not self.mip_table_prefix:
+                        # Needed to get right CV configuration in CORDEX
+                        self.mip_table_prefix = mip_table_name.split('_')[0]
+                        print('MIP table prefix: {}'.format(self.mip_table_prefix))
+
                     values = self._multiple_values(section, mip_table_name,
                                                    str)
                     if len(set(values)) != len(values):
