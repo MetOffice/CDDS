@@ -178,9 +178,10 @@ class CollectionsCheck(object):
         total_length = sum([len(vals) for vals in time_axis.values()])
         if total_length != len(point_sequence):
             for key in time_axis.keys():
-                self.add_message(key, var_key, 'The total length of time coordinate, {}, is different from {} '
-                                               'implied by time bounds (from {} to {}) and time frequency ({})'.format(
-                    total_length, len(point_sequence), run_start, run_end, frequency))
+                self.add_message(key, var_key,
+                                 ('Total length of time coordinate, {}, is different from {} implied by time bounds'
+                                  ' (from {} to {}) and time frequency ({})').format(
+                                     total_length, len(point_sequence), run_start, run_end, frequency))
             return
         for key, vals in time_axis.items():
             if len(vals) > 1 and vals[0] > vals[1]:

@@ -30,7 +30,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         cc = CollectionsCheck(self.request)
         var_key = 'foo'
         time_axis = {
-            'bar.nc': [x * 30 for x in range(12)]
+            'bar.nc': [x * 30 for x in range(13)]
         }
         time_bounds = None
         frequency = 'P1M'  # note that in this and many other tests without run bounds this corresponds to MonPt
@@ -62,8 +62,8 @@ class CollectionsCheckTestCase(unittest.TestCase):
         cc = CollectionsCheck(self.request)
         var_key = 'foo'
         time_axis = {
-            'bar1.nc': [(i + 0.0) / 24.0 for i in range(24 * 30)],
-            'bar2.nc': [(i + 0.0) / 24.0 for i in range(24 * 30, 48 * 30)],
+            'bar1.nc': [(i + 0.0) / 24.0 for i in range(1, 24 * 30)],
+            'bar2.nc': [(i + 0.0) / 24.0 for i in range(24 * 30, 48 * 30 + 1)],
         }
         frequency = 'PT1H'
         run_start = self.request.data.start_date
@@ -75,7 +75,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         cc = CollectionsCheck(self.request)
         var_key = 'foo'
         time_axis = {
-            'bar.nc': [x * 30 for x in range(11)] + [330.000001]
+            'bar.nc': [x * 30 for x in range(12)] + [360.000001]
         }
         time_bounds = None
         frequency = 'P1M'
@@ -90,7 +90,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         time_axis = {
             'bar1.nc': [0, 30, 60, 90],
             'bar2.nc': [210, 180, 150, 120],  # reversed only in one file
-            'bar3.nc': [240, 270, 300, 330]
+            'bar3.nc': [240, 270, 300, 330, 360]
         }
         time_bounds = None
         frequency = 'P1M'
@@ -104,7 +104,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         cc = CollectionsCheck(self.request)
         var_key = 'foo'
         time_axis = {
-            'bar1.nc': [0, 30, 60, 90, 120, 330],
+            'bar1.nc': [0, 30, 60, 90, 120, 140, 150, 160, 170, 180, 190, 330, 360],
         }
         time_bounds = None
         frequency = 'P1M'
@@ -112,9 +112,30 @@ class CollectionsCheckTestCase(unittest.TestCase):
         run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
         self.assertDictEqual(cc.results, {'bar1.nc': [{'index': 'foo',
-                                                       'message': ('Time axis value 330 does not correspond to '
+                                                       'message': ('Time axis value 140 does not correspond to '
                                                                    'reference value 1850-06-01T00:00:00Z '
-                                                                   '(difference -180.0 days)')}]})
+                                                                   '(difference 10.0 days)')},
+                                                      {'index': 'foo',
+                                                       'message': ('Time axis value 150 does not correspond to '
+                                                                   'reference value 1850-07-01T00:00:00Z '
+                                                                   '(difference 30.0 days)')},
+                                                      {'index': 'foo',
+                                                       'message': ('Time axis value 160 does not correspond to '
+                                                                   'reference value 1850-08-01T00:00:00Z '
+                                                                   '(difference 50.0 days)')},
+                                                      {'index': 'foo',
+                                                       'message': ('Time axis value 170 does not correspond to '
+                                                                   'reference value 1850-09-01T00:00:00Z '
+                                                                   '(difference 70.0 days)')},
+                                                      {'index': 'foo',
+                                                       'message': ('Time axis value 180 does not correspond to '
+                                                                   'reference value 1850-10-01T00:00:00Z '
+                                                                   '(difference 90.0 days)')},
+                                                      {'index': 'foo',
+                                                       'message': ('Time axis value 190 does not correspond to '
+                                                                   'reference value 1850-11-01T00:00:00Z '
+                                                                   '(difference 110.0 days)')},
+                                                      ]})
 
     def test_internal_contiguity_diurnal_climatology(self):
         cc = CollectionsCheck(self.request)
@@ -264,26 +285,24 @@ class CollectionsCheckTestCase(unittest.TestCase):
         run_start = self.request.data.start_date
         run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
-        expected = {
-            'bar3.nc': [
-                {
-                    'index': 'foo',
-                    'message': (
-                        'Time axis value 345 does not correspond to reference value 1850-11-16T00:00:00Z '
-                        '(difference -30.0 days)')
-                },
-                {
-                    'index': 'foo',
-                    'message': ('Time bounds value 330 does not correspond to reference value 1850-11-01T00:00:00Z '
-                                '(difference -30.0 days)')
-                },
-                {
-                    'index': 'foo',
-                    'message': ('Time bounds value 360 does not correspond to reference value 1850-12-01T00:00:00Z '
-                                '(difference -30.0 days)')
-                }
-            ]
-        }
+        expected = {'bar1.nc': [{'index': 'foo',
+                                 'message': 'Total length of time coordinate, 11, is '
+                                            'different from 12 implied by time bounds '
+                                            '(from 1850-01-01T00:00:00Z to '
+                                            '1851-01-01T00:00:00Z) and time frequency '
+                                            '(P1M)'}],
+                    'bar2.nc': [{'index': 'foo',
+                                 'message': 'Total length of time coordinate, 11, is '
+                                            'different from 12 implied by time bounds '
+                                            '(from 1850-01-01T00:00:00Z to '
+                                            '1851-01-01T00:00:00Z) and time frequency '
+                                            '(P1M)'}],
+                    'bar3.nc': [{'index': 'foo',
+                                 'message': 'Total length of time coordinate, 11, is '
+                                            'different from 12 implied by time bounds '
+                                            '(from 1850-01-01T00:00:00Z to '
+                                            '1851-01-01T00:00:00Z) and time frequency '
+                                            '(P1M)'}]}
         self.assertDictEqual(cc.results, expected)
 
     def test_diurnal_climatology_with_gap(self):
