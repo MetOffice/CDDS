@@ -30,10 +30,25 @@ class CollectionsCheckTestCase(unittest.TestCase):
         cc = CollectionsCheck(self.request)
         var_key = 'foo'
         time_axis = {
-            'bar.nc': [x * 30 for x in range(13)]
+            'bar.nc': [x * 30 for x in range(13)]  # time points at midnight of the 1st of each month
         }
         time_bounds = None
         frequency = 'P1M'  # note that in this and many other tests without run bounds this corresponds to MonPt
+        run_start = self.request.data.start_date
+        run_end = self.request.data.end_date
+        cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
+        self.assertDictEqual(cc.results, {})
+
+    def test_internal_contiguity_valid_time_dimension_and_bounds(self):
+        cc = CollectionsCheck(self.request)
+        var_key = 'foo'
+        time_axis = {
+            'bar.nc': [x * 30 + 15.0 for x in range(12)]  # conventional mid-points with defined bounds
+        }
+        time_bounds = {
+            'bar.nc': [(x * 30, x * 30 + 30) for x in range(12)]
+        }
+        frequency = 'P1M'
         run_start = self.request.data.start_date
         run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
