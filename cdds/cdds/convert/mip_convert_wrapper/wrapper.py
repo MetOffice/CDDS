@@ -54,8 +54,6 @@ def run_mip_convert_wrapper():
         cylc_task_cycle_point = os.environ['CYLC_TASK_CYCLE_POINT']
         dummy_run = os.environ['DUMMY_RUN'] == 'TRUE'
         simulation_end_date = os.environ['END_DATE']
-        # input_dir = os.environ['INPUT_DIR']
-        # cdds_convert_proc_dir = os.environ['CDDS_CONVERT_PROC_DIR']
         output_dir = os.environ['OUTPUT_DIR']
         stream = os.environ['STREAM']
         substream = os.environ['SUBSTREAM']
