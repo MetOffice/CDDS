@@ -194,37 +194,6 @@ def main_run_mip_convert():
     return exit_code
 
 
-def _parse_run_mip_convert_parameters(arguments):
-    user_arguments = arguments
-
-    description = 'Arguments for running MIP convert'
-    parser = argparse.ArgumentParser(description=description, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    # parser.add_argument('--plugin_id',
-    #                     default='CMIP6',
-    #                     type=str,
-    #                     help='The plugin id (e.g. CMIP6)')
-    # parser.add_argument('--external_plugin',
-    #                     default='',
-    #                     type=str,
-    #                     help='Module path to external CDDS plugin')
-    # parser.add_argument('--external_plugin_location',
-    #                     default='',
-    #                     type=str,
-    #                     help='Path to the external CDDS plugin implementation')
-    # parser.add_argument('--relaxed_cmor',
-    #                     help='If specified, CMIP6 style validation is not performed by CMOR.',
-    #                     action='store_true'
-    #                     )
-    # parser.add_argument('--continue_if_mip_convert_failed',
-    #                     help='Mark task as succeed even if mip convert failed.',
-    #                     action='store_true'
-    #                     )
-    arguments = parser.parse_args(args=user_arguments)
-
-    # load_plugin(arguments.plugin_id, arguments.external_plugin, arguments.external_plugin_location)
-    return arguments
-
-
 def main_organise_files():
     """
     The main function for the organise_files script.
