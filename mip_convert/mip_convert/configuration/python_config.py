@@ -398,7 +398,6 @@ class UserConfig(PythonConfig):
                     if not self.mip_table_prefix:
                         # Needed to get right CV configuration in CORDEX
                         self.mip_table_prefix = mip_table_name.split('_')[0]
-                        print('MIP table prefix: {}'.format(self.mip_table_prefix))
 
                     values = self._multiple_values(section, mip_table_name,
                                                    str)
