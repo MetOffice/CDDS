@@ -2,7 +2,6 @@
 # Please see LICENSE.rst for license details.
 import os
 
-from unittest.mock import patch
 from unittest import TestCase
 
 from cdds.validate.model_params_validations import ModelParamsFileValidator

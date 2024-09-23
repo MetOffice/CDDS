@@ -9,6 +9,7 @@ import os
 from typing import List, Dict, Any, Set
 
 from cdds.common.io import read_json
+from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import read_request
 
 
@@ -29,18 +30,29 @@ def do_model_params_validations(request_path: str) -> None:
     messages = []
 
     model_params_dir = request.conversion.model_params_dir
-    if not os.path.exists(model_params_dir):
+    existingDir = True
+    if not model_params_dir:
+        logger.error('Please provide a "model_params_dir" in "conversion" section for validation.')
+        existingDir = False
+    elif not os.path.exists(model_params_dir):
         logger.error('Given model params dir "{}" does not exist.')
-    if not os.path.isdir(model_params_dir):
+        existingDir = False
+    elif not os.path.isdir(model_params_dir):
         logger.error('Given model params dir "{}" is not a directory.'.format(model_params_dir))
+        existingDir = False
 
+    if existingDir:
+        _validate_model_params(model_params_dir)
+
+
+def _validate_model_params(model_params_dir: str):
     model_params_files = [f for f in os.listdir(model_params_dir) if os.isfile(os.path.join(model_params_dir, f))]
 
     for model_param_file in model_params_files:
         validator = ModelParamsFileValidator()
         validator.validate(model_param_file)
 
-        logger.info('Validation of model parameters file file: "{}"'.format(model_param_file))
+        logger.info('Validation of model parameters file: "{}"'.format(model_param_file))
         logger.info('-----------------------------------------')
         if validator.valid and not validator.warning:
             logger.info('Model parameters file is valid.')
