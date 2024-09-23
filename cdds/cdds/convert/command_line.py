@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Command line interfaces for cdds_convert and mip_concatenate tasks.
@@ -166,7 +166,7 @@ def main_concatenation_batch():
     return exit_code
 
 
-def main_run_mip_convert(arguments=None):
+def main_run_mip_convert():
     """
     The main function for the run_mip_convert script.
 
@@ -177,9 +177,8 @@ def main_run_mip_convert(arguments=None):
         non-zero otherwise.
     """
     exit_code = 0
-    arguments = _parse_run_mip_convert_parameters(arguments)
     try:
-        exit_code = run_mip_convert_wrapper(arguments)
+        exit_code = run_mip_convert_wrapper()
     except WrapperEnvironmentError as we1:
         logging.getLogger(__name__)
         logging.exception(we1)
@@ -193,37 +192,6 @@ def main_run_mip_convert(arguments=None):
         logging.exception(exc)
         exit_code = 1
     return exit_code
-
-
-def _parse_run_mip_convert_parameters(arguments):
-    user_arguments = arguments
-
-    description = 'Arguments for running MIP convert'
-    parser = argparse.ArgumentParser(description=description, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--plugin_id',
-                        default='CMIP6',
-                        type=str,
-                        help='The plugin id (e.g. CMIP6)')
-    parser.add_argument('--external_plugin',
-                        default='',
-                        type=str,
-                        help='Module path to external CDDS plugin')
-    parser.add_argument('--external_plugin_location',
-                        default='',
-                        type=str,
-                        help='Path to the external CDDS plugin implementation')
-    parser.add_argument('--relaxed_cmor',
-                        help='If specified, CMIP6 style validation is not performed by CMOR.',
-                        action='store_true'
-                        )
-    parser.add_argument('--continue_if_mip_convert_failed',
-                        help='Mark task as succeed even if mip convert failed.',
-                        action='store_true'
-                        )
-    arguments = parser.parse_args(args=user_arguments)
-
-    load_plugin(arguments.plugin_id, arguments.external_plugin, arguments.external_plugin_location)
-    return arguments
 
 
 def main_organise_files():
