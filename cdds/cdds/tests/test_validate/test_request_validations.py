@@ -5,7 +5,7 @@ import os
 from unittest.mock import patch
 from unittest import TestCase
 
-from cdds.validate.validations import do_request_validations
+from cdds.validate.request_validations import do_request_validations
 
 
 class TestValidations(TestCase):
