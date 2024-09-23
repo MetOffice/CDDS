@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2015-2022, Met Office.
+# (C) British Crown Copyright 2015-2024, Met Office.
 # Please see LICENSE.rst for license details.
 import logging
 import os
@@ -58,7 +58,7 @@ def get_cv_config(user_config):
     cv_path = ''
 
     mip_era = user_config.mip_era
-    possible_CV_file_prefixes = [mip_era]
+    possible_CV_file_prefixes = [mip_era, user_config.mip_table_prefix]
 
     if 'project_id' in user_config.global_attributes:
         project_id = user_config.global_attributes['project_id']
