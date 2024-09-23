@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2021, Met Office.
+# (C) British Crown Copyright 2020-2024, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -280,6 +280,7 @@ class UserConfig(PythonConfig):
         self._global_attributes = {}
         self._masking = {}
         self.streams_to_process = {}
+        self.mip_table_prefix = ''
 
         # Validate the sections.
         self._validate_sections()
@@ -394,6 +395,10 @@ class UserConfig(PythonConfig):
                     raise ValidateConfigError('The "stream" section in the user configuration file is invalid')
 
                 for mip_table_name in self.options(section):
+                    if not self.mip_table_prefix:
+                        # Needed to get right CV configuration in CORDEX
+                        self.mip_table_prefix = mip_table_name.split('_')[0]
+
                     values = self._multiple_values(section, mip_table_name,
                                                    str)
                     if len(set(values)) != len(values):
