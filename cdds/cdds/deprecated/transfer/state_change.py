@@ -53,10 +53,12 @@ def run_move_in_mass(request: Request, args: Namespace) -> None:
     logger.info('Searching mass for file sets in state "{}"'.format(args.original_state))
 
     filesets = find_mass(drs_fixed_facet_builder, args.original_state, transfer_service)
-    if request.data.variable_list_file:
-        logger.info('Limiting state change to variables specified in "{}"'.format(request.data.variable_list_file))
-        variables_to_operate_on = read_variables_list_file(request.data.variable_list_file)
-        filter_filesets(filesets, variables_to_operate_on)
+
+    # filter based on approved variables file
+    approved_variables_file = args.approved_variables_path
+    logger.info('Limiting state change to variables specified in "{}"'.format(approved_variables_file))
+    variables_to_operate_on = read_variables_list_file(approved_variables_file)
+    filter_filesets(filesets, variables_to_operate_on)
 
     log_filesets(filesets)
     try:
