@@ -177,42 +177,6 @@ def check_qc_report(qc_dir):
                 raise RuntimeError(msg)
 
 
-def check_file_permissions(proc_dir):
-    """
-    Check that file permissions for important proc dir items are correctly set.
-
-    Parameters
-    ----------
-    proc_dir: str
-        Path to the proc directory for this package.
-    Returns
-    -------
-    None
-    """
-    logger = logging.getLogger(__name__)
-    logger.info('\nChecking transfer files permissions on transfer log.')
-    transfer_log_dir = os.path.join(proc_dir, 'archive', 'log')
-    status1 = os.stat(transfer_log_dir).st_mode
-    logger.info('Permissions for directory {0} = "{1}"'
-                ''.format(transfer_log_dir, oct(status1)))
-    # check read and write permissions for all users
-    permission_list = [(stat.S_IROTH, 4, 'read'),
-                       (stat.S_IWOTH, 2, 'write')]
-    for status_bit, expected, perm_str in permission_list:
-        if status1 & status_bit != expected:
-            msg = (
-                'Transfer log directory ({0}) does not have {1} permissions '
-                'for all users'.format(transfer_log_dir, perm_str))
-            raise RuntimeError(msg)
-
-    # check write all permissions
-    if status1 & stat.S_IWOTH != 2:
-        msg = ('Transfer log directory ({0}) does not have write permissions '
-               'for all users'.format(transfer_log_dir))
-        raise RuntimeError(msg)
-    logger.info('Permissions correctly set.')
-
-
 def display_approved_variables(qc_dir):
     """
     Open the approved variables file in an editor for the reviewer to
@@ -329,8 +293,6 @@ def do_sim_review(request: Request, request_file_path: str) -> None:
     check_intermediate_files(data_dir)
 
     check_qc_report(qc_dir)
-
-    # check_file_permissions(proc_dir)
 
     recent_approved_path = display_approved_variables(qc_dir)
 
