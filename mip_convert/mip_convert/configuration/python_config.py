@@ -14,6 +14,7 @@ from cdds.common import remove_newlines
 from mip_convert.configuration.common import AbstractConfig, ValidateConfigError
 from mip_convert.configuration.user_config import cmor_setup_config, cmor_dataset_config, request_config
 from mip_convert.configuration.masking_config import load_mask_from_config
+from mip_convert.configuration.removal_config import load_removal_from_config
 
 
 class PythonConfig(AbstractConfig):
@@ -279,6 +280,7 @@ class UserConfig(PythonConfig):
         self._required_options = {}
         self._global_attributes = {}
         self._masking = {}
+        self._removal = {}
         self.streams_to_process = {}
         self.mip_table_prefix = ''
 
@@ -291,6 +293,7 @@ class UserConfig(PythonConfig):
         self._add_attributes(self._all_options)
         self._add_streams()
         self._add_masking()
+        self._add_removal()
         # The 'history' option from the 'user configuration file' is
         # never used; define a value for it here.
         self.history = history
@@ -300,6 +303,10 @@ class UserConfig(PythonConfig):
     @property
     def masking(self):
         return self._masking
+
+    @property
+    def removal(self):
+        return self._removal
 
     @property
     def global_attributes(self):
@@ -360,11 +367,18 @@ class UserConfig(PythonConfig):
         section = 'masking'
         if self.config.has_section(section):
             for key, value in self.items(section).items():
-                print(key, value)
                 stream, grid, mask = load_mask_from_config(key, value)
                 stream_masking = self._masking.get(stream, {})
                 stream_masking[grid] = mask
                 self._masking[stream] = stream_masking
+
+    def _add_removal(self):
+        section = 'removal'
+        if self.config.has_section(section):
+            for key, value in self.items(section).items():
+                stream, mask = load_removal_from_config(key, value)
+                stream_masking = self._removal.get(stream, {})
+                self._removal[stream] = stream_masking
 
     def _add_streams(self):
         """

@@ -1,0 +1,73 @@
+# (C) British Crown Copyright 2024, Met Office.
+# Please see LICENSE.rst for license details.
+import numpy as np
+
+from dataclasses import dataclass
+from typing import Tuple, Any
+
+
+@dataclass
+class RemovalMask:
+    """
+    Contains all information you need to mask values
+    used for a grid in a specific stream
+    """
+    stream: str
+    slice_latitude: slice
+    slice_longitude: slice
+
+    def slice(self) -> Tuple[Any, slice, slice]:
+        """
+        Applies the result of numpy slice function corresponding to
+        the stored slice latitude and slice longitude.
+
+        :return: Slice for this mask data
+        :rtype: Tuple[ellipsis, slice, slice]
+        """
+        return np.s_[..., self.slice_latitude, self.slice_longitude]
+
+
+def load_removal_from_config(mask_key: str, mask_value: str) -> Tuple[str, RemovalMask]:
+    """
+    Returns the masking specified in the mask_key and mask_value.
+
+    The mask_key composed of the grid and stream that masking is for:
+    <stream_name>_<grid_name>
+    If the gird name is not given, the masking is for every grid in
+    this stream.
+
+    The mask_value represents the slices of latitude and longitude
+    as a string:
+    '<lat_start>:<lat_stop>:<lat_step>,<lon_start>:<long_stop>:<long_step>'
+
+    :param mask_key: Contains the stream name and grid
+    :type mask_key: str
+    :param mask_value: Contains the masking for the latitude and longitude
+    :type mask_value: str
+    :return: stream name, grid name and masking
+    :rtype: Tuple[str, str, Mask]
+    """
+    key_splits = mask_key.split('_')
+    stream_name = key_splits[1]
+    slice_latitude, slice_longitude = _split_removal_value(mask_value)
+    return stream_name, RemovalMask(stream_name, slice_latitude, slice_longitude)
+
+
+def _split_removal_value(mask_slice_str: str) -> Tuple[slice, slice]:
+    """
+    Returns the slices of latitude and longitude defined in the given string.
+    The given masking string is composed like:
+    '<lat_start>:<lat_stop>:<lat_step>,<lon_start>:<long_stop>:<long_step>'
+
+    :param mask_slice_str: Contains the latitude and longitude masking
+    :type mask_slice_str: str
+    :return: The latitude slice and the longitude slice
+    :rtype: Tuple[slice, slice]
+    """
+    slice_lat_str, slice_long_str = mask_slice_str.replace(' ', '').split(',')
+    slice_latitude = slice(*[None if j.lower() in ('none', '') else int(j) for j in slice_lat_str.split(':')])
+    slice_longitude = slice(*[None if j.lower() in ('none', '') else int(j) for j in slice_long_str.split(':')])
+    return slice_latitude, slice_longitude
+
+
+
