@@ -84,6 +84,14 @@ def parse_arguments_move_in_mass(arguments: List[str]) -> Namespace:
                         required=True,
                         help='New state for file sets',
                         choices=known_states())
+    help_msg = ('The full path to the file containing the MIP requested '
+                'variables that have passed quality control and approved for '
+                'archiving. The variables are listed in the form '
+                '"<mip_table_id>/<mip_requested_variable_name>", one per '
+                'line.')
+    parser.add_argument('--approved_variables_path',
+                        required=True,
+                        help=help_msg)
 
     args = parser.parse_args(arguments)
 

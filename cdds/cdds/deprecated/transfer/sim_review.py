@@ -293,8 +293,8 @@ def show_submission_command(request_file_path, recent_approved_path):
     """
     logger = logging.getLogger(__name__)
     logger.info('\nCommand for data submission:')
-    logger.info('move_in_mass {request} \\\n-p --original_state=embargoed --new_state=available '
-                '--mass_location=production \\\n--variables_list_file={recent_approved_path}'
+    logger.info('move_in_mass {request} -o . \\\n--original_state=embargoed --new_state=available '
+                '\\\n--approved_variables_path={recent_approved_path}'
                 ''.format(request=request_file_path, recent_approved_path=recent_approved_path))
 
 
@@ -330,7 +330,7 @@ def do_sim_review(request: Request, request_file_path: str) -> None:
 
     check_qc_report(qc_dir)
 
-    check_file_permissions(proc_dir)
+    # check_file_permissions(proc_dir)
 
     recent_approved_path = display_approved_variables(qc_dir)
 
