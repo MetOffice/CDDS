@@ -104,7 +104,7 @@ def produce_mip_requested_variable(
         hybrid_height_information, replacement_coordinates, variable_model_to_mip_mapping,
         user_config.atmos_timestep, user_config.run_bounds, user_config.calendar, user_config.base_date,
         user_config.deflate_level, user_config.shuffle, user_config.reference_time, user_config.masking,
-        user_config.removal
+        user_config.halo_removals
     )
 
     # Load the data from the 'model output files' and store each 'input variable' in the 'Variable' object

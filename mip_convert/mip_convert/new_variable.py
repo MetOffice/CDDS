@@ -425,9 +425,11 @@ class Variable(object):
         removal = self._variable_metadata.removal
         if self._variable_metadata.stream_id in removal:
             stream_removal = removal[self._variable_metadata.stream_id]
-            for cube in list(self.input_variables.values()):
-                model_component = cube.attributes['model_component']
-                cube.data[model_component] = cube.subset(stream_removal.slice())
+            for key, cube in self.input_variables.items():
+                new_latitude = cube.coord('latitude')[stream_removal.slice_latitude]
+                new_longitude = cube.coord('longitude')[stream_removal.slice_longitude]
+                new_cube = cube.subset(new_latitude).subset(new_longitude)
+                self.input_variables[key] = new_cube
 
     def _apply_expression(self):
         # Persist the fill_value attribute from the 'input variables' to the 'output variable'.

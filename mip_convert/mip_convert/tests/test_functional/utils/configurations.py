@@ -374,6 +374,7 @@ class SpecificInfo:
     other: Dict[str, Any] = field(default_factory=dict)
     global_attributes: Dict[str, Any] = field(default_factory=dict)
     masking: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+    halo_removal: Dict[str, Dict[str, Any]] = field(default_factory=dict)
 
     def as_dict(self) -> Dict[str, Dict[str, Any]]:
         """
@@ -400,6 +401,8 @@ class SpecificInfo:
             masking: {
 
             },
+            halo_removal: {
+            },
             'other': {
             }
         }
@@ -407,7 +410,7 @@ class SpecificInfo:
         :return: Values as directory (like Mip configuration)
         :rtype: Dict[str, Any]
         """
-        excludes = ['common', 'project_id', 'streams', 'masking']
+        excludes = ['common', 'project_id', 'streams', 'masking', 'halo_removal']
         items = {
             k: v for k, v in asdict(self).items() if v and k not in excludes
         }
@@ -422,6 +425,9 @@ class SpecificInfo:
         if len(self.masking) > 0:
             items['masking'] = self.masking_as_dict()
 
+        if len(self.halo_removal) > 0:
+            items['halo_removal'] = self.removal_as_dict()
+
         return items
 
     def masking_as_dict(self):
@@ -431,6 +437,14 @@ class SpecificInfo:
             for grid, value in grid_masking.items():
                 key = masking_key.format(stream, grid)
                 items[key] = value
+        return items
+
+    def removal_as_dict(self):
+        items = {}
+        removal_key = 'stream_{}'
+        for stream, value in self.halo_removal.items():
+            key = removal_key.format(stream)
+            items[key] = value
         return items
 
 
