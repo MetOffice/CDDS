@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2023, Met Office.
+# (C) British Crown Copyright 2018-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`user_config` module contains the code required to produce the
@@ -120,7 +120,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
             logger.info(
                 'Producing user configuration file for "{}"'.format(file_suffix))
             maskings = get_masking_attributes(request.metadata.model_id, streams)
-            halo_removales = get_halo_removal_attributes(request)
+            halo_removals = get_halo_removal_attributes(request)
             user_config = OrderedDict()
             user_config.update(deepcopy(metadata))
             # lists need to be flattened again
@@ -134,8 +134,8 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
             user_config['request']['suite_id'] = request.data.model_workflow_id
             if maskings:
                 user_config['masking'] = maskings
-            if halo_removales:
-                user_config['halo_removal'] = halo_removales
+            if halo_removals:
+                user_config['halo_removal'] = halo_removals
             user_config.update(mip_requested_variables)
             filename = template_name.format(file_suffix)
             user_configs[filename] = user_config
@@ -143,10 +143,14 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
 
 
 def get_halo_removal_attributes(request: Request):
+    logger = logging.getLogger(__name__)
     halo_removal_latitude = request.misc.halo_removal_latitude
     halo_removal_longitude = request.misc.halo_removal_longitude
 
     if not halo_removal_latitude or not halo_removal_longitude:
+        message = ('At least one halo removal option is empty. For using halo removals both options must '
+                   'be set in the request.cfg. Skip halo removals.')
+        logger.debug(message)
         return None
 
     removal_attributes = OrderedDict()

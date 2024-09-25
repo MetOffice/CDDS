@@ -89,6 +89,7 @@ It contains the following sections, some of which are optional.
 | `[request]`            | Configure `mip_convert` including input data.             |
 | `[stream_<stream_id>]` | The variables to produce from a particular `<stream_id>`. |
 | `[masking]`            | Apply polar row masking if needed.                        |
+| `[halo_removal]`       | Apply stripping of halo columns and rows if needed.       |
 | `[global_attributes]`  | Add global attributes to the output netCDF.               |
 
 
@@ -258,6 +259,17 @@ This is usually only used for polar row masking in NEMO & CICE output
     [masking]
     stream_inm_cice-T: -1:,180:
     ```
+
+### **halo_removal**
+
+The optional `halo removal` section is used if for a particular stream the data needs to be stripped.
+
+!!! example
+    ```config
+    [halo_removal]
+    stream_apa: 5:,:-10
+    ```
+
 
 ### **global_attributes**
 

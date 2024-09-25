@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2022-2023, Met Office.
+# (C) British Crown Copyright 2022-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 Module to specify the classes that are needed for storing the information of the test data for
@@ -426,7 +426,7 @@ class SpecificInfo:
             items['masking'] = self.masking_as_dict()
 
         if len(self.halo_removal) > 0:
-            items['halo_removal'] = self.removal_as_dict()
+            items['halo_removal'] = self.halo_removal_as_dict()
 
         return items
 
@@ -439,7 +439,7 @@ class SpecificInfo:
                 items[key] = value
         return items
 
-    def removal_as_dict(self):
+    def halo_removal_as_dict(self):
         items = {}
         removal_key = 'stream_{}'
         for stream, value in self.halo_removal.items():
