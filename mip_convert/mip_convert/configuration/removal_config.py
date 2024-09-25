@@ -52,6 +52,3 @@ def _split_halo_removal_value(removal_slice_str: str) -> Tuple[slice, slice]:
     slice_latitude = slice(*[None if j.lower() in ('none', '') else int(j) for j in slice_lat_str.split(':')])
     slice_longitude = slice(*[None if j.lower() in ('none', '') else int(j) for j in slice_long_str.split(':')])
     return slice_latitude, slice_longitude
-
-
-

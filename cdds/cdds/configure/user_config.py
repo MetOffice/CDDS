@@ -120,6 +120,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
             logger.info(
                 'Producing user configuration file for "{}"'.format(file_suffix))
             maskings = get_masking_attributes(request.metadata.model_id, streams)
+            halo_removales = get_halo_removal_attributes(request)
             user_config = OrderedDict()
             user_config.update(deepcopy(metadata))
             # lists need to be flattened again
@@ -133,10 +134,30 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
             user_config['request']['suite_id'] = request.data.model_workflow_id
             if maskings:
                 user_config['masking'] = maskings
+            if halo_removales:
+                user_config['halo_removal'] = halo_removales
             user_config.update(mip_requested_variables)
             filename = template_name.format(file_suffix)
             user_configs[filename] = user_config
     return user_configs
+
+
+def get_halo_removal_attributes(request: Request):
+    halo_removal_latitude = request.misc.halo_removal_latitude
+    halo_removal_longitude = request.misc.halo_removal_longitude
+
+    if not halo_removal_latitude or not halo_removal_longitude:
+        return None
+
+    removal_attributes = OrderedDict()
+    key_template = 'stream_{}'
+    value_template = '{},{}'
+
+    for stream in request.data.streams:
+        key = key_template.format(stream)
+        value = value_template.format(halo_removal_latitude, halo_removal_longitude)
+        removal_attributes[key] = value
+    return removal_attributes
 
 
 def get_masking_attributes(model_id, streams):

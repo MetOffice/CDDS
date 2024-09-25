@@ -44,6 +44,8 @@ class MiscSection(Section):
     # Todo: needs considerations:
     use_proc_dir: bool = True
     no_overwrite: bool = False
+    halo_removal_latitude: str = ''
+    halo_removal_longitude: str = ''
 
     @classmethod
     def name(cls) -> str:
