@@ -143,6 +143,20 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
 
 
 def get_halo_removal_attributes(request: Request):
+    """
+    Returns the removal attributes of the halo rows and cloumns. Only masks for the given streams are loaded.
+
+    The key of the resulted dictionary composed of the prefix stream and the
+    stream name: 'stream_<stream_name>'
+
+    The value is the slices of latitude and longitude as string representation:
+    '<lat_start>:<lat_stop>:<lat_step>,<lon_start>:<lon_stop>:<lon:step>'
+
+    :param request: Contains all information that is needed
+    :type request: Request
+    :return: A dictionary contains the halo removal attributes according the stream
+    :rtype: OrderedDict[str, str]
+    """
     logger = logging.getLogger(__name__)
     halo_removal_latitude = request.misc.halo_removal_latitude
     halo_removal_longitude = request.misc.halo_removal_longitude
