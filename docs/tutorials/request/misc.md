@@ -21,10 +21,10 @@ The `misc` in the request configuration contains any settings that do not fit in
     **Default:** `False`
 
 `halo_removal_latitude`
-:   number of coordinates points that should be stripped for latitude using `<start>:<stop>` as format.
+:   number of latitude points to be stripped using `<start>:<stop>` as the format.
 
 `halo_removal_longitude`
-:   number of coordinates points that should be stripped for longitude using `<start>:<stop>` as format.
+:   number of longitude points to be stripped using `<start>:<stop>` as the format.
 
 !!! example
     Strip 5 points at the start and end for latitude and strip 10 points at the start and end
