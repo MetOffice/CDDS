@@ -37,7 +37,7 @@ class VariableMetadata(object):
 
     def __init__(self, variable_name, stream_id, substream, mip_table_name, mip_metadata, site_information,
                  hybrid_height_information, replacement_coordinates, model_to_mip_mapping, timestep, run_bounds,
-                 calendar, base_date, deflate_level, shuffle, reference_time=None, masking={}):
+                 calendar, base_date, deflate_level, shuffle, reference_time=None, masking=None, removal=None):
         """
         Parameters
         ----------
@@ -74,6 +74,10 @@ class VariableMetadata(object):
         shuffle: bool
             Whether to shuffle.
         """
+        if masking is None:
+            masking = {}
+        if removal is None:
+            removal = {}
         self.logger = logging.getLogger(__name__)
         self.variable_name = variable_name
         self.stream_id = stream_id
@@ -92,6 +96,7 @@ class VariableMetadata(object):
         self.shuffle = shuffle
         self.reference_time = reference_time
         self.masking = masking
+        self.removal = removal
         self._validate_timestep()
 
     def _validate_timestep(self):
@@ -354,6 +359,7 @@ class Variable(object):
         self._remove_forecast_period()
         self._ensure_masked_arrays()
         self._apply_mask()
+        self._apply_removal()
         self._apply_expression()
         self._validate_cube()
         if self._time_coord:
@@ -414,6 +420,16 @@ class Variable(object):
                     if {'latitude', 'longitude'} <= cube_coord_names and mask is not None:
                         # update the existing mask
                         cube.data[mask] = np.ma.masked
+
+    def _apply_removal(self):
+        removal = self._variable_metadata.removal
+        if self._variable_metadata.stream_id in removal:
+            stream_removal = removal[self._variable_metadata.stream_id]
+            for key, cube in self.input_variables.items():
+                new_latitude = cube.coord('latitude')[stream_removal.slice_latitude]
+                new_longitude = cube.coord('longitude')[stream_removal.slice_longitude]
+                new_cube = cube.subset(new_latitude).subset(new_longitude)
+                self.input_variables[key] = new_cube
 
     def _apply_expression(self):
         # Persist the fill_value attribute from the 'input variables' to the 'output variable'.
