@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2023, Met Office.
+# (C) British Crown Copyright 2018-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`user_config` module contains the code required to produce the
@@ -120,6 +120,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
             logger.info(
                 'Producing user configuration file for "{}"'.format(file_suffix))
             maskings = get_masking_attributes(request.metadata.model_id, streams)
+            halo_removals = get_halo_removal_attributes(request)
             user_config = OrderedDict()
             user_config.update(deepcopy(metadata))
             # lists need to be flattened again
@@ -133,10 +134,48 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
             user_config['request']['suite_id'] = request.data.model_workflow_id
             if maskings:
                 user_config['masking'] = maskings
+            if halo_removals:
+                user_config['halo_removal'] = halo_removals
             user_config.update(mip_requested_variables)
             filename = template_name.format(file_suffix)
             user_configs[filename] = user_config
     return user_configs
+
+
+def get_halo_removal_attributes(request: Request):
+    """
+    Returns the removal attributes of the halo rows and cloumns. Only masks for the given streams are loaded.
+
+    The key of the resulted dictionary composed of the prefix stream and the
+    stream name: 'stream_<stream_name>'
+
+    The value is the slices of latitude and longitude as string representation:
+    '<lat_start>:<lat_stop>:<lat_step>,<lon_start>:<lon_stop>:<lon:step>'
+
+    :param request: Contains all information that is needed
+    :type request: Request
+    :return: A dictionary contains the halo removal attributes according the stream
+    :rtype: OrderedDict[str, str]
+    """
+    logger = logging.getLogger(__name__)
+    halo_removal_latitude = request.misc.halo_removal_latitude
+    halo_removal_longitude = request.misc.halo_removal_longitude
+
+    if not halo_removal_latitude or not halo_removal_longitude:
+        message = ('At least one halo removal option is empty. For using halo removals both options must '
+                   'be set in the request.cfg. Skip halo removals.')
+        logger.debug(message)
+        return None
+
+    removal_attributes = OrderedDict()
+    key_template = 'stream_{}'
+    value_template = '{},{}'
+
+    for stream in request.data.streams:
+        key = key_template.format(stream)
+        value = value_template.format(halo_removal_latitude, halo_removal_longitude)
+        removal_attributes[key] = value
+    return removal_attributes
 
 
 def get_masking_attributes(model_id, streams):

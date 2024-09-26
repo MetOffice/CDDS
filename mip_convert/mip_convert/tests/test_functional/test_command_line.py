@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2022, Met Office.
+# (C) British Crown Copyright 2022-2024, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = no-member, no-value-for-parameter
@@ -45,11 +45,15 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
 
     def convert(
             self, filenames: List[str], reference_version: str, relaxed_cmor: bool,
-            mip_convert_log: str, expected_exit_code: int = 0
+            mip_convert_log: str, expected_exit_code: int = 0, input_dir_suffix: str = ''
     ) -> Tuple[List[str], List[str]]:
         input_directory = self.input_dir.format(
             self.test_info.project_id, self.test_info.mip_table, '_'.join(self.test_info.variables)
         )
+
+        if input_dir_suffix:
+            input_directory = '{}_{}'.format(input_directory, input_dir_suffix)
+
         write_user_configuration_file(self.os_handle, self.test_info)
         reference_data_directory = os.path.join(ROOT_REFERENCE_CASES_DIR, input_directory)
         output_data_directory = os.path.join(ROOT_OUTPUT_CASES_DIR, input_directory)
@@ -112,7 +116,8 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         self.convert(filenames, reference_version, False, mip_convert_log, expected_error_code)
 
     def check_convert(
-            self, relaxed_cmor: bool = False, use_fast_comparison: bool = False, log_file_identifier: str = '') -> None:
+            self, relaxed_cmor: bool = False, use_fast_comparison: bool = False, log_file_identifier: str = '',
+            input_dir_suffix: str = '') -> None:
         mip_convert_log = self.get_mip_convert_log_filename(log_file_identifier)
         other_items = self.test_info.specific_info.other
         reference_version = other_items['reference_version']
@@ -122,7 +127,9 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         tolerance_value = other_items.get('tolerance_value')
         other_options = other_items.get('other_options')
 
-        outputs, references = self.convert(filenames, reference_version, relaxed_cmor, mip_convert_log)
+        outputs, references = self.convert(
+            filenames, reference_version, relaxed_cmor, mip_convert_log, input_dir_suffix=input_dir_suffix
+        )
 
         if use_fast_comparison:
             if 'hash' not in other_items:

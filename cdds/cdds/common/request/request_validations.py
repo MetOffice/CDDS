@@ -11,7 +11,8 @@ from typing import TYPE_CHECKING, Tuple, List
 from cdds.common.configuration.cv_config import CVConfig
 from cdds.common.request.validations.section_validators import (SectionValidatorFactory,
                                                                 CommonSectionValidator,
-                                                                MetadataSectionValidator)
+                                                                MetadataSectionValidator,
+                                                                MiscSectionValidator)
 from cdds.common.request.validations.cv_validators import CVValidatorFactory
 from cdds.common.plugins.plugins import PluginStore
 
@@ -20,6 +21,7 @@ if TYPE_CHECKING:
     from cdds.common.request.data_section import DataSection
     from cdds.common.request.inventory_section import InventorySection
     from cdds.common.request.metadata_section import MetadataSection
+    from cdds.common.request.misc_section import MiscSection
     from cdds.common.request.request import Request
 
 
@@ -83,6 +85,20 @@ def validate_metadata_section(section: 'MetadataSection') -> None:
     :type section: 'MetadataSection'
     """
     validator = MetadataSectionValidator(section=section)
+    valid, messages = validator.validate()
+
+    if not valid:
+        raise AttributeError('\n'.join(messages))
+
+
+def validate_misc_section(section: 'MiscSection') -> None:
+    """
+    Validates given metadata section and raises an error if validation failed.
+
+    :param section: misc section to validate
+    :type section: 'MiscSection'
+    """
+    validator = MiscSectionValidator(section=section)
     valid, messages = validator.validate()
 
     if not valid:
