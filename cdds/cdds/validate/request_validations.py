@@ -12,6 +12,7 @@ from typing import Tuple, List
 from cdds.common.request.request import load_cdds_plugins
 from cdds.common.request.request import Request
 from cdds.common.request.metadata_section import MetadataSection
+from cdds.common.request.misc_section import MiscSection
 from cdds.common.request.inventory_section import InventorySection
 from cdds.common.request.common_section import CommonSection
 from cdds.common.request.data_section import DataSection
@@ -71,13 +72,20 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
         messages.append(e.args[0])
 
     try:
+        MiscSection.from_config(request_config)
+    except AttributeError as e:
+        logger.error('misc section is invalid.', e.args[0])
+        valid = False
+        messages.append(e.args[0])
+
+    try:
         request = Request.from_config(request_config)
         if request.common.is_relaxed_cmor():
             logger.info('Relaxed CMOR is activated. Skip CV validations.')
         else:
             validate_request(request)
     except AttributeError as e:
-        logger.error('Cannot validate request against CV because sections are invalid.')
+        logger.error('Cannot validate request against CV because sections are invalid')
         valid = False
     except CVPathError as e:
         logger.error(e.args[0])
