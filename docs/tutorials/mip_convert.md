@@ -262,12 +262,13 @@ This is usually only used for polar row masking in NEMO & CICE output
 
 ### **halo_removal**
 
-The optional `halo removal` section is used if for a particular stream the data needs to be stripped.
+The optional `halo removal` section is used if for a particular stream haloes are to be removed.
 
 !!! example
     ```config
     [halo_removal]
     stream_apa: 5:,:-10
+    stream_ap6: 20:-15
     ```
 
 
