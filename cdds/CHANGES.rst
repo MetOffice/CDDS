@@ -3,6 +3,16 @@
 
 .. include:: common.txt
 
+Release 3.0.2, September 27, 2024
+=================================
+* Return the move_in_mass script for approved variables file (CDDSPO-523)
+* Recognise hourly data and submonthly data by getting the frequnency  of a stream from the plugins (CDDSO-512)
+* If data is already there, do not try to extract data twice (CDDSO-515)
+* Overload model parameters file correctly when reading request file (CDDSO-508)
+* Add option to remove halo columns and rows (CDDSO-521)
+* Fix parsing of filename facet for CORDEX in QC (CDDSO-519)
+* Fix checking time points in QC by checking the consistency of time coordinates frequncy and length in QC (CDDSO-517)
+
 Release 3.0.1, August 21, 2024
 ==============================
 * Verbose mode is not added as default option when running CDDS Convert workflow to avoid Cylc issue (CDDSO-490)
