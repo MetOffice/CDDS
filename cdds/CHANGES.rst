@@ -5,9 +5,9 @@
 
 Release 3.0.2, September 27, 2024
 =================================
-* Restored the approved variables file argument to the move_in_mass script (CDDSP-523)
-* Ensure that hourly data and submonthly data is correctly recognised by the CDDS
-  when running MIP Convert (CDDSO-512)
+* Restored the approved variables file argument to the move_in_mass script (CDDSO-523)
+* Ensure that hourly data and submonthly data is correctly recognised by CDDS when
+  running MIP Convert (CDDSO-512)
 * Prevent Extract tasks from failing when assessing moose command block size if some
   data is already present (CDDSO-515)
 * Correctly handle leap years (Gregorian calendar) during concatenation task (CDDSO-513)
