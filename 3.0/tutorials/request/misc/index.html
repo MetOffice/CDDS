@@ -1370,7 +1370,19 @@ request configuration.</p>
 <p>do not overwrite files in data directory defined by the common section in the request configuration.</p>
 <p><strong>Default:</strong> <code>False</code></p>
 </dd>
+<dt><code>halo_removal_latitude</code></dt>
+<dd>number of latitude points to be stripped using <code>&lt;start&gt;:&lt;stop&gt;</code> as the format.</dd>
+<dt><code>halo_removal_longitude</code></dt>
+<dd>number of longitude points to be stripped using <code>&lt;start&gt;:&lt;stop&gt;</code> as the format.</dd>
 </dl>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>Strip 5 points at the start and end for latitude and strip 10 points at the start and end
+for longitude:
+<div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">halo_removal_latitude = 5:-5</span>
+<span class="l l-Scalar l-Scalar-Plain">halo_removal_longitude = 10:-10</span>
+</code></pre></div></p>
+</div>
 <h2 id="examples">Examples</h2>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
@@ -1378,6 +1390,8 @@ request configuration.</p>
 <span class="l l-Scalar l-Scalar-Plain">atmos_timestep = 900</span>
 <span class="l l-Scalar l-Scalar-Plain">use_proc_dir = True</span>
 <span class="l l-Scalar l-Scalar-Plain">no_overwrite = False</span>
+<span class="l l-Scalar l-Scalar-Plain">halo_removal_latitude = 5:-5</span>
+<span class="l l-Scalar l-Scalar-Plain">halo_removal_longitude = 10:-10</span>
 </code></pre></div>
 </div>
 

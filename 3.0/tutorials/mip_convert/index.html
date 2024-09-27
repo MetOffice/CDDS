@@ -605,6 +605,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#halo_removal" class="md-nav__link">
+    halo_removal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#global_attributes" class="md-nav__link">
     global_attributes
   </a>
@@ -1506,6 +1513,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#halo_removal" class="md-nav__link">
+    halo_removal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#global_attributes" class="md-nav__link">
     global_attributes
   </a>
@@ -1684,6 +1698,10 @@ It contains the following sections, some of which are optional.</p>
 <tr>
 <td><code>[masking]</code></td>
 <td>Apply polar row masking if needed.</td>
+</tr>
+<tr>
+<td><code>[halo_removal]</code></td>
+<td>Apply stripping of halo columns and rows if needed.</td>
 </tr>
 <tr>
 <td><code>[global_attributes]</code></td>
@@ -2115,6 +2133,15 @@ This is usually only used for polar row masking in NEMO &amp; CICE output</p>
 <p class="admonition-title">Example</p>
 <div class="highlight"><pre><span></span><code>[masking]
 stream_inm_cice-T: -1:,180:
+</code></pre></div>
+</div>
+<h3 id="halo_removal"><strong>halo_removal</strong></h3>
+<p>The optional <code>halo removal</code> section is used if for a particular stream haloes are to be removed.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code>[halo_removal]
+stream_apa: 5:,:-10
+stream_ap6: 20:-15
 </code></pre></div>
 </div>
 <h3 id="global_attributes"><strong>global_attributes</strong></h3>
