@@ -5,10 +5,8 @@
 
 Release 3.0.2, September 27, 2024
 =================================
-* Handle leap years of Greogrian calendar during concatenation task (CDDSO-513)
-* Handle sub annual chunk size for files in concatenation setup task (CDDSO-504)
-* Add option to remove halo columns and rows (CDDSO-521)
-* Pass request configuration to MIP Convert wrapper (CDDSO-516)
+* Add functionality to remove halo columns and rows from atmosphere data (CDDSO-521)
+* Add Mappings for CP4A (CDDSO-515)
 
 Release 3.0.1, August 21, 2024
 ==============================
