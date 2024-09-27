@@ -3,6 +3,11 @@
 
 .. include:: common.txt
 
+Release 3.0.2, September 27, 2024
+=================================
+* Add functionality to remove halo columns and rows from atmosphere data (CDDSO-521)
+* Add Mappings for CP4A (CDDSO-515)
+
 Release 3.0.1, August 21, 2024
 ==============================
 * Separated test reference data by versions in MIP Convert functional tests (CDDSO-400)

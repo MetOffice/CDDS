@@ -3,6 +3,21 @@
 
 .. include:: common.txt
 
+Release 3.0.2, September 27, 2024
+=================================
+* Restored the approved variables file argument to the move_in_mass script (CDDSO-523)
+* Ensure that hourly data and submonthly data is correctly recognised by CDDS when
+  running MIP Convert (CDDSO-512)
+* Prevent Extract tasks from failing when assessing moose command block size if some
+  data is already present (CDDSO-515)
+* Correctly handle leap years (Gregorian calendar) during concatenation task (CDDSO-513)
+* Correctly handle sub annual chunk size for files in concatenation setup task (CDDSO-504)
+* Correctly overload model parameters file when reading request file (CDDSO-508)
+* Add functionality to remove halo columns and rows from atmosphere data (CDDSO-521)
+* Correct parsing of filename facet for CORDEX in QC (CDDSO-519)
+* Ensure clear checking of time coordinate in QC with the corresponding frequency and
+  length in QC (CDDSO-517)
+
 Release 3.0.1, August 21, 2024
 ==============================
 * Verbose mode is not added as default option when running CDDS Convert workflow to avoid Cylc issue (CDDSO-490)
