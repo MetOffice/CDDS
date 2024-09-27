@@ -5,13 +5,18 @@
 
 Release 3.0.2, September 27, 2024
 =================================
-* Return the move_in_mass script for approved variables file (CDDSPO-523)
-* Recognise hourly data and submonthly data by getting the frequnency  of a stream from the plugins (CDDSO-512)
-* If data is already there, do not try to extract data twice (CDDSO-515)
-* Overload model parameters file correctly when reading request file (CDDSO-508)
-* Add option to remove halo columns and rows (CDDSO-521)
-* Fix parsing of filename facet for CORDEX in QC (CDDSO-519)
-* Fix checking time points in QC by checking the consistency of time coordinates frequncy and length in QC (CDDSO-517)
+* Restored the approved variables file argument to the move_in_mass script (CDDSP-523)
+* Ensure that hourly data and submonthly data is correctly recognised by the CDDS
+  when running MIP Convert (CDDSO-512)
+* Prevent Extract tasks from failing when assessing moose command block size if some
+  data is already present (CDDSO-515)
+* Correctly handle leap years (Gregorian calendar) during concatenation task (CDDSO-513)
+* Correctly handle sub annual chunk size for files in concatenation setup task (CDDSO-504)
+* Correctly overload model parameters file when reading request file (CDDSO-508)
+* Add functionality to remove halo columns and rows from atmosphere data (CDDSO-521)
+* Correct parsing of filename facet for CORDEX in QC (CDDSO-519)
+* Ensure clear checking of time coordinate in QC with the corresponding frequency and
+  length in QC (CDDSO-517)
 
 Release 3.0.1, August 21, 2024
 ==============================
