@@ -46,35 +46,35 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
     try:
         MetadataSection.from_config(request_config)
     except AttributeError as e:
-        logger.error('Metadata section is invalid.', e.args[0])
+        logger.error('Metadata section is invalid: {}'.format(e.args[0]))
         valid = False
         messages.append(e.args[0])
 
     try:
         CommonSection.from_config(request_config)
     except AttributeError as e:
-        logger.error('Common section is invalid.', e.args[0])
+        logger.error('Common section is invalid: {}'.format(e.args[0]))
         valid = False
         messages.append(e.args[0])
 
     try:
         DataSection.from_config(request_config)
     except AttributeError as e:
-        logger.error('Data section is invalid.', e.args[0])
+        logger.error('Data section is invalid: {}'.format(e.args[0]))
         valid = False
         messages.append(e.args[0])
 
     try:
         InventorySection.from_config(request_config)
     except AttributeError as e:
-        logger.error('Inventory section is invalid.', e.args[0])
+        logger.error('Inventory section is invalid: {}'.format(e.args[0]))
         valid = False
         messages.append(e.args[0])
 
     try:
         MiscSection.from_config(request_config)
     except AttributeError as e:
-        logger.error('misc section is invalid.', e.args[0])
+        logger.error('Misc section is invalid: {}'.format(e.args[0]))
         valid = False
         messages.append(e.args[0])
 
@@ -92,7 +92,7 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
         valid = False
         messages.append(e.args[0])
     except CVEntryError as e:
-        logger.error('Failed to pass against CV.', e.args[0])
+        logger.error('Failed to pass against CV: {}'.format(e.args[0]))
         valid = False
         messages.append(e.args[0])
 
