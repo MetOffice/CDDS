@@ -37,7 +37,7 @@ def conversion_defaults() -> Dict[str, Any]:
         skip_archive = True
 
     # Retrieve default workflow branch name from environment
-    cdds_workflow_branch = os.environ.get('CDDS_CONVERT_WORKFLOW_BRANCH', 'trunk')
+    cdds_workflow_branch = os.environ.get('CDDS_CONVERT_WORKFLOW_BRANCH', '')
     return {
         'cdds_workflow_branch': cdds_workflow_branch,
         'no_email_notifications': True,

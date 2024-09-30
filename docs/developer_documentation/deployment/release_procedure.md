@@ -59,7 +59,6 @@ where `<release_version>` is e.g. `1.0`.
     There is no release process defined for the new documentations. Please, speak with Jared and Matthew how to release the documentations.
 
 - [x] If releasing a new minor version of CDDS, e.g. `2.1.0`, update the development environment name in `setup_env_for_devel` to point to the new version, e.g. `cdds-2.1_dev`.
-- [x] Update the default CDDS Convert suite value in the conversion section of the request configuration
 - [x] Ensure that:
     -  All changes  since the last release have been described in the relevant `CHANGES.rst` files. These should be added as a separate commit to allow 
        cherry picking onto main later
