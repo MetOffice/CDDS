@@ -17,8 +17,8 @@ class MappingPlugin(object, metaclass=ABCMeta):
     All plugins must implement this interface, otherwise the plugin will not be supported.
     """
 
-    def __init__(self, model_id):
-        self._model_id = model_id
+    def __init__(self, model_ids):
+        self._model_ids = model_ids
 
     def is_responsible(self, model_id: str) -> bool:
         """
@@ -29,7 +29,7 @@ class MappingPlugin(object, metaclass=ABCMeta):
         :return: True if the plugin is responsible otherwise false
         :rtype: bool
         """
-        return self._model_id == model_id
+        return model_id in self._model_ids
 
     @abstractmethod
     def load(self) -> None:

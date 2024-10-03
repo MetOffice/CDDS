@@ -18,7 +18,7 @@ class TestLoadHadGEM3MappingPlugin(TestCase):
         PluginStore.clean_instance()
 
     def test_load_hadgem3_mapping_plugin(self):
-        load_plugin('HadGEM3')
+        load_plugin('HadGEM3-GC31-LL')
         plugin = PluginStore.instance().get_plugin()
         self.assertIsInstance(plugin, HadGEM3MappingPlugin)
 

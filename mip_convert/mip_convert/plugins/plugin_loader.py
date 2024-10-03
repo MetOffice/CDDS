@@ -46,6 +46,14 @@ def load_plugin(model_id: str, plugin_module_path: str = None, plugin_location: 
 
 
 def find_internal_plugin(model_id: str) -> MappingPlugin:
+    """
+    Finds the right internal plugin to load for given model
+
+    :param model_id: ID of the model
+    :type model_id: str
+    :return: Interal plugin responsible for given model
+    :rtype: MappingPlugin
+    """
     logger = logging.getLogger(__name__)
 
     for interal_plugin in INTERNAL_PLUGINS:
@@ -58,6 +66,14 @@ def find_internal_plugin(model_id: str) -> MappingPlugin:
 
 
 def load_external_plugin(model_id: str, plugin_module_path: str) -> None:
+    """
+    Loads the plugin for the model with given ID that is implemented in the module at given path.
+
+    :param model_id: The MIP era for that the plugin is responsible
+    :type model_id: str
+    :param plugin_module_path: Absolute path to the module that implemented the plugin
+    :type plugin_module_path: str
+    """
     logger = logging.getLogger(__name__)
     external_plugin = find_external_plugin(model_id, plugin_module_path)
 
@@ -72,6 +88,17 @@ def load_external_plugin(model_id: str, plugin_module_path: str) -> None:
 
 
 def find_external_plugin(model_id: str, plugin_module_path: str) -> MappingPlugin:
+    """
+    Search for the Mapping plugin that is responsible for given model and
+    is implemented in the module at given path.
+
+    :param model_id: The ID of the model
+    :type model_id: str
+    :param plugin_module_path: Absolute path to the module that implemented the plugin
+    :type plugin_module_path: str
+    :return: The plugin for given model implemented in given module
+    :rtype: MappingPlugin
+    """
     logger = logging.getLogger(__name__)
     external_plugin = None
     plugin_module = importlib.import_module(plugin_module_path)
@@ -91,4 +118,12 @@ def find_external_plugin(model_id: str, plugin_module_path: str) -> MappingPlugi
 
 
 def is_plugin(anything: Any) -> bool:
+    """
+    Checks if given object is a Mapping plugin or not.
+
+    :param anything: Any object that should be checked if it is a Mapping plugin
+    :type anything: Any
+    :return: True if given object is a Mapping plugin, otherwise false.
+    :rtype: bool
+    """
     return inspect.isclass(anything) and not inspect.isabstract(anything) and issubclass(anything, MappingPlugin)
