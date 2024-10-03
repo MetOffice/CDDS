@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2024, Met Office.
 # Please see LICENSE.rst for license details.
 
 import re
@@ -72,7 +72,7 @@ class Cmip6Dataset(StructuredDataset):
         for cv in template_dict:
             try:
                 # test it against stored global attribute
-                attr = ds.getncattr(cv)
+                attr = self.global_attributes_cache.getncattr(cv, ds)
                 if attr != filename_parts[template_dict[cv]]:
                     valid_filename = False
                     messages.append(
@@ -91,7 +91,7 @@ class Cmip6Dataset(StructuredDataset):
         if len(member_id) > 1:
             # subexperiment_id is present
             try:
-                if ds.getncattr("sub_experiment_id") == "none":
+                if self.global_attributes_cache.getncattr("sub_experiment_id", ds) == "none":
                     messages.append(
                         "sub_experiment_id present in the filename but "
                         "missing in file's global attributes")
@@ -106,8 +106,8 @@ class Cmip6Dataset(StructuredDataset):
 
         else:
             # member_id should only contain variant_label
-            if (hasattr(ds, "sub_experiment_id") and
-                    ds.getncattr("sub_experiment_id") != "none"):
+            sub_exp_id = self.global_attributes_cache.getncattr("sub_experiment_id", ds, True)
+            if sub_exp_id is not None and sub_exp_id != "none":
                 messages.append(
                     "sub_experiment_id present in file's global attributes "
                     "but missing in the filename")
@@ -117,7 +117,7 @@ class Cmip6Dataset(StructuredDataset):
             valid_filename = False
             messages.append("Invalid variant_label {}".format(label_candidate))
         else:
-            variant_label = ds.getncattr("variant_label")
+            variant_label = self.global_attributes_cache.getncattr("variant_label", ds)
             if variant_label != label_candidate:
                 valid_filename = False
                 messages.append(
@@ -139,7 +139,7 @@ class Cmip6Dataset(StructuredDataset):
         if len(filename_parts) == 7:
             try:
                 _, _ = parse_date_range(filename_parts[6],
-                                        ds.getncattr("frequency"),
+                                        self.global_attributes_cache.getncattr("frequency", ds),
                                         self._request.metadata.calendar)
             except AttributeError:
                 messages.append(
@@ -177,9 +177,9 @@ class Cmip6Dataset(StructuredDataset):
                     'grid_label',
                 ]
                 try:
-                    file_index = '_'.join([ds.getncattr(x) for x in attrs])
+                    file_index = '_'.join([self.global_attributes_cache.getncattr(x, ds) for x in attrs])
                     try:
-                        var_name = ds.getncattr('variable_name')
+                        var_name = self.global_attributes_cache.getncattr('variable_name', ds)
                     except AttributeError:
                         # Following changes introduced #1052,
                         # the `variable_name` attribute is expected
@@ -189,7 +189,7 @@ class Cmip6Dataset(StructuredDataset):
                         # we try to replace it with `variable_id`
                         # when it's not present.
                         # Note that this mean some variables will not pass QC.
-                        var_name = ds.getncattr('variable_id')
+                        var_name = self.global_attributes_cache.getncattr('variable_id', ds)
                     if file_index not in variable_names:
                         variable_names[file_index] = var_name
 

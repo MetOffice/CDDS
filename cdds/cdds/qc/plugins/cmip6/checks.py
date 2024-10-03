@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2024, Met Office.
 # Please see LICENSE.rst for license details.
 from netCDF4 import Dataset
 from typing import List, Dict, Any
@@ -173,7 +173,7 @@ class CVAttributesCheckTask(CheckTask):
         try:
             if nc_name is None:
                 nc_name = collection
-            item = netcdf_file.getncattr(nc_name)
+            item = self._cache.global_attributes.getncattr(nc_name, netcdf_file)
             if relaxed:
                 return
             if sep is not None:

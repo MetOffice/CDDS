@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2024, Met Office.
 # Please see LICENSE.rst for license details.
 
 import os
@@ -11,6 +11,7 @@ from cdds.common.mip_tables import MipTables
 from cdds.qc.plugins.cordex.checks import CordexAttributesCheckTask
 from cdds.qc.plugins.cordex.validators import CordexCVValidator
 from cdds.qc.plugins.base.common import CheckCache
+from cdds.qc.common import GlobalAttributesCache
 from cdds.tests.test_common.common import create_simple_netcdf_file
 from cdds.tests.test_qc.plugins.constants import (CORDEX_MIP_TABLES_DIR, CORDEX_CV_REPO, TMP_DIR_FOR_NETCDF_TESTS,
                                                   MINIMAL_CDL)
@@ -23,7 +24,7 @@ class TestCVAttributesCheckTask(TestCase):
         create_simple_netcdf_file(MINIMAL_CDL, self.nc_path)
         self.nc_file = Dataset(self.nc_path, 'a')
         mip_tables = MipTables(CORDEX_MIP_TABLES_DIR)
-        cache = CheckCache(MagicMock(), mip_tables, CordexCVValidator(CORDEX_CV_REPO))
+        cache = CheckCache(MagicMock(), mip_tables, CordexCVValidator(CORDEX_CV_REPO), GlobalAttributesCache())
         self.class_under_test = CordexAttributesCheckTask(cache)
         self.experiment_id = "a4SST"
 

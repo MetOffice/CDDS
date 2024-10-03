@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2024, Met Office.
 # Please see LICENSE.rst for license details.
 import numpy as np
 import re
@@ -23,6 +23,17 @@ class ControlledVocabularyValidator:
             Base directory of the repository location
         """
         self._cv = CVConfig(repo_location)
+        self._global_attribute_cache = None
+
+    def set_global_attributes_cache(self, global_attributes_cache):
+        """
+        Allows the validator to use global attributes caching
+
+        Parameters
+        ----------
+        global_attributes_cache: GlobalAttributesCache
+        """
+        self._global_attribute_cache = global_attributes_cache
 
     def conventions_validator(self):
         """
@@ -106,8 +117,7 @@ class ControlledVocabularyValidator:
         if not valid:
             raise ValidationError(message)
 
-    @staticmethod
-    def _does_not_exist_or_valid(allowed_values, attribute_name, input_data):
+    def _does_not_exist_or_valid(self, allowed_values, attribute_name, input_data):
         """
         Test for validity of an optional attribute. If the attribute
         is set, it also tests if the attribute value is valid by checking
@@ -124,14 +134,17 @@ class ControlledVocabularyValidator:
         """
         try:
             validate_func = ValidatorFactory.value_in_validator(allowed_values)
-            validate_func(getattr(input_data, attribute_name))
+            if self._global_attribute_cache is not None:
+                val = self._global_attribute_cache(attribute_name, input_data)
+            else:
+                val = getattr(input_data, attribute_name)
+            validate_func(val)
         except AttributeError:
             pass
         except ValidationError as e:
             raise ValidationError("Optional attribute '{}': {}".format(attribute_name, str(e)))
 
-    @staticmethod
-    def _exists_and_valid(allowed_values, attribute_name, input_data):
+    def _exists_and_valid(self, allowed_values, attribute_name, input_data):
         """
         Test for validity of a mandatory attribute. The attribute value of a
         mandatory attribute must be contained in the given allowed value list.
@@ -147,7 +160,11 @@ class ControlledVocabularyValidator:
         """
         try:
             validate_func = ValidatorFactory.value_in_validator(allowed_values)
-            validate_func(getattr(input_data, attribute_name))
+            if self._global_attribute_cache is not None:
+                val = self._global_attribute_cache(attribute_name, input_data)
+            else:
+                val = getattr(input_data, attribute_name)
+            validate_func(val)
         except AttributeError:
             raise AttributeError("Mandatory attribute '{}' missing".format(attribute_name))
         except ValidationError as e:

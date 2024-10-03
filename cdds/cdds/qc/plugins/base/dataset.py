@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2023, Met Office.
+# (C) British Crown Copyright 2017-2024, Met Office.
 # Please see LICENSE.rst for license details.
 
 import re
@@ -6,8 +6,8 @@ import os
 
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
-
 from cdds.qc.constants import DIURNAL_CLIMATOLOGY, EXCLUDE_DIRECTORIES_REGEXP, FREQ_DICT, MAX_FILESIZE, SECONDS_IN_DAY
+from cdds.qc.common import GlobalAttributesCache
 
 
 class StructuredDataset(object, metaclass=ABCMeta):
@@ -57,6 +57,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
         self._dataset = []
         self._aggregated = {}
         self._var_names = {}
+        self.global_attributes_cache = GlobalAttributesCache()
 
     @classmethod
     @abstractmethod
@@ -166,7 +167,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
                 time_axis[filepath] = nc_file.variables["time"][:].data
                 if "time_bnds" in nc_file.variables:
                     time_bnds[filepath] = nc_file.variables["time_bnds"][:].data
-                frequency_code = nc_file.getncattr("frequency")
+                frequency_code = self.global_attributes_cache.getncattr("frequency", nc_file)
                 if frequency_code == 'subhrPt':
                     if variable_id.startswith("rs") or variable_id.startswith("rl"):
                         # despite the frequency code, radiation variables are on hourly timepoints
@@ -178,7 +179,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
                     frequency = DIURNAL_CLIMATOLOGY
                     time_bnds[filepath] = nc_file.variables["climatology_bnds"][:].data
                 else:
-                    frequency = FREQ_DICT[nc_file.getncattr("frequency")]
+                    frequency = FREQ_DICT[self.global_attributes_cache.getncattr("frequency", nc_file)]
         if len(time_bnds.keys()) == 0:
             time_bnds = None
         return (time_axis, time_bnds, frequency)

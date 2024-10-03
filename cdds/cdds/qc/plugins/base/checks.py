@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2024, Met Office.
 # Please see LICENSE.rst for license details.
 from abc import ABCMeta, abstractmethod
 from netCDF4 import Dataset
@@ -50,7 +50,7 @@ class CheckTask(object, metaclass=ABCMeta):
 
     def _exists_and_valid(self, netcdf_file: Dataset, attr: str, validator: Callable) -> None:
         try:
-            validator(getattr(netcdf_file, attr))
+            validator(self._cache.global_attributes.getncattr(attr, netcdf_file))
         except AttributeError:
             self._messages.append("Mandatory attribute '{}' missing".format(attr))
         except ValidationError as e:
@@ -58,16 +58,15 @@ class CheckTask(object, metaclass=ABCMeta):
 
     def _does_not_exist_or_valid(self, netcdf_file: Dataset, attr: str, validator: Callable) -> None:
         try:
-            validator(getattr(netcdf_file, attr))
+            validator(self._cache.global_attributes.getncattr(attr, netcdf_file))
         except AttributeError:
             pass
         except ValidationError as e:
             self._messages.append("Optional attribute '{}': {}".format(attr, str(e)))
 
-    @staticmethod
-    def _has_parent(netcdf_file: Dataset) -> bool:
-        return (hasattr(netcdf_file, "parent_experiment_id")
-                and not netcdf_file.getncattr("parent_experiment_id") == "no parent")
+    def _has_parent(self, netcdf_file: Dataset) -> bool:
+        parent_experiment_id = self._cache.global_attributes.getncattr("parent_experiment_id", netcdf_file, True)
+        return (parent_experiment_id is not None and parent_experiment_id != "no parent")
 
 
 class StringAttributesCheckTask(CheckTask):
@@ -92,7 +91,8 @@ class StringAttributesCheckTask(CheckTask):
 
         if self.relaxed_cmor:
             string_dict = {
-                "institution": validator.institution_validator(getattr(netcdf_file, "institution_id")),
+                "institution": validator.institution_validator(self._cache.global_attributes.getncattr(
+                    "institution_id", netcdf_file)),
                 "creation_date": ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ", "gregorian"),
                 "license": ValidatorFactory.value_in_validator([self._cache.request.metadata.license.strip()]),
                 "mip_era": ValidatorFactory.value_in_validator([self._cache.request.metadata.mip_era]),
@@ -101,8 +101,10 @@ class StringAttributesCheckTask(CheckTask):
             }
         else:
             string_dict = {
-                "experiment": validator.experiment_validator(getattr(netcdf_file, "experiment_id")),
-                "institution": validator.institution_validator(getattr(netcdf_file, "institution_id")),
+                "experiment": validator.experiment_validator(self._cache.global_attributes.getncattr("experiment_id",
+                                                                                                     netcdf_file)),
+                "institution": validator.institution_validator(self._cache.global_attributes.getncattr("institution_id",
+                                                                                                       netcdf_file)),
                 "Conventions": self._cache.cv_validator.conventions_validator(),
                 "creation_date": ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ", "gregorian"),
                 "data_specs_version": ValidatorFactory.value_in_validator([self._cache.mip_tables.version]),
@@ -187,7 +189,7 @@ class VariableAttributesCheckTask(CheckTask):
     def _validate_external_variables(self, netcdf_file: Dataset, external: List[str]) -> None:
         try:
             validator = ValidatorFactory.multivalue_in_validator(external)
-            validator(getattr(netcdf_file, "external_variables"))
+            validator(self._cache.global_attributes.getncattr("external_variables", netcdf_file))
         except AttributeError:
             if len(external) > 0:
                 self._messages.append("attribute 'external_variables' is missing")
