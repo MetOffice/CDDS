@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2023, Met Office.
+# (C) British Crown Copyright 2017-2024, Met Office.
 # Please see LICENSE.rst for license details.
 
 """
@@ -42,6 +42,9 @@ class CMIP6Check(BaseNCCheck):
         if self.__cache.mip_tables is None:
             self.update_mip_tables_cache(kwargs["config"]["mip_tables_dir"])
         self.relaxed_cmor = kwargs["config"]["relaxed_cmor"]
+        if self.__cache.global_attributes is None:
+            self.__cache.global_attributes = kwargs["config"]["global_attributes_cache"]
+            self.__cache.cv_validator.set_global_attributes_cache(self.__cache.global_attributes)
 
     def setup(self, netcdf_file):
         pass
@@ -56,7 +59,7 @@ class CMIP6Check(BaseNCCheck):
 
     @classmethod
     def update_cv_valdiator(cls, cv_location):
-        cls.__cache.cv_validator = Cmip6CVValidator(cv_location)
+        cls.__cache.cv_validator = Cmip6CVValidator(cv_location, cls.__cache.global_attributes)
 
     @classmethod
     def update_mip_tables_cache(cls, mip_tables_dir):
@@ -127,7 +130,7 @@ class CMIP6Check(BaseNCCheck):
         # populate attribute dictionary with values
         for attr_key in attr_dict:
             try:
-                attr_dict[attr_key] = netcdf_file.getncattr(attr_key)
+                attr_dict[attr_key] = self.__cache.global_attributes.getncattr(attr_key, netcdf_file)
             except AttributeError as e:
                 self._add_error_message("Cannot retrieve global attribute {}".format(attr_key))
         return attr_dict

@@ -122,16 +122,19 @@ class QCRunner(object):
                 "mip_tables_dir": mip_tables_dir,
                 "cv_location": cv_location,
                 "request": request,
-                "relaxed_cmor": self.relaxed_cmor
+                "relaxed_cmor": self.relaxed_cmor,
+                "global_attributes_cache": self.dataset.global_attributes_cache
             },
             "cf17": {
                 "standard_names_version": request.common.standard_names_version,
-                "standard_names_dir": request.common.standard_names_dir
+                "standard_names_dir": request.common.standard_names_dir,
+                "global_attributes_cache": self.dataset.global_attributes_cache
             },
             "cordex": {
                 "mip_tables_dir": mip_tables_dir,
                 "cv_location": cv_location,
-                "request": request
+                "request": request,
+                "global_attributes_cache": self.dataset.global_attributes_cache
             }
         }
         for checker_key in conf.keys():

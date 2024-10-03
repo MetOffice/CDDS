@@ -3,10 +3,50 @@
 
 import metomi.isodatetime.parsers as parse
 from metomi.isodatetime.data import Calendar, Duration, TimePoint, get_is_leap_year
+from netCDF4 import Dataset
 
 """
 Common routines for CDDS CF checker
 """
+
+
+class GlobalAttributesCache:
+    """
+    A container class for storing global attributes of a netCDF4 file.
+    """
+    def __init__(self):
+        self._cache = {}
+
+    def getncattr(self, attrname: str, ncfile: Dataset, check_existence: bool = False) -> str | None:
+        """
+        A replacement for the getncattr method of the netCDF4.Dataset class, caches the attribute value.
+        If check_existence flag is set to True, missing attribute will not raise and Exception, and None
+        will be returned instead.
+
+        Parameters
+        ----------
+        attrname : str
+            Name of the attribute
+        ncfile : Dataset
+            Opened netCDF4 file
+        check_existence : bool
+            Whether perform hasattr test first. Default is False, and missing attributes will raise
+            an exception.
+
+        Returns
+        -------
+            : str | None
+             Attribute value.
+        """
+        ncpath = ncfile.filepath()
+        if ncpath not in self._cache:
+            self._cache[ncpath] = {}
+        if attrname not in self._cache[ncpath]:
+            if check_existence and not hasattr(ncfile, attrname):
+                self._cache[ncpath][attrname] = None
+            else:
+                self._cache[ncpath][attrname] = ncfile.getncattr(attrname)
+        return self._cache[ncpath][attrname]
 
 
 class NoDataForQualityCheck(Exception):
