@@ -8,7 +8,7 @@ from mip_convert.plugins.plugins import MappingPlugin
 
 class HadGEM3MappingPlugin(MappingPlugin):
     """
-    Plugin for HadRem3 models
+    Plugin for HadGem3 models
     """
 
     def __init__(self):
@@ -22,6 +22,6 @@ class HadGEM3MappingPlugin(MappingPlugin):
 
     def load(self) -> None:
         """
-        Loads the data for the HadRem3 plugin
+        Loads the data for the HadGem3 plugin
         """
         pass
