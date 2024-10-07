@@ -55,6 +55,8 @@ nav:
     - Plugins:
         - Available Plugins: developer_documentation/plugins/available_plugins.md
         - Plugin Framework: developer_documentation/plugins/plugin_framework.md
+    - Mapping Plugins:
+        - Mapping Plugin Framework: developer_documentation/mapping/mapping_plugin_framework.md
   - CDDS Components:
     - cdds_components/index.md
     - convert: cdds_components/convert.md
