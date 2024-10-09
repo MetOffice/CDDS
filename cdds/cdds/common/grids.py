@@ -207,6 +207,7 @@ def default_grid_ids():
     Return the default grid identifiers.
     """
     return {
+        '1hr': ('atmos', 'native'),
         '3hr': ('atmos', 'native'),
         '6hr': ('atmos', 'native'),
         '6hrLev': ('atmos', 'native'),
