@@ -110,7 +110,7 @@ class CordexCheck(BaseNCCheck):
         # populate attribute dictionary with values
         for attr_key in attr_dict:
             try:
-                attr_dict[attr_key] = self.global_attributes_cache.getncattr(attr_key, netcdf_file)
+                attr_dict[attr_key] = self.__cache.global_attributes.getncattr(attr_key, netcdf_file)
             except AttributeError as e:
                 self._add_error_message("Cannot retrieve global attribute {}".format(attr_key))
         return attr_dict
