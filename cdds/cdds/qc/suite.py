@@ -1,7 +1,9 @@
 # (C) British Crown Copyright 2018-2021, Met Office.
 # Please see LICENSE.rst for license details.
 
+import logging
 import sys
+import traceback
 from collections import defaultdict
 from compliance_checker.runner import CheckSuite
 
@@ -62,6 +64,7 @@ class QCSuite(CheckSuite):
         Returns a dictionary mapping checker names to a 2-tuple of their
         grouped scores and errors/exceptions while running checks.
         """
+        logger = logging.getLogger(__name__)
 
         ret_val = {}
         checkers = self._get_valid_checkers(ds, checker_names)
@@ -88,6 +91,7 @@ class QCSuite(CheckSuite):
                 try:
                     vals.extend(self._run_check(c, ds, max_level))
                 except Exception as e:
+                    logger.critical(traceback.format_exc())
                     errs[c.__func__.__name__] = (e, sys.exc_info()[2])
             # score the results we got back
             groups = self.scores(vals)
