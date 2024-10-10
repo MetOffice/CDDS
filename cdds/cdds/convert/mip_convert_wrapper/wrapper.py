@@ -174,7 +174,8 @@ def run_mip_convert_wrapper():
                                 plugin_id,
                                 request.common.external_plugin,
                                 request.common.external_plugin_location,
-                                request.common.is_relaxed_cmor())
+                                request.common.is_relaxed_cmor(),
+                                request.common.slicing)
 
     # If exit code is 2 then MIP Convert has run, but hasn't been able to do
     # everything asked of it. The CDDS approach to this is to continue on

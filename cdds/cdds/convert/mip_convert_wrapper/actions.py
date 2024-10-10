@@ -75,7 +75,7 @@ def manage_logs(stream, component, mip_convert_config_dir,
 
 
 def run_mip_convert(stream, dummy_run, timestamp, user_config_template_name,
-                    mip_convert_log, plugin_id, external_plugin, external_plugin_path, relaxed_cmor):
+                    mip_convert_log, plugin_id, external_plugin, external_plugin_path, relaxed_cmor, slicing):
     """
     Run MIP Convert, or perform dummy_run if specified, and update logs.
 
@@ -98,6 +98,8 @@ def run_mip_convert(stream, dummy_run, timestamp, user_config_template_name,
         Module path to the external plugin if some is provided.
     external_plugin_path: str
         Path to the external plugin location if some is provided.
+    slicing: str
+        Slice size.
 
     Returns
     -------
@@ -114,14 +116,16 @@ def run_mip_convert(stream, dummy_run, timestamp, user_config_template_name,
     plugin_option = '--external_plugin {}'.format(external_plugin) if external_plugin else ''
     plugin_path_option = '--external_plugin_location {}'.format(external_plugin_path) if external_plugin_path else ''
     relaxed_cmor_option = '--relaxed_cmor' if relaxed_cmor else ''
+    slicing_option = '--slicing {}'.format(slicing) if slicing else ''
 
     cmd = ('/usr/bin/time -v mip_convert {cfg_file} -a -s {stream} '
            '-l {log_name} --datestamp {datestamp} --plugin_id {plugin_id} {plugin_option} {plugin_path_option} '
-           '{relaxed_cmor_option}'
+           '{relaxed_cmor_option} {slicing_option}'
            ''.format(cfg_file=mip_convert_cfg, stream=stream,
                      log_name=mip_convert_log, datestamp=timestamp,
                      plugin_id=plugin_id, plugin_option=plugin_option,
-                     plugin_path_option=plugin_path_option, relaxed_cmor_option=relaxed_cmor_option))
+                     plugin_path_option=plugin_path_option, relaxed_cmor_option=relaxed_cmor_option,
+                     slicing_option=slicing_option))
     logger.info('Command to execute: {}'.format(cmd))
     if dummy_run:
         logger.info('Performing dummy run')

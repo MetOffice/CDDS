@@ -55,6 +55,7 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
         'standard_names_dir': standard_names_dir,
         'standard_names_version': 'latest',
         'simulation': False,
+        'slicing': 'year',
         'workflow_basename': workflow_basename
     }
 
@@ -80,6 +81,7 @@ class CommonSection(Section):
     standard_names_version: str = ''
     standard_names_dir: str = ''
     simulation: bool = False
+    slicing: str = ''
     log_level: str = 'INFO'
 
     def __post_init__(self):

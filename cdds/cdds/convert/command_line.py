@@ -75,7 +75,11 @@ def parse_args_cdds_convert() -> Tuple[ConvertArguments, Request]:
                         nargs='*',
                         help='Restrict processing suites to only to these streams.'
                         )
-
+    parser.add_argument('--slicing',
+                        help='Processing slice size.',
+                        default='',
+                        type=str,
+                        )
     args = parser.parse_args()
     request = read_request(args.request)
 

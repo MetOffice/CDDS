@@ -111,6 +111,10 @@ def parse_parameters(args):
                         help='If specified, CMIP6 style validation is not performed by CMOR.',
                         action='store_true'
                         )
+    parser.add_argument('--slicing',
+                        default='year',
+                        type=str,
+                        help='Processing slice size')
     parser.set_defaults(log_level=LOG_LEVEL)
 
     log_level_group = parser.add_mutually_exclusive_group()
