@@ -222,6 +222,8 @@ dependencies:
     - mkdocs-section-index==0.3.8
 variables:
   CDDS_ETC: /home/h03/cdds/etc
+  CDDS_PROCESSING_WORKFLOW_BRANCH: trunk
+  CDDS_CONVERT_WORKFLOW_BRANCH: trunk
   CYLC_VERSION: 8
   LC_ALL: en_GB.UTF-8
   TZ: UTC

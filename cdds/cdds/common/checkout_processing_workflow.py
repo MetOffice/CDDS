@@ -189,12 +189,13 @@ def parse_args(arguments: Union[list, None]) -> argparse.Namespace:
     parser.add_argument(
         "request_path",
         default=None,
-        help="Either, a path to a request.cfg file, or directory containing request*.cfg files",
+        help="Either, a path to a request.cfg file, or directory containing request*.cfg files.",
     )
     parser.add_argument(
         "--branch_name",
         default=default_branch,
-        help="Use an alternative branch.",
+        help="Use an alternative branch. "
+             "The default branch is set in the CDDS_PROCESSING_WORKFLOW_BRANCH environment variable.",
     )
     parser.add_argument(
         "--workflow_destination",
