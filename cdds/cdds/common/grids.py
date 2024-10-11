@@ -69,9 +69,9 @@ class Grid(object):
         """
         str: The description of the grid, see the CMIP6 CVs.
         """
-        template = 'Native {}{}; {}'
+        template = '{} {}{}; {}'
         return template.format(
-            self._model_info, self._extra_info, self._horizontal_grid_info)
+            self.grid_info.grid_description, self._model_info, self._extra_info, self._horizontal_grid_info)
 
     @property
     def _model_info(self):

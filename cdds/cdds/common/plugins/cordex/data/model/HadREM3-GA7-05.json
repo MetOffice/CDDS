@@ -49,7 +49,8 @@
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
         "atmosphere_rho_levels_86.txt"
-      ]
+      ],
+      "grid_description": ""
     },
     "ocean": {
       "model_info": "",

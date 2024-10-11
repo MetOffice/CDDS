@@ -183,6 +183,17 @@ class GridInfo(object, metaclass=ABCMeta):
         """
         pass
 
+    @property
+    @abstractmethod
+    def grid_description(self) -> str:
+        """
+        Returns the description that of the grid
+
+        :return: Grid description
+        :rtype: str
+        """
+        pass
+
     @abstractmethod
     def ancil_filenames(self) -> List[str]:
         """
