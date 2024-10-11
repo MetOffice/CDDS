@@ -224,7 +224,7 @@ def expected_test_minimal_inventory():
 
 def expected_test_minimal_conversion():
     return {
-        'cdds_workflow_branch': 'trunk',
+        'cdds_workflow_branch': '',
         'cylc_args': [],
         'model_params_dir': '',
         'no_email_notifications': True,

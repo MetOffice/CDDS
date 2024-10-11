@@ -71,6 +71,7 @@ class TestWriteRequest(TestCase):
     def tearDown(self) -> None:
         PluginStore.clean_instance()
 
+    @mock.patch.dict(os.environ, {'CDDS_CONVERT_WORKFLOW_BRANCH': 'trunk'})
     @mock.patch('cdds.common.request.data_section.datetime')
     def test_write_request(self, data_section_datetime_mock):
         self.maxDiff = None

@@ -32,7 +32,7 @@ The `conversion` in the request configuration contains settings that specify how
 `cdds_workflow_branch`
 :   branch of the CDDS suite that should be used.
 
-    **Default:** `trunk`, on Jasmin the latest CDDS relase branch, e.g. `cdds_jasmin_2.3`
+    **Default:** The value that is stored in the environment variable `CDDS_CONVERT_WORKFLOW_BRANCH`
 
 `cylc_args`
 :   arguments to be passed to cylc vip for the CDDS processing suite.
