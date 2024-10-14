@@ -196,7 +196,10 @@ class VariableAttributesCheckTask(CheckTask):
     def _validate_external_variables(self, netcdf_file: Dataset, external: List[str]) -> None:
         try:
             validator = ValidatorFactory.multivalue_in_validator(external)
-            validator(self._cache.global_attributes.getncattr("external_variables", netcdf_file))
+            if self._cache.global_attributes:
+                validator(self._cache.global_attributes.getncattr("external_variables", netcdf_file))
+            else:
+                self._messages.append("global attributes cache not populated. Check initialisation of CheckCache")
         except AttributeError:
             if len(external) > 0:
                 self._messages.append("attribute 'external_variables' is missing")

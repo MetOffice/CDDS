@@ -57,11 +57,11 @@ class TestVariableAttributesCheckTask(TestCase):
         attr_dict = {"table_id": "Amon", "variable_id": "rsut"}
         mip_tables = MipTables(os.path.join(MIP_TABLES_DIR, "for_functional_tests"))
         mip_tables._tables["Amon"]["rsut"]["standard_name"] = ""
-        cache = CheckCache(MagicMock(), mip_tables, ControlledVocabularyValidator(CV_REPO))
+        cache = CheckCache(MagicMock(), mip_tables, ControlledVocabularyValidator(CV_REPO), GlobalAttributesCache())
         self.class_under_test = VariableAttributesCheckTask(cache)
         self.class_under_test.execute(netcdf_file, attr_dict)
         self.maxDiff = None
-        self.assertListEqual(self.class_under_test._messages, ["attribute 'external_variables' is missing"])
+        self.assertListEqual(self.class_under_test._messages, [])
 
     def test_variable_inconsistent_metadata(self):
         create_simple_netcdf_file(INCONSISTENT_VARIABLE_METADATA_CDL, self.nc_path)
