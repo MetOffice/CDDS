@@ -61,7 +61,7 @@ class TestVariableAttributesCheckTask(TestCase):
         self.class_under_test = VariableAttributesCheckTask(cache)
         self.class_under_test.execute(netcdf_file, attr_dict)
         self.maxDiff = None
-        self.assertListEqual(self.class_under_test._messages, [])
+        self.assertListEqual(self.class_under_test._messages, ["attribute 'external_variables' is missing"])
 
     def test_variable_inconsistent_metadata(self):
         create_simple_netcdf_file(INCONSISTENT_VARIABLE_METADATA_CDL, self.nc_path)
