@@ -51,7 +51,7 @@ class TestConversionDefaults(TestCase):
 
         self.assertDictEqual(defaults, expected_defaults)
 
-    @mock.patch.dict(os.environ, {})
+    @mock.patch.dict(os.environ, {'CDDS_CONVERT_WORKFLOW_BRANCH': ''})
     @mock.patch('cdds.common.request.conversion_section.whereami')
     def test_defaults_for_metoffice_env_var_unset(self, whereami_mock):
         whereami_mock.return_value = Facility.MET_OFFICE

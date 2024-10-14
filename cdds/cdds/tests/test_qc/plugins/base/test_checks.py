@@ -57,7 +57,7 @@ class TestVariableAttributesCheckTask(TestCase):
         attr_dict = {"table_id": "Amon", "variable_id": "rsut"}
         mip_tables = MipTables(os.path.join(MIP_TABLES_DIR, "for_functional_tests"))
         mip_tables._tables["Amon"]["rsut"]["standard_name"] = ""
-        cache = CheckCache(MagicMock(), mip_tables, ControlledVocabularyValidator(CV_REPO))
+        cache = CheckCache(MagicMock(), mip_tables, ControlledVocabularyValidator(CV_REPO), GlobalAttributesCache())
         self.class_under_test = VariableAttributesCheckTask(cache)
         self.class_under_test.execute(netcdf_file, attr_dict)
         self.maxDiff = None
