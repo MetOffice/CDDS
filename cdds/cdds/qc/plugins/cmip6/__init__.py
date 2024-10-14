@@ -44,7 +44,7 @@ class CMIP6Check(BaseNCCheck):
         self.relaxed_cmor = kwargs["config"]["relaxed_cmor"]
         if self.__cache.global_attributes is None:
             self.__cache.global_attributes = kwargs["config"]["global_attributes_cache"]
-            self.__cache.cv_validator.set_global_attributes_cache(self.__cache.global_attributes)
+        self.__cache.cv_validator.set_global_attributes_cache(self.__cache.global_attributes)
 
     def setup(self, netcdf_file):
         pass
@@ -59,7 +59,7 @@ class CMIP6Check(BaseNCCheck):
 
     @classmethod
     def update_cv_valdiator(cls, cv_location):
-        cls.__cache.cv_validator = Cmip6CVValidator(cv_location, cls.__cache.global_attributes)
+        cls.__cache.cv_validator = Cmip6CVValidator(cv_location)
 
     @classmethod
     def update_mip_tables_cache(cls, mip_tables_dir):
