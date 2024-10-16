@@ -207,7 +207,9 @@ def default_grid_ids():
     Return the default grid identifiers.
     """
     return {
+        '1hr': ('atmos', 'native'),
         '3hr': ('atmos', 'native'),
+        '6hr': ('atmos', 'native'),
         '6hrLev': ('atmos', 'native'),
         '6hrPlev': ('atmos', 'native'),
         '6hrPlevPt': ('atmos', 'native'),
@@ -251,6 +253,7 @@ def default_grid_ids():
         'LImon': ('atmos', 'native'),
         'Lmon': ('atmos', 'native'),
         'LPmon': ('atmos', 'native'),
+        'mon': ('atmos', 'native'),
         'OBmon': ('ocean', 'native'),
         'OBmonLev': ('ocean', 'native'),
         'OP3hrPt': ('ocean', 'native'),
