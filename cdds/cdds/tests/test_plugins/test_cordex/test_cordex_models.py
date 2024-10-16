@@ -27,16 +27,16 @@ class TestModelsStore(TestCase):
         self.assertIsInstance(model_params, HadREM3_GA7_05_Params)
 
     def test_overload_values(self):
-        new_values = {'cycle_length': {'apa': 'P8Y'}}
+        new_values = {'cycle_length': {'ap6': 'P8Y'}}
         temp_dir = tempfile.mkdtemp()
         json_file = os.path.join(temp_dir, 'HadREM3-GA7-05.json')
         write_json(json_file, new_values)
 
         store = CordexModelStore.instance()
-        old_value = store.get('HadREM3-GA7-05').cycle_length('apa')
+        old_value = store.get('HadREM3-GA7-05').cycle_length('ap6')
 
         result = store.overload_params(temp_dir)
-        new_value = store.get('HadREM3-GA7-05').cycle_length('apa')
+        new_value = store.get('HadREM3-GA7-05').cycle_length('ap6')
 
         self.assertNotEqual(old_value, new_value)
         self.assertEqual(new_value, 'P8Y')
@@ -66,32 +66,32 @@ class TestModelParameters(TestCase):
 
     def test_no_data_loaded(self):
         self.model_params = HadREM3_GA7_05_Params()
-        self.assertRaises(KeyError, self.model_params.cycle_length, 'apa')
+        self.assertRaises(KeyError, self.model_params.cycle_length, 'ap6')
 
     def test_only_default_data_loaded(self):
-        self.model_params.cycle_length('apa')
+        self.model_params.cycle_length('ap6')
 
     def test_load_no_new_data(self):
         data = {}
         self.write_params_file(data)
-        old_value = self.model_params.cycle_length('apa')
+        old_value = self.model_params.cycle_length('ap6')
 
         self.model_params.load_parameters(self.model_params_dir)
-        new_value = self.model_params.cycle_length('apa')
+        new_value = self.model_params.cycle_length('ap6')
 
         self.assertEqual(new_value, old_value)
 
     def test_load_new_data(self):
         data = {
             'cycle_length': {
-                'apa': 'P10Y'
+                'ap6': 'P10Y'
             }
         }
         self.write_params_file(data)
-        old_value = self.model_params.cycle_length('apa')
+        old_value = self.model_params.cycle_length('ap6')
 
         self.model_params.load_parameters(self.model_params_dir)
-        new_value = self.model_params.cycle_length('apa')
+        new_value = self.model_params.cycle_length('ap6')
 
         self.assertNotEqual(new_value, old_value)
         self.assertEqual(new_value, 'P10Y')
@@ -107,9 +107,9 @@ class TestModelParameters(TestCase):
     def test_stream_file_info(self):
         stream_file_info = self.model_params.stream_file_info()
 
-        apa_file_info = stream_file_info.file_frequencies["apa"]
+        apa_file_info = stream_file_info.file_frequencies["ap6"]
         self.assertEqual(apa_file_info.frequency, "daily")
-        self.assertEqual(apa_file_info.stream, "apa")
+        self.assertEqual(apa_file_info.stream, "ap6")
 
     def write_params_file(self, data):
         json_file = os.path.join(self.model_params_dir, 'HadREM3-GA7-05.json')

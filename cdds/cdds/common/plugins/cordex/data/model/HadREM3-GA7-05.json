@@ -12,34 +12,52 @@
     ],
     "daily": [
       "apa",
-      "ap6"
+      "ap6",
+      "ap7",
+      "ap9"
     ]
   },
   "cycle_length": {
-    "apa": "P1Y",
-    "ap6": "P1Y"
+    "apm": "P1Y",
+    "ap6": "P1Y",
+    "ap7": "P1Y",
+    "ap9": "P1Y"
   },
   "memory": {
-    "apa": "32G",
-    "ap6": "32G"
+    "apm": "32G",
+    "ap6": "32G",
+    "ap7": "32G",
+    "ap9": "32G"
   },
   "temp_space": {
-    "apa": 131072,
-    "ap6": 131072
+    "apm": 131072,
+    "ap6": 131072,
+    "ap7": 131072,
+    "ap9": 131072
   },
   "sizing_info": {
+    "1hr": {
+      "default": 5
+    },
+    "6hr": {
+      "default": 5
+    },
     "day": {
       "default": 5
+    },
+    "mon": {
+      "default": 10
     }
   },
   "subdaily_streams": [
-    "apa"
+    "ap7",
+    "ap9"
   ],
   "grid_info": {
     "atmos": {
       "atmos_timestep": null,
       "model_info": "",
-      "nominal_resolution": "25 km",
+      "nominal_resolution": "",
       "longitude": null,
       "latitude": null,
       "v_latitude": null,
@@ -53,7 +71,7 @@
     },
     "ocean": {
       "model_info": "",
-      "nominal_resolution": "25 km",
+      "nominal_resolution": null,
       "longitude": null,
       "latitude": null,
       "levels": null,

@@ -11,35 +11,58 @@
       "ond"
     ],
     "daily": [
-      "apa"
+      "apa",
+      "ap6",
+      "ap7",
+      "ap9"
     ]
   },
   "cycle_length": {
-    "apa": "P1Y"
+    "apm": "P1Y",
+    "ap6": "P1Y",
+    "ap7": "P1Y",
+    "ap9": "P1Y"
   },
   "memory": {
-    "apa": "32G"
+    "apm": "32G",
+    "ap6": "32G",
+    "ap7": "32G",
+    "ap9": "32G"
   },
   "temp_space": {
-    "apa": 131072
+    "apm": 131072,
+    "ap6": 131072,
+    "ap7": 131072,
+    "ap9": 131072
   },
   "sizing_info": {
+    "1hr": {
+      "default": 5
+    },
+    "6hr": {
+      "default": 5
+    },
+    "day": {
+      "default": 5
+    },
+    "mon": {
+      "default": 10
+    }
   },
   "subdaily_streams": [
-    "apa"
+    "ap7",
+    "ap9"
   ],
   "grid_info": {
     "atmos": {
       "atmos_timestep": null,
-      "model_info": null,
-      "nominal_resolution": null,
+      "model_info": "",
+      "nominal_resolution": "",
       "longitude": null,
       "latitude": null,
       "v_latitude": null,
       "levels": null,
       "ancil_filenames": [
-        "qrparm.landfrac.pp",
-        "qrparm.soil.pp"
       ],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
@@ -47,18 +70,13 @@
       ]
     },
     "ocean": {
-      "model_info": null,
+      "model_info": "",
       "nominal_resolution": null,
       "longitude": null,
       "latitude": null,
       "levels": null,
       "replacement_coordinates_file": null,
       "ancil_filenames": [
-        "ocean_constants.nc",
-        "ocean_byte_masks.nc",
-        "ocean_basin.nc",
-        "diaptr_basin_masks.nc",
-        "ocean_zostoga.nc"
       ],
       "hybrid_heights_files": [],
       "masked": {
