@@ -15,6 +15,8 @@ import cf_units
 import cftime
 import iris
 from iris.time import PartialDateTime
+from iris.analysis.cartography import rotate_pole
+from iris.coord_systems import RotatedGeogCS
 from iris.util import guess_coord_axis
 import numpy as np
 
@@ -28,6 +30,7 @@ from mip_convert.process.constants import constants, other_constants
 from mip_convert.process.processors import *
 from mip_convert.constants import TIMESTEP, PREDEFINED_BOUNDS, OVERRIDE_AXIS_DIRECTION
 from mip_convert.variable import make_masked
+from mip_convert.process.common import rotate_cube
 
 
 class VariableMetadata(object):
@@ -361,6 +364,8 @@ class Variable(object):
         self._apply_mask()
         self._apply_removal()
         self._apply_expression()
+        # self._rotated_coords()
+        # TODO: Kerstin for regional models self._rotated_coords
         self._validate_cube()
         if self._time_coord:
             self._update_time_units()
@@ -450,6 +455,22 @@ class Variable(object):
         if fill_value is not None:
             self.cube.attributes['fill_value'] = fill_value
         self.logger.debug('{cube}'.format(cube=self.cube))
+
+    def _rotated_coords(self):
+        coord_system = self.cube.coord_system()
+        if isinstance(coord_system, RotatedGeogCS):
+            cube = rotate_cube(self.cube, coord_system)
+            grid_north_pole_latitude = coord_system.grid_north_pole_latitude
+            grid_north_pole_longitude = coord_system.grid_north_pole_longitude
+            latitude = self.cube.coord('grid_latitude')
+            longitude = self.cube.coord('grid_longitude')
+
+            rotated_lon, rotated_lat = rotate_pole(
+                latitude, longitude,
+                grid_north_pole_longitude, grid_north_pole_latitude
+            )
+            print(rotated_lon)
+            print(rotated_lat)
 
     def _validate_cube(self):
         self._validate_units()
