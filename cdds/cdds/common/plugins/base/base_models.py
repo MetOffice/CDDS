@@ -232,10 +232,13 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
             self._sizing.update(new_sizing_info)
 
             if new_grid_info:
-                self._grid_info[GridType.ATMOS] = AtmosBaseGridInfo(new_grid_info['atmos'])
-                self._grid_info[GridType.OCEAN] = OceanBaseGridInfo(new_grid_info['ocean'])
+                self._load_grid_info(new_grid_info)
             loaded = True
         return LoadResult(self._model_id.value, json_file, loaded)
+
+    def _load_grid_info(self, new_grid_info: Dict[str, Any]):
+        self._grid_info[GridType.ATMOS] = AtmosBaseGridInfo(new_grid_info['atmos'])
+        self._grid_info[GridType.OCEAN] = OceanBaseGridInfo(new_grid_info['ocean'])
 
     def _load_stream_file_info(self, json_parameters: Dict[str, Any]) -> None:
         file_frequencies: Dict[str, StreamFileFrequency] = {}

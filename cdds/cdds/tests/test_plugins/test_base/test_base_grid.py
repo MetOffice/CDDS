@@ -84,6 +84,9 @@ class TestOceanGridInfo(TestCase):
     def test_bounds_coordinates_with_incorrect_stream(self):
         self.assertRaises(RuntimeError, self.ocean_grid_info.bounds_coordinates, 'onm', 'grid-C')
 
+    def test_show_grid_description(self):
+        self.assertTrue(self.ocean_grid_info.show_grid_description)
+
 
 class TestAtmosGridInfo(TestCase):
     def setUp(self):
@@ -129,6 +132,9 @@ class TestAtmosGridInfo(TestCase):
     def test_atmos_timestep(self):
         atmos_timestep = self.atmos_grid_info.atmos_timestep
         self.assertEqual(atmos_timestep, 1200)
+
+    def test_show_grid_description(self):
+        self.assertTrue(self.atmos_grid_info.show_grid_description)
 
 
 if __name__ == '__main__':

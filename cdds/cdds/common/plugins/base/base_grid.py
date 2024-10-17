@@ -95,18 +95,6 @@ class BaseGridInfo(GridInfo, metaclass=ABCMeta):
         """
         return self._values['replacement_coordinates_file']
 
-    @property
-    def grid_description(self) -> str:
-        """
-        Returns the description that of the grid
-
-        :return: Grid description
-        :rtype: str
-        """
-        if 'grid_description' in self._values:
-            return self._values['grid_description']
-        return 'Native'
-
     def ancil_filenames(self) -> List[str]:
         """
         Returns the ancillary file names.
