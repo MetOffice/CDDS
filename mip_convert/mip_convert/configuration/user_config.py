@@ -104,6 +104,9 @@ def request_config():
         name='root_load_path', check_function=check_directory)
     config['reference_time'] = _get_config(
         'reference_time', section, python_type=str, default_value='none')
+    config['false_rotation'] = _get_config(
+        'false_rotation', section, python_type=bool, default_value=False
+    )
 
     return config
 

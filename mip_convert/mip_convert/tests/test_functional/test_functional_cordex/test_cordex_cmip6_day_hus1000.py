@@ -33,7 +33,8 @@ class TestCordexCmip6DayHus1000(AbstractFunctionalTests):
                     'ancil_files': '',
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '2022-01-01T00:00:00 2022-03-01T00:00:00',
-                    'suite_id': 'u-db737'
+                    'suite_id': 'u-db737',
+                    'false_rotation': True
                 },
                 streams={
                     'ap6': {'CORDEX-CMIP6_day': 'hus1000'}

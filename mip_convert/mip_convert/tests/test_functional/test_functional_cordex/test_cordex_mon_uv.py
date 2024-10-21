@@ -32,7 +32,8 @@ class TestCordexMonUv(AbstractFunctionalTests):
                 request={
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '2000-01-01T00:00:00 2000-03-01T00:00:00',
-                    'suite_id': 'u-ax977'
+                    'suite_id': 'u-ax977',
+                    'false_rotation': True
                 },
                 streams={
                     'apm': {'CORDEX-CMIP6_mon': 'uas vas'}

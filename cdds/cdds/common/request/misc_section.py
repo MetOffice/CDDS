@@ -32,7 +32,8 @@ def misc_defaults(model_id: str) -> Dict[str, Any]:
     return {
         'atmos_timestep': atmos_timestep,
         'use_proc_dir': True,
-        'no_overwrite': False
+        'no_overwrite': False,
+        'false_coordination_rotation': False
     }
 
 
@@ -47,6 +48,7 @@ class MiscSection(Section):
     no_overwrite: bool = False
     halo_removal_latitude: str = ''
     halo_removal_longitude: str = ''
+    false_coordination_rotation: bool = False
 
     def __post_init__(self):
         """
