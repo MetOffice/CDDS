@@ -49,6 +49,6 @@ class TestCordexMonUv(AbstractFunctionalTests):
             )
         )
 
-    #@pytest.mark.slow
+    @pytest.mark.slow
     def test_cordex_mon_uv(self):
         self.check_convert(relaxed_cmor=True)

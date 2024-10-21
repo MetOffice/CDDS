@@ -311,9 +311,10 @@ class PolePoint(object):
 
     TOLERANCE = 1.e-6
 
-    def __init__(self, lat, lon):
+    def __init__(self, lat, lon, rotated=None):
         self.lat = lat
         self.lon = self._normalise_lon(lon)
+        self.rotated = rotated
 
     def __eq__(self, other):
         return self._float_cmp(self.lat, other.lat) and self._float_cmp(self.lon, other.lon)
@@ -327,7 +328,10 @@ class PolePoint(object):
 
     @property
     def is_rotated(self):
-        return not self == UNROTATED_POLE
+        if self.rotated is None:
+            return not self == UNROTATED_POLE
+        else:
+            return self.rotated
 
     def _float_cmp(self, a, b):
         return abs(a - b) < self.TOLERANCE
@@ -336,7 +340,7 @@ class PolePoint(object):
         return ((lon + 180) % 360) - 180
 
 
-UNROTATED_POLE = PolePoint(90., 0.)
+UNROTATED_POLE = PolePoint(90., 0., None)
 
 
 class VerticesForField(object):

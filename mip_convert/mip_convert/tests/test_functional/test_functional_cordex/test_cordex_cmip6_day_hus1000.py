@@ -52,6 +52,6 @@ class TestCordexCmip6DayHus1000(AbstractFunctionalTests):
             )
         )
 
-    #@pytest.mark.slow
+    @pytest.mark.slow
     def test_cordex_cmip6_day_hus1000(self):
         self.check_convert(relaxed_cmor=True)
