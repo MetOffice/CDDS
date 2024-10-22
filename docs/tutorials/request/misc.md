@@ -27,7 +27,7 @@ The `misc` in the request configuration contains any settings that do not fit in
 :   number of longitude points to be stripped using `<start>:<stop>` as the format.
 
 `force_coordinate_rotation`
-:   flag to enable coordination rotation if coordination system is not rotated by default.
+:   Set to `True` to enable coordination rotation if coordination system is not rotated by default.
 
     **Default:** `False`
 
