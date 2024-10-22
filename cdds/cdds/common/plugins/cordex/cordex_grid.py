@@ -1,10 +1,13 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`cordex_grid` module contains the code required
 handle grid information for CORDEX models.
 """
-from cdds.common.plugins.grid import GridLabel
+from cdds.common.plugins.grid import GridLabel, GridType
+from cdds.common.plugins.base.base_grid import AtmosBaseGridInfo
+
+from typing import Any, Dict
 
 
 class CordexGridLabel(GridLabel):
@@ -44,3 +47,16 @@ class CordexGridLabel(GridLabel):
     UVGRID = 'uvgrid', 'gn', True
     UVGRID_ZONAL = 'uvgrid-zonal', 'gnz', True
     SITES = 'sites', 'gn', False
+
+
+class CordexAtmosBaseGridInfo(AtmosBaseGridInfo):
+    """
+    Stores the information for an atmosphere grid
+    """
+
+    def __init__(self, json: Dict[str, Any] = None) -> None:
+        super(AtmosBaseGridInfo, self).__init__(GridType.ATMOS, json)
+
+    @property
+    def show_grid_description(self) -> bool:
+        return False
