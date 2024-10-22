@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2022, Met Office.
+# (C) British Crown Copyright 2020-2024, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = no-member
 """
@@ -104,6 +104,9 @@ def request_config():
         name='root_load_path', check_function=check_directory)
     config['reference_time'] = _get_config(
         'reference_time', section, python_type=str, default_value='none')
+    config['force_coordinate_rotation'] = _get_config(
+        'force_coordinate_rotation', section, python_type=bool, default_value=False
+    )
 
     return config
 

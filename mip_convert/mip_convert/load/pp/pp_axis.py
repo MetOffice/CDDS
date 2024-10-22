@@ -603,7 +603,7 @@ class DatedPpHeader(object):
 
     def pole(self):
         if self.isRotated():
-            pole = PolePoint(self.bplat, self.bplon)
+            pole = PolePoint(self.bplat, self.bplon, True)
         else:
             pole = UNROTATED_POLE
         return pole

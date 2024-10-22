@@ -15,6 +15,8 @@ import cf_units
 import cftime
 import iris
 from iris.time import PartialDateTime
+from iris.analysis.cartography import rotate_pole, get_xy_grids, get_xy_contiguous_bounded_grids
+from iris.coord_systems import RotatedGeogCS, GeogCS
 from iris.util import guess_coord_axis
 import numpy as np
 
@@ -37,7 +39,8 @@ class VariableMetadata(object):
 
     def __init__(self, variable_name, stream_id, substream, mip_table_name, mip_metadata, site_information,
                  hybrid_height_information, replacement_coordinates, model_to_mip_mapping, timestep, run_bounds,
-                 calendar, base_date, deflate_level, shuffle, reference_time=None, masking=None, removal=None):
+                 calendar, base_date, deflate_level, shuffle, force_coordinate_rotation=False, reference_time=None,
+                 masking=None, removal=None):
         """
         Parameters
         ----------
@@ -97,6 +100,7 @@ class VariableMetadata(object):
         self.reference_time = reference_time
         self.masking = masking
         self.removal = removal
+        self.force_coordinate_rotation = force_coordinate_rotation
         self._validate_timestep()
 
     def _validate_timestep(self):
@@ -167,6 +171,7 @@ class Variable(object):
         self._matched_coords = []
         self._ordered_coords = []
         self._reference_time = self._variable_metadata.reference_time
+        self._force_coordinate_rotation = self._variable_metadata.force_coordinate_rotation
 
     @property
     def info(self):
@@ -361,6 +366,8 @@ class Variable(object):
         self._apply_mask()
         self._apply_removal()
         self._apply_expression()
+        if self._force_coordinate_rotation:
+            self._rotated_coords()
         self._validate_cube()
         if self._time_coord:
             self._update_time_units()
@@ -450,6 +457,15 @@ class Variable(object):
         if fill_value is not None:
             self.cube.attributes['fill_value'] = fill_value
         self.logger.debug('{cube}'.format(cube=self.cube))
+
+    def _rotated_coords(self):
+        cs = self.cube.coord_system()
+        if isinstance(cs, GeogCS):
+            rotated_cs = RotatedGeogCS(90., 0., ellipsoid=cs)
+            self.cube.coord('latitude').coord_system = rotated_cs
+            self.cube.coord('longitude').coord_system = rotated_cs
+            self.cube.coord('latitude').rename('grid_latitude')
+            self.cube.coord('longitude').rename('grid_longitude')
 
     def _validate_cube(self):
         self._validate_units()

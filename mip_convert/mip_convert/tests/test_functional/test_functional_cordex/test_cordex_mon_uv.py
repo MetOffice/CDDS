@@ -12,13 +12,13 @@ from mip_convert.tests.test_functional.utils.directories import (get_cmor_log, g
                                                                  ROOT_OUTPUT_CASES_DIR)
 
 
-class TestCordexCmip6DayHus1000(AbstractFunctionalTests):
+class TestCordexMonUv(AbstractFunctionalTests):
 
     def get_test_data(self):
-        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CORDEX-CMIP6_day_hus1000')
+        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CORDEX-CMIP6_mon_uv')
         return CordexTestData(
-            mip_table='day',
-            variables=['hus1000'],
+            mip_table='mon',
+            variables=['uv'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location
@@ -30,29 +30,26 @@ class TestCordexCmip6DayHus1000(AbstractFunctionalTests):
                     'output_dir': get_output_dir(test_location)
                 },
                 request={
-                    'ancil_files': '',
                     'model_output_dir': MODEL_OUTPUT_DIR,
-                    'run_bounds': '2022-01-01T00:00:00 2022-03-01T00:00:00',
-                    'suite_id': 'u-db737',
+                    'run_bounds': '2000-01-01T00:00:00 2000-03-01T00:00:00',
+                    'suite_id': 'u-ax977',
                     'force_coordinate_rotation': True
                 },
                 streams={
-                    'ap6': {'CORDEX-CMIP6_day': 'hus1000'}
+                    'apm': {'CORDEX-CMIP6_mon': 'uas vas'}
                 },
                 other={
                     'reference_version': 'v1',
                     'filenames': [
-                        'hus1000_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_'
-                        '20220101-20220230.nc',
+                        'uas_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_mon_200001-200002.nc',
+                        'vas_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_mon_200001-200002.nc'
                     ],
                     'ignore_history': True,
-                    'other_options': '-B',
-                    'tolerance_value': 0.0000001  # pyproj4 calculations for rotated grids are slightly off on Azure
-                                                  # so we added tiny tolerances to handle the differences
+                    'other_options': '-B'
                 }
             )
         )
 
     @pytest.mark.slow
-    def test_cordex_cmip6_day_hus1000(self):
+    def test_cordex_mon_uv(self):
         self.check_convert(relaxed_cmor=True)
