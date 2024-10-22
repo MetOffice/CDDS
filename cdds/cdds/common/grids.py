@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2022, Met Office.
+# (C) British Crown Copyright 2018-2024, Met Office.
 # Please see LICENSE.rst for license details.
 """
 The :mod:`grids` module contains the code required to handle
@@ -69,9 +69,12 @@ class Grid(object):
         """
         str: The description of the grid, see the CMIP6 CVs.
         """
-        template = 'Native {}{}; {}'
-        return template.format(
-            self._model_info, self._extra_info, self._horizontal_grid_info)
+        if self.grid_info.show_grid_description:
+            template = 'Native {}{}; {}'
+            return template.format(
+                self._model_info, self._extra_info, self._horizontal_grid_info)
+        else:
+            return ''
 
     @property
     def _model_info(self):

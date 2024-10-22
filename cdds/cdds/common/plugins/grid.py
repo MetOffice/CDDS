@@ -202,3 +202,7 @@ class GridInfo(object, metaclass=ABCMeta):
         :rtype: List[str]
         """
         pass
+
+    @property
+    def show_grid_description(self) -> bool:
+        return True
