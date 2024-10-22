@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2023, Met Office.
+# (C) British Crown Copyright 2018-2024, Met Office.
 # Please see LICENSE.rst for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = no-member
@@ -43,8 +43,13 @@ class TestMain(unittest.TestCase):
         current_dir = os.path.dirname(os.path.realpath(__file__))
         test_request_path = os.path.join(current_dir, '..', 'test_common', 'test_request', 'data', 'test_request.cfg')
         self.request = read_request(test_request_path)
-        self.request.common.root_proc_dir = os.path.join(self.temp_dir, 'proc_dir')
-        self.request_path = tempfile.mktemp(prefix='request_')
+        self.request.misc.use_proc_dir = True
+        _, self.request_path = tempfile.mkstemp(prefix='request_')
+        root_proc_dir = tempfile.mkdtemp(prefix='root_proc_')
+        root_data_dir = tempfile.mkdtemp(prefix='root_data_')
+        self.request.common.root_proc_dir = root_proc_dir
+        self.request.common.root_data_dir = root_data_dir
+        self.request.misc.force_coordinate_rotation = True
         self.request.write(self.request_path)
 
         self.output_dir_for_ucf = os.path.join(self.temp_dir, 'random_directory_name')
@@ -96,6 +101,7 @@ class TestMain(unittest.TestCase):
         self.sites_file = os.path.join(os.environ['CDDS_ETC'], 'cfmip2', 'cfmip2-sites-orog.txt')
         self.sub_experiment_id = 'none'
         self.suite_id = 'u-aw310'
+        self.force_coordinate_rotation = 'True'
         self.variant_label = 'r1i1p1f2'
         # User config:
         self.ancil_files = ' '.join(
@@ -154,12 +160,12 @@ class TestMain(unittest.TestCase):
             self.sub_experiment_id, self.variant_label)
         self.request_format = (
             '[request]\nancil_files = {}\nbase_date = {}\n'
-            'deflate_level = {}\nhybrid_heights_files = {}\n'
+            'deflate_level = {}\nforce_coordinate_rotation = {}\nhybrid_heights_files = {}\n'
             'model_output_dir = {}\nreplacement_coordinates_file = {}\n'
             'run_bounds = {}\nshuffle = {}\nsites_file = {}\n'
             'suite_id = {}\n\n')
         self.request_section = self.request_format.format(
-            self.ancil_files, self.base_date, self.deflate_level,
+            self.ancil_files, self.base_date, self.deflate_level, self.force_coordinate_rotation,
             self.hybrid_heights_files, self.model_output_dir,
             self.replacement_coordinates_file, self.run_bounds, self.shuffle,
             self.sites_file, self.suite_id)

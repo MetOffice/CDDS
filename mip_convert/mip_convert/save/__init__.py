@@ -110,6 +110,7 @@ class VariableAxes(object):
         self._axes_list = []
         self._pole = None
         self._grid = None
+        self._rotated = None
 
     @property
     def axes(self):
@@ -140,12 +141,14 @@ class VariableAxes(object):
             grid_mapping_name = None
             pole_lat = 90.
             pole_lon = 0.
+            rotated = False
             if hasattr(self._cube.coord_system(), 'grid_mapping_name'):
                 grid_mapping_name = self._cube.coord_system().grid_mapping_name
             if grid_mapping_name == 'rotated_latitude_longitude':
                 pole_lat = self._cube.coord_system().grid_north_pole_latitude
                 pole_lon = self._cube.coord_system().grid_north_pole_longitude
-        return PolePoint(pole_lat, pole_lon)
+                rotated = True
+        return PolePoint(pole_lat, pole_lon, rotated)
 
     @property
     def grid(self):

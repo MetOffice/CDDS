@@ -48,6 +48,7 @@ class TestVariableMetadata(unittest.TestCase):
         self.base_date = '1900-01-01T00:00:00'
         self.deflate_level = 7
         self.shuffle = True
+        self.force_coordinate_rotation = True
         self.variable_mip_metadata = variable_mip_metadata(self.variable_name, self.mip_axes_names)
         self.variable_model_to_mip_mapping = VariableModelToMIPMapping(
             self.variable_name, self.model_to_mip_mapping, self.model_id
@@ -68,6 +69,7 @@ class TestVariableMetadata(unittest.TestCase):
             'base_date': self.base_date,
             'deflate_level': self.deflate_level,
             'shuffle': self.shuffle,
+            'force_coordinate_rotation': self.force_coordinate_rotation
         }
         self.obj = get_variable_metadata(self.metadata)
 
@@ -122,6 +124,10 @@ class TestVariableMetadata(unittest.TestCase):
     def test_correct_shuffle(self):
         reference = self.shuffle
         self.assertEqual(self.obj.shuffle, reference)
+
+    def test_correct_force_coordinate_rotation(self):
+        reference = self.force_coordinate_rotation
+        self.assertEqual(self.obj.force_coordinate_rotation, reference)
 
     def test_expression_contains_timestep_but_no_value_provided(self):
         self.metadata['timestep'] = None
