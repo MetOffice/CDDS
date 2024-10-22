@@ -26,7 +26,7 @@ The `misc` in the request configuration contains any settings that do not fit in
 `halo_removal_longitude`
 :   number of longitude points to be stripped using `<start>:<stop>` as the format.
 
-`false_coordination_rotation`
+`force_coordinate_rotation`
 :   flag to enable coordination rotation if coordination system is not rotated by default.
 
     **Default:** `False`
@@ -49,5 +49,5 @@ The `misc` in the request configuration contains any settings that do not fit in
     no_overwrite = False
     halo_removal_latitude = 5:-5
     halo_removal_longitude = 10:-10
-    false_coordination_rotation = False
+    force_coordinate_rotation = False
     ```

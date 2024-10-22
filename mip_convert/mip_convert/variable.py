@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2009-2021, Met Office.
+# (C) British Crown Copyright 2009-2024, Met Office.
 # Please see LICENSE.rst for license details.
 '''
 A Variable is a key concept in the code. It is a multi-dimensional
@@ -312,6 +312,16 @@ class PolePoint(object):
     TOLERANCE = 1.e-6
 
     def __init__(self, lat, lon, rotated=None):
+        """
+        Initialise new class instance used to represent a pole point
+
+        :param lat: Latitude
+        :type lat: float
+        :param lon: longitude
+        :type lon: float
+        :param rotated: If the pole is rotated or not
+        :type rotated: bool
+        """
         self.lat = lat
         self.lon = self._normalise_lon(lon)
         self.rotated = rotated
@@ -320,14 +330,33 @@ class PolePoint(object):
         return self._float_cmp(self.lat, other.lat) and self._float_cmp(self.lon, other.lon)
 
     def units(self):
+        """
+        Returns the units of the pole point in a list
+
+        :return: List of units
+        :rtype: List[str]
+        """
         # duplication with axis classes?
         return ['degrees_north', 'degrees_east']
 
     def as_list(self):
+        """
+        Returns the latitude and longitude in a list:
+        [latitude, longitude]
+
+        :return: Latitude and longitude in a list
+        :rtype: List[float]
+        """
         return [self.lat, self.lon]
 
     @property
     def is_rotated(self):
+        """
+        Returns if the pole is rotated or not
+
+        :return: Pole is rotated or not
+        :rtype: bool
+        """
         if self.rotated is None:
             return not self == UNROTATED_POLE
         else:

@@ -46,7 +46,7 @@ class TestMiscDefaults(TestCase):
             'atmos_timestep': 1200,
             'use_proc_dir': True,
             'no_overwrite': False,
-            'false_coordination_rotation': False
+            'force_coordinate_rotation': False
         }
 
         defaults = misc_defaults(self.model_id)

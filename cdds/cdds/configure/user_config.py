@@ -132,7 +132,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
                 user_config['cmor_dataset']['output_file_template'] = output_file_template
             user_config['global_attributes'] = get_global_attributes(request)
             user_config['request']['suite_id'] = request.data.model_workflow_id
-            user_config['request']['false_rotation'] = request.misc.false_coordination_rotation
+            user_config['request']['force_coordinate_rotation'] = request.misc.force_coordinate_rotation
             if maskings:
                 user_config['masking'] = maskings
             if halo_removals:

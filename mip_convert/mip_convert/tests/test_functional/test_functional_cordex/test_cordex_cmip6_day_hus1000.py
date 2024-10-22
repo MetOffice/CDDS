@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2022, Met Office.
+# (C) British Crown Copyright 2022-2024, Met Office.
 # Please see LICENSE.rst for license details.
 import os
 
@@ -34,7 +34,7 @@ class TestCordexCmip6DayHus1000(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '2022-01-01T00:00:00 2022-03-01T00:00:00',
                     'suite_id': 'u-db737',
-                    'false_rotation': True
+                    'force_coordinate_rotation': True
                 },
                 streams={
                     'ap6': {'CORDEX-CMIP6_day': 'hus1000'}

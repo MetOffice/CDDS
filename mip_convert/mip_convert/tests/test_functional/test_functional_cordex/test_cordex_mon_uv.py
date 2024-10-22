@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2022, Met Office.
+# (C) British Crown Copyright 2022-2024, Met Office.
 # Please see LICENSE.rst for license details.
 import os
 
@@ -33,7 +33,7 @@ class TestCordexMonUv(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '2000-01-01T00:00:00 2000-03-01T00:00:00',
                     'suite_id': 'u-ax977',
-                    'false_rotation': True
+                    'force_coordinate_rotation': True
                 },
                 streams={
                     'apm': {'CORDEX-CMIP6_mon': 'uas vas'}

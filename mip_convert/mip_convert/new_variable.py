@@ -39,8 +39,8 @@ class VariableMetadata(object):
 
     def __init__(self, variable_name, stream_id, substream, mip_table_name, mip_metadata, site_information,
                  hybrid_height_information, replacement_coordinates, model_to_mip_mapping, timestep, run_bounds,
-                 calendar, base_date, deflate_level, shuffle, false_rotation=False, reference_time=None, masking=None,
-                 removal=None):
+                 calendar, base_date, deflate_level, shuffle, force_coordinate_rotation=False, reference_time=None,
+                 masking=None, removal=None):
         """
         Parameters
         ----------
@@ -100,7 +100,7 @@ class VariableMetadata(object):
         self.reference_time = reference_time
         self.masking = masking
         self.removal = removal
-        self.false_rotation = false_rotation
+        self.force_coordinate_rotation = force_coordinate_rotation
         self._validate_timestep()
 
     def _validate_timestep(self):
@@ -171,7 +171,7 @@ class Variable(object):
         self._matched_coords = []
         self._ordered_coords = []
         self._reference_time = self._variable_metadata.reference_time
-        self._false_rotation = self._variable_metadata.false_rotation
+        self._force_coordinate_rotation = self._variable_metadata.force_coordinate_rotation
 
     @property
     def info(self):
@@ -366,7 +366,7 @@ class Variable(object):
         self._apply_mask()
         self._apply_removal()
         self._apply_expression()
-        if self._false_rotation:
+        if self._force_coordinate_rotation:
             self._rotated_coords()
         self._validate_cube()
         if self._time_coord:

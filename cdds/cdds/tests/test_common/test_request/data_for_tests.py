@@ -96,7 +96,7 @@ def expected_test_misc():
         'no_overwrite': False,
         'halo_removal_latitude': '',
         'halo_removal_longitude': '',
-        'false_coordination_rotation': False
+        'force_coordinate_rotation': False
     }
 
 
@@ -213,7 +213,7 @@ def expected_test_minimal_misc():
         'use_proc_dir': True,
         'halo_removal_latitude': '',
         'halo_removal_longitude': '',
-        'false_coordination_rotation': False
+        'force_coordinate_rotation': False
     }
 
 
