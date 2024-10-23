@@ -42,6 +42,19 @@ class BaseGridInfo(GridInfo, metaclass=ABCMeta):
         return self._values['nominal_resolution']
 
     @property
+    def grid_description_prefix(self) -> str:
+        """
+        Returns the prefix of the description of the grid
+
+        :return: Prefix of the grid description
+        :rtype: str
+        """
+        if 'grid_description_prefix' in self._values:
+            return self._values['grid_description_prefix']
+        else:
+            return 'Native'
+
+    @property
     def longitude(self) -> int:
         """
         Returns the size of the longitude coordinate.

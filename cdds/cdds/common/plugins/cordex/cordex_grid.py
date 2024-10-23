@@ -47,16 +47,3 @@ class CordexGridLabel(GridLabel):
     UVGRID = 'uvgrid', 'gn', True
     UVGRID_ZONAL = 'uvgrid-zonal', 'gnz', True
     SITES = 'sites', 'gn', False
-
-
-class CordexAtmosBaseGridInfo(AtmosBaseGridInfo):
-    """
-    Stores the information for an atmosphere grid
-    """
-
-    def __init__(self, json: Dict[str, Any] = None) -> None:
-        super(AtmosBaseGridInfo, self).__init__(GridType.ATMOS, json)
-
-    @property
-    def show_grid_description(self) -> bool:
-        return False
