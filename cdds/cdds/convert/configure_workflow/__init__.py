@@ -8,7 +8,6 @@ from cdds.common.cdds_files.cdds_directories import update_log_dir
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request, read_request
 from cdds.convert.arguments import add_user_config_data_files, ConvertArguments
-from cdds.convert.common import expand_path
 from cdds.convert.configure_workflow.calculate_isodatetimes import CalculateISODatetimes
 from cdds.convert.configure_workflow.configure_suite_conf import ConfigureSuiteConf
 from cdds.convert.configure_workflow.stream_components import StreamComponents
