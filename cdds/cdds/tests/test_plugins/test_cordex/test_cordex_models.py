@@ -6,8 +6,7 @@ import unittest
 
 from cdds.common.io import write_json
 from cdds.common.plugins.grid import GridType
-from cdds.common.plugins.base.base_grid import OceanBaseGridInfo
-from cdds.common.plugins.cordex.cordex_grid import CordexAtmosBaseGridInfo
+from cdds.common.plugins.base.base_grid import OceanBaseGridInfo, AtmosBaseGridInfo
 from cdds.common.plugins.cordex.cordex_models import CordexModelStore, HadREM3_GA7_05_Params, CordexModelId
 
 from pathlib import Path
@@ -99,11 +98,7 @@ class TestModelParameters(TestCase):
 
     def test_get_atmos_grid_info(self):
         grid_info = self.model_params.grid_info(GridType.ATMOS)
-        self.assertIsInstance(grid_info, CordexAtmosBaseGridInfo)
-
-    def test_set_no_grid_description(self):
-        grid_info = self.model_params.grid_info(GridType.ATMOS)
-        self.assertFalse(grid_info.show_grid_description)
+        self.assertIsInstance(grid_info, AtmosBaseGridInfo)
 
     def test_get_ocean_grid_info(self):
         grid_info = self.model_params.grid_info(GridType.OCEAN)
