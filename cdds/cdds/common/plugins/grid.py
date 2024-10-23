@@ -114,6 +114,17 @@ class GridInfo(object, metaclass=ABCMeta):
 
     @property
     @abstractmethod
+    def grid_description_prefix(self) -> str:
+        """
+        Returns the prefix of the description of the grid
+
+        :return: Prefix of the grid description
+        :rtype: str
+        """
+        pass
+
+    @property
+    @abstractmethod
     def longitude(self) -> int:
         """
         Returns the size of the longitude coordinate.
@@ -202,7 +213,3 @@ class GridInfo(object, metaclass=ABCMeta):
         :rtype: List[str]
         """
         pass
-
-    @property
-    def show_grid_description(self) -> bool:
-        return True

@@ -10,8 +10,7 @@ from typing import Dict, Any
 
 from cdds.common.plugins.common import LoadResults
 from cdds.common.plugins.grid import GridType
-from cdds.common.plugins.base.base_grid import OceanBaseGridInfo
-from cdds.common.plugins.cordex.cordex_grid import CordexAtmosBaseGridInfo
+from cdds.common.plugins.base.base_grid import OceanBaseGridInfo, AtmosBaseGridInfo
 from cdds.common.plugins.base.base_models import BaseModelParameters, ModelId, BaseModelStore
 
 
@@ -41,7 +40,7 @@ class HadREM3_GA7_05_Params(BaseModelParameters):
         super(HadREM3_GA7_05_Params, self).__init__(CordexModelId.HadREM3_GA7_05)
 
     def _load_grid_info(self, new_grid_info: Dict[str, Any]):
-        self._grid_info[GridType.ATMOS] = CordexAtmosBaseGridInfo(new_grid_info['atmos'])
+        self._grid_info[GridType.ATMOS] = AtmosBaseGridInfo(new_grid_info['atmos'])
         self._grid_info[GridType.OCEAN] = OceanBaseGridInfo(new_grid_info['ocean'])
 
     @property
