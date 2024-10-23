@@ -115,6 +115,12 @@ class GridInfo(object, metaclass=ABCMeta):
     @property
     @abstractmethod
     def grid_description_prefix(self) -> str:
+        """
+        Returns the prefix of the description of the grid
+
+        :return: Prefix of the grid description
+        :rtype: str
+        """
         pass
 
     @property

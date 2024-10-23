@@ -43,6 +43,12 @@ class BaseGridInfo(GridInfo, metaclass=ABCMeta):
 
     @property
     def grid_description_prefix(self) -> str:
+        """
+        Returns the prefix of the description of the grid
+
+        :return: Prefix of the grid description
+        :rtype: str
+        """
         if 'grid_description_prefix' in self._values:
             return self._values['grid_description_prefix']
         else:
