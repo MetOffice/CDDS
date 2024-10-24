@@ -3,6 +3,12 @@
 
 .. include:: common.txt
 
+Release 3.0.3, October 24, 2024
+===============================
+* Allow forced coordinate rotation. Output data will be forced to include rotated coordinates
+  and true lat-lon coordinates if the ``force_coordinate_rotation`` parameter in the
+  ``request`` section of the MIP Convert config file is set to ``True`` (CDDSO-529)
+
 Release 3.0.2, September 27, 2024
 =================================
 * Add functionality to remove halo columns and rows from atmosphere data (CDDSO-521)

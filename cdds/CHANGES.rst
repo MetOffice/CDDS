@@ -3,6 +3,14 @@
 
 .. include:: common.txt
 
+Release 3.0.3, October 24, 2024
+===============================
+* Grid descriptions can now be modified through model parameter files (CDDSO-534, CDDSO-528)
+* The inclusion of rotated coordinates in output files can now be forces through the
+  introduction of the ``force_coordinate_rotation`` flag into the Request config files
+  (CDDSO-529)
+* Global attribute caching has been introduced to improve QC speed (CDDSO-514)
+
 Release 3.0.2, September 27, 2024
 =================================
 * Restored the approved variables file argument to the move_in_mass script (CDDSO-523)
