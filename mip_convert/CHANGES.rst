@@ -5,7 +5,7 @@
 
 Release 3.0.3, October 24, 2024
 ===============================
-* Allow to force coordinate rotation. Output data will be forced to include rotated coordinates
+* Allow forced coordinate rotation. Output data will be forced to include rotated coordinates
   and true lat-lon coordinates (CDDSO-529)
 
 Release 3.0.2, September 27, 2024
