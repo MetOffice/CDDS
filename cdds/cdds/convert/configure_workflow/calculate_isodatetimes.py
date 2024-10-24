@@ -86,7 +86,7 @@ class CalculateISODatetimes:
             point = self.concat_recurrence.get_prev(self.concat_recurrence.get_first_after(self.end_date))
         return point
 
-    def as_dict(self):
+    def as_jinja2(self):
         return {
             "CONCATENATION_FIRST_CYCLE_OFFSET": str(self.first_concat_cycle_offset),
             "CONCATENATION_WINDOW": str(self.concatenation_window),

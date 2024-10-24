@@ -96,7 +96,7 @@ class StreamModelParameters:
     def mip_convert_temp_sizes(self) -> int:
         return self._model_params.temp_space(self.stream)
 
-    def as_dict(self) -> Dict:
+    def as_jinja2(self) -> Dict:
         return {
             'STREAMS': self.stream,
             'MEMORY_CONVERT': self.memory,

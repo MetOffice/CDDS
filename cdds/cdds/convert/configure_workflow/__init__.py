@@ -127,7 +127,7 @@ def stream_jinja2_variables(request, stream_components):
             base_date=request.metadata.base_date,
         )
 
-        jijna2_variables[stream] = isodatetime.as_dict() | stream_info.as_dict()
+        jijna2_variables[stream] = isodatetime.as_jinja2() | stream_info.as_jinja2()
 
     return restructure_dictionary(jijna2_variables)
 
