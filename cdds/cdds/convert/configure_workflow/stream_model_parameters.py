@@ -4,6 +4,7 @@ import logging
 from typing import Dict
 
 from metomi.isodatetime.parsers import DurationParser
+from metomi.isodatetime.data import Duration
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.convert.process.memory import scale_memory
@@ -19,7 +20,7 @@ class StreamModelParameters:
         self._model_params = self._plugin.models_parameters(self._request.metadata.model_id)
         self.logger = logging.getLogger()
 
-    def concatenation_period(self) -> None:
+    def concatenation_period(self) -> Duration:
         """
         Calculate the maximum concatenation window size in years for this run.
         This represents the longest period of data that will be stored in a
@@ -47,7 +48,7 @@ class StreamModelParameters:
 
         return DurationParser().parse(_concat_task_periods_cylc[self.stream])
 
-    def cycling_frequency(self):
+    def cycling_frequency(self) -> Duration:
         """
         Obtain the cycling frequency for this model and stream from the configs after applying any
         command line overrides.
@@ -95,7 +96,7 @@ class StreamModelParameters:
     def mip_convert_temp_sizes(self) -> int:
         return self._model_params.temp_space(self.stream)
 
-    def as_dict(self):
+    def as_dict(self) -> Dict:
         return {
             'STREAMS': self.stream,
             'MEMORY_CONVERT': self.memory,
