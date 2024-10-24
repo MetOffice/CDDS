@@ -6,7 +6,7 @@
 Release 3.0.3, October 24, 2024
 ===============================
 * Make grid description changeable through model parameters file (CDDSO-534, CDDSO-528)
-* Flag to enable coordination rotation if coordination system is not rotated by default
+* Flag to enable coordinate rotation if coordination system is not rotated by default
   (CDDSO-529)
 * Global attribute caching to speed up QC (CDDSO-514)
 
