@@ -11,7 +11,7 @@ from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request, read_request
 from cdds.convert.arguments import add_user_config_data_files, ConvertArguments
 from cdds.convert.configure_workflow.calculate_isodatetimes import CalculateISODatetimes
-from cdds.convert.configure_workflow.configure_suite_conf import ConfigureSuiteConf
+from cdds.convert.configure_workflow.configure_template_variables import ConfigureTemplateVariables
 from cdds.convert.configure_workflow.stream_components import StreamComponents
 from cdds.convert.configure_workflow.stream_model_parameters import StreamModelParameters
 from cdds.convert.configure_workflow.workflow_manager import WorkflowManager
@@ -100,7 +100,10 @@ def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
     stream_components = StreamComponents(arguments, request)
     stream_variables = stream_jinja2_variables(request, stream_components)
 
-    workflow_configuration = ConfigureSuiteConf(arguments, request, stream_variables, workflow_manager.rose_suite_conf)
+    workflow_configuration = ConfigureTemplateVariables(arguments,
+                                                        request,
+                                                        stream_variables,
+                                                        workflow_manager.rose_suite_conf)
     workflow_configuration.update()
 
     args = [f"--workflow-name={request.common.workflow_basename}"]

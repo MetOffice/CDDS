@@ -11,7 +11,7 @@ from cdds.convert.constants import NTHREADS_CONCATENATE, PARALLEL_TASKS
 from cdds.convert.process.workflow_interface import update_suite_conf_file
 
 
-class ConfigureSuiteConf:
+class ConfigureTemplateVariables:
     def __init__(self, arguments, request, stream_config, config_file, section="template variables"):
         self._arguments = arguments
         self._request = request
