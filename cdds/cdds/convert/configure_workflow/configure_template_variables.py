@@ -22,7 +22,6 @@ class ConfigureTemplateVariables:
         self.logger = logging.getLogger()
     
     def update(self):
-        breakpoint()
         self.flags()
         self.stream_options()
         self.external_plugin_options()
