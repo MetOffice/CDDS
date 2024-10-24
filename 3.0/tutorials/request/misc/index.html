@@ -1374,6 +1374,11 @@ request configuration.</p>
 <dd>number of latitude points to be stripped using <code>&lt;start&gt;:&lt;stop&gt;</code> as the format.</dd>
 <dt><code>halo_removal_longitude</code></dt>
 <dd>number of longitude points to be stripped using <code>&lt;start&gt;:&lt;stop&gt;</code> as the format.</dd>
+<dt><code>force_coordinate_rotation</code></dt>
+<dd>
+<p>Set to <code>True</code> to enable coordination rotation if coordination system is not rotated by default.</p>
+<p><strong>Default:</strong> <code>False</code></p>
+</dd>
 </dl>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
@@ -1392,6 +1397,7 @@ for longitude:
 <span class="l l-Scalar l-Scalar-Plain">no_overwrite = False</span>
 <span class="l l-Scalar l-Scalar-Plain">halo_removal_latitude = 5:-5</span>
 <span class="l l-Scalar l-Scalar-Plain">halo_removal_longitude = 10:-10</span>
+<span class="l l-Scalar l-Scalar-Plain">force_coordinate_rotation = False</span>
 </code></pre></div>
 </div>
 
