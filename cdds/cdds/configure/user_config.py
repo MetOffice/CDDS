@@ -133,6 +133,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
             user_config['global_attributes'] = get_global_attributes(request)
             user_config['request']['suite_id'] = request.data.model_workflow_id
             user_config['request']['force_coordinate_rotation'] = request.misc.force_coordinate_rotation
+            user_config['request']['slicing'] = request.conversion.slicing
             if maskings:
                 user_config['masking'] = maskings
             if halo_removals:

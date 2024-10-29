@@ -114,6 +114,7 @@ def expected_text_conversion():
         'skip_configure': False,
         'skip_qc': False,
         'skip_archive': False,
+        'slicing': 'year',
         'cdds_workflow_branch': 'trunk',
         'cylc_args': ['--workflow-name=cdds_{request_id}_{stream}'],
         'no_email_notifications': True,
@@ -238,6 +239,7 @@ def expected_test_minimal_conversion():
         'skip_extract': False,
         'skip_extract_validation': False,
         'skip_qc': False,
+        'slicing': 'year',
         'delete_preexisting_proc_dir': False,
         'delete_preexisting_data_dir': False
     }

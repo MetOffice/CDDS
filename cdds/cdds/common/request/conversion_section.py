@@ -46,6 +46,7 @@ def conversion_defaults() -> Dict[str, Any]:
         'skip_configure': skip_configure,
         'skip_qc': skip_qc,
         'skip_archive': skip_archive,
+        'slicing': 'year',
         'continue_if_mip_convert_failed': False,
         'delete_preexisting_proc_dir': False,
         'delete_preexisting_data_dir': False
@@ -67,6 +68,7 @@ class ConversionSection(Section):
     no_email_notifications: bool = True
     scale_memory_limits: float = None
     override_cycling_frequency: List[str] = field(default_factory=list)  # ['stream=frequency']
+    slicing: str = ''
     model_params_dir: str = ''
     continue_if_mip_convert_failed: bool = False
     delete_preexisting_proc_dir: bool = False
@@ -106,7 +108,9 @@ class ConversionSection(Section):
         section_name = ConversionSection.name()
         if config.has_section(section_name):
             do_pre_validations(config, ConversionSection)
-            config_items = load_types(dict(config.items(section_name)), ['override_cycling_frequency', 'cylc_args'])
+            config_items = load_types(
+                dict(config.items(section_name)), ['override_cycling_frequency', 'cylc_args']
+            )
             expand_paths(config_items, ['model_params_dir'])
             new_cylc_args = load_cylc_args(config_items['cylc_args'])
             config_items['cylc_args'] = new_cylc_args

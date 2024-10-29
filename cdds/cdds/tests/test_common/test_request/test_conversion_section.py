@@ -23,6 +23,7 @@ class TestConversionDefaults(TestCase):
             'skip_configure': False,
             'skip_qc': False,
             'skip_archive': True,
+            'slicing': 'year',
             'continue_if_mip_convert_failed': False
         }
 
@@ -44,6 +45,7 @@ class TestConversionDefaults(TestCase):
             'skip_configure': False,
             'skip_qc': False,
             'skip_archive': False,
+            'slicing': 'year',
             'continue_if_mip_convert_failed': False
         }
 
@@ -65,6 +67,7 @@ class TestConversionDefaults(TestCase):
             'skip_configure': False,
             'skip_qc': False,
             'skip_archive': False,
+            'slicing': 'year',
             'continue_if_mip_convert_failed': False
         }
 

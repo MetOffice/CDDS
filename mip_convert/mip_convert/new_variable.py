@@ -243,7 +243,7 @@ class Variable(object):
         else:
             self._history = '{history}\n{message}'.format(history=self._history, message=message)
 
-    def slices_over(self):
+    def slices_over(self, period):
         """
         Return an iterator of :class:`new_variable.Variable` instances
         that contain a years worth of data.
@@ -254,7 +254,6 @@ class Variable(object):
             The metadata and data related to a |MIP requested variable|
             for a year.
         """
-        period = 'year'
         date_times = self.date_times_for_slices_over(period)
         for date_time in date_times:
             if self.cube is None:
@@ -288,15 +287,34 @@ class Variable(object):
         date_times = []
         start_date = parse.TimePointParser().parse(self._run_bounds[0])
         end_date = parse.TimePointParser().parse(self._run_bounds[1])
-        if period == 'year':
+        if period == 'year' or period == 'month':
             end_month_day = format_date(
                 self._run_bounds[1], date_regex=DATE_TIME_REGEX, output_format='%m%d'
             )
             end_year = end_date.year
             start_year = start_date.year
+            start_month = start_date.month_of_year
+            end_month = end_date.month_of_year
             if end_month_day == '0101':
                 end_year = end_year - 1
-            date_times = [[year] for year in range(start_year, end_year + 1)]
+                end_month = 12
+            elif end_date.day_of_month == 1 and end_date.hour_of_day == 0:
+                end_month = end_month - 1
+            if period == 'year':
+                date_times = [[year] for year in range(start_year, end_year + 1)]
+            elif period == 'month':
+                date_times = []
+                if start_year == end_year:
+                    for mn in range(start_month, end_month + 1):
+                        date_times.append([start_year, mn])
+                else:
+                    for mn in range(start_month, 13):
+                        date_times.append([start_year, mn])
+                    for yr in range(start_year + 1, end_year):
+                        for mn in range(1, 13):
+                            date_times.append([yr, mn])
+                    for mn in range(1, end_month + 1):
+                        date_times.append([end_year, mn])
         return date_times
 
     @property
@@ -752,7 +770,12 @@ class Variable(object):
 
     def _slice_input_variables(self, date_time):
         input_variables = {}
-        time_constraint = _setup_time_constraint(date_time)
+        if len(date_time) > 1 and date_time[1] != 12:
+            # don't attach New Year midnight to other months
+            new_year_midnight = False
+        else:
+            new_year_midnight = True
+        time_constraint = _setup_time_constraint(date_time, new_year_midnight)
 
         for constraint_name, cube in list(self.input_variables.items()):
             time_slice = apply_time_constraint(cube, time_constraint)
@@ -1118,9 +1141,12 @@ class VariableMIPMetadata(object):
         return bounds.reshape(len(bounds) // 2, 2)
 
 
-def _setup_time_constraint(date_time):
+def _setup_time_constraint(date_time, with_new_year_midnight=True):
     def time_constraint(cell):
         return (PartialDateTime(*date_time) == cell.point or
                 PartialDateTime(date_time[0] + 1, 1, 1, 0, 0, 0, 0) == cell.point)
 
-    return time_constraint
+    def time_constraint2(cell):
+        return PartialDateTime(*date_time) == cell.point
+
+    return time_constraint if with_new_year_midnight else time_constraint2

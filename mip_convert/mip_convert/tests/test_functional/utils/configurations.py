@@ -152,7 +152,8 @@ class ProjectInfo:
             },
             request={
                 'base_date': '2000-01-01T00:00:00',
-                'force_coordinate_rotation': False
+                'force_coordinate_rotation': False,
+                'slicing': 'year'
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
@@ -196,7 +197,8 @@ class ProjectInfo:
             },
             request={
                 'base_date': '1950-01-01T00:00:00',
-                'force_coordinate_rotation': False
+                'force_coordinate_rotation': False,
+                'slicing': 'year'
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
@@ -240,7 +242,8 @@ class ProjectInfo:
             },
             request={
                 'base_date': '2000-01-01T00:00:00',
-                'force_coordinate_rotation': False
+                'force_coordinate_rotation': False,
+                'slicing': 'year'
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.historical.none.r1i1p1f2'
@@ -277,7 +280,8 @@ class ProjectInfo:
                 'variant_label': 'r1i1p1f3'
             },
             request={
-                'base_date': '1850-01-01T00:00:00'
+                'base_date': '1850-01-01T00:00:00',
+                'slicing': 'year'
             },
             global_attributes={
                 'contact': 'a.b.c',
@@ -325,7 +329,8 @@ class ProjectInfo:
             },
             request={
                 'base_date': '2000-01-01T00:00:00',
-                'force_coordinate_rotation': False
+                'force_coordinate_rotation': False,
+                'slicing': 'year'
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
@@ -361,7 +366,8 @@ class ProjectInfo:
             },
             request={
                 'base_date': '1850-01-01T00:00:00',
-                'force_coordinate_rotation': False
+                'force_coordinate_rotation': False,
+                'slicing': 'year'
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'

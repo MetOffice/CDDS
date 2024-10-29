@@ -162,7 +162,7 @@ class TestMain(unittest.TestCase):
             '[request]\nancil_files = {}\nbase_date = {}\n'
             'deflate_level = {}\nforce_coordinate_rotation = {}\nhybrid_heights_files = {}\n'
             'model_output_dir = {}\nreplacement_coordinates_file = {}\n'
-            'run_bounds = {}\nshuffle = {}\nsites_file = {}\n'
+            'run_bounds = {}\nshuffle = {}\nsites_file = {}\nslicing = year\n'
             'suite_id = {}\n\n')
         self.request_section = self.request_format.format(
             self.ancil_files, self.base_date, self.deflate_level, self.force_coordinate_rotation,

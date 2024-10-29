@@ -107,6 +107,9 @@ def request_config():
     config['force_coordinate_rotation'] = _get_config(
         'force_coordinate_rotation', section, python_type=bool, default_value=False
     )
+    config['slicing'] = _get_config(
+        'slicing', section, python_type=str, default_value='year'
+    )
 
     return config
 
