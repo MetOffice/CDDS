@@ -50,6 +50,7 @@ class TestMain(unittest.TestCase):
         self.request.common.root_proc_dir = root_proc_dir
         self.request.common.root_data_dir = root_data_dir
         self.request.misc.force_coordinate_rotation = True
+        self.request.conversion.slicing = ['ap5=year']
         self.request.write(self.request_path)
 
         self.output_dir_for_ucf = os.path.join(self.temp_dir, 'random_directory_name')
@@ -162,7 +163,7 @@ class TestMain(unittest.TestCase):
             '[request]\nancil_files = {}\nbase_date = {}\n'
             'deflate_level = {}\nforce_coordinate_rotation = {}\nhybrid_heights_files = {}\n'
             'model_output_dir = {}\nreplacement_coordinates_file = {}\n'
-            'run_bounds = {}\nshuffle = {}\nsites_file = {}\nslicing = year\n'
+            'run_bounds = {}\nshuffle = {}\nsites_file = {}\n'
             'suite_id = {}\n\n')
         self.request_section = self.request_format.format(
             self.ancil_files, self.base_date, self.deflate_level, self.force_coordinate_rotation,
@@ -173,11 +174,13 @@ class TestMain(unittest.TestCase):
         self.masking_section = ('[masking]\n'
                                 'stream_ap5_cice-U = -1:None:None,180:None:None\n'
                                 'stream_ap5_grid-V = -1:None:None,180:None:None\n\n')
+        self.slicing_section = ('[slicing_periods]\n'
+                                'stream_ap5 = year\n\n')
         self.user_config = (
             self.user_config_file_header + self.cmor_setup_section
             + self.cmor_dataset_section + self.request_section
             + self.global_attributes_section + self.masking_section
-            + self.stream_section)
+            + self.slicing_section + self.stream_section)
         self.requested_variables_list = {
             'experiment_id': self.experiment_id,
             'mip': self.mip,

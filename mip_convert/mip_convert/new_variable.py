@@ -287,34 +287,41 @@ class Variable(object):
         date_times = []
         start_date = parse.TimePointParser().parse(self._run_bounds[0])
         end_date = parse.TimePointParser().parse(self._run_bounds[1])
-        if period == 'year' or period == 'month':
-            end_month_day = format_date(
-                self._run_bounds[1], date_regex=DATE_TIME_REGEX, output_format='%m%d'
-            )
-            end_year = end_date.year
-            start_year = start_date.year
-            start_month = start_date.month_of_year
-            end_month = end_date.month_of_year
-            if end_month_day == '0101':
-                end_year = end_year - 1
-                end_month = 12
-            elif end_date.day_of_month == 1 and end_date.hour_of_day == 0:
-                end_month = end_month - 1
-            if period == 'year':
-                date_times = [[year] for year in range(start_year, end_year + 1)]
-            elif period == 'month':
-                date_times = []
-                if start_year == end_year:
-                    for mn in range(start_month, end_month + 1):
-                        date_times.append([start_year, mn])
-                else:
-                    for mn in range(start_month, 13):
-                        date_times.append([start_year, mn])
-                    for yr in range(start_year + 1, end_year):
-                        for mn in range(1, 13):
-                            date_times.append([yr, mn])
-                    for mn in range(1, end_month + 1):
-                        date_times.append([end_year, mn])
+
+        end_month_day = format_date(
+            self._run_bounds[1], date_regex=DATE_TIME_REGEX, output_format='%m%d'
+        )
+        end_year = end_date.year
+        start_year = start_date.year
+        start_month = start_date.month_of_year
+        end_month = end_date.month_of_year
+        if end_month_day == '0101':
+            end_year = end_year - 1
+            end_month = 12
+        elif end_date.day_of_month == 1 and end_date.hour_of_day == 0:
+            end_month = end_month - 1
+        if period == 'year':
+            date_times = self._get_date_times_for_year_period(start_year, end_year)
+        elif period == 'month':
+            date_times = self._get_date_times_for_month_period(start_year, end_year, start_month, end_month)
+        return date_times
+
+    def _get_date_times_for_year_period(self, start_year, end_year):
+        return [[year] for year in range(start_year, end_year + 1)]
+
+    def _get_date_times_for_month_period(self, start_year, end_year, start_month, end_month):
+        date_times = []
+        if start_year == end_year:
+            for month in range(start_month, end_month + 1):
+                date_times.append([start_year, month])
+        else:
+            for month in range(start_month, 13):
+                date_times.append([start_year, month])
+            for yr in range(start_year + 1, end_year):
+                for month in range(1, 13):
+                    date_times.append([yr, month])
+            for month in range(1, end_month + 1):
+                date_times.append([end_year, month])
         return date_times
 
     @property
