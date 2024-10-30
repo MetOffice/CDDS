@@ -6,9 +6,11 @@ from metomi.isodatetime.parsers import DurationParser, TimePointParser
 from cdds.convert.configure_workflow.calculate_isodatetimes import CalculateISODatetimes
 
 
-class TestCalculateISODatetimes:
-    def test_piControl_ap4(self):
+class TestCalculateISODatetimes360Day:
+    def setup_method(self):
         Calendar.default().set_mode("360_day")
+
+    def test_piControl_ap4(self):
         isodatetimes = CalculateISODatetimes(
             TimePointParser().parse("1970-01-01T00:00:00Z"),
             TimePointParser().parse("2170-01-01T00:00:00Z"),
@@ -33,7 +35,6 @@ class TestCalculateISODatetimes:
         assert expected == isodatetimes.as_jinja2()
 
     def test_piControl_onm(self):
-        Calendar.default().set_mode("360_day")
         isodatetimes = CalculateISODatetimes(
             TimePointParser().parse("1970-01-01T00:00:00Z"),
             TimePointParser().parse("2170-01-01T00:00:00Z"),
@@ -58,7 +59,6 @@ class TestCalculateISODatetimes:
         assert expected == isodatetimes.as_jinja2()
 
     def test_amip_ll_ap4(self):
-        Calendar.default().set_mode("360_day")
         isodatetimes = CalculateISODatetimes(
             TimePointParser().parse("1979-01-01T00:00:00Z"),
             TimePointParser().parse("2015-01-01T00:00:00Z"),
@@ -83,7 +83,6 @@ class TestCalculateISODatetimes:
         assert expected == isodatetimes.as_jinja2()
 
     def test_amip_ll_ap6(self):
-        Calendar.default().set_mode("360_day")
         isodatetimes = CalculateISODatetimes(
             TimePointParser().parse("1979-01-01T00:00:00Z"),
             TimePointParser().parse("2015-01-01T00:00:00Z"),
@@ -108,7 +107,6 @@ class TestCalculateISODatetimes:
         assert expected == isodatetimes.as_jinja2()
 
     def test_ssp126_ap4(self):
-        Calendar.default().set_mode("360_day")
         isodatetimes = CalculateISODatetimes(
             TimePointParser().parse("2015-01-01T00:00:00Z"),
             TimePointParser().parse("2101-01-01T00:00:00Z"),
@@ -133,7 +131,6 @@ class TestCalculateISODatetimes:
         assert expected == isodatetimes.as_jinja2()
 
     def test_ssp126_ap6(self):
-        Calendar.default().set_mode("360_day")
         isodatetimes = CalculateISODatetimes(
             TimePointParser().parse("2015-01-01T00:00:00Z"),
             TimePointParser().parse("2101-01-01T00:00:00Z"),
@@ -158,7 +155,6 @@ class TestCalculateISODatetimes:
         assert expected == isodatetimes.as_jinja2()
 
     def test_ssp126_onm(self):
-        Calendar.default().set_mode("360_day")
         isodatetimes = CalculateISODatetimes(
             TimePointParser().parse("2015-01-01T00:00:00Z"),
             TimePointParser().parse("2101-01-01T00:00:00Z"),
@@ -183,7 +179,6 @@ class TestCalculateISODatetimes:
         assert expected == isodatetimes.as_jinja2()
 
     def test_amip_mm_ap5(self):
-        Calendar.default().set_mode("360_day")
         isodatetimes = CalculateISODatetimes(
             TimePointParser().parse("1979-01-01T00:00:00Z"),
             TimePointParser().parse("2015-01-01T00:00:00Z"),
@@ -208,7 +203,6 @@ class TestCalculateISODatetimes:
         assert expected == isodatetimes.as_jinja2()
 
     def test_amip_mm_ap6(self):
-        Calendar.default().set_mode("360_day")
         isodatetimes = CalculateISODatetimes(
             TimePointParser().parse("1979-01-01T00:00:00Z"),
             TimePointParser().parse("2015-01-01T00:00:00Z"),
@@ -227,6 +221,35 @@ class TestCalculateISODatetimes:
             "FINAL_CONCATENATION_CYCLE": "P12870D",
             "FINAL_CONCATENATION_WINDOW_START": "2010-01-01T00:00:00Z",
             "FINAL_CYCLE_POINT": "2014-10-01T00:00:00Z",
+            "SINGLE_CONCATENATION_CYCLE": False,
+        }
+
+        assert expected == isodatetimes.as_jinja2()
+
+
+class TestCalculateISODatetimesGregorian:
+    def setup_method(self):
+        Calendar.default().set_mode("gregorian")
+
+    def test_piControl_ap4(self):
+        isodatetimes = CalculateISODatetimes(
+            TimePointParser().parse("1970-01-01T00:00:00Z"),
+            TimePointParser().parse("2170-01-01T00:00:00Z"),
+            DurationParser().parse("P5Y"),
+            DurationParser().parse("P100Y"),
+            TimePointParser().parse("1850-01-01T00:00:00Z"),
+        )
+
+        expected = {
+            "CONCATENATION_FIRST_CYCLE_OFFSET": "P27394D",
+            "CONCATENATION_WINDOW": "P100Y",
+            "CONVERT_ALIGNMENT_OFFSET": "P0Y",
+            "CYCLING_FREQUENCY": "P5Y",
+            "DO_CONVERT_ALIGNMENT_CYCLE": False,
+            "DO_FINAL_CONCATENATE": True,
+            "FINAL_CONCATENATION_CYCLE": "P71223D",
+            "FINAL_CONCATENATION_WINDOW_START": "2150-01-01T00:00:00Z",
+            "FINAL_CYCLE_POINT": "2165-01-01T00:00:00Z",
             "SINGLE_CONCATENATION_CYCLE": False,
         }
 
