@@ -20,7 +20,7 @@ class ConfigureTemplateVariables:
         self.section = section
 
         self.logger = logging.getLogger()
-    
+
     def update(self):
         self.flags()
         self.stream_options()
@@ -116,13 +116,13 @@ class ConfigureTemplateVariables:
             external_plugin = self._request.common.external_plugin
             external_plugin_location = self._request.common.external_plugin_location
 
-        changes = {'USE_EXTERNAL_PLUGIN': use_external_plugin,}
+        changes = {'USE_EXTERNAL_PLUGIN': use_external_plugin}
         changes = {'PLUGIN_ID': plugin_id}
 
         if use_external_plugin:
             changes['EXTERNAL_PLUGIN'] = external_plugin
             changes['EXTERNAL_PLUGIN_LOCATION'] = external_plugin_location
-        
+
         self.apply_changes(changes)
 
     def stream_options(self):

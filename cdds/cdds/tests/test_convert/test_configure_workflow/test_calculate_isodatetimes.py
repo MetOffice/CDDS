@@ -5,8 +5,8 @@ from metomi.isodatetime.parsers import DurationParser, TimePointParser
 
 from cdds.convert.configure_workflow.calculate_isodatetimes import CalculateISODatetimes
 
-class TestCalculateISODatetimes:
 
+class TestCalculateISODatetimes:
     def test_piControl_ap4(self):
         Calendar.default().set_mode("360_day")
         isodatetimes = CalculateISODatetimes(
