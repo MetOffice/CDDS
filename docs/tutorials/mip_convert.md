@@ -275,7 +275,8 @@ The optional `halo removal` section is used if for a particular stream haloes ar
 
 ### **slicing_periods**
 
-The optional `slicing_periods` section is used if for a particular stream a period for slicing is specified.
+The optional `slicing_periods` section is used if for a particular stream a period for slicing is specified. 
+For all streams that have no specified slicing period the default slicing period is `year`.
 
 !!! example
     ```config

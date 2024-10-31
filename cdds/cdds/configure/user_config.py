@@ -216,6 +216,18 @@ def get_masking_attributes(model_id, streams):
 
 
 def get_slicing_periods(request: Request):
+    """
+    Returns all specifed slicing periods for particular streams. Only return slicing
+    periods of streams that are specify in the request.
+
+    The period can be either `year` or `month`. If a stream has not defined
+    period. The default will be `year`.
+
+    :param request: Request contains all data to create the slicing periods
+    :type request: :class:`cdds.common.request.request.Request`
+    :return: Slicing period as dictionary
+    :rtype: dict
+    """
     slicing = OrderedDict()
     template_key = 'stream_{}'
     for slicing_attribute in request.conversion.slicing:
