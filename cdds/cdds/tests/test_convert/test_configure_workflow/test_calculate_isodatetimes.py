@@ -231,6 +231,9 @@ class TestCalculateISODatetimesGregorian:
     def setup_method(self):
         Calendar.default().set_mode("gregorian")
 
+    def teardown_method(self):
+        Calendar.default().set_mode("360_day")
+
     def test_piControl_ap4(self):
         isodatetimes = CalculateISODatetimes(
             TimePointParser().parse("1970-01-01T00:00:00Z"),
