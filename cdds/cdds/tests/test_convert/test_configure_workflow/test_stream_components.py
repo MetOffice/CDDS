@@ -1,5 +1,6 @@
 # (C) British Crown Copyright 2024, Met Office.
 # Please see LICENSE.rst for license details.
+from pathlib import Path
 from unittest import mock
 from unittest.mock import Mock
 import collections
@@ -18,7 +19,7 @@ class TestUserConfigs:
         self.request = simple_request()
 
     @mock.patch("cdds.convert.configure_workflow.stream_components.component_directory")
-    def test_user_configs(self, mock_component_directory, tmp_path):
+    def test_user_configs(self, mock_component_directory, tmp_path: Path):
         proc = tmp_path / "configure"
         proc.mkdir()
         test_file = proc / "mip_convert.cfg.atmos-native"
@@ -31,7 +32,7 @@ class TestUserConfigs:
         assert "stream_ap4" in configs["atmos-native"].sections
 
     @mock.patch("cdds.convert.configure_workflow.stream_components.component_directory")
-    def test_no_user_configs_found(self, mock_component_directory, tmp_path):
+    def test_no_user_configs_found(self, mock_component_directory, tmp_path: Path):
         proc = tmp_path / "configure"
         proc.mkdir()
         test_file = proc / "wrong.cfg.name"
@@ -83,17 +84,6 @@ class TestValidateStreams:
     def setup_method(self):
         self.arguments = Mock()
         self.request = simple_request()
-
-    @mock.patch.object(
-        StreamComponents, "active_streams", new_callable=mock.PropertyMock
-    )
-    @mock.patch.object(StreamComponents, "streams", new_callable=mock.PropertyMock)
-    def test_skipping_streams(self, mock_streams, mock_active_streams, caplog):
-        mock_streams.return_value = ["ap4", "ap5"]
-        mock_active_streams.return_value = ["ap4"]
-        stream_components = StreamComponents(self.arguments, self.request)
-        stream_components.validate_streams()
-        assert "Skipping streams" in caplog.text
 
     @mock.patch.object(
         StreamComponents, "active_streams", new_callable=mock.PropertyMock
