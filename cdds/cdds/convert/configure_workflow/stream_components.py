@@ -20,97 +20,76 @@ class StreamComponents:
         self._streams_requested = self._arguments.streams
         self.logger = logging.getLogger()
 
-        self.build_stream_components()
+    def user_configs(self) -> dict[str, PythonConfig]:
+        """Identify and parse the user configuration files.
 
-    def build_stream_components(self) -> None:
+        :raises FileNotFoundError: If no user configs are found.
+        :return: Return a dictionary of {component:config} pairs.
+        :rtype: dict[str, PythonConfig]
         """
-        Build a list of the grid identifiers for each |stream identifier|.
+        configure_directory = component_directory(self._request, "configure")
+        pattern_files = re.compile(self._arguments.user_config_template_name.format(r"(?P<grid_id>[\w\-]+)"))
+        user_configs = {}
 
-        The grid identifier is obtained from the name of each
-        |user configuration file|, while the |stream identifier| is
-        determined from the stream-related sections in the
-        |user configuration file|.
-
-        The method creates a dictionary with one entry per stream of a list
-        of components for that stream. This dictionary is stored in the
-        self.stream_components object attribute.
-        """
-        stream_grids = collections.defaultdict(list)
-        substreams_dict = collections.defaultdict(dict)
-        cfg_dir = component_directory(self._request, 'configure')
-
-        regex_streams = SECTION_TEMPLATE.format(
-            stream_id='(?P<stream_id>[^_]+)',
-            substream='(_(?P<substream>[^_]+))?')
-        pattern_streams = re.compile(regex_streams)
-        pattern_files = re.compile(self._arguments.user_config_template_name.format(r'(?P<grid_id>[\w\-]+)'))
-
-        self.variables_list = []
-        for item in glob.glob(os.path.join(cfg_dir, '*')):
+        for item in glob.glob(os.path.join(configure_directory, "*")):
             match = pattern_files.match(os.path.basename(item))
             if match:
-                substream_fname = match.group('grid_id')
+                substream_fname = match.group("grid_id")
                 user_config = PythonConfig(item)
-                streams_in_cfg = []
-                vars_by_stream = {}
-                for s1 in user_config.sections:
-                    section_match = pattern_streams.match(s1)
-                    if section_match:
-                        stream_id = section_match.group('stream_id')
-                        substream = section_match.group('substream')
-                        streams_in_cfg += [(stream_id, substream)]
-                        table_list = user_config.items(s1)
-                        for mt, var_list_str in list(table_list.items()):
-                            var_list = var_list_str.split(' ')
-                            active_vars = var_list
-                            _, mip_table_id = mt.split('_')
-                            vars_by_stream[stream_id] = [{
-                                'mip_table_id': mip_table_id,
-                                'variable_id': var_id,
-                                'stream_id': stream_id, 'substream': substream,
-                                'grid': substream_fname}
-                                for var_id in active_vars]
+                user_configs[substream_fname] = user_config
 
-                # this ensures that the only streams included for processing
-                # are those that are in the JSON request file, and if
-                # the user specifies a list of streams to process, will
-                # only include only those that are both in the request file and
-                # specified by the user.
-                active_streams = [(stream, substream)
-                                  for (stream, substream) in streams_in_cfg
-                                  if stream in self.streams]
-                for (stream, substream) in active_streams:
-                    self.variables_list += vars_by_stream[stream]
-                    stream_grids[stream].append(substream_fname)
-                    if substream is None:
-                        substreams_dict[stream][substream_fname] = ''
-                    else:
-                        substreams_dict[stream][substream_fname] = substream
-        self.stream_components = {
-            stream_id: list(stream_comps)
-            for stream_id, stream_comps in list(stream_grids.items())}
-        self.substreams_dict = {
-            stream_id: substreams
-            for stream_id, substreams in list(substreams_dict.items())}
+        if not user_configs:
+            msg = f"No configuration files were found in {configure_directory}"
+            self.logger.critical(msg)
+            raise FileNotFoundError(msg)
+
+        return user_configs
+
+    def build_stream_components(self) -> None:
+        """_summary_
+        """
+        regex_streams = SECTION_TEMPLATE.format(
+            stream_id="(?P<stream_id>[^_]+)", substream="(_(?P<substream>[^_]+))?"
+        )
+        pattern_streams = re.compile(regex_streams)
+
+        self.stream_substreams = collections.defaultdict(dict)
+
+        for component_fname, user_config in self.user_configs().items():
+            streams_in_cfg = []
+            for section in user_config.sections:
+                section_match = pattern_streams.match(section)
+                if section_match:
+                    stream_id = section_match.group("stream_id")
+                    substream = section_match.group("substream")
+                    streams_in_cfg += [(stream_id, substream)]
+            for stream, substream in streams_in_cfg:
+                if not substream:
+                    substream = ""
+                self.stream_substreams[stream][component_fname] = substream
+
+        self.stream_substreams = {
+            k: v for k, v in self.stream_substreams.items() if k in self.streams
+        }
+
+        self.stream_components = {}
+        for stream, components in self.stream_substreams.items():
+            self.stream_components[stream] = list(components.keys())
 
     def validate_streams(self) -> None:
-        """
-        Ensure there are |streams| to process.
+        """Ensure there are streams to process.
 
-        Raises
-        ------
-        RuntimeError
-            If there are no |streams| to process.
+        :raises RuntimeError: If there are no streams to process.
         """
         if not self.active_streams:
-            msg = 'No streams to process'
+            msg = "No streams to process"
             self.logger.error(msg)
             raise RuntimeError(msg)
-        inactive_streams = self.inactive_streams
+        inactive_streams = set(self.streams) - set(self.active_streams)
         if inactive_streams:
-            streams_str = ','.join(inactive_streams)
-            msg = ('Warning: Skipping streams {streams_str} as there are no '
-                   'variables to produce.'.format(streams_str=streams_str))
+            streams_str = ",".join(inactive_streams)
+            msg = ("Warning: Skipping streams {streams_str} as there are no "
+                   "variables to produce.".format(streams_str=streams_str))
             self.logger.warning(msg)
 
     @property
@@ -127,23 +106,33 @@ class StreamComponents:
 
         # Check if the user specified which streams to process
         if self._streams_requested:
-            rejected_streams_cli = [stream for stream in self._streams_requested if stream not in streams_to_process]
+            rejected_streams_cli = [
+                stream
+                for stream in self._streams_requested
+                if stream not in streams_to_process
+            ]
             if rejected_streams_cli:
                 self.logger.info(
-                    'The following streams were specified on the command line, but will not be processed '
-                    'because they are not present in the JSON request file:\n{stream_list}'
-                    ''.format(stream_list=' '.join(rejected_streams_cli))
+                    "The following streams were specified on the command line, but will not be processed "
+                    "because they are not present in the JSON request file:\n{stream_list}"
+                    "".format(stream_list=" ".join(rejected_streams_cli))
                 )
             rejected_streams_request = [
-                stream for stream in streams_to_process if stream not in self._streams_requested
+                stream
+                for stream in streams_to_process
+                if stream not in self._streams_requested
             ]
             if rejected_streams_request:
                 self.logger.info(
-                    'The following streams are present in the JSON request file, but will not be processed '
-                    'because they were not specified on the command line :\n{stream_list}'
-                    ''.format(stream_list=' '.join(rejected_streams_request))
+                    "The following streams are present in the JSON request file, but will not be processed "
+                    "because they were not specified on the command line :\n{stream_list}"
+                    "".format(stream_list=" ".join(rejected_streams_request))
                 )
-            streams_to_process = [stream for stream in streams_to_process if stream in self._streams_requested]
+            streams_to_process = [
+                stream
+                for stream in streams_to_process
+                if stream in self._streams_requested
+            ]
         return streams_to_process
 
     @property
@@ -160,13 +149,3 @@ class StreamComponents:
         except AttributeError:
             active_streams = []
         return active_streams
-
-    @property
-    def inactive_streams(self):
-        """
-        Return a list of the inactive |streams|, which will not be processed as they have no work to do.
-
-        :return: List of the inactive |streams|
-        :rtype: List[str]
-        """
-        return set(self.streams) - set(self.active_streams)
