@@ -73,10 +73,6 @@ class StreamModelParameters:
             self.logger.info('Overriding cycling frequency for stream "{}": "{}" -> "{}"'
                              ''.format(stream, cycle_length, frequency))
             return DurationParser().parse(frequency)
-        # elif cycle_freq_exceeds_run_bounds:
-        #     logger.info('Default cycling frequency "{}" for stream "{}" is greater than run bounds.'
-        #                'Using "{}" as the cycling frequency instead'.format(cycle_length, stream, new_cycling_freq))
-        #     return new_cycling_freq
         else:
             return DurationParser().parse(cycle_length)
 

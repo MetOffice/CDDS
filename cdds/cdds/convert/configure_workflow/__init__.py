@@ -101,6 +101,9 @@ def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
     workflow_manager.checkout_convert_workflow()
 
     stream_components = StreamComponents(arguments, request)
+    stream_components.build_stream_components()
+    stream_components.validate_streams()
+
     stream_variables = stream_jinja2_variables(request, stream_components)
 
     workflow_configuration = ConfigureTemplateVariables(arguments,
