@@ -22,6 +22,7 @@ from cdds.convert.exceptions import ArgumentError
 COMPONENT = 'convert'
 CONVERT_LOG_NAME = 'cdds_convert'
 
+
 def main_cdds_convert() -> int:
     """
     Initialise the CDDS convert process.
@@ -43,6 +44,7 @@ def main_cdds_convert() -> int:
         logging.critical(exception, exc_info=1)
         exit_code = 1
     return exit_code
+
 
 def parse_args_cdds_convert() -> Tuple[ConvertArguments, Request]:
     """
@@ -83,6 +85,7 @@ def parse_args_cdds_convert() -> Tuple[ConvertArguments, Request]:
 
     return arguments, request
 
+
 def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
     """
 
@@ -113,6 +116,7 @@ def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
 
     workflow_manager.submit_workflow(simulation=request.common.simulation, cylc_args=args)
 
+
 def stream_jinja2_variables(request, stream_components):
     jijna2_variables = {}
 
@@ -133,6 +137,7 @@ def stream_jinja2_variables(request, stream_components):
         jijna2_variables[stream] = isodatetime.as_jinja2() | stream_info.as_jinja2()
 
     return restructure_dictionary(jijna2_variables)
+
 
 def restructure_dictionary(old_dict):
     new_dict = {}
