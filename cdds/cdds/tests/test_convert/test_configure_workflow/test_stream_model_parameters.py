@@ -89,7 +89,6 @@ class TestCyclingFrequency:
         result = stream_model_parameters.cycling_frequency()
         assert expected == result
 
-
     def test_override_cycling_frequency(self):
         self.request.conversion.override_cycling_frequency = ["ap4=P5Y", "ap5=P10Y"]
         stream_model_parameters = StreamModelParameters(self.request,
@@ -119,8 +118,8 @@ class TestMemory:
         model_params = Mock()
         model_params.memory.return_value = "8G"
         stream_model_parameters._model_params = model_params
-        
-        expected = {"bar" :"8G", "foo": "8G"}
+
+        expected = {"bar": "8G", "foo": "8G"}
         result = stream_model_parameters.memory
 
         assert expected == result
@@ -134,11 +133,12 @@ class TestMemory:
         model_params = Mock()
         model_params.memory.return_value = "8G"
         stream_model_parameters._model_params = model_params
-        
-        expected = {"bar" :"4096M", "foo": "4096M"}
+
+        expected = {"bar": "4096M", "foo": "4096M"}
         result = stream_model_parameters.memory
 
         assert expected == result
+
 
 class TestAsJinja2:
     def setup_method(self):
@@ -159,7 +159,7 @@ class TestAsJinja2:
         model_params.temp_space.return_value = "2000"
         model_params.memory.return_value = "8G"
         stream_model_parameters._model_params = model_params
-        
+
         expected = {
             'STREAMS': "ap4",
             'MEMORY_CONVERT': {"atmos-native": "8G"},

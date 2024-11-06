@@ -59,7 +59,7 @@ class StreamModelParameters:
         if self.stream in cycle_overrides.keys():
             cycling_frequency = cycle_overrides[self.stream]
             self.logger.info('Overriding cycling frequency for stream "{}": "{}" -> "{}"'
-                        ''.format(stream, default_cycling_frequency, cycling_frequency))
+                             ''.format(stream, default_cycling_frequency, cycling_frequency))
         else:
             cycling_frequency = default_cycling_frequency
 
