@@ -107,9 +107,6 @@ class ConfigureTemplateVariables:
         else:
             self.logger.info('Environment variable CDDS_DIR not found. Skipping interpolation into rose suite')
 
-        # if location:
-        #     general_variables['LOCATION'] = location
-
         return general_variables
 
     def plugin_variables(self) -> dict:
