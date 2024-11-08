@@ -21,36 +21,45 @@ class ConfigureTemplateVariables:
 
         self.logger = logging.getLogger()
 
-    def update(self):
-        self.flags()
-        self.stream_options()
-        self.external_plugin_options()
-        self.general_configuration()
-        self.final()
+    @property
+    def template_variables(self) -> dict:
+        """Combine the separate groupings of jinja2 variables into a single dictionary.
+
+        :return: A dictionary of all jinja2 variables needed to run u-ak283
+        :rtype: dict
+        """
+        template_variables = {}
+        template_variables.update(self.flag_variables())
+        template_variables.update(self.stream_variables())
+        template_variables.update(self.plugin_variables())
+        template_variables.update(self.general_variables())
+        template_variables.update(self.final_cycle_point_variable())
+
+        return template_variables
 
     @property
-    def final_cycle_point(self):
-        final_cycle_points = self.stream_config["FINAL_CYCLE_POINT"].values()
-        final_cycle_points = [TimePointParser().parse(point) for point in final_cycle_points]
-        return max(final_cycle_points)
+    def request_path(self) -> str:
+        """
+        In order to run subtasks in the convert suite (extract, QC and transfer), the suite needs to know
+        the path to the request cfg file. This path is often specified as a relative path, so we need to
+        get the absolute path if this is the case to pass to the suite config.
 
-    def final(self):
-        changes = {"FINAL_CYCLE_POINT": str(self.final_cycle_point)}
-        self.apply_changes(changes)
-
-    @property
-    def request_path(self):
-        # In order to run subtasks in the convert suite (extract, QC and transfer), the suite needs to know
-        # the path to the request cfg file. This path is often specified as a relative path, so we need to
-        # get the absolute path if this is the case to pass to the suite config.
+        :return: Absolute path to the request.cfg
+        :rtype: str
+        """
         if os.path.isabs(self._arguments.request_path):
             request_cfg_path = self._arguments.request_path
         else:
             request_cfg_path = os.path.abspath(self._arguments.request_path)
         return request_cfg_path
 
-    def flags(self):
-        changes = {
+    def flag_variables(self) -> dict:
+        """ A grouping of flag-like jinja2 variables.
+
+        :return: A dictionary of jinja2 flags.
+        :rtype: dict
+        """
+        flag_variables = {
             'DEV_MODE': _DEV,
             'EMAIL_NOTIFICATIONS': not self._request.conversion.no_email_notifications,
             'RUN_EXTRACT': not self._request.conversion.skip_extract,
@@ -60,18 +69,17 @@ class ConfigureTemplateVariables:
             'RELAXED_CMOR': self._request.common.is_relaxed_cmor(),
             'CONTINUE_IF_MIP_CONVERT_FAILED': self._request.conversion.continue_if_mip_convert_failed,
         }
-        self.apply_changes(changes)
 
-    def general_configuration(self) -> None:
-        """
-        Update the rose-suite.conf file with suite level settings that are the same for all streams.
-        Stream specific settings will be set trhough stream-specific optional config files
-        (see _update_suite_opt_conf).
+        return flag_variables
 
-        :param location: The platform on which to run the tasks in the suite.
-        :type location: str
+    def general_variables(self) -> dict:
+        """ A grouping of general jinja2 variables.
+
+        :return: A dictionary of jinja2 general variables
+        :rtype: dict
         """
-        changes = {
+
+        general_variables = {
             'ARCHIVE_DATA_VERSION': self._request.data.data_version,
             'MIP_ERA': self._request.metadata.mip_era,
             'CDDS_CONVERT_PROC_DIR': component_directory(self._request, 'convert'),
@@ -93,47 +101,64 @@ class ConfigureTemplateVariables:
             'START_DATE': str(self._request.data.start_date),
             'TARGET_SUITE_NAME': self._request.data.model_workflow_id,
         }
+
         if 'CDDS_DIR' in os.environ:
-            changes['CDDS_DIR'] = os.environ['CDDS_DIR']
+            general_variables['CDDS_DIR'] = os.environ['CDDS_DIR']
         else:
             self.logger.info('Environment variable CDDS_DIR not found. Skipping interpolation into rose suite')
 
-        # if location:
-        #     changes['LOCATION'] = location
+        return general_variables
 
-        self.apply_changes(changes)
+    def plugin_variables(self) -> dict:
+        """Set various jinja2 variables relating to plugins.
 
-    def external_plugin_options(self):
-        plugin_id = self._request.metadata.mip_era
-        if self._request.common.force_plugin:
-            plugin_id = self._request.common.force_plugin
+        :return: A dictionary of jinja2 plugin variables.
+        :rtype: dict
+        """
+        plugin_variables = {'EXTERNAL_PLUGIN': "",
+                            'EXTERNAL_PLUGIN_LOCATION': "",
+                            'USE_EXTERNAL_PLUGIN': False,
+                            'PLUGIN_ID': self._request.metadata.mip_era}
 
-        use_external_plugin = False
-        external_plugin = ''
-        external_plugin_location = ''
         if self._request.common.external_plugin:
-            use_external_plugin = True
-            external_plugin = self._request.common.external_plugin
-            external_plugin_location = self._request.common.external_plugin_location
+            plugin_variables['EXTERNAL_PLUGIN'] = self._request.common.external_plugin
+            plugin_variables['EXTERNAL_PLUGIN_LOCATION'] = self._request.common.external_plugin_location
+            plugin_variables['USE_EXTERNAL_PLUGIN'] = True
 
-        changes = {'USE_EXTERNAL_PLUGIN': use_external_plugin}
-        changes = {'PLUGIN_ID': plugin_id}
+        if self._request.common.force_plugin:
+            plugin_variables['PLUGIN_ID'] = self._request.common.force_plugin
 
-        if use_external_plugin:
-            changes['EXTERNAL_PLUGIN'] = external_plugin
-            changes['EXTERNAL_PLUGIN_LOCATION'] = external_plugin_location
+        return plugin_variables
 
-        self.apply_changes(changes)
+    def stream_variables(self) -> dict:
+        """ Return a copy of self.stream_config without FINAL_CYCLE_POINT.
 
-    def stream_options(self):
-        changes = self.stream_config
-        self.apply_changes(changes)
+        :return: A dictionary of jinja2 stream variables.
+        :rtype: dict
+        """
+        stream_variables = {k: v for k, v in self.stream_config.items() if k != "FINAL_CYCLE_POINT"}
 
-    def apply_changes(self, changes):
+        return stream_variables
+
+    def final_cycle_point_variable(self) -> dict:
+        """ A Cylc workflow can only have one final cycle point, so the latest point out of all streams
+        is used.
+
+        :return: The latest FINAL_CYCLE_POINT out of all of the streams.
+        :rtype: dict
+        """
+        final_cycle_points = self.stream_config["FINAL_CYCLE_POINT"].values()
+        final_cycle_points = [TimePointParser().parse(point) for point in final_cycle_points]
+        final_cycle_point_variable = {"FINAL_CYCLE_POINT": str(max(final_cycle_points))}
+
+        return final_cycle_point_variable
+
+    def update(self) -> None:
+        """ Write the self.template_variables to the rose-suite.conf file."""
         try:
             changes_applied = update_suite_conf_file(self.config_file,
                                                      self.section,
-                                                     changes,
+                                                     self.template_variables,
                                                      raw_value=False)
         except Exception as err:
             self.logger.exception(err)
