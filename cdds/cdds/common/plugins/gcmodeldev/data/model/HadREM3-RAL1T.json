@@ -24,6 +24,7 @@
         "aph",
         "apl",
         "apt",
+        "apq",
         "apu",
         "apv"
       ],
@@ -41,6 +42,7 @@
     "aph": "P1Y",
     "apl": "P1Y",
     "apt": "P1Y",
+    "apq": "P1M",
     "apu": "P1Y",
     "apv": "P1Y"
   },
@@ -55,6 +57,7 @@
     "aph": "64G",
     "apl": "64G",
     "apt": "64G",
+    "apq": "128G",
     "apu": "64G",
     "apv": "64G"
   },
@@ -69,6 +72,7 @@
     "aph": 131072,
     "apl": 131072,
     "apt": 131072,
+    "apq": 131072,
     "apu": 131072,
     "apv": 131072
   },
@@ -80,10 +84,10 @@
       "default": 5
     },
     "1hr":{
-      "default": 1
+      "default": 0.25
     },
     "1hrPt":{
-      "default": 1
+      "default": 0.25
     }
   },
   "subdaily_streams": [],
