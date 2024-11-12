@@ -81,16 +81,17 @@ graph LR
 The user configuration file provides the information required by MIP Convert to produce the output netCDF files.
 It contains the following sections, some of which are optional.
 
-| Section                | Summary                                                   |
-|------------------------|-----------------------------------------------------------|
-| `[COMMON]`             | Convenience for setting up shared config values.          |
-| `[cmor_setup]`         | Passed through to CMOR's `cmor_setup()` routine.          |
-| `[cmor_dataset]`       | Passed through to CMOR's `cmor_data_set_json()` routine.  |
-| `[request]`            | Configure `mip_convert` including input data.             |
-| `[stream_<stream_id>]` | The variables to produce from a particular `<stream_id>`. |
-| `[masking]`            | Apply polar row masking if needed.                        |
-| `[halo_removal]`       | Apply stripping of halo columns and rows if needed.       |
-| `[global_attributes]`  | Add global attributes to the output netCDF.               |
+| Section                | Summary                                                    |
+|------------------------|------------------------------------------------------------|
+| `[COMMON]`             | Convenience for setting up shared config values.           |
+| `[cmor_setup]`         | Passed through to CMOR's `cmor_setup()` routine.           |
+| `[cmor_dataset]`       | Passed through to CMOR's `cmor_data_set_json()` routine.   |
+| `[request]`            | Configure `mip_convert` including input data.              |
+| `[stream_<stream_id>]` | The variables to produce from a particular `<stream_id>`.  |
+| `[masking]`            | Apply polar row masking if needed.                         |
+| `[halo_removal]`       | Apply stripping of halo columns and rows if needed.        |
+| `[slicing_periods]`    | Using the slicing period for a particular stream if given. |
+| `[global_attributes]`  | Add global attributes to the output netCDF.                |
 
 
 ### **COMMON**
@@ -272,6 +273,17 @@ The optional `halo removal` section is used if for a particular stream haloes ar
     stream_ap6: 20:-15
     ```
 
+### **slicing_periods**
+
+The optional `slicing_periods` section is used if for a particular stream a period for slicing is specified. 
+For all streams that have no specified slicing period the default slicing period is `year`.
+
+!!! example
+    ```config
+    [slicing_periods]
+    stream_apa: month
+    stream_ap6: year
+    ```
 
 ### **global_attributes**
 
