@@ -107,7 +107,6 @@ def request_config():
     config['force_coordinate_rotation'] = _get_config(
         'force_coordinate_rotation', section, python_type=bool, default_value=False
     )
-
     return config
 
 

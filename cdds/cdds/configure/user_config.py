@@ -121,6 +121,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
                 'Producing user configuration file for "{}"'.format(file_suffix))
             maskings = get_masking_attributes(request.metadata.model_id, streams)
             halo_removals = get_halo_removal_attributes(request)
+            slicing = get_slicing_periods(request)
             user_config = OrderedDict()
             user_config.update(deepcopy(metadata))
             # lists need to be flattened again
@@ -137,6 +138,8 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
                 user_config['masking'] = maskings
             if halo_removals:
                 user_config['halo_removal'] = halo_removals
+            if slicing:
+                user_config['slicing_periods'] = slicing
             user_config.update(mip_requested_variables)
             filename = template_name.format(file_suffix)
             user_configs[filename] = user_config
@@ -210,6 +213,28 @@ def get_masking_attributes(model_id, streams):
                 key = masking_key_template.format(stream, grid)
                 maskings[key] = value
     return maskings
+
+
+def get_slicing_periods(request: Request):
+    """
+    Returns all specifed slicing periods for particular streams. Only return slicing
+    periods of streams that are specify in the request.
+
+    The period can be either `year` or `month`. If a stream has not defined
+    period. The default will be `year`.
+
+    :param request: Request contains all data to create the slicing periods
+    :type request: :class:`cdds.common.request.request.Request`
+    :return: Slicing period as dictionary
+    :rtype: dict
+    """
+    slicing = OrderedDict()
+    template_key = 'stream_{}'
+    for slicing_attribute in request.conversion.slicing:
+        splits = slicing_attribute.split('=')
+        key = template_key.format(splits[0])
+        slicing[key] = splits[1]
+    return slicing
 
 
 def get_global_attributes(request):

@@ -280,6 +280,7 @@ class UserConfig(PythonConfig):
         self._required_options = {}
         self._global_attributes = {}
         self._masking = {}
+        self._slicing = {}
         self._halo_removals = {}
         self.streams_to_process = {}
         self.mip_table_prefix = ''
@@ -293,6 +294,7 @@ class UserConfig(PythonConfig):
         self._add_attributes(self._all_options)
         self._add_streams()
         self._add_masking()
+        self._add_slicing()
         self._add_halo_removals()
         # The 'history' option from the 'user configuration file' is
         # never used; define a value for it here.
@@ -307,6 +309,10 @@ class UserConfig(PythonConfig):
     @property
     def halo_removals(self):
         return self._halo_removals
+
+    @property
+    def slicing(self):
+        return self._slicing
 
     @property
     def global_attributes(self):
@@ -371,6 +377,14 @@ class UserConfig(PythonConfig):
                 stream_masking = self._masking.get(stream, {})
                 stream_masking[grid] = mask
                 self._masking[stream] = stream_masking
+
+    def _add_slicing(self):
+        section = 'slicing_periods'
+        if self.config.has_section(section):
+            for key, value in self.items(section).items():
+                key_splits = key.split('_')
+                stream_name = key_splits[1]
+                self._slicing[stream_name] = value
 
     def _add_halo_removals(self):
         section = 'halo_removal'

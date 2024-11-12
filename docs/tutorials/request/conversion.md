@@ -52,6 +52,10 @@ The `conversion` in the request configuration contains settings that specify how
 :   override default frequency for specified stream. Each stream should be specified along with the cycling frequency 
     using the format `<stream>=<frequency>`, e.g. `ap7=P3M ap8=P1M`.
 
+`slicing`
+:   slicing period for specified stream. Each stream should be specified along with the slicing period using the format
+    `<stream>=<period>`, e.g. `ap7=year ap8=month`. Only, `year` and `month` as period are supported.
+
 `model_params_dir`
 :   the path to the directory containing the model parameters that should be overloaded the model parameters in the plugin.
 

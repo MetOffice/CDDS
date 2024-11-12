@@ -48,7 +48,7 @@ class TestCordexCmip6DayHus1000(AbstractFunctionalTests):
                     'ignore_history': True,
                     'other_options': '-B',
                     'tolerance_value': 0.0000001  # pyproj4 calculations for rotated grids are slightly off on Azure
-                                                  # so we added tiny tolerances to handle the differences
+                    # so we added tiny tolerances to handle the differences
                 }
             )
         )

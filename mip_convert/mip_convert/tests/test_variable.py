@@ -198,7 +198,7 @@ class TestVariable(unittest.TestCase):
     def test_slices_over(self):
         reference = copy(self.obj)
         reference.input_variables['constraint1'].slices_over('time')
-        output = [data for data in self.obj.slices_over()]
+        output = [data for data in self.obj.slices_over('year')]
         self.assertEqual(len(output), 1)
 
         # Compare important attributes.
@@ -211,7 +211,7 @@ class TestVariable(unittest.TestCase):
         variable_metadata = get_variable_metadata(self.metadata)
         variable = Variable(self.input_variables, variable_metadata)
         with self.assertRaisesRegex(RuntimeError, 'No data available for "1979"; .*'):
-            _ = [data for data in variable.slices_over()]
+            _ = [data for data in variable.slices_over('year')]
 
     def test_date_times_for_slices_over_period_year(self):
         reference = [[1980]]
@@ -231,6 +231,19 @@ class TestVariable(unittest.TestCase):
         variable = Variable(self.input_variables, variable_metadata)
         output = variable.date_times_for_slices_over('year')
         self.assertEqual(output, [[1981], [1982], [1983]])
+
+    def test_date_times_for_slices_over_period_month(self):
+        reference = [[1980, 11], [1980, 12]]
+        output = self.obj.date_times_for_slices_over('month')
+        self.assertEqual(output, reference)
+
+    def test_data_times_for_slices_over_period_month_over_years(self):
+        reference = [[1980, 11], [1980, 12], [1981, 1], [1981, 2]]
+        self.metadata['run_bounds'] = ['1980-11-01T00:00:00', '1981-03-01T00:00:00']
+        variable_metadata = get_variable_metadata(self.metadata)
+        variable = Variable(self.input_variables, variable_metadata)
+        output = variable.date_times_for_slices_over('month')
+        self.assertEqual(output, reference)
 
     def test_units_before_process(self):
         # The units provided to Variable are valid only after the processing has been applied.
