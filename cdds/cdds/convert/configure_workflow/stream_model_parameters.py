@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2024, Met Office.
 # Please see LICENSE.rst for license details.
 import logging
-from typing import Dict
 
 from metomi.isodatetime.parsers import DurationParser
 from metomi.isodatetime.data import Duration
@@ -15,7 +14,7 @@ class StreamModelParameters:
         self._request = request
         self.stream = stream
         self.stream_components = components.stream_components
-        self.stream_substreams = components.substreams_dict
+        self.stream_substreams = components.stream_substreams
         self._plugin = PluginStore.instance().get_plugin()
         self._model_params = self._plugin.models_parameters(self._request.metadata.model_id)
         self.logger = logging.getLogger()
@@ -60,19 +59,19 @@ class StreamModelParameters:
             cycling_frequency = cycle_overrides[self.stream]
             self.logger.info('Overriding cycling frequency for stream "{}": "{}" -> "{}"'
                              ''.format(stream, default_cycling_frequency, cycling_frequency))
-            return DurationParser().parse(frequency)
+            return DurationParser().parse(cycling_frequency)
         else:
             cycling_frequency = default_cycling_frequency
 
         return DurationParser().parse(cycling_frequency)
 
     @property
-    def memory(self) -> Dict[str, str]:
+    def memory(self) -> dict[str, str]:
         """
         Return the required memory for this stream and apply any scaling if a scaling factor is provided.
 
         :return: The required memory for this stream.
-        :rtype: Dict[str, str]
+        :rtype: dict[str, str]
         """
         required_memory = {c: self._model_params.memory(self.stream) for c in self.stream_components[self.stream]}
         scaling_factor = self._request.conversion.scale_memory_limits
@@ -94,11 +93,11 @@ class StreamModelParameters:
         """
         return self._model_params.temp_space(self.stream)
 
-    def as_jinja2(self) -> Dict:
+    def as_jinja2(self) -> dict:
         """A helper method that provides a dictionary with the needed jinja2 template variables.
 
         :return: A dictionary with Jinja2 template variables.
-        :rtype: Dict
+        :rtype: dict
         """
         return {
             'STREAMS': self.stream,
