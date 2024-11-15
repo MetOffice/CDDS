@@ -81,7 +81,6 @@ class ConfigureTemplateVariables:
 
         general_variables = {
             'ARCHIVE_DATA_VERSION': self._request.data.data_version,
-            'MIP_ERA': self._request.metadata.mip_era,
             'CDDS_CONVERT_PROC_DIR': component_directory(self._request, 'convert'),
             'CDDS_VERSION': _NUMERICAL_VERSION,
             'CALENDAR': self._request.metadata.calendar,
