@@ -26,18 +26,18 @@ The `misc` in the request configuration contains any settings that do not fit in
 `halo_removal_longitude`
 :   number of longitude points to be stripped using `<start>:<stop>` as the format.
 
+    !!! example
+        Strip 5 points at the start and end for latitude and strip 10 points at the start and end
+        for longitude:
+        ```yaml
+        halo_removal_latitude = 5:-5
+        halo_removal_longitude = 10:-10
+        ```
+
 `force_coordinate_rotation`
 :   Set to `True` to enable coordination rotation if coordination system is not rotated by default.
 
     **Default:** `False`
-
-!!! example
-    Strip 5 points at the start and end for latitude and strip 10 points at the start and end
-    for longitude:
-    ```yaml
-    halo_removal_latitude = 5:-5
-    halo_removal_longitude = 10:-10
-    ```
 
 ## Examples
 
