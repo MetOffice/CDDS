@@ -135,7 +135,7 @@ class ControlledVocabularyValidator:
         try:
             validate_func = ValidatorFactory.value_in_validator(allowed_values)
             if self._global_attribute_cache is not None:
-                val = self._global_attribute_cache(attribute_name, input_data)
+                val = self._global_attribute_cache.getncattr(attribute_name, input_data)
             else:
                 val = getattr(input_data, attribute_name)
             validate_func(val)
@@ -161,7 +161,7 @@ class ControlledVocabularyValidator:
         try:
             validate_func = ValidatorFactory.value_in_validator(allowed_values)
             if self._global_attribute_cache is not None:
-                val = self._global_attribute_cache(attribute_name, input_data)
+                val = self._global_attribute_cache.getncattr(attribute_name, input_data)
             else:
                 val = getattr(input_data, attribute_name)
             validate_func(val)
