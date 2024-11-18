@@ -92,11 +92,11 @@ def expected_test_data():
 def expected_test_misc():
     return {
         'atmos_timestep': 1200,
-        'force_coordinate_rotation': False,
         'use_proc_dir': True,
         'no_overwrite': False,
         'halo_removal_latitude': '',
-        'halo_removal_longitude': ''
+        'halo_removal_longitude': '',
+        'force_coordinate_rotation': False
     }
 
 
@@ -113,8 +113,8 @@ def expected_text_conversion():
         'skip_extract_validation': False,
         'skip_configure': False,
         'skip_qc': False,
-        'slicing': [],
         'skip_archive': False,
+        'slicing': [],
         'cdds_workflow_branch': 'trunk',
         'cylc_args': ['-v', '--workflow-name=cdds_{request_id}_{stream}'],
         'no_email_notifications': True,
@@ -210,11 +210,11 @@ def expected_test_minimal_data(data_version: datetime):
 def expected_test_minimal_misc():
     return {
         'atmos_timestep': 1200,
-        'force_coordinate_rotation': False,
         'no_overwrite': False,
         'use_proc_dir': True,
         'halo_removal_latitude': '',
-        'halo_removal_longitude': ''
+        'halo_removal_longitude': '',
+        'force_coordinate_rotation': False
     }
 
 

@@ -33,7 +33,6 @@ class TestReadRequest(TestCase):
     def tearDown(self) -> None:
         PluginStore.clean_instance()
 
-    @mock.patch.dict(os.environ, {'CDDS_CONVERT_WORKFLOW_BRANCH': 'trunk'})
     def test_read_request(self):
         request_path = os.path.join(self.data_dir, 'test_request.cfg')
         request = read_request(request_path)
@@ -45,7 +44,6 @@ class TestReadRequest(TestCase):
         self.assertDictEqual(request.inventory.items, expected_test_inventory())
         self.assertDictEqual(request.conversion.items, expected_text_conversion())
 
-    @mock.patch.dict(os.environ, {'CDDS_CONVERT_WORKFLOW_BRANCH': 'trunk'})
     @mock.patch('cdds.common.request.data_section.datetime')
     def test_read_minimal_request(self, data_section_datetime_mock):
         data_version = datetime.utcnow()
