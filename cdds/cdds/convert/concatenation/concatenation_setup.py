@@ -390,14 +390,14 @@ def build_concatenation_work_dict(available_variables, config,
     """
     logger = logging.getLogger(__name__)
     all_concatenation_work = {}
-    for mip_table, variable_name in available_variables:
-        logger.info('MIP variable: {}/{}'.format(mip_table, variable_name))
-        filename_pattern = '{}_{}_*'.format(variable_name, mip_table)
+    for variable_facets in available_variables:
+        logger.info('MIP variable: {}'.format('_'.join(variable_facets)))
+        filename_pattern = '{}_*'.format('_'.join(variable_facets))
         input_files_dir = config['staging_location']
 
         input_filenames = list_cmor_files(input_files_dir,
                                           filename_pattern,
-                                          mip_table=mip_table,
+                                          # mip_table=mip_table,
                                           recursive=config['recursive'])
         if len(input_filenames) == 1:
             logger.info('Found single file {}'.format(input_filenames[0]))
@@ -489,7 +489,7 @@ def concatenation_setup(config_file, log_file, append_log):
     available_variables = set()
     for filename in list_cmor_files(config['staging_location'], '*',
                                     recursive=config['recursive']):
-        variable_tuple = tuple(os.path.basename(filename).split('_')[1::-1])
+        variable_tuple = tuple(os.path.basename(filename).split('_')[:-1])
         available_variables.add(variable_tuple)
 
     all_concatenation_work = build_concatenation_work_dict(
