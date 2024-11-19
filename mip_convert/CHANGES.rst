@@ -3,6 +3,13 @@
 
 .. include:: common.txt
 
+Release 3.0.4, November 19, 2024
+================================
+* Added HadGEM3 mapping for ``AERday/ua10``, ``AEday/ua10`` that does not use the 
+  Heaviside field (CDDSO-547)
+* Altered mapping for HadREM3 ``mon/tas`` to use daily data to calculate monthly mean 
+  (CDDSO-548)
+
 Release 3.0.3, October 24, 2024
 ===============================
 * Allow forced coordinate rotation. Output data will be forced to include rotated coordinates
