@@ -3,6 +3,18 @@
 
 .. include:: common.txt
 
+Release 3.0.4, November 19, 2024
+================================
+* Enabled sub-annual slicing through the ``slicing`` option in the ``common`` section of
+  the Request config file. Streams can individually be set to have ``month`` slicing where
+  large amounts of memory usage are expected (e.g. hourly data) while the default is
+  ``year``, i.e. annual slicing (CDDSO-342)
+* Corrected bug preventing QC from completing for CMIP6 like processing introduced in 
+  CDDS v3.0.2 (CDDSO-532)
+* Changed concatenation code to handle monthly and daily datasets in the same stream 
+  where the first two facets of the file name are not unique to a dataset (CDDSO-548)
+* Updated HadREM3 sizing info (CDDSO-548)
+
 Release 3.0.3, October 24, 2024
 ===============================
 * Grid descriptions can now be modified through model parameter files (CDDSO-534, CDDSO-528)
