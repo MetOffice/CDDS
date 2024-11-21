@@ -6,11 +6,12 @@ from metomi.isodatetime.parsers import DurationParser
 from metomi.isodatetime.data import Duration
 
 from cdds.common.plugins.plugins import PluginStore
+from cdds.common.request.request import Request
 from cdds.convert.process.memory import scale_memory
 
 
 class StreamModelParameters:
-    def __init__(self, request, stream, components):
+    def __init__(self, request: Request, stream, components):
         self._request = request
         self.stream = stream
         self.stream_components = components.stream_components
@@ -63,7 +64,31 @@ class StreamModelParameters:
         else:
             cycling_frequency = default_cycling_frequency
 
-        return DurationParser().parse(cycling_frequency)
+        cycling_frequency = DurationParser().parse(cycling_frequency)
+
+        cycling_frequency = self.check_cycle_freq_exceeds_run_bounds(cycling_frequency)
+
+        return cycling_frequency
+
+    def check_cycle_freq_exceeds_run_bounds(self, cycle_frequency: Duration) -> Duration:
+        """
+        If the given `cycle_frequency` is larger than the run bounds then a new cycling
+        frequency is returned that is smaller or equal to the run bounds durations.
+
+        :param cycle_frequency: The default cycling frequency as a duration string e.g. P5Y
+        :type cycle_frequency: Duration
+        :return: A cycling frequency compatible with the run bounds.
+        :rtype: Duration
+        """
+        start_date, end_date = self._request.data.start_date, self._request.data.end_date
+
+        if start_date + cycle_frequency > end_date:
+            if start_date + DurationParser().parse('P1Y') > end_date:
+                return Duration(months=1)
+            else:
+                return Duration(years=1)
+
+        return cycle_frequency
 
     @property
     def memory(self) -> dict[str, str]:

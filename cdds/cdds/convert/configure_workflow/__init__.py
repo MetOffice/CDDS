@@ -112,7 +112,7 @@ def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
                                                         workflow_manager.rose_suite_conf)
     workflow_configuration.update()
 
-    args = [f"--workflow-name={request.common.workflow_basename}"]
+    args = [f"--workflow-name=cdds_{request.common.workflow_basename}"]
 
     workflow_manager.submit_workflow(simulation=request.common.simulation, cylc_args=args)
 
