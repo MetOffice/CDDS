@@ -6,7 +6,7 @@ CDDS has recently been adapted to allow for the easy addition of both models and
 
 ## Useful Documents:
 
-- [Operational Procedures](CDDS-Operational-Procedures)
+- [Operational Procedures](operational_procedure/index.md)
 
 ## Contact
 

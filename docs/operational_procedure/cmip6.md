@@ -1,6 +1,6 @@
 # Generating CMORised data with CDDS for CMIP6 / CMIP6 Plus simulations using the CDDS Workflow
 
-See also [guidance for adhoc generation of CMORised data](../gcmodeldev).
+See also [guidance for adhoc generation of CMORised data](gcmodeldev.md).
 
 !!! tip
     Use `<script> -h` or `<script> --help` to print information about the script, including available parameters.
@@ -450,7 +450,7 @@ the Extract, Convert, QC and Transfer tasks have been completed.
 - [x] Select `assign for review to` on the *CDDS operational simulation ticket* (so that the status is `reviewing`) and 
       assign the *CDDS operational simulation ticket* to Matthew Mizielinski by selecting this name from the list.
 
-- [x] The ticket will then be reviewed according to the [CDDS simulation review procedure](../sim_review) by members of the CDDS team.
+- [x] The ticket will then be reviewed according to the [CDDS simulation review procedure](sim_review.md) by members of the CDDS team.
 
 !!! info
     The review script used by the CDDS team involves running the following command
