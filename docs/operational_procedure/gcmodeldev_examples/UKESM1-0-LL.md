@@ -1,6 +1,6 @@
 # GCModelDev UKESM1 0 LL request file example
 
-## CDDS v3.0.4
+## CDDS v3.0.x
 
 In CDDS v3.0.0 the request file format was changed from `json` to `ini`.
 

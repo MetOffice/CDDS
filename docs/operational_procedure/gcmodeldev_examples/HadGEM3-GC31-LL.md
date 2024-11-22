@@ -1,6 +1,6 @@
 # GCModelDev HadGEM3 GC31 LL request file example
 
-## CDDS v3.0.0
+## CDDS v3.0.x
 
 In CDDS v3.0.0 the request file format was changed from `json` to `ini`.
 
