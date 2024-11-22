@@ -1,6 +1,6 @@
 # GCModelDev HadGEM3 GC31 LL request file example
 
-## CDDS v3.0.0
+## CDDS v3.0.x
 
 In CDDS v3.0.0 the request file format was changed from `json` to `ini`.
 
@@ -33,18 +33,18 @@ model_type = AOGCM AER
 [common]
 external_plugin = 
 external_plugin_location = 
-mip_table_dir = /home/h03/cdds/etc/mip_tables/GCModelDev/0.0.9
+mip_table_dir = $CDDS_ETC/mip_tables/GCModelDev/0.0.23
 mode = relaxed
 package = round-1
 workflow_basename = request_id
-root_proc_dir = 
-root_data_dir = 
-root_ancil_dir = /home/h03/cdds/etc/ancil/
-root_hybrid_heights_dir = /home/h03/cdds/etc/vertical_coordinates/
-root_replacement_coordinates_dir = /home/h03/cdds/etc/horizontal_coordinates/
-sites_file = /home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt
+root_proc_dir = $SCRATCH/cdds_proc  # A reasonable default for Met Office, change for JASMIN
+root_data_dir = $SCRATCH/cdds_data  # A reasonable default for Met Office, change for JASMIN
+root_ancil_dir = $CDDS_ETC/ancil/
+root_hybrid_heights_dir = $CDDS_ETC/vertical_coordinates/
+root_replacement_coordinates_dir = $CDDS_ETC/horizontal_coordinates/
+sites_file = $CDDS_ETC/cfmip2/cfmip2-sites-orog.txt
 standard_names_version = latest
-standard_names_dir = /home/h03/cdds/etc/standard_names/
+standard_names_dir = $CDDS_ETC/standard_names/
 simulation = False
 log_level = INFO
 
@@ -58,12 +58,12 @@ model_workflow_id = u-bg466
 model_workflow_branch = trunk
 model_workflow_revision = not used except with data request
 streams = ap5 onm
-variable_list_file = 
-output_mass_root = 
-output_mass_suffix = 
+variable_list_file = <must be included>
+output_mass_root = moose:/adhoc/users/<moose user id>  # Update with user id
+output_mass_suffix = testing  # This is appended to output_mass_root
 
 [misc]
-atmos_timestep = 1200
+atmos_timestep = 1200  # This is model dependent
 use_proc_dir = True
 no_overwrite = False
 

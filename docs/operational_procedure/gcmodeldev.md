@@ -1,12 +1,18 @@
 # Generating CMORised data with CDDS for GCModelDev simulations using the CDDS Workflow 
 
-See also [guidance for CMIP6 / CMIP6 Plus generation of CMORised data](../cmip6).
+See also [guidance for CMIP6 / CMIP6 Plus generation of CMORised data](cmip6.md).
 
 !!! tip
     Use `<script> -h` or `<script> --help` to print information about the script, including available parameters.
 
 !!! example
     A simulation for the pre-industrial control from HadGEM3 will be used as an example in these instructions.
+  
+!!! note
+    The procedure below assumes that you are keeping track of progress using a *CDDS progress ticket*.
+    For exercises such as CMIP6 this was managed centrally, but as GCModelDev is intended to provide support 
+    for ad-hoc processing we recommend you have some form of progress note, you are welcome to use 
+    [the CDDS Trac](https://code.metoffice.gov.uk/trac/cdds) for this purpose if you wish.
 
 ## Prerequisites
 
@@ -60,7 +66,7 @@ CMIP6 data and for feeding in to tools that base themselves on the same data str
        this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
        for advice.
 
-    2. **Ticket**: Record the version of CDDS being used on the *CDDS operational simulation ticket*.
+    2. **Ticket**: Record the version of CDDS being used on the *CDDS progress ticket*.
 
 === "JASMIN"
 
@@ -73,26 +79,29 @@ CMIP6 data and for feeding in to tools that base themselves on the same data str
        this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
        for advice.
 
-    2. **Ticket**: Record the version of CDDS being used on the *CDDS operational simulation ticket*.
+    2. **Ticket**: Record the version of CDDS being used on the *CDDS progress ticket*.
 
 !!! note
-    * The available version numbers for this script can be found [here](https://github.com/MetOffice/CDDS/tags)
+    * The available version numbers for this script can be found [here](https://github.com/MetOffice/CDDS/tags) 
+      (MetOffice github access required)
     * If you wish to deactivate the CDDS environment then you can use the command `conda deactivate`.
 
 ## Create the request configuration file
 
 !!! info
-    Please, also the documentation of the [request configuration](../../tutorials/request/config_request).
+    Please, also the documentation of the [request configuration](../tutorials/request/config_request.md).
 
 A request configuration file contains a number of fields that guide what CDDS processing does and can be viewed as a "control" 
 file with a reasonable number of arguments. The simplest approach is to copy an existing file and edit certain fields.
 
 Examples:
 
-* [GCModelDev HadGEM3-GC31-LL](../gcmodeldev_examples/HadGEM3-GC31-LL)
-* [GCModelDev HadGEM3-GC31-LL using ens class](../gcmodeldev_examples/HadGEM3-GC31-LL_envs)
-* [GCModelDev HadGEM3-GC31-MM](../gcmodeldev_examples/HadGEM3-GC31-MM)
-* [GCModelDev UKESM1-0-LL](../gcmodeldev_examples/UKESM1-0-LL)
+* [GCModelDev HadGEM3-GC31-LL](gcmodeldev_examples/HadGEM3-GC31-LL.md)
+* [GCModelDev HadGEM3-GC31-LL using ens class](gcmodeldev_examples/HadGEM3-GC31-LL_envs.md)
+* [GCModelDev HadGEM3-GC31-MM](gcmodeldev_examples/HadGEM3-GC31-MM.md)
+* [GCModelDev UKESM1-0-LL](gcmodeldev_examples/UKESM1-0-LL.md)
+
+These request files should be suitable for use both within the Met Office and on JASMIN.
 
 If you are working with a particular model then to set up a new CDDS processing "package", the user would need to alter 
 the experiment_id and/or variant_label fields, possibly the mip, and the workflow_id along with a set of streams
@@ -168,12 +177,14 @@ You also need to set following values manually:
 3. Run the workflow:
    ```bash
    cd <name for processing workflow>
-   cylc vip .
+   cylc vip . 
    ```
 
 !!! info
-    Cylc 8 is used for running the processing workflow. You can do this by running following command before 
-    running the workflow:
+    Cylc 8 is used for running the processing workflow. 
+    If your default version of cylc is not cylc 8 (run 
+    `cylc --version` to check) you will need to run the 
+    following command before running the workflow:
     ```bash
     export CYLC_VERSION=8
     ```
@@ -188,7 +199,7 @@ Conversion workflows will usually be named `cdds_<model id>_<experiment id>_<var
 run completely independently.
 If a workflow has issues, due to task failure, it will stall, and you will receive an e-mail.
 
-If you hit issues or are unsure how to proceed update the *CDDS operational simulation ticket* for your package with 
+If you hit issues or are unsure how to proceed update the *CDDS progress ticket* for your package with 
 anything you believe is relevant (include the location of your working directory) and contact the [CDDS Team](mailto:cdds@metoffice.gov.uk) 
 for advice.
 
@@ -212,7 +223,7 @@ The conversion workflows run the following steps
           ```bash
           cylc trigger cdds_<model id>_<experiment id>_<variant label>_<stream> run_extract_<stream>:failed
           ```
-        * If in doubt update your *CDDS operational simulation ticket* and contact [CDDS Team](mailto:cdds@metoffice.gov.uk) for advice.
+        * If in doubt update your *CDDS progress ticket* and contact [CDDS Team](mailto:cdds@metoffice.gov.uk) for advice.
 
 - [x] `validate_extract_<stream>`
 
@@ -231,7 +242,7 @@ The conversion workflows run the following steps
         * Run MIP Convert to produce output files for a small time window for this simulation.
         * Will retry up to 3 times before workflow stalls.
         * CRITICAL issues are appended to `$CDDS_PROC_DIR/convert/log/critical_issues.log`. 
-          These will likely need user action to correct for. So, update your *CDDS operational simulation ticket* and 
+          These will likely need user action to correct for. So, update your *CDDS progress ticket* and 
           contact [CDDS Team](mailto:cdds@metoffice.gov.uk) for advice.
         * The CRITICAL log file will not exist if there are no critical issues.
         * A variant named `mip_convert_first_<stream>_<grid group>` may be launched to align the cycling dates with 
@@ -273,7 +284,7 @@ The conversion workflows run the following steps
           ```bash
           grep CRITICAL $CDDS_PROC_DIR/convert/log/mip_concatenate_*.log
           ```
-          If any critical issues arise or tasks fail update your *CDDS operational simulation ticket* and 
+          If any critical issues arise or tasks fail update your *CDDS progress ticket* and 
           contact the [CDDS Team](mailto:cdds@metoffice.gov.uk) for advice.
         * Output data is written to 
           ```bash
@@ -300,7 +311,7 @@ The conversion workflows run the following steps
           ```bash
           <MIP table>/<variable name>;<Directory containing files>
           ```
-        * This task will fail if any QC issues are found and will not resubmit. If this occurs please update your *CDDS operational simulation ticket* 
+        * This task will fail if any QC issues are found and will not resubmit. If this occurs please update your *CDDS progress ticket* 
           and contact the [CDDS Team](mailto:cdds@metoffice.gov.uk) for advice. 
  
 - [x] `run_transfer_<stream>`
@@ -316,7 +327,7 @@ The conversion workflows run the following steps
             ```bash
             grep SSC_STORAGE_SYSTEM_UNAVAILABLE $CDDS_PROC_DIR/archive/log/cdds_store_<stream>_<date stamp>.log
             ```
-          * An attempt is made to archive data that already exists in MASS. If this occurs please update your *CDDS operational simulation ticket* 
+          * An attempt is made to archive data that already exists in MASS. If this occurs please update your *CDDS progress  ticket* 
             and contact the [CDDS Team](mailto:cdds@metoffice.gov.uk) for advice.
 
     !!! important "VERY IMPORTANT"

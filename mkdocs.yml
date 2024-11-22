@@ -9,8 +9,14 @@ nav:
   - Home:
     - About: index.md
   - Operational Procedures:
+    - operational_procedure/index.md
     - CMIP6 and CMIP6 Plus: operational_procedure/cmip6.md
-    - GCModelDev: operational_procedure/gcmodeldev.md
+    - GCModelDev: 
+      -  operational_procedure/gcmodeldev.md
+      - GCModelDev HadGEM3-GC31-LL Request: operational_procedure/gcmodeldev_examples/HadGEM3-GC31-LL.md
+      - GCModelDev HadGEM3-GC31-LL ensemble class Request: operational_procedure/gcmodeldev_examples/HadGEM3-GC31-LL_envs.md
+      - GCModelDev HadGEM3-GC31-MM Request: operational_procedure/gcmodeldev_examples/HadGEM3-GC31-MM.md
+      - GCModelDev UKESM1-0-LL Request: operational_procedure/gcmodeldev_examples/UKESM1-0-LL.md
     - Simulation Review Procedure: operational_procedure/sim_review.md
   - Tutorials:
     - Search Inventory: tutorials/search_inventory.md
@@ -43,7 +49,7 @@ nav:
       - Working with Jira: developer_documentation/jira.md
       - Managing Conda Environments: developer_documentation/managing_environments.md
       - Documentation: developer_documentation/building_documentation.md
-      - Review Guidelines: developer_documentation/review_guidelines.md
+#      - Review Guidelines: developer_documentation/review_guidelines.md
       - Working with Github: developer_documentation/github.md
     - Request:
         - Request Architecture: developer_documentation/request/request.md
