@@ -208,6 +208,7 @@ def check_moo_cmd(code, output):
         'ncks: ERROR'
     ]
     OK_ERRORS = ['PATH_ALREADY_EXISTS']
+    status = 'stop'
     if code == 0:
         status = 'ok'
     elif code == 2:
