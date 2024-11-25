@@ -1,0 +1,128 @@
+#!jinja2
+[scheduler]
+    UTC mode = True
+
+[task parameters]
+    package={{PACKAGES|join(',')}}
+
+[scheduling]
+{% if NIGHTLY_MODE %}
+    initial cycle point = now
+    [[special tasks]]
+        clock-trigger = cdds_get_source(PT1M),
+{% endif %}
+
+    [[graph]]
+{% if NIGHTLY_MODE %}
+        {{ TRIGGER_TIME }}/P1D = """
+{% else %}
+        R1 = """
+{% endif %}
+
+{% if RUN_UNIT_TESTS %}
+        cdds_get_source=> cdds_unit_tests => cdds_clean<package>
+{% else %}
+        cdds_get_source => cdds_clean<package>
+{% endif %}
+
+{% if RUN_RABBIT_MQ_TESTS %}
+        cdds_get_source => cdds_rabbitmq_tests
+{% endif %}
+
+{% if BUILD_DOCS %}
+        cdds_get_source => cdds_build_docs
+{% endif %}
+        cdds_clean<package>  => cdds_setup<package> => cdds_run<package>
+        """
+
+
+[runtime]
+    [[root]]
+        script = rose task-run --verbose
+        [[[events]]]
+            mail events = submission timeout, execution timeout
+        [[[environment]]]
+            CDDS_SRC_DIR = ${CYLC_SUITE_SHARE_DIR}/cdds_src
+            CDDS_SUITE_SRC_DIR = ${CYLC_SUITE_SHARE_DIR}/cdds_suite_src
+            CDDS_SETUP_CMD=". ${CDDS_SRC_DIR}/setup_env_for_devel ${CDDS_SRC_DIR}"
+
+    [[SPICE]]
+        platform = spice
+        execution time limit = PT5M
+        [[[directives]]]
+            --mem=1G
+            --ntasks=1
+    
+    [[REMOTES]]
+        platform = {{ RABBIT_MQ_TEST_SERVER }}
+
+    [[PACKAGE]]
+        [[[environment]]]
+            REQUEST_CONFIG_DIR = ${CYLC_WORKFLOW_RUN_DIR}/requests
+            REQUEST_CONFIG_PATH = ${REQUEST_CONFIG_DIR}/cdds_request_${CYLC_TASK_PARAM_package}.cfg
+            TEST_BASE_DIR = ${CYLC_SUITE_SHARE_DIR}/${CYLC_TASK_PARAM_package}
+            RUN_NAME=${CYLC_SUITE_NAME}_${CYLC_TASK_PARAM_package}
+
+    # split up scripts into extract source and link source options
+    [[cdds_get_source]]
+        inherit=SPICE
+        [[[environment]]]
+            USE_CDDS_LOCAL = {{ USE_CDDS_LOCAL }}
+            CDDS_SUITE_SVN_URL = {{ CDDS_SUITE_SVN_URL }}
+            {% if USE_CDDS_LOCAL %}
+                CDDS_SRC_PATH = {{ CDDS_SRC_PATH }}
+                CDDS_GIT_URL=''
+                CDDS_BRANCH_NAME=''
+            {% else %}
+                CDDS_SRC_PATH=''
+                CDDS_GIT_URL = {{ CDDS_GIT_URL }}
+                CDDS_BRANCH_NAME = {{ CDDS_BRANCH_NAME }}
+            {% endif %}
+
+    [[cdds_unit_tests]]
+        inherit=SPICE
+        execution time limit = PT45M
+        [[[directives]]]
+            --mem=8G
+            --export=NONE
+    
+    [[cdds_rabbitmq_tests]]
+        inherit=REMOTES
+        [[[directives]]]
+            --export=NONE
+
+{% if BUILD_DOCS %}
+    [[cdds_build_docs]]
+        inherit=SPICE
+        execution time limit = PT10M
+            
+        [[[environment]]]
+            DOC_BUILD_DIR = $CYLC_SUITE_SHARE_DIR/cdds_docs/
+        [[[directives]]]
+            --export=NONE
+{% endif %}
+
+    [[cdds_clean<package>]]
+        inherit=SPICE, PACKAGE
+        [[[environment]]]
+            ROSE_TASK_APP=cdds_clean
+            CDDS_SUITE_SVN_URL = {{ CDDS_SUITE_SVN_URL }}
+    
+    [[cdds_setup<package>]]
+        inherit=SPICE, PACKAGE
+        execution time limit = PT10M
+
+        [[[environment]]]
+            ROSE_TASK_APP=cdds_setup
+
+{% for PACKAGE in PACKAGES %}
+    [[cdds_setup<package={{PACKAGE}}>]]
+        [[[environment]]]
+{% endfor %}
+
+
+    [[cdds_run<package>]]
+        inherit=SPICE, PACKAGE
+        execution time limit = PT10M
+        [[[environment]]]
+            ROSE_TASK_APP=cdds_run

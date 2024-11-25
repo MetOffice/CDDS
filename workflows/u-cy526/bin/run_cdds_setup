@@ -1,0 +1,29 @@
+#!/bin/bash
+set -x
+
+source source_cdds || exit
+
+# create a directory for launched workflow
+export WORKING_DIRECTORY="${CYLC_WORKFLOW_SHARE_DIR}/${WORKFLOW_NAME}"
+
+if [[ -d "${WORKING_DIRECTORY}" ]]; then
+    echo "Directory "${WORKING_DIRECTORY}" already exists."
+else
+    mkdir "${WORKING_DIRECTORY}"
+fi
+
+cd ${WORKING_DIRECTORY}
+
+# For now always copy request.cfg and user_variables.txt to the cylc suite share directory.
+
+if [[ -f "${WORKING_DIRECTORY}/request.cfg" ]]; then
+    echo "File ${WORKING_DIRECTORY}/request.cfg already exists."
+else
+    cp "${REQUEST_PATH}" "${WORKING_DIRECTORY}/request.cfg" || exit
+fi
+
+export REQUEST_PATH=${WORKING_DIRECTORY}/request.cfg
+
+create_cdds_directory_structure "${WORKING_DIRECTORY}"/request.cfg
+
+prepare_generate_variable_list "${REQUEST_PATH}"

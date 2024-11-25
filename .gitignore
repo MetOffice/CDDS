@@ -14,7 +14,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+lib/*
+!workflows/u-cy526/lib/
 lib64/
 parts/
 sdist/

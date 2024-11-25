@@ -1,0 +1,6 @@
+access-list=piotrflorek stephenhaddad kerstinschmatzer jareddrayton
+description=Launcher suite for CDDS nightly end-to-end tests. Copy of u-ap306/trunk@131288
+owner=matthewmizielinski
+project=CMIP6
+sub-project=CDDS
+title=CDDS test launcher

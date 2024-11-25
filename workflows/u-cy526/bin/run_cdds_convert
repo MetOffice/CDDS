@@ -1,0 +1,11 @@
+#!/bin/bash
+set -x
+
+source source_cdds || exit
+
+export WORKING_DIRECTORY="${CYLC_WORKFLOW_SHARE_DIR}/${WORKFLOW_NAME}"
+export REQUEST_PATH=${WORKING_DIRECTORY}/request.cfg
+
+cd ${WORKING_DIRECTORY}
+
+cdds_convert "${REQUEST_PATH}" -s ${STREAM}
