@@ -43,7 +43,7 @@
             mail events = submission timeout, execution timeout
         [[[environment]]]
             CDDS_SRC_DIR = ${CYLC_SUITE_SHARE_DIR}/cdds_src
-            CDDS_SUITE_SRC_DIR = ${CYLC_SUITE_SHARE_DIR}/cdds_suite_src
+            CDDS_SUITE_SRC_DIR = ${CYLC_SUITE_SHARE_DIR}/cdds_src/worklows/u-ak283
             CDDS_SETUP_CMD=". ${CDDS_SRC_DIR}/setup_env_for_devel ${CDDS_SRC_DIR}"
 
     [[SPICE]]
@@ -68,7 +68,6 @@
         inherit=SPICE
         [[[environment]]]
             USE_CDDS_LOCAL = {{ USE_CDDS_LOCAL }}
-            CDDS_SUITE_SVN_URL = {{ CDDS_SUITE_SVN_URL }}
             {% if USE_CDDS_LOCAL %}
                 CDDS_SRC_PATH = {{ CDDS_SRC_PATH }}
                 CDDS_GIT_URL=''
@@ -106,8 +105,7 @@
         inherit=SPICE, PACKAGE
         [[[environment]]]
             ROSE_TASK_APP=cdds_clean
-            CDDS_SUITE_SVN_URL = {{ CDDS_SUITE_SVN_URL }}
-    
+
     [[cdds_setup<package>]]
         inherit=SPICE, PACKAGE
         execution time limit = PT10M

@@ -3,19 +3,11 @@
 delete_old_sources() {
     echo "Deleting old CDDS source directory ${CDDS_SRC_DIR}"
     rm -rf ${CDDS_SRC_DIR}
-
-    echo "Deleting old CDDS suite directory ${CDDS_SUITE_SRC_DIR}"
-    rm -rf ${CDDS_SUITE_SRC_DIR}
 }
 
 create_link() {
     echo "Linking $1 to $2"
     ln -s $1 $2
-}
-
-checkout() {
-    echo "Checking out $1 to $2"
-    fcm co $1 $2
 }
 
 checkout_git() {
@@ -43,11 +35,5 @@ get_cdds_source_git() {
     fi
 }
 
-get_cdds_suite_source() {
-    svn_url=$(remove_quotes ${CDDS_SUITE_SVN_URL})
-    checkout $svn_url ${CDDS_SUITE_SRC_DIR}
-}
-
 delete_old_sources
 get_cdds_source_git
-get_cdds_suite_source

@@ -45,13 +45,9 @@ def check_critical_mass_location(mass_dir):
 
 def main():
     arguments = parse_args()
-    
-    cdds_suite_svn_url = os.environ['CDDS_SUITE_SVN_URL']
-    cdds_branch = cdds_suite_svn_url.split('/')[-1]
 
     request_cfg_path = arguments.request_cfg_path
     request = read_request(request_cfg_path)
-    request.conversion.cdds_workflow_branch = cdds_branch
     
     # Write request resolved all environment variables
     request.write(request_cfg_path)

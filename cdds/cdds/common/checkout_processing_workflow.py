@@ -37,7 +37,7 @@ def main_checkout_workflow(arguments: Union[list, None] = None):
 def move_workflow_rep(destination):
     """
     Copy processing workflow to the destination folder.
-    
+
     :param destination: Path to the destination folder
     :type destination: str
     """
