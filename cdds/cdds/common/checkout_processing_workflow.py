@@ -7,16 +7,13 @@ import os
 import shutil
 from pathlib import Path
 from typing import Union
+from shutil import copytree
 
 from cdds import _NUMERICAL_VERSION
 from cdds.common import determine_rose_suite_url
-from cdds.common.constants import PROCESSING_WORKFLOW
+from cdds.common.constants import PROCESSING_WORKFLOW, WORKFLOWS_DIRECTORY
 from cdds.common.request.request import read_request
-from cdds.convert.process.workflow_interface import (
-    check_svn_location,
-    checkout_url,
-    update_suite_conf_file,
-)
+from cdds.convert.process.workflow_interface import update_suite_conf_file
 
 
 def main_checkout_workflow(arguments: Union[list, None] = None):
@@ -30,15 +27,24 @@ def main_checkout_workflow(arguments: Union[list, None] = None):
 
     args = parse_args(arguments)
 
-    workflow_url = determine_rose_suite_url(PROCESSING_WORKFLOW, args.external_repository)
-    workflow_url += args.branch_name
-
     workflow_dst = Path(args.workflow_destination, args.workflow_name).expanduser()
 
-    validate_arguments(args, workflow_url)
-    create_workflow_dst(workflow_dst)
-    checkout_url(workflow_url, workflow_dst)
+    validate_arguments(args)
+    move_workflow_rep(workflow_dst)
     update_rose_conf(args, workflow_dst)
+
+
+def move_workflow_rep(destination):
+    """
+    Copy processing workflow to the destination folder.
+    
+    :param destination: Path to the destination folder
+    :type destination: str
+    """
+    cwd = Path(__file__).parent.parent.parent.parent.resolve()
+    source = os.path.join(cwd, WORKFLOWS_DIRECTORY, PROCESSING_WORKFLOW)
+
+    shutil.copytree(source, destination, dirs_exist_ok=True)
 
 
 def parse_user_input(workflow_dst: Path):
@@ -60,46 +66,14 @@ def parse_user_input(workflow_dst: Path):
         raise EOFError
 
 
-def validate_arguments(args, workflow_url: str):
+def validate_arguments(args):
     """ Perform basic sanity checks on user inputs.
 
     :param args: User arguments from command line
     :type args: argparse.Namespace
-    :param workflow_url: Workflow branch url
-    :type workflow_url: str
     """
-
-    if not check_svn_location(workflow_url):
-        raise RuntimeError(f"No branch at {workflow_url}")
     if not Path(args.request_path).exists():
         raise RuntimeError(f"No request file at {args.request_path}")
-
-
-def create_workflow_dst(workflow_dst: Path):
-    """Check whether the existing directory already contains a workflow.
-
-    :param workflow_dst: Workflow destination
-    :type workflow_dst: Path
-    """
-
-    if not workflow_dst.is_dir():
-        workflow_dst.mkdir(parents=True)
-
-    elif not Path(workflow_dst / "flow.cylc").exists():
-        msg = f"Target directory {workflow_dst} exists but is not a workflow. Aborting operation."
-        raise RuntimeError(msg)
-
-    elif Path(workflow_dst / "flow.cylc").exists():
-        print(f"Target directory {workflow_dst} already contains a workflow.\n")
-        for dirpath, _, filenames in os.walk(workflow_dst):
-            if filenames:
-                for file in filenames:
-                    print("/".join([dirpath, file]))
-
-        parse_user_input(workflow_dst)
-
-    else:
-        raise RuntimeError(f"Could not create {workflow_dst}")
 
 
 def update_rose_conf(args, workflow_dst: Path):
@@ -192,21 +166,9 @@ def parse_args(arguments: Union[list, None]) -> argparse.Namespace:
         help="Either, a path to a request.cfg file, or directory containing request*.cfg files.",
     )
     parser.add_argument(
-        "--branch_name",
-        default=default_branch,
-        help="Use an alternative branch. "
-             "The default branch is set in the CDDS_PROCESSING_WORKFLOW_BRANCH environment variable.",
-    )
-    parser.add_argument(
         "--workflow_destination",
         default="~/roses",
         help="Specify destination directory. Default is ~/roses",
-    )
-    parser.add_argument(
-        "--external_repository",
-        action="store_false",
-        help="Use external repository (https://code.metoffice.gov.uk/svn/roses-u) "
-             "instead of internal mirror (svn://fcm1/roses-u.xm_svn)"
     )
     parsed_arguments = parser.parse_args(arguments)
 

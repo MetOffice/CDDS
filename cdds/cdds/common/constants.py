@@ -183,6 +183,7 @@ PP_HEADER_CORRECTIONS = {
 }
 PROC_DIRECTORY_FACET_STRING = 'programme|project|request|package'
 PROCESSING_WORKFLOW = 'u-cy526'
+WORKFLOWS_DIRECTORY = 'workflows'
 REQUESTED_VARIABLES_LIST_FACET_STRING = 'programme|project|experiment|model'
 REQUIRED_KEYS_FOR_GENERAL_CONFIG_ACCESS = ['config_version', 'mip_era']
 REQUIRED_KEYS_FOR_PROC_DIRECTORY = [
