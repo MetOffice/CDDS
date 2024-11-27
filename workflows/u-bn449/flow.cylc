@@ -43,7 +43,7 @@
             mail events = submission timeout, execution timeout
         [[[environment]]]
             CDDS_SRC_DIR = ${CYLC_SUITE_SHARE_DIR}/cdds_src
-            CDDS_SUITE_SRC_DIR = ${CYLC_SUITE_SHARE_DIR}/cdds_src/worklows/u-ak283
+            CDDS_SUITE_SRC_DIR = ${CYLC_SUITE_SHARE_DIR}/cdds_src/worklows/conversion
             CDDS_SETUP_CMD=". ${CDDS_SRC_DIR}/setup_env_for_devel ${CDDS_SRC_DIR}"
 
     [[SPICE]]

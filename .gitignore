@@ -15,7 +15,7 @@ downloads/
 eggs/
 .eggs/
 lib/*
-!workflows/u-cy526/lib/
+!workflows/ensemble/lib/
 lib64/
 parts/
 sdist/

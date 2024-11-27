@@ -255,7 +255,7 @@ class ConvertProcessTest(unittest.TestCase):
         mock_convert_suite_url.return_value = expected_suite_src
         expected_suite_dest = '/path/to/checkout/dir'
         mock_convert_suite_dest.return_value = expected_suite_dest
-        self.process.checkout_convert_workflow()
+        self.process.prepare_conversion_workflow()
         mock_delete_suite.assert_called_once()
         mock_checkout.assert_called_once_with(expected_suite_src,
                                               expected_suite_dest)
@@ -272,16 +272,16 @@ class ConvertProcessTest(unittest.TestCase):
                                               mock_isdir, mock_delete_suite,
                                               mock_convert_suite_dest):
         suite_local_dir = '/path/to/suite/dir'
-        branch_value_backup = self.process._rose_suite_branch
-        self.process._rose_suite_branch = suite_local_dir
+        branch_value_backup = self.process._conversion_suite_dir
+        self.process._conversion_suite_dir = suite_local_dir
         mock_isdir.return_value = True
         expected_suite_dest = '/path/to/checkout/dir'
         mock_convert_suite_dest.return_value = expected_suite_dest
-        self.process.checkout_convert_workflow()
+        self.process.prepare_conversion_workflow()
         mock_delete_suite.assert_called_once()
         mock_shutil_copytree.assert_called_once_with(suite_local_dir,
                                                      expected_suite_dest)
-        self.process._rose_suite_branch = branch_value_backup
+        self.process._conversion_suite_dir = branch_value_backup
 
     @mock.patch('cdds.convert.process.PythonConfig')
     @mock.patch('glob.glob')

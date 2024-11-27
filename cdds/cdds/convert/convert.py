@@ -64,8 +64,8 @@ def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
     process = cdds.convert.process.ConvertProcess(arguments, request)
 
     process.validate_streams()
-    process.checkout_convert_workflow()
-    process.update_convert_workflow_parameters()
+    process.prepare_conversion_workflow()
+    process.update_conversion_workflow_parameters()
 
     # loop over stream submitting workflow with relevant opt conf key
     # e.g. cylc vip --opt-conf-key=ap4
