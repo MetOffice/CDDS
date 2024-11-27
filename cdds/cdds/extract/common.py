@@ -178,11 +178,7 @@ def run_moo_cmd(sub_cmd, args, simulate=False, verbose=True):
 
 def check_moo_cmd(code, output):
     """Interprets response from MOOSE command.
-    Returns a status dict:
-
-        val   str   subsequent action code - ok, skip, or stop
-        code  str   code for status
-        msg   str   message for logging purposes
+    Returns a status that specified an action - ok, skip or stop.
 
     Parameters
     ----------
@@ -193,14 +189,14 @@ def check_moo_cmd(code, output):
 
     Returns
     -------
-    dict
-        status value, code and user message
+    str
+        status value
     """
 
     # default status
     STOP_ERRORS = [
         'PATH_DOES_NOT_EXIST', 'INSUFFICIENT_DISK_SPACE', 'COLLECTION_DOES_NOT_EXIST', 'ERROR_TRANSFER',
-        'STORAGE_SYSTEM_UNAVAILABLE'
+        'STORAGE_SYSTEM_UNAVAILABLE', 'SINGLE_COPY_UNAVAILABLE'
     ]
     SKIP_ERRORS = [
         'EXCEEDS_DATA_VOLUME_LIMIT', 'EXCEEDS_FILE_NUMBER_LIMIT', 'SPANS_TOO_MANY_RESOURCES',
@@ -208,25 +204,28 @@ def check_moo_cmd(code, output):
         'ncks: ERROR'
     ]
     OK_ERRORS = ['PATH_ALREADY_EXISTS']
-    status = 'stop'
+    logger = logging.getLogger(__name__)
     if code == 0:
         status = 'ok'
     elif code == 2:
-        if any(output in s for s in STOP_ERRORS):
+        if any(s in output for s in STOP_ERRORS):
             status = 'stop'
-        elif any(output in s for s in SKIP_ERRORS):
+        elif any(s in output for s in SKIP_ERRORS):
             status = 'skip'
-        elif any(output in s for s in OK_ERRORS):
+        elif any(s in output for s in OK_ERRORS):
             status = 'ok'
         else:
             # note that once new MOOSE User Guide is available it would be better to map all
             # codes and expected Extract behaviour explicitly
             status = 'stop'
     elif code == 3:
-        if any(output in s for s in STOP_ERRORS):
+        if any(s in output for s in STOP_ERRORS):
             status = 'stop'
-        if any(output in s for s in SKIP_ERRORS):
+        elif any(s in output for s in SKIP_ERRORS):
             status = 'skip'
+        else:
+            logger.warning('An unknown error occurred. Stop application.')
+            status = 'stop'
     elif code == 17:
         # already exists
         status = 'ok'
