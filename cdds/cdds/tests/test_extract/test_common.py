@@ -157,7 +157,12 @@ class TestCommon(unittest.TestCase):
         self.assertIsInstance(error, FileContentError)
         os.remove(nc_path)
 
-    def test_check_moo_cmd(self):
+    def test_check_moo_cmd_with_status_zero(self):
+        code = 0
+        status = check_moo_cmd(code, "")
+        self.assertEqual("ok", status)
+
+    def test_check_moo_cmd_with_status_code_two(self):
         code = 2
         moo_output = ("(SSC_TASK_REJECTION) one or more tasks are rejected. "
                       "(TSSC_INVALID_SET) invalid path to a data set")
@@ -166,6 +171,36 @@ class TestCommon(unittest.TestCase):
 
         moo_output = ("(SSC_TASK_REJECTION) one or more tasks are rejected. "
                       "(TSSC_SPANS_TOO_MANY_RESOURCES) ")
+        status = check_moo_cmd(code, moo_output)
+        self.assertEqual("skip", status)
+
+        moo_output = "(PATH_ALREADY_EXISTS)"
+        status = check_moo_cmd(code, moo_output)
+        self.assertEqual("ok", status)
+
+    def test_check_moo_cmd_with_status_code_three(self):
+        code = 3
+        moo_output = "unable to prepare single copy file for transfer. (SINGLE_COPY_UNAVAILABLE)"
+        status = check_moo_cmd(code, moo_output)
+        self.assertEqual("stop", status)
+
+        moo_output = "(UNKNOWN_ERROR_CODE)"
+        status = check_moo_cmd(code, moo_output)
+        self.assertEqual("stop", status)
+
+        moo_output = "(EXCEEDS_DATA_VOLUME_LIMIT)"
+        status = check_moo_cmd(code, moo_output)
+        self.assertEqual("skip", status)
+
+    def test_check_moo_cmd_with_status_code_seventeen(self):
+        code = 17
+        moo_output = "Data already exist"
+        status = check_moo_cmd(code, moo_output)
+        self.assertEqual("ok", status)
+
+    def test_check_moo_cmd_with_unknown_status(self):
+        code = 20
+        moo_output = "something"
         status = check_moo_cmd(code, moo_output)
         self.assertEqual("stop", status)
 
