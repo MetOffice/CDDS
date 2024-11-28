@@ -6,96 +6,18 @@ Command line interfaces for cdds_convert and mip_concatenate tasks.
 import argparse
 import logging
 
-from typing import Tuple
-
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.common.plugins.plugins import PluginStore
-from cdds.common.request.request import Request, read_request
-
-from cdds.common import configure_logger, check_directory
-from cdds.common.cdds_files.cdds_directories import update_log_dir
-
-from cdds import _DEV
-from cdds.convert.common import expand_path
-from cdds.convert.arguments import add_user_config_data_files, ConvertArguments
 from cdds.convert.exceptions import (OrganiseEnvironmentError,
                                      OrganiseTransposeError,
                                      WrapperEnvironmentError,
-                                     WrapperMissingFilesError,
-                                     ArgumentError)
+                                     WrapperMissingFilesError)
 from cdds.convert.concatenation import batch_concatenation
 from cdds.convert.concatenation.concatenation_setup import concatenation_setup
-from cdds.convert.convert import run_cdds_convert
 from cdds.convert.mip_convert_wrapper.wrapper import run_mip_convert_wrapper
 from cdds.convert.organise_files import organise_files
 
 COMPONENT = 'convert'
 CONVERT_LOG_NAME = 'cdds_convert'
-
-
-def main_cdds_convert() -> int:
-    """
-    Initialis the CDDS convert process.
-
-    :return: Exit code
-    :rtype: int
-    """
-    arguments, request = parse_args_cdds_convert()
-
-    log_name = update_log_dir(CONVERT_LOG_NAME, request, 'convert')
-
-    configure_logger(log_name, request.common.log_level, False)
-
-    try:
-        run_cdds_convert(arguments, request)
-        exit_code = 0
-    except BaseException as exception:
-        logging.getLogger(__name__)
-        logging.critical(exception, exc_info=1)
-        exit_code = 1
-    return exit_code
-
-
-def parse_args_cdds_convert() -> Tuple[ConvertArguments, Request]:
-    """
-    Returns the command line arguments and the request for 'cdds_convert'
-
-    :return: Tuple of command line arguments and request object
-    :rtype: Tuple[ConvertArguments, Request]
-    """
-    description = 'CDDS convert process initiator'
-    parser = argparse.ArgumentParser(description=description)
-    parser.add_argument('request',
-                        type=str,
-                        help='Obtain configuration from request configuration file'
-                        )
-    parser.add_argument('-s',
-                        '--streams',
-                        default=[],
-                        nargs='*',
-                        help='Restrict processing suites to only to these streams.'
-                        )
-
-    args = parser.parse_args()
-    request = read_request(args.request)
-
-    if _DEV and request.data.output_mass_suffix == "production":
-        raise ArgumentError("Cannot archive data to production location in development mode")
-
-    expand_path(request.conversion.model_params_dir)
-
-    # Get Cdds plugin and overload model related values if necessary
-    plugin = PluginStore.instance().get_plugin()
-
-    if request.conversion.model_params_dir:
-        check_directory(request.conversion.model_params_dir)
-        plugin.overload_models_parameters(request.conversion.model_params_dir)
-
-    arguments = ConvertArguments(request_path=args.request, streams=args.streams)
-    if not request.conversion.skip_configure:
-        arguments = add_user_config_data_files(arguments, request)
-
-    return arguments, request
 
 
 def _parse_args_concat_setup():

@@ -9,13 +9,13 @@ from cdds.common import check_directory, configure_logger
 from cdds.common.cdds_files.cdds_directories import update_log_dir
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request, read_request
+from cdds.configure.user_config import create_user_config_files
 from cdds.convert.arguments import add_user_config_data_files, ConvertArguments
 from cdds.convert.configure_workflow.calculate_isodatetimes import CalculateISODatetimes
 from cdds.convert.configure_workflow.configure_template_variables import ConfigureTemplateVariables
 from cdds.convert.configure_workflow.stream_components import StreamComponents
 from cdds.convert.configure_workflow.stream_model_parameters import StreamModelParameters
 from cdds.convert.configure_workflow.workflow_manager import WorkflowManager
-from cdds.convert.convert import _generate_user_config_files
 from cdds.convert.exceptions import ArgumentError
 
 
@@ -94,8 +94,9 @@ def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
     :param request: The request information of 'cdds_convert'
     :type request: Request
     """
+    requested_variables_file = arguments.requested_variables_list_file
     if not request.conversion.skip_configure:
-        _generate_user_config_files(arguments, request)
+        create_user_config_files(request, requested_variables_file, arguments.output_cfg_dir)
 
     workflow_manager = WorkflowManager(request)
     workflow_manager.checkout_convert_workflow()
