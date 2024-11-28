@@ -6,6 +6,7 @@ Command line interfaces for cdds_convert and mip_concatenate tasks.
 import argparse
 import logging
 
+from cdds.common import configure_logger
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.convert.exceptions import (OrganiseEnvironmentError,
                                      OrganiseTransposeError,
