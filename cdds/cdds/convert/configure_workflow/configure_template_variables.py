@@ -146,8 +146,9 @@ class ConfigureTemplateVariables:
         :return: The latest FINAL_CYCLE_POINT out of all of the streams.
         :rtype: dict
         """
-        final_cycle_points = self.stream_config["FINAL_CYCLE_POINT"].values()
-        final_cycle_points = [TimePointParser().parse(point) for point in final_cycle_points]
+        final_cycle_points = []
+        for point in self.stream_config["FINAL_CYCLE_POINT"].values():
+            final_cycle_points.append(TimePointParser().parse(point))
         final_cycle_point_variable = {"FINAL_CYCLE_POINT": str(max(final_cycle_points))}
 
         return final_cycle_point_variable
