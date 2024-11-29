@@ -13,7 +13,7 @@ from cdds.convert.process.memory import scale_memory
 
 class StreamModelParameters:
     def __init__(self, request: Request, stream: str, components: StreamComponents):
-        """_summary_
+        """Class for extracting model parameter information for the given stream.
 
         :param request: A Request class.
         :type request: Request
