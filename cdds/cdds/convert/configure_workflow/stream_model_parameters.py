@@ -7,11 +7,21 @@ from metomi.isodatetime.data import Duration
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request
+from cdds.convert.configure_workflow.stream_components import StreamComponents
 from cdds.convert.process.memory import scale_memory
 
 
 class StreamModelParameters:
-    def __init__(self, request: Request, stream, components):
+    def __init__(self, request: Request, stream: str, components: StreamComponents):
+        """_summary_
+
+        :param request: A Request class.
+        :type request: Request
+        :param stream: The stream to retrieve model parametr information for.
+        :type stream: str
+        :param components: The grid and substream information.
+        :type components: StreamComponents
+        """
         self._request = request
         self.stream = stream
         self.stream_components = components.stream_components

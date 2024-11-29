@@ -8,6 +8,7 @@ from metomi.isodatetime.parsers import DurationParser, TimeRecurrenceParser
 
 @dataclass
 class CalculateISODatetimes:
+    """Class for calculating ISODatetime values needed in the conversion workflow."""
     start_date: TimePoint
     end_date: TimePoint
     cycling_frequency: Duration

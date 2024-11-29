@@ -6,12 +6,18 @@ import logging
 
 from cdds.common import determine_rose_suite_url
 from cdds.common.cdds_files.cdds_directories import component_directory
+from cdds.common.request.request import Request
 from cdds.convert.constants import ROSE_SUITE_ID
 from cdds.convert.process import workflow_interface
 
 
 class WorkflowManager:
-    def __init__(self, request):
+    def __init__(self, request: Request):
+        """Class for copying, managing, and submitting the conversion workflow.
+
+        :param request: A Request class.
+        :type request: Request
+        """
         self.convert_suite = ROSE_SUITE_ID
         self._request = request
         self.logger = logging.getLogger(__name__)
@@ -19,8 +25,7 @@ class WorkflowManager:
     @property
     def local_suite_name(self) -> str:
         """
-        Returns the name of the suite that will be run. If run with CREM access this will include the request index,
-        otherwise the request_id be appended to the conversion suite name.
+        Returns the name of the suite that will be run.
 
         :return: Name of the suite that will be run
         :rtype: str

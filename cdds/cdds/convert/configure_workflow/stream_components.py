@@ -8,16 +8,26 @@ import re
 from typing import List
 
 from cdds.common.cdds_files.cdds_directories import component_directory
+from cdds.common.request.request import Request
+from cdds.convert.arguments import ConvertArguments
 from cdds.convert.constants import SECTION_TEMPLATE
 
 from mip_convert.configuration.python_config import PythonConfig
 
 
 class StreamComponents:
-    def __init__(self, arguments, request):
+    def __init__(self, arguments: ConvertArguments, request: Request):
+        """Class for applying any stream overrides from the request and determining which grid
+        and sub-streams are to be processed.
+
+        :param arguments: A ConvertArguments class.
+        :type arguments: ConvertArguments
+        :param request: A Request class.
+        :type request: Request
+        """
         self._arguments = arguments
         self._request = request
-        self._streams_requested = self._arguments.streams
+        self.streams_requested = self._arguments.streams
         self.logger = logging.getLogger()
 
     def user_configs(self) -> dict[str, PythonConfig]:
@@ -105,10 +115,10 @@ class StreamComponents:
         streams_to_process = self._request.data.streams
 
         # Check if the user specified which streams to process
-        if self._streams_requested:
+        if self.streams_requested:
             rejected_streams_cli = [
                 stream
-                for stream in self._streams_requested
+                for stream in self.streams_requested
                 if stream not in streams_to_process
             ]
             if rejected_streams_cli:
@@ -120,7 +130,7 @@ class StreamComponents:
             rejected_streams_request = [
                 stream
                 for stream in streams_to_process
-                if stream not in self._streams_requested
+                if stream not in self.streams_requested
             ]
             if rejected_streams_request:
                 self.logger.info(
@@ -131,7 +141,7 @@ class StreamComponents:
             streams_to_process = [
                 stream
                 for stream in streams_to_process
-                if stream in self._streams_requested
+                if stream in self.streams_requested
             ]
         return streams_to_process
 
