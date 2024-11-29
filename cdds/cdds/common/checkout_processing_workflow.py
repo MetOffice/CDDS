@@ -164,8 +164,7 @@ def update_workflow_names(request_location: str, conf_file: Path) -> None:
     for request_file in request_files:
         request = read_request(request_file)
         workflow_names.append(("cdds_{}".format(request.common.workflow_basename),
-                               request_file,
-                               request.data.streams))
+                               request_file))
 
     conf_override_fields = {
         "WORKFLOW_NAMES": workflow_names,
