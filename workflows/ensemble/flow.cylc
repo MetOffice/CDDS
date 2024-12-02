@@ -1,0 +1,53 @@
+#!jinja2
+
+[task parameters]
+    workflow_names = {{ WORKFLOW_NAMES | map(attribute=0) | join(", ") }}
+
+[scheduling]
+    [[xtriggers]]
+{% for WORKFLOW_NAME, _ in WORKFLOW_NAMES %}
+        workflows_completed_{{ WORKFLOW_NAME | replace('-', '_') }} = check_workflow('{{ WORKFLOW_NAME }}', 'workflow_completed', 'succeeded'):PT10M
+{% endfor %}
+    [[graph]]
+        R1 = cdds_complete<workflow_names> => cdds_setup<workflow_names+1>
+{% for WORKFLOW_NAME, _ in WORKFLOW_NAMES %}
+        R1 = cdds_setup_{{ WORKFLOW_NAME }} => cdds_convert_{{ WORKFLOW_NAME }}
+{% endfor %}
+
+{% for WORKFLOW_NAME, _ in WORKFLOW_NAMES %}
+        R1 = @workflows_completed_{{ WORKFLOW_NAME | replace('-', '_') }} => cdds_complete_{{ WORKFLOW_NAME }}
+{% endfor %}
+    [[queues]]
+        [[[convert_queue]]]
+            limit = 1
+            members = CONVERT
+
+[runtime]
+    [[root]]
+        [[[environment]]]
+            CDDS_DEVELOPMENT = {{ environ['CDDS_DEVELOPMENT'] }}
+            CDDS_DEVELOPMENT_PATH = {{ CDDS_DEVELOPMENT_PATH | default('') }}
+            CDDS_VERSION = {{ environ['CDDS_VERSION'] }}
+    [[CONVERT]]
+{% for WORKFLOW_NAME, REQUEST_PATH in WORKFLOW_NAMES %}
+    [[cdds_setup_{{ WORKFLOW_NAME }}]]
+        script = """
+        run_cdds_setup
+        """
+        [[[environment]]]
+            REQUEST_PATH = {{ REQUEST_PATH }}
+            WORKFLOW_NAME = {{ WORKFLOW_NAME }}
+
+    [[cdds_convert_{{ WORKFLOW_NAME }}]]
+        inherit = CONVERT
+        script = """
+        run_cdds_convert
+        """
+        [[[environment]]]
+            REQUEST_PATH = {{ REQUEST_PATH }}
+            WORKFLOW_NAME = {{ WORKFLOW_NAME }}
+{% endfor %}
+    [[cdds_complete<workflow_names>]]
+        script = """
+        echo Completed $CYLC_TASK_NAME
+        """

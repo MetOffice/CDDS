@@ -1,0 +1,351 @@
+#!/usr/bin/env python
+# (C) British Crown Copyright 2023, Met Office.
+"""
+This script generates new directives based on observations of mip_convert task usage.
+These directives are then used in conjuntion with cylc broadcast to update directives of
+future mip_convert tasks.
+"""
+import csv
+import json
+import os
+import re
+import subprocess
+import sqlite3
+from pathlib import Path
+from typing import Dict, List, Union
+
+import pandas as pd
+
+
+class MipConvertTask:
+
+    def __init__(self, task_name, time_point):
+        """Class for storing information on a single mip_convert task
+
+        :param task_name: Task name
+        :type str:
+        :param time_point: Time point
+        :type str: 
+        """
+        self.task_name = task_name
+        self.time_point = time_point
+
+        self.read_job_files()
+
+    def __repr__(self):
+        return self.task_name + self.time_point
+
+    def read_job_files(self):
+        """This method does two things.
+
+        1. Construct paths to the resource csv, cylc public database, and job files.
+
+        2. Read job files and store string representations of them as attributes
+        to avoid rereading.
+        """
+        self.resource_usage_csv = Path(os.environ["CYLC_WORKFLOW_SHARE_DIR"], "resource_usage.csv")
+        self.db_path = Path(os.environ["HOME"], "cylc-run", os.environ["CYLC_WORKFLOW_ID"], "log", "db")
+        self.db_uri = "file:" + str(self.db_path) + "?mode=ro"
+
+        self.job_dir = Path(os.environ["HOME"]) / "cylc-run" / os.environ["CYLC_WORKFLOW_ID"] / "log" / "job"
+        job_path = self.job_dir / self.time_point / self.task_name / "NN"
+
+        with open(job_path / "job", "r") as fh:
+            self.job = fh.read()
+
+        with open(job_path / "job.out", "r") as fh:
+            self.job_err = fh.read()
+
+    @property
+    def used_memory(self):
+        regex_mem = "Maximum resident set size \(kbytes\): (.*)"
+        memory = int(re.search(regex_mem, self.job_err).groups()[0]) // 1000
+        return memory
+
+    @property
+    def used_time(self):
+        regex_time = r"Elapsed \(wall clock\) time \(h:mm:ss or m:ss\): (\d+:\d{2}:\d{2}|\d+:\d{2}.\d+)"
+        time = re.search(regex_time, self.job_err).groups()[0]
+        time_components = time.split(":")
+        if len(time_components) == 2:
+            minutes, seconds = time_components
+            time_in_seconds = int(minutes) * 60 + float(seconds)
+        elif len(time_components):
+            hours, minutes, seconds = time_components
+            time_in_seconds = int(hours) * 3600 + int(minutes) * 60 + float(seconds)
+        return int(time_in_seconds)
+
+    @property
+    def used_storage(self):
+        regex_du = r"du command shows the following \$TMPDIR usage at (\d*\.\d\d)"
+        disk_usage = re.search(regex_du, self.job_err).groups()[0]
+        return int(float(disk_usage))
+
+    @property
+    def requested_memory(self):
+        regex_mem = r"#SBATCH --mem=(\d*[A-Z])"
+        memory = re.search(regex_mem, self.job).groups()[0]
+        value, unit = int(memory[:-1]), memory[-1]
+        if unit == "G":
+            value *= 1000
+        return value
+
+    @property
+    def requested_time(self):
+        regex_time = r"#SBATCH --time=(\d*:\d{2})"
+        time = re.search(regex_time, self.job).groups()[0]
+        minutes, seconds = time.split(":")
+        time_in_seconds = int(minutes) * 60 + float(seconds)
+        return int(time_in_seconds)
+
+    @property
+    def requested_storage(self):
+        regex_du = r"#SBATCH --gres=tmp:(\d*)"
+        disk_usage = re.search(regex_du, self.job).groups()[0]
+        return disk_usage
+
+    def resource_usage(self) -> dict:
+        """Return a dictionary containing all information pertaining to
+        a tasks resource usage. Used for updating the .csv
+
+        :return: task resource usage info.
+        :rtype: dict
+        """
+        resources = {
+            "task_name": self.task_name,
+            "cycle_point": self.time_point,
+            "used_mem": self.used_memory,
+            "used_time": self.used_time,
+            "used_storage": self.used_storage,
+            "requested_mem": self.requested_memory,
+            "requested_time": self.requested_time,
+            "requested_storage": self.requested_storage,
+        }
+
+        return resources
+
+
+class Directives:
+    MEMORY_SCALING_FACTOR = 1.2
+    TIME_SCALING_FACTOR = 3.0
+    STORAGE_SCALING_FACTOR = 1.2
+
+    MEMORY_CONSTANT = 500  # in megabytes
+    TIME_CONSTANT = 300  # in seconds
+    STORAGE_CONSTANT = 100  # in megabytes
+
+    MEMORY_BOUND = 128000  # in megabytes
+    TIME_BOUND = 21600  # in seconds
+    STORAGE_BOUND = 200000  # in megabytes
+
+    def __init__(self, mip_convert_task: MipConvertTask):
+        """Read in existing resource usage for the given mip_convert task
+        and create a new directive based on the maximum observed usage.
+        Each directive has a private method that adds a small constant
+        amount of resource and is then multiplied by scaling factor. The
+        new directive is checked to make sure it doesn't exceed an upper
+        bound.
+
+        :param mip_convert_task: A mip_convert task
+        :type mip_convert_task: MipConvertTask
+        """
+        df = pd.read_csv(mip_convert_task.resource_usage_csv)
+        self.df = df[df["task_name"] == mip_convert_task.task_name]
+
+    def _memory_directive(self):
+        max_memory = self.df["used_mem"].max()
+        scaled_memory = int(max_memory * self.MEMORY_SCALING_FACTOR + self.MEMORY_CONSTANT)
+        new_memory = min(scaled_memory, self.MEMORY_BOUND)
+        return f"{new_memory}M"
+
+    def _time_directive(self):
+        max_time = self.df["used_time"].max()
+        scaled_time = int(max_time * self.TIME_SCALING_FACTOR + self.TIME_CONSTANT)
+        new_time = min(scaled_time, self.TIME_BOUND)
+        return f"{int(new_time / 60)}:00"
+
+    def _storage_directive(self):
+        max_storage = self.df["used_storage"].max()
+        scaled_storage = int(max_storage * self.STORAGE_SCALING_FACTOR + self.STORAGE_CONSTANT)
+        new_storage = min(scaled_storage, self.STORAGE_BOUND)
+        return f"tmp:{new_storage}"
+
+    def as_dict(self):
+        """Return updated directives as dictionary.
+
+        Returns
+        -------
+        dict
+            Updated directives
+        """
+        directives = {
+            "--mem": self._memory_directive(),
+            "--time": self._time_directive(),
+            "--gres": self._storage_directive(),
+        }
+        return directives
+
+
+def get_mip_convert_tasks() -> List[MipConvertTask]:
+    """Extracting each mip_convert task and associated cycle point.
+
+    :return: list of MipConvertTask.
+    :rtype: List[MipConvertTask]
+    """
+    task_dependencies = get_cylc_tasks_dependencies()
+    tasks = [
+        task.split("/") for task in task_dependencies if "mip_convert" in task
+    ]
+    mip_convert_tasks = []
+
+    for time_point, task_name in tasks:
+        mip_convert_tasks.append(MipConvertTask(task_name, time_point))
+
+    return mip_convert_tasks
+
+def get_cylc_tasks_dependencies():
+    """Obtain list of cylc task ids for the dependencies of the current task.
+
+    :return: list of tasks.
+    :rtype: List[str]
+    """
+    workflow_id = os.environ['CYLC_WORKFLOW_ID']
+    task_id = '//{}'.format(os.environ['CYLC_TASK_ID'])
+
+    command = ['cylc', 'show', workflow_id, task_id, '--json']
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, env=os.environ,
+                               stderr=subprocess.PIPE, universal_newlines=True)
+
+    (stdoutdata, stderrdata) = process.communicate()
+    json_data = json.loads(stdoutdata)
+    task_dependencies = []
+    for key in json_data.keys():
+        prerequisites = json_data[key]['prerequisites']
+        for prerequisite in prerequisites:
+            conditions = prerequisite['conditions']
+            for condition in conditions:
+                task_dependencies.append(condition['taskId'])
+    return task_dependencies
+
+
+def write_resource_usage_csv(mip_convert_task: MipConvertTask):
+    """Write a tasks resource usage to the .csv file.
+
+    :param mip_convert_task: A given mip_convert task.
+    :type mip_convert_task: MipConvertTask
+    """
+    resource_used = mip_convert_task.resource_usage()
+
+    # create and write csv header
+    if not mip_convert_task.resource_usage_csv.exists():
+        with open(mip_convert_task.resource_usage_csv, "w") as fh:
+            fh.write(",".join(resource_used.keys()) + "\n")
+
+    # update .csv with task resource
+    with open(mip_convert_task.resource_usage_csv, "a", newline="") as csvfile:
+        writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=resource_used.keys())
+        writer.writerow(resource_used)
+
+
+def get_existing_directives(mip_convert_task: MipConvertTask) -> Dict:
+    """If there existing broadcasts for the given task return them as a dictionary.
+
+    :param mip_convert_task: A particular mip convert task.
+    :type mip_convert_task: MipConvertTask
+    :return: Dictionary of existinng broadcast states.
+    :rtype: Dict
+    """
+    db_conn = sqlite3.connect(mip_convert_task.db_uri, uri=True, timeout=1.0)
+    directive_query = (
+        f"SELECT key,value FROM broadcast_states WHERE namespace is '{mip_convert_task.task_name}'"
+    )
+    query_result = db_conn.execute(directive_query).fetchall()
+    db_conn.close()
+
+    directives = {}
+    if query_result:
+        for directive_name, directive_value in query_result:
+            directive_name = directive_name.split("]")[1]
+            directives[directive_name] = directive_value
+
+    return directives
+
+
+def convert(directive_type: str, directive_value: Union[str, None]) -> int:
+    """Helper function for converting a string
+
+    :param directive_type: Type of directive
+    :type directive_type: str
+    :param directive_value: Value of the given directive.
+    :type directive_value: Union[str, None]
+    :return: An integer representation of the given directive.
+    :rtype: int
+    """
+    if directive_value == None:
+        return 0
+    if directive_type == "--mem":
+        return int(directive_value[:-1])
+    if directive_type == "--time":
+        return int(directive_value.split(":")[0])
+    if directive_type == "--gres":
+        return int(directive_value.split(":")[1])
+
+
+def update_directives(new_directives: dict, existing_directives: dict):
+    """Check whether the newly calculated directives exceed any of the
+    existing directives by a certain CHANGE_THRESHOLD.
+
+    :param new_directives: Newly calculated directives
+    :type new_directives: dict
+    :param existing_directives: Existing broadcast directives.
+    :type existing_directives: dict
+    :return: New directives to be broadcast.
+    :rtype: Dict
+    """
+    CHANGE_THRESHOLD = 1.05
+    directives = {}
+    for directive in ["--mem", "--time", "--gres"]:
+        new_directive = new_directives.get(directive, None)
+        existing_directive = existing_directives.get(directive, None)
+        if new_directive and existing_directive:
+            if convert(directive, new_directive) > (
+                convert(directive, existing_directive) * CHANGE_THRESHOLD
+            ):
+                directives[directive] = new_directives[directive]
+        elif new_directive and not existing_directive:
+            directives[directive] = new_directives[directive]
+
+    return directives
+
+
+def broadcast_directives(mip_convert_task: MipConvertTask):
+    """Broadcast the new directives.
+
+    :param mip_convert_task: A mip_convert task
+    :type mip_convert_task: MipConvertTask
+    """
+    new_directives = Directives(mip_convert_task).as_dict()
+    existing_directives = get_existing_directives(mip_convert_task)
+    directives = update_directives(new_directives, existing_directives)
+
+    if directives:
+        base_cmd = ["cylc", "broadcast", os.environ["CYLC_WORKFLOW_NAME"], "-n", mip_convert_task.task_name]
+        for directive, directive_value in directives.items():
+            broadcast_cmd = ["-s", f"[directives]{directive}={directive_value}"]
+            subprocess.run(base_cmd + broadcast_cmd)
+
+
+def main():
+    """Main function that iterates over the mip_convert tasks
+    updating both the resource usage metrics .csv file and broadcast
+    directives.
+    """
+    mip_convert_tasks = get_mip_convert_tasks()
+
+    for mip_convert_task in mip_convert_tasks:
+        write_resource_usage_csv(mip_convert_task)
+        broadcast_directives(mip_convert_task)
+
+
+if __name__ == "__main__":
+    main()
