@@ -4,10 +4,11 @@ import os
 import shutil
 import logging
 
+from pathlib import  Path
 from cdds.common import determine_rose_suite_url
 from cdds.common.cdds_files.cdds_directories import component_directory
 from cdds.common.request.request import Request
-from cdds.convert.constants import ROSE_SUITE_ID
+from cdds.common.constants import CONVERSION_WORKFLOW, WORKFLOWS_DIRECTORY
 from cdds.convert.process import workflow_interface
 
 
@@ -18,7 +19,7 @@ class WorkflowManager:
         :param request: A Request class.
         :type request: Request
         """
-        self.convert_suite = ROSE_SUITE_ID
+        self.convert_suite = CONVERSION_WORKFLOW
         self._request = request
         self.logger = logging.getLogger(__name__)
 
@@ -33,38 +34,10 @@ class WorkflowManager:
         return '{0}_{1}'.format(self.convert_suite, self._request.common.workflow_basename)
 
     @property
-    def rose_suite_branch(self) -> None:
+    def workflow_directory(self) -> None:
         """ Set the branch of the Cylc workflow to use."""
-        return self._request.conversion.cdds_workflow_branch
-
-    @property
-    def rose_suite_svn_location(self) -> str:
-        """
-        Returns the SVN URL for a cylc workflow on the SRS.
-
-        :return: SVN url of the repository to check out the conversion suite from.
-        :rtype: str
-        """
-        # Try internal first
-        suite_base_url = determine_rose_suite_url(self.convert_suite, internal=True)
-        # If that fails try the external
-        if not workflow_interface.check_svn_location(suite_base_url):
-            self.logger.info('Could not access internal repository at "{}"'.format(suite_base_url))
-            suite_base_url = determine_rose_suite_url(self.convert_suite, internal=False)
-
-            # If that fails log a critical message and raise a RuntimeError
-            if not workflow_interface.check_svn_location(suite_base_url):
-                msg = 'Could not access external repository at "{}"'.format(suite_base_url)
-                self.logger.error(msg)
-                raise RuntimeError(msg)
-
-        # Check the branch is also valid
-        suite_full_url = os.path.join(suite_base_url, self.rose_suite_branch)
-        if not workflow_interface.check_svn_location(suite_full_url):
-            msg = 'Could not access branch "{}" at "{}"'.format(self.rose_suite_branch, suite_full_url)
-            self.logger.error(msg)
-            raise RuntimeError(msg)
-        return suite_full_url
+        cwd = Path(__file__).parent.parent.parent.parent.parent.resolve()
+        return  os.path.join(cwd, WORKFLOWS_DIRECTORY, CONVERSION_WORKFLOW)
 
     @property
     def suite_destination(self) -> str:
@@ -107,20 +80,7 @@ class WorkflowManager:
         """
         if delete_original:
             self.delete_convert_suite()
-        if os.path.isdir(self.rose_suite_branch):
-            self.logger.info('DEVELOPER MODE: Retrieving suite files for suite {0.convert_suite} '
-                             'from directory {0.rose_suite_branch} to {0.suite_destination}'.format(self))
-            shutil.copytree(self.rose_suite_branch, self.suite_destination)
-        else:
-            self.logger.info('Checking out rose suite {0.convert_suite} from ({0.rose_suite_branch}) '
-                             'to {0.suite_destination}'.format(self))
-            try:
-                output = workflow_interface.checkout_url(self.rose_suite_svn_location, self.suite_destination)
-            except workflow_interface.SuiteCheckoutError as err:
-                self.logger.exception(err)
-            else:
-                self.logger.info('Suite checkout to {} succeeded'.format(self.suite_destination))
-                self.logger.info('SVN version: {}'.format(output.split('\n')[0]))
+        shutil.copytree(self.workflow_directory, self.suite_destination)
 
     def submit_workflow(self, **kwargs) -> None:
         self.logger.info('Submitting workflow located in {}'.format(self.suite_destination))

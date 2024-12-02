@@ -14,55 +14,6 @@ from cdds.convert.exceptions import (SuiteCheckoutError,
 from cdds.common import run_command
 
 
-def check_svn_location(svn_url):
-    """
-    Return True if the supplied svn location is accessible.
-
-    Parameters
-    ----------
-    svn_url : str
-
-    Returns
-    -------
-    : bool
-        True if svn location is accessible
-    """
-    command = ['svn', 'ls', svn_url, '--depth', 'empty']
-    proc = subprocess.Popen(
-        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-    proc.communicate()
-    return proc.returncode == 0
-
-
-def checkout_url(svn_url, destination):
-    """
-    Checkout the contents of an SVN url to a given destination
-
-    Parameters
-    ----------
-    svn_url : str
-        SVN url to check out
-    destination : str
-        location to check out to
-
-    Returns
-    -------
-    str
-        standard output from svn command
-    """
-    cmd = ['svn', 'co', svn_url, destination]
-    co_proc = subprocess.Popen(cmd, stderr=subprocess.PIPE,
-                               stdout=subprocess.PIPE, universal_newlines=True)
-    output, error = co_proc.communicate()
-    if co_proc.returncode != 0:
-        msg = 'svn checkout failed.'
-        msg += 'Command: "{}".'.format(' '.join(cmd))
-        msg += 'stdout: "{}"'.format(output)
-        msg += 'stderr: "{}"'.format(error)
-        raise SuiteCheckoutError(msg)
-    return output
-
-
 def update_suite_conf_file(filename, section_name, changes_to_apply, raw_value=False, delimiter="="):
     """
     Update the contents of a rose suite configuration file, on disk,

@@ -22,30 +22,6 @@ class SuiteInterfaceTest(unittest.TestCase):
         self.repo = ROSE_URLS['u']['internal']
         self.suite_id = 'u-aa000'
 
-    @mock.patch('subprocess.Popen')
-    def test_checkout_url(self, mock_subproc_popen):
-        process_mock = mock.Mock()
-        attrs = {'communicate.return_value': ('output', 'error'),
-                 'returncode': 0}
-        process_mock.configure_mock(**attrs)
-        mock_subproc_popen.return_value = process_mock
-        url = determine_rose_suite_url(self.suite_id, internal=True)
-        output = workflow_interface.checkout_url(url, 'dummy')
-        self.assertTrue(output == 'output')
-        self.assertTrue(mock_subproc_popen.called)
-
-    @mock.patch('subprocess.Popen')
-    def test_checkout_url_fail(self, mock_subproc_popen):
-        process_mock = mock.Mock()
-        attrs = {'communicate.return_value': ('output', 'error'),
-                 'returncode': 1}
-        process_mock.configure_mock(**attrs)
-        mock_subproc_popen.return_value = process_mock
-        url = determine_rose_suite_url(self.suite_id, internal=True)
-        self.assertRaises(workflow_interface.SuiteCheckoutError,
-                          workflow_interface.checkout_url, url,
-                          'dummy')
-
     def test_update_suite_conf_file(self):
         source_config = dedent('''\
                 [jinja2:suite.rc]
