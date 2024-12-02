@@ -24,7 +24,6 @@ ORGANISE_FILES_ENV_VARS = ['START_DATE', 'END_DATE', 'REF_DATE',
                            'CONCAT_CFG_PATH', 'CALENDAR', ]
 PARALLEL_TASKS = 60
 RESOURCE_FACTOR = 1
-ROSE_SUITE_ID = 'u-ak283'
 SECTION_TEMPLATE = 'stream_{stream_id}{substream}'
 
 STREAMS_FILES_REGEX = {

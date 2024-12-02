@@ -40,7 +40,7 @@ def move_workflow_rep(destination):
     :param destination: Path to the destination folder
     :type destination: str
     """
-    cwd = Path(__file__).parent.parent.parent.parent.resolve()
+    cwd = Path(__file__).parent.parent.parent.resolve()
     source = os.path.join(cwd, WORKFLOWS_DIRECTORY, PROCESSING_WORKFLOW)
 
     shutil.copytree(source, destination, dirs_exist_ok=True)

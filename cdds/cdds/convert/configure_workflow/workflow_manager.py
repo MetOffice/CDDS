@@ -35,8 +35,8 @@ class WorkflowManager:
 
     @property
     def workflow_directory(self) -> None:
-        """ Set the branch of the Cylc workflow to use."""
-        cwd = Path(__file__).parent.parent.parent.parent.parent.resolve()
+        """ Set the directory of the Cylc workflow to use."""
+        cwd = Path(__file__).parent.parent.parent.parent.resolve()
         return  os.path.join(cwd, WORKFLOWS_DIRECTORY, CONVERSION_WORKFLOW)
 
     @property
@@ -72,14 +72,19 @@ class WorkflowManager:
 
     def checkout_convert_workflow(self, delete_original: bool = True) -> None:
         """
-        Retrieves the source code of the conversion suite from a local directory
-        or repository URL and put into the convert proc directory.
+        Retrieves the source code of the conversion suite from the local workflow directory.
 
         :param delete_original: If True clear out any existing files at the suite destination.
         :type delete_original: bool
         """
         if delete_original:
             self.delete_convert_suite()
+
+        if not os.path.isdir(self.workflow_directory):
+            message = 'Cannot find conversion workflow at: {}'.format(self.workflow_directory)
+            self.logger.error(message)
+            raise IOError(message)
+
         shutil.copytree(self.workflow_directory, self.suite_destination)
 
     def submit_workflow(self, **kwargs) -> None:
