@@ -85,8 +85,22 @@ def find_data_files() -> List[Tuple[str, List[str]]]:
     data_files: List[Tuple[str, List[str]]] = [
         ('', ['CHANGES.rst', 'INSTALL.rst', 'LICENSE.rst', 'README.rst', 'pylintrc', 'setup.py', 'setup.cfg'])
     ]
+    data_files.extend(find_workflow_files())
     data_files.extend(find_doc_files())
     return data_files
+
+
+def find_workflow_files() -> List[Tuple[str, List[str]]]:
+    result: List[Tuple[str, List[str]]] = []
+    workflows_dirs = [dirpath for (dirpath, _, _) in os.walk('workflows')]
+    for workflow_dir in workflows_dirs:
+        workflow_files = [
+            os.path.join(workflow_dir, filename)
+            for filename in os.listdir(workflow_dir)
+            if os.path.isfile(os.path.join(workflow_dir, filename))
+        ]
+        result.append((workflow_dir, workflow_files))
+    return result
 
 
 def find_doc_files() -> List[Tuple[str, List[str]]]:
