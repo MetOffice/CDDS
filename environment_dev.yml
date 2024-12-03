@@ -1,6 +1,5 @@
 name: cdds-3.0_dev-1
 channels:
-  - conda-main
   - conda-mo-internal
   - conda-forge
   - conda-r
@@ -82,7 +81,7 @@ dependencies:
   - libgcc-ng=13.2.0=h807b86a_5
   - libgfortran-ng=13.2.0=h69a702a_5
   - libgfortran5=13.2.0=ha4646dd_5
-  - libgomp=13.2.0=h807b86a_5
+  - libgomp=14.2.0=h77fa898_1
   - libiconv=1.17=hd590300_2
   - libjpeg-turbo=2.1.5.1=hd590300_1
   - liblapack=3.9.0=20_linux64_openblas
@@ -176,7 +175,7 @@ dependencies:
   - pyyaml=6.0.1=py310h2372a71_1
   - pyyaml-env-tag=0.1=pyhd8ed1ab_0
   - readline=8.2=h8228510_1
-  - regex=2021.8.3=py310h7f8727e_0
+  - regex=2024.11.6=py310ha75aee5_0
   - requests=2.31.0=pyhd8ed1ab_0
   - scipy=1.10.1=py310ha4c1d20_3
   - setuptools=69.5.1=pyhd8ed1ab_0
