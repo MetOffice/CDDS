@@ -4,7 +4,6 @@
 include *.rst
 include setup.cfg
 include pylintrc
-recursive-include workflows *
 recursive-include cdds *
 recursive-include doc *
 recursive-include etc *

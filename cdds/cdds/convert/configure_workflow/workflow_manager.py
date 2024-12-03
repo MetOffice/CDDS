@@ -36,7 +36,7 @@ class WorkflowManager:
     @property
     def workflow_directory(self) -> None:
         """ Set the directory of the Cylc workflow to use."""
-        cwd = Path(__file__).parent.parent.parent.parent.resolve()
+        cwd = Path(__file__).parent.parent.parent.resolve()
         return  os.path.join(cwd, WORKFLOWS_DIRECTORY, CONVERSION_WORKFLOW)
 
     @property
