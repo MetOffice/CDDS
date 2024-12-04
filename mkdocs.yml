@@ -48,7 +48,6 @@ nav:
       - Working with Jira: developer_documentation/jira.md
       - Managing Conda Environments: developer_documentation/managing_environments.md
       - Documentation: developer_documentation/building_documentation.md
-#      - Review Guidelines: developer_documentation/review_guidelines.md
     - Request:
         - Request Architecture: developer_documentation/request/request.md
     - Testing:
