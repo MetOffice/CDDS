@@ -989,6 +989,7 @@ def generate_datestamps_pp(start_date: TimePoint,
              "10 day": ["P10D", "%Y%m%d"],
              "monthly": ["P1M", "%Y%b"],
              "season": ["P3M", "%Y"],
+             "quarterly": ["P3M", "%Y%m%d"],
              "hourly": ["PT1H", "%Y%m%d_%H"]}
 
     seasons = {3: "mam", 6: "jja", 9: "son", 12: "djf"}
