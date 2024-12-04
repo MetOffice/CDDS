@@ -27,6 +27,7 @@ from iris.util import equalise_attributes
 from mip_convert.common import guess_bounds_if_needed
 from mip_convert.constants import (JPDFTAUREICEMODIS_POINTS, JPDFTAUREICEMODIS_BOUNDS,
                                    JPDFTAURELIQMODIS_POINTS, JPDFTAURELIQMODIS_BOUNDS)
+from mip_convert.process.constants import pressure_levels
 
 
 def _check_daily_cube(cube):
@@ -246,6 +247,72 @@ def scale_epflux(cube_data, cube_heaviside):
     cube = cube / density
     cube.units = 'm**3 s**-2'
     return cube
+
+
+def scale_epflux_lesfmip(cube_data, cube_heaviside):
+    """
+    Model output for epfy and epfz is in units kg s-2.  We require
+    units m3 s-2 for CMIP6, and so need to divide by density on
+    each pressure level.
+
+    Parameters
+    ----------
+    cube_data: :class:`iris.cube.Cube`
+        A cube containing either y or z component of the EP flux on
+        pressure levels.
+    cube_heaviside: :class:`iris.cube.Cube`
+        Heaviside data
+
+    Returns
+    -------
+    : :class:`iris.cube.Cube`
+        A cube containing the component of the EP flux scaled by
+        density.
+    """
+    cube = scale_epflux(cube_data, cube_heaviside)
+    return _lesfmip_pressure_level_fix(cube, 'PLEV39')
+
+
+def _lesfmip_pressure_level_fix(cube, pressure_level_set):
+    """
+    Pressure level fix for use with lesfmip processing to ensure that all
+    PLEF39 pressure levels appear in the output
+
+    Parameters
+    ----------
+    cube: :class:`iris.cube.Cube`
+        A cube containing zonal mean data on pressure levels.
+    pressure_level_set: str
+        pressure level set required
+
+    Returns
+    -------
+    : :class:`iris.cube.Cube`
+        A cube containing data with additional masked pressure levels
+    """
+    expected_pressure_levels = [float(i) for i in pressure_levels()[pressure_level_set].split()]
+
+    for pressure_level in expected_pressure_levels:
+        reference = cube.extract(iris.Constraint(pressure=pressure_level))
+        if reference:
+            reference.data.mask = True
+            break
+
+    cube_list = iris.cube.CubeList()
+    for pressure_level in expected_pressure_levels:
+        cube_p = cube.extract(iris.Constraint(
+            coord_values={'pressure': lambda cell:
+                          abs(pressure_level - cell.point) < 0.01 * pressure_level}))
+        if cube_p is not None:
+            cube_list.append(cube_p)
+        else:
+            cube_p = reference.copy()
+            cube_p.coord('pressure').points = [pressure_level]
+            cube_list.append(cube_p)
+
+    resultcube = cube_list.merge_cube()
+
+    return resultcube
 
 
 def tau_pseudo_level(cube):
@@ -2051,6 +2118,35 @@ def mask_polar_column_zonal_means(cube_data, cube_heaviside):
     return cube * mask_cube
 
 
+def mask_polar_column_zonal_means_lesfmip(cube_data, cube_heaviside):
+    """
+    Return a cube with the columns corresponding to the north and south
+    poles masked out to avoid publishing erroneous data. This is only
+    intended for the correction of zonal mean diagnostics. This routine
+    has been adapted to interpolate missing pressure levels for LESFMIP.
+
+    Parameters
+    ----------
+    cube_data: :class:`iris.cube.Cube`
+        A cube containing zonal mean data
+    cube_heaviside: :class:`iris.cube.Cube`
+        A cube containing zonal mean heaviside data
+
+    Returns
+    -------
+    : :class:`iris.cube.Cube`
+        A cube with the polar columns masked.
+
+    Raises
+    ------
+    RuntimeError
+        If unable to construct a mask cube.
+    """
+    cube = mask_polar_column_zonal_means(cube_data, cube_heaviside)
+    cube = _lesfmip_pressure_level_fix(cube, 'PLEV39')
+    return cube
+
+
 def hotspot(upward_lw_flux, olr_s3, olr_s2):
     """
     Returns a cube with adjusted time-mean GCM upward LW flux using the
@@ -2163,6 +2259,31 @@ def mask_vtem(cube_vtem, cube_heaviside):
         Masked cube.
     """
     cube = zonal_apply_heaviside(cube_vtem, cube_heaviside)
+    return _mask_plev_cube(cube, 1100, 700)
+
+
+def mask_vtem_lesfmip(cube_vtem, cube_heaviside):
+    """
+    Returns a cube with all data at and below 700 hPa masked out.
+    Note that the vtem data is produced as a zonal mean, while the
+    zonal meaning is done by STASH in the UM. They end up with
+    slightly different scalar longitude coordinates, so some
+    unification is required. Here we choose to put the points
+
+    Parameters
+    ----------
+    cube_vtem : :class:`iris.cube.Cube`
+        vtem cube to mask.
+    cube_heaviside : :class:`iris.cube.Cube`
+        Heaviside data
+
+    Returns
+    -------
+    :class:`iris.cube.Cube`
+        Masked cube.
+    """
+    cube = zonal_apply_heaviside(cube_vtem, cube_heaviside)
+    cube = _lesfmip_pressure_level_fix(cube, 'PLEV39')
     return _mask_plev_cube(cube, 1100, 700)
 
 
