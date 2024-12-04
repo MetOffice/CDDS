@@ -35,7 +35,6 @@ nav:
       - Misc Section: tutorials/request/misc.md
   - Developer Documentation:
     - developer_documentation/index.md
-    - Documentation: developer_documentation/building_documentation.md
     - Deployment:
       - Release Procedure: developer_documentation/deployment/release_procedure.md
       - CDDS Installation: developer_documentation/deployment/cdds_installation.md
