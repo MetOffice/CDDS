@@ -1,7 +1,8 @@
 {
   "stream_file_frequency": {
     "quarterly": [
-      "ond"
+      "ond",
+      "apg"
     ],
     "monthly": [
       "ap4",
@@ -22,6 +23,7 @@
   },
   "cycle_length": {
     "ap4": "P5Y",
+    "apg": "P5Y",
     "ap5": "P5Y",
     "apm": "P5Y",
     "apu": "P5Y",
@@ -37,6 +39,7 @@
   },
   "memory": {
     "ap4": "12G",
+    "apg": "12G",
     "ap5": "8G",
     "apm": "8G",
     "apu": "8G",
@@ -52,6 +55,7 @@
   },
   "temp_space": {
     "ap4": 98304,
+    "apg": 98304,
     "ap5": 40960,
     "apm": 8192,
     "apu": 20480,

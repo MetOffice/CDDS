@@ -429,7 +429,7 @@ class Filters(object):
 
         if file_frequency == "monthly":
             start, end = 1, 12
-        elif file_frequency == "season":
+        elif file_frequency in ["season", "quarterly"]:
             start, end = 3, 12
 
         start_date, end_date = pp_filelist[0]["timepoint"], pp_filelist[-1]["timepoint"]

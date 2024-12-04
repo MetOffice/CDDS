@@ -177,7 +177,7 @@ def _ap_stream_prefix(model_id: str, stream: str) -> str:
     stream_file_info = plugin.models_parameters(model_id).stream_file_info()
     frequency = stream_file_info.file_frequencies[stream].frequency
 
-    if frequency == 'daily':
+    if frequency in ['daily', 'quarterly']:
         return 'ap_daily'
 
     if frequency == '10 day':
