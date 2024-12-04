@@ -105,7 +105,7 @@ def request_config():
     config['reference_time'] = _get_config(
         'reference_time', section, python_type=str, default_value='none')
     config['force_coordinate_rotation'] = _get_config(
-        'force_coordinate_rotation', section, python_type=bool, default_value=False
+        'force_coordinate_rotation', section, python_type=bool, default_value=True
     )
     return config
 
