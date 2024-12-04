@@ -16,40 +16,7 @@ import cdds.convert.process.workflow_interface as suite
 class TestWorkflowManager:
     def setup_method(self):
         self.request = Mock()
-        self.request.conversion.cdds_workflow_branch = "trunk"
         self.request.common.workflow_basename = "cdds_foo"
-
-    @mock.patch('cdds.convert.configure_workflow.workflow_manager.workflow_interface.check_svn_location')
-    def test_rose_suite_svn_location_first(self, mock_check_svn_location):
-        mock_check_svn_location.return_value = True
-        workflow_manager = WorkflowManager(self.request)
-        repo1 = ROSE_URLS['u']['internal']
-        expected_location = repo1 + '/a/k/2/8/3/trunk'
-        location = workflow_manager.rose_suite_svn_location
-
-        assert location == expected_location
-
-    @mock.patch('cdds.convert.configure_workflow.workflow_manager.workflow_interface.check_svn_location')
-    def test_rose_suite_svn_location_second(self, mock_check_svn):
-        mock_check_svn.side_effect = [False, True, True]
-        workflow_manager = WorkflowManager(self.request)
-        repo2 = ROSE_URLS['u']['external']
-        expected_location = repo2 + '/a/k/2/8/3/trunk'
-        location = workflow_manager.rose_suite_svn_location
-
-        assert location == expected_location
-
-    @mock.patch('cdds.convert.configure_workflow.workflow_manager.workflow_interface.check_svn_location')
-    def test_rose_suite_svn_location_branch(self, mock_check_svn):
-        mock_check_svn.return_value = True
-        branch = 'branch/of/some/sort'
-        self.request.conversion.cdds_workflow_branch = branch
-        workflow_manager = WorkflowManager(self.request)
-        repo1 = ROSE_URLS['u']['internal']
-        expected_location = repo1 + '/a/k/2/8/3/' + branch
-        location = workflow_manager.rose_suite_svn_location
-
-        assert expected_location == location
 
     @mock.patch("cdds.convert.configure_workflow.workflow_manager.component_directory")
     @mock.patch('os.path.isdir')
@@ -79,7 +46,7 @@ class TestWorkflowManager:
 
     @mock.patch("cdds.convert.configure_workflow.workflow_manager.component_directory")
     def test_delete_convert_suite(self, mock_component_directory, tmp_path: Path):
-        workflow_path = tmp_path / "convert" / "u-ak283_cdds_foo"
+        workflow_path = tmp_path / "convert" / "conversion_cdds_foo"
         workflow_path.mkdir(parents=True)
         dummy_conf = workflow_path / "rose-suite.conf"
         dummy_conf.write_text("tes")

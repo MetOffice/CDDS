@@ -29,11 +29,6 @@ The `conversion` in the request configuration contains settings that specify how
 
     **Default:** `False`, on Jasmin `True`
 
-`cdds_workflow_branch`
-:   branch of the CDDS suite that should be used.
-
-    **Default:** The value that is stored in the environment variable `CDDS_CONVERT_WORKFLOW_BRANCH`
-
 `cylc_args`
 :   arguments to be passed to cylc vip for the CDDS processing suite.
 
@@ -84,7 +79,6 @@ The `conversion` in the request configuration contains settings that specify how
     skip_configure = False
     skip_qc = False
     skip_archive = False
-    cdds_workflow_branch = trunk
     cylc_args = -v
     no_email_notifications = True
     scale_memory_limits = 

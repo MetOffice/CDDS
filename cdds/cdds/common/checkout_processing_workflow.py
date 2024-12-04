@@ -29,11 +29,11 @@ def main_checkout_workflow(arguments: Union[list, None] = None):
     workflow_dst = Path(args.workflow_destination, args.workflow_name).expanduser()
 
     validate_arguments(args)
-    move_workflow_rep(workflow_dst)
+    export_processing_workflow(workflow_dst)
     update_rose_conf(args, workflow_dst)
 
 
-def move_workflow_rep(destination):
+def export_processing_workflow(destination):
     """
     Copy processing workflow to the destination folder.
 
@@ -155,7 +155,6 @@ def parse_args(arguments: Union[list, None]) -> argparse.Namespace:
     :return: The configured argpase object.
     :rtype: argparse.Namespace
     """
-    default_branch = os.environ.get('CDDS_PROCESSING_WORKFLOW_BRANCH', '')
     parser = argparse.ArgumentParser()
     parser.add_argument("workflow_name", help="Desired workflow name")
     parser.add_argument(

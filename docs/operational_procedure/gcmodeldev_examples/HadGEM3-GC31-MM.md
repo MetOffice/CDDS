@@ -77,7 +77,6 @@ skip_extract_validation = False
 skip_configure = False
 skip_qc = False
 skip_archive = False
-cdds_workflow_branch = trunk
 cylc_args = -v
 no_email_notifications = True
 scale_memory_limits = 

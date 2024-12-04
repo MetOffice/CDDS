@@ -4,7 +4,7 @@ import os
 import shutil
 import logging
 
-from pathlib import  Path
+from pathlib import Path
 from cdds.common import determine_rose_suite_url
 from cdds.common.cdds_files.cdds_directories import component_directory
 from cdds.common.request.request import Request
@@ -37,7 +37,7 @@ class WorkflowManager:
     def workflow_directory(self) -> None:
         """ Set the directory of the Cylc workflow to use."""
         cwd = Path(__file__).parent.parent.parent.resolve()
-        return  os.path.join(cwd, WORKFLOWS_DIRECTORY, CONVERSION_WORKFLOW)
+        return os.path.join(cwd, WORKFLOWS_DIRECTORY, CONVERSION_WORKFLOW)
 
     @property
     def suite_destination(self) -> str:
