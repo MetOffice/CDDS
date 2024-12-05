@@ -16,7 +16,7 @@ eggs/
 .eggs/
 lib/
 lib/*
-!cdds/workflows/ensemble/lib/
+!cdds/workflows/processing/lib/
 lib64/
 parts/
 sdist/

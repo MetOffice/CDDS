@@ -182,7 +182,7 @@ PP_HEADER_CORRECTIONS = {
           {'blev': 850.0}),),),
 }
 PROC_DIRECTORY_FACET_STRING = 'programme|project|request|package'
-PROCESSING_WORKFLOW = 'ensemble'
+PROCESSING_WORKFLOW = 'processing'
 CONVERSION_WORKFLOW = 'conversion'
 WORKFLOWS_DIRECTORY = 'workflows'
 REQUESTED_VARIABLES_LIST_FACET_STRING = 'programme|project|experiment|model'
