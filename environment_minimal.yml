@@ -2,7 +2,6 @@ name: cdds-dev
 channels:
   - conda-mo-internal
   - conda-forge
-  - conda-main
 dependencies:
   - cf-units=3.2.0
   - cftime=1.6.2
@@ -38,7 +37,7 @@ dependencies:
   - pytest=7.1.2
   - pytest-cov=3.0.0
   - python=3.10.14
-  - regex=2021.8.3
+  - regex=2024.11.6
   - scipy=1.10.1
   - sphinx=4.2.0
   - pip:
