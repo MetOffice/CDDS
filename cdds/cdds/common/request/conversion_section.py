@@ -37,9 +37,7 @@ def conversion_defaults() -> Dict[str, Any]:
         skip_archive = True
 
     # Retrieve default workflow branch name from environment
-    cdds_workflow_branch = os.environ.get('CDDS_CONVERT_WORKFLOW_BRANCH', '')
     return {
-        'cdds_workflow_branch': cdds_workflow_branch,
         'no_email_notifications': True,
         'skip_extract': skip_extract,
         'skip_extract_validation': skip_extract_validation,
@@ -62,7 +60,6 @@ class ConversionSection(Section):
     skip_configure: bool = False
     skip_qc: bool = False
     skip_archive: bool = False
-    cdds_workflow_branch: str = ''
     cylc_args: List[str] = field(default_factory=list)
     no_email_notifications: bool = True
     scale_memory_limits: float = None

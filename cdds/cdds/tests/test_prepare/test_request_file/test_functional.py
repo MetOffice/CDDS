@@ -56,7 +56,6 @@ class TestWriteRequestForCMIP6(FunctionalTestCase):
         expected_file_cfg = os.path.join(data_dir, 'cmip6_request_output.cfg')
         self.expected_request = self.read_file_lines(expected_file_cfg)
 
-    @patch.dict(os.environ, {'CDDS_CONVERT_WORKFLOW_BRANCH': 'trunk'})
     @patch('cdds.common.get_log_datestamp')
     @patch('cdds.common.request.data_section.datetime')
     def test_functional(self, data_section_datetime_mock, mock_log_datestamp):
@@ -96,7 +95,6 @@ class TestWriteRequestForGCModelDev(FunctionalTestCase):
         expected_file_cfg = os.path.join(data_dir, 'gcmodeldev_request_output.cfg')
         self.expected_request = self.read_file_lines(expected_file_cfg)
 
-    @patch.dict(os.environ, {'CDDS_CONVERT_WORKFLOW_BRANCH': 'trunk'})
     @patch('cdds.common.get_log_datestamp')
     @patch('cdds.common.request.data_section.datetime')
     def test_functional(self, data_section_datetime_mock, mock_log_datestamp):

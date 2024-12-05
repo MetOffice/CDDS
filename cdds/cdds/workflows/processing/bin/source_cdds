@@ -1,0 +1,25 @@
+#!/bin/bash
+set -x
+
+echo $CDDS_DEVELOPMENT
+echo $CDDS_DEVELOPMENT_PATH
+echo $CDDS_VERSION
+echo $CYLC_WORKFLOW_SHARE_DIR
+
+if [[ "${CDDS_DEVELOPMENT}" == "true" ]]; then
+    cd "${CDDS_DEVELOPMENT_PATH}" || exit
+    if ! source setup_env_for_devel; then
+        echo "Unable to load development CDDS environment ${CDDS_DEVELOPMENT_PATH}."
+        exit 1
+    fi
+elif [[ "${CDDS_DEVELOPMENT}" == "false" ]]; then
+    if ! source ~cdds/bin/setup_env_for_cdds "${CDDS_VERSION}"; then
+        echo "Unable to load production CDDS environment ${CDDS_VERSION}."
+        exit 1
+    fi
+else
+    echo "Unable to determine CDDS environment to load."
+    exit 1
+fi
+
+cd "${CYLC_WORKFLOW_SHARE_DIR}" || exit

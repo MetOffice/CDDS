@@ -121,7 +121,6 @@ def transform_request(input_json: str, output_cfg: str) -> None:
         skip_configure=False,
         skip_qc=False,
         skip_archive=False,
-        cdds_workflow_branch='',
         cylc_args=[],
         no_email_notifications=True,
         scale_memory_limits=None,
@@ -131,9 +130,6 @@ def transform_request(input_json: str, output_cfg: str) -> None:
         delete_preexisting_proc_dir=False,
         delete_preexisting_data_dir=False
     )
-
-    logger.info('The "cdds_workflow_branch" must be set manually. It should be the branch of the tag or trunk you want '
-                'to use to process CDDS.')
 
     # Set data version to empty white space to make sure that it won't be set to the default
     data = DataSection(
