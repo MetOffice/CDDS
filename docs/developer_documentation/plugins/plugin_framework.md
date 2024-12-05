@@ -41,4 +41,3 @@ model information also contains the information about the supported grid that ar
 | Cordex     | Cordex projects     | CDDS Team           |
 | GCModelDev | GCModelDev projects | CDDS Team           |
 | ARISE      | ARISE projects      | Matthew Mizielinski |
-| SNAPSI     | SNAPSI projects     | Matthew Mizielinski |
