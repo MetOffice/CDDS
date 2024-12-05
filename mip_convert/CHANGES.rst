@@ -3,6 +3,11 @@
 
 .. include:: common.txt
 
+Release 3.0.4_LESFMIP, December 5, 2025
+=======================================
+* Added alternate mappings for LESFMIP experiments for ``epfy``, ``epfz``,
+  ``vtem``, ``wtem`` in ``EmonZ`` table. Not to be merged into main (CDDSO-560)
+
 Release 3.0.4, November 19, 2024
 ================================
 * Added HadGEM3 mapping for ``AERday/ua10``, ``AEday/ua10`` that does not use the 

@@ -3,6 +3,12 @@
 
 .. include:: common.txt
 
+Release 3.0.4_LESFMIP, December 5, 2024
+=======================================
+* Ensured that quarterly PP files, i.e. those that have 3 months of output at monthly/daily
+  frequency can be extracted and picked up by the wrapper to MIP convert
+  (CDDSO-560, CDDSO-568)
+
 Release 3.0.4, November 19, 2024
 ================================
 * Enabled sub-annual slicing through the ``slicing`` option in the ``common`` section of
