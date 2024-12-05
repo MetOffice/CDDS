@@ -1,9 +1,6 @@
 # How to build your own plugin
 
 !!!warning
-    This page is still work-in-progress!
-
-!!!warning
     The interfaces for the plugin can slightly change from version to version.
 
 !!!info

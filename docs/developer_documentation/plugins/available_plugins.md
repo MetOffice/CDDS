@@ -59,6 +59,15 @@ request configuration file is `EERIE`.
 
 The plugin is implemented by Jon Seddon.
 
+## SNAPSI Plugin
+
+| Responsible                               | Code Base                                                                                       |
+|:------------------------------------------|:------------------------------------------------------------------------------------------------|
+| Matthew Mizielinski                       | [Link to code on GitHub](https://github.com/MetOffice/arise-cmor-tables/tree/master/cdds_arise) |
+
+The SNAPSI plugin provides all functionality needed for supporting SNAPSI project. This plugin is loaded if your MIP era in the 
+request configuration file is `SNAPSI` and the module path is given.
+
 ## ARISE Plugin
 
 | Responsible                               | Code Base                                                                                       |
