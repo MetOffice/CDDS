@@ -86,8 +86,6 @@
     {% endif %}
 {% endfor %}
 
-        R1/$ = COMPLETION_FAM:succeed-all => workflow_completed
-
 [runtime]
     [[root]]
         script = rose task-run --verbose
@@ -119,7 +117,6 @@
             -q = short-serial
             -R = "rusage[mem={{ MEMORY_DEFAULT }}]"
             -C = 0
-    [[COMPLETION_FAM]]
 
 {% for STREAM in STREAMS.keys() %} # STREAM LOOP
     [[MIP_CONVERT_{{ STREAM }}]]
@@ -211,7 +208,7 @@ mkdir -p {{ BASE_OUTPUT }}
                 PLUGIN_OPTION = '--plugin_id {{ PLUGIN_ID }}'
     {% endif %}
     [[mip_concatenate_batch_{{ STREAM }}]]
-        inherit = MIP_CONCATENATE_{{ STREAM }}, SPICE, COMPLETION_FAM
+        inherit = MIP_CONCATENATE_{{ STREAM }}, SPICE
         execution time limit = P2D
         [[[directives]]]
             --ntasks = {{ NTHREADS_CONCATENATE }}
@@ -286,7 +283,7 @@ mkdir -p {{ BASE_OUTPUT }}
 
     {% if RUN_QC %}
     [[run_qc_{{ STREAM }}]]
-        inherit = SPICE, RUN_CDDS_SUBTASK, COMPLETION_FAM
+        inherit = SPICE, RUN_CDDS_SUBTASK
         [[[environment]]]
             ROSE_TASK_APP = run_qc
             STREAM = {{ STREAM }}
@@ -297,7 +294,7 @@ mkdir -p {{ BASE_OUTPUT }}
 
     {% if RUN_TRANSFER %}
     [[run_transfer_{{ STREAM }}]]
-        inherit = SPICE, RUN_CDDS_SUBTASK, COMPLETION_FAM
+        inherit = SPICE, RUN_CDDS_SUBTASK
         [[[environment]]]
             ROSE_TASK_APP = run_transfer
             STREAM = {{ STREAM }}
@@ -308,8 +305,5 @@ mkdir -p {{ BASE_OUTPUT }}
             --mem = {{ MEMORY_TRANSFER }}
             --ntasks = 1
     {% endif %}
-
-    [[workflow_completed]]
-        script = sleep 5
 
 {% endfor %} # STREAM LOOP END
