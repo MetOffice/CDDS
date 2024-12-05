@@ -33,6 +33,10 @@ necessary functionalities.
 
 ![Request Overview](request-overview.png){ width=600 }
 
+The `Inheritance` section only contains a template that values should be loaded. The section is no own module. When 
+reading the request configuration, it is checked if the request configuration contains an `Inheritance` section and 
+a template should be loaded.
+
 ## Implementation:
 
 ### Classes
