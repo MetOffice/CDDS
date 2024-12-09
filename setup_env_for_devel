@@ -8,7 +8,7 @@ export CDDS_PACKAGES
 CDDS_HOME=$(readlink -f ~cdds)
 CONDA=${CDDS_HOME}/software/miniconda3/bin/activate
 
-DEV_ENV='cdds-3.0_dev-1'
+DEV_ENV='cdds-3.0_dev-2'
 
 if [ -f ${CONDA} ]; then
     . ${CONDA} ${DEV_ENV}
