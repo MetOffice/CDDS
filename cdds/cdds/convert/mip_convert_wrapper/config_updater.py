@@ -48,7 +48,7 @@ def calculate_mip_convert_run_bounds(
 
 def setup_cfg_file(input_dir, output_dir, mip_convert_config_dir, component,
                    start_time, end_time, timestamp, user_config_template_name,
-                   cmor_log_filename_template):
+                   cmor_log_dir, cmor_log_filename_template):
     """
     Construct the mip_convert.cfg file from the templates. The
     resulting config file is written to the current directory.
@@ -74,6 +74,8 @@ def setup_cfg_file(input_dir, output_dir, mip_convert_config_dir, component,
         Time stamp string to use in output file names.
     user_config_template_name: str
         The template for the name of the |user configuration file|.
+    cmor_log_dir: str
+        Path to the cmor log directory.
     cmor_log_filename_template: str
         The template for the name of the cmor log file.
     Returns
@@ -119,6 +121,8 @@ def setup_cfg_file(input_dir, output_dir, mip_convert_config_dir, component,
                                 'OSError: "{}"'.format(err.strerror))
                 raise
 
+    cmor_log_file = os.path.join(cmor_log_dir, cmor_log_filename_template.format(timestamp))
+
     jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(
         mip_convert_config_dir))
     template = jinja_env.get_template(
@@ -128,7 +132,7 @@ def setup_cfg_file(input_dir, output_dir, mip_convert_config_dir, component,
         'end_date': MIP_CONVERT_DATETIME_FORMAT.format(end_time),
         'input_dir': input_dir,
         'output_dir': component_dir,
-        'cmor_log': cmor_log_filename_template.format(timestamp)}
+        'cmor_log': cmor_log_file}
     logger.info('Interpolating:\n  ' +
                 '\n  '.join(['{}: {}'.format(variable, value)
                              for variable, value in list(interpolations.items())]))

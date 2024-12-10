@@ -52,6 +52,7 @@ def run_mip_convert_wrapper():
         cylc_task_try = os.environ['CYLC_TASK_TRY_NUMBER']
         cylc_task_work_dir = os.environ['CYLC_TASK_WORK_DIR']
         cylc_task_cycle_point = os.environ['CYLC_TASK_CYCLE_POINT']
+        cycl_task_log_dir = os.environ['CYLC_TASK_LOG_DIR']
         dummy_run = os.environ['DUMMY_RUN'] == 'TRUE'
         simulation_end_date = os.environ['END_DATE']
         output_dir = os.environ['OUTPUT_DIR']
@@ -153,6 +154,7 @@ def run_mip_convert_wrapper():
                        end_date,
                        timestamp,
                        USER_CONFIG_TEMPLATE_NAME,
+                       cycl_task_log_dir,
                        CMOR_LOG_FILENAME_TEMPLATE,
                        )
     except Exception as error:
@@ -160,8 +162,8 @@ def run_mip_convert_wrapper():
         logger.info(print_env())
         raise error
 
-    mip_convert_log = '{0}_{1}.log'.format(MIP_CONVERT_LOG_BASE_NAME,
-                                           timestamp)
+    mip_convert_log = os.path.join(cycl_task_log_dir, '{0}_{1}.log'.format(MIP_CONVERT_LOG_BASE_NAME,
+                                                                           timestamp))
 
     plugin_id = request.metadata.mip_era
     if request.common.force_plugin:
@@ -170,7 +172,7 @@ def run_mip_convert_wrapper():
     # Run mip convert
     exit_code = run_mip_convert(stream, dummy_run, timestamp,
                                 USER_CONFIG_TEMPLATE_NAME,
-                                MIP_CONVERT_LOG_BASE_NAME,
+                                mip_convert_log,
                                 plugin_id,
                                 request.common.external_plugin,
                                 request.common.external_plugin_location,
