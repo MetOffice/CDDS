@@ -9,7 +9,7 @@ from mip_convert.tests.utils import getTestFileBase, getTestPath
 class TestPaths(unittest.TestCase):
 
     def testTestFileBase(self):
-        expected_path = os.path.join(os.environ['CDDS_ETC'], 'testdata')
+        expected_path = os.path.join(os.environ['CDDS_ETC'], 'testdata', "mip_table_tests")
         self.assertEqual(expected_path, getTestFileBase())
 
     def testGuessPath(self):
