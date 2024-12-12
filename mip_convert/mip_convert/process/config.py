@@ -4,21 +4,6 @@
 The :mod:`config` module defines the information to be read from the
 |model to MIP mapping| configuration file.
 """
-from mip_convert.common import raw_to_value as _raw_to_value
-
-
-def raw_to_value(key, raw_value):
-    """
-    Return ``raw_value`` converted to correct type.
-
-    Parameters
-    ----------
-    key: string
-       The key that specifies the type conversion to perform.
-    raw_value: string
-       The raw value to convert.
-    """
-    return _raw_to_value(mappings_config, key, raw_value)
 
 
 def mappings_config():
