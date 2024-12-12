@@ -3,6 +3,10 @@
 
 .. include:: common.txt
 
+Release 2.5.10, December 12, 2024
+============================
+* No changes
+
 Release 2.5.9, June 25, 2024
 ============================
 * Fixed a bug in submission code that made archiving script unusable (CDDSO-477)
