@@ -75,6 +75,10 @@ Release 3.0.0, May 15, 2024
 * CMOR has been updated to v3.8 and Python to 3.10 (CDDSO-411)
 * Simplified model config files by removing `files_per_year` field (CDSSO-307)
 
+Release 2.5.10, December 12, 2024
+============================
+* No changes
+
 Release 2.5.8, February 29, 2024
 ================================
 * Added submission queues to support CMIP6Plus publication (CDDSO-413)
