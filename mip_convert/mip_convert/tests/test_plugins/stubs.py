@@ -7,10 +7,19 @@ from mip_convert.plugins.plugins import MappingPlugin
 
 class EmptyMappingPlugin(MappingPlugin):
 
-    MODEL_ID = "model_id"
+    PLUGIN_ID = "plugin_id"
 
     def __init__(self):
-        super(EmptyMappingPlugin, self).__init__(EmptyMappingPlugin.MODEL_ID)
+        super(EmptyMappingPlugin, self).__init__(EmptyMappingPlugin.PLUGIN_ID)
 
     def load(self) -> None:
+        pass
+
+    def evaluate_expression(self) -> None:
+        pass
+
+    def constants(self):
+        pass
+
+    def bounds_checker(self):
         pass
