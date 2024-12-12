@@ -34,6 +34,10 @@ Release 3.0.0, May 15, 2024
 * The field `child_base_date` in the `request` section of the MIP Convert Config file has been 
   renamed for clarity to `base_date` (CDDSO-455)
 
+Release 2.5.10, December 12, 2024
+============================
+* Add mappings for the eUKESM1 model (duplicates of the existing UKESM1*.cfg mappings) (CDDSO-572)
+
 Release 2.5.9, June 25, 2024
 ============================
 * Added new MIP tables (GC3hrPtUV, GCAmon6hr, GCAmonUV, GC3hr, GC1hr) and mappings for CP4A, along with
