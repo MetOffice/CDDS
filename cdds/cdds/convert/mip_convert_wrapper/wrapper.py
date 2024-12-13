@@ -19,7 +19,7 @@ from cdds.common.request.request import read_request
 from cdds.convert.constants import FILEPATH_METOFFICE
 from cdds.convert.exceptions import WrapperEnvironmentError, WrapperMissingFilesError
 from cdds.convert.mip_convert_wrapper.actions import (check_disk_usage, manage_critical_issues, manage_logs,
-                                                      report_disk_usage, run_mip_convert)
+                                                      report_disk_usage, run_mip_convert, copy_logs)
 from cdds.convert.mip_convert_wrapper.common import print_env
 from cdds.convert.mip_convert_wrapper.constants import (USER_CONFIG_TEMPLATE_NAME, CMOR_LOG_FILENAME_TEMPLATE,
                                                         MIP_CONVERT_LOG_BASE_NAME, RUN_MIP_CONVERT_LOG_NAME)
@@ -144,6 +144,7 @@ def run_mip_convert_wrapper():
         err_msg = 'No files processed for this job step, but work is expected.'
         raise WrapperMissingFilesError(err_msg)
 
+    cmor_log_file = CMOR_LOG_FILENAME_TEMPLATE.format(timestamp)
     # Write out config file
     try:
         setup_cfg_file(work_dir,
@@ -154,16 +155,15 @@ def run_mip_convert_wrapper():
                        end_date,
                        timestamp,
                        USER_CONFIG_TEMPLATE_NAME,
-                       cycl_task_log_dir,
-                       CMOR_LOG_FILENAME_TEMPLATE,
+                       cmor_log_file,
                        )
     except Exception as error:
         logger.critical('Setup_cfg_file failed with error: "{}"'.format(error))
         logger.info(print_env())
         raise error
 
-    mip_convert_log = os.path.join(cycl_task_log_dir, '{0}_{1}.log'.format(MIP_CONVERT_LOG_BASE_NAME,
-                                                                           timestamp))
+    mip_convert_log = '{0}_{1}.log'.format(MIP_CONVERT_LOG_BASE_NAME,
+                                           timestamp)
 
     plugin_id = request.metadata.mip_era
     if request.common.force_plugin:
@@ -172,7 +172,7 @@ def run_mip_convert_wrapper():
     # Run mip convert
     exit_code = run_mip_convert(stream, dummy_run, timestamp,
                                 USER_CONFIG_TEMPLATE_NAME,
-                                mip_convert_log,
+                                MIP_CONVERT_LOG_BASE_NAME,
                                 plugin_id,
                                 request.common.external_plugin,
                                 request.common.external_plugin_location,
@@ -208,6 +208,7 @@ def run_mip_convert_wrapper():
             shutil.copytree(full_comp_dir_path,
                             out_comp_dir_path)
 
+    copy_logs(mip_convert_log, cmor_log_file, cycl_task_log_dir)
     # Tidy up the log files even if this task fails.
     manage_logs(stream, component, cdds_convert_proc_dir,
                 cylc_task_cycle_point)

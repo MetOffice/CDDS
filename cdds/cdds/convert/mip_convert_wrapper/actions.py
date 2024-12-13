@@ -15,6 +15,23 @@ from cdds.convert.exceptions import MipConvertWrapperDiskUsageError
 from cdds.convert.mip_convert_wrapper.common import print_env
 
 
+def copy_logs(mip_convert_log, cmor_log_file, target_dir):
+    """
+    Copy MIP convert and CMOR log files to given target directory.
+
+    :param mip_convert_log: Path to MIP convert log file
+    :type mip_convert_log: str
+    :param cmor_log_file: Path to CMOR log file
+    :type cmor_log_file: str
+    :param target_dir: Path to target directory
+    :type target_dir: str
+    """
+    target_mip_convert_log = os.path.join(target_dir, os.path.basename(mip_convert_log))
+    target_cmor_log = os.path.join(target_dir, os.path.basename(cmor_log_file))
+    shutil.copyfile(mip_convert_log, target_mip_convert_log)
+    shutil.copyfile(cmor_log_file, target_cmor_log)
+
+
 def manage_logs(stream, component, mip_convert_config_dir,
                 cylc_task_cycle_point):
     """
