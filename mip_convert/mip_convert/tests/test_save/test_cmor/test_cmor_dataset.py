@@ -48,6 +48,7 @@ class TestDataset(unittest.TestCase):
         self.initialization_index = '4'
         self.physics_index = '6'
         self.realization_index = '2'
+        self.mip_convert_plugin = 'HadGEM3'
         self.variant_label = 'r{}i{}p{}f{}'.format(self.realization_index,
                                                    self.initialization_index,
                                                    self.physics_index,
@@ -75,6 +76,7 @@ class TestDataset(unittest.TestCase):
             'model_output_dir:model_output_dir\n'
             'run_bounds:0000-00-00T00:00:00 0000-00-00T00:00:00\n'
             'suite_id:{suite_id}\n'
+            'mip_convert_plugin:{mip_convert_plugin}\n'
             '[global_attributes]\n'
             'further_info_url:https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.dcppC-amv-pos.none.r2i4p6f8\n'
         )
@@ -93,6 +95,7 @@ class TestDataset(unittest.TestCase):
             'source_type': self.source_type_user,
             'sub_experiment_id': self.sub_experiment_id,
             'suite_id': self.suite_id,
+            'mip_convert_plugin': self.mip_convert_plugin,
             'variant_label': self.variant_label
         }
         self.user_config_contents = self._user_config_contents.format(**self._user_config_values)

@@ -124,6 +124,7 @@ class TestMain(unittest.TestCase):
         self.nominal_resolution = grid_info.nominal_resolution
         self.replacement_coordinates_file = os.path.join(os.environ['CDDS_ETC'],
                                                          'horizontal_coordinates', 'cice_eORCA1_coords.nc')
+        self.mip_convert_plugin = 'HadGem3'
         self.cmor_setup_format = (
             '[cmor_setup]\ncmor_log_file = {}\ncreate_subdirectories = {}\nmip_table_dir = {}\n'
             'netcdf_file_action = {}\n\n')
@@ -161,12 +162,12 @@ class TestMain(unittest.TestCase):
         self.request_format = (
             '[request]\nancil_files = {}\nbase_date = {}\n'
             'deflate_level = {}\nforce_coordinate_rotation = {}\nhybrid_heights_files = {}\n'
-            'model_output_dir = {}\nreplacement_coordinates_file = {}\n'
+            'mip_convert_plugin = {}\nmodel_output_dir = {}\nreplacement_coordinates_file = {}\n'
             'run_bounds = {}\nshuffle = {}\nsites_file = {}\n'
             'suite_id = {}\n\n')
         self.request_section = self.request_format.format(
             self.ancil_files, self.base_date, self.deflate_level, self.force_coordinate_rotation,
-            self.hybrid_heights_files, self.model_output_dir,
+            self.hybrid_heights_files, self.mip_convert_plugin, self.model_output_dir,
             self.replacement_coordinates_file, self.run_bounds, self.shuffle,
             self.sites_file, self.suite_id)
         self.stream_section = '[stream_ap5]\nCMIP6_Amon = tas\n\n'
