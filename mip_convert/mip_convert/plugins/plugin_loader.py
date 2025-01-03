@@ -18,7 +18,7 @@ from mip_convert.plugins.exceptions import PluginLoadError
 INTERNAL_PLUGINS: List[MappingPlugin] = [HadGEM3MappingPlugin()]
 
 
-def load_plugin(plugin_id: str, model_id: str, plugin_module_path: str = None, plugin_location: str = None) -> None:
+def load_plugin(plugin_id: str, plugin_module_path: str = None, plugin_location: str = None) -> None:
     """
     Searches for a Mapping plugin that is responsible for the model with given ID,
     loads it and registers it.
@@ -26,8 +26,8 @@ def load_plugin(plugin_id: str, model_id: str, plugin_module_path: str = None, p
     The search is done on the implemented plugins of the Mapping project and on the
     plugins implemented in the module at the given module path.
 
-    :param model_id: The MIP era that plugin is responsible for (Default: CMIP6)
-    :type model_id:
+    :param plugin_id: The MIP era that plugin is responsible for (Default: CMIP6)
+    :type plugin_id: str
     :param plugin_module_path:
     :type plugin_module_path:
     :param plugin_location:
@@ -37,12 +37,16 @@ def load_plugin(plugin_id: str, model_id: str, plugin_module_path: str = None, p
         sys.path.append(plugin_location)
 
     if plugin_module_path:
-        load_external_plugin(plugin_id, plugin_module_path, model_id)
+        load_external_plugin(plugin_id, plugin_module_path, plugin_id)
     else:
-        internal_plugin = find_internal_plugin(plugin_id)
-        internal_plugin.load(model_id)
-        plugin_store = PluginStore.instance()
-        plugin_store.register_plugin(internal_plugin)
+        try:
+            internal_plugin = find_internal_plugin(plugin_id)
+            internal_plugin.load(plugin_id)
+            plugin_store = PluginStore.instance()
+            plugin_store.register_plugin(internal_plugin)
+        except PluginLoadError:
+            PluginStore.clean_instance()
+            PluginStore.instance()
 
 
 def find_internal_plugin(plugin_id: str) -> MappingPlugin:
