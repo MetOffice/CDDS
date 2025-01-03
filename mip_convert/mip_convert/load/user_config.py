@@ -20,6 +20,7 @@ to the object representation of user requests.
 """
 import regex as re
 
+from mip_convert.plugins.plugins import PluginStore
 from mip_convert.load.model_output_config import AbstractDataSourceUser
 from mip_convert.common import ObjectWithLogger
 from mip_convert.load.pp.pp import PpMatch
@@ -153,14 +154,27 @@ class PpRequestVariable(ObjectWithLogger):
 
         # Create a BoundsChecker instance if at least one bounds-checking action was specified.
         if self._do_bounds_check:
-            self._bounds_checker = qc.MaskedArrayBoundsChecker(fill_value=kwargs.get('fill_value', qc.UM_MDI),
-                                                               valid_min=kwargs.get('valid_min'),
-                                                               valid_max=kwargs.get('valid_max'),
-                                                               tol_min=kwargs.get('tol_min'),
-                                                               tol_max=kwargs.get('tol_max'),
-                                                               tol_min_action=kwargs.get('tol_min_action'),
-                                                               tol_max_action=kwargs.get('tol_max_action'),
-                                                               oob_action=kwargs.get('oob_action'))
+            if PluginStore.instance().has_plugin_loaded():
+                plugin = PluginStore.instance().get_plugin()
+                self._bounds_checker = plugin.bounds_checker(
+                    fill_value=kwargs.get('fill_value', qc.UM_MDI),
+                    valid_min=kwargs.get('valid_min'),
+                    valid_max=kwargs.get('valid_max'),
+                    tol_min=kwargs.get('tol_min'),
+                    tol_max=kwargs.get('tol_max'),
+                    tol_min_action=kwargs.get('tol_min_action'),
+                    tol_max_action=kwargs.get('tol_max_action'),
+                    oob_action=kwargs.get('oob_action')
+                )
+            else:
+                self._bounds_checker = qc.MaskedArrayBoundsChecker(fill_value=kwargs.get('fill_value', qc.UM_MDI),
+                                                                   valid_min=kwargs.get('valid_min'),
+                                                                   valid_max=kwargs.get('valid_max'),
+                                                                   tol_min=kwargs.get('tol_min'),
+                                                                   tol_max=kwargs.get('tol_max'),
+                                                                   tol_min_action=kwargs.get('tol_min_action'),
+                                                                   tol_max_action=kwargs.get('tol_max_action'),
+                                                                   oob_action=kwargs.get('oob_action'))
             self.logger.debug("Created bounds-checker object using the following properties:\n%s" % kwargs)
 
     def _run_bounds_checker(self, array):

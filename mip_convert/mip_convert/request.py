@@ -9,6 +9,7 @@ information provided in the |user configuration file|.
 import iris
 import logging
 
+from mip_convert.plugins.plugin_loader import load_plugin
 from mip_convert.save.cmor import cmor_lite
 from mip_convert.requirements import software_versions
 from mip_convert.requested_variables import get_requested_variables, produce_mip_requested_variable
@@ -99,6 +100,7 @@ def convert(parameters):
             user_config.root_load_path, user_config.suite_id, stream_id, substream, user_config.ancil_files
         )
 
+        load_plugin(user_config.mip_convert_plugin)
         # Read and validate the 'model to MIP mappings'.
         model_to_mip_mappings = get_model_to_mip_mappings(user_config.source_id, mip_table_name)
 

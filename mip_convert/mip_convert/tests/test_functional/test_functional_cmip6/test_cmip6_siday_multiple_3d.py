@@ -32,7 +32,8 @@ class TestCmip6SIdayMultiple3d(AbstractFunctionalTests):
                 request={
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1978-10-01T00:00:00 1978-12-01T00:00:00',
-                    'suite_id': 'u-al114'
+                    'suite_id': 'u-al114',
+                    'mip_convert_plugin': ''
                 },
                 masking={
                     'ind': {

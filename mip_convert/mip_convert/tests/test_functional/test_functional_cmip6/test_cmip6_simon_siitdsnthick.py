@@ -34,7 +34,8 @@ class TestCmip6SImonSiitdsnthick(AbstractFunctionalTests):
                 request={
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1854-03-01T00:00:00 1854-04-01T00:00:00',
-                    'suite_id': 'u-ar050'
+                    'suite_id': 'u-ar050',
+                    'mip_convert_plugin': ''
                 },
                 streams={
                     'inm': {'CMIP6_SImon': 'siitdsnthick'}

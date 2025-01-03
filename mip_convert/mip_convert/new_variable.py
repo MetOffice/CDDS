@@ -21,6 +21,7 @@ from iris.util import guess_coord_axis
 import numpy as np
 
 from cdds.common import DATE_TIME_REGEX
+from mip_convert.plugins.plugins import PluginStore
 from mip_convert.common import (
     DEFAULT_FILL_VALUE, Longitudes, validate_latitudes, format_date,
     MIP_to_model_axis_name_mapping, apply_time_constraint, raw_to_value,
@@ -453,7 +454,11 @@ class Variable(object):
         expression = expression.replace(TIMESTEP, str(self._timestep))
         expression = _update_constraints_in_expression(list(self.input_variables.keys()), expression)
         self.logger.debug('Evaluating expression "{}"'.format(expression))
-        self.cube = eval(expression)
+        if PluginStore.instance().has_plugin_loaded():
+            plugin = PluginStore.instance().get_plugin()
+            self.cube = plugin.evaluate_expression(expression)
+        else:
+            self.cube = eval(expression)
         if fill_value is not None:
             self.cube.attributes['fill_value'] = fill_value
         self.logger.debug('{cube}'.format(cube=self.cube))
@@ -846,11 +851,19 @@ class VariableModelToMIPMapping(object):
         result = self.model_to_mip_mapping['expression']
         for loadable in self.loadables:
             result = result.replace(loadable.name, loadable.constraint)
-        result = replace_constants(result, constants())
+        if PluginStore.instance().has_plugin_loaded():
+            plugin = PluginStore.instance().get_plugin()
+            result = replace_constants(result, plugin.constants())
+        else:
+            result = replace_constants(result, constants())
         return result
 
     def _loadables(self):
-        consts = constants()
+        if PluginStore.instance().has_plugin_loaded():
+            plugin = PluginStore.instance().get_plugin()
+            consts = plugin.constants()
+        else:
+            consts = constants()
         consts.update({TIMESTEP: TIMESTEP})
         return parse_to_loadables(self.model_to_mip_mapping['expression'], consts, mappings_config)
 
