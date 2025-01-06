@@ -456,7 +456,7 @@ class Variable(object):
         self.logger.debug('Evaluating expression "{}"'.format(expression))
         if PluginStore.instance().has_plugin_loaded():
             plugin = PluginStore.instance().get_plugin()
-            self.cube = plugin.evaluate_expression(expression)
+            self.cube = plugin.evaluate_expression(expression, self.input_variables)
         else:
             self.cube = eval(expression)
         if fill_value is not None:
@@ -789,6 +789,7 @@ def _update_constraint_in_expression(expression, constraint_name):
     pattern = re.compile(r'{}(?=[^\d]|$)'.format(constraint_name))
     match = pattern.search(expression)
     if match:
+        # TODO: Don't use self here after plugin is completely implemented
         replacement_string = 'self.input_variables["{}"]'.format(constraint_name)
         expression = pattern.sub(replacement_string, expression)
     return expression

@@ -26,6 +26,7 @@ class HadGEM3MappingPlugin(MappingPlugin):
     def __init__(self):
         super(HadGEM3MappingPlugin, self).__init__('HadGEM3')
         self.model_to_mip_mapping_configs: Dict[str, ModelToMIPMappingConfig] = {}
+        self.input_variables: Dict[str, iris.cube.Cube] = {}
 
     def load(self, model_id) -> None:
         """
@@ -47,17 +48,54 @@ class HadGEM3MappingPlugin(MappingPlugin):
             logger.debug('Reading "{filename}"'.format(filename=filename))
         self.model_to_mip_mapping_configs[model_id] = model_to_mip_mappings
 
-    def evaluate_expression(self, expression: Any) -> iris.cube.Cube:
+    def evaluate_expression(self, expression: Any, input_variables: Dict[str, iris.cube.Cube]) -> iris.cube.Cube:
+        """
+        Update the iris Cube containing in the input variables list by evaluating the given expression.
+
+        :param expression:
+        :type expression: Any
+        :param input_variables:
+        :type input_variables: Dict[str, Cube]
+        :return: The updated iris Cube
+        :rtype: Cube
+        """
+        # TODO: Remove assign to class variable after refactoring mipconvert.mipconvert.new_variable line 793
+        self.input_variables = input_variables
         return eval(expression)
 
     def constants(self) -> Dict[str, str]:
+        """
+        Returns the names and values of the constants available for use in the |model to MIP mapping| expressions.
+
+        :return: The names and values of the constants available for use in the |model to MIP mapping| expressions.
+        :rtype: Dict[str, str]
+        """
         return all_constants()
 
     def bounds_checker(
             self, fill_value: float = UM_MDI, valid_min: float = None, valid_max: float = None, tol_min: float = None,
             tol_max: float = None, tol_min_action: int = RAISE_EXCEPTION, tol_max_action: int = RAISE_EXCEPTION,
             oob_action: int = RAISE_EXCEPTION) -> MaskedArrayBoundsChecker:
-        return MaskedArrayBoundsChecker(fill_value, valid_min, valid_max, tol_min, tol_max, tol_min_action, oob_action)
+        """
+        Returns the checker for checking and, if required, adjusting numpy MaskedArrays
 
-    def mappings_config(self) -> Dict[str, Dict[str, Any]]:
-        return mappings_config_info()
+        :param fill_value: Filling value
+        :type fill_value: float
+        :param valid_min: Valid minimum
+        :type valid_min: float
+        :param valid_max: Valid maximum
+        :type valid_max: float
+        :param tol_min: Minimal tolerance
+        :type tol_min: float
+        :param tol_max: Maximal tolerance
+        :type tol_max: float
+        :param tol_min_action: Action for minimal tolerance
+        :type tol_min_action: int
+        :param tol_max_action: Action for maximal tolerance
+        :type tol_max_action: int
+        :param oob_action: Action of out-of-bounds values
+        :type oob_action: int
+        :return: Checker to masked the array
+        :rtype: MaskedArrayBoundsChecker
+        """
+        return MaskedArrayBoundsChecker(fill_value, valid_min, valid_max, tol_min, tol_max, tol_min_action, oob_action)

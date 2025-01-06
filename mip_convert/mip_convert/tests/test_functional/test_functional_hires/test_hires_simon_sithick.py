@@ -34,7 +34,7 @@ class TestHiResSimonSithick(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1951-01-01T00:00:00 1951-02-01T00:00:00',
                     'suite_id': 'u-ay652',
-                    'mip_convert_plugin': ''
+                    'mip_convert_plugin': 'HadGEM3'
                 },
                 streams={
                     'inm': {'CMIP6_SImon': 'sithick'}
