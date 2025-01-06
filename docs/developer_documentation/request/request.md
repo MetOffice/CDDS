@@ -33,6 +33,11 @@ necessary functionalities.
 
 ![Request Overview](request-overview.png){ width=600 }
 
+The `Inheritance` section has a single entry template that indicates a request file to inherit settings from. Parameters 
+in the request file will override those defined in the template file. This allows complicated sets of information, e.g. 
+license text that has to be precisely defined, to be held in one place and then "inherited" by request files keeping 
+them relatively simple.
+
 ## Implementation:
 
 ### Classes
