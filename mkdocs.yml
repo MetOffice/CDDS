@@ -33,6 +33,8 @@ nav:
       - Conversion Section: tutorials/request/conversion.md
       - Global Attributes Section: tutorials/request/global_attributes.md
       - Misc Section: tutorials/request/misc.md
+    - Model Parameters JSON File:
+      -  tutorials/json_model_parameter.md
   - Developer Documentation:
     - developer_documentation/index.md
     - Deployment:
