@@ -37,7 +37,7 @@ def main_checkout_workflow(arguments: Union[list, None] = None):
 
     validate_arguments(args, workflow_url)
     create_workflow_dst(workflow_dst)
-    checkout_url(workflow_url, workflow_dst)
+    checkout_url(workflow_url, str(workflow_dst))
     update_rose_conf(args, workflow_dst)
 
 
