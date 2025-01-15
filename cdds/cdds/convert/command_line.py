@@ -38,8 +38,13 @@ def _parse_args_concat_setup():
                         help='Module path to external CDDS plugin')
     parser.add_argument('--external_plugin_location', default='', type=str,
                         help='Path to external CDDS plugin implementation')
+    parser.add_argument('--model_params_dir', default='', type=str,
+                        help='Path to the model parameters directory')
     arguments = parser.parse_args()
     load_plugin(arguments.plugin_id, arguments.external_plugin, arguments.external_plugin_location)
+    if arguments.model_params_dir:
+        plugin = PluginStore.instance().get_plugin()
+        plugin.overload_models_parameters(arguments.model_params_dir)
     return arguments.config_file, arguments.log_file, arguments.append_log
 
 
