@@ -1,5 +1,6 @@
 # (C) British Crown Copyright 2024, Met Office.
 # Please see LICENSE.rst for license details.
+import os
 import tempfile
 
 from metomi.isodatetime.data import TimePoint
@@ -22,6 +23,8 @@ def simple_request():
     root_proc_dir = tempfile.mkdtemp(prefix='proc')
     root_data_dir = tempfile.mkdtemp(prefix='data')
 
+    cdds_etc_dir = os.environ['CDDS_ETC']
+
     conversion_section = ConversionSection()
     inventory_section = InventorySection(inventory_check=False)
     misc_section = MiscSection()
@@ -40,18 +43,18 @@ def simple_request():
         variable_list_file=variable_list_file
     )
     common_section = CommonSection(
-        mip_table_dir='/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29/',
+        mip_table_dir=os.path.join(cdds_etc_dir, 'mip_tables/CMIP6/01.00.29/'),
         mode='strict',
         package='amip_ll',
         workflow_basename='UKESM1-0-LL_amip_r1i1p1f4',
         root_proc_dir=root_proc_dir,
         root_data_dir=root_data_dir,
-        root_ancil_dir='/home/h03/cdds/etc/ancil',
-        root_hybrid_heights_dir='/home/h03/cdds/etc/vertical_coordinates',
-        root_replacement_coordinates_dir='/home/h03/cdds/etc/horizontal_coordinates',
-        sites_file='/home/h03/cdds/etc/cfmip2/cfmip2-sites-orog.txt',
+        root_ancil_dir=os.path.join(cdds_etc_dir, 'ancil'),
+        root_hybrid_heights_dir=os.path.join(cdds_etc_dir, 'vertical_coordinates'),
+        root_replacement_coordinates_dir=os.path.join(cdds_etc_dir, 'horizontal_coordinates'),
+        sites_file=os.path.join(cdds_etc_dir, 'cfmip2/cfmip2-sites-orog.txt'),
         standard_names_version='latest',
-        standard_names_dir='/home/h03/cdds/etc/standard_names'
+        standard_names_dir=os.path.join(cdds_etc_dir, 'standard_names')
     )
     metadata_section = MetadataSection(
         branch_method='no parent',
