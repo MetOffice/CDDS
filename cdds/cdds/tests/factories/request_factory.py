@@ -30,6 +30,7 @@ def simple_request():
         end_date=TimePoint(year=2015, month_of_year=1, day_of_month=1),
         mass_data_class='crum',
         start_date=TimePoint(year=1979, month_of_year=1, day_of_month=1),
+        max_file_size=20e9,
         model_workflow_id='u-bp880',
         model_workflow_branch='cdds',
         model_workflow_revision='HEAD',

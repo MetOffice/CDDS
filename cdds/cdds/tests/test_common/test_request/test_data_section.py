@@ -17,7 +17,8 @@ class TestDataDefaults(TestCase):
             'mass_data_class': 'crum',
             'streams': 'ap4 ap5 ap6 inm onm',
             'model_workflow_branch': 'cdds',
-            'model_workflow_revision': 'HEAD'
+            'model_workflow_revision': 'HEAD',
+            'max_file_size': '20e9'
         }
 
         defaults = data_defaults()

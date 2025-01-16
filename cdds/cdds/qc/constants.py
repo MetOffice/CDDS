@@ -42,7 +42,6 @@ DIURNAL_OFFSETS = [
     30,
     29,
 ]
-MAX_FILESIZE = 20e9
 QC_DB_FILENAME = 'qc.db'
 QC_REPORT_FILENAME = 'report_{dt}.json'
 QC_REPORT_STREAM_FILENAME = 'report_{stream_id}_{dt}.json'
