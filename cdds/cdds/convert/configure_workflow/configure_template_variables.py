@@ -165,7 +165,7 @@ class ConfigureTemplateVariables:
         :rtype: dict
         """
         final_cycle_points = []
-        for point in self.stream_config["FINAL_CYCLE_POINT"].values():
+        for point in self.stream_config["FINAL_CONCATENATION_CYCLE"].values():
             final_cycle_points.append(TimePointParser().parse(point))
         final_cycle_point_variable = {"FINAL_CYCLE_POINT": str(max(final_cycle_points))}
 

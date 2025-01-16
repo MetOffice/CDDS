@@ -67,14 +67,9 @@ class CalculateISODatetimes:
         if self.single_concatenation_window:
             return False
 
-        final_concatenation_cycle = (self.start_date + self.final_concatenation_window_offset)
         first_concat_cycle = self.start_date + DurationParser().parse(f"{self.first_concat_cycle_offset}")
         recurrence = TimeRecurrenceParser().parse(f"R/{first_concat_cycle}/{self.concatenation_window}")
-        return not recurrence.get_is_valid(final_concatenation_cycle)
-
-    @property
-    def final_concatenation_window_offset(self) -> Duration:
-        return self.final_cycle_point - self.start_date
+        return not recurrence.get_is_valid(self.final_cycle_point)
 
     @property
     def final_concatenation_window_point(self) -> TimePoint:
@@ -95,8 +90,7 @@ class CalculateISODatetimes:
             "CYCLING_FREQUENCY": str(self.cycling_frequency),
             "DO_CONVERT_ALIGNMENT_CYCLE": self.alignment_cycle_needed,
             "DO_FINAL_CONCATENATE": self.final_concatenation_needed,
-            "FINAL_CONCATENATION_CYCLE": str(self.final_concatenation_window_offset),
+            "FINAL_CONCATENATION_CYCLE": str(self.final_cycle_point),
             "FINAL_CONCATENATION_WINDOW_START": str(self.final_concatenation_window_point),
-            "FINAL_CYCLE_POINT": str(self.final_cycle_point),
             "SINGLE_CONCATENATION_CYCLE": self.single_concatenation_window,
         }

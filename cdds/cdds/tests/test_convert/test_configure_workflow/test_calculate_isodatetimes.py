@@ -26,9 +26,8 @@ class TestCalculateISODatetimes360Day:
             "CYCLING_FREQUENCY": "P5Y",
             "DO_CONVERT_ALIGNMENT_CYCLE": False,
             "DO_FINAL_CONCATENATE": True,
-            "FINAL_CONCATENATION_CYCLE": "P70200D",
+            "FINAL_CONCATENATION_CYCLE": "2165-01-01T00:00:00Z",
             "FINAL_CONCATENATION_WINDOW_START": "2150-01-01T00:00:00Z",
-            "FINAL_CYCLE_POINT": "2165-01-01T00:00:00Z",
             "SINGLE_CONCATENATION_CYCLE": False,
         }
 
@@ -50,9 +49,8 @@ class TestCalculateISODatetimes360Day:
             "CYCLING_FREQUENCY": "P2Y",
             "DO_CONVERT_ALIGNMENT_CYCLE": False,
             "DO_FINAL_CONCATENATE": True,
-            "FINAL_CONCATENATION_CYCLE": "P71280D",
+            "FINAL_CONCATENATION_CYCLE": "2168-01-01T00:00:00Z",
             "FINAL_CONCATENATION_WINDOW_START": "2150-01-01T00:00:00Z",
-            "FINAL_CYCLE_POINT": "2168-01-01T00:00:00Z",
             "SINGLE_CONCATENATION_CYCLE": False,
         }
 
@@ -74,9 +72,8 @@ class TestCalculateISODatetimes360Day:
             "CYCLING_FREQUENCY": "P5Y",
             "DO_CONVERT_ALIGNMENT_CYCLE": True,
             "DO_FINAL_CONCATENATE": False,
-            "FINAL_CONCATENATION_CYCLE": "P11160D",
+            "FINAL_CONCATENATION_CYCLE": "2010-01-01T00:00:00Z",
             "FINAL_CONCATENATION_WINDOW_START": "0",
-            "FINAL_CYCLE_POINT": "2010-01-01T00:00:00Z",
             "SINGLE_CONCATENATION_CYCLE": True,
         }
 
@@ -98,9 +95,8 @@ class TestCalculateISODatetimes360Day:
             "CYCLING_FREQUENCY": "P1Y",
             "DO_CONVERT_ALIGNMENT_CYCLE": False,
             "DO_FINAL_CONCATENATE": False,
-            "FINAL_CONCATENATION_CYCLE": "P12600D",
+            "FINAL_CONCATENATION_CYCLE": "2014-01-01T00:00:00Z",
             "FINAL_CONCATENATION_WINDOW_START": "0",
-            "FINAL_CYCLE_POINT": "2014-01-01T00:00:00Z",
             "SINGLE_CONCATENATION_CYCLE": True,
         }
 
@@ -122,9 +118,8 @@ class TestCalculateISODatetimes360Day:
             "CYCLING_FREQUENCY": "P5Y",
             "DO_CONVERT_ALIGNMENT_CYCLE": False,
             "DO_FINAL_CONCATENATE": False,
-            "FINAL_CONCATENATION_CYCLE": "P30600D",
+            "FINAL_CONCATENATION_CYCLE": "2100-01-01T00:00:00Z",
             "FINAL_CONCATENATION_WINDOW_START": "0",
-            "FINAL_CYCLE_POINT": "2100-01-01T00:00:00Z",
             "SINGLE_CONCATENATION_CYCLE": True,
         }
 
@@ -146,9 +141,8 @@ class TestCalculateISODatetimes360Day:
             "CYCLING_FREQUENCY": "P1Y",
             "DO_CONVERT_ALIGNMENT_CYCLE": False,
             "DO_FINAL_CONCATENATE": False,
-            "FINAL_CONCATENATION_CYCLE": "P30600D",
+            "FINAL_CONCATENATION_CYCLE": "2100-01-01T00:00:00Z",
             "FINAL_CONCATENATION_WINDOW_START": "0",
-            "FINAL_CYCLE_POINT": "2100-01-01T00:00:00Z",
             "SINGLE_CONCATENATION_CYCLE": True,
         }
 
@@ -170,9 +164,8 @@ class TestCalculateISODatetimes360Day:
             "CYCLING_FREQUENCY": "P2Y",
             "DO_CONVERT_ALIGNMENT_CYCLE": True,
             "DO_FINAL_CONCATENATE": False,
-            "FINAL_CONCATENATION_CYCLE": "P30600D",
+            "FINAL_CONCATENATION_CYCLE": "2100-01-01T00:00:00Z",
             "FINAL_CONCATENATION_WINDOW_START": "0",
-            "FINAL_CYCLE_POINT": "2100-01-01T00:00:00Z",
             "SINGLE_CONCATENATION_CYCLE": True,
         }
 
@@ -194,9 +187,8 @@ class TestCalculateISODatetimes360Day:
             "CYCLING_FREQUENCY": "P1Y",
             "DO_CONVERT_ALIGNMENT_CYCLE": False,
             "DO_FINAL_CONCATENATE": True,
-            "FINAL_CONCATENATION_CYCLE": "P12600D",
+            "FINAL_CONCATENATION_CYCLE": "2014-01-01T00:00:00Z",
             "FINAL_CONCATENATION_WINDOW_START": "2010-01-01T00:00:00Z",
-            "FINAL_CYCLE_POINT": "2014-01-01T00:00:00Z",
             "SINGLE_CONCATENATION_CYCLE": False,
         }
 
@@ -218,9 +210,8 @@ class TestCalculateISODatetimes360Day:
             "CYCLING_FREQUENCY": "P3M",
             "DO_CONVERT_ALIGNMENT_CYCLE": False,
             "DO_FINAL_CONCATENATE": True,
-            "FINAL_CONCATENATION_CYCLE": "P12870D",
+            "FINAL_CONCATENATION_CYCLE": "2014-10-01T00:00:00Z",
             "FINAL_CONCATENATION_WINDOW_START": "2010-01-01T00:00:00Z",
-            "FINAL_CYCLE_POINT": "2014-10-01T00:00:00Z",
             "SINGLE_CONCATENATION_CYCLE": False,
         }
 
@@ -250,9 +241,8 @@ class TestCalculateISODatetimesGregorian:
             "CYCLING_FREQUENCY": "P5Y",
             "DO_CONVERT_ALIGNMENT_CYCLE": False,
             "DO_FINAL_CONCATENATE": True,
-            "FINAL_CONCATENATION_CYCLE": "P71223D",
+            "FINAL_CONCATENATION_CYCLE": "2165-01-01T00:00:00Z",
             "FINAL_CONCATENATION_WINDOW_START": "2150-01-01T00:00:00Z",
-            "FINAL_CYCLE_POINT": "2165-01-01T00:00:00Z",
             "SINGLE_CONCATENATION_CYCLE": False,
         }
 
