@@ -6,7 +6,7 @@
 [scheduling]
     [[xtriggers]]
 {% for WORKFLOW_NAME, _ in WORKFLOW_NAMES %}
-        workflows_completed_{{ WORKFLOW_NAME | replace('-', '_') }} = check_workflow('{{ WORKFLOW_NAME }}', 'workflow_completed', 'succeeded'):PT10M
+        workflows_completed_{{ WORKFLOW_NAME | replace('-', '_') }} = check_workflow('{{ WORKFLOW_NAME }}', 'workflow_complete', 'succeeded'):PT5M
 {% endfor %}
     [[graph]]
         R1 = cdds_complete<workflow_names> => cdds_setup<workflow_names+1>
