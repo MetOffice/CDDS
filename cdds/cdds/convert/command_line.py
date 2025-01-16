@@ -7,7 +7,7 @@ import argparse
 import logging
 
 from cdds.common import configure_logger
-from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugin_loader import load_plugin, PluginStore
 from cdds.convert.exceptions import (OrganiseEnvironmentError,
                                      OrganiseTransposeError,
                                      WrapperEnvironmentError,
