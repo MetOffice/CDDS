@@ -25,22 +25,22 @@
   },
   "memory": {
     "apm": "32G",
-    "ap6": "32G",
-    "ap7": "32G",
-    "ap9": "32G"
+    "ap6": "64G",
+    "ap7": "64G",
+    "ap9": "64G"
   },
   "temp_space": {
     "apm": 131072,
-    "ap6": 131072,
-    "ap7": 131072,
-    "ap9": 131072
+    "ap6": 181072,
+    "ap7": 181072,
+    "ap9": 181072
   },
   "sizing_info": {
     "1hr": {
-      "default": 1
+      "default": 5
     },
     "6hr": {
-      "default": 1
+      "default": 5
     },
     "day": {
       "default": 5
@@ -56,8 +56,8 @@
   "grid_info": {
     "atmos": {
       "atmos_timestep": null,
-      "model_info": "",
-      "nominal_resolution": "",
+      "model_info": "Rotated Pole Grid",
+      "nominal_resolution": "12km",
       "longitude": null,
       "latitude": null,
       "v_latitude": null,
