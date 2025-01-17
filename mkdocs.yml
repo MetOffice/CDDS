@@ -38,6 +38,7 @@ nav:
     - Deployment:
       - Release Procedure: developer_documentation/deployment/release_procedure.md
       - Installation: developer_documentation/deployment/cdds_installation.md
+      - Documentation: developer_documentation/deployment/documentation.md
       - Infrastructure: developer_documentation/deployment/infrastructure.md
     - Development Practices:
       - developer_documentation/development_practices.md
