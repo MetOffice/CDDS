@@ -105,7 +105,7 @@ def validate_number(value: str, key: str, section: str):
     """
     logger = logging.getLogger(__name__)
     if not value.isnumeric():
-        error_message = 'The value of "{}" in section "{}" must be number'.format(key, section)
+        error_message = 'The value of "{}" in section "{}" must be a number'.format(key, section)
         logger.critical(error_message)
         raise ValueError(error_message)
 
@@ -122,7 +122,15 @@ def validate_float(value: str, key: str, section: str):
     :type section: str
     """
     logger = logging.getLogger(__name__)
-    if not value.replace('.', '', 1).isnumeric():
-        error_message = 'The value of "{}" in section "{}" must be number'.format(key, section)
+
+    if not value:
+        error_message = 'The value of "{}" in section "{}" must be a number'.format(key, section)
+        logger.critical(error_message)
+        raise ValueError(error_message)
+
+    try:
+        float(value)
+    except ValueError:
+        error_message = 'The value of "{}" in section "{}" must be a number'.format(key, section)
         logger.critical(error_message)
         raise ValueError(error_message)

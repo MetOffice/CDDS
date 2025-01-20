@@ -6,7 +6,7 @@ import os
 
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
-from cdds.qc.constants import DIURNAL_CLIMATOLOGY, EXCLUDE_DIRECTORIES_REGEXP, FREQ_DICT, MAX_FILESIZE, SECONDS_IN_DAY
+from cdds.qc.constants import DIURNAL_CLIMATOLOGY, EXCLUDE_DIRECTORIES_REGEXP, FREQ_DICT, SECONDS_IN_DAY
 from cdds.qc.common import GlobalAttributesCache
 
 
@@ -112,11 +112,11 @@ class StructuredDataset(object, metaclass=ABCMeta):
                 ds = self._loader_class(fp)
                 _, messages = self.check_filename(ds, os.path.basename(fp))
                 file_size = os.path.getsize(fp)
-                if file_size > MAX_FILESIZE:
+                if file_size > self._request.data.max_file_size:
                     messages.append(
-                        "The size of the file {} ({} bytes) "
-                        "exceeds the limit of {} bytes".format(
-                            fp, file_size, MAX_FILESIZE))
+                        "The size of the file {} ({} bytes) exceeds the limit of {} bytes"
+                        "".format(fp, file_size, self._request.data.max_file_size)
+                    )
                 if messages:
                     errors[fp] = messages
                 ds.close()

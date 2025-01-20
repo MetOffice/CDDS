@@ -30,6 +30,7 @@ def data_defaults() -> Dict[str, Any]:
         'streams': 'ap4 ap5 ap6 inm onm',
         'model_workflow_branch': 'cdds',
         'model_workflow_revision': 'HEAD',
+        'max_file_size': '20e9',
     }
 
 
@@ -50,6 +51,7 @@ class DataSection(Section):
     variable_list_file: str = ''
     output_mass_root: str = ''
     output_mass_suffix: str = ''
+    max_file_size: float = 20e9  # maximum file size in bytes
 
     def __post_init__(self):
         """

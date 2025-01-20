@@ -26,6 +26,11 @@ The `data` section in the request configuration contains all settings that are u
 `model_workflow_id`
 :   workflow ID of the simulation model.
 
+`max_file_size`
+:   maximum netCDF file size in bytes
+
+    **Default:** `20e9` (20GB)
+
 `model_workflow_branch`
 :   name of the workflow branch of the simulation model.
 
@@ -57,6 +62,7 @@ The `data` section in the request configuration contains all settings that are u
     end_date = 2015-01-01T00:00:00Z
     mass_data_class = crum
     mass_ensemble_member = 
+    max_file_size = 20e9
     start_date = 1979-01-01T00:00:00Z
     model_workflow_id = u-bp880
     model_workflow_branch = cdds
