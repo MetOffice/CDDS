@@ -105,7 +105,7 @@ def validate_number(value: str, key: str, section: str):
     """
     logger = logging.getLogger(__name__)
     if not value.isnumeric():
-        error_message = 'The value of "{}" in section "{}" must be number'.format(key, section)
+        error_message = 'The value of "{}" in section "{}" must be a number'.format(key, section)
         logger.critical(error_message)
         raise ValueError(error_message)
 
