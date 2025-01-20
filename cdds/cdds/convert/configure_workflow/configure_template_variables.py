@@ -131,6 +131,7 @@ class ConfigureTemplateVariables:
             "EXTERNAL_PLUGIN_LOCATION": "",
             "USE_EXTERNAL_PLUGIN": False,
             "PLUGIN_ID": self._request.metadata.mip_era,
+            "MODEL_PARAM_DIR": "",
         }
 
         if self._request.common.external_plugin:
@@ -142,6 +143,9 @@ class ConfigureTemplateVariables:
 
         if self._request.common.force_plugin:
             plugin_variables["PLUGIN_ID"] = self._request.common.force_plugin
+
+        if self._request.conversion.model_params_dir:
+            plugin_variables["MODEL_PARAM_DIR"] = self._request.conversion.model_params_dir
 
         return plugin_variables
 

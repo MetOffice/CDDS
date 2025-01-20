@@ -206,6 +206,11 @@ mkdir -p {{ BASE_OUTPUT }}
         [[[environment]]]
             ROSE_TASK_APP = concatenate_setup
             STREAM = {{ STREAM }}
+    {% if MODEL_PARAM_DIR %}
+                MODEL_PARAM_OPTION = '--model_params_dir {{ MODEL_PARAM_DIR }}'
+    {% else %}
+                MODEL_PARAM_OPTION = ''
+    {% endif %}
     {% if USE_EXTERNAL_PLUGIN %}
                 PLUGIN_OPTION = '--plugin_id {{ PLUGIN_ID }} --external_plugin {{ EXTERNAL_PLUGIN }} --external_plugin_location {{ EXTERNAL_PLUGIN_LOCATION }}'
     {% else %}

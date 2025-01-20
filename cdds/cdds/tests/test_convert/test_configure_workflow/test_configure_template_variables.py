@@ -76,6 +76,7 @@ class TestConfigureTemplateVariables:
         self.request.metadata.mip_era = "CMIP6"
         self.request.common.external_plugin = ""
         self.request.common.force_plugin = ""
+        self.request.conversion.model_params_dir = ""
         template_variables = ConfigureTemplateVariables(self.arguments,
                                                         self.request,
                                                         self.stream_config,
@@ -83,7 +84,8 @@ class TestConfigureTemplateVariables:
         expected = {'EXTERNAL_PLUGIN': "",
                     'EXTERNAL_PLUGIN_LOCATION': "",
                     'USE_EXTERNAL_PLUGIN': False,
-                    'PLUGIN_ID': "CMIP6"}
+                    'PLUGIN_ID': "CMIP6",
+                    'MODEL_PARAM_DIR': ""}
 
         assert expected == template_variables.plugin_variables()
 
@@ -92,6 +94,7 @@ class TestConfigureTemplateVariables:
         self.request.common.external_plugin = "myplugin"
         self.request.common.external_plugin_location = "/my/custom/plugin"
         self.request.common.force_plugin = ""
+        self.request.conversion.model_params_dir = ""
         template_variables = ConfigureTemplateVariables(self.arguments,
                                                         self.request,
                                                         self.stream_config,
@@ -99,7 +102,26 @@ class TestConfigureTemplateVariables:
         expected = {'EXTERNAL_PLUGIN': "myplugin",
                     'EXTERNAL_PLUGIN_LOCATION': "/my/custom/plugin",
                     'USE_EXTERNAL_PLUGIN': True,
-                    'PLUGIN_ID': "CMIP6"}
+                    'PLUGIN_ID': "CMIP6",
+                    'MODEL_PARAM_DIR': ""}
+
+        assert expected == template_variables.plugin_variables()
+
+    def test_plugin_variables_model_params_dir_to_overload(self):
+        self.request.metadata.mip_era = "CMIP6"
+        self.request.common.external_plugin = "myplugin"
+        self.request.common.external_plugin_location = "/my/custom/plugin"
+        self.request.common.force_plugin = ""
+        self.request.conversion.model_params_dir = "/path/to/model/params_dir"
+        template_variables = ConfigureTemplateVariables(self.arguments,
+                                                        self.request,
+                                                        self.stream_config,
+                                                        self.conf)
+        expected = {'EXTERNAL_PLUGIN': "myplugin",
+                    'EXTERNAL_PLUGIN_LOCATION': "/my/custom/plugin",
+                    'USE_EXTERNAL_PLUGIN': True,
+                    'PLUGIN_ID': "CMIP6",
+                    'MODEL_PARAM_DIR': '/path/to/model/params_dir'}
 
         assert expected == template_variables.plugin_variables()
 
@@ -107,6 +129,7 @@ class TestConfigureTemplateVariables:
         self.request.metadata.mip_era = "CMIP6"
         self.request.common.external_plugin = ""
         self.request.common.force_plugin = "CORDEX"
+        self.request.conversion.model_params_dir = ""
         template_variables = ConfigureTemplateVariables(self.arguments,
                                                         self.request,
                                                         self.stream_config,
@@ -114,7 +137,8 @@ class TestConfigureTemplateVariables:
         expected = {'EXTERNAL_PLUGIN': "",
                     'EXTERNAL_PLUGIN_LOCATION': "",
                     'USE_EXTERNAL_PLUGIN': False,
-                    'PLUGIN_ID': "CORDEX"}
+                    'PLUGIN_ID': "CORDEX",
+                    'MODEL_PARAM_DIR': ""}
 
         assert expected == template_variables.plugin_variables()
 
