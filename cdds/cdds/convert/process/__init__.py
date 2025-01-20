@@ -841,6 +841,9 @@ class ConvertProcess(object):
             changes_to_apply_all['EXTERNAL_PLUGIN'] = external_plugin
             changes_to_apply_all['EXTERNAL_PLUGIN_LOCATION'] = external_plugin_location
 
+        if self._request.conversion.model_params_dir:
+            changes_to_apply_all['MODEL_PARAM_DIR'] = self._request.conversion.model_params_dir
+
         if 'CDDS_DIR' in os.environ:
             changes_to_apply_all['CDDS_DIR'] = os.environ['CDDS_DIR']
         else:

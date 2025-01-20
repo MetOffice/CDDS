@@ -18,6 +18,7 @@ from cdds.common.cdds_files.cdds_directories import update_log_dir
 from cdds import _DEV
 from cdds.convert.common import expand_path
 from cdds.convert.arguments import add_user_config_data_files, ConvertArguments
+
 from cdds.convert.exceptions import (OrganiseEnvironmentError,
                                      OrganiseTransposeError,
                                      WrapperEnvironmentError,
@@ -115,8 +116,13 @@ def _parse_args_concat_setup():
                         help='Module path to external CDDS plugin')
     parser.add_argument('--external_plugin_location', default='', type=str,
                         help='Path to external CDDS plugin implementation')
+    parser.add_argument('--model_params_dir', default='', type=str,
+                        help='Path to the model parameters directory')
     arguments = parser.parse_args()
     load_plugin(arguments.plugin_id, arguments.external_plugin, arguments.external_plugin_location)
+    if arguments.model_params_dir:
+        plugin = PluginStore.instance().get_plugin()
+        plugin.overload_models_parameters(arguments.model_params_dir)
     return arguments.config_file, arguments.log_file, arguments.append_log
 
 
