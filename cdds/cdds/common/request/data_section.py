@@ -51,7 +51,7 @@ class DataSection(Section):
     variable_list_file: str = ''
     output_mass_root: str = ''
     output_mass_suffix: str = ''
-    max_file_size: float = 20e9
+    max_file_size: float = 20e9  # maximum file size in bytes
 
     def __post_init__(self):
         """
