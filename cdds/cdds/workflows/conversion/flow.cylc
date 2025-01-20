@@ -74,16 +74,20 @@
         {{ FOO }} = finaliser_{{ STREAM }} => organise_files_{{ STREAM }} => mip_concatenate_setup_{{ STREAM }} => mip_concatenate_batch_{{ STREAM }}
 
     {% if DO_FINAL_CONCATENATE[STREAM] %}
-        R1/^+{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = finaliser_{{ STREAM }} => organise_files_final_{{ STREAM }} => mip_concatenate_setup_{{ STREAM }} => mip_concatenate_batch_{{ STREAM }}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = finaliser_{{ STREAM }} => organise_files_final_{{ STREAM }} => mip_concatenate_setup_{{ STREAM }} => mip_concatenate_batch_{{ STREAM }}
     {% endif %}
 
     {% if RUN_QC %}
-        R1/^+{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = mip_concatenate_batch_{{ STREAM }} => run_qc_{{ STREAM }}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = mip_concatenate_batch_{{ STREAM }} => run_qc_{{ STREAM }}
     {% endif %}
 
     {% if RUN_TRANSFER %}
-        R1/^+{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_qc_{{ STREAM }} => run_transfer_{{ STREAM }}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_qc_{{ STREAM }} => run_transfer_{{ STREAM }}
     {% endif %}
+
+        R1/{{ FINAL_CYCLE_POINT }} = """
+            COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => workflow_complete
+        """
 {% endfor %}
 
 [runtime]
@@ -117,8 +121,8 @@
             -q = short-serial
             -R = "rusage[mem={{ MEMORY_DEFAULT }}]"
             -C = 0
-
 {% for STREAM in STREAMS.keys() %} # STREAM LOOP
+    [[COMPLETION_FAMILY_{{ STREAM }}]]
     [[MIP_CONVERT_{{ STREAM }}]]
         execution retry delays = PT1M, PT3M, PT5M
         [[[directives]]]
@@ -208,7 +212,7 @@ mkdir -p {{ BASE_OUTPUT }}
                 PLUGIN_OPTION = '--plugin_id {{ PLUGIN_ID }}'
     {% endif %}
     [[mip_concatenate_batch_{{ STREAM }}]]
-        inherit = MIP_CONCATENATE_{{ STREAM }}, SPICE
+        inherit = MIP_CONCATENATE_{{ STREAM }}, SPICE, COMPLETION_FAMILY_{{ STREAM }}
         execution time limit = P2D
         [[[directives]]]
             --ntasks = {{ NTHREADS_CONCATENATE }}
@@ -283,7 +287,7 @@ mkdir -p {{ BASE_OUTPUT }}
 
     {% if RUN_QC %}
     [[run_qc_{{ STREAM }}]]
-        inherit = SPICE, RUN_CDDS_SUBTASK
+        inherit = SPICE, RUN_CDDS_SUBTASK, COMPLETION_FAMILY_{{ STREAM }}
         [[[environment]]]
             ROSE_TASK_APP = run_qc
             STREAM = {{ STREAM }}
@@ -294,7 +298,7 @@ mkdir -p {{ BASE_OUTPUT }}
 
     {% if RUN_TRANSFER %}
     [[run_transfer_{{ STREAM }}]]
-        inherit = SPICE, RUN_CDDS_SUBTASK
+        inherit = SPICE, RUN_CDDS_SUBTASK, COMPLETION_FAMILY_{{ STREAM }}
         [[[environment]]]
             ROSE_TASK_APP = run_transfer
             STREAM = {{ STREAM }}
@@ -305,5 +309,7 @@ mkdir -p {{ BASE_OUTPUT }}
             --mem = {{ MEMORY_TRANSFER }}
             --ntasks = 1
     {% endif %}
-
 {% endfor %} # STREAM LOOP END
+
+    [[workflow_complete]]
+        script = sleep 5

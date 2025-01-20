@@ -18,9 +18,8 @@ class TestConfigureTemplateVariables:
             "CYCLING_FREQUENCY": {"ap4": "P5Y"},
             "DO_CONVERT_ALIGNMENT_CYCLE": {"ap4": False},
             "DO_FINAL_CONCATENATE": {"ap4": True},
-            "FINAL_CONCATENATION_CYCLE": {"ap4": "P70200D"},
+            "FINAL_CONCATENATION_CYCLE": {"ap4": "2165-01-01T00:00:00Z"},
             "FINAL_CONCATENATION_WINDOW_START": {"ap4": "2150-01-01T00:00:00Z"},
-            "FINAL_CYCLE_POINT": {"ap4": "2165-01-01T00:00:00Z"},
             "SINGLE_CONCATENATION_CYCLE": {"ap4": False},
         }
         self.conf = "foo.conf"
@@ -34,10 +33,10 @@ class TestConfigureTemplateVariables:
         assert "FINAL_CYCLE_POINT" not in template_variables.stream_variables()
 
     def test_final_cycle_point_variable(self):
-        stream_config = {"FINAL_CYCLE_POINT": {"ap4": "2000-01-01T00:00:00Z",
-                                               "ap5": "2032-01-01T00:00:00Z",
-                                               "ap6": "2030-01-01T00:00:00Z",
-                                               "onm": "2034-10-01T00:00:00Z"}}
+        stream_config = {"FINAL_CONCATENATION_CYCLE": {"ap4": "2000-01-01T00:00:00Z",
+                                                       "ap5": "2032-01-01T00:00:00Z",
+                                                       "ap6": "2030-01-01T00:00:00Z",
+                                                       "onm": "2034-10-01T00:00:00Z"}}
 
         template_variables = ConfigureTemplateVariables(self.arguments,
                                                         self.request,
