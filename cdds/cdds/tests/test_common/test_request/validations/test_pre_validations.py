@@ -58,7 +58,7 @@ class TestPreValidations(TestCase):
 
         self.assertRaisesRegex(
             ValueError,
-            'The value of "atmos_timestep" in section "misc" must be number',
+            'The value of "atmos_timestep" in section "misc" must be a number',
             do_pre_validations,
             config,
             MiscSection
@@ -71,7 +71,7 @@ class TestPreValidations(TestCase):
 
         self.assertRaisesRegex(
             ValueError,
-            'The value of "scale_memory_limits" in section "conversion" must be number',
+            'The value of "scale_memory_limits" in section "conversion" must be a number',
             do_pre_validations,
             config,
             ConversionSection
