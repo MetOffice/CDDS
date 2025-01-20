@@ -37,10 +37,10 @@
   },
   "sizing_info": {
     "1hr": {
-      "default": 5
+      "default": 1
     },
     "6hr": {
-      "default": 5
+      "default": 1
     },
     "day": {
       "default": 5
