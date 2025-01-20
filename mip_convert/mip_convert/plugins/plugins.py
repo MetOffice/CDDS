@@ -7,7 +7,7 @@ from abc import ABCMeta, abstractmethod
 
 import iris.cube
 
-from mip_convert.plugins.quality_control import BoundsChecker, UM_MDI, RAISE_EXCEPTION
+from mip_convert.plugins.quality_control import BoundsChecker
 from typing import Dict, Any
 
 

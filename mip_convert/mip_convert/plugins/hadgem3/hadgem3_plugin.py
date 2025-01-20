@@ -10,11 +10,11 @@ from typing import Dict, Any
 
 import iris.cube
 
-from mip_convert.plugins.hadgem3.data.constants import all_constants
-from mip_convert.plugins.hadgem3.data.config import mappings_config_info
-from mip_convert.plugins.hadgem3.data.quality_control import MaskedArrayBoundsChecker, UM_MDI, RAISE_EXCEPTION
-from mip_convert.plugins.plugins import MappingPlugin
 from mip_convert.configuration.python_config import ModelToMIPMappingConfig
+from mip_convert.plugins.constants import all_constants
+from mip_convert.plugins.quality_control import MaskedArrayBoundsChecker, UM_MDI, RAISE_EXCEPTION
+from mip_convert.plugins.plugins import MappingPlugin
+from mip_convert.plugins.hadgem3.data.config import mappings_config_info
 from mip_convert.plugins.hadgem3.data.processors import *
 
 
