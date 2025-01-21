@@ -3,6 +3,12 @@
 
 .. include:: common.txt
 
+Release 3.0.6, January 21, 2024
+===============================
+* Concatenation processing picks overrides from use provided model parameters file
+  (CDDSO-578)
+* Mapping changes for CORDEX (CDDSO-581)
+
 Release 3.0.4, November 19, 2024
 ================================
 * Added HadGEM3 mapping for ``AERday/ua10``, ``AEday/ua10`` that does not use the 
