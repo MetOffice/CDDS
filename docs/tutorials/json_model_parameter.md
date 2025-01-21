@@ -122,22 +122,23 @@ Following information should be provided:
 :   a simple description of the grid, e.g. `N96 grid`. It is interpolated into `grid attribute`.
 
 `nominal_resolution`
-:   the nominal resolution
+:   the nominal resolution. This needs to agree with the Controlled Vocabulary for the project.
 
 `longitude`
-:   the size of the longitude coordinate
+:   the number of longitude points in the atmosphere grid
 
 `latitude`
-:   the size of the latitude coordinate
+:   the number of latitude points in the atmosphere grid (T points and U points)
 
 `v_latitude`
-:   the size of the latitude coordinate for data on v-points
+:   The number of latitude points on the atmosphere grid for data on V points
 
 `levels`
 :   the number of vertical levels
 
 `ancil_filenames`
-:   the ancillary file names
+:   the ancillary file names. These are looked for in the directory `<root_ancil_dir>/<source_id>` as specified in the 
+    request config file
 
 `hybrid_heights_files`
 :   the hybrid heights files
@@ -171,22 +172,23 @@ Following information should be provided:
 :   a simple description of the grid, e.g. `N96 grid`. It is interpolated into `grid attribute`.
 
 `nominal_resolution`
-:   the nominal resolution
+:   the nominal resolution. This needs to agree with the Controlled Vocabulary for the project.
 
 `longitude`
-:   the size of the longitude coordinate
+:   the number of longitude points in the ocean grid
 
 `latitude`
-:   the size of the latitude coordinate
+:   the number of latitude points in the ocean grid (T points and U points)
 
 `v_latitude`
-:   the size of the latitude coordinate for data on v-points
+:   the number of latitude points on the ocean grid for data on V points
 
 `levels`
 :   the number of vertical levels
 
 `ancil_filenames`
-:   the ancillary file names
+:   the ancillary file names. These are looked for in the directory `<root_ancil_dir>/<source_id>` as specified in the 
+    request config file
 
 `replacement_coordinates_file`
 :   the replacement coordinates file for CICE model output
