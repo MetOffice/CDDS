@@ -5,9 +5,14 @@
 
 Release 3.0.6, January 21, 2024
 ===============================
-* Concatenation processing picks overrides from use provided model parameters file
-  (CDDSO-578)
 * Mapping changes for CORDEX (CDDSO-581)
+
+Release 3.0.5rc1, December 5, 2024 (only to be used for LESFMIP)
+================================================================
+* Changes were made to the following mappings, needed for LESFMIP processing, but 
+  the changes were not merged into release branches or the main branch. Variables
+  altered; ``EmonZ/epfy``, ``EmonZ/epfz``, ``EmonZ/vtem``, ``EmonZ/wtem``.
+  Release created from branch ``CDDSO-560_lesfmip-special-release`` (CDDSO-560).
 
 Release 3.0.4, November 19, 2024
 ================================
