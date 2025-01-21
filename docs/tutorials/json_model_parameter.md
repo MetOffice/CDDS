@@ -3,7 +3,7 @@
 ## Stream File Frequencies
 
 The `stream_file_frequency` section contains a key value pairs where the key the frequency is and the value the list of 
-streams. Following frequencies are supported: `daily`, `10 day`, `quarterly`, `monthly`
+streams. Following frequencies are supported: `hourly`, `daily`, `10 day`, `quarterly`, `monthly`
 
 ??? example
     Assuming `ap4` and `ap5` are monthly streams and `ap6` is a `daily` stream:
@@ -25,41 +25,52 @@ There are following three sections that have an entry for each stream:
 
 `cylc_length`
 :   lengths of the suite cylc for each stream
-??? example
-    ```json
-    "cycle_length": {
-        "ap4": "P5Y",
-        "ap5": "P5Y",
-        "ap6": "P1Y"
-    }
-    ```
+    ??? example
+        ```json
+        "cycle_length": {
+            "ap4": "P5Y",
+            "ap5": "P5Y",
+            "ap6": "P1Y"
+        }
+        ```
 
 `memory`
 :   memory usages of each stream
-??? example
-    ```json
-    "memory": {
-        "ap4": "12G",
-        "ap5": "8G",
-        "ap6": "30G"
-    }
-    ```
+
+    !!! note
+        This is the starting point for memory and adaptive memory, storage and time limits are used.
+
+    ??? example
+        ```json
+        "memory": {
+            "ap4": "12G",
+            "ap5": "8G",
+            "ap6": "30G"
+        }
+        ```
 
 `temp_space`
 :   temporary space of each stream
-??? example
-    ```json
-    "temp_space": {
-        "ap4": 98304,
-        "ap5": 40960,
-        "ap6": 98304
-    }
-    ```
+
+    !!! note
+        This is the starting point for memory and adaptive memory, storage and time limits are used.
+
+    ??? example
+        ```json
+        "temp_space": {
+            "ap4": 98304,
+            "ap5": 40960,
+            "ap6": 98304
+        }
+        ```
 
 ## Sizing information
 
 The entry `sizing_info` represents the sizing information and has JSON objects represent the information as value. Each 
 JSON object has as key the frequency and as value the shape with its coordinates.
+
+!!! note
+    The frequency is the global attribute from the files being concatenated.
 
 ??? example
     ```json
@@ -105,10 +116,10 @@ There are two supported grids - atmosphere and ocean. The entries are `atoms` an
 Following information should be provided:
 
 `atmos_timestep`
-:   the atmosphere time step
+:   the atmosphere timestep. The timestep is often different for different model resolutions.
 
 `model_info`
-:   the model info of the grid.
+:   a simple description of the grid, e.g. `N96 grid`. It is interpolated into `grid attribute`.
 
 `nominal_resolution`
 :   the nominal resolution
@@ -157,7 +168,7 @@ Following information should be provided:
 Following information should be provided:
 
 `model_info`
-:   the model info of the grid.
+:   a simple description of the grid, e.g. `N96 grid`. It is interpolated into `grid attribute`.
 
 `nominal_resolution`
 :   the nominal resolution
@@ -178,14 +189,17 @@ Following information should be provided:
 :   the ancillary file names
 
 `replacement_coordinates_file`
-:   the replacement coordinates file
+:   the replacement coordinates file for CICE model output
 
 `hybrid_heights_files`
-:   the hybrid heights files
+:   the hybrid heights files.
+
+    !!! note
+        This is not relevant for the ocean, but still needs to be present.
 
 `masked`
 :   a json object of ocean grid polar masks for the grid. Each masked entry as a grid label and its masked value split 
-    by the `slice_latitude` and `slice_longitude`.
+    by the `slice_latitude` and `slice_longitude`. These are used to mask duplicate cells along the polar rows.
 
     ??? example
         ```json
@@ -206,7 +220,8 @@ Following information should be provided:
         ```
 
 `halo_options`
-:   the ncks options needed to move ocean halo rows and columns. Each option are given by grid label.
+:   the ncks options needed to move ocean halo rows and columns. Each option are given by grid label. They are used when 
+    extracting data from MASS.
 
     ??? example
         ```json
