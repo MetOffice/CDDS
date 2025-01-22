@@ -126,7 +126,7 @@ def load_types(dictionary: Dict[str, str], as_list: List[str] = []) -> Dict[str,
             output[key] = value.split(' ') if value else []
         elif value.isnumeric():
             output[key] = int(value)
-        elif value.replace('.', '', 1).isnumeric():
+        elif _is_float(value):
             output[key] = float(value)
         elif value.lower() == 'true':
             output[key] = True
@@ -137,6 +137,14 @@ def load_types(dictionary: Dict[str, str], as_list: List[str] = []) -> Dict[str,
         else:
             output[key] = value
     return output
+
+
+def _is_float(value: Any) -> bool:
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
 
 
 def expand_paths(dictionary: Dict[str, Any], path_keys: List[str]) -> None:

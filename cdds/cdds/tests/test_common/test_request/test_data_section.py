@@ -18,7 +18,7 @@ class TestDataDefaults(TestCase):
             'streams': 'ap4 ap5 ap6 inm onm',
             'model_workflow_branch': 'cdds',
             'model_workflow_revision': 'HEAD',
-            'max_file_size': '20e9'
+            'max_file_size': 20e9
         }
 
         defaults = data_defaults()
