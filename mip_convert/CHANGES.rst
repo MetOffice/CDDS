@@ -5,7 +5,8 @@
 
 Release 3.0.6, January 21, 2024
 ===============================
-* Mapping changes for CORDEX (CDDSO-581)
+* Mapping corrections for HadREM3-GA7-05 (CDDSO-581) including corrections to
+  time sampling for some hourly variables (CDDSO-588)
 
 Release 3.0.5rc1, December 5, 2024 (only to be used for LESFMIP)
 ================================================================
