@@ -3,6 +3,21 @@
 
 .. include:: common.txt
 
+Release 3.0.6, January 21, 2024
+===============================
+* Pass model parameters file to CDDS suite during convert process (CDDSO-578)
+* Handling quarterly data during the extract process correctly (CDDSO-568)
+* Add documentation to deployment page (CDDSO-556)
+* Allow QC file size limit to be overloaded in the request file (CDDSO-577, CDDSO-587)
+* Fix checkout processing workflow on JASMIN (CDDSO-574)
+* Add documentation for model parameters file (CDDSO-545)
+
+Release 3.0.5rc1, December 5, 2024 (only to be used for LESFMIP)
+================================================================
+* Ensured that quarterly PP files, i.e. those that have 3 months of output at monthly/daily
+  frequency can be extracted and picked up by the wrapper to MIP convert
+  (CDDSO-560, CDDSO-568)
+
 Release 3.0.4, November 19, 2024
 ================================
 * Enabled sub-annual slicing through the ``slicing`` option in the ``common`` section of

@@ -3,6 +3,18 @@
 
 .. include:: common.txt
 
+Release 3.0.6, January 21, 2024
+===============================
+* Mapping corrections for HadREM3-GA7-05 (CDDSO-581) including corrections to
+  time sampling for some hourly variables (CDDSO-588)
+
+Release 3.0.5rc1, December 5, 2024 (only to be used for LESFMIP)
+================================================================
+* Changes were made to the following mappings, needed for LESFMIP processing, but 
+  the changes were not merged into release branches or the main branch. Variables
+  altered; ``EmonZ/epfy``, ``EmonZ/epfz``, ``EmonZ/vtem``, ``EmonZ/wtem``.
+  Release created from branch ``CDDSO-560_lesfmip-special-release`` (CDDSO-560).
+
 Release 3.0.4, November 19, 2024
 ================================
 * Added HadGEM3 mapping for ``AERday/ua10``, ``AEday/ua10`` that does not use the 
