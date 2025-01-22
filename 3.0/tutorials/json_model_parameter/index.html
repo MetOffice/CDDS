@@ -1,0 +1,2008 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Model Parameters JSON File - Climate Data Dissemination System</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#update-model-parameters-json-file" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Climate Data Dissemination System" class="md-header__button md-logo" aria-label="Climate Data Dissemination System" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Climate Data Dissemination System
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Model Parameters JSON File
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../operational_procedure/" class="md-tabs__link">
+      Operational Procedures
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../search_inventory/" class="md-tabs__link md-tabs__link--active">
+        Tutorials
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../developer_documentation/" class="md-tabs__link">
+      Developer Documentation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../cdds_components/" class="md-tabs__link">
+      CDDS Components
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../reference/SUMMARY/" class="md-tabs__link">
+      API Documentation
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Climate Data Dissemination System" class="md-nav__button md-logo" aria-label="Climate Data Dissemination System" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Climate Data Dissemination System
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../operational_procedure/">Operational Procedures</a>
+          
+            <label for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Operational Procedures" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Operational Procedures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/cmip6/" class="md-nav__link">
+        CMIP6 and CMIP6 Plus
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../operational_procedure/gcmodeldev/">GCModelDev</a>
+          
+            <label for="__nav_2_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="GCModelDev" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          GCModelDev
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/gcmodeldev_examples/HadGEM3-GC31-LL/" class="md-nav__link">
+        GCModelDev HadGEM3-GC31-LL Request
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/gcmodeldev_examples/HadGEM3-GC31-LL_envs/" class="md-nav__link">
+        GCModelDev HadGEM3-GC31-LL ensemble class Request
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/gcmodeldev_examples/HadGEM3-GC31-MM/" class="md-nav__link">
+        GCModelDev HadGEM3-GC31-MM Request
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/gcmodeldev_examples/UKESM1-0-LL/" class="md-nav__link">
+        GCModelDev UKESM1-0-LL Request
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/sim_review/" class="md-nav__link">
+        Simulation Review Procedure
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Tutorials
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Tutorials" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Tutorials
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../search_inventory/" class="md-nav__link">
+        Search Inventory
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_mapping/" class="md-nav__link">
+        Add a Variable Mapping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_plugin/" class="md-nav__link">
+        Add a Plugin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mip_convert/" class="md-nav__link">
+        MIP Convert User Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../request/config_request/">Request Configuration</a>
+          
+            <label for="__nav_3_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Request Configuration" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_5">
+          <span class="md-nav__icon md-icon"></span>
+          Request Configuration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/inheritance/" class="md-nav__link">
+        Inheritance Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/metadata/" class="md-nav__link">
+        Metadata Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/common/" class="md-nav__link">
+        Common Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/data/" class="md-nav__link">
+        Data Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/inventory/" class="md-nav__link">
+        Inventory Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/conversion/" class="md-nav__link">
+        Conversion Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/global_attributes/" class="md-nav__link">
+        Global Attributes Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/misc/" class="md-nav__link">
+        Misc Section
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Model Parameters JSON File
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Model Parameters JSON File
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#stream-file-frequencies" class="md-nav__link">
+    Stream File Frequencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cylc-length-memory-temporary-space" class="md-nav__link">
+    Cylc length / Memory / Temporary space
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sizing-information" class="md-nav__link">
+    Sizing information
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sub-daily-streams" class="md-nav__link">
+    Sub daily streams
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grid-information" class="md-nav__link">
+    Grid information
+  </a>
+  
+    <nav class="md-nav" aria-label="Grid information">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#atmosphere-grid-information" class="md-nav__link">
+    Atmosphere Grid Information
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ocean-grid-information" class="md-nav__link">
+    Ocean Grid Information
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check-model-parameters-json-file" class="md-nav__link">
+    Check Model Parameters JSON File
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../developer_documentation/">Developer Documentation</a>
+          
+            <label for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Developer Documentation" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Documentation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Deployment" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/release_procedure/" class="md-nav__link">
+        Release Procedure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/cdds_installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/infrastructure/" class="md-nav__link">
+        Infrastructure
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../developer_documentation/development_practices/">Development Practices</a>
+          
+            <label for="__nav_4_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Development Practices" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Development Practices
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/coding_guidelines/" class="md-nav__link">
+        Coding Guidelines
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/development_workflow/" class="md-nav__link">
+        Development Workflow
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/review_process/" class="md-nav__link">
+        Review Process
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/github/" class="md-nav__link">
+        Working with Github and Git
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/jira/" class="md-nav__link">
+        Working with Jira
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/managing_environments/" class="md-nav__link">
+        Managing Conda Environments
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/building_documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_3" type="checkbox" id="__nav_4_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_3">
+          Request
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Request" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_3">
+          <span class="md-nav__icon md-icon"></span>
+          Request
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/request/request/" class="md-nav__link">
+        Request Architecture
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_4" type="checkbox" id="__nav_4_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_4">
+          Testing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Testing" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_4">
+          <span class="md-nav__icon md-icon"></span>
+          Testing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/unittests/" class="md-nav__link">
+        Unit Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/pytest/" class="md-nav__link">
+        Pytest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/nightly_tests/" class="md-nav__link">
+        Nightly Tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/mip_convert_functional_tests/" class="md-nav__link">
+        Mip Convert Functional Tests
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_5" type="checkbox" id="__nav_4_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_5">
+          Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Plugins" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/plugins/available_plugins/" class="md-nav__link">
+        Available Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/plugins/plugin_framework/" class="md-nav__link">
+        Plugin Framework
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../cdds_components/">CDDS Components</a>
+          
+            <label for="__nav_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="CDDS Components" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          CDDS Components
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/convert/" class="md-nav__link">
+        convert
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/extract/" class="md-nav__link">
+        extract
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/qc/" class="md-nav__link">
+        qc
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/transfer/" class="md-nav__link">
+        transfer
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/SUMMARY/" class="md-nav__link">
+        API Documentation
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#stream-file-frequencies" class="md-nav__link">
+    Stream File Frequencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cylc-length-memory-temporary-space" class="md-nav__link">
+    Cylc length / Memory / Temporary space
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sizing-information" class="md-nav__link">
+    Sizing information
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sub-daily-streams" class="md-nav__link">
+    Sub daily streams
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grid-information" class="md-nav__link">
+    Grid information
+  </a>
+  
+    <nav class="md-nav" aria-label="Grid information">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#atmosphere-grid-information" class="md-nav__link">
+    Atmosphere Grid Information
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ocean-grid-information" class="md-nav__link">
+    Ocean Grid Information
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check-model-parameters-json-file" class="md-nav__link">
+    Check Model Parameters JSON File
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="update-model-parameters-json-file">Update Model Parameters JSON File</h1>
+<h2 id="stream-file-frequencies">Stream File Frequencies</h2>
+<p>The <code>stream_file_frequency</code> section contains a key value pairs where the key the frequency is and the value the list of 
+streams. Following frequencies are supported: <code>hourly</code>, <code>daily</code>, <code>10 day</code>, <code>quarterly</code>, <code>monthly</code></p>
+<details class="example">
+<summary>Example</summary>
+<p>Assuming <code>ap4</code> and <code>ap5</code> are monthly streams and <code>ap6</code> is a <code>daily</code> stream:
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;stream_file_frequency&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;monthly&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">       </span><span class="s2">&quot;ap4&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="s2">&quot;ap5&quot;</span>
+<span class="w">   </span><span class="p">],</span>
+<span class="w">   </span><span class="nt">&quot;daily&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;ap6&quot;</span>
+<span class="w">   </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></p>
+</details>
+<h2 id="cylc-length-memory-temporary-space">Cylc length / Memory / Temporary space</h2>
+<p>There are following three sections that have an entry for each stream:</p>
+<dl>
+<dt><code>cylc_length</code></dt>
+<dd>lengths of the suite cylc for each stream<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;cycle_length&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;ap4&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P5Y&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ap5&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P5Y&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ap6&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P1Y&quot;</span>
+<span class="p">}</span>
+</code></pre></div></details>
+</dd>
+<dt><code>memory</code></dt>
+<dd>
+<p>memory usages of each stream</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is the starting point for memory and adaptive memory, storage and time limits are used.</p>
+</div>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;memory&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;ap4&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12G&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ap5&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8G&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ap6&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;30G&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+</dd>
+<dt><code>temp_space</code></dt>
+<dd>
+<p>temporary space of each stream</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is the starting point for memory and adaptive memory, storage and time limits are used.</p>
+</div>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;temp_space&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;ap4&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">98304</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ap5&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">40960</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ap6&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">98304</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+</dd>
+</dl>
+<h2 id="sizing-information">Sizing information</h2>
+<p>The entry <code>sizing_info</code> represents the sizing information and has JSON objects represent the information as value. Each 
+JSON object has as key the frequency and as value the shape with its coordinates.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The frequency is the global attribute from the files being concatenated.</p>
+</div>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;sizing_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;mon&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;85-144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;85-145-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;86-144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;75-330-360&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;monPt&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;85-144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;85-145-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;86-144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;75-330-360&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+<h2 id="sub-daily-streams">Sub daily streams</h2>
+<p>There are one entry for the subdaily streams <code>subdaily_streams</code> that contains an array of subdaily streams.</p>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;subdaily_streams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;ap6&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;ap7&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;ap8&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;ap9&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;apt&quot;</span>
+<span class="p">]</span>
+</code></pre></div>
+</details>
+<h2 id="grid-information">Grid information</h2>
+<p>There are two supported grids - atmosphere and ocean. The entries are <code>atoms</code> and <code>ocean</code>.</p>
+<h3 id="atmosphere-grid-information">Atmosphere Grid Information</h3>
+<p>Following information should be provided:</p>
+<dl>
+<dt><code>atmos_timestep</code></dt>
+<dd>the atmosphere timestep. The timestep is often different for different model resolutions.</dd>
+<dt><code>model_info</code></dt>
+<dd>a simple description of the grid, e.g. <code>N96 grid</code>. It is interpolated into <code>grid attribute</code>.</dd>
+<dt><code>nominal_resolution</code></dt>
+<dd>the nominal resolution. This needs to agree with the Controlled Vocabulary for the project.</dd>
+<dt><code>longitude</code></dt>
+<dd>the number of longitude points in the atmosphere grid</dd>
+<dt><code>latitude</code></dt>
+<dd>the number of latitude points in the atmosphere grid (T points and U points)</dd>
+<dt><code>v_latitude</code></dt>
+<dd>The number of latitude points on the atmosphere grid for data on V points</dd>
+<dt><code>levels</code></dt>
+<dd>the number of vertical levels</dd>
+<dt><code>ancil_filenames</code></dt>
+<dd>the ancillary file names. These are looked for in the directory <code>&lt;root_ancil_dir&gt;/&lt;source_id&gt;</code> as specified in the 
+request config file</dd>
+<dt><code>hybrid_heights_files</code></dt>
+<dd>the hybrid heights files</dd>
+</dl>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;atmos&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;atmos_timestep&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;model_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;N96 grid&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;nominal_resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;250 km&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">192</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">144</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;v_latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">145</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;levels&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;ancil_filenames&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;qrparm.landfrac.pp&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;qrparm.soil.pp&quot;</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;hybrid_heights_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;atmosphere_theta_levels_85.txt&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;atmosphere_rho_levels_86.txt&quot;</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+<h3 id="ocean-grid-information">Ocean Grid Information</h3>
+<p>Following information should be provided:</p>
+<dl>
+<dt><code>model_info</code></dt>
+<dd>a simple description of the grid, e.g. <code>N96 grid</code>. It is interpolated into <code>grid attribute</code>.</dd>
+<dt><code>nominal_resolution</code></dt>
+<dd>the nominal resolution. This needs to agree with the Controlled Vocabulary for the project.</dd>
+<dt><code>longitude</code></dt>
+<dd>the number of longitude points in the ocean grid</dd>
+<dt><code>latitude</code></dt>
+<dd>the number of latitude points in the ocean grid (T points and U points)</dd>
+<dt><code>v_latitude</code></dt>
+<dd>the number of latitude points on the ocean grid for data on V points</dd>
+<dt><code>levels</code></dt>
+<dd>the number of vertical levels</dd>
+<dt><code>ancil_filenames</code></dt>
+<dd>the ancillary file names. These are looked for in the directory <code>&lt;root_ancil_dir&gt;/&lt;source_id&gt;</code> as specified in the 
+request config file</dd>
+<dt><code>replacement_coordinates_file</code></dt>
+<dd>the replacement coordinates file for CICE model output</dd>
+<dt><code>hybrid_heights_files</code></dt>
+<dd>
+<p>the hybrid heights files.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is not relevant for the ocean, but still needs to be present.</p>
+</div>
+</dd>
+<dt><code>masked</code></dt>
+<dd>
+<p>a json object of ocean grid polar masks for the grid. Each masked entry as a grid label and its masked value split 
+by the <code>slice_latitude</code> and <code>slice_longitude</code>. These are used to mask duplicate cells along the polar rows.</p>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;masked&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;grid-V&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;slice_latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">            </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">            </span><span class="kc">null</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;slice_longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="mi">180</span><span class="p">,</span>
+<span class="w">            </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">            </span><span class="kc">null</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+</dd>
+<dt><code>halo_options</code></dt>
+<dd>
+<p>the ncks options needed to move ocean halo rows and columns. Each option are given by grid label. They are used when 
+extracting data from MASS.</p>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;halo_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;grid-T&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;-dx,1,360&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;-dy,1,330&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;grid-U&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;-dx,1,360&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;-dy,1,330&quot;</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+</dd>
+</dl>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;ocean&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;model_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nominal_resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100 km&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">360</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">330</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;levels&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">75</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;replacement_coordinates_file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cice_eORCA1_coords.nc&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ancil_filenames&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;ocean_constants.nc&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;ocean_byte_masks.nc&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;hybrid_heights_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">&quot;masked&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;grid-V&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;slice_latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">                </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">                </span><span class="kc">null</span>
+<span class="w">            </span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;slice_longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="mi">180</span><span class="p">,</span>
+<span class="w">                </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">                </span><span class="kc">null</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;cice-U&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;slice_latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">                </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">                </span><span class="kc">null</span>
+<span class="w">            </span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;slice_longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="mi">180</span><span class="p">,</span>
+<span class="w">                </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">                </span><span class="kc">null</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;halo_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;grid-T&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;-dx,1,360&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;-dy,1,330&quot;</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;grid-U&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;-dx,1,360&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;-dy,1,330&quot;</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+<h2 id="example">Example</h2>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="nt">&quot;stream_file_frequency&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;monthly&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;ap4&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;ap5&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;10 day&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;ap6&quot;</span>
+<span class="w">   </span><span class="p">]</span>
+<span class="p">},</span>
+<span class="nt">&quot;cycle_length&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;ap4&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P5Y&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ap5&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P5Y&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ap6&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P1Y&quot;</span>
+<span class="p">},</span>
+<span class="nt">&quot;memory&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;ap4&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12G&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ap5&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8G&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ap6&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;30G&quot;</span>
+<span class="p">},</span>
+<span class="nt">&quot;temp_space&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;ap4&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">98304</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ap5&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">40960</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ap6&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">98304</span>
+<span class="p">},</span>
+<span class="nt">&quot;sizing_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;mon&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;85-144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;85-145-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;86-144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;75-330-360&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;day&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;19-144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="p">},</span>
+<span class="nt">&quot;subdaily_streams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;ap6&quot;</span>
+<span class="p">],</span>
+<span class="nt">&quot;grid_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;atmos&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;atmos_timestep&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;model_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;N96 grid&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;nominal_resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;250 km&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">192</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">144</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;v_latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">145</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;levels&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;ancil_filenames&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;qrparm.landfrac.pp&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;qrparm.soil.pp&quot;</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;hybrid_heights_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;atmosphere_theta_levels_85.txt&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;atmosphere_rho_levels_86.txt&quot;</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;ocean&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;model_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;nominal_resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100 km&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">360</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">330</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;levels&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">75</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;replacement_coordinates_file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cice_eORCA1_coords.nc&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;ancil_filenames&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;ocean_constants.nc&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;ocean_byte_masks.nc&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;ocean_basin.nc&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;diaptr_basin_masks.nc&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;ocean_zostoga.nc&quot;</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;hybrid_heights_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">            </span><span class="nt">&quot;masked&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;grid-V&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;slice_latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                    </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">                    </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">                    </span><span class="kc">null</span>
+<span class="w">                </span><span class="p">],</span>
+<span class="w">                    </span><span class="nt">&quot;slice_longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                        </span><span class="mi">180</span><span class="p">,</span>
+<span class="w">                        </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">                        </span><span class="kc">null</span>
+<span class="w">                    </span><span class="p">]</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;cice-U&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;slice_latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                        </span><span class="mi">-1</span><span class="p">,</span>
+<span class="w">                        </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">                        </span><span class="kc">null</span>
+<span class="w">                    </span><span class="p">]</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;halo_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;grid-T&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                    </span><span class="s2">&quot;-dx,1,360&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;-dy,1,330&quot;</span>
+<span class="w">                </span><span class="p">],</span>
+<span class="w">                </span><span class="nt">&quot;grid-U&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                    </span><span class="s2">&quot;-dx,1,360&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s2">&quot;-dy,1,330&quot;</span>
+<span class="w">                </span><span class="p">]</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<h2 id="check-model-parameters-json-file">Check Model Parameters JSON File</h2>
+<p>There is a little tool, that checks the basic of your model parameters file:
+<div class="highlight"><pre><span></span><code>validate_model_params &lt;request file&gt;
+</code></pre></div>
+where the <code>&lt;request file&gt;</code> is the path to your request that uses your model parameters JSON file.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../request/misc/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Misc Section" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Misc Section
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../developer_documentation/" class="md-footer__link md-footer__link--next" aria-label="Next: Developer Documentation" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Developer Documentation
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.expand", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
