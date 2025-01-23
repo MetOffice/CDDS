@@ -142,6 +142,7 @@ class OceanBaseGridInfo(BaseGridInfo):
         super(OceanBaseGridInfo, self).__init__(GridType.OCEAN, json)
         self._ocean_grid_polar_masks: Dict[str, str] = {}
         self._load_ocean_grid_polar_masks(json)
+        self._load_bounds_coordinates(json)
 
     def _load_ocean_grid_polar_masks(self, json) -> None:
         masked_data = json['masked']
@@ -151,6 +152,12 @@ class OceanBaseGridInfo(BaseGridInfo):
             mask_slice = '{},{}'.format(slice_latitude, slice_longitude)
             self._ocean_grid_polar_masks[grid_name] = mask_slice
         self._halo_options = json['halo_options']
+
+    def _load_bounds_coordinates(self, json) -> None:
+        if "bounds_coordinates" in json:
+            self.bounds_coordinate_overrides = json["bounds_coordinates"]
+        else:
+            self.bounds_coordinate_overrides = {}
 
     @staticmethod
     def _to_mask_slice_str(arguments):
@@ -205,7 +212,9 @@ class OceanBaseGridInfo(BaseGridInfo):
         """
         if stream.startswith('o') and substream[-1] not in 'TUVWr':
             raise RuntimeError('Could not interpret substream "{}"'.format(substream))
-        if stream == 'onm':
+        if f"{stream}-{substream}" in self.bounds_coordinate_overrides.keys():
+            bound_coords = self.bounds_coordinate_overrides[f"{stream}-{substream}"]
+        elif stream == 'onm':
             if substream == 'scalar':
                 bound_coords = ['time_centered_bounds']
             elif substream == 'diaptr':
