@@ -1,4 +1,4 @@
-name: cdds-3.0_dev-1
+name: cdds-3.0_dev-2
 channels:
   - conda-mo-internal
   - conda-forge
@@ -220,8 +220,8 @@ dependencies:
     - dreqpy==1.0.29
     - mkdocs-section-index==0.3.8
 variables:
-  CDDS_ETC: /home/users/cdds/etc
+  CDDS_ETC: /home/h03/cdds/etc
   CYLC_VERSION: 8
   LC_ALL: en_GB.UTF-8
   TZ: UTC
-prefix: /home/users/cdds/software/miniconda3/envs/cdds-3.0_dev-1
+prefix: /home/users/cdds/conda_environments/cdds-3.0_dev-2

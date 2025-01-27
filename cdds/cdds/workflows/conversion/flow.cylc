@@ -221,7 +221,11 @@ mkdir -p {{ BASE_OUTPUT }}
         execution time limit = P2D
         [[[directives]]]
             --ntasks = {{ NTHREADS_CONCATENATE }}
-            --partition = cpu-long
+            {% if PARTITION == 'Azure' %}
+                --partition = cpu-long
+            {% else %}
+                --qos = long
+            {% endif %}
         [[[environment]]]
             ROSE_TASK_APP = concatenate_batch
             STREAM = {{ STREAM }}
@@ -276,7 +280,11 @@ mkdir -p {{ BASE_OUTPUT }}
         [[[directives]]]
             --mem = {{ MEMORY_EXTRACT }}
             --ntasks = 1
-            --partition = cpu-long
+            {% if PARTITION == 'Azure' %}
+                --partition = cpu-long
+            {% else %}
+                --qos = long
+            {% endif %}
     {% endif %}
 
     {% if RUN_EXTRACT_VALIDATION %}

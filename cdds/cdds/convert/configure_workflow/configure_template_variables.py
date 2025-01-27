@@ -103,6 +103,7 @@ class ConfigureTemplateVariables:
             "NTHREADS_CONCATENATE": (NTHREADS_CONCATENATE),
             "OUTPUT_DIR": output_data_directory(self._request),
             "PARALLEL_TASKS": PARALLEL_TASKS,
+            "PARTITION": os.environ['PARTITION'],
             "REF_DATE": str(self._request.metadata.base_date),
             "REQUEST_CONFIG_PATH": self.request_path,
             "ROOT_DATA_DIR": self._request.common.root_data_dir,
