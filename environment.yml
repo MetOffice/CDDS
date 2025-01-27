@@ -1,4 +1,4 @@
-name: cdds-3.0.0
+name: cdds-3.0_dev-2
 channels:
   - conda-mo-internal
   - conda-forge
@@ -221,8 +221,8 @@ dependencies:
     - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds&subdirectory=cdds
     - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
 variables:
-  CDDS_ETC: /home/h03/cdds/etc
+  CDDS_ETC: /home/users/cdds/etc
   CYLC_VERSION: 8
   LC_ALL: en_GB.UTF-8
   TZ: UTC
-prefix: /home/h03/cdds/software/miniconda3/envs/cdds-3.0.0
+prefix: /home/users/cdds/software/miniconda3/envs/cdds-3.0_dev-2
