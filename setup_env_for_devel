@@ -6,15 +6,17 @@ export CDDS_PACKAGES="cdds mip_convert"
 export CDDS_PACKAGES
 
 CDDS_HOME=$(readlink -f ~cdds)
-CONDA=${CDDS_HOME}/software/miniconda3/bin/activate
+CONDA=/opt/conda/bin/activate
 
-DEV_ENV='cdds-3.0_dev-2'
+DEV_ENV='/home/users/cdds/conda_enivornments/cdds-3.0_dev-2'
 
 if [ -f ${CONDA} ]; then
     . ${CONDA} ${DEV_ENV}
 else
     echo "Could not locate CDDS miniconda environment"
 fi
+
+module load nccmp
 
 for CDDS_PACKAGE in $CDDS_PACKAGES
 do

@@ -110,7 +110,7 @@
         [[[directives]]]
             --mem = {{ MEMORY_DEFAULT }}
             --wckey = CDDS
-            --partition = {{ OS_PARTITION }}
+            # --partition = {{ OS_PARTITION }}
     [[LOTUS]]
         platform = lsf
         [[[directives]]]
@@ -212,7 +212,7 @@ mkdir -p {{ BASE_OUTPUT }}
         execution time limit = P2D
         [[[directives]]]
             --ntasks = {{ NTHREADS_CONCATENATE }}
-            --qos = long
+            --partition = cpu-long
         [[[environment]]]
             ROSE_TASK_APP = concatenate_batch
             STREAM = {{ STREAM }}
@@ -267,7 +267,7 @@ mkdir -p {{ BASE_OUTPUT }}
         [[[directives]]]
             --mem = {{ MEMORY_EXTRACT }}
             --ntasks = 1
-            --qos = long
+            --partition = cpu-long
     {% endif %}
 
     {% if RUN_EXTRACT_VALIDATION %}
