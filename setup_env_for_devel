@@ -8,7 +8,7 @@ export CDDS_PACKAGES
 CDDS_HOME=$(readlink -f ~cdds)
 DEV_ENV='cdds-3.0_dev-2'
 
-if [[ "$(hostname -f)" =~ "cazld" ]]; then
+if [[ "$(hostname -f)" == cazld* || "$(hostname -f)" == sla* ]]; then
     CONDA=/opt/conda/bin/activate
     DEV_ENV='/home/users/cdds/conda_environments/cdds-3.0_dev-2'
 elif [[ "$(hostname -f)" =~ "jasmin" ]]; then
