@@ -114,7 +114,9 @@
         [[[directives]]]
             --mem = {{ MEMORY_DEFAULT }}
             --wckey = CDDS
-            # --partition = {{ OS_PARTITION }}
+            {% if PARTITION == 'Exeter' %}
+                --partition = {{ OS_PARTITION }}
+            {% endif %}
     [[LOTUS]]
         platform = lsf
         [[[directives]]]

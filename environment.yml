@@ -224,6 +224,5 @@ variables:
   CDDS_ETC: /home/h03/cdds/etc
   CYLC_VERSION: 8
   LC_ALL: en_GB.UTF-8
-  PARTITION: Azure
   TZ: UTC
 prefix: /home/users/cdds/conda_environments/cdds-3.0_dev-2
