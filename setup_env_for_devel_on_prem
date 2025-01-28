@@ -30,7 +30,7 @@ do
 done
 
 # Pass a command which would set up a cdds conda environment on SPICE
-export CDDS_ENV_COMMAND="source $CDDS_DIR/setup_env_for_devel"
+export CDDS_ENV_COMMAND="source $CDDS_DIR/setup_env_for_devel_on_prem"
 
 # Awkward way to make sure qc plugins are built after setup
 MYOLDPWD=$PWD
