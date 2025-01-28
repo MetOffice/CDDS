@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+CDDS_DIR=${1:-$PWD}
+export CDDS_DIR
+export CDDS_PACKAGES="cdds mip_convert"
+
+export CDDS_PACKAGES
+
+CDDS_HOME=$(readlink -f ~cdds)
+CONDA=${CDDS_HOME}/software/miniconda3/bin/activate
+
+DEV_ENV='cdds-3.0_dev-2'
+
+if [ -f ${CONDA} ]; then
+    . ${CONDA} ${DEV_ENV}
+else
+    echo "Could not locate CDDS miniconda environment"
+fi
+
+for CDDS_PACKAGE in $CDDS_PACKAGES
+do
+    # Update PATH:
+    if [ -d $CDDS_DIR/$CDDS_PACKAGE/bin ]; then
+        export PATH=$CDDS_DIR/$CDDS_PACKAGE/bin:$PATH
+    fi
+
+    # Update PYTHONPATH:
+    if [ -d $CDDS_DIR/$CDDS_PACKAGE ]; then
+        export PYTHONPATH=$CDDS_DIR/$CDDS_PACKAGE:$PYTHONPATH
+    fi
+done
+
+# Pass a command which would set up a cdds conda environment on SPICE
+export CDDS_ENV_COMMAND="source $CDDS_DIR/setup_env_for_devel"
+
+# Awkward way to make sure qc plugins are built after setup
+MYOLDPWD=$PWD
+
+if [ ! -d "$CDDS_DIR/cdds/cdds.egg-info" ]; then
+    cd "$CDDS_DIR/cdds"
+    python setup.py build > /dev/null 2>&1
+fi
+
+cd $MYOLDPWD

@@ -104,9 +104,17 @@
             CDDS_VERSION = {{ CDDS_VERSION }}
 {% if DEV_MODE %}
             CDDS_DIR = {{ CDDS_DIR }}
-            SETUP_CMD = $CDDS_DIR/setup_env_for_devel $CDDS_DIR
+            {% if PARTITION == 'Azure' %}
+                SETUP_CMD = $CDDS_DIR/setup_env_for_devel $CDDS_DIR
+            {% else %}
+                SETUP_CMD = $CDDS_DIR/setup_env_for_devel_on_prem $CDDS_DIR
+            {% endif %}
 {% else %}
-            SETUP_CMD = ~cdds/bin/setup_env_for_cdds {{ CDDS_VERSION }}
+            {% if PARTITION == 'Azure' %}
+                SETUP_CMD = ~cdds/bin/setup_env_for_cdds {{ CDDS_VERSION }}
+            {% else %}
+                SETUP_CMD = ~cdds/bin/setup_env_for_cdds_on_prem {{ CDDS_VERSION }}
+            {% endif %}
 {% endif %}
     [[SPICE]]
         platform = spice
