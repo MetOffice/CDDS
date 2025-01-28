@@ -66,6 +66,9 @@
         "qrparm.mask_cci.pp",
         "qrparm.orog.pp"
       ],
+      "ancil_variables": [
+        "snc"
+      ],
       "grid_description_prefix": "",
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",

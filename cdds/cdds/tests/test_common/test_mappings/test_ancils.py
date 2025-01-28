@@ -8,22 +8,29 @@ from copy import deepcopy
 import unittest
 
 from cdds.common.mappings.ancils import remove_ancils_from_mapping
+from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.tests.test_common.common import DummyMapping
 
 
 class TestRemoveAncilVariableMapping(unittest.TestCase):
     def setUp(self):
+        load_plugin()
         self.mapping_pp_no_ancil = DummyMapping(
-            expression='m01s05i216[lbproc=128]')
+            expression='m01s05i216[lbproc=128]',
+            model_id='HadGEM3-GC31-LL')
         self.mapping_pp_ancil = DummyMapping(
             expression=('multiply_cubes(m01s03i495[lbproc=128] '
-                        '+ m01s03i496[lbproc=128], m01s00i505)'))
+                        '+ m01s03i496[lbproc=128], m01s00i505)'),
+            model_id='HadGEM3-GC31-LL')
         self.mapping_nc_no_ancil = DummyMapping(
-            expression='uo')
+            expression='uo',
+            model_id='HadGEM3-GC31-LL')
         self.mapping_nc_ancil = DummyMapping(
-            expression='mask_copy(uo, mask_3D_U)')
+            expression='mask_copy(uo, mask_3D_U)',
+            model_id='HadGEM3-GC31-LL')
         self.mapping_nc_many_ancil = DummyMapping(
-            expression='mask_copy(uo, mask_3D_U, mask_2D_U)')
+            expression='mask_copy(uo, mask_3D_U, mask_2D_U)',
+            model_id='HadGEM3-GC31-LL')
 
     def test_pp_no_ancil(self):
         expected = deepcopy(self.mapping_pp_no_ancil)
