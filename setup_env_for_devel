@@ -23,7 +23,7 @@ else
     echo "Could not locate CDDS miniconda environment"
 fi
 
-if [[ "$(hostname -f)" =~ "cazld" ]]; then
+if [[ "$(hostname -f)" == cazld* || "$(hostname -f)" == sla* ]]; then
   module load nccmp
 fi
 
