@@ -10,7 +10,7 @@ DEV_ENV='cdds-3.0_dev-2'
 
 if [[ "$(hostname -f)" =~ "spice.sc" ]]; then
     CONDA=/opt/conda/bin/activate
-    DEV_ENV='/home/users/cdds/conda_environments/cdds-3.0_dev-2'
+    DEV_ENV="/home/users/cdds/conda_environments/${DEV_ENV}"
 elif [[ "$(hostname -f)" =~ "jasmin" ]]; then
     CONDA=${CDDS_HOME}/software/miniconda3/bin/activate
 else
@@ -23,7 +23,7 @@ else
     echo "Could not locate CDDS miniconda environment"
 fi
 
-if [[ "$(hostname -f)" == cazld* || "$(hostname -f)" == sla* ]]; then
+if [[ "$(hostname -f)" =~ "spice.sc" ]]; then
   module load nccmp
 fi
 
