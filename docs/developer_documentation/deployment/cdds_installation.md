@@ -47,16 +47,16 @@
           ```
           where `X.Y.Z` is the new version number of CDDS
           ```
-    - [x] Set OS partition at `CDDS_PARTITION` variable:
+    - [x] Set platform in the `CDDS_PLATFORM` variable:
           - [x] On premise:
                 ```bash
                 conda activate cdds-X.Y.Z
-                conda env config vars set CDDS_PARTITION=Exeter
+                conda env config vars set CDDS_PLATFORM=EXETER
                 ```
           - [x] On Azure:
                 ```bash
                 conda activate cdds-X.Y.Z
-                conda env config vars set CDDS_PARTITION=Azure
+                conda env config vars set CDDS_PLATFORM=AZURE
                 ```
     - [x] Confirm environment variables:
           ```bash

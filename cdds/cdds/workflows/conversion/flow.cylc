@@ -106,11 +106,7 @@
             CDDS_DIR = {{ CDDS_DIR }}
             SETUP_CMD = $CDDS_DIR/setup_env_for_devel $CDDS_DIR
 {% else %}
-            {% if PARTITION == 'Azure' %}
-                SETUP_CMD = ~cdds/bin/setup_env_for_cdds {{ CDDS_VERSION }}
-            {% else %}
-                SETUP_CMD = ~cdds/bin/setup_env_for_cdds_on_prem {{ CDDS_VERSION }}
-            {% endif %}
+            SETUP_CMD = ~cdds/bin/setup_env_for_cdds {{ CDDS_VERSION }}
 {% endif %}
     [[SPICE]]
         platform = spice
@@ -118,7 +114,7 @@
         [[[directives]]]
             --mem = {{ MEMORY_DEFAULT }}
             --wckey = CDDS
-            {% if PARTITION == 'Exeter' %}
+            {% if PLATFORM == 'EXETER' %}
                 --partition = {{ OS_PARTITION }}
             {% endif %}
     [[LOTUS]]
@@ -227,7 +223,7 @@ mkdir -p {{ BASE_OUTPUT }}
         execution time limit = P2D
         [[[directives]]]
             --ntasks = {{ NTHREADS_CONCATENATE }}
-            {% if PARTITION == 'Azure' %}
+            {% if PLATFORM == 'AZURE' %}
                 --partition = cpu-long
             {% else %}
                 --qos = long
@@ -286,7 +282,7 @@ mkdir -p {{ BASE_OUTPUT }}
         [[[directives]]]
             --mem = {{ MEMORY_EXTRACT }}
             --ntasks = 1
-            {% if PARTITION == 'Azure' %}
+            {% if PLATFORM == 'AZURE' %}
                 --partition = cpu-long
             {% else %}
                 --qos = long
