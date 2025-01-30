@@ -1,4 +1,4 @@
-name: cdds-3.0.0
+name: cdds-3.0_dev-2
 channels:
   - conda-mo-internal
   - conda-forge
@@ -225,4 +225,4 @@ variables:
   CYLC_VERSION: 8
   LC_ALL: en_GB.UTF-8
   TZ: UTC
-prefix: /home/h03/cdds/software/miniconda3/envs/cdds-3.0.0
+prefix: /home/users/cdds/conda_environments/cdds-3.0_dev-2

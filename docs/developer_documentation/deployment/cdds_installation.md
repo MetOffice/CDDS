@@ -47,6 +47,17 @@
           ```
           where `X.Y.Z` is the new version number of CDDS
           ```
+    - [x] Set platform in the `CDDS_PLATFORM` variable:
+          - [x] On premise:
+                ```bash
+                conda activate cdds-X.Y.Z
+                conda env config vars set CDDS_PLATFORM=EXETER
+                ```
+          - [x] On Azure:
+                ```bash
+                conda activate cdds-X.Y.Z
+                conda env config vars set CDDS_PLATFORM=AZURE
+                ```
     - [x] Confirm environment variables:
           ```bash
           # get out of cdds environment
@@ -56,8 +67,10 @@
           # print environment variables
           echo $LC_ALL
           echo $CDDS_ENV_COMMAND
+          echo $CDDS_PARTITION
           ```
-          You should see `en_GB.UTF-8` for `LC_ALL` plus the command set above for `CDDS_ENV_COMMAND`.
+          You should see `en_GB.UTF-8` for `LC_ALL` plus the command 
+          set above for `CDDS_ENV_COMMAND` and the `CDDS_PARTITION`.
 
 === "On Jasmin"
     !!! warning
@@ -90,6 +103,11 @@
           conda activate cdds-X.Y.Z
           conda env config vars set CDDS_ENV_COMMAND="source /gws/smf/j04/cmip6_prep/cdds-env-python3/miniconda3/bin/activate cdds-X.Y.Z"
           ```
+    - [x] Set OS partition at `CDDS_PARTITION` variable
+          ```bash
+          conda activate cdds-X.Y.Z
+          conda env config vars set CDDS_PARTITION=Jasmin
+          ```
     - [x] Install `nco` library
           ```bash
           conda install -c conda-forge nco
@@ -103,5 +121,7 @@
           # print environment variables
           echo $LC_ALL
           echo $CDDS_ENV_COMMAND
+          echo $CDDS_PARITION
           ```
-          You should see `en_GB.UTF-8` for `LC_ALL` and the command set above for `CDDS_ENV_COMMAND`.
+          You should see `en_GB.UTF-8` for `LC_ALL` and the command set above for `CDDS_ENV_COMMAND` 
+          and `CDDS_PARTITION`.

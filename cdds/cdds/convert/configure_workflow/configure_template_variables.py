@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2024, Met Office.
+# (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.rst for license details.
 from dataclasses import dataclass
 import os
@@ -103,6 +103,7 @@ class ConfigureTemplateVariables:
             "NTHREADS_CONCATENATE": (NTHREADS_CONCATENATE),
             "OUTPUT_DIR": output_data_directory(self._request),
             "PARALLEL_TASKS": PARALLEL_TASKS,
+            "PLATFORM": os.environ["CDDS_PLATFORM"],
             "REF_DATE": str(self._request.metadata.base_date),
             "REQUEST_CONFIG_PATH": self.request_path,
             "ROOT_DATA_DIR": self._request.common.root_data_dir,
