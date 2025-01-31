@@ -1,5 +1,6 @@
-# (C) British Crown Copyright 2021-2024, Met Office.
+# (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.rst for license details.
+from copy import copy
 import unittest
 
 from cdds.common.plugins.base.base_grid import GridType, AtmosBaseGridInfo, OceanBaseGridInfo
@@ -32,6 +33,11 @@ class TestOceanGridInfo(TestCase):
             }
         }
         self.ocean_grid_info = OceanBaseGridInfo(self.json)
+        self.json_with_bounds_coordinates_override = copy(self.json)
+        self.json_with_bounds_coordinates_override["bounds_coordinates"] = {
+            "onm-grid-T": ["bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds", "deptht_bounds"]
+        }
+        self.ocean_grid_info_with_override = OceanBaseGridInfo(self.json_with_bounds_coordinates_override)
 
     def test_grid_type(self):
         grid_type = self.ocean_grid_info.get_type()
@@ -74,6 +80,18 @@ class TestOceanGridInfo(TestCase):
     def test_bounds_coordinates(self):
         bounds_coordinates = self.ocean_grid_info.bounds_coordinates('onm', 'grid-T')
         self.assertCountEqual(bounds_coordinates, ['bounds_lon', 'bounds_lat', 'time_centered_bounds', 'deptht_bounds'])
+        bounds_coordinates = self.ocean_grid_info.bounds_coordinates('onm', 'diad-T')
+        self.assertCountEqual(bounds_coordinates, ['bounds_lon', 'bounds_lat', 'time_centered_bounds', 'deptht_bounds'])
+        bounds_coordinates = self.ocean_grid_info.bounds_coordinates('onm', 'grid-W')
+        self.assertCountEqual(bounds_coordinates, ['bounds_lon', 'bounds_lat', 'time_centered_bounds', 'depthw_bounds'])
+        bounds_coordinates = self.ocean_grid_info.bounds_coordinates('ind', 'default')
+        self.assertCountEqual(bounds_coordinates, ['lont_bounds', 'latt_bounds', 'lonu_bounds', 'latu_bounds'])
+
+    def test_bounds_coordinates_with_override(self):
+        # Only override the onm grid-T variables
+        bounds_coordinates = self.ocean_grid_info_with_override.bounds_coordinates('onm', 'grid-T')
+        self.assertCountEqual(bounds_coordinates, ["bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds",
+                                                   "deptht_bounds"])
         bounds_coordinates = self.ocean_grid_info.bounds_coordinates('onm', 'diad-T')
         self.assertCountEqual(bounds_coordinates, ['bounds_lon', 'bounds_lat', 'time_centered_bounds', 'deptht_bounds'])
         bounds_coordinates = self.ocean_grid_info.bounds_coordinates('onm', 'grid-W')
