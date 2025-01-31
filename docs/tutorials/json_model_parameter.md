@@ -199,6 +199,11 @@ Following information should be provided:
     !!! note
         This is not relevant for the ocean, but still needs to be present.
 
+`bounds_coordinates` (Optional, added in CDDS v3.1.0)
+:   This field is a dictionary containing the list of netcdf variables that correspond to the bounds variables for
+    coordinates in the NEMO output files for each ocean substream. If this is not specified the built in defaults 
+    will be used.
+
 `masked`
 :   a json object of ocean grid polar masks for the grid. Each masked entry as a grid label and its masked value split 
     by the `slice_latitude` and `slice_longitude`. These are used to mask duplicate cells along the polar rows.
@@ -253,6 +258,9 @@ Following information should be provided:
             "ocean_byte_masks.nc"
         ],
         "hybrid_heights_files": [],
+        "bounds_coordinates": {
+          "onm-grid-T": ["bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds", "deptht_bounds"]
+        },
         "masked": {
             "grid-V": {
                 "slice_latitude": [
@@ -369,38 +377,40 @@ Following information should be provided:
                 "diaptr_basin_masks.nc",
                 "ocean_zostoga.nc"
             ],
+            "bounds_coordinates": {
+                "onm-grid-T": ["bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds", "deptht_bounds"]
+            },
             "hybrid_heights_files": [],
-                "masked": {
-                    "grid-V": {
-                        "slice_latitude": [
+            "masked": {
+                "grid-V": {
+                    "slice_latitude": [
+                    -1,
+                    null,
+                    null
+                    ],
+                    "slice_longitude": [
+                        180,
+                        null,
+                        null
+                    ]
+                },
+                "cice-U": {
+                    "slice_latitude": [
                         -1,
                         null,
                         null
-                    ],
-                        "slice_longitude": [
-                            180,
-                            null,
-                            null
-                        ]
-                    },
-                    "cice-U": {
-                        "slice_latitude": [
-                            -1,
-                            null,
-                            null
-                        ]
-                    }
-                },
-                "halo_options": {
-                    "grid-T": [
-                        "-dx,1,360",
-                        "-dy,1,330"
-                    ],
-                    "grid-U": [
-                        "-dx,1,360",
-                        "-dy,1,330"
                     ]
                 }
+            },
+            "halo_options": {
+                "grid-T": [
+                    "-dx,1,360",
+                    "-dy,1,330"
+                ],
+                "grid-U": [
+                    "-dx,1,360",
+                    "-dy,1,330"
+                ]
             }
         }
     }
