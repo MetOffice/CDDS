@@ -411,6 +411,7 @@ class HadGEM3_GC5p_N216ORCA025_Params(BaseModelParameters):
         """
         return '12.2'
 
+
 class HadGEM3_GC50_N640ORCA12_Params(BaseModelParameters):
     """
     Class to store the parameters for the HadGEM3_GC50_N640ORCA12 model.
