@@ -123,7 +123,7 @@ def expected_text_conversion():
         'continue_if_mip_convert_failed': True,
         'delete_preexisting_proc_dir': True,
         'delete_preexisting_data_dir': True,
-        'mip_convert_plugin': 'HadGem3'
+        'mip_convert_plugin': 'HadGEM3'
     }
 
 
