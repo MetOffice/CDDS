@@ -21,7 +21,6 @@ from cdds.prepare.constants import ACTIVATE, DEACTIVATE, EPILOG
 from cdds.prepare.directory_structure import create_cdds_directory_structure
 from cdds.prepare.generate import generate_variable_list
 
-
 COMPONENT = 'prepare'
 CREATE_CDDS_DIR_LOG_NAME = 'create_cdds_directory_structure'
 GENERATE_VARIABLE_LIST_LOG_NAME = 'prepare_generate_variable_list'
@@ -206,6 +205,11 @@ def parse_generate_args(arguments: List[str]) -> Namespace:
         'request', help=(
             'The full path to the configuration file containing the information about the request.'
         ))
+
+    parser.add_argument(
+        '-r', '--reconfigure', action='store_true', help=(
+            'Reconfigure the MIP convert configuration file')
+    )
 
     output_dir_group = parser.add_mutually_exclusive_group()
     output_dir_group.add_argument(
