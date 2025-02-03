@@ -127,7 +127,7 @@ class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
                 shutil.rmtree(directory)
 
 
-#@pytest.mark.slow
+@pytest.mark.slow
 class TestMainGenerateVariableList(unittest.TestCase):
     """
     Tests for ``main_generate_variable_list`` in :mod:`command_line.py`.
@@ -328,7 +328,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
                 self._assert(requested_variables[key], value, key)
 
     def compare_mip_convert(self, mip_convert_path, reference):
-        with  open(mip_convert_path.resolve(), 'r') as file_handler:
+        with open(mip_convert_path.resolve(), 'r') as file_handler:
             text = file_handler.read()
             text.startswith(reference)
 
