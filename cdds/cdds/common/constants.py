@@ -57,7 +57,6 @@ ANCIL_VARIABLES = [
     'so_0',  # ocean_zostoga
     'rho_0_mean',  # ocean_zostoga
     'deptho_0_mean',  # ocean_zostoga
-    # 'm01s00i030'
 ]
 APPROVED_VARS_PREFIX = 'approved_variables'
 APPROVED_VARS_FILENAME_TEMPLATE = APPROVED_VARS_PREFIX + '_{dt}.txt'

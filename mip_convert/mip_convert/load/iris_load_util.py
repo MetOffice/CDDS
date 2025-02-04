@@ -179,6 +179,8 @@ def load_cubes(all_input_data, run_bounds, loadable, ancil_variables):
     :param loadable: the constraints for a single
             |input variable|
     :type loadable: :class:`mip_convert.common.Loadable`
+    :param ancil_variables: the ancillary variables
+    :type ancil_variables: list of strings
     :return: a list of merged cubes
     :rtype: :class:`iris.cube.CubeList`
     """
@@ -222,6 +224,8 @@ def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates, anc
     :type loadable: :class:`mip_convert.common.Loadable`
     :param replacement_coordinates: the replacement coordinates
     :type replacement_coordinates: :class:`iris.cube.CubeList`
+    :param ancil_variables: the ancillary variables
+    :type ancil_variables: list of strings
     :return: a single cube
     :rtype: :class:`iris.cube.Cube`
     """
@@ -381,6 +385,8 @@ def load_cubes_from_pp(all_input_data, pp_info, run_bounds, ancil_variables):
     :type pp_info: list of tuples
     :param run_bounds: the 'run bounds'
     :type run_bounds: list of strings
+    :param ancil_variables: the ancillary variables
+    :type ancil_variables: list of strings
     :return: a list of merged cubes
     :rtype: :class:`iris.cube.CubeList`
     """
@@ -467,6 +473,8 @@ def pp_filter(field, pp_info, run_bounds, ancil_variables):
     :type pp_info: list of tuples
     :param run_bounds: the 'run bounds'
     :type run_bounds: list of strings
+    :param ancil_variables: the ancillary variables
+    :type ancil_variables: list of string
     :returns: whether the PP field header information matches with
         the PP field header information in the single PP field
     :rtype: boolean

@@ -77,6 +77,8 @@ class VariableMetadata(object):
             compression).
         shuffle: bool
             Whether to shuffle.
+        ancil_variables: list of strings
+            The ancillary variables
         """
         if masking is None:
             masking = {}
@@ -224,7 +226,7 @@ class Variable(object):
         ...     'tas', 'apa', None, 'CMIP5_day', variable_mip_metadata,
         ...     None, None, None, variable_model_to_mip_mapping, None,
         ...     ['1981-09-01T00:00:00', '1981-09-11T00:00:00'],
-        ...     '360_day', '1970-01-01T00:00:00', 9, False)
+        ...     '360_day', '1970-01-01T00:00:00', 9, False, ['m01s00i505'])
         >>> variable = Variable(input_variables, variable_metadata)
         >>> variable.history = 'Made a change.'
         >>> print(variable.history)

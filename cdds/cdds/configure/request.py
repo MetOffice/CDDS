@@ -98,6 +98,9 @@ def get_ancil_files(request):
 
 
 def get_ancil_variables(request):
+    """
+    Returns all additional ancillary variables for a specific model
+    """
     plugin = PluginStore.instance().get_plugin()
     models_parameters = plugin.models_parameters(request.metadata.model_id)
     ancil_variables = models_parameters.all_ancil_variables()
