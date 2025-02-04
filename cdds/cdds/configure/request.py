@@ -51,6 +51,7 @@ def retrieve_request_metadata(request: Request):
     ordered_metadata['request'].update({'run_bounds': '{{ start_date }} {{ end_date }}'})
     ordered_metadata['request'].update({'suite_id':  request.data.model_workflow_id})
     ordered_metadata['request'].update({'ancil_files': get_ancil_files(request)})
+    ordered_metadata['request'].update({'ancil_variables': get_ancil_variables(request)})
     ordered_metadata['request'].update({'hybrid_heights_files': get_hybrid_heights_files(request)})
     ordered_metadata['request'].update({'replacement_coordinates_file': get_replacement_coordinates_file(request)})
     ordered_metadata['request'].update({'deflate_level': DEFLATE_LEVEL})
@@ -94,6 +95,13 @@ def get_ancil_files(request):
     models_parameters = plugin.models_parameters(request.metadata.model_id)
     ancil_files = models_parameters.all_ancil_files(root_dir)
     return ' '.join(ancil_files)
+
+
+def get_ancil_variables(request):
+    plugin = PluginStore.instance().get_plugin()
+    models_parameters = plugin.models_parameters(request.metadata.model_id)
+    ancil_variables = models_parameters.all_ancil_variables()
+    return ' '.join(ancil_variables)
 
 
 def get_replacement_coordinates_file(request):

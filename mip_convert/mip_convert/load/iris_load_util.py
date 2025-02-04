@@ -166,7 +166,7 @@ class ConstraintConstructor(object):
         self.info = info
 
 
-def load_cubes(all_input_data, run_bounds, loadable):
+def load_cubes(all_input_data, run_bounds, loadable, ancil_variables):
     """
     Return a list of merged cubes.
 
@@ -194,7 +194,7 @@ def load_cubes(all_input_data, run_bounds, loadable):
         load_constraints = constraint_constructor.load_constraints(loadable)
 
     if loadable.is_pp():
-        merged_cubes = load_cubes_from_pp(all_input_data, load_constraints, run_bounds)
+        merged_cubes = load_cubes_from_pp(all_input_data, load_constraints, run_bounds, ancil_variables)
     else:
         merged_cubes = load_cubes_from_nc(all_input_data, load_constraints, run_bounds)
 
@@ -207,7 +207,7 @@ def load_cubes(all_input_data, run_bounds, loadable):
     return merged_cubes
 
 
-def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates):
+def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates, ancil_variables):
     """
     Load a single merged and concatenated cube
 
@@ -225,7 +225,7 @@ def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates):
     :return: a single cube
     :rtype: :class:`iris.cube.Cube`
     """
-    merged_cubes = load_cubes(all_input_data, run_bounds, loadable)
+    merged_cubes = load_cubes(all_input_data, run_bounds, loadable, ancil_variables)
     if len(merged_cubes) == 1:
         cube = merged_cubes[0]
     else:
@@ -361,7 +361,7 @@ def preprocess_callback(cube, field, filename):
     correct_cice_daily_time_coord(cube, filename)
 
 
-def load_cubes_from_pp(all_input_data, pp_info, run_bounds):
+def load_cubes_from_pp(all_input_data, pp_info, run_bounds, ancil_variables):
     """
     Return a list of merged cubes.
 
@@ -384,7 +384,9 @@ def load_cubes_from_pp(all_input_data, pp_info, run_bounds):
     :return: a list of merged cubes
     :rtype: :class:`iris.cube.CubeList`
     """
-    filtered_fields = [field for field in pp_fields(all_input_data) if pp_filter(field, pp_info, run_bounds)]
+    filtered_fields = [
+        field for field in pp_fields(all_input_data) if pp_filter(field, pp_info, run_bounds, ancil_variables)
+    ]
     cube_field_pairs = load_pairs_from_fields(filtered_fields)
 
     # 'fixed_cubes' will always contain the orography.
@@ -439,7 +441,7 @@ def pp_fields(all_input_data):
     return _CACHED_FIELDS[all_input_data]
 
 
-def pp_filter(field, pp_info, run_bounds):
+def pp_filter(field, pp_info, run_bounds, ancil_variables):
     """
     Return whether the single PP field provided to the ``field``
     argument should be included when creating the Iris cube.
@@ -485,7 +487,7 @@ def pp_filter(field, pp_info, run_bounds):
 
         if len(matches) == len(pp_info):
             # Don't apply time constraints to fields from ancillary files.
-            if str(field.stash) in ANCIL_VARIABLES:
+            if str(field.stash) in ancil_variables:
                 result = True
             else:
                 start_time = to_partial_date_time(run_bounds[0])

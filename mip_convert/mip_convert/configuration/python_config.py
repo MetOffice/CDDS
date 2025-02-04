@@ -202,6 +202,7 @@ class PythonConfig(AbstractConfig):
             default_value = option_info['default_value']
             name = option_info['name']
             check_function = option_info['check_function']
+            print('Looking at section: {}, attribute: {}, with pytype: {}'.format(section, name, ptype))
             if self.config.has_option(section, option):
                 value = None
                 if check_function is not None:
