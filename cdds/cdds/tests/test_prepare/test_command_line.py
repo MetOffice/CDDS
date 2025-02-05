@@ -305,11 +305,11 @@ class TestMainGenerateVariableList(unittest.TestCase):
             'suite_branch': self.branch,
             'suite_revision': self.revision,
             'requested_variables': 1}
-        mip_convert_reference = ("[cmor_setup]\n"
-                                 "cmor_log_file = {{ cmor_log }}\n"
-                                 "create_subdirectories = 0\n"
-                                 "mip_table_dir = /home/users/cdds/etc/mip_tables/CMIP6/01.00.29/\n"
-                                 "netcdf_file_action = CMOR_REPLACE_4")
+        mip_convert_reference = ('[cmor_setup]\n'
+                                 'cmor_log_file = {{ cmor_log }}\n'
+                                 'create_subdirectories = 0\n'
+                                 'mip_table_dir = /home/users/cdds/etc/mip_tables/CMIP6/01.00.29/\n'
+                                 'netcdf_file_action = CMOR_REPLACE_4')
         self._main(request, False, '.', True)
         self.compare(self.requested_variables_list, reference)
         self.compare_mip_convert(mip_convert_path, mip_convert_reference)

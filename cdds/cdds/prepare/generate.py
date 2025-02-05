@@ -100,13 +100,19 @@ def reconfigure_mip_cfg_file(request: Request, requested_variables_file: str) ->
     :return: Path to the requested variable file
     :rtype: str
     """
+    logger = logging.getLogger()
+    logger.info('* Starting reconfiguration *')
+
     configure_dir = component_directory(request, 'configure')
     if os.path.exists(configure_dir):
         mip_convert_files_to_remove = glob.glob(configure_dir + '/mip_convert.cfg*')
         for mip_convert_file_to_remove in mip_convert_files_to_remove:
+            logger.info('Removing MIP convert configuration file: {}'.format(mip_convert_file_to_remove))
             os.remove(mip_convert_file_to_remove)
 
+    logger.info('Creating new MIP convert configuration in {}'.format(configure_dir))
     create_user_config_files(request, requested_variables_file, configure_dir)
+    logger.info('* Completed reconfiguration *')
 
 
 class VariablesConstructor:
