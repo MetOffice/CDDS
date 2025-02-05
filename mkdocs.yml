@@ -8,6 +8,7 @@ theme:
 nav:
   - Home:
     - About: index.md
+    - Release History: home/release_history.md
   - Operational Procedures:
     - operational_procedure/index.md
     - CMIP6 and CMIP6 Plus: operational_procedure/cmip6.md

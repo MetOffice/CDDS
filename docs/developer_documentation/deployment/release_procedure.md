@@ -53,15 +53,10 @@ where `<release_version>` is e.g. `1.0`.
     sed -i "s/_DEV = True/_DEV = False/" */*/__init__.py
     ```
 - [x] Update any version numbers of dependencies that need updating in `setup_env_for_cdds`
-- [x] Build the documentation
-
-!!! warning
-    There is no release process defined for the new documentations. Please, speak with Jared and Matthew how to release the documentations.
-
 - [x] If releasing a new minor version of CDDS, e.g. `2.1.0`, update the development environment name in `setup_env_for_devel` to point to the new version, e.g. `cdds-2.1_dev`.
 - [x] Ensure that:
-    -  All changes  since the last release have been described in the relevant `CHANGES.rst` files. These should be added as a separate commit to allow 
-       cherry picking onto main later
+    -  All changes  since the last release have been described in the relevant `CHANGES.rst` files and in the documentation `release_history.md` file.
+       These should be added as a separate commit to allow cherry picking onto main later
     - Any new files added since the last release that do not have a `.py` extension are included in `MANIFEST.in` and `setup.py`.
 - [x] Create a pull request for the changes. After the pull request is approved, merge the changes into the release branch, **but do not squash merge them**. 
       This will allow you cherry-pick release notes from the release branch into main.
@@ -69,6 +64,16 @@ where `<release_version>` is e.g. `1.0`.
 !!! warning
     After changing this version number, the setup script won't work until the new version has been installed centrally in the cdds account. 
     The installation process is documented at [CDDSInstallation2](https://code.metoffice.gov.uk/trac/cdds/wiki/CDDSInstallation2).
+
+- [x] Build the documentation using following command
+      ```bash
+      mike deploy <version> --push
+      ```
+      where version is the last major release, e.g. `3.1`.
+
+!!! warning
+    There is no common release process defined for the new documentations. Please, speak with Jared and Matthew how to 
+    release the documentations if you have any doubts.
 
 ### Create a tag
 
