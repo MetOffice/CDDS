@@ -13,7 +13,7 @@ from mip_convert.process.config import mappings_config
 
 class DummyMapping(object):
     def __init__(self, expression=None, dimension=None, mip_requested_variable_name=None, mip_table_id=None,
-                 positive=None, status=None, units=None):
+                 positive=None, status=None, units=None, model_id=None):
         if expression is not None:
             self.loadables = parse_to_loadables(expression, {}, mappings_config)
         self.dimension = dimension
@@ -22,6 +22,7 @@ class DummyMapping(object):
         self.positive = positive
         self.status = status
         self.units = units
+        self.model_id = model_id
 
 
 def handle_process(proc, command):

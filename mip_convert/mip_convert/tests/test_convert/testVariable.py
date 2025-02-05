@@ -26,6 +26,14 @@ def float_variable(domain, data, missing_value):
     return variable(domain, data, missing_value, numpy.float32)
 
 
+def interger32_variable(domain, data, missing_value):
+    return variable(domain, data, missing_value, numpy.int32)
+
+
+def interger64_variable(domain, data, missing_value):
+    return variable(domain, data, missing_value, numpy.int64)
+
+
 class TestVariableShape(unittest.TestCase):
     ix = 3
     iy = 2
@@ -38,6 +46,16 @@ class TestVariableShape(unittest.TestCase):
 
     def testDataValues(self):
         variable = float_variable(self.meta, [list(range(self.iy * self.ix))] * self.iz, self.missing_value)
+        self.assertEqual([[[0, 1, 2], [3, 4, 5]]] * self.iz, variable.getValue().tolist())
+        self.assertFalse(variable.is_rotated)
+
+    def testDataValuesInt32(self):
+        variable = interger32_variable(self.meta, [list(range(self.iy * self.ix))] * self.iz, self.missing_value)
+        self.assertEqual([[[0, 1, 2], [3, 4, 5]]] * self.iz, variable.getValue().tolist())
+        self.assertFalse(variable.is_rotated)
+
+    def testDataValuesInt64(self):
+        variable = interger64_variable(self.meta, [list(range(self.iy * self.ix))] * self.iz, self.missing_value)
         self.assertEqual([[[0, 1, 2], [3, 4, 5]]] * self.iz, variable.getValue().tolist())
         self.assertFalse(variable.is_rotated)
 

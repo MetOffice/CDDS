@@ -163,6 +163,16 @@ class ModelParameters(object, metaclass=ABCMeta):
         """
         pass
 
+    def all_ancil_variables(self) -> List[str]:
+        """
+        Returns all ancillary variables of this model that should
+        be removed.
+
+        :return: Ancillary variables
+        :rtype: List[str]
+        """
+        pass
+
     def all_hybrid_heights_files(self, root_directory: str) -> List[str]:
         """
         Returns the paths to all hybrid heights files of this model in the

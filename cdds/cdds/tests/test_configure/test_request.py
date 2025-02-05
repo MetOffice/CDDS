@@ -16,6 +16,7 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
     """
     Tests for :func:`retrieve_request_metadata` in :mod:`request.py`.
     """
+
     def setUp(self):
         self.maxDiff = None
         current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -87,6 +88,7 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
                                                 'ocean_basin.nc',
                                                 'diaptr_basin_masks.nc',
                                                 'ocean_zostoga.nc']]),
+                        'ancil_variables': '',
                         'hybrid_heights_files': (
                             os.path.join(
                                 os.environ['CDDS_ETC'], 'vertical_coordinates', 'atmosphere_theta_levels_85.txt ') +
@@ -104,6 +106,72 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
         )
         output = retrieve_request_metadata(self.request)
         self.assertDictEqual(output, expected_metadata)
+
+
+class TestRetrieveRequestMetadataForCordex(unittest.TestCase):
+    """
+    Tests for :func:`retrieve_request_metadata` in :mod:`request.py`.
+    """
+
+    def setUp(self):
+        self.maxDiff = None
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        self.data_dir = os.path.join(current_dir, '..', 'test_common', 'test_request', 'data')
+        request_path = os.path.join(self.data_dir, 'test_request_cordex.cfg')
+        self.request = read_request(request_path)
+
+    def test_retrieve_request_metadata(self):
+        expected_metadata = OrderedDict(
+            [
+                (
+                    'cmor_setup', {
+                        'mip_table_dir': os.path.join(
+                            os.environ['CDDS_ETC'], 'mip_tables', 'CORDEX', 'cordex-cmip6-cmor-tables', 'Tables'),
+                        'cmor_log_file': '{{ cmor_log }}',
+                        'netcdf_file_action': 'CMOR_REPLACE_4',
+                        'create_subdirectories': 0
+                    }
+                ),
+                (
+                    'cmor_dataset', {
+                        'branch_method': 'no parent',
+                        'calendar': '360_day',
+                        'institution_id': 'MOHC',
+                        'license': 'https://cordex.org/data-access/cordex-cmip6-data/cordex-cmip6-terms-of-use',
+                        'mip': 'DD',
+                        'mip_era': 'CMIP6',
+                        'model_id': 'HadREM3-GA7-05',
+                        'model_type': ['ARCM'],
+                        'variant_label': 'r1i1p1f2',
+                        'output_dir': '{{ output_dir }}'
+                    }
+                ),
+                (
+                    'request', {
+                        'base_date': '1850-01-01T00:00:00',
+                        'model_output_dir': '{{ input_dir }}',
+                        'run_bounds': '{{ start_date }} {{ end_date }}',
+                        'suite_id': 'u-db737',
+                        'ancil_files': ' '.join([
+                            os.path.join(os.environ['CDDS_ETC'], 'ancil', 'HadREM3-GA7-05', 'qrparm.mask_cci.pp'),
+                            os.path.join(os.environ['CDDS_ETC'], 'ancil', 'HadREM3-GA7-05', 'qrparm.orog.pp')]),
+                        'ancil_variables': 'm01s00i030',
+                        'hybrid_heights_files': ' '.join([
+                            os.path.join(os.environ['CDDS_ETC'], 'vertical_coordinates',
+                                         'atmosphere_theta_levels_85.txt'),
+                            os.path.join(os.environ['CDDS_ETC'], 'vertical_coordinates',
+                                         'atmosphere_rho_levels_86.txt')]),
+                        'replacement_coordinates_file': '',
+                        'deflate_level': '2',
+                        'sites_file': os.path.join(os.environ['CDDS_ETC'], 'cfmip2', 'cfmip2-sites-orog.txt'),
+                        'shuffle': True
+                    }
+                )
+            ]
+        )
+
+        output = retrieve_request_metadata(self.request)
+        self.assertDictEqual(expected_metadata, output)
 
 
 if __name__ == '__main__':

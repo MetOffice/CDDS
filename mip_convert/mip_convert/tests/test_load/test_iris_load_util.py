@@ -10,6 +10,8 @@ from cftime import datetime
 import iris
 from iris.tests.stock import realistic_3d
 
+from cdds.common.constants import ANCIL_VARIABLES
+
 from mip_convert.load.iris_load_util import (
     ConstraintConstructor, pp_filter, compare_values, get_field_value,
     remove_duplicate_cubes, split_netCDF_filename, rechunk)
@@ -333,47 +335,47 @@ class TestPPFilter(unittest.TestCase):
 
     def test_single_header_element_found(self):
         pp_info = [('lbtim', self.lbtim)]
-        self.assertTrue(pp_filter(self.field, pp_info, self.run_bounds))
+        self.assertTrue(pp_filter(self.field, pp_info, self.run_bounds, ANCIL_VARIABLES))
 
     def test_not_in_run_bounds(self):
         pp_info = [('lbtim', self.lbtim)]
         run_bounds = ['1983-03-01T00:00:00', '1983-03-20T00:00:00']
-        self.assertFalse(pp_filter(self.field, pp_info, run_bounds))
+        self.assertFalse(pp_filter(self.field, pp_info, run_bounds, ANCIL_VARIABLES))
 
     def test_single_header_element_with_tuple_value_found(self):
         pp_info = [('lbuser4', self.stash)]
-        self.assertTrue(pp_filter(self.field, pp_info, self.run_bounds))
+        self.assertTrue(pp_filter(self.field, pp_info, self.run_bounds, ANCIL_VARIABLES))
 
     def test_single_header_element_with_multiple_values_found(self):
         pp_info = [('blev', self.blev)]
-        self.assertTrue(pp_filter(self.field, pp_info, self.run_bounds))
+        self.assertTrue(pp_filter(self.field, pp_info, self.run_bounds, ANCIL_VARIABLES))
 
     def test_single_header_element_not_found(self):
         pp_info = [('lbtim', 1)]
-        self.assertFalse(pp_filter(self.field, pp_info, self.run_bounds))
+        self.assertFalse(pp_filter(self.field, pp_info, self.run_bounds, ANCIL_VARIABLES))
 
     def test_single_header_element_with_tuple_value_not_found(self):
         pp_info = [('lbuser4', 8223)]
-        self.assertFalse(pp_filter(self.field, pp_info, self.run_bounds))
+        self.assertFalse(pp_filter(self.field, pp_info, self.run_bounds, ANCIL_VARIABLES))
 
     def test_single_header_element_with_multiple_values_not_found(self):
         pp_info = [('blev', 200.0)]
-        self.assertFalse(pp_filter(self.field, pp_info, self.run_bounds))
+        self.assertFalse(pp_filter(self.field, pp_info, self.run_bounds, ANCIL_VARIABLES))
 
     def test_multiple_header_element_found(self):
         pp_info = [('lbuser4', self.stash), ('lbtim', self.lbtim),
                    ('blev', self.blev)]
-        self.assertTrue(pp_filter(self.field, pp_info, self.run_bounds))
+        self.assertTrue(pp_filter(self.field, pp_info, self.run_bounds, ANCIL_VARIABLES))
 
     def test_multiple_header_element_not_found(self):
         pp_info = [('lbuser4', self.stash), ('lbtim', 1), ('blev', self.blev)]
-        self.assertFalse(pp_filter(self.field, pp_info, self.run_bounds))
+        self.assertFalse(pp_filter(self.field, pp_info, self.run_bounds, ANCIL_VARIABLES))
 
     def test_stash_code_of_ancil_variable(self):
         lbuser = (1, 897024, 0, 505, 0, 0, 1)
         field = DummyField(lbuser=lbuser, blev=self.blev[1], t1=self.t1, t2=self.t2)
         pp_info = [('lbtim', None)]
-        self.assertTrue(pp_filter(field, pp_info, self.run_bounds))
+        self.assertTrue(pp_filter(field, pp_info, self.run_bounds, ANCIL_VARIABLES))
 
 
 class TestCompareValues(unittest.TestCase):

@@ -76,6 +76,8 @@ def request_config():
     config = {option: _get_config(option, section) for option in options}
     config['ancil_files'] = _get_config(
         'ancil_files', section, value_type='multiple', default_value=True)
+    config['ancil_variables'] = _get_config(
+        'ancil_variables', section, value_type='multiple', default_value=True)
     config['atmos_timestep'] = _get_config(
         'atmos_timestep', section, python_type=int, default_value=True,
         check_function=check_number)

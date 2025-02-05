@@ -8,13 +8,14 @@ import os
 import sys
 import tempfile
 import unittest
+from typing import List
 
 from unittest.mock import patch
 import pytest
 
 import cdds.common.mappings.mapping as mapping
 from cdds.common.plugins.plugin_loader import load_plugin, load_external_plugin
-from cdds.common.plugins.models import ModelParameters
+from cdds.common.plugins.cmip6.cmip6_models import HadGEM3_GC31_LL_Params
 from cdds.common.plugins.streams import StreamInfo
 from cdds.tests.test_plugins.stubs import EmptyCddsPlugin
 
@@ -49,10 +50,13 @@ def mock_isfile(test_case, results):
     test_case.addCleanup(mocked_isfile.stop)
 
 
-class DummyHadGEM2(ModelParameters, ABC):
+class DummyHadGEM2(HadGEM3_GC31_LL_Params, ABC):
 
     def um_version(self) -> str:
         return '6.6'
+
+    def all_ancil_variables(self) -> List[str]:
+        return []
 
 
 class DummyCMIP5Plugin(EmptyCddsPlugin):
@@ -62,8 +66,8 @@ class DummyCMIP5Plugin(EmptyCddsPlugin):
         super(DummyCMIP5Plugin, self).__init__()
         self._mip_era = self.MIP_ERA
 
-    def models_parameters(self, model_id: str) -> ModelParameters:
-        return DummyHadGEM2
+    def models_parameters(self, model_id: str) -> DummyHadGEM2:
+        return DummyHadGEM2()
 
 
 class TestMassFilters(unittest.TestCase):
