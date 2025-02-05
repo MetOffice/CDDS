@@ -177,8 +177,6 @@ class TestMainGenerateVariableList(unittest.TestCase):
 
         request.misc.use_proc_dir = use_proc_dir
         request.inventory.inventory_check = False
-        # request.common.root_data_dir = self.root_data_dir
-        # request.common.root_proc_dir = self.root_proc_dir
         request.data.variable_list_file = self.variable_list
         request.write(self.request_path)
 
