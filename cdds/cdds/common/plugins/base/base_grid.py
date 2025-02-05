@@ -117,6 +117,17 @@ class BaseGridInfo(GridInfo, metaclass=ABCMeta):
         """
         return self._values['ancil_filenames']
 
+    def ancil_variables(self) -> List[str]:
+        """
+        Returns the ancillary variables that should be removed.
+
+        :return: Ancillary variables
+        :rtype: List[str]
+        """
+        if 'ancil_variables' in self._values.keys():
+            return self._values['ancil_variables']
+        return []
+
     def hybrid_heights_files(self) -> List[str]:
         """
         Returns the hybrid heights file names.

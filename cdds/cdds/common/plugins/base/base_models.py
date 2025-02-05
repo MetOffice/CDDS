@@ -296,6 +296,20 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
             lambda filename: os.path.join(model_directory, filename), file_names
         ))
 
+    def all_ancil_variables(self) -> List[str]:
+        """
+        Returns all ancillary variables of this model that should
+        be removed.
+
+        :return: Ancillary variables
+        :rtype: List[str]
+        """
+        all_ancil_variables = []
+        for grid_type in GridType:
+            grid_info = self.grid_info(grid_type)
+            all_ancil_variables.extend(grid_info.ancil_variables())
+        return all_ancil_variables
+
     def all_hybrid_heights_files(self, root_directory: str) -> List[str]:
         """
         Returns the paths to all hybrid heights files of this model in the

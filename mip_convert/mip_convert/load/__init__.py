@@ -45,7 +45,8 @@ def load(filenames, variable_metadata):
     input_variables = {}
     for loadable in variable_metadata.model_to_mip_mapping.loadables:
         cube = load_cube(filenames, variable_metadata.run_bounds,
-                         loadable, variable_metadata.replacement_coordinates)
+                         loadable, variable_metadata.replacement_coordinates,
+                         variable_metadata.ancil_variables)
         if _is_site(cube):
             _use_site_information(cube, variable_metadata.site_information,
                                   variable_metadata.hybrid_height_information)

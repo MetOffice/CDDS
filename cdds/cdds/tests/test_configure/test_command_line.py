@@ -114,6 +114,7 @@ class TestMain(unittest.TestCase):
                                 'ocean_basin.nc',
                                 'diaptr_basin_masks.nc',
                                 'ocean_zostoga.nc']])
+        self.ancil_variables = ''
         self.grid_id = 'atmos-native'
         self.grid = 'Native N96 grid; 192 x 144 longitude/latitude'
         self.grid_label = Cmip6GridLabel.from_name('native').label
@@ -160,14 +161,14 @@ class TestMain(unittest.TestCase):
             self.mip_era, self.institution_id, self.model_id, self.experiment_id,
             self.sub_experiment_id, self.variant_label)
         self.request_format = (
-            '[request]\nancil_files = {}\nbase_date = {}\n'
+            '[request]\nancil_files = {}\nancil_variables = {}\nbase_date = {}\n'
             'deflate_level = {}\nforce_coordinate_rotation = {}\nhybrid_heights_files = {}\n'
             'model_output_dir = {}\nreplacement_coordinates_file = {}\n'
             'run_bounds = {}\nshuffle = {}\nsites_file = {}\n'
             'suite_id = {}\n\n')
         self.request_section = self.request_format.format(
-            self.ancil_files, self.base_date, self.deflate_level, self.force_coordinate_rotation,
-            self.hybrid_heights_files, self.model_output_dir,
+            self.ancil_files, self.ancil_variables, self.base_date, self.deflate_level,
+            self.force_coordinate_rotation, self.hybrid_heights_files, self.model_output_dir,
             self.replacement_coordinates_file, self.run_bounds, self.shuffle,
             self.sites_file, self.suite_id)
         self.stream_section = '[stream_ap5]\nCMIP6_Amon = tas\n\n'

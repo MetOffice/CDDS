@@ -7,6 +7,8 @@ from the |model to MIP mappings|.
 import logging
 
 from cdds.common.constants import ANCIL_VARIABLES
+from cdds.common.plugins.grid import GridType
+from cdds.common.plugins.plugins import PluginStore
 
 
 def remove_ancils_from_mapping(mapping):
@@ -29,8 +31,13 @@ def remove_ancils_from_mapping(mapping):
     logger = logging.getLogger(__name__)
     filtered_loadables = []
     removed_loadable_names = []
+
+    plugin = PluginStore.instance().get_plugin()
+    ancil_variables = plugin.models_parameters(mapping.model_id).all_ancil_variables()
+    ancil_variables.extend(ANCIL_VARIABLES)
+
     for loadable in mapping.loadables:
-        if loadable.name not in ANCIL_VARIABLES and loadable.stash not in ANCIL_VARIABLES:
+        if loadable.name not in ancil_variables and loadable.stash not in ancil_variables:
             filtered_loadables.append(loadable)
         else:
             removed_loadable_names.append(loadable.name)

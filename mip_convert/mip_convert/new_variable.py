@@ -21,6 +21,7 @@ from iris.util import guess_coord_axis
 import numpy as np
 
 from cdds.common import DATE_TIME_REGEX
+from cdds.common.constants import ANCIL_VARIABLES
 from mip_convert.common import (
     DEFAULT_FILL_VALUE, Longitudes, validate_latitudes, format_date,
     MIP_to_model_axis_name_mapping, apply_time_constraint, raw_to_value,
@@ -39,8 +40,8 @@ class VariableMetadata(object):
 
     def __init__(self, variable_name, stream_id, substream, mip_table_name, mip_metadata, site_information,
                  hybrid_height_information, replacement_coordinates, model_to_mip_mapping, timestep, run_bounds,
-                 calendar, base_date, deflate_level, shuffle, force_coordinate_rotation=False, reference_time=None,
-                 masking=None, removal=None):
+                 calendar, base_date, deflate_level, shuffle, ancil_variables, force_coordinate_rotation=False,
+                 reference_time=None, masking=None, removal=None):
         """
         Parameters
         ----------
@@ -76,6 +77,8 @@ class VariableMetadata(object):
             compression).
         shuffle: bool
             Whether to shuffle.
+        ancil_variables: list of strings
+            The ancillary variables
         """
         if masking is None:
             masking = {}
@@ -100,6 +103,9 @@ class VariableMetadata(object):
         self.reference_time = reference_time
         self.masking = masking
         self.removal = removal
+        self.ancil_variables = ANCIL_VARIABLES
+        if ancil_variables:
+            self.ancil_variables.extend(ancil_variables)
         self.force_coordinate_rotation = force_coordinate_rotation
         self._validate_timestep()
 
@@ -220,7 +226,7 @@ class Variable(object):
         ...     'tas', 'apa', None, 'CMIP5_day', variable_mip_metadata,
         ...     None, None, None, variable_model_to_mip_mapping, None,
         ...     ['1981-09-01T00:00:00', '1981-09-11T00:00:00'],
-        ...     '360_day', '1970-01-01T00:00:00', 9, False)
+        ...     '360_day', '1970-01-01T00:00:00', 9, False, ['m01s00i505'])
         >>> variable = Variable(input_variables, variable_metadata)
         >>> variable.history = 'Made a change.'
         >>> print(variable.history)

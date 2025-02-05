@@ -12,6 +12,7 @@ import cf_units
 import iris
 import numpy as np
 
+from cdds.common.constants import ANCIL_VARIABLES
 from cdds.common.plugins.plugin_loader import load_plugin
 
 from mip_convert.common import nearest_coordinates, Loadable
@@ -49,6 +50,7 @@ class TestVariableMetadata(unittest.TestCase):
         self.deflate_level = 7
         self.shuffle = True
         self.force_coordinate_rotation = True
+        self.ancil_variables = ['m01s00i030']
         self.variable_mip_metadata = variable_mip_metadata(self.variable_name, self.mip_axes_names)
         self.variable_model_to_mip_mapping = VariableModelToMIPMapping(
             self.variable_name, self.model_to_mip_mapping, self.model_id
@@ -69,7 +71,8 @@ class TestVariableMetadata(unittest.TestCase):
             'base_date': self.base_date,
             'deflate_level': self.deflate_level,
             'shuffle': self.shuffle,
-            'force_coordinate_rotation': self.force_coordinate_rotation
+            'force_coordinate_rotation': self.force_coordinate_rotation,
+            'ancil_variables': self.ancil_variables
         }
         self.obj = get_variable_metadata(self.metadata)
 
@@ -128,6 +131,11 @@ class TestVariableMetadata(unittest.TestCase):
     def test_correct_force_coordinate_rotation(self):
         reference = self.force_coordinate_rotation
         self.assertEqual(self.obj.force_coordinate_rotation, reference)
+
+    def test_correct_ancil_variables(self):
+        reference = ANCIL_VARIABLES
+        reference.extend(self.ancil_variables)
+        self.assertListEqual(self.obj.ancil_variables, reference)
 
     def test_expression_contains_timestep_but_no_value_provided(self):
         self.metadata['timestep'] = None
@@ -190,6 +198,7 @@ class TestVariable(unittest.TestCase):
             'base_date': '1900-01-01T00:00:00',
             'deflate_level': 0,
             'shuffle': True,
+            'ancil_variables': []
         }
 
         self.variable_metadata = get_variable_metadata(self.metadata)
