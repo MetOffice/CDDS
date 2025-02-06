@@ -13,6 +13,8 @@ import tempfile
 from textwrap import dedent
 import unittest
 
+from pathlib import Path
+
 from cdds.common.constants import (
     COMPONENT_LIST, INPUT_DATA_DIRECTORY, OUTPUT_DATA_DIRECTORY, LOG_DIRECTORY)
 from cdds.common.io import write_json
@@ -29,8 +31,11 @@ from cdds.prepare.command_line import (
     main_create_cdds_directory_structure, main_generate_variable_list,
     main_alter_variable_list, parse_alter_args, main_select_variables,
 )
+from cdds.common.cdds_files.cdds_directories import component_directory
 from cdds.tests.test_prepare.common import TEST_RV_DICT
 from cdds.tests.factories.request_factory import simple_request
+
+from mip_convert.configuration.python_config import UserConfig
 
 
 class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
@@ -164,7 +169,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         log_fname = '{0}_{1}.log'.format(self.log_name, self.log_datestamp)
         self.log_path = log_fname
 
-    def _main(self, request, use_proc_dir, output_dir):
+    def _main(self, request, use_proc_dir, output_dir, reconfigure=False):
         # Use '--quiet' to ensure no log messages are printed to screen.
         variables = ['day/pr:apa']
         with open(self.variable_list, 'w') as fh:
@@ -172,8 +177,6 @@ class TestMainGenerateVariableList(unittest.TestCase):
 
         request.misc.use_proc_dir = use_proc_dir
         request.inventory.inventory_check = False
-        request.common.root_data_dir = self.root_data_dir
-        request.common.root_proc_dir = self.root_proc_dir
         request.data.variable_list_file = self.variable_list
         request.write(self.request_path)
 
@@ -181,6 +184,10 @@ class TestMainGenerateVariableList(unittest.TestCase):
             self.request_path,
             '--output_dir', output_dir
         ]
+
+        if reconfigure:
+            parameters.append('--reconfigure')
+
         self._construct_log_path()
         return_code = main_generate_variable_list(parameters)
         self.assertEqual(return_code, 0)
@@ -201,6 +208,8 @@ class TestMainGenerateVariableList(unittest.TestCase):
         request.data.variable_list_file = self.variable_list
         request.common.workflow_basename = self.request
         request.common.package = self.package
+        request.common.root_proc_dir = self.root_proc_dir
+        request.common.root_data_dir = self.root_data_dir
 
         mock_log_datestamp.return_value = self.log_datestamp
         # There is no need to test 'checksum', 'production_info' and
@@ -234,6 +243,8 @@ class TestMainGenerateVariableList(unittest.TestCase):
         request.data.variable_list_file = self.variable_list
         request.common.workflow_basename = self.request
         request.common.package = self.package
+        request.common.root_proc_dir = self.root_proc_dir
+        request.common.root_data_dir = self.root_data_dir
 
         # There is no need to test 'checksum', 'production_info' and
         # 'metadata' ('checksum' changes due to date stamps).
@@ -256,6 +267,53 @@ class TestMainGenerateVariableList(unittest.TestCase):
         logging.shutdown()  # Required to enable log to be removed in tearDown.
         self.compare(self.requested_variables_list, reference)
 
+    @patch('cdds.common.get_log_datestamp')
+    def test_main_reconfigure(self, mock_log_datestamp):
+        mock_log_datestamp.return_value = self.log_datestamp
+        request = simple_request()
+        request.metadata.experiment_id = self.experiment_id
+        request.metadata.mip = self.mip
+        request.metadata.mip_era = self.mip_era
+        request.metadata.model_id = self.model_id
+        request.metadata.model_type = self.model_type.split(' ')
+        request.metadata.sub_experiment_id = self.sub_experiment_id
+        request.data.model_workflow_branch = self.branch
+        request.data.model_workflow_id = self.suite_id
+        request.data.model_workflow_revision = self.revision
+        request.data.variable_list_file = self.variable_list
+        request.common.workflow_basename = self.request
+        request.common.package = self.package
+        request.common.root_proc_dir = tempfile.mkdtemp('proc')
+        request.common.root_data_dir = tempfile.mkdtemp('data')
+
+        mock_log_datestamp.return_value = self.log_datestamp
+
+        configure_dir = component_directory(request, 'configure')
+        configure_dir_path = Path(configure_dir)
+        configure_dir_path.mkdir(parents=True)
+        mip_convert_path = Path(configure_dir, 'mip_convert.cfg.atmos-native')
+        mip_convert_path.touch()
+
+        # There is no need to test 'checksum', 'production_info' and
+        # 'metadata' ('checksum' changes due to date stamps).
+        reference = {
+            'experiment_id': self.experiment_id,
+            'mip': self.mip,
+            'model_id': self.model_id,
+            'model_type': self.model_type,
+            'suite_id': self.suite_id,
+            'suite_branch': self.branch,
+            'suite_revision': self.revision,
+            'requested_variables': 1}
+        mip_convert_reference = ('[cmor_setup]\n'
+                                 'cmor_log_file = {{ cmor_log }}\n'
+                                 'create_subdirectories = 0\n'
+                                 'mip_table_dir = /home/users/cdds/etc/mip_tables/CMIP6/01.00.29/\n'
+                                 'netcdf_file_action = CMOR_REPLACE_4')
+        self._main(request, False, '.', True)
+        self.compare(self.requested_variables_list, reference)
+        self.compare_mip_convert(mip_convert_path, mip_convert_reference)
+
     def compare(self, requested_variables_list, reference):
         requested_variables = json.load(open(requested_variables_list))
         for key in RequestedVariablesList.ALLOWED_ATTRIBUTES:
@@ -266,6 +324,11 @@ class TestMainGenerateVariableList(unittest.TestCase):
                 self._assert(len(variables), value, key)
             else:
                 self._assert(requested_variables[key], value, key)
+
+    def compare_mip_convert(self, mip_convert_path, reference):
+        with open(mip_convert_path.resolve(), 'r') as file_handler:
+            text = file_handler.read()
+            text.startswith(reference)
 
     def _assert(self, output, reference, name):
         msg = '"{}" != "{}" for "{}"'.format(output, reference, name)

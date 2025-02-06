@@ -4,16 +4,19 @@
 """
 This module contains the code to generate |requested variables lists|.
 """
+import glob
 import os
 import logging
 
 from argparse import Namespace
 from datetime import datetime
 
+from cdds.configure.user_config import create_user_config_files
+from cdds.common.cdds_files.cdds_directories import component_directory
 from cdds.common.io import write_json
 from cdds.common import set_checksum
 
-from cdds.common.request.request import read_request
+from cdds.common.request.request import read_request, Request
 from cdds.common.cdds_files.cdds_directories import requested_variables_file
 
 from cdds import __version__
@@ -80,7 +83,36 @@ def generate_variable_list(arguments: Namespace) -> None:
     logger.info('Writing the Requested variables list to "{}".'.format(output_file))
     write_json(output_file, requested_variables_list)
 
+    if (arguments.reconfigure):
+        reconfigure_mip_cfg_file(request, output_file)
+
     logger.info('*** Complete ***')
+
+
+def reconfigure_mip_cfg_file(request: Request, requested_variables_file: str) -> None:
+    """
+    Reconfigure the MIP convert configuration file.
+
+    :param request: Request containing all information for the MIP convert cfg file
+    :type request: Request
+    :param component: requested_variables_file
+    :type component: str
+    :return: Path to the requested variable file
+    :rtype: str
+    """
+    logger = logging.getLogger()
+    logger.info('* Starting reconfiguration *')
+
+    configure_dir = component_directory(request, 'configure')
+    if os.path.exists(configure_dir):
+        mip_convert_files_to_remove = glob.glob(configure_dir + '/mip_convert.cfg*')
+        for mip_convert_file_to_remove in mip_convert_files_to_remove:
+            logger.info('Removing MIP convert configuration file: {}'.format(mip_convert_file_to_remove))
+            os.remove(mip_convert_file_to_remove)
+
+    logger.info('Creating new MIP convert configuration in {}'.format(configure_dir))
+    create_user_config_files(request, requested_variables_file, configure_dir)
+    logger.info('* Completed reconfiguration *')
 
 
 class VariablesConstructor:
