@@ -1,12 +1,11 @@
 # (C) British Crown Copyright 2024, Met Office.
 # Please see LICENSE.rst for license details.
-"""Generate changes"""
+"""Generate changelog pages on the fly."""
 
 from pathlib import Path
 
 import mkdocs_gen_files
 
-nav = mkdocs_gen_files.Nav()
 
 def generate_changes():
     packages = ["cdds", "mip_convert"]
@@ -18,7 +17,5 @@ def generate_changes():
             with open(package_path, "r") as fh:
                 for line in fh.readlines():
                     print(f"{line}", file=f)
-
-        mkdocs_gen_files.set_edit_path(filename, "gen_pages.py")
 
 generate_changes()
