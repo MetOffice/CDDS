@@ -1,6 +1,7 @@
-name: cdds-3.0_dev-3
+name: cdds-3.1_dev-1
 channels:
   - conda-forge
+  # - nodefaults include when accessible
 dependencies:
   - _libgcc_mutex=0.1=conda_forge
   - _openmp_mutex=4.5=2_gnu
@@ -239,4 +240,4 @@ variables:
   CYLC_VERSION: 8
   LC_ALL: en_GB.UTF-8
   TZ: UTC
-prefix: /home/users/cdds/conda_environments/cdds-3.0_dev-3
+prefix: /home/users/cdds/conda_environments/cdds-3.1_dev-1

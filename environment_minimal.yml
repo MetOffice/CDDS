@@ -1,6 +1,7 @@
 name: cdds-dev
 channels:
   - conda-forge
+  # - nodefaults include when accessible
 dependencies:
   - cf-units=3.2.0
   - cftime=1.6.2
