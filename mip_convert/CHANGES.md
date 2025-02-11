@@ -46,9 +46,10 @@
     section of the MIP Convert Config file has been renamed for clarity
     to [base_date]{.title-ref} (CDDSO-455)
 
-Release 2.5.10, December 12, 2024 ============================ \* Add
-mappings for the eUKESM1 model (duplicates of the existing UKESM1\*.cfg
-mappings) (CDDSO-572)
+## Release 2.5.10, December 12, 2024
+
+-   Add mappings for the eUKESM1 model (duplicates of the existing UKESM1\*.cfg
+    mappings) (CDDSO-572)
 
 ## Release 2.5.9, June 25, 2024
 

@@ -109,8 +109,9 @@
 -   Simplified model config files by removing
     [files_per_year]{.title-ref} field (CDSSO-307)
 
-Release 2.5.10, December 12, 2024 ============================ \* No
-changes
+## Release 2.5.10, December 12, 2024
+
+-   No changes
 
 ## Release 2.5.9, June 25, 2024
 
