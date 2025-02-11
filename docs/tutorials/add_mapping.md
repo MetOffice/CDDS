@@ -1,3 +1,10 @@
+## Variable Mappings for CDDS
+
+The following pages are constructed from the Mappings held in MIP convert:
+
+* [UKESM1 Mappings](https://code.metoffice.gov.uk/doc/cdds/mappings_viewer/mappings_view_UKESM1.html)
+* [HadGEM3 Mappings](https://code.metoffice.gov.uk/doc/cdds/mappings_viewer/mappings_view_HadGEM3.html)
+
 ## Mapping Hierarchy
 
 The mappings within MIP Convert are arranged in a hierarchy with names in the following forms
