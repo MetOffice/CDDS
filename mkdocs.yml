@@ -8,6 +8,8 @@ theme:
 nav:
   - Home:
     - About: index.md
+    - Changelog (CDDS): changes_cdds.md
+    - Changelog (Mip Convert): changes_mip_convert.md
   - Operational Procedures:
     - operational_procedure/index.md
     - CMIP6 and CMIP6 Plus: operational_procedure/cmip6.md
@@ -92,7 +94,7 @@ plugins:
 - search  
 - gen-files:
     scripts:
-    - scripts/gen_api_docs.py
+    - scripts/changes.py
 - literate-nav:
     nav_file: SUMMARY.md
 - mkdocstrings:
