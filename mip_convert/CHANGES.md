@@ -1,6 +1,7 @@
 ## Release 3.1.0rc1, February 11, 2025
 
-- No changes
+- Use ancillary variables defined in MIP convert configuration (CDDSO-582)
+- New mapping for GCAERmon (CDDSO-483)
 
 ## Release 3.0.6, January 21, 2024
 

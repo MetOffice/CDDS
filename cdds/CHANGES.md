@@ -2,8 +2,19 @@
 
 - Copy configuration files and logs to `CYLC_TASK_LOG_DIR` as appropriate (CDDSO-495)
 - Add CDDS Convert suite and CDDS processing suite in this GitHub project (CDDS-494)
-- Add more testing (CDDSO-539, CDDSO-537, CDDSO-535)
+- Add more testing (CDDSO-539, CDDSO-537, CDDSO-538, CDDSO-535, CDDSO-536)
 - Handle multiple streams in one cylc (CDDSO-302)
+- Validation tool for the model parameters file (CDDSO-511)
+- Refactor clean task (CDDSO-484)
+- Introduce reconfigure of MIP convert files during prepare (CDDSO-593)
+- Make ancillary variables configurable and pass them to MIP Convert (CDDSO-582)
+- Partially satisfied prerequisites for complete task in the workflow (CDDSO-558)
+- Support HadGEM3-GC50-N640ORCA12 (CDDSO-543)
+- Update CMOR to 3.9
+- Add new grid for GCAERmon (CDDSO-483)
+- Migrate content from Sphinx documentation to mkdocs documentations and remove build docs script (CDDS-598)
+- Use `importlib` instead of `imp` (CDDSO-440)
+- Add release history to mkdocs (CDDSO-660)
 
 ## Release 3.0.6, January 21, 2025
 
