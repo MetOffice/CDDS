@@ -1,3 +1,7 @@
+## Release 3.1.0rc1, February 11, 2025
+
+- No changes
+
 ## Release 3.0.6, January 21, 2024
 
 -   Mapping corrections for HadREM3-GA7-05 (CDDSO-581) including

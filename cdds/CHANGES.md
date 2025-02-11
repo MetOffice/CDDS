@@ -1,4 +1,11 @@
-## Release 3.0.6, January 21, 2024
+## Release 3.1.0rc1, February 11, 2025
+
+- Copy configuration files and logs to `CYLC_TASK_LOG_DIR` as appropriate (CDDSO-495)
+- Add CDDS Convert suite and CDDS processing suite in this GitHub project (CDDS-494)
+- Add more testing (CDDSO-539, CDDSO-537, CDDSO-535)
+- Handle multiple streams in one cylc (CDDSO-302)
+
+## Release 3.0.6, January 21, 2025
 
 -   Pass model parameters file to CDDS suite during convert process
     (CDDSO-578)
