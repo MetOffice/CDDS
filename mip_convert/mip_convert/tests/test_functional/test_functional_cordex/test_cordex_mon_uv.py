@@ -39,7 +39,7 @@ class TestCordexMonUv(AbstractFunctionalTests):
                     'apm': {'CORDEX-CMIP6_mon': 'uas vas'}
                 },
                 other={
-                    'reference_version': 'v1',
+                    'reference_version': 'v2',
                     'filenames': [
                         'uas_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_mon_200001-200002.nc',
                         'vas_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_mon_200001-200002.nc'
