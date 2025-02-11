@@ -107,7 +107,7 @@
     appear in job.out files within the cylc log directory (CDDSO-34)
 -   CMOR has been updated to v3.8 and Python to 3.10 (CDDSO-411)
 -   Simplified model config files by removing
-    [files_per_year]{.title-ref} field (CDSSO-307)
+    `files_per_year` field (CDSSO-307)
 
 ## Release 2.5.10, December 12, 2024
 
@@ -150,19 +150,19 @@
 
 -   The name of netCDF bounds coordinates variables are now configurable
     via plugins to support retrieval of NEMO4 ocean data (CDDSO-346)
--   [GCModelDev]{.title-ref} plugin now has an N96 GC3.05 generic model
+-   `GCModelDev` plugin now has an N96 GC3.05 generic model
     configuration and the list streams for the N216 equivalent has been
     extended (CDDSO-381)
 -   The option to overload model configuration via command line now
     correctly operates (CDDSO-376, CDDSO-379, CDDSO-380)
--   The [create_variables_csv_file]{.title-ref} script now also outputs
+-   The `create_variables_csv_file` script now also outputs
     the stream for each variable (CDDSO-332)
 
 ## Release 2.5.4, December 13, 2023
 
 -   Corrected an issue with a legacy configuration file that prevented
     the submission of CMIP6 data (CDDSO-371)
--   Implement annual ocean diagnostics for the [GCOyr]{.title-ref} MIP
+-   Implement annual ocean diagnostics for the `GCOyr` MIP
     table (CDDSO-369)
 
 ## Release 2.5.3, November 22, 2023
@@ -248,10 +248,10 @@
     will allow users to process data as any experiment id they like, but
     at the risk of typos due to the lack of checks against a controlled
     vocabulary (CDDSO-253 , CDDSO-267, CDDSO-264)
--   [prepare_alter_variable_list]{.title-ref} can now perform insert
+-   `prepare_alter_variable_list` can now perform insert
     commands again as plugin was not being loaded, which was needed for
     setting streams (CDDSO-269)
--   [checkout_processing_suite]{.title-ref}\` now sets the streams in
+-   `checkout_processing_suite` now sets the streams in
     the suite based on those in the request file. (CDDSO-271)
 
 ## Release 2.4.3, March 31, 2023
@@ -268,11 +268,11 @@
 
 -   Create a Cylc workflow for end to end processing (CDDSO-198, 200)
 -   Create a Cylc workflow for ensemble processing (CDDSO-199)
--   Implement the [checkout_processing_suite]{.title-ref} script for
+-   Implement the `checkout_processing_suite` script for
     checking a copy of the CDDS Processing Suite (CDDSO-210)
--   Create a Rose app for generating [request.json]{.title-ref} files
+-   Create a Rose app for generating `request.json` files
     (CDDSO-3)
--   Fix a bug where [cdds_convert]{.title-ref} expect external plugins
+-   Fix a bug where `cdds_convert` expect external plugins
     environmental variables to be set even if no plugin was used
     (CDDSO-216)
 
@@ -365,8 +365,8 @@
     checker has been corrected (\#2548)
 -   (extract): MASS paths with and without the ensemble_id in them are
     now handled (\#2522)
--   (transfer): moose listing commands are used rather than [moo
-    test]{.title-ref} in order to limit the number of commands talking
+-   (transfer): moose listing commands are used rather than `moo
+    test` in order to limit the number of commands talking
     to MASS, thereby limiting our vulnerability to transient or load
     dependent errors, and increases performance (\#2553)
 
@@ -385,7 +385,7 @@
 
 -   (cdds_common): UKESM1-ice-LL model information now loaded correctly
     (\#2530)
--   (cdds_convert): [\--external_plugins]{.title-ref} argument now
+-   (cdds_convert): `--external_plugins` argument now
     passed through to all tasks (\#2511)
 -   (cdds_qc): CF checks are now correctly filtered for CMIP6 data
     (\#2531)
@@ -420,7 +420,7 @@
 -   (cdds_convert): When file concatenation is not required, i.e. when a
     single cycle covers the whole duration of the processing, files are
     now moved to the correct destination rather than being left in the
-    [\_concat]{.title-ref} directory (\#2521)
+    `_concat` directory (\#2521)
 -   (cdds_prepare): Introduced plugin system for project information
     (e.g. CMIP6) and model descriptions to enable use of CDDS outside of
     CMIP6 (\#2460, \#2461, \#2462, \#2468, \#2494, \#2502, \#2503,
@@ -439,8 +439,8 @@
     IOOS/compliance-checker rather than a fork (\#2381)
 -   (cdds_qc): Allow for the use of CDDS beyond CMIP6 (\#2449, \#2469,
     \#2470)
--   (cdds_qc): Fixed a bug where if the string [\_concat]{.title-ref}
-    was used in the branch name two tests in [cdds_qc]{.title-ref} would
+-   (cdds_qc): Fixed a bug where if the string `_concat`
+    was used in the branch name two tests in `cdds_qc` would
     fail (\#2521)
 -   (cdds_qc_plugin_cf17): Introduced plugin system for project
     information (e.g. CMIP6) and model descriptions to enable use of
@@ -509,23 +509,23 @@
 
 ## Release 2.1.0, September 6, 2021
 
--   (cdds_configure): [generate_user_config_files]{.title-ref} is now
-    run by [cdds_convert]{.title-ref} by default (\#1902, \#2425)
+-   (cdds_configure): `generate_user_config_files` is now
+    run by `cdds_convert` by default (\#1902, \#2425)
 -   (cdds_convert): The Extract, Configure, QC and archiving steps are
     now by default part of the conversion suite run by
-    [cdds_convert]{.title-ref} (\#1902, \#2383, \#2425, \#2432)
--   (cdds_prepare): The [\--alternate_experiment_id]{.title-ref}
+    `cdds_convert` (\#1902, \#2383, \#2425, \#2432)
+-   (cdds_prepare): The `--alternate_experiment_id`
     argument no longer triggers CRITICAL issues\` (\#2380)
--   (cdds_qc): [qc_run_and_report]{.title-ref} is now run as part of the
-    conversion suite by [cdds_convert]{.title-ref} by default (\#1902,
+-   (cdds_qc): `qc_run_and_report` is now run as part of the
+    conversion suite by `cdds_convert` by default (\#1902,
     \#2425, \#2432)
--   (extract): [cdds_extract]{.title-ref} is now run as part of the
-    conversion suite by [cdds_convert]{.title-ref} by default (\#1902,
+-   (extract): `cdds_extract` is now run as part of the
+    conversion suite by `cdds_convert` by default (\#1902,
     \#2425)
--   (transfer): [cdds_store]{.title-ref} is now run as part of the
-    conversion suite by [cdds_convert]{.title-ref} by default (\#1902,
+-   (transfer): `cdds_store` is now run as part of the
+    conversion suite by `cdds_convert` by default (\#1902,
     \#2425, \#2432)
--   (transfer): [cdds_sim_review]{.title-ref} now handles per stream
+-   (transfer): `cdds_sim_review` now handles per stream
     logs, qc reports and approved variables files (\#1685)
 
 ## Release 2.0.7, July 15, 2021
@@ -593,7 +593,7 @@
 -   (hadsdk): `write_rose_suite_request_json` can now create request
     files for the UKESM1-ice-LL model (\#2264)
 -   (hadsdk): `write_rose_suite_request_json` now allows the
-    [apt]{.title-ref} stream (\#2283)
+    `apt` stream (\#2283)
 -   (transfer): CDDS store can now recover gracefully when continuing
     archiving following task failure due to issues with MASS (\#2205)
 -   (transfer): CDDS store can now correctly handle pre-pending files to
@@ -635,7 +635,7 @@
 -   (hadsdk): Users can now override the start and end dates for
     processing when creating request files with
     write_rose_suite_request_json (\#2212)
--   (transfer): The failure of [moo put]{.title-ref} commands is now
+-   (transfer): The failure of [moo`put` commands is now
     handled more clearly (\#2212)
 
 ## Release 1.6.2, January 11, 2021
@@ -669,7 +669,7 @@
     `requested_variable_file` file (\#1900)
 -   (cdds_prepare): The `write_rose_suite_request_json` script now
     correctly writes the name of the rose suite branch in the
-    [request.json]{.title-ref} file (\#2001)
+    [request`json` file (\#2001)
 -   (cdds_prepare): All exceptions caught at the top script level are
     now logged as critical errors (\#1968)
 -   (cdds_qc): All exceptions caught at the top script level are now
@@ -934,7 +934,7 @@
     sets permissions on `$CDDS_PROC_DIR/archive/log` appropriately so
     users don\'t have to (\#1347)
 -   (cdds_qc): The data request version can now be overridden from the
-    command line when running [qc_run_and_report]{.title-ref} (\#1375)
+    command line when running `qc_run_and_report` (\#1375)
 -   (cdds_transfer): The failure to submit a RabbitMQ message, which
     triggers the publication process, is now accompanied by a critical
     log message (\#1346)
@@ -1090,7 +1090,7 @@
 -   (cdds_prepare): `RFMIP` is now included in the list of responded to
     by default when constructing (\#994)
 -   (cdds_qc_plugin_cmip6): Fixed a bug in CF Standard Names parser that
-    prevented validation of [Emon/ta]{.title-ref} (\#993).
+    prevented validation of `Emon/ta` (\#993).
 -   (extract): Faulty are now removed when issues are identified
     (\#918).
 

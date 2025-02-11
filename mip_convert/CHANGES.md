@@ -42,9 +42,9 @@
 ## Release 3.0.0, May 15, 2024
 
 -   MIP Convert now returns exit codes correctly (CDDSO-387)
--   The field [child_base_date]{.title-ref} in the [request]{.title-ref}
+-   The field `child_base_date` in the `request`
     section of the MIP Convert Config file has been renamed for clarity
-    to [base_date]{.title-ref} (CDDSO-455)
+    to `base_date` (CDDSO-455)
 
 ## Release 2.5.10, December 12, 2024
 
@@ -82,9 +82,9 @@
 
 ## Release 2.5.4, December 13, 2023
 
--   Fix the [reference_date]{.title-ref} parsing logic for variables
+-   Fix the `reference_date` parsing logic for variables
     defined with a forecast time dimension (CDDSO-363)
--   Implement annual ocean diagnostics for the [GCOyr]{.title-ref} MIP
+-   Implement annual ocean diagnostics for the `GCOyr` MIP
     table (CDDSO-369)
 
 ## Release 2.5.3, November 22, 2023
@@ -137,12 +137,12 @@
 
 ## Release 2.4.2, March 1, 2023
 
--   Add mappings for [zostoga]{.title-ref} diagnostic in the UKCP18
+-   Add mappings for `zostoga` diagnostic in the UKCP18
     GC3p05-N216ORCA025 model configuration (CDDSO-239)
 
 ## Release 2.4.1, January 18, 2023
 
--   Implement a [mask_slice]{.title-ref} option in configuration file
+-   Implement a `mask_slice` option in configuration file
     for providing ocean data masks (CDDSO-67, 215)
 -   Add support for the UKCP18 GC3p05-N216ORCA025 model and UV grid
     mappings (CDDSO-222)
@@ -202,7 +202,7 @@
 
 ## Release 2.1.2, November 25, 2021
 
--   `mip_convert` now can handle [LBTIM]{.title-ref} constraints
+-   `mip_convert` now can handle `LBTIM` constraints
     correctly (\#2455)
 
 ## Release 2.1.1, October 26, 2021
