@@ -145,6 +145,7 @@
             CONCAT_CFG_PATH = {{ CDDS_CONVERT_PROC_DIR }}/mip_concatenate_setup_{{ STREAM }}_${CYLC_TASK_CYCLE_POINT}.cfg
 
     [[finaliser_{{ STREAM }}]]
+        execution retry delays = PT1M, PT3M, PT5M
         platform = localhost
         script = """
         echo ${SETUP_CMD}
