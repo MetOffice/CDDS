@@ -7,23 +7,6 @@
 
 ## Make the appropriate changes to the code
 
-### CDDS Convert workflow (u-ak283)
-
-If there have been [any changes](https://code.metoffice.gov.uk/trac/roses-u/diff?new_path=%2Fa%2Fk%2F2%2F8%2F3%2Ftags%2F1.1.1&old_path=%2Fa%2Fk%2F2%2F8%2F3%2Ftrunk&new_rev=121711&old_rev=126177) 
-to the [CDDS Convert suite](https://code.metoffice.gov.uk/trac/roses-u/browser/a/k/2/8/3/) since the last tag, tag the CDDS Convert suite:
-
-```bash
-fcm copy --parents https://code.metoffice.gov.uk/svn/roses-u/a/k/2/8/3/cdds_release_<release_branch_version> https://code.metoffice.gov.uk/svn/roses-u/a/k/2/8/3/tags/<tag>
-```
-
-where `<tag>` is the CDDS version number, e.g. `1.0.1` and `<release_branch_version>` is major or minor version numbers, e.g. `1.0`. For JASMIN please append `_JASMIN` to the tag name and use `cdds_jasmin_<release_branch_version>` as the release branch.
-
-If the workflow release branch for this version does not yet exist, create one from the trunk using:
-
-```bash
-fcm bc cdds_release_<release_branch_version> https://code.metoffice.gov.uk/svn/roses-u/a/k/2/8/3/trunk
-```
-
 ### Changes in the CDDS Project
 
 #### Branch from the appropriate release branch
@@ -40,7 +23,7 @@ git checkout main
 git checkout -b v<release_version>_release
 ```
 
-where `<release_version>` is e.g. `1.0`.
+where `<release_version>` is e.g. `3.1`.
 
 #### Modify the CDDS code
 
@@ -54,13 +37,23 @@ where `<release_version>` is e.g. `1.0`.
     ```
 - [x] Update any version numbers of dependencies that need updating in `setup_env_for_cdds`
 - [x] Build the documentation
-
-!!! warning
-    There is no release process defined for the new documentations. Please, speak with Jared and Matthew how to release the documentations.
-
-- [x] If releasing a new minor version of CDDS, e.g. `2.1.0`, update the development environment name in `setup_env_for_devel` to point to the new version, e.g. `cdds-2.1_dev`.
+      1. Deploy the new version of the document:
+         ```bash
+         mike deploy <last_major_release_version>
+         ```
+         where `last_major_release_version` is the last major release version, e.g `3.1`
+      2. Verify the new deployment works as expected.
+         ```bash
+         mike serve
+         ```
+      3. Publish the new documentation version:
+         ```bash
+         git push origin gh-pages
+         ```
+      For more information, see [Documentation](documentation.md). If you have any doubts, please speak to Jared or Matthew.
+- [x] If releasing a new minor version of CDDS, e.g. `3.1.0`, update the development environment name in `setup_env_for_devel` to point to the new version, e.g. `cdds-3.1_dev`.
 - [x] Ensure that:
-    -  All changes  since the last release have been described in the relevant `CHANGES.rst` files. These should be added as a separate commit to allow 
+    -  All changes  since the last release have been described in the relevant `CHANGES.md` files. These should be added as a separate commit to allow 
        cherry picking onto main later
     - Any new files added since the last release that do not have a `.py` extension are included in `MANIFEST.in` and `setup.py`.
 - [x] Create a pull request for the changes. After the pull request is approved, merge the changes into the release branch, **but do not squash merge them**. 
@@ -68,7 +61,7 @@ where `<release_version>` is e.g. `1.0`.
 
 !!! warning
     After changing this version number, the setup script won't work until the new version has been installed centrally in the cdds account. 
-    The installation process is documented at [CDDSInstallation2](https://code.metoffice.gov.uk/trac/cdds/wiki/CDDSInstallation2).
+
 
 ### Create a tag
 
@@ -82,7 +75,7 @@ where `<release_version>` is e.g. `1.0`.
           ```bash
           git tag <tagname> -a
           ```
-          The `<tagname>` normally is the release version, e.g. `v2.1.2`.
+          The `<tagname>` normally is the release version, e.g. `v3.1.0`.
     - [x] Push the tag to the branch:
           ```bash
           git push origin <tagname>
@@ -130,7 +123,7 @@ Follow the instructions provided in the [CDDS installation]()
       _DEV = True
       _NUMERICAL_VERSION = '<next_version>'
       ```
-      where `<next_version>` is the next minor version, e.g. `2.1.2`.
+      where `<next_version>` is the next minor version, e.g. `3.1.1`.
 - [x] Commit and push the change directly to the release branch. The commit message should be:
       ```bash
       <ticket_number>: Restore development mode.
@@ -141,15 +134,15 @@ Follow the instructions provided in the [CDDS installation]()
 === "Using cherry-pick"
     
     - [x] Ensure local copy of both `main` and `release_branch` are up to date.
-    - [x] On the main branch use the `git cherry-pick` command to pull in just the `CHANGES.rst` updates with release notes and commit them.
+    - [x] On the main branch use the `git cherry-pick` command to pull in just the `CHANGES.md` updates with release notes and commit them.
 
 === "Using merge"
     
     If you are unable to use the cherry-pick for the changes then the following may be useful.
     
-    - [x] `git merge` the release branch into the trunk e.g., `git merge v2.3_release --no-commit`
+    - [x] `git merge` the release branch into the trunk e.g., `git merge v3.1_release --no-commit`
     - [x] Inspect the differences in the local copy of the main branch
-    - [x] Revert any changes other than to the `CHANGES.rst` file
+    - [x] Revert any changes other than to the `CHANGES.md` file
     - [x] Commit and push changes to the main branch.
 
 

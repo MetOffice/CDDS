@@ -1,4 +1,24 @@
-## Release 3.0.6, January 21, 2024
+## Release 3.1.0rc1, February 11, 2025
+
+-   MIP Convert and CMOR log files are copied into the cylc task directory and 
+    are accessible via  cylc review (CDDSO-495)
+-   Cylc workflows have been integrated into the CDDS code base rather than 
+    being checked out from the roses-u repository (CDDSO-494)
+-   Processing for multiple streams is now handled within a single Cylc workflow 
+    (CDDSO-302)
+-   A validation tool has been added for the model parameters file `SCRIPT_NAME_HERE` 
+    (CDDSO-511)
+-   CDDS Prepare will remove MIP Convert templates from the configure proc directory 
+    to avoid inconsistencies in processing. A `--reconfigure` command line argument 
+    has been added to enable the regeneration of the mip convert config templates 
+    from the command line (CDDSO-593)
+-   Ancillary STASH variables can now be configured via the CDDS Plugins (CDDSO-582)
+-   Added support for HadGEM3-GC50-N640ORCA12 model, which includes allowing for
+    alternative coordinate bounds variables in NEMO output files (CDDSO-543)
+-   Updated CMOR to v3.9.0 (CDDSO-589)
+-   Migrated content from Sphinx docs to mkdocs (CDDSO-598, CDDSO-600)
+
+## Release 3.0.6, January 21, 2025
 
 -   Pass model parameters file to CDDS suite during convert process
     (CDDSO-578)
