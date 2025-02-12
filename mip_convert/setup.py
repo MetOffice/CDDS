@@ -57,7 +57,7 @@ def find_data_files():
     Return a list to use as the value of 'data_files' in the call to
     'setup'.
     """
-    data_files = [('', ['CHANGES.rst', 'INSTALL.rst', 'LICENSE.rst',
+    data_files = [('', ['CHANGES.md', 'INSTALL.rst', 'LICENSE.rst',
                         'README.rst', 'pylintrc', 'setup.py', 'setup.cfg'])]
     data_files.extend(data_file_search(directory='etc'))
     data_files.extend(data_file_search(directory='doc'))
