@@ -1,7 +1,8 @@
 ## Release 3.1.0rc1, February 11, 2025
 
-- Use ancillary variables defined in MIP convert configuration (CDDSO-582)
-- New mapping for GCAERmon (CDDSO-483)
+-   Ancillary STASH variables can now be configured via the CDDS Plugins and 
+    the MIP Convert config file (CDDSO-582)
+-   Added new AerChem mappings to GCAERmon table in GCModelDev (CDDSO-483)
 
 ## Release 3.0.6, January 21, 2024
 

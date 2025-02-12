@@ -1,20 +1,22 @@
 ## Release 3.1.0rc1, February 11, 2025
 
-- Copy configuration files and logs to `CYLC_TASK_LOG_DIR` as appropriate (CDDSO-495)
-- Add CDDS Convert suite and CDDS processing suite in this GitHub project (CDDS-494)
-- Add more testing (CDDSO-539, CDDSO-537, CDDSO-538, CDDSO-535, CDDSO-536)
-- Handle multiple streams in one cylc (CDDSO-302)
-- Validation tool for the model parameters file (CDDSO-511)
-- Refactor clean task (CDDSO-484)
-- Introduce reconfigure of MIP convert files during prepare (CDDSO-593)
-- Make ancillary variables configurable and pass them to MIP Convert (CDDSO-582)
-- Partially satisfied prerequisites for complete task in the workflow (CDDSO-558)
-- Support HadGEM3-GC50-N640ORCA12 (CDDSO-543)
-- Update CMOR to 3.9
-- Add new grid for GCAERmon (CDDSO-483)
-- Migrate content from Sphinx documentation to mkdocs documentations and remove build docs script (CDDS-598)
-- Use `importlib` instead of `imp` (CDDSO-440)
-- Add release history to mkdocs (CDDSO-660)
+-   MIP Convert and CMOR log files are copied into the cylc task directory and 
+    are accessible via  cylc review (CDDSO-495)
+-   Cylc workflows have been integrated into the CDDS code base rather than 
+    being checked out from the roses-u repository (CDDSO-494)
+-   Processing for multiple streams is now handled within a single Cylc workflow 
+    (CDDSO-302)
+-   A validation tool has been added for the model parameters file `SCRIPT_NAME_HERE` 
+    (CDDSO-511)
+-   CDDS Prepare will remove MIP Convert templates from the configure proc directory 
+    to avoid inconsistencies in processing. A `--reconfigure` command line argument 
+    has been added to enable the regeneration of the mip convert config templates 
+    from the command line (CDDSO-593)
+-   Ancillary STASH variables can now be configured via the CDDS Plugins (CDDSO-582)
+-   Added support for HadGEM3-GC50-N640ORCA12 model, which includes allowing for
+    alternative coordinate bounds variables in NEMO output files (CDDSO-543)
+-   Updated CMOR to v3.9.0 (CDDSO-589)
+-   Migrated content from Sphinx docs to mkdocs (CDDSO-598, CDDSO-600)
 
 ## Release 3.0.6, January 21, 2025
 
