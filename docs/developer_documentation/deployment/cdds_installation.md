@@ -43,7 +43,7 @@
     - [x] Activate environment and set `CDDS_ENV_COMMAND` variable:
           ```bash
           conda activate cdds-X.Y.Z
-          conda env config vars set CDDS_ENV_COMMAND="source $HOME/software/miniconda3/bin/activate cdds-X.Y.Z"
+          conda env config vars set CDDS_ENV_COMMAND="conda activate $HOME/conda_environments/cdds-X.Y.Z"
           ```
           where `X.Y.Z` is the new version number of CDDS
           ```
