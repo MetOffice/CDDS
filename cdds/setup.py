@@ -83,7 +83,7 @@ def find_data_files() -> List[Tuple[str, List[str]]]:
     """
 
     data_files: List[Tuple[str, List[str]]] = [
-        ('', ['CHANGES.rst', 'INSTALL.rst', 'LICENSE.rst', 'README.rst', 'pylintrc', 'setup.py', 'setup.cfg'])
+        ('', ['CHANGES.md', 'INSTALL.rst', 'LICENSE.rst', 'README.rst', 'pylintrc', 'setup.py', 'setup.cfg'])
     ]
     data_files.extend(find_doc_files())
     return data_files
