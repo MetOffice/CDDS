@@ -1,0 +1,2001 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Development Workflow - Climate Data Dissemination System</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#create-a-jira-issue" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Climate Data Dissemination System" class="md-header__button md-logo" aria-label="Climate Data Dissemination System" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Climate Data Dissemination System
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Development Workflow
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../operational_procedure/" class="md-tabs__link">
+      Operational Procedures
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tutorials/search_inventory/" class="md-tabs__link">
+        Tutorials
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../" class="md-tabs__link md-tabs__link--active">
+      Developer Documentation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../cdds_components/" class="md-tabs__link">
+      CDDS Components
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../reference" class="md-tabs__link">
+      API Documentation
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Climate Data Dissemination System" class="md-nav__button md-logo" aria-label="Climate Data Dissemination System" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Climate Data Dissemination System
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_cdds/" class="md-nav__link">
+        Changelog (CDDS)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_mip_convert/" class="md-nav__link">
+        Changelog (Mip Convert)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../operational_procedure/">Operational Procedures</a>
+          
+            <label for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Operational Procedures" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Operational Procedures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/cmip6/" class="md-nav__link">
+        CMIP6 and CMIP6 Plus
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../operational_procedure/gcmodeldev/">GCModelDev</a>
+          
+            <label for="__nav_2_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="GCModelDev" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          GCModelDev
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/gcmodeldev_examples/HadGEM3-GC31-LL/" class="md-nav__link">
+        GCModelDev HadGEM3-GC31-LL Request
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/gcmodeldev_examples/HadGEM3-GC31-LL_envs/" class="md-nav__link">
+        GCModelDev HadGEM3-GC31-LL ensemble class Request
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/gcmodeldev_examples/HadGEM3-GC31-MM/" class="md-nav__link">
+        GCModelDev HadGEM3-GC31-MM Request
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/gcmodeldev_examples/UKESM1-0-LL/" class="md-nav__link">
+        GCModelDev UKESM1-0-LL Request
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/sim_review/" class="md-nav__link">
+        Simulation Review Procedure
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Tutorials
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Tutorials" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Tutorials
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/search_inventory/" class="md-nav__link">
+        Search Inventory
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/add_mapping/" class="md-nav__link">
+        Add a Variable Mapping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/add_plugin/" class="md-nav__link">
+        Add a Plugin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/mip_convert/" class="md-nav__link">
+        MIP Convert User Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../tutorials/request/config_request/">Request Configuration</a>
+          
+            <label for="__nav_3_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Request Configuration" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_5">
+          <span class="md-nav__icon md-icon"></span>
+          Request Configuration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/inheritance/" class="md-nav__link">
+        Inheritance Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/metadata/" class="md-nav__link">
+        Metadata Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/common/" class="md-nav__link">
+        Common Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/data/" class="md-nav__link">
+        Data Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/inventory/" class="md-nav__link">
+        Inventory Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/conversion/" class="md-nav__link">
+        Conversion Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/global_attributes/" class="md-nav__link">
+        Global Attributes Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/misc/" class="md-nav__link">
+        Misc Section
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/json_model_parameter/" class="md-nav__link">
+        Model Parameters JSON File
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../">Developer Documentation</a>
+          
+            <label for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Developer Documentation" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Documentation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Deployment" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/release_procedure/" class="md-nav__link">
+        Release Procedure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/cdds_installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/infrastructure/" class="md-nav__link">
+        Infrastructure
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../development_practices/">Development Practices</a>
+          
+            <label for="__nav_4_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Development Practices" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Development Practices
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../coding_guidelines/" class="md-nav__link">
+        Coding Guidelines
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Development Workflow
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Development Workflow
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-jira-issue" class="md-nav__link">
+    Create a Jira Issue
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#start-working-on-an-issue" class="md-nav__link">
+    Start Working on an Issue
+  </a>
+  
+    <nav class="md-nav" aria-label="Start Working on an Issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-new-branch" class="md-nav__link">
+    Create a New Branch
+  </a>
+  
+    <nav class="md-nav" aria-label="Create a New Branch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-issue-branch" class="md-nav__link">
+    Create a issue branch
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-release-branch" class="md-nav__link">
+    Create a release branch
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-changes" class="md-nav__link">
+    Make Changes
+  </a>
+  
+    <nav class="md-nav" aria-label="Make Changes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code" class="md-nav__link">
+    Code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tests" class="md-nav__link">
+    Tests
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    Documentation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reviews" class="md-nav__link">
+    Reviews
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#merge-changes" class="md-nav__link">
+    Merge changes
+  </a>
+  
+    <nav class="md-nav" aria-label="Merge changes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#merge-to-parent-branch" class="md-nav__link">
+    Merge to parent branch
+  </a>
+  
+    <nav class="md-nav" aria-label="Merge to parent branch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-command-line" class="md-nav__link">
+    Via Command Line
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-github" class="md-nav__link">
+    Using Github
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cherry-pick-changes-on-main-branch-or-any-other-branches" class="md-nav__link">
+    Cherry pick changes on main branch (or any other branches)
+  </a>
+  
+    <nav class="md-nav" aria-label="Cherry pick changes on main branch (or any other branches)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-command-line_1" class="md-nav__link">
+    Via Command Line
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-github_1" class="md-nav__link">
+    Using Github
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#close-the-jira-issue" class="md-nav__link">
+    Close the Jira issue
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../review_process/" class="md-nav__link">
+        Review Process
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../github/" class="md-nav__link">
+        Working with Github and Git
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jira/" class="md-nav__link">
+        Working with Jira
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../managing_environments/" class="md-nav__link">
+        Managing Conda Environments
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../building_documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_3" type="checkbox" id="__nav_4_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_3">
+          Request
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Request" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_3">
+          <span class="md-nav__icon md-icon"></span>
+          Request
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/request/" class="md-nav__link">
+        Request Architecture
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_4" type="checkbox" id="__nav_4_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_4">
+          Testing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Testing" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_4">
+          <span class="md-nav__icon md-icon"></span>
+          Testing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unittests/" class="md-nav__link">
+        Unit Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pytest/" class="md-nav__link">
+        Pytest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nightly_tests/" class="md-nav__link">
+        Nightly Tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mip_convert_functional_tests/" class="md-nav__link">
+        Mip Convert Functional Tests
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_5" type="checkbox" id="__nav_4_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_5">
+          Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Plugins" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/available_plugins/" class="md-nav__link">
+        Available Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/plugin_framework/" class="md-nav__link">
+        Plugin Framework
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../cdds_components/">CDDS Components</a>
+          
+            <label for="__nav_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="CDDS Components" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          CDDS Components
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/convert/" class="md-nav__link">
+        convert
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/extract/" class="md-nav__link">
+        extract
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/qc/" class="md-nav__link">
+        qc
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/transfer/" class="md-nav__link">
+        transfer
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference" class="md-nav__link">
+        API Documentation
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-jira-issue" class="md-nav__link">
+    Create a Jira Issue
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#start-working-on-an-issue" class="md-nav__link">
+    Start Working on an Issue
+  </a>
+  
+    <nav class="md-nav" aria-label="Start Working on an Issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-new-branch" class="md-nav__link">
+    Create a New Branch
+  </a>
+  
+    <nav class="md-nav" aria-label="Create a New Branch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-issue-branch" class="md-nav__link">
+    Create a issue branch
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-release-branch" class="md-nav__link">
+    Create a release branch
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-changes" class="md-nav__link">
+    Make Changes
+  </a>
+  
+    <nav class="md-nav" aria-label="Make Changes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code" class="md-nav__link">
+    Code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tests" class="md-nav__link">
+    Tests
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    Documentation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reviews" class="md-nav__link">
+    Reviews
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#merge-changes" class="md-nav__link">
+    Merge changes
+  </a>
+  
+    <nav class="md-nav" aria-label="Merge changes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#merge-to-parent-branch" class="md-nav__link">
+    Merge to parent branch
+  </a>
+  
+    <nav class="md-nav" aria-label="Merge to parent branch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-command-line" class="md-nav__link">
+    Via Command Line
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-github" class="md-nav__link">
+    Using Github
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cherry-pick-changes-on-main-branch-or-any-other-branches" class="md-nav__link">
+    Cherry pick changes on main branch (or any other branches)
+  </a>
+  
+    <nav class="md-nav" aria-label="Cherry pick changes on main branch (or any other branches)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-command-line_1" class="md-nav__link">
+    Via Command Line
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-github_1" class="md-nav__link">
+    Using Github
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#close-the-jira-issue" class="md-nav__link">
+    Close the Jira issue
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Development Workflow</h1>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This documentation is currently under construction and may not be up to date.</p>
+</div>
+<h2 id="create-a-jira-issue">Create a Jira Issue</h2>
+<p>Each change should be described in a Jira issue.
+Before submitting an issue, make sure that the issue explains the purpose of the changes and what changes should be done.
+New issues should be created in the backlog and marked as <to-review>. The team will look each week at the new created issues.
+A issue will be put into a sprint if everyone of the team understand what to do for the issue and all information are provided to proceed the issue.
+Before creating a new issue, look through the backlog and current sprint if issue is not already reported.</p>
+<h2 id="start-working-on-an-issue">Start Working on an Issue</h2>
+<ul>
+<li>Assign the issue to you</li>
+<li>Put the issue into In progress</li>
+<li>Create a new branch for the issue</li>
+<li>Put the branch name on the Jira issue</li>
+</ul>
+<h3 id="create-a-new-branch">Create a New Branch</h3>
+<h4 id="create-a-issue-branch">Create a issue branch</h4>
+<p>The branch name should be start with the issue number and has a brief description of the task.
+Use underscores in the branch name to separate words.</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>&lt;issue_number&gt;_&lt;brief_description&gt;
+</code></pre></div>
+<p>The commit message should be:</p>
+<div class="highlight"><pre><span></span><code>&lt;issue_number&gt;: Create a new branch for &lt;brief_description&gt;
+</code></pre></div>
+<p>Don’t wrap the line of the commit message and don’t use more than 72 characters.
+If you need a longer commit message.
+Leave one empty line after the first line and then give a more detailed description (now you can wrap this description).
+After creating the branch, your working copy is already on this branch.
+You do not need to run an extra switch command like when using SVN.</p>
+<h4 id="create-a-release-branch">Create a release branch</h4>
+<p>The branch name should start with release  and should have the release number in it. For example, you like to create a release branch for all work for a release 2.2.x , the release_2.2.x .</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>release_&lt;release_number&gt;
+</code></pre></div>
+<p>The commit message should contain the release number in it for example:</p>
+<p>Create branch for release <release_number>
+Don’t wrap the line of the commit message and don’t use more than 72 characters. If you need a longer commit message. Leave one empty line after the first line and then give a more detailed description (now you can wrap this description).</p>
+<p>After creating the branch, your working copy is already on this branch. You do not need to run an extra switch command like when using SVN.</p>
+<p>Create a branch from a release branch
+Switch to the release branch, you want to branch from</p>
+<p>Then, create a new branch like described at Create-a-issue-branch </p>
+<p>Update Jira issue</p>
+<p>Add the branch name to your Jira issue</p>
+<h2 id="make-changes">Make Changes</h2>
+<p>Even if you are working on a Jira issue, keep an eye on the issue to notice any new comments on the issues.</p>
+<h3 id="code">Code</h3>
+<ul>
+<li>
+<p>Modify the code on the “issue“ branch</p>
+</li>
+<li>
+<p>Regularly, commit your changes locally and remotely using:</p>
+</li>
+</ul>
+<p>The commit messages should always start with the issue number and have a short description what changed.</p>
+<p>Be aware, that the requirements for commit message are:</p>
+<p>Not more than 72 characters per line</p>
+<p>The first line should start with the issue number and have a really short brief description</p>
+<p>If more descriptions are necessary, leave an empty line and then write more text, e.g.</p>
+<p>CDDSO-109 Merge fixing duplicate coordinates error from cmor
+* Add functional tests for ARISE model
+* Simplify mean cube calculation
+After the first commit:</p>
+<p>Do your additional changes and then use:</p>
+<p>git commit --amend
+That combine latest and the current commit to one commit. Using this one allows use to have only one commit per issue even if you “actual“ did multiple commits. A push can be done at any time! (You can still do a git commit --amend after a push, because it always use the latest commit command!)</p>
+<p>Remote commit:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin
+</code></pre></div>
+<p>To be more explicit, you can add the branch name you want to commit to:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>&lt;branch_name_to_commit_to&gt;
+</code></pre></div>
+<h3 id="tests">Tests</h3>
+<p>Make sure that unit tests covers your code changes, see Unit Tests </p>
+<p>If there were changes in CDDS Transfer, also run integration tests with RabbitMQ, see CDDS Transfer Tests With RabbitMQ 
+- Run the unit tests regularly</p>
+<p>It is a good approach to ensure that every time you push a commit to the repository that the tests pass successfully.</p>
+<h3 id="documentation">Documentation</h3>
+<ul>
+<li>Document your code. Try to be short but precise.</li>
+<li>Briefly describe the work on the Jira issue</li>
+</ul>
+<h2 id="reviews">Reviews</h2>
+<ol>
+<li>For coding reviews, we use the pull requests functionality of Github</li>
+<li>Go to Github and the pull requests for the cdds-project: https://github.com/MetOffice/cdds/pulls<ol>
+<li>Click on New pull request (green box on the right)</li>
+<li>Choose as base branch the branch you branched from (often: main)</li>
+<li>Choose as compare branch your branch</li>
+<li>Then, click on Create pull request</li>
+<li>Write into the message box what you did and other useful information for the reviewers</li>
+<li>Add to your issue the URL link to the pull request for the reviewers</li>
+</ol>
+</li>
+<li>Put your issue into Review</li>
+<li>Assign it to the main reviewer</li>
+<li>Mention in the team channel that the issue is now ready to review. So, everyone has the change to review your changes.</li>
+<li>
+<p>You need at least an approved of the main review before merging the issue</p>
+</li>
+<li>
+<p>If you need to do any changes, assign the issue back to you and put it back into In progress.</p>
+</li>
+<li>If the main reviewer is happy with the changes and no comments or issues are needed to addressed anymore, the issue will moved to Approved and re-assigned to you. Now, you can merge your changes</li>
+</ol>
+<h2 id="merge-changes">Merge changes</h2>
+<p>You have two possibilities how to merge a branch - via command line or using Github.</p>
+<h3 id="merge-to-parent-branch">Merge to parent branch</h3>
+<h4 id="via-command-line">Via Command Line</h4>
+<p>Go to the parent branch to merge to (normally: main or the release branch)</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>&lt;branch_to_merge_to&gt;
+</code></pre></div>
+<p>Make sure that the branch is up-to-date:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>pull
+</code></pre></div>
+<p>Merge the issue branch:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>merge<span class="w"> </span>&lt;your_branch_to_merge&gt;
+</code></pre></div>
+<p>As commit message for a merge use:</p>
+<div class="highlight"><pre><span></span><code>&lt;issue-number&gt;:<span class="w"> </span>Completed<span class="w"> </span>work<span class="w"> </span>to<span class="w"> </span>&lt;short_brief_description_of_task&gt;
+</code></pre></div>
+<p>You could face merging conflicts that you need to solve before you can end the merge.</p>
+<h4 id="using-github">Using Github</h4>
+<ol>
+<li>Go to the <code>Pull Requests</code> view of your branch in Github</li>
+<li>
+<p>If your review is approved, there is a green <code>Merge Branch</code> button at the bottom of the page. Click on it.</p>
+<ol>
+<li>If the this button does not appear or is not clickable, check if your review is really approved and if there is no conflicts you need to solved first.</li>
+<li>For solving conflicts, Github provides you help with a UI tool</li>
+</ol>
+</li>
+<li>
+<p>remove branch if working on <code>main</code></p>
+</li>
+</ol>
+<h3 id="cherry-pick-changes-on-main-branch-or-any-other-branches">Cherry pick changes on main branch (or any other branches)</h3>
+<p>If your parent branch is a release branch, you also need to merge the changes into the main branch. Therefore, cherry picking is the best to do. You can do this after merging your changes into the release branch.</p>
+<p>Cherry picking into other branches are following the same pattern!</p>
+<h4 id="via-command-line_1">Via Command Line</h4>
+<p>Find the commit id of the merge commit into the parent branch, you have done in the previous step:</p>
+<p>Go to the parent branch</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>&lt;parent-branch&gt;
+</code></pre></div>
+<p>Find your commit ID:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>log
+</code></pre></div>
+<p>This list all the previous commits in decreasing order. Each merge entry looks like:</p>
+<div class="highlight"><pre><span></span><code>commit &lt;commit-id&gt; (&lt;merge-branches&gt;)
+Merge: &lt;merge-ids&gt;
+Author: &lt;author-details&gt;
+Date:   &lt;timestamp&gt;
+&lt;commit-message&gt;
+Use the &lt;commit-id&gt; of your merge commit.
+</code></pre></div>
+<p>Remember your <commit-id>! You will need it for the next steps.</p>
+<p>Do the cherry pick:</p>
+<p>Go to the branch you want to cherry-pick to:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>&lt;branch-to-cerry-pick-to&gt;
+</code></pre></div>
+<p>Cherry pick:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>cherry-pick<span class="w"> </span>&lt;commit-id&gt;<span class="w"> </span>--no-commit
+</code></pre></div>
+<p>This will add the commit’s changes to your working copy without directly committing them. You need to do a git commit by yourself.</p>
+<p>Commit the changes and check if everything is fine:</p>
+<p>Check the changes. If they are fine, commit them:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>commit
+</code></pre></div>
+<p>Use the key-word cherry-pick in your commit message to make clear that this commit is a cherry-pick.</p>
+<p>Check if all (unit) tests succeed!</p>
+<p>Push the changes </p>
+<h4 id="using-github_1">Using Github</h4>
+<p>For using cherry-picking, see Cherry-picking a commit in GitHub Desktop - GitHub Docs </p>
+<h2 id="close-the-jira-issue">Close the Jira issue</h2>
+<p>Move the Jira issue to Done</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../coding_guidelines/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Coding Guidelines" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Coding Guidelines
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../review_process/" class="md-footer__link md-footer__link--next" aria-label="Next: Review Process" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Review Process
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.expand", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
