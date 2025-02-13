@@ -69,7 +69,7 @@ nav:
     - extract: cdds_components/extract.md
     - qc: cdds_components/qc.md
     - transfer: cdds_components/transfer.md
-  - API Documentation: reference/
+  # - API Documentation: reference/
 markdown_extensions:
   - admonition
   - attr_list
