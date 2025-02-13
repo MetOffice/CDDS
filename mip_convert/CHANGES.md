@@ -1,4 +1,4 @@
-## Release 3.1.0rc1, February 11, 2025
+## Release 3.1.0, February 13 2025
 
 -   Ancillary STASH variables can now be configured via the CDDS Plugins and 
     the MIP Convert config file (CDDSO-582)
