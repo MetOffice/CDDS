@@ -35,6 +35,9 @@ where `<release_version>` is e.g. `3.1`.
     ```bash
     sed -i "s/_DEV = True/_DEV = False/" */*/__init__.py
     ```
+- [x] Check `_NUMERICAL_VERSION` in `cdds/cdds/__init__.py` and `mip_covert/mip_convert/__init__.py`.
+      It should be set to the current release version e.g. `3.1.0` (This must include any suffixes e.g. for
+      release candidates)
 - [x] Update any version numbers of dependencies that need updating in `setup_env_for_cdds`
 - [x] Build the documentation
       1. Deploy the new version of the document:
