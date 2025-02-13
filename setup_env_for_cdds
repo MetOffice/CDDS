@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $BASH_SOURCE <version>, where <version> is, e.g. 1.0.0"
+    return 1
+fi
+
+CDDS="cdds-"$1
+
+if [[ "$(hostname -f)" =~ "jasmin" ]]; then
+    CONDA=/home/users/cdds/software/miniforge3/bin/activate 
+else
+    CONDA=/opt/conda/bin/activate
+fi
+
+source $CONDA ~cdds/conda_environments/$CDDS
