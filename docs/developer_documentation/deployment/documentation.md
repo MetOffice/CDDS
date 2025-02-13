@@ -31,16 +31,27 @@ If documentation needs to be added or corrected this can be done independently o
    ```bash
    mike serve
    ```
-3. Push the local commit made by `mike` to the `gh-pages` branch to github.
+3. Push the local commit made by `mike` to the `gh-pages` branch to GitHub.
    ```bash
    git push origin gh-pages
    ```
 
 ## How to set the latest version
 
-The latest version of the documentation pages that is shown by default should be always the latest major release version, e.g. `3.1`.
+The latest version of the documentation pages that is shown by default should be always the latest major release version e.g. `3.1`.
 If a new major release is done, then you need to tell `mike` that the latest version has be changed:
-```bash
-mike deploy <major_release_version> latest --update-aliases --push
-```
+
+1. Deploy the newest latest documentation:
+   ```bash
+   mike deploy X.Y latest --update-aliases
+   ```
+   where `X.Y` is the version of the major release you like to have as default e.g `3.1`
+2. Verify the default documentation is set as expected:
+   ```bash
+   mike serve
+   ```
+3. Push the local commit by `mike` to the `gh-pages` branch to GitHub:
+   ```bash
+   git push origin gh-pages
+   ```
 
