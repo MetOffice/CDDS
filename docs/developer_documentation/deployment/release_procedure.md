@@ -53,6 +53,10 @@ where `<release_version>` is e.g. `3.1`.
          ```bash
          git push origin gh-pages
          ```
+      4. If a major version is released then the new documentation version must be set as default:
+         ```bash
+         mike deploy <major_release_version> latest --update-aliases --push
+         ```
       For more information, see [Documentation](documentation.md). If you have any doubts, please speak to Jared or Matthew.
 - [x] If releasing a new minor version of CDDS, e.g. `3.1.0`, update the development environment name in `setup_env_for_devel` to point to the new version, e.g. `cdds-3.1_dev`.
 - [x] Ensure that:

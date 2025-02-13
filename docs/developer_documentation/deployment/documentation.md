@@ -35,3 +35,12 @@ If documentation needs to be added or corrected this can be done independently o
    ```bash
    git push origin gh-pages
    ```
+
+## How to set the latest version
+
+The latest version of the documentation pages that is shown by default should be always the latest major release version, e.g. `3.1`.
+If a new major release is done, then you need to tell `mike` that the latest version has be changed:
+```bash
+mike deploy <major_release_version> latest --update-aliases --push
+```
+
