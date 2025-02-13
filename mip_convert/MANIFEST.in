@@ -4,7 +4,6 @@
 include *.rst
 include setup.cfg
 include pylintrc
-recursive-include doc *
 recursive-include etc *
 recursive-include mip_convert/process *.cfg
 recursive-include mip_convert/tests *
