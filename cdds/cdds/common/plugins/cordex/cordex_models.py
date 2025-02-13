@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2023-2024, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 The :mod:`cordex_models` module contains the code required to
 handle model parameters information for CORDEX models.

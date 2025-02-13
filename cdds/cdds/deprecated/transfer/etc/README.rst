@@ -1,5 +1,5 @@
 .. (C) British Crown Copyright 2022, Met Office.
-.. Please see LICENSE.rst for license details.
+.. Please see LICENSE.md for license details.
 
 This directory contains example configuration files that can be used
 with the data dissemination library.

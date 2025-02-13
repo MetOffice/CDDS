@@ -61,7 +61,7 @@ Unit Test Example
 
 ```python
 # (C) British Crown Copyright 2015-2016, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 My module.
 """

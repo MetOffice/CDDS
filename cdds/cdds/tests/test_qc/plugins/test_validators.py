@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2017-2023, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 
 import unittest
 from cdds.qc.plugins.cmip6.validators import parse_date_range, ValidationError

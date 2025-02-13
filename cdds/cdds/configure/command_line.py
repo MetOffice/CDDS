@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2018-2022, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 # pylint: disable = no-member
 """
 The :mod:`command_line` module contains the driver functions for the

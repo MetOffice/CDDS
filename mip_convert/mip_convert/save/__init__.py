@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2009-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 The save package enables the |MIP output variable| to be written to an
 |output netCDF file|.

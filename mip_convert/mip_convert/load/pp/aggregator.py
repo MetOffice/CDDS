@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2009-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 A common problem is to extract the multi-dimensional axis
 information from a list of pp headers.  This module provides support code

@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2021-2024, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 Setup script for CDDS.
 """
@@ -59,19 +59,6 @@ def find_scripts(directories: List[str]) -> List[Union[bytes, str]]:
     return scripts
 
 
-def extract_readme() -> str:
-    """
-    Returns the contents of the README.rst file in CDDS.
-
-    Returns
-    -------
-    str
-        content of the README.rst
-    """
-    with open('README.rst') as readme_file:
-        return readme_file.read()
-
-
 def find_data_files() -> List[Tuple[str, List[str]]]:
     """
     Returns a list to use as the value of 'data_files' in the call to 'setup'.
@@ -83,7 +70,7 @@ def find_data_files() -> List[Tuple[str, List[str]]]:
     """
 
     data_files: List[Tuple[str, List[str]]] = [
-        ('', ['CHANGES.md', 'INSTALL.rst', 'LICENSE.rst', 'README.rst', 'pylintrc', 'setup.py', 'setup.cfg'])
+        ('', ['CHANGES.md', 'LICENSE.md', 'pylintrc', 'setup.py', 'setup.cfg'])
     ]
     data_files.extend(find_doc_files())
     return data_files
@@ -118,7 +105,6 @@ setup(
         'The cdds package contains the code behind the "Climate Data Dissemination System", '
         'designed to process and publish data to CMIP6 and similar projects'
     ),
-    long_description=extract_readme(),
     keywords='cdds',
     url='https://github.com/MetOffice/CDDS',
     author='The CDDS team',

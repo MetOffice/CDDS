@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2019-2024, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 
 import metomi.isodatetime.parsers as parse
 from metomi.isodatetime.data import Calendar, Duration, TimePoint, get_is_leap_year

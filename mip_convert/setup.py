@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2015-2024, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 Setup script for the MIP Convert package.
 """
@@ -29,14 +29,6 @@ def extract_version(module_name: str) -> AnyStr:
     return version
 
 
-def extract_readme():
-    """
-    Return the contents of the README.rst file in MIP Convert.
-    """
-    with open('README.rst') as readme_file:
-        return readme_file.read()
-
-
 def data_file_search(directory):
     """
     Return a list in the form [(p1, f1), (p2, f2), ...], where p<#> is
@@ -57,8 +49,7 @@ def find_data_files():
     Return a list to use as the value of 'data_files' in the call to
     'setup'.
     """
-    data_files = [('', ['CHANGES.md', 'INSTALL.rst', 'LICENSE.rst',
-                        'README.rst', 'pylintrc', 'setup.py', 'setup.cfg'])]
+    data_files = [('', ['CHANGES.md', 'LICENSE.md', 'pylintrc', 'setup.py', 'setup.cfg'])]
     data_files.extend(data_file_search(directory='etc'))
     data_files.extend(data_file_search(directory='doc'))
     return data_files
@@ -87,13 +78,12 @@ setup(name='mip_convert',
       version=extract_version('mip_convert'),
       description=('The MIP Convert package enables a user to produce the'
                    'output netCDF files for a MIP using model output files.'),
-      long_description=extract_readme(),
       keywords='mip convert netcdf model request variable transform pp',
-      url='https://code.metoffice.gov.uk/trac/cdds',
-      author='Emma Hogan, Jamie Kettleborough',
-      author_email='emma.hogan@metoffice.gov.uk',
-      maintainer='Emma Hogan',
-      maintainer_email='emma.hogan@metoffice.gov.uk',
+      url='https://github.com/MetOffice/CDDS',
+      author='CDDS Team',
+      author_email='cdds@metoffice.gov.uk',
+      maintainer='CDDS Team',
+      maintainer_email='cdds@metoffice.gov.uk',
       platforms=['Linux', 'Unix'],
       packages=find_packages(),
       data_files=find_data_files(),

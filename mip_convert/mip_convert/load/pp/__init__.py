@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2015-2022, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 The :mod:`pp` module contains code related to PP |model output files|.
 """

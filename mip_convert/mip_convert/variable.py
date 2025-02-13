@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2009-2024, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 '''
 A Variable is a key concept in the code. It is a multi-dimensional
 gridded geophysical quantity.  A Variable consists of data and

@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2018-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 Top level routines involved in sending admin messages to CEDA.
 

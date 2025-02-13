@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2025, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """Generate changelog pages on the fly."""
 
 from pathlib import Path

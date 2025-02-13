@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2009-2022, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 Module containing classes related to production of variables
 by combining stash codes.  The classes responsible for producing

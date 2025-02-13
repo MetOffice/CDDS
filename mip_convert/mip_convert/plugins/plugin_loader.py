@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2024, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 The :mod:`plugin_loader` module contains the code for loading Mapping plugins.
 """

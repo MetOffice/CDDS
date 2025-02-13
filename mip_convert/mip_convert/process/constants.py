@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2016-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 The :mod:`constants` module contains the constants available for use
 in the |model to MIP mapping| expressions.

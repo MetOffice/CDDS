@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2015-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 import unittest
 
 from header_util import BaseHeader

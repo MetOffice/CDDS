@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2021-2024, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 The :mod:`grid` module contains the enums and abstract classes
 required to handle grid information.

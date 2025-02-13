@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2011-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 #
 # This file contains code extracted from Rose, a framework for meteorological suites.
 #

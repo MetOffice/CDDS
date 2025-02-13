@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2020-2024, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 # pylint: disable = no-member
 import cdds.prepare.pretty_print.command_line as under_test
 import os

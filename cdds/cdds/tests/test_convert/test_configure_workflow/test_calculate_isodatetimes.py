@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2024, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 from metomi.isodatetime.data import Calendar
 from metomi.isodatetime.parsers import DurationParser, TimePointParser
 

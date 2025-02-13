@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2015-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 from functools import reduce
 import numpy as np
 import numpy.testing as test

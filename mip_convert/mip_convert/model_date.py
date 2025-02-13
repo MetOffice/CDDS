@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2009-2022, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 This module provides date manipulation for 'standard', 'gregorian',
 'proleptic_gregorian' 'noleap', '365_day', '360_day', 'julian',

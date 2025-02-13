@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2022, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 import os
 
 from cdds.common.plugins.cmip6.cmip6_streams import Cmip6StreamStore, Cmip6StreamInfo

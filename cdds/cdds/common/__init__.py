@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2017-2024, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 The :mod:`common` module contains common library functions used by
 other packages.

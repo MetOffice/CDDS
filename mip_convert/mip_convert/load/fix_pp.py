@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2016-2022, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 The :mod:`load.fix_pp` module contains the code to fix any PP field
 header elements that are incorrect.

@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2020-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 # pylint: disable = no-member
 """
 The :mod:`configuration` module contains the configuration classes that

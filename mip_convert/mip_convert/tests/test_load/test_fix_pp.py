@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2016-2022, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 """
 Tests for load/fix_pp.py.

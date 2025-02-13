@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2021-2022, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 import unittest
 
 from cdds.common.plugins.base.base_models import SizingInfo

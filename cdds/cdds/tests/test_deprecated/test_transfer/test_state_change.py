@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2019-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 from io import StringIO
 from textwrap import dedent
 from unittest.mock import patch

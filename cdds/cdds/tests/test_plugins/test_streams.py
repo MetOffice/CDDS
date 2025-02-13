@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2022-2023, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 from unittest import TestCase
 
 from cdds.common.plugins.streams import StreamFileFrequency

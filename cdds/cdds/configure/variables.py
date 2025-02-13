@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2018-2023, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 """
 The :mod:`variables` module contains the code required to determine the
 |MIP requested variables| for the request.

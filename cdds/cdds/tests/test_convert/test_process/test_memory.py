@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2017-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring
 """
 Test for the memory manipulation functions in

@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2018-2024, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 # pylint: disable = no-member
 """
 This module contains code related to the directory structures for CDDS.

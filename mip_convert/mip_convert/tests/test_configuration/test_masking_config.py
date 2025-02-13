@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2023, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 from unittest import TestCase
 
 from mip_convert.configuration.masking_config import load_mask_from_config

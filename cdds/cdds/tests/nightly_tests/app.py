@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2022-2024, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 from abc import ABCMeta, abstractmethod
 import argparse
 import logging
