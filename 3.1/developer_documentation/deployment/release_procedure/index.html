@@ -228,18 +228,6 @@
   </li>
 
       
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../../../reference" class="md-tabs__link">
-      API Documentation
-    </a>
-  </li>
-
-      
     </ul>
   </div>
 </nav>
@@ -1466,21 +1454,6 @@
   
 
     
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../reference" class="md-nav__link">
-        API Documentation
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -1664,6 +1637,9 @@ git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </
 </code></pre></div></li>
 <li>Publish the new documentation version:
      <div class="highlight"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>gh-pages
+</code></pre></div></li>
+<li>If a major version is released then the new documentation version must be set as default:
+     <div class="highlight"><pre><span></span><code>mike<span class="w"> </span>deploy<span class="w"> </span>&lt;major_release_version&gt;<span class="w"> </span>latest<span class="w"> </span>--update-aliases<span class="w"> </span>--push
 </code></pre></div>
   For more information, see <a href="../documentation/">Documentation</a>. If you have any doubts, please speak to Jared or Matthew.</li>
 </ol>
