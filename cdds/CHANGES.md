@@ -1,4 +1,4 @@
-## Release 3.1.0rc1, February 11, 2025
+## Release 3.1.0, February 13 2025
 
 -   MIP Convert and CMOR log files are copied into the cylc task directory and 
     are accessible via  cylc review (CDDSO-495)
@@ -6,7 +6,7 @@
     being checked out from the roses-u repository (CDDSO-494)
 -   Processing for multiple streams is now handled within a single Cylc workflow 
     (CDDSO-302)
--   A validation tool has been added for the model parameters file `SCRIPT_NAME_HERE` 
+-   A validation tool has been added for the model parameters file `validate_model_parameters`
     (CDDSO-511)
 -   CDDS Prepare will remove MIP Convert templates from the configure proc directory 
     to avoid inconsistencies in processing. A `--reconfigure` command line argument 
