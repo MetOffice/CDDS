@@ -10,7 +10,7 @@ We generate a small sqlite3 database each night from the contents of MASS. As su
 
 ## Data set ids and "facet" structure
 
-The dataset ids used in CMIP6 are made up of a set of "facets", strings describing some aspect of what the data relates to. A facet may be the name of the MIP, experiment_id or variable name.
+The Dataset ids used in CMIP6 are made up of a set of "facets", strings describing some aspect of what the data relates to. A facet may be the name of the MIP, experiment_id or variable name.
 
 The format for CMIP6 is
 
@@ -19,9 +19,9 @@ The format for CMIP6 is
 e.g.
     `CMIP6.ScenarioMIP.MOHC.UKESM1-0-LL.historical.r1i1p1f2.Amon.tas.gn`
 
-## Search for datasets matching a facet pattern.
+## Search for Datasets matching a facet pattern.
 
-The data set id used for the inventory is a set of 9 facets joined by dots. To search for all UKESM1 daily precipitation datasets you can run
+The data set id used for the inventory is a set of 9 facets joined by dots. To search for all UKESM1 daily precipitation Datasets you can run
 
 ```bash
 search_inventory CMIP6.*.*.UKESM1-0-LL.*.*.day.pr.*
@@ -41,7 +41,7 @@ A total of 239 records were found.
 
 ## Locating data in MASS
 
-If you require the list of files in MASS for a particular dataset then the `-s` option will provide this for each data set matching the pattern in the inventory. For example
+If you require the list of files in MASS for a particular Dataset then the `-s` option will provide this for each data set matching the pattern in the inventory. For example
 
 ```bash
 search_inventory CMIP6.ScenarioMIP.MOHC.UKESM1-0-LL.ssp585.r3i1p1f2.*.pr.gn -s
