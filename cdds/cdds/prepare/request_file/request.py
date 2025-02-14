@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2020-2023, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2020-2025, Met Office.
+# Please see LICENSE.md for license details.
 """
 Module to manage the loading of a rose-suite.info into a request object
 and write it into a request configuration file.

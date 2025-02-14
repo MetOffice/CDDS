@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2009-2024, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2009-2025, Met Office.
+# Please see LICENSE.md for license details.
 """
 The MIP Convert package produces the |output netCDF files| for a |MIP|
 using |model output files| and information provided in the

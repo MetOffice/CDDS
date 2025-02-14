@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2015-2022, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2015-2025, Met Office.
+# Please see LICENSE.md for license details.
 # pylint: disable=invalid-name, unused-argument
 """
 The :mod:`load.iris_load_util` module contains the code to support

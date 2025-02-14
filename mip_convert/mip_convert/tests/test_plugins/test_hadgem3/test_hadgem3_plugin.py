@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2024, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2024-2025, Met Office.
+# Please see LICENSE.md for license details.
 from mip_convert.plugins.hadgem3.hadgem3_plugin import HadGEM3MappingPlugin
 
 from unittest import TestCase

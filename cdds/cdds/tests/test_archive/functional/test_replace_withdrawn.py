@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2022, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2022-2025, Met Office.
+# Please see LICENSE.md for license details.
 from cdds.archive.command_line import main_store
 from cdds.tests.test_archive.functional.store_test_tools import DEFAULT_LOG_DATESTAMP, TestData, LogFile, ArchiveMode
 from cdds.tests.test_archive.functional.store_test_case import StoreTestCase

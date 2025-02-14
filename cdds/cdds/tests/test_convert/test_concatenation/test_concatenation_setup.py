@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2017-2023, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2017-2025, Met Office.
+# Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name
 """
 Tests for the :mod:`cdds.convert.concatenation.concatenation_setup`

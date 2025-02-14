@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2009-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2009-2025, Met Office.
+# Please see LICENSE.md for license details.
 """
 Some pp header elements are incomplete.  Even if we fix this in the UM, there
 is legacy data to deal with.  This module support classes to correct any
