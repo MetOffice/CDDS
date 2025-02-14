@@ -39,15 +39,15 @@
 ## Release 3.0.4, November 19, 2024
 
 -   Enabled sub-annual slicing through the `slicing` option in the
-    `common` section of the Request config file. Streams can
+    `common` section of the request configuration file. Streams can
     individually be set to have `month` slicing where large amounts of
     memory usage are expected (e.g. hourly data) while the default is
     `year`, i.e. annual slicing (CDDSO-342)
 -   Corrected bug preventing QC from completing for CMIP6 like
     processing introduced in CDDS v3.0.2 (CDDSO-532)
--   Changed concatenation code to handle monthly and daily datasets in
+-   Changed concatenation code to handle monthly and daily Datasets in
     the same stream where the first two facets of the file name are not
-    unique to a dataset (CDDSO-548)
+    unique to a Dataset (CDDSO-548)
 -   Updated HadREM3 sizing info (CDDSO-548)
 
 ## Release 3.0.3, October 24, 2024
@@ -56,7 +56,7 @@
     (CDDSO-534, CDDSO-528)
 -   The inclusion of rotated coordinates in output files can now be
     forces through the introduction of the `force_coordinate_rotation`
-    flag into the Request config files (CDDSO-529)
+    flag into the request configuration files (CDDSO-529)
 -   Global attribute caching has been introduced to improve QC speed
     (CDDSO-514)
 
@@ -93,7 +93,7 @@
 -   Extract will now fail when it cannot identify the chunking for `moo`
     commands (CDDSO-487)
 -   Prepare to accept variables like 6hrPlevPt/zg7h (CDDSO-473)
--   The sim review script now accepts the request config file as its
+-   The sim review script now accepts the request configuration file as its
     input argument (CDDSO-461)
 -   Added a new script `cdds_clean` to clean out the CDDS Convert
     workflows (CDDSO-450)
@@ -101,7 +101,7 @@
 -   Replacde hardcoded paths using the `CDDS_ETC` variable in tests
     (CDDSO-492)
 -   Extract will now fail if the tape check fails (CDDSO-482)
--   Added validations for many fields within the request config file
+-   Added validations for many fields within the request configuration file
     (CDDSO-292)
 -   Allow inheritance of request fields from a template (CDDSO-496)
 
@@ -118,7 +118,7 @@
     CDDSO-425, CDDSO-428, CDDSO-443, CDDSO-446, CDDSO-442)
 -   MIP Convert failure will now lead to cylc task failure if the
     `continue_if_mip_convert_failed` setting in the request
-    (`[conversion]` section) is set to False in the request config file
+    (`[conversion]` section) is set to False in the request configuration file
     (CDDSO-387)
 -   The branch of the CDDS Convert workflow being used by default is
     controlled by the `CDDS_CONVERT_WORKFLOW_BRANCH` environment
@@ -396,7 +396,7 @@
     (\#2519)
 -   (cdds_prepare): Streams can now be set on creation of the requested
     variables file (\#2498)
--   (cdds_qc): QC checks now refer to provided controlled vocabulary for
+-   (cdds_qc): QC checks now refer to provided Controlled Vocabulary for
     non-CMIP6 projects (\#2542)
 -   (cdds_qc_plugin_cmip6): QC checks now refer to provided controlled
     vocabulary for non-CMIP6 projects (\#2542)
@@ -573,22 +573,22 @@
 
 -   (cdds_prepare): Allow for correct handling of packages where there
     are multiple mips / activity ids. The primary, i.e. first, mip will
-    be used for all directory and dataset ids (\#2369)
+    be used for all directory and Dataset ids (\#2369)
 -   (cdds_prepare): Altered output of `create_cdds_directory_structure`
     to be a little more user friendly (\#2369)
 -   (cdds_transfer): Allow for correct handling of packages where there
     are multiple mips / activity ids. The primary, i.e. first, mip will
-    be used for all directory and dataset ids (\#2369)
+    be used for all directory and Dataset ids (\#2369)
 -   (hadsdk): Allow for correct handling of packages where there are
     multiple mips / activity ids. The primary, i.e. first, mip will be
-    used for all directory and dataset ids (\#2369)
+    used for all directory and Dataset ids (\#2369)
 -   (transfer): Allow for correct handling of packages where there are
     multiple mips / activity ids. The primary, i.e. first, mip will be
-    used for all directory and dataset ids (\#2369)
+    used for all directory and Dataset ids (\#2369)
 
 ## Release 2.0.3, April 28, 2021
 
--   (transfer): CDDS store can now prepend files to an embargoed dataset
+-   (transfer): CDDS store can now prepend files to an embargoed Dataset
     provided the correct data version argument is provided (\#2278)
 
 ## Release 2.0.2, April 22, 2021
@@ -617,7 +617,7 @@
 -   (transfer): CDDS store can now recover gracefully when continuing
     archiving following task failure due to issues with MASS (\#2205)
 -   (transfer): CDDS store can now correctly handle pre-pending files to
-    datasets and there are clearer error messages when issues arise
+    Datasets and there are clearer error messages when issues arise
     (\#2222)
 
 ## Release 2.0.0, February 24, 2021
@@ -680,7 +680,7 @@
 -   (cdds_convert): Implemented code changes needed to support ARCHER
     filepath format and run CDDS on JASMIN (\#2013)
 -   (cdds_convert): `cdds_convert` tasks now will fail if individual
-    concatenation tasks do not succeed (\#2045)
+    Concatenation Tasks do not succeed (\#2045)
 -   (cdds_prepare): As a default option,
     `prepare_generate_variable_list` now performs CMIP6 inventory check
     to determine which variables have already been produced,
@@ -703,7 +703,7 @@
 -   (extract): All exceptions caught at the top script level are now
     logged as critical errors (\#1968)
 -   (hadsdk): Implemented a new command line tool `search_inventory` for
-    exploring archived datasets and checking their publication status
+    exploring archived Datasets and checking their publication status
     (\#1903)
 -   (hadsdk): Implemented code changes needed to support ARCHER filepath
     format and run CDDS on JASMIN (\#2013)
@@ -793,7 +793,7 @@
 -   (cdds_prepare): CDDS can now process data for the model
     `UKESM1-ice-LL` (\#1513)
 -   (cdds_prepare): Requested variable lists can now be generated using
-    data request version `01.00.32` (\#1800)
+    Data Request version `01.00.32` (\#1800)
 -   (cdds_qc): CDDS can now process data for the model `UKESM1-ice-LL`
     (\#1513)
 -   (cdds_qc_plugin_cf17): CDDS can now process data for the model
@@ -823,7 +823,7 @@
 
 -   (cdds_convert): CDDS Convert now does not raise an `AttributeError`
     relating to the `--email-notifications` argument when run (\#1780)
--   (cdds_qc): CDDS QC can now check hourly frequency datasets and does
+-   (cdds_qc): CDDS QC can now check hourly frequency Datasets and does
     not raise a `KeyError` exception (\#1782)
 
 ## Release 1.4.0, April 23, 2020
@@ -838,7 +838,7 @@
     `Omon/hfbasin`, can now be properly validated (\#1456)
 -   (cdds_qc): Datasets at sub-daily frequencies can now be validated
     (\#1578)
--   (cdds_qc): `CRITICAL` failures are now logged for each dataset that
+-   (cdds_qc): `CRITICAL` failures are now logged for each Dataset that
     fails a test (\#1681)
 -   (extract): Extract can now extract data from sub-daily PP streams
     (\#359)
@@ -924,7 +924,7 @@
     handled (\#1175).
 -   (cdds_prepare): Added `EmonZ/sltbasin` to the list of known good
     variables to avoid CRITICAL issue for UKESM1 processing (\#1437)
--   (cdds_qc): A column with dataset filepaths has been added to the
+-   (cdds_qc): A column with Dataset filepaths has been added to the
     approved variables file (\#1175)
 -   (cdds_qc): The quality checking can now be restricted to a single
     stream (\#1248)
@@ -953,7 +953,7 @@
 -   (cdds_prepare): The `create_cdds_directory_structure` script now
     sets permissions on `$CDDS_PROC_DIR/archive/log` appropriately so
     users don\'t have to (\#1347)
--   (cdds_qc): The data request version can now be overridden from the
+-   (cdds_qc): The Data Request version can now be overridden from the
     command line when running `qc_run_and_report` (\#1375)
 -   (cdds_transfer): The failure to submit a RabbitMQ message, which
     triggers the publication process, is now accompanied by a critical
@@ -1025,12 +1025,12 @@
     added to the log and comments in the and the state will remain
     unchanged (\#1210)
 -   (cdds_prepare): Error
-    `ExperimentNotFoundError: Experiment name "<experiment identifier>" not found in this version of the data request`
+    `ExperimentNotFoundError: Experiment name "<experiment identifier>" not found in this version of the Data Request`
     no longer occurs when calling the `prepare_generate_variable_list`
     script when it is looking in the version of the used for model
     configuration. Instead if the is not defined in that version, a
     fallback and the associated with that will be used for comparison
-    with the current version of the data request (\#1256)
+    with the current version of the Data Request (\#1256)
 -   (cdds_prepare): Additional , for which the description in the data
     request has changed between the versions used to configure the model
     and perform the processing, can now be produced (\#1018)
@@ -1195,8 +1195,8 @@
 
 -   (cdds_convert): Mip_convert and mip_concatenate now write to three
     separate directories: one for mip_convert output, a second for input
-    files to the concatenation tasks and a third for the final
-    concatenation tasks which is where qc and transfer will look for the
+    files to the Concatenation Tasks and a third for the final
+    Concatenation Tasks which is where qc and transfer will look for the
     output (\#840)
 -   (cdds_convert): Updated the calculation of the concatenation task
     cycle time for suites that only have 1 scheduled concatenation task
@@ -1214,7 +1214,7 @@
 
 ## Release 1.0.1, April 2, 2019
 
--   (cdds_configure): The grid label `gn` is now used for datasets that
+-   (cdds_configure): The grid label `gn` is now used for Datasets that
     use on all T/U/V/UV grids (\#761)
 -   (cdds_convert): The and grid identifiers are now obtained directly
     from the (\#555)
@@ -1225,12 +1225,12 @@
     suite (for development purposes only; \#739)
 -   (cdds_convert): The Rose suite now removes directories where outputs
     are written prior to producing those outputs (\#750)
--   (cdds_convert): The concatenation periods are now aligned with the
+-   (cdds_convert): The Concatenation Periods are now aligned with the
     reference date (\#762)
--   (cdds_convert): A single is now produced if the concatenation period
+-   (cdds_convert): A single is now produced if the Concatenation Period
     is more than the run bounds (\#778)
 -   (cdds_convert): The correct files are now included in each
-    concatenation period (\#780)
+    Concatenation Period (\#780)
 -   (cdds_convert): The cycles to run MIP Convert are now aligned with
     the reference date (\#781)
 -   (cdds_prepare): The significant changes between the in the version

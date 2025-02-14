@@ -71,6 +71,7 @@ nav:
     - transfer: cdds_components/transfer.md
   # - API Documentation: reference/
 markdown_extensions:
+  - abbr
   - admonition
   - attr_list
   - def_list
@@ -85,6 +86,9 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.emoji
   - pymdownx.details
+  - pymdownx.snippets:
+      auto_append:
+        - includes/abbreviations.md
   - pymdownx.tabbed:
       alternate_style: true
 extra:

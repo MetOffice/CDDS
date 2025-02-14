@@ -200,7 +200,7 @@ Following information should be provided:
         This is not relevant for the ocean, but still needs to be present.
 
 `bounds_coordinates` (Optional, added in CDDS v3.1.0)
-:   This field is a dictionary containing the list of netcdf variables that correspond to the bounds variables for
+:   This field is a dictionary containing the list of netCDF variables that correspond to the bounds variables for
     coordinates in the NEMO output files for each ocean substream. If this is not specified the built in defaults 
     will be used.
 

@@ -160,7 +160,7 @@ To construct the request configuration file take the following steps
 ## Prepare a list of variables to process
 
 !!! warning
-    This method does not refer to the data request or CDDS inventory database (to check which datasets have been previously produced), 
+    This method does not refer to the Data Request or CDDS inventory database (to check which Datasets have been previously produced), 
     so care should be taken with the choice of variables.
 
 1. Create a text file with the list of variables or copy and modify an existing list. Each line in the file should have the form
@@ -312,7 +312,7 @@ The conversion workflows run the following steps
 
     ??? info "Extract Validation"
         Validation of the output is now performed as a separate task from extracting it. This task will report missing 
-        or unexpected files and unreadable netcdf files.
+        or unexpected files and unreadable netCDF files.
 
 - [x] `setup_output_dir_<stream>`
 
@@ -334,7 +334,7 @@ The conversion workflows run the following steps
 - [x] `finaliser_<stream>`
 
     ??? info "MIP Convert Finaliser"
-        This ensures that concatenation tasks are launched once all MIP Convert tasks have been successfully performed 
+        This ensures that Concatenation Tasks are launched once all MIP Convert tasks have been successfully performed 
         for a particular time range. This step **should** never fail.
 
     ??? note
@@ -393,7 +393,7 @@ The conversion workflows run the following steps
           ```bash
           $CDDS_PROC_DIR/qualitycheck/log/qc_run_and_report_<stream>_<datestamp>.log
           ```
-        * The approved variables file will have one line per successfully produced dataset of the form: 
+        * The approved variables file will have one line per successfully produced Dataset of the form: 
           ```bash
           <MIP table>/<variable name>;<Directory containing files>
           ```
