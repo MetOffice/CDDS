@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2024, Met Office.
+# (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
 CMOR_LOG_FILENAME_TEMPLATE = 'cmor.{}.log'
 MIP_CONVERT_LOG_BASE_NAME = 'mip_convert'

@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2023, Met Office.
+# (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
 """
 The :mod:`cmip6_plus_plugin` module contains the code for the CMIP6Plus plugin.

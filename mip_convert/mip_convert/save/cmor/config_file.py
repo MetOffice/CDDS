@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2015-2021, Met Office.
+# (C) British Crown Copyright 2015-2025, Met Office.
 # Please see LICENSE.md for license details.
 from mip_convert.save.cmor.cmor_outputter import MoNameSpace
 from mip_convert.load.model_output_config import AbstractDataSourceUser

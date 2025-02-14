@@ -1,7 +1,7 @@
-# (C) British Crown Copyright 2015-2018, Met Office.
+# (C) British Crown Copyright 2015-2025, Met Office.
 # Please see LICENSE.md for license details.
 
-include *.rst
+include *.md
 include setup.cfg
 include pylintrc
 recursive-include etc *

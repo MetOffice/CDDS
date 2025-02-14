@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021-2022, Met Office.
+# (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
 """
 The :mod:`base_plugin` module contains the basic code for plugins.

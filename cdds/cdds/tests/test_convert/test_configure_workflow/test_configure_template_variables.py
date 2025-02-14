@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2024, Met Office.
+# (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
 from pathlib import Path
 from unittest.mock import MagicMock
