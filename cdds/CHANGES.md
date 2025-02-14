@@ -773,7 +773,7 @@
 -   (cdds_prepare): CDDS can now process data for the model
     `UKESM1-ice-LL` (\#1513)
 -   (cdds_prepare): Requested variable lists can now be generated using
-    Data Request `01.00.32` (\#1800)
+    Data Request version `01.00.32` (\#1800)
 -   (cdds_qc): CDDS can now process data for the model `UKESM1-ice-LL`
     (\#1513)
 -   (cdds_qc_plugin_cf17): CDDS can now process data for the model
@@ -933,7 +933,7 @@
 -   (cdds_prepare): The `create_cdds_directory_structure` script now
     sets permissions on `$CDDS_PROC_DIR/archive/log` appropriately so
     users don\'t have to (\#1347)
--   (cdds_qc): The Concatenation Period version can now be overridden from the
+-   (cdds_qc): The Data Request version can now be overridden from the
     command line when running `qc_run_and_report` (\#1375)
 -   (cdds_transfer): The failure to submit a RabbitMQ message, which
     triggers the publication process, is now accompanied by a critical
@@ -1005,12 +1005,12 @@
     added to the log and comments in the and the state will remain
     unchanged (\#1210)
 -   (cdds_prepare): Error
-    `ExperimentNotFoundError: Experiment name "<experiment identifier>" not found in this version of the Concatenation Period`
+    `ExperimentNotFoundError: Experiment name "<experiment identifier>" not found in this version of the Data Request`
     no longer occurs when calling the `prepare_generate_variable_list`
     script when it is looking in the version of the used for model
     configuration. Instead if the is not defined in that version, a
     fallback and the associated with that will be used for comparison
-    with the current version of the Concatenation Period (\#1256)
+    with the current version of the Data Request (\#1256)
 -   (cdds_prepare): Additional , for which the description in the data
     request has changed between the versions used to configure the model
     and perform the processing, can now be produced (\#1018)
@@ -1058,7 +1058,7 @@
 -   (extract): When validating model output files, Extract now
     identifies faulty files with no time records (\#992).
 -   (hadsdk):
-    `Experiment name not found in this version of the Concatenation Period`
+    `Experiment name not found in this version of the data request`
     errors in `prepare_generate_variable_list`, which occurred for some
     in HadGEM3, have been resolved (\#1189)
 
