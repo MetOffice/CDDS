@@ -773,7 +773,7 @@
 -   (cdds_prepare): CDDS can now process data for the model
     `UKESM1-ice-LL` (\#1513)
 -   (cdds_prepare): Requested variable lists can now be generated using
-    Concatenation Period version `01.00.32` (\#1800)
+    Data Request `01.00.32` (\#1800)
 -   (cdds_qc): CDDS can now process data for the model `UKESM1-ice-LL`
     (\#1513)
 -   (cdds_qc_plugin_cf17): CDDS can now process data for the model
