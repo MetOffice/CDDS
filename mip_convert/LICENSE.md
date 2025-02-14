@@ -2,7 +2,7 @@
 
 MIP Convert is licensed under the BSD license.
 
-British Crown Copyright (C) 2015-2022, Met Office.
+British Crown Copyright (C) 2015-2025, Met Office.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
