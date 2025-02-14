@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2009-2022, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2009-2025, Met Office.
+# Please see LICENSE.md for license details.
 """
 Requests for MIP variables are made in a set of 'request config
 files'.  There is one request config file per stream. The request

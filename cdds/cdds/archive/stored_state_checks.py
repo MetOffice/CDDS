@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2019-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2019-2025, Met Office.
+# Please see LICENSE.md for license details.
 """
 The :mod:`stored_state_checks` module contains the code to check what the
 current state of already stored data is.

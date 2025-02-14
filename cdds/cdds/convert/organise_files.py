@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2017-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2017-2025, Met Office.
+# Please see LICENSE.md for license details.
 """
 Wrapper for mip_concatenate_setup to run within a Rose suite using environment
 variables to obtain arguments

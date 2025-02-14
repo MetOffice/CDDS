@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2015-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2015-2025, Met Office.
+# Please see LICENSE.md for license details.
 """
 The :mod:`config` module defines the information to be read from the
 |model to MIP mapping| configuration file.

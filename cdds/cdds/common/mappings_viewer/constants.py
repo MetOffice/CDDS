@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2022, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2022-2025, Met Office.
+# Please see LICENSE.md for license details.
 HEADINGS = ['Variable', 'Mip Table', 'Expression', 'Comments', 'Dimensions', 'Units', 'Component', 'Status', 'File']
 HEADER_ROW_TEMPLATE = '  <thead><tr bgcolor="{}">\n{}  </tr></thead>\n'
 ROW_TEMPLATE = '  <tr bgcolor="{}">\n{}  </tr>\n'

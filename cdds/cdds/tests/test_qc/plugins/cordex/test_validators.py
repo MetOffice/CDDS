@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2023, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2023-2025, Met Office.
+# Please see LICENSE.md for license details.
 from cdds.qc.plugins.base.validators import ValidationError
 from cdds.qc.plugins.cordex.validators import CordexCVValidator
 from cdds.tests.test_qc.plugins.constants import CORDEX_CV_REPO

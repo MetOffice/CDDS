@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2018-2023, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2018-2025, Met Office.
+# Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = too-many-instance-attributes, no-value-for-parameter
 """

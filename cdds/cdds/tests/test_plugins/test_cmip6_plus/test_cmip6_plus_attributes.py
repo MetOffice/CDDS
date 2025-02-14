@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2023-2024, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2023-2025, Met Office.
+# Please see LICENSE.md for license details.
 import unittest
 
 from cdds.common.plugins.cmip6_plus.cmip6_plus_attributes import Cmip6PlusGlobalAttributes, AttributesValidator

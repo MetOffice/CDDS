@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2017-2023, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2017-2025, Met Office.
+# Please see LICENSE.md for license details.
 """
 Routines for generating links to data files in order to restrict the
 volume of data that MIP Convert can see and attempt to read

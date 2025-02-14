@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2021, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2021-2025, Met Office.
+# Please see LICENSE.md for license details.
 from typing import Type
 
 from cdds.common.plugins.file_info import ModelFileInfo

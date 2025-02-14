@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2016-2022, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2016-2025, Met Office.
+# Please see LICENSE.md for license details.
 """
 CDDS class for accessing MASS archive through the moo API
 """

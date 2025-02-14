@@ -1,8 +1,0 @@
-[run]
-omit = mip_convert/tests/*
-dynamic_context = test_function
-
-[html]
-directory = ../coverage_reports/mip_convert
-show_contexts = true
-title = Coverage Report for Mip Convert

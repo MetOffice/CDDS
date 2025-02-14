@@ -1,5 +1,5 @@
-# (C) British Crown Copyright 2018-2021, Met Office.
-# Please see LICENSE.rst for license details.
+# (C) British Crown Copyright 2018-2025, Met Office.
+# Please see LICENSE.md for license details.
 """
 The :mod:`variables` module contains the code required to handle the
 information from the |requested variables list|.
