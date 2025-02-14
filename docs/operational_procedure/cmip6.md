@@ -160,7 +160,7 @@ To construct the request configuration file take the following steps
 ## Prepare a list of variables to process
 
 !!! warning
-    This method does not refer to the Concatenation Period or CDDS inventory database (to check which Datasets have been previously produced), 
+    This method does not refer to the Data Request or CDDS inventory database (to check which Datasets have been previously produced), 
     so care should be taken with the choice of variables.
 
 1. Create a text file with the list of variables or copy and modify an existing list. Each line in the file should have the form
