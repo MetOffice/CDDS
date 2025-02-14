@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2015-2021, Met Office.
+# (C) British Crown Copyright 2015-2025, Met Office.
 # Please see LICENSE.md for license details.
 """
 Cordex has a specification of how long each output netcdf file should

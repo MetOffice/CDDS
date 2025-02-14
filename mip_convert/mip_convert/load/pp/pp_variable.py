@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2011-2021, Met Office.
+# (C) British Crown Copyright 2011-2025, Met Office.
 # Please see LICENSE.md for license details.
 """
 Module containing classes related to extracting multidimensional variables

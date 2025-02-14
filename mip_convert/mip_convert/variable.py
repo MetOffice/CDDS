@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2009-2024, Met Office.
+# (C) British Crown Copyright 2009-2025, Met Office.
 # Please see LICENSE.md for license details.
 '''
 A Variable is a key concept in the code. It is a multi-dimensional
