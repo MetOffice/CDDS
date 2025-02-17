@@ -584,7 +584,7 @@
       
         <li class="md-nav__item">
   <a href="#search-for-datasets-matching-a-facet-pattern" class="md-nav__link">
-    Search for datasets matching a facet pattern.
+    Search for Datasets matching a facet pattern.
   </a>
   
 </li>
@@ -1419,7 +1419,7 @@
       
         <li class="md-nav__item">
   <a href="#search-for-datasets-matching-a-facet-pattern" class="md-nav__link">
-    Search for datasets matching a facet pattern.
+    Search for Datasets matching a facet pattern.
   </a>
   
 </li>
@@ -1447,19 +1447,19 @@
 
 
 <h1 id="script-search_inventory">Script: <code>search_inventory</code></h1>
-<p>In release v1.6.0 we've added an inventory (updated each night) that is used by CDDS Prepare to avoid the need for combined "approved_variables" files to avoid duplicating previously provided data.</p>
+<p>In release v1.6.0 we've added an inventory (updated each night) that is used by <abbr title="Climate Data Dissemination System">CDDS</abbr> Prepare to avoid the need for combined "approved_variables" files to avoid duplicating previously provided data.</p>
 <p>The script allows the user to search the inventory using data set id patterns which can include wildcards <strong>instead</strong> of a particular "facet".</p>
 <h2 id="the-inventory-database">The inventory database</h2>
 <p>We generate a small sqlite3 database each night from the contents of MASS. As such this only contains data that we have produced within the Met Office and archived to MASS.</p>
 <h2 id="data-set-ids-and-facet-structure">Data set ids and "facet" structure</h2>
-<p>The dataset ids used in CMIP6 are made up of a set of "facets", strings describing some aspect of what the data relates to. A facet may be the name of the MIP, experiment_id or variable name.</p>
+<p>The <abbr title="A group of data containing some or all of the model output files from a single model simulation (i.e., model output files from a single realization of a single experiment from a single model).">Dataset</abbr> ids used in CMIP6 are made up of a set of "facets", strings describing some aspect of what the data relates to. A facet may be the name of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr>, experiment_id or variable name.</p>
 <p>The format for CMIP6 is</p>
 <pre><code>CMIP6.&lt;activity id (MIP)&gt;.&lt;institution id&gt;.&lt;source_id (model)&gt;.&lt;experiment id&gt;.&lt;variant label&gt;.&lt;MIP table&gt;.&lt;variable id&gt;.&lt;grid label&gt;
 </code></pre>
 <p>e.g.
     <code>CMIP6.ScenarioMIP.MOHC.UKESM1-0-LL.historical.r1i1p1f2.Amon.tas.gn</code></p>
-<h2 id="search-for-datasets-matching-a-facet-pattern">Search for datasets matching a facet pattern.</h2>
-<p>The data set id used for the inventory is a set of 9 facets joined by dots. To search for all UKESM1 daily precipitation datasets you can run</p>
+<h2 id="search-for-datasets-matching-a-facet-pattern">Search for <abbr title="Many groups of data containing some or all of the model output files from model simulations.">Datasets</abbr> matching a facet pattern.</h2>
+<p>The data set id used for the inventory is a set of 9 facets joined by dots. To search for all UKESM1 daily precipitation <abbr title="Many groups of data containing some or all of the model output files from model simulations.">Datasets</abbr> you can run</p>
 <p><div class="highlight"><pre><span></span><code>search_inventory<span class="w"> </span>CMIP6.*.*.UKESM1-0-LL.*.*.day.pr.*
 </code></pre></div>
 Which at the time of writing returns
@@ -1473,7 +1473,7 @@ CMIP6   ScenarioMIP MOHC       UKESM1-0-LL        ssp585          r8i1p1f2   day
 A total of 239 records were found.
 </code></pre></div></p>
 <h2 id="locating-data-in-mass">Locating data in MASS</h2>
-<p>If you require the list of files in MASS for a particular dataset then the <code>-s</code> option will provide this for each data set matching the pattern in the inventory. For example</p>
+<p>If you require the list of files in MASS for a particular <abbr title="A group of data containing some or all of the model output files from a single model simulation (i.e., model output files from a single realization of a single experiment from a single model).">Dataset</abbr> then the <code>-s</code> option will provide this for each data set matching the pattern in the inventory. For example</p>
 <p><div class="highlight"><pre><span></span><code>search_inventory<span class="w"> </span>CMIP6.ScenarioMIP.MOHC.UKESM1-0-LL.ssp585.r3i1p1f2.*.pr.gn<span class="w"> </span>-s
 </code></pre></div>
 returns

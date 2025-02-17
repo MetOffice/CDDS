@@ -1436,25 +1436,25 @@
 
 <h1 id="plugin-framework">Plugin Framework</h1>
 <h2 id="overview">Overview</h2>
-<p>The plugin framework was designed using an object-oriented approach. This framework allows you to customise and extend CDDS. 
-Plugins are loaded at runtime from a specific given path. A plugin is a bundle that adds functionality to CDDS such that 
-CDDS can handle a specific model project (like CMIP6 or ARISE). This also allows third party developers to add functionality 
-to CDDS without having access to the source code. </p>
-<p>The CDDS plugin framework loads the specific plugin into a plugin store that stores it during runtime. This avoids excessive 
-loading of the plugin. The CDDS code gets access to the plugin via the plugin store.</p>
+<p>The plugin framework was designed using an object-oriented approach. This framework allows you to customise and extend <abbr title="Climate Data Dissemination System">CDDS</abbr>. 
+Plugins are loaded at runtime from a specific given path. A plugin is a bundle that adds functionality to <abbr title="Climate Data Dissemination System">CDDS</abbr> such that 
+<abbr title="Climate Data Dissemination System">CDDS</abbr> can handle a specific model project (like CMIP6 or ARISE). This also allows third party developers to add functionality 
+to <abbr title="Climate Data Dissemination System">CDDS</abbr> without having access to the source code. </p>
+<p>The <abbr title="Climate Data Dissemination System">CDDS</abbr> plugin framework loads the specific plugin into a plugin store that stores it during runtime. This avoids excessive 
+loading of the plugin. The <abbr title="Climate Data Dissemination System">CDDS</abbr> code gets access to the plugin via the plugin store.</p>
 <p><img alt="Plugin Overview" src="../images/plugins-overview.png" width="600" /></p>
 <p>The CMIP6 plugin will be loaded by default if no other plugin is given.</p>
 <h2 id="plugin">Plugin</h2>
-<p>Like mentioned, a plugin is a bundle that adds new functionality to CDDS. As a result CDDS can handle a specific model project, 
+<p>Like mentioned, a plugin is a bundle that adds new functionality to <abbr title="Climate Data Dissemination System">CDDS</abbr>. As a result <abbr title="Climate Data Dissemination System">CDDS</abbr> can handle a specific model project, 
 also not CMIP6 projects.</p>
-<p>A CDDS plugin needs to provide all functionality to handle that corresponding project. That includes information about the 
-supported models, girds and streams.</p>
+<p>A <abbr title="Climate Data Dissemination System">CDDS</abbr> plugin needs to provide all functionality to handle that corresponding project. That includes information about the 
+supported models, girds and <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr>.</p>
 <p>The design of a plugin is illustrated in the below diagram:</p>
 <p><img alt="Plugin Structure" src="../images/plugins-structure.png" width="600" /></p>
 <p>The red boxes represent classes, the green ones enum classes and the yellow ones modules. The blue box represent a singleton 
 class that has the functionality as a cache.</p>
 <p>A plugin is loaded by the plugin loader and registered to the plugin store. The plugin store caches the plugin during runtime. 
-Each plugin contains information about the supported models, streams and grid labels. The model parameters containing the 
+Each plugin contains information about the supported models, <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> and grid labels. The model parameters containing the 
 model information also contains the information about the supported grid that are specified by the grid type (ocean or atmosphere).</p>
 <h2 id="available-plugins">Available Plugins</h2>
 <table>
@@ -1469,17 +1469,17 @@ model information also contains the information about the supported grid that ar
 <tr>
 <td>CMIP6</td>
 <td>CMIP6 projects</td>
-<td>CDDS Team</td>
+<td><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</td>
 </tr>
 <tr>
 <td>Cordex</td>
 <td>Cordex projects</td>
-<td>CDDS Team</td>
+<td><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</td>
 </tr>
 <tr>
 <td>GCModelDev</td>
 <td>GCModelDev projects</td>
-<td>CDDS Team</td>
+<td><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</td>
 </tr>
 <tr>
 <td>ARISE</td>

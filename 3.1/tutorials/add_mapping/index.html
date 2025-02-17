@@ -1578,14 +1578,14 @@
 
   <h1>Add a Variable Mapping</h1>
 
-<h2 id="variable-mappings-for-cdds">Variable Mappings for CDDS</h2>
-<p>The following pages are constructed from the Mappings held in MIP convert:</p>
+<h2 id="variable-mappings-for-cdds">Variable Mappings for <abbr title="Climate Data Dissemination System">CDDS</abbr></h2>
+<p>The following pages are constructed from the Mappings held in <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> convert:</p>
 <ul>
 <li><a href="https://code.metoffice.gov.uk/doc/cdds/mappings_viewer/mappings_view_UKESM1.html">UKESM1 Mappings</a></li>
 <li><a href="https://code.metoffice.gov.uk/doc/cdds/mappings_viewer/mappings_view_HadGEM3.html">HadGEM3 Mappings</a></li>
 </ul>
 <h2 id="mapping-hierarchy">Mapping Hierarchy</h2>
-<p>The mappings within MIP Convert are arranged in a hierarchy with names in the following forms</p>
+<p>The mappings within <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert are arranged in a hierarchy with names in the following forms</p>
 <ol>
 <li><code>common_mappings.cfg</code></li>
 <li><code>&lt;mip_table&gt;_mappings.cfg</code></li>
@@ -1596,8 +1596,8 @@
 </ol>
 <p>where <code>&lt;base_model&gt;</code> refers to the section of the model id before the first dash <code>-</code>, e.g. <code>"UKESM1"</code> or <code>"HadGEM3"</code>. </p>
 <p>Mappings in files furthest down this list overload those specified in files at the top.</p>
-<h2 id="model-to-mip-mapping-configuration-files">Model to MIP Mapping Configuration Files</h2>
-<p>Each of the above model to MIP mapping configuration files contains the following sections.</p>
+<h2 id="model-to-mip-mapping-configuration-files">Model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Mapping Configuration Files</h2>
+<p>Each of the above model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping configuration files contains the following sections.</p>
 <ol>
 <li><code>[DEFAULT]</code></li>
 <li><code>[COMMON]</code></li>
@@ -1613,9 +1613,9 @@ used for that section over the default value defined in the
 <p>The <code>[COMMON]</code> section contains options that may be used by other
 sections by using the syntax <code>${COMMON:&lt;option&gt;}</code>. This is useful for setting
 values for comments or notes that would otherwise be repeated multiple times in
-the model to MIP mapping configuration files.</p>
+the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping configuration files.</p>
 <h3 id="the-variable-name-sections">The <code>[variable name]</code> Section(s)</h3>
-<p>The <code>[variable name]</code> sections provide the model to MIP mapping corresponding to the specified MIP requested variable and contains the following required options:</p>
+<p>The <code>[variable name]</code> sections provide the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping corresponding to the specified <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable and contains the following required options:</p>
 <table>
 <thead>
 <tr>
@@ -1627,17 +1627,17 @@ the model to MIP mapping configuration files.</p>
 <tbody>
 <tr>
 <td><code>dimension</code></td>
-<td>The dimensions of the MIP requested variable.</td>
+<td>The dimensions of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable.</td>
 <td></td>
 </tr>
 <tr>
 <td><code>expression</code></td>
-<td>The expression required to convert the input variable / input variables to the MIP requested variable.</td>
+<td>The expression required to convert the input variable / input variables to the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable.</td>
 <td></td>
 </tr>
 <tr>
 <td><code>mip_table_id</code></td>
-<td>A space-separated list of MIP table identifiers that the model to MIP mapping is valid for.</td>
+<td>A space-separated list of <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table identifiers that the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping is valid for.</td>
 <td></td>
 </tr>
 <tr>
@@ -1647,21 +1647,21 @@ the model to MIP mapping configuration files.</p>
 </tr>
 <tr>
 <td><code>status</code></td>
-<td>The status of the MIP requested variable. Valid values are <code>ok</code> and <code>embargoed</code>.</td>
+<td>The status of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable. Valid values are <code>ok</code> and <code>embargoed</code>.</td>
 <td>[2][3]</td>
 </tr>
 <tr>
 <td><code>units</code></td>
-<td>The units of the data of the MIP requested variable i.e., after the <code>expression</code> has been applied.</td>
+<td>The units of the data of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable i.e., after the <code>expression</code> has been applied.</td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Notes</strong></p>
 <ol>
-<li>This information is used by CMOR to determine whether a sign change is necessary to make the data consistent with the MIP requirements. For more information, please see the <a href="https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_variable">cmor_variable</a> section in the CMOR Documentation.</li>
-<li>The MIP requested variables are reviewed to ensure they have been produced correctly, MIP requested variables that have not passed review will not be submitted to ESGF and so will not be available for other institutes to use.</li>
-<li>This is used by CDDS, but does not affect MIP Convert behaviour</li>
+<li>This information is used by <abbr title="Climate Model Output Rewriter">CMOR</abbr> to determine whether a sign change is necessary to make the data consistent with the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requirements. For more information, please see the <a href="https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_variable">cmor_variable</a> section in the <abbr title="Climate Model Output Rewriter">CMOR</abbr> Documentation.</li>
+<li>The <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variables are reviewed to ensure they have been produced correctly, <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variables that have not passed review will not be submitted to ESGF and so will not be available for other institutes to use.</li>
+<li>This is used by <abbr title="Climate Data Dissemination System">CDDS</abbr>, but does not affect <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert behaviour</li>
 </ol>
 <p>The following options are optional:</p>
 <table>
@@ -1675,22 +1675,22 @@ the model to MIP mapping configuration files.</p>
 <tbody>
 <tr>
 <td><code>comment</code></td>
-<td>The details relating to the model to MIP mapping that should be written to the output netCDF file, e.g., to qualify the details of the model to MIP mapping, add health warnings,etc.</td>
+<td>The details relating to the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping that should be written to the <abbr title="A netCDF file produced by CMOR that is compliant with the MIP specifications and contains a single MIP output variable from a single model and a single simulation.">output netCDF file</abbr>, e.g., to qualify the details of the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping, add health warnings,etc.</td>
 <td></td>
 </tr>
 <tr>
 <td><code>notes</code></td>
-<td>Any details relating to the model to MIP mapping that should not be written to the output netCDF file, e.g., who added the model to MIP mapping, why, reasons for using this model to MIP mapping over another in certain cases, any other special cases notes, etc.</td>
+<td>Any details relating to the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping that should not be written to the <abbr title="A netCDF file produced by CMOR that is compliant with the MIP specifications and contains a single MIP output variable from a single model and a single simulation.">output netCDF file</abbr>, e.g., who added the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping, why, reasons for using this model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping over another in certain cases, any other special cases notes, etc.</td>
 <td></td>
 </tr>
 <tr>
 <td><code>component</code></td>
-<td>A space-separated list of components that the model to MIP mapping is valid for.</td>
+<td>A space-separated list of components that the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping is valid for.</td>
 <td></td>
 </tr>
 <tr>
 <td><code>valid_min</code></td>
-<td>The minimum valid value for the data of the MIP requested variable; values in the data lower than this value are replaced with zero.</td>
+<td>The minimum valid value for the data of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable; values in the data lower than this value are replaced with zero.</td>
 <td></td>
 </tr>
 </tbody>
@@ -1710,13 +1710,13 @@ the model to MIP mapping configuration files.</p>
 <tr>
 <td><code>stash</code></td>
 <td>PP</td>
-<td>LBUSER(4), STASH Code, see Chapter 4 (page 25) of UMDP F03</td>
+<td>LBUSER(4), <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> Code, see Chapter 4 (page 25) of UMDP F03</td>
 <td></td>
 </tr>
 <tr>
 <td><code>variable_name</code></td>
-<td>netCDF</td>
-<td>The name of the data variable in the model output files that is used to create the input variable.</td>
+<td><abbr title="Network Common Data Form">netCDF</abbr></td>
+<td>The name of the data variable in the <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> that is used to create the input variable.</td>
 <td></td>
 </tr>
 </tbody>
@@ -1741,7 +1741,7 @@ upper case letters; constants are available in
 <p class="admonition-title">Example 2b. Constants and Arithmetic</p>
 <p>For atmospheric tendency diagnostics, the atmospheric model timestep must be
 specified (the value of the atmospheric model timestep is obtained from the 
-user configuration file, please see the <code>request_section</code> in the
+<abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr>, please see the <code>request_section</code> in the
 <code>user_guide</code>):</p>
 <ul>
 <li><code>expression = m01s30i181 / ATMOS_TIMESTEP</code></li>
@@ -1772,7 +1772,7 @@ user configuration file, please see the <code>request_section</code> in the
 <div class="admonition example">
 <p class="admonition-title">Example 4. Processor</p>
 <p>In cases where it is not possible to describe the conversion of the
-input variable / input variables to the MIP requested variable using a
+input variable / input variables to the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable using a
 basic expression like the ones above, a function can be specified:</p>
 <ul>
 <li><code>expression = my_function_name(m01s03i236)</code></li>
@@ -1799,13 +1799,13 @@ basic expression.</p>
 </tr>
 <tr>
 <td><code>cell_methods</code></td>
-<td>netCDF</td>
+<td><abbr title="Network Common Data Form">netCDF</abbr></td>
 <td>The <a href="https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#cell-methods">cell methods</a></td>
 <td></td>
 </tr>
 <tr>
 <td><code>depth</code></td>
-<td>netCDF</td>
+<td><abbr title="Network Common Data Form">netCDF</abbr></td>
 <td>Value of the depth coordinate</td>
 <td></td>
 </tr>
@@ -1835,44 +1835,44 @@ basic expression.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="how-to-add-a-new-model-to-mip-mapping">How to Add a New Model to MIP mapping</h2>
+<h2 id="how-to-add-a-new-model-to-mip-mapping">How to Add a New Model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping</h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you want to contribute your changes to CDDS then you must follow the development workflow.
+<p>If you want to contribute your changes to <abbr title="Climate Data Dissemination System">CDDS</abbr> then you must follow the development workflow.
 See the <a href="../../developer_documentation/development_practices/">Developer Documentation</a> pages for guidance.</p>
 </div>
 <h3 id="requried-information">Requried Information</h3>
 <ol>
-<li>the MIP requested variable name and the MIP table identifier.</li>
-<li>the constraints, i.e., the data to be read from the model output files to create the input variables.</li>
-<li>an expression describing how to process the input variables to produce a MIP output variable.</li>
-<li>the units of the MIP output variable after the expression has been applied.<ol>
-<li>It is not necessary to include the units in model to MIP mappings used for netCDF model output files if the expression consists of a single constraint.</li>
+<li>the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable name and the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table identifier.</li>
+<li>the constraints, i.e., the data to be read from the <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> to create the input variables.</li>
+<li>an expression describing how to process the input variables to produce a <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> output variable.</li>
+<li>the units of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> output variable after the expression has been applied.<ol>
+<li>It is not necessary to include the units in model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mappings used for <abbr title="Network Common Data Form">netCDF</abbr> <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> if the expression consists of a single constraint.</li>
 </ol>
 </li>
 <li>the component, which is the domain as described ​here.</li>
 </ol>
-<h3 id="determine-which-configuration-file-the-model-to-mip-mapping-should-be-added-to">Determine which configuration file the model to MIP mapping should be added to</h3>
+<h3 id="determine-which-configuration-file-the-model-to-mip-mapping-should-be-added-to">Determine which configuration file the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping should be added to</h3>
 <ol>
-<li>Model to MIP mapping configuration files are located in the <code>mip_convert/process</code> sub package (their names end in <code>_mappings.cfg</code>).</li>
-<li>if there is currently no entry for the MIP requested variable name in the model to MIP mapping configuration files (use, e.g. <code>grep &lt;mip_requested_variable_name&gt; &lt;branch&gt;/mip_convert/mip_convert/process/*_mappings.cfg</code>), add the model to MIP mapping to common_mappings.cfg.</li>
-<li>if there is already an entry in <code>common_mappings.cfg</code>, add the model to MIP mapping to the appropriate `<mip_table_id>_mappings.cfg`` configuration file.</li>
-<li>for multiple model to MIP mappings for the same MIP requested variable name, any expressions containing <code>lbproc=128</code> should be added to <code>common_mappings.cfg</code>, while others should be added to the appropriate `<mip_table_id>_mappings.cfg`` configuration file.</li>
+<li>Model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping configuration files are located in the <code>mip_convert/process</code> sub <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> (their names end in <code>_mappings.cfg</code>).</li>
+<li>if there is currently no entry for the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable name in the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping configuration files (use, e.g. <code>grep &lt;mip_requested_variable_name&gt; &lt;branch&gt;/mip_convert/mip_convert/process/*_mappings.cfg</code>), add the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping to common_mappings.cfg.</li>
+<li>if there is already an entry in <code>common_mappings.cfg</code>, add the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping to the appropriate `<mip_table_id>_mappings.cfg`` configuration file.</li>
+<li>for multiple model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mappings for the same <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable name, any expressions containing <code>lbproc=128</code> should be added to <code>common_mappings.cfg</code>, while others should be added to the appropriate `<mip_table_id>_mappings.cfg`` configuration file.</li>
 <li>if there are any issues, please ask Matthew Mizielinski.</li>
 </ol>
-<h3 id="add-the-model-to-mip-mapping-to-the-appropriate-configuration-file">Add the model to MIP mapping to the appropriate configuration file.</h3>
+<h3 id="add-the-model-to-mip-mapping-to-the-appropriate-configuration-file">Add the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping to the appropriate configuration file.</h3>
 <ol>
-<li>The sections in the model to MIP mapping configuration files are the MIP requested variable names and are listed in alphabetical order.</li>
+<li>The sections in the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping configuration files are the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable names and are listed in alphabetical order.</li>
 <li>If the expression continues beyond the 120 character line limit, add a new line before a binary operator, see ​PEP8.</li>
 <li>If the expression contains a function and an appropriate function does not already exist, add the function to <code>mip_convert/process/processors.py</code>​. The function:<ol>
 <li>can have any number of arguments, each corresponding to a cube.</li>
 <li>should work directly on the cube(s) (i.e., do not make a copy of the cube(s) or the data).</li>
-<li>should not update the standard_name or long_name of the cube(s) (the ​MIP table contains this information and will be automatically added to the output netCDF files by CMOR).</li>
+<li>should not update the standard_name or long_name of the cube(s) (the ​<abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table contains this information and will be automatically added to the <abbr title="netCDF files produced by CMOR that are compliant with the MIP specifications and each contains a single MIP output variable from a single model and a single simulation.">output netCDF files</abbr> by <abbr title="Climate Model Output Rewriter">CMOR</abbr>).</li>
 <li>must return a single cube.</li>
 </ol>
 </li>
 </ol>
-<h3 id="test-the-model-to-mip-mapping">Test the Model to MIP Mapping</h3>
+<h3 id="test-the-model-to-mip-mapping">Test the Model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Mapping</h3>
 <p>Test and verify all mappings before submitting a pull request.</p>
 
 

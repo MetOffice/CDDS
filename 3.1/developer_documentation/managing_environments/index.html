@@ -1490,22 +1490,22 @@
 <p>If there are modifications to cdds needed that require a new environment then this should be managed in a consistent way.
 Examples of such changes could include</p>
 <ul>
-<li>a package version needs changing,</li>
-<li>new package(s) added</li>
-<li>old package(s) removed,</li>
+<li>a <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> version needs changing,</li>
+<li>new <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr>(s) added</li>
+<li>old <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr>(s) removed,</li>
 <li>a channel usage change</li>
 </ul>
-<p>In the majority of cases, a change will normally be driven by a change to the cdds code base, so will have an existing JIRA issue. However, if this isn't the case then an issue should still be raised to cover any environment change (E.g. if a change to conda channels is needed but no package version changes thus no code changes are needed.). During the completion of the ticket in question, the process should be as follows. (This example assumes a new package is needed for new functionality within cdds and working on main)</p>
+<p>In the majority of cases, a change will normally be driven by a change to the cdds code base, so will have an existing JIRA issue. However, if this isn't the case then an issue should still be raised to cover any environment change (E.g. if a change to conda channels is needed but no <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> version changes thus no code changes are needed.). During the completion of the ticket in question, the process should be as follows. (This example assumes a new <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> is needed for new functionality within cdds and working on main)</p>
 <ol>
 <li>Create a new conda environment for development work on this particular change.<ol>
-<li>This could be done on the cdds account, although modifying environments can sometimes be tricky.  Initially it would be better to do this on a user account first as this minimises the chance of accidentally modifying any existing cdds development environments. There are two approaches adding a package.<ol>
+<li>This could be done on the cdds account, although modifying environments can sometimes be tricky.  Initially it would be better to do this on a user account first as this minimises the chance of accidentally modifying any existing cdds development environments. There are two approaches adding a <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr>.<ol>
 <li>Update environment_dev.yaml specifying a particular version if this needed otherwise this can be left out and let the solver figure out the best version to use.</li>
-<li>Create an environment using environment_dev.yaml and then install the package afterwards using conda install</li>
+<li>Create an environment using environment_dev.yaml and then install the <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> afterwards using conda install</li>
 </ol>
 </li>
 </ol>
 </li>
-<li>Make the required code changes using this new environment e.g. add the new functionality that makes use of the new package.</li>
+<li>Make the required code changes using this new environment e.g. add the new functionality that makes use of the new <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr>.</li>
 <li>When ready to create a pull request with these changes, create the next development environment on the cdds account using the correct naming convention <code>cdds-X.X_dev-X</code><ol>
 <li>Update setup_dev_env_for_development to point to the new environment on the cdds account.</li>
 <li>Update the .yaml files based on what is in the installed version of cdds</li>
@@ -1567,8 +1567,8 @@ cdds-2.5.0_dev-1
 </ol>
 </li>
 <li>As development proceeds on main over time new development environments are created in line with the practices described earlier in this document. E.g.<ol>
-<li><code>cdds-2.6_dev-1</code> - (change - added new package)</li>
-<li><code>cdds-2.6_dev-2</code> - (change - added new package)</li>
+<li><code>cdds-2.6_dev-1</code> - (change - added new <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr>)</li>
+<li><code>cdds-2.6_dev-2</code> - (change - added new <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr>)</li>
 </ol>
 </li>
 <li>
@@ -1603,11 +1603,11 @@ cdds-2.7_dev-0
 <ul>
 <li>When there are multiple channels defined in an <code>environment.yaml</code> there is an implicit priority based on their order, which if you are not aware of, conda may solve environments in ways you weren’t expecting.<ul>
 <li>See notes on --flexible_solve https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-channels.html#strict-channel-priority </li>
-<li>tldr flexible solve is the default and will prefer packages from higher priority channels even if there are more recent versions in other channels. </li>
+<li>tldr flexible solve is the default and will prefer <abbr title="Identifiers indicating the phase of CDDS processing.">packages</abbr> from higher priority channels even if there are more recent versions in other channels. </li>
 </ul>
 </li>
 <li>Make use of mamba and the --dry-run option to speed your workflow up.</li>
-<li>The same versioned package</li>
+<li>The same versioned <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr></li>
 </ul>
 
 

@@ -1408,19 +1408,19 @@
 <p class="admonition-title">Warning</p>
 <p>This documentation is currently under construction and may not be up to date.</p>
 </div>
-<h1 id="cdds-extract">CDDS Extract</h1>
-<p>The Extract package enables a user to extract a subset of climate model output files from the MASS tape archive. This is useful because raw atmosphere and ocean output is stored in massive files, containing multiple fields, and their large volume make all processing very slow. Before data transfer happens, Extract selects only relevant bits of output, necessary to produce the requested, CMORised variables.</p>
-<p>Since CDDS 2.2, Extract is embedded within the <code>cdds_convert</code> script, and it is no longer necessary to run it as a separate process. It is also worth mentioning that despite working with only a subset of climate model output, data transfer from MASS is typically the longest step in the whole CDDS processing pipeline, can take many days, and is prone to failures caused by MASS misbehaviour.</p>
+<h1 id="cdds-extract"><abbr title="Climate Data Dissemination System">CDDS</abbr> Extract</h1>
+<p>The Extract <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> enables a user to extract a subset of climate <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> from the MASS tape archive. This is useful because raw atmosphere and ocean output is stored in massive files, containing multiple fields, and their large volume make all processing very slow. Before data transfer happens, Extract selects only relevant bits of output, necessary to produce the requested, CMORised variables.</p>
+<p>Since <abbr title="Climate Data Dissemination System">CDDS</abbr> 2.2, Extract is embedded within the <code>cdds_convert</code> script, and it is no longer necessary to run it as a separate process. It is also worth mentioning that despite working with only a subset of climate model output, data transfer from MASS is typically the longest step in the whole <abbr title="Climate Data Dissemination System">CDDS</abbr> processing pipeline, can take many days, and is prone to failures caused by MASS misbehaviour.</p>
 <h2 id="an-overview-of-extract">An overview of Extract</h2>
 <p>The user configures the extraction process using the <code>request</code> file.
 The cdds_extract script then performs the following processing steps:</p>
 <ul>
 <li>retrieves the data dissemination configuration from the <code>request</code> file.</li>
-<li>retrieves the <code>requested variables list</code> for the experiment.</li>
+<li>retrieves the <code>requested variables list</code> for the <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr>.</li>
 <li>retrieves the <code>model to MIP mapping</code> for each <code>MIP requested variable</code></li>
 <li>logs information on the variables for which authorised mappings are available and variables/mappings that are not available and why.</li>
 <li>creates directories for holding the retrieved data from MASS, the post-processed data which will be disseminated and the directories used to hold the artifacts used by other cdds processes (e.g. log files)</li>
-<li>creates appropriate PP and netCDF variable filter files that are used to filter the data retrieved from MASS before it is copied to disk.</li>
+<li>creates appropriate PP and <abbr title="Network Common Data Form">netCDF</abbr> variable filter files that are used to filter the data retrieved from MASS before it is copied to disk.</li>
 <li>checks that MASS holds the relevant data collections and constructs MOOSE commands that will retrieve the required model data from these data collections (optionally incorporating the relevant filter files)</li>
 <li>submits constructed MOOSE commands and reports progress in text logs</li>
 <li>performs validation on the retrieved data to check it meets processing requirement</li>

@@ -1601,15 +1601,15 @@
 <li>Use your model parameters classes in your plugin</li>
 <li>Create your own grid labels</li>
 <li>Use your grid labels in your plugin</li>
-<li>Use your plugin with CDDS</li>
+<li>Use your plugin with <abbr title="Climate Data Dissemination System">CDDS</abbr></li>
 </ol>
 <h2 id="preconditions">Preconditions</h2>
 <ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Check that you, add the CDDS project (at least the <code>cdds_common</code> package) is in your Python path.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Check that you, add the <abbr title="Climate Data Dissemination System">CDDS</abbr> project (at least the <code>cdds_common</code> <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr>) is in your Python path.</li>
 </ul>
 <details class="example">
 <summary>Example</summary>
-<p>To make sure that the CDDS project is in your Python path by using a script
+<p>To make sure that the <abbr title="Climate Data Dissemination System">CDDS</abbr> project is in your Python path by using a script
 <div class="highlight"><pre><span></span><code>load_conda<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">    </span><span class="c1"># load conda environment</span>
 <span class="w">    </span>.<span class="w"> </span>~cdds/software/miniconda3/bin/activate<span class="w"> </span>&lt;cdds_conda_version&gt;
@@ -1641,15 +1641,15 @@ setup_cdds_package
 setup_project
 </code></pre></div></p>
 <ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set <code>&lt;cdds_conda_version&gt;</code> to the conda version of the CDDS project you want to use (e.g. <code>cdds-3.0_dev-0</code>)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>&lt;path-to-cdds-project&gt;</code> to the path to the CDDS project.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set <code>&lt;cdds_conda_version&gt;</code> to the conda version of the <abbr title="Climate Data Dissemination System">CDDS</abbr> project you want to use (e.g. <code>cdds-3.0_dev-0</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>&lt;path-to-cdds-project&gt;</code> to the path to the <abbr title="Climate Data Dissemination System">CDDS</abbr> project.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Replace <code>&lt;setup-your-project&gt;</code> with the commands you need to setup your project.</li>
 </ul>
 </details>
 <h2 id="step-1-create-a-plugin-class">Step 1: Create a plugin class</h2>
 <ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a module <code>&lt;my&gt;_plugin.py</code> where <code>&lt;my&gt;</code> can be replaced with any name you like. A good choice would be the MIP era that the plugin should support.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import <code>CddsPlugin</code> from CDDS project:
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a module <code>&lt;my&gt;_plugin.py</code> where <code>&lt;my&gt;</code> can be replaced with any name you like. A good choice would be the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> era that the plugin should support.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import <code>CddsPlugin</code> from <abbr title="Climate Data Dissemination System">CDDS</abbr> project:
       <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cdds.common.plugins.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">CddsPlugin</span>
 </code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a plugin class that extends from the <code>CddsPlugin</code> class:
@@ -1707,7 +1707,7 @@ to create one model parameter class. To create more classes, simple repeat the s
 that is related to the model parameters.</p>
 </div>
 <ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import the <code>ModelParameters</code> class from the CDDS project:
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import the <code>ModelParameters</code> class from the <abbr title="Climate Data Dissemination System">CDDS</abbr> project:
       <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cdds.common.plugins.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelParameters</span>
 </code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a class that extends from the <code>ModelParameters</code></li>
@@ -1774,7 +1774,7 @@ that is related to the model parameters.</p>
 that is related to the grid information.</p>
 </div>
 <ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import the <code>GridInfo</code> class and <code>GridType</code> enum from the CDDS project:
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import the <code>GridInfo</code> class and <code>GridType</code> enum from the <abbr title="Climate Data Dissemination System">CDDS</abbr> project:
       <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cdds.common.plugins.grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridType</span><span class="p">,</span> <span class="n">GridInfo</span>
 </code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> For each grid type, there should be an own grid information class. So, create two classes that extends from the 
@@ -1923,7 +1923,7 @@ that is related to the grid information.</p>
 <p>The last to do for finishing the plugin is to implement the <code>GridLabel</code></p>
 <h3 id="step-6-implement-the-grid-labels">Step 6: Implement the grid labels</h3>
 <ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import the <code>GridLabel</code> class from CDDS:
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import the <code>GridLabel</code> class from <abbr title="Climate Data Dissemination System">CDDS</abbr>:
       <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cdds.common.plugins.grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridLabel</span>
 </code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a class your own grid label enum class that extend from GridLabel with a <code>__init__</code> method that as the arguments <code>grid_name</code>, 
@@ -1977,10 +1977,10 @@ that is related to the grid information.</p>
     <span class="k">return</span> <span class="n">MyGridLabel</span>
 </code></pre></div>
 </details>
-<h2 id="step-8-implement-the-stream-info-class">Step 8: Implement the stream info class</h2>
-<p>You should create a stream info class for all information around streams.</p>
+<h2 id="step-8-implement-the-stream-info-class">Step 8: Implement the <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> info class</h2>
+<p>You should create a <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> info class for all information around <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr>.</p>
 <ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import the <code>StreamInfo</code> class from the CDDS project:
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import the <code>StreamInfo</code> class from the <abbr title="Climate Data Dissemination System">CDDS</abbr> project:
       <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cdds.common.plugins.streams</span><span class="w"> </span><span class="kn">import</span> <span class="n">StreamInfo</span>
 </code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a class that extends from the <code>StreamInfo</code></li>
@@ -2001,9 +2001,9 @@ that is related to the grid information.</p>
         <span class="k">pass</span>
 </code></pre></div>
 </details>
-<h3 id="step-9-use-your-stream-info-in-your-plugin">Step 9: Use your stream info in your plugin</h3>
+<h3 id="step-9-use-your-stream-info-in-your-plugin">Step 9: Use your <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> info in your plugin</h3>
 <ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Use the <code>stream_info</code> in your plugin by simply returning your stream info</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Use the <code>stream_info</code> in your plugin by simply returning your <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> info</li>
 </ul>
 <details class="example">
 <summary>Example</summary>
@@ -2011,10 +2011,10 @@ that is related to the grid information.</p>
     <span class="k">return</span> <span class="n">MyStreamInfo</span><span class="p">()</span>
 </code></pre></div>
 </details>
-<p>Congratulations, you finished to implement the plugin. Now, you can use it with CDDS.</p>
-<h3 id="step-10-use-your-plugin-with-cdds">Step 10: Use your plugin with CDDS</h3>
+<p>Congratulations, you finished to implement the plugin. Now, you can use it with <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
+<h3 id="step-10-use-your-plugin-with-cdds">Step 10: Use your plugin with <abbr title="Climate Data Dissemination System">CDDS</abbr></h3>
 <ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Add your implementation to the <code>PYTHONPATH</code> (and <code>PATH</code>). Otherwise, CDDS will not be able to find it.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Add your implementation to the <code>PYTHONPATH</code> (and <code>PATH</code>). Otherwise, <abbr title="Climate Data Dissemination System">CDDS</abbr> will not be able to find it.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Change the value of the <code>external_plugin_location</code> in the <code>request.cfg</code> file to the path to your plugin implementation</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Change the value of the <code>external_plugin</code> in the <code>request.cfg</code> file to the module path to your plugin</li>
 </ul>

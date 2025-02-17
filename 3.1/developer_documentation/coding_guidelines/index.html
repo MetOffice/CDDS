@@ -1537,7 +1537,7 @@
 <li>Exception - Limit all lines to a maximum of 120 characters for docstrings and comments. (79 in the the PEP 8 guidelines <a href="https://peps.python.org/pep-0008/#maximum-line-length">reference</a>).</li>
 </ul>
 </li>
-<li>All <code>CDDS</code> packages should contain a <code>package_name/package_name/tests/test_coding_standards.py</code> module that uses the <a href="https://pycodestyle.pycqa.org/en/latest/">pycodestyle</a> package to check PEP 8 conformance.</li>
+<li>All <code>CDDS</code> <abbr title="Identifiers indicating the phase of CDDS processing.">packages</abbr> should contain a <code>package_name/package_name/tests/test_coding_standards.py</code> module that uses the <a href="https://pycodestyle.pycqa.org/en/latest/">pycodestyle</a> <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> to check PEP 8 conformance.</li>
 <li>In addition to this, it is recommended to use a tool that checks for errors in Python code, coding standard (e.g., PEP 8) conformance and general code quality e.g., <a href="http://www.pylint.org/">pylint</a>.<ul>
 <li>However, some <a href="http://www.python.org/dev/peps/pep-0008">PEP 8</a> guidelines are not checked by these tools; please also:</li>
 <li>Be consistent within a module or function <a href="https://peps.python.org/pep-0008/#a-foolish-consistency-is-the-hobgoblin-of-little-minds">reference</a>.</li>
@@ -1577,7 +1577,7 @@
 <h3 id="docstrings">Docstrings</h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Historically CDDS used the NumpyDoc format for all docstrings but
+<p>Historically <abbr title="Climate Data Dissemination System">CDDS</abbr> used the NumpyDoc format for all docstrings but
 as of 2022 the PEP-257 format was adopted.
 This means there is currently a mix of docstring formats used
 throughout the <code>CDDS</code> code.</p>

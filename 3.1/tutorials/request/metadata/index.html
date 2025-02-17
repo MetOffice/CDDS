@@ -1447,7 +1447,7 @@
 
 
 <h1 id="metadata-section">Metadata Section</h1>
-<p>The <code>metadata</code> section in the request configuration contains all metadata settings about the experiment that should be 
+<p>The <code>metadata</code> section in the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> contains all metadata settings about the <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> that should be 
 processed.</p>
 <h2 id="configuration-values">Configuration Values</h2>
 <dl>
@@ -1455,20 +1455,20 @@ processed.</p>
 <dd>branching procedure - <code>standard</code>, <code>continuation</code> or <code>no parent</code></dd>
 <dt><code>base_date</code></dt>
 <dd>
-<p>used to define the units of the time coordinate in the netCDF file.
+<p>used to define the units of the time coordinate in the <abbr title="Network Common Data Form">netCDF</abbr> file.
 <em>Format:</em> <code>yyyy-mm-ddTHH:MM:SSZ</code>, e.g. <code>1850-01-01T00:00:00Z</code></p>
 <p><strong>Default:</strong> <code>1850-01-01T00:00:00Z</code></p>
 </dd>
 <dt><code>calendar</code></dt>
 <dd>that should be used - <code>360_day</code> or <code>gregorian</code></dd>
 <dt><code>experiment_id</code></dt>
-<dd>experiment identifier</dd>
+<dd><abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> identifier</dd>
 <dt><code>institution_id</code></dt>
 <dd>institution identifier, e.g. <code>MOHC</code> for <code>Met Office Hadley Centre</code></dd>
 <dt><code>license</code></dt>
 <dd>
 <p>license restrictions. It ensures that anyone using the files has access to the terms of use.</p>
-<p><strong>Default:</strong> The licenses that the corresponding plugin is provided for the given MIP era.</p>
+<p><strong>Default:</strong> The licenses that the corresponding plugin is provided for the given <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> era.</p>
 </dd>
 <dt><code>mip</code></dt>
 <dd>the model intercomparison project, e.g. <code>ScenarioMIP</code></dd>
@@ -1476,19 +1476,19 @@ processed.</p>
 <dd>the associated cycle, e.g. <code>CMIP6</code>, <code>GCDevModel</code>, <code>CORDEX</code></dd>
 <dt><code>sub_experiment_id</code></dt>
 <dd>
-<p>identifier of the sub experiment. For example, it is needed for CMIP6 hindcast or forecast experiments to indicate 
-start year. If no sub experiment is given, set it to <code>none</code></p>
+<p>identifier of the sub <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr>. For example, it is needed for CMIP6 hindcast or forecast experiments to indicate 
+start year. If no sub <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> is given, set it to <code>none</code></p>
 <p><strong>Default:</strong> <code>none</code></p>
 </dd>
 <dt><code>variant_label</code></dt>
-<dd>the label of the variant of the experiment that should be considered.</dd>
+<dd>the label of the variant of the <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> that should be considered.</dd>
 <dt><code>model_id</code></dt>
 <dd>a short name identifying the model, also know as <code>source_id</code>, e.g. <code>HadGEM3-GC31-LL</code>.</dd>
 <dt><code>model_type</code></dt>
 <dd>a text code identifying which model components are used in the given experiments separated by white spaces, 
 e.g. <code>AOGCM AER BGC</code></dd>
 </dl>
-<h3 id="configuration-values-for-parent-experiment">Configuration values for parent experiment</h3>
+<h3 id="configuration-values-for-parent-experiment">Configuration values for parent <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr></h3>
 <p>Following configuration values are only needed to be set if the <code>branch_method</code> is <code>standard</code> or <code>continuation</code>:</p>
 <dl>
 <dt><code>branch_date_in_child</code></dt>
@@ -1499,32 +1499,32 @@ e.g. <code>AOGCM AER BGC</code></dd>
 <em>Format:</em> <code>yyyy-mm-ddTHH:MM:SSZ</code>, e.g. <code>2000-01-01T00:00:00Z</code></dd>
 <dt><code>parent_base_date</code></dt>
 <dd>
-<p>used to define the units of the time coordinate in the netCDF files. 
+<p>used to define the units of the time coordinate in the <abbr title="Network Common Data Form">netCDF</abbr> files. 
 <em>Format:</em> <code>yyyy-mm-ddTHH:MM:SSZ</code>, e.g. <code>2005-01-01T00:00:00Z</code></p>
 <p><strong>Default:</strong> <code>1850-01-01T00:00:00Z</code></p>
 </dd>
 <dt><code>parent_experiment_id</code></dt>
-<dd>parent experiment identifier, e.g. <code>piControl</code></dd>
+<dd>parent <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> identifier, e.g. <code>piControl</code></dd>
 <dt><code>parent_mip</code></dt>
-<dd>the model intercomparison project of the parent experiment</dd>
+<dd>the model intercomparison project of the parent <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr></dd>
 <dt><code>parent_mip_era</code></dt>
-<dd>parent's associated MIP cycle, e.g. <code>CMIP6</code></dd>
+<dd>parent's associated <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> cycle, e.g. <code>CMIP6</code></dd>
 <dt><code>parent_model_id</code></dt>
 <dd>
 <p>a short name identifying the parent model, e.g. <code>HadGEM3-GC31-LL</code>.</p>
-<p><strong>Default</strong>: The same model ID of the experiment that should be processed</p>
+<p><strong>Default</strong>: The same model ID of the <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> that should be processed</p>
 </dd>
 <dt><code>parent_time_units</code></dt>
 <dd>
-<p>the time units used in the parent experiment.</p>
+<p>the time units used in the parent <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr>.</p>
 <p><strong>Default:</strong> <code>days since 1850-01-01</code></p>
 </dd>
 <dt><code>parent_variant_label</code></dt>
-<dd>the label of the specific variant of the parent experiment that should be considered.</dd>
+<dd>the label of the specific variant of the parent <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> that should be considered.</dd>
 </dl>
 <h2 id="examples">Examples</h2>
 <div class="admonition example">
-<p class="admonition-title">CIMP6 experiment without parent</p>
+<p class="admonition-title">CIMP6 <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> without parent</p>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">[</span><span class="nv">metadata</span><span class="p p-Indicator">]</span>
 <span class="l l-Scalar l-Scalar-Plain">branch_method = no parent</span>
 <span class="l l-Scalar l-Scalar-Plain">calendar = 360_day</span>
@@ -1543,7 +1543,7 @@ e.g. <code>AOGCM AER BGC</code></dd>
 </code></pre></div>
 </div>
 <div class="admonition example">
-<p class="admonition-title">CMIP6 experiment with parent</p>
+<p class="admonition-title">CMIP6 <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> with parent</p>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">[</span><span class="nv">metadata</span><span class="p p-Indicator">]</span>
 <span class="l l-Scalar l-Scalar-Plain">branch_date_in_child = 1850-01-01T00:00:00Z</span>
 <span class="l l-Scalar l-Scalar-Plain">branch_date_in_parent = 2250-01-01T00:00:00Z</span>

@@ -1421,7 +1421,7 @@
 
 
 <h1 id="data-section">Data Section</h1>
-<p>The <code>data</code> section in the request configuration contains all settings that are used to archive the data in MASS.</p>
+<p>The <code>data</code> section in the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> contains all settings that are used to archive the data in MASS.</p>
 <h2 id="configuration-values">Configuration Values</h2>
 <dl>
 <dt><code>data_version</code></dt>
@@ -1439,26 +1439,26 @@
 <p><strong>Default:</strong> <code>crum</code></p>
 </dd>
 <dt><code>mass_ensemble_member</code></dt>
-<dd>identifier of the ensemble member for PPE simulations</dd>
+<dd>identifier of the ensemble member for PPE <abbr title="Particular model runs, with associated workflow identifiers, which are defined by an experiment and have an assigned variant label.">simulations</abbr></dd>
 <dt><code>model_workflow_id</code></dt>
-<dd>workflow ID of the simulation model.</dd>
+<dd>workflow ID of the <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> model.</dd>
 <dt><code>max_file_size</code></dt>
 <dd>
-<p>maximum netCDF file size in bytes</p>
+<p>maximum <abbr title="Network Common Data Form">netCDF</abbr> file size in bytes</p>
 <p><strong>Default:</strong> <code>20e9</code> (20GB)</p>
 </dd>
 <dt><code>model_workflow_branch</code></dt>
 <dd>
-<p>name of the workflow branch of the simulation model.</p>
+<p>name of the workflow branch of the <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> model.</p>
 <p><strong>Default:</strong> <code>cdds</code></p>
 </dd>
 <dt><code>model_workflow_revision</code></dt>
 <dd>
-<p>workflow revision of the simulation model.</p>
+<p>workflow revision of the <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> model.</p>
 <p><strong>Default:</strong> <code>HEAD</code></p>
 </dd>
 <dt><code>streams</code></dt>
-<dd>restrict only to these streams. If empty, all streams will be processed.</dd>
+<dd>restrict only to these <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr>. If empty, all <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> will be processed.</dd>
 <dt><code>variable_list_file</code></dt>
 <dd>path to the user created variables file.</dd>
 <dt><code>output_mass_root</code></dt>

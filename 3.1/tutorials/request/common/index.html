@@ -1421,31 +1421,31 @@
 
 
 <h1 id="common-section">Common Section</h1>
-<p>The <code>common</code> section in the request configuration contains common setting like the path to the root data folder or 
+<p>The <code>common</code> section in the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> contains common setting like the path to the root data folder or 
 the path to the external plugin.</p>
 <h2 id="configuration-values">Configuration Values</h2>
 <dl>
 <dt><code>external_plugin</code></dt>
-<dd>module path to external CDDS plugin, e.g. <code>cdds_arise.arise_plugin</code></dd>
+<dd>module path to external <abbr title="Climate Data Dissemination System">CDDS</abbr> plugin, e.g. <code>cdds_arise.arise_plugin</code></dd>
 <dt><code>external_plugin_location</code></dt>
 <dd>path to the external plugin implementation, e.g. <code>/home/h03/cdds/arise</code></dd>
 <dt><code>mip_table_dir</code></dt>
 <dd>
-<p>path to the directory containing the inforamtion about the MIP tables, e.g. <code>/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29/</code></p>
-<p><strong>Default:</strong> The path to the MIP table directoring specified in the corresponding plugin</p>
+<p>path to the directory containing the inforamtion about the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> tables, e.g. <code>/home/h03/cdds/etc/mip_tables/CMIP6/01.00.29/</code></p>
+<p><strong>Default:</strong> The path to the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table directoring specified in the corresponding plugin</p>
 </dd>
 <dt><code>mode</code></dt>
 <dd>
-<p>mode that should be used to CMORised the data - <code>strict</code> or <code>relaxed</code>. If mode is <code>strict</code>, CMOR will fail if there 
-are warnings regarding compliance of CMOR standards. If mode is <code>relaxed</code>, CMOR will only fail if cubes present serve 
-discrepancies with CMOR standards.</p>
+<p>mode that should be used to CMORised the data - <code>strict</code> or <code>relaxed</code>. If mode is <code>strict</code>, <abbr title="Climate Model Output Rewriter">CMOR</abbr> will fail if there 
+are warnings regarding compliance of <abbr title="Climate Model Output Rewriter">CMOR</abbr> standards. If mode is <code>relaxed</code>, <abbr title="Climate Model Output Rewriter">CMOR</abbr> will only fail if cubes present serve 
+discrepancies with <abbr title="Climate Model Output Rewriter">CMOR</abbr> standards.</p>
 <p><strong>Default:</strong> <code>strict</code></p>
 </dd>
 <dt><code>package</code></dt>
-<dd>package name used to distinguish different run throughs of CDDS, e.g. <code>round-1</code>.</dd>
+<dd><abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> name used to distinguish different run throughs of <abbr title="Climate Data Dissemination System">CDDS</abbr>, e.g. <code>round-1</code>.</dd>
 <dt><code>workflow_basename</code></dt>
 <dd>
-<p>name of the workflow name of the CDDS suite that will trigger during the CDDS processing suite</p>
+<p>name of the workflow name of the <abbr title="Climate Data Dissemination System">CDDS</abbr> suite that will trigger during the <abbr title="Climate Data Dissemination System">CDDS</abbr> processing suite</p>
 <p><strong>Default</strong>: <code>&lt;model_id&gt;_&lt;experiment_id&gt;_&lt;variant_label&gt;</code> - all three values are defined in the <code>metadata</code> section</p>
 </dd>
 <dt><code>root_proc_dir</code></dt>
@@ -1456,27 +1456,27 @@ discrepancies with CMOR standards.</p>
 <dd>
 <p>root path to the location of the ancillary files. The files should be located in a sub-directory of this path 
 with the name of the model ID.</p>
-<p><strong>Default:</strong> Path to the directory containing the ancillary files located in the CDDS home directory</p>
+<p><strong>Default:</strong> Path to the directory containing the ancillary files located in the <abbr title="Climate Data Dissemination System">CDDS</abbr> home directory</p>
 </dd>
 <dt><code>root_hybrid_heights_dir</code></dt>
 <dd>
 <p>root path to the location of the hybrid heights files.</p>
-<p><strong>Default::</strong> Path to the directory containing hybrid heights files located in the CDDS home directory</p>
+<p><strong>Default::</strong> Path to the directory containing hybrid heights files located in the <abbr title="Climate Data Dissemination System">CDDS</abbr> home directory</p>
 </dd>
 <dt><code>root_replacement_coordinates_dir</code></dt>
 <dd>
 <p>root path to the location of the replacement coordinates files.</p>
-<p><strong>Default:</strong> Path to the directory containing the replacement coordinates files located in the CDDS home directory</p>
+<p><strong>Default:</strong> Path to the directory containing the replacement coordinates files located in the <abbr title="Climate Data Dissemination System">CDDS</abbr> home directory</p>
 </dd>
 <dt><code>sites_files</code></dt>
 <dd>
 <p>path to the file containing the sites information.</p>
-<p><strong>Default:</strong> Path to the file containing the site information located in the CDDS home directory</p>
+<p><strong>Default:</strong> Path to the file containing the site information located in the <abbr title="Climate Data Dissemination System">CDDS</abbr> home directory</p>
 </dd>
 <dt><code>standard_names_dir</code></dt>
 <dd>
 <p>the directory containing the standard names that should be used.</p>
-<p><strong>Default</strong>: Path to the standard names directory located in the CDDS home directory</p>
+<p><strong>Default</strong>: Path to the standard names directory located in the <abbr title="Climate Data Dissemination System">CDDS</abbr> home directory</p>
 </dd>
 <dt><code>standard_names_version</code></dt>
 <dd>
@@ -1484,7 +1484,7 @@ with the name of the model ID.</p>
 <p><strong>Default:</strong> <code>latest</code></p>
 </dd>
 <dt><code>simulation</code></dt>
-<dd>if set to <code>True</code> CDDS operation will be simulated</dd>
+<dd>if set to <code>True</code> <abbr title="Climate Data Dissemination System">CDDS</abbr> operation will be simulated</dd>
 <dt><code>log_level</code></dt>
 <dd>
 <p>identify which log level should be used for logging - <code>CRITICAL</code>, <code>INFO</code> or <code>DEBUG</code></p>

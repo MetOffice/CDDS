@@ -1527,7 +1527,7 @@ It currently serves two main functions.</p>
 <span class="w">    </span><span class="na">style</span>
 </code></pre></div>
 <h2 id="running-pytest">Running pytest</h2>
-<p>CDDS already provides a script to run all tests via pytest:</p>
+<p><abbr title="Climate Data Dissemination System">CDDS</abbr> already provides a script to run all tests via pytest:</p>
 <p>Activate the conda environment:
 <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>setup_env_for_devel
 </code></pre></div></p>
@@ -1538,7 +1538,7 @@ It currently serves two main functions.</p>
 It does not run the RabbitMQ tests!
 Tests failures will be logged in the cdds_test_failures.log file.</p>
 <p>Run RabbitMQ tests
-The RabbitMQ tests needs a proper RabbitMQ installation. Only, the server els055 and els056 have RabbitMQ properly installed for CDDS. </p>
+The RabbitMQ tests needs a proper RabbitMQ installation. Only, the server els055 and els056 have RabbitMQ properly installed for <abbr title="Climate Data Dissemination System">CDDS</abbr>. </p>
 <p>RabbitMQ needs credentials that are specified in your home directory $HOME/.cdds_credentials and has following content:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[rabbit]</span>
 <span class="na">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;hostname&gt;</span>
@@ -1552,7 +1552,7 @@ The RabbitMQ tests needs a proper RabbitMQ installation. Only, the server els055
 <p>Connect to one of the servers via ssh, e.g:</p>
 <div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>els055
 </code></pre></div>
-<p>Go to your workspace directory for CDDS. (the same as on your local VM)</p>
+<p>Go to your workspace directory for <abbr title="Climate Data Dissemination System">CDDS</abbr>. (the same as on your local VM)</p>
 <p>Activate the conda environment:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>setup_env_for_devel
 </code></pre></div>
@@ -1561,7 +1561,7 @@ The RabbitMQ tests needs a proper RabbitMQ installation. Only, the server els055
 </code></pre></div>
 <p>Any test failures will be recorded in the cdds_rabbitmq_test_failures.log file.</p>
 <p>Run single tests
-Run all tests in a specific package</p>
+Run all tests in a specific <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr></p>
 <div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>-s<span class="w"> </span>&lt;package-folder&gt;
 </code></pre></div>
 <p>For example: run all tests in mip_convert:</p>

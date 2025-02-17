@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#release-310rc1-february-11-2025" class="md-skip">
+        <a href="#release-310-february-13-2025" class="md-skip">
           Skip to content
         </a>
       
@@ -340,8 +340,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#release-310rc1-february-11-2025" class="md-nav__link">
-    Release 3.1.0rc1, February 11, 2025
+  <a href="#release-310-february-13-2025" class="md-nav__link">
+    Release 3.1.0, February 13 2025
   </a>
   
 </li>
@@ -1979,8 +1979,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#release-310rc1-february-11-2025" class="md-nav__link">
-    Release 3.1.0rc1, February 11, 2025
+  <a href="#release-310-february-13-2025" class="md-nav__link">
+    Release 3.1.0, February 13 2025
   </a>
   
 </li>
@@ -2604,39 +2604,39 @@
 
   <h1>Changelog (CDDS)</h1>
 
-<h2 id="release-310rc1-february-11-2025">Release 3.1.0rc1, February 11, 2025</h2>
+<h2 id="release-310-february-13-2025">Release 3.1.0, February 13 2025</h2>
 <ul>
 <li>
-<p>MIP Convert and CMOR log files are copied into the cylc task directory and </p>
+<p><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert and <abbr title="Climate Model Output Rewriter">CMOR</abbr> log files are copied into the cylc task directory and </p>
 <p>are accessible via  cylc review (CDDSO-495)</p>
 </li>
 <li>
-<p>Cylc workflows have been integrated into the CDDS code base rather than </p>
+<p>Cylc workflows have been integrated into the <abbr title="Climate Data Dissemination System">CDDS</abbr> code base rather than </p>
 <p>being checked out from the roses-u repository (CDDSO-494)</p>
 </li>
 <li>
-<p>Processing for multiple streams is now handled within a single Cylc workflow </p>
+<p>Processing for multiple <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> is now handled within a single Cylc workflow </p>
 <p>(CDDSO-302)</p>
 </li>
 <li>
-<p>A validation tool has been added for the model parameters file <code>SCRIPT_NAME_HERE</code> </p>
+<p>A validation tool has been added for the model parameters file <code>validate_model_parameters</code></p>
 <p>(CDDSO-511)</p>
 </li>
 <li>
-<p>CDDS Prepare will remove MIP Convert templates from the configure proc directory </p>
+<p><abbr title="Climate Data Dissemination System">CDDS</abbr> Prepare will remove <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert templates from the configure proc directory </p>
 <p>to avoid inconsistencies in processing. A <code>--reconfigure</code> command line argument </p>
 <p>has been added to enable the regeneration of the mip convert config templates </p>
 <p>from the command line (CDDSO-593)</p>
 </li>
 <li>
-<p>Ancillary STASH variables can now be configured via the CDDS Plugins (CDDSO-582)</p>
+<p>Ancillary <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> variables can now be configured via the <abbr title="Climate Data Dissemination System">CDDS</abbr> Plugins (CDDSO-582)</p>
 </li>
 <li>
 <p>Added support for HadGEM3-GC50-N640ORCA12 model, which includes allowing for</p>
 <p>alternative coordinate bounds variables in NEMO output files (CDDSO-543)</p>
 </li>
 <li>
-<p>Updated CMOR to v3.9.0 (CDDSO-589)</p>
+<p>Updated <abbr title="Climate Model Output Rewriter">CMOR</abbr> to v3.9.0 (CDDSO-589)</p>
 </li>
 <li>
 <p>Migrated content from Sphinx docs to mkdocs (CDDSO-598, CDDSO-600)</p>
@@ -2645,7 +2645,7 @@
 <h2 id="release-306-january-21-2025">Release 3.0.6, January 21, 2025</h2>
 <ul>
 <li>
-<p>Pass model parameters file to CDDS suite during convert process</p>
+<p>Pass model parameters file to <abbr title="Climate Data Dissemination System">CDDS</abbr> suite during convert process</p>
 <p>(CDDSO-578)</p>
 </li>
 <li>
@@ -2656,7 +2656,7 @@
 <p>Add documentation to deployment page (CDDSO-556)</p>
 </li>
 <li>
-<p>Allow QC file size limit to be overloaded in the request file</p>
+<p>Allow QC file size limit to be overloaded in the <abbr title="Information about a simulation used by all CDDS components.">request file</abbr></p>
 <p>(CDDSO-577, CDDSO-587)</p>
 </li>
 <li>
@@ -2671,26 +2671,26 @@
 <li>
 <p>Ensured that quarterly PP files, i.e. those that have 3 months of</p>
 <p>output at monthly/daily frequency can be extracted and picked up by</p>
-<p>the wrapper to MIP convert (CDDSO-560, CDDSO-568)</p>
+<p>the wrapper to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> convert (CDDSO-560, CDDSO-568)</p>
 </li>
 </ul>
 <h2 id="release-304-november-19-2024">Release 3.0.4, November 19, 2024</h2>
 <ul>
 <li>
 <p>Enabled sub-annual slicing through the <code>slicing</code> option in the</p>
-<p><code>common</code> section of the Request config file. Streams can</p>
+<p><code>common</code> section of the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> file. Streams can</p>
 <p>individually be set to have <code>month</code> slicing where large amounts of</p>
 <p>memory usage are expected (e.g. hourly data) while the default is</p>
 <p><code>year</code>, i.e. annual slicing (CDDSO-342)</p>
 </li>
 <li>
 <p>Corrected bug preventing QC from completing for CMIP6 like</p>
-<p>processing introduced in CDDS v3.0.2 (CDDSO-532)</p>
+<p>processing introduced in <abbr title="Climate Data Dissemination System">CDDS</abbr> v3.0.2 (CDDSO-532)</p>
 </li>
 <li>
-<p>Changed concatenation code to handle monthly and daily datasets in</p>
-<p>the same stream where the first two facets of the file name are not</p>
-<p>unique to a dataset (CDDSO-548)</p>
+<p>Changed concatenation code to handle monthly and daily <abbr title="Many groups of data containing some or all of the model output files from model simulations.">Datasets</abbr> in</p>
+<p>the same <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> where the first two facets of the file name are not</p>
+<p>unique to a <abbr title="A group of data containing some or all of the model output files from a single model simulation (i.e., model output files from a single realization of a single experiment from a single model).">Dataset</abbr> (CDDSO-548)</p>
 </li>
 <li>
 <p>Updated HadREM3 sizing info (CDDSO-548)</p>
@@ -2705,7 +2705,7 @@
 <li>
 <p>The inclusion of rotated coordinates in output files can now be</p>
 <p>forces through the introduction of the <code>force_coordinate_rotation</code></p>
-<p>flag into the Request config files (CDDSO-529)</p>
+<p>flag into the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> files (CDDSO-529)</p>
 </li>
 <li>
 <p>Global attribute caching has been introduced to improve QC speed</p>
@@ -2720,7 +2720,7 @@
 </li>
 <li>
 <p>Ensure that hourly data and submonthly data is correctly recognised</p>
-<p>by CDDS when running MIP Convert (CDDSO-512)</p>
+<p>by <abbr title="Climate Data Dissemination System">CDDS</abbr> when running <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert (CDDSO-512)</p>
 </li>
 <li>
 <p>Prevent Extract tasks from failing when assessing moose command</p>
@@ -2735,7 +2735,7 @@
 <p>setup task (CDDSO-504)</p>
 </li>
 <li>
-<p>Correctly overload model parameters file when reading request file</p>
+<p>Correctly overload model parameters file when reading <abbr title="Information about a simulation used by all CDDS components.">request file</abbr></p>
 <p>(CDDSO-508)</p>
 </li>
 <li>
@@ -2753,15 +2753,15 @@
 <h2 id="release-301-august-21-2024">Release 3.0.1, August 21, 2024</h2>
 <ul>
 <li>
-<p>Verbose mode is not added as default option when running CDDS</p>
+<p>Verbose mode is not added as default option when running <abbr title="Climate Data Dissemination System">CDDS</abbr></p>
 <p>Convert workflow to avoid Cylc issue (CDDSO-490)</p>
 </li>
 <li>
 <p>Added new options to delete pre-existing proc and data directories</p>
-<p>in <code>request.cfg</code> (CDDS-408)</p>
+<p>in <code>request.cfg</code> (<abbr title="Climate Data Dissemination System">CDDS</abbr>-408)</p>
 </li>
 <li>
-<p>Changes to port CDDS to Azure (CDDS-481, CDDSO-497)</p>
+<p>Changes to port <abbr title="Climate Data Dissemination System">CDDS</abbr> to Azure (<abbr title="Climate Data Dissemination System">CDDS</abbr>-481, CDDSO-497)</p>
 </li>
 <li>
 <p>QC and archive will now fail if nothing is to check or to archive</p>
@@ -2778,11 +2778,11 @@
 <p>Prepare to accept variables like 6hrPlevPt/zg7h (CDDSO-473)</p>
 </li>
 <li>
-<p>The sim review script now accepts the request config file as its</p>
+<p>The sim review script now accepts the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> file as its</p>
 <p>input argument (CDDSO-461)</p>
 </li>
 <li>
-<p>Added a new script <code>cdds_clean</code> to clean out the CDDS Convert</p>
+<p>Added a new script <code>cdds_clean</code> to clean out the <abbr title="Climate Data Dissemination System">CDDS</abbr> Convert</p>
 <p>workflows (CDDSO-450)</p>
 </li>
 <li>
@@ -2796,7 +2796,7 @@
 <p>Extract will now fail if the tape check fails (CDDSO-482)</p>
 </li>
 <li>
-<p>Added validations for many fields within the request config file</p>
+<p>Added validations for many fields within the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> file</p>
 <p>(CDDSO-292)</p>
 </li>
 <li>
@@ -2806,26 +2806,26 @@
 <h2 id="release-300-may-15-2024">Release 3.0.0, May 15, 2024</h2>
 <ul>
 <li>
-<p>The request JSON file, used to control CDDS in previous versions,</p>
+<p>The request JSON file, used to control <abbr title="Climate Data Dissemination System">CDDS</abbr> in previous versions,</p>
 <p>has been replaced with a config file containing all required options</p>
-<p>and the command line interfaces to CDDS tools have been</p>
+<p>and the command line interfaces to <abbr title="Climate Data Dissemination System">CDDS</abbr> tools have been</p>
 <p>correspondingly updated (CDDSO-434, CDDSO-466, CDDSO-424, CDDSO-301,</p>
 <p>CDDSO-411, CDDSO-299, CDDSO-298, CDDSO-296, CDDSO-297, CDDSO-438,</p>
 <p>CDDSO-423, CDDSO-386, CDDSO-300, CDDSO-395)</p>
 </li>
 <li>
-<p>CDDS Documentation is now maintained through mkdocs and served via</p>
+<p><abbr title="Climate Data Dissemination System">CDDS</abbr> Documentation is now maintained through mkdocs and served via</p>
 <p>github pages (CDDSO-427, CDDSO-430, CDDSO-409, CDDSO-429, CDDSO-426,</p>
 <p>CDDSO-425, CDDSO-428, CDDSO-443, CDDSO-446, CDDSO-442)</p>
 </li>
 <li>
-<p>MIP Convert failure will now lead to cylc task failure if the</p>
+<p><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert failure will now lead to cylc task failure if the</p>
 <p><code>continue_if_mip_convert_failed</code> setting in the request</p>
-<p>(<code>[conversion]</code> section) is set to False in the request config file</p>
+<p>(<code>[conversion]</code> section) is set to False in the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> file</p>
 <p>(CDDSO-387)</p>
 </li>
 <li>
-<p>The branch of the CDDS Convert workflow being used by default is</p>
+<p>The branch of the <abbr title="Climate Data Dissemination System">CDDS</abbr> Convert workflow being used by default is</p>
 <p>controlled by the <code>CDDS_CONVERT_WORKFLOW_BRANCH</code> environment</p>
 <p>variable (CDDSO-452)</p>
 </li>
@@ -2834,7 +2834,7 @@
 <p>appear in job.out files within the cylc log directory (CDDSO-34)</p>
 </li>
 <li>
-<p>CMOR has been updated to v3.8 and Python to 3.10 (CDDSO-411)</p>
+<p><abbr title="Climate Model Output Rewriter">CMOR</abbr> has been updated to v3.8 and Python to 3.10 (CDDSO-411)</p>
 </li>
 <li>
 <p>Simplified model config files by removing</p>
@@ -2853,7 +2853,7 @@
 </li>
 <li>
 <p>QC now allows missing standard name attribute if it is defined as</p>
-<p>empty in MIP Tables (CDDSO-478)</p>
+<p>empty in <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Tables (CDDSO-478)</p>
 </li>
 </ul>
 <h2 id="release-258-february-29-2024">Release 2.5.8, February 29, 2024</h2>
@@ -2862,7 +2862,7 @@
 <p>Added submission queues to support CMIP6Plus publication (CDDSO-413)</p>
 </li>
 <li>
-<p>Removed modified time check from CDDS workflow to avoid workflow</p>
+<p>Removed modified time check from <abbr title="Climate Data Dissemination System">CDDS</abbr> workflow to avoid workflow</p>
 <p>freezing when moved to a different cylc server (CDDSO-405)</p>
 </li>
 </ul>
@@ -2887,7 +2887,7 @@
 <h2 id="release-256-february-09-2024">Release 2.5.6, February 09, 2024</h2>
 <ul>
 <li>
-<p>Added HadGEM3-GC5 and eUKESM1-1-ice model configurations to</p>
+<p>Added HadGEM3-GC5 and eUKESM1-1-ice <abbr title="Recognised configurations of climate models that are used for a wide variety of experiments / simulations.">model configurations</abbr> to</p>
 <p>GCModelDev plugin (CDDSO-390, CDDSO-391)</p>
 </li>
 <li>
@@ -2895,29 +2895,29 @@
 <p>extracting data from NEMO diaptr and scalar files (CDDSO-394)</p>
 </li>
 <li>
-<p>The data version used in archiving can now be specified in the CDDS</p>
-<p>workflow to support additional runs of CDDS appending to the same</p>
+<p>The data version used in archiving can now be specified in the <abbr title="Climate Data Dissemination System">CDDS</abbr></p>
+<p>workflow to support additional runs of <abbr title="Climate Data Dissemination System">CDDS</abbr> appending to the same</p>
 <p>data set (CDDSO-393)</p>
 </li>
 </ul>
 <h2 id="release-255-january-18-2024">Release 2.5.5, January 18, 2024</h2>
 <ul>
 <li>
-<p>The name of netCDF bounds coordinates variables are now configurable</p>
+<p>The name of <abbr title="Network Common Data Form">netCDF</abbr> bounds coordinates variables are now configurable</p>
 <p>via plugins to support retrieval of NEMO4 ocean data (CDDSO-346)</p>
 </li>
 <li>
 <p><code>GCModelDev</code> plugin now has an N96 GC3.05 generic model</p>
-<p>configuration and the list streams for the N216 equivalent has been</p>
+<p>configuration and the list <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> for the N216 equivalent has been</p>
 <p>extended (CDDSO-381)</p>
 </li>
 <li>
-<p>The option to overload model configuration via command line now</p>
+<p>The option to overload <abbr title="A recognised configuration of a climate model that is used for a wide variety of experiments / simulations.">model configuration</abbr> via command line now</p>
 <p>correctly operates (CDDSO-376, CDDSO-379, CDDSO-380)</p>
 </li>
 <li>
 <p>The <code>create_variables_csv_file</code> script now also outputs</p>
-<p>the stream for each variable (CDDSO-332)</p>
+<p>the <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> for each variable (CDDSO-332)</p>
 </li>
 </ul>
 <h2 id="release-254-december-13-2023">Release 2.5.4, December 13, 2023</h2>
@@ -2927,14 +2927,14 @@
 <p>the submission of CMIP6 data (CDDSO-371)</p>
 </li>
 <li>
-<p>Implement annual ocean diagnostics for the <code>GCOyr</code> MIP</p>
+<p>Implement annual ocean diagnostics for the <code>GCOyr</code> <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr></p>
 <p>table (CDDSO-369)</p>
 </li>
 </ul>
 <h2 id="release-253-november-22-2023">Release 2.5.3, November 22, 2023</h2>
 <ul>
 <li>
-<p>Adaptations needed for new CMIP6Plus MIP tables (CDDSO-336,</p>
+<p>Adaptations needed for new CMIP6Plus <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> tables (CDDSO-336,</p>
 <p>CDDSO-365)</p>
 </li>
 <li>
@@ -2945,7 +2945,7 @@
 <p>Extract can again correctly retrieve sub-daily data (CDDSO-358)</p>
 </li>
 <li>
-<p>The update_directives script in the per-stream suite now correctly</p>
+<p>The update_directives script in the per-<abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> suite now correctly</p>
 <p>calculate upper limits for memory / wall time / local storage</p>
 <p>(CDDSO-360)</p>
 </li>
@@ -2953,7 +2953,7 @@
 <h2 id="release-252-october-18-2023">Release 2.5.2, October 18, 2023</h2>
 <ul>
 <li>
-<p>Polar row masking is now specified directly in the MIP Convert</p>
+<p>Polar row masking is now specified directly in the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert</p>
 <p>config files (CDDSO-331)</p>
 </li>
 <li>
@@ -2962,19 +2962,19 @@
 <p>(CDDSO-212)</p>
 </li>
 <li>
-<p>CDDS can now handle hourly data files within a stream (CDDSO-349)</p>
+<p><abbr title="Climate Data Dissemination System">CDDS</abbr> can now handle hourly data files within a <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> (CDDSO-349)</p>
 </li>
 <li>
 <p>The correct filenames for ocean data from ensemble suites are now</p>
 <p>used again (CDDSO-350)</p>
 </li>
 <li>
-<p>The CDDS suite uses a consistent calendar to the request, which</p>
+<p>The <abbr title="Climate Data Dissemination System">CDDS</abbr> suite uses a consistent calendar to the request, which</p>
 <p>ensures that concatenation processes, QC and archiving are correctly</p>
 <p>triggered (CDDSO-351)</p>
 </li>
 <li>
-<p>All options are now passed through to CDDS Convert by the CDDS</p>
+<p>All options are now passed through to <abbr title="Climate Data Dissemination System">CDDS</abbr> Convert by the <abbr title="Climate Data Dissemination System">CDDS</abbr></p>
 <p>processing workflow (CDDSO-348)</p>
 </li>
 </ul>
@@ -2993,7 +2993,7 @@
 <h2 id="release-250-july-27-2023">Release 2.5.0, July 27, 2023</h2>
 <ul>
 <li>
-<p>Migrate CDDS to Cylc 8 (CDDSO-282, CDDSO-285, CDDSO-184)</p>
+<p>Migrate <abbr title="Climate Data Dissemination System">CDDS</abbr> to Cylc 8 (CDDSO-282, CDDSO-285, CDDSO-184)</p>
 </li>
 <li>
 <p>Introduce gregorian calendar support (CDDSO-231, CDDSO-235,</p>
@@ -3004,8 +3004,8 @@
 <p>such as CORDEX (CDDSO-233, CDDSO-68, CDDSO-74, CDDSO-261, CDDSO-149)</p>
 </li>
 <li>
-<p>CDDS now uses ISO datetime format for all time values in CDDS and</p>
-<p>MIP Convert config files (CDDSO-313, CDDSO-45)</p>
+<p><abbr title="Climate Data Dissemination System">CDDS</abbr> now uses ISO datetime format for all time values in <abbr title="Climate Data Dissemination System">CDDS</abbr> and</p>
+<p><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert config files (CDDSO-313, CDDSO-45)</p>
 </li>
 <li>
 <p>Relocate test and etc directories to support alternate platforms and</p>
@@ -3023,12 +3023,12 @@
 <p>(CDDSO-314)</p>
 </li>
 <li>
-<p>Amalgamated CDDS processing and ensemble processing workflows.</p>
+<p>Amalgamated <abbr title="Climate Data Dissemination System">CDDS</abbr> processing and ensemble processing workflows.</p>
 <p>Previous tools based on u-cq805 and u-cr273 are deprecated</p>
 <p>(CDDSO-319)</p>
 </li>
 <li>
-<p>Updated CMOR to version 3.7.2, which required iris update to 3.4.1</p>
+<p>Updated <abbr title="Climate Model Output Rewriter">CMOR</abbr> to version 3.7.2, which required iris update to 3.4.1</p>
 <p>(CDDSO-321)</p>
 </li>
 </ul>
@@ -3043,12 +3043,12 @@
 <ul>
 <li>
 <p>Fix a bug in the extraction code where the non-uniform allocation of</p>
-<p>data in a simulation to a large number of tapes can lead to failure</p>
+<p>data in a <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> to a large number of tapes can lead to failure</p>
 <p>of cdds extract (CDDSO-245, CDDSO-289)</p>
 </li>
 <li>
 <p>Correct a bug in the HadGEM3 model config files that prevented</p>
-<p>extraction of data from the diaptr sub-stream in the NEMO ocean data</p>
+<p>extraction of data from the diaptr sub-<abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> in the NEMO ocean data</p>
 <p>for the GCModelDev project (CDSO-293)</p>
 </li>
 </ul>
@@ -3062,33 +3062,33 @@
 <h2 id="release-244-may-4-2023">Release 2.4.4, May 4, 2023</h2>
 <ul>
 <li>
-<p>Added options to use a "relaxed" approach to MIP name (activity_id),</p>
-<p>and experiment id, that does not force checks from the CVs. This</p>
-<p>will allow users to process data as any experiment id they like, but</p>
+<p>Added options to use a "relaxed" approach to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> name (activity_id),</p>
+<p>and <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> id, that does not force checks from the CVs. This</p>
+<p>will allow users to process data as any <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> id they like, but</p>
 <p>at the risk of typos due to the lack of checks against a controlled</p>
 <p>vocabulary (CDDSO-253 , CDDSO-267, CDDSO-264)</p>
 </li>
 <li>
 <p><code>prepare_alter_variable_list</code> can now perform insert</p>
 <p>commands again as plugin was not being loaded, which was needed for</p>
-<p>setting streams (CDDSO-269)</p>
+<p>setting <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> (CDDSO-269)</p>
 </li>
 <li>
-<p><code>checkout_processing_suite</code> now sets the streams in</p>
-<p>the suite based on those in the request file. (CDDSO-271)</p>
+<p><code>checkout_processing_suite</code> now sets the <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> in</p>
+<p>the suite based on those in the <abbr title="Information about a simulation used by all CDDS components.">request file</abbr>. (CDDSO-271)</p>
 </li>
 </ul>
 <h2 id="release-243-march-31-2023">Release 2.4.3, March 31, 2023</h2>
 <ul>
 <li>
-<p>Add support for retries in the run_extract task within the CDDS</p>
+<p>Add support for retries in the run_extract task within the <abbr title="Climate Data Dissemination System">CDDS</abbr></p>
 <p>Convert Suite (CDDSO-258)</p>
 </li>
 </ul>
 <h2 id="release-242-march-1-2023">Release 2.4.2, March 1, 2023</h2>
 <ul>
 <li>
-<p>Add support for filepaths with ensemble_id for netCDF model output</p>
+<p>Add support for filepaths with ensemble_id for <abbr title="Network Common Data Form">netCDF</abbr> model output</p>
 <p>(CDDSO-238).</p>
 </li>
 </ul>
@@ -3102,7 +3102,7 @@
 </li>
 <li>
 <p>Implement the <code>checkout_processing_suite</code> script for</p>
-<p>checking a copy of the CDDS Processing Suite (CDDSO-210)</p>
+<p>checking a copy of the <abbr title="Climate Data Dissemination System">CDDS</abbr> Processing Suite (CDDSO-210)</p>
 </li>
 <li>
 <p>Create a Rose app for generating <code>request.json</code> files</p>
@@ -3117,7 +3117,7 @@
 <h2 id="release-240-september-12-2022">Release 2.4.0, September 12, 2022</h2>
 <ul>
 <li>
-<p>Refactoring of all CDDS packages into one package excluding MIP</p>
+<p>Refactoring of all <abbr title="Climate Data Dissemination System">CDDS</abbr> <abbr title="Identifiers indicating the phase of CDDS processing.">packages</abbr> into one <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> excluding <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr></p>
 <p>Convert (CDDSO-132, 133, 134, 135, 136, 137, 138, 139, 140, 141,</p>
 <p>142, 144)</p>
 </li>
@@ -3135,15 +3135,15 @@
 <h2 id="release-232-september-01-2022">Release 2.3.2, September 01, 2022</h2>
 <ul>
 <li>
-<p>(cdds_common): Default stream information for variables now held by</p>
+<p>(cdds_common): Default <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> information for variables now held by</p>
 <p>Project level plugins (CDDSO-143)</p>
 </li>
 <li>
-<p>(cdds_configure): Log message issued when a stream cannot be found</p>
+<p>(cdds_configure): Log message issued when a <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> cannot be found</p>
 <p>for a variable is now CRITICAL (CDDSO-178)</p>
 </li>
 <li>
-<p>(cdds_configure): GCAmon and GCLmon MIP tables from GCModelDev are</p>
+<p>(cdds_configure): GCAmon and GCLmon <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> tables from GCModelDev are</p>
 <p>now included in dictionary of default grids and will not be ignored</p>
 <p>(CDDSO-178)</p>
 </li>
@@ -3152,21 +3152,21 @@
 <p>allowing log information to be output (CDDSO-177)</p>
 </li>
 <li>
-<p>(cdds_convert): MIP Era now correctly propagated through to CDDS</p>
+<p>(cdds_convert): <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Era now correctly propagated through to <abbr title="Climate Data Dissemination System">CDDS</abbr></p>
 <p>rose suite (CDDSO-180)</p>
 </li>
 <li>
-<p>(hadsdk): Change log message to CRITICAl for missing grid/stream.</p>
+<p>(hadsdk): Change log message to CRITICAl for missing grid/<abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr>.</p>
 </li>
 <li>
-<p>(hadsdk): Prepare a MIP convert branch to produce sample decadal</p>
+<p>(hadsdk): Prepare a <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> convert branch to produce sample decadal</p>
 <p>data with additional seasonal forecasting metadata</p>
 </li>
 </ul>
 <h2 id="release-231-june-29-2022">Release 2.3.1, June 29, 2022</h2>
 <ul>
 <li>
-<p>(cdds_common): Added auto-genereated table of CDDS variable mappings</p>
+<p>(cdds_common): Added auto-genereated table of <abbr title="Climate Data Dissemination System">CDDS</abbr> variable mappings</p>
 <p>(CDDSO-120)</p>
 </li>
 <li>
@@ -3232,7 +3232,7 @@
 </li>
 <li>
 <p>(cdds_prepare): When inserting variables into CMIP6 processing the</p>
-<p>correct stream information is included (#2569)</p>
+<p>correct <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> information is included (#2569)</p>
 </li>
 <li>
 <p>(hadsdk): For non-CMIP6 projects the correct grid label and grid</p>
@@ -3265,7 +3265,7 @@
 </li>
 <li>
 <p>(cdds_prepare): Reintroduce the capability to fall-back on default</p>
-<p>CMIP6 stream mappings when parsing user variable file (#2555)</p>
+<p>CMIP6 <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> mappings when parsing user variable file (#2555)</p>
 </li>
 <li>
 <p>(cdds_qc): Ignore QC errors caused by non-existant dimensions</p>
@@ -3297,7 +3297,7 @@
 <p>variables file (#2498)</p>
 </li>
 <li>
-<p>(cdds_qc): QC checks now refer to provided controlled vocabulary for</p>
+<p>(cdds_qc): QC checks now refer to provided <abbr title="It is a pre-defined set of terms describing acceptable values for various quantities.">Controlled Vocabulary</abbr> for</p>
 <p>non-CMIP6 projects (#2542)</p>
 </li>
 <li>
@@ -3327,12 +3327,12 @@
 <h2 id="release-220-february-9-2022">Release 2.2.0, February 9, 2022</h2>
 <ul>
 <li>
-<p>(cdds_common): New module to take common code across CDDS and will</p>
+<p>(cdds_common): New module to take common code across <abbr title="Climate Data Dissemination System">CDDS</abbr> and will</p>
 <p>ultimately replace hadsdk (#2460)</p>
 </li>
 <li>
 <p>(cdds_common): Introduced plugin system for project information</p>
-<p>(e.g. CMIP6) and model descriptions to enable use of CDDS outside of</p>
+<p>(e.g. CMIP6) and model descriptions to enable use of <abbr title="Climate Data Dissemination System">CDDS</abbr> outside of</p>
 <p>CMIP6 (#2460, #2461, #2462, #2468, #2494, #2502, #2503,</p>
 <p>#2504, #2509, #2510, #2512, #2513, #2514)</p>
 </li>
@@ -3341,7 +3341,7 @@
 </li>
 <li>
 <p>(cdds_configure): Introduced plugin system for project information</p>
-<p>(e.g. CMIP6) and model descriptions to enable use of CDDS outside of</p>
+<p>(e.g. CMIP6) and model descriptions to enable use of <abbr title="Climate Data Dissemination System">CDDS</abbr> outside of</p>
 <p>CMIP6 (#2460, #2461, #2462, #2468, #2494, #2502, #2503,</p>
 <p>#2504, #2509, #2510, #2512, #2513, #2514)</p>
 </li>
@@ -3349,12 +3349,12 @@
 <p>(cdds_configure): Update to use python 3.8 (#2438)</p>
 </li>
 <li>
-<p>(cdds_configure): Allow for the use of CDDS beyond CMIP6 (#2449,</p>
+<p>(cdds_configure): Allow for the use of <abbr title="Climate Data Dissemination System">CDDS</abbr> beyond CMIP6 (#2449,</p>
 <p>#2469, #2470)</p>
 </li>
 <li>
 <p>(cdds_convert): Introduced plugin system for project information</p>
-<p>(e.g. CMIP6) and model descriptions to enable use of CDDS outside of</p>
+<p>(e.g. CMIP6) and model descriptions to enable use of <abbr title="Climate Data Dissemination System">CDDS</abbr> outside of</p>
 <p>CMIP6 (#2460, #2461, #2462, #2468, #2494, #2502, #2503,</p>
 <p>#2504, #2509, #2510, #2512, #2513, #2514)</p>
 </li>
@@ -3362,11 +3362,11 @@
 <p>(cdds_convert): Update to use python 3.8 (#2438)</p>
 </li>
 <li>
-<p>(cdds_convert): Enable the use of CDDS for ensemble class</p>
-<p>simulations (#2501, #2471)</p>
+<p>(cdds_convert): Enable the use of <abbr title="Climate Data Dissemination System">CDDS</abbr> for ensemble class</p>
+<p><abbr title="Particular model runs, with associated workflow identifiers, which are defined by an experiment and have an assigned variant label.">simulations</abbr> (#2501, #2471)</p>
 </li>
 <li>
-<p>(cdds_convert): Allow for the use of CDDS beyond CMIP6 (#2449,</p>
+<p>(cdds_convert): Allow for the use of <abbr title="Climate Data Dissemination System">CDDS</abbr> beyond CMIP6 (#2449,</p>
 <p>#2469, #2470)</p>
 </li>
 <li>
@@ -3377,7 +3377,7 @@
 </li>
 <li>
 <p>(cdds_prepare): Introduced plugin system for project information</p>
-<p>(e.g. CMIP6) and model descriptions to enable use of CDDS outside of</p>
+<p>(e.g. CMIP6) and model descriptions to enable use of <abbr title="Climate Data Dissemination System">CDDS</abbr> outside of</p>
 <p>CMIP6 (#2460, #2461, #2462, #2468, #2494, #2502, #2503,</p>
 <p>#2504, #2509, #2510, #2512, #2513, #2514)</p>
 </li>
@@ -3385,16 +3385,16 @@
 <p>(cdds_prepare): Update to use python 3.8 (#2438)</p>
 </li>
 <li>
-<p>(cdds_prepare): Enable the use of CDDS for ensemble class</p>
-<p>simulations (#2501, #2471)</p>
+<p>(cdds_prepare): Enable the use of <abbr title="Climate Data Dissemination System">CDDS</abbr> for ensemble class</p>
+<p><abbr title="Particular model runs, with associated workflow identifiers, which are defined by an experiment and have an assigned variant label.">simulations</abbr> (#2501, #2471)</p>
 </li>
 <li>
-<p>(cdds_prepare): Allow for the use of CDDS beyond CMIP6 (#2449,</p>
+<p>(cdds_prepare): Allow for the use of <abbr title="Climate Data Dissemination System">CDDS</abbr> beyond CMIP6 (#2449,</p>
 <p>#2469, #2470)</p>
 </li>
 <li>
 <p>(cdds_qc): Introduced plugin system for project information (e.g.</p>
-<p>CMIP6) and model descriptions to enable use of CDDS outside of CMIP6</p>
+<p>CMIP6) and model descriptions to enable use of <abbr title="Climate Data Dissemination System">CDDS</abbr> outside of CMIP6</p>
 <p>(#2460, #2461, #2462, #2468, #2494, #2502, #2503, #2504,</p>
 <p>#2509, #2510, #2512, #2513, #2514)</p>
 </li>
@@ -3402,11 +3402,11 @@
 <p>(cdds_qc): Update to use python 3.8 (#2438)</p>
 </li>
 <li>
-<p>(cdds_qc): CDDS QC now uses the community version of</p>
+<p>(cdds_qc): <abbr title="Climate Data Dissemination System">CDDS</abbr> QC now uses the community version of</p>
 <p>IOOS/compliance-checker rather than a fork (#2381)</p>
 </li>
 <li>
-<p>(cdds_qc): Allow for the use of CDDS beyond CMIP6 (#2449, #2469,</p>
+<p>(cdds_qc): Allow for the use of <abbr title="Climate Data Dissemination System">CDDS</abbr> beyond CMIP6 (#2449, #2469,</p>
 <p>#2470)</p>
 </li>
 <li>
@@ -3417,40 +3417,40 @@
 <li>
 <p>(cdds_qc_plugin_cf17): Introduced plugin system for project</p>
 <p>information (e.g. CMIP6) and model descriptions to enable use of</p>
-<p>CDDS outside of CMIP6 (#2460, #2461, #2462, #2468, #2494,</p>
+<p><abbr title="Climate Data Dissemination System">CDDS</abbr> outside of CMIP6 (#2460, #2461, #2462, #2468, #2494,</p>
 <p>#2502, #2503, #2504, #2509, #2510, #2512, #2513, #2514)</p>
 </li>
 <li>
 <p>(cdds_qc_plugin_cf17): Update to use python 3.8 (#2438)</p>
 </li>
 <li>
-<p>(cdds_qc_plugin_cf17): CDDS QC now uses the community version of</p>
+<p>(cdds_qc_plugin_cf17): <abbr title="Climate Data Dissemination System">CDDS</abbr> QC now uses the community version of</p>
 <p>IOOS/compliance-checker rather than a fork (#2381)</p>
 </li>
 <li>
-<p>(cdds_qc_plugin_cf17): Allow for the use of CDDS beyond CMIP6</p>
+<p>(cdds_qc_plugin_cf17): Allow for the use of <abbr title="Climate Data Dissemination System">CDDS</abbr> beyond CMIP6</p>
 <p>(#2449, #2469, #2470)</p>
 </li>
 <li>
 <p>(cdds_qc_plugin_cmip6): Introduced plugin system for project</p>
 <p>information (e.g. CMIP6) and model descriptions to enable use of</p>
-<p>CDDS outside of CMIP6 (#2460, #2461, #2462, #2468, #2494,</p>
+<p><abbr title="Climate Data Dissemination System">CDDS</abbr> outside of CMIP6 (#2460, #2461, #2462, #2468, #2494,</p>
 <p>#2502, #2503, #2504, #2509, #2510, #2512, #2513, #2514)</p>
 </li>
 <li>
 <p>(cdds_qc_plugin_cmip6): Update to use python 3.8 (#2438)</p>
 </li>
 <li>
-<p>(cdds_qc_plugin_cmip6): CDDS QC now uses the community version of</p>
+<p>(cdds_qc_plugin_cmip6): <abbr title="Climate Data Dissemination System">CDDS</abbr> QC now uses the community version of</p>
 <p>IOOS/compliance-checker rather than a fork (#2381)</p>
 </li>
 <li>
-<p>(cdds_qc_plugin_cmip6): Allow for the use of CDDS beyond CMIP6</p>
+<p>(cdds_qc_plugin_cmip6): Allow for the use of <abbr title="Climate Data Dissemination System">CDDS</abbr> beyond CMIP6</p>
 <p>(#2449, #2469, #2470)</p>
 </li>
 <li>
 <p>(cdds_transfer): Introduced plugin system for project information</p>
-<p>(e.g. CMIP6) and model descriptions to enable use of CDDS outside of</p>
+<p>(e.g. CMIP6) and model descriptions to enable use of <abbr title="Climate Data Dissemination System">CDDS</abbr> outside of</p>
 <p>CMIP6 (#2460, #2461, #2462, #2468, #2494, #2502, #2503,</p>
 <p>#2504, #2509, #2510, #2512, #2513, #2514)</p>
 </li>
@@ -3459,7 +3459,7 @@
 </li>
 <li>
 <p>(extract): Introduced plugin system for project information (e.g.</p>
-<p>CMIP6) and model descriptions to enable use of CDDS outside of CMIP6</p>
+<p>CMIP6) and model descriptions to enable use of <abbr title="Climate Data Dissemination System">CDDS</abbr> outside of CMIP6</p>
 <p>(#2460, #2461, #2462, #2468, #2494, #2502, #2503, #2504,</p>
 <p>#2509, #2510, #2512, #2513, #2514)</p>
 </li>
@@ -3467,16 +3467,16 @@
 <p>(extract): Update to use python 3.8 (#2438)</p>
 </li>
 <li>
-<p>(extract): Enable the use of CDDS for ensemble class simulations</p>
+<p>(extract): Enable the use of <abbr title="Climate Data Dissemination System">CDDS</abbr> for ensemble class <abbr title="Particular model runs, with associated workflow identifiers, which are defined by an experiment and have an assigned variant label.">simulations</abbr></p>
 <p>(#2501, #2471)</p>
 </li>
 <li>
-<p>(extract): Allow for the use of CDDS beyond CMIP6 (#2449, #2469,</p>
+<p>(extract): Allow for the use of <abbr title="Climate Data Dissemination System">CDDS</abbr> beyond CMIP6 (#2449, #2469,</p>
 <p>#2470)</p>
 </li>
 <li>
 <p>(hadsdk): Introduced plugin system for project information (e.g.</p>
-<p>CMIP6) and model descriptions to enable use of CDDS outside of CMIP6</p>
+<p>CMIP6) and model descriptions to enable use of <abbr title="Climate Data Dissemination System">CDDS</abbr> outside of CMIP6</p>
 <p>(#2460, #2461, #2462, #2468, #2494, #2502, #2503, #2504,</p>
 <p>#2509, #2510, #2512, #2513, #2514)</p>
 </li>
@@ -3488,7 +3488,7 @@
 </li>
 <li>
 <p>(transfer): Introduced plugin system for project information (e.g.</p>
-<p>CMIP6) and model descriptions to enable use of CDDS outside of CMIP6</p>
+<p>CMIP6) and model descriptions to enable use of <abbr title="Climate Data Dissemination System">CDDS</abbr> outside of CMIP6</p>
 <p>(#2460, #2461, #2462, #2468, #2494, #2502, #2503, #2504,</p>
 <p>#2509, #2510, #2512, #2513, #2514)</p>
 </li>
@@ -3499,7 +3499,7 @@
 <h2 id="release-212-november-25-2021">Release 2.1.2, November 25, 2021</h2>
 <ul>
 <li>
-<p>(extract): Extract will now repeat creating stream directories if</p>
+<p>(extract): Extract will now repeat creating <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> directories if</p>
 <p>the first time fails because of intermittent filesystem issues</p>
 <p>(#2429)</p>
 </li>
@@ -3512,8 +3512,8 @@
 <ul>
 <li>
 <p>(cdds_prepare): <code>prepare_generate_variable_list</code> can now generate</p>
-<p>requested variables files using a user supplied list and the MIP</p>
-<p>tables being used, i.e. without reference to a Data Request (#2358)</p>
+<p>requested variables files using a user supplied list and the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr></p>
+<p>tables being used, i.e. without reference to a <abbr title="Information describing which MIP requested variables need to be produced for a given MIP-experiment combination. For CMIP6, see the CMIP6 Data Request.">Data Request</abbr> (#2358)</p>
 </li>
 <li>
 <p>(extract): Added the <code>path_reformatter</code> command line tool from the</p>
@@ -3560,7 +3560,7 @@
 <p>#2425, #2432)</p>
 </li>
 <li>
-<p>(transfer): <code>cdds_sim_review</code> now handles per stream</p>
+<p>(transfer): <code>cdds_sim_review</code> now handles per <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr></p>
 <p>logs, qc reports and approved variables files (#1685)</p>
 </li>
 </ul>
@@ -3577,7 +3577,7 @@
 <li>
 <p>(cdds_prepare): Added functionality to</p>
 <p><code>prepare_generate_variable_list</code> to automatically deactivate</p>
-<p>variables following a set of rules hosted in the CDDS repository</p>
+<p>variables following a set of rules hosted in the <abbr title="Climate Data Dissemination System">CDDS</abbr> repository</p>
 <p>(default) or in a text file. This \"auto deactivation\" can be</p>
 <p>skipped using the <code>--no_auto_deactivation</code> argument and the</p>
 <p><code>--auto_deactivation_file_name</code> option can be used to use a local</p>
@@ -3594,34 +3594,34 @@
 <h2 id="release-204-may-17-2021">Release 2.0.4, May 17, 2021</h2>
 <ul>
 <li>
-<p>(cdds_prepare): Allow for correct handling of packages where there</p>
+<p>(cdds_prepare): Allow for correct handling of <abbr title="Identifiers indicating the phase of CDDS processing.">packages</abbr> where there</p>
 <p>are multiple mips / activity ids. The primary, i.e. first, mip will</p>
-<p>be used for all directory and dataset ids (#2369)</p>
+<p>be used for all directory and <abbr title="A group of data containing some or all of the model output files from a single model simulation (i.e., model output files from a single realization of a single experiment from a single model).">Dataset</abbr> ids (#2369)</p>
 </li>
 <li>
 <p>(cdds_prepare): Altered output of <code>create_cdds_directory_structure</code></p>
 <p>to be a little more user friendly (#2369)</p>
 </li>
 <li>
-<p>(cdds_transfer): Allow for correct handling of packages where there</p>
+<p>(cdds_transfer): Allow for correct handling of <abbr title="Identifiers indicating the phase of CDDS processing.">packages</abbr> where there</p>
 <p>are multiple mips / activity ids. The primary, i.e. first, mip will</p>
-<p>be used for all directory and dataset ids (#2369)</p>
+<p>be used for all directory and <abbr title="A group of data containing some or all of the model output files from a single model simulation (i.e., model output files from a single realization of a single experiment from a single model).">Dataset</abbr> ids (#2369)</p>
 </li>
 <li>
-<p>(hadsdk): Allow for correct handling of packages where there are</p>
+<p>(hadsdk): Allow for correct handling of <abbr title="Identifiers indicating the phase of CDDS processing.">packages</abbr> where there are</p>
 <p>multiple mips / activity ids. The primary, i.e. first, mip will be</p>
-<p>used for all directory and dataset ids (#2369)</p>
+<p>used for all directory and <abbr title="A group of data containing some or all of the model output files from a single model simulation (i.e., model output files from a single realization of a single experiment from a single model).">Dataset</abbr> ids (#2369)</p>
 </li>
 <li>
-<p>(transfer): Allow for correct handling of packages where there are</p>
+<p>(transfer): Allow for correct handling of <abbr title="Identifiers indicating the phase of CDDS processing.">packages</abbr> where there are</p>
 <p>multiple mips / activity ids. The primary, i.e. first, mip will be</p>
-<p>used for all directory and dataset ids (#2369)</p>
+<p>used for all directory and <abbr title="A group of data containing some or all of the model output files from a single model simulation (i.e., model output files from a single realization of a single experiment from a single model).">Dataset</abbr> ids (#2369)</p>
 </li>
 </ul>
 <h2 id="release-203-april-28-2021">Release 2.0.3, April 28, 2021</h2>
 <ul>
 <li>
-<p>(transfer): CDDS store can now prepend files to an embargoed dataset</p>
+<p>(transfer): <abbr title="Climate Data Dissemination System">CDDS</abbr> store can now prepend files to an embargoed <abbr title="A group of data containing some or all of the model output files from a single model simulation (i.e., model output files from a single realization of a single experiment from a single model).">Dataset</abbr></p>
 <p>provided the correct data version argument is provided (#2278)</p>
 </li>
 </ul>
@@ -3629,10 +3629,10 @@
 <ul>
 <li>
 <p>(cdds_convert): Implemented changes necessary for conda deployment</p>
-<p>of CDDS code on JASMIN (#2240)</p>
+<p>of <abbr title="Climate Data Dissemination System">CDDS</abbr> code on JASMIN (#2240)</p>
 </li>
 <li>
-<p>(cdds_qc): QC can now use a user specified directory with MIP tables</p>
+<p>(cdds_qc): QC can now use a user specified directory with <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> tables</p>
 <p>provided by a command line option (#2331)</p>
 </li>
 <li>
@@ -3644,7 +3644,7 @@
 <p>(#2211)</p>
 </li>
 <li>
-<p>(hadsdk): Implemented changes necessary for conda deployment of CDDS</p>
+<p>(hadsdk): Implemented changes necessary for conda deployment of <abbr title="Climate Data Dissemination System">CDDS</abbr></p>
 <p>code on JASMIN (#2240)</p>
 </li>
 </ul>
@@ -3655,7 +3655,7 @@
 <p>coordinates, such as basin name (#2284)</p>
 </li>
 <li>
-<p>(extract): When running for a particular stream the stream name is</p>
+<p>(extract): When running for a particular <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> the <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> name is</p>
 <p>now included in the log file name (#2014)</p>
 </li>
 <li>
@@ -3664,49 +3664,49 @@
 </li>
 <li>
 <p>(hadsdk): <code>write_rose_suite_request_json</code> now allows the</p>
-<p><code>apt</code> stream (#2283)</p>
+<p><code>apt</code> <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> (#2283)</p>
 </li>
 <li>
-<p>(transfer): CDDS store can now recover gracefully when continuing</p>
+<p>(transfer): <abbr title="Climate Data Dissemination System">CDDS</abbr> store can now recover gracefully when continuing</p>
 <p>archiving following task failure due to issues with MASS (#2205)</p>
 </li>
 <li>
-<p>(transfer): CDDS store can now correctly handle pre-pending files to</p>
-<p>datasets and there are clearer error messages when issues arise</p>
+<p>(transfer): <abbr title="Climate Data Dissemination System">CDDS</abbr> store can now correctly handle pre-pending files to</p>
+<p><abbr title="Many groups of data containing some or all of the model output files from model simulations.">Datasets</abbr> and there are clearer error messages when issues arise</p>
 <p>(#2222)</p>
 </li>
 </ul>
 <h2 id="release-200-february-24-2021">Release 2.0.0, February 24, 2021</h2>
 <ul>
 <li>
-<p>(cdds_configure): Updated CDDS codebase to Python 3.6.</p>
+<p>(cdds_configure): Updated <abbr title="Climate Data Dissemination System">CDDS</abbr> codebase to Python 3.6.</p>
 </li>
 <li>
-<p>(cdds_convert): Updated CDDS codebase to Python 3.6.</p>
+<p>(cdds_convert): Updated <abbr title="Climate Data Dissemination System">CDDS</abbr> codebase to Python 3.6.</p>
 </li>
 <li>
-<p>(cdds_prepare): Updated CDDS codebase to Python 3.6.</p>
+<p>(cdds_prepare): Updated <abbr title="Climate Data Dissemination System">CDDS</abbr> codebase to Python 3.6.</p>
 </li>
 <li>
-<p>(cdds_qc): Updated CDDS codebase to Python 3.6.</p>
+<p>(cdds_qc): Updated <abbr title="Climate Data Dissemination System">CDDS</abbr> codebase to Python 3.6.</p>
 </li>
 <li>
-<p>(cdds_qc_plugin_cf17): Updated CDDS codebase to Python 3.6.</p>
+<p>(cdds_qc_plugin_cf17): Updated <abbr title="Climate Data Dissemination System">CDDS</abbr> codebase to Python 3.6.</p>
 </li>
 <li>
-<p>(cdds_qc_plugin_cmip6): Updated CDDS codebase to Python 3.6.</p>
+<p>(cdds_qc_plugin_cmip6): Updated <abbr title="Climate Data Dissemination System">CDDS</abbr> codebase to Python 3.6.</p>
 </li>
 <li>
-<p>(cdds_transfer): Updated CDDS codebase to Python 3.6.</p>
+<p>(cdds_transfer): Updated <abbr title="Climate Data Dissemination System">CDDS</abbr> codebase to Python 3.6.</p>
 </li>
 <li>
-<p>(extract): Updated CDDS codebase to Python 3.6.</p>
+<p>(extract): Updated <abbr title="Climate Data Dissemination System">CDDS</abbr> codebase to Python 3.6.</p>
 </li>
 <li>
-<p>(hadsdk): Updated CDDS codebase to Python 3.6.</p>
+<p>(hadsdk): Updated <abbr title="Climate Data Dissemination System">CDDS</abbr> codebase to Python 3.6.</p>
 </li>
 <li>
-<p>(transfer): Updated CDDS codebase to Python 3.6.</p>
+<p>(transfer): Updated <abbr title="Climate Data Dissemination System">CDDS</abbr> codebase to Python 3.6.</p>
 </li>
 </ul>
 <h2 id="release-165-february-22-2021">Release 1.6.5, February 22, 2021</h2>
@@ -3721,7 +3721,7 @@
 <li>
 <p>(hadsdk): <code>write_rose_suite_request_json</code> now correctly handles</p>
 <p>fields that are commented in the rose-suite.info file, an issue that</p>
-<p>affects the use of this script for amip-like simulations in v1.6.3</p>
+<p>affects the use of this script for amip-like <abbr title="Particular model runs, with associated workflow identifiers, which are defined by an experiment and have an assigned variant label.">simulations</abbr> in v1.6.3</p>
 <p>(#2232)</p>
 </li>
 </ul>
@@ -3777,11 +3777,11 @@
 </li>
 <li>
 <p>(cdds_convert): Implemented code changes needed to support ARCHER</p>
-<p>filepath format and run CDDS on JASMIN (#2013)</p>
+<p>filepath format and run <abbr title="Climate Data Dissemination System">CDDS</abbr> on JASMIN (#2013)</p>
 </li>
 <li>
 <p>(cdds_convert): <code>cdds_convert</code> tasks now will fail if individual</p>
-<p>concatenation tasks do not succeed (#2045)</p>
+<p><abbr title="Concatenation Tasks are then run to join the files into a single file for a larger date range of length Concatenation Period. Concatenation Tasks are executed once per Concatenation Cycle.">Concatenation Tasks</abbr> do not succeed (#2045)</p>
 </li>
 <li>
 <p>(cdds_prepare): As a default option,</p>
@@ -3824,12 +3824,12 @@
 </li>
 <li>
 <p>(hadsdk): Implemented a new command line tool <code>search_inventory</code> for</p>
-<p>exploring archived datasets and checking their publication status</p>
+<p>exploring archived <abbr title="Many groups of data containing some or all of the model output files from model simulations.">Datasets</abbr> and checking their publication status</p>
 <p>(#1903)</p>
 </li>
 <li>
 <p>(hadsdk): Implemented code changes needed to support ARCHER filepath</p>
-<p>format and run CDDS on JASMIN (#2013)</p>
+<p>format and run <abbr title="Climate Data Dissemination System">CDDS</abbr> on JASMIN (#2013)</p>
 </li>
 </ul>
 <h2 id="release-155-october-20-2020">Release 1.5.5, October 20, 2020</h2>
@@ -3838,7 +3838,7 @@
 <p>(cdds_prepare): The requested variable list can now be constructed</p>
 <p>using an alternative <code>experiment_id</code> via a new command line argument</p>
 <p>to <code>prepare_generate_variable_list</code>. This should only be used under</p>
-<p>advice from the CDDS team (#2057)</p>
+<p>advice from the <abbr title="Climate Data Dissemination System">CDDS</abbr> team (#2057)</p>
 </li>
 <li>
 <p>(cdds_transfer): <code>move_in_mass</code> now correctly includes variables,</p>
@@ -3864,7 +3864,7 @@
 <ul>
 <li>
 <p>(cdds_qc_plugin_cmip6): Fixed a bug that prevented from validation</p>
-<p>of some global attributes of simulations without a parent experiment</p>
+<p>of some global attributes of <abbr title="Particular model runs, with associated workflow identifiers, which are defined by an experiment and have an assigned variant label.">simulations</abbr> without a parent <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr></p>
 <p>(#2000)</p>
 </li>
 </ul>
@@ -3872,11 +3872,11 @@
 <ul>
 <li>
 <p>(cdds_convert): The concatenation processes should no longer leave</p>
-<p>temporary netCDF files behind when the batch job hits its wall time</p>
+<p>temporary <abbr title="Network Common Data Form">netCDF</abbr> files behind when the batch job hits its wall time</p>
 <p>(#1895)</p>
 </li>
 <li>
-<p>(cdds_convert): The check on the use of TMPDIR storage in the MIP</p>
+<p>(cdds_convert): The check on the use of TMPDIR storage in the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr></p>
 <p>Convert tasks is now correctly applied (#1943)</p>
 </li>
 <li>
@@ -3885,7 +3885,7 @@
 </li>
 <li>
 <p>(extract): Information on the validation of the is now written to</p>
-<p>\&lt;stream&gt;_validation.txt as well as to the log files (#1811)</p>
+<p>\&lt;<abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr>&gt;_validation.txt as well as to the log files (#1811)</p>
 </li>
 <li>
 <p>(transfer): cdds_store can now archive CF sites datawith frequency</p>
@@ -3900,11 +3900,11 @@
 <ul>
 <li>
 <p>(cdds_configure): Settings and files needed for production of CF</p>
-<p>sites data are now correctly written to the MIP Convert template</p>
+<p>sites data are now correctly written to the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert template</p>
 <p>files (#1838)</p>
 </li>
 <li>
-<p>(cdds_convert): CDDS can now produce CF Sites data (#1838)</p>
+<p>(cdds_convert): <abbr title="Climate Data Dissemination System">CDDS</abbr> can now produce CF Sites data (#1838)</p>
 </li>
 <li>
 <p>(cdds_prepare): Added <code>do-not-produce</code> information to the requested</p>
@@ -3917,15 +3917,15 @@
 <p><code>create_variables_table_file</code> (#1793)</p>
 </li>
 <li>
-<p>(cdds_qc): CDDS QC can now check CF sites (subhr frequency) data</p>
+<p>(cdds_qc): <abbr title="Climate Data Dissemination System">CDDS</abbr> QC can now check CF sites (subhr frequency) data</p>
 <p>(#1783)</p>
 </li>
 <li>
-<p>(extract): CDDS Extract now correctly reports failure through error</p>
+<p>(extract): <abbr title="Climate Data Dissemination System">CDDS</abbr> Extract now correctly reports failure through error</p>
 <p>codes and e-mails (#1807)</p>
 </li>
 <li>
-<p>(extract): CDDS Extract can now correctly retrieve daily MEDUSA data</p>
+<p>(extract): <abbr title="Climate Data Dissemination System">CDDS</abbr> Extract can now correctly retrieve daily MEDUSA data</p>
 <p>(#1803)</p>
 </li>
 </ul>
@@ -3940,56 +3940,56 @@
 <h2 id="release-144-june-1-2020">Release 1.4.4, June 1, 2020</h2>
 <ul>
 <li>
-<p>(cdds_convert): Memory limits for <code>ap4</code> stream have been extended to</p>
+<p>(cdds_convert): Memory limits for <code>ap4</code> <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> have been extended to</p>
 <p>12G to avoid task failure (#1843)</p>
 </li>
 <li>
 <p>(cdds_convert): The copying of files to <code>$TMPDIR</code> will now be</p>
 <p>retried twice and if all attempts fail the task will fail rather</p>
-<p>than allowing CRITICAL errors from MIP Convert (#1839)</p>
+<p>than allowing CRITICAL errors from <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert (#1839)</p>
 </li>
 </ul>
 <h2 id="release-143-may-12-2020">Release 1.4.3, May 12, 2020</h2>
 <ul>
 <li>
-<p>(cdds_convert): CDDS can now process data for the model</p>
+<p>(cdds_convert): <abbr title="Climate Data Dissemination System">CDDS</abbr> can now process data for the model</p>
 <p><code>UKESM1-ice-LL</code> (#1513)</p>
 </li>
 <li>
-<p>(cdds_convert): Added <code>--scale-memory-limits</code> argument to CDDS</p>
+<p>(cdds_convert): Added <code>--scale-memory-limits</code> argument to <abbr title="Climate Data Dissemination System">CDDS</abbr></p>
 <p>Convert to allow memory limits to be altered at run time if</p>
 <p>necessary (#1806)</p>
 </li>
 <li>
-<p>(cdds_prepare): CDDS can now process data for the model</p>
+<p>(cdds_prepare): <abbr title="Climate Data Dissemination System">CDDS</abbr> can now process data for the model</p>
 <p><code>UKESM1-ice-LL</code> (#1513)</p>
 </li>
 <li>
 <p>(cdds_prepare): Requested variable lists can now be generated using</p>
-<p>data request version <code>01.00.32</code> (#1800)</p>
+<p><abbr title="Information describing which MIP requested variables need to be produced for a given MIP-experiment combination. For CMIP6, see the CMIP6 Data Request.">Data Request</abbr> version <code>01.00.32</code> (#1800)</p>
 </li>
 <li>
-<p>(cdds_qc): CDDS can now process data for the model <code>UKESM1-ice-LL</code></p>
+<p>(cdds_qc): <abbr title="Climate Data Dissemination System">CDDS</abbr> can now process data for the model <code>UKESM1-ice-LL</code></p>
 <p>(#1513)</p>
 </li>
 <li>
-<p>(cdds_qc_plugin_cf17): CDDS can now process data for the model</p>
+<p>(cdds_qc_plugin_cf17): <abbr title="Climate Data Dissemination System">CDDS</abbr> can now process data for the model</p>
 <p><code>UKESM1-ice-LL</code> (#1513)</p>
 </li>
 <li>
-<p>(cdds_qc_plugin_cmip6): CDDS can now process data for the model</p>
+<p>(cdds_qc_plugin_cmip6): <abbr title="Climate Data Dissemination System">CDDS</abbr> can now process data for the model</p>
 <p><code>UKESM1-ice-LL</code> (#1513)</p>
 </li>
 <li>
-<p>(cdds_transfer): CDDS can now process data for the model</p>
+<p>(cdds_transfer): <abbr title="Climate Data Dissemination System">CDDS</abbr> can now process data for the model</p>
 <p><code>UKESM1-ice-LL</code> (#1513)</p>
 </li>
 <li>
-<p>(extract): CDDS can now process data for the model <code>UKESM1-ice-LL</code></p>
+<p>(extract): <abbr title="Climate Data Dissemination System">CDDS</abbr> can now process data for the model <code>UKESM1-ice-LL</code></p>
 <p>(#1513)</p>
 </li>
 <li>
-<p>(hadsdk): CDDS can now process data for the model <code>UKESM1-ice-LL</code></p>
+<p>(hadsdk): <abbr title="Climate Data Dissemination System">CDDS</abbr> can now process data for the model <code>UKESM1-ice-LL</code></p>
 <p>(#1513)</p>
 </li>
 <li>
@@ -3998,29 +3998,29 @@
 <p>(#1732)</p>
 </li>
 <li>
-<p>(transfer): CDDS can now process data for the model <code>UKESM1-ice-LL</code></p>
+<p>(transfer): <abbr title="Climate Data Dissemination System">CDDS</abbr> can now process data for the model <code>UKESM1-ice-LL</code></p>
 <p>(#1513)</p>
 </li>
 </ul>
 <h2 id="release-142-april-30-2020">Release 1.4.2, April 30, 2020</h2>
 <ul>
 <li>
-<p>(cdds_qc_plugin_cmip6): CDDS QC now handles variables where the</p>
+<p>(cdds_qc_plugin_cmip6): <abbr title="Climate Data Dissemination System">CDDS</abbr> QC now handles variables where the</p>
 <p><code>cell_measures</code> variable attribute is optional (#1801)</p>
 </li>
 <li>
 <p>(hadsdk): <code>write_request_json</code> now gives a useful error message when</p>
-<p>there is inconsistent data in CREM for a package (#1765)</p>
+<p>there is inconsistent data in <abbr title="Climate Research Experiment Management.">CREM</abbr> for a <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> (#1765)</p>
 </li>
 </ul>
 <h2 id="release-141-april-28-2020">Release 1.4.1, April 28, 2020</h2>
 <ul>
 <li>
-<p>(cdds_convert): CDDS Convert now does not raise an <code>AttributeError</code></p>
+<p>(cdds_convert): <abbr title="Climate Data Dissemination System">CDDS</abbr> Convert now does not raise an <code>AttributeError</code></p>
 <p>relating to the <code>--email-notifications</code> argument when run (#1780)</p>
 </li>
 <li>
-<p>(cdds_qc): CDDS QC can now check hourly frequency datasets and does</p>
+<p>(cdds_qc): <abbr title="Climate Data Dissemination System">CDDS</abbr> QC can now check hourly frequency <abbr title="Many groups of data containing some or all of the model output files from model simulations.">Datasets</abbr> and does</p>
 <p>not raise a <code>KeyError</code> exception (#1782)</p>
 </li>
 </ul>
@@ -4032,10 +4032,10 @@
 </li>
 <li>
 <p>(cdds_convert): The memory requested for different tasks within the</p>
-<p>suites is now controlled on a per grid/stream basis (#941, #1474)</p>
+<p>suites is now controlled on a per grid/<abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> basis (#941, #1474)</p>
 </li>
 <li>
-<p>(cdds_convert): E-mail alerts now issued by suites launched by CDDS</p>
+<p>(cdds_convert): E-mail alerts now issued by suites launched by <abbr title="Climate Data Dissemination System">CDDS</abbr></p>
 <p>Convert when completing or stalling (#1669)</p>
 </li>
 <li>
@@ -4043,23 +4043,23 @@
 <p><code>Omon/hfbasin</code>, can now be properly validated (#1456)</p>
 </li>
 <li>
-<p>(cdds_qc): Datasets at sub-daily frequencies can now be validated</p>
+<p>(cdds_qc): <abbr title="Many groups of data containing some or all of the model output files from model simulations.">Datasets</abbr> at sub-daily frequencies can now be validated</p>
 <p>(#1578)</p>
 </li>
 <li>
-<p>(cdds_qc): <code>CRITICAL</code> failures are now logged for each dataset that</p>
+<p>(cdds_qc): <code>CRITICAL</code> failures are now logged for each <abbr title="A group of data containing some or all of the model output files from a single model simulation (i.e., model output files from a single realization of a single experiment from a single model).">Dataset</abbr> that</p>
 <p>fails a test (#1681)</p>
 </li>
 <li>
-<p>(extract): Extract can now extract data from sub-daily PP streams</p>
+<p>(extract): Extract can now extract data from sub-daily PP <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr></p>
 <p>(#359)</p>
 </li>
 <li>
-<p>(extract): Extract processes for individual streams can now be run</p>
+<p>(extract): Extract processes for individual <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> can now be run</p>
 <p>in separate tasks (#1619)</p>
 </li>
 <li>
-<p>(hadsdk): When writing request JSON files from CREM, warnings are</p>
+<p>(hadsdk): When writing request JSON files from <abbr title="Climate Research Experiment Management.">CREM</abbr>, warnings are</p>
 <p>issued if base dates are not <code>1850-01-01</code> (#1703)</p>
 </li>
 </ul>
@@ -4071,7 +4071,7 @@
 <p>correctly for these variables (#1621)</p>
 </li>
 <li>
-<p>(cdds_qc): QC has better support for processing a single stream</p>
+<p>(cdds_qc): QC has better support for processing a single <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr></p>
 <p>using the <code>--stream</code> command line option (#1622)</p>
 </li>
 <li>
@@ -4086,7 +4086,7 @@
 <li>
 <p>(transfer): Transfer now supports processing variables with</p>
 <p>different output names to their variable ID, and has better support</p>
-<p>for processing a single stream using the --stream command line</p>
+<p>for processing a single <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> using the --<abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> command line</p>
 <p>option (#1622)</p>
 </li>
 </ul>
@@ -4098,7 +4098,7 @@
 </li>
 <li>
 <p>(cdds_convert): The conversion process can now be limited to</p>
-<p>specified streams via the <code>--streams</code> command line argument (#1594)</p>
+<p>specified <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> via the <code>--streams</code> command line argument (#1594)</p>
 </li>
 <li>
 <p>(cdds_convert): The conditions under which an <code>organise_files_final</code></p>
@@ -4107,17 +4107,17 @@
 </li>
 <li>
 <p>(extract): Extract will no longer log CRITICAL errors when</p>
-<p>processing data streams containing no retrievable variables (#1583,</p>
+<p>processing data <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> containing no retrievable variables (#1583,</p>
 <p>#1354).</p>
 </li>
 </ul>
 <h2 id="release-132-january-27-2020">Release 1.3.2, January 27, 2020</h2>
 <ul>
 <li>
-<p>(cdds_convert): CRITICAL error messages from MIP Convert are</p>
+<p>(cdds_convert): CRITICAL error messages from <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert are</p>
 <p>correctly captured in the <code>critical_issues.log</code> file, and known</p>
-<p>exceptions from within MIP Convert will no longer lead to task</p>
-<p>failure in CDDS Convert suites (#1533).</p>
+<p>exceptions from within <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert will no longer lead to task</p>
+<p>failure in <abbr title="Climate Data Dissemination System">CDDS</abbr> Convert suites (#1533).</p>
 </li>
 <li>
 <p>(cdds_qc): Implemented file size checker (#1530)</p>
@@ -4128,10 +4128,10 @@
 </li>
 <li>
 <p>(extract): Extract does not now raise an error when attempting to</p>
-<p>interpret the request file for <code>HadGEM3-GC31-MM</code> packages (#1563)</p>
+<p>interpret the <abbr title="Information about a simulation used by all CDDS components.">request file</abbr> for <code>HadGEM3-GC31-MM</code> <abbr title="Identifiers indicating the phase of CDDS processing.">packages</abbr> (#1563)</p>
 </li>
 <li>
-<p>(transfer): <code>cdds_store</code> now handles experiment ids including the</p>
+<p>(transfer): <code>cdds_store</code> now handles <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> ids including the</p>
 <p><code>-</code> character (#1556)</p>
 </li>
 </ul>
@@ -4197,15 +4197,15 @@
 <p>variables to avoid CRITICAL issue for UKESM1 processing (#1437)</p>
 </li>
 <li>
-<p>(cdds_qc): A column with dataset filepaths has been added to the</p>
+<p>(cdds_qc): A column with <abbr title="A group of data containing some or all of the model output files from a single model simulation (i.e., model output files from a single realization of a single experiment from a single model).">Dataset</abbr> filepaths has been added to the</p>
 <p>approved variables file (#1175)</p>
 </li>
 <li>
 <p>(cdds_qc): The quality checking can now be restricted to a single</p>
-<p>stream (#1248)</p>
+<p><abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> (#1248)</p>
 </li>
 <li>
-<p>(cdds_qc): CDDS QC now validates parent information when the</p>
+<p>(cdds_qc): <abbr title="Climate Data Dissemination System">CDDS</abbr> QC now validates parent information when the</p>
 <p><code>branch_method</code> is <code>no parent</code> (#1453)</p>
 </li>
 <li>
@@ -4217,7 +4217,7 @@
 <p><code>send_to_mass</code> and <code>cdds_transfer_spice</code> (#1384)</p>
 </li>
 <li>
-<p>(extract): CDDS Extract no longer connects to CREM to retrieve</p>
+<p>(extract): <abbr title="Climate Data Dissemination System">CDDS</abbr> Extract no longer connects to <abbr title="Climate Research Experiment Management.">CREM</abbr> to retrieve</p>
 <p>request information (#1079, #1080).</p>
 </li>
 <li>
@@ -4237,7 +4237,7 @@
 <ul>
 <li>
 <p>(hadsdk): <code>thetaot</code> and <code>sltbasin</code> can now be produced after</p>
-<p>correcting their stream (#1009)</p>
+<p>correcting their <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> (#1009)</p>
 </li>
 </ul>
 <h2 id="release-122-november-13-2019">Release 1.2.2, November 13, 2019</h2>
@@ -4248,7 +4248,7 @@
 <p>users don\'t have to (#1347)</p>
 </li>
 <li>
-<p>(cdds_qc): The data request version can now be overridden from the</p>
+<p>(cdds_qc): The <abbr title="Information describing which MIP requested variables need to be produced for a given MIP-experiment combination. For CMIP6, see the CMIP6 Data Request.">Data Request</abbr> version can now be overridden from the</p>
 <p>command line when running <code>qc_run_and_report</code> (#1375)</p>
 </li>
 <li>
@@ -4257,13 +4257,13 @@
 <p>log message (#1346)</p>
 </li>
 <li>
-<p>(extract): CDDS Extract will now log WARNING rather than CRITICAL</p>
-<p>messages when there are no variables to be extracted for a stream</p>
+<p>(extract): <abbr title="Climate Data Dissemination System">CDDS</abbr> Extract will now log WARNING rather than CRITICAL</p>
+<p>messages when there are no variables to be extracted for a <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr></p>
 <p>(#1354)</p>
 </li>
 <li>
 <p>(extract): All moose commands are now non-resumable, in order to</p>
-<p>avoid cases where MASS outages lead to conflicts with CDDS Extract</p>
+<p>avoid cases where MASS outages lead to conflicts with <abbr title="Climate Data Dissemination System">CDDS</abbr> Extract</p>
 <p>processes (#1374)</p>
 </li>
 </ul>
@@ -4275,7 +4275,7 @@
 <p>(as seen at v1.2.0) (#1341)</p>
 </li>
 <li>
-<p>(cdds_convert): CDDS Convert now ignores streams where there are no</p>
+<p>(cdds_convert): <abbr title="Climate Data Dissemination System">CDDS</abbr> Convert now ignores <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> where there are no</p>
 <p>to be processed rather than raising a <code>KeyError</code> (#1282)</p>
 </li>
 <li>
@@ -4285,7 +4285,7 @@
 </li>
 <li>
 <p>(extract): A bug in the validation process, introduced in v1.2.0,</p>
-<p>that resulted in all NEMO model output files being incorrectly</p>
+<p>that resulted in all NEMO <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> being incorrectly</p>
 <p>identified as unreadable, and then deleted, has been fixed (#1333)</p>
 </li>
 </ul>
@@ -4294,7 +4294,7 @@
 <li>
 <p>(hadsdk): PP header fixes are now correctly applied when producing</p>
 <p>information required to construct query files for <code>moo select</code></p>
-<p>commands in CDDS Extract. This enables the correct extraction of</p>
+<p>commands in <abbr title="Climate Data Dissemination System">CDDS</abbr> Extract. This enables the correct extraction of</p>
 <p>data for <code>clisccp</code> (#1330)</p>
 </li>
 </ul>
@@ -4307,7 +4307,7 @@
 <li>
 <p>(cdds_configure): The <code>--mohc</code> and <code>--root_config</code> command line</p>
 <p>options for the <code>generate_user_config_files</code> script have now been</p>
-<p>removed (all arguments provided by the CDDS configuration files are</p>
+<p>removed (all arguments provided by the <abbr title="Climate Data Dissemination System">CDDS</abbr> configuration files are</p>
 <p>now provided via command line options, see below; #1043)</p>
 </li>
 <li>
@@ -4319,7 +4319,7 @@
 <li>
 <p>(cdds_convert): The <code>--root_config</code> command line option for the</p>
 <p><code>cdds_convert</code> script has now been removed (all arguments provided</p>
-<p>by the CDDS configuration files are now provided via command line</p>
+<p>by the <abbr title="Climate Data Dissemination System">CDDS</abbr> configuration files are now provided via command line</p>
 <p>options, see below; #1070)</p>
 </li>
 <li>
@@ -4331,7 +4331,7 @@
 <p>(cdds_prepare): The <code>--root_config</code> command line option for the</p>
 <p><code>create_cdds_directory_structure</code> and</p>
 <p><code>prepare_generate_variable_list</code> scripts has now been removed (all</p>
-<p>arguments provided by the CDDS configuration files are now provided</p>
+<p>arguments provided by the <abbr title="Climate Data Dissemination System">CDDS</abbr> configuration files are now provided</p>
 <p>via command line options, see below; #1164)</p>
 </li>
 <li>
@@ -4356,12 +4356,12 @@
 </li>
 <li>
 <p>(cdds_prepare): Error</p>
-<p><code>ExperimentNotFoundError: Experiment name "&lt;experiment identifier&gt;" not found in this version of the data request</code></p>
+<p><code>ExperimentNotFoundError: Experiment name "&lt;experiment identifier&gt;" not found in this version of the Data Request</code></p>
 <p>no longer occurs when calling the <code>prepare_generate_variable_list</code></p>
 <p>script when it is looking in the version of the used for model</p>
 <p>configuration. Instead if the is not defined in that version, a</p>
 <p>fallback and the associated with that will be used for comparison</p>
-<p>with the current version of the data request (#1256)</p>
+<p>with the current version of the <abbr title="Information describing which MIP requested variables need to be produced for a given MIP-experiment combination. For CMIP6, see the CMIP6 Data Request.">Data Request</abbr> (#1256)</p>
 </li>
 <li>
 <p>(cdds_prepare): Additional , for which the description in the data</p>
@@ -4375,7 +4375,7 @@
 <li>
 <p>(cdds_qc): The <code>--root_config</code> command line option for the</p>
 <p><code>qc_run_and_report</code> script has now been removed (all arguments</p>
-<p>provided by the CDDS configuration files are now provided via</p>
+<p>provided by the <abbr title="Climate Data Dissemination System">CDDS</abbr> configuration files are now provided via</p>
 <p>command line options, see below; #1167)</p>
 </li>
 <li>
@@ -4384,7 +4384,7 @@
 <p><code>qc_run_and_report</code> script have now been added (#1167)</p>
 </li>
 <li>
-<p>(cdds_qc_plugin_cmip6): CDDS QC now confirms that the</p>
+<p>(cdds_qc_plugin_cmip6): <abbr title="Climate Data Dissemination System">CDDS</abbr> QC now confirms that the</p>
 <p><code>parent_experiment_id</code> attribute in the is consistent with the</p>
 <p><code>Request</code> and , allowing for the choice of <code>parent_experiment_id</code></p>
 <p>where there are options within the (#1083)</p>
@@ -4395,20 +4395,20 @@
 <p>messages, where appropriate (#1045)</p>
 </li>
 <li>
-<p>(extract): CDDS Extract now handles <code>TSSC_SPANS_TOO_MANY_RESOURCES</code></p>
+<p>(extract): <abbr title="Climate Data Dissemination System">CDDS</abbr> Extract now handles <code>TSSC_SPANS_TOO_MANY_RESOURCES</code></p>
 <p>errors raised by <code>moo</code> commands that attempt to access files on too</p>
 <p>many tapes (#814)</p>
 </li>
 <li>
 <p>(hadsdk): The <code>mip_era</code> and <code>--root_config</code> command line options for</p>
 <p>the <code>write_request_json</code> script have now been removed (all arguments</p>
-<p>provided by the CDDS configuration files are now provided via</p>
+<p>provided by the <abbr title="Climate Data Dissemination System">CDDS</abbr> configuration files are now provided via</p>
 <p>command line options; #1078)</p>
 </li>
 <li>
 <p>(hadsdk): The <code>--root_config</code> command line option for the</p>
 <p><code>check_request_json_against_crem</code> script has now been removed (all</p>
-<p>arguments provided by the CDDS configuration files are now provided</p>
+<p>arguments provided by the <abbr title="Climate Data Dissemination System">CDDS</abbr> configuration files are now provided</p>
 <p>via command line options; #1078)</p>
 </li>
 <li>
@@ -4423,18 +4423,18 @@
 <h2 id="release-114-september-2-2019">Release 1.1.4, September 2, 2019</h2>
 <ul>
 <li>
-<p>(cdds_convert): To avoid causing storage issues on SPICE the MIP</p>
-<p>Convert tasks in the CDDS Convert Rose suites now report the local</p>
+<p>(cdds_convert): To avoid causing storage issues on SPICE the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr></p>
+<p>Convert tasks in the <abbr title="Climate Data Dissemination System">CDDS</abbr> Convert Rose suites now report the local</p>
 <p>disk usage (if suite variable \$STAGING_DIR is set). If this limit</p>
 <p>is specified then tasks that exceed the limit will fail (#1158).</p>
 </li>
 <li>
 <p>(cdds_convert): To enable HadGEM3-GC31-MM (N216) processing the</p>
-<p>requests for local temporary storage (\$TMPDIR), in the MIP Convert</p>
+<p>requests for local temporary storage (\$TMPDIR), in the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert</p>
 <p>tasks within the Rose suites, have been extended (#1158).</p>
 </li>
 <li>
-<p>(extract): When validating model output files, Extract now</p>
+<p>(extract): When validating <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr>, Extract now</p>
 <p>identifies faulty files with no time records (#992).</p>
 </li>
 <li>
@@ -4463,14 +4463,14 @@
 </li>
 <li>
 <p>(extract): To avoid issues related to extracting a large number of</p>
-<p>netCDF from MASS, the extraction is now performed in multiple chunks</p>
+<p><abbr title="Network Common Data Form">netCDF</abbr> from MASS, the extraction is now performed in multiple chunks</p>
 <p>(#991)</p>
 </li>
 </ul>
 <h2 id="release-112-july-3-2019">Release 1.1.2, July 3, 2019</h2>
 <ul>
 <li>
-<p>(cdds_convert): Following updates to the MIP Concatenate sizing file</p>
+<p>(cdds_convert): Following updates to the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Concatenate sizing file</p>
 <p>to ensure that containing daily output on model levels are now</p>
 <p>correctly sized (#1002)</p>
 </li>
@@ -4497,7 +4497,7 @@
 <h2 id="release-110-june-12-2019">Release 1.1.0, June 12, 2019</h2>
 <ul>
 <li>
-<p>(cdds_convert): CDDS Convert now preferentially uses <code>cftime</code>,</p>
+<p>(cdds_convert): <abbr title="Climate Data Dissemination System">CDDS</abbr> Convert now preferentially uses <code>cftime</code>,</p>
 <p>falling back to using <code>netcdftime</code> if <code>cftime</code> is not available in</p>
 <p>the environment (#249)</p>
 </li>
@@ -4576,10 +4576,10 @@
 <h2 id="release-104-may-2-2019">Release 1.0.4, May 2, 2019</h2>
 <ul>
 <li>
-<p>(cdds_configure): MIP Convert template files for the ocean are now</p>
-<p>produced separately for each sub-stream to avoid an issue where</p>
+<p>(cdds_configure): <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert template files for the ocean are now</p>
+<p>produced separately for each sub-<abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> to avoid an issue where</p>
 <p>ocean files _<a href="">may</a> be produced with incorrect spatial coordinates</p>
-<p>(#871). This change also improves CDDS Convert end-to-end</p>
+<p>(#871). This change also improves <abbr title="Climate Data Dissemination System">CDDS</abbr> Convert end-to-end</p>
 <p>performance by splitting processing into several smaller batch jobs</p>
 <p>that can be run in parallel.</p>
 </li>
@@ -4622,8 +4622,8 @@
 <li>
 <p>(cdds_convert): Mip_convert and mip_concatenate now write to three</p>
 <p>separate directories: one for mip_convert output, a second for input</p>
-<p>files to the concatenation tasks and a third for the final</p>
-<p>concatenation tasks which is where qc and transfer will look for the</p>
+<p>files to the <abbr title="Concatenation Tasks are then run to join the files into a single file for a larger date range of length Concatenation Period. Concatenation Tasks are executed once per Concatenation Cycle.">Concatenation Tasks</abbr> and a third for the final</p>
+<p><abbr title="Concatenation Tasks are then run to join the files into a single file for a larger date range of length Concatenation Period. Concatenation Tasks are executed once per Concatenation Cycle.">Concatenation Tasks</abbr> which is where qc and transfer will look for the</p>
 <p>output (#840)</p>
 </li>
 <li>
@@ -4649,7 +4649,7 @@
 <h2 id="release-101-april-2-2019">Release 1.0.1, April 2, 2019</h2>
 <ul>
 <li>
-<p>(cdds_configure): The grid label <code>gn</code> is now used for datasets that</p>
+<p>(cdds_configure): The grid label <code>gn</code> is now used for <abbr title="Many groups of data containing some or all of the model output files from model simulations.">Datasets</abbr> that</p>
 <p>use on all T/U/V/UV grids (#761)</p>
 </li>
 <li>
@@ -4670,19 +4670,19 @@
 <p>are written prior to producing those outputs (#750)</p>
 </li>
 <li>
-<p>(cdds_convert): The concatenation periods are now aligned with the</p>
+<p>(cdds_convert): The Concatenation Periods are now aligned with the</p>
 <p>reference date (#762)</p>
 </li>
 <li>
-<p>(cdds_convert): A single is now produced if the concatenation period</p>
+<p>(cdds_convert): A single is now produced if the <abbr title="The length of the date range to be processed by 1 Concatenation Task.">Concatenation Period</abbr></p>
 <p>is more than the run bounds (#778)</p>
 </li>
 <li>
 <p>(cdds_convert): The correct files are now included in each</p>
-<p>concatenation period (#780)</p>
+<p><abbr title="The length of the date range to be processed by 1 Concatenation Task.">Concatenation Period</abbr> (#780)</p>
 </li>
 <li>
-<p>(cdds_convert): The cycles to run MIP Convert are now aligned with</p>
+<p>(cdds_convert): The cycles to run <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert are now aligned with</p>
 <p>the reference date (#781)</p>
 </li>
 <li>
@@ -4712,7 +4712,7 @@
 </li>
 <li>
 <p>(cdds_transfer): The new command line script <code>cdds_transfer_spice</code></p>
-<p>can now be used to run CDDS Transfer on SPICE (#688)</p>
+<p>can now be used to run <abbr title="Climate Data Dissemination System">CDDS</abbr> Transfer on SPICE (#688)</p>
 </li>
 <li>
 <p>(cdds_transfer): The name of the directory used to store on MASS can</p>
@@ -4731,40 +4731,40 @@
 <li>
 <p>(hadsdk): The <code>write_request_json</code> script now works correctly for</p>
 <p>experiments without parents, and retrieves the correct value of the</p>
-<p>from CREM (#730)</p>
+<p>from <abbr title="Climate Research Experiment Management.">CREM</abbr> (#730)</p>
 </li>
 </ul>
 <h2 id="release-100-february-1-2019">Release 1.0.0, February 1, 2019</h2>
 <ul>
 <li>
-<p>(cdds_configure): First implementation of CDDS.</p>
+<p>(cdds_configure): First implementation of <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
 </li>
 <li>
-<p>(cdds_convert): First implementation of CDDS.</p>
+<p>(cdds_convert): First implementation of <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
 </li>
 <li>
-<p>(cdds_prepare): First implementation of CDDS.</p>
+<p>(cdds_prepare): First implementation of <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
 </li>
 <li>
-<p>(cdds_qc): First implementation of CDDS.</p>
+<p>(cdds_qc): First implementation of <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
 </li>
 <li>
-<p>(cdds_qc_plugin_cf17): First implementation of CDDS.</p>
+<p>(cdds_qc_plugin_cf17): First implementation of <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
 </li>
 <li>
-<p>(cdds_qc_plugin_cmip6): First implementation of CDDS.</p>
+<p>(cdds_qc_plugin_cmip6): First implementation of <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
 </li>
 <li>
-<p>(cdds_transfer): First implementation of CDDS.</p>
+<p>(cdds_transfer): First implementation of <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
 </li>
 <li>
-<p>(extract): First implementation of CDDS.</p>
+<p>(extract): First implementation of <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
 </li>
 <li>
-<p>(hadsdk): First implementation of CDDS.</p>
+<p>(hadsdk): First implementation of <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
 </li>
 <li>
-<p>(transfer): First implementation of CDDS.</p>
+<p>(transfer): First implementation of <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
 </li>
 </ul>
 

@@ -1531,10 +1531,10 @@
 <h1 id="update-model-parameters-json-file">Update Model Parameters JSON File</h1>
 <h2 id="stream-file-frequencies">Stream File Frequencies</h2>
 <p>The <code>stream_file_frequency</code> section contains a key value pairs where the key the frequency is and the value the list of 
-streams. Following frequencies are supported: <code>hourly</code>, <code>daily</code>, <code>10 day</code>, <code>quarterly</code>, <code>monthly</code></p>
+<abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr>. Following frequencies are supported: <code>hourly</code>, <code>daily</code>, <code>10 day</code>, <code>quarterly</code>, <code>monthly</code></p>
 <details class="example">
 <summary>Example</summary>
-<p>Assuming <code>ap4</code> and <code>ap5</code> are monthly streams and <code>ap6</code> is a <code>daily</code> stream:
+<p>Assuming <code>ap4</code> and <code>ap5</code> are monthly <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> and <code>ap6</code> is a <code>daily</code> <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr>:
 <div class="highlight"><pre><span></span><code><span class="nt">&quot;stream_file_frequency&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">   </span><span class="nt">&quot;monthly&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">       </span><span class="s2">&quot;ap4&quot;</span><span class="p">,</span>
@@ -1547,10 +1547,10 @@ streams. Following frequencies are supported: <code>hourly</code>, <code>daily</
 </code></pre></div></p>
 </details>
 <h2 id="cylc-length-memory-temporary-space">Cylc length / Memory / Temporary space</h2>
-<p>There are following three sections that have an entry for each stream:</p>
+<p>There are following three sections that have an entry for each <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr>:</p>
 <dl>
 <dt><code>cylc_length</code></dt>
-<dd>lengths of the suite cylc for each stream<details class="example">
+<dd>lengths of the suite cylc for each <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr><details class="example">
 <summary>Example</summary>
 <div class="highlight"><pre><span></span><code><span class="nt">&quot;cycle_length&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;ap4&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P5Y&quot;</span><span class="p">,</span>
@@ -1561,7 +1561,7 @@ streams. Following frequencies are supported: <code>hourly</code>, <code>daily</
 </dd>
 <dt><code>memory</code></dt>
 <dd>
-<p>memory usages of each stream</p>
+<p>memory usages of each <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This is the starting point for memory and adaptive memory, storage and time limits are used.</p>
@@ -1578,7 +1578,7 @@ streams. Following frequencies are supported: <code>hourly</code>, <code>daily</
 </dd>
 <dt><code>temp_space</code></dt>
 <dd>
-<p>temporary space of each stream</p>
+<p>temporary space of each <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This is the starting point for memory and adaptive memory, storage and time limits are used.</p>
@@ -1621,8 +1621,8 @@ JSON object has as key the frequency and as value the shape with its coordinates
 <span class="p">}</span>
 </code></pre></div>
 </details>
-<h2 id="sub-daily-streams">Sub daily streams</h2>
-<p>There are one entry for the subdaily streams <code>subdaily_streams</code> that contains an array of subdaily streams.</p>
+<h2 id="sub-daily-streams">Sub daily <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr></h2>
+<p>There are one entry for the subdaily <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> <code>subdaily_streams</code> that contains an array of subdaily <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr>.</p>
 <details class="example">
 <summary>Example</summary>
 <div class="highlight"><pre><span></span><code><span class="nt">&quot;subdaily_streams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -1644,7 +1644,7 @@ JSON object has as key the frequency and as value the shape with its coordinates
 <dt><code>model_info</code></dt>
 <dd>a simple description of the grid, e.g. <code>N96 grid</code>. It is interpolated into <code>grid attribute</code>.</dd>
 <dt><code>nominal_resolution</code></dt>
-<dd>the nominal resolution. This needs to agree with the Controlled Vocabulary for the project.</dd>
+<dd>the nominal resolution. This needs to agree with the <abbr title="It is a pre-defined set of terms describing acceptable values for various quantities.">Controlled Vocabulary</abbr> for the project.</dd>
 <dt><code>longitude</code></dt>
 <dd>the number of longitude points in the atmosphere grid</dd>
 <dt><code>latitude</code></dt>
@@ -1686,7 +1686,7 @@ request config file</dd>
 <dt><code>model_info</code></dt>
 <dd>a simple description of the grid, e.g. <code>N96 grid</code>. It is interpolated into <code>grid attribute</code>.</dd>
 <dt><code>nominal_resolution</code></dt>
-<dd>the nominal resolution. This needs to agree with the Controlled Vocabulary for the project.</dd>
+<dd>the nominal resolution. This needs to agree with the <abbr title="It is a pre-defined set of terms describing acceptable values for various quantities.">Controlled Vocabulary</abbr> for the project.</dd>
 <dt><code>longitude</code></dt>
 <dd>the number of longitude points in the ocean grid</dd>
 <dt><code>latitude</code></dt>
@@ -1708,8 +1708,8 @@ request config file</dd>
 <p>This is not relevant for the ocean, but still needs to be present.</p>
 </div>
 </dd>
-<dt><code>bounds_coordinates</code> (Optional, added in CDDS v3.1.0)</dt>
-<dd>This field is a dictionary containing the list of netcdf variables that correspond to the bounds variables for
+<dt><code>bounds_coordinates</code> (Optional, added in <abbr title="Climate Data Dissemination System">CDDS</abbr> v3.1.0)</dt>
+<dd>This field is a dictionary containing the list of <abbr title="Network Common Data Form">netCDF</abbr> variables that correspond to the bounds variables for
 coordinates in the NEMO output files for each ocean substream. If this is not specified the built in defaults 
 will be used.</dd>
 <dt><code>masked</code></dt>
