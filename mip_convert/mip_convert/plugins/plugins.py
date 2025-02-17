@@ -104,6 +104,9 @@ class PluginStore:
         """
         return self._plugin
 
+    def has_plugin_loaded(self) -> bool:
+        return self._plugin is not None
+
     @classmethod
     def clean_instance(cls) -> None:
         """
