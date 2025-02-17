@@ -1,7 +1,7 @@
 # (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
 """
-The :mod:`hadgem3_plugin` module contains the code for the HadGem3 plugin.
+The :mod:`hadgem3_plugin` module contains the code for the HadGEM3 plugin.
 """
 import logging
 import os
@@ -20,7 +20,7 @@ from mip_convert.plugins.hadgem3.data.processors import *
 
 class HadGEM3MappingPlugin(MappingPlugin):
     """
-    Plugin for HadGem3 models
+    Plugin for HadGEM3 models
     """
 
     def __init__(self):
@@ -30,7 +30,7 @@ class HadGEM3MappingPlugin(MappingPlugin):
 
     def load(self, model_id) -> None:
         """
-        Loads the data for the HadGem3 plugin
+        Loads the data for the HadGEM3 plugin
         """
         logger = logging.getLogger(__name__)
         dirname = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data')
