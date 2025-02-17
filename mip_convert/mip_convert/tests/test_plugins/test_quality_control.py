@@ -1,5 +1,5 @@
 # (C) British Crown Copyright 2024, Met Office.
-# Please see LICENSE.rst for license details.
+# Please see LICENSE.md for license details.
 from numpy import ma
 from unittest import TestCase
 from mip_convert.plugins.quality_control import (BoundsChecker, MaskedArrayBoundsChecker, OutOfBoundsError,

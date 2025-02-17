@@ -168,9 +168,9 @@ class TestMain(unittest.TestCase):
             'run_bounds = {}\nshuffle = {}\nsites_file = {}\n'
             'suite_id = {}\n\n')
         self.request_section = self.request_format.format(
-            self.ancil_files, self.base_date, self.deflate_level, self.force_coordinate_rotation,
-            self.hybrid_heights_files, self.mip_convert_plugin, self.model_output_dir,
-            self.replacement_coordinates_file, self.run_bounds, self.shuffle,
+            self.ancil_files, self. ancil_variables, self.base_date, self.deflate_level,
+            self.force_coordinate_rotation, self.hybrid_heights_files, self.mip_convert_plugin,
+            self.model_output_dir, self.replacement_coordinates_file, self.run_bounds, self.shuffle,
             self.sites_file, self.suite_id)
         self.stream_section = '[stream_ap5]\nCMIP6_Amon = tas\n\n'
         self.masking_section = ('[masking]\n'
