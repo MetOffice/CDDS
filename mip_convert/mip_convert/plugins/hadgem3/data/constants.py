@@ -6,7 +6,7 @@ in the |model to MIP mapping| expressions.
 """
 
 
-def constants():
+def all_constants():
     """
     Return the names and values of the constants available for use in
     the |model to MIP mapping| expressions.
@@ -21,10 +21,10 @@ def constants():
         The names and values of the constants available for use in the
         |model to MIP mapping| expressions.
     """
-    return dict(list(other_constants().items()) + list(pressure_levels().items()))
+    return dict(list(constants().items()) + list(pressure_levels().items()))
 
 
-def other_constants():
+def constants():
     return {
         # Constants:
         'ACCELERATION_DUE_TO_EARTH_GRAVITY': '9.80665',  # m s-2 (Value taken from the UM)

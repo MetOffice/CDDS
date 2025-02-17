@@ -4,6 +4,8 @@
 The :mod:`plugin` module contains the code for the MIP Convert plugins.
 """
 from abc import ABCMeta, abstractmethod
+from mip_convert.plugins.quality_control import BoundsChecker, UM_MDI, RAISE_EXCEPTION
+from typing import Dict, Any
 
 
 class MappingPlugin(object, metaclass=ABCMeta):
@@ -22,32 +24,37 @@ class MappingPlugin(object, metaclass=ABCMeta):
 
     def is_responsible(self, plugin_id: str) -> bool:
         """
-         Returns if the plugin is responsible for the model with given model ID.
+         Returns if the plugin is responsible for the models with given plugin ID.
 
-        :param model_id: Model ID to check (case-sensitive check!)
-        :type model_id: str
+        :param plugin_id: Plugin ID to check (case-sensitive check!)
+        :type plugin_id: str
         :return: True if the plugin is responsible otherwise false
         :rtype: bool
         """
         return plugin_id == self._plugin_id
 
     @abstractmethod
-    def load(self) -> None:
+    def load(self, model_id: str) -> None:
         """
         Loads the plugin data
         """
         pass
 
     @abstractmethod
-    def evaluate_expression(self) -> None:
+    def evaluate_expression(self, expression: Any) -> None:
         pass
 
     @abstractmethod
-    def bounds_checker(self):
+    def bounds_checker(self, fill_value: float, valid_min: float, valid_max: float, tol_min: float, tol_max: float,
+                       tol_min_action: int, tol_max_action: int, oob_action: int) -> BoundsChecker:
         pass
 
     @abstractmethod
-    def constants(self):
+    def constants(self) -> Dict[str, str]:
+        pass
+
+    @abstractmethod
+    def mappings_config(self) -> Dict[str, Dict[str, Any]]:
         pass
 
 
