@@ -126,7 +126,7 @@ class TestMain(unittest.TestCase):
         self.nominal_resolution = grid_info.nominal_resolution
         self.replacement_coordinates_file = os.path.join(os.environ['CDDS_ETC'],
                                                          'horizontal_coordinates', 'cice_eORCA1_coords.nc')
-        self.mip_convert_plugin = 'HadGem3'
+        self.mip_convert_plugin = 'HadGEM3'
         self.cmor_setup_format = (
             '[cmor_setup]\ncmor_log_file = {}\ncreate_subdirectories = {}\nmip_table_dir = {}\n'
             'netcdf_file_action = {}\n\n')
