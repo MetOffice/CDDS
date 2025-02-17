@@ -18,7 +18,7 @@ from mip_convert.plugins.exceptions import PluginLoadError
 INTERNAL_PLUGINS: List[MappingPlugin] = [HadGEM3MappingPlugin()]
 
 
-def load_plugin(model_id: str, plugin_module_path: str = None, plugin_location: str = None) -> None:
+def load_plugin(plugin_id: str, model_id: str, plugin_module_path: str = None, plugin_location: str = None) -> None:
     """
     Searches for a Mapping plugin that is responsible for the model with given ID,
     loads it and registers it.
@@ -37,15 +37,15 @@ def load_plugin(model_id: str, plugin_module_path: str = None, plugin_location: 
         sys.path.append(plugin_location)
 
     if plugin_module_path:
-        load_external_plugin(model_id, plugin_module_path)
+        load_external_plugin(plugin_id, plugin_module_path, model_id)
     else:
-        internal_plugin = find_internal_plugin(model_id)
-        internal_plugin.load()
+        internal_plugin = find_internal_plugin(plugin_id)
+        internal_plugin.load(model_id)
         plugin_store = PluginStore.instance()
         plugin_store.register_plugin(internal_plugin)
 
 
-def find_internal_plugin(model_id: str) -> MappingPlugin:
+def find_internal_plugin(plugin_id: str) -> MappingPlugin:
     """
     Finds the right internal plugin to load for given model
 
@@ -57,15 +57,15 @@ def find_internal_plugin(model_id: str) -> MappingPlugin:
     logger = logging.getLogger(__name__)
 
     for interal_plugin in INTERNAL_PLUGINS:
-        if interal_plugin.is_responsible(model_id):
+        if interal_plugin.is_responsible(plugin_id):
             return interal_plugin
 
-    message = 'Plugin for this model "{}" is not found.'.format(model_id)
+    message = 'Plugin for this id "{}" is not found.'.format(plugin_id)
     logger.critical(message)
     raise PluginLoadError(message)
 
 
-def load_external_plugin(model_id: str, plugin_module_path: str) -> None:
+def load_external_plugin(plugin_id: str, plugin_module_path: str, model_id: str) -> None:
     """
     Loads the plugin for the model with given ID that is implemented in the module at given path.
 
@@ -75,14 +75,14 @@ def load_external_plugin(model_id: str, plugin_module_path: str) -> None:
     :type plugin_module_path: str
     """
     logger = logging.getLogger(__name__)
-    external_plugin = find_external_plugin(model_id, plugin_module_path)
+    external_plugin = find_external_plugin(plugin_id, plugin_module_path)
 
     if external_plugin is None:
-        message = 'Found no plugin for model "{}" in module "{}"'.format(model_id, plugin_module_path)
+        message = 'Found no plugin for id "{}" in module "{}"'.format(plugin_id, plugin_module_path)
         logger.critical(message)
         raise PluginLoadError(message)
 
-    external_plugin.load()
+    external_plugin.load(model_id)
     plugin_store = PluginStore.instance()
     plugin_store.register_plugin(external_plugin)
 
