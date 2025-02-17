@@ -134,6 +134,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
             user_config['global_attributes'] = get_global_attributes(request)
             user_config['request']['atmos_timestep'] = request.misc.atmos_timestep
             user_config['request']['suite_id'] = request.data.model_workflow_id
+            user_config['request']['mip_convert_plugin'] = request.conversion.mip_convert_plugin
             user_config['request']['force_coordinate_rotation'] = request.misc.force_coordinate_rotation
             if maskings:
                 user_config['masking'] = maskings
