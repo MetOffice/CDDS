@@ -18,7 +18,7 @@ class TestLoadHadGEM3MappingPlugin(TestCase):
         PluginStore.clean_instance()
 
     def test_load_hadgem3_mapping_plugin(self):
-        load_plugin('HadGEM3-GC31-LL')
+        load_plugin('HadGEM3')
         plugin = PluginStore.instance().get_plugin()
         self.assertIsInstance(plugin, HadGEM3MappingPlugin)
 
@@ -38,7 +38,7 @@ class TestLoadExternalPlugin(TestCase):
         module_path = 'mip_convert.tests.test_plugins.stubs'
         self.assertIsNone(self.plugin_store.get_plugin())
 
-        load_external_plugin(EmptyMappingPlugin.MODEL_ID, module_path)
+        load_external_plugin(EmptyMappingPlugin.PLUGIN_ID, module_path)
 
         loaded_plugin = self.plugin_store.get_plugin()
 
@@ -48,10 +48,10 @@ class TestLoadExternalPlugin(TestCase):
         module_path = 'mip_convert.tests.test_plugins.stubs'
         self.assertIsNone(self.plugin_store.get_plugin())
 
-        self.assertRaises(PluginLoadError, load_external_plugin, 'UnknownModelID', module_path)
+        self.assertRaises(PluginLoadError, load_external_plugin, 'UnknownPluginID', module_path)
 
     def test_no_plugin_implemented_at_module_path(self):
         module_path = 'mip_convert.tests.common'
         self.assertIsNone(self.plugin_store.get_plugin())
 
-        self.assertRaises(PluginLoadError, load_external_plugin, EmptyMappingPlugin.MODEL_ID, module_path)
+        self.assertRaises(PluginLoadError, load_external_plugin, EmptyMappingPlugin.PLUGIN_ID, module_path)

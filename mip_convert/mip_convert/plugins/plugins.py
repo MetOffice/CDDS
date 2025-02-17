@@ -17,10 +17,10 @@ class MappingPlugin(object, metaclass=ABCMeta):
     All plugins must implement this interface, otherwise the plugin will not be supported.
     """
 
-    def __init__(self, model_ids):
-        self._model_ids = model_ids
+    def __init__(self, plugin_id):
+        self._plugin_id = plugin_id
 
-    def is_responsible(self, model_id: str) -> bool:
+    def is_responsible(self, plugin_id: str) -> bool:
         """
          Returns if the plugin is responsible for the model with given model ID.
 
@@ -29,13 +29,25 @@ class MappingPlugin(object, metaclass=ABCMeta):
         :return: True if the plugin is responsible otherwise false
         :rtype: bool
         """
-        return model_id in self._model_ids
+        return plugin_id == self._plugin_id
 
     @abstractmethod
     def load(self) -> None:
         """
         Loads the plugin data
         """
+        pass
+
+    @abstractmethod
+    def evaluate_expression(self) -> None:
+        pass
+
+    @abstractmethod
+    def bounds_checker(self):
+        pass
+
+    @abstractmethod
+    def constants(self):
         pass
 
 
