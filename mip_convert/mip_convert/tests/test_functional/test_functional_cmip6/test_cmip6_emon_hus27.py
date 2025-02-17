@@ -33,7 +33,8 @@ class TestCmip6EmonHus27(AbstractFunctionalTests):
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1960-03-01T00:00:00 1960-04-01T00:00:00',
-                    'suite_id': 'u-aw310'
+                    'suite_id': 'u-aw310',
+                    'mip_convert_plugin': ''
                 },
                 streams={
                     'ap5': {'CMIP6_Emon': 'hus27'}

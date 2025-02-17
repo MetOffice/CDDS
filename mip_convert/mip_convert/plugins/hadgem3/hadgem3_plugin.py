@@ -8,6 +8,8 @@ import os
 
 from typing import Dict, Any
 
+import iris.cube
+
 from mip_convert.plugins.hadgem3.data.constants import all_constants
 from mip_convert.plugins.hadgem3.data.config import mappings_config_info
 from mip_convert.plugins.hadgem3.data.quality_control import MaskedArrayBoundsChecker, UM_MDI, RAISE_EXCEPTION
@@ -45,8 +47,8 @@ class HadGEM3MappingPlugin(MappingPlugin):
             logger.debug('Reading "{filename}"'.format(filename=filename))
         self.model_to_mip_mapping_configs[model_id] = model_to_mip_mappings
 
-    def evaluate_expression(self, expression: Any) -> None:
-        eval(expression)
+    def evaluate_expression(self, expression: Any) -> iris.cube.Cube:
+        return eval(expression)
 
     def constants(self) -> Dict[str, str]:
         return all_constants()

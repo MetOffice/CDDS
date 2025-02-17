@@ -37,6 +37,7 @@ class TestCmip6OmonThkcello(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1980-01-01T00:00:00 1980-02-01T00:00:00',
                     'suite_id': 'u-ar766',
+                    'mip_convert_plugin': ''
                 },
                 streams={
                     'onm_grid-T': {'CMIP6_Omon': 'thkcello'}

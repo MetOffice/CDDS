@@ -33,7 +33,8 @@ class TestCmip6OmonHfbasin(AbstractFunctionalTests):
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'diaptr_basin_masks.nc'),
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1960-01-01T00:00:00 1960-03-01T00:00:00',
-                    'suite_id': 'u-aw310'
+                    'suite_id': 'u-aw310',
+                    'mip_convert_plugin': ''
                 },
                 streams={
                     'onm': {'CMIP6_Omon': 'hfbasin'}

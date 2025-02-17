@@ -54,6 +54,7 @@ class TestCmip6DayZgDeflation(AbstractFunctionalTests):
                     'run_bounds': '1950-01-01T00:00:00 1950-02-01T00:00:00',
                     'shuffle': True,
                     'suite_id': 'ai674',
+                    'mip_convert_plugin': ''
                 },
                 global_attributes={
                     'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.'
