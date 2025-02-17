@@ -44,20 +44,54 @@ class MappingPlugin(object, metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def evaluate_expression(self, expression: Any) -> iris.cube.Cube:
+    def evaluate_expression(self, expression: Any, input_variables: Dict[str, iris.cube.Cube]) -> iris.cube.Cube:
+        """
+        Update the iris Cube containing in the input variables list by evaluating the given expression.
+
+        :param expression:
+        :type expression: Any
+        :param input_variables:
+        :type input_variables: Dict[str, Cube]
+        :return: The updated iris Cube
+        :rtype: Cube
+        """
         pass
 
     @abstractmethod
     def bounds_checker(self, fill_value: float, valid_min: float, valid_max: float, tol_min: float, tol_max: float,
                        tol_min_action: int, tol_max_action: int, oob_action: int) -> BoundsChecker:
+        """
+        Returns the checker for checking and, if required, adjusting numpy MaskedArrays
+
+        :param fill_value: Filling value
+        :type fill_value: float
+        :param valid_min: Valid minimum
+        :type valid_min: float
+        :param valid_max: Valid maximum
+        :type valid_max: float
+        :param tol_min: Minimal tolerance
+        :type tol_min: float
+        :param tol_max: Maximal tolerance
+        :type tol_max: float
+        :param tol_min_action: Action for minimal tolerance
+        :type tol_min_action: int
+        :param tol_max_action: Action for maximal tolerance
+        :type tol_max_action: int
+        :param oob_action: Action of out-of-bounds values
+        :type oob_action: int
+        :return: Checker to masked the array
+        :rtype: MaskedArrayBoundsChecker
+        """
         pass
 
     @abstractmethod
     def constants(self) -> Dict[str, str]:
-        pass
+        """
+         Returns the names and values of the constants available for use in the |model to MIP mapping| expressions.
 
-    @abstractmethod
-    def mappings_config(self) -> Dict[str, Dict[str, Any]]:
+        :return: The names and values of the constants available for use in the |model to MIP mapping| expressions.
+        :rtype: Dict[str, str]
+        """
         pass
 
 
