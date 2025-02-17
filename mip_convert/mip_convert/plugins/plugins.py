@@ -4,6 +4,9 @@
 The :mod:`plugin` module contains the code for the MIP Convert plugins.
 """
 from abc import ABCMeta, abstractmethod
+
+import iris.cube
+
 from mip_convert.plugins.quality_control import BoundsChecker, UM_MDI, RAISE_EXCEPTION
 from typing import Dict, Any
 
@@ -41,7 +44,7 @@ class MappingPlugin(object, metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def evaluate_expression(self, expression: Any) -> None:
+    def evaluate_expression(self, expression: Any) -> iris.cube.Cube:
         pass
 
     @abstractmethod
