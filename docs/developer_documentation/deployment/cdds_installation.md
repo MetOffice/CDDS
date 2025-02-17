@@ -1,7 +1,4 @@
-# CDDS Installation
-
-!!! warning
-    This page is still work-in-progress! Please work closely with the CDDS team when installing CDDS.
+# Installation
 
 === "On Azure (Met Office)"
 
@@ -182,3 +179,29 @@
           ```
           You should see `en_GB.UTF-8` for `LC_ALL` and the command set above for `CDDS_ENV_COMMAND` 
           and `CDDS_PARTITION`.
+
+
+## Ensure all the tests pass in the 'real live environment'
+
+- [x] The tests must be executed as the `cdds` user
+- [x] Set the following environment variable, making sure to replace `X.Y.Z` with the relevant version.
+      ```bash
+      export SRCDIR=$HOME/conda_environments/cdds-X.Y.Z/lib/python3.10/site-packages
+      ```
+- [x] Run the following tests.
+      ```bash
+      echo "# Executing tests for cdds:"
+      pytest -s $SRCDIR/cdds --doctest-modules -m 'not slow and not integration and not rabbitMQ and not data_request'
+      pytest -s $SRCDIR/cdds -m slow
+      pytest -s $SRCDIR/cdds -m integration
+      pytest -s $SRCDIR/cdds -m data_request
+      echo "# Executing tests for mip_convert:"
+      pytest -s $SRCDIR/mip_convert --doctest-modules -m 'not slow and not mappings and not superslow'
+      pytest -s $SRCDIR/mip_convert -m mappings
+      pytest -s $SRCDIR/mip_convert -m slow
+      ```
+
+!!! info
+    Slow unit tests for `transfer` and `cdds_configure` will display error messages to standard output. This is intentional, 
+    and does not indicate the tests fail (see `transfer.tests.test_command_line.TestMainStore.test_transfer_functional_failing_moo()` 
+    for details).

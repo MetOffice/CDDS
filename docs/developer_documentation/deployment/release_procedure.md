@@ -1,15 +1,28 @@
 # Release Procedure
 
-## Inform users of the upcoming change (if necessary)
+The changes necessary for the release are first made on a "deployment" branch which are then merged in to the release branch via a pull request.
+The following diagram gives an overview of the steps that follow.
 
-!!! info
-    Ask [Matthew Mizielinski](mailto:matthew.mizielinski@metoffice.gov.uk) if it is worth announcing the new version.
+``` mermaid
+gitGraph
+   commit id: "some feature"
+   branch v3.1_release
+   checkout v3.1_release
+   branch CDDSO-X_3.1.0_release
+   checkout CDDSO-X_3.1.0_release
+   commit id: "Disable Dev Mode"
+   commit id: "Update CHANGES.md"
+   checkout v3.1_release
+   merge CDDSO-X_3.1.0_release tag: "v3.1.0"
+   commit id: "Enable Dev Mode / Version"
+   commit id: "New 3.1.1 features"
+   checkout main
+   cherry-pick id: "Update CHANGES.md"
+```
 
-## Make the appropriate changes to the code
 
-### Changes in the CDDS Project
+## Create a Deployment Branch
 
-#### Branch from the appropriate release branch
 
 ```bash
 git checkout <release_branch>
@@ -25,7 +38,8 @@ git checkout -b v<release_version>_release
 
 where `<release_version>` is e.g. `3.1`.
 
-#### Modify the CDDS code
+
+## Prepare the Deployment Branch
 
 - [x] Update the development tag in `cdds/cdds/__init__.py` and `mip_covert/mip_convert/__init__.py`
     ```bash
@@ -38,31 +52,34 @@ where `<release_version>` is e.g. `3.1`.
 - [x] Check `_NUMERICAL_VERSION` in `cdds/cdds/__init__.py` and `mip_covert/mip_convert/__init__.py`.
       It should be set to the current release version e.g. `3.1.0` (This must include any suffixes e.g. for
       release candidates)
-- [x] Update any version numbers of dependencies that need updating in `setup_env_for_cdds`
-- [x] Build the documentation
-      1. Deploy the new version of the document:
-         ```bash
-         mike deploy <last_major_release_version>
-         ```
-         where `last_major_release_version` is the last major release version, e.g `3.1`
-      2. Verify the new deployment works as expected.
-         ```bash
-         mike serve
-         ```
-      3. Publish the new documentation version:
-         ```bash
-         git push origin gh-pages
-         ```
-      4. If a major version is released then the new documentation version must be set as default:
-         ```bash
-         mike deploy <major_release_version> latest --update-aliases --push
-         ```
-      For more information, see [Documentation](documentation.md). If you have any doubts, please speak to Jared or Matthew.
-- [x] If releasing a new minor version of CDDS, e.g. `3.1.0`, update the development environment name in `setup_env_for_devel` to point to the new version, e.g. `cdds-3.1_dev`.
 - [x] Ensure that:
-    -  All changes  since the last release have been described in the relevant `CHANGES.md` files. These should be added as a separate commit to allow 
+    - All changes  since the last release have been described in the relevant `CHANGES.md` files. These should be added as a separate commit to allow 
        cherry picking onto main later
     - Any new files added since the last release that do not have a `.py` extension are included in `MANIFEST.in` and `setup.py`.
+
+## Publish the Documentation
+
+1. Deploy the new version of the documentation.
+    ```bash
+    mike deploy <last_major_release_version>
+    ```
+    where `last_major_release_version` is the last major release version, e.g `3.1`
+2. Verify the new deployment works as expected.
+    ```bash
+    mike serve
+    ```
+3. Publish the new documentation version:
+    ```bash
+    git push origin gh-pages
+    ```
+4. If a major version is released then the new documentation version must be set as default:
+    ```bash
+    mike deploy <major_release_version> latest --update-aliases --push
+    ```
+For more information, see [Documentation](documentation.md). If you have any doubts, please speak to Jared or Matthew.
+
+## Merge Deployment Branch into Release Branch
+
 - [x] Create a pull request for the changes. After the pull request is approved, merge the changes into the release branch, **but do not squash merge them**. 
       This will allow you cherry-pick release notes from the release branch into main.
 
@@ -70,7 +87,10 @@ where `<release_version>` is e.g. `3.1`.
     After changing this version number, the setup script won't work until the new version has been installed centrally in the cdds account. 
 
 
-### Create a tag
+## Create a tag
+
+!!! danger
+    You must remember to `git checkout` the `v3.X_release` branch and then `git pull` the changes that were merged via PR.
 
 === "Using command line"
 
@@ -89,7 +109,7 @@ where `<release_version>` is e.g. `3.1`.
           ```
     - [x] To show all tags and check if your tag is successfully created, run:
           ```bash
-          git tag
+          git tag -l
           ```
 
 === "Using GitHub"
@@ -97,33 +117,12 @@ where `<release_version>` is e.g. `3.1`.
     !!! info
         Github has a good documentation about release processes, see: [Managing releases - GitHub Docs](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
 
-### Install the code
+## Install the code
 
-Follow the instructions provided in the [CDDS installation]()
+Follow the instructions provided in the [Installation](cdds_installation.md) guide.
 
-### Ensure all the tests pass in the 'real live environment'
 
-- [x] The test must be executed as `cdds` user
-      ```bash
-      export SRCDIR=$HOME/software/miniconda3/envs/cdds-X.Y.Z/lib/python3.8/site-packages/
-      echo "# Executing tests for cdds:"
-      pytest -s $SRCDIR/cdds --doctest-modules -m 'not slow and not integration and not rabbitMQ and not data_request'
-      pytest -s $SRCDIR/cdds -m slow
-      pytest -s $SRCDIR/cdds -m integration
-      pytest -s $SRCDIR/cdds -m data_request
-      echo "# Executing tests for mip_convert:"
-      pytest -s $SRCDIR/mip_convert --doctest-modules -m 'not slow and and not mappings and not superslow'
-      pytest -s $SRCDIR/mip_convert -m mappings
-      pytest -s $SRCDIR/mip_convert -m slow
-      ```
-      where `X.Y.Z` is the version number of CDDS.
-
-!!! info
-    Slow unit tests for `transfer` and `cdds_configure` will display error messages to standard output. This is intentional, 
-    and does not indicate the tests fail (see `transfer.tests.test_command_line.TestMainStore.test_transfer_functional_failing_moo()` 
-    for details).
-
-### Restore development mode and bump version
+## Restore development mode and bump version
 
 - [x] Update the development tag and version number in `<cdds_component>/<cdds_component>/__init__.py`:
       ```bash
@@ -136,7 +135,7 @@ Follow the instructions provided in the [CDDS installation]()
       <ticket_number>: Restore development mode.
       ```
 
-### Ensure release note changes propagate into the main branch
+## Propagate Release Note to main
 
 === "Using cherry-pick"
     
@@ -156,20 +155,11 @@ Follow the instructions provided in the [CDDS installation]()
 !!!important
     **Do not delete the release branch! (expect Matthew Mizielinski told you so)**
 
-### Create Release on GitHub
+## Create Release on GitHub
 
 Create a release on github from the tag. Include all major release notes and ensure that all links back to Jira work as expected. 
 Create a discussion announcement from the release.
 
-### Close Jira ticket
+## Close Jira ticket
 
 Set the status of the Jira ticket to `Done`.
-
-### Complete the milestone
-
-For completing the milestone, have a chat with [Matthew Mizielinski](mailto:matthew.mizielinski@metoffice.gov.uk) which Jira epic needs 
-to be updated or even closed.
-
-!!!info
-    The list of Milestone epics can be found at the [road map page](https://metoffice.atlassian.net/jira/software/projects/CDDSO/boards/634/roadmap) 
-    in Jira.
