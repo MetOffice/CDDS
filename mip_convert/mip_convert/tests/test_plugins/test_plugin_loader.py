@@ -18,12 +18,16 @@ class TestLoadHadGEM3MappingPlugin(TestCase):
         PluginStore.clean_instance()
 
     def test_load_hadgem3_mapping_plugin(self):
-        load_plugin('HadGEM3', 'HadGEM3-GC31-LL')
+        load_plugin('HadGEM3')
         plugin = PluginStore.instance().get_plugin()
         self.assertIsInstance(plugin, HadGEM3MappingPlugin)
+        self.assertTrue(PluginStore.instance().has_plugin_loaded())
 
     def test_load_unknown_mapping_plugin(self):
-        self.assertRaises(PluginLoadError, load_plugin, 'unknown', 'HadGEM3-GC31-LL')
+        load_plugin('unknown')
+        plugin = PluginStore.instance().get_plugin()
+        self.assertIsNone(plugin)
+        self.assertFalse(PluginStore.instance().has_plugin_loaded())
 
 
 class TestLoadExternalPlugin(TestCase):
