@@ -15,14 +15,12 @@ class EmptyMappingPlugin(MappingPlugin):
     def load(self, model_id) -> None:
         pass
 
-    def evaluate_expression(self) -> None:
+    def evaluate_expression(self, expression, input_variables) -> None:
         pass
 
     def constants(self):
         pass
 
-    def bounds_checker(self):
-        pass
-
-    def mappings_config(self):
+    def bounds_checker(self, fill_value: float, valid_min: float, valid_max: float, tol_min: float, tol_max: float,
+                       tol_min_action: int, tol_max_action: int, oob_action: int):
         pass
