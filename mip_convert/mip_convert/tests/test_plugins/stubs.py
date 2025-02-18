@@ -12,7 +12,7 @@ class EmptyMappingPlugin(MappingPlugin):
     def __init__(self):
         super(EmptyMappingPlugin, self).__init__(EmptyMappingPlugin.PLUGIN_ID)
 
-    def load(self, model_id) -> None:
+    def load(self) -> None:
         pass
 
     def evaluate_expression(self, expression, input_variables) -> None:

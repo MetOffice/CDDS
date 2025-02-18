@@ -1,26 +1,18 @@
-# (C) British Crown Copyright 2024-2025, Met Office.
+# (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`hadgem3_plugin` module contains the code for the HadGEM3 plugin.
-"""
+import iris.cube
 import os
 
 from typing import Dict, Any
 
-import iris.cube
-
 from mip_convert.plugins.base.base_plugin import BaseMappingPlugin
-from mip_convert.plugins.hadgem3.data.processors import *
 
 
-class HadGEM3MappingPlugin(BaseMappingPlugin):
-    """
-    Plugin for HadGEM3 models
-    """
+class UKESM1MappingPlugin(BaseMappingPlugin):
 
     def __init__(self):
         data_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data')
-        super(HadGEM3MappingPlugin, self).__init__('HadGEM3', data_dir)
+        super(UKESM1MappingPlugin, self).__init__('eUKESM1', data_dir)
 
         self.input_variables: Dict[str, iris.cube.Cube] = {}
 

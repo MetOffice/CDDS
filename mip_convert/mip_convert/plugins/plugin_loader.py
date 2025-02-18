@@ -12,10 +12,11 @@ from typing import Any, List
 
 from mip_convert.plugins.plugins import MappingPlugin, PluginStore
 from mip_convert.plugins.hadgem3.hadgem3_plugin import HadGEM3MappingPlugin
+from mip_convert.plugins.ukesm1.ukesm1_plugin import UKESM1MappingPlugin
 from mip_convert.plugins.exceptions import PluginLoadError
 
 
-INTERNAL_PLUGINS: List[MappingPlugin] = [HadGEM3MappingPlugin()]
+INTERNAL_PLUGINS: List[MappingPlugin] = [HadGEM3MappingPlugin(), UKESM1MappingPlugin()]
 
 
 def load_plugin(plugin_id: str, plugin_module_path: str = None, plugin_location: str = None) -> None:
@@ -41,7 +42,7 @@ def load_plugin(plugin_id: str, plugin_module_path: str = None, plugin_location:
     else:
         try:
             internal_plugin = find_internal_plugin(plugin_id)
-            internal_plugin.load(plugin_id)
+            internal_plugin.load()
             plugin_store = PluginStore.instance()
             plugin_store.register_plugin(internal_plugin)
         except PluginLoadError:
@@ -86,7 +87,7 @@ def load_external_plugin(plugin_id: str, plugin_module_path: str, model_id: str)
         logger.critical(message)
         raise PluginLoadError(message)
 
-    external_plugin.load(model_id)
+    external_plugin.load()
     plugin_store = PluginStore.instance()
     plugin_store.register_plugin(external_plugin)
 

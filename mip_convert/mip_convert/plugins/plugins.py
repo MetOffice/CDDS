@@ -37,7 +37,7 @@ class MappingPlugin(object, metaclass=ABCMeta):
         return plugin_id == self._plugin_id
 
     @abstractmethod
-    def load(self, model_id: str) -> None:
+    def load(self) -> None:
         """
         Loads the plugin data
         """
@@ -55,6 +55,10 @@ class MappingPlugin(object, metaclass=ABCMeta):
         :return: The updated iris Cube
         :rtype: Cube
         """
+        pass
+
+    @abstractmethod
+    def model_to_mip_mapping(self):
         pass
 
     @abstractmethod

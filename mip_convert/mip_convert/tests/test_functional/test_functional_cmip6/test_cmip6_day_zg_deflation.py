@@ -72,6 +72,6 @@ class TestCmip6DayZgDeflation(AbstractFunctionalTests):
             )
         )
 
-    @pytest.mark.slow
+    #@pytest.mark.slow
     def test_cmip6_day_zg_deflation(self):
         self.check_convert()

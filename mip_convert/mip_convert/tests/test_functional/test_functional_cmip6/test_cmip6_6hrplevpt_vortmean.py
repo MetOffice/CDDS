@@ -49,7 +49,7 @@ class TestCmip66hrPlevPtVortmean(AbstractFunctionalTests):
             )
         )
 
-    @pytest.mark.slow
+    #@pytest.mark.slow
     def test_cmip6_6hr_plev_pt_vortmean(self):
         self.check_convert()
 
