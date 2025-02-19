@@ -1,5 +1,8 @@
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
+"""
+The :mod:`base_plugin` module contains the code that have the most plugins in common.
+"""
 import logging
 import os
 import glob
@@ -13,6 +16,9 @@ from mip_convert.plugins.plugins import MappingPlugin
 
 
 class BaseMappingPlugin(MappingPlugin):
+    """
+    Base class for mapping plugins
+    """
 
     def __init__(self, plugin_id: str, mapping_data_dir: str):
         super(BaseMappingPlugin, self).__init__(plugin_id)
@@ -20,6 +26,16 @@ class BaseMappingPlugin(MappingPlugin):
         self.model_to_mip_mapping_config = Dict[str, ModelToMIPMappingConfig]
 
     def load_model_to_mip_mapping(self, mip_table_name) -> ModelToMIPMappingConfig:
+        """
+        Load MIPConvert mapping for given MIP table name.
+        The MIP table name as following format:
+            <project>_<table_id>
+        e.g. CMIP6_mon.
+
+        :param mip_table_name: Name of the MIP table
+        :type mip_table_name: str
+        :return:
+        """
         mip_table_id = mip_table_name.split('_')[1]
         logger = logging.getLogger(__name__)
         dirname = self.mapping_data_dir

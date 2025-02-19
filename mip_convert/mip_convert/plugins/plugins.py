@@ -41,11 +41,12 @@ class MappingPlugin(object, metaclass=ABCMeta):
         """
         Update the iris Cube containing in the input variables list by evaluating the given expression.
 
-        :param expression:
+        :param expression: Expression to be evaluated
         :type expression: Any
-        :param input_variables:
+        :param input_variables: The input variables required to produce the
+            MIP requested variable in the form {input_variable_name: cube}.
         :type input_variables: Dict[str, Cube]
-        :return: The updated iris Cube
+        :return: The updated iris cube
         :rtype: iris.cube.Cube
         """
         pass
