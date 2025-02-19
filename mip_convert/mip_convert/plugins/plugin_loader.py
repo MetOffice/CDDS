@@ -13,10 +13,11 @@ from typing import Any, List
 from mip_convert.plugins.plugins import MappingPlugin, PluginStore
 from mip_convert.plugins.hadgem3.hadgem3_plugin import HadGEM3MappingPlugin
 from mip_convert.plugins.ukesm1.ukesm1_plugin import UKESM1MappingPlugin
+from mip_convert.plugins.eukesm1.eukesm1_plugin import eUKESM1MappingPlugin
 from mip_convert.plugins.exceptions import PluginLoadError
 
 
-INTERNAL_PLUGINS: List[MappingPlugin] = [HadGEM3MappingPlugin(), UKESM1MappingPlugin()]
+INTERNAL_PLUGINS: List[MappingPlugin] = [HadGEM3MappingPlugin(), UKESM1MappingPlugin(), eUKESM1MappingPlugin()]
 
 
 def load_plugin(plugin_id: str, plugin_module_path: str = None, plugin_location: str = None) -> None:
