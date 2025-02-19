@@ -1,7 +1,7 @@
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
 """
-The :mod:`hadrem3_plugin` module contains the code for the HadGEM3 plugin.
+The :mod:`hadrem3_plugin` module contains the code for the HadREM3 plugin.
 """
 import iris.cube
 import os
@@ -29,7 +29,8 @@ class HadREM3MappingPlugin(BaseMappingPlugin):
 
         :param expression: Expression that should be evaluated
         :type expression: Any
-        :param input_variables:
+        :param input_variables: The input variables required to produce the
+            MIP requested variable in the form {input_variable_name: cube}.
         :type input_variables: Dict[str, Cube]
         :return: The updated iris Cube
         :rtype: Cube
