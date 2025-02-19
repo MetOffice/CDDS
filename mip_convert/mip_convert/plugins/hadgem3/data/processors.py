@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2023, Met Office.
+# (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
 
 """
@@ -2369,3 +2369,7 @@ def annual_from_monthly_3d_masked(cube, mask, thkcello):
     weights = calculate_thkcello_weights(thkcello)
     annual_mean_cube = cube.aggregated_by('year', iris.analysis.MEAN, weights=weights)
     return mask_copy(annual_mean_cube, mask)
+
+
+def tos_ORCA12(tos_con, tossq_con):
+    return tos_con

@@ -36,7 +36,7 @@ class TestCmip6EdayParasolRefl(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1979-01-01T00:00:00 1979-02-01T00:00:00',
                     'suite_id': 'u-bh859',
-                    'mip_convert_plugin': ''
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'ap6': {'CMIP6_Eday': 'parasolRefl'}

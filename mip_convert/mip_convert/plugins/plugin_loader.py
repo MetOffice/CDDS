@@ -42,7 +42,6 @@ def load_plugin(plugin_id: str, plugin_module_path: str = None, plugin_location:
     else:
         try:
             internal_plugin = find_internal_plugin(plugin_id)
-            internal_plugin.load()
             plugin_store = PluginStore.instance()
             plugin_store.register_plugin(internal_plugin)
         except PluginLoadError:
@@ -87,7 +86,6 @@ def load_external_plugin(plugin_id: str, plugin_module_path: str, model_id: str)
         logger.critical(message)
         raise PluginLoadError(message)
 
-    external_plugin.load()
     plugin_store = PluginStore.instance()
     plugin_store.register_plugin(external_plugin)
 

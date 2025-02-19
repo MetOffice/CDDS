@@ -33,7 +33,7 @@ class TestCmip6SImonSicompstren(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1854-03-01T00:00:00 1854-04-01T00:00:00',
                     'suite_id': 'u-ar050',
-                    'mip_convert_plugin': ''
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'inm': {'CMIP6_SImon': 'sicompstren'}

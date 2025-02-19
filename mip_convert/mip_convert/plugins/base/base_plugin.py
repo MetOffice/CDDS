@@ -17,9 +17,10 @@ class BaseMappingPlugin(MappingPlugin):
     def __init__(self, plugin_id: str, mapping_data_dir: str):
         super(BaseMappingPlugin, self).__init__(plugin_id)
         self.mapping_data_dir = mapping_data_dir
-        self.model_to_mip_mapping_config = ModelToMIPMappingConfig
+        self.model_to_mip_mapping_config = Dict[str, ModelToMIPMappingConfig]
 
-    def load(self) -> None:
+    def load_model_to_mip_mapping(self, mip_table_name) -> ModelToMIPMappingConfig:
+        mip_table_id = mip_table_name.split('_')[1]
         logger = logging.getLogger(__name__)
         dirname = self.mapping_data_dir
         suffix = 'mappings.cfg'
@@ -31,19 +32,15 @@ class BaseMappingPlugin(MappingPlugin):
             model_to_mip_mappings = ModelToMIPMappingConfig(pathname, self._plugin_id)
             logger.debug('Reading "{filename}"'.format(filename=filename))
 
-        fileregex = '{model_configuration}_*_{suffix}'.format(model_configuration=self._plugin_id, suffix=suffix)
-        pathregex = os.path.join(self.mapping_data_dir, fileregex)
-        files = glob.glob(pathregex)
+        filename = '{model_configuration}_{mip_table_id}_{suffix}'.format(model_configuration=self._plugin_id,
+                                                                          mip_table_id=mip_table_id,
+                                                                          suffix=suffix)
+        pathname = os.path.join(self.mapping_data_dir, filename)
+        if os.path.isfile(pathname):
+            model_to_mip_mappings.read(pathname)
+            logger.debug('Reading "{filename}"'.format(filename=filename))
 
-        for file in files:
-            if os.path.isfile(file):
-                model_to_mip_mappings.read(file)
-                logger.debug('Reading "{filename}"'.format(filename=filename))
-
-        self.model_to_mip_mapping_config = model_to_mip_mappings
-
-    def model_to_mip_mapping(self) -> ModelToMIPMappingConfig:
-        return self.model_to_mip_mapping_config
+        return model_to_mip_mappings
 
     def constants(self) -> Dict[str, str]:
         """

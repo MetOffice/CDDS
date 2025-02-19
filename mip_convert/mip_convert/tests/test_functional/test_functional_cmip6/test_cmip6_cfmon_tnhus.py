@@ -35,7 +35,7 @@ class TestCmip6CFmonTnhus(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1902-04-01T00:00:00 1902-05-01T00:00:00',
                     'suite_id': 'u-ar050',
-                    'mip_convert_plugin': ''
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'apu': {'CMIP6_CFmon': 'tnhus'}

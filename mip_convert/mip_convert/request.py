@@ -106,7 +106,7 @@ def convert(parameters):
 
         if PluginStore.instance().has_plugin_loaded():
             mapping_plugin = PluginStore.instance().get_plugin()
-            model_to_mip_mappings = mapping_plugin.model_to_mip_mapping()
+            model_to_mip_mappings = mapping_plugin.load_model_to_mip_mapping(mip_table_name)
         else:
             model_to_mip_mappings = get_model_to_mip_mappings(user_config.source_id, mip_table_name)
 

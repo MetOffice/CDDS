@@ -34,7 +34,7 @@ class TestCmip6CFmonClisccp(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1902-04-01T00:00:00 1902-05-01T00:00:00',
                     'suite_id': 'u-ar766',
-                    'mip_convert_plugin': ''
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'ap5': {'CMIP6_CFmon': 'clisccp'}

@@ -12,9 +12,6 @@ class EmptyMappingPlugin(MappingPlugin):
     def __init__(self):
         super(EmptyMappingPlugin, self).__init__(EmptyMappingPlugin.PLUGIN_ID)
 
-    def load(self) -> None:
-        pass
-
     def evaluate_expression(self, expression, input_variables) -> None:
         pass
 
@@ -23,4 +20,7 @@ class EmptyMappingPlugin(MappingPlugin):
 
     def bounds_checker(self, fill_value: float, valid_min: float, valid_max: float, tol_min: float, tol_max: float,
                        tol_min_action: int, tol_max_action: int, oob_action: int):
+        pass
+
+    def load_model_to_mip_mapping(self, mip_table_name):
         pass

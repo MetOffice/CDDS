@@ -35,7 +35,7 @@ class TestCmip6CFdayTa700(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1855-05-11T00:00:00 1855-05-21T00:00:00',
                     'suite_id': 'u-ar050',
-                    'mip_convert_plugin': ''
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'ap6': {'CMIP6_CFday': 'ta700'}

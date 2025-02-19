@@ -37,13 +37,6 @@ class MappingPlugin(object, metaclass=ABCMeta):
         return plugin_id == self._plugin_id
 
     @abstractmethod
-    def load(self) -> None:
-        """
-        Loads the plugin data
-        """
-        pass
-
-    @abstractmethod
     def evaluate_expression(self, expression: Any, input_variables: Dict[str, iris.cube.Cube]) -> iris.cube.Cube:
         """
         Update the iris Cube containing in the input variables list by evaluating the given expression.
@@ -53,12 +46,12 @@ class MappingPlugin(object, metaclass=ABCMeta):
         :param input_variables:
         :type input_variables: Dict[str, Cube]
         :return: The updated iris Cube
-        :rtype: Cube
+        :rtype: iris.cube.Cube
         """
         pass
 
     @abstractmethod
-    def model_to_mip_mapping(self):
+    def load_model_to_mip_mapping(self, mip_table_name: str):
         pass
 
     @abstractmethod

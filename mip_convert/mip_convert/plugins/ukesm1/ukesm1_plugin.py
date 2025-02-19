@@ -6,13 +6,14 @@ import os
 from typing import Dict, Any
 
 from mip_convert.plugins.base.base_plugin import BaseMappingPlugin
+from mip_convert.plugins.ukesm1.data.processors import *
 
 
 class UKESM1MappingPlugin(BaseMappingPlugin):
 
     def __init__(self):
         data_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data')
-        super(UKESM1MappingPlugin, self).__init__('eUKESM1', data_dir)
+        super(UKESM1MappingPlugin, self).__init__('UKESM1', data_dir)
 
         self.input_variables: Dict[str, iris.cube.Cube] = {}
 
