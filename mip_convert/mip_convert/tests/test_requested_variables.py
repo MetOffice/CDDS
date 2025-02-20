@@ -13,7 +13,8 @@ import unittest
 
 from mip_convert import request
 from mip_convert.requested_variables import get_requested_variables
-from mip_convert.mip_table import get_model_to_mip_mappings
+from mip_convert.plugins.plugin_loader import load_plugin
+from mip_convert.plugins.plugins import MappginPluginStore
 
 
 DEBUG = False
@@ -29,8 +30,8 @@ class TestGetModelToMIPMappings(unittest.TestCase):
         """
         Create the |model to MIP mappings| configuration file.
         """
-        self.dirname = os.path.join(os.path.dirname(os.path.realpath(request.__file__)), 'process')
-        variable_name = 'tas'
+        self.dirname = os.path.join(os.path.dirname(os.path.realpath(request.__file__)), 'plugins', 'hadgem3', 'data')
+        variable_name = 'vegFrac'
         constraint = 'stash'
         dimension = 'longitude latitude height2m time'
         expression = 'constraint'
@@ -56,37 +57,26 @@ class TestGetModelToMIPMappings(unittest.TestCase):
                                        units=units))
 
     @patch('builtins.open')
-    def test_common_model_to_mip_mappings(self, mock_open):
-        model_configuration = 'HadCM'
-        mip_table_name = 'CMIP6_Lmon'
-        paths = [os.path.join(self.dirname, 'common_mappings.cfg')]
-        self._obj_instantiation(mock_open, model_configuration, mip_table_name, paths)
-
-    @patch('builtins.open')
-    def test_common_mip_table_id_model_to_mip_mappings(self, mock_open):
-        model_configuration = 'HadCM'
-        mip_table_id = 'Amon'
-        mip_table_name = 'CMIP6_Amon'
+    def test_model_configuration_model_to_mip_mappings(self, mock_open):
+        load_plugin('HadGEM3')
+        model_configuration = 'HadGEM3'
+        mip_table_id = 'Emon'
+        mip_table_name = 'CMIP6_Emon'
         filenames = [
-            'common_mappings.cfg',
-            '{mip_table_id}_mappings.cfg'.format(mip_table_id=mip_table_id)
+            '{model_configuration}_mappings.cfg'.format(model_configuration=model_configuration)
         ]
-        paths = [os.path.join(self.dirname, filename) for filename in filenames]
+        possiblepaths = [os.path.join(self.dirname, filename) for filename in filenames]
+        paths = [i for i in possiblepaths if os.path.exists(i)]
         self._obj_instantiation(mock_open, model_configuration, mip_table_name, paths)
 
+
     @patch('builtins.open')
-    def test_common_model_configuration_mip_table_id_model_to_mip_mappings(self, mock_open):
-        model_configuration = 'HadGEM2-ES'
-        base_model_configuration = model_configuration.split('-')[0]
-        mip_table_id = 'Amon'
-        mip_table_name = 'CMIP6_Amon'
+    def test_mip_table_id_configuration_model_to_mip_mappings(self, mock_open):
+        load_plugin('HadGEM3')
+        model_configuration = 'HadGEM3'
+        mip_table_id = 'Eyr'
+        mip_table_name = 'CMIP6_Eyr'
         filenames = [
-            'common_mappings.cfg',
-            '{mip_table_id}_mappings.cfg'.format(mip_table_id=mip_table_id),
-            '{base_model_configuration}_mappings.cfg'.format(base_model_configuration=base_model_configuration),
-            '{base_model_configuration}_{mip_table_id}_mappings.cfg'.format(
-                base_model_configuration=base_model_configuration,
-                mip_table_id=mip_table_id),
             '{model_configuration}_mappings.cfg'.format(model_configuration=model_configuration),
             '{model_configuration}_{mip_table_id}_mappings.cfg'.format(
                 model_configuration=model_configuration,
@@ -98,7 +88,8 @@ class TestGetModelToMIPMappings(unittest.TestCase):
 
     def _obj_instantiation(self, mock_open, model_configuration, mip_table_name, paths):
         mock_open.return_value = StringIO(dedent(self.model_to_mip_mapping_config))
-        get_model_to_mip_mappings(model_configuration, mip_table_name)
+        plugin = MappginPluginStore.instance().get_plugin()
+        plugin.load_model_to_mip_mapping(mip_table_name)
         calls = [call(pathname) for pathname in paths]
         self.assertEqual(mock_open.call_args_list, calls)
 

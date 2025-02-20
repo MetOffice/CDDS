@@ -20,7 +20,7 @@ to the object representation of user requests.
 """
 import regex as re
 
-from mip_convert.plugins.plugins import PluginStore
+from mip_convert.plugins.plugins import MappginPluginStore
 from mip_convert.load.model_output_config import AbstractDataSourceUser
 from mip_convert.common import ObjectWithLogger
 from mip_convert.load.pp.pp import PpMatch
@@ -154,8 +154,8 @@ class PpRequestVariable(ObjectWithLogger):
 
         # Create a BoundsChecker instance if at least one bounds-checking action was specified.
         if self._do_bounds_check:
-            if PluginStore.instance().has_plugin_loaded():
-                plugin = PluginStore.instance().get_plugin()
+            if MappginPluginStore.instance().has_plugin_loaded():
+                plugin = MappginPluginStore.instance().get_plugin()
                 self._bounds_checker = plugin.bounds_checker(
                     fill_value=kwargs.get('fill_value', qc.UM_MDI),
                     valid_min=kwargs.get('valid_min'),

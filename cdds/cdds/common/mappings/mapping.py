@@ -53,7 +53,7 @@ from cdds.common.mappings.ancils import remove_ancils_from_mapping
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.pp import stash_to_int
 
-from mip_convert.mip_table import get_model_to_mip_mappings
+from mip_convert.plugins.plugins import MappginPluginStore
 from mip_convert.requested_variables import get_variable_model_to_mip_mapping
 
 
@@ -111,17 +111,18 @@ class ModelToMip(object):
         to an appropriate dictionary by calling the
         :func:`read_request` function.
     """
-    def __init__(self, to_map):
+    def __init__(self, to_map, mip_convert_plugin):
         self._to_map = to_map
         self._mip_era = self._to_map["science"]["mip_era"].upper()
         self._model_id = self._to_map["science"]["model_id"]
-        plugin = PluginStore.instance().get_plugin()
+        plugin = MappginPluginStore.instance().get_plugin()
         model_params = plugin.models_parameters(self._model_id)
         self._um_version = model_params.um_version
         # Work the PP_HEADER_CORRECTIONS into an easy to work with format;
         # a dictionary keyed by stash code, and all numbers have to be
         # converted to strings for comparison with the filters dictionary.
         corrections = PP_HEADER_CORRECTIONS
+        self._mip_convert_plugin = mip_convert_plugin
         self._fix_rules_by_stash = {
             stash: rule for stashcodes, rule in corrections.items()
             for stash in stashcodes}
@@ -265,8 +266,9 @@ class ModelToMip(object):
 
     def _mapping_for_model(self, mip_table_id):
         mip_table_name = self.project + "_" + mip_table_id
-        model_mapping = get_model_to_mip_mappings(
-            self._to_map["science"]["model_id"], mip_table_name)
+
+        mapping_plugin = MappginPluginStore.instance().get_plugin()
+        model_mapping = mapping_plugin.load_model_to_mip_mapping(mip_table_id)
         return model_mapping
 
     def _split_by_mip_table(self):

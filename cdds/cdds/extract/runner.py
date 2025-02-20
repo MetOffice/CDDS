@@ -16,6 +16,8 @@ from cdds.extract.filters import Filters
 from cdds.extract.process import Process
 from cdds.common.plugins.plugins import PluginStore
 
+from mip_convert.plugins.plugin_loader import load_plugin
+
 
 class ExtractRunner(object):
     """
@@ -41,6 +43,7 @@ class ExtractRunner(object):
         logger = logging.getLogger(__name__)
         # initialise extract_process and add project related configuration
         request = read_request(self.args.request)
+        load_plugin(request.conversion.mip_convert_plugin)
         plugin = PluginStore.instance().get_plugin()
         proc_directory = plugin.proc_directory(request)
         input_data_dir = os.path.join(plugin.data_directory(request), INPUT_DATA_DIRECTORY)

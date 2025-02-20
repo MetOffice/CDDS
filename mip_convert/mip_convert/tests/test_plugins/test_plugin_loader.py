@@ -4,7 +4,7 @@ from unittest import TestCase
 
 from mip_convert.tests.test_plugins.stubs import EmptyMappingPlugin
 from mip_convert.plugins.exceptions import PluginLoadError
-from mip_convert.plugins.plugins import PluginStore
+from mip_convert.plugins.plugins import MappginPluginStore
 from mip_convert.plugins.plugin_loader import load_plugin, load_external_plugin
 from mip_convert.plugins.hadgem3.hadgem3_plugin import HadGEM3MappingPlugin
 
@@ -12,31 +12,31 @@ from mip_convert.plugins.hadgem3.hadgem3_plugin import HadGEM3MappingPlugin
 class TestLoadHadGEM3MappingPlugin(TestCase):
 
     def setUp(self):
-        PluginStore.clean_instance()
+        MappginPluginStore.clean_instance()
 
     def tearDown(self):
-        PluginStore.clean_instance()
+        MappginPluginStore.clean_instance()
 
     def test_load_hadgem3_mapping_plugin(self):
         load_plugin('HadGEM3')
-        plugin = PluginStore.instance().get_plugin()
+        plugin = MappginPluginStore.instance().get_plugin()
         self.assertIsInstance(plugin, HadGEM3MappingPlugin)
-        self.assertTrue(PluginStore.instance().has_plugin_loaded())
+        self.assertTrue(MappginPluginStore.instance().has_plugin_loaded())
 
     def test_load_unknown_mapping_plugin(self):
         load_plugin('unknown')
-        plugin = PluginStore.instance().get_plugin()
+        plugin = MappginPluginStore.instance().get_plugin()
         self.assertIsNone(plugin)
-        self.assertFalse(PluginStore.instance().has_plugin_loaded())
+        self.assertFalse(MappginPluginStore.instance().has_plugin_loaded())
 
 
 class TestLoadExternalPlugin(TestCase):
     def setUp(self):
-        PluginStore.clean_instance()
-        self.plugin_store = PluginStore.instance()
+        MappginPluginStore.clean_instance()
+        self.plugin_store = MappginPluginStore.instance()
 
     def tearDown(self):
-        PluginStore.clean_instance()
+        MappginPluginStore.clean_instance()
 
     def test_load_cdds_plugin(self):
         module_path = 'mip_convert.tests.test_plugins.stubs'
