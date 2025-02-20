@@ -14,6 +14,7 @@ import warnings
 import numpy as np
 
 from cf_units import Unit
+import gsw
 import iris
 from iris.analysis import MEAN, SUM, MAX
 from iris.analysis.cartography import area_weights
@@ -2369,3 +2370,25 @@ def annual_from_monthly_3d_masked(cube, mask, thkcello):
     weights = calculate_thkcello_weights(thkcello)
     annual_mean_cube = cube.aggregated_by('year', iris.analysis.MEAN, weights=weights)
     return mask_copy(annual_mean_cube, mask)
+
+
+def thetao_from_conservative(thetao_con, so_abs):
+    potential_temp = gsw.pt_from_CT(so_abs, thetao_con)
+    thetao = thetao_con.copy()
+    thetao.data = potential_temp
+    return thetao
+
+
+def so_psu_from_abs(so_abs):
+    so = so_abs.copy()
+    pressure = gsw.p_from_z(
+      so_abs.coord('depth').points[0], # should be the deptht variable
+      so_abs.coord('latitude').points
+    )
+    so_psu = gsw.SP_from_SA(
+      so_abs.data, 
+      pressure,
+      so_abs.coord('longitude').points,
+      so_abs.coord('latitude').points)
+    so.data = so_psu
+    return so
