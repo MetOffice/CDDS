@@ -9,27 +9,6 @@ from mip_convert.plugins.plugin_loader import load_plugin, load_external_plugin
 from mip_convert.plugins.hadgem3.hadgem3_plugin import HadGEM3MappingPlugin
 
 
-class TestLoadHadGEM3MappingPlugin(TestCase):
-
-    def setUp(self):
-        MappginPluginStore.clean_instance()
-
-    def tearDown(self):
-        MappginPluginStore.clean_instance()
-
-    def test_load_hadgem3_mapping_plugin(self):
-        load_plugin('HadGEM3')
-        plugin = MappginPluginStore.instance().get_plugin()
-        self.assertIsInstance(plugin, HadGEM3MappingPlugin)
-        self.assertTrue(MappginPluginStore.instance().has_plugin_loaded())
-
-    def test_load_unknown_mapping_plugin(self):
-        load_plugin('unknown')
-        plugin = MappginPluginStore.instance().get_plugin()
-        self.assertIsNone(plugin)
-        self.assertFalse(MappginPluginStore.instance().has_plugin_loaded())
-
-
 class TestLoadExternalPlugin(TestCase):
     def setUp(self):
         MappginPluginStore.clean_instance()

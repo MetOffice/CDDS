@@ -485,11 +485,8 @@ class Variable(object):
         expression = expression.replace(TIMESTEP, str(self._timestep))
         expression = _update_constraints_in_expression(list(self.input_variables.keys()), expression)
         self.logger.debug('Evaluating expression "{}"'.format(expression))
-        if MappginPluginStore.instance().has_plugin_loaded():
-            plugin = MappginPluginStore.instance().get_plugin()
-            self.cube = plugin.evaluate_expression(expression, self.input_variables)
-        else:
-            self.cube = eval(expression)
+        plugin = MappginPluginStore.instance().get_plugin()
+        self.cube = plugin.evaluate_expression(expression, self.input_variables)
         if fill_value is not None:
             self.cube.attributes['fill_value'] = fill_value
         self.logger.debug('{cube}'.format(cube=self.cube))
@@ -888,19 +885,13 @@ class VariableModelToMIPMapping(object):
         result = self.model_to_mip_mapping['expression']
         for loadable in self.loadables:
             result = result.replace(loadable.name, loadable.constraint)
-        if MappginPluginStore.instance().has_plugin_loaded():
-            plugin = MappginPluginStore.instance().get_plugin()
-            result = replace_constants(result, plugin.constants())
-        else:
-            result = replace_constants(result, constants())
+        plugin = MappginPluginStore.instance().get_plugin()
+        result = replace_constants(result, plugin.constants())
         return result
 
     def _loadables(self):
-        if MappginPluginStore.instance().has_plugin_loaded():
-            plugin = MappginPluginStore.instance().get_plugin()
-            consts = plugin.constants()
-        else:
-            consts = constants()
+        plugin = MappginPluginStore.instance().get_plugin()
+        consts = plugin.constants()
         consts.update({TIMESTEP: TIMESTEP})
         return parse_to_loadables(self.model_to_mip_mapping['expression'], consts, mappings_config)
 
