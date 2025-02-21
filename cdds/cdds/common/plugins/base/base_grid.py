@@ -128,15 +128,6 @@ class BaseGridInfo(GridInfo, metaclass=ABCMeta):
             return self._values['ancil_variables']
         return []
 
-    def hybrid_heights_files(self) -> List[str]:
-        """
-        Returns the hybrid heights file names.
-
-        :return: Hybrid heights file names
-        :rtype: List[str]
-        """
-        return self._values['hybrid_heights_files']
-
     @staticmethod
     def _to_int(value: str) -> int:
         if value is None or value == '':
@@ -209,6 +200,16 @@ class OceanBaseGridInfo(BaseGridInfo):
         """
         return self._halo_options
 
+    def hybrid_heights_files(self) -> List[str]:
+        """
+        Returns the hybrid heights file names.
+        Ocean grids have no hybrid heights files. So, None will be returned.
+
+        :return: Hybrid heights file names
+        :rtype: List[str]
+        """
+        return None
+
     def bounds_coordinates(self, stream: str, substream: str) -> List[str]:
         """
         Returns a list of names of bounds coordinates
@@ -271,3 +272,12 @@ class AtmosBaseGridInfo(BaseGridInfo):
         :rtype: int
         """
         return self._values['atmos_timestep']
+
+    def hybrid_heights_files(self) -> List[str]:
+        """
+        Returns the hybrid heights file names.
+
+        :return: Hybrid heights file names
+        :rtype: List[str]
+        """
+        return self._values['hybrid_heights_files']
