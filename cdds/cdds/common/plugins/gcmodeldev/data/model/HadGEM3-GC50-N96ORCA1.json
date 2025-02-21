@@ -264,7 +264,6 @@
         "diaptr_basin_masks.nc",
         "ocean_zostoga.nc"
       ],
-      "hybrid_heights_files": [],
       "masked": {
         "grid-V": {
           "slice_latitude": [
