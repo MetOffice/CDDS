@@ -70,6 +70,8 @@ class ConversionSection(Section):
     delete_preexisting_proc_dir: bool = False
     delete_preexisting_data_dir: bool = False
     mip_convert_plugin: str = ''
+    mip_convert_external_plugin: str = ''
+    mip_convert_external_plugin_location: str = ''
 
     @classmethod
     def name(cls) -> str:
