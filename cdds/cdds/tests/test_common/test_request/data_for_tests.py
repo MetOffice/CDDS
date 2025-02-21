@@ -124,7 +124,9 @@ def expected_text_conversion():
         'continue_if_mip_convert_failed': True,
         'delete_preexisting_proc_dir': True,
         'delete_preexisting_data_dir': True,
-        'mip_convert_plugin': 'HadGEM3'
+        'mip_convert_plugin': 'HadGEM3',
+        'mip_convert_external_plugin': '',
+        'mip_convert_external_plugin_location': '',
     }
 
 
@@ -243,5 +245,7 @@ def expected_test_minimal_conversion():
         'slicing': [],
         'delete_preexisting_proc_dir': False,
         'delete_preexisting_data_dir': False,
+        'mip_convert_external_plugin': '',
+        'mip_convert_external_plugin_location': '',
         'mip_convert_plugin': ''
     }
