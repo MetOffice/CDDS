@@ -34,7 +34,8 @@ class BaseMappingPlugin(MappingPlugin):
 
         :param mip_table_name: Name of the MIP table
         :type mip_table_name: str
-        :return:
+        :return: MIP mappings
+        :rtype: ModelToMIPMappingConfig
         """
         mip_table_id = mip_table_name.split('_')[1]
         logger = logging.getLogger(__name__)

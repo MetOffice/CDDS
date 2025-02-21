@@ -7,6 +7,7 @@ from abc import ABCMeta, abstractmethod
 
 import iris.cube
 
+from mip_convert.configuration.python_config import ModelToMIPMappingConfig
 from mip_convert.plugins.quality_control import BoundsChecker
 from typing import Dict, Any
 
@@ -52,7 +53,18 @@ class MappingPlugin(object, metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def load_model_to_mip_mapping(self, mip_table_name: str):
+    def load_model_to_mip_mapping(self, mip_table_name: str) -> ModelToMIPMappingConfig:
+        """
+        Load MIPConvert mapping for given MIP table name.
+        The MIP table name as following format:
+            <project>_<table_id>
+        e.g. CMIP6_mon.
+
+        :param mip_table_name: Name of the MIP table
+        :type mip_table_name: str
+        :return: MIP mappings
+        :rtype: ModelToMIPMappingConfig
+        """
         pass
 
     @abstractmethod
