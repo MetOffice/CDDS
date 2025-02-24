@@ -18,6 +18,11 @@ from mip_convert.plugins.plugins import MappingPlugin
 class BaseMappingPlugin(MappingPlugin):
     """
     Base class for mapping plugins
+
+    The base plugin does not provide a general evaluate_expression method.
+    The expressions for this method are very plugin-specific because expressions
+    are different for each plugins and they must be in the local namespage
+    (using of import *).
     """
 
     def __init__(self, plugin_id: str, mapping_data_dir: str):
