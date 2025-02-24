@@ -28,7 +28,7 @@ def run_request_validations(arguments: List[str] = None) -> int:
     """
     args = parse_request_validations_arguments(arguments)
 
-    configure_logger(CDDS_REQUEST_VALIDATE_LOG, logging.INFO, False)
+    configure_logger(CDDS_REQUEST_VALIDATE_LOG, logging.INFO, False, show_stacktrace=False)
     logger = logging.getLogger(__name__)
 
     try:
@@ -71,7 +71,7 @@ def run_model_params_validations(arguments: List[str] = None) -> int:
     """
     args = parse_request_validations_arguments(arguments)
 
-    configure_logger(CDDS_MODEL_PARAMS_VALIDATE_LOG, logging.INFO, False)
+    configure_logger(CDDS_MODEL_PARAMS_VALIDATE_LOG, logging.INFO, False, show_stacktrace=False)
     logger = logging.getLogger(__name__)
 
     try:

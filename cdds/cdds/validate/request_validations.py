@@ -18,7 +18,10 @@ from cdds.common.request.common_section import CommonSection
 from cdds.common.request.data_section import DataSection
 from cdds.common.configparser.interpolation import EnvInterpolation
 from cdds.common.request.request_validations import validate_request
+from cdds.common.request.request_section import expand_path
 from cdds.common.request.validations.exceptions import CVPathError, CVEntryError
+
+from cdds.common.plugins.plugins import PluginStore
 
 
 def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
@@ -38,6 +41,15 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
     request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
     request_config.optionxform = str  # Preserve case.
     request_config.read(request_path)
+    if request_config.has_section('inheritance'):
+        template = request_config.get('inheritance', 'template')
+        if template:
+            template_path = expand_path(template)
+            interpolation = EnvInterpolation()
+            request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
+            request_config.optionxform = str  # Preserve case.
+            request_config.read([template_path, request_path])
+
     load_cdds_plugins(request_config)
 
     calendar = request_config.get('metadata', 'calendar')
@@ -78,8 +90,13 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
         valid = False
         messages.append(e.args[0])
 
+    request = Request.from_config(request_config)
+
+    valid_streams, streams_messages = validate_streams(request)
+    messages.extend(streams_messages)
+    valid = valid_streams and valid
+
     try:
-        request = Request.from_config(request_config)
         if request.common.is_relaxed_cmor():
             logger.info('Relaxed CMOR is activated. Skip CV validations.')
         else:
@@ -99,4 +116,22 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
     if valid:
         logger.info('Request configuration is valid.')
 
+    return valid, messages
+
+
+def validate_streams(request: Request) -> Tuple[bool, List[str]]:
+    logger = logging.getLogger(__name__)
+
+    plugin = PluginStore.instance().get_plugin()
+    model_parameters = plugin.models_parameters(request.metadata.model_id)
+    available_streams = model_parameters.streams()
+
+    valid = True
+    messages = []
+    for stream in request.data.streams:
+        if stream not in available_streams:
+            error_message_template = 'Stream {} is not in the model parameters specified and cannot be proceesed'
+            logger.error(error_message_template.format(stream))
+            valid = False
+            messages.append(error_message_template.format(stream))
     return valid, messages
