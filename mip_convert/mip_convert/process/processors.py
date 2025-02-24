@@ -2373,16 +2373,15 @@ def annual_from_monthly_3d_masked(cube, mask, thkcello):
 
 
 def thetao_from_conservative(thetao_con, so_abs):
-    potential_temp = gsw.pt_from_CT(so_abs, thetao_con)
-    thetao = thetao_con.copy()
-    thetao.data = potential_temp
+    potential_temp = gsw.pt_from_CT(so_abs.data, thetao_con.data)
+    thetao = thetao_con.copy(data=potential_temp)
     return thetao
 
 
 def so_psu_from_abs(so_abs):
     so = so_abs.copy()
     pressure = gsw.p_from_z(
-      so_abs.coord('depth').points[0], # should be the deptht variable
+      so_abs.coord('Vertical T levels').points[0], # should be the deptht variable
       so_abs.coord('latitude').points
     )
     so_psu = gsw.SP_from_SA(
