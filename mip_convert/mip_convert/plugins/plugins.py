@@ -105,7 +105,7 @@ class MappingPlugin(object, metaclass=ABCMeta):
         pass
 
 
-class PluginStore:
+class MappginPluginStore:
     """
     Singleton class to store the Mapping plugin for the current model (e.g. HadGEM3).
 
@@ -114,22 +114,22 @@ class PluginStore:
     _instance = None
 
     def __init__(self):
-        if PluginStore._instance is not None:
+        if MappginPluginStore._instance is not None:
             raise Exception('Class is a singleton and can not initialised twice!')
 
         self._plugin: MappingPlugin = None
 
     @classmethod
-    def instance(cls) -> 'PluginStore':
+    def instance(cls) -> 'MappginPluginStore':
         """
         Returns the class instance. If none is created, yet, a new instance will
         be created and stored (see Singleton pattern).
 
         :return: Class instance
-        :rtype: PluginStore
+        :rtype: MappginPluginStore
         """
         if cls._instance is None:
-            cls._instance = PluginStore()
+            cls._instance = MappginPluginStore()
         return cls._instance
 
     def register_plugin(self, plugin: MappingPlugin) -> None:
@@ -150,9 +150,6 @@ class PluginStore:
         :rtype: MappingPlugin
         """
         return self._plugin
-
-    def has_plugin_loaded(self) -> bool:
-        return self._plugin is not None
 
     @classmethod
     def clean_instance(cls) -> None:

@@ -28,6 +28,8 @@ from cdds.prepare.mapping_status import MappingStatus, ProducibleState
 from cdds.prepare.parameters import VariableParameters
 from cdds.inventory.dao import InventoryDAO, DBVariableStatus
 
+from mip_convert.plugins.plugin_loader import load_plugin
+
 
 def generate_variable_list(arguments: Namespace) -> None:
     """
@@ -57,6 +59,8 @@ def generate_variable_list(arguments: Namespace) -> None:
 
     # Read the request information.
     request = read_request(arguments.request)
+    load_plugin(request.conversion.mip_convert_plugin)
+
     # Retrieve the name of the 'requested variables list'.
     plugin = PluginStore.instance().get_plugin()
     request_variables_filename = plugin.requested_variables_list_filename(request)

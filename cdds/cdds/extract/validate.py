@@ -17,11 +17,14 @@ from cdds.extract.common import (
 from cdds.extract.constants import STREAMTYPE_PP, STREAMTYPE_NC
 from cdds.extract.filters import Filters
 
+from mip_convert.plugins.plugin_loader import load_plugin
+
 
 def validate_streams(streams, args):
     logger = logging.getLogger(__name__)
 
     request = read_request(args.request)
+    load_plugin(request.conversion.mip_convert_plugin)
     plugin = PluginStore.instance().get_plugin()
     model_params = plugin.models_parameters(request.metadata.model_id)
     stream_file_info = model_params.stream_file_info()

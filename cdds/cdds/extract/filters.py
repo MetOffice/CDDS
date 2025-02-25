@@ -103,7 +103,7 @@ class Filters(object):
         json_in = mapping_request
 
         # get configured filters
-        mapping = ModelToMip(json_in)
+        mapping = ModelToMip(json_in, request.conversion.mip_convert_plugin)
         json_out = mapping.mass_filters()
 
         # remove variables that have unknown mappings and/or streams
