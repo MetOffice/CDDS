@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2024-2025, Met Office.
+# (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
 """
 The :mod:`hadrem_cp4a_plugin` module contains the code for the HadREM-CP4A plugin.
