@@ -35,7 +35,7 @@ class TestCordexCmip6DayHus1000(AbstractFunctionalTests):
                     'run_bounds': '2022-01-01T00:00:00 2022-03-01T00:00:00',
                     'suite_id': 'u-db737',
                     'force_coordinate_rotation': True,
-                    'mip_convert_plugin': 'HadGEM3'
+                    'mip_convert_plugin': 'HadREM3'
                 },
                 streams={
                     'ap6': {'CORDEX-CMIP6_day': 'hus1000'}

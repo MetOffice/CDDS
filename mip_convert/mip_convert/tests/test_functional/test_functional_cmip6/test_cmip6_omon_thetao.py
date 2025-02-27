@@ -37,7 +37,7 @@ class TestCmip6OmonThetao(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1976-01-01T00:00:00 1976-01-11T00:00:00',
                     'suite_id': 'ai022',
-                    'mip_convert_plugin': ''
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'onb': {'CMIP6_Omon': 'thetao'}

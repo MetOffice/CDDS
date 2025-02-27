@@ -36,7 +36,7 @@ class TestCmip6SImonSiage(AbstractFunctionalTests):
                     'replacement_coordinates_file': replacement_file,
                     'run_bounds': '1854-03-01T00:00:00 1854-05-01T00:00:00',
                     'suite_id': 'u-ar050',
-                    'mip_convert_plugin': ''
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'inm': {'CMIP6_SImon': 'siage'}

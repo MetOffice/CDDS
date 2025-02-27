@@ -164,9 +164,9 @@ class TestMain(unittest.TestCase):
         self.request_format = (
             '[request]\nancil_files = {}\nancil_variables = {}\natmos_timestep = 1200\nbase_date = {}\n'
             'deflate_level = {}\nforce_coordinate_rotation = {}\nhybrid_heights_files = {}\n'
+            'mip_convert_external_plugin = \nmip_convert_external_plugin_location = \n'
             'mip_convert_plugin = {}\nmodel_output_dir = {}\nreplacement_coordinates_file = {}\n'
-            'run_bounds = {}\nshuffle = {}\nsites_file = {}\n'
-            'suite_id = {}\n\n')
+            'run_bounds = {}\nshuffle = {}\nsites_file = {}\nsuite_id = {}\n\n')
         self.request_section = self.request_format.format(
             self.ancil_files, self. ancil_variables, self.base_date, self.deflate_level,
             self.force_coordinate_rotation, self.hybrid_heights_files, self.mip_convert_plugin,

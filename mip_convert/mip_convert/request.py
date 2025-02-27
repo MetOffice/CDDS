@@ -10,6 +10,7 @@ import iris
 import logging
 
 from mip_convert.plugins.plugin_loader import load_plugin
+from mip_convert.plugins.plugins import PluginStore
 from mip_convert.save.cmor import cmor_lite
 from mip_convert.requirements import software_versions
 from mip_convert.requested_variables import get_requested_variables, produce_mip_requested_variable
@@ -100,9 +101,18 @@ def convert(parameters):
             user_config.root_load_path, user_config.suite_id, stream_id, substream, user_config.ancil_files
         )
 
-        load_plugin(user_config.mip_convert_plugin)
+        load_plugin(
+            user_config.mip_convert_plugin,
+            user_config.mip_convert_external_plugin,
+            user_config.mip_convert_external_plugin_location
+        )
         # Read and validate the 'model to MIP mappings'.
-        model_to_mip_mappings = get_model_to_mip_mappings(user_config.source_id, mip_table_name)
+
+        if PluginStore.instance().has_plugin_loaded():
+            mapping_plugin = PluginStore.instance().get_plugin()
+            model_to_mip_mappings = mapping_plugin.load_model_to_mip_mapping(mip_table_name)
+        else:
+            model_to_mip_mappings = get_model_to_mip_mappings(user_config.source_id, mip_table_name)
 
         # Read and validate the 'MIP table'.
         mip_table_name_json = mip_table_name + '.json'
