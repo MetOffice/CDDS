@@ -101,7 +101,11 @@ def convert(parameters):
             user_config.root_load_path, user_config.suite_id, stream_id, substream, user_config.ancil_files
         )
 
-        load_plugin(user_config.mip_convert_plugin)
+        load_plugin(
+            user_config.mip_convert_plugin,
+            user_config.mip_convert_external_plugin,
+            user_config.mip_convert_external_plugin_location
+        )
         # Read and validate the 'model to MIP mappings'.
 
         if PluginStore.instance().has_plugin_loaded():

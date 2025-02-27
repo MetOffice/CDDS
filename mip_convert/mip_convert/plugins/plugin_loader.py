@@ -91,6 +91,7 @@ def load_external_plugin(plugin_id: str, plugin_module_path: str, model_id: str)
         logger.critical(message)
         raise PluginLoadError(message)
 
+    logger.info('Load external plugin for {}'.format(plugin_id))
     plugin_store = PluginStore.instance()
     plugin_store.register_plugin(external_plugin)
 
