@@ -36,7 +36,7 @@ class TestCmip66hrPlevPtVortmean(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1950-01-01T00:00:00 1950-01-06T00:00:00',
                     'suite_id': 'ai674',
-                    'mip_convert_plugin': ''
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'ap7': {'CMIP6_6hrPlevPt': 'vortmean'}

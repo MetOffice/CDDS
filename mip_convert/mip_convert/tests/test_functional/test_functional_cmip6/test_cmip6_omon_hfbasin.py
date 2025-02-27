@@ -34,7 +34,7 @@ class TestCmip6OmonHfbasin(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1960-01-01T00:00:00 1960-03-01T00:00:00',
                     'suite_id': 'u-aw310',
-                    'mip_convert_plugin': ''
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'onm': {'CMIP6_Omon': 'hfbasin'}

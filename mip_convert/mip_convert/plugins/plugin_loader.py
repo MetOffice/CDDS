@@ -12,10 +12,16 @@ from typing import Any, List
 
 from mip_convert.plugins.plugins import MappingPlugin, PluginStore
 from mip_convert.plugins.hadgem3.hadgem3_plugin import HadGEM3MappingPlugin
+from mip_convert.plugins.ukesm1.ukesm1_plugin import UKESM1MappingPlugin
+from mip_convert.plugins.hadrem_cp4a.hadrem_cp4a_plugin import HadREM_CP4AMappingPlugin
+from mip_convert.plugins.hadrem3.hadrem3_plugin import HadREM3MappingPlugin
 from mip_convert.plugins.exceptions import PluginLoadError
 
 
-INTERNAL_PLUGINS: List[MappingPlugin] = [HadGEM3MappingPlugin()]
+INTERNAL_PLUGINS: List[MappingPlugin] = [HadGEM3MappingPlugin(), 
+                                         UKESM1MappingPlugin(), 
+                                         HadREM3MappingPlugin(), 
+                                         HadREM_CP4AMappingPlugin()]
 
 
 def load_plugin(plugin_id: str, plugin_module_path: str = None, plugin_location: str = None) -> None:
@@ -41,7 +47,6 @@ def load_plugin(plugin_id: str, plugin_module_path: str = None, plugin_location:
     else:
         try:
             internal_plugin = find_internal_plugin(plugin_id)
-            internal_plugin.load(plugin_id)
             plugin_store = PluginStore.instance()
             plugin_store.register_plugin(internal_plugin)
         except PluginLoadError:
@@ -86,7 +91,7 @@ def load_external_plugin(plugin_id: str, plugin_module_path: str, model_id: str)
         logger.critical(message)
         raise PluginLoadError(message)
 
-    external_plugin.load(model_id)
+    logger.info('Load external plugin for {}'.format(plugin_id))
     plugin_store = PluginStore.instance()
     plugin_store.register_plugin(external_plugin)
 

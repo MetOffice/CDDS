@@ -240,7 +240,7 @@ thetaot300 = onm/grid-T
             "CFday_mappings.cfg": False,
             "CFmon_mappings.cfg": False,
             "Eday_mappings.cfg": False,
-            "EdayZ_mappings.cfg": False,
+            "HadGEM3_EdayZ_mappings.cfg": False,
             "Emon_mappings.cfg": False,
             "EmonZ_mappings.cfg": False,
             "Lmon_mappings.cfg": False,

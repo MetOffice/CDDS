@@ -35,7 +35,7 @@ class TestCmip6OmonSoga(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1851-05-01T00:00:00 1851-06-01T00:00:00',
                     'suite_id': 'u-aq112',
-                    'mip_convert_plugin': ''
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'onm': {'CMIP6_Omon': 'soga'}

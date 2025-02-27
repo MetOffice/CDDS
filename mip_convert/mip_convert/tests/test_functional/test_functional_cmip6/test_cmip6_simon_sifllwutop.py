@@ -35,7 +35,7 @@ class TestCmip6SImonSifllwutop(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1851-05-01T00:00:00 1851-06-01T00:00:00',
                     'suite_id': 'u-ar050',
-                    'mip_convert_plugin': ''
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'ap5': {'CMIP6_SImon': 'sifllwutop'}

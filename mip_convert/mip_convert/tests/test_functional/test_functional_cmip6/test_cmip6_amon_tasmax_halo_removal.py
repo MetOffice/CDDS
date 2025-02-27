@@ -32,7 +32,7 @@ class TestCmip6AmonTasmaxHaloRemoval(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '2021-01-01T00:00:00 2021-02-01T00:00:00',
                     'suite_id': 'ajnjg',
-                    'mip_convert_plugin': ''
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 halo_removal={
                     'apa': '5:-5,5:-5'

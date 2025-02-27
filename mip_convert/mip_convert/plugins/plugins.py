@@ -7,6 +7,7 @@ from abc import ABCMeta, abstractmethod
 
 import iris.cube
 
+from mip_convert.configuration.python_config import ModelToMIPMappingConfig
 from mip_convert.plugins.quality_control import BoundsChecker
 from typing import Dict, Any
 
@@ -37,23 +38,32 @@ class MappingPlugin(object, metaclass=ABCMeta):
         return plugin_id == self._plugin_id
 
     @abstractmethod
-    def load(self, model_id: str) -> None:
-        """
-        Loads the plugin data
-        """
-        pass
-
-    @abstractmethod
     def evaluate_expression(self, expression: Any, input_variables: Dict[str, iris.cube.Cube]) -> iris.cube.Cube:
         """
         Update the iris Cube containing in the input variables list by evaluating the given expression.
 
-        :param expression:
+        :param expression: Expression to be evaluated
         :type expression: Any
-        :param input_variables:
+        :param input_variables: The input variables required to produce the
+            MIP requested variable in the form {input_variable_name: cube}.
         :type input_variables: Dict[str, Cube]
-        :return: The updated iris Cube
-        :rtype: Cube
+        :return: The updated iris cube
+        :rtype: iris.cube.Cube
+        """
+        pass
+
+    @abstractmethod
+    def load_model_to_mip_mapping(self, mip_table_name: str) -> ModelToMIPMappingConfig:
+        """
+        Load MIPConvert mapping for given MIP table name.
+        The MIP table name as following format:
+            <project>_<table_id>
+        e.g. CMIP6_mon.
+
+        :param mip_table_name: Name of the MIP table
+        :type mip_table_name: str
+        :return: MIP mappings
+        :rtype: ModelToMIPMappingConfig
         """
         pass
 

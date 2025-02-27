@@ -34,7 +34,7 @@ class TestCmip6AERmonRlutaf(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '2345-06-01T00:00:00 2345-07-01T00:00:00',
                     'suite_id': 'u-aw310',
-                    'mip_convert_plugin': ''
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'ap4': {'CMIP6_AERmon': 'rlutaf'}
