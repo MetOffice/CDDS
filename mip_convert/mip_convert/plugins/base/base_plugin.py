@@ -21,7 +21,7 @@ class BaseMappingPlugin(MappingPlugin):
 
     The base plugin does not provide a general evaluate_expression method.
     The expressions for this method are very plugin-specific because expressions
-    are different for each plugins and they must be in the local namespage
+    are different for each plugin, and they must be in the local namespace
     (using of import *).
     """
 
