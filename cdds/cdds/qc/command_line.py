@@ -134,7 +134,7 @@ def run_and_report(args: Namespace, request: Request) -> dict:  # TODO: kerstin 
     logger = logging.getLogger()
     output_dir = component_directory(request, 'qualitycheck') if request.misc.use_proc_dir else args.output_dir
     logger.info('Writing report to {}'.format(output_dir))
-    db_path = os.path.join(output_dir, QC_DB_FILENAME)
+    db_path = os.path.join(output_dir, f"qc_{args.stream}.db")
 
     basedir = output_data_directory(request)
     cdds_runner = QCRunner(db_path)
