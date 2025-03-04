@@ -205,21 +205,12 @@
             ROSE_TASK_APP = concatenate_batch
             STREAM = {{ STREAM }}
 ##### MIP CONVERT #########################################################################
-    [[MIP_CONVERT_{{ STREAM }}]]
-        execution retry delays = PT1M, PT3M, PT5M
-        [[[directives]]]
-            # Allocate an amount of temp space in MB for mip_convert
-            # processing.
-            --gres = tmp:{{ MIP_CONVERT_TMP_SPACE[STREAM] }}
-        [[[environment]]]
-            ROSE_TASK_APP = mip_convert
-            ALLOCATED_TMPDIR_SPACE_IN_MB = {{ MIP_CONVERT_TMP_SPACE[STREAM] }}
-
     {% for COMPONENT in STREAM_COMPONENTS[STREAM] %} # COMPONENT LOOP
         {% set SUFFIX = STREAM ~ '_' ~ COMPONENT %}
 
     [[MIP_CONVERT_{{ SUFFIX }}]]
-        inherit = MIP_CONVERT_{{ STREAM }}, SPICE
+        inherit = SPICE
+        execution retry delays = PT1M, PT3M, PT5M
         [[[environment]]]
             STREAM = {{ STREAM }}
             COMPONENT = {{ COMPONENT }}
@@ -229,11 +220,14 @@
             STREAM_TIME_OVERRIDES = {{ STREAM_TIME_OVERRIDES }}
             DUMMY_RUN = {{ DUMMY_RUN }}
             SUITE_NAME = {{ TARGET_SUITE_NAME }}
+            ROSE_TASK_APP = mip_convert
+            ALLOCATED_TMPDIR_SPACE_IN_MB = {{ MIP_CONVERT_TMP_SPACE[STREAM] }}
         {% if USE_LOCAL_STORAGE %}
             STAGING_DIR = $TMPDIR
         {% endif %}
         [[[directives]]]
             --mem = {{ MEMORY_CONVERT[STREAM][COMPONENT] }}
+            --gres = tmp:{{ MIP_CONVERT_TMP_SPACE[STREAM] }} # Allocate an amount of temp space in MB for mip_convert
 
         {% if DO_CONVERT_ALIGNMENT_CYCLE[STREAM] %}
     [[mip_convert_first_{{ SUFFIX }}]]
