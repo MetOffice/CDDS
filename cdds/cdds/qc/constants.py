@@ -42,7 +42,7 @@ DIURNAL_OFFSETS = [
     30,
     29,
 ]
-QC_DB_FILENAME = 'qc.db'
+QC_DB_FILENAME = 'qc_{stream_id}.db'
 QC_REPORT_FILENAME = 'report_{dt}.json'
 QC_REPORT_STREAM_FILENAME = 'report_{stream_id}_{dt}.json'
 RADIATION_TIMESTEP = 1.0 / 24.0  # 1 hour as a fractional day
