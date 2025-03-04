@@ -102,12 +102,14 @@
             END_DATE = {{ END_DATE }}
             MODEL_ID = {{ MODEL_ID }}
             CDDS_VERSION = {{ CDDS_VERSION }}
+            REQUEST_CONFIG_PATH = {{ REQUEST_CONFIG_PATH }}
 {% if DEV_MODE %}
             CDDS_DIR = {{ CDDS_DIR }}
             SETUP_CMD = $CDDS_DIR/setup_env_for_devel $CDDS_DIR
 {% else %}
             SETUP_CMD = ~cdds/bin/setup_env_for_cdds {{ CDDS_VERSION }}
 {% endif %}
+#### PLATFORMS ############################################################################
     [[SPICE]]
         platform = spice
         submission retry delays = PT1M, PT1M, PT1M
@@ -123,27 +125,11 @@
             -q = short-serial
             -R = "rusage[mem={{ MEMORY_DEFAULT }}]"
             -C = 0
+#### INITIALISER FINALISER ################################################################
 {% for STREAM in STREAMS.keys() %} # STREAM LOOP
     [[COMPLETION_FAMILY_{{ STREAM }}]]
-    [[MIP_CONVERT_{{ STREAM }}]]
-        execution retry delays = PT1M, PT3M, PT5M
-        [[[directives]]]
-            # Allocate an amount of temp space in MB for mip_convert
-            # processing.
-            --gres = tmp:{{ MIP_CONVERT_TMP_SPACE[STREAM] }}
-        [[[environment]]]
-            ROSE_TASK_APP = mip_convert
-            ALLOCATED_TMPDIR_SPACE_IN_MB = {{ MIP_CONVERT_TMP_SPACE[STREAM] }}
-
-    [[MIP_CONCATENATE_{{ STREAM }}]]
-        execution retry delays = PT1M, PT3M, PT5M
-        [[[environment]]]
-            NTHREADS = {{ NTHREADS_CONCATENATE }}
-            PROC_DIR = {{ CDDS_CONVERT_PROC_DIR }}
-            TIMESTAMP = `date +%FT%T`
-            TASK_DB_PATH = {{ CDDS_CONVERT_PROC_DIR }}/mip_concatenate_{{ STREAM }}_${CYLC_TASK_CYCLE_POINT}.db
-            CONCAT_CFG_PATH = {{ CDDS_CONVERT_PROC_DIR }}/mip_concatenate_setup_{{ STREAM }}_${CYLC_TASK_CYCLE_POINT}.cfg
-
+    [[initialiser_{{ STREAM }}]]
+        script = true
     [[finaliser_{{ STREAM }}]]
         execution retry delays = PT1M, PT3M, PT5M
         platform = localhost
@@ -154,26 +140,15 @@
         set -u
         update_directives
         """
-
-    [[initialiser_{{ STREAM }}]]
-        script = true
-
-    [[setup_output_dir_{{ STREAM }}]]
-{% set BASE_OUTPUT = OUTPUT_DIR ~ '/' ~ STREAM  %}
-{% set BASE_MIP_CONVERT = OUTPUT_DIR ~ '/' ~ STREAM ~ '_mip_convert' %}
-{% set BASE_CONCAT = OUTPUT_DIR ~ '/' ~ STREAM ~ '_concat' %}
-
-# Create 3 fresh directories, for mip_convert output, staging the output
-# for concatenation, and concatenation output.
-        script = """
-rm -rf {{ BASE_MIP_CONVERT }}
-mkdir -p {{ BASE_MIP_CONVERT }}
-rm -rf {{ BASE_CONCAT }}
-mkdir -p {{ BASE_CONCAT }}
-rm -rf {{ BASE_OUTPUT }}
-mkdir -p {{ BASE_OUTPUT }}
-"""
-
+#### MIP_CONCATENATE ######################################################################
+    [[MIP_CONCATENATE_{{ STREAM }}]]
+        execution retry delays = PT1M, PT3M, PT5M
+        [[[environment]]]
+            NTHREADS = {{ NTHREADS_CONCATENATE }}
+            PROC_DIR = {{ CDDS_CONVERT_PROC_DIR }}
+            TIMESTAMP = `date +%FT%T`
+            TASK_DB_PATH = {{ CDDS_CONVERT_PROC_DIR }}/mip_concatenate_{{ STREAM }}_${CYLC_TASK_CYCLE_POINT}.db
+            CONCAT_CFG_PATH = {{ CDDS_CONVERT_PROC_DIR }}/mip_concatenate_setup_{{ STREAM }}_${CYLC_TASK_CYCLE_POINT}.cfg
     [[ORGANISE_FILES_{{ STREAM }}]]
         inherit = MIP_CONCATENATE_{{ STREAM }}, SPICE
         [[[environment]]]
@@ -184,7 +159,6 @@ mkdir -p {{ BASE_OUTPUT }}
             CALENDAR = {{ CALENDAR }}
             REF_DATE = {{ REF_DATE }}
             STREAM = {{ STREAM }}
-
     [[organise_files_{{ STREAM }}]]
         inherit = ORGANISE_FILES_{{ STREAM }}
         [[[environment]]]
@@ -195,7 +169,6 @@ mkdir -p {{ BASE_OUTPUT }}
             START_DATE = $(rose date --print-format='%Y%m%d' $CYLC_TASK_CYCLE_POINT --offset=-{{ CONCATENATION_WINDOW[STREAM] }} --offset={{ CYCLING_FREQUENCY[STREAM] }})
             END_DATE = $(rose date --print-format='%Y%m%d' $CYLC_TASK_CYCLE_POINT --offset={{ CYCLING_FREQUENCY[STREAM] }} --offset=-P1Y)
     {% endif %}
-
     {% if DO_FINAL_CONCATENATE[STREAM] %}
     [[organise_files_final_{{ STREAM }}]]
         inherit = ORGANISE_FILES_{{ STREAM }}
@@ -203,7 +176,6 @@ mkdir -p {{ BASE_OUTPUT }}
             START_DATE = $(rose date --print-format='%Y%m%d' {{ FINAL_CONCATENATION_WINDOW_START[STREAM] }} )
             END_DATE = $(rose date --print-format='%Y%m%d' $CYLC_TASK_CYCLE_POINT --offset={{ CYCLING_FREQUENCY[STREAM] }} --offset=-P1Y)
     {% endif %}
-
     [[mip_concatenate_setup_{{ STREAM }}]]
         inherit = MIP_CONCATENATE_{{ STREAM }}, SPICE
         [[[environment]]]
@@ -232,6 +204,17 @@ mkdir -p {{ BASE_OUTPUT }}
         [[[environment]]]
             ROSE_TASK_APP = concatenate_batch
             STREAM = {{ STREAM }}
+##### MIP CONVERT #########################################################################
+    [[MIP_CONVERT_{{ STREAM }}]]
+        execution retry delays = PT1M, PT3M, PT5M
+        [[[directives]]]
+            # Allocate an amount of temp space in MB for mip_convert
+            # processing.
+            --gres = tmp:{{ MIP_CONVERT_TMP_SPACE[STREAM] }}
+        [[[environment]]]
+            ROSE_TASK_APP = mip_convert
+            ALLOCATED_TMPDIR_SPACE_IN_MB = {{ MIP_CONVERT_TMP_SPACE[STREAM] }}
+
     {% for COMPONENT in STREAM_COMPONENTS[STREAM] %} # COMPONENT LOOP
         {% set SUFFIX = STREAM ~ '_' ~ COMPONENT %}
 
@@ -246,7 +229,6 @@ mkdir -p {{ BASE_OUTPUT }}
             STREAM_TIME_OVERRIDES = {{ STREAM_TIME_OVERRIDES }}
             DUMMY_RUN = {{ DUMMY_RUN }}
             SUITE_NAME = {{ TARGET_SUITE_NAME }}
-            REQUEST_CONFIG_PATH = {{REQUEST_CONFIG_PATH}}
         {% if USE_LOCAL_STORAGE %}
             STAGING_DIR = $TMPDIR
         {% endif %}
@@ -266,13 +248,10 @@ mkdir -p {{ BASE_OUTPUT }}
             CYCLE_DURATION = {{ CYCLING_FREQUENCY[STREAM] }}
     {% endfor %} # COMPONENT LOOP END
 
-    [[RUN_CDDS_SUBTASK]]
-        [[[environment]]]
-            REQUEST_CONFIG_PATH = {{ REQUEST_CONFIG_PATH }}
-
+##### SETUP_OUTPUT_DIR EXTRACT VALIDATE_EXTRACT QC TRANSFER ###############################
     {% if RUN_EXTRACT %}
     [[run_extract_{{ STREAM }}]]
-        inherit = SPICE, RUN_CDDS_SUBTASK
+        inherit = SPICE
         execution retry delays = PT1H, PT1H, PT1H
         execution time limit = P2D
         [[[environment]]]
@@ -290,7 +269,7 @@ mkdir -p {{ BASE_OUTPUT }}
 
     {% if RUN_EXTRACT_VALIDATION %}
     [[validate_extract_{{ STREAM }}]]
-        inherit = SPICE, RUN_CDDS_SUBTASK
+        inherit = SPICE
         [[[environment]]]
             ROSE_TASK_APP = validate_extract
             STREAM = {{ STREAM }}
@@ -299,9 +278,25 @@ mkdir -p {{ BASE_OUTPUT }}
             --ntasks = 1
     {% endif %}
 
+    [[setup_output_dir_{{ STREAM }}]]
+{% set BASE_OUTPUT = OUTPUT_DIR ~ '/' ~ STREAM  %}
+{% set BASE_MIP_CONVERT = OUTPUT_DIR ~ '/' ~ STREAM ~ '_mip_convert' %}
+{% set BASE_CONCAT = OUTPUT_DIR ~ '/' ~ STREAM ~ '_concat' %}
+
+# Create 3 fresh directories, for mip_convert output, staging the output
+# for concatenation, and concatenation output.
+        script = """
+rm -rf {{ BASE_MIP_CONVERT }}
+mkdir -p {{ BASE_MIP_CONVERT }}
+rm -rf {{ BASE_CONCAT }}
+mkdir -p {{ BASE_CONCAT }}
+rm -rf {{ BASE_OUTPUT }}
+mkdir -p {{ BASE_OUTPUT }}
+"""
+
     {% if RUN_QC %}
     [[run_qc_{{ STREAM }}]]
-        inherit = SPICE, RUN_CDDS_SUBTASK, COMPLETION_FAMILY_{{ STREAM }}
+        inherit = SPICE, COMPLETION_FAMILY_{{ STREAM }}
         [[[environment]]]
             ROSE_TASK_APP = run_qc
             STREAM = {{ STREAM }}
@@ -312,7 +307,7 @@ mkdir -p {{ BASE_OUTPUT }}
 
     {% if RUN_TRANSFER %}
     [[run_transfer_{{ STREAM }}]]
-        inherit = SPICE, RUN_CDDS_SUBTASK, COMPLETION_FAMILY_{{ STREAM }}
+        inherit = SPICE, COMPLETION_FAMILY_{{ STREAM }}
         [[[environment]]]
             ROSE_TASK_APP = run_transfer
             STREAM = {{ STREAM }}
