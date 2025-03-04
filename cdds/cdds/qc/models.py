@@ -5,13 +5,13 @@
 import sqlite3
 import os
 from cdds.qc.constants import (
-    QC_DB_FILENAME, STATUS_WARNING, STATUS_ERROR, STATUS_IGNORED,
+    STATUS_WARNING, STATUS_ERROR, STATUS_IGNORED,
     DS_TYPE_SINGLE_FILE, DS_TYPE_DATASET, SUMMARY_STARTED,
     SUMMARY_FAILED, SUMMARY_PASSED
 )
 
 
-def setup_db(db_file=QC_DB_FILENAME):
+def setup_db(db_file):
     """
     Initialises a qc database.
 
