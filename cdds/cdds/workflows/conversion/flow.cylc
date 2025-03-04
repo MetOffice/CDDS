@@ -268,8 +268,6 @@ mkdir -p {{ BASE_OUTPUT }}
 
     [[RUN_CDDS_SUBTASK]]
         [[[environment]]]
-            ROOT_PROC_DIR = {{ ROOT_PROC_DIR }}
-            ROOT_DATA_DIR = {{ ROOT_DATA_DIR }}
             REQUEST_CONFIG_PATH = {{ REQUEST_CONFIG_PATH }}
 
     {% if RUN_EXTRACT %}

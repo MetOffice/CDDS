@@ -106,8 +106,6 @@ class ConfigureTemplateVariables:
             "PLATFORM": os.environ["CDDS_PLATFORM"],
             "REF_DATE": str(self._request.metadata.base_date),
             "REQUEST_CONFIG_PATH": self.request_path,
-            "ROOT_DATA_DIR": self._request.common.root_data_dir,
-            "ROOT_PROC_DIR": self._request.common.root_proc_dir,
             "START_DATE": str(self._request.data.start_date),
             "TARGET_SUITE_NAME": self._request.data.model_workflow_id,
         }
