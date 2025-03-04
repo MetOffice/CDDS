@@ -16,6 +16,14 @@ CDDS_MAPPINGS_VALIDTAE_LOG = 'cdds_mapping_validation'
 
 
 def run_mappings_validation(arguments: List[str] = None) -> int:
+    """
+    Runs validations for the mappings given in the command line arguments
+
+    :param arguments:
+    :type: List[str]
+    :return: Exit code
+    :rtype: int
+    """
     args = parse_mappings_validations_arguments(arguments)
 
     configure_logger(CDDS_MAPPINGS_VALIDTAE_LOG, logging.INFO, False)

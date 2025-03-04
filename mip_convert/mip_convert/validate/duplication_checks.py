@@ -1,5 +1,8 @@
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
+"""
+Module providing functionality to check mappings configurations for duplicated entries
+"""
 import os
 import logging
 
@@ -9,6 +12,17 @@ from typing import List, Tuple
 
 def check_for_duplicated_entries(common_mappings_file: str,
                                  mip_table_mappings_files: List[str]) -> Tuple[bool, List[str]]:
+    """
+    Check for duplicated entries in the common mapping file and the given
+    MIP table specific mapping files.
+
+    :param common_mappings_file: Common mapping file
+    :type common_mappings_file: str
+    :param mip_table_mappings_files: Mip table mappings files
+    :type mip_table_mappings_files: List[str]
+    :return: Is valid and a list of messages
+    :rtype: Tuple[bool, List[str]]
+    """
     logger = logging.getLogger(__name__)
     error_messages = []
     valid = True
@@ -43,6 +57,14 @@ def check_for_duplicated_entries(common_mappings_file: str,
 
 
 def read_mappings(mapping_file: str) -> ConfigParser:
+    """
+    Read given mapping files and return the mapping configuration
+
+    :param mapping_file: Path to the mapping file
+    :type mapping_file: str
+    :return: Mapping configuration
+    :rtype: ConfigParser
+    """
     interpolation = ExtendedInterpolation()
     mappings_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',), default_section=True)
     mappings_config.optionxform = str
@@ -51,6 +73,16 @@ def read_mappings(mapping_file: str) -> ConfigParser:
 
 
 def variables_intersection(common_mappings: ConfigParser, mip_table_mappings: ConfigParser) -> List[str]:
+    """
+    Calculate the intersection of the variables in the common mappings and MIP table specific mappings
+
+    :param common_mappings: Common mapping configuration
+    :type common_mappings: ConfigParser
+    :param mip_table_mappings: MIP table mapping configuration
+    :type mip_table_mappings: ConfigParser
+    :return: All variables that occurs in both mappings
+    :rtype: List[str]
+    """
     return [
         variable for variable in common_mappings.sections() if variable in mip_table_mappings.sections()
     ]

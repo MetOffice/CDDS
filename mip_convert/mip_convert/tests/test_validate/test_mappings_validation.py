@@ -1,20 +1,19 @@
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
-import glob
+import pytest
 import os
 import mip_convert
 
 from mip_convert.validate.mappings_validations import do_mappings_configurations_validations
 
-from configparser import ConfigParser, ExtendedInterpolation
 from unittest import TestCase
 from unittest.mock import patch
-
 
 MIP_CONVERT_ROOT_DIR = os.path.dirname(os.path.realpath(mip_convert.__file__))
 PLUGIN_DIR = os.path.join(MIP_CONVERT_ROOT_DIR, 'plugins', '{}', 'data')
 
 
+@pytest.mark.slow
 class TestMappingsForDuplicatedEntries(TestCase):
 
     @patch('logging.Logger')
@@ -23,6 +22,7 @@ class TestMappingsForDuplicatedEntries(TestCase):
 
         valid, messages = do_mappings_configurations_validations('HadGEM3', hadgem3_data_dir)
 
+        print(len(messages))
         self.assertEqual(messages, [])
         self.assertTrue(valid)
 
@@ -32,6 +32,7 @@ class TestMappingsForDuplicatedEntries(TestCase):
 
         valid, messages = do_mappings_configurations_validations('UKESM1', ukesm1_data_dir)
 
+        print(len(messages))
         self.assertEqual(messages, [])
         self.assertTrue(valid)
 
@@ -41,6 +42,7 @@ class TestMappingsForDuplicatedEntries(TestCase):
 
         valid, messages = do_mappings_configurations_validations('HadREM3', hadrem3_data_dir)
 
+        print(len(messages))
         self.assertEqual(messages, [])
         self.assertTrue(valid)
 
@@ -50,6 +52,7 @@ class TestMappingsForDuplicatedEntries(TestCase):
 
         valid, messages = do_mappings_configurations_validations('HadREM-CP4A', cp4a_data_dir)
 
+        print(len(messages))
         self.assertEqual(messages, [])
         self.assertTrue(valid)
 

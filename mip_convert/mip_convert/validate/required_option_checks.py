@@ -1,7 +1,7 @@
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
 """
-Module providing functionality to validate mappings configurations
+Module providing functionality to check mappings configurations for containing required options
 """
 import os
 import glob
@@ -10,8 +10,7 @@ import logging
 from mip_convert.process import REQUIRED_OPTIONS
 from mip_convert.configuration.python_config import ModelToMIPMappingConfig
 
-from configparser import ConfigParser, ExtendedInterpolation
-from typing import List, Union, Tuple
+from typing import List, Tuple
 
 
 def check_contains_all_required_options(plugin_id: str, common_mappings_file: str,
