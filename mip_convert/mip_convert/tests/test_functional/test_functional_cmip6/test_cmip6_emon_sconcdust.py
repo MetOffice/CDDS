@@ -34,7 +34,8 @@ class TestCmip6EmonSconcdust(AbstractFunctionalTests):
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1979-04-01T00:00:00 1979-05-01T00:00:00',
-                    'suite_id': 'u-an644'
+                    'suite_id': 'u-an644',
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'ap5': {'CMIP6_Emon': 'sconcdust'}

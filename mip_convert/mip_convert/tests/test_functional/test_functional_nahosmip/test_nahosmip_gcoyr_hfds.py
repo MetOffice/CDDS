@@ -35,6 +35,7 @@ class TestNAHosMIPGCOyrHfds(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1960-01-01T00:00:00 1962-01-01T00:00:00',
                     'suite_id': 'u-aw310',
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'onm': {'GCModelDev_GCOyr': 'hfds'}

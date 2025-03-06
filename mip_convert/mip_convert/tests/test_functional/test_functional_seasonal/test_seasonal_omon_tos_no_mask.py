@@ -36,7 +36,8 @@ class TestSeasonalOmonTosNoMask(AbstractFunctionalTests):
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1976-01-01T00:00:00 1976-01-11T00:00:00',
-                    'suite_id': 'ai022'
+                    'suite_id': 'ai022',
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'onb': {'SEASONAL_Omon': 'tos'}

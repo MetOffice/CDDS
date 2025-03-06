@@ -266,60 +266,6 @@ class BoundsChecker(ObjectWithLogger):
             return None
 
 
-class MaskedArrayBoundsChecker0(BoundsChecker):
-    """
-    Class for checking and, if required, adjusting numpy MaskedArrays.
-
-    NOTE: bounds-checking a numpy MaskedArray object is roughly three times SLOWER (at best) than
-    checking an equivalent Python list object. Modifying the loop in the check_bounds method to use
-    numpy's ndenumerate() function delivered slightly worse performance.
-    """
-
-    def __init__(self, fill_value=UM_MDI, valid_min=None, valid_max=None, tol_min=None, tol_max=None,
-                 tol_min_action=RAISE_EXCEPTION, tol_max_action=RAISE_EXCEPTION, oob_action=RAISE_EXCEPTION):
-
-        super(MaskedArrayBoundsChecker0, self).__init__(fill_value, valid_min, valid_max, tol_min, tol_max,
-                                                        tol_min_action, tol_max_action, oob_action)
-
-    def _get_len(self, array):
-        """
-        Return the total number of data values in array.
-        """
-        return array.size
-
-    def _get_value(self, array, i):
-        """
-        Get array value at index i.
-        """
-        return array.data.flat[i]
-
-    def _set_value(self, array, i, value):
-        """
-        Set array value at index i.
-        """
-        # automatically turns off mask flag if array[i] == fill_value
-        array.flat[i] = value
-
-    def _is_fill_value(self, array, i):
-        """
-        Return true if array value at index i is equal to the fill value.
-        """
-        if array.mask is ma.nomask:
-            return False
-        else:
-            return array.mask.flat[i]
-
-    def _set_to_fill_value(self, array, i):
-        """
-        Set array value at index i to the fill value.
-        """
-        if array.mask is ma.nomask:
-            array.mask = False  # sets entire mask to false
-        array.mask.flat[i] = True
-        # uncomment the next line to set the actual data value to the fill value as well
-        # array.data.flat[i] = self.fill_value
-
-
 class MaskedArrayBoundsChecker(BoundsChecker):
     """
     Class for checking and, if required, adjusting numpy MaskedArrays.

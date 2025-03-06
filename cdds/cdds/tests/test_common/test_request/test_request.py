@@ -97,6 +97,10 @@ class TestWriteRequest(TestCase):
         request.data.output_mass_suffix = 'development'
         request.data.data_version = data_version.strftime('v%Y%m%d')
         request.data.variable_list_file = ''
+
+        request.conversion.mip_convert_plugin = 'HadGEM3'
+        request.conversion.mip_convert_external_plugin = ''
+        request.conversion.mip_convert_external_plugin_location = ''
         request.write(config_file)
 
         self.assertListEqual(self.read_lines(config_file), self.read_lines(expected_output))
