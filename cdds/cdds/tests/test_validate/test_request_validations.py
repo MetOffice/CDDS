@@ -50,3 +50,12 @@ class TestValidations(TestCase):
              '"start_date" must be before "end_date"'),
             'The "inventory_database_location" does not exist.'
         ])
+
+    @patch('logging.Logger')
+    def test_invalid_stream_validations(self, logger):
+        request_to_validate = os.path.join(self.data_dir, 'cmip6_request_invalid_stream.cfg')
+        valid, messages = do_request_validations(request_to_validate)
+        self.assertFalse(valid)
+        self.assertListEqual(messages, [
+            'Stream unknown is not in the model parameters specified and cannot be proceesed'
+        ])
