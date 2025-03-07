@@ -90,13 +90,13 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
         valid = False
         messages.append(e.args[0])
 
-    request = Request.from_config(request_config)
-
-    valid_streams, streams_messages = validate_streams(request)
-    messages.extend(streams_messages)
-    valid = valid_streams and valid
-
     try:
+        request = Request.from_config(request_config)
+
+        valid_streams, streams_messages = validate_streams(request)
+        messages.extend(streams_messages)
+        valid = valid_streams and valid
+
         if request.common.is_relaxed_cmor():
             logger.info('Relaxed CMOR is activated. Skip CV validations.')
         else:
