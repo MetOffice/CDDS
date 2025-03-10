@@ -38,6 +38,7 @@ class TestUserConfig(unittest.TestCase):
         self.variable_name_2 = 'ua'
         self.atmos_timestep = 720
         self.shuffle = 'true'
+        self.mip_convert_plugin = 'HadGEM3'
         self._user_config = (
             '[cmor_setup]\n'
             'mip_table_dir:{mip_table}\n'
@@ -55,6 +56,7 @@ class TestUserConfig(unittest.TestCase):
             'suite_id:{suite_id}\n'
             'sites_file:{sites_file}\n'
             'model_output_dir:{root_load_path}\n'
+            'mip_convert_plugin:{mip_convert_plugin}\n'
             '[stream_{stream_1}]\n'
             '{mip_table_1}: {variable_name_1} {variable_name_2}\n'
             '[stream_{stream_2}]\n'
@@ -74,6 +76,7 @@ class TestUserConfig(unittest.TestCase):
             suite_id=self.suite_id,
             sites_file=self.sites_file,
             root_load_path=self.root_load_path,
+            mip_convert_plugin=self.mip_convert_plugin,
             stream_1=self.stream_1,
             mip_table_1=self.mip_table_1,
             variable_name_1=self.variable_name_1,
@@ -149,14 +152,16 @@ class TestUserConfig(unittest.TestCase):
             'base_date: 1950-12-01T00:00:00\n'
             'run_bounds:{run_bounds}\n'
             'suite_id:{suite_id}\n'
-            'model_output_dir:{root_load_path}\n')
+            'model_output_dir:{root_load_path}\n'
+            'mip_convert_plugin:{mip_convert_plugin}\n')
         user_config = user_config.format(
             mip_table=self.mip_table,
             mip_era=self.mip_era,
             model_id=self.model_id,
             run_bounds=self.run_bounds,
             suite_id=self.suite_id,
-            root_load_path=self.root_load_path
+            root_load_path=self.root_load_path,
+            mip_convert_plugin=self.mip_convert_plugin
         )
         mopen.return_value = StringIO(dedent(user_config))
         msg = 'Section "cmor_dataset" in configuration file "user_config_file" does not contain "output_dir"'

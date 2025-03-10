@@ -73,6 +73,9 @@ inventory_check = False
 inventory_database_location = 
 
 [conversion]
+mip_convert_plugin = HadGEM3
+mip_convert_external_plugin =
+mip_convert_external_plugin_location =
 skip_extract = False
 skip_extract_validation = False
 skip_configure = False
