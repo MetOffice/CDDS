@@ -22,7 +22,6 @@ class TestMappingsForDuplicatedEntries(TestCase):
 
         valid, messages = do_mappings_configurations_validations('HadGEM3', hadgem3_data_dir)
 
-        print(len(messages))
         self.assertEqual(messages, [])
         self.assertTrue(valid)
 
@@ -68,5 +67,17 @@ class TestMappingsForDuplicatedEntries(TestCase):
             'Invalid_day_mappings.cfg',
             'For variable pr the mip table day is defined in Invalid_mappings.cfg and in Invalid_day_mappings.cfg',
             'Missing option positive for variable hus and MIP table day'
+        ])
+        self.assertFalse(valid)
+
+    @patch('logging.Logger')
+    def test_dir_does_not_exits(self, logger):
+        data_dir = '/not/exiting/data_dir'
+        plugin_id = 'HadGEM3'
+
+        valid, messages = do_mappings_configurations_validations(plugin_id, data_dir)
+
+        self.assertListEqual(messages, [
+            'Given mapping data directory "/not/exiting/data_dir" does not exist.'
         ])
         self.assertFalse(valid)
