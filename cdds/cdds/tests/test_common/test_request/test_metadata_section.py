@@ -20,7 +20,7 @@ class TestMetadataDefaults(TestCase):
     def tearDown(self) -> None:
         PluginStore.clean_instance()
 
-    def test_defaults(self):
+    def test_defaults_parent(self):
         expected_defaults = {
             'base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
             'license': CMIP6_LICENSE,
@@ -28,8 +28,20 @@ class TestMetadataDefaults(TestCase):
             'parent_model_id': self.model_id,
             'parent_time_units': 'days since 1850-01-01'
         }
+        branch_method = 'standard'
 
-        defaults = metadata_defaults(self.model_id)
+        defaults = metadata_defaults(self.model_id, branch_method)
+
+        self.assertDictEqual(defaults, expected_defaults)
+
+    def test_defaults_no_parent(self):
+        expected_defaults = {
+            'base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
+            'license': CMIP6_LICENSE,
+        }
+        branch_method = 'no parent'
+
+        defaults = metadata_defaults(self.model_id, branch_method)
 
         self.assertDictEqual(defaults, expected_defaults)
 
