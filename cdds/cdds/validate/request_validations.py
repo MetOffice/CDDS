@@ -120,6 +120,14 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
 
 
 def validate_streams(request: Request) -> Tuple[bool, List[str]]:
+    """
+    Validates the streams that are given in the request
+
+    :param request: Request configuration contains the streams to be validated
+    :type request: Request
+    :return: Is valid and a list of messages
+    :rtyp: Tuple[bool, List[str]]
+    """
     logger = logging.getLogger(__name__)
 
     plugin = PluginStore.instance().get_plugin()
