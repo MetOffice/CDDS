@@ -94,7 +94,7 @@ class MetadataSectionValidator(SectionValidator):
         :rtype: bool, List[str]
         """
         self._validate_allowed_values()
-        self._validate_if_values_exist()
+        self._validate_if_values_are_set()
         return self.valid, self.messages
 
     def _validate_allowed_values(self):
@@ -109,7 +109,7 @@ class MetadataSectionValidator(SectionValidator):
             valid, message = allowed_values_validate(value_tuple[0], value_tuple[1], property_name)
             self._manage_results(valid, message)
 
-    def _validate_if_values_exist(self):
+    def _validate_if_values_are_set(self):
         values_must_set_dict = {
             'mip': self.section.mip,
             'base_date': self.section.base_date,
@@ -118,23 +118,33 @@ class MetadataSectionValidator(SectionValidator):
             'variant_label': self.section.variant_label,
         }
 
-        if self.section.branch_method == 'standard':
-            parent_values_set_dict = {
-                'parent_experiment_id': self.section.parent_experiment_id,
-                'parent_mip': self.section.parent_mip,
-                'parent_mip_era': self.section.parent_mip_era,
-                'parent_model_id': self.section.parent_model_id,
-                'parent_time_units': self.section.parent_time_units,
-                'branch_date_in_child': self.section.branch_date_in_child,
-                'branch_date_in_parent': self.section.branch_date_in_parent,
-                'parent_base_date': self.section.parent_base_date
-            }
-            values_must_set_dict.update(parent_values_set_dict)
-
         exist_validate = SectionValidatorFactory.exist_validator()
         for property_name, value in values_must_set_dict.items():
             valid, message = exist_validate(value, property_name)
             self._manage_results(valid, message)
+
+        parent_values_set_dict = {
+            'parent_experiment_id': self.section.parent_experiment_id,
+            'parent_mip': self.section.parent_mip,
+            'parent_mip_era': self.section.parent_mip_era,
+            'parent_model_id': self.section.parent_model_id,
+            'parent_time_units': self.section.parent_time_units,
+            'branch_date_in_child': self.section.branch_date_in_child,
+            'branch_date_in_parent': self.section.branch_date_in_parent,
+            'parent_base_date': self.section.parent_base_date,
+            'parent_variant_label': self.section.parent_variant_label
+        }
+
+        if self.section.branch_method == 'standard':
+            exist_validate = SectionValidatorFactory.exist_validator()
+            for property_name, value in parent_values_set_dict.items():
+                valid, message = exist_validate(value, property_name)
+                self._manage_results(valid, message)
+        else:
+            not_exit_validate = SectionValidatorFactory.not_exits_validator()
+            for property_name, value in parent_values_set_dict.items():
+                valid, message = not_exit_validate(value, property_name)
+                self._manage_results(valid, message)
 
 
 class MiscSectionValidator(SectionValidator):
@@ -293,5 +303,22 @@ class SectionValidatorFactory:
             if type(value) is str and not value.strip():
                 return False, 'Property "{}" must be set.'.format(property_name)
             return True, ''
+
+        return validate
+
+    @classmethod
+    def not_exits_validator(cls) -> Callable[[str, str], Tuple[bool, str]]:
+        """
+        Returns a validator to validate if given value not exits or unset.
+
+        :return: validate function
+        :rtype: Callable[[str, str], Tuple[bool, str]]
+        """
+
+        def validate(value: str, property_name: str):
+            if not value:
+                return True, ''
+            else:
+                return False, 'Property "{}" must be unset.'.format(property_name)
 
         return validate
