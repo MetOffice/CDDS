@@ -65,8 +65,8 @@ class CheckTask(object, metaclass=ABCMeta):
             self._messages.append("Optional attribute '{}': {}".format(attr, str(e)))
 
     def _has_parent(self, netcdf_file: Dataset) -> bool:
-        parent_experiment_id = self._cache.global_attributes.getncattr("parent_experiment_id", netcdf_file, True)
-        return (parent_experiment_id is not None and parent_experiment_id != "no parent")
+        branch_method = self._cache.global_attributes.getncattr("branch_method", netcdf_file)
+        return branch_method != "no parent"
 
 
 class StringAttributesCheckTask(CheckTask):

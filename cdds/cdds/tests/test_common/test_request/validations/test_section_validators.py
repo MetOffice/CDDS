@@ -72,7 +72,7 @@ class TestMetdataValidator(TestCase):
 
     def setUp(self):
         load_plugin()
-        defaults = metadata_defaults('UKESM1-0-LL')
+        defaults = metadata_defaults('UKESM1-0-LL', 'no parent')
         values = {
             'branch_method': 'no parent',
             'calendar': '360_day',
@@ -129,8 +129,12 @@ class TestMetdataValidator(TestCase):
         self.assertListEqual(messages, ['Property "parent_experiment_id" must be set.',
                                         'Property "parent_mip" must be set.',
                                         'Property "parent_mip_era" must be set.',
+                                        'Property "parent_model_id" must be set.',
+                                        'Property "parent_time_units" must be set.',
                                         'Property "branch_date_in_child" must be set.',
-                                        'Property "branch_date_in_parent" must be set.'])
+                                        'Property "branch_date_in_parent" must be set.',
+                                        'Property "parent_base_date" must be set.',
+                                        'Property "parent_variant_label" must be set.'])
 
 
 class TestSectionValidatorFactory(TestCase):

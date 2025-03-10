@@ -76,7 +76,7 @@ class TestValidateMetadataSection(TestCase):
 
     def setUp(self):
         load_plugin()
-        defaults = metadata_defaults('UKESM1-0-LL')
+        defaults = metadata_defaults('UKESM1-0-LL', 'no parent')
         values = {
             'branch_method': 'no parent',
             'calendar': '360_day',
