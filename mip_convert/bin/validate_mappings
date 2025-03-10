@@ -1,0 +1,10 @@
+#!/usr/bin/env python3.10
+# (C) British Crown Copyright 2025, Met Office.
+# Please see LICENSE.md for license details.
+import sys
+
+from mip_convert.validate.command_line import run_mappings_validation
+
+
+if __name__ == '__main__':
+    sys.exit(run_mappings_validation())
