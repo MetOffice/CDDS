@@ -14,9 +14,23 @@ from typing import List, Tuple
 
 
 def check_contains_all_required_options(plugin_id: str, common_mappings_file: str,
-                                        mip_table_mappings_files: List[str]) -> Tuple[bool, List[str]]:
+                                        mip_table_mappings_files: List[str]) -> bool:
+    """
+    Checks if every entry of the mappings files contains all required options
+
+    :param plugin_id: Plugin ID
+    :type plugin_id: str
+    :param common_mappings_file:
+    :type common_mappings_file:
+    :param mip_table_mappings_files:
+    :type mip_table_mappings_files:
+    :return: If all mappings files are valid or not
+    :rtype: bool
+    """
     logger = logging.getLogger(__name__)
-    error_messages = []
+    logger.info('Check if all entries in mappings files contain required options')
+    logger.info('---------------------------------------------------------------')
+
     valid = True
 
     for mip_table_mappings_file in mip_table_mappings_files:
@@ -31,7 +45,13 @@ def check_contains_all_required_options(plugin_id: str, common_mappings_file: st
                         message = 'Missing option {} for variable {} and MIP table {}'.format(
                             option, section, mapping.get('mip_table_id')
                         )
-                        error_messages.append(message)
+                        logger.error(message)
                         valid = False
 
-    return valid, error_messages
+    if valid:
+        logger.info('All mappings files contain the required options.')
+    else:
+        logger.error('There are missing options in some mappings entries.')
+
+    logger.info('---------------------------------------------------------------')
+    return valid

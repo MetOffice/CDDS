@@ -13,7 +13,7 @@ from mip_convert.validate.duplication_checks import check_for_duplicated_entries
 from mip_convert.validate.required_option_checks import check_contains_all_required_options
 
 
-def do_mappings_configurations_validations(plugin_id: str, mappings_data_dir: str) -> Tuple[bool, List[str]]:
+def do_mappings_configurations_validations(plugin_id: str, mappings_data_dir: str) -> bool:
     """
     Run the validation for the mappings in given mappings data dir and given plugin.
 
@@ -21,73 +21,101 @@ def do_mappings_configurations_validations(plugin_id: str, mappings_data_dir: st
     :type plugin_id: str
     :param mappings_data_dir: Path to the mappings data directoring containing all mappings files
     :type mappings_data_dir: str
-    :return: Is valid and a list of messages
-    :rtype: Tuple[bool, List[str]]
+    :return: If everything is valid or not
+    :rtype: bool
     """
     logger = logging.getLogger(__name__)
 
-    valid, error_messages = check_mapping_data_dir(mappings_data_dir)
+    logger.info('Validation of mappings files in: "{}"'.format(mappings_data_dir))
+    logger.info('=========================================')
 
-    if not valid:
-        return valid, error_messages
+    everything_is_valid = False
+    directory_exits = check_mapping_data_dir(mappings_data_dir)
+    if directory_exits:
+        mappings_data_dir = os.path.abspath(mappings_data_dir)
+        common_basename = '{}_mappings.cfg'.format(plugin_id)
+        common_mappings_files = search_for_mappings(mappings_data_dir, common_basename)
+        mip_table_mappings_files = search_for_mappings(mappings_data_dir, '{}_*_mappings.cfg'.format(plugin_id))
 
-    mappings_data_dir = os.path.abspath(mappings_data_dir)
+        found = check_mappings_files(plugin_id, common_mappings_files, mip_table_mappings_files)
 
-    common_basename = '{}_mappings.cfg'.format(plugin_id)
-    common_mappings_files = search_for_mappings(mappings_data_dir, common_basename)
+        if found:
+            common_mappings_file = common_mappings_files[0]
 
-    if len(common_mappings_files) < 1:
-        error_messages.append('Cannot find a common mappings file.')
-        logger.error('Cannot find a common mappings file.')
-        valid = False
-        return valid, error_messages
+            mip_table_mappings_files = search_for_mappings(mappings_data_dir, '{}_*_mappings.cfg'.format(plugin_id))
 
-    common_mappings_file = common_mappings_files[0]
+            valid1 = check_for_duplicated_entries(common_mappings_file, mip_table_mappings_files)
+            valid2 = check_contains_all_required_options(plugin_id, common_mappings_file, mip_table_mappings_files)
 
-    mip_table_mappings_files = search_for_mappings(mappings_data_dir, '{}_*_mappings.cfg'.format(plugin_id))
-    if len(mip_table_mappings_files) < 1:
-        logger.warn('Cannot find any MIP table mapping files. Nothing to check!')
-        return valid, error_messages
+            everything_is_valid = valid1 and valid2
 
-    valid1, messages1 = check_for_duplicated_entries(common_mappings_file, mip_table_mappings_files)
-    valid2, messages2 = check_contains_all_required_options(plugin_id, common_mappings_file, mip_table_mappings_files)
+    if everything_is_valid:
+        logger.info('Mappings files in "{}" are valid.'.format(mappings_data_dir))
+    else:
+        logger.error('Mappings files in "{}" are invalid.'.format(mappings_data_dir))
 
-    valid = valid1 and valid2
-    error_messages.extend(messages1)
-    error_messages.extend(messages2)
-
-    return valid, error_messages
+    logger.info('=========================================')
+    return everything_is_valid
 
 
-def check_mapping_data_dir(data_dir: str) -> Tuple[bool, List[str]]:
+def check_mapping_data_dir(data_dir: str) -> bool:
     """
     Checks if given mapping data directory exits.
 
     :param data_dir: Path to the mappings data directory
     :type data_dir: str
-    :return: If the mapping data directory exits or not and error messages
-    :rtype: Tuple[bool, List[str]]
+    :return: If the mapping data directory exits or not
+    :rtype: bool
     """
     logger = logging.getLogger(__name__)
+    logger.info('Checking mapping data directory')
+    logger.info('-----------------------------------------')
 
-    error_messages = []
     existingDir = True
     if not data_dir:
-        message = 'Please provide a mapping data directory for validation.'
-        logger.error(message)
-        error_messages.append(message)
+        logger.error('Please provide a mapping data directory for validation.')
         existingDir = False
     elif not os.path.exists(data_dir):
-        message = 'Given mapping data directory "{}" does not exist.'.format(data_dir)
-        logger.error(message)
-        error_messages.append(message)
+        logger.error('Given mapping data directory "{}" does not exist.'.format(data_dir))
         existingDir = False
     elif not os.path.isdir(data_dir):
-        message = 'Given mapping data directory "{}" is not a directory.'.format(data_dir)
-        logger.error(message)
-        error_messages.append(message)
+        logger.error('Given mapping data directory "{}" is not a directory.'.format(data_dir))
         existingDir = False
-    return existingDir, error_messages
+    else:
+        logger.info('Given mapping data directory "{}" exits.'.format(data_dir))
+    logger.info('-----------------------------------------')
+    return existingDir
+
+
+def check_mappings_files(plugin_id: str, common_mappings_files: List[str], mip_table_mappings_files: List[str]) -> bool:
+    """
+    Check if mappings files can be found.
+
+    :param plugin_id: Plugin ID
+    :type plugin_id: str
+    :param common_mappings_files: Found common mappings files
+    :type common_mappings_files: List[str]
+    :param mip_table_mappings_files: Found MIP table mappings files
+    :type mip_table_mappings_files: List[str]
+    :return: Mappings files are present or not
+    :rtype: bool
+    """
+    logger = logging.getLogger(__name__)
+    logger.info('Checking if mappings can be found')
+    logger.info('-----------------------------------------')
+
+    found = True
+    if len(common_mappings_files) < 1:
+        logger.error('Cannot find a common mappings file: {}'.format('{}_mappings.cfg'.format(plugin_id)))
+        found = False
+    elif len(mip_table_mappings_files) < 1:
+        logger.warn('Cannot find any MIP table mapping file. Nothing to check!')
+        found = False
+    else:
+        logger.info('Found mapping files for validations.')
+
+    logger.info('-----------------------------------------')
+    return found
 
 
 def search_for_mappings(data_dir: str, basename: str) -> List[str]:
