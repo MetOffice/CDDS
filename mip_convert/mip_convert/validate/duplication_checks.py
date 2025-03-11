@@ -50,7 +50,7 @@ def check_for_duplicated_entries(common_mappings_file: str, mip_table_mappings_f
                     message = 'Variable {} is defined in {} and {} but does not have same defined MIP tables'.format(
                         variable, common_basename, mip_table_basename
                     )
-                    logger.warn(message)
+                    logger.debug(message)
 
     if valid:
         logger.info('Found no duplicated entries in mappings files.')
