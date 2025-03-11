@@ -46,7 +46,7 @@ def do_model_params_validations(request_path: str) -> None:
 
 
 def _validate_model_params(model_params_dir: str):
-    model_params_files = [f for f in os.listdir(model_params_dir) if os.isfile(os.path.join(model_params_dir, f))]
+    model_params_files = [f for f in os.listdir(model_params_dir) if os.path.isfile(os.path.join(model_params_dir, f))]
 
     for model_param_file in model_params_files:
         validator = ModelParamsFileValidator()
