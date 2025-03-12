@@ -39,7 +39,7 @@ class MockLoggingHandler(logging.Handler):
         }
 
 
-#@pytest.mark.slow
+@pytest.mark.slow
 class TestMappingsForDuplicatedEntries(TestCase):
 
     @classmethod
