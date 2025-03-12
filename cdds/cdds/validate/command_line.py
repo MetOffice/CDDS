@@ -69,14 +69,14 @@ def run_model_params_validations(arguments: List[str] = None) -> int:
     :return: Exit code
     :rtype: int
     """
-    args = parse_request_validations_arguments(arguments)
+    args = parse_model_params_arguments(arguments)
 
     configure_logger(CDDS_MODEL_PARAMS_VALIDATE_LOG, logging.INFO, False, show_stacktrace=False)
     logger = logging.getLogger(__name__)
 
     try:
-        do_model_params_validations(args.request)
-        return 0
+        valid = do_model_params_validations(args.request)
+        return 0 if valid else 1
     except BaseException as exc:
         logger.exception(exc, exc_info=1)
         return 1
