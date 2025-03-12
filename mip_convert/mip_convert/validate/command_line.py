@@ -30,8 +30,8 @@ def run_mappings_validation(arguments: List[str] = None) -> int:
     logger = logging.getLogger(__name__)
 
     try:
-        do_mappings_configurations_validations(args.plugin_id, args.mappings_dir)
-        return 0
+        success = do_mappings_configurations_validations(args.plugin_id, args.mappings_dir)
+        return 0 if success else 1
     except BaseException as exc:
         logger.exception(exc, exc_info=1)
         return 1
