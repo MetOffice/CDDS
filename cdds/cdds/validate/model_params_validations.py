@@ -16,20 +16,22 @@ from cdds.common.request.request import read_request
 FREQUENCIES = ['monthly', '10 day', 'quarterly', 'daily', 'hourly']
 
 
-def do_model_params_validations(request_path: str) -> None:
+def do_model_params_validations(request_path: str) -> bool:
     """
     Validate all model parameters configurations in the given request configuration.
 
     :param request_path: Path to the request configuration containg the directory containing all
                          model parameters configurations
     :type request_path: str
+    :return: If the model parameters files in the directory are valid or not
+    :rtype: bool
     """
     logger = logging.getLogger(__name__)
     request = read_request(request_path)
-    valid = True
-    messages = []
+    valid = False
 
     model_params_dir = request.conversion.model_params_dir
+    model_id = request.metadata.model_id
     existingDir = True
     if not model_params_dir:
         logger.error('Please provide a "model_params_dir" in "conversion" section for validation.')
@@ -42,11 +44,32 @@ def do_model_params_validations(request_path: str) -> None:
         existingDir = False
 
     if existingDir:
-        _validate_model_params(model_params_dir)
+        valid = _validate_model_params(model_params_dir, model_id)
+    return valid
 
 
-def _validate_model_params(model_params_dir: str):
-    model_params_files = [f for f in os.listdir(model_params_dir) if os.path.isfile(os.path.join(model_params_dir, f))]
+def _validate_model_params(model_params_dir: str, model_id: str) -> bool:
+    logger = logging.getLogger(__name__)
+    valid = True
+
+    model_params_files = [
+        os.path.join(model_params_dir, f) for f in os.listdir(model_params_dir)
+        if os.path.isfile(os.path.join(model_params_dir, f))
+    ]
+
+    model_param_files_for_model_id = [
+        os.path.basename(f) for f in model_params_files if os.path.basename(f) == '{}.json'.format(model_id)
+    ]
+
+    logger.info('Check if model parameters are found for model id: "{}"'.format(model_id))
+    logger.info('------------------------------------------------------')
+    if len(model_param_files_for_model_id) < 1:
+        logger.warn('No model parameters file in "{}" found for model id "{}"'.format(model_params_dir, model_id))
+    else:
+        logger.info('Find model parameters file "{}" for model id "{}"'.format(
+            model_param_files_for_model_id[0], model_id)
+        )
+    logger.info('------------------------------------------------------')
 
     for model_param_file in model_params_files:
         validator = ModelParamsFileValidator()
@@ -59,10 +82,12 @@ def _validate_model_params(model_params_dir: str):
         if not validator.valid:
             logger.info('Model parameters file is invalid.')
             logger.error('\n'.join(validator.error_messages))
+            valid = False
         if validator.warning:
             logger.info('Model parameters file validation has some warnings.')
             logger.warn('\n'.join(validator.warning_messages()))
         logger.info('-----------------------------------------')
+    return valid
 
 
 class ModelParamsFileValidator:
