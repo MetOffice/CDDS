@@ -18,9 +18,9 @@ from mip_convert.plugins.hadrem3.hadrem3_plugin import HadREM3MappingPlugin
 from mip_convert.plugins.exceptions import PluginLoadError
 
 
-INTERNAL_PLUGINS: List[MappingPlugin] = [HadGEM3MappingPlugin(), 
-                                         UKESM1MappingPlugin(), 
-                                         HadREM3MappingPlugin(), 
+INTERNAL_PLUGINS: List[MappingPlugin] = [HadGEM3MappingPlugin(),
+                                         UKESM1MappingPlugin(),
+                                         HadREM3MappingPlugin(),
                                          HadREM_CP4AMappingPlugin()]
 
 
