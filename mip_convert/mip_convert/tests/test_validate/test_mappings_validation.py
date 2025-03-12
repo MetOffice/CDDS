@@ -39,7 +39,7 @@ class MockLoggingHandler(logging.Handler):
         }
 
 
-@pytest.mark.slow
+#@pytest.mark.slow
 class TestMappingsForDuplicatedEntries(TestCase):
 
     @classmethod
@@ -100,8 +100,7 @@ class TestMappingsForDuplicatedEntries(TestCase):
             'Found some duplicaterd entries in mappings files.',
             'Missing option positive for variable hus and MIP table day',
             'There are missing options in some mappings entries.',
-            'Mappings files in "/home/users/kerstin.schmatzer/workspace/cdds/mip_convert/mip_convert/tests'
-            '/test_validate/data" are invalid.'
+            ('Mappings files in "{}" are invalid.').format(data_dir)
         ])
         self.assertFalse(valid)
 
