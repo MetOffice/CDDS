@@ -92,7 +92,7 @@ class TestMassPaths(unittest.TestCase):
         cdds.archive.mass.update_memberid_if_needed(self.request)
         expected_member_id = 'dummyvariant'
         self.assertEqual(self.request.metadata.variant_label, expected_member_id)
-    
+
     def test_update_memberid_subexpt(self):
         # first time should add sub experiment id as prefix
         self.request.metadata.sub_experiment_id = 'this'
