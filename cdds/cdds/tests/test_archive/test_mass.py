@@ -86,6 +86,24 @@ class TestMassPaths(unittest.TestCase):
         for ref_var, out_var in zip(reference_vars, output_vars):
             self.assertDictEqual(ref_var, out_var)
 
+    def test_update_memberid_no_subexpt(self):
+        # no sub experiment id
+        self.assertEqual(self.request.metadata.sub_experiment_id, 'none')
+        cdds.archive.mass.update_memberid_if_needed(self.request)
+        expected_member_id = 'dummyvariant'
+        self.assertEqual(self.request.metadata.variant_label, expected_member_id)
+    
+    def test_update_memberid_subexpt(self):
+        # first time should add sub experiment id as prefix
+        self.request.metadata.sub_experiment_id = 'this'
+        cdds.archive.mass.update_memberid_if_needed(self.request)
+        expected_member_id = 'this-dummyvariant'
+        self.assertEqual(self.request.metadata.variant_label, expected_member_id)
+        # second time should do nothing
+        cdds.archive.mass.update_memberid_if_needed(self.request)
+        expected_member_id = 'this-dummyvariant'
+        self.assertEqual(self.request.metadata.variant_label, expected_member_id)
+
     def test_get_stored_data(self):
         root_mass_path = 'moose://dummy/path/to/archived/file'
         state_id = 'EMBARGOED'
