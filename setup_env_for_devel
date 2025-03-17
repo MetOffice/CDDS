@@ -6,7 +6,7 @@ export CDDS_PACKAGES="cdds mip_convert"
 export CDDS_PACKAGES
 
 CDDS_HOME=$(readlink -f ~cdds)
-DEV_ENV='cdds-3.1_dev-1'
+DEV_ENV='cdds-3.1_dev-2'
 
 if [[ "$(hostname -f)" =~ "spice.sc" ]]; then
     CONDA=/opt/conda/bin/activate

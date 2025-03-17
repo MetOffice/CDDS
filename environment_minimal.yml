@@ -1,11 +1,11 @@
 name: cdds-dev
 channels:
   - conda-forge
-  # - nodefaults include when accessible
+  - nodefaults 
 dependencies:
   - cf-units=3.2.0
   - cftime=1.6.2
-  - cmor=3.9.0
+  - cmor=3.8.0
   - compliance-checker=4.3.4
   - dask-core=2023.5
   - debugpy=1.6.6
