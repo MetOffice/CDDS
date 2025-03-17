@@ -1,4 +1,4 @@
-name: /home/users/cdds/conda_environments/cdds-3.1_dev-2
+name: $CDDS_HOME/conda_environments/cdds-3.1_dev-2
 channels:
   - conda-forge
   - nodefaults
@@ -237,8 +237,8 @@ dependencies:
       - dreqpy==1.0.29
       - mkdocs-section-index==0.3.8
 variables:
-  CDDS_ETC: /home/users/cdds/etc
+  CDDS_ETC: $CDDS_HOME/etc
   CYLC_VERSION: 8
   LC_ALL: en_GB.UTF-8
   TZ: UTC
-prefix: /home/users/cdds/conda_environments/cdds-3.1_dev-2
+prefix: $CDDS_HOME/conda_environments/cdds-3.1_dev-2

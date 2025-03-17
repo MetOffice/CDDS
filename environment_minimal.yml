@@ -49,8 +49,8 @@ dependencies:
 #    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds
 #    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
 variables:
-    CDDS_ETC: /home/users/cdds/etc
+    CDDS_ETC: $CDDS_HOME/etc
     CYLC_VERSION: 8
     LC_ALL: en_GB.UTF-8
     TZ: UTC
-prefix: /home/users/cdds/conda_environments/cdds-dev
+prefix: $CDDS_HOME/conda_environments/cdds-dev
