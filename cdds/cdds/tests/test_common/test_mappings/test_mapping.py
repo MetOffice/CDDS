@@ -15,6 +15,7 @@ import pytest
 
 import cdds.common.mappings.mapping as mapping
 from cdds.common.plugins.plugin_loader import load_plugin, load_external_plugin
+from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.cmip6.cmip6_models import HadGEM3_GC31_LL_Params
 from cdds.common.plugins.streams import StreamInfo
 from cdds.tests.test_plugins.stubs import EmptyCddsPlugin
@@ -72,12 +73,17 @@ class DummyCMIP5Plugin(EmptyCddsPlugin):
 
 class TestMassFilters(unittest.TestCase):
 
-    @staticmethod
-    def setup_plugin(mip_era):
+    def setUp(self):
+        self.plugins = {
+            'cimp6':
+        }
         if mip_era == 'CMIP6':
             load_plugin()
+
         else:
             load_external_plugin(DummyCMIP5Plugin.MIP_ERA, 'cdds.tests.test_common.test_mappings.test_mapping')
+        # Load model information to avoid using mocks
+        PluginStore.instance().get_plugin().models_parameters('HadGEM3-GC31-LL')
 
     @staticmethod
     def fake_common_mapping():
@@ -287,9 +293,9 @@ thetaot300 = onm/grid-T
             self.assertEqual(to_map.project, mip_era.upper())
 
     def test_single_var(self):
-        self.create_simple_patches()
         for mip_era, stream in [("CMIP5", "apm"), ("CMIP6", "ap5")]:
             self.setup_plugin(mip_era)
+            self.create_simple_patches()
             json_request = TestMassFilters.add_var_to_json(
                 [{"name": "tas", "table": "Amon", "stream": stream}], mip_era)
             mass_filters = TestMassFilters.mass_filters(json_request)

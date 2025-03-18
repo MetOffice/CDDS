@@ -36,9 +36,7 @@ class TestMassPaths(unittest.TestCase):
         PluginStore.clean_instance()
 
     @unittest.mock.patch('cdds.archive.mass.retrieve_grid_info')
-    @unittest.mock.patch('cdds.archive.mass.grid_overrides')
-    def test_get_archive_path(self, mock_grid_or, mock_grid_info):
-        mock_grid_or.return_value = []
+    def test_get_archive_path(self, mock_grid_info):
         grid = 'dummygrid'
         mock_grid_info.return_value = (None, None, grid, None)
         mass_root = 'moose://root/mass/location/'

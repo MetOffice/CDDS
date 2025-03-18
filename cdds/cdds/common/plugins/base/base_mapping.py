@@ -83,4 +83,3 @@ class BaseGridMapping(GridMapping):
         :rtype: str
         """
         return ''
-
