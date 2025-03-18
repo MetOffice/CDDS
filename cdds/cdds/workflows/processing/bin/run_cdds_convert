@@ -8,4 +8,4 @@ export REQUEST_PATH=${WORKING_DIRECTORY}/request.cfg
 
 cd ${WORKING_DIRECTORY}
 
-cdds_convert "${REQUEST_PATH}"
+cdds_convert "${REQUEST_PATH}" || exit
