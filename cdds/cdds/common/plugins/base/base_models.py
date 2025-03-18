@@ -15,8 +15,10 @@ from typing import Any, Dict, List
 from cdds.common.enum_utils import ABCEnumMeta
 from cdds.common.io import read_json
 from cdds.common.plugins.common import LoadResult, LoadResults
+from cdds.common.plugins.mapping import GridMapping
 from cdds.common.plugins.models import ModelParameters, ModelsStore
 from cdds.common.plugins.base.base_grid import BaseGridInfo, AtmosBaseGridInfo, OceanBaseGridInfo
+from cdds.common.plugins.base.base_mapping import BaseGridMapping
 from cdds.common.plugins.streams import StreamFileInfo, StreamFileFrequency
 from cdds.common.plugins.grid import GridType
 
@@ -120,6 +122,7 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         self._subdaily_streams: List[str] = []
         self._stream_file_info: StreamFileInfo = None
         self._streams: List[str] = []
+        self._grid_mappings: BaseGridMapping = BaseGridMapping()
 
     def temp_space(self, stream_id: str) -> int:
         """
@@ -183,7 +186,7 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         Returns a list of subdaily atmospheric streams.
 
         :return: Subdaily streams
-        :rtype: dict
+        :rtype: List[str]
         """
         return self._subdaily_streams
 
@@ -204,6 +207,15 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         :rtype: StreamFileInfo
         """
         return self._stream_file_info
+
+    def grids_mapping(self) -> BaseGridMapping:
+        """
+        Returns mapping information about the grids for the MIP requested variables.
+
+        :return: Grids mappings for the MIP requested variables
+        :rtype: BaseGridMapping
+        """
+        return self._grid_mappings
 
     def load_parameters(self, dir_path: str) -> LoadResult:
         """

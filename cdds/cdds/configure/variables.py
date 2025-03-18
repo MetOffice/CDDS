@@ -8,7 +8,7 @@ from collections import defaultdict
 import logging
 import os
 
-from cdds.common.grids import retrieve_grid_info, grid_overrides
+from cdds.common.grids import retrieve_grid_info
 from cdds.common.plugins.plugins import PluginStore
 
 
@@ -45,8 +45,7 @@ def retrieve_variables_by_grid(requested_variables, mip_table_directory):
     for mip_table_id, variable_list in active_variables.items():
         for variable in variable_list:
             variable_name, stream_id, substream = variable
-            grid_info = retrieve_grid_info(
-                variable_name, mip_table_id, requested_variables.model_id, grid_overrides())
+            grid_info = retrieve_grid_info(variable_name, mip_table_id, requested_variables.model_id)
             if grid_info is None:
                 logger.critical('No grid information available for "{}" for "{}"'
                                 ''.format(variable_name, mip_table_id))

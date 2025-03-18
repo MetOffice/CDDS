@@ -24,7 +24,7 @@ from cdds.archive.constants import (DATA_PUBLICATION_STATUS_DICT,
                                     SUPERSEDED_INFO_FILE_STR)
 from cdds.archive.stored_state_checks import get_stored_state
 from cdds.common.constants import DATESTAMP_PARSER_STR
-from cdds.common.grids import retrieve_grid_info, grid_overrides
+from cdds.common.grids import retrieve_grid_info
 
 
 def construct_mass_paths(
@@ -119,8 +119,7 @@ def get_archive_path(mass_path_root: str, var_dict: Dict[str, str], request: Req
 
     _, _, grid_label, _ = retrieve_grid_info(variable,
                                              mip_table,
-                                             request.metadata.model_id,
-                                             grid_overrides()
+                                             request.metadata.model_id
                                              )
 
     update_memberid_if_needed(request)
