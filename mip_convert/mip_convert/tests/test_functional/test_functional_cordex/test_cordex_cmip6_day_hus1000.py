@@ -40,7 +40,7 @@ class TestCordexCmip6DayHus1000(AbstractFunctionalTests):
                     'ap6': {'CORDEX-CMIP6_day': 'hus1000'}
                 },
                 other={
-                    'reference_version': 'v2',
+                    'reference_version': 'v1',
                     'filenames': [
                         'hus1000_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_'
                         '20220101-20220230.nc',

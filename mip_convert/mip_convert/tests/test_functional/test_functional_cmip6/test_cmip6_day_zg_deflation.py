@@ -63,7 +63,7 @@ class TestCmip6DayZgDeflation(AbstractFunctionalTests):
                     'ap6': {'CMIP6_day': 'zg'}
                 },
                 other={
-                    'reference_version': 'v2',
+                    'reference_version': 'v1',
                     'filenames': ['zg_day_HadGEM3-GC31-LL_highres-future_r1i1p1f1_gn_19500101-19500130.nc'],
                     'ignore_history': True,
                     'other_options': '-e'
