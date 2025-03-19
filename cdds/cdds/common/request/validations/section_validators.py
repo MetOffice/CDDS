@@ -100,7 +100,7 @@ class MetadataSectionValidator(SectionValidator):
     def _validate_allowed_values(self):
         values_allowed_dict = {
             'branch_method': (self.section.branch_method, ['no parent', 'standard']),
-            'calendar': (self.section.calendar, ['360_day', 'gregorian'])
+            'calendar': (self.section.calendar, ['360_day', 'gregorian', '365_day'])
         }
 
         allowed_values_validate = SectionValidatorFactory.allowed_values_validator()

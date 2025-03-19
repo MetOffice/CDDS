@@ -36,7 +36,7 @@ class TestCommonSectionValidator(TestCase):
             'If an external plugin is used the the "external_plugin_location" must be set.'
         ])
 
-    def test_eternal_plugin_failed(self):
+    def test_external_plugin_failed(self):
         self.section.external_plugin_location = '/path/to/external/plugin'
         validator = CommonSectionValidator(section=self.section)
         valid, messages = validator.validate()
@@ -97,7 +97,7 @@ class TestMetdataValidator(TestCase):
         valid, messages = validator.validate()
         self.assertFalse(valid)
         self.assertListEqual(messages, ['The "branch_method" must be set to "no parent, standard".',
-                                        'The "calendar" must be set to "360_day, gregorian".'])
+                                        'The "calendar" must be set to "360_day, gregorian, 365_day".'])
 
     def test_values_not_set(self):
         self.section.mip = ''
