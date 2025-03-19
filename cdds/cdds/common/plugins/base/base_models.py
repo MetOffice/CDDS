@@ -320,8 +320,9 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         :return: Paths to the hybrid heights files
         :rtype: List[str]
         """
+        grids_to_consider = list(filter(lambda x: x != GridType.OCEAN, GridType))
         file_names = []
-        for grid_type in GridType:
+        for grid_type in grids_to_consider:
             grid_info = self.grid_info(grid_type)
             file_names.extend(grid_info.hybrid_heights_files())
         return list(map(
