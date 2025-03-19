@@ -1,3 +1,18 @@
+## Release 3.1.1, March 19 2025
+
+-   Added the 365_day calendar to supported calendars (CDDSO-634)
+-   Documentation improvements including, migrating remaining sphinx pages,
+    removal of the legacy sphinx docs, updating the release procedure,
+    and adding abbreviations (CDDSO-598, CDDSO-605, CDDSO-609)
+-   Fixed a race condition in `qc` when creating the sqlite database (CDDSO-366)
+-   The ensemble_workflow setup task will now fail properly when there are issues
+    with running commands (CDDSO-624)
+-   Renamed the `HadGEM3-GC50-N640ORCA12` model to `HadGEM3-GC50-EERIE-N640ORCA12`,
+    in GCModelDev (CDDSO-611)
+-   Fixed a bug in model parameters validation (CDDSO-627)
+-   Archiving of experiments with sub-experiment id now works correctly (CDDSO-631)
+
+
 ## Release 3.1.0, February 13 2025
 
 -   MIP Convert and CMOR log files are copied into the cylc task directory and 

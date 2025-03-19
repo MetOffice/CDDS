@@ -1,3 +1,9 @@
+## Release 3.1.1, March 19 2025
+
+-   Added mappings for RAMIP (CDDSO-632)
+-   Downgraded CMOR to v3.8 to avoid QC issues following changes to
+    the handling of the `realm` global attribute (CDDSO-633)
+
 ## Release 3.1.0, February 13 2025
 
 -   Ancillary STASH variables can now be configured via the CDDS Plugins and 
