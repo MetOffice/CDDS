@@ -33,7 +33,8 @@ class TestCmip6EmonCfadDbze94(AbstractFunctionalTests):
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1983-05-01T00:00:00 1983-06-01T00:00:00',
-                    'suite_id': 'u-au456'
+                    'suite_id': 'u-au456',
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'ap5': {'CMIP6_Emon': 'cfadDbze94'}
