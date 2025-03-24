@@ -5,7 +5,7 @@
 
 Release 3.0.7, March 24, 2025
 =============================
-* Corrected facet lists used to submit datasets to inclue sub_experiment_id (CDDSO-638)
+* Corrected facet lists used to submit datasets to include sub_experiment_id (CDDSO-638)
 
 Release 3.0.6, January 21, 2025
 ===============================
