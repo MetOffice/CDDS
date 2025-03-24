@@ -3,7 +3,11 @@
 
 .. include:: common.txt
 
-Release 3.0.6, January 21, 2024
+Release 3.0.7, March 24, 2025
+=============================
+* Corrected facet lists used to submit datasets to inclue sub_experiment_id (CDDSO-638)
+
+Release 3.0.6, January 21, 2025
 ===============================
 * Pass model parameters file to CDDS suite during convert process (CDDSO-578)
 * Handling quarterly data during the extract process correctly (CDDSO-568)

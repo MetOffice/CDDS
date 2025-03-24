@@ -3,7 +3,11 @@
 
 .. include:: common.txt
 
-Release 3.0.6, January 21, 2024
+Release 3.0.7, March 24, 2025
+=============================
+* No Changes
+
+Release 3.0.6, January 21, 2025
 ===============================
 * Mapping corrections for HadREM3-GA7-05 (CDDSO-581) including corrections to
   time sampling for some hourly variables (CDDSO-588)
