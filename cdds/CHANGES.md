@@ -1,3 +1,6 @@
+## Release 3.0.7, March 24, 2025
+-   Corrected facet lists used to submit datasets to inclue `sub_experiment_id` (CDDSO-638)
+
 ## Release 3.1.1, March 19 2025
 
 -   Added the 365_day calendar to supported calendars (CDDSO-634)
