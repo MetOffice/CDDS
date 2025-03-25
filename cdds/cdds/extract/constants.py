@@ -21,7 +21,9 @@ GRID_LOOKUPS = {"diad-T": "medusa",
                 "grid-U": "nemo",
                 "grid-V": "nemo",
                 "grid-W": "nemo",
-                "scalar": "nemo"}
+                "scalar": "nemo",
+                "icemod": "si3",
+                "SBC_scalar": "si3"}
 LOGNAME = "extract_{}.log"
 LOG_NAME_SPICE = 'extract_spice.log'
 LOG_LEVEL = logging.INFO

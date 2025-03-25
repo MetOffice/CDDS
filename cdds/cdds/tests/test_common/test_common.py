@@ -28,63 +28,62 @@ class TestNetcdfRegexp(unittest.TestCase):
     def test_match_generic_regexp_with_nemo_filename(self):
         filename = 'nemo_aw310o_1m_30851201-30860101_scalar.nc'
         regexp = netCDF_regexp()
-        match = re.search(regexp, filename)
+        match = re.search(regexp, filename).groupdict()
         self.assertIsNotNone(match)
-        self.assertEqual(4, len(match.groups()))
-        self.assertEqual('nemo', match.group(1))
-        self.assertEqual('30851201', match.group(2))
-        self.assertEqual('30860101', match.group(3))
-        self.assertEqual('scalar', match.group(4))
+        self.assertEqual('nemo', match["model"])
+        self.assertEqual('30851201', match["start"])
+        self.assertEqual('30860101', match["end"])
+        self.assertEqual('scalar', match["substream"])
 
     def test_match_generic_regexp_with_medusa_filename(self):
         filename = 'medusa_aw310o_1m_30851201-30860101_ptrc-T.nc'
-        regexp = netCDF_regexp('nemo|medusa')
+        regexp = netCDF_regexp()
         match = re.search(regexp, filename)
         self.assertIsNotNone(match)
-        self.assertEqual(4, len(match.groups()))
-        self.assertEqual('medusa', match.group(1))
-        self.assertEqual('30851201', match.group(2))
-        self.assertEqual('30860101', match.group(3))
-        self.assertEqual('ptrc-T', match.group(4))
+        self.assertEqual('medusa', match["model"])
+        self.assertEqual('30851201', match["start"])
+        self.assertEqual('30860101', match["end"])
+        self.assertEqual('ptrc-T', match["substream"])
 
     def test_match_generic_regexp_with_cice_filename(self):
         filename = 'cice_aw310i_1m_30851201-30860101.nc'
         regexp = netCDF_regexp()
         match = re.search(regexp, filename)
         self.assertIsNotNone(match)
-        self.assertEqual(4, len(match.groups()))
-        self.assertEqual('cice', match.group(1))
-        self.assertEqual('30851201', match.group(2))
-        self.assertEqual('30860101', match.group(3))
-        self.assertIsNone(match.group(4))
+        self.assertEqual('cice', match["model"])
+        self.assertEqual('30851201', match["start"])
+        self.assertEqual('30860101', match["end"])
+        self.assertIsNone(match["substream"])
+
+    def test_match_generic_regexp_with_si3_filename(self):
+        filename = 'si3_cw701i_1m_19500401-19500501_icemod.nc'
+        regexp = netCDF_regexp()
+        match = re.search(regexp, filename)
+        self.assertIsNotNone(match)
+        self.assertEqual('si3', match["model"])
+        self.assertEqual('19500401', match["start"])
+        self.assertEqual('19500501', match["end"])
+        self.assertEqual("icemod", match["substream"])
 
     def test_match_filename_with_regexp_and_substream(self):
         filename = 'nemo_aw310o_1m_24391201-24400101_grid-W.nc'
-        regexp = netCDF_regexp('nemo', 'grid-W')
+        regexp = netCDF_regexp()
         match = re.search(regexp, filename)
         self.assertIsNotNone(match)
-        self.assertEqual(4, len(match.groups()))
-        self.assertEqual('nemo', match.group(1))
-        self.assertEqual('24391201', match.group(2))
-        self.assertEqual('24400101', match.group(3))
-        self.assertEqual('grid-W', match.group(4))
+        self.assertEqual('nemo', match["model"])
+        self.assertEqual('24391201', match["start"])
+        self.assertEqual('24400101', match["end"])
+        self.assertEqual('grid-W', match["substream"])
 
     def test_match_filename_with_regexp_and_no_substream(self):
         filename = 'nemo_aw310o_1m_24391201-24400101_grid-W.nc'
-        regexp = netCDF_regexp('nemo')
+        regexp = netCDF_regexp()
         match = re.search(regexp, filename)
         self.assertIsNotNone(match)
-        self.assertEqual(4, len(match.groups()))
-        self.assertEqual('nemo', match.group(1))
-        self.assertEqual('24391201', match.group(2))
-        self.assertEqual('24400101', match.group(3))
-        self.assertEqual('grid-W', match.group(4))
-
-    def test_nomatch_filename_with_regexp_and_substream(self):
-        filename = "nemo_aw310o_1m_24391201-24400101_grid-V.nc"
-        regexp = netCDF_regexp('nemo', 'grid-W')
-        match = re.search(regexp, filename)
-        self.assertIsNone(match)
+        self.assertEqual('nemo', match["model"])
+        self.assertEqual('24391201', match["start"])
+        self.assertEqual('24400101', match["end"])
+        self.assertEqual('grid-W', match["substream"])
 
 
 class TestGetRecentFile(unittest.TestCase):

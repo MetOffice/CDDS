@@ -41,8 +41,8 @@ STREAMS_FILES_REGEX = {
     'on': r'(?P<model>[a-zA-Z]+)_(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?o_'
           r'(?P<period>\d[md])_(?P<start_str>\d{8})-(?P<end_str>\d{8})_'
           r'(?P<grid>[a-zA-Z-]+).nc',
-    'in': r'(?P<model>[a-zA-Z]+)_(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?i_'
-          r'(?P<period>\d[md])_(?P<start_str>\d{8})-(?P<end_str>\d{8}).nc',
+    'in': r'(?P<model>cice|si3)_(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?i_'
+          r'(?P<period>\d[md])_(?P<start_str>\d{8})-(?P<end_str>\d{8})(?P<grid>[a-zA-Z-_]+)?.nc',
 }
 TASK_STATUS_COMPLETE = 'COMPLETE'
 TASK_STATUS_FAILED = 'FAILED'

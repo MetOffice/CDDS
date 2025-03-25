@@ -608,7 +608,7 @@ def add_depth_coord(cube):
 def split_netCDF_filename(filename):
     """
     Extracts model component and substream from the netCDF
-    (NEMO, MEDUSA or CICE) filename.
+    (NEMO, MEDUSA, CICE, SI3) filename.
 
     :param filename: filename
     :type filename: string
@@ -617,8 +617,8 @@ def split_netCDF_filename(filename):
     """
     match = re.search(netCDF_regexp(), filename)
     if match:
-        model_component = match.group(1)
-        substream = match.group(4)
+        model_component = match.groupdict()["model"]
+        substream = match.groupdict()["substream"]
     else:
         model_component = None
         substream = None
