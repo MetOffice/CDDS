@@ -10,14 +10,13 @@ from cdds.common.cdds_files.cdds_directories import update_log_dir
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request, read_request
 from cdds.configure.user_config import create_user_config_files
-from cdds.convert.arguments import add_user_config_data_files, ConvertArguments
+from cdds.convert.arguments import ConvertArguments, add_user_config_data_files
 from cdds.convert.configure_workflow.calculate_isodatetimes import CalculateISODatetimes
 from cdds.convert.configure_workflow.configure_template_variables import ConfigureTemplateVariables
 from cdds.convert.configure_workflow.stream_components import StreamComponents
 from cdds.convert.configure_workflow.stream_model_parameters import StreamModelParameters
 from cdds.convert.configure_workflow.workflow_manager import WorkflowManager
 from cdds.convert.exceptions import ArgumentError
-
 
 COMPONENT = 'convert'
 CONVERT_LOG_NAME = 'cdds_convert'
@@ -113,9 +112,8 @@ def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
                                                         workflow_manager.rose_suite_conf)
     workflow_configuration.update()
 
-    args = [f"--workflow-name=cdds_{request.common.workflow_basename}"]
-
-    workflow_manager.submit_workflow(simulation=request.common.simulation, cylc_args=args)
+    workflow_manager.clean_workflow()
+    workflow_manager.run_workflow()
 
 
 def stream_jinja2_variables(request, stream_components):
