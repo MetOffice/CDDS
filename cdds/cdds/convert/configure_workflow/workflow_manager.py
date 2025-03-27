@@ -9,17 +9,20 @@ from cdds.common import run_command
 from cdds.common.cdds_files.cdds_directories import component_directory
 from cdds.common.constants import CONVERSION_WORKFLOW, WORKFLOWS_DIRECTORY
 from cdds.common.request.request import Request
+from cdds.convert.configure_workflow import ConfigureTemplateVariables
 from cdds.convert.exceptions import WorkflowSubmissionError
+from cdds.convert.process.workflow_interface import update_suite_conf_file
 
 
 class WorkflowManager:
-    def __init__(self, request: Request):
+    def __init__(self, request: Request, workflow_configuration: ConfigureTemplateVariables):
         """Class for copying, managing, and submitting the Cylc conversion workflow.
 
         :param request: A Request class.
         :type request: Request
         """
         self._request = request
+        self.template_variables = workflow_configuration.template_variables
         self.logger = logging.getLogger(__name__)
 
     @property
@@ -79,6 +82,20 @@ class WorkflowManager:
             raise IOError(message)
 
         shutil.copytree(self.workflow_src_directory, self.workflow_destination)
+
+    def update(self) -> None:
+        """Write the Jinja2 template_variables to the rose-suite.conf file."""
+        section: str = "template variables"
+        try:
+            changes_applied = update_suite_conf_file(
+                self.rose_suite_conf, section, self.template_variables, raw_value=False
+            )
+        except Exception as err:
+            self.logger.exception(err)
+        else:
+            self.logger.info(
+                f'Update to {self.rose_suite_conf} successful. Changes made: "{changes_applied}"'
+            )
 
     @property
     def workflow_name(self) -> str:

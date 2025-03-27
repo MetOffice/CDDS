@@ -97,21 +97,21 @@ def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
     if not request.conversion.skip_configure:
         create_user_config_files(request, requested_variables_file, arguments.output_cfg_dir)
 
-    workflow_manager = WorkflowManager(request)
-    workflow_manager.checkout_convert_workflow()
-
     stream_components = StreamComponents(arguments, request)
     stream_components.build_stream_components()
     stream_components.validate_streams()
 
     stream_variables = stream_jinja2_variables(request, stream_components)
 
-    workflow_configuration = ConfigureTemplateVariables(arguments,
-                                                        request,
-                                                        stream_variables,
-                                                        workflow_manager.rose_suite_conf)
-    workflow_configuration.update()
+    workflow_configuration = ConfigureTemplateVariables(
+        arguments,
+        request,
+        stream_variables,
+    )
 
+    workflow_manager = WorkflowManager(request, workflow_configuration)
+    workflow_manager.checkout_convert_workflow()
+    workflow_manager.update()
     workflow_manager.clean_workflow()
     workflow_manager.run_workflow()
 
