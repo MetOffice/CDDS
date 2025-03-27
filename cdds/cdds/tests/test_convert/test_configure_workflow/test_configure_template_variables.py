@@ -27,8 +27,7 @@ class TestConfigureTemplateVariables:
     def test_stream_variables(self):
         template_variables = ConfigureTemplateVariables(self.arguments,
                                                         self.request,
-                                                        self.stream_config,
-                                                        self.conf)
+                                                        self.stream_config)
 
         assert "FINAL_CYCLE_POINT" not in template_variables.stream_variables()
 
@@ -40,8 +39,7 @@ class TestConfigureTemplateVariables:
 
         template_variables = ConfigureTemplateVariables(self.arguments,
                                                         self.request,
-                                                        stream_config,
-                                                        self.conf)
+                                                        stream_config)
         result = template_variables.final_cycle_point_variable()
         expected = {"FINAL_CYCLE_POINT": "2034-10-01T00:00:00Z"}
         assert expected == result
@@ -57,8 +55,7 @@ class TestConfigureTemplateVariables:
 
         template_variables = ConfigureTemplateVariables(self.arguments,
                                                         self.request,
-                                                        self.stream_config,
-                                                        self.conf)
+                                                        self.stream_config)
         expected = {
             "DEV_MODE": _DEV,
             "EMAIL_NOTIFICATIONS": False,
@@ -79,8 +76,7 @@ class TestConfigureTemplateVariables:
         self.request.conversion.model_params_dir = ""
         template_variables = ConfigureTemplateVariables(self.arguments,
                                                         self.request,
-                                                        self.stream_config,
-                                                        self.conf)
+                                                        self.stream_config)
         expected = {'EXTERNAL_PLUGIN': "",
                     'EXTERNAL_PLUGIN_LOCATION': "",
                     'USE_EXTERNAL_PLUGIN': False,
@@ -97,8 +93,7 @@ class TestConfigureTemplateVariables:
         self.request.conversion.model_params_dir = ""
         template_variables = ConfigureTemplateVariables(self.arguments,
                                                         self.request,
-                                                        self.stream_config,
-                                                        self.conf)
+                                                        self.stream_config)
         expected = {'EXTERNAL_PLUGIN': "myplugin",
                     'EXTERNAL_PLUGIN_LOCATION': "/my/custom/plugin",
                     'USE_EXTERNAL_PLUGIN': True,
@@ -115,8 +110,7 @@ class TestConfigureTemplateVariables:
         self.request.conversion.model_params_dir = "/path/to/model/params_dir"
         template_variables = ConfigureTemplateVariables(self.arguments,
                                                         self.request,
-                                                        self.stream_config,
-                                                        self.conf)
+                                                        self.stream_config)
         expected = {'EXTERNAL_PLUGIN': "myplugin",
                     'EXTERNAL_PLUGIN_LOCATION': "/my/custom/plugin",
                     'USE_EXTERNAL_PLUGIN': True,
@@ -132,8 +126,7 @@ class TestConfigureTemplateVariables:
         self.request.conversion.model_params_dir = ""
         template_variables = ConfigureTemplateVariables(self.arguments,
                                                         self.request,
-                                                        self.stream_config,
-                                                        self.conf)
+                                                        self.stream_config)
         expected = {'EXTERNAL_PLUGIN': "",
                     'EXTERNAL_PLUGIN_LOCATION': "",
                     'USE_EXTERNAL_PLUGIN': False,
@@ -149,7 +142,6 @@ class TestConfigureTemplateVariables:
 
         template_variables = ConfigureTemplateVariables(self.arguments,
                                                         self.request,
-                                                        self.stream_config,
-                                                        self.conf)
+                                                        self.stream_config)
 
         assert request == template_variables.request_path

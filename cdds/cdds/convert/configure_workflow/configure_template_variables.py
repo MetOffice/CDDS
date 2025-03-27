@@ -1,8 +1,8 @@
 # (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
-from dataclasses import dataclass
-import os
 import logging
+import os
+from dataclasses import dataclass
 
 from metomi.isodatetime.parsers import TimePointParser
 
@@ -15,7 +15,6 @@ from cdds.common.cdds_files.cdds_directories import (
 from cdds.common.request.request import Request
 from cdds.convert.arguments import ConvertArguments
 from cdds.convert.constants import NTHREADS_CONCATENATE, PARALLEL_TASKS
-from cdds.convert.process.workflow_interface import update_suite_conf_file
 
 
 @dataclass
@@ -24,8 +23,6 @@ class ConfigureTemplateVariables:
     _arguments: ConvertArguments
     _request: Request
     stream_config: dict
-    config_file: str
-    section: str = "template variables"
 
     def __post_init__(self) -> None:
         """Assign the logger."""
@@ -175,16 +172,3 @@ class ConfigureTemplateVariables:
         final_cycle_point_variable = {"FINAL_CYCLE_POINT": str(max(final_cycle_points))}
 
         return final_cycle_point_variable
-
-    def update(self) -> None:
-        """Write the self.template_variables to the rose-suite.conf file."""
-        try:
-            changes_applied = update_suite_conf_file(
-                self.config_file, self.section, self.template_variables, raw_value=False
-            )
-        except Exception as err:
-            self.logger.exception(err)
-        else:
-            self.logger.info(
-                f'Update to {self.config_file} successful. Changes made: "{changes_applied}"'
-            )

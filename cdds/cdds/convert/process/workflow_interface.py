@@ -3,15 +3,10 @@
 '''
 Tools for interfacing with the cdds convert workflow.
 '''
-from configparser import ConfigParser
 import json
-import os
-import subprocess
+from configparser import ConfigParser
 
-from cdds.convert.exceptions import (SuiteCheckoutError,
-                                     SuiteConfigMissingValueError,
-                                     WorkflowSubmissionError)
-from cdds.common import run_command
+from cdds.convert.exceptions import SuiteConfigMissingValueError
 
 
 def update_suite_conf_file(filename, section_name, changes_to_apply, raw_value=False, delimiter="="):
@@ -64,59 +59,3 @@ def update_suite_conf_file(filename, section_name, changes_to_apply, raw_value=F
 
     parser.write(open(filename, 'w'))
     return changes
-
-
-def run_workflow(location, simulation=False, cylc_args=None, env=None):
-    """
-    Run a cylc workflow using vip and return the standard output.
-
-    Parameters
-    ----------
-    location : str
-        Location to submit the cylc workflow from (i.e. where the workflow
-        has been checked out to).
-    simulation : bool
-        Set to true to play workflow in simulation mode (for testing).
-    cylc_args : list of str
-        Arguments to include in the call to cylc vip-run. This list
-        is prefixed with ['--mode=simulation'] if `simulation`
-        is set.
-    env : dict
-        Environment variables to be set when rose is run. Should be a
-        copy of `os.environ`.
-
-    Returns
-    -------
-    tuple
-        The text returned by the cylc vip command (stdout,
-        stderr).
-
-    Raises
-    ------
-    AssertionError
-        If `location` does not exist.
-    WorkflowSubmissionError
-        If an error occured when submitting the workflow.
-    """
-    assert os.path.exists(location), 'location not found'
-
-    # identify the workflow name
-    for argument in cylc_args:
-        if argument.startswith("--workflow-name"):
-            workflow_name = argument.split("=")[1]
-    # clean an existing workflow if it exists
-    clean_command = ['cylc', 'clean', workflow_name]
-    run_command(clean_command)
-
-    # construct the command for running the workflow
-    install_command = ['cylc', 'vip', location]
-    install_command += cylc_args
-
-    if simulation:
-        install_command += ['--mode=simulation']
-
-    install_command += ['--no-run-name']
-
-    result = run_command(install_command, "Running workflow failed", WorkflowSubmissionError)
-
-    return result
