@@ -22,7 +22,6 @@ class TestConfigureTemplateVariables:
             "FINAL_CONCATENATION_WINDOW_START": {"ap4": "2150-01-01T00:00:00Z"},
             "SINGLE_CONCATENATION_CYCLE": {"ap4": False},
         }
-        self.conf = "foo.conf"
 
     def test_stream_variables(self):
         template_variables = ConfigureTemplateVariables(self.arguments,
