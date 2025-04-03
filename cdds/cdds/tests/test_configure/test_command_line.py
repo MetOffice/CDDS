@@ -161,7 +161,7 @@ class TestMain(unittest.TestCase):
             self.mip_era, self.institution_id, self.model_id, self.experiment_id,
             self.sub_experiment_id, self.variant_label)
         self.request_format = (
-            '[request]\nancil_files = {}\nancil_variables = {}\nbase_date = {}\n'
+            '[request]\nancil_files = {}\nancil_variables = {}\natmos_timestep = 1200\nbase_date = {}\n'
             'deflate_level = {}\nforce_coordinate_rotation = {}\nhybrid_heights_files = {}\n'
             'model_output_dir = {}\nreplacement_coordinates_file = {}\n'
             'run_bounds = {}\nshuffle = {}\nsites_file = {}\n'
