@@ -17,7 +17,7 @@
     "root_hybrid_heights_dir": "/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/vertical_coordinates",
     "root_replacement_coordinates_dir": "/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/horizontal_coordinates/",
     "sites_file": "/gws/smf/j04/cmip6_prep/cdds-env-python3/etc/cfmip2/cfmip2-sites-orog.txt",
-    "skip_extract": true,
+    "skip_extract": false,
     "skip_qc": false,
     "skip_transfer": true,
     "skip_extract_validation": false

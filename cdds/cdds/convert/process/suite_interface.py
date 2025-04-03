@@ -149,13 +149,13 @@ def submit_suite(location, simulation=False, rose_args=None, env=None):
         If an error occurred when submitting the suite.
     """
     assert os.path.exists(location), 'location not found'
-    command = ['rose', 'suite-run', '-C', location]
+    command = ['cylc', 'vip',  location, "--no-run-name"]
     if isinstance(rose_args, list):
         command += rose_args
     if simulation:
-        command += ['--', '--mode=simulation']
+        command += ['--mode=simulation']
 
-    result = run_command(command, 'Rose suite-run command failed.',
+    result = run_command(command, 'Cylc suite-run command failed.',
                          SuiteSubmissionError, env)
     return result
 
