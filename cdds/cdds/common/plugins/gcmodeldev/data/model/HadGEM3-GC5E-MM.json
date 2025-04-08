@@ -217,6 +217,38 @@
       ]
     },
     "ocean": {
+      "bounds_coordinates": {
+        "onm-grid-T": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ],
+        "onm-grid-U": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ],
+        "onm-grid-V": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ],
+        "onm-grid-W": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ],
+        "onm-grid-X": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ]
+      },
       "model_info": "eORCA025 tripolar primarily 1/4 deg grid",
       "nominal_resolution": "25 km",
       "longitude": 1440,

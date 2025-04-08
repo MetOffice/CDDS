@@ -221,6 +221,38 @@
       ]
     },
     "ocean": {
+      "bounds_coordinates": {
+        "onm-grid-T": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ],
+        "onm-grid-U": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ],
+        "onm-grid-V": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ],
+        "onm-grid-W": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ],
+        "onm-grid-X": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ]
+      },
       "model_info": "eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics",
       "nominal_resolution": "100 km",
       "longitude": 360,
