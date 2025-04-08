@@ -1,69 +1,111 @@
 {
   "stream_file_frequency": {
-    "quarterly": [
-      "ond",
-      "apg"
-    ],
     "monthly": [
+      "ap1",
+      "ap2",
+      "ap3",
       "ap4",
       "ap5",
-      "apm",
-      "apu",
-      "onm",
-      "inm",
-      "ind"
-    ],
-    "10 day": [
       "ap6",
       "ap7",
       "ap8",
       "ap9",
-      "apt"
+      "apa",
+      "apb",
+      "apc",
+      "apd",
+      "ape",
+      "apf",
+      "apg",
+      "apk",
+      "apm",
+      "apt",
+      "apu",
+      "ind",
+      "inm",
+      "ond",
+      "onm"
+    ],
+    "quarterly": [
+      "aps"
     ]
   },
   "cycle_length": {
+    "ap1": "P5Y",
+    "ap2": "P5Y",
+    "ap3": "P5Y",
     "ap4": "P5Y",
-    "apg": "P5Y",
     "ap5": "P5Y",
-    "apm": "P5Y",
-    "apu": "P5Y",
-    "ap6": "P1Y",
+    "ap6": "P5Y",
     "ap7": "P3M",
     "ap8": "P1Y",
     "ap9": "P1Y",
+    "apa": "P5Y",
+    "apb": "P5Y",
+    "apc": "P5Y",
+    "apd": "P5Y",
+    "ape": "P5Y",
+    "apf": "P5Y",
+    "apg": "P5Y",
+    "apk": "P5Y",
+    "apm": "P5Y",
+    "aps": "P5Y",
     "apt": "P3M",
+    "apu": "P5Y",
     "ind": "P1Y",
     "inm": "P5Y",
     "ond": "P1Y",
     "onm": "P2Y"
   },
   "memory": {
+    "ap1": "12G",
+    "ap2": "12G",
+    "ap3": "12G",
     "ap4": "12G",
-    "apg": "12G",
-    "ap5": "8G",
-    "apm": "8G",
-    "apu": "8G",
+    "ap5": "12G",
     "ap6": "30G",
     "ap7": "32G",
     "ap8": "24G",
     "ap9": "64G",
+    "apa": "12G",
+    "apb": "12G",
+    "apc": "12G",
+    "apd": "12G",
+    "ape": "12G",
+    "apf": "12G",
+    "apg": "12G",
+    "apk": "12G",
+    "apm": "8G",
+    "aps": "12G",
     "apt": "12G",
+    "apu": "8G",
     "ind": "8G",
     "inm": "8G",
     "ond": "32G",
     "onm": "16G"
   },
   "temp_space": {
+    "ap1": 40960,
+    "ap2": 40960,
+    "ap3": 8192,
     "ap4": 98304,
-    "apg": 98304,
     "ap5": 40960,
-    "apm": 8192,
-    "apu": 20480,
     "ap6": 98304,
     "ap7": 65536,
     "ap8": 32768,
     "ap9": 32768,
+    "apa": 40960,
+    "apb": 40960,
+    "apc": 40960,
+    "apd": 40960,
+    "ape": 40960,
+    "apf": 40960,
+    "apg": 40960,
+    "apk": 98304,
+    "apm": 8192,
+    "aps": 32768,
     "apt": 32768,
+    "apu": 20480,
     "ind": 8192,
     "inm": 8192,
     "ond": 32768,
@@ -163,13 +205,6 @@
       "default": 10
     }
   },
-  "subdaily_streams": [
-    "ap6",
-    "ap7",
-    "ap8",
-    "ap9",
-    "apt"
-  ],
   "grid_info": {
     "atmos": {
       "atmos_timestep": 1200,
@@ -179,10 +214,7 @@
       "latitude": 144,
       "v_latitude": 145,
       "levels": 85,
-      "ancil_filenames": [
-        "qrparm.landfrac.pp",
-        "qrparm.soil.pp"
-      ],
+      "ancil_filenames": [],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
         "atmosphere_rho_levels_86.txt"
@@ -194,14 +226,8 @@
       "longitude": 360,
       "latitude": 330,
       "levels": 75,
-      "replacement_coordinates_file": "cice_eORCA1_coords.nc",
-      "ancil_filenames": [
-        "ocean_constants.nc",
-        "ocean_byte_masks.nc",
-        "ocean_basin.nc",
-        "diaptr_basin_masks.nc",
-        "ocean_zostoga.nc"
-      ],
+      "replacement_coordinates_file": "",
+      "ancil_filenames": [],
       "hybrid_heights_files": [],
       "masked": {
         "grid-V": {
