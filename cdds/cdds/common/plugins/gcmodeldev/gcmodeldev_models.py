@@ -34,7 +34,9 @@ class GCModelDevStore(BaseModelStore):
             HadGEM3_GC5c_N216ORCA025_Params(),
             HadGEM3_GC50_N96ORCA1_Params(),
             HadGEM3_GC50_N216ORCA025_Params(),
-            HadGEM3_GC50_EERIE_N640ORCA12_Params(),
+            HadGEM3_GC5E_LL_Params(),
+            HadGEM3_GC5E_MM_Params(),
+            HadGEM3_GC5E_HH_Params(),
             HadREM_CP4A_4p5km_Params(),
             UKESM1_0_LL_Params(),
             UKESM1_1_LL_Params(),
@@ -93,7 +95,9 @@ class GCModelDevModelId(ModelId):
     HadGEM3_GC5c_N216ORCA025 = 'HadGEM3-GC5c-N216ORCA025'
     HadGEM3_GC50_N96ORCA1 = 'HadGEM3-GC50-N96ORCA1'
     HadGEM3_GC50_N216ORCA025 = 'HadGEM3-GC50-N216ORCA025'
-    HadGEM3_GC50_EERIE_N640ORCA12 = 'HadGEM3-GC50-EERIE-N640ORCA12'
+    HadGEM3_GC5E_LL = 'HadGEM3-GC5E-LL'
+    HadGEM3_GC5E_MM = 'HadGEM3-GC5E-MM'
+    HadGEM3_GC5E_HH = 'HadGEM3-GC5E-HH'
     HadREM_CP4A_4p5km = 'HadREM-CP4A-4p5km'
     UKESM1_0_LL = 'UKESM1-0-LL'
     UKESM1_1_LL = 'UKESM1-1-LL'
@@ -412,20 +416,20 @@ class HadGEM3_GC5p_N216ORCA025_Params(BaseModelParameters):
         return '12.2'
 
 
-class HadGEM3_GC50_EERIE_N640ORCA12_Params(BaseModelParameters):
+class HadGEM3_GC5E_LL_Params(BaseModelParameters):
     """
-    Class to store the parameters for the HadGEM3_GC50_EERIE_N640ORCA12 model.
+    Class to store the parameters for the HadGEM3_GC5E_LL model.
     """
 
     def __init__(self) -> None:
-        super(HadGEM3_GC50_EERIE_N640ORCA12_Params, self).__init__(GCModelDevModelId.HadGEM3_GC50_EERIE_N640ORCA12)
+        super(HadGEM3_GC5E_LL_Params, self).__init__(GCModelDevModelId.HadGEM3_GC5E_LL)
 
     @property
     def model_version(self) -> str:
         """
-        Returns the model version of the HadGEM3_GC50_EERIE_N640ORCA12 model.
+        Returns the model version of the HadGEM3_GC5E_LL model.
 
-        :return: Model version of HadGEM3_GC50_EERIE_N640ORCA12
+        :return: Model version of HadGEM3_GC5E_LL
         :rtype: str
         """
         return '5.0'
@@ -433,9 +437,9 @@ class HadGEM3_GC50_EERIE_N640ORCA12_Params(BaseModelParameters):
     @property
     def data_request_version(self) -> str:
         """
-        Returns the data request version of the HadGEM3_GC50_EERIE_N640ORCA12 model.
+        Returns the data request version of the HadGEM3_GC5E_LL model.
 
-        :return: Data request version of HadGEM3_GC50_EERIE_N640ORCA12
+        :return: Data request version of HadGEM3_GC5E_LL
         :rtype: str
         """
         return ''
@@ -443,9 +447,87 @@ class HadGEM3_GC50_EERIE_N640ORCA12_Params(BaseModelParameters):
     @property
     def um_version(self) -> str:
         """
-        Returns the UM version of the HadGEM3_GC50_EERIE_N640ORCA12 model.
+        Returns the UM version of the HadGEM3_GC5E_LL model.
 
-        :return: UM version of HadGEM3_GC50_EERIE_N640ORCA12
+        :return: UM version of HadGEM3_GC5E_LL
+        :rtype: str
+        """
+        return '12.2'
+
+
+class HadGEM3_GC5E_MM_Params(BaseModelParameters):
+    """
+    Class to store the parameters for the HadGEM3_GC5E_MM model.
+    """
+
+    def __init__(self) -> None:
+        super(HadGEM3_GC5E_MM_Params, self).__init__(GCModelDevModelId.HadGEM3_GC5E_MM)
+
+    @property
+    def model_version(self) -> str:
+        """
+        Returns the model version of the HadGEM3_GC5E_MM model.
+
+        :return: Model version of HadGEM3_GC5E_MM
+        :rtype: str
+        """
+        return '5.0'
+
+    @property
+    def data_request_version(self) -> str:
+        """
+        Returns the data request version of the HadGEM3_GC5E_MM model.
+
+        :return: Data request version of HadGEM3_GC5E_MM
+        :rtype: str
+        """
+        return ''
+
+    @property
+    def um_version(self) -> str:
+        """
+        Returns the UM version of the HadGEM3_GC5E_MM model.
+
+        :return: UM version of HadGEM3_GC5E_MM
+        :rtype: str
+        """
+        return '12.2'
+
+
+class HadGEM3_GC5E_HH_Params(BaseModelParameters):
+    """
+    Class to store the parameters for the HadGEM3_GC5E_HH model.
+    """
+
+    def __init__(self) -> None:
+        super(HadGEM3_GC5E_HH_Params, self).__init__(GCModelDevModelId.HadGEM3_GC5E_HH)
+
+    @property
+    def model_version(self) -> str:
+        """
+        Returns the model version of the HadGEM3_GC5E_HH model.
+
+        :return: Model version of HadGEM3_GC5E_HH
+        :rtype: str
+        """
+        return '5.0'
+
+    @property
+    def data_request_version(self) -> str:
+        """
+        Returns the data request version of the HadGEM3_GC5E_HH model.
+
+        :return: Data request version of HadGEM3_GC5E_HH
+        :rtype: str
+        """
+        return ''
+
+    @property
+    def um_version(self) -> str:
+        """
+        Returns the UM version of the HadGEM3_GC5E_HH model.
+
+        :return: UM version of HadGEM3_GC5E_HH
         :rtype: str
         """
         return '12.2'
