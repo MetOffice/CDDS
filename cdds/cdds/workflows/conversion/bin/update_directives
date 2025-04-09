@@ -118,12 +118,12 @@ class MipConvertTask:
             "cycle_point": self.time_point,
             "used_mem": self.used_memory,
             "used_time": self.used_time,
-            "used_storage": self.used_storage,
             "requested_mem": self.requested_memory,
             "requested_time": self.requested_time,
         }
         if not os.environ["PLATFORM"] == "JASMIN":
-            resources["requested_storage"] = self.requested_storage,
+            resources["used_storage"] = self.used_storage
+            resources["requested_storage"] = self.requested_storage
 
         return resources
 

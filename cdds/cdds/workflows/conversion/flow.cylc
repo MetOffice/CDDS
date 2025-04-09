@@ -142,6 +142,25 @@
         set -u
         update_directives
         """
+
+    [[setup_output_dir_{{ STREAM }}]]
+{% set BASE_OUTPUT = OUTPUT_DIR ~ '/' ~ STREAM  %}
+{% set BASE_MIP_CONVERT = OUTPUT_DIR ~ '/' ~ STREAM ~ '_mip_convert' %}
+{% set BASE_CONCAT = OUTPUT_DIR ~ '/' ~ STREAM ~ '_concat' %}
+
+# Create 3 fresh directories, for mip_convert output, staging the output
+# for concatenation, and concatenation output.
+        script = """
+rm -rf {{ BASE_MIP_CONVERT }}
+mkdir -p {{ BASE_MIP_CONVERT }}
+rm -rf {{ BASE_CONCAT }}
+mkdir -p {{ BASE_CONCAT }}
+rm -rf {{ BASE_OUTPUT }}
+mkdir -p {{ BASE_OUTPUT }}
+"""
+
+
+
 #### MIP_CONCATENATE ######################################################################
     [[MIP_CONCATENATE_{{ STREAM }}]]
         execution retry delays = PT1M, PT3M, PT5M
@@ -198,11 +217,11 @@
         execution time limit = P2D
         [[[directives]]]
             --ntasks = {{ NTHREADS_CONCATENATE }}
-            {% if PLATFORM == 'AZURE' %}
-                --partition = cpu-long
-            {% elif PLATFORM == 'JASMIN' %}
-                --qos = long
-            {% endif %}
+        {% if PLATFORM == 'AZURE' %}
+            --partition = cpu-long
+        {% elif PLATFORM == 'JASMIN' %}
+            --qos = long
+        {% endif %}
         [[[environment]]]
             ROSE_TASK_APP = concatenate_batch
             STREAM = {{ STREAM }}
@@ -249,8 +268,22 @@
 
 ##### SETUP_OUTPUT_DIR EXTRACT VALIDATE_EXTRACT QC TRANSFER ###############################
     {% if RUN_EXTRACT %}
+        {% if PLATFORM == 'AZURE' %}
     [[run_extract_{{ STREAM }}]]
         inherit = {{ PLATFORM }}
+        execution retry delays = PT1H, PT1H, PT1H
+        execution time limit = P2D
+        [[[environment]]]
+            ROSE_TASK_APP = run_extract
+            STREAM = {{ STREAM }}
+        [[[directives]]]
+            --mem = {{ MEMORY_EXTRACT }}
+            --ntasks = 1
+            --partition = cpu-long
+        {% elif PLATFORM == 'JASMIN' %}
+    [[run_extract_{{ STREAM }}]]
+        platform = lotus
+        submission retry delays = PT1M, PT1M, PT1M
         execution retry delays = PT1H, PT1H, PT1H
         execution time limit = P1D
         [[[environment]]]
@@ -259,12 +292,10 @@
         [[[directives]]]
             --mem = {{ MEMORY_EXTRACT }}
             --ntasks = 1
-            {% if PLATFORM == 'AZURE' %}
-                --partition = cpu-long
-            {% elif PLATFORM == 'JASMIN' %}
-                --partition = mass
-                --qos = mass
-            {% endif %}
+            --partition = mass
+            --qos = mass
+            --account = mass
+        {% endif %}
     {% endif %}
 
     {% if RUN_EXTRACT_VALIDATION %}
@@ -277,22 +308,6 @@
             --mem = {{ MEMORY_QC }}
             --ntasks = 1
     {% endif %}
-
-    [[setup_output_dir_{{ STREAM }}]]
-{% set BASE_OUTPUT = OUTPUT_DIR ~ '/' ~ STREAM  %}
-{% set BASE_MIP_CONVERT = OUTPUT_DIR ~ '/' ~ STREAM ~ '_mip_convert' %}
-{% set BASE_CONCAT = OUTPUT_DIR ~ '/' ~ STREAM ~ '_concat' %}
-
-# Create 3 fresh directories, for mip_convert output, staging the output
-# for concatenation, and concatenation output.
-        script = """
-rm -rf {{ BASE_MIP_CONVERT }}
-mkdir -p {{ BASE_MIP_CONVERT }}
-rm -rf {{ BASE_CONCAT }}
-mkdir -p {{ BASE_CONCAT }}
-rm -rf {{ BASE_OUTPUT }}
-mkdir -p {{ BASE_OUTPUT }}
-"""
 
     {% if RUN_QC %}
     [[run_qc_{{ STREAM }}]]
