@@ -126,7 +126,7 @@
             --mem = {{ MEMORY_DEFAULT }}
             --partition = standard
             --qos = short
-            --account = mohc_shared
+            --account = {{ ACCOUNT }}
 #### INITIALISER FINALISER ################################################################
 {% for STREAM in STREAMS.keys() %} # STREAM LOOP
     [[COMPLETION_FAMILY_{{ STREAM }}]]
@@ -142,7 +142,6 @@
         set -u
         update_directives
         """
-
     [[setup_output_dir_{{ STREAM }}]]
 {% set BASE_OUTPUT = OUTPUT_DIR ~ '/' ~ STREAM  %}
 {% set BASE_MIP_CONVERT = OUTPUT_DIR ~ '/' ~ STREAM ~ '_mip_convert' %}
@@ -158,9 +157,6 @@ mkdir -p {{ BASE_CONCAT }}
 rm -rf {{ BASE_OUTPUT }}
 mkdir -p {{ BASE_OUTPUT }}
 """
-
-
-
 #### MIP_CONCATENATE ######################################################################
     [[MIP_CONCATENATE_{{ STREAM }}]]
         execution retry delays = PT1M, PT3M, PT5M

@@ -90,6 +90,7 @@ class ConfigureTemplateVariables:
         """
 
         general_variables = {
+            "ACCOUNT": self._request.conversion.account,
             "ARCHIVE_DATA_VERSION": self._request.data.data_version,
             "CDDS_CONVERT_PROC_DIR": component_directory(self._request, "convert"),
             "CDDS_VERSION": _NUMERICAL_VERSION,
