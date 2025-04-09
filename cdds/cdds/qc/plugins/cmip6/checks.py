@@ -129,7 +129,6 @@ class CVAttributesCheckTask(CheckTask):
         "frequency",
         "grid_label",
         "institution_id",
-        "realm",
         "source_id",
         "nominal_resolution",
         "table_id",
@@ -149,6 +148,7 @@ class CVAttributesCheckTask(CheckTask):
         """
         for cv_attribute in self.CV_ATTRIBUTES:
             self.validate_cv_attribute(netcdf_file, cv_attribute)
+        self.validate_cv_attribute(netcdf_file, "realm", None, " ")
         self.validate_cv_attribute(netcdf_file, "source_type", None, " ")
         self.validate_cv_attribute(netcdf_file, "activity_id", None, " ", self.relaxed_cmor)
         self.validate_cv_attribute(netcdf_file, "experiment_id", None, None, self.relaxed_cmor)
