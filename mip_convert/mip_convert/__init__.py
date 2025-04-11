@@ -16,5 +16,5 @@ environ["VECLIB_MAXIMUM_THREADS"] = "1"
 environ["NUMEXPR_NUM_THREADS"] = "1"
 
 _DEV = False
-_NUMERICAL_VERSION = '3.1.2'
+_NUMERICAL_VERSION = '3.1.2rc1'
 __version__ = get_version('mip_convert')
