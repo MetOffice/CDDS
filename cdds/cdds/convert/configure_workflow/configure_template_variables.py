@@ -90,13 +90,13 @@ class ConfigureTemplateVariables:
         """
 
         general_variables = {
-            "ACCOUNT": self._request.conversion.account,
             "ARCHIVE_DATA_VERSION": self._request.data.data_version,
             "CDDS_CONVERT_PROC_DIR": component_directory(self._request, "convert"),
             "CDDS_VERSION": _NUMERICAL_VERSION,
             "CALENDAR": self._request.metadata.calendar,
             "END_DATE": str(self._request.data.end_date),
             "INPUT_DIR": input_data_directory(self._request),
+            "JASMIN_ACCOUNT": self._request.conversion.jasmin_account,
             "OUTPUT_MASS_ROOT": self._request.data.output_mass_root,
             "OUTPUT_MASS_SUFFIX": self._request.data.output_mass_suffix,
             "MIP_CONVERT_CONFIG_DIR": component_directory(self._request, "configure"),

@@ -126,7 +126,7 @@
             --mem = {{ MEMORY_DEFAULT }}
             --partition = standard
             --qos = short
-            --account = {{ ACCOUNT }}
+            --account = {{ JASMIN_ACCOUNT }}
 #### INITIALISER FINALISER ################################################################
 {% for STREAM in STREAMS.keys() %} # STREAM LOOP
     [[COMPLETION_FAMILY_{{ STREAM }}]]
