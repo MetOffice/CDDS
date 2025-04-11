@@ -15,25 +15,33 @@ from cdds.common.request.request_validations import validate_metadata_section
 from cdds.common.plugins.plugins import PluginStore
 
 
-def metadata_defaults(model_id: str) -> Dict[str, Any]:
+def metadata_defaults(model_id: str, branch_method: str) -> Dict[str, Any]:
     """
     Calculates the defaults for the metadata section of
     the request configuration with given model ID.
 
     :param model_id: Model ID
     :type model_id: str
+    :param branch_method: Branch method - standard or no parent
+    :type branch_method: str
     :return: The defaults for the metadata section
     :rtype: Dict[str, Any]
     """
     license = PluginStore.instance().get_plugin().license()
 
-    return {
-        'base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
-        'license': license,
-        'parent_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
-        'parent_model_id': model_id,
-        'parent_time_units': 'days since 1850-01-01',
-    }
+    if branch_method == 'no parent':
+        return {
+            'base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
+            'license': license,
+        }
+    else:
+        return {
+            'base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
+            'license': license,
+            'parent_base_date': TimePoint(year=1850, month_of_year=1, day_of_month=1),
+            'parent_model_id': model_id,
+            'parent_time_units': 'days since 1850-01-01',
+        }
 
 
 @dataclass
@@ -101,7 +109,8 @@ class MetadataSection(Section):
         """
         section_name = MetadataSection.name()
         model_id = config.get(section_name, 'model_id')
-        values = metadata_defaults(model_id)
+        branch_method = config.get(section_name, 'branch_method')
+        values = metadata_defaults(model_id, branch_method)
         do_pre_validations(config, MetadataSection)
         config_items = load_types(dict(config.items(section_name)), ['model_type'])
         values.update(config_items)
@@ -119,10 +128,11 @@ class MetadataSection(Section):
         :return: New metadata section
         :rtype: MetadataSection
         """
+        branch_method = suite_info.branch_method()
         model_id = suite_info.data['model-id']
-        values = metadata_defaults(model_id)
+        values = metadata_defaults(model_id, branch_method)
 
-        values['branch_method'] = suite_info.branch_method()
+        values['branch_method'] = branch_method
         values['base_date'] = TimePoint(year=1850, month_of_year=1, day_of_month=1)
         values['calendar'] = suite_info.data['calendar']
         values['experiment_id'] = suite_info.data['experiment-id']
@@ -154,5 +164,5 @@ class MetadataSection(Section):
         :param config: Configuration where values should add to
         :type config: ConfigParser
         """
-        defaults = metadata_defaults(self.model_id)
+        defaults = metadata_defaults(self.model_id, self.branch_method)
         self._add_to_config_section(config, MetadataSection.name(), defaults)

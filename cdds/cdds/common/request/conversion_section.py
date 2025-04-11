@@ -109,8 +109,6 @@ class ConversionSection(Section):
                 dict(config.items(section_name)), ['override_cycling_frequency', 'cylc_args', 'slicing']
             )
             expand_paths(config_items, ['model_params_dir'])
-            new_cylc_args = load_cylc_args(config_items['cylc_args'])
-            config_items['cylc_args'] = new_cylc_args
             values.update(config_items)
         else:
             if 'cylc_args' in values:
@@ -143,27 +141,3 @@ class ConversionSection(Section):
         """
         defaults = conversion_defaults()
         self._add_to_config_section(config, ConversionSection.name(), defaults)
-
-
-def load_cylc_args(cylc_args: List[str]) -> List[str]:
-    """
-    Load and update the cylc arguments for the CDDS processing suite. Therefore, it checks of
-    that a workflow-name (default: cdds_{request_id}_{stream}) is provided.
-
-    :param cylc_args: Cylc arguments to load and updated
-    :type cylc_args: List[str]
-    :return: Cylc arguments for CDDS processing suite
-    :rtype: List[str]
-    """
-    # If user does not specify a run name for the rose suite, use cdds_{request_id}
-    if '--workflow-name' in cylc_args:
-        name_indices = [index for index, element in enumerate(cylc_args) if '--workflow-name' in element]
-        for index in name_indices:
-            if '=' in cylc_args[index]:
-                index_to_change = index
-            else:
-                index_to_change = index + 1
-            cylc_args[index_to_change] = cylc_args[index_to_change] + '_{stream}'
-    else:
-        cylc_args += ['--workflow-name=cdds_{request_id}_{stream}']
-    return cylc_args

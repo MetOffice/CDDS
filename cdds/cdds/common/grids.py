@@ -291,6 +291,8 @@ def default_grid_ids():
         'GCday': ('atmos', 'native'),
         'GCOyr': ('ocean', 'native'),
         'GCAERmon': ('atmos', 'native'),
+        'RAMIPday': ('atmos', 'native'),
+        'RAMIPmon': ('atmos', 'native'),
     }
 
 

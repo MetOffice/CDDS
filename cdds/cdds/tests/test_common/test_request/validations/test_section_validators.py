@@ -36,7 +36,7 @@ class TestCommonSectionValidator(TestCase):
             'If an external plugin is used the the "external_plugin_location" must be set.'
         ])
 
-    def test_eternal_plugin_failed(self):
+    def test_external_plugin_failed(self):
         self.section.external_plugin_location = '/path/to/external/plugin'
         validator = CommonSectionValidator(section=self.section)
         valid, messages = validator.validate()
@@ -72,7 +72,7 @@ class TestMetdataValidator(TestCase):
 
     def setUp(self):
         load_plugin()
-        defaults = metadata_defaults('UKESM1-0-LL')
+        defaults = metadata_defaults('UKESM1-0-LL', 'no parent')
         values = {
             'branch_method': 'no parent',
             'calendar': '360_day',
@@ -97,7 +97,7 @@ class TestMetdataValidator(TestCase):
         valid, messages = validator.validate()
         self.assertFalse(valid)
         self.assertListEqual(messages, ['The "branch_method" must be set to "no parent, standard".',
-                                        'The "calendar" must be set to "360_day, gregorian".'])
+                                        'The "calendar" must be set to "360_day, gregorian, 365_day".'])
 
     def test_values_not_set(self):
         self.section.mip = ''
@@ -129,8 +129,12 @@ class TestMetdataValidator(TestCase):
         self.assertListEqual(messages, ['Property "parent_experiment_id" must be set.',
                                         'Property "parent_mip" must be set.',
                                         'Property "parent_mip_era" must be set.',
+                                        'Property "parent_model_id" must be set.',
+                                        'Property "parent_time_units" must be set.',
                                         'Property "branch_date_in_child" must be set.',
-                                        'Property "branch_date_in_parent" must be set.'])
+                                        'Property "branch_date_in_parent" must be set.',
+                                        'Property "parent_base_date" must be set.',
+                                        'Property "parent_variant_label" must be set.'])
 
 
 class TestSectionValidatorFactory(TestCase):

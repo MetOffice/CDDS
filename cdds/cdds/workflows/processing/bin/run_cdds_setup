@@ -24,6 +24,6 @@ fi
 
 export REQUEST_PATH=${WORKING_DIRECTORY}/request.cfg
 
-create_cdds_directory_structure "${WORKING_DIRECTORY}"/request.cfg
+create_cdds_directory_structure "${WORKING_DIRECTORY}"/request.cfg || exit
 
-prepare_generate_variable_list "${REQUEST_PATH}"
+prepare_generate_variable_list "${REQUEST_PATH}" || exit

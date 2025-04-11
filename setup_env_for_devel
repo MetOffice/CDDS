@@ -3,10 +3,8 @@ CDDS_DIR=${1:-$PWD}
 export CDDS_DIR
 export CDDS_PACKAGES="cdds mip_convert"
 
-export CDDS_PACKAGES
-
 CDDS_HOME=$(readlink -f ~cdds)
-DEV_ENV='cdds-3.1_dev-1'
+DEV_ENV='cdds-3.1_dev-2'
 
 if [[ "$(hostname -f)" =~ "spice.sc" ]]; then
     CONDA=/opt/conda/bin/activate
@@ -25,10 +23,6 @@ if [ -f ${CONDA} ]; then
     . ${CONDA} ${DEV_ENV}
 else
     echo "Could not locate CDDS miniconda environment"
-fi
-
-if [[ "$(hostname -f)" =~ "spice.sc" ]]; then
-  module load nccmp
 fi
 
 for CDDS_PACKAGE in $CDDS_PACKAGES

@@ -75,6 +75,9 @@ class TestProduceUserConfigs(unittest.TestCase):
                     'grid_label': Cmip6GridLabel.from_name('native').label,
                     'nominal_resolution':
                         self.get_reference_nominal_resolution()
+                },
+                'request': {
+                    'atmos_timestep': 1200
                 }
             },
             atmos_zonal_filename: {
@@ -83,6 +86,9 @@ class TestProduceUserConfigs(unittest.TestCase):
                     'grid_label': Cmip6GridLabel.from_name('uvgrid-zonal').label,
                     'nominal_resolution':
                         self.get_reference_nominal_resolution()
+                },
+                'request': {
+                    'atmos_timestep': 1200
                 }
             }
         }
