@@ -69,6 +69,10 @@ The `conversion` in the request configuration contains settings that specify how
 
     **Default:** `False`
 
+`jasmin_account`
+:   specify the mandatory account directive used on LOTUS2
+
+
 ## Examples
 
 !!! example

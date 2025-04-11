@@ -123,7 +123,8 @@ def expected_text_conversion():
         'model_params_dir': '',
         'continue_if_mip_convert_failed': True,
         'delete_preexisting_proc_dir': True,
-        'delete_preexisting_data_dir': True
+        'delete_preexisting_data_dir': True,
+        "jasmin_account": ""
     }
 
 
@@ -241,5 +242,6 @@ def expected_test_minimal_conversion():
         'skip_qc': False,
         'slicing': [],
         'delete_preexisting_proc_dir': False,
-        'delete_preexisting_data_dir': False
+        'delete_preexisting_data_dir': False,
+        "jasmin_account": ""
     }
