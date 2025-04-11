@@ -1,3 +1,7 @@
+## Release 3.1.2rc1, April 11 2025
+
+-   No changes
+
 ## Release 3.1.1, March 19 2025
 
 -   Added mappings for RAMIP (CDDSO-632)
