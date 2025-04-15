@@ -19,7 +19,8 @@ from mip_convert.common import nearest_coordinates, Loadable
 from mip_convert.new_variable import (
     VariableMetadata, Variable, VariableModelToMIPMapping, VariableMIPMetadata,
     _update_constraints_in_expression, replace_constants)
-from mip_convert.process.constants import constants
+from mip_convert.plugins.constants import all_constants
+from mip_convert.plugins.plugin_loader import load_mapping_plugin
 from mip_convert.tests.common import dummy_cube
 
 
@@ -32,6 +33,7 @@ class TestVariableMetadata(unittest.TestCase):
         """
         Create the ``VariableMetadata`` object.
         """
+        load_mapping_plugin('UKESM1')
         self.variable_name = 'tnt'
         self.model_id = 'UKESM1-0-LL'
         self.stream_id = 'ap5'
@@ -153,6 +155,7 @@ class TestVariable(unittest.TestCase):
         Create the ``Variable`` object.
         """
         load_plugin()
+        load_mapping_plugin('HadGEM3')
         self.variable_name = 'ta'
         self.model_id = 'HadGEM3-GC31-LL'
         self.axes_names = ['time', 'latitude', 'longitude', 'plev19']
@@ -395,6 +398,31 @@ class TestVariable(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, error):
             variable.process()
 
+    def test_history(self):
+        input_variables = {}
+        variable_model_to_mip_mapping = VariableModelToMIPMapping(
+            'tas', {'expression': 'm01s03i236', 'positive': None, 'units': 'K'}, 'HadGEM3-GC31-LL'
+        )
+        variable_mip_metadata = VariableMIPMetadata(
+            {'dimensions': 'longitude latitude time', 'out_name': 'tas'},
+            {'longitude': {'axis': 'Y', 'out_name': 'lon'},
+             'latitude': {'axis': 'X', 'out_name': 'lat'},
+             'time': {'axis': 'T', 'out_name': 'time'}
+             }
+        )
+        variable_metadata = VariableMetadata(
+            'tas', 'apa', None, 'CMIP5_day', variable_mip_metadata, None, None, None,
+            variable_model_to_mip_mapping, None, ['1981-09-01T00:00:00', '1981-09-11T00:00:00'],
+            '360_day', '1970-01-01T00:00:00', 9, False, ['m01s00i505']
+        )
+        variable = Variable(input_variables, variable_metadata)
+
+        variable.history = 'Made a change.'
+        self.assertEqual(variable.history, 'Made a change.')
+
+        variable.history = 'Made another change.'
+        self.assertEqual(variable.history, 'Made a change.\nMade another change.')
+
 
 class TestUpdateConstraintsInExpression(unittest.TestCase):
 
@@ -424,6 +452,7 @@ class TestVariableModelToMIPMapping(unittest.TestCase):
         """
         Create the ``VariableModelToMIPMapping`` object.
         """
+        load_mapping_plugin('HadGEM3')
         self.model_id = 'HadGEM3-GC31-LL'
         self.variable_name = 'tasmin'
         self.stash = 'm01s03i236'
@@ -680,7 +709,7 @@ class TestReplaceConstants(unittest.TestCase):
 
     def test_replace_single_constant_using_constants_function(self):
         reference = 'CO2FLUX * 44.01'
-        output = replace_constants(self.expression, constants())
+        output = replace_constants(self.expression, all_constants())
         self.assertEqual(output, reference)
 
     def test_replace_single_constant_using_dict_with_two_values(self):

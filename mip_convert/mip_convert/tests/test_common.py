@@ -13,8 +13,7 @@ from mip_convert.common import (check_values_equal,
                                 parse_to_loadables,
                                 Loadable,
                                 remove_extra_time_axis)
-from mip_convert.process.config import mappings_config
-from cdds.common.plugins.plugin_loader import load_plugin
+from mip_convert.plugins.config import mappings_config_info
 
 
 class TestCheckValuesEqual(unittest.TestCase):
@@ -107,133 +106,133 @@ class TestParseToLoadables(unittest.TestCase):
 
     def test_invalid_constraint_error(self):
         expression = 'm01s01i001[lbwrong=10]'
-        self.assertRaises(NotImplementedError, parse_to_loadables, expression, {}, mappings_config)
+        self.assertRaises(NotImplementedError, parse_to_loadables, expression, {}, mappings_config_info)
 
     def test_lbproc_lt_error(self):
         expression = 'm01s01i001[lbproc<128]'
-        self.assertRaises(NotImplementedError, parse_to_loadables, expression, {}, mappings_config)
+        self.assertRaises(NotImplementedError, parse_to_loadables, expression, {}, mappings_config_info)
 
     def test_depth_lt_list_error(self):
         expression = 'thetao[depth<0.1 0.2]'
-        self.assertRaises(NotImplementedError, parse_to_loadables, expression, {}, mappings_config)
+        self.assertRaises(NotImplementedError, parse_to_loadables, expression, {}, mappings_config_info)
 
     def test_single_stash(self):
         expression = 'm01s03i236'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable(expression, [('stash', expression)])]
         self.assertEqual(expect, output)
 
     def test_single_variable_name(self):
         expression = 'siflcondbot'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable(expression, [('variable_name', expression)])]
         self.assertEqual(expect, output)
 
     def test_single_variable_name_underscore(self):
         expression = 'snow_ai'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable(expression, [('variable_name', expression)])]
         self.assertEqual(expect, output)
 
     def test_arithmetic_expression_stash(self):
         expression = 'm01s03i236 * 12345'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('m01s03i236', [('stash', 'm01s03i236')])]
         self.assertEqual(expect, output)
 
     def test_arithmetic_expression_variable_name(self):
         expression = 'siflcondbot * 12345'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('siflcondbot', [('variable_name', 'siflcondbot')])]
         self.assertEqual(expect, output)
 
     def test_arithmetic_expression_variable_name_with_underscores(self):
         expression = 'snow_ai * 12345'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('snow_ai', [('variable_name', 'snow_ai')])]
         self.assertEqual(expect, output)
 
     def test_constant_in_expression_stash(self):
         expression = 'm01s03i236 * SECONDS_IN_DAY'
-        output = parse_to_loadables(expression, {'SECONDS_IN_DAY': '86400'}, mappings_config)
+        output = parse_to_loadables(expression, {'SECONDS_IN_DAY': '86400'}, mappings_config_info)
         expect = [_loadable('m01s03i236', [('stash', 'm01s03i236')])]
         self.assertEqual(expect, output)
 
     def test_arithmetic_expression_with_constant_variable_name(self):
         expression = 'siflcondbot * ICE_DENSITY'
-        output = parse_to_loadables(expression, {'ICE_DENSITY': '1'}, mappings_config)
+        output = parse_to_loadables(expression, {'ICE_DENSITY': '1'}, mappings_config_info)
         expect = [_loadable('siflcondbot', [('variable_name', 'siflcondbot')])]
         self.assertEqual(expect, output)
 
     def test_arithmetic_expression_with_constant_variable_name_underscores(self):
         expression = 'snow_ai * SNOW_DENSITY'
-        output = parse_to_loadables(expression, {'SNOW_DENSITY': '1'}, mappings_config)
+        output = parse_to_loadables(expression, {'SNOW_DENSITY': '1'}, mappings_config_info)
         expect = [_loadable('snow_ai', [('variable_name', 'snow_ai')])]
         self.assertEqual(expect, output)
 
     def test_expression_with_additional_constraints_stash(self):
         expression = 'm01s03i236[lbproc=4098]'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable(expression, [('stash', 'm01s03i236'), ('lbproc', 4098)])]
         self.assertEqual(expect, output)
 
     def test_expression_with_additional_constraints_variable_name(self):
         expression = 'siflcondbot[cell_methods=time: mean]'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('siflcondbot[cell_methods=time: mean]',
                             [('variable_name', 'siflcondbot'), ('cell_methods', 'time: mean')])]
         self.assertEqual(expect, output)
 
     def test_expression_with_additional_constraints_variable_name_underscores(self):
         expression = 'snow_ai[cell_methods=time: mean]'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('snow_ai[cell_methods=time: mean]',
                             [('variable_name', 'snow_ai'), ('cell_methods', 'time: mean')])]
         self.assertEqual(expect, output)
 
     def test_expression_with_additional_constraints_depth(self):
         expression = 'thetao[depth=0.]'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('thetao[depth=0.]', [('variable_name', 'thetao'), ('depth', 0.0)])]
         self.assertEqual(expect, output)
 
     def test_expression_with_less_than_depth(self):
         expression = 'thetao[depth<100.]'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [Loadable('thetao[depth<100.]', [('variable_name', '=', 'thetao'), ('depth', '<', 100.0)])]
         self.assertEqual(expect, output)
 
     def test_expression_with_additional_constraints_multiple_values_stash(self):
         expression = 'm01s01i001[blev=850.0 500.0 250.0]'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('m01s01i001[blev=850.0 500.0 250.0]',
                             [('stash', 'm01s01i001'), ('blev', [850.0, 500.0, 250.0])])]
         self.assertEqual(expect, output)
 
     def test_expression_with_multiple_additional_constraints_stash(self):
         expression = '( m01s03i236[lbproc=4098, lbtim=128] )'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('m01s03i236[lbproc=4098, lbtim=128]',
                             [('stash', 'm01s03i236'), ('lbproc', 4098), ('lbtim', 128)])]
         self.assertEqual(expect, output)
 
     def test_expression_with_multiple_constraints_multiple_values_stash(self):
         expression = 'm01s01i001[blev = 850.0 500.0 250.0, lbproc = 4098]'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('m01s01i001[blev = 850.0 500.0 250.0, lbproc = 4098]',
                             [('stash', 'm01s01i001'), ('blev', [850., 500., 250.]), ('lbproc', 4098)])]
         self.assertEqual(expect, output)
 
     def test_expression_with_multiple_constraints_stash(self):
         expression = 'm01s19i013[lbplev = 3] + m01s19i014[lbplev = 4]'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('m01s19i013[lbplev = 3]', [('stash', 'm01s19i013'), ('lbplev', 3)]),
                   _loadable('m01s19i014[lbplev = 4]', [('stash', 'm01s19i014'), ('lbplev', 4)])]
         self.assertEqual(expect, output)
 
     def test_expression_with_everything_stash(self):
         expression = '(m01s19i013[lbplev = 3, lbproc = 128] + m01s19i013[lbplev=4] - m01s19i012) * DAYS_IN_YEAR + 100'
-        output = parse_to_loadables(expression, {'DAYS_IN_YEAR': 360}, mappings_config)
+        output = parse_to_loadables(expression, {'DAYS_IN_YEAR': 360}, mappings_config_info)
         expect = [_loadable('m01s19i013[lbplev = 3, lbproc = 128]',
                             [('stash', 'm01s19i013'), ('lbplev', 3), ('lbproc', 128)]),
                   _loadable('m01s19i013[lbplev=4]',
@@ -245,32 +244,32 @@ class TestParseToLoadables(unittest.TestCase):
 
     def test_expression_with_function(self):
         expression = 'test_mapping_function(m01s08i225)'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('m01s08i225', [('stash', 'm01s08i225')])]
         self.assertEqual(expect, output)
 
     def test_expression_with_function_with_space_before_paren(self):
         expression = 'test_mapping_function (m01s08i225)'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('m01s08i225', [('stash', 'm01s08i225')])]
         self.assertEqual(expect, output)
 
     def test_expression_with_function_space_after_paren(self):
         expression = 'test_mapping_function( m01s08i225)'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('m01s08i225', [('stash', 'm01s08i225')])]
         self.assertEqual(expect, output)
 
     def test_expression_with_function_and_argument(self):
         expression = 'veg_class_mean(m01s19i001, m01s19i013, veg_class="grass")'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('m01s19i001', [('stash', 'm01s19i001')]),
                   _loadable('m01s19i013', [('stash', 'm01s19i013')])]
         self.assertEqual(expect, output)
 
     def test_expression_with_function_and_arithmetic_argument(self):
         expression = 'sum_2d_and_3d(-1*berg_latent_heat_flux, vohflisf)'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('berg_latent_heat_flux', [('variable_name', 'berg_latent_heat_flux')]),
                   _loadable('vohflisf', [('variable_name', 'vohflisf')])]
         self.assertEqual(expect, output)
@@ -278,7 +277,7 @@ class TestParseToLoadables(unittest.TestCase):
     def test_expression_with_function_and_everything_stash(self):
         expression = ('DAYS_IN_YEAR * test_function_2(m01s03i111[lbproc=128, blev=850 950], '
                       'm01s03i123) / m01s03i001[lbproc=128] + 350')
-        output = parse_to_loadables(expression, {'DAYS_IN_YEAR': 360}, mappings_config)
+        output = parse_to_loadables(expression, {'DAYS_IN_YEAR': 360}, mappings_config_info)
         expect = [_loadable('m01s03i111[lbproc=128, blev=850 950]',
                             [('stash', 'm01s03i111'), ('lbproc', 128), ('blev', [850.0, 950.0])]),
                   _loadable('m01s03i123',
@@ -289,7 +288,7 @@ class TestParseToLoadables(unittest.TestCase):
 
     def test_repeat_constraint(self):
         expression = 'm01s08i223 * m01s08i223'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('m01s08i223', [('stash', 'm01s08i223')])]
         self.assertEqual(expect, output)
 
@@ -299,25 +298,25 @@ class TestParseToLoadables(unittest.TestCase):
             'MOLECULAR_MASS_OF_CO2': '44.',
             'SECONDS_IN_DAY': '86400.'
         }
-        output = parse_to_loadables(expression, constants, mappings_config)
+        output = parse_to_loadables(expression, constants, mappings_config_info)
         expect = [_loadable('CO2FLUX', [('variable_name', 'CO2FLUX')])]
         self.assertEqual(expect, output)
 
     def test_constant_expansion(self):
         expression = 'm01s01i001[blev=P500]'
-        output = parse_to_loadables(expression, {'P500': '500.'}, mappings_config)
+        output = parse_to_loadables(expression, {'P500': '500.'}, mappings_config_info)
         expect = [_loadable(expression, [('stash', 'm01s01i001'), ('blev', 500.)])]
         self.assertEqual(expect, output)
 
     def test_multi_constant_expansion(self):
         expression = 'm01s01i001[blev=PLEV2]'
-        output = parse_to_loadables(expression, {'PLEV2': '200. 500.'}, mappings_config)
+        output = parse_to_loadables(expression, {'PLEV2': '200. 500.'}, mappings_config_info)
         expect = [_loadable(expression, [('stash', 'm01s01i001'), ('blev', [200., 500.])])]
         self.assertEqual(expect, output)
 
     def test_expression_with_function_and_additional_parentheses(self):
         expression = 'land_use_tile_mean((m01s01i235[lbproc=128] - m01s03i382[lbproc=128]), m01s19i013[lbproc=128])'
-        output = parse_to_loadables(expression, {}, mappings_config)
+        output = parse_to_loadables(expression, {}, mappings_config_info)
         expect = [_loadable('m01s01i235[lbproc=128]', [('stash', 'm01s01i235'), ('lbproc', 128)]),
                   _loadable('m01s03i382[lbproc=128]', [('stash', 'm01s03i382'), ('lbproc', 128)]),
                   _loadable('m01s19i013[lbproc=128]', [('stash', 'm01s19i013'), ('lbproc', 128)])]
@@ -336,7 +335,7 @@ class TestParseToLoadables(unittest.TestCase):
             'SECONDS_IN_DAY': '86400.',
             'DAYS_IN_YEAR': '360.'
         }
-        output = parse_to_loadables(expression, constants, mappings_config)
+        output = parse_to_loadables(expression, constants, mappings_config_info)
         expect = [_loadable('m01s03i327[lbproc=128]', [('stash', 'm01s03i327'), ('lbproc', 128)]),
                   _loadable('m01s00i251[lbproc=128]', [('stash', 'm01s00i251'), ('lbproc', 128)]),
                   _loadable('m01s03i395[lbproc=128]', [('stash', 'm01s03i395'), ('lbproc', 128)]),

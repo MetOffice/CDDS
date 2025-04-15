@@ -179,9 +179,11 @@ class TestMainGenerateVariableList(unittest.TestCase):
         request.inventory.inventory_check = False
         request.data.variable_list_file = self.variable_list
         request.write(self.request_path)
+        plugin_id = request.metadata.model_id.split('-')[0]
 
         parameters = [
             self.request_path,
+            plugin_id,
             '--output_dir', output_dir
         ]
 

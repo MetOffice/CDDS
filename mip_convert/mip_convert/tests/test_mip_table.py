@@ -11,6 +11,7 @@ import os
 from textwrap import dedent
 import unittest
 
+from mip_convert.configuration.json_config import MIPConfig
 from mip_convert.mip_table import get_mip_table
 
 

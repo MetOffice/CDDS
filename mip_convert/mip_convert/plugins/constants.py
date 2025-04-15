@@ -6,6 +6,9 @@ in the |model to MIP mapping| expressions.
 """
 
 
+REQUIRED_MAPPING_OPTIONS = ['dimension', 'expression', 'mip_table_id', 'positive', 'status', 'units']
+
+
 def all_constants():
     """
     Return the names and values of the constants available for use in

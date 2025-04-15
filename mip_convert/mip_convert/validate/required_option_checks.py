@@ -7,7 +7,7 @@ import os
 import glob
 import logging
 
-from mip_convert.process import REQUIRED_OPTIONS
+from mip_convert.plugins.constants import REQUIRED_MAPPING_OPTIONS
 from mip_convert.configuration.python_config import ModelToMIPMappingConfig
 
 from typing import List, Tuple
@@ -40,7 +40,7 @@ def check_contains_all_required_options(plugin_id: str, common_mappings_file: st
         for section in mappings_config.sections:
             mapping = mappings_config.items(section)
             if section != 'COMMON':
-                for option in REQUIRED_OPTIONS:
+                for option in REQUIRED_MAPPING_OPTIONS:
                     if option not in mapping.keys():
                         message = 'Missing option {} for variable {} and MIP table {}'.format(
                             option, section, mapping.get('mip_table_id')
