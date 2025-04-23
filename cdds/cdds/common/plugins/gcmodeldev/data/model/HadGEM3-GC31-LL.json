@@ -186,9 +186,6 @@
     },
     "ocean": {
       "model_info": "eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics",
-      "bounds_coordinates": {
-        "inm-icemod": ["nav_lat", "nav_lon", "bounds_nav_lon", "bounds_nav_lat"]
-      },
       "nominal_resolution": "100 km",
       "longitude": 360,
       "latitude": 330,
