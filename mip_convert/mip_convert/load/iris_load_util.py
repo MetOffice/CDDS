@@ -234,6 +234,7 @@ def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates, anc
         cube = merged_cubes[0]
     else:
         equalise_attributes(merged_cubes)
+        remove_cell_methods_intervals(merged_cubes)
         try:
             cube = merged_cubes.concatenate_cube()
         except iris.exceptions.ConcatenateError:
@@ -249,6 +250,57 @@ def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates, anc
         if is_cice_file or has_cice_attributes:
             replace_coordinates(cube, replacement_coordinates)
     return cube
+
+
+def remove_cell_methods_intervals(cubes):
+    """Delete cube attributes that are not identical over all cubes in a group.
+
+    This function deletes any attributes which are not the same for all the
+    given cubes.  The cubes will then have identical attributes, and the
+    removed attributes are returned.  The given cubes are modified in-place.
+
+    Args:
+
+    * cubes (iterable of :class:`iris.cube.Cube`):
+        A collection of cubes to compare and adjust.
+
+    Returns:
+
+    * removed (list):
+        A list of dicts holding the removed attributes.
+
+    Notes
+    ------
+    This function maintains laziness when called; it does not realise data.
+    See more at :doc:`/userguide/real_and_lazy_data`.
+    """
+    logger = logging.getLogger(__name__)
+
+    # If we have more than one set of cell methods in the cubes
+    cell_methods_set = set([cube.cell_methods for cube in cubes])
+    if len(cell_methods_set) >1:
+        logger.debug("Attempting to unify cell_methods by removing intervals")
+        for cube in cubes:
+            # get the cell methods
+            cm_tuple = cube.cell_methods
+            # list for new cell methods
+            new_cellmethods_list = []
+            # flag for changes (don't overwrite if there are no changes to make)
+            changes = False
+            # check each cell method
+            for cm in cm_tuple:
+                # if intervals are defined remove them and flag changes otherwise add to list
+                if cm.intervals != ():
+                    new_cm = CellMethod(method=cm.method, coords=cm.coord_names, comments=cm.comments)
+                    new_cellmethods_list.append(new_cm)
+                    changes = True
+                    logger.debug("overwrote intervals property in '{}'".format(cm))
+                else:
+                    new_cellmethods_list.append(cm)
+            
+            # overwrite cell methods in cube
+            if changes:
+                cube.cell_methods = tuple(new_cellmethods_list)
 
 
 def setup_time_constraint(run_bounds):

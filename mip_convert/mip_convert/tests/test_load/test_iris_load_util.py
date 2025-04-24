@@ -9,12 +9,14 @@ import unittest
 from cftime import datetime
 import iris
 from iris.tests.stock import realistic_3d
+from iris.coords import CellMethod
 
 from cdds.common.constants import ANCIL_VARIABLES
 
 from mip_convert.load.iris_load_util import (
     ConstraintConstructor, pp_filter, compare_values, get_field_value,
-    remove_duplicate_cubes, split_netCDF_filename, rechunk)
+    remove_duplicate_cubes, split_netCDF_filename, rechunk, 
+    remove_cell_methods_intervals)
 from mip_convert.tests.common import DummyField, realistic_3d_atmos
 from mip_convert.new_variable import VariableModelToMIPMapping
 
@@ -477,6 +479,15 @@ class TestRechunking(unittest.TestCase):
         cube = realistic_3d_atmos(30, 324, 432, 85)
         rechunk(cube, {0: 'auto', 1: 20, 2: 324, 3: 432})
         self.assertEqual(cube.lazy_data().chunksize, (5, 20, 324, 432))
+
+
+class TestCellMethodsInterval(unittest.TestCase):
+    def test_interval_overwrite(self):
+        cubes = iris.cube.CubeList([realistic_3d(), realistic_3d()])
+        cubes[0].cell_methods = (CellMethod(method='mean', intervals=('2700 s',)),)
+        cubes[1].cell_methods = (CellMethod(method='mean', intervals=('1800 s',)),)
+        remove_cell_methods_intervals(cubes)
+        self.assertEqual(cubes[0].cell_methods, cubes[1].cell_methods)
 
 
 if __name__ == '__main__':
