@@ -37,7 +37,6 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-s',
                         '--stash_meta_filepath',
-                        default='/home/h01/frum/vn12.2/ctldata/STASHmaster/STASHmaster-meta.conf',
                         help='Path to a STASHmaster-meta.conf meta file.',
                         type=str)
     parser.add_argument('-o',

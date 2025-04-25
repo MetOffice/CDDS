@@ -146,6 +146,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         self.mip_era = 'CMIP6'
         self.mip = 'CMIP'
         self.model_id = 'HadGEM3-GC31-LL'
+        self.mapping_plugin = 'HadGEM3'
         self.model_type = 'AOGCM AER'
         self.experiment_id = 'historical'
         self.sub_experiment_id = 'none'
@@ -179,11 +180,9 @@ class TestMainGenerateVariableList(unittest.TestCase):
         request.inventory.inventory_check = False
         request.data.variable_list_file = self.variable_list
         request.write(self.request_path)
-        plugin_id = request.metadata.model_id.split('-')[0]
 
         parameters = [
             self.request_path,
-            plugin_id,
             '--output_dir', output_dir
         ]
 
@@ -208,6 +207,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         request.data.model_workflow_id = self.suite_id
         request.data.model_workflow_revision = self.revision
         request.data.variable_list_file = self.variable_list
+        request.conversion.mip_convert_plugin = self.mapping_plugin
         request.common.workflow_basename = self.request
         request.common.package = self.package
         request.common.root_proc_dir = self.root_proc_dir
@@ -243,6 +243,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         request.data.model_workflow_id = self.suite_id
         request.data.model_workflow_revision = self.revision
         request.data.variable_list_file = self.variable_list
+        request.conversion.mip_convert_plugin = self.mapping_plugin
         request.common.workflow_basename = self.request
         request.common.package = self.package
         request.common.root_proc_dir = self.root_proc_dir
@@ -283,6 +284,7 @@ class TestMainGenerateVariableList(unittest.TestCase):
         request.data.model_workflow_id = self.suite_id
         request.data.model_workflow_revision = self.revision
         request.data.variable_list_file = self.variable_list
+        request.conversion.mip_convert_plugin = self.mapping_plugin
         request.common.workflow_basename = self.request
         request.common.package = self.package
         request.common.root_proc_dir = tempfile.mkdtemp('proc')

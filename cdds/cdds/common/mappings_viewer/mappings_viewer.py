@@ -36,10 +36,6 @@ def get_mappings(model, mappings_directory, arguments):
     glob_string = os.path.join(mappings_directory, '*mappings.cfg')
     cfg_files = glob.glob(glob_string)
 
-    excluded_tables = {'GA7', 'Cres'}
-
-    cfg_files = filter(lambda x: not any([True if table in x else False for table in excluded_tables]), cfg_files)
-
     table_data = []
 
     for cfg_file in cfg_files:
