@@ -257,20 +257,8 @@ def remove_cell_methods_intervals(cubes):
     concatenation. This has been observed when ocean timesteps have been changed
     mid year in model runs to avoid grid point storms.
 
-    Args:
-
-    * cubes (iterable of :class:`iris.cube.Cube`):
-        A collection of cubes to compare and adjust.
-
-    Returns:
-
-    * removed (list):
-        A list of dicts holding the removed attributes.
-
-    Notes
-    ------
-    This function maintains laziness when called; it does not realise data.
-    See more at :doc:`/userguide/real_and_lazy_data`.
+    :param cubes: cube list to check for inconsistent cell method intervals
+    :type cubes: :class:`iris.cube.CubeList`
     """
     logger = logging.getLogger(__name__)
 
