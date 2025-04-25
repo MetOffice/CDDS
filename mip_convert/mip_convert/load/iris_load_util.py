@@ -253,11 +253,9 @@ def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates, anc
 
 
 def remove_cell_methods_intervals(cubes):
-    """Delete cube attributes that are not identical over all cubes in a group.
-
-    This function deletes any attributes which are not the same for all the
-    given cubes.  The cubes will then have identical attributes, and the
-    removed attributes are returned.  The given cubes are modified in-place.
+    """Remove intervals in cell methods in input cubes to avoid problems with
+    concatenation. This has been observed when ocean timesteps have been changed
+    mid year in model runs to avoid grid point storms.
 
     Args:
 
@@ -278,7 +276,7 @@ def remove_cell_methods_intervals(cubes):
 
     # If we have more than one set of cell methods in the cubes
     cell_methods_set = set([cube.cell_methods for cube in cubes])
-    if len(cell_methods_set) >1:
+    if len(cell_methods_set) > 1:
         logger.debug("Attempting to unify cell_methods by removing intervals")
         for cube in cubes:
             # get the cell methods
@@ -297,7 +295,7 @@ def remove_cell_methods_intervals(cubes):
                     logger.debug("overwrote intervals property in '{}'".format(cm))
                 else:
                     new_cellmethods_list.append(cm)
-            
+
             # overwrite cell methods in cube
             if changes:
                 cube.cell_methods = tuple(new_cellmethods_list)

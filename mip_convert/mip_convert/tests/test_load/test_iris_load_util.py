@@ -15,7 +15,7 @@ from cdds.common.constants import ANCIL_VARIABLES
 
 from mip_convert.load.iris_load_util import (
     ConstraintConstructor, pp_filter, compare_values, get_field_value,
-    remove_duplicate_cubes, split_netCDF_filename, rechunk, 
+    remove_duplicate_cubes, split_netCDF_filename, rechunk,
     remove_cell_methods_intervals)
 from mip_convert.tests.common import DummyField, realistic_3d_atmos
 from mip_convert.new_variable import VariableModelToMIPMapping
