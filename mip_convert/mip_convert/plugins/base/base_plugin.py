@@ -5,12 +5,12 @@ The :mod:`base_plugin` module contains the code that have the most plugins in co
 """
 import logging
 import os
-import glob
 
-from typing import Dict, Any
+from typing import Dict, List, Callable, Any
 
 from mip_convert.configuration.python_config import ModelToMIPMappingConfig
 from mip_convert.plugins.constants import all_constants
+from mip_convert.plugins.config import mappings_config_info
 from mip_convert.plugins.quality_control import MaskedArrayBoundsChecker, UM_MDI, RAISE_EXCEPTION
 from mip_convert.plugins.plugins import MappingPlugin
 
@@ -100,3 +100,28 @@ class BaseMappingPlugin(MappingPlugin):
         :rtype: MaskedArrayBoundsChecker
         """
         return MaskedArrayBoundsChecker(fill_value, valid_min, valid_max, tol_min, tol_max, tol_min_action, oob_action)
+
+    def required_options(self) -> List[str]:
+        """
+        Returns the required options that must be defined for each |model to MIP mapping|.
+
+        :return: The required options for each mapping
+        :rtype: List[str]
+        """
+        return [
+            'dimension',
+            'expression',
+            'mip_table_id',
+            'positive',
+            'status',
+            'units'
+        ]
+
+    def mappings_config_info_func(self) -> Callable[[], dict[str, dict[str, Any]]]:
+        """
+        Define the information to be read from the |model to MIP mapping| configuration file.
+
+        :return: Information to be read from the mapping
+        :rtype: Callable[[], Dict[str, Dict[str, Any]]]
+        """
+        return mappings_config_info

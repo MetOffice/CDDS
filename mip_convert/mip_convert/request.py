@@ -9,8 +9,8 @@ information provided in the |user configuration file|.
 import iris
 import logging
 
-from mip_convert.plugins.plugin_loader import load_plugin
-from mip_convert.plugins.plugins import PluginStore
+from mip_convert.plugins.plugin_loader import load_mapping_plugin
+from mip_convert.plugins.plugins import MappingPluginStore
 from mip_convert.save.cmor import cmor_lite
 from mip_convert.requirements import software_versions
 from mip_convert.requested_variables import get_requested_variables, produce_mip_requested_variable
@@ -19,7 +19,6 @@ from mip_convert.save.setup_cmor import setup_cmor
 from mip_convert.configuration.text_config import HybridHeightConfig, SitesConfig
 from mip_convert.configuration.python_config import UserConfig
 
-from mip_convert.mip_table import get_model_to_mip_mappings
 from mip_convert.mip_table import get_mip_table
 from mip_convert.model_output_files import get_files_to_produce_output_netcdf_files
 
@@ -101,18 +100,15 @@ def convert(parameters):
             user_config.root_load_path, user_config.suite_id, stream_id, substream, user_config.ancil_files
         )
 
-        load_plugin(
+        load_mapping_plugin(
             user_config.mip_convert_plugin,
             user_config.mip_convert_external_plugin,
             user_config.mip_convert_external_plugin_location
         )
         # Read and validate the 'model to MIP mappings'.
 
-        if PluginStore.instance().has_plugin_loaded():
-            mapping_plugin = PluginStore.instance().get_plugin()
-            model_to_mip_mappings = mapping_plugin.load_model_to_mip_mapping(mip_table_name)
-        else:
-            model_to_mip_mappings = get_model_to_mip_mappings(user_config.source_id, mip_table_name)
+        mapping_plugin = MappingPluginStore.instance().get_plugin()
+        model_to_mip_mappings = mapping_plugin.load_model_to_mip_mapping(mip_table_name)
 
         # Read and validate the 'MIP table'.
         mip_table_name_json = mip_table_name + '.json'

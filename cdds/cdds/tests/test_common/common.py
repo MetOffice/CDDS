@@ -8,7 +8,7 @@ import subprocess
 import jinja2
 
 from mip_convert.common import parse_to_loadables
-from mip_convert.plugins.base.config import mappings_config_info
+from mip_convert.plugins.config import mappings_config_info
 
 
 class DummyMapping(object):

@@ -9,7 +9,7 @@ import iris.cube
 
 from mip_convert.configuration.python_config import ModelToMIPMappingConfig
 from mip_convert.plugins.quality_control import BoundsChecker
-from typing import Dict, Any
+from typing import Dict, Any, List, Callable
 
 
 class MappingPlugin(object, metaclass=ABCMeta):
@@ -104,8 +104,30 @@ class MappingPlugin(object, metaclass=ABCMeta):
         """
         pass
 
+    @abstractmethod
+    def required_options(self) -> List[str]:
+        """
+        Returns the required options that must be defined for each |model to MIP mapping|.
+        For example:
+            'dimension', 'expression', 'mip_table_id', 'positive', 'status', 'units'
 
-class PluginStore:
+        :return: The required options for each mapping
+        :rtype: List[str]
+        """
+        pass
+
+    @abstractmethod
+    def mappings_config_info_func(self) -> Callable[[], dict[str, dict[str, Any]]]:
+        """
+        Define the information to be read from the |model to MIP mapping| configuration file.
+
+        :return: Information to be read from the mapping
+        :rtype: Callable[[], Dict[str, Dict[str, Any]]]
+        """
+        pass
+
+
+class MappingPluginStore:
     """
     Singleton class to store the Mapping plugin for the current model (e.g. HadGEM3).
 
@@ -114,22 +136,22 @@ class PluginStore:
     _instance = None
 
     def __init__(self):
-        if PluginStore._instance is not None:
+        if MappingPluginStore._instance is not None:
             raise Exception('Class is a singleton and can not initialised twice!')
 
         self._plugin: MappingPlugin = None
 
     @classmethod
-    def instance(cls) -> 'PluginStore':
+    def instance(cls) -> 'MappingPluginStore':
         """
         Returns the class instance. If none is created, yet, a new instance will
         be created and stored (see Singleton pattern).
 
         :return: Class instance
-        :rtype: PluginStore
+        :rtype: MappingPluginStore
         """
         if cls._instance is None:
-            cls._instance = PluginStore()
+            cls._instance = MappingPluginStore()
         return cls._instance
 
     def register_plugin(self, plugin: MappingPlugin) -> None:

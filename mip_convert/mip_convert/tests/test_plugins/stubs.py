@@ -24,3 +24,9 @@ class EmptyMappingPlugin(MappingPlugin):
 
     def load_model_to_mip_mapping(self, mip_table_name):
         pass
+
+    def mappings_config_info_func(self):
+        pass
+
+    def required_options(self):
+        pass
