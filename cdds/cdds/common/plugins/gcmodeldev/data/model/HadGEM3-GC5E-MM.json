@@ -1,0 +1,344 @@
+{
+  "stream_file_frequency": {
+    "monthly": [
+      "ap1",
+      "ap2",
+      "ap3",
+      "ap4",
+      "ap5",
+      "ap6",
+      "ap7",
+      "ap8",
+      "ap9",
+      "apa",
+      "apb",
+      "apc",
+      "apd",
+      "ape",
+      "apf",
+      "apg",
+      "apk",
+      "apm",
+      "apt",
+      "apu",
+      "ind",
+      "inm",
+      "ond",
+      "onm"
+    ],
+    "quarterly": [
+      "aps"
+    ]
+  },
+  "cycle_length": {
+    "ap1": "P5Y",
+    "ap2": "P5Y",
+    "ap3": "P5Y",
+    "ap4": "P5Y",
+    "ap5": "P5Y",
+    "ap6": "P5Y",
+    "ap7": "P3M",
+    "ap8": "P1Y",
+    "ap9": "P1Y",
+    "apa": "P5Y",
+    "apb": "P5Y",
+    "apc": "P5Y",
+    "apd": "P5Y",
+    "ape": "P5Y",
+    "apf": "P5Y",
+    "apg": "P5Y",
+    "apk": "P5Y",
+    "apm": "P5Y",
+    "aps": "P5Y",
+    "apt": "P3M",
+    "apu": "P5Y",
+    "ind": "P1Y",
+    "inm": "P5Y",
+    "ond": "P1Y",
+    "onm": "P2Y"
+  },
+  "memory": {
+    "ap1": "12G",
+    "ap2": "12G",
+    "ap3": "12G",
+    "ap4": "12G",
+    "ap5": "12G",
+    "ap6": "30G",
+    "ap7": "32G",
+    "ap8": "24G",
+    "ap9": "64G",
+    "apa": "12G",
+    "apb": "12G",
+    "apc": "12G",
+    "apd": "12G",
+    "ape": "12G",
+    "apf": "12G",
+    "apg": "12G",
+    "apk": "12G",
+    "apm": "8G",
+    "aps": "12G",
+    "apt": "12G",
+    "apu": "8G",
+    "ind": "8G",
+    "inm": "8G",
+    "ond": "32G",
+    "onm": "16G"
+  },
+  "temp_space": {
+    "ap1": 80960,
+    "ap2": 80960,
+    "ap3": 8192,
+    "ap4": 98304,
+    "ap5": 80960,
+    "ap6": 98304,
+    "ap7": 65536,
+    "ap8": 32768,
+    "ap9": 32768,
+    "apa": 80960,
+    "apb": 80960,
+    "apc": 80960,
+    "apd": 80960,
+    "ape": 80960,
+    "apf": 80960,
+    "apg": 40960,
+    "apk": 98304,
+    "apm": 8192,
+    "aps": 32768,
+    "apt": 32768,
+    "apu": 20480,
+    "ind": 8192,
+    "inm": 8192,
+    "ond": 32768,
+    "onm": 32768
+  },
+  "sizing_info": {
+    "mon": {
+      "default": 20,
+      "85-324-432": 10,
+      "85-325-432": 10,
+      "86-324-432": 10,
+      "75-1205-1440": 5
+    },
+    "monPt": {
+      "default": 20,
+      "85-324-432": 10,
+      "85-325-432": 10,
+      "86-324-432": 10,
+      "75-1205-1440": 10
+    },
+    "yr": {
+      "default": 20
+    },
+    "yrPt": {
+      "default": 20
+    },
+    "day": {
+      "default": 5,
+      "19-324-432": 1,
+      "19-325-432": 1,
+      "27-324-432": 1,
+      "4-324-432": 1,
+      "5-324-432": 1,
+      "7-324-432": 1,
+      "7-7-324-432": 0.5,
+      "1205-1440": 5,
+      "40-324-432": 1,
+      "85-324-432": 1,
+      "85-325-432": 1,
+      "86-324-432": 1
+    },
+    "6hr": {
+      "default": 1,
+      "324-432": 10,
+      "325-432": 10,
+      "4-324-432": 1,
+      "4-325-432": 1,
+      "3-324-432": 1,
+      "3-325-432": 1,
+      "7-324-432": 1,
+      "7-325-432": 1,
+      "85-324-432": 0.25,
+      "85-325-432": 0.25
+    },
+    "6hrPt": {
+      "default": 1,
+      "324-432": 10,
+      "325-432": 10,
+      "4-324-432": 1,
+      "4-325-432": 1,
+      "3-324-432": 1,
+      "3-325-432": 1,
+      "7-324-432": 1,
+      "7-325-432": 1,
+      "85-324-432": 0.25,
+      "85-325-432": 0.25
+    },
+    "3hr": {
+      "default": 1,
+      "324-432": 10,
+      "325-432": 10,
+      "7-324-432": 1,
+      "7-325-432": 1,
+      "85-324-432": 0.25,
+      "85-325-432": 0.25
+    },
+    "3hrPt": {
+      "default": 1,
+      "324-432": 10,
+      "325-432": 10,
+      "7-324-432": 1,
+      "7-325-432": 1,
+      "85-324-432": 0.25,
+      "85-325-432": 0.25
+    },
+    "1hr": {
+      "default": 1
+    },
+    "1hrCM": {
+      "default": 1
+    },
+    "subhrPt": {
+      "default": 10
+    }
+  },
+  "grid_info": {
+    "atmos": {
+      "atmos_timestep": 900,
+      "model_info": "N216 grid",
+      "nominal_resolution": "100 km",
+      "longitude": 432,
+      "latitude": 324,
+      "v_latitude": 325,
+      "levels": 85,
+      "ancil_filenames": [],
+      "hybrid_heights_files": [
+        "atmosphere_theta_levels_85.txt",
+        "atmosphere_rho_levels_86.txt"
+      ]
+    },
+    "ocean": {
+      "bounds_coordinates": {
+        "onm-grid-T": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ],
+        "onm-grid-U": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ],
+        "onm-grid-V": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ],
+        "onm-grid-W": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ],
+        "onm-grid-X": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds",
+          "deptht_bounds"
+        ]
+      },
+      "model_info": "eORCA025 tripolar primarily 1/4 deg grid",
+      "nominal_resolution": "25 km",
+      "longitude": 1440,
+      "latitude": 1205,
+      "levels": 75,
+      "replacement_coordinates_file": "",
+      "ancil_filenames": [],
+      "masked": {
+        "grid-V": {
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            null,
+            null,
+            null
+          ]
+        },
+        "grid-T": {
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            720,
+            null,
+            null
+          ]
+        },
+        "grid-U": {
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            720,
+            null,
+            null
+          ]
+        },
+        "grid-W": {
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            720,
+            null,
+            null
+          ]
+        },
+        "cice-T": {
+          "slice_latitude": [
+            -1,
+            null,
+            null
+          ],
+          "slice_longitude": [
+            720,
+            null,
+            null
+          ]
+        }
+      },
+      "halo_options": {
+        "grid-T": [
+          "-dx,1,1440",
+          "-dy,1,1205"
+        ],
+        "grid-U": [
+          "-dx,1,1440",
+          "-dy,1,1205"
+        ],
+        "grid-V": [
+          "-dx,1,1440",
+          "-dy,1,1205"
+        ],
+        "grid-W": [
+          "-dx,1,1440",
+          "-dy,1,1205"
+        ],
+        "diaptr": [
+          "-dy,1,1205"
+        ]
+      }
+    }
+  }
+}
