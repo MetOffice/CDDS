@@ -15,21 +15,18 @@ import cf_units
 import cftime
 import iris
 from iris.time import PartialDateTime
-from iris.analysis.cartography import rotate_pole, get_xy_grids, get_xy_contiguous_bounded_grids
 from iris.coord_systems import RotatedGeogCS, GeogCS
 from iris.util import guess_coord_axis
 import numpy as np
 
 from cdds.common import DATE_TIME_REGEX
 from cdds.common.constants import ANCIL_VARIABLES
-from mip_convert.plugins.plugins import PluginStore
+from mip_convert.plugins.constants import constants
+from mip_convert.plugins.plugins import MappingPluginStore
 from mip_convert.common import (
     DEFAULT_FILL_VALUE, Longitudes, validate_latitudes, format_date,
     MIP_to_model_axis_name_mapping, apply_time_constraint, raw_to_value,
     parse_to_loadables)
-from mip_convert.process.config import mappings_config
-from mip_convert.process.constants import constants, other_constants
-from mip_convert.process.processors import *
 from mip_convert.constants import TIMESTEP, PREDEFINED_BOUNDS, OVERRIDE_AXIS_DIRECTION
 from mip_convert.variable import make_masked
 
@@ -212,30 +209,6 @@ class Variable(object):
 
         Create a :class:`Variable` object and update the
         :meth:`history` multiple times:
-
-        >>> input_variables = {}
-        >>> variable_model_to_mip_mapping = VariableModelToMIPMapping(
-        ...     'tas', {'expression': 'm01s03i236', 'positive': None,
-        ...     'units': 'K'}, 'HadGEM3-GC31-LL')
-        >>> variable_mip_metadata = VariableMIPMetadata(
-        ...     {'dimensions': 'longitude latitude time',
-        ...      'out_name': 'tas'},
-        ...     {'longitude': {'axis': 'Y', 'out_name': 'lon'},
-        ...      'latitude': {'axis': 'X', 'out_name': 'lat'},
-        ...      'time': {'axis': 'T', 'out_name': 'time'}})
-        >>> variable_metadata = VariableMetadata(
-        ...     'tas', 'apa', None, 'CMIP5_day', variable_mip_metadata,
-        ...     None, None, None, variable_model_to_mip_mapping, None,
-        ...     ['1981-09-01T00:00:00', '1981-09-11T00:00:00'],
-        ...     '360_day', '1970-01-01T00:00:00', 9, False, ['m01s00i505'])
-        >>> variable = Variable(input_variables, variable_metadata)
-        >>> variable.history = 'Made a change.'
-        >>> print(variable.history)
-        Made a change.
-        >>> variable.history = 'Made another change.'
-        >>> print(variable.history)
-        Made a change.
-        Made another change.
         """
         return self._history
 
@@ -485,11 +458,8 @@ class Variable(object):
         expression = expression.replace(TIMESTEP, str(self._timestep))
         expression = _update_constraints_in_expression(list(self.input_variables.keys()), expression)
         self.logger.debug('Evaluating expression "{}"'.format(expression))
-        if PluginStore.instance().has_plugin_loaded():
-            plugin = PluginStore.instance().get_plugin()
-            self.cube = plugin.evaluate_expression(expression, self.input_variables)
-        else:
-            self.cube = eval(expression)
+        plugin = MappingPluginStore.instance().get_plugin()
+        self.cube = plugin.evaluate_expression(expression, self.input_variables)
         if fill_value is not None:
             self.cube.attributes['fill_value'] = fill_value
         self.logger.debug('{cube}'.format(cube=self.cube))
@@ -654,8 +624,9 @@ class Variable(object):
             coord_names = [coord.name() for coord in self.cube.coords()]
             if self._variable_metadata.reference_time is not None and 'forecast_reference_time' not in coord_names:
                 # insert a dummy reference time, it will be updated with proper values later
+                units = cf_units.Unit('days since 1850-01-01 00:00:00', calendar='360_day')
                 reference_time = iris.coords.DimCoord(np.array([0.5]), standard_name='forecast_reference_time',
-                                                      units=Unit('days since 1850-01-01 00:00:00', calendar='360_day'))
+                                                      units=units)
                 self.cube.add_aux_coord(reference_time, data_dims=None)
             all_cube_coords = {(coord.name(), guess_coord_axis(coord)): coord for coord in self.cube.coords()}
             cube_axis_directions = [axis_direction for (_, axis_direction) in list(all_cube_coords.keys())]
@@ -842,8 +813,6 @@ class VariableModelToMIPMapping(object):
     Store the |model to MIP mapping| for a |MIP requested variable|.
     """
 
-    config = mappings_config()
-
     def __init__(self, mip_requested_variable_name, model_to_mip_mapping, model_id):
         """
         Parse the expression provided by the ``model_to_mip_mapping``
@@ -877,7 +846,7 @@ class VariableModelToMIPMapping(object):
         for loadable in self.loadables:
             expression = expression.replace(loadable.name, '({})'.format(loadable.info))
         # Include the value of the constant as well as the name.
-        expression = replace_constants(expression, other_constants(), replacement_string='name_value')
+        expression = replace_constants(expression, constants(), replacement_string='name_value')
         # remove lbtim default constraints if they aren't explicit in the expression.
         for lbtim_constraint in ['lbtim_ia', 'lbtim_ib']:
             if lbtim_constraint not in self.expression:
@@ -888,21 +857,16 @@ class VariableModelToMIPMapping(object):
         result = self.model_to_mip_mapping['expression']
         for loadable in self.loadables:
             result = result.replace(loadable.name, loadable.constraint)
-        if PluginStore.instance().has_plugin_loaded():
-            plugin = PluginStore.instance().get_plugin()
-            result = replace_constants(result, plugin.constants())
-        else:
-            result = replace_constants(result, constants())
+        plugin = MappingPluginStore.instance().get_plugin()
+        result = replace_constants(result, plugin.constants())
         return result
 
     def _loadables(self):
-        if PluginStore.instance().has_plugin_loaded():
-            plugin = PluginStore.instance().get_plugin()
-            consts = plugin.constants()
-        else:
-            consts = constants()
+        plugin = MappingPluginStore.instance().get_plugin()
+        consts = plugin.constants()
         consts.update({TIMESTEP: TIMESTEP})
-        return parse_to_loadables(self.model_to_mip_mapping['expression'], consts, mappings_config)
+        mapping_config_info__func = plugin.mappings_config_info_func()
+        return parse_to_loadables(self.model_to_mip_mapping['expression'], consts, mapping_config_info__func)
 
     def _add_attributes(self):
         """
@@ -910,8 +874,10 @@ class VariableModelToMIPMapping(object):
         file for the |MIP requested variable| as specified by the
         ``model_to_mip_mapping`` parameter as attributes to the object.
         """
+        plugin = MappingPluginStore.instance().get_plugin()
+        mapping_config_info__func = plugin.mappings_config_info_func()
         for option, raw_value in list(self.model_to_mip_mapping.items()):
-            value = raw_to_value(mappings_config, option, raw_value)
+            value = raw_to_value(mapping_config_info__func, option, raw_value)
             setattr(self, option, value)
 
 

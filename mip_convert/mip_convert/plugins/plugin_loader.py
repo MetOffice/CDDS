@@ -10,7 +10,7 @@ import logging
 
 from typing import Any, List
 
-from mip_convert.plugins.plugins import MappingPlugin, PluginStore
+from mip_convert.plugins.plugins import MappingPlugin, MappingPluginStore
 from mip_convert.plugins.hadgem3.hadgem3_plugin import HadGEM3MappingPlugin
 from mip_convert.plugins.ukesm1.ukesm1_plugin import UKESM1MappingPlugin
 from mip_convert.plugins.hadrem_cp4a.hadrem_cp4a_plugin import HadREM_CP4AMappingPlugin
@@ -24,7 +24,7 @@ INTERNAL_PLUGINS: List[MappingPlugin] = [HadGEM3MappingPlugin(),
                                          HadREM_CP4AMappingPlugin()]
 
 
-def load_plugin(plugin_id: str, plugin_module_path: str = None, plugin_location: str = None) -> None:
+def load_mapping_plugin(plugin_id: str, plugin_module_path: str = None, plugin_location: str = None) -> None:
     """
     Searches for a Mapping plugin that is responsible for the model with given ID,
     loads it and registers it.
@@ -34,24 +34,24 @@ def load_plugin(plugin_id: str, plugin_module_path: str = None, plugin_location:
 
     :param plugin_id: The MIP era that plugin is responsible for (Default: CMIP6)
     :type plugin_id: str
-    :param plugin_module_path:
-    :type plugin_module_path:
-    :param plugin_location:
-    :type plugin_location:
+    :param plugin_module_path: Path to the module that contains the implementation of the plugin that should be loaded
+    :type plugin_module_path: str
+    :param plugin_location: Path to the plugin implementation that should be added to the PYTHONPATH
+    :type plugin_location: str
     """
     if plugin_location:
         sys.path.append(plugin_location)
 
     if plugin_module_path:
-        load_external_plugin(plugin_id, plugin_module_path, plugin_id)
+        load_external_mapping_plugin(plugin_id, plugin_module_path, plugin_id)
     else:
         try:
             internal_plugin = find_internal_plugin(plugin_id)
-            plugin_store = PluginStore.instance()
+            plugin_store = MappingPluginStore.instance()
             plugin_store.register_plugin(internal_plugin)
         except PluginLoadError:
-            PluginStore.clean_instance()
-            PluginStore.instance()
+            MappingPluginStore.clean_instance()
+            MappingPluginStore.instance()
 
 
 def find_internal_plugin(plugin_id: str) -> MappingPlugin:
@@ -74,7 +74,7 @@ def find_internal_plugin(plugin_id: str) -> MappingPlugin:
     raise PluginLoadError(message)
 
 
-def load_external_plugin(plugin_id: str, plugin_module_path: str, model_id: str) -> None:
+def load_external_mapping_plugin(plugin_id: str, plugin_module_path: str, model_id: str) -> None:
     """
     Loads the plugin for the model with given ID that is implemented in the module at given path.
 
@@ -92,7 +92,7 @@ def load_external_plugin(plugin_id: str, plugin_module_path: str, model_id: str)
         raise PluginLoadError(message)
 
     logger.info('Load external plugin for {}'.format(plugin_id))
-    plugin_store = PluginStore.instance()
+    plugin_store = MappingPluginStore.instance()
     plugin_store.register_plugin(external_plugin)
 
 

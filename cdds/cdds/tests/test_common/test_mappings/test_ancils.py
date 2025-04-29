@@ -34,7 +34,7 @@ class TestRemoveAncilVariableMapping(unittest.TestCase):
 
     def test_pp_no_ancil(self):
         expected = deepcopy(self.mapping_pp_no_ancil)
-        result = remove_ancils_from_mapping(self.mapping_pp_no_ancil)
+        result = remove_ancils_from_mapping(self.mapping_pp_no_ancil, self.mapping_pp_no_ancil.model_id)
         self.assertListEqual(expected.loadables, result.loadables)
 
     def test_pp_ancil(self):
@@ -42,12 +42,12 @@ class TestRemoveAncilVariableMapping(unittest.TestCase):
         for loadable in expected.loadables:
             if loadable.name == 'm01s00i505':
                 expected.loadables.remove(loadable)
-        result = remove_ancils_from_mapping(self.mapping_pp_ancil)
+        result = remove_ancils_from_mapping(self.mapping_pp_ancil, self.mapping_pp_ancil.model_id)
         self.assertListEqual(expected.loadables, result.loadables)
 
     def test_nc_no_ancil(self):
         expected = deepcopy(self.mapping_nc_no_ancil)
-        result = remove_ancils_from_mapping(self.mapping_nc_no_ancil)
+        result = remove_ancils_from_mapping(self.mapping_nc_no_ancil, self.mapping_nc_no_ancil.model_id)
         self.assertListEqual(expected.loadables, result.loadables)
 
     def test_nc_ancil(self):
@@ -55,7 +55,7 @@ class TestRemoveAncilVariableMapping(unittest.TestCase):
         for loadable in expected.loadables:
             if loadable.name == 'mask_3D_U':
                 expected.loadables.remove(loadable)
-        result = remove_ancils_from_mapping(self.mapping_nc_ancil)
+        result = remove_ancils_from_mapping(self.mapping_nc_ancil, self.mapping_nc_ancil.model_id)
         self.assertListEqual(expected.loadables, result.loadables)
 
     def test_nc_many_ancil(self):
@@ -64,7 +64,7 @@ class TestRemoveAncilVariableMapping(unittest.TestCase):
             for loadable in expected.loadables:
                 if loadable.name == ancil:
                     expected.loadables.remove(loadable)
-        result = remove_ancils_from_mapping(self.mapping_nc_many_ancil)
+        result = remove_ancils_from_mapping(self.mapping_nc_many_ancil, self.mapping_nc_many_ancil.model_id)
         self.assertListEqual(expected.loadables, result.loadables)
 
 

@@ -9,8 +9,9 @@ import unittest
 from typing import List
 
 import cdds.common.mappings.mapping as mapping
-from cdds.common.plugins.plugin_loader import load_plugin, load_external_plugin
 from cdds.common.plugins.cmip6.cmip6_models import HadGEM3_GC31_LL_Params
+import cdds.common.plugins.plugin_loader as plugin_loader
+import mip_convert.plugins.plugin_loader as mapping_plugin_loader
 
 
 class TestMassFilters(unittest.TestCase):
@@ -35,7 +36,8 @@ class TestMassFilters(unittest.TestCase):
         return mass_filters
 
     def setUp(self):
-        load_plugin()
+        plugin_loader.load_plugin()
+        mapping_plugin_loader.load_mapping_plugin('UKESM1')
 
     def create_simple_patches(self, mock_streams_cfg=False):
         results = {

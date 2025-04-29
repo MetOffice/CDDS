@@ -4,12 +4,16 @@
 The :mod:`config` module defines the information to be read from the
 |model to MIP mapping| configuration file.
 """
+from typing import Dict, Any
 
 
-def mappings_config():
+def mappings_config_info() -> Dict[str, Dict[str, Any]]:
     """
     Define the information to be read from the |model to MIP mapping|
     configuration file.
+
+    :return: Information to be read from the |model to MIP mapping| configuration file
+    :rtype: Dict[str, Dict[str, Any]]
     """
     return {
         'blev': {

@@ -53,7 +53,7 @@ from cdds.common.mappings.ancils import remove_ancils_from_mapping
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.pp import stash_to_int
 
-from mip_convert.mip_table import get_model_to_mip_mappings
+from mip_convert.plugins.plugins import MappingPluginStore
 from mip_convert.requested_variables import get_variable_model_to_mip_mapping
 
 
@@ -172,7 +172,7 @@ class ModelToMip(object):
                     # Remove ancillaries from mapping to avoid attempting
                     # to retrieve them from MASS.
                     variable_mapping = remove_ancils_from_mapping(
-                        variable_mapping)
+                        variable_mapping, self._model_id)
                 except configparser.Error:
                     variable_mapping = None
                 mapping = self._build_mapping(variable_name,
@@ -264,9 +264,9 @@ class ModelToMip(object):
         return self._mip_era
 
     def _mapping_for_model(self, mip_table_id):
+        mapping_plugin = MappingPluginStore.instance().get_plugin()
         mip_table_name = self.project + "_" + mip_table_id
-        model_mapping = get_model_to_mip_mappings(
-            self._to_map["science"]["model_id"], mip_table_name)
+        model_mapping = mapping_plugin.load_model_to_mip_mapping(mip_table_name)
         return model_mapping
 
     def _split_by_mip_table(self):
