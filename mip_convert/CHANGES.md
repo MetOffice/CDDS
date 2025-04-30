@@ -1,6 +1,8 @@
-## Release 3.1.2rc1, April 11 2025
+## Release 3.1.2, April 30 2025
 
--   No changes
+-  `interval` specifications in the `cell_methods` field of input netCDF files
+    are now ignored to avoid mid-year changes in model timestep causing iris
+    to raise concatenation errors (CDDSO-648)
 
 ## Release 3.1.1, March 19 2025
 
