@@ -4,12 +4,9 @@
 """
 These tests relies on the MIP convert mapping configurations
 """
-from abc import ABC
 import unittest
-from typing import List
 
 import cdds.common.mappings.mapping as mapping
-from cdds.common.plugins.cmip6.cmip6_models import HadGEM3_GC31_LL_Params
 import cdds.common.plugins.plugin_loader as plugin_loader
 import mip_convert.plugins.plugin_loader as mapping_plugin_loader
 
@@ -38,53 +35,6 @@ class TestMassFilters(unittest.TestCase):
     def setUp(self):
         plugin_loader.load_plugin()
         mapping_plugin_loader.load_mapping_plugin('UKESM1')
-
-    def create_simple_patches(self, mock_streams_cfg=False):
-        results = {
-            "streams.cfg": False,
-            "UKESM1_mappings.cfg": False,
-            "UKESM1-0-LL_mappings.cfg": False,
-            "Amon_mappings.cfg": False,
-            "CFday_mappings.cfg": False,
-            "CFmon_mappings.cfg": False,
-            "Eday_mappings.cfg": False,
-            "HadGEM3_EdayZ_mappings.cfg": False,
-            "Emon_mappings.cfg": False,
-            "EmonZ_mappings.cfg": False,
-            "Lmon_mappings.cfg": False,
-            "Omon_mappings.cfg": False,
-            "day_mappings.cfg": False,
-            "6hrPlev_mappings.cfg": False,
-            "UKESM1_Amon_mappings.cfg": False,
-            "UKESM1_CFday_mappings.cfg": False,
-            "UKESM1_CFmon_mappings.cfg": False,
-            "UKESM1_Eday_mappings.cfg": False,
-            "UKESM1_EdayZ_mappings.cfg": False,
-            "UKESM1_Emon_mappings.cfg": False,
-            "UKESM1_EmonZ_mappings.cfg": False,
-            "UKESM1_Lmon_mappings.cfg": False,
-            "UKESM1_Omon_mappings.cfg": False,
-            "UKESM1_day_mappings.cfg": False,
-            "UKESM1_6hrPlev_mappings.cfg": False,
-            "UKESM1-0-LL_Amon_mappings.cfg": False,
-            "UKESM1-0-LL_CFday_mappings.cfg": False,
-            "UKESM1-0-LL_CFmon_mappings.cfg": False,
-            "UKESM1-0-LL_Eday_mappings.cfg": False,
-            "UKESM1-0-LL_EdayZ_mappings.cfg": False,
-            "UKESM1-0-LL_Emon_mappings.cfg": False,
-            "UKESM1-0-LL_EmonZ_mappings.cfg": False,
-            "UKESM1-0-LL_Lmon_mappings.cfg": False,
-            "UKESM1-0-LL_Omon_mappings.cfg": False,
-            "UKESM1-0-LL_day_mappings.cfg": False,
-            "UKESM1-0-LL_6hrPlev_mappings.cfg": False,
-        }
-        if mock_streams_cfg:
-            results["streams.cfg"] = True
-            mock_open(self, "streams.cfg", TestMassFilters.fake_streams())
-
-        mock_isfile(self, results)
-        mock_open(
-            self, "common_mappings.cfg", TestMassFilters.fake_common_mapping())
 
     def test_initialises_from_valid_json(self):
         mip_era = "CMIP6"
