@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#release-312rc1-april-11-2025" class="md-skip">
+        <a href="#release-312-april-30-2025" class="md-skip">
           Skip to content
         </a>
       
@@ -340,8 +340,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#release-312rc1-april-11-2025" class="md-nav__link">
-    Release 3.1.2rc1, April 11 2025
+  <a href="#release-312-april-30-2025" class="md-nav__link">
+    Release 3.1.2, April 30 2025
   </a>
   
 </li>
@@ -1993,8 +1993,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#release-312rc1-april-11-2025" class="md-nav__link">
-    Release 3.1.2rc1, April 11 2025
+  <a href="#release-312-april-30-2025" class="md-nav__link">
+    Release 3.1.2, April 30 2025
   </a>
   
 </li>
@@ -2632,13 +2632,16 @@
 
   <h1>Changelog (CDDS)</h1>
 
-<h2 id="release-312rc1-april-11-2025">Release 3.1.2rc1, April 11 2025</h2>
+<h2 id="release-312-april-30-2025">Release 3.1.2, April 30 2025</h2>
 <ul>
 <li>
 <p>The <code>conversion</code> workflow now runs on JASMIN/LOTUS2 (<abbr title="Climate Data Dissemination System">CDDS</abbr>-584)</p>
 </li>
 <li>
 <p>Added a <code>jasmin_account</code> option to the conversion section in the request (<abbr title="Climate Data Dissemination System">CDDS</abbr>-584)</p>
+</li>
+<li>
+<p>Added the HadGEM3-GC5E-LL, HadGEM3-GC5E-MM, and HadGEM3-GC5E-HH models to GCModelDev (CDDSO-643)</p>
 </li>
 <li>
 <p>Removed unnecessary <code>module load nccmp</code> from the setup script (CDDSO-644)</p>
@@ -2648,6 +2651,9 @@
 </li>
 <li>
 <p>Fixed <code>atmos_timestep</code> not being included in the configure config files (CDDSO-645)</p>
+</li>
+<li>
+<p>Fixed <code>qc</code> failing realm values that contain spaces (CDDSO-646)</p>
 </li>
 </ul>
 <h2 id="release-311-march-19-2025">Release 3.1.1, March 19 2025</h2>
