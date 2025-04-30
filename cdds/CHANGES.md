@@ -1,10 +1,12 @@
-## Release 3.1.2rc1, April 11 2025
+## Release 3.1.2, April 30 2025
 
 -   The `conversion` workflow now runs on JASMIN/LOTUS2 (CDDS-584)
 -   Added a `jasmin_account` option to the conversion section in the request (CDDS-584)
+-   Added the HadGEM3-GC5E-LL, HadGEM3-GC5E-MM, and HadGEM3-GC5E-HH models to GCModelDev (CDDSO-643)
 -   Removed unnecessary `module load nccmp` from the setup script (CDDSO-644)
 -   Fixed `cylc_args` not being passed through to `cylc` in cdds_convert (CDDSO-641)
 -   Fixed `atmos_timestep` not being included in the configure config files (CDDSO-645)
+-   Fixed `qc` failing realm values that contain spaces (CDDSO-646)
 
 ## Release 3.1.1, March 19 2025
 
