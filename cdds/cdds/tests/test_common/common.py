@@ -8,14 +8,14 @@ import subprocess
 import jinja2
 
 from mip_convert.common import parse_to_loadables
-from mip_convert.process.config import mappings_config
+from mip_convert.plugins.config import mappings_config_info
 
 
 class DummyMapping(object):
     def __init__(self, expression=None, dimension=None, mip_requested_variable_name=None, mip_table_id=None,
                  positive=None, status=None, units=None, model_id=None):
         if expression is not None:
-            self.loadables = parse_to_loadables(expression, {}, mappings_config)
+            self.loadables = parse_to_loadables(expression, {}, mappings_config_info)
         self.dimension = dimension
         self.mip_requested_variable_name = mip_requested_variable_name
         self.mip_table_id = mip_table_id

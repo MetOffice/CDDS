@@ -18,8 +18,8 @@ LOG_NAME = os.path.join(CDDS_DIR, 'cdds_test_failures.log')
 ROOT_COMMAND = 'pytest -s'
 TESTS_TO_RUN = {
     'cdds': ['--doctest-modules', '-m slow', '-m integration', '-m data_request'],
-    'mip_convert': ['--doctest-modules', '-m mappings', '-m slow'],
-    }
+    'mip_convert': ['--doctest-modules', '-m slow'],
+}
 
 ADDITIONAL_OPTS = {
     'cdds': [],
@@ -44,9 +44,9 @@ def du(path):
     """
     Disk usage in human readable format (e.g. '2,1GB')
     """
-    out =  subprocess.check_output(['quotas']).decode('utf-8')
+    out = subprocess.check_output(['quotas']).decode('utf-8')
     try:
-        usage = [i for i in out.split("\n") if "spice:scratch" in i ][0].split()[1]
+        usage = [i for i in out.split("\n") if "spice:scratch" in i][0].split()[1]
     except:
         usage = "<quotas command failed>"
     return usage

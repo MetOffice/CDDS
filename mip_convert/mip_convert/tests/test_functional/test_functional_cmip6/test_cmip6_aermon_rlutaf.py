@@ -33,7 +33,8 @@ class TestCmip6AERmonRlutaf(AbstractFunctionalTests):
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '2345-06-01T00:00:00 2345-07-01T00:00:00',
-                    'suite_id': 'u-aw310'
+                    'suite_id': 'u-aw310',
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'ap4': {'CMIP6_AERmon': 'rlutaf'}

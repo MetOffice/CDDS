@@ -33,6 +33,7 @@ class TestCordexMonUv(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '2000-01-01T00:00:00 2000-03-01T00:00:00',
                     'suite_id': 'u-ax977',
+                    'mip_convert_plugin': 'HadREM3',
                     'force_coordinate_rotation': True
                 },
                 streams={

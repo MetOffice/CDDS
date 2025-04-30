@@ -20,6 +20,9 @@ from cdds.extract.halo_removal import dehalo_multiple_files
 from cdds.extract.validate import validate_streams
 from cdds.common import configure_logger
 
+from mip_convert.plugins.plugin_loader import load_mapping_plugin
+
+
 COMPONENT = 'extract'
 LOG_NAME = 'cdds_extract'
 
@@ -70,6 +73,10 @@ def main_cdds_extract(arguments=None):
     # Parse the arguments.
     args = parse_cdds_extract_command_line(arguments)
     request = read_request(args.request)
+
+    load_mapping_plugin(request.conversion.mip_convert_plugin,
+                        request.conversion.mip_convert_external_plugin,
+                        request.conversion.mip_convert_external_plugin_location)
 
     # Add stream suffix to the log name if running extract just for some streams
     log_name = LOG_NAME + '_' + "_".join(args.streams) if args.streams else LOG_NAME
@@ -155,6 +162,11 @@ def main_validate_streams(arguments=None):
     """
     args = parse_validate_streams_command_line(arguments)
     request = read_request(args.request)
+
+    # Load mapping plugin
+    load_mapping_plugin(request.conversion.mip_convert_plugin,
+                        request.conversion.mip_convert_external_plugin,
+                        request.conversion.mip_convert_external_plugin_location)
 
     # Add stream suffix to the log name if running extract just for some streams
     log_name = 'validate' + '_' + "_".join(args.streams) if args.streams else LOG_NAME

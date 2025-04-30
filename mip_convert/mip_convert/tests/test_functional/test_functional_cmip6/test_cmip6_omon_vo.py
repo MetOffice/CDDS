@@ -33,7 +33,8 @@ class TestCmip6OmonVo(AbstractFunctionalTests):
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'ocean_byte_masks.nc'),
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1960-01-01T00:00:00 1960-04-01T00:00:00',
-                    'suite_id': 'u-aw310'
+                    'suite_id': 'u-aw310',
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'onm_grid-V': {'CMIP6_Omon': 'vo'}

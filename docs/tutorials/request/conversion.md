@@ -4,6 +4,15 @@ The `conversion` in the request configuration contains settings that specify how
 
 ## Configuration Values
 
+`mip_convert_plugin`
+:   specify the id of the MIP convert plugin that should be used. This value is required for running MIP convert!
+
+`mip_convert_external_plugin`
+:   module path to external MIP convert plugin, e.g. `cdds_arise.arise_mip_convert_plugin`. This must not be set if an internal plugin is used.
+
+`mip_convert_external_plugin_location`
+:   full path to the external MIP convert plugin implementation, e.g. `$CDDS_ETC/mapping_plugins/arise`. This must not be set if an internal MIP convert plugin is used.
+
 `skip_extract`
 :   skip the extract task at the start of the CDDS suite for each stream.
 
@@ -74,6 +83,9 @@ The `conversion` in the request configuration contains settings that specify how
 !!! example
     ```yaml
     [conversion]
+    mip_convert_plugin = HadGEM3
+    mip_convert_external_plugin =
+    mip_convert_external_plugin_location =
     skip_extract = False
     skip_extract_validation = False
     skip_configure = False

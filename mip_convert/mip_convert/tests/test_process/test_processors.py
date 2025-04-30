@@ -17,7 +17,7 @@ from iris.cube import Cube
 
 import numpy as np
 
-from mip_convert.process.processors import (
+from mip_convert.plugins.ukesm1.data.processors import (
     area_mean, areacella, calc_rho_mean, calc_zostoga,
     combine_cubes_to_basin_coord, eos_insitu, fix_clmisr_height,
     land_class_area, land_class_mean, level_sum, mask_copy,

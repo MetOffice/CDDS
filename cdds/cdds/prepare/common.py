@@ -10,7 +10,7 @@ import configparser
 from collections import defaultdict
 from cdds.common.mappings.ancils import remove_ancils_from_mapping
 from mip_convert.requested_variables import get_variable_model_to_mip_mapping
-from mip_convert.mip_table import get_model_to_mip_mappings
+from mip_convert.plugins.plugins import MappingPluginStore
 
 
 def retrieve_mappings(data_request_variables, mip_era, model_id):
@@ -37,14 +37,15 @@ def retrieve_mappings(data_request_variables, mip_era, model_id):
     : dict of :class:`VariableModelToMIPMapping`
         The |model to MIP mappings| for the |MIP requested variables|.
     """
+    mapping_plugin = MappingPluginStore.instance().get_plugin()
     mappings = defaultdict(dict)
     for mip_table_id in data_request_variables:
         mip_table_name = '{}_{}'.format(mip_era, mip_table_id)
-        model_to_mip_mappings = get_model_to_mip_mappings(model_id, mip_table_name)
+        model_to_mip_mappings = mapping_plugin.load_model_to_mip_mapping(mip_table_name)
         for variable_name in data_request_variables[mip_table_id]:
             try:
                 mapping = get_variable_model_to_mip_mapping(model_to_mip_mappings, variable_name, mip_table_id)
-                mapping = remove_ancils_from_mapping(mapping)
+                mapping = remove_ancils_from_mapping(mapping, model_id)
             except (RuntimeError, configparser.Error) as exc:
                 mapping = exc
             mappings[mip_table_id][variable_name] = mapping

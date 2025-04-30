@@ -12,10 +12,11 @@ from cdds.common.request.rose_suite.suite_info import load_suite_info_from_file
 from cdds.common.mappings_viewer.constants import (HEADINGS, HEADER_ROW_TEMPLATE, ROW_TEMPLATE, CELL_TEMPLATE,
                                                    TABLE_TEMPLATE, CODE_CELL_TEMPLATE, TOOLTIP_TEMPLATE, GITURL,
                                                    GITURL_MAPPING, HYPERLINK, BGCOLORS, HEADER, FOOTER)
-from mip_convert.process.constants import constants
+
+from mip_convert.plugins.plugins import MappingPluginStore
 
 
-def get_mappings(model, arguments):
+def get_mappings(model, mappings_directory, arguments):
     """
     Read all of the mappings for a given model and return them as a list of lists.
 
@@ -23,6 +24,8 @@ def get_mappings(model, arguments):
     ----------
     model : str
         Name of model to produce mappings for.
+    mappings_directory: str
+        The location of the mappings configurations directory within CDDS.
     arguments : argparse.Namespace
         User arguments.
     Returns
@@ -30,13 +33,8 @@ def get_mappings(model, arguments):
     table_data : list
         A list of lists, where the sublists contain data matching the HEADINGS fields.
     """
-    glob_string = os.path.join(arguments.process_directory, '*mappings.cfg')
+    glob_string = os.path.join(mappings_directory, '*mappings.cfg')
     cfg_files = glob.glob(glob_string)
-
-    excluded_tables = {'UKESM1', 'HadGEM3', 'HadREM3', 'HadGEM2', 'Prim', 'GA7', 'Cres'}
-    excluded_tables.remove(model)
-
-    cfg_files = filter(lambda x: not any([True if table in x else False for table in excluded_tables]), cfg_files)
 
     table_data = []
 
@@ -64,7 +62,7 @@ def get_mappings(model, arguments):
     return table_data
 
 
-def get_processor_lines(arguments):
+def get_processor_lines(arguments, mappings_directory):
     """
     Get the function names and their lines within the file from processors.py
 
@@ -72,13 +70,15 @@ def get_processor_lines(arguments):
     ----------
     arguments : argparse.Namespace
         User arguments.
+    mappings_directory: str
+        The location of the mappings configurations directory within CDDS.
     Returns
     -------
     processor_line_mappings : dict
         A dictionary of function names as keys and the corresponding line of the function in processors.py
     """
 
-    input_file = os.path.join(arguments.process_directory, 'processors.py')
+    input_file = os.path.join(mappings_directory, 'processors.py')
     processor_line_mappings = {}
 
     with open(input_file, 'r') as f:
@@ -91,7 +91,7 @@ def get_processor_lines(arguments):
     return processor_line_mappings
 
 
-def get_mapping_lines(arguments):
+def get_mapping_lines(arguments, mappings_directory):
     """
     Reads in the .cfg mapping files from mip_convert and returns a dict of dicts where
     each dictionary contains key:value pairs of variable_name:line_of_file.
@@ -100,12 +100,14 @@ def get_mapping_lines(arguments):
     ----------
     arguments : argparse.Namespace
         User arguments.
+    mappings_directory: str
+        The location of the mappings configurations directory within CDDS.
     Returns
     -------
     line_mappings : dict
         Dict of dicts containing variable and line mappings pairs for each .cfg file.
     """
-    glob_string = os.path.join(arguments.process_directory, '*mappings.cfg')
+    glob_string = os.path.join(mappings_directory, '*mappings.cfg')
     cfg_files = glob.glob(glob_string)
 
     line_mappings = {}
@@ -196,7 +198,8 @@ def format_mapping(expression, stash_meta_dictionary, processors):
                 tooltip_stash = TOOLTIP_TEMPLATE.format(code, description + '\n' + help)
                 formatted_expression = formatted_expression.replace(code, tooltip_stash)
     # Format the constants
-    for k, v in constants().items():
+    mapping_plugin = MappingPluginStore.instance().get_plugin()
+    for k, v in mapping_plugin.constants().items():
         if k in expression:
             tooltip_constant = TOOLTIP_TEMPLATE.format(k, v)
             formatted_expression = formatted_expression.replace(k, tooltip_constant)
@@ -258,7 +261,7 @@ def format_mapping_link(entry, line_mappings):
     return mapping_hyperlink
 
 
-def build_table(table_data, arguments):
+def build_table(table_data, mappings_directory, arguments):
     """
     Build the  HTML for table showing the supplied table_data
 
@@ -266,6 +269,8 @@ def build_table(table_data, arguments):
     ----------
     table_data : list
         The data to populate the table with.
+    mappings_directory: str
+        The location of the mappings configurations directory within CDDS.
     arguments : argparse.Namespace
         User arguments.
     Returns
@@ -274,8 +279,8 @@ def build_table(table_data, arguments):
         The table_data formatted as a html table.
     """
     stash_meta_dictionary = get_stash_meta_dict(arguments.stash_meta_filepath)
-    processor_lines = get_processor_lines(arguments)
-    mapping_lines = get_mapping_lines(arguments)
+    processor_lines = get_processor_lines(arguments, mappings_directory)
+    mapping_lines = get_mapping_lines(arguments, mappings_directory)
 
     html = ''
     for i, row in enumerate(table_data):

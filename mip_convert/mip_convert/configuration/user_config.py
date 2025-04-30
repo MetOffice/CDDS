@@ -106,6 +106,12 @@ def request_config():
         name='root_load_path', check_function=check_directory)
     config['reference_time'] = _get_config(
         'reference_time', section, python_type=str, default_value='none')
+    config['mip_convert_plugin'] = _get_config(
+        'mip_convert_plugin', section, python_type=str, required_by_mip_convert=True)
+    config['mip_convert_external_plugin'] = _get_config(
+        'mip_convert_external_plugin', section, python_type=str, default_value=True)
+    config['mip_convert_external_plugin_location'] = _get_config(
+        'mip_convert_external_plugin_location', section, python_type=str, default_value=True)
     config['force_coordinate_rotation'] = _get_config(
         'force_coordinate_rotation', section, python_type=bool, default_value=True
     )
