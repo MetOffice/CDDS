@@ -93,6 +93,7 @@ class ConfigureTemplateVariables:
             "CALENDAR": self._request.metadata.calendar,
             "END_DATE": str(self._request.data.end_date),
             "INPUT_DIR": input_data_directory(self._request),
+            "JASMIN_ACCOUNT": self._request.conversion.jasmin_account,
             "OUTPUT_MASS_ROOT": self._request.data.output_mass_root,
             "OUTPUT_MASS_SUFFIX": self._request.data.output_mass_suffix,
             "MIP_CONVERT_CONFIG_DIR": component_directory(self._request, "configure"),
@@ -103,8 +104,6 @@ class ConfigureTemplateVariables:
             "PLATFORM": os.environ["CDDS_PLATFORM"],
             "REF_DATE": str(self._request.metadata.base_date),
             "REQUEST_CONFIG_PATH": self.request_path,
-            "ROOT_DATA_DIR": self._request.common.root_data_dir,
-            "ROOT_PROC_DIR": self._request.common.root_proc_dir,
             "START_DATE": str(self._request.data.start_date),
             "TARGET_SUITE_NAME": self._request.data.model_workflow_id,
         }

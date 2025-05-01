@@ -127,6 +127,7 @@ def expected_text_conversion():
         'mip_convert_plugin': 'HadGEM3',
         'mip_convert_external_plugin': '',
         'mip_convert_external_plugin_location': '',
+        "jasmin_account": ""
     }
 
 
@@ -247,5 +248,6 @@ def expected_test_minimal_conversion():
         'delete_preexisting_data_dir': False,
         'mip_convert_external_plugin': '',
         'mip_convert_external_plugin_location': '',
-        'mip_convert_plugin': ''
+        'mip_convert_plugin': '',
+        "jasmin_account": ""
     }

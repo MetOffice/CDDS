@@ -72,6 +72,7 @@ class ConversionSection(Section):
     mip_convert_plugin: str = ''
     mip_convert_external_plugin: str = ''
     mip_convert_external_plugin_location: str = ''
+    jasmin_account: str = ""
 
     @classmethod
     def name(cls) -> str:
