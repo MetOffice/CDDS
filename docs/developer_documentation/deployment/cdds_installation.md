@@ -127,59 +127,62 @@
           set above for `CDDS_ENV_COMMAND` and the `CDDS_PARTITION`.
 
 === "On Jasmin"
-    !!! warning
-        This section will be updated soon
-
-    !!! info
-        The recommended location for installation is `miniconda3` environment under `/gws/smf/j04/cmip6_prep/cdds-env-python3/miniconda3`
-
-    - [x] Login to the `sciX` JASMIN server.
-    - [x] Activate conda without loading an environment
-          ```bash
-          . /gws/smf/j04/cmip6_prep/cdds-env-python3/miniconda3/bin/activate
+    - [x] Login to one of the JASMIN science [servers](https://help.jasmin.ac.uk/docs/interactive-computing/sci-servers/#available-sci-servers) as the `cdds` user
+    - [x] Activate the `base` miniforge `conda` environment
           ```
-    - [x] Obtain environment file
-          ```bash
-          wget https://github.com/MetOffice/CDDS/blob/<tagname>/environment.yml
+          source $HOME/software/miniforge3/bin/activate
           ```
-          or download it manually from Github
-    - [x] Update locations pointed to within the environment file:
+    - [x] Obtain the conda environment file
+          ```bash
+          wget https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/<tagname>/environment.yml
+          ```
+    - [x] Update locations pointed to within the environment file (omitting the leading `v`)
           ```bash
           sed -i "s/<location>/X.Y.Z/" environment.yml
           ```
-    - [x] Create environment
+    - [x] Create environment, where `X.Y.Z` is the new version number of CDDS
           ```bash
-          conda env create -f environment.yml -n cdds-X.Y.Z
+          conda env create -f environment.yml -p $HOME/conda_environments/cdds-X.Y.Z
           ```
-          where `X.Y.Z` is the new version number of CDDS
-    - [x] Activate environment and set `CDDS_ENV_COMMAND` variable
+    - [x] Uncomment the `cdds` and `mip_convert` python pip install lines.
           ```bash
-          conda activate cdds-X.Y.Z
-          conda env config vars set CDDS_ENV_COMMAND="source /gws/smf/j04/cmip6_prep/cdds-env-python3/miniconda3/bin/activate cdds-X.Y.Z"
+            #- git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds&subdirectory=cdds
+            #- git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
           ```
-    - [x] Set OS partition at `CDDS_PARTITION` variable
+    - [x] Set the `CDDS` variables making sure to replace `X.Y.Z` with the appropriate version number.
           ```bash
-          conda activate cdds-X.Y.Z
-          conda env config vars set CDDS_PARTITION=Jasmin
+          conda env config vars set PLATFORM=JASMIN
+          conda env config vars set CDDS_PLATFORM=JASMIN
+          conda env config vars set CDDS_ETC=$HOME/etc
+          conda env config vars set CDDS_ENV_COMMAND="$HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z"
           ```
-    - [x] Install `nco` library
+    - [x] Deactivate the environment
           ```bash
-          conda install -c conda-forge nco
-          ```
-    - [x] Confirm environment variables:
-          ```bash
-          # get out of cdds environment
           conda deactivate
-          # load environment again
-          conda activate cdds-X.Y.Z
-          # print environment variables
-          echo $LC_ALL
-          echo $CDDS_ENV_COMMAND
-          echo $CDDS_PARITION
           ```
-          You should see `en_GB.UTF-8` for `LC_ALL` and the command set above for `CDDS_ENV_COMMAND` 
-          and `CDDS_PARTITION`.
+    - [x] Confirm that the environment variables were set correctly.
+          ```bash
+          $HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z
+          ```
+          ```bash
+          echo $CYLC_VERSION
+          echo $LC_ALL
+          echo $TZ
+          echo $PLATFORM
+          echo $CDDS_PLATFORM
+          echo $CDDS_ETC
+          echo $CDDS_ENV_COMMAND
+          ```
 
+          | Variable    | Value                                |
+          | ----------- | ------------------------------------ |
+          | `$CYLC_VERSION`     | `8` |
+          | `$LC_ALL`           | `en_GB.UTF-8`  |
+          | `$TZ`               | `UTC` |
+          | `$PLATFORM`         | `JASMIN` |
+          | `$CDDS_PLATFORM`    | `JASMIN` |
+          | `$CDDS_ETC`         | `$HOME/etc` |
+          | `$CDDS_ENV_COMMAND` | `$HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z` |
 
 ## Ensure all the tests pass in the 'real live environment'
 
