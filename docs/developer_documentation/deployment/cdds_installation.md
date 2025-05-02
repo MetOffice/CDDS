@@ -151,7 +151,6 @@
           ```
     - [x] Set the `CDDS` variables making sure to replace `X.Y.Z` with the appropriate version number.
           ```bash
-          conda env config vars set PLATFORM=JASMIN
           conda env config vars set CDDS_PLATFORM=JASMIN
           conda env config vars set CDDS_ETC=$HOME/etc
           conda env config vars set CDDS_ENV_COMMAND="$HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z"
@@ -168,7 +167,6 @@
           echo $CYLC_VERSION
           echo $LC_ALL
           echo $TZ
-          echo $PLATFORM
           echo $CDDS_PLATFORM
           echo $CDDS_ETC
           echo $CDDS_ENV_COMMAND
@@ -179,7 +177,6 @@
           | `$CYLC_VERSION`     | `8` |
           | `$LC_ALL`           | `en_GB.UTF-8`  |
           | `$TZ`               | `UTC` |
-          | `$PLATFORM`         | `JASMIN` |
           | `$CDDS_PLATFORM`    | `JASMIN` |
           | `$CDDS_ETC`         | `$HOME/etc` |
           | `$CDDS_ENV_COMMAND` | `$HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z` |
