@@ -32,7 +32,7 @@ class GridMapping(object, metaclass=ABCMeta):
         Read grid mapping configuration file(s)
 
         :param file_paths: File paths of the configuration file(s) to read
-        :rtype: str or List[str]
+        :type str or List[str]
         :return: Content of the configuration file
         :rtype: ConfigParser
         """
