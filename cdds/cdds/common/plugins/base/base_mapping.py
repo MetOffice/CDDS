@@ -22,9 +22,6 @@ class BaseGridMapping(GridMapping):
         default_grids_file = os.path.join(data_folder, 'default_grids.cfg')
         grids_file = os.path.join(data_folder, 'grids.cfg')
 
-        additional_default_grids = self.additional_default_grids_file
-        additional_grids = self.additional_grids_file
-
         if self.additional_default_grids_file:
             self.default_grids_config = self.read_configuration(
                 [default_grids_file, self.additional_default_grids_file]
@@ -33,7 +30,7 @@ class BaseGridMapping(GridMapping):
             self.default_grids_config = self.read_configuration(default_grids_file)
 
         if self.additional_grids_file:
-            self.grids_config = self.read_configuration(grids_file, self.additional_grids_file)
+            self.grids_config = self.read_configuration([grids_file, self.additional_grids_file])
         else:
             self.grids_config = self.read_configuration(grids_file)
 
