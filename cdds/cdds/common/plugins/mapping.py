@@ -28,6 +28,14 @@ class GridMapping(object, metaclass=ABCMeta):
         pass
 
     def read_configuration(self, file_paths: Union[str, List[str]]) -> ConfigParser:
+        """
+        Read grid mapping configuration file(s)
+
+        :param file_paths: File paths of the configuration file(s) to read
+        :rtype: str or List[str]
+        :return: Content of the configuration file
+        :rtype: ConfigParser
+        """
         interpolation = ExtendedInterpolation()
         config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
         config.optionxform = str  # Preserve case.
