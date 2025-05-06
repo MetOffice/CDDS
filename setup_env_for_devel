@@ -23,10 +23,6 @@ else
     echo "Could not locate CDDS miniconda environment"
 fi
 
-if [[ "$(hostname -f)" =~ "spice.sc" ]]; then
-  module load nccmp
-fi
-
 for CDDS_PACKAGE in $CDDS_PACKAGES
 do
     # Update PATH:
