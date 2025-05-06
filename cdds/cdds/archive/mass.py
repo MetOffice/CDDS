@@ -93,8 +93,9 @@ def update_memberid_if_needed(request: Request):
         Request information containing sub experiment id and variant label
     """
     logger = logging.getLogger(__name__)
-    if request.metadata.sub_experiment_id != 'none':
-        member_id = '{}-{}'.format(request.metadata.sub_experiment_id, request.metadata.variant_label)
+    sub_experiment_id = request.metadata.sub_experiment_id
+    if sub_experiment_id != 'none' and sub_experiment_id not in request.metadata.variant_label:
+        member_id = '{}-{}'.format(sub_experiment_id, request.metadata.variant_label)
         request.metadata.variant_label = member_id
         logger.debug('Updated variant_label to be complete member id "{}"'.format(member_id))
 

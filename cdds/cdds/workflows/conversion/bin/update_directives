@@ -118,11 +118,12 @@ class MipConvertTask:
             "cycle_point": self.time_point,
             "used_mem": self.used_memory,
             "used_time": self.used_time,
-            "used_storage": self.used_storage,
             "requested_mem": self.requested_memory,
             "requested_time": self.requested_time,
-            "requested_storage": self.requested_storage,
         }
+        if not os.environ["PLATFORM"] == "JASMIN":
+            resources["used_storage"] = self.used_storage
+            resources["requested_storage"] = self.requested_storage
 
         return resources
 
@@ -183,8 +184,10 @@ class Directives:
         directives = {
             "--mem": self._memory_directive(),
             "--time": self._time_directive(),
-            "--gres": self._storage_directive(),
         }
+        if not os.environ["PLATFORM"] == "JASMIN":
+            directives["--gres"] = self._storage_directive()
+
         return directives
 
 
@@ -308,7 +311,13 @@ def update_directives(new_directives: dict, existing_directives: dict):
     """
     CHANGE_THRESHOLD = 1.05
     directives = {}
-    for directive in ["--mem", "--time", "--gres"]:
+
+    if not os.environ["PLATFORM"] == "JASMIN":
+        valid_directives= ["--mem", "--time", "--gres"]
+    else:
+        valid_directives= ["--mem", "--time"]
+
+    for directive in valid_directives:
         new_directive = new_directives.get(directive, None)
         existing_directive = existing_directives.get(directive, None)
         if new_directive and existing_directive:

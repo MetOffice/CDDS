@@ -706,48 +706,24 @@ def remove_newlines(value):
     return value.replace('\n', ' ')
 
 
-def netCDF_regexp(model_component=None, substream=None, ens_id=None):
+def netCDF_regexp() -> str:
     """
     Return a regular expression matching netCDF filenames.
 
-    Parameters
-    ----------
-    model_component: string
-        If set, the regular expression will match provided
-        model component (nemo, cice or medusa).
-    substream: string
-        If set, the regular expression will match provided
-        substream.
-    ens_id: string
-        If set, the regular expression will handle filenames with
-        ensemble_id.
     Returns
     -------
     : str
         Regular expression.
     """
-    if model_component is None:
-        model_component = r"([a-z]+)"
-    else:
-        model_component = r"({})".format(model_component)
-    if ens_id is None:
-        suite = r".{5}"
-    else:
-        suite = r".{5}\-[a-zA-Z0-9\-]+"
-    frequency = r".{2}"
-    date_range = r"(\d{8})-(\d{8})"
-    domain_id = r"[io]"
-    if substream is None:
-        substream = r"([a-zA-Z0-9\-]+){0,1}"
-        sep = r"_{0,1}"
-    else:
-        substream = r"({})".format(substream)
-        sep = "_"
-    extension = r"\.nc$"
-
-    return "{}_{}{}_{}_{}{}{}{}".format(
-        model_component, suite, domain_id, frequency, date_range,
-        sep, substream, extension)
+    model = r"(?P<model>nemo|medusa|cice|si3)"
+    suite = r"(?P<suite>.{5})"
+    ensemble = r"(?P<ensemble>-[a-zA-Z0-9\-]+)?"
+    domain = r"(?P<domain>[io])"
+    frequency = r"(?P<frequency>.{2})"
+    start = r"(?P<start>\d{8})"
+    end = r"(?P<end>\d{8})"
+    substream = r"(?P<substream>[a-zA-Z0-9\-_]+)?"
+    return (f"{model}_{suite}{ensemble}{domain}_{frequency}_{start}-{end}_?{substream}\\.nc$")
 
 
 def set_checksum(dictionary, overwrite=True):

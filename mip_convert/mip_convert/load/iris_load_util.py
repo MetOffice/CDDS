@@ -234,6 +234,7 @@ def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates, anc
         cube = merged_cubes[0]
     else:
         equalise_attributes(merged_cubes)
+        remove_cell_methods_intervals(merged_cubes)
         try:
             cube = merged_cubes.concatenate_cube()
         except iris.exceptions.ConcatenateError:
@@ -249,6 +250,43 @@ def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates, anc
         if is_cice_file or has_cice_attributes:
             replace_coordinates(cube, replacement_coordinates)
     return cube
+
+
+def remove_cell_methods_intervals(cubes):
+    """Remove intervals in cell methods in input cubes to avoid problems with
+    concatenation. This has been observed when ocean timesteps have been changed
+    mid year in model runs to avoid grid point storms.
+
+    :param cubes: cube list to check for inconsistent cell method intervals
+    :type cubes: :class:`iris.cube.CubeList`
+    """
+    logger = logging.getLogger(__name__)
+
+    # If we have more than one set of cell methods in the cubes
+    cell_methods_set = set([cube.cell_methods for cube in cubes])
+    if len(cell_methods_set) > 1:
+        logger.debug("Attempting to unify cell_methods by removing intervals")
+        for cube in cubes:
+            # get the cell methods
+            cm_tuple = cube.cell_methods
+            # list for new cell methods
+            new_cellmethods_list = []
+            # flag for changes (don't overwrite if there are no changes to make)
+            changes = False
+            # check each cell method
+            for cm in cm_tuple:
+                # if intervals are defined remove them and flag changes otherwise add to list
+                if cm.intervals != ():
+                    new_cm = CellMethod(method=cm.method, coords=cm.coord_names, comments=cm.comments)
+                    new_cellmethods_list.append(new_cm)
+                    changes = True
+                    logger.debug("overwrote intervals property in '{}'".format(cm))
+                else:
+                    new_cellmethods_list.append(cm)
+
+            # overwrite cell methods in cube
+            if changes:
+                cube.cell_methods = tuple(new_cellmethods_list)
 
 
 def setup_time_constraint(run_bounds):
@@ -608,7 +646,7 @@ def add_depth_coord(cube):
 def split_netCDF_filename(filename):
     """
     Extracts model component and substream from the netCDF
-    (NEMO, MEDUSA or CICE) filename.
+    (NEMO, MEDUSA, CICE, SI3) filename.
 
     :param filename: filename
     :type filename: string
@@ -617,8 +655,8 @@ def split_netCDF_filename(filename):
     """
     match = re.search(netCDF_regexp(), filename)
     if match:
-        model_component = match.group(1)
-        substream = match.group(4)
+        model_component = match.groupdict()["model"]
+        substream = match.groupdict()["substream"]
     else:
         model_component = None
         substream = None

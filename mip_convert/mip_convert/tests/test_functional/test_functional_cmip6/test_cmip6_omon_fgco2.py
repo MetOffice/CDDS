@@ -31,7 +31,8 @@ class TestCmip6OmonFgco2(AbstractFunctionalTests):
                 request={
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1850-01-01T00:00:00 1850-03-01T00:00:00',
-                    'suite_id': 'u-bd288'
+                    'suite_id': 'u-bd288',
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'onm': {'CMIP6_Omon': 'fgco2'}

@@ -1,11 +1,11 @@
 name: cdds-dev
 channels:
   - conda-forge
-  # - nodefaults include when accessible
+  - nodefaults 
 dependencies:
   - cf-units=3.2.0
   - cftime=1.6.2
-  - cmor=3.9.0
+  - cmor=3.8.0
   - compliance-checker=4.3.4
   - dask-core=2023.5
   - debugpy=1.6.6
@@ -49,8 +49,8 @@ dependencies:
 #    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds
 #    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
 variables:
-    CDDS_ETC: /home/users/cdds/etc
+    CDDS_ETC: $CDDS_HOME/etc
     CYLC_VERSION: 8
     LC_ALL: en_GB.UTF-8
     TZ: UTC
-prefix: /home/users/cdds/conda_environments/cdds-dev
+prefix: $CDDS_HOME/conda_environments/cdds-dev

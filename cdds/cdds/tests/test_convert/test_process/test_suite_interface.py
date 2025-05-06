@@ -56,37 +56,6 @@ class SuiteInterfaceTest(unittest.TestCase):
                                         '"new value"')],
                              'Change result not as expected')
 
-    @mock.patch('os.path.exists')
-    @mock.patch('subprocess.Popen')
-    def test_submit_workflow(self, mock_subproc_popen, mock_os_exists):
-        process_mock = mock.Mock()
-        attrs = {'communicate.return_value': ('output', 'error'),
-                 'returncode': 0}
-        process_mock.configure_mock(**attrs)
-        mock_subproc_popen.return_value = process_mock
-        mock_os_exists.return_value = True
-
-        location = '/d/u/m/m/y/dummy.txt'
-        cylc_args = ['-v', '--workflow-name=new_workflow', '1', '2']
-
-        output = workflow_interface.run_workflow(location, simulation=True,
-                                                 cylc_args=cylc_args)
-        expected_args = ['cylc', 'vip', location, '-v',
-                         '--workflow-name=new_workflow', '1', '2',
-                         '--mode=simulation', '--no-run-name']
-
-        mock_subproc_popen.assert_has_calls([call(expected_args,
-                                            stdout=subprocess.PIPE,
-                                            stderr=subprocess.PIPE,
-                                            env=None,
-                                            universal_newlines=True),
-                                            call(["cylc", "clean", "new_workflow"],
-                                            stdout=subprocess.PIPE,
-                                            stderr=subprocess.PIPE,
-                                            env=None,
-                                            universal_newlines=True)], any_order=True)
-        self.assertTrue(output == 'output', 'standard output mangled')
-
 
 if __name__ == "__main__":
     unittest.main()

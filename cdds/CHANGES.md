@@ -1,3 +1,31 @@
+## Release 3.1.2, April 30 2025
+
+-   The `conversion` workflow now runs on JASMIN/LOTUS2 (CDDS-584)
+-   Added a `jasmin_account` option to the conversion section in the request (CDDS-584)
+-   Added the HadGEM3-GC5E-LL, HadGEM3-GC5E-MM, and HadGEM3-GC5E-HH models to GCModelDev (CDDSO-643)
+-   Removed unnecessary `module load nccmp` from the setup script (CDDSO-644)
+-   Fixed `cylc_args` not being passed through to `cylc` in cdds_convert (CDDSO-641)
+-   Fixed `atmos_timestep` not being included in the configure config files (CDDSO-645)
+-   Fixed `qc` failing realm values that contain spaces (CDDSO-646)
+
+## Release 3.0.7, March 24, 2025
+-   Corrected facet lists used to submit datasets to inclue `sub_experiment_id` (CDDSO-638)
+
+## Release 3.1.1, March 19 2025
+
+-   Added the 365_day calendar to supported calendars (CDDSO-634)
+-   Documentation improvements including, migrating remaining sphinx pages,
+    removal of the legacy sphinx docs, updating the release procedure,
+    and adding abbreviations (CDDSO-598, CDDSO-605, CDDSO-609)
+-   Fixed a race condition in `qc` when creating the sqlite database (CDDSO-366)
+-   The ensemble_workflow setup task will now fail properly when there are issues
+    with running commands (CDDSO-624)
+-   Renamed the `HadGEM3-GC50-N640ORCA12` model to `HadGEM3-GC50-EERIE-N640ORCA12`,
+    in GCModelDev (CDDSO-611)
+-   Fixed a bug in model parameters validation (CDDSO-627)
+-   Archiving of experiments with sub-experiment id now works correctly (CDDSO-631)
+
+
 ## Release 3.1.0, February 13 2025
 
 -   MIP Convert and CMOR log files are copied into the cylc task directory and 

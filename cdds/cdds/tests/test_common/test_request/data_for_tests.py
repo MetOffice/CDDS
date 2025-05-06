@@ -116,14 +116,18 @@ def expected_text_conversion():
         'skip_qc': False,
         'skip_archive': False,
         'slicing': [],
-        'cylc_args': ['--workflow-name=cdds_{request_id}_{stream}'],
+        'cylc_args': [],
         'no_email_notifications': True,
         'scale_memory_limits': 2.0,
         'override_cycling_frequency': ['ap4=P1Y', 'ap5=P2Y'],
         'model_params_dir': '',
         'continue_if_mip_convert_failed': True,
         'delete_preexisting_proc_dir': True,
-        'delete_preexisting_data_dir': True
+        'delete_preexisting_data_dir': True,
+        'mip_convert_plugin': 'HadGEM3',
+        'mip_convert_external_plugin': '',
+        'mip_convert_external_plugin_location': '',
+        "jasmin_account": ""
     }
 
 
@@ -241,5 +245,9 @@ def expected_test_minimal_conversion():
         'skip_qc': False,
         'slicing': [],
         'delete_preexisting_proc_dir': False,
-        'delete_preexisting_data_dir': False
+        'delete_preexisting_data_dir': False,
+        'mip_convert_external_plugin': '',
+        'mip_convert_external_plugin_location': '',
+        'mip_convert_plugin': '',
+        "jasmin_account": ""
     }

@@ -186,7 +186,6 @@
       "levels": 75,
       "replacement_coordinates_file": "cice_eORCA12_coords.nc",
       "ancil_filenames": [],
-      "hybrid_heights_files": [],
       "masked": {
         "grid-V": {
           "slice_latitude": [

@@ -723,25 +723,10 @@ class Filters(object):
                     raise FilterFileException(
                         "Could not create a sizing file in {}".format(
                             self.procdir))
-                if substream == "default":
-                    regexp = netCDF_regexp()
-                else:
-                    # only nemo and medusa can be sub-streamed
-                    regexp = netCDF_regexp("nemo|medusa", substream)
                 try:
-                    if not self._update_mass_cmd(
-                        regexp, filelist, start, end, "filter",
-                        ["-i", "-d", file_name], MOOSE_MAX_NC_FILES
-                    ) and self.ensemble_member_id is not None:
-                        if substream == "default":
-                            regexp = netCDF_regexp(None, None, self.ensemble_member_id)
-                        else:
-                            # only nemo and medusa can be sub-streamed
-                            regexp = netCDF_regexp("nemo|medusa", substream, self.ensemble_member_id)
-                        self._update_mass_cmd(
-                            regexp, filelist, start, end, "filter",
-                            ["-i", "-d", file_name], MOOSE_MAX_NC_FILES
-                        )
+                    regexp = netCDF_regexp()
+                    moo_args = ["-i", "-d", file_name]
+                    self._update_mass_cmd(regexp, filelist, start, end, "filter", moo_args, substream)
                 except MooseException as e:
                     error = str(e)
                     status["val"] = "stop"
@@ -765,7 +750,10 @@ class Filters(object):
         if self.stream[0] == "o":
             model_realm = GRID_LOOKUPS[sub_stream]
             grid = f"_{sub_stream}"
-        elif self.stream[0] == "i":
+        elif self.stream[0] == "i" and sub_stream in GRID_LOOKUPS:
+            model_realm = GRID_LOOKUPS[sub_stream]
+            grid = f"_{sub_stream}"
+        else:
             model_realm = "cice"
             grid = ""
 
@@ -801,24 +789,33 @@ class Filters(object):
                 for ncks_opt in self.grid_info.halo_options[substream]:
                     file_h.write("\n{}".format(ncks_opt))
 
-    def _update_mass_cmd(self, regexp, filelist, start, end, moo_cmd,
-                         moo_args, max_chunk_size):
+    def _update_mass_cmd(
+        self,
+        regexp: str,
+        filelist: list[tuple[str, str]],
+        start: TimePoint,
+        end: TimePoint,
+        moo_cmd: str,
+        moo_args: list,
+        substream: str,
+    ):
         files_on_tapes = defaultdict(list)
         files_found = 0
         logger = logging.getLogger(__name__)
         for (tape, nc_file) in filelist:
-            result = re.search(regexp, nc_file)
-            if result:
+            result = re.search(regexp, nc_file).groupdict()
+            if result["substream"] == substream or not result["substream"]:
                 files_found += 1
-                _, file_start, file_end, _ = result.groups()
+                file_start, file_end = result["start"], result["end"]
                 if file_start >= start.strftime("%Y%m%d") and file_end <= end.strftime("%Y%m%d"):
                     files_on_tapes[tape].append(nc_file)
+
         if not files_found:
             return False
         if not self.simulation:
             logger.info(
                 "Using {} to retrieve {} files with chunk size of {}".format(
-                    regexp, files_found, max_chunk_size
+                    regexp, files_found, MOOSE_MAX_NC_FILES
                 )
             )
         tape_limit, error = get_tape_limit(simulation=self.simulation)

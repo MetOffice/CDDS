@@ -11,7 +11,7 @@ from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
 
 
-def remove_ancils_from_mapping(mapping):
+def remove_ancils_from_mapping(mapping, model_id):
     """
     Return the |model to MIP mapping| for a |MIP requested variable|
     with any ancillaries removed.
@@ -21,6 +21,9 @@ def remove_ancils_from_mapping(mapping):
     mapping: \
         :class:`mip_convert.new_variable.VariableModelToMIPMapping`
         The |model to MIP mapping| for a |MIP requested variable|.
+    model_id:
+        str
+        The model ID for that the MIP mapping is for
 
     Returns
     -------
@@ -33,7 +36,7 @@ def remove_ancils_from_mapping(mapping):
     removed_loadable_names = []
 
     plugin = PluginStore.instance().get_plugin()
-    ancil_variables = plugin.models_parameters(mapping.model_id).all_ancil_variables()
+    ancil_variables = plugin.models_parameters(model_id).all_ancil_variables()
     ancil_variables.extend(ANCIL_VARIABLES)
 
     for loadable in mapping.loadables:

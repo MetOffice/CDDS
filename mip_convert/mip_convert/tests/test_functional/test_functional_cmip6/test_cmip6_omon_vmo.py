@@ -36,6 +36,7 @@ class TestCmip6OmonVmo(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1852-03-01T00:00:00 1852-04-01T00:00:00',
                     'suite_id': 'u-ar050',
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'onm': {'CMIP6_Omon': 'vmo'}

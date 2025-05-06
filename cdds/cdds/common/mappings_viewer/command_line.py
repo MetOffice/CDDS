@@ -2,10 +2,10 @@
 # Please see LICENSE.md for license details.
 import argparse
 import os
-
-import mip_convert.process
+import mip_convert
 
 from cdds.common.mappings_viewer.mappings_viewer import build_table, generate_html, get_mappings
+from mip_convert.plugins.plugin_loader import load_mapping_plugin
 
 
 def main():
@@ -17,8 +17,11 @@ def main():
     models = ['UKESM1', 'HadGEM3']
 
     for model in models:
-        mappings = get_mappings(model, arguments)
-        table = build_table(mappings, arguments)
+        load_mapping_plugin(model)
+        mip_convert_root_dir = os.path.dirname(os.path.realpath(mip_convert.__file__))
+        mappings_dir = os.path.join(mip_convert_root_dir, 'plugins', model, 'data')
+        mappings = get_mappings(model, mappings_dir, arguments)
+        table = build_table(mappings, mappings_dir, arguments)
         generate_html(table, model, arguments)
 
 
@@ -32,14 +35,8 @@ def parse_args():
         User arguments.
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('-p',
-                        '--process_directory',
-                        default=os.path.dirname(mip_convert.process.__file__),
-                        help='The location of the process directory within CDDS.',
-                        type=str)
     parser.add_argument('-s',
                         '--stash_meta_filepath',
-                        default='/home/h01/frum/vn12.2/ctldata/STASHmaster/STASHmaster-meta.conf',
                         help='Path to a STASHmaster-meta.conf meta file.',
                         type=str)
     parser.add_argument('-o',

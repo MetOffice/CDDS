@@ -1,3 +1,19 @@
+## Release 3.1.2, April 30 2025
+
+-  `interval` specifications in the `cell_methods` field of input netCDF files
+    are now ignored to avoid mid-year changes in model timestep causing iris
+    to raise concatenation errors (CDDSO-648)
+
+## Release 3.0.7, March 24, 2025
+
+-   No Changes
+
+## Release 3.1.1, March 19 2025
+
+-   Added mappings for RAMIP (CDDSO-632)
+-   Downgraded CMOR to v3.8 to avoid QC issues following changes to
+    the handling of the `realm` global attribute (CDDSO-633)
+
 ## Release 3.1.0, February 13 2025
 
 -   Ancillary STASH variables can now be configured via the CDDS Plugins and 

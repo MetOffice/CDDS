@@ -6,7 +6,7 @@ import os
 from mip_convert.configuration.json_config import MIPConfig
 from mip_convert.configuration.python_config import ModelToMIPMappingConfig
 from mip_convert.new_variable import VariableModelToMIPMapping, VariableMIPMetadata
-from mip_convert.process import REQUIRED_OPTIONS
+from mip_convert.plugins.plugins import MappingPluginStore
 
 
 def get_variable_model_to_mip_mapping(model_to_mip_mappings: ModelToMIPMappingConfig,
@@ -31,7 +31,8 @@ def get_variable_model_to_mip_mapping(model_to_mip_mappings: ModelToMIPMappingCo
     """
     model_to_mip_mapping = model_to_mip_mappings.select_mapping(variable_name, mip_table_id)
 
-    for option in REQUIRED_OPTIONS:
+    mapping_plugin = MappingPluginStore.instance().get_plugin()
+    for option in mapping_plugin.required_options():
         if option not in model_to_mip_mapping:
             message = 'No "{}" available for "{}" for "{}"'
             raise RuntimeError(message.format(option, variable_name, mip_table_id))
@@ -86,49 +87,3 @@ def get_mip_table(mip_table_dir: str, mip_table_name: str) -> MIPConfig:
     mip_table = MIPConfig(mip_table_path)
     logger.debug('MIP table "{}" exists'.format(mip_table_path))
     return mip_table
-
-
-def get_model_to_mip_mappings(model_id: str, mip_table_name: str) -> ModelToMIPMappingConfig:
-    """
-    Return an object that enables access to the
-    |model to MIP mappings|.
-
-    :param model_id: the |model identifier|
-    :type model_id: string
-    :param mip_table_name: the name of the |MIP table|
-    :type mip_table_name: string
-    :return: access to the |model to MIP mappings|
-    :rtype: :class:`configuration.ModelToMIPMappingConfig` object
-    """
-    # Read and validate the 'model to MIP mappings'.
-    logger = logging.getLogger(__name__)
-    dirname = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'process')
-    suffix = 'mappings.cfg'
-
-    # Always load the common mappings.
-    pathname = os.path.join(dirname, 'common_{suffix}'.format(suffix=suffix))
-    model_to_mip_mappings = ModelToMIPMappingConfig(pathname, model_id)
-    logger.debug('Reading the common model to MIP mappings')
-
-    # Then load the specific mappings based on the hierarchy, if they exist.
-    mip_table_id = mip_table_name.split('_')[1]
-    base_model_configuration = model_id.split('-')[0]
-
-    hierarchy = [
-        '{mip_table_id}_{suffix}'.format(mip_table_id=mip_table_id, suffix=suffix),
-        '{base_model_configuration}_{suffix}'.format(base_model_configuration=base_model_configuration, suffix=suffix),
-        '{base_model_configuration}_{mip_table_id}_{suffix}'.format(base_model_configuration=base_model_configuration,
-                                                                    mip_table_id=mip_table_id,
-                                                                    suffix=suffix),
-        '{model_configuration}_{suffix}'.format(model_configuration=model_id, suffix=suffix),
-        '{model_configuration}_{mip_table_id}_{suffix}'.format(model_configuration=model_id,
-                                                               mip_table_id=mip_table_id,
-                                                               suffix=suffix),
-    ]
-    for filename in hierarchy:
-        pathname = os.path.join(dirname, filename)
-        if os.path.isfile(pathname):
-            model_to_mip_mappings.read(pathname)
-            logger.debug('Reading "{filename}"'.format(filename=filename))
-
-    return model_to_mip_mappings

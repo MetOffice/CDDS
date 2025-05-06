@@ -34,7 +34,8 @@ class TestCmip6OfxAreacello(AbstractFunctionalTests):
                     )),
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1950-01-01T00:00:00 1950-02-01T00:00:00',
-                    'suite_id': 'aj460'
+                    'suite_id': 'aj460',
+                    'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
                     'ancil': {'CMIP6_Ofx': 'areacello'}
