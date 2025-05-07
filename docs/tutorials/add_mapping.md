@@ -5,16 +5,19 @@ The following pages are constructed from the Mappings held in MIP convert:
 * [UKESM1 Mappings](https://code.metoffice.gov.uk/doc/cdds/mappings_viewer/mappings_view_UKESM1.html)
 * [HadGEM3 Mappings](https://code.metoffice.gov.uk/doc/cdds/mappings_viewer/mappings_view_HadGEM3.html)
 
+## Mapping Plugins
+
+The mappings within MIP Convert are managed by the MIP Convert mapping plugins. Each base model (e.g. `UKESM1` or 
+`HadGEM3`) has its own plugin containing the corresponding mapping configuration files.
+
+The mapping plugin is used specified in the `request` section of the `mip_convert.cfg` file, see: [MIP convert documentation](mip_convert.md)
+
 ## Mapping Hierarchy
 
-The mappings within MIP Convert are arranged in a hierarchy with names in the following forms
+The mappings within mapping plugins are arranged in a hierarchy with names in the following forms
 
-1. ``common_mappings.cfg``
-2. ``<mip_table>_mappings.cfg``
-3. ``<base_model>_mappings.cfg``
-4. ``<base_model>_<mip_table_id>_mappings.cfg``
-5.  ``<model_id>_mappings.cfg``
-6.  ``<model_id>_<mip_table_id>_mappings.cfg``
+1. ``<base_model>_mappings.cfg``
+2. ``<base_model>_<mip_table>_mappings.cfg``
 
 where `<base_model>` refers to the section of the model id before the first dash `-`, e.g. `"UKESM1"` or `"HadGEM3"`. 
 
@@ -153,33 +156,56 @@ The following constraints can currently be used in an ``expression``:
     See the [Developer Documentation](../developer_documentation/development_practices.md) pages for guidance.
 
 
-### Requried Information
+### Required Information
 
-1. the MIP requested variable name and the MIP table identifier.
-1. the constraints, i.e., the data to be read from the model output files to create the input variables.
-1. an expression describing how to process the input variables to produce a MIP output variable.
-1. the units of the MIP output variable after the expression has been applied.
-    1. It is not necessary to include the units in model to MIP mappings used for netCDF model output files if the expression consists of a single constraint.
-1. the component, which is the domain as described ​here.
+1. The MIP requested variable name and the MIP table identifier.
+2. The constraints, i.e., the data to be read from the model output files to create the input variables.
+3. An expression describing how to process the input variables to produce a MIP output variable.
+4. The units of the MIP output variable after the expression has been applied. It is not necessary to include the units 
+   in model to MIP mappings used for netCDF model output files if the expression consists of a single constraint.
+5. The component, which is the domain.
 
 
-### Determine which configuration file the model to MIP mapping should be added to
+### Find the right configuration file
 
-1. Model to MIP mapping configuration files are located in the `mip_convert/process` sub package (their names end in `_mappings.cfg`).
-2. if there is currently no entry for the MIP requested variable name in the model to MIP mapping configuration files (use, e.g. `grep <mip_requested_variable_name> <branch>/mip_convert/mip_convert/process/*_mappings.cfg`), add the model to MIP mapping to common_mappings.cfg.
-3. if there is already an entry in `common_mappings.cfg`, add the model to MIP mapping to the appropriate `<mip_table_id>_mappings.cfg`` configuration file.
-4. for multiple model to MIP mappings for the same MIP requested variable name, any expressions containing `lbproc=128` should be added to `common_mappings.cfg`, while others should be added to the appropriate `<mip_table_id>_mappings.cfg`` configuration file.
-5. if there are any issues, please ask Matthew Mizielinski.
+1. Find the corresponding mapping plugin for the model you want to add the mapping. All mappings plugins are located
+   in `mip_convert/plugins`. Each plugin has its own sub folder named by the base model name.
+2. Model to MIP mapping configuration files are located in the `mip_convert/plugins/<base_model_name>/data`. The mapping
+   configuration files end with `_mappings.cfg`.
+3. If there is currently no entry for the MIP requested variable name in the mapping configuration files, add the mapping 
+   to `<base_model_name>_mappgins.cfg`, e.g. `UKESM1_mappgins.cfg`.
+4. If there is already an entry in `<base_model_name>_mappings.cfg`, add the model to MIP mapping to the appropriate 
+   `<base_model_name>_<mip_table_id>_mappings.cfg`, e.g. `UKESM1_day_mappings.cfg` for a mapping for a `day` MIP table.
+5. For multiple mappings for the same MIP requested variable name, any expressions containing `lbproc=128` should be 
+   added to `<base_model_name>_mappings.cfg`, while others should be added to the appropriate 
+   `<base_model_name>_<mip_table_id>_mappings.cfg` configuration file.
+6. If there are any issues, please ask Matthew Mizielinski.
+
+
+??? tip "Searching for variable in mapping configuration files"
+    You can use the grep command to search if a mapping for a variable is already defined:
+    ```bash
+    grep <variable_name> <cdds_directory>/mip_convert/mip_convert/plugins/<lowercase_base_model_name>/data/*_mappings.cfg
+    ```
+    For example: Searching in mappings for the variable `tas` in the `UKESM1`:
+    ```
+    grep tas <cdds_directory>/mip_convert/mip_convert/plugins/ukesm1/data/*_mappings.cfg
+    ```
 
 
 ### Add the model to MIP mapping to the appropriate configuration file.
 
 1. The sections in the model to MIP mapping configuration files are the MIP requested variable names and are listed in alphabetical order.
-1. If the expression continues beyond the 120 character line limit, add a new line before a binary operator, see ​PEP8.
-1. If the expression contains a function and an appropriate function does not already exist, add the function to `mip_convert/process/processors.py`​. The function:
-    1. can have any number of arguments, each corresponding to a cube.
-    2. should work directly on the cube(s) (i.e., do not make a copy of the cube(s) or the data).
-    3. should not update the standard_name or long_name of the cube(s) (the ​MIP table contains this information and will be automatically added to the output netCDF files by CMOR).
+2. If the expression continues beyond the 120 character line limit, add a new line before a binary operator, see PEP8.
+3. If the expression contains a function and an appropriate function does not already exist, add the function to 
+   `mip_convert/plugins/<base_model_name>/data/processors.py`.
+
+    The function:
+
+    1. can have any number of arguments each corresponding to a cube.
+    2. should work directly on the cube(s), i.e., do not make a copy of the cube(s) or the data.
+    3. should not update the standard_name or long_name of the cube(s). The MIP table contains this information 
+       and will be automatically added to the output netCDF files by CMOR.
     4. must return a single cube.
 
 
