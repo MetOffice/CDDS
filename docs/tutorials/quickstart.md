@@ -1,14 +1,18 @@
-## Running CDDS
+## Running the Climate Data Dissemination System
 
 This tutorial serves as a brief introduction to running CDDS by CMORising a short amount of climate data.
-Its intention is to provide a minimal example of running CDDS, whilst also signposting some of the other features and capabilities.
-There are three main steps to complete.
+Its intention is to provide a minimal example of running CDDS, whilst also sign posting some of the other features and capabilities.
+The entire process can be roughly split into three parts.
 
 1. Define the `request.cfg` file and the variables to process.
 
 2. Setup the directory structure.
 
 3. Run the Cylc conversion workflow.
+
+!!! warning "Prerequisites"
+
+    This guide does assume that you can run `cylc` workflows and that you have access to `mass`.
 
 
 ### Configuring the Request
@@ -17,7 +21,7 @@ Running CDDS requires the user to appropriately configure a `request.cfg` file (
 This request is provided to many `cdds` commands as a positional argument and contains information ranging from experiment metadata, workflow configuration, ancilary paths, MASS locations, and more.
 Each option belongs to a particular section and is documented in [Request Configuration](request/config_request.md).
 
-??? example
+??? example "An Explicit Request Example Including Unused Fields"
     ```ini
     [metadata]
     branch_date_in_child = 
@@ -100,9 +104,10 @@ Each option belongs to a particular section and is documented in [Request Config
     ```
 
 For simplicity this tutorial relies on many of the default values, and eliminates unused options to reduce the request to its most minimal form.
-The highlighted lines indicate those that the user may need to modify to run this example.
+Below two example requests are provided, one for use at the Met Office and other on JASMIN.
+The highlighted lines in each request indicate fields that the user may need to modify to run this example successfully.
 
-=== "Met Office"
+=== "Met Office request.cfg"
 
     ```ini hl_lines="20 21 29 30"
     [metadata]
@@ -145,9 +150,9 @@ The highlighted lines indicate those that the user may need to modify to run thi
     skip_archive = False
     ```
 
-=== "JASMIN"
+=== "JASMIN request.cfg"
 
-    ```ini hl_lines="20 21 29 30 39"
+    ```ini hl_lines="20 21 29 37"
     [metadata]
     branch_method = no parent
     base_date = 1850-01-01T00:00:00Z
@@ -187,6 +192,13 @@ The highlighted lines indicate those that the user may need to modify to run thi
     jasmin_account =
     ```
 
+!!! question "What is GCModelDev?"
+
+    You may notice in the above request examples that the `metadata` section references `GCModelDev` (and other non-CMIP6 terms), rather than CMIP6.
+    The `GCModelDev` project is an informal duplication of the CMIP6 Controlled Vocabulary and MIP tables that helps facilitate ad-hoc CMORisation for activities such as model development.
+    It allows for extra variables to be added in addition to the standard Mip tables, as well as new models and experiments.
+    The basic principles of running CDDS remain the same whether you are using GCModelDev or CMIP6.
+
 1. Create a working directory for the `request.cfg`, and the `proc` and `data` directories.
    It doesn't have to be the same as those used in the following example, just be sure to update the `request.cfg` appropriately. 
    ```
@@ -201,7 +213,7 @@ The highlighted lines indicate those that the user may need to modify to run thi
 3. Update fields in the `request.cfg`.
     1. If you are using a different path to `$DATADIR/cdds_quickstart_tutorial` update the `root_proc_dir`, `root_data_dir`, and `variable_list_file` fields.
     1. If you are on Azure, update the `output_mass_root` with your MASS username.
-    1. If you are on JASMIN, make sure you populate the `jasmin account` field with an appropriate account (used for LOTUS2).
+    1. If you are on JASMIN, populate the `jasmin account` field with an appropriate account (used for LOTUS2 see relevant docs [here](https://help.jasmin.ac.uk/docs/batch-computing/how-to-submit-a-job/#new-slurm-job-accounting-hierarchy)).
 5. Create an empty `variables.txt` file and add the following line.
    ```
    Amon/tas:ap5
@@ -214,137 +226,149 @@ The highlighted lines indicate those that the user may need to modify to run thi
    ```
    validate_request request.cfg
    ```
-   If any errors are reported and you are not able to please contact the CDDS team for help.
+   If any errors are reported and you are not able to fix please contact the CDDS team for help.
 
 
 ### Preparing for Processing
 
-The following commands assume we are in the working directory created previously containing the `request.cfg` and that a CDDS environment is activated.
+The following commands assume you are in the working directory created previously containing the `request.cfg`, and that the CDDS environment is activated.
 
-Run the following command.
-
-```
-cdds_create_cdds_directories request.cfg
-```
-
-??? info
-
-    This will use the `root_proc_dir` and `root_data_dir` paths within the request to create the following directory structures.
-    The `proc` directory holds the log files created by the different `cdds` commands.
-    The `data` directory will home the input model data e.g. `.pp` files as well as the output CMORised `.nc` output.
-
-    The proc directory is made up of a nested directory structure.
+1. Create the directory structure for storing the log and data files created during processing.
 
     ```
-    proc
-    └── GCModelDev
-        └── MOHCCP
-            └── request_id
-                └── round-1
-                    ├── archive
-                    ├── configure
-                    ├── convert
-                    ├── extract
-                    ├── prepare
-                    └── qualitycheck
-    ```
-    A similar hierarchical structure is created for all
-
-    ```
-    data
-    └── GCModelDev
-        └── MOHCCP
-            └── HadGEM3-GC31-LL
-                └── my-experiment-id
-                    └── r1i1p1f3
-                        └── round-1
-                            ├── input
-                            │   └── u-bg466
-                            └── output
+    cdds_create_cdds_directories request.cfg
     ```
 
+    ??? info
 
-Run the following command.
+        This will use the `root_proc_dir` and `root_data_dir` paths within the request to create the following directory structures.
+        The `proc` directory holds the log files created by the different `cdds` commands.
+        The `data` directory will home the input model data e.g. `.pp` files as well as the output CMORised `.nc` output.
 
-```
-prepare_generate_variable_list request.cfg
-```
+        The proc directory is made up of a nested directory structure.
 
-??? info
+        ```
+        proc
+        └── GCModelDev
+            └── MOHCCP
+                └── request_id
+                    └── round-1
+                        ├── archive
+                        ├── configure
+                        ├── convert
+                        ├── extract
+                        ├── prepare
+                        └── qualitycheck
+        ```
+        A similar hierarchical structure is created for all
 
-    This takes the user variables file provided by the `variable_list_file` option, and creates an internally used `.json` version which includes additional metadata.
-    The file can be found in the `prepare` proc sub-directory.
+        ```
+        data
+        └── GCModelDev
+            └── MOHCCP
+                └── HadGEM3-GC31-LL
+                    └── my-experiment-id
+                        └── r1i1p1f3
+                            └── round-1
+                                ├── input
+                                │   └── u-bg466
+                                └── output
+        ```
+
+
+2. Create the internal variables list used by `cdds`.
+
     ```
-    proc/GCModelDev/MOHCCP/request_id/round-1/prepare/GCModelDev_MOHCCP_my-experiment-id_HadGEM3-GC31-LL.json
+    prepare_generate_variable_list request.cfg
     ```
-    
-    
 
-    ```json
-    {
-      "checksum":"md5: 89a430535551e97433fd8a22edcfec24",
-      "experiment_id":"my-experiment-id",
-      "history":[
+    ??? info
+
+        This takes the user variables file provided by the `variable_list_file` option, and creates an internally used `.json` version which includes additional metadata.
+        The file can be found in the `prepare` proc sub-directory.
+        ```
+        proc/GCModelDev/MOHCCP/request_id/round-1/prepare/GCModelDev_MOHCCP_my-experiment-id_HadGEM3-GC31-LL.json
+        ```
+
+        ```json
         {
-          "comment":"Requested variables file created.",
-          "time":"2025-05-07T07:40:21.049522"
-        }
-      ],
-      "metadata":{},
-      "mip":"MOHCCP",
-      "mip_era":"GCModelDev",
-      "model_id":"HadGEM3-GC31-LL",
-      "model_type":"AOGCM AER",
-      "production_info":"Produced using CDDS Prepare version \"3.1.2\"",
-      "requested_variables":[
-        {
-          "active":true,
-          "cell_methods":"area: time: mean",
-          "comments":[],
-          "dimensions":[
-            "longitude",
-            "latitude",
-            "time",
-            "height2m"
-          ],
-          "frequency":"mon",
-          "in_mappings":true,
-          "in_model":true,
-          "label":"tas",
-          "miptable":"Amon",
-          "producible":"yes",
-          "stream":"ap5"
-        }
-      ],
-      "status":"ok",
-      "suite_branch":"cdds",
-      "suite_id":"u-bg466",
-      "suite_revision":"HEAD"
-    ```
+        "checksum":"md5: 89a430535551e97433fd8a22edcfec24",
+        "experiment_id":"my-experiment-id",
+        "history":[
+            {
+            "comment":"Requested variables file created.",
+            "time":"2025-05-07T07:40:21.049522"
+            }
+        ],
+        "metadata":{},
+        "mip":"MOHCCP",
+        "mip_era":"GCModelDev",
+        "model_id":"HadGEM3-GC31-LL",
+        "model_type":"AOGCM AER",
+        "production_info":"Produced using CDDS Prepare version \"3.1.2\"",
+        "requested_variables":[
+            {
+            "active":true,
+            "cell_methods":"area: time: mean",
+            "comments":[],
+            "dimensions":[
+                "longitude",
+                "latitude",
+                "time",
+                "height2m"
+            ],
+            "frequency":"mon",
+            "in_mappings":true,
+            "in_model":true,
+            "label":"tas",
+            "miptable":"Amon",
+            "producible":"yes",
+            "stream":"ap5"
+            }
+        ],
+        "status":"ok",
+        "suite_branch":"cdds",
+        "suite_id":"u-bg466",
+        "suite_revision":"HEAD"
+        ```
 
 ### Running the Conversion Workflow
 
 === "Met Office"
-    If there were no errors running the previous command then it should be simply a case of running this final command.
-    ```
-    cdds_convert request.cfg
-    ```
+
+    1. Launch the `cylc` conversion workflow.
+        ```
+        cdds_convert request.cfg
+        ```
 
 === "JASMIN"
 
-    Until a LOTUS2 partition that provides MASS access is made available, the `cdds_extract` command must be run manually by the user.
-    Before running the command you must ssh into the MASS server using the following command.
-    ```
-    ssh <user>@mass-cli.jasmin.ac.uk
-    ```
-    You may need to reactivate the CDDS environment, once done you can run extract with.
-    ```
-    cdds_extract request.cfg
-    ```
-    Once this command has completed you will then need to ssh into the Cylc server
-    ```
-    cdds_convert request.cfg
-    ```
+    1. Until a LOTUS2 MASS partition  is available the `cdds_extract` command must be run manually rather than within the workflow.
+        To access `mass` on JASMIN `ssh` into the MASS `mass-cli.jasmin.ac.uk` server.
+        ```
+        ssh <username>@mass-cli.jasmin.ac.uk
+        ```
+    2. Reactivate the CDDS environment.
+        ```bash
+        source /home/users/cdds/bin/setup_env_for_cdds 3.1.2
+        ```
+    3. You can then run extract. (Not applicable to this example, but if you are processing multiple streams then these must be done individually e.g. `cdds_extract request.cfg -s ap5; cdds_extract request.cfg -s onm`)
+        ```
+        cdds_extract request.cfg
+        ```
+    4. Once this command has completed you will then need to `ssh` into the Cylc server
+        ```
+        exit
+        ssh <username>@cylc2.jasmin.ac.uk -XYA
+       ```
+    5. Reactivate the CDDS environment.
+        ```bash
+        source /home/users/cdds/bin/setup_env_for_cdds 3.1.2
+        ```
+    6. Launch the `cylc` conversion workflow.
+       ```
+       cdds_convert request.cfg
+       ```
 
 The `cdds_convert` command does several things when run.
 
@@ -353,7 +377,34 @@ The `cdds_convert` command does several things when run.
 - Populates various Jinja2 template variables.
 - Automatically submits the workflow using `cylc vip`.
 
-Once the `cdds_convert` command has completed you should be able to monitor your running workflow using `cylc tui` or `cylc gui`.
+Once the `cdds_convert` command has completed you can monitor the running workflow using `cylc tui` or `cylc gui`.
+
+### Inspecting Your Data
+
+When the workflow has completed successfully you can inspect the CMORised data.
+On disk the CMORised output can be found by descending the `root_data_dir` directory until the until reaching the `output` directory.
+
+```
+$DATADIR/cdds_quickstart_tutorial/data/GCModelDev/MOHCCP/HadGEM3-GC31-LL/my-experiment-id/r1i1p1f3/round-1/output
+```
+
+Within this directory you will find the following hierarchy.
+The `<stream>_concat` and `<stream>_mip_convert` directories are only used during processing and do not contain 
+
+```
+├── <stream>
+│   └── <MIP Table>
+│       └── <variable>
+│           └── <file(s)>
+```
+
+If you are running the example at the Met Office and you did *not* switch off archiving (e.g. `skip_archive = True`), then the CMORised output will also have been archived to `mass`.
+This will be stored in a location based on the request fields `output_mass_root` `output_mass_suffix` e.g., `moo ls moose:/adhoc/users/<username>/quickstart`.
+
+
+## Adapting the Request
+
+If you are wanting to CMORise data for publication then you should follow the relevant Operational Procedure.
 
 
 ## Useful Configuration Options
@@ -370,7 +421,7 @@ To process more variables you will first need to add the appropriate entry to th
 <mip table>/<variable name>:<stream>
 ```
 
-If you have
+If you have 
 
 ```bash
 stream_mappings
@@ -378,7 +429,7 @@ stream_mappings
 
 ### Relaxed Mode
 
-The example `request.cfg` configuration given above runs.
+The example `request.cfg` configuration given in this tutorial
 By changing the mode to `relaxed` this allows the user to provide arbitrary metadata values that do not exist in the CV's.
 This is particularly useful for model development work.
 
