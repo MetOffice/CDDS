@@ -421,7 +421,7 @@ To process more variables you will first need to add the appropriate entry to th
 <mip table>/<variable name>:<stream>
 ```
 
-If you have 
+If you have the CMIP6 STASH configuration then you can use the `stream_mappings` command to add the stream field to each line for CMIP6 variables that CDDS has information for.
 
 ```bash
 stream_mappings
