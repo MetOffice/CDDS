@@ -12,6 +12,7 @@ from typing import Dict, List
 from cdds.common.plugins.common import LoadResults
 from cdds.common.plugins.grid import GridInfo, GridType
 from cdds.common.plugins.streams import StreamFileInfo
+from cdds.common.plugins.grid_mapping import GridMapping
 
 
 class ModelParameters(object, metaclass=ABCMeta):
@@ -147,10 +148,11 @@ class ModelParameters(object, metaclass=ABCMeta):
         Returns a list of subdaily atmospheric streams.
 
         :return: Subdaily streams
-        :rtype: dict
+        :rtype: List[str]
         """
         pass
 
+    @abstractmethod
     def all_ancil_files(self, root_directory: str) -> List[str]:
         """
         Returns the paths to all ancillary files of this model in the
@@ -163,6 +165,7 @@ class ModelParameters(object, metaclass=ABCMeta):
         """
         pass
 
+    @abstractmethod
     def all_ancil_variables(self) -> List[str]:
         """
         Returns all ancillary variables of this model that should
@@ -173,6 +176,7 @@ class ModelParameters(object, metaclass=ABCMeta):
         """
         pass
 
+    @abstractmethod
     def all_hybrid_heights_files(self, root_directory: str) -> List[str]:
         """
         Returns the paths to all hybrid heights files of this model in the
@@ -187,6 +191,22 @@ class ModelParameters(object, metaclass=ABCMeta):
 
     @abstractmethod
     def stream_file_info(self) -> StreamFileInfo:
+        """
+        Returns information about the stream files that the model supports.
+
+        :return: Information about the stream files
+        :rtype: StreamFileInfo
+        """
+        pass
+
+    @abstractmethod
+    def grids_mapping(self) -> GridMapping:
+        """
+        Returns mapping information about the grids for the MIP requested variables.
+
+        :return: Grids mappings for the MIP requested variables
+        :rtype: GridMapping
+        """
         pass
 
 

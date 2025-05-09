@@ -123,7 +123,7 @@ class Grid(object):
         return info
 
 
-def retrieve_grid_objects(variable_name, mip_table_id, model, overrides_path):
+def retrieve_grid_objects(variable_name: str, mip_table_id: str, model: str) -> Grid:
     """
     Return the grid information (grid_id, grid, grid_label and nominal
     resolution) for the |MIP requested variable|.
@@ -141,31 +141,24 @@ def retrieve_grid_objects(variable_name, mip_table_id, model, overrides_path):
         The |MIP table identifier|.
     model: str
         The |model|.
-    overrides_path: str
-        The full path to the configuration file containing the grid
-        overrides.
 
     Returns
     -------
     : Grid
         A cdds.common.grids.Grid object.
     """
-    override_values = load_override_values(overrides_path)
-    try:
-        grid_params = override_values[mip_table_id][variable_name].split()
-    except KeyError:
-        try:
-            grid_params = default_grid_ids()[mip_table_id]
-        except KeyError:
-            grid_params = None
+    plugin = PluginStore.instance().get_plugin()
+    grids_mapping = plugin.models_parameters(model).grids_mapping()
+
+    grid_type, grid_name = grids_mapping.retrieve_mapping(variable_name, mip_table_id)
+
     grid = None
-    if grid_params is not None:
-        grid_type, grid_name = grid_params
+    if grid_type is not None and grid_name is not None:
         grid = Grid(model, grid_type, grid_name)
     return grid
 
 
-def retrieve_grid_info(variable_name, mip_table_id, model, overrides_path):
+def retrieve_grid_info(variable_name, mip_table_id, model):
     """
     Return the grid information (grid_id, grid, grid_label and nominal
     resolution) for the |MIP requested variable|.
@@ -183,9 +176,6 @@ def retrieve_grid_info(variable_name, mip_table_id, model, overrides_path):
         The |MIP table identifier|.
     model: str
         The |model|.
-    overrides_path: str
-        The full path to the configuration file containing the grid
-        overrides.
 
     Returns
     -------
@@ -195,109 +185,10 @@ def retrieve_grid_info(variable_name, mip_table_id, model, overrides_path):
     """
     grid_info = None
     try:
-        grid = retrieve_grid_objects(variable_name, mip_table_id, model, overrides_path)
+        grid = retrieve_grid_objects(variable_name, mip_table_id, model)
         if grid:
             grid_info = (grid.id, grid.description, grid.label, grid.nominal_resolution)
     except (KeyError, ValueError):
         grid_info = None
 
     return grid_info
-
-
-def default_grid_ids():
-    """
-    Return the default grid identifiers.
-    """
-    return {
-        '1hr': ('atmos', 'native'),
-        '3hr': ('atmos', 'native'),
-        '6hr': ('atmos', 'native'),
-        '6hrLev': ('atmos', 'native'),
-        '6hrPlev': ('atmos', 'native'),
-        '6hrPlevPt': ('atmos', 'native'),
-        'AERday': ('atmos', 'native'),
-        'AERhr': ('atmos', 'native'),
-        'AERmon': ('atmos', 'native'),
-        'AERmonZ': ('atmos', 'native-zonal'),
-        'AEday': ('atmos', 'native'),
-        'AEmonLev': ('atmos', 'native'),
-        'AEmonZ': ('atmos', 'native-zonal'),
-        'AP1hrPt': ('atmos', 'native'),
-        'AP3hr': ('atmos', 'native'),
-        'AP3hrPt': ('atmos', 'native'),
-        'AP6hr': ('atmos', 'native'),
-        'AP6hrPt': ('atmos', 'native'),
-        'AP6hrPtLev': ('atmos', 'native'),
-        'APday': ('atmos', 'native'),
-        'APdayLev': ('atmos', 'native'),
-        'APdayZ': ('atmos', 'native-zonal'),
-        'APmon': ('atmos', 'native'),
-        'APmonZ': ('atmos', 'native-zonal'),
-        'Amon': ('atmos', 'native'),
-        'CF3hr': ('atmos', 'native'),
-        'CFday': ('atmos', 'native'),
-        'CFmon': ('atmos', 'native'),
-        'CFsubhr': ('atmos', 'sites'),
-        'E1hr': ('atmos', 'native'),
-        'E1hrClimMon': ('atmos', 'native'),
-        'E3hr': ('atmos', 'native'),
-        'E3hrPt': ('atmos', 'native'),
-        'E6hrZ': ('atmos', 'native-zonal'),
-        'Eday': ('atmos', 'native'),
-        'EdayZ': ('atmos', 'native-zonal'),
-        'Efx': ('atmos', 'native'),
-        'Emon': ('atmos', 'native'),
-        'EmonZ': ('atmos', 'native-zonal'),
-        'Esubhr': ('atmos', 'sites'),
-        'GCAmon6hr': ('atmos', 'native'),
-        'GCAmonUV': ('atmos', 'uvgrid'),
-        'GC1hr': ('atmos', 'native'),
-        'LImon': ('atmos', 'native'),
-        'Lmon': ('atmos', 'native'),
-        'LPmon': ('atmos', 'native'),
-        'mon': ('atmos', 'native'),
-        'OBmon': ('ocean', 'native'),
-        'OBmonLev': ('ocean', 'native'),
-        'OP3hrPt': ('ocean', 'native'),
-        'OPday': ('ocean', 'native'),
-        'OPmon': ('ocean', 'native'),
-        'OPmonLev': ('ocean', 'native'),
-        'OPmonZ': ('ocean', 'native-zonal'),
-        'Oday': ('ocean', 'native'),
-        'Ofx': ('ocean', 'native'),
-        'Omon': ('ocean', 'native'),
-        'SIday': ('ocean', 'native'),
-        'SImon': ('ocean', 'native'),
-        'day': ('atmos', 'native'),
-        'fx': ('atmos', 'native'),
-        'prim1hrpt': ('atmos', 'native'),
-        'prim3hr': ('atmos', 'native'),
-        'prim3hrpt': ('atmos', 'native'),
-        'prim6hr': ('atmos', 'native'),
-        'prim6hrpt': ('atmos', 'native'),
-        'primDay': ('atmos', 'native'),
-        'primMon': ('atmos', 'native'),
-        'primSIday': ('atmos', 'native'),
-        'GCAmon': ('atmos', 'native'),
-        'GCAmon6hr': ('atmos', 'native'),
-        'GCAmonUV': ('atmos', 'uvgrid'),
-        'GCAmon6hrUV': ('atmos', 'uvgrid'),
-        'GCLmon': ('atmos', 'native'),
-        'GC1hr': ('atmos', 'native'),
-        'GC1hrPt': ('atmos', 'native'),
-        'GC1hrPtB': ('atmos', 'native'),
-        'GC3hr': ('atmos', 'native'),
-        'GC3hrPt': ('atmos', 'native'),
-        'GCday': ('atmos', 'native'),
-        'GCOyr': ('ocean', 'native'),
-        'GCAERmon': ('atmos', 'native'),
-        'RAMIPday': ('atmos', 'native'),
-        'RAMIPmon': ('atmos', 'native'),
-    }
-
-
-def grid_overrides():
-    """
-    Return the full path to the file containing the grid overrides.
-    """
-    return os.path.join(os.path.dirname(cdds.common.__file__), 'grids.cfg')
