@@ -21,6 +21,7 @@ nav:
       - GCModelDev UKESM1-0-LL Request: operational_procedure/gcmodeldev_examples/UKESM1-0-LL.md
     - Simulation Review Procedure: operational_procedure/sim_review.md
   - Tutorials:
+    - Quickstart: tutorials/quickstart.md
     - Search Inventory: tutorials/search_inventory.md
     - Add a Variable Mapping: tutorials/add_mapping.md
     - Add a Plugin: tutorials/add_plugin.md

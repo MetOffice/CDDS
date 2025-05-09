@@ -1,4 +1,5 @@
 *[CDDS]: Climate Data Dissemination System
+*[CMIP6]: Coupled Model Intercomparison Project
 *[CMOR]: Climate Model Output Rewriter
 *[Concatenation Tasks]: Concatenation Tasks are then run to join the files into a single file for a larger date range of length Concatenation Period. Concatenation Tasks are executed once per Concatenation Cycle.
 *[Concatenation Period]: The length of the date range to be processed by 1 Concatenation Task.
