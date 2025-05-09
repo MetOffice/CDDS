@@ -195,8 +195,8 @@ The highlighted lines in each request indicate fields that the user may need to 
 !!! question "What is GCModelDev?"
 
     You may notice in the above request examples that the `metadata` section references `GCModelDev` (and other non-CMIP6 terms), rather than CMIP6.
-    The `GCModelDev` project is an informal duplication of the CMIP6 Controlled Vocabulary and MIP tables that helps facilitate ad-hoc CMORisation for activities such as model development.
-    It allows for extra variables to be added in addition to the standard Mip tables, as well as new models and experiments.
+    The `GCModelDev` project is an informal duplication of the CMIP6 Controlled Vocabulary and MIP tables that helps facilitate ad-hoc CMORisation for activities such as model development (you can find the soon to be made public Github repository [here](https://github.com/MetOffice/gcmodeldev-cmor-tables)).
+    It allows for extra variables to be added in addition to the standard MIP tables, as well as new models and experiments.
     The basic principles of running CDDS remain the same whether you are using GCModelDev or CMIP6.
 
 1. Create a working directory for the `request.cfg`, and the `proc` and `data` directories.
@@ -208,12 +208,12 @@ The highlighted lines in each request indicate fields that the user may need to 
    mkdir proc data
    touch request.cfg
    ```
-   Also, it isn't a requirement to have the `request.cfg` in the same directory as the `proc` and `data` directories.
+   Note that it isn't a requirement to have the `request.cfg` in the same directory as the `proc` and `data` directories.
 2. Copy the above example `request.cfg` into your empty `request.cfg` file.
 3. Update fields in the `request.cfg`.
     1. If you are using a different path to `$DATADIR/cdds_quickstart_tutorial` update the `root_proc_dir`, `root_data_dir`, and `variable_list_file` fields.
     1. If you are on Azure, update the `output_mass_root` with your MASS username.
-    1. If you are on JASMIN, populate the `jasmin account` field with an appropriate account (used for LOTUS2 see relevant docs [here](https://help.jasmin.ac.uk/docs/batch-computing/how-to-submit-a-job/#new-slurm-job-accounting-hierarchy)).
+    1. If you are on JASMIN populate the `jasmin_account` field with an appropriate account name (used for job submission, see JASMIN docs [here](https://help.jasmin.ac.uk/docs/batch-computing/how-to-submit-a-job/#new-slurm-job-accounting-hierarchy)).
 5. Create an empty `variables.txt` file and add the following line.
    ```
    Amon/tas:ap5
@@ -427,15 +427,15 @@ If you have the CMIP6 STASH configuration then you can use the `stream_mappings`
 stream_mappings
 ```
 
-### Relaxed Mode
+### Relaxed and Strict Modes
 
-The example `request.cfg` configuration given in this tutorial
-By changing the mode to `relaxed` this allows the user to provide arbitrary metadata values that do not exist in the CV's.
-This is particularly useful for model development work.
+The example `request.cfg` configuration given in this tutorial runs in "relaxed" mode.
+This allows the user to provide arbitrary metadata values that do not exist in the Controlled Vocabulary, and is particularly useful for model development work.
+If you want to ensure that the metadata is consistent with the Controlled Vocabulary you must change the mode to `strict`.
 
 ```ini
 [common]
-mode = relaxed
+mode = strict
 ```
 
 ### Global Attributes
