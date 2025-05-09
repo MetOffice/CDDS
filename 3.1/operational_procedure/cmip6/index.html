@@ -1598,7 +1598,7 @@
                   
 
 
-<h1 id="generating-cmorised-data-with-cdds-for-cmip6-cmip6-plus-simulations-using-the-cdds-workflow">Generating CMORised data with <abbr title="Climate Data Dissemination System">CDDS</abbr> for CMIP6 / CMIP6 Plus <abbr title="Particular model runs, with associated workflow identifiers, which are defined by an experiment and have an assigned variant label.">simulations</abbr> using the <abbr title="Climate Data Dissemination System">CDDS</abbr> Workflow</h1>
+<h1 id="generating-cmorised-data-with-cdds-for-cmip6-cmip6-plus-simulations-using-the-cdds-workflow">Generating CMORised data with <abbr title="Climate Data Dissemination System">CDDS</abbr> for <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> / <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> Plus <abbr title="Particular model runs, with associated workflow identifiers, which are defined by an experiment and have an assigned variant label.">simulations</abbr> using the <abbr title="Climate Data Dissemination System">CDDS</abbr> Workflow</h1>
 <p>See also <a href="../gcmodeldev/">guidance for adhoc generation of CMORised data</a>.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -1613,7 +1613,7 @@
 <ul class="task-list">
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> you own a <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> (see the <a href="https://code.metoffice.gov.uk/trac/cdds/wiki/CMIP6Simulations">list of <abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> tickets</a>) 
-      that will monitor the processing of a CMIP6 / CMIP6 Plus <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> using <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
+      that will monitor the processing of a <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> / <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> Plus <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> using <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> you belong to the <code>cdds</code> group</p>
@@ -1740,7 +1740,7 @@ critically important that the information in these files is correct</p>
 </ul>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>You can find the revision of the workflow branch for a CMIP6 workflow by using the following command:
+<p>You can find the revision of the workflow branch for a <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> workflow by using the following command:
 <div class="highlight"><pre><span></span><code>rosie<span class="w"> </span>lookup<span class="w"> </span>--prefix<span class="o">=</span>u<span class="w"> </span>--query<span class="w"> </span>project<span class="w"> </span>eq<span class="w"> </span>u-cmip6<span class="w"> </span>and<span class="w"> </span>id<span class="w"> </span>eq<span class="w"> </span>u-aw310<span class="w"> </span>and<span class="w"> </span>branch<span class="w"> </span>eq<span class="w"> </span>cdds
 </code></pre></div></p>
 </div>
@@ -1797,10 +1797,10 @@ so care should be taken with the choice of variables.</p>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you are using a workflow with the CMIP6 <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> set up then you can add the default <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> to a list of variables using the command
+<p>If you are using a workflow with the <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> set up then you can add the default <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> to a list of variables using the command
 <div class="highlight"><pre><span></span><code>stream_mappings --varfile &lt;filename without streams&gt; --outfile &lt;new file with streams&gt;
 </code></pre></div>
-If you are not using a workflow with the CMIP6 <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> configuration then contact us for advice as this process will need to be performed by hand.</p>
+If you are not using a workflow with the <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> configuration then contact us for advice as this process will need to be performed by hand.</p>
 </div>
 <h2 id="configure-request-configuration">Configure <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr></h2>
 <div class="admonition important">

@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#running-cdds" class="md-skip">
+        <a href="#running-the-climate-data-dissemination-system" class="md-skip">
           Skip to content
         </a>
       
@@ -565,11 +565,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#running-cdds" class="md-nav__link">
-    Running CDDS
+  <a href="#running-the-climate-data-dissemination-system" class="md-nav__link">
+    Running the Climate Data Dissemination System
   </a>
   
-    <nav class="md-nav" aria-label="Running CDDS">
+    <nav class="md-nav" aria-label="Running the Climate Data Dissemination System">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -593,8 +593,22 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#inspecting-your-data" class="md-nav__link">
+    Inspecting Your Data
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adapting-the-request" class="md-nav__link">
+    Adapting the Request
+  </a>
   
 </li>
       
@@ -614,8 +628,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#relaxed-mode" class="md-nav__link">
-    Relaxed Mode
+  <a href="#relaxed-and-strict-modes" class="md-nav__link">
+    Relaxed and Strict Modes
   </a>
   
 </li>
@@ -1452,11 +1466,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#running-cdds" class="md-nav__link">
-    Running CDDS
+  <a href="#running-the-climate-data-dissemination-system" class="md-nav__link">
+    Running the Climate Data Dissemination System
   </a>
   
-    <nav class="md-nav" aria-label="Running CDDS">
+    <nav class="md-nav" aria-label="Running the Climate Data Dissemination System">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1480,8 +1494,22 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#inspecting-your-data" class="md-nav__link">
+    Inspecting Your Data
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adapting-the-request" class="md-nav__link">
+    Adapting the Request
+  </a>
   
 </li>
       
@@ -1501,8 +1529,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#relaxed-mode" class="md-nav__link">
-    Relaxed Mode
+  <a href="#relaxed-and-strict-modes" class="md-nav__link">
+    Relaxed and Strict Modes
   </a>
   
 </li>
@@ -1536,10 +1564,10 @@
 
   <h1>Quickstart</h1>
 
-<h2 id="running-cdds">Running <abbr title="Climate Data Dissemination System">CDDS</abbr></h2>
-<p>This tutorial serves as a brief introduction to running <abbr title="Climate Data Dissemination System">CDDS</abbr> by CMORising a short amount of climate data.
-Its intention is to provide a minimal example of running <abbr title="Climate Data Dissemination System">CDDS</abbr>, whilst also signposting some of the other features and capabilities.
-There are three main steps to complete.</p>
+<h2 id="running-the-climate-data-dissemination-system">Running the Climate Data Dissemination System</h2>
+<p>This tutorial serves as a brief introduction to running <abbr title="Climate Data Dissemination System">CDDS</abbr> by CMORising a small amount of climate data.
+Its intention is to provide a minimal example of running <abbr title="Climate Data Dissemination System">CDDS</abbr>, whilst also sign posting some of the other features and capabilities.
+The entire process can be roughly split into three parts.</p>
 <ol>
 <li>
 <p>Define the <code>request.cfg</code> file and the variables to process.</p>
@@ -1551,12 +1579,16 @@ There are three main steps to complete.</p>
 <p>Run the Cylc conversion workflow.</p>
 </li>
 </ol>
+<div class="admonition warning">
+<p class="admonition-title">Prerequisites</p>
+<p>This guide does assume that you can run <code>cylc</code> workflows and that you have access to <code>mass</code>.</p>
+</div>
 <h3 id="configuring-the-request">Configuring the Request</h3>
 <p>Running <abbr title="Climate Data Dissemination System">CDDS</abbr> requires the user to appropriately configure a <code>request.cfg</code> file (from here on simply referred to as the "request").
 This request is provided to many <code>cdds</code> commands as a positional argument and contains information ranging from <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> metadata, workflow configuration, ancilary paths, MASS locations, and more.
 Each option belongs to a particular section and is documented in <a href="../request/config_request/">Request Configuration</a>.</p>
 <details class="example">
-<summary>Example</summary>
+<summary>An Explicit Request Example Including Unused Fields</summary>
 <div class="highlight"><pre><span></span><code><span class="k">[metadata]</span>
 <span class="na">branch_date_in_child</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
 <span class="na">branch_date_in_parent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
@@ -1638,8 +1670,9 @@ Each option belongs to a particular section and is documented in <a href="../req
 </code></pre></div>
 </details>
 <p>For simplicity this tutorial relies on many of the default values, and eliminates unused options to reduce the request to its most minimal form.
-The highlighted lines indicate those that the user may need to modify to run this example.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Met Office</label><label for="__tabbed_1_2">JASMIN</label></div>
+Below two example requests are provided, one for use at the Met Office and other on JASMIN.
+The highlighted lines in each request indicate fields that the user may need to modify to run this example successfully.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Met Office request.cfg</label><label for="__tabbed_1_2">JASMIN request.cfg</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="k">[metadata]</span>
@@ -1712,17 +1745,24 @@ The highlighted lines indicate those that the user may need to modify to run thi
 <span class="na">model_workflow_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">u-bg466</span>
 <span class="na">streams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ap5</span>
 <span class="hll"><span class="na">variable_list_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$DATADIR/cdds_quickstart_tutorial/variables.txt</span>
-</span><span class="hll">
-</span><span class="k">[conversion]</span>
+</span>
+<span class="k">[conversion]</span>
 <span class="na">skip_extract</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
 <span class="na">skip_extract_validation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
 <span class="na">skip_configure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
 <span class="na">skip_qc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
 <span class="na">skip_archive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
-<span class="na">jasmin_account</span><span class="w"> </span><span class="o">=</span>
-</code></pre></div>
+<span class="hll"><span class="na">jasmin_account</span><span class="w"> </span><span class="o">=</span>
+</span></code></pre></div>
 </div>
 </div>
+</div>
+<div class="admonition question">
+<p class="admonition-title">What is GCModelDev?</p>
+<p>You may notice in the above request examples that the <code>metadata</code> section references <code>GCModelDev</code> (and other non-<abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> terms), rather than <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr>.
+The <code>GCModelDev</code> project is an informal duplication of the <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> <abbr title="It is a pre-defined set of terms describing acceptable values for various quantities.">Controlled Vocabulary</abbr> and <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> tables that helps facilitate ad-hoc CMORisation for activities such as model development (you can find the soon to be made public Github repository <a href="https://github.com/MetOffice/gcmodeldev-cmor-tables">here</a>).
+It allows for extra variables to be added in addition to the standard <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> tables, as well as new models and experiments.
+The basic principles of running <abbr title="Climate Data Dissemination System">CDDS</abbr> remain the same whether you are using GCModelDev or <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr>.</p>
 </div>
 <ol>
 <li>Create a working directory for the <code>request.cfg</code>, and the <code>proc</code> and <code>data</code> directories.
@@ -1733,12 +1773,12 @@ cd cdds_quickstart_tutorial
 mkdir proc data
 touch request.cfg
 </code></pre></div>
-   Also, it isn't a requirement to have the <code>request.cfg</code> in the same directory as the <code>proc</code> and <code>data</code> directories.</li>
+   Note that it isn't a requirement to have the <code>request.cfg</code> in the same directory as the <code>proc</code> and <code>data</code> directories.</li>
 <li>Copy the above example <code>request.cfg</code> into your empty <code>request.cfg</code> file.</li>
 <li>Update fields in the <code>request.cfg</code>.<ol>
 <li>If you are using a different path to <code>$DATADIR/cdds_quickstart_tutorial</code> update the <code>root_proc_dir</code>, <code>root_data_dir</code>, and <code>variable_list_file</code> fields.</li>
 <li>If you are on Azure, update the <code>output_mass_root</code> with your MASS username.</li>
-<li>If you are on JASMIN, make sure you populate the <code>jasmin account</code> field with an appropriate account (used for LOTUS2).</li>
+<li>If you are on JASMIN populate the <code>jasmin_account</code> field with an appropriate account name (used for job submission, see JASMIN docs <a href="https://help.jasmin.ac.uk/docs/batch-computing/how-to-submit-a-job/#new-slurm-job-accounting-hierarchy">here</a>).</li>
 </ol>
 </li>
 <li>Create an empty <code>variables.txt</code> file and add the following line.
@@ -1750,11 +1790,13 @@ touch request.cfg
 <li>Validate the <code>request.cfg</code>.
    <div class="highlight"><pre><span></span><code>validate_request request.cfg
 </code></pre></div>
-   If any errors are reported and you are not able to please contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team for help.</li>
+   If any errors are reported and you are not able to fix please contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team for help.</li>
 </ol>
 <h3 id="preparing-for-processing">Preparing for Processing</h3>
-<p>The following commands assume we are in the working directory created previously containing the <code>request.cfg</code> and that a <abbr title="Climate Data Dissemination System">CDDS</abbr> environment is activated.</p>
-<p>Run the following command.</p>
+<p>The following commands assume you are in the working directory created previously containing the <code>request.cfg</code>, and that the <abbr title="Climate Data Dissemination System">CDDS</abbr> environment is activated.</p>
+<ol>
+<li>
+<p>Create the directory structure for storing the log and data files created during processing.</p>
 <div class="highlight"><pre><span></span><code>cdds_create_cdds_directories request.cfg
 </code></pre></div>
 <details class="info">
@@ -1788,7 +1830,9 @@ A similar hierarchical structure is created for all</p>
                         └── output
 </code></pre></div>
 </details>
-<p>Run the following command.</p>
+</li>
+<li>
+<p>Create the internal variables list used by <code>cdds</code>.</p>
 <div class="highlight"><pre><span></span><code>prepare_generate_variable_list request.cfg
 </code></pre></div>
 <details class="info">
@@ -1798,65 +1842,80 @@ The file can be found in the <code>prepare</code> proc sub-directory.
 <div class="highlight"><pre><span></span><code>proc/GCModelDev/MOHCCP/request_id/round-1/prepare/GCModelDev_MOHCCP_my-experiment-id_HadGEM3-GC31-LL.json
 </code></pre></div></p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;checksum&quot;</span><span class="p">:</span><span class="s2">&quot;md5: 89a430535551e97433fd8a22edcfec24&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;experiment_id&quot;</span><span class="p">:</span><span class="s2">&quot;my-experiment-id&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;history&quot;</span><span class="p">:[</span>
+<span class="nt">&quot;checksum&quot;</span><span class="p">:</span><span class="s2">&quot;md5: 89a430535551e97433fd8a22edcfec24&quot;</span><span class="p">,</span>
+<span class="nt">&quot;experiment_id&quot;</span><span class="p">:</span><span class="s2">&quot;my-experiment-id&quot;</span><span class="p">,</span>
+<span class="nt">&quot;history&quot;</span><span class="p">:[</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;comment&quot;</span><span class="p">:</span><span class="s2">&quot;Requested variables file created.&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;2025-05-07T07:40:21.049522&quot;</span>
+<span class="w">    </span><span class="nt">&quot;comment&quot;</span><span class="p">:</span><span class="s2">&quot;Requested variables file created.&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;2025-05-07T07:40:21.049522&quot;</span>
 <span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:{},</span>
-<span class="w">  </span><span class="nt">&quot;mip&quot;</span><span class="p">:</span><span class="s2">&quot;MOHCCP&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;mip_era&quot;</span><span class="p">:</span><span class="s2">&quot;GCModelDev&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;model_id&quot;</span><span class="p">:</span><span class="s2">&quot;HadGEM3-GC31-LL&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;model_type&quot;</span><span class="p">:</span><span class="s2">&quot;AOGCM AER&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;production_info&quot;</span><span class="p">:</span><span class="s2">&quot;Produced using CDDS Prepare version \&quot;3.1.2\&quot;&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;requested_variables&quot;</span><span class="p">:[</span>
+<span class="p">],</span>
+<span class="nt">&quot;metadata&quot;</span><span class="p">:{},</span>
+<span class="nt">&quot;mip&quot;</span><span class="p">:</span><span class="s2">&quot;MOHCCP&quot;</span><span class="p">,</span>
+<span class="nt">&quot;mip_era&quot;</span><span class="p">:</span><span class="s2">&quot;GCModelDev&quot;</span><span class="p">,</span>
+<span class="nt">&quot;model_id&quot;</span><span class="p">:</span><span class="s2">&quot;HadGEM3-GC31-LL&quot;</span><span class="p">,</span>
+<span class="nt">&quot;model_type&quot;</span><span class="p">:</span><span class="s2">&quot;AOGCM AER&quot;</span><span class="p">,</span>
+<span class="nt">&quot;production_info&quot;</span><span class="p">:</span><span class="s2">&quot;Produced using CDDS Prepare version \&quot;3.1.2\&quot;&quot;</span><span class="p">,</span>
+<span class="nt">&quot;requested_variables&quot;</span><span class="p">:[</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;cell_methods&quot;</span><span class="p">:</span><span class="s2">&quot;area: time: mean&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;comments&quot;</span><span class="p">:[],</span>
-<span class="w">      </span><span class="nt">&quot;dimensions&quot;</span><span class="p">:[</span>
+<span class="w">    </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cell_methods&quot;</span><span class="p">:</span><span class="s2">&quot;area: time: mean&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;comments&quot;</span><span class="p">:[],</span>
+<span class="w">    </span><span class="nt">&quot;dimensions&quot;</span><span class="p">:[</span>
 <span class="w">        </span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="s2">&quot;time&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="s2">&quot;height2m&quot;</span>
-<span class="w">      </span><span class="p">],</span>
-<span class="w">      </span><span class="nt">&quot;frequency&quot;</span><span class="p">:</span><span class="s2">&quot;mon&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;in_mappings&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;in_model&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;tas&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;miptable&quot;</span><span class="p">:</span><span class="s2">&quot;Amon&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;producible&quot;</span><span class="p">:</span><span class="s2">&quot;yes&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;stream&quot;</span><span class="p">:</span><span class="s2">&quot;ap5&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;frequency&quot;</span><span class="p">:</span><span class="s2">&quot;mon&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;in_mappings&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;in_model&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;tas&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;miptable&quot;</span><span class="p">:</span><span class="s2">&quot;Amon&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;producible&quot;</span><span class="p">:</span><span class="s2">&quot;yes&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;stream&quot;</span><span class="p">:</span><span class="s2">&quot;ap5&quot;</span>
 <span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;suite_branch&quot;</span><span class="p">:</span><span class="s2">&quot;cdds&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;suite_id&quot;</span><span class="p">:</span><span class="s2">&quot;u-bg466&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;suite_revision&quot;</span><span class="p">:</span><span class="s2">&quot;HEAD&quot;</span>
+<span class="p">],</span>
+<span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
+<span class="nt">&quot;suite_branch&quot;</span><span class="p">:</span><span class="s2">&quot;cdds&quot;</span><span class="p">,</span>
+<span class="nt">&quot;suite_id&quot;</span><span class="p">:</span><span class="s2">&quot;u-bg466&quot;</span><span class="p">,</span>
+<span class="nt">&quot;suite_revision&quot;</span><span class="p">:</span><span class="s2">&quot;HEAD&quot;</span>
 </code></pre></div>
 </details>
+</li>
+</ol>
 <h3 id="running-the-conversion-workflow">Running the Conversion Workflow</h3>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Met Office</label><label for="__tabbed_2_2">JASMIN</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>If there were no errors running the previous command then it should be simply a case of running this final command.
-<div class="highlight"><pre><span></span><code>cdds_convert request.cfg
-</code></pre></div></p>
+<ol>
+<li>Launch the <code>cylc</code> conversion workflow.
+    <div class="highlight"><pre><span></span><code>cdds_convert request.cfg
+</code></pre></div></li>
+</ol>
 </div>
 <div class="tabbed-block">
-<p>Until a LOTUS2 partition that provides MASS access is made available, the <code>cdds_extract</code> command must be run manually by the user.
-Before running the command you must ssh into the MASS server using the following command.
-<div class="highlight"><pre><span></span><code>ssh &lt;user&gt;@mass-cli.jasmin.ac.uk
-</code></pre></div>
-You may need to reactivate the <abbr title="Climate Data Dissemination System">CDDS</abbr> environment, once done you can run extract with.
-<div class="highlight"><pre><span></span><code>cdds_extract request.cfg
-</code></pre></div>
-Once this command has completed you will then need to ssh into the Cylc server
-<div class="highlight"><pre><span></span><code>cdds_convert request.cfg
-</code></pre></div></p>
+<ol>
+<li>Until a LOTUS2 MASS partition  is available the <code>cdds_extract</code> command must be run manually rather than within the workflow.
+    To access <code>mass</code> on JASMIN <code>ssh</code> into the MASS <code>mass-cli.jasmin.ac.uk</code> server.
+    <div class="highlight"><pre><span></span><code>ssh &lt;username&gt;@mass-cli.jasmin.ac.uk
+</code></pre></div></li>
+<li>Reactivate the <abbr title="Climate Data Dissemination System">CDDS</abbr> environment.
+    <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>/home/users/cdds/bin/setup_env_for_cdds<span class="w"> </span><span class="m">3</span>.1.2
+</code></pre></div></li>
+<li>You can then run extract. (Not applicable to this example, but if you are processing multiple <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> then these must be done individually e.g. <code>cdds_extract request.cfg -s ap5; cdds_extract request.cfg -s onm</code>)
+    <div class="highlight"><pre><span></span><code>cdds_extract request.cfg
+</code></pre></div></li>
+<li>Once this command has completed you will then need to <code>ssh</code> into the Cylc server
+    <code>exit
+    ssh &lt;username&gt;@cylc2.jasmin.ac.uk -XYA</code></li>
+<li>Reactivate the <abbr title="Climate Data Dissemination System">CDDS</abbr> environment.
+    <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>/home/users/cdds/bin/setup_env_for_cdds<span class="w"> </span><span class="m">3</span>.1.2
+</code></pre></div></li>
+<li>Launch the <code>cylc</code> conversion workflow.
+   <div class="highlight"><pre><span></span><code>cdds_convert request.cfg
+</code></pre></div></li>
+</ol>
 </div>
 </div>
 </div>
@@ -1867,7 +1926,23 @@ Once this command has completed you will then need to ssh into the Cylc server
 <li>Populates various Jinja2 template variables.</li>
 <li>Automatically submits the workflow using <code>cylc vip</code>.</li>
 </ul>
-<p>Once the <code>cdds_convert</code> command has completed you should be able to monitor your running workflow using <code>cylc tui</code> or <code>cylc gui</code>.</p>
+<p>Once the <code>cdds_convert</code> command has completed you can monitor the running workflow using <code>cylc tui</code> or <code>cylc gui</code>.</p>
+<h3 id="inspecting-your-data">Inspecting Your Data</h3>
+<p>When the workflow has completed successfully you can inspect the CMORised data.
+On disk the CMORised output can be found by descending the <code>root_data_dir</code> directory until the until reaching the <code>output</code> directory.</p>
+<div class="highlight"><pre><span></span><code>$DATADIR/cdds_quickstart_tutorial/data/GCModelDev/MOHCCP/HadGEM3-GC31-LL/my-experiment-id/r1i1p1f3/round-1/output
+</code></pre></div>
+<p>Within this directory you will find the following hierarchy.
+The <code>&lt;stream&gt;_concat</code> and <code>&lt;stream&gt;_mip_convert</code> directories are only used during processing and do not contain </p>
+<div class="highlight"><pre><span></span><code>├── &lt;stream&gt;
+│   └── &lt;MIP Table&gt;
+│       └── &lt;variable&gt;
+│           └── &lt;file(s)&gt;
+</code></pre></div>
+<p>If you are running the example at the Met Office and you did <em>not</em> switch off archiving (e.g. <code>skip_archive = True</code>), then the CMORised output will also have been archived to <code>mass</code>.
+This will be stored in a location based on the request fields <code>output_mass_root</code> <code>output_mass_suffix</code> e.g., <code>moo ls moose:/adhoc/users/&lt;username&gt;/quickstart</code>.</p>
+<h2 id="adapting-the-request">Adapting the Request</h2>
+<p>If you are wanting to CMORise data for publication then you should follow the relevant Operational Procedure.</p>
 <h2 id="useful-configuration-options">Useful Configuration Options</h2>
 <p>What follows are some examples of options that are useful to be aware of but the list is not exhaustive.
 The full list of configuration options available in the request can be found in the <a href="../request/config_request/">Request Configuration</a> tutorial.</p>
@@ -1875,18 +1950,18 @@ The full list of configuration options available in the request can be found in 
 <p>To process more variables you will first need to add the appropriate entry to the <code>variables.txt</code>.</p>
 <div class="highlight"><pre><span></span><code>&lt;mip table&gt;/&lt;variable name&gt;:&lt;stream&gt;
 </code></pre></div>
-<p>If you have</p>
+<p>If you have the <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> configuration then you can use the <code>stream_mappings</code> command to add the <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> field to each line for <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> variables that <abbr title="Climate Data Dissemination System">CDDS</abbr> has information for.</p>
 <div class="highlight"><pre><span></span><code>stream_mappings
 </code></pre></div>
-<h3 id="relaxed-mode">Relaxed Mode</h3>
-<p>The example <code>request.cfg</code> configuration given above runs.
-By changing the mode to <code>relaxed</code> this allows the user to provide arbitrary metadata values that do not exist in the <abbr title="Controlled Vocabulary. It is a pre-defined set of terms describing acceptable values for various quantities.">CV</abbr>'s.
-This is particularly useful for model development work.</p>
+<h3 id="relaxed-and-strict-modes">Relaxed and Strict Modes</h3>
+<p>The example <code>request.cfg</code> configuration given in this tutorial runs in "relaxed" mode.
+This allows the user to provide arbitrary metadata values that do not exist in the <abbr title="It is a pre-defined set of terms describing acceptable values for various quantities.">Controlled Vocabulary</abbr>, and is particularly useful for model development work.
+If you want to ensure that the metadata is consistent with the <abbr title="It is a pre-defined set of terms describing acceptable values for various quantities.">Controlled Vocabulary</abbr> you must change the mode to <code>strict</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="k">[common]</span>
-<span class="na">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">relaxed</span>
+<span class="na">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">strict</span>
 </code></pre></div>
 <h3 id="global-attributes">Global Attributes</h3>
-<p>Arbitrary netcdf global attributes can be added to the CMORised files using the following </p>
+<p>Arbitrary netcdf global attributes can be added to the CMORised files by adding entries to the <code>[netcdf_global_attributes]</code> section of the <abbr title="Information about a simulation used by all CDDS components.">request file</abbr> e.g.</p>
 <div class="highlight"><pre><span></span><code><span class="k">[netcdf_global_attributes]</span>
 <span class="na">ensemble</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
 </code></pre></div>

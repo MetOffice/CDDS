@@ -1435,7 +1435,7 @@
 
 
 <h1 id="generating-cmorised-data-with-cdds-for-gcmodeldev-simulations-using-the-cdds-workflow">Generating CMORised data with <abbr title="Climate Data Dissemination System">CDDS</abbr> for GCModelDev <abbr title="Particular model runs, with associated workflow identifiers, which are defined by an experiment and have an assigned variant label.">simulations</abbr> using the <abbr title="Climate Data Dissemination System">CDDS</abbr> Workflow</h1>
-<p>See also <a href="../cmip6/">guidance for CMIP6 / CMIP6 Plus generation of CMORised data</a>.</p>
+<p>See also <a href="../cmip6/">guidance for <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> / <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> Plus generation of CMORised data</a>.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>Use <code>&lt;script&gt; -h</code> or <code>&lt;script&gt; --help</code> to print information about the script, including available parameters.</p>
@@ -1447,7 +1447,7 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The procedure below assumes that you are keeping track of progress using a <em><abbr title="Climate Data Dissemination System">CDDS</abbr> progress ticket</em>.
-For exercises such as CMIP6 this was managed centrally, but as GCModelDev is intended to provide support 
+For exercises such as <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> this was managed centrally, but as GCModelDev is intended to provide support 
 for ad-hoc processing we recommend you have some form of progress note, you are welcome to use 
 <a href="https://code.metoffice.gov.uk/trac/cdds">the <abbr title="Climate Data Dissemination System">CDDS</abbr> Trac</a> for this purpose if you wish.</p>
 </div>
@@ -1476,16 +1476,16 @@ If the result is not <code>/bin/bash</code>, you can switch to a bash shell by r
 the logs and usually require user intervention. Many simple issues (MASS/MOOSE or file system problems) can be resolved 
 by re-triggering tasks. Support is available via the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a>.</p>
 <h2 id="the-project-framework">The project framework</h2>
-<p>The tools we have were written primarily for CMIP6 to CMORise HadGEM3 and UKESM1 model output, but can be applied to other 
+<p>The tools we have were written primarily for <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> to CMORise HadGEM3 and UKESM1 model output, but can be applied to other 
 projects provided an appropriate set of variable and metadata definitions are available. Defining a new project, e.g. 
-CMIP6, requires a reasonable amount of information as does adding an entirely new <abbr title="A recognised configuration of a climate model that is used for a wide variety of experiments / simulations.">model configuration</abbr> and the <abbr title="Climate Data Dissemination System">CDDS</abbr> team 
+<abbr title="Coupled Model Intercomparison Project">CMIP6</abbr>, requires a reasonable amount of information as does adding an entirely new <abbr title="A recognised configuration of a climate model that is used for a wide variety of experiments / simulations.">model configuration</abbr> and the <abbr title="Climate Data Dissemination System">CDDS</abbr> team 
 should be involved in discussions to do this if you need it. However, it is straightforward to use an existing project 
 and include new activities and experiments.</p>
 <p>When run in <code>relaxed</code> mode <abbr title="Climate Data Dissemination System">CDDS</abbr> will allow you to use any value for the <code>mip</code> (activity id) and <code>experiment_id</code>. We have 
 a general purpose project for users interested in CMORising data for adhoc use called <a href="https://github.com/MetOffice/gcmodeldev-cmor-tables">GCModelDev</a> 
-which takes the CMIP6 variable definitions and standards, to which we can add new variables as required. This is not 
+which takes the <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> variable definitions and standards, to which we can add new variables as required. This is not 
 intended for preparing data for immediate publication to locations such as ESGF, but can be used for analysis alongside 
-CMIP6 data and for feeding in to tools that base themselves on the same data structure/standards.</p>
+<abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> data and for feeding in to tools that base themselves on the same data structure/standards.</p>
 <h2 id="activate-the-cdds-install">Activate the <abbr title="Climate Data Dissemination System">CDDS</abbr> install</h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">MOHC</label><label for="__tabbed_1_2">JASMIN</label></div>
 <div class="tabbed-content">
