@@ -121,7 +121,7 @@ class MipConvertTask:
             "requested_mem": self.requested_memory,
             "requested_time": self.requested_time,
         }
-        if not os.environ["PLATFORM"] == "JASMIN":
+        if not os.environ["CDDS_PLATFORM"] == "JASMIN":
             resources["used_storage"] = self.used_storage
             resources["requested_storage"] = self.requested_storage
 
