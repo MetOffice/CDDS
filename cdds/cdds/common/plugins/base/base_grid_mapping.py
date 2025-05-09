@@ -10,6 +10,9 @@ from cdds.common.plugins.grid_mapping import GridMapping
 from typing import Tuple
 
 
+DEFAULT_SECTION_IN_CFG = 'DEFAULT'
+
+
 class BaseGridMapping(GridMapping):
     """
     Class to store the grids information stored in the corresponding configuration files
@@ -51,6 +54,8 @@ class BaseGridMapping(GridMapping):
             grid_type, grid_name = self.grids_config.get(mip_table_id, variable_name).split(' ')
         elif self.default_grids_config.has_section(mip_table_id):
             grid_type, grid_name = self.default_grids_config.get(mip_table_id, 'default').split(' ')
+        else:
+            grid_type, grid_name = self.default_grids_config.get(DEFAULT_SECTION_IN_CFG, 'default').split(' ')
         return grid_type, grid_name
 
     @property

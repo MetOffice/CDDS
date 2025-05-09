@@ -104,12 +104,16 @@ class TestRetrieveGridInfo(unittest.TestCase):
         reference = (grid_id, grid, grid_label, nominal_resolution)
         self.assertEqual(output, reference)
 
-    def test_retrieve_grid_info_unknown(self):
+    def test_retrieve_grid_info_unknown_mip_table(self):
         variable_name = 'tas'
         mip_table_id = 'Xmon'
         model = 'HadGEM3-GC31-LL'
         output = retrieve_grid_info(variable_name, mip_table_id, model)
-        reference = None
+        grid_id = 'atmos-native'
+        grid = 'Native N96 grid; 192 x 144 longitude/latitude'
+        grid_label = Cmip6GridLabel.from_name('native').label
+        nominal_resolution = self.get_nominal_resolution(model, GridType.ATMOS)
+        reference = (grid_id, grid, grid_label, nominal_resolution)
         self.assertEqual(output, reference)
 
     def test_retrieve_grid_info_unsupported_grid(self):

@@ -28,11 +28,16 @@ class TestBaseGridMapping(TestCase):
     def setUp(self):
         self.grid_mapping = BaseGridMapping()
 
-    def test_default_mapping(self):
+    def test_default_mapping_in_default_section(self):
         grid_type, grid_name = self.grid_mapping.retrieve_mapping('tas', 'Amon')
 
         self.assertEqual(grid_type, 'atmos')
         self.assertEqual(grid_name, 'native')
+
+    def test_default_mapping(self):
+        grid_type, grid_name = self.grid_mapping.retrieve_mapping('tas', 'AERmonZ')
+        self.assertEqual(grid_type, 'atmos')
+        self.assertEqual(grid_name, 'native-zonal')
 
     def test_not_default_mapping(self):
         grid_type, grid_name = self.grid_mapping.retrieve_mapping('uas', 'Amon')
