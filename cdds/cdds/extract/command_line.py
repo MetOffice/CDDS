@@ -8,17 +8,19 @@ import argparse
 import glob
 import logging
 import os
+import re
 
 from cdds import __version__
 from cdds.common.cdds_files.cdds_directories import update_log_dir
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.request.request import read_request
-from cdds.extract.common import stream_file_template
 from cdds.extract.lang import set_language
 from cdds.extract.runner import ExtractRunner
 from cdds.extract.halo_removal import dehalo_multiple_files
 from cdds.extract.validate import validate_streams
 from cdds.common import configure_logger
+from cdds.common.plugins.plugins import PluginStore
+from cdds.convert.constants import STREAMS_FILES_REGEX
 
 COMPONENT = 'extract'
 LOG_NAME = 'cdds_extract'
@@ -226,45 +228,69 @@ def main_path_reformatter():
     """
     Main function of the path_reformatter script.
     """
-    args = parse_arguments()
-    suite_id = args.suite_id
-    full_root_path = os.path.join(args.input_dir, suite_id)
+    arguments = parse_arguments()
 
-    timesteps = next(os.walk(full_root_path))[1]
+    request = read_request(arguments.request)
+    plugin = PluginStore.instance().get_plugin()
 
-    for stream in args.streams:
-        print('Collecting all input files for stream {} under {}'.format(stream, full_root_path))
+    data_dir = plugin.data_directory(request)
 
-        filename_templates = stream_file_template(stream, suite_id)
-        data_files = []
+    links = []
 
-        if args.output_dir is None:
-            output_dir = os.path.join(full_root_path, stream)
-        else:
-            output_dir = os.path.join(args.output_dir, stream)
+    destination = {
+        'nemo': {
+            '1m': 'onm',
+            '1d': 'ond'
+            },
+        'medusa': {
+            '1m': 'onm',
+            '1d': 'ond'  
+        },
+        'cice': {
+            '1m': 'inm',
+            '1d': 'ind'  
+        },
+        'si3': {
+            '1m': 'inm',
+            '1d': 'ind'  
+        },
+    }
 
-        try:
-            os.mkdir(output_dir)
-            print('Creating directory for stream {}...'.format(stream))
-        except FileExistsError:
-            pass
-
-        for timestep_dir in timesteps:
-            for glob_template in filename_templates:
-                data_files.extend(glob.glob(os.path.join(full_root_path, timestep_dir, glob_template)))
-
-        print('{} files found...'.format(len(data_files)))
-
-        print('Creating symlinks in {}'.format(output_dir))
-
-        for data_file in data_files:
+    for root, _, files in os.walk(arguments.search_dir):
+        for f in files:
+            for i, r in STREAMS_FILES_REGEX.items():
+                if f.endswith('.pp') and i.startswith('a'):
+                    match = re.match(r, f)
+                    if match:
+                        result = match.groupdict()
+                        stream = 'ap{}'.format(match.groupdict()['stream_num'])
+                        links.append((result['suite_id'], stream, root, f))
+                else:
+                    match = re.match(r, f)
+                    if match:
+                        result = match.groupdict()
+                        stream = destination[result['model']][result['period']]
+                        links.append((result['suite_id'], stream, root, f))
+            
+    workflow_id = request.data.model_workflow_id
+    data_dir = plugin.data_directory(request)
+    input_dir = os.path.join(data_dir, 'input')
+    for file_workflow_id, stream, directory, filename in links:
+        if workflow_id[-5:] == file_workflow_id:
+            source = os.path.abspath(os.path.join(directory, filename))
+            destination = os.path.join(input_dir, stream, filename)
+            if not os.path.exists(os.path.join(input_dir, stream)):
+                os.mkdir(os.path.join(input_dir, stream))
+            print('Linking {} to {}'.format(destination, source))
             try:
-                os.symlink(data_file, os.path.join(output_dir, os.path.basename(data_file)))
+                os.symlink(source, destination)
             except FileExistsError:
-                print('{} exists, skipping...'.format(os.path.basename(data_file)))
-                pass
+                print('\t{} exists, skipping...'.format(os.path.basename(filename)))
+            except:
+                raise
 
-        print('Done')
+    print('Done')
+    return 1
 
 
 def parse_arguments():
@@ -276,9 +302,7 @@ def parse_arguments():
     Command line arguments for the path_formatter script.
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('input_dir', help='Input data directory (full filepath including the /input/ subdirectory)')
-    parser.add_argument('output_dir', help='Reprocessed input directory (defaulting to the --input_dir)', default=None)
-    parser.add_argument('suite_id', help='Suite id')
-    parser.add_argument('streams', help='Streams to be symlinked', nargs='*')
+    parser.add_argument('request', help='Request config file')
+    parser.add_argument('search_dir', help='Directory to search for model output files)')
     args = parser.parse_args()
     return args
