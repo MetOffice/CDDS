@@ -12,7 +12,7 @@ from typing import Dict, List
 from cdds.common.plugins.common import LoadResults
 from cdds.common.plugins.grid import GridInfo, GridType
 from cdds.common.plugins.streams import StreamFileInfo
-from cdds.common.plugins.mapping import GridMapping
+from cdds.common.plugins.grid_mapping import GridMapping
 
 
 class ModelParameters(object, metaclass=ABCMeta):

@@ -6,7 +6,7 @@ grid mapping information for the requested MIP variables.
 """
 import os
 
-from cdds.common.plugins.mapping import GridMapping
+from cdds.common.plugins.grid_mapping import GridMapping
 from typing import Tuple
 
 
@@ -18,7 +18,7 @@ class BaseGridMapping(GridMapping):
     def __init__(self):
         super(BaseGridMapping, self).__init__()
 
-        data_folder = os.path.join(os.path.dirname(__file__), 'data', 'mapping')
+        data_folder = os.path.join(os.path.dirname(__file__), 'data', 'grid_mapping')
         default_grids_file = os.path.join(data_folder, 'default_grids.cfg')
         grids_file = os.path.join(data_folder, 'grids.cfg')
 

@@ -3,7 +3,7 @@
 import os.path
 import unittest
 
-from cdds.common.plugins.base.base_mapping import BaseGridMapping
+from cdds.common.plugins.base.base_grid_mapping import BaseGridMapping
 from unittest import TestCase
 
 
