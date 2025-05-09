@@ -5,7 +5,6 @@ The :mod:`command_line` module contains the main functions for the
 command line scripts in the ``bin`` directory.
 """
 import argparse
-import glob
 import logging
 import os
 import re
@@ -148,8 +147,8 @@ def parse_validate_streams_command_line(user_arguments):
 
 def main_validate_streams(arguments=None):
     """
-
     Validates files in the 'input' directory.
+
     Parameters
     ----------
     arguments: list of strings
@@ -224,73 +223,103 @@ def main_remove_ocean_haloes(arguments=None):
     return exit_code
 
 
-def main_path_reformatter():
+def main_cdds_arrange_input_data():
     """
-    Main function of the path_reformatter script.
+    Main function of the cdds_arrange_input_data script.
     """
     arguments = parse_arguments()
 
     request = read_request(arguments.request)
     plugin = PluginStore.instance().get_plugin()
 
+    search_dir = arguments.search_dir
     data_dir = plugin.data_directory(request)
+    workflow_id = request.data.model_workflow_id
 
+    links = identify_files(search_dir, workflow_id[-5:])
+
+    data_dir = plugin.data_directory(request)
+    input_dir = os.path.join(data_dir, 'input')
+
+    symlink_files(links, input_dir)
+
+    print('Complete')
+
+
+def symlink_files(links,  input_dir):
+    """
+    Construct the symbolic links for the files found by identify_files
+
+    :param links: list of tuples describing files
+    :type links: list
+    :param input_dir: location of "input" dir under which to create links
+    :type input_dir: str
+    """
+    for file_workflow_id, stream, directory, filename in links:
+        source = os.path.abspath(os.path.join(directory, filename))
+        destination = os.path.join(input_dir, stream, filename)
+        if not os.path.exists(os.path.join(input_dir, stream)):
+            os.mkdir(os.path.join(input_dir, stream))
+        print('Linking {} to {}'.format(destination, source))
+        try:
+            os.symlink(source, destination)
+        except FileExistsError:
+            print('\t{} exists, skipping...'.format(os.path.basename(filename)))
+
+
+def identify_files(search_dir, jobid):
+    """
+    Identify files in the search directory that correspond to the workflow
+    being processed
+
+    :param search_dir: The directory to search for input files
+    :type search_dir: str
+    :param jobid: The 5 character jobid used in filenames
+    :type jobid: str
+    :returns: list of tuples describing each file
+    :rtype: list
+    """
     links = []
 
     destination = {
         'nemo': {
             '1m': 'onm',
             '1d': 'ond'
-            },
+        },
         'medusa': {
             '1m': 'onm',
-            '1d': 'ond'  
+            '1d': 'ond'
         },
         'cice': {
             '1m': 'inm',
-            '1d': 'ind'  
+            '1d': 'ind'
         },
         'si3': {
             '1m': 'inm',
-            '1d': 'ind'  
+            '1d': 'ind'
         },
     }
 
-    for root, _, files in os.walk(arguments.search_dir):
+    for root, _, files in os.walk(search_dir):
         for f in files:
             for i, r in STREAMS_FILES_REGEX.items():
                 if f.endswith('.pp') and i.startswith('a'):
                     match = re.match(r, f)
                     if match:
                         result = match.groupdict()
-                        stream = 'ap{}'.format(match.groupdict()['stream_num'])
-                        links.append((result['suite_id'], stream, root, f))
+                        if result['suite_id'] == jobid:
+                            stream = 'ap{}'.format(match.groupdict()['stream_num'])
+                            links.append((result['suite_id'], stream, root, f))
+                            # no need to check other atmosphere patterns if we've already matched
+                            break
                 else:
                     match = re.match(r, f)
                     if match:
                         result = match.groupdict()
-                        stream = destination[result['model']][result['period']]
-                        links.append((result['suite_id'], stream, root, f))
-            
-    workflow_id = request.data.model_workflow_id
-    data_dir = plugin.data_directory(request)
-    input_dir = os.path.join(data_dir, 'input')
-    for file_workflow_id, stream, directory, filename in links:
-        if workflow_id[-5:] == file_workflow_id:
-            source = os.path.abspath(os.path.join(directory, filename))
-            destination = os.path.join(input_dir, stream, filename)
-            if not os.path.exists(os.path.join(input_dir, stream)):
-                os.mkdir(os.path.join(input_dir, stream))
-            print('Linking {} to {}'.format(destination, source))
-            try:
-                os.symlink(source, destination)
-            except FileExistsError:
-                print('\t{} exists, skipping...'.format(os.path.basename(filename)))
-            except:
-                raise
-
-    print('Done')
-    return 1
+                        if result['suite_id'] == jobid:
+                            stream = destination[result['model']][result['period']]
+                            links.append((result['suite_id'], stream, root, f))
+    return links
 
 
 def parse_arguments():
