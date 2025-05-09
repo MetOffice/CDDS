@@ -440,7 +440,7 @@ mode = relaxed
 
 ### Global Attributes
 
-Arbitrary netcdf global attributes can be added to the CMORised files using the following 
+Arbitrary netcdf global attributes can be added to the CMORised files by adding entries to the `[netcdf_global_attributes]` section of the request file e.g.
 
 ```ini
 [netcdf_global_attributes]
