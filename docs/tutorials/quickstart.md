@@ -1,6 +1,6 @@
 ## Running the Climate Data Dissemination System
 
-This tutorial serves as a brief introduction to running CDDS by CMORising a short amount of climate data.
+This tutorial serves as a brief introduction to running CDDS by CMORising a small amount of climate data.
 Its intention is to provide a minimal example of running CDDS, whilst also sign posting some of the other features and capabilities.
 The entire process can be roughly split into three parts.
 
