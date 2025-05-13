@@ -29,7 +29,7 @@ class TestCmip6OmonThetao(AbstractFunctionalTests):
                 cmor_dataset={
                     'output_dir': get_output_dir(test_location),
                     'calendar': 'noleap',
-                    'contact': 'chris.d.jones@metoffice.gov.uk',
+                    'contact': 'enquiries@metoffice.gov.uk',
                     'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
                 },
                 request={
