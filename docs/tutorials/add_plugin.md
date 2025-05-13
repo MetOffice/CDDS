@@ -3,10 +3,6 @@
 !!!warning
     The interfaces for the plugin can slightly change from version to version.
 
-!!!info
-    There is a demo project that can use as reference:
-    `~kschmatz/workspace/cdds-test-plugins`
-
 ## Steps
 
 1. Create a plugin that extends from the `CddsPlugin` class

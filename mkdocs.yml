@@ -60,6 +60,9 @@ nav:
       - Pytest: developer_documentation/pytest.md
       - Nightly Tests: developer_documentation/nightly_tests.md
       - Mip Convert Functional Tests: developer_documentation/mip_convert_functional_tests.md
+    - Mapping Plugins:
+        - Available Plugins: developer_documentation/mapping_plugins/available_mapping_plugins.md
+        - Mapping Plugin Framework: developer_documentation/mapping_plugins/mapping_plugin_framework.md
     - Plugins:
         - Available Plugins: developer_documentation/plugins/available_plugins.md
         - Plugin Framework: developer_documentation/plugins/plugin_framework.md
