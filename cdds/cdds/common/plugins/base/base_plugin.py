@@ -93,6 +93,7 @@ class MipEra(Enum):
 
     CMIP6 = "CMIP6"
     CMIP6_Plus = "CMIP6Plus"
+    CMIP7 = "CMIP7"
     GC_MODEL_DEV = "GCModelDev"
     CORDEX = "CORDEX"
 
