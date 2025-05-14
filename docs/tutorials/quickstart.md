@@ -109,7 +109,7 @@ The highlighted lines in each request indicate fields that the user may need to 
 
 === "Met Office request.cfg"
 
-    ```ini hl_lines="20 21 29 30"
+    ```ini hl_lines="19 20 28 29"
     [metadata]
     branch_method = no parent
     base_date = 1850-01-01T00:00:00Z
@@ -128,7 +128,6 @@ The highlighted lines in each request indicate fields that the user may need to 
     mip_table_dir = $CDDS_ETC/mip_tables/GCModelDev/0.0.23
     mode = relaxed
     package = round-1
-    workflow_basename = request_id
     root_proc_dir = $DATADIR/cdds_quickstart_tutorial/proc
     root_data_dir = $DATADIR/cdds_quickstart_tutorial/data
 
@@ -152,7 +151,7 @@ The highlighted lines in each request indicate fields that the user may need to 
 
 === "JASMIN request.cfg"
 
-    ```ini hl_lines="20 21 29 37"
+    ```ini hl_lines="19 20 28 36"
     [metadata]
     branch_method = no parent
     base_date = 1850-01-01T00:00:00Z
@@ -171,7 +170,6 @@ The highlighted lines in each request indicate fields that the user may need to 
     mip_table_dir = $CDDS_ETC/mip_tables/GCModelDev/0.0.23
     mode = relaxed
     package = round-1
-    workflow_basename = request_id
     root_proc_dir = $DATADIR/cdds_quickstart_tutorial/proc
     root_data_dir = $DATADIR/cdds_quickstart_tutorial/data
 
@@ -236,16 +234,14 @@ The following commands assume you are in the working directory created previousl
 1. Create the directory structure for storing the log and data files created during processing.
 
     ```
-    cdds_create_cdds_directories request.cfg
+    create_cdds_directory_structure request.cfg
     ```
 
     ??? info
 
         This will use the `root_proc_dir` and `root_data_dir` paths within the request to create the following directory structures.
-        The `proc` directory holds the log files created by the different `cdds` commands.
-        The `data` directory will home the input model data e.g. `.pp` files as well as the output CMORised `.nc` output.
-
-        The proc directory is made up of a nested directory structure.
+        The `proc` directory is used for log files created during processing by various `cdds` commands.
+        It also serves as the location for the configured cylc processing workflow when runnning `cdds_convert`, and the internally used variable list created by `prepare_generate_variable_list`. 
 
         ```
         proc
@@ -260,8 +256,8 @@ The following commands assume you are in the working directory created previousl
                         ├── prepare
                         └── qualitycheck
         ```
+        The `data` directory will home the input model data e.g. `.pp` files as well as the output CMORised `.nc` output.
         A similar hierarchical structure is created for all
-
         ```
         data
         └── GCModelDev
@@ -377,7 +373,8 @@ The `cdds_convert` command does several things when run.
 - Populates various Jinja2 template variables.
 - Automatically submits the workflow using `cylc vip`.
 
-Once the `cdds_convert` command has completed you can monitor the running workflow using `cylc tui` or `cylc gui`.
+Once the `cdds_convert` command has completed you should see a worklfow running named `cdds_HadGEM3-GC31-LL_my-experiment-id_r1i1p1f3`.
+You can monitor this workflow in the ususal way using `cylc tui` or `cylc gui`.
 
 ### Inspecting Your Data
 
