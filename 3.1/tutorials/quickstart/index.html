@@ -51,12 +51,16 @@
   
     
     
+      
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
   
     
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -107,6 +111,30 @@
         </div>
       </div>
     </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
     
     
     
@@ -1693,7 +1721,6 @@ The highlighted lines in each request indicate fields that the user may need to 
 <span class="na">mip_table_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$CDDS_ETC/mip_tables/GCModelDev/0.0.23</span>
 <span class="na">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">relaxed</span>
 <span class="na">package</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">round-1</span>
-<span class="na">workflow_basename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">request_id</span>
 <span class="hll"><span class="na">root_proc_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$DATADIR/cdds_quickstart_tutorial/proc</span>
 </span><span class="hll"><span class="na">root_data_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$DATADIR/cdds_quickstart_tutorial/data</span>
 </span>
@@ -1734,7 +1761,6 @@ The highlighted lines in each request indicate fields that the user may need to 
 <span class="na">mip_table_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$CDDS_ETC/mip_tables/GCModelDev/0.0.23</span>
 <span class="na">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">relaxed</span>
 <span class="na">package</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">round-1</span>
-<span class="na">workflow_basename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">request_id</span>
 <span class="hll"><span class="na">root_proc_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$DATADIR/cdds_quickstart_tutorial/proc</span>
 </span><span class="hll"><span class="na">root_data_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$DATADIR/cdds_quickstart_tutorial/data</span>
 </span>
@@ -1797,14 +1823,13 @@ touch request.cfg
 <ol>
 <li>
 <p>Create the directory structure for storing the log and data files created during processing.</p>
-<div class="highlight"><pre><span></span><code>cdds_create_cdds_directories request.cfg
+<div class="highlight"><pre><span></span><code>create_cdds_directory_structure request.cfg
 </code></pre></div>
 <details class="info">
 <summary>Info</summary>
 <p>This will use the <code>root_proc_dir</code> and <code>root_data_dir</code> paths within the request to create the following directory structures.
-The <code>proc</code> directory holds the log files created by the different <code>cdds</code> commands.
-The <code>data</code> directory will home the input model data e.g. <code>.pp</code> files as well as the output CMORised <code>.nc</code> output.</p>
-<p>The proc directory is made up of a nested directory structure.</p>
+The <code>proc</code> directory is used for log files created during processing by various <code>cdds</code> commands.
+It also serves as the location for the configured cylc processing workflow when runnning <code>cdds_convert</code>, and the internally used variable list created by <code>prepare_generate_variable_list</code>. </p>
 <p><div class="highlight"><pre><span></span><code>proc
 └── GCModelDev
     └── MOHCCP
@@ -1817,7 +1842,8 @@ The <code>data</code> directory will home the input model data e.g. <code>.pp</c
                 ├── prepare
                 └── qualitycheck
 </code></pre></div>
-A similar hierarchical structure is created for all</p>
+The <code>data</code> directory will home the input model data e.g. <code>.pp</code> files as well as the output CMORised <code>.nc</code> output.
+A similar hierarchical structure is created for all
 <div class="highlight"><pre><span></span><code>data
 └── GCModelDev
     └── MOHCCP
@@ -1828,7 +1854,7 @@ A similar hierarchical structure is created for all</p>
                         ├── input
                         │   └── u-bg466
                         └── output
-</code></pre></div>
+</code></pre></div></p>
 </details>
 </li>
 <li>
@@ -1926,7 +1952,8 @@ The file can be found in the <code>prepare</code> proc sub-directory.
 <li>Populates various Jinja2 template variables.</li>
 <li>Automatically submits the workflow using <code>cylc vip</code>.</li>
 </ul>
-<p>Once the <code>cdds_convert</code> command has completed you can monitor the running workflow using <code>cylc tui</code> or <code>cylc gui</code>.</p>
+<p>Once the <code>cdds_convert</code> command has completed you should see a worklfow running named <code>cdds_HadGEM3-GC31-LL_my-experiment-id_r1i1p1f3</code>.
+You can monitor this workflow in the ususal way using <code>cylc tui</code> or <code>cylc gui</code>.</p>
 <h3 id="inspecting-your-data">Inspecting Your Data</h3>
 <p>When the workflow has completed successfully you can inspect the CMORised data.
 On disk the CMORised output can be found by descending the <code>root_data_dir</code> directory until the until reaching the <code>output</code> directory.</p>
