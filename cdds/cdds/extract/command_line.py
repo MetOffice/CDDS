@@ -279,7 +279,6 @@ def identify_files(search_dir, jobid):
     :returns: list of tuples describing each file
     :rtype: list
     """
-    links = []
 
     destination = {
         'nemo': {
@@ -300,25 +299,27 @@ def identify_files(search_dir, jobid):
         },
     }
 
+    links: list[tuple[str, str, str, str]] = []
+
     for root, _, files in os.walk(search_dir):
-        for f in files:
-            for i, r in STREAMS_FILES_REGEX.items():
-                if f.endswith('.pp') and i.startswith('a'):
-                    match = re.match(r, f)
+        for file in files:
+            for stream, regex in STREAMS_FILES_REGEX.items():
+                if file.endswith('.pp') and stream.startswith('a'):
+                    match = re.match(regex, file)
                     if match:
                         result = match.groupdict()
                         if result['suite_id'] == jobid:
                             stream = 'ap{}'.format(match.groupdict()['stream_num'])
-                            links.append((result['suite_id'], stream, root, f))
+                            links.append((result['suite_id'], stream, root, file))
                             # no need to check other atmosphere patterns if we've already matched
                             break
                 else:
-                    match = re.match(r, f)
+                    match = re.match(regex, file)
                     if match:
                         result = match.groupdict()
                         if result['suite_id'] == jobid:
                             stream = destination[result['model']][result['period']]
-                            links.append((result['suite_id'], stream, root, f))
+                            links.append((result['suite_id'], stream, root, file))
     return links
 
 
