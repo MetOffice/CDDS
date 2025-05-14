@@ -93,4 +93,4 @@ expected to do this part.
 
 - [x] Create a new file `~/.cdds_credentials`.
 
-- [x] Contact [Matt Mizielinski](mailto:matthew.mizielinski@metoffice.gov.uk) for the required settings.
+- [x] Contact Matt Mizielinski for the required settings.
