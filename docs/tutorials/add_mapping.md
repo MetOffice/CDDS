@@ -52,7 +52,9 @@ the model to MIP mapping configuration files.
 
 ### The `[variable name]` Section(s)
 
-The `[variable name]` sections provide the model to MIP mapping corresponding to the specified MIP requested variable and contains the following required options:
+The `[variable name]` sections provide the model to MIP mapping corresponding to the specified MIP requested variable.
+
+**The following options are required:**
 
 | <div style="width:110px">Required Options</div> |                                   Description                                                         | Notes  |
 |--------------------------------------|------------------------------------------------------------------------------------------------------------------|--------|
@@ -64,13 +66,12 @@ The `[variable name]` sections provide the model to MIP mapping corresponding to
 | `units`                              | The units of the data of the MIP requested variable i.e., after the `expression` has been applied.               |        |
 
 
-**Notes**
+!!! note
+    1. This information is used by CMOR to determine whether a sign change is necessary to make the data consistent with the MIP requirements. For more information, please see the [cmor_variable](https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_variable) section in the CMOR Documentation.
+    2. The MIP requested variables are reviewed to ensure they have been produced correctly, MIP requested variables that have not passed review will not be submitted to ESGF and so will not be available for other institutes to use.
+    3. This is used by CDDS, but does not affect MIP Convert behaviour
 
-1. This information is used by CMOR to determine whether a sign change is necessary to make the data consistent with the MIP requirements. For more information, please see the [cmor_variable](https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_variable) section in the CMOR Documentation.
-1. The MIP requested variables are reviewed to ensure they have been produced correctly, MIP requested variables that have not passed review will not be submitted to ESGF and so will not be available for other institutes to use.
-1. This is used by CDDS, but does not affect MIP Convert behaviour
-
-The following options are optional:
+**The following options are optional:**
 
 | Optional Options |                                   Description                                                        | Notes |
 |------------------|------------------------------------------------------------------------------------------------------|-------|
@@ -88,12 +89,12 @@ Each input variable in an expression must contain one of the following:
 | ``stash``         | PP        | LBUSER(4), STASH Code, see Chapter 4 (page 25) of UMDP F03    |       |
 | ``variable_name`` | netCDF    | The name of the data variable in the model output files that is used to create the input variable.   |       |
 
-!!! example "Example 1. One to One Mapping"
+??? example "Example 1. One to One Mapping"
 
     * ``expression = m01s03i236``
     * ``expression = sitemptop``
 
-!!! example "Example 2a. Constants and Arithmetic"
+??? example "Example 2a. Constants and Arithmetic"
 
     Expressions can use numerical values and constants (which must be written using
     upper case letters; constants are available in
@@ -101,7 +102,7 @@ Each input variable in an expression must contain one of the following:
     
     * ``expression = rain_ai * 100. * SECONDS_IN_DAY``
 
-!!! example "Example 2b. Constants and Arithmetic"
+??? example "Example 2b. Constants and Arithmetic"
 
     For atmospheric tendency diagnostics, the atmospheric model timestep must be
     specified (the value of the atmospheric model timestep is obtained from the 
@@ -110,23 +111,23 @@ Each input variable in an expression must contain one of the following:
     
     * ``expression = m01s30i181 / ATMOS_TIMESTEP``
 
-!!! example "Example 3a. Constraints"
+??? example "Example 3a. Constraints"
     To specify additional constraints, use square brackets:
     
     * ``expression = m01s08i223[blev=0.05]``
     * ``expression = pbo[cell_methods=time: mean (interval: 120 s)]``
 
-!!! example "Example 3b. Constraints"
+??? example "Example 3b. Constraints"
     Multiple values for a single constraint should be separated by spaces:
     
     * ``expression = m01s30i201[blev=850.0 500.0 250.0]``
 
-!!! example "Example 3c. Constraints"
+??? example "Example 3c. Constraints"
     Multiple constraints within the square brackets should be separated by commas:
     
     * ``expression = m01s02i204[lbplev=4, lbtim=122]``
 
-!!! example "Example 4. Processor"
+??? example "Example 4. Processor"
     In cases where it is not possible to describe the conversion of the
     input variable / input variables to the MIP requested variable using a
     basic expression like the ones above, a function can be specified:
