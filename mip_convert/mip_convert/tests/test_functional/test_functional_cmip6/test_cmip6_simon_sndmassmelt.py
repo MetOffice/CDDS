@@ -26,7 +26,7 @@ class TestCmip6SImonSndmassmelt(AbstractFunctionalTests):
                     'netcdf_file_action': 'CMOR_REPLACE_3'
                 },
                 cmor_dataset={
-                    'contact': 'chris.d.jones@metoffice.gov.uk',
+                    'contact': 'enquiries@metoffice.gov.uk',
                     'output_dir': get_output_dir(test_location),
                     'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>'
                 },
@@ -40,7 +40,7 @@ class TestCmip6SImonSndmassmelt(AbstractFunctionalTests):
                     'inm': {'CMIP6_SImon': 'sndmassmelt'}
                 },
                 other={
-                    'reference_version': 'v1',
+                    'reference_version': 'v2',
                     'filenames': ['sndmassmelt_SImon_UKESM1-0-LL_amip_r1i1p1f1_185403-185403.nc'],
                     'ignore_history': True,
                 }

@@ -6,13 +6,7 @@
 Climate Data Dissemination System script to handle model data
 extractions from MASS
    - supports pp and nc file types
-   - optionally supports file filtering based on required variables mapping
-   - supports request extraction configuration from CREM or JSON data file
-   - optionally supports logging status to CREM
-   - optionally supports email notification of script start, exit and end.
-
-Author:
-    Mark Elkington (mark.elkington@metoffice.gov.uk)
+   - supports file filtering based on required variables mapping
 """
 
 import sys

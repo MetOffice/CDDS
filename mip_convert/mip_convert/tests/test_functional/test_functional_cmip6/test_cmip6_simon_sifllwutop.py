@@ -28,7 +28,7 @@ class TestCmip6SImonSifllwutop(AbstractFunctionalTests):
                 },
                 cmor_dataset={
                     'output_dir': get_output_dir(test_location),
-                    'contact': 'chris.d.jones@metoffice.gov.uk',
+                    'contact': 'enquiries@metoffice.gov.uk',
                     'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>'
                 },
                 request={
@@ -41,7 +41,7 @@ class TestCmip6SImonSifllwutop(AbstractFunctionalTests):
                     'ap5': {'CMIP6_SImon': 'sifllwutop'}
                 },
                 other={
-                    'reference_version': 'v1',
+                    'reference_version': 'v2',
                     'filenames': ['sifllwutop_SImon_UKESM1-0-LL_amip_r1i1p1f1_185105-185105.nc'],
                     'ignore_history': True,
                 }

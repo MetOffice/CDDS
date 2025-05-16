@@ -28,7 +28,7 @@ class TestCmip6OmonThkcello(AbstractFunctionalTests):
                 },
                 cmor_dataset={
                     'output_dir': get_output_dir(test_location),
-                    'contact': 'chris.d.jones@metoffice.gov.uk',
+                    'contact': 'enquiries@metoffice.gov.uk',
                     'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
                     'model_id': 'HadGEM3-GC31-LL',
                 },
@@ -46,7 +46,7 @@ class TestCmip6OmonThkcello(AbstractFunctionalTests):
                     'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.HadGEM3-GC31-LL.amip.none.r1i1p1f1'
                 },
                 other={
-                    'reference_version': 'v1',
+                    'reference_version': 'v2',
                     'filenames': ['thkcello_Omon_HadGEM3-GC31-LL_amip_r1i1p1f1_198001-198001.nc'],
                 }
             )

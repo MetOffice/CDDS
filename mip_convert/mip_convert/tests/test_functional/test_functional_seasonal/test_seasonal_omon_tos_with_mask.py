@@ -29,7 +29,7 @@ class TestSeasonalOmonTosWithMask(AbstractFunctionalTests):
                 cmor_dataset={
                     'output_dir': get_output_dir(test_location),
                     'calendar': 'noleap',
-                    'contact': 'chris.d.jones@metoffice.gov.uk',
+                    'contact': 'enquiries@metoffice.gov.uk',
                     'output_file_template': '<variable_id><table><source_id><experiment_id>',
                 },
                 request={
@@ -48,7 +48,7 @@ class TestSeasonalOmonTosWithMask(AbstractFunctionalTests):
                     }
                 },
                 other={
-                    'reference_version': 'v1',
+                    'reference_version': 'v2',
                     'filenames': ['tos_Omon_UKESM1-0-LL_amip_197601-197601.nc'],
                 }
             )
