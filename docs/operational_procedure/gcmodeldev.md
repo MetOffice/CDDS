@@ -331,7 +331,7 @@ The conversion workflows run the following steps
             and contact the [CDDS Team](mailto:cdds@metoffice.gov.uk) for advice.
 
     !!! important "VERY IMPORTANT"
-        **Do not delete data from MASS without consultation with [Matt Mizielinski](mailto:matthew.mizielinski@metoffice.gov.uk).**
+        **Do not delete data from MASS without consultation with [CDDS support](mailto:cdds@metoffice.gov.uk).**
 
 - [x] `completion_<stream>`
 

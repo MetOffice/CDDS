@@ -28,7 +28,7 @@ class TestCmip6OmonSoga(AbstractFunctionalTests):
                 },
                 cmor_dataset={
                     'output_dir': get_output_dir(test_location),
-                    'contact': 'chris.d.jones@metoffice.gov.uk',
+                    'contact': 'enquiries@metoffice.gov.uk',
                 },
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
@@ -40,7 +40,7 @@ class TestCmip6OmonSoga(AbstractFunctionalTests):
                     'onm': {'CMIP6_Omon': 'soga'}
                 },
                 other={
-                    'reference_version': 'v1',
+                    'reference_version': 'v2',
                     'filenames': ['soga_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_185105-185105.nc'],
                     'ignore_history': True,
                 }

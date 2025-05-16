@@ -29,7 +29,7 @@ class TestCmip6EdayParasolRefl(AbstractFunctionalTests):
                 },
                 cmor_dataset={
                     'output_dir': get_output_dir(test_location),
-                    'contact': 'chris.d.jones@metoffice.gov.uk',
+                    'contact': 'enquiries@metoffice.gov.uk',
                 },
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
@@ -41,7 +41,7 @@ class TestCmip6EdayParasolRefl(AbstractFunctionalTests):
                     'ap6': {'CMIP6_Eday': 'parasolRefl'}
                 },
                 other={
-                    'reference_version': 'v1',
+                    'reference_version': 'v2',
                     'filenames': ['parasolRefl_Eday_UKESM1-0-LL_amip_r1i1p1f1_gn_19790101-19790130.nc'],
                     'ignore_history': True,
                 }
