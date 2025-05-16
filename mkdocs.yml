@@ -35,6 +35,7 @@ nav:
     - Quickstart: tutorials/quickstart.md
     - Search Inventory: tutorials/search_inventory.md
     - Add a Variable Mapping: tutorials/add_mapping.md
+    - Add a Mapping Plugin: tutorials/add_mapping_plugin.md
     - Add a Plugin: tutorials/add_plugin.md
     - MIP Convert User Guide: tutorials/mip_convert.md
     - Request Configuration:
@@ -72,6 +73,9 @@ nav:
       - Pytest: developer_documentation/pytest.md
       - Nightly Tests: developer_documentation/nightly_tests.md
       - Mip Convert Functional Tests: developer_documentation/mip_convert_functional_tests.md
+    - Mapping Plugins:
+        - Available Plugins: developer_documentation/mapping_plugins/available_mapping_plugins.md
+        - Mapping Plugin Framework: developer_documentation/mapping_plugins/mapping_plugin_framework.md
     - Plugins:
         - Available Plugins: developer_documentation/plugins/available_plugins.md
         - Plugin Framework: developer_documentation/plugins/plugin_framework.md
