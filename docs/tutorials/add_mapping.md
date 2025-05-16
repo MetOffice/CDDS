@@ -163,7 +163,7 @@ The following constraints can currently be used in an ``expression``:
 2. The constraints, i.e., the data to be read from the model output files to create the input variables.
 3. An expression describing how to process the input variables to produce a MIP output variable.
 4. The units of the MIP output variable after the expression has been applied. It is not necessary to include the units 
-   in model to MIP mappings used for netCDF model output files if the expression consists of a single constraint.
+   in mappings used for netCDF model output files if the expression consists of a single constraint.
 5. The component, which is the domain.
 
 
@@ -171,7 +171,7 @@ The following constraints can currently be used in an ``expression``:
 
 1. Find the corresponding mapping plugin for the model you want to add the mapping. All mappings plugins are located
    in `mip_convert/plugins`. Each plugin has its own sub folder named by the base model name.
-2. Model to MIP mapping configuration files are located in the `mip_convert/plugins/<base_model_name>/data`. The mapping
+2. Model to mapping configuration files are located in the `mip_convert/plugins/<base_model_name>/data`. The mapping
    configuration files end with `_mappings.cfg`.
 3. If there is currently no entry for the MIP requested variable name in the mapping configuration files, add the mapping 
    to `<base_model_name>_mappgins.cfg`, e.g. `UKESM1_mappgins.cfg`.
