@@ -48,7 +48,7 @@ class TestSeasonalOmonTosWithMask(AbstractFunctionalTests):
                     }
                 },
                 other={
-                    'reference_version': 'v1',
+                    'reference_version': 'v2',
                     'filenames': ['tos_Omon_UKESM1-0-LL_amip_197601-197601.nc'],
                 }
             )

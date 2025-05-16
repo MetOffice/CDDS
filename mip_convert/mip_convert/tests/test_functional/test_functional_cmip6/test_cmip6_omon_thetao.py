@@ -43,7 +43,7 @@ class TestCmip6OmonThetao(AbstractFunctionalTests):
                     'onb': {'CMIP6_Omon': 'thetao'}
                 },
                 other={
-                    'reference_version': 'v1',
+                    'reference_version': 'v2',
                     'filenames': ['thetao_Omon_UKESM1-0-LL_amip_r1i1p1f1_197601-197601.nc'],
                 }
             )
