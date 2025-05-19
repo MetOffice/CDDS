@@ -3,9 +3,9 @@
 ## Overview
 
 The mapping plugin framework was designed using an object-oriented approach. This framework allows you to customise and 
-extend MipConvert. Mapping plugins are loaded at runtime from a specific given path. A mapping plugin is a bundle that 
+extend MIP Convert. Mapping plugins are loaded at runtime from a specific given path. A mapping plugin is a construct that 
 adds functionality to MIP Convert such that the appropriate mapping can be set and used for different models 
-(e.g. UKESM1 or HadGEM3). This also allows third party developers to add mapping functionality to MipConvert without 
+(e.g. UKESM1 or HadGEM3). This also allows third party developers to add mapping functionality to MIP Convert without 
 having access to the source code. 
 
 The mapping plugin framework loads the specific plugin into a plugin store that stores it during runtime. This avoids
