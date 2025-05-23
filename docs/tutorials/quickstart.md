@@ -443,3 +443,62 @@ Arbitrary netcdf global attributes can be added to the CMORised files by adding 
 [netcdf_global_attributes]
 ensemble = 
 ```
+
+### I don't need to retrieve data from MASS it's already on disk, how do I use it with CDDS?
+
+CDDS provides a utitily script called `cdds_arrange_input_data` which will `symlink` the files you already have on disk to the appropriate directories.
+The typical directory structure CDDS creates looks like this (individual `.pp` and `.nc` files not shown).
+
+```
+└── CMIP6
+    └── ScenarioMIP
+        └── UKESM1-0-LL
+            └── ssp126
+                └── r1i1p1f2
+                    └── cdds_request_ssp126
+                        ├── input
+                            └── u-dn300
+                                ├── ap4
+                                ├── ap5
+                                └── onm
+```
+
+Having made sure you have run the `cdds_create_cdds_directories` first you can then run the arrange script.
+Where `/path/to/model/data` is the location on disk containing your model output files.
+
+```bash
+cdds_arrange_input_data request.cfg /path/to/model/data
+```
+
+The directory structure that your data is in should not matter as the mapping from file to stream is performed using regular expressions.
+For example, the contents of `/path/to/model/data` could contain a flat hierarchy with all model files together in one directory.
+
+```
+dn300a.p52015apr.pp
+dn300a.p42015apr.pp
+medusa_dn300o_1m_20150101-20150201_diad-T.nc
+```
+
+After running `cdds_arrange_input_data` it would `symlink` the files like so.
+
+```
+└── CMIP6
+    └── ScenarioMIP
+        └── UKESM1-0-LL
+            └── ssp126
+                └── r1i1p1f2
+                    └── cdds_request_ssp126
+                        ├── input
+                            └── u-dn300
+                                ├── ap4
+                                    └── dn300a.p42015apr.pp
+                                ├── ap5
+                                    └── dn300a.p42015apr.pp
+                                └── onm
+                                    └── medusa_dn300o_1m_20150101-20150201_diad-T.nc
+```
+
+!!! note
+
+    The `cdds_arrange_input_data` will `symlink` *all* files that match the filepatterns.
+    It will not exclude files outside of the `start` and `end` dates defined in your request, nor will it exclude streams that are not listed in the request.
