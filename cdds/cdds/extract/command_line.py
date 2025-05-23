@@ -5,20 +5,21 @@ The :mod:`command_line` module contains the main functions for the
 command line scripts in the ``bin`` directory.
 """
 import argparse
-import glob
 import logging
 import os
+import re
 
 from cdds import __version__
 from cdds.common.cdds_files.cdds_directories import update_log_dir
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.request.request import read_request
-from cdds.extract.common import stream_file_template
 from cdds.extract.lang import set_language
 from cdds.extract.runner import ExtractRunner
 from cdds.extract.halo_removal import dehalo_multiple_files
 from cdds.extract.validate import validate_streams
 from cdds.common import configure_logger
+from cdds.common.plugins.plugins import PluginStore
+from cdds.convert.constants import STREAMS_FILES_REGEX
 
 from mip_convert.plugins.plugin_loader import load_mapping_plugin
 
@@ -153,8 +154,8 @@ def parse_validate_streams_command_line(user_arguments):
 
 def main_validate_streams(arguments=None):
     """
-
     Validates files in the 'input' directory.
+
     Parameters
     ----------
     arguments: list of strings
@@ -234,49 +235,104 @@ def main_remove_ocean_haloes(arguments=None):
     return exit_code
 
 
-def main_path_reformatter():
+def main_cdds_arrange_input_data():
     """
-    Main function of the path_reformatter script.
+    Main function of the cdds_arrange_input_data script.
     """
-    args = parse_arguments()
-    suite_id = args.suite_id
-    full_root_path = os.path.join(args.input_dir, suite_id)
+    arguments = parse_arguments()
 
-    timesteps = next(os.walk(full_root_path))[1]
+    request = read_request(arguments.request)
+    plugin = PluginStore.instance().get_plugin()
 
-    for stream in args.streams:
-        print('Collecting all input files for stream {} under {}'.format(stream, full_root_path))
+    search_dir = arguments.search_dir
+    data_dir = plugin.data_directory(request)
+    workflow_id = request.data.model_workflow_id
 
-        filename_templates = stream_file_template(stream, suite_id)
-        data_files = []
+    links = identify_files(search_dir, workflow_id[-5:])
 
-        if args.output_dir is None:
-            output_dir = os.path.join(full_root_path, stream)
-        else:
-            output_dir = os.path.join(args.output_dir, stream)
+    data_dir = plugin.data_directory(request)
+    input_dir = os.path.join(data_dir, 'input')
 
+    symlink_files(links, input_dir)
+
+    print('Complete')
+
+
+def symlink_files(links,  input_dir):
+    """
+    Construct the symbolic links for the files found by identify_files
+
+    :param links: list of tuples describing files
+    :type links: list
+    :param input_dir: location of "input" dir under which to create links
+    :type input_dir: str
+    """
+    for file_workflow_id, stream, directory, filename in links:
+        source = os.path.abspath(os.path.join(directory, filename))
+        destination = os.path.join(input_dir, stream, filename)
+        if not os.path.exists(os.path.join(input_dir, stream)):
+            os.mkdir(os.path.join(input_dir, stream))
+        print('Linking {} to {}'.format(destination, source))
         try:
-            os.mkdir(output_dir)
-            print('Creating directory for stream {}...'.format(stream))
+            os.symlink(source, destination)
         except FileExistsError:
-            pass
+            print('\t{} exists, skipping...'.format(os.path.basename(filename)))
 
-        for timestep_dir in timesteps:
-            for glob_template in filename_templates:
-                data_files.extend(glob.glob(os.path.join(full_root_path, timestep_dir, glob_template)))
 
-        print('{} files found...'.format(len(data_files)))
+def identify_files(search_dir, jobid):
+    """
+    Identify files in the search directory that correspond to the workflow
+    being processed
 
-        print('Creating symlinks in {}'.format(output_dir))
+    :param search_dir: The directory to search for input files
+    :type search_dir: str
+    :param jobid: The 5 character jobid used in filenames
+    :type jobid: str
+    :returns: list of tuples describing each file
+    :rtype: list
+    """
 
-        for data_file in data_files:
-            try:
-                os.symlink(data_file, os.path.join(output_dir, os.path.basename(data_file)))
-            except FileExistsError:
-                print('{} exists, skipping...'.format(os.path.basename(data_file)))
-                pass
+    destination = {
+        'nemo': {
+            '1m': 'onm',
+            '1d': 'ond'
+        },
+        'medusa': {
+            '1m': 'onm',
+            '1d': 'ond'
+        },
+        'cice': {
+            '1m': 'inm',
+            '1d': 'ind'
+        },
+        'si3': {
+            '1m': 'inm',
+            '1d': 'ind'
+        },
+    }
 
-        print('Done')
+    links: list[tuple[str, str, str, str]] = []
+
+    for root, _, files in os.walk(search_dir):
+        for file in files:
+            for stream, regex in STREAMS_FILES_REGEX.items():
+                if file.endswith('.pp') and stream.startswith('a'):
+                    match = re.match(regex, file)
+                    if match:
+                        result = match.groupdict()
+                        if result['suite_id'] == jobid:
+                            stream = 'ap{}'.format(match.groupdict()['stream_num'])
+                            links.append((result['suite_id'], stream, root, file))
+                            # no need to check other atmosphere patterns if we've already matched
+                            break
+                else:
+                    match = re.match(regex, file)
+                    if match:
+                        result = match.groupdict()
+                        if result['suite_id'] == jobid:
+                            stream = destination[result['model']][result['period']]
+                            links.append((result['suite_id'], stream, root, file))
+    return links
 
 
 def parse_arguments():
@@ -288,9 +344,7 @@ def parse_arguments():
     Command line arguments for the path_formatter script.
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('input_dir', help='Input data directory (full filepath including the /input/ subdirectory)')
-    parser.add_argument('output_dir', help='Reprocessed input directory (defaulting to the --input_dir)', default=None)
-    parser.add_argument('suite_id', help='Suite id')
-    parser.add_argument('streams', help='Streams to be symlinked', nargs='*')
+    parser.add_argument('request', help='Request config file')
+    parser.add_argument('search_dir', help='Directory to search for model output files)')
     args = parser.parse_args()
     return args
