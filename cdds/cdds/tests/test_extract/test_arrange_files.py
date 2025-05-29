@@ -1,3 +1,8 @@
+# (C) British Crown Copyright 2025, Met Office.
+# Please see LICENSE.md for license details.
+"""
+Tests for cdds_arrange_input_data
+"""
 from pathlib import Path
 
 import pytest
