@@ -98,6 +98,8 @@ def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
     :param request: The request information of 'cdds_convert'
     :type request: Request
     """
+    logger = logging.getLogger(__name__)
+
     requested_variables_file = arguments.requested_variables_list_file
     if not request.conversion.skip_configure:
         create_user_config_files(request, requested_variables_file, arguments.output_cfg_dir)
@@ -120,8 +122,8 @@ def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
     workflow_manager.clean_workflow()
 
     if arguments.no_submit:
-        print("Skipping running cylc vip. Templated workflow path:")
-        print(workflow_manager.workflow_destination)
+        logger.info("Skipping running cylc vip. Templated workflow path:")
+        logger.info(workflow_manager.workflow_destination)
     else:
         workflow_manager.run_workflow()
 
