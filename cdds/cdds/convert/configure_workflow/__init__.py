@@ -64,6 +64,11 @@ def parse_args_cdds_convert() -> Tuple[ConvertArguments, Request]:
                         nargs='*',
                         help='Restrict processing suites to only to these streams.'
                         )
+    parser.add_argument('-n',
+                        '--no-submit',
+                        action='store_true',
+                        help='Do not run cylc vip on the templated workflow.'
+                        )
 
     args = parser.parse_args()
     request = read_request(args.request)
@@ -78,7 +83,7 @@ def parse_args_cdds_convert() -> Tuple[ConvertArguments, Request]:
         check_directory(request.conversion.model_params_dir)
         plugin.overload_models_parameters(request.conversion.model_params_dir)
 
-    arguments = ConvertArguments(request_path=args.request, streams=args.streams)
+    arguments = ConvertArguments(request_path=args.request, streams=args.streams, no_submit=args.no_submit)
     if not request.conversion.skip_configure:
         arguments = add_user_config_data_files(arguments, request)
 
@@ -93,6 +98,8 @@ def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
     :param request: The request information of 'cdds_convert'
     :type request: Request
     """
+    logger = logging.getLogger(__name__)
+
     requested_variables_file = arguments.requested_variables_list_file
     if not request.conversion.skip_configure:
         create_user_config_files(request, requested_variables_file, arguments.output_cfg_dir)
@@ -113,7 +120,12 @@ def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
     workflow_manager.checkout_convert_workflow()
     workflow_manager.update()
     workflow_manager.clean_workflow()
-    workflow_manager.run_workflow()
+
+    if arguments.no_submit:
+        logger.info("Skipping running cylc vip. Templated workflow path:")
+        logger.info(workflow_manager.workflow_destination)
+    else:
+        workflow_manager.run_workflow()
 
 
 def stream_jinja2_variables(request, stream_components):
