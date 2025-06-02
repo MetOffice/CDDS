@@ -1117,13 +1117,15 @@ def split_stashes_from_constraints(var):
     for x in var:
         for constraint in x["constraint"]:
             copied_constraint = copy(constraint)
-            stash = copied_constraint.pop("stash")
-            hashed_constraint_dict = hash(json.dumps(copied_constraint, sort_keys=True))
 
-            if hashed_constraint_dict not in constraint_dict:
-                constraint_dict[hashed_constraint_dict] = copied_constraint
+            if "stash" in copied_constraint:
+                stash = copied_constraint.pop("stash")
+                hashed_constraint_dict = hash(json.dumps(copied_constraint, sort_keys=True))
 
-            stash_values_dict[hashed_constraint_dict].add(stash)
+                if hashed_constraint_dict not in constraint_dict:
+                    constraint_dict[hashed_constraint_dict] = copied_constraint
+
+                stash_values_dict[hashed_constraint_dict].add(stash)
 
     return constraint_dict, stash_values_dict
 
