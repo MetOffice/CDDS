@@ -583,7 +583,10 @@ class Filters(object):
         else:
             simulate = self.simulation
 
-        param_args = ["-i", "-n", filterfile, self.source, self.target]
+        # "-i" option has been removed from the following to avoid an issue with
+        # the moose client where the response with and without this argument
+        # is different.
+        param_args = ["-n", filterfile, self.source, self.target]
         code, cmd_out, command = run_moo_cmd("select", param_args, simulate=simulate, verbose=False)
         status = check_moo_cmd(code, cmd_out)
         return status, cmd_out
