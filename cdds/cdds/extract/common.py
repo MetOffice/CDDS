@@ -11,6 +11,8 @@ import pwd
 import os
 import subprocess
 import re
+import json
+from copy import copy
 from collections import defaultdict
 from operator import itemgetter
 from cdds.extract.constants import (NUM_PP_HEADER_LINES, TIME_REGEXP, MAX_MOOSE_LOG_MESSAGE,
@@ -1083,3 +1085,81 @@ def get_streamtype(stream: str) -> str:
         return STREAMTYPE_PP
     else:
         return STREAMTYPE_NC
+
+
+def split_stashes_from_constraints(var):
+    """
+    Split stash codes from constraints in the given data.
+
+    This function processes a list of dictionaries containing constraints and separates
+    the 'stash' values from the constraints into their own set. It generates two dictionaries 
+    using the hashes of the constraints dictionaries as keys and removes any duplicate values.
+
+    Parameters
+    ----------
+    data : list
+        A list of dictionaries, where each dictionary contains a 'constraint' key
+        with a list of constraint specifications.
+
+    Returns
+    -------
+    constraint_dict : dict
+        A dictionary where the keys are hashed representations of constraints (excluding 'stash'),
+        and the values are the constraint dictionaries themselves.
+
+    stash_values_dict : collections.defaultdict
+        A defaultdict where the keys are hashed representations of constraints and the values
+        are sets of 'stash' values corresponding to those constraints.
+    """
+    constraint_dict = {}
+    stash_values_dict = defaultdict(set)
+    
+    for x in var:
+        for constraint in x["constraint"]:
+            copied_constraint = copy(constraint)
+            stash = copied_constraint.pop("stash")
+            hashed_constraint_dict = hash(json.dumps(copied_constraint, sort_keys=True))
+
+            if hashed_constraint_dict not in constraint_dict:
+                constraint_dict[hashed_constraint_dict] = copied_constraint
+
+            stash_values_dict[hashed_constraint_dict].add(stash)
+
+    return constraint_dict, stash_values_dict
+
+
+def merge_condensed_stashes(constraint_dict, stash_values_dict):
+    """
+    Merge condensed stash values into constraints.
+
+    This function takes two dictionaries: one containing constraints and another containing
+    sets of stash values associated with those constraints. It merges the stash values into
+    their respective constraints and returns a list of dictionaries with the merged data.
+
+    Parameters
+    ----------
+    constraint_dict : dict
+        A dictionary where the keys are hashed representations of constraints (excluding 'stash'),
+        and the values are the constraint dictionaries themselves.
+
+    stash_values_dict : collections.defaultdict
+        A defaultdict where the keys are hashed representations of constraints and the values
+        are sets of 'stash' values corresponding to those constraints.
+
+    Returns
+    -------
+    final_constraints : list
+        A list of dictionaries, where each dictionary contains a 'constraint' key with the merged
+        constraint and stash values.
+    """
+    condensed_constraints = []
+
+    for key in constraint_dict:
+        if key in stash_values_dict:
+            merged_dict = {
+                **constraint_dict[key], 
+                'stash': list(stash_values_dict[key])
+            }
+            condensed_constraints.append({'constraint': merged_dict})
+
+    return condensed_constraints

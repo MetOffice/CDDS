@@ -20,7 +20,7 @@ from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
 from cdds.extract.constants import MOOSE_CALL_LIMIT
 from cdds.extract.common import (check_moo_cmd, chunk_by_files_and_tapes, fetch_filelist_from_mass, get_streamtype,
-                                 get_stash, get_tape_limit, run_moo_cmd)
+                                 get_stash, get_tape_limit, run_moo_cmd,  split_stashes_from_constraints,merge_condensed_stashes)
 from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES, STREAMTYPE_PP, STREAMTYPE_NC
 
 
@@ -300,26 +300,32 @@ class Filters(object):
                 elif var["status"] in ["ok", "embargoed"]:
                     filter_msg.append(var)
 
-                    # create filter block from constraint
-                    for constraint in var["constraint"]:
-                        filter_block = "begin\n"
-                        for k, val in constraint.items():
-                            if k == "stash":
-                                filter_block += " {}={}\n".format(
-                                    k, get_stash(val))
-                                stash_codes.add(get_stash(val).lstrip("0"))
-                            else:
-                                if isinstance(val, list):
-                                    val = tuple(val)
-                                filter_block += " {}={}\n".format(
-                                    k, val)
+                
+            #condense duplicated constraints
+            constraint_dict, stash_values_dict = split_stashes_from_constraints(self.mappings.get(stream))
+            condensed_constraints = merge_condensed_stashes(constraint_dict, stash_values_dict)
 
-                        filter_block += "end\n"
-                        self.filters[stream] += filter_block
-                else:
-                    filter_msg_exc.append(
-                        {"name": var["name"], "table": var["table"],
-                         "reason": "filter status invalid"})
+            # create filter block from each constraint
+            for constraint in condensed_constraints:
+                filter_block = "begin\n"
+                for k, val in constraint["constraint"].items():
+                    if k == "stash":
+                        stashes = []
+                        for stash_code in val:
+                            stashes.append(get_stash(stash_code))
+                            stash_codes.add(get_stash(stash_code).lstrip("0"))
+                        
+                        stash_values = ",".join(map(str, stashes))
+                        filter_block += f" stash=({stash_values})\n" if len(stashes) > 1 else f" stash={stash_values}\n"
+
+                    else:
+                        if isinstance(val, list):
+                            val = tuple(val)
+                        filter_block += " {}={}\n".format(
+                            k, val)
+
+                filter_block += "end\n"
+                self.filters[stream] += filter_block
 
         # sort variables in filter missing filter lists
         filter_msg = sorted(filter_msg, key=lambda y: y["name"])
