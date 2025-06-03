@@ -365,7 +365,6 @@ class TestCondenseStashes(unittest.TestCase):
     @patch('builtins.hash', lambda x: 123456789)
     def test_split_stashes(self):
         output_constraint_dict, output_stash_values_dict = split_stashes_from_constraints(self.constraint)
-        # breakpoint()
         self.assertEqual(output_constraint_dict, {
             123456789: {'lbproc': 128, 'lbtim_ia': 1, 'lbtim_ib': 2}
         })
@@ -400,6 +399,8 @@ class TestCondenseStashes(unittest.TestCase):
             constraint['constraint']['stash'].sort()
             
         self.assertEqual(output_condensed_constraints, expected_constraint_dict)
+
+        
 
 if __name__ == "__main__":
     unittest.main()

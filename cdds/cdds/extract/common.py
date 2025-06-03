@@ -1107,7 +1107,7 @@ def split_stashes_from_constraints(constraints_stream):
         A dictionary where the keys are hashed representations of constraints (excluding 'stash'),
         and the values are the constraint dictionaries themselves.
 
-    stash_values_dict : collections.defaultdict
+    stash_values_dict : collections.defaultdict[set]
         A defaultdict where the keys are hashed representations of constraints and the values
         are sets of 'stash' values corresponding to those constraints.
     """
@@ -1126,7 +1126,6 @@ def split_stashes_from_constraints(constraints_stream):
                     constraint_dict[hashed_constraint_dict] = copied_constraint
 
                 stash_values_dict[hashed_constraint_dict].add(stash)
-
     return constraint_dict, stash_values_dict
 
 
