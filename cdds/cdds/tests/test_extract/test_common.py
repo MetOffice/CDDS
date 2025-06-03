@@ -10,6 +10,7 @@ import os
 import shutil
 import pytest
 from unittest.mock import patch
+import builtins
 from cdds.extract.common import (
     validate_stash_fields, validate_netcdf, check_moo_cmd, calculate_period, FileContentError,
     StreamValidationResult, create_dir, build_mass_location, chunk_by_files_and_tapes, split_stashes_from_constraints, merge_condensed_stashes)
@@ -331,7 +332,69 @@ class TestChunkByFilesAndTapes(unittest.TestCase):
             ['t8_file20']
         ]
         self.assertEqual(expected_fileset, chunk_by_files_and_tapes(self.tapes_dict, tape_limit, file_limit))
+    
 
+class TestCondenseStashes(unittest.TestCase):
+    constraint = [
+        {
+            "constraint": [
+                {
+                    "lbproc": 128,
+                    "lbtim_ia": 1,
+                    "lbtim_ib": 2,
+                    "stash": "m01s50i063"
+                },
+                {
+                    "lbproc": 128,
+                    "lbtim_ia": 1,
+                    "lbtim_ib": 2,
+                    "stash": "m01s34i055"
+                }
+            ],
+            "name": "cfc11global",
+            "status": "ok",
+            "table": "Amon"
+        }
+    ]
+
+    constraint_dict = {123456789: {'lbproc': 128, 'lbtim_ia': 1, 'lbtim_ib': 2},
+                       453454464: {'lbproc': 824, 'lbtim_ia': 6, 'lbtim_ib': 1}}
+
+    stash_values_dict = {123456789: {'m01s50i063', 'm01s34i055'}, 453454464: {'m01s50i066', 'm01s34i052'}}
+
+    @patch('builtins.hash', lambda x: 123456789)
+    def test_split_stashes(self):
+        output_constraint_dict, output_stash_values_dict = split_stashes_from_constraints(self.constraint)
+        # breakpoint()
+        self.assertEqual(output_constraint_dict, {
+            123456789: {'lbproc': 128, 'lbtim_ia': 1, 'lbtim_ib': 2}
+        })
+        self.assertEqual(output_stash_values_dict, {123456789: {'m01s50i063', 'm01s34i055'}})
+
+
+    def test_merge_condensed_stashes(self):
+        # expected_constraint_dict = [{'constraint': {'lbproc': 128, 'lbtim_ia': 1, 'lbtim_ib': 2, 'stash': ['m01s34i055', 'm01s50i063']}}, {'constraint': {'lbproc': 824, 'lbtim_ia': 6, 'lbtim_ib': 1, 'stash': ['m01s50i066', 'm01s34i052']}}]
+        expected_constraint_dict = [
+            {
+            'constraint': {
+                'lbproc': 128,
+                'lbtim_ia': 1,
+                'lbtim_ib': 2,
+                'stash': ['m01s50i063', 'm01s34i055']
+            }
+            },
+            {
+            'constraint': {
+                'lbproc': 824,
+                'lbtim_ia': 6,
+                'lbtim_ib': 1,
+                'stash': ['m01s50i066', 'm01s34i052']
+            }
+            }
+        ]
+        output_condensed_constraints = merge_condensed_stashes(self.constraint_dict, self.stash_values_dict)
+        breakpoint()
+        self.assertEqual(output_condensed_constraints, expected_constraint_dict)
 
 if __name__ == "__main__":
     unittest.main()

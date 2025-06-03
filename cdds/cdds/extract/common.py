@@ -1087,7 +1087,7 @@ def get_streamtype(stream: str) -> str:
         return STREAMTYPE_NC
 
 
-def split_stashes_from_constraints(var):
+def split_stashes_from_constraints(constraints_stream):
     """
     Split stash codes from constraints in the given data.
 
@@ -1097,7 +1097,7 @@ def split_stashes_from_constraints(var):
 
     Parameters
     ----------
-    data : list
+    constraints_stream : list
         A list of dictionaries, where each dictionary contains a 'constraint' key
         with a list of constraint specifications.
 
@@ -1114,7 +1114,7 @@ def split_stashes_from_constraints(var):
     constraint_dict = {}
     stash_values_dict = defaultdict(set)
     
-    for x in var:
+    for x in constraints_stream:
         for constraint in x["constraint"]:
             copied_constraint = copy(constraint)
 
