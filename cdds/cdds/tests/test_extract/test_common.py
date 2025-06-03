@@ -373,7 +373,6 @@ class TestCondenseStashes(unittest.TestCase):
 
 
     def test_merge_condensed_stashes(self):
-        # expected_constraint_dict = [{'constraint': {'lbproc': 128, 'lbtim_ia': 1, 'lbtim_ib': 2, 'stash': ['m01s34i055', 'm01s50i063']}}, {'constraint': {'lbproc': 824, 'lbtim_ia': 6, 'lbtim_ib': 1, 'stash': ['m01s50i066', 'm01s34i052']}}]
         expected_constraint_dict = [
             {
             'constraint': {
@@ -393,7 +392,13 @@ class TestCondenseStashes(unittest.TestCase):
             }
         ]
         output_condensed_constraints = merge_condensed_stashes(self.constraint_dict, self.stash_values_dict)
-        breakpoint()
+
+        # Sort stash values in both expected and output for consistent comparison
+        for constraint in expected_constraint_dict:
+            constraint['constraint']['stash'].sort()
+        for constraint in output_condensed_constraints:
+            constraint['constraint']['stash'].sort()
+            
         self.assertEqual(output_condensed_constraints, expected_constraint_dict)
 
 if __name__ == "__main__":
