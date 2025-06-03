@@ -335,7 +335,10 @@ class TestChunkByFilesAndTapes(unittest.TestCase):
     
 
 class TestCondenseStashes(unittest.TestCase):
-    constraint = [
+
+    @patch('builtins.hash', lambda x: 123456789)
+    def test_split_stashes(self):
+        constraint = [
         {
             "constraint": [
                 {
@@ -356,15 +359,7 @@ class TestCondenseStashes(unittest.TestCase):
             "table": "Amon"
         }
     ]
-
-    constraint_dict = {123456789: {'lbproc': 128, 'lbtim_ia': 1, 'lbtim_ib': 2},
-                       453454464: {'lbproc': 824, 'lbtim_ia': 6, 'lbtim_ib': 1}}
-
-    stash_values_dict = {123456789: {'m01s50i063', 'm01s34i055'}, 453454464: {'m01s50i066', 'm01s34i052'}}
-
-    @patch('builtins.hash', lambda x: 123456789)
-    def test_split_stashes(self):
-        output_constraint_dict, output_stash_values_dict = split_stashes_from_constraints(self.constraint)
+        output_constraint_dict, output_stash_values_dict = split_stashes_from_constraints(constraint)
         self.assertEqual(output_constraint_dict, {
             123456789: {'lbproc': 128, 'lbtim_ia': 1, 'lbtim_ib': 2}
         })
@@ -390,9 +385,13 @@ class TestCondenseStashes(unittest.TestCase):
             }
             }
         ]
-        output_condensed_constraints = merge_condensed_stashes(self.constraint_dict, self.stash_values_dict)
+        constraint_dict = {123456789: {'lbproc': 128, 'lbtim_ia': 1, 'lbtim_ib': 2},
+                        453454464: {'lbproc': 824, 'lbtim_ia': 6, 'lbtim_ib': 1}}
 
-        # Sort stash values in both expected and output for consistent comparison
+        stash_values_dict = {123456789: {'m01s50i063', 'm01s34i055'}, 453454464: {'m01s50i066', 'm01s34i052'}}
+        output_condensed_constraints = merge_condensed_stashes(constraint_dict, stash_values_dict)
+
+        # Sort stash values in both expected and output for consistent list comparison.
         for constraint in expected_constraint_dict:
             constraint['constraint']['stash'].sort()
         for constraint in output_condensed_constraints:
