@@ -13,6 +13,7 @@ import subprocess
 import re
 import json
 from copy import copy
+import hashlib
 from collections import defaultdict
 from operator import itemgetter
 from cdds.extract.constants import (NUM_PP_HEADER_LINES, TIME_REGEXP, MAX_MOOSE_LOG_MESSAGE,
@@ -1117,15 +1118,16 @@ def split_stashes_from_constraints(constraints_stream):
     for x in constraints_stream:
         for constraint in x["constraint"]:
             copied_constraint = copy(constraint)
-
+            
             if "stash" in copied_constraint:
                 stash = copied_constraint.pop("stash")
-                hashed_constraint_dict = hash(json.dumps(copied_constraint, sort_keys=True))
+                hashed_constraint_dict = hashlib.md5(json.dumps(copied_constraint, sort_keys=True).encode()).hexdigest()
 
                 if hashed_constraint_dict not in constraint_dict:
                     constraint_dict[hashed_constraint_dict] = copied_constraint
 
                 stash_values_dict[hashed_constraint_dict].add(stash)
+
     return constraint_dict, stash_values_dict
 
 
