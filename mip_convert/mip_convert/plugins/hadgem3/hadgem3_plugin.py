@@ -11,6 +11,7 @@ import iris.cube
 
 from mip_convert.plugins.base.base_plugin import BaseMappingPlugin
 from mip_convert.plugins.base.data.processors import *
+from mip_convert.plugins.hadgem3.data.processors import *
 
 
 class HadGEM3MappingPlugin(BaseMappingPlugin):
