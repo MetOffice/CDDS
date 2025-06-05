@@ -336,7 +336,7 @@ class TestChunkByFilesAndTapes(unittest.TestCase):
 
 class TestCondenseStashes(unittest.TestCase):
 
-    # @patch('builtins.hash', lambda x: 123456789)
+    @patch('builtins.hash', lambda x: 123456789)
     def test_split_stashes(self):
         constraint = [
         {
@@ -360,7 +360,8 @@ class TestCondenseStashes(unittest.TestCase):
         }
     ]
         expected_hash = "61bb7d83d902471456e88fbcb2fec1d7"
-        output_constraint_dict, output_stash_values_dict = split_stashes_from_constraints(constraint)
+        output_stash_values_dict = split_stashes_from_constraints(constraint)
+        breakpoint()
         self.assertEqual(output_constraint_dict, {
             expected_hash: {'lbproc': 128, 'lbtim_ia': 1, 'lbtim_ib': 2}
         })
