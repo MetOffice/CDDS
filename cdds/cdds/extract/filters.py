@@ -12,6 +12,7 @@ from collections import defaultdict
 from operator import itemgetter
 from typing import Dict, List, Tuple
 from metomi.isodatetime.data import TimePoint
+import json
 
 from cdds.common import netCDF_regexp, generate_datestamps_pp
 from cdds.common.mappings.mapping import ModelToMip
@@ -20,7 +21,7 @@ from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
 from cdds.extract.constants import MOOSE_CALL_LIMIT
 from cdds.extract.common import (check_moo_cmd, chunk_by_files_and_tapes, fetch_filelist_from_mass, get_streamtype,
-                                 get_stash, get_tape_limit, run_moo_cmd,  split_stashes_from_constraints,merge_condensed_stashes)
+                                 get_stash, get_tape_limit, run_moo_cmd,  condense_constraints)
 from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES, STREAMTYPE_PP, STREAMTYPE_NC
 
 
@@ -302,27 +303,24 @@ class Filters(object):
 
                 
             #condense duplicated constraints
-            constraint_dict, stash_values_dict = split_stashes_from_constraints(self.mappings.get(stream))
-            condensed_constraints = merge_condensed_stashes(constraint_dict, stash_values_dict)
+            condensed_constraints = condense_constraints(self.mappings.get(stream))
 
-            # create filter block from each constraint
-            for constraint in condensed_constraints:
+            # Generate filter blocks from each constraint and concatenate them
+            for serialised_constraints, corresponding_stashes in condensed_constraints.items():
                 filter_block = "begin\n"
-                for k, val in constraint["constraint"].items():
-                    if k == "stash":
-                        stashes = []
-                        for stash_code in val:
-                            stashes.append(get_stash(stash_code))
-                            stash_codes.add(get_stash(stash_code).lstrip("0"))
-                        
-                        stash_values = ",".join(map(str, stashes))
-                        filter_block += f" stash=({stash_values})\n" if len(stashes) > 1 else f" stash={stash_values}\n"
+                # write each constraint to the filter block
+                deserialised_constraint_attributes = json.loads(serialised_constraints)
+                for key, value in deserialised_constraint_attributes.items():
+                    if isinstance(value, list):
+                        value ='(' + ', '.join(map(str, value)) + ')'
+                    filter_block += (f" {key}={str(value)}\n")
 
-                    else:
-                        if isinstance(val, list):
-                            val = tuple(val)
-                        filter_block += " {}={}\n".format(
-                            k, val)
+                # format and collate corresponding stash codes
+                stashes = []
+                stashes.extend(get_stash(unformatted_stash).lstrip("0") for unformatted_stash in corresponding_stashes)
+                stash_codes.update(stashes)
+                stash_values = ",".join(map(str, stashes))
+                filter_block += f" stash=({stash_values})\n" if len(stashes) > 1 else f" stash={stash_values}\n"
 
                 filter_block += "end\n"
                 self.filters[stream] += filter_block
