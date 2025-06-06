@@ -302,10 +302,10 @@ class Filters(object):
                     filter_msg.append(var)
 
                 
-            #condense duplicated constraints
+            # condense duplicated constraints in stream
             condensed_constraints = condense_constraints(self.mappings.get(stream))
 
-            # Generate filter blocks from each constraint and concatenate them
+            # generate filter blocks from each constraint and concatenate them
             for serialised_constraints, corresponding_stashes in condensed_constraints.items():
                 filter_block = "begin\n"
                 # write each constraint to the filter block

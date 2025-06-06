@@ -1102,7 +1102,7 @@ def condense_constraints(variable_constraints) ->dict[set]:
 
     Returns
     -------
-    stash_values_dict : collections.defaultdict[set]
+    condensed_constraints : collections.defaultdict[set]
         A defaultdict where the keys are hashed representations of constraints and the 
         values are sets of 'stash' values corresponding to those constraints.
     """
