@@ -246,7 +246,7 @@ def _check_variable_match(match, variable_str, pattern):
         raise ValueError(message)
 
 
-def retrieve_file_paths(mip_approved_variables: List[Dict[str, str]], request: Request) -> List[str]:
+def retrieve_file_paths(mip_approved_variables: List[Dict[str, str]], request: Request) -> list[dict[str, str]]:
     """
     Return the full paths to the |output netCDF files| for the |MIP requested variables| specified
     by ``mip_requested_variables``.
