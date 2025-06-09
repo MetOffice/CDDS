@@ -12,8 +12,6 @@ import os
 import subprocess
 import re
 import json
-from copy import copy
-import hashlib
 from collections import defaultdict
 from operator import itemgetter
 from cdds.extract.constants import (NUM_PP_HEADER_LINES, TIME_REGEXP, MAX_MOOSE_LOG_MESSAGE,
@@ -1088,9 +1086,9 @@ def get_streamtype(stream: str) -> str:
         return STREAMTYPE_NC
 
 
-def condense_constraints(variable_constraints) ->dict[set]:
+def condense_constraints(variable_constraints) -> dict[set]:
     """
-    Processes a list of dictionaries containing constraints and condenses them by 
+    Processes a list of dictionaries containing constraints and condenses them by
     grouping instances where multiple stash codes correspond to the same constraint
     attributes.
 
@@ -1103,11 +1101,11 @@ def condense_constraints(variable_constraints) ->dict[set]:
     Returns
     -------
     condensed_constraints : collections.defaultdict[set]
-        A defaultdict where the keys are hashed representations of constraints and the 
+        A defaultdict where the keys are hashed representations of constraints and the
         values are sets of 'stash' values corresponding to those constraints.
     """
     condensed_constraints = defaultdict(set)
-    
+
     for variable in variable_constraints:
         for constraint in variable["constraint"]:
             if "stash" in constraint:

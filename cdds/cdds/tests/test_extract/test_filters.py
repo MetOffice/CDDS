@@ -310,7 +310,6 @@ class TestFilters(unittest.TestCase):
 
     @patch("cdds.extract.filters.ModelToMip.mass_filters")
     def test_skipping_nc_variables_in_filters(self, mock_mass_filters):
-        self.maxDiff = None
         filters = Filters(var_list=self.VAR_LIST)
         model_to_mip_response = {
             "ap5": [

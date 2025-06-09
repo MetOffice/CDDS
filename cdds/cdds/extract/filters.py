@@ -301,7 +301,6 @@ class Filters(object):
                 elif var["status"] in ["ok", "embargoed"]:
                     filter_msg.append(var)
 
-                
             # condense duplicated constraints in stream
             condensed_constraints = condense_constraints(self.mappings.get(stream))
 
@@ -312,7 +311,7 @@ class Filters(object):
                 deserialised_constraint_attributes = json.loads(serialised_constraints)
                 for key, value in deserialised_constraint_attributes.items():
                     if isinstance(value, list):
-                        value ='(' + ', '.join(map(str, value)) + ')'
+                        value = '(' + ', '.join([str(v) for v in value]) + ')'
                     filter_block += (f" {key}={str(value)}\n")
 
                 # format and collate corresponding stash codes
