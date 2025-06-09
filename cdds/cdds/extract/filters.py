@@ -12,6 +12,7 @@ from collections import defaultdict
 from operator import itemgetter
 from typing import Dict, List, Tuple
 from metomi.isodatetime.data import TimePoint
+import json
 
 from cdds.common import netCDF_regexp, generate_datestamps_pp
 from cdds.common.mappings.mapping import ModelToMip
@@ -20,7 +21,7 @@ from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
 from cdds.extract.constants import MOOSE_CALL_LIMIT
 from cdds.extract.common import (check_moo_cmd, chunk_by_files_and_tapes, fetch_filelist_from_mass, get_streamtype,
-                                 get_stash, get_tape_limit, run_moo_cmd)
+                                 get_stash, get_tape_limit, run_moo_cmd,  condense_constraints)
 from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES, STREAMTYPE_PP, STREAMTYPE_NC
 
 
@@ -300,26 +301,28 @@ class Filters(object):
                 elif var["status"] in ["ok", "embargoed"]:
                     filter_msg.append(var)
 
-                    # create filter block from constraint
-                    for constraint in var["constraint"]:
-                        filter_block = "begin\n"
-                        for k, val in constraint.items():
-                            if k == "stash":
-                                filter_block += " {}={}\n".format(
-                                    k, get_stash(val))
-                                stash_codes.add(get_stash(val).lstrip("0"))
-                            else:
-                                if isinstance(val, list):
-                                    val = tuple(val)
-                                filter_block += " {}={}\n".format(
-                                    k, val)
+            # condense duplicated constraints in stream
+            condensed_constraints = condense_constraints(self.mappings.get(stream))
 
-                        filter_block += "end\n"
-                        self.filters[stream] += filter_block
-                else:
-                    filter_msg_exc.append(
-                        {"name": var["name"], "table": var["table"],
-                         "reason": "filter status invalid"})
+            # generate filter blocks from each constraint and concatenate them
+            for serialised_constraints, corresponding_stashes in condensed_constraints.items():
+                filter_block = "begin\n"
+                # write each constraint to the filter block
+                deserialised_constraint_attributes = json.loads(serialised_constraints)
+                for key, value in deserialised_constraint_attributes.items():
+                    if isinstance(value, list):
+                        value = '(' + ', '.join([str(v) for v in value]) + ')'
+                    filter_block += (f" {key}={str(value)}\n")
+
+                # format and collate corresponding stash codes
+                stashes = []
+                stashes.extend(get_stash(unformatted_stash).lstrip("0") for unformatted_stash in corresponding_stashes)
+                stash_codes.update(stashes)
+                stash_values = ",".join(map(str, stashes))
+                filter_block += f" stash=({stash_values})\n" if len(stashes) > 1 else f" stash={stash_values}\n"
+
+                filter_block += "end\n"
+                self.filters[stream] += filter_block
 
         # sort variables in filter missing filter lists
         filter_msg = sorted(filter_msg, key=lambda y: y["name"])

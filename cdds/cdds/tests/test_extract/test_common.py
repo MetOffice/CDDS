@@ -10,9 +10,10 @@ import os
 import shutil
 import pytest
 from unittest.mock import patch
+import builtins
 from cdds.extract.common import (
     validate_stash_fields, validate_netcdf, check_moo_cmd, calculate_period, FileContentError,
-    StreamValidationResult, create_dir, build_mass_location, chunk_by_files_and_tapes)
+    StreamValidationResult, create_dir, build_mass_location, chunk_by_files_and_tapes, condense_constraints)
 from cdds.tests.test_common.common import create_simple_netcdf_file
 from cdds.tests.test_extract.common import break_netcdf_file, init_defaultdict
 from cdds.tests.test_extract.constants import (
@@ -331,6 +332,51 @@ class TestChunkByFilesAndTapes(unittest.TestCase):
             ['t8_file20']
         ]
         self.assertEqual(expected_fileset, chunk_by_files_and_tapes(self.tapes_dict, tape_limit, file_limit))
+
+
+class TestCondenseStashes(unittest.TestCase):
+
+    def test_condense_constraints(self):
+        constraint = [
+            {
+                "constraint": [
+                    {
+                        "lbproc": 128,
+                        "lbtim_ia": 1,
+                        "lbtim_ib": 2,
+                        "stash": "m01s50i063"
+                    },
+                    {
+                        "lbproc": 128,
+                        "lbtim_ia": 1,
+                        "lbtim_ib": 2,
+                        "stash": "m01s34i055"
+                    }
+                ],
+                "name": "cfc11global",
+                "status": "ok",
+                "table": "Amon"
+            }
+        ]
+        constraint_without_attributes = [
+            {
+                "constraint": [
+                    {
+                        "stash": "m01s00i033"
+                    }
+                ]
+            }
+        ]
+        condensed_constraints = condense_constraints(constraint)
+        constraint_constraint_without_attributes = condense_constraints(constraint_without_attributes)
+        self.assertEqual(
+            condensed_constraints,
+            {'{"lbproc": 128, "lbtim_ia": 1, "lbtim_ib": 2}': {'m01s34i055', 'm01s50i063'}}
+        )
+        self.assertEqual(
+            constraint_constraint_without_attributes,
+            {'{}': {'m01s00i033'}}
+        )
 
 
 if __name__ == "__main__":
