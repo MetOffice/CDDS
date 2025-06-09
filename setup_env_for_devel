@@ -19,11 +19,12 @@ else
     CONDA=${CDDS_HOME}/software/miniconda3/bin/activate
 fi
 
-if [ -f ${CONDA} ]; then
-    . ${CONDA} ${DEV_ENV}
-else
-    echo "Could not locate CDDS miniconda environment"
-fi
+conda activate mypy_errs1
+# if [ -f ${CONDA} ]; then
+#     . ${CONDA} ${DEV_ENV}
+# else
+#     echo "Could not locate CDDS miniconda environment"
+# fi
 
 for CDDS_PACKAGE in $CDDS_PACKAGES
 do
