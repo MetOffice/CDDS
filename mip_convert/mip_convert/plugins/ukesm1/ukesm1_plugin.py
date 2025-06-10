@@ -9,6 +9,7 @@ import os
 from typing import Dict, Any
 
 from mip_convert.plugins.base.base_plugin import BaseMappingPlugin
+from mip_convert.plugins.base.data.processors import *
 from mip_convert.plugins.ukesm1.data.processors import *
 
 
