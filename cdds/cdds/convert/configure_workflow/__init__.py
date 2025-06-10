@@ -9,6 +9,7 @@ from cdds.common import check_directory, configure_logger
 from cdds.common.cdds_files.cdds_directories import update_log_dir
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request, read_request
+from cdds.common.constants import PRINT_STACK_TRACE
 from cdds.configure.user_config import create_user_config_files
 from cdds.convert.arguments import ConvertArguments, add_user_config_data_files
 from cdds.convert.configure_workflow.calculate_isodatetimes import CalculateISODatetimes
@@ -40,7 +41,7 @@ def main_cdds_convert() -> int:
         exit_code = 0
     except BaseException as exception:
         logging.getLogger(__name__)
-        logging.critical(exception, exc_info=1)
+        logging.critical(exception, exc_info=PRINT_STACK_TRACE)
         exit_code = 1
     return exit_code
 

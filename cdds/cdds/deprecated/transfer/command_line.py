@@ -23,6 +23,7 @@ from cdds.deprecated.transfer.sim_review import do_sim_review
 from cdds.deprecated.transfer.state import known_states
 from cdds.deprecated.transfer.state_change import run_move_in_mass
 from cdds.deprecated.transfer.constants import KNOWN_RABBITMQ_QUEUES
+from cdds.common.constants import PRINT_STACK_TRACE
 
 PACKAGE = 'cdds.deprecated.transfer'
 COMPONENT = 'archive'
@@ -52,7 +53,7 @@ def main_move_in_mass(arguments: List[str] = None) -> int:
         run_move_in_mass(request, args)
         exit_code = 0
     except BaseException as exc:
-        logger.critical(exc, exc_info=1)
+        logger.critical(exc, exc_info=PRINT_STACK_TRACE)
         exit_code = 1
 
     return exit_code
@@ -126,7 +127,7 @@ def main_sim_review() -> int:
         exit_code = 0
     except BaseException as exc:
         exit_code = 1
-        logger.critical(exc, exc_info=1)
+        logger.critical(exc, exc_info=PRINT_STACK_TRACE)
     return exit_code
 
 
@@ -179,7 +180,7 @@ def main_list_queue() -> int:
         exit_code = 0
     except BaseException as exc:
         exit_code = 1
-        logger.critical(exc, exc_info=1)
+        logger.critical(exc, exc_info=PRINT_STACK_TRACE)
     return exit_code
 
 
@@ -211,5 +212,5 @@ def main_resend_failed_msg() -> int:
         exit_code = 0
     except BaseException as exc:
         exit_code = 1
-        logger.critical(exc, exc_info=1)
+        logger.critical(exc, exc_info=PRINT_STACK_TRACE)
     return exit_code

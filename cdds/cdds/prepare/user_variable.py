@@ -120,7 +120,7 @@ def list_all_variables(variables_file: str, mip_table_path: str) -> Dict[str, Di
     mt = UserMipTables(mip_table_path)
     variables_list = validate_variable_list(mt, variables_file)
 
-    variable_list_new = defaultdict(dict)
+    variable_list_new: Dict[str, Dict[str, UserDefinedVariable]] = defaultdict(dict)
     for table, variable, stream in variables_list:
         variable_list_new[table][variable] = UserDefinedVariable(table, variable, mip_table_path, stream)
 

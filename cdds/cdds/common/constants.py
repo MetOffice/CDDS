@@ -247,7 +247,7 @@ USER_CONFIG_OPTIONS = {
     },
 }
 VARIANT_LABEL_FORMAT = r'^r(\d+)i(\d+)p(\d+)f(\d+)$'
-PRINT_STACK_TRACE = 1
+PRINT_STACK_TRACE = True
 
 CYLC_PATHS = [r'\/net\/home\/h03\/fcm\/rose\-.+\/lib\/python', r'\/net\/home\/h03\/fcm\/cylc\-.+\/lib',
               r'\/apps\/contrib\/metomi\/rose\-.+\/lib\/python', r'\/apps\/contrib\/metomi\/cylc\-.+\/lib',

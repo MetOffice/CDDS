@@ -10,7 +10,7 @@ from cdds.common import configure_logger
 from cdds.request_transform.request_transform import transform_request
 
 
-def main_transform_request() -> None:
+def main_transform_request() -> int:
     """
     Transforms a request JSON into a request configuration with corresponding information.
     """

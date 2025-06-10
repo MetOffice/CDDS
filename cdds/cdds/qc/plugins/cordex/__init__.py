@@ -6,7 +6,7 @@ A plugin for regional models
 """
 from compliance_checker.base import BaseCheck, BaseNCCheck, Result
 from netCDF4 import Dataset
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 from cdds.common.mip_tables import MipTables
 from cdds.qc.plugins.base.common import CheckCache
@@ -93,8 +93,8 @@ class CordexCheck(BaseNCCheck):
         score = 1 if self.passed else 0
         return self._make_result(level, score, out_of, 'Cordex validator', self.__messages)
 
-    def _generate_attribute_dictionary(self, netcdf_file: Dataset) -> Dict[str, Any]:
-        attr_dict = {
+    def _generate_attribute_dictionary(self, netcdf_file: Dataset) -> Dict[str, Optional[str]]:
+        attr_dict: Dict[str, Optional[str]] = {
             "driving_experiment_id": None,
             "driving_variant_label": None,
             "version_realization": None,

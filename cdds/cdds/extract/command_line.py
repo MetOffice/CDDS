@@ -279,7 +279,7 @@ def symlink_files(links,  input_dir):
             print('\t{} exists, skipping...'.format(os.path.basename(filename)))
 
 
-def identify_files(search_dir, jobid):
+def identify_files(search_dir: str, jobid: str) -> list[tuple[str, str, str, str]]:
     """
     Identify files in the search directory that correspond to the workflow
     being processed
@@ -311,7 +311,7 @@ def identify_files(search_dir, jobid):
         },
     }
 
-    links: list[tuple[str, str, str, str]] = []
+    links: list = []
 
     for root, _, files in os.walk(search_dir):
         for file in files:

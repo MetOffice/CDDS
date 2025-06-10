@@ -137,7 +137,7 @@ class VariableParameters(object):
                 self._request.common.mip_table_dir, self._request.data.variable_list_file))
 
         variables = list_all_variables(self._request.data.variable_list_file, self._request.common.mip_table_dir)
-        metadata = {}
+        metadata: Dict[str, str] = {}
         return variables, metadata
 
     def _retrieve_model_suite_variables(self) -> Dict[str, List[str]]:

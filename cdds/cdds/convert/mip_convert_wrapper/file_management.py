@@ -239,7 +239,7 @@ def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
     else:
         for stream_fname, cycle_fname in zip(all_files, cycle_dirs):
             try:
-                file_dict = filename_processor(stream_fname, stream, file_pattern, model_id, calendar)
+                file_dict = filename_processor(stream_fname, stream, file_pattern, model_id)
                 file_in_substream = (substream == '' or substream in file_dict['filename'])
                 if (file_in_substream and
                         (period_start <= file_dict['start'] <= period_end or

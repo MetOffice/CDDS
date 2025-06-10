@@ -26,8 +26,8 @@ dependencies:
   - nccmp=1.9.1.0
   - nco=5.3.2
   - numpy=1.24.4
-  - mypy=0.981
-  - mypy_extensions=0.4.3
+  - mypy
+  - mypy_extensions
   - myst-parser=0.18.1
   - netcdf4=1.6.4
   - pandas=2.0.3
@@ -53,4 +53,4 @@ variables:
     CYLC_VERSION: 8
     LC_ALL: en_GB.UTF-8
     TZ: UTC
-prefix: $CDDS_HOME/conda_environments/cdds-dev
+# prefix: $CDDS_HOME/conda_environments/cdds-dev

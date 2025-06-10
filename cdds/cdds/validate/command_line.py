@@ -9,6 +9,7 @@ from typing import List
 from argparse import Namespace, ArgumentParser, ArgumentDefaultsHelpFormatter
 
 from cdds.common import configure_logger
+from cdds.common.constants import PRINT_STACK_TRACE
 from cdds.validate.request_validations import do_request_validations
 from cdds.validate.model_params_validations import do_model_params_validations
 
@@ -35,7 +36,7 @@ def run_request_validations(arguments: List[str] = None) -> int:
         do_request_validations(args.request)
         return 0
     except BaseException as exc:
-        logger.exception(exc, exc_info=1)
+        logger.exception(exc, exc_info=PRINT_STACK_TRACE)
         return 1
 
 
@@ -78,7 +79,7 @@ def run_model_params_validations(arguments: List[str] = None) -> int:
         valid = do_model_params_validations(args.request)
         return 0 if valid else 1
     except BaseException as exc:
-        logger.exception(exc, exc_info=1)
+        logger.exception(exc, exc_info=PRINT_STACK_TRACE)
         return 1
 
 

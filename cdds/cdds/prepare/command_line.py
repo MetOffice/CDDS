@@ -14,6 +14,7 @@ from typing import List
 from cdds.common import configure_logger, check_directory
 from cdds.common.cdds_files.cdds_directories import update_log_dir
 from cdds.common.request.request import read_request
+from cdds.common.constants import PRINT_STACK_TRACE
 
 from cdds import __version__
 from cdds.prepare.alter import alter_variable_list, select_variables
@@ -55,7 +56,7 @@ def main_create_cdds_directory_structure(arguments: List[str] = None):
         create_cdds_directory_structure(args)
         exit_code = 0
     except BaseException as exc:
-        logger.critical(exc, exc_info=1)
+        logger.critical(exc, exc_info=PRINT_STACK_TRACE)
         exit_code = 1
 
     return exit_code
@@ -97,7 +98,7 @@ def main_generate_variable_list(arguments: List[str] = None) -> int:
         generate_variable_list(args)
         return 0
     except BaseException as exc:
-        logger.exception(exc, exc_info=1)
+        logger.exception(exc, exc_info=PRINT_STACK_TRACE)
         return 1
 
 
