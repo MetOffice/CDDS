@@ -8,7 +8,7 @@ import os
 
 from argparse import Namespace
 from netCDF4 import Dataset
-from typing import Tuple, List
+from typing import Tuple, List, Union
 
 from cdds.common import configure_logger, check_directory
 from cdds.common.cdds_files.cdds_directories import component_directory, output_data_directory
@@ -108,16 +108,16 @@ def parse_args(arguments: List[str]) -> Tuple[Namespace, Request]:
         '-o', '--output_dir', default=None, help=(
             'The full path to the directory where the output files will be '
             'written.'))
-    arguments = parser.parse_args(user_arguments)
+    parsed_args = parser.parse_args(user_arguments)
 
-    request = read_request(arguments.request)
+    request = read_request(parsed_args.request)
     # Validate the arguments.
-    if not request.misc.use_proc_dir and arguments.output_dir is not None:
-        arguments.output_dir = check_directory(arguments.output_dir)
+    if not request.misc.use_proc_dir and parsed_args.output_dir is not None:
+        parsed_args.output_dir = check_directory(parsed_args.output_dir)
     elif not request.misc.use_proc_dir:
         parser.error('Please specify the output directory or use_proc_dir option in request cfg file')
 
-    return arguments, request
+    return parsed_args, request
 
 
 def run_and_report(args: Namespace, request: Request) -> dict:  # TODO: kerstin correct return type hint
@@ -143,6 +143,8 @@ def run_and_report(args: Namespace, request: Request) -> dict:  # TODO: kerstin 
     mip_table_dir = request.common.mip_table_dir
 
     mip_tables = MipTables(mip_table_dir)
+
+    ds: Union[CordexDataset, Cmip6Dataset]
 
     if request.common.force_plugin == 'CORDEX':
         ds = CordexDataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
