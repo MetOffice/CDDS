@@ -1,0 +1,2140 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Add a Variable Mapping - Climate Data Dissemination System</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#variable-mappings-for-cdds" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Climate Data Dissemination System" class="md-header__button md-logo" aria-label="Climate Data Dissemination System" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Climate Data Dissemination System
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Add a Variable Mapping
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../operational_procedure/" class="md-tabs__link">
+      Operational Procedures
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../quickstart/" class="md-tabs__link md-tabs__link--active">
+        Tutorials
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../developer_documentation/" class="md-tabs__link">
+      Developer Documentation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../cdds_components/" class="md-tabs__link">
+      CDDS Components
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../reference" class="md-tabs__link">
+      API Documentation
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Climate Data Dissemination System" class="md-nav__button md-logo" aria-label="Climate Data Dissemination System" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Climate Data Dissemination System
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_cdds/" class="md-nav__link">
+        Changelog (CDDS)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_mip_convert/" class="md-nav__link">
+        Changelog (Mip Convert)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../operational_procedure/">Operational Procedures</a>
+          
+            <label for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Operational Procedures" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Operational Procedures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/cmip6/" class="md-nav__link">
+        CMIP6 and CMIP6 Plus
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../operational_procedure/gcmodeldev/">GCModelDev</a>
+          
+            <label for="__nav_2_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="GCModelDev" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          GCModelDev
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/gcmodeldev_examples/HadGEM3-GC31-LL/" class="md-nav__link">
+        GCModelDev HadGEM3-GC31-LL Request
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/gcmodeldev_examples/HadGEM3-GC31-LL_envs/" class="md-nav__link">
+        GCModelDev HadGEM3-GC31-LL ensemble class Request
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/gcmodeldev_examples/HadGEM3-GC31-MM/" class="md-nav__link">
+        GCModelDev HadGEM3-GC31-MM Request
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/gcmodeldev_examples/UKESM1-0-LL/" class="md-nav__link">
+        GCModelDev UKESM1-0-LL Request
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/sim_review/" class="md-nav__link">
+        Simulation Review Procedure
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Tutorials
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Tutorials" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Tutorials
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        Quickstart
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../search_inventory/" class="md-nav__link">
+        Search Inventory
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Add a Variable Mapping
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Add a Variable Mapping
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variable-mappings-for-cdds" class="md-nav__link">
+    Variable Mappings for CDDS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapping-plugins" class="md-nav__link">
+    Mapping Plugins
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapping-hierarchy" class="md-nav__link">
+    Mapping Hierarchy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-to-mip-mapping-configuration-files" class="md-nav__link">
+    Model to MIP Mapping Configuration Files
+  </a>
+  
+    <nav class="md-nav" aria-label="Model to MIP Mapping Configuration Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-default-section" class="md-nav__link">
+    The [DEFAULT] Section
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-common-section" class="md-nav__link">
+    The [COMMON] Section
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-variable-name-sections" class="md-nav__link">
+    The [variable name] Section(s)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constructing-an-expression" class="md-nav__link">
+    Constructing an Expression
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-add-a-new-model-to-mip-mapping" class="md-nav__link">
+    How to Add a New Model to MIP mapping
+  </a>
+  
+    <nav class="md-nav" aria-label="How to Add a New Model to MIP mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-information" class="md-nav__link">
+    Required Information
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find-the-right-configuration-file" class="md-nav__link">
+    Find the right configuration file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-the-model-to-mip-mapping-to-the-appropriate-configuration-file" class="md-nav__link">
+    Add the model to MIP mapping to the appropriate configuration file.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-the-model-to-mip-mapping" class="md-nav__link">
+    Test the Model to MIP Mapping
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_mapping_plugin/" class="md-nav__link">
+        Add a Mapping Plugin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_plugin/" class="md-nav__link">
+        Add a Plugin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mip_convert/" class="md-nav__link">
+        MIP Convert User Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_7" type="checkbox" id="__nav_3_7" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../request/config_request/">Request Configuration</a>
+          
+            <label for="__nav_3_7">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Request Configuration" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_7">
+          <span class="md-nav__icon md-icon"></span>
+          Request Configuration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/inheritance/" class="md-nav__link">
+        Inheritance Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/metadata/" class="md-nav__link">
+        Metadata Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/common/" class="md-nav__link">
+        Common Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/data/" class="md-nav__link">
+        Data Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/inventory/" class="md-nav__link">
+        Inventory Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/conversion/" class="md-nav__link">
+        Conversion Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/global_attributes/" class="md-nav__link">
+        Global Attributes Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../request/misc/" class="md-nav__link">
+        Misc Section
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../json_model_parameter/" class="md-nav__link">
+        Model Parameters JSON File
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../developer_documentation/">Developer Documentation</a>
+          
+            <label for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Developer Documentation" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Documentation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Deployment" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/release_procedure/" class="md-nav__link">
+        Release Procedure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/cdds_installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/infrastructure/" class="md-nav__link">
+        Infrastructure
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../developer_documentation/development_practices/">Development Practices</a>
+          
+            <label for="__nav_4_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Development Practices" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Development Practices
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/coding_guidelines/" class="md-nav__link">
+        Coding Guidelines
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/development_workflow/" class="md-nav__link">
+        Development Workflow
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/review_process/" class="md-nav__link">
+        Review Process
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/github/" class="md-nav__link">
+        Working with Github and Git
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/jira/" class="md-nav__link">
+        Working with Jira
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/managing_environments/" class="md-nav__link">
+        Managing Conda Environments
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/building_documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_3" type="checkbox" id="__nav_4_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_3">
+          Request
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Request" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_3">
+          <span class="md-nav__icon md-icon"></span>
+          Request
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/request/request/" class="md-nav__link">
+        Request Architecture
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_4" type="checkbox" id="__nav_4_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_4">
+          Testing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Testing" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_4">
+          <span class="md-nav__icon md-icon"></span>
+          Testing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/unittests/" class="md-nav__link">
+        Unit Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/pytest/" class="md-nav__link">
+        Pytest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/nightly_tests/" class="md-nav__link">
+        Nightly Tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/mip_convert_functional_tests/" class="md-nav__link">
+        Mip Convert Functional Tests
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_5" type="checkbox" id="__nav_4_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_5">
+          Mapping Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Mapping Plugins" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Mapping Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/mapping_plugins/available_mapping_plugins/" class="md-nav__link">
+        Available Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/mapping_plugins/mapping_plugin_framework/" class="md-nav__link">
+        Mapping Plugin Framework
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_6" type="checkbox" id="__nav_4_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_6">
+          Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Plugins" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_6">
+          <span class="md-nav__icon md-icon"></span>
+          Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/plugins/available_plugins/" class="md-nav__link">
+        Available Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/plugins/plugin_framework/" class="md-nav__link">
+        Plugin Framework
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../cdds_components/">CDDS Components</a>
+          
+            <label for="__nav_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="CDDS Components" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          CDDS Components
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/convert/" class="md-nav__link">
+        convert
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/extract/" class="md-nav__link">
+        extract
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/qc/" class="md-nav__link">
+        qc
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/transfer/" class="md-nav__link">
+        transfer
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference" class="md-nav__link">
+        API Documentation
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variable-mappings-for-cdds" class="md-nav__link">
+    Variable Mappings for CDDS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapping-plugins" class="md-nav__link">
+    Mapping Plugins
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapping-hierarchy" class="md-nav__link">
+    Mapping Hierarchy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-to-mip-mapping-configuration-files" class="md-nav__link">
+    Model to MIP Mapping Configuration Files
+  </a>
+  
+    <nav class="md-nav" aria-label="Model to MIP Mapping Configuration Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-default-section" class="md-nav__link">
+    The [DEFAULT] Section
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-common-section" class="md-nav__link">
+    The [COMMON] Section
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-variable-name-sections" class="md-nav__link">
+    The [variable name] Section(s)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constructing-an-expression" class="md-nav__link">
+    Constructing an Expression
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-add-a-new-model-to-mip-mapping" class="md-nav__link">
+    How to Add a New Model to MIP mapping
+  </a>
+  
+    <nav class="md-nav" aria-label="How to Add a New Model to MIP mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-information" class="md-nav__link">
+    Required Information
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#find-the-right-configuration-file" class="md-nav__link">
+    Find the right configuration file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-the-model-to-mip-mapping-to-the-appropriate-configuration-file" class="md-nav__link">
+    Add the model to MIP mapping to the appropriate configuration file.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-the-model-to-mip-mapping" class="md-nav__link">
+    Test the Model to MIP Mapping
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Add a Variable Mapping</h1>
+
+<h2 id="variable-mappings-for-cdds">Variable Mappings for <abbr title="Climate Data Dissemination System">CDDS</abbr></h2>
+<p>The following pages are constructed from the Mappings held in <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> convert:</p>
+<ul>
+<li><a href="https://code.metoffice.gov.uk/doc/cdds/mappings_viewer/mappings_view_UKESM1.html">UKESM1 Mappings</a></li>
+<li><a href="https://code.metoffice.gov.uk/doc/cdds/mappings_viewer/mappings_view_HadGEM3.html">HadGEM3 Mappings</a></li>
+</ul>
+<h2 id="mapping-plugins">Mapping Plugins</h2>
+<p>The mappings within <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert are managed by the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert mapping plugins. Each base model (e.g. <code>UKESM1</code> or 
+<code>HadGEM3</code>) has its own plugin containing the corresponding mapping configuration files.</p>
+<p>The mapping plugin is used specified in the <code>request</code> section of the <code>mip_convert.cfg</code> file, see: <a href="../mip_convert/"><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> convert documentation</a></p>
+<h2 id="mapping-hierarchy">Mapping Hierarchy</h2>
+<p>The mappings within mapping plugins are arranged in a hierarchy with names in the following forms</p>
+<ol>
+<li><code>&lt;base_model&gt;_mappings.cfg</code></li>
+<li><code>&lt;base_model&gt;_&lt;mip_table&gt;_mappings.cfg</code></li>
+</ol>
+<p>where <code>&lt;base_model&gt;</code> refers to the section of the model id before the first dash <code>-</code>, e.g. <code>"UKESM1"</code> or <code>"HadGEM3"</code>. </p>
+<p>Mappings in files furthest down this list overload those specified in files at the top.</p>
+<h2 id="model-to-mip-mapping-configuration-files">Model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Mapping Configuration Files</h2>
+<p>Each of the above model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping configuration files contains the following sections.</p>
+<ol>
+<li><code>[DEFAULT]</code></li>
+<li><code>[COMMON]</code></li>
+<li><code>[variable name]</code></li>
+</ol>
+<h3 id="the-default-section">The <code>[DEFAULT]</code> Section</h3>
+<p>The <code>[DEFAULT]</code> section contains options that are propagated to
+all other sections. This is useful for setting a default value for a option for
+all sections. A value provided for the same option in any other section will be
+used for that section over the default value defined in the
+<code>[DEFAULT]</code> section. </p>
+<h3 id="the-common-section">The <code>[COMMON]</code> Section</h3>
+<p>The <code>[COMMON]</code> section contains options that may be used by other
+sections by using the syntax <code>${COMMON:&lt;option&gt;}</code>. This is useful for setting
+values for comments or notes that would otherwise be repeated multiple times in
+the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping configuration files.</p>
+<h3 id="the-variable-name-sections">The <code>[variable name]</code> Section(s)</h3>
+<p>The <code>[variable name]</code> sections provide the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping corresponding to the specified <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable.</p>
+<p><strong>The following options are required:</strong></p>
+<table>
+<thead>
+<tr>
+<th><div style="width:110px">Required Options</div></th>
+<th>Description</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dimension</code></td>
+<td>The dimensions of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>expression</code></td>
+<td>The expression required to convert the input variable / input variables to the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>mip_table_id</code></td>
+<td>A space-separated list of <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table identifiers that the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping is valid for.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>positive</code></td>
+<td>The direction of a vertical energy (heat) flux or surface momentum flux (stress) input; use 'up' or 'down' depending on whether the direction is positive when it is directed upward or downward, respectively. This argument is required for vertical energy and salt fluxes, for flux correction fields, and for surface stress.</td>
+<td>[1]</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>The status of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable. Valid values are <code>ok</code> and <code>embargoed</code>.</td>
+<td>[2][3]</td>
+</tr>
+<tr>
+<td><code>units</code></td>
+<td>The units of the data of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable i.e., after the <code>expression</code> has been applied.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ol>
+<li>This information is used by <abbr title="Climate Model Output Rewriter">CMOR</abbr> to determine whether a sign change is necessary to make the data consistent with the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requirements. For more information, please see the <a href="https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_variable">cmor_variable</a> section in the <abbr title="Climate Model Output Rewriter">CMOR</abbr> Documentation.</li>
+<li>The <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variables are reviewed to ensure they have been produced correctly, <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variables that have not passed review will not be submitted to ESGF and so will not be available for other institutes to use.</li>
+<li>This is used by <abbr title="Climate Data Dissemination System">CDDS</abbr>, but does not affect <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert behaviour</li>
+</ol>
+</div>
+<p><strong>The following options are optional:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Optional Options</th>
+<th>Description</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>comment</code></td>
+<td>The details relating to the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping that should be written to the <abbr title="A netCDF file produced by CMOR that is compliant with the MIP specifications and contains a single MIP output variable from a single model and a single simulation.">output netCDF file</abbr>, e.g., to qualify the details of the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping, add health warnings,etc.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>notes</code></td>
+<td>Any details relating to the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping that should not be written to the <abbr title="A netCDF file produced by CMOR that is compliant with the MIP specifications and contains a single MIP output variable from a single model and a single simulation.">output netCDF file</abbr>, e.g., who added the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping, why, reasons for using this model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping over another in certain cases, any other special cases notes, etc.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>component</code></td>
+<td>A space-separated list of components that the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping is valid for.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>valid_min</code></td>
+<td>The minimum valid value for the data of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable; values in the data lower than this value are replaced with zero.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="constructing-an-expression">Constructing an Expression</h3>
+<p>Each input variable in an expression must contain one of the following:</p>
+<table>
+<thead>
+<tr>
+<th><div style="width:110px">Expression Items</div></th>
+<th>File Type</th>
+<th>Description</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stash</code></td>
+<td>PP</td>
+<td>LBUSER(4), <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> Code, see Chapter 4 (page 25) of UMDP F03</td>
+<td></td>
+</tr>
+<tr>
+<td><code>variable_name</code></td>
+<td><abbr title="Network Common Data Form">netCDF</abbr></td>
+<td>The name of the data variable in the <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> that is used to create the input variable.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<details class="example">
+<summary>Example 1. One to One Mapping</summary>
+<ul>
+<li><code>expression = m01s03i236</code></li>
+<li><code>expression = sitemptop</code></li>
+</ul>
+</details>
+<details class="example">
+<summary>Example 2a. Constants and Arithmetic</summary>
+<p>Expressions can use numerical values and constants (which must be written using
+upper case letters; constants are available in
+:mod:<code>mip_convert.process.constants</code>):</p>
+<ul>
+<li><code>expression = rain_ai * 100. * SECONDS_IN_DAY</code></li>
+</ul>
+</details>
+<details class="example">
+<summary>Example 2b. Constants and Arithmetic</summary>
+<p>For atmospheric tendency diagnostics, the atmospheric model timestep must be
+specified (the value of the atmospheric model timestep is obtained from the 
+<abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr>, please see the <code>request_section</code> in the
+<code>user_guide</code>):</p>
+<ul>
+<li><code>expression = m01s30i181 / ATMOS_TIMESTEP</code></li>
+</ul>
+</details>
+<details class="example">
+<summary>Example 3a. Constraints</summary>
+<p>To specify additional constraints, use square brackets:</p>
+<ul>
+<li><code>expression = m01s08i223[blev=0.05]</code></li>
+<li><code>expression = pbo[cell_methods=time: mean (interval: 120 s)]</code></li>
+</ul>
+</details>
+<details class="example">
+<summary>Example 3b. Constraints</summary>
+<p>Multiple values for a single constraint should be separated by spaces:</p>
+<ul>
+<li><code>expression = m01s30i201[blev=850.0 500.0 250.0]</code></li>
+</ul>
+</details>
+<details class="example">
+<summary>Example 3c. Constraints</summary>
+<p>Multiple constraints within the square brackets should be separated by commas:</p>
+<ul>
+<li><code>expression = m01s02i204[lbplev=4, lbtim=122]</code></li>
+</ul>
+</details>
+<details class="example">
+<summary>Example 4. Processor</summary>
+<p>In cases where it is not possible to describe the conversion of the
+input variable / input variables to the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable using a
+basic expression like the ones above, a function can be specified:</p>
+<ul>
+<li><code>expression = my_function_name(m01s03i236)</code></li>
+</ul>
+<p>The values of the arguments of the function must follow the same syntax as the
+basic expression.</p>
+</details>
+<p>The following constraints can currently be used in an <code>expression</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Expression Items</th>
+<th>File Type</th>
+<th>Description</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>blev</code></td>
+<td>PP</td>
+<td>BLEV, level, see Chapter 4 (page 26) of UMDP F03</td>
+<td></td>
+</tr>
+<tr>
+<td><code>cell_methods</code></td>
+<td><abbr title="Network Common Data Form">netCDF</abbr></td>
+<td>The <a href="https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#cell-methods">cell methods</a></td>
+<td></td>
+</tr>
+<tr>
+<td><code>depth</code></td>
+<td><abbr title="Network Common Data Form">netCDF</abbr></td>
+<td>Value of the depth coordinate</td>
+<td></td>
+</tr>
+<tr>
+<td><code>lbplev</code></td>
+<td>PP</td>
+<td>LBUSER(5), pseudo level, see Chapter 4 (page 25) of UMDP F03</td>
+<td></td>
+</tr>
+<tr>
+<td><code>lbproc</code></td>
+<td>PP</td>
+<td>LBPROC, processing code, see Chapter 4 (page 21) of UMDP F03</td>
+<td></td>
+</tr>
+<tr>
+<td><code>lbtim</code></td>
+<td>PP</td>
+<td>LBTIM, time indicator, see Chapter 4 (page 17) of UMDP F03</td>
+<td></td>
+</tr>
+<tr>
+<td><code>lbtim_ia</code></td>
+<td>PP</td>
+<td>IA component of LBTIM (sampling frequency)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-to-add-a-new-model-to-mip-mapping">How to Add a New Model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping</h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want to contribute your changes to <abbr title="Climate Data Dissemination System">CDDS</abbr> then you must follow the development workflow.
+See the <a href="../../developer_documentation/development_practices/">Developer Documentation</a> pages for guidance.</p>
+</div>
+<h3 id="required-information">Required Information</h3>
+<ol>
+<li>The <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable name and the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table identifier.</li>
+<li>The constraints, i.e., the data to be read from the <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> to create the input variables.</li>
+<li>An expression describing how to process the input variables to produce a <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> output variable.</li>
+<li>The units of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> output variable after the expression has been applied. It is not necessary to include the units 
+   in mappings used for <abbr title="Network Common Data Form">netCDF</abbr> <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> if the expression consists of a single constraint.</li>
+<li>The component, which is the domain.</li>
+</ol>
+<h3 id="find-the-right-configuration-file">Find the right configuration file</h3>
+<ol>
+<li>Find the corresponding mapping plugin for the model you want to add the mapping. All mappings plugins are located
+   in <code>mip_convert/plugins</code>. Each plugin has its own sub folder named by the base model name.</li>
+<li>Model to mapping configuration files are located in the <code>mip_convert/plugins/&lt;base_model_name&gt;/data</code>. The mapping
+   configuration files end with <code>_mappings.cfg</code>.</li>
+<li>If there is currently no entry for the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable name in the mapping configuration files, add the mapping 
+   to <code>&lt;base_model_name&gt;_mappgins.cfg</code>, e.g. <code>UKESM1_mappgins.cfg</code>.</li>
+<li>If there is already an entry in <code>&lt;base_model_name&gt;_mappings.cfg</code>, add the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping to the appropriate 
+   <code>&lt;base_model_name&gt;_&lt;mip_table_id&gt;_mappings.cfg</code>, e.g. <code>UKESM1_day_mappings.cfg</code> for a mapping for a <code>day</code> <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table.</li>
+<li>For multiple mappings for the same <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable name, any expressions containing <code>lbproc=128</code> should be 
+   added to <code>&lt;base_model_name&gt;_mappings.cfg</code>, while others should be added to the appropriate 
+   <code>&lt;base_model_name&gt;_&lt;mip_table_id&gt;_mappings.cfg</code> configuration file.</li>
+<li>If there are any issues, please ask Matthew Mizielinski.</li>
+</ol>
+<details class="tip">
+<summary>Searching for variable in mapping configuration files</summary>
+<p>You can use the grep command to search if a mapping for a variable is already defined:
+<div class="highlight"><pre><span></span><code>grep<span class="w"> </span>&lt;variable_name&gt;<span class="w"> </span>&lt;cdds_directory&gt;/mip_convert/mip_convert/plugins/&lt;lowercase_base_model_name&gt;/data/*_mappings.cfg
+</code></pre></div>
+For example: Searching in mappings for the variable <code>tas</code> in the <code>UKESM1</code>:
+<div class="highlight"><pre><span></span><code>grep tas &lt;cdds_directory&gt;/mip_convert/mip_convert/plugins/ukesm1/data/*_mappings.cfg
+</code></pre></div></p>
+</details>
+<h3 id="add-the-model-to-mip-mapping-to-the-appropriate-configuration-file">Add the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping to the appropriate configuration file.</h3>
+<ol>
+<li>The sections in the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping configuration files are the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable names and are listed in alphabetical order.</li>
+<li>If the expression continues beyond the 120 character line limit, add a new line before a binary operator, see PEP8.</li>
+<li>
+<p>If the expression contains a function and an appropriate function does not already exist, add the function to 
+   <code>mip_convert/plugins/&lt;base_model_name&gt;/data/processors.py</code>.</p>
+<p>The function:</p>
+<ol>
+<li>can have any number of arguments each corresponding to a cube.</li>
+<li>should work directly on the cube(s), i.e., do not make a copy of the cube(s) or the data.</li>
+<li>should not update the standard_name or long_name of the cube(s). The <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table contains this information 
+   and will be automatically added to the <abbr title="netCDF files produced by CMOR that are compliant with the MIP specifications and each contains a single MIP output variable from a single model and a single simulation.">output netCDF files</abbr> by <abbr title="Climate Model Output Rewriter">CMOR</abbr>.</li>
+<li>must return a single cube.</li>
+</ol>
+</li>
+</ol>
+<h3 id="test-the-model-to-mip-mapping">Test the Model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Mapping</h3>
+<p>Test and verify all mappings before submitting a pull request.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../search_inventory/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Search Inventory" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Search Inventory
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../add_mapping_plugin/" class="md-footer__link md-footer__link--next" aria-label="Next: Add a Mapping Plugin" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Add a Mapping Plugin
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.expand", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
