@@ -3,5 +3,5 @@
 from cdds.versions import get_version
 
 _DEV = True
-_NUMERICAL_VERSION = '3.1.0'
+_NUMERICAL_VERSION = '3.2.0'
 __version__ = get_version('cdds')
