@@ -5,5 +5,5 @@ include *.md
 include setup.cfg
 include pylintrc
 recursive-include etc *
-recursive-include mip_convert/process *.cfg
+recursive-include mip_convert/ *.cfg
 recursive-include mip_convert/tests *
