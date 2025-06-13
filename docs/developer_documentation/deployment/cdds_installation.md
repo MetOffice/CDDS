@@ -2,7 +2,7 @@
 
 === "On Azure (Met Office)"
 
-    - [x] Login to the `cdds` account (please see [Science Shared Accounts](http://www-twiki/Main/ScienceSharedAccounts) for more details):
+    - [x] Login to the `cdds` account.
           ```bash
           xsudo -u cdds bash -l
           ```

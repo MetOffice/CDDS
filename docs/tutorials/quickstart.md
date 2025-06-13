@@ -341,7 +341,7 @@ The following commands assume you are in the working directory created previousl
 
 === "JASMIN"
 
-    1. Once this command has completed you will then need to `ssh` into the Cylc server.
+    1. On Jasmin Cylc workflows must be launched from `cylc2.jasmin.ac.uk`.
         ```
         ssh <username>@cylc2.jasmin.ac.uk -XYA
         ```
