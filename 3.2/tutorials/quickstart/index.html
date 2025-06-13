@@ -238,7 +238,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../developer_documentation/" class="md-tabs__link">
+    <a href="../../developer_documentation/developer_documentation/" class="md-tabs__link">
       Developer Documentation
     </a>
   </li>
@@ -646,13 +646,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#adapting-the-request" class="md-nav__link">
-    Adapting the Request
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#useful-configuration-options" class="md-nav__link">
     Useful Configuration Options
   </a>
@@ -661,22 +654,22 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#adding-more-variables" class="md-nav__link">
-    Adding More Variables
+  <a href="#how-do-i-add-more-output-variables" class="md-nav__link">
+    How do I add more output variables?
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#relaxed-and-strict-modes" class="md-nav__link">
-    Relaxed and Strict Modes
+  <a href="#how-do-i-process-data-with-arbitrary-metadata-eg-custom-experiment-names" class="md-nav__link">
+    How do I process data with arbitrary metadata e.g. custom experiment names?
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#global-attributes" class="md-nav__link">
-    Global Attributes
+  <a href="#how-do-i-add-extra-global-attributes-to-my-netcdf-output" class="md-nav__link">
+    How do I add extra global attributes to my netCDF output?
   </a>
   
 </li>
@@ -962,7 +955,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../developer_documentation/">Developer Documentation</a>
+          <a href="../../developer_documentation/developer_documentation/">Developer Documentation</a>
           
             <label for="__nav_4">
               <span class="md-nav__icon md-icon"></span>
@@ -1644,13 +1637,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#adapting-the-request" class="md-nav__link">
-    Adapting the Request
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#useful-configuration-options" class="md-nav__link">
     Useful Configuration Options
   </a>
@@ -1659,22 +1645,22 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#adding-more-variables" class="md-nav__link">
-    Adding More Variables
+  <a href="#how-do-i-add-more-output-variables" class="md-nav__link">
+    How do I add more output variables?
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#relaxed-and-strict-modes" class="md-nav__link">
-    Relaxed and Strict Modes
+  <a href="#how-do-i-process-data-with-arbitrary-metadata-eg-custom-experiment-names" class="md-nav__link">
+    How do I process data with arbitrary metadata e.g. custom experiment names?
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#global-attributes" class="md-nav__link">
-    Global Attributes
+  <a href="#how-do-i-add-extra-global-attributes-to-my-netcdf-output" class="md-nav__link">
+    How do I add extra global attributes to my netCDF output?
   </a>
   
 </li>
@@ -1729,7 +1715,7 @@ The entire process can be roughly split into three parts.</p>
 </div>
 <h3 id="configuring-the-request">Configuring the Request</h3>
 <p>Running <abbr title="Climate Data Dissemination System">CDDS</abbr> requires the user to appropriately configure a <code>request.cfg</code> file (from here on simply referred to as the "request").
-This request is provided to many <code>cdds</code> commands as a positional argument and contains information ranging from <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> metadata, workflow configuration, ancilary paths, MASS locations, and more.
+This request is provided to many <code>cdds</code> commands as a positional argument and contains information ranging from <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> metadata, workflow configuration, ancillary paths, MASS locations, and more.
 Each option belongs to a particular section and is documented in <a href="../request/config_request/">Request Configuration</a>.</p>
 <details class="example">
 <summary>An Explicit Request Example Including Unused Fields</summary>
@@ -1856,6 +1842,7 @@ The highlighted lines in each request indicate fields that the user may need to 
 <span class="na">skip_configure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
 <span class="na">skip_qc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
 <span class="na">skip_archive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">mip_convert_plugin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">HadGEM3</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
@@ -1877,8 +1864,8 @@ The highlighted lines in each request indicate fields that the user may need to 
 <span class="na">mip_table_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$CDDS_ETC/mip_tables/GCModelDev/0.0.23</span>
 <span class="na">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">relaxed</span>
 <span class="na">package</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">round-1</span>
-<span class="hll"><span class="na">root_proc_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$DATADIR/cdds_quickstart_tutorial/proc</span>
-</span><span class="hll"><span class="na">root_data_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$DATADIR/cdds_quickstart_tutorial/data</span>
+<span class="hll"><span class="na">root_proc_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$HOME/cdds_quickstart_tutorial/proc</span>
+</span><span class="hll"><span class="na">root_data_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$HOME/cdds_quickstart_tutorial/data</span>
 </span>
 <span class="k">[data]</span>
 <span class="na">end_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1955-01-01T00:00:00Z</span>
@@ -1886,16 +1873,17 @@ The highlighted lines in each request indicate fields that the user may need to 
 <span class="na">start_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1950-01-01T00:00:00Z</span>
 <span class="na">model_workflow_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">u-bg466</span>
 <span class="na">streams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ap5</span>
-<span class="hll"><span class="na">variable_list_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$DATADIR/cdds_quickstart_tutorial/variables.txt</span>
+<span class="hll"><span class="na">variable_list_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$HOME/cdds_quickstart_tutorial/variables.txt</span>
 </span>
 <span class="k">[conversion]</span>
-<span class="na">skip_extract</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
-<span class="na">skip_extract_validation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
+<span class="na">skip_extract</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">skip_extract_validation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
 <span class="na">skip_configure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
 <span class="na">skip_qc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
 <span class="na">skip_archive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
 <span class="hll"><span class="na">jasmin_account</span><span class="w"> </span><span class="o">=</span>
-</span></code></pre></div>
+</span><span class="na">mip_convert_plugin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">HadGEM3</span>
+</code></pre></div>
 </div>
 </div>
 </div>
@@ -2038,24 +2026,17 @@ The file can be found in the <code>prepare</code> proc sub-directory.
 </div>
 <div class="tabbed-block">
 <ol>
-<li>Until a LOTUS2 MASS partition  is available the <code>cdds_extract</code> command must be run manually rather than within the workflow.
-    To access <code>mass</code> on JASMIN <code>ssh</code> into the MASS <code>mass-cli.jasmin.ac.uk</code> server.
-    <div class="highlight"><pre><span></span><code>ssh &lt;username&gt;@mass-cli.jasmin.ac.uk
+<li>On Jasmin Cylc workflows must be launched from <code>cylc2.jasmin.ac.uk</code>.
+    <div class="highlight"><pre><span></span><code>ssh &lt;username&gt;@cylc2.jasmin.ac.uk -XYA
+</code></pre></div></li>
+<li>You may need to <code>cd</code> back to the directory containing your <code>request.cfg</code>.
+    <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/cdds_quickstart_tutorial
 </code></pre></div></li>
 <li>Reactivate the <abbr title="Climate Data Dissemination System">CDDS</abbr> environment.
-    <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>/home/users/cdds/bin/setup_env_for_cdds<span class="w"> </span><span class="m">3</span>.1.2
-</code></pre></div></li>
-<li>You can then run extract. (Not applicable to this example, but if you are processing multiple <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> then these must be done individually e.g. <code>cdds_extract request.cfg -s ap5; cdds_extract request.cfg -s onm</code>)
-    <div class="highlight"><pre><span></span><code>cdds_extract request.cfg
-</code></pre></div></li>
-<li>Once this command has completed you will then need to <code>ssh</code> into the Cylc server
-    <code>exit
-    ssh &lt;username&gt;@cylc2.jasmin.ac.uk -XYA</code></li>
-<li>Reactivate the <abbr title="Climate Data Dissemination System">CDDS</abbr> environment.
-    <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>/home/users/cdds/bin/setup_env_for_cdds<span class="w"> </span><span class="m">3</span>.1.2
+    <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~cdds/bin/setup_env_for_cdds<span class="w"> </span><span class="m">3</span>.2.0
 </code></pre></div></li>
 <li>Launch the <code>cylc</code> conversion workflow.
-   <div class="highlight"><pre><span></span><code>cdds_convert request.cfg
+    <div class="highlight"><pre><span></span><code>cdds_convert request.cfg
 </code></pre></div></li>
 </ol>
 </div>
@@ -2084,29 +2065,34 @@ The <code>&lt;stream&gt;_concat</code> and <code>&lt;stream&gt;_mip_convert</cod
 </code></pre></div>
 <p>If you are running the example at the Met Office and you did <em>not</em> switch off archiving (e.g. <code>skip_archive = True</code>), then the CMORised output will also have been archived to <code>mass</code>.
 This will be stored in a location based on the request fields <code>output_mass_root</code> <code>output_mass_suffix</code> e.g., <code>moo ls moose:/adhoc/users/&lt;username&gt;/quickstart</code>.</p>
-<h2 id="adapting-the-request">Adapting the Request</h2>
-<p>If you are wanting to CMORise data for publication then you should follow the relevant Operational Procedure.</p>
 <h2 id="useful-configuration-options">Useful Configuration Options</h2>
 <p>What follows are some examples of options that are useful to be aware of but the list is not exhaustive.
 The full list of configuration options available in the request can be found in the <a href="../request/config_request/">Request Configuration</a> tutorial.</p>
-<h3 id="adding-more-variables">Adding More Variables</h3>
-<p>To process more variables you will first need to add the appropriate entry to the <code>variables.txt</code>.</p>
+<h3 id="how-do-i-add-more-output-variables">How do I add more output variables?</h3>
+<p>To process more variables you will need to add the appropriate entry to your <code>variables.txt</code> file.
+Each output variable must be specified on a separate line and follow the below format.</p>
 <div class="highlight"><pre><span></span><code>&lt;mip table&gt;/&lt;variable name&gt;:&lt;stream&gt;
 </code></pre></div>
-<p>If you have the <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> configuration then you can use the <code>stream_mappings</code> command to add the <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> field to each line for <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> variables that <abbr title="Climate Data Dissemination System">CDDS</abbr> has information for.</p>
-<div class="highlight"><pre><span></span><code>stream_mappings
+<p>If you do not know the <stream> for each variable and your model follows a typical <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> configuration, you can omit the <code>:&lt;stream&gt;</code> and use the <code>stream_mappings</code> command to add this information for you.</p>
+<div class="highlight"><pre><span></span><code>stream_mappings<span class="w"> </span>--varfile<span class="w"> </span>variables.txt<span class="w"> </span>--outfile<span class="w"> </span>vairables_with_streams.txt
 </code></pre></div>
-<h3 id="relaxed-and-strict-modes">Relaxed and Strict Modes</h3>
+<p>Finally, you must update the <code>streams</code> option in the <code>request.cfg</code> with the names of any additional <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr>.
+For example if you added a variable from the monthly ocean <code>onm</code> <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr>.</p>
+<div class="highlight"><pre><span></span><code><span class="k">[conversion]</span>
+<span class="na">streams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ap5 onm</span>
+</code></pre></div>
+<h3 id="how-do-i-process-data-with-arbitrary-metadata-eg-custom-experiment-names">How do I process data with arbitrary metadata e.g. custom <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> names?</h3>
 <p>The example <code>request.cfg</code> configuration given in this tutorial runs in "relaxed" mode.
 This allows the user to provide arbitrary metadata values that do not exist in the <abbr title="It is a pre-defined set of terms describing acceptable values for various quantities.">Controlled Vocabulary</abbr>, and is particularly useful for model development work.
 If you want to ensure that the metadata is consistent with the <abbr title="It is a pre-defined set of terms describing acceptable values for various quantities.">Controlled Vocabulary</abbr> you must change the mode to <code>strict</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="k">[common]</span>
 <span class="na">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">strict</span>
 </code></pre></div>
-<h3 id="global-attributes">Global Attributes</h3>
-<p>Arbitrary netcdf global attributes can be added to the CMORised files by adding entries to the <code>[netcdf_global_attributes]</code> section of the <abbr title="Information about a simulation used by all CDDS components.">request file</abbr> e.g.</p>
+<h3 id="how-do-i-add-extra-global-attributes-to-my-netcdf-output">How do I add extra global attributes to my <abbr title="Network Common Data Form">netCDF</abbr> output?</h3>
+<p>Arbitrary netcdf global attributes can be added to the CMORised files by adding a section <code>[netcdf_global_attributes]</code> to a <code>.request.cfg</code> file.
+Any key=value pairs in this section will be written out to every output netcdf file as global attributes..</p>
 <div class="highlight"><pre><span></span><code><span class="k">[netcdf_global_attributes]</span>
-<span class="na">ensemble</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="na">foo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">bar</span>
 </code></pre></div>
 <h3 id="i-dont-need-to-retrieve-data-from-mass-its-already-on-disk-how-do-i-use-it-with-cdds">I don't need to retrieve data from MASS it's already on disk, how do I use it with <abbr title="Climate Data Dissemination System">CDDS</abbr>?</h3>
 <p><abbr title="Climate Data Dissemination System">CDDS</abbr> provides a utitily script called <code>cdds_arrange_input_data</code> which will <code>symlink</code> the files you already have on disk to the appropriate directories.

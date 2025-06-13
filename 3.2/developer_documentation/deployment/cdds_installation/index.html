@@ -238,7 +238,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../" class="md-tabs__link md-tabs__link--active">
+    <a href="../../developer_documentation/" class="md-tabs__link md-tabs__link--active">
       Developer Documentation
     </a>
   </li>
@@ -843,7 +843,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../">Developer Documentation</a>
+          <a href="../../developer_documentation/">Developer Documentation</a>
           
             <label for="__nav_4">
               <span class="md-nav__icon md-icon"></span>
@@ -942,6 +942,13 @@
         <li class="md-nav__item">
   <a href="#ensure-all-the-tests-pass-in-the-real-live-environment" class="md-nav__link">
     Ensure all the tests pass in the 'real live environment'
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
   </a>
   
 </li>
@@ -1535,6 +1542,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    Troubleshooting
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1551,25 +1565,19 @@
 
 
 <h1 id="installation">Installation</h1>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">On Azure (Met Office)</label><label for="__tabbed_1_2">On Premise (Met Office)</label><label for="__tabbed_1_3">On Jasmin</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">On Azure (Met Office)</label><label for="__tabbed_1_2">On Jasmin</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This installation process requires a Conda installation of at least <code>v4.9</code>, earlier versions will raise errors around the setting of environment
-variables as part of the Conda environment creation commands</p>
-</div>
 <ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Login to the <code>cdds</code> account (please see <a href="http://www-twiki/Main/ScienceSharedAccounts">Science Shared Accounts</a> for more details):
-      <code>bash
-       xsudo -u cdds bash -l</code></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate Conda environment (to make installation quicker):
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Login to the <code>cdds</code> account.
+      <div class="highlight"><pre><span></span><code>xsudo<span class="w"> </span>-u<span class="w"> </span>cdds<span class="w"> </span>bash<span class="w"> </span>-l
+</code></pre></div></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate the base <code>conda</code> environment
       <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate
 </code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Obtain environment file:
-      <div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://github.com/MetOffice/CDDS/blob/&lt;tagname&gt;/environment.yml
-</code></pre></div>
-      or download it manually from Github.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Obtain the conda environment file
+      <div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/&lt;tagname&gt;/environment.yml
+</code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Update locations pointed to within the environment file:
       <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/&lt;location&gt;/X.Y.Z/&quot;</span><span class="w"> </span>environment.yml
 </code></pre></div></li>
@@ -1582,11 +1590,6 @@ variables as part of the Conda environment creation commands</p>
 <p class="admonition-title">Note</p>
 <p>This has been updated following the roll out of Conda to MO systems. If the <code>-p</code> option is omitted then the installation will end up 
 under <code>$HOME/.conda</code> and will not be visible to other users.</p>
-</div>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>If the <code>wheel</code> installation fails then you can end up with <code>#!python</code> rather than the full paths – this is known to be caused by not having 
-<code>_DEV</code> updated in the <abbr title="Identifiers indicating the phase of CDDS processing.">packages</abbr>, possibly due to tagging without pulling the release branch from the repository first</p>
 </div>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate environment and set <code>CDDS_ENV_COMMAND</code> variable:
@@ -1599,98 +1602,70 @@ conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> <
       <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>cdds-X.Y.Z
 conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_PLATFORM</span><span class="o">=</span>AZURE
 </code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Confirm environment variables:
-      <div class="highlight"><pre><span></span><code><span class="c1"># get out of cdds environment</span>
-conda<span class="w"> </span>deactivate
-<span class="c1"># load environment again</span>
-conda<span class="w"> </span>activate<span class="w"> </span>cdds-X.Y.Z
-<span class="c1"># print environment variables</span>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Confirm environment variables:
+      <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$CYLC_VERSION</span>
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$LC_ALL</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$TZ</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_PLATFORM</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_ETC</span>
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_ENV_COMMAND</span>
-<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_PARTITION</span>
-</code></pre></div>
-      You should see <code>en_GB.UTF-8</code> for <code>LC_ALL</code> plus the command 
-      set above for <code>CDDS_ENV_COMMAND</code> and the <code>CDDS_PARTITION</code>.</li>
-</ul>
-</div>
-<div class="tabbed-block">
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This installation process requires a Conda installation of at least <code>v4.9</code>, earlier versions will raise errors around the setting of environment
-variables as part of the Conda environment creation commands</p>
-</div>
-<ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Login to the <code>cdds</code> account (please see <a href="http://www-twiki/Main/ScienceSharedAccounts">Science Shared Accounts</a> for more details):
-      <code>bash
-       xsudo -u cdds bash -l</code></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate Conda mamba environment (to make installation quicker):
-      <div class="highlight"><pre><span></span><code>.<span class="w"> </span><span class="nv">$HOME</span>/software/miniconda3/bin/activate<span class="w"> </span>mamba
-</code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Obtain environment file:
-      <div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://github.com/MetOffice/CDDS/blob/&lt;tagname&gt;/environment.yml
-</code></pre></div>
-      or download it manually from Github.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Update locations pointed to within the environment file:
-      <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/&lt;location&gt;/X.Y.Z/&quot;</span><span class="w"> </span>environment.yml
-</code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create environment
-      <div class="highlight"><pre><span></span><code>mamba<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/software/miniconda3/envs/cdds-X.Y.Z
-</code></pre></div>
-      where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr></li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This has been updated following the roll out of Conda to MO systems. If the <code>-p</code> option is omitted then the installation will end up 
-under <code>$HOME/.conda</code> and will not be visible to other users.</p>
-</div>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>If the <code>wheel</code> installation fails then you can end up with <code>#!python</code> rather than the full paths – this is known to be caused by not having 
-<code>_DEV</code> updated in the <abbr title="Identifiers indicating the phase of CDDS processing.">packages</abbr>, possibly due to tagging without pulling the release branch from the repository first</p>
-</div>
-<ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate environment and set <code>CDDS_ENV_COMMAND</code> variable:
-      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>cdds-X.Y.Z
-conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_ENV_COMMAND</span><span class="o">=</span><span class="s2">&quot;source </span><span class="nv">$HOME</span><span class="s2">/software/miniconda3/bin/activate cdds-X.Y.Z&quot;</span>
-</code></pre></div>
-      where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr>
-      ```</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set platform in the <code>CDDS_PLATFORM</code> variable:
-      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>cdds-X.Y.Z
-conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_PLATFORM</span><span class="o">=</span>EXETER
-</code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Confirm environment variables:
-      <div class="highlight"><pre><span></span><code><span class="c1"># get out of cdds environment</span>
-conda<span class="w"> </span>deactivate
-<span class="c1"># load environment again</span>
-conda<span class="w"> </span>activate<span class="w"> </span>cdds-X.Y.Z
-<span class="c1"># print environment variables</span>
-<span class="nb">echo</span><span class="w"> </span><span class="nv">$LC_ALL</span>
-<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_ENV_COMMAND</span>
-<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_PARTITION</span>
-</code></pre></div>
-      You should see <code>en_GB.UTF-8</code> for <code>LC_ALL</code> plus the command 
-      set above for <code>CDDS_ENV_COMMAND</code> and the <code>CDDS_PARTITION</code>.</li>
+</code></pre></div></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$CYLC_VERSION</code></td>
+<td><code>8</code></td>
+</tr>
+<tr>
+<td><code>$LC_ALL</code></td>
+<td><code>en_GB.UTF-8</code></td>
+</tr>
+<tr>
+<td><code>$TZ</code></td>
+<td><code>UTC</code></td>
+</tr>
+<tr>
+<td><code>$CDDS_PLATFORM</code></td>
+<td><code>AZURE</code></td>
+</tr>
+<tr>
+<td><code>$CDDS_ETC</code></td>
+<td><code>$HOME/etc</code></td>
+</tr>
+<tr>
+<td><code>$CDDS_ENV_COMMAND</code></td>
+<td><code>$conda activate $HOME/conda_environments/cdds-3.2.0</code></td>
+</tr>
+</tbody>
+</table>
+</li>
 </ul>
 </div>
 <div class="tabbed-block">
 <ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Login to one of the JASMIN science <a href="https://help.jasmin.ac.uk/docs/interactive-computing/sci-servers/#available-sci-servers">servers</a> as the <code>cdds</code> user</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Login to one of the JASMIN <a href="https://help.jasmin.ac.uk/docs/interactive-computing/sci-servers/#available-sci-servers">sci-servers</a> as the <code>cdds</code> user.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate the <code>base</code> miniforge <code>conda</code> environment
       <div class="highlight"><pre><span></span><code>source $HOME/software/miniforge3/bin/activate
 </code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Obtain the conda environment file
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Obtain the conda environment file for the release.
       <div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/&lt;tagname&gt;/environment.yml
 </code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Update locations pointed to within the environment file (omitting the leading <code>v</code>)
       <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/&lt;location&gt;/X.Y.Z/&quot;</span><span class="w"> </span>environment.yml
 </code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create environment, where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr>
-      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
-</code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Uncomment the <code>cdds</code> and <code>mip_convert</code> python pip install lines.
       <div class="highlight"><pre><span></span><code><span class="w">  </span><span class="c1">#- git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v&lt;location&gt;#egg=cdds&amp;subdirectory=cdds</span>
 <span class="w">  </span><span class="c1">#- git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v&lt;location&gt;#egg=mip_convert&amp;subdirectory=mip_convert</span>
+</code></pre></div></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create environment, where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr>
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
 </code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>CDDS</code> variables making sure to replace <code>X.Y.Z</code> with the appropriate version number.
       <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_PLATFORM</span><span class="o">=</span>JASMIN
@@ -1751,6 +1726,10 @@ conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> <
 </div>
 </div>
 <h2 id="ensure-all-the-tests-pass-in-the-real-live-environment">Ensure all the tests pass in the 'real live environment'</h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Tests can only be run on Azure (Met Office).</p>
+</div>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> The tests must be executed as the <code>cdds</code> user</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the following environment variable, making sure to replace <code>X.Y.Z</code> with the relevant version.
@@ -1773,6 +1752,12 @@ pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR
 <p>Slow unit tests for <code>transfer</code> and <code>cdds_configure</code> will display error messages to standard output. This is intentional, 
 and does not indicate the tests fail (see <code>transfer.tests.test_command_line.TestMainStore.test_transfer_functional_failing_moo()</code> 
 for details).</p>
+</div>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>If the <code>wheel</code> installation fails then you can end up with <code>#!python</code> rather than the full paths – this is known to be caused by not having 
+  <code>_DEV</code> updated in the <abbr title="Identifiers indicating the phase of CDDS processing.">packages</abbr>, possibly due to tagging without pulling the release branch from the repository first</p>
 </div>
 
 
