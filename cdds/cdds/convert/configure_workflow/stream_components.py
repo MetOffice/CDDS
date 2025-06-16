@@ -63,7 +63,7 @@ class StreamComponents:
         )
         pattern_streams = re.compile(regex_streams)
 
-        self.stream_substreams = collections.defaultdict(dict)
+        self.stream_substreams: collections.defaultdict[str, dict[str, str]] = collections.defaultdict(dict)
 
         for component_fname, user_config in self.user_configs().items():
             streams_in_cfg = []

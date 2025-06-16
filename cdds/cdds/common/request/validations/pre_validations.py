@@ -7,12 +7,12 @@ from dataclasses import fields
 from metomi.isodatetime.parsers import TimePointParser
 from metomi.isodatetime.data import TimePoint
 from metomi.isodatetime.exceptions import ISO8601SyntaxError
-from typing import Dict, get_type_hints
+from typing import Dict, get_type_hints, Type
 
 from cdds.common.request.request_section import Section
 
 
-def do_pre_validations(config: ConfigParser, section: Section) -> None:
+def do_pre_validations(config: ConfigParser, section: Type[Section]) -> None:
     """
     Pre-validate the request configuration for the given section by checking if:
         * all defined properties are known
