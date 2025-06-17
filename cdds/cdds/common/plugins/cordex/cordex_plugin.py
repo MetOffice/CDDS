@@ -17,6 +17,7 @@ from cdds.common.plugins.attributes import GlobalAttributes
 from cdds.common.plugins.grid import GridLabel
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
+from cdds.common.request.request import Request
 
 
 CORDEX_LICENSE = 'https://cordex.org/data-access/cordex-cmip6-data/cordex-cmip6-terms-of-use'
@@ -73,7 +74,7 @@ class CordexPlugin(BasePlugin):
         stream_store = CordexStreamStore.instance()
         return stream_store.get()
 
-    def global_attributes(self, request: Dict[str, Any]) -> GlobalAttributes:
+    def global_attributes(self, request: Request) -> GlobalAttributes:
         """
         Returns the global attributes for CORDEX. The given request contains all information
         about the global attributes.
