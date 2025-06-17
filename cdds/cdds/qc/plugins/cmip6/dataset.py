@@ -101,7 +101,7 @@ class Cmip6Dataset(StructuredDataset):
                 # raised if something's wrong with global attributes
                 # it should be validated again by the global attributes checker
                 messages.append("Attribute 'sub_experiment_id' missing from "
-                                "the ncdf file".format(cv))
+                                "the ncdf file")
             label_candidate = member_id[1]
 
         else:

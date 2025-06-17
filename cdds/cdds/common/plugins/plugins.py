@@ -7,6 +7,7 @@ from abc import ABCMeta, abstractmethod
 from typing import Type, Dict, Any, TYPE_CHECKING
 
 from cdds.common.plugins.grid import GridLabel, GridType, GridInfo
+from cdds.common.plugins.base.base_grid import AtmosBaseGridInfo, OceanBaseGridInfo
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
 from cdds.common.plugins.file_info import ModelFileInfo
@@ -52,7 +53,7 @@ class CddsPlugin(object, metaclass=ABCMeta):
         """
         return self._mip_era == mip_era
 
-    def grid_info(self, model_id: str, grid_type: GridType) -> GridInfo:
+    def grid_info(self, model_id: str, grid_type: GridType) -> AtmosBaseGridInfo | OceanBaseGridInfo | GridInfo:
         """
         Returns the grid information values of the given grid type
         for model with given id.
