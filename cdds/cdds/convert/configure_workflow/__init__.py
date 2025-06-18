@@ -91,7 +91,7 @@ def parse_args_cdds_convert() -> Tuple[ConvertArguments, Request]:
     return arguments, request
 
 
-def run_cdds_convert(arguments: ConvertArguments, request: Request) -> None:
+def run_cdds_convert(arguments: ConvertArguments, request: "Request") -> None:
     """
 
     :param arguments: The arguments specific to the 'cdds_convert' script.

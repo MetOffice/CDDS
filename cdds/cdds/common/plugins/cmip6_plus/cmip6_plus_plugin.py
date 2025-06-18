@@ -5,7 +5,7 @@ The :mod:`cmip6_plus_plugin` module contains the code for the CMIP6Plus plugin.
 """
 import os
 
-from typing import Type, Dict, Any
+from typing import Type, Dict, Any, TYPE_CHECKING
 
 from cdds.common.plugins.file_info import ModelFileInfo, GlobalModelFileInfo
 from cdds.common.plugins.grid import GridLabel
@@ -17,7 +17,8 @@ from cdds.common.plugins.cmip6_plus.cmip6_plus_attributes import Cmip6PlusGlobal
 from cdds.common.plugins.cmip6_plus.cmip6_plus_grid import Cmip6PlusGridLabel
 from cdds.common.plugins.cmip6_plus.cmip6_plus_models import Cmip6PlusModelsStore
 from cdds.common.plugins.cmip6_plus.cmip6_plus_streams import Cmip6PlusStreamStore
-from cdds.common.request.request import Request
+if TYPE_CHECKING:
+    from cdds.common.request.request import Request
 
 
 CMIP6_Plus_LICENSE = ('CMIP6Plus model data produced by .* is licensed under a Creative Commons '
@@ -80,7 +81,7 @@ class Cmip6PlusPlugin(BasePlugin):
         stream_store = Cmip6PlusStreamStore.instance()
         return stream_store.get()
 
-    def global_attributes(self, request: Request) -> Cmip6PlusGlobalAttributes:
+    def global_attributes(self, request: "Request") -> Cmip6PlusGlobalAttributes:
         """
         Returns the global attributes for CMIP6Plus. The given request contains all information
         about the global attributes.

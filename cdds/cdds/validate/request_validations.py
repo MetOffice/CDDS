@@ -119,7 +119,7 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
     return valid, messages
 
 
-def validate_streams(request: Request) -> Tuple[bool, List[str]]:
+def validate_streams(request: "Request") -> Tuple[bool, List[str]]:
     """
     Validates the streams that are given in the request
 
