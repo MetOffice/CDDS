@@ -53,7 +53,7 @@ class CddsPlugin(object, metaclass=ABCMeta):
         """
         return self._mip_era == mip_era
 
-    def grid_info(self, model_id: str, grid_type: GridType) -> AtmosBaseGridInfo | OceanBaseGridInfo | GridInfo:
+    def grid_info(self, model_id: str, grid_type: GridType) -> GridInfo:
         """
         Returns the grid information values of the given grid type
         for model with given id.

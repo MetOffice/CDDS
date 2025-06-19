@@ -8,6 +8,7 @@ from cdds.qc.plugins.base.checks import CheckTask
 from cdds.qc.plugins.base.common import CheckCache
 from cdds.qc.plugins.base.constants import PARENT_ATTRIBUTES
 from cdds.qc.plugins.base.validators import ValidatorFactory
+from cdds.qc.plugins.cmip6.validators import Cmip6CVValidator
 
 
 class OrphanAttributesCheckTask(CheckTask):
@@ -32,7 +33,7 @@ class OrphanAttributesCheckTask(CheckTask):
 
     def _execute_validations(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
         experiment_id = attr_dict["experiment_id"]
-        if not self.relaxed_cmor:
+        if not self.relaxed_cmor and isinstance(self._cache.cv_validator, Cmip6CVValidator):
             self._cache.cv_validator.validate_parent_consistency(netcdf_file, experiment_id, True)
 
         try:

@@ -1023,7 +1023,7 @@ def chunk_by_files_and_tapes(fileset: dict, tape_limit: int, file_limit: int) ->
     list
         List of chunked lists of filenames
     """
-    tapes = set()
+    tapes: set = set()
     current_chunk: list[str] = []
     chunks = []
     for tape_id, files in fileset.items():
