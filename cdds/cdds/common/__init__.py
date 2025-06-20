@@ -822,7 +822,7 @@ def get_most_recent_file(dir_to_search: str, key: str, pattern: str) -> str:
     for candidate in file_list:
         match = regex_pattern.match(candidate)
         if match:
-            file_datetime = datetime(*[int(match.group(element)) for element in DATE_ELEMENTS])
+            file_datetime = datetime(*[int(match.group(element)) for element in DATE_ELEMENTS])  # type: ignore
             date_list += [file_datetime]
             file_dict[file_datetime] = candidate
 
