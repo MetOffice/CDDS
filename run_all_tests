@@ -111,6 +111,26 @@ def main():
     else:
         sad_face = u'\U0001F627'
         print('{} {}'.format(_red('Some tests failed.'), sad_face))
+    
+    print('Running mypy')
+    command = [os.path.join(CDDS_DIR, 'run_mypy')]
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdoutdata, stderrdata = process.communicate()
+    if process.returncode == 0:
+        info = stdoutdata.decode('utf-8').split('\n')
+        msg = info[-2].replace('=', '').strip()
+        print(_green('{} success! [{}]'.format(' ' * 3, msg)))
+
+    else:
+        exit_code = 1
+        print(_red('{} failed!\n!!! Please see "{}" for more details'.format(' ' * 3, LOG_NAME)))
+        current_date = datetime.datetime.now()
+        msg = '{}: {}: {}\n\n'.format(current_date, package, command)
+        with open(LOG_NAME, 'a') as file_handle:
+            file_handle.write(msg)
+            file_handle.write(stdoutdata.decode('utf-8'))
+            file_handle.write(stderrdata.decode('utf-8'))
+            file_handle.write('\n')
     if arguments.stdout_verbose and os.path.exists(LOG_NAME):
         with open(LOG_NAME, 'r') as fh:
             for line in fh.readlines():
