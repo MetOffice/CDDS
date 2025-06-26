@@ -4,7 +4,7 @@ from abc import ABCMeta
 from enum import EnumMeta
 
 
-class ABCEnumMeta(ABCMeta, EnumMeta):  # type: ignore
+class ABCEnumMeta(ABCMeta, EnumMeta):
 
     def __new__(mcls, *args, **kw):
         abstract_enum_cls = super().__new__(mcls, *args, **kw)

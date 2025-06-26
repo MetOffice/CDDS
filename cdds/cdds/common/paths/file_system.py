@@ -53,7 +53,7 @@ def construct_string_from_facet_string(facet_string: str, facet_values: Dict[str
     :param string_type: path or filename
     :type string_type: str
     :return:
-    :rtype: str
+    :rtype: list[str]
     """
     logger = logging.getLogger(__name__)
     facets = []
@@ -90,7 +90,7 @@ def create_directory(path: str) -> None:
         logger.debug('Created directory "{}"'.format(path))
 
 
-def get_directories(path: str, root_dir: str = None) -> str:
+def get_directories(path: str, root_dir: str = None) -> list[str]:
     """
     Return the directories that make up the path provided to the ``path`` parameter.
 

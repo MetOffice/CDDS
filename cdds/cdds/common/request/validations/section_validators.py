@@ -50,8 +50,10 @@ class CommonSectionValidator(SectionValidator):
         self._validate_directories()
 
         validate_file = SectionValidatorFactory.file_validator()
-        valid, message = validate_file(self.section.sites_file, 'sites_file')
-        self._manage_results(valid, message)
+        sites_file = getattr(self.section, "sites_file", None)
+        if sites_file is not None:
+            valid, message = validate_file(sites_file, 'sites_file')
+            self._manage_results(valid, message)
         return self.valid, self.messages
 
     def _validate_external_plugin(self):
@@ -160,8 +162,8 @@ class MiscSectionValidator(SectionValidator):
         :return: is valid or not and a list of messages
         :rtype: bool, List[str]
         """
-        halo_removal_latitude = self.section.halo_removal_latitude
-        halo_removal_longitude = self.section.halo_removal_longitude
+        halo_removal_latitude = getattr(self.section, "halo_removal_latitude", None)
+        halo_removal_longitude = getattr(self.section, "halo_removal_longitude", None)
 
         if not halo_removal_latitude and halo_removal_longitude:
             message = 'If halo_removal_latitude is defined then halo_removal_longitude must be defined as well'

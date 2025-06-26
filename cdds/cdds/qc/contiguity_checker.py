@@ -6,8 +6,10 @@
 Contiguity checker.
 """
 from collections import defaultdict
+from typing import DefaultDict, List, Dict, TYPE_CHECKING
 
-from cdds.common.request.request import Request
+if TYPE_CHECKING:
+    from cdds.common.request.request import Request
 from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
 from cdds.qc.plugins.cordex.dataset import CordexDataset
 from cdds.qc.common import equal_with_tolerance, DatetimeCalculator
@@ -20,14 +22,14 @@ class CollectionsCheck(object):
     name = "collections"
     supported_ds = [Cmip6Dataset, CordexDataset]
 
-    def __init__(self, request: Request):
+    def __init__(self, request: "Request"):
         """
         A constructor.
         """
         self.request = request
         self.calendar_calculator = DatetimeCalculator(
             self.request.metadata.calendar, self.request.metadata.base_date)
-        self.results = defaultdict(list)
+        self.results: DefaultDict[str, List[Dict[str, str]]] = defaultdict(list)
 
     def perform_checks(self, ds):
         """

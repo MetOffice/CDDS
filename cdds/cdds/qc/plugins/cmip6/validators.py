@@ -76,7 +76,7 @@ def get_datetime_template(frequency: str) -> str:
     return mapping_dict[frequency]
 
 
-def get_numeric_date(calendar: cf_units.Unit, dates: tuple) -> float:
+def get_numeric_date(calendar: cf_units.Unit, dates: tuple[str | int, ...] | list[int]) -> float:
     """
     Calculates a numeric value of a date string in a cf calendar
     :param calendar: CF calendar instance

@@ -10,7 +10,7 @@ import logging
 import os
 import re
 
-from typing import List, Dict
+from typing import List, Dict, Any
 
 from cdds.archive.constants import DATA_PUBLICATION_STATUS_DICT
 from cdds.archive.exception import NoDataToArchiveError
@@ -246,7 +246,7 @@ def _check_variable_match(match, variable_str, pattern):
         raise ValueError(message)
 
 
-def retrieve_file_paths(mip_approved_variables: List[Dict[str, str]], request: Request) -> List[str]:
+def retrieve_file_paths(mip_approved_variables: List[Dict[str, Any]], request: Request) -> list[dict[str, Any]]:
     """
     Return the full paths to the |output netCDF files| for the |MIP requested variables| specified
     by ``mip_requested_variables``.

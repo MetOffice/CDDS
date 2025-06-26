@@ -283,7 +283,7 @@ def exit_nicely(msg, success=False):
         logger.info("-- EXTRACT process exit: \n{} ".format(msg))
 
 
-@retry(exception=OSError, retries=3)
+@retry(exception=OSError, retries=3)  # type: ignore
 def create_dir(directory, permissions):
     """Creates directory path (unless it already exists) with requested
     ownership and permissions. Because of the @retry decorator
@@ -1024,8 +1024,8 @@ def chunk_by_files_and_tapes(fileset: dict, tape_limit: int, file_limit: int) ->
     list
         List of chunked lists of filenames
     """
-    tapes = set()
-    current_chunk = []
+    tapes: set = set()
+    current_chunk: list[str] = []
     chunks = []
     for tape_id, files in fileset.items():
         for file in files:

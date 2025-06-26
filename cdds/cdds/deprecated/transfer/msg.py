@@ -46,7 +46,7 @@ class Message(object):
     Property:
     published -- return published date (if available)
     """
-    TYPE = None
+    TYPE: str | None = None
     TS_FMT = "%Y%m%dT%H%M%SZ"
 
     @staticmethod

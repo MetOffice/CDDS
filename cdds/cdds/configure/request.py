@@ -20,7 +20,7 @@ from cdds.common.plugins.plugins import PluginStore
 
 
 def retrieve_request_metadata(request: Request):
-    ordered_metadata = OrderedDict({'cmor_setup': {}, 'cmor_dataset': {}, 'request': {}})
+    ordered_metadata: OrderedDict[str, dict] = OrderedDict({'cmor_setup': {}, 'cmor_dataset': {}, 'request': {}})
     ordered_metadata['cmor_setup'].update({'mip_table_dir': request.common.mip_table_dir})
     for item in USER_CONFIG_OPTIONS['cmor_dataset']['required']:
         if item == 'output_dir':

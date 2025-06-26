@@ -3,16 +3,16 @@
 import logging
 
 from configparser import ConfigParser
-from dataclasses import fields
+from dataclasses import fields, is_dataclass
 from metomi.isodatetime.parsers import TimePointParser
 from metomi.isodatetime.data import TimePoint
 from metomi.isodatetime.exceptions import ISO8601SyntaxError
-from typing import Dict, get_type_hints
+from typing import Dict, get_type_hints, Type
 
 from cdds.common.request.request_section import Section
 
 
-def do_pre_validations(config: ConfigParser, section: Section) -> None:
+def do_pre_validations(config: ConfigParser, section: Type[Section]) -> None:
     """
     Pre-validate the request configuration for the given section by checking if:
         * all defined properties are known
@@ -27,6 +27,8 @@ def do_pre_validations(config: ConfigParser, section: Section) -> None:
     config_values: Dict[str, str] = dict(config.items(section.name()))
 
     resolved_hints = get_type_hints(section)
+    if not is_dataclass(section):
+        raise TypeError(f"Section {section} is not a dataclass type")
     field_names = [field.name for field in fields(section)]
     resolved_field_types = {name: resolved_hints[name] for name in field_names}
 

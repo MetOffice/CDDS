@@ -195,8 +195,8 @@ REQUIRED_KEYS_FOR_REQUESTED_VARIABLES_LIST = [
 ROSE_URLS = {
     'u': {'external': 'https://code.metoffice.gov.uk/svn/roses-u',
           # Access to the mirror does not require authentication.
-          'internal': 'svn://fcm1/roses-u.xm_svn'},
-    'mi': {'internal': 'svn://fcm1/roses_mi_svn'}
+          'internal': 'https://metomi/svn/roses-u.xm'},
+    'mi': {'internal': 'https://metomi/svn/roses_mi'}
 }
 SCRIPT_TEMPLATE = """#!/bin/bash -l
 #SBATCH --output={log_directory}/{component}_%J.out
@@ -247,7 +247,7 @@ USER_CONFIG_OPTIONS = {
     },
 }
 VARIANT_LABEL_FORMAT = r'^r(\d+)i(\d+)p(\d+)f(\d+)$'
-PRINT_STACK_TRACE = 1
+PRINT_STACK_TRACE = True
 
 CYLC_PATHS = [r'\/net\/home\/h03\/fcm\/rose\-.+\/lib\/python', r'\/net\/home\/h03\/fcm\/cylc\-.+\/lib',
               r'\/apps\/contrib\/metomi\/rose\-.+\/lib\/python', r'\/apps\/contrib\/metomi\/cylc\-.+\/lib',

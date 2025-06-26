@@ -7,6 +7,7 @@ from abc import ABCMeta, abstractmethod
 from typing import Type, Dict, Any, TYPE_CHECKING
 
 from cdds.common.plugins.grid import GridLabel, GridType, GridInfo
+from cdds.common.plugins.base.base_grid import AtmosBaseGridInfo, OceanBaseGridInfo
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
 from cdds.common.plugins.file_info import ModelFileInfo

@@ -4,7 +4,7 @@
 The :mod:`cmip6_plugin` module contains the code for the CMIP6 plugin.
 """
 import os
-from typing import Type, Dict, Any
+from typing import Type, Dict, Any, TYPE_CHECKING
 
 from cdds.common.plugins.file_info import ModelFileInfo, GlobalModelFileInfo
 from cdds.common.plugins.grid import GridLabel
@@ -16,6 +16,8 @@ from cdds.common.plugins.cmip6.cmip6_attributes import Cmip6GlobalAttributes
 from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from cdds.common.plugins.cmip6.cmip6_models import Cmip6ModelsStore
 from cdds.common.plugins.cmip6.cmip6_streams import Cmip6StreamStore
+if TYPE_CHECKING:
+    from cdds.common.request.request import Request
 
 
 CMIP6_LICENSE = ('CMIP6 model data produced by MOHC is licensed '
@@ -89,7 +91,7 @@ class Cmip6Plugin(BasePlugin):
         stream_store = Cmip6StreamStore.instance()
         return stream_store.get()
 
-    def global_attributes(self, request: Dict[str, Any]) -> Cmip6GlobalAttributes:
+    def global_attributes(self, request: "Request") -> Cmip6GlobalAttributes:
         """
         Returns the global attributes for CMIP6. The given request contains all information
         about the global attributes.
