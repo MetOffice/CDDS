@@ -46,7 +46,6 @@ def validate_data_section(section: 'DataSection') -> None:
     :param section: data section to validate
     :type section: 'DataSection'
     """
-    valid = True
     messages = []
     validate_file = SectionValidatorFactory.file_validator()
     valid, message = validate_file(section.variable_list_file, 'variable_list_file')
@@ -58,8 +57,13 @@ def validate_data_section(section: 'DataSection') -> None:
         valid, message = validate_start_before_end(section.start_date, section.end_date, 'start_date', 'end_date')
         if not valid:
             messages.append(message)
+    
+    validate_workflow_id = SectionValidatorFactory.workflow_id_validator()
+    workflow_id_valid, workflow_invalid_message = validate_workflow_id(section.model_workflow_id, 'model_workflow_id')
+    if not workflow_id_valid:
+        messages.append(workflow_invalid_message)
 
-    if not valid:
+    if messages:
         raise AttributeError('\n'.join(messages))
 
 
