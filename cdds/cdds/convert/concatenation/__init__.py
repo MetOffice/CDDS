@@ -243,8 +243,7 @@ def concatenation_task(variable, task_db, timeout=DEFAULT_SQLITE_TIMEOUT,
         logger.info('{1} - Processing task for output {0}'.format(output_file,
                                                                   task_num))
         if not input_files:
-            logger.info('No input files to process for '
-                        ''.format(output_file))
+            logger.info(f'No input files to process for {output_file}')
             continue
         if status == TASK_STATUS_COMPLETE:
             logger.info('TASKS COMPLETE: Skipping completed task to generate'

@@ -164,7 +164,7 @@ class Request:
         """
         interpolation = ExtendedInterpolation()
         config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
-        config.optionxform = str  # Preserve case.
+        config.optionxform = str  # type: ignore # Preserve case.
         self.metadata.add_to_config(config)
         self.netcdf_global_attributes.add_to_config(config)
         self.common.add_to_config(
@@ -191,7 +191,7 @@ def read_request(request_path: str) -> Request:
 
     interpolation = EnvInterpolation()
     request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
-    request_config.optionxform = str  # Preserve case.
+    request_config.optionxform = str  # type: ignore # Preserve case.
     request_config.read(request_path)
     if request_config.has_section('inheritance'):
         template = request_config.get('inheritance', 'template')
@@ -199,7 +199,7 @@ def read_request(request_path: str) -> Request:
             template_path = expand_path(template)
             interpolation = EnvInterpolation()
             request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
-            request_config.optionxform = str  # Preserve case.
+            request_config.optionxform = str  # type: ignore # Preserve case.
             request_config.read([template_path, request_path])
 
     load_cdds_plugins(request_config)

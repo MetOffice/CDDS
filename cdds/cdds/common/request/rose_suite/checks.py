@@ -6,7 +6,7 @@ Module to provide checks for values defined in the rose-suite.info
 import logging
 import time
 
-from typing import Dict, List, Callable
+from typing import Dict, List, Callable, Any
 
 from cdds.common.configuration.cv_config import CVConfig
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo
@@ -29,7 +29,7 @@ class RoseSuiteChecks(object):
         self._rose_suite: RoseSuiteInfo = rose_suite
         self._cv_config: CVConfig = cv_config
         self._experiment_id: str = rose_suite.data[ROSE_SUITE_EXPERIMENT_ID]
-        self._cv_experiment: str = cv_config.experiment_cv(self._experiment_id)
+        self._cv_experiment: dict[str, Any] = cv_config.experiment_cv(self._experiment_id)
 
     def check_source_types(self) -> BaseCheckResult:
         """

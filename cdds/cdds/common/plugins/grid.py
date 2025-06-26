@@ -41,7 +41,7 @@ class GridType(Enum):
     OCEAN = 'ocean'
 
 
-class GridLabel(Enum, metaclass=ABCEnumMeta):  # type: ignore
+class GridLabel(Enum, metaclass=ABCEnumMeta):
     """
     Represents grid labels. Each grid label consists of:
     * the grid name, for example: 'native'

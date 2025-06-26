@@ -14,7 +14,7 @@ from cdds.common.request.request import Request
 @dataclass
 class ConvertArguments:
     request_path: str = ''
-    streams: List[str] = field(default=list)
+    streams: List[str] = field(default_factory=list)
     no_submit: bool = False
     ancil_files: str = ''
     replacement_coordinates_file: str = ''

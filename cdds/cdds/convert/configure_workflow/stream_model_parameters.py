@@ -47,7 +47,7 @@ class StreamModelParameters:
             concatenation_periods = []
             for data_dims in model_sizing.values():
                 concatenation_periods += list(data_dims.values())
-            max_concat_period = max(concatenation_periods)
+            max_concat_period = max(concatenation_periods)  # type: ignore
 
         return Duration(years=max_concat_period)
 

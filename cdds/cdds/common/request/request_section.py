@@ -118,7 +118,7 @@ def load_types(dictionary: Dict[str, str], as_list: List[str] = []) -> Dict[str,
     :return: Dictionary containing values in the correct types
     :rtype: Dict[str, Any]
     """
-    output = {}
+    output: Dict[str, Any] = {}
     for key, value in dictionary.items():
         if as_list and key in as_list:
             output[key] = value.split(' ') if value else []

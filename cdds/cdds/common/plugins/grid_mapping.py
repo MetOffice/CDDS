@@ -38,6 +38,6 @@ class GridMapping(object, metaclass=ABCMeta):
         """
         interpolation = ExtendedInterpolation()
         config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
-        config.optionxform = str  # Preserve case.
+        config.optionxform = str  # type: ignore # Preserve case.
         config.read(file_paths)
         return config

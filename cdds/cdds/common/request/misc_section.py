@@ -14,6 +14,7 @@ from cdds.common.request.validations.pre_validations import do_pre_validations
 from cdds.common.request.request_validations import validate_misc_section
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
+from cdds.common.plugins.base.base_grid import AtmosBaseGridInfo
 
 
 def misc_defaults(model_id: str) -> Dict[str, Any]:
@@ -27,7 +28,9 @@ def misc_defaults(model_id: str) -> Dict[str, Any]:
     :rtype: Dict[str, Any]
     """
     grid_info = PluginStore.instance().get_plugin().grid_info(model_id, GridType.ATMOS)
-    atmos_timestep = grid_info.atmos_timestep
+    atmos_timestep = None
+    if isinstance(grid_info, AtmosBaseGridInfo):
+        atmos_timestep = grid_info.atmos_timestep
 
     return {
         'atmos_timestep': atmos_timestep,

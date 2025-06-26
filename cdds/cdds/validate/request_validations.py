@@ -39,7 +39,7 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
 
     interpolation = EnvInterpolation()
     request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
-    request_config.optionxform = str  # Preserve case.
+    request_config.optionxform = str   # type: ignore # Preserve case.
     request_config.read(request_path)
     if request_config.has_section('inheritance'):
         template = request_config.get('inheritance', 'template')
@@ -47,7 +47,7 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
             template_path = expand_path(template)
             interpolation = EnvInterpolation()
             request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
-            request_config.optionxform = str  # Preserve case.
+            request_config.optionxform = str  # type: ignore # Preserve case.
             request_config.read([template_path, request_path])
 
     load_cdds_plugins(request_config)
@@ -119,7 +119,7 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
     return valid, messages
 
 
-def validate_streams(request: Request) -> Tuple[bool, List[str]]:
+def validate_streams(request: "Request") -> Tuple[bool, List[str]]:
     """
     Validates the streams that are given in the request
 

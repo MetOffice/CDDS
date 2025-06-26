@@ -23,7 +23,7 @@ from cdds.common.plugins.streams import StreamFileInfo, StreamFileFrequency
 from cdds.common.plugins.grid import GridType
 
 
-class ModelId(Enum, metaclass=ABCEnumMeta):  # type: ignore
+class ModelId(Enum, metaclass=ABCEnumMeta):
     """
     Represents the ID of a model.
     """

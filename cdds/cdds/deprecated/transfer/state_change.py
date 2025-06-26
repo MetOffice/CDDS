@@ -42,7 +42,7 @@ def run_move_in_mass(request: Request, args: Namespace) -> None:
         logger.critical(message)
         raise RuntimeError(message)
 
-    drs_fixed_facet_builder = drs_facet_builder_from_request(request, transfer_cfg)
+    drs_fixed_facet_builder = drs_facet_builder_from_request(request, transfer_cfg)  # type: ignore
     logger.info('Using following facets to identify data sets to move: "{}"'
                 ''.format(repr(drs_fixed_facet_builder.facets)))
 

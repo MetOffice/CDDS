@@ -4,7 +4,7 @@
 The :mod:`gcmodeldev_plugin` module contains the code for the GCModelDev plugin.
 """
 import os
-from typing import Type, Dict, Any
+from typing import Type, Dict, Any, TYPE_CHECKING
 
 from cdds.common.plugins.file_info import ModelFileInfo, GlobalModelFileInfo
 from cdds.common.plugins.grid import GridLabel
@@ -15,6 +15,8 @@ from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from cdds.common.plugins.attributes import DefaultGlobalAttributes
 from cdds.common.plugins.gcmodeldev.gcmodeldev_models import GCModelDevStore
 from cdds.common.plugins.gcmodeldev.gcmodeldev_streams import GCModelDevStreamStore
+if TYPE_CHECKING:
+    from cdds.common.request.request import Request
 
 
 GCMODEL_DEV_LICENSE = ('GCModelDev model data is licensed under the Open Government License v3 '
@@ -72,7 +74,7 @@ class GCModelDevPlugin(BasePlugin):
         stream_store = GCModelDevStreamStore.instance()
         return stream_store.get()
 
-    def global_attributes(self, request: Dict[str, Any]) -> DefaultGlobalAttributes:
+    def global_attributes(self, request: "Request") -> DefaultGlobalAttributes:
         """
         Returns the global attributes for CMIP6. The given request contains all information
         about the global attributes.

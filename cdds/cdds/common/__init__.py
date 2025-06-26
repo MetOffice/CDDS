@@ -228,13 +228,13 @@ def determine_rose_suite_url(suite_id, internal=True):
     Examples
     --------
     >>> determine_rose_suite_url('u-abcde')
-    'svn://fcm1/roses-u.xm_svn/a/b/c/d/e/'
+    'https://metomi/svn/roses-u.xm/a/b/c/d/e/'
 
     >>> determine_rose_suite_url('u-abcde', internal=False)
     'https://code.metoffice.gov.uk/svn/roses-u/a/b/c/d/e/'
 
     >>> determine_rose_suite_url('mi-abcde')
-    'svn://fcm1/roses_mi_svn/a/b/c/d/e/'
+    'https://metomi/svn/roses_mi/a/b/c/d/e/'
 
     >>> determine_rose_suite_url('abcde')
     Traceback (most recent call last):
@@ -822,7 +822,7 @@ def get_most_recent_file(dir_to_search: str, key: str, pattern: str) -> str:
     for candidate in file_list:
         match = regex_pattern.match(candidate)
         if match:
-            file_datetime = datetime(*[int(match.group(element)) for element in DATE_ELEMENTS])
+            file_datetime = datetime(*[int(match.group(element)) for element in DATE_ELEMENTS])  # type: ignore
             date_list += [file_datetime]
             file_dict[file_datetime] = candidate
 

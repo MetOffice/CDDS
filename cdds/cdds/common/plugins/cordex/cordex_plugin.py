@@ -5,7 +5,7 @@ The :mod:`cordex_plugin` module contains the code for the CORDEX plugin.
 """
 import os
 
-from typing import Type, Dict, Any
+from typing import Type, Dict, Any, TYPE_CHECKING
 
 from cdds.common.plugins.base.base_plugin import BasePlugin, MipEra
 from cdds.common.plugins.file_info import ModelFileInfo, RegionalModelFileInfo
@@ -17,6 +17,8 @@ from cdds.common.plugins.attributes import GlobalAttributes
 from cdds.common.plugins.grid import GridLabel
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
+if TYPE_CHECKING:
+    from cdds.common.request.request import Request
 
 
 CORDEX_LICENSE = 'https://cordex.org/data-access/cordex-cmip6-data/cordex-cmip6-terms-of-use'
@@ -73,7 +75,7 @@ class CordexPlugin(BasePlugin):
         stream_store = CordexStreamStore.instance()
         return stream_store.get()
 
-    def global_attributes(self, request: Dict[str, Any]) -> GlobalAttributes:
+    def global_attributes(self, request: "Request") -> GlobalAttributes:
         """
         Returns the global attributes for CORDEX. The given request contains all information
         about the global attributes.
