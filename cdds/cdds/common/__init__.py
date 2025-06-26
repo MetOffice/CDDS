@@ -5,16 +5,13 @@ The :mod:`common` module contains common library functions used by
 other packages.
 """
 import copy
-import grp
 import hashlib
 import json
 import logging
 import os
-import platform
 import re
 import subprocess
 import sys
-import time
 from collections import defaultdict
 from datetime import datetime
 from packaging.version import parse as parse_version
