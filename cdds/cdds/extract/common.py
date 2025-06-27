@@ -1086,7 +1086,7 @@ def get_streamtype(stream: str) -> str:
         return STREAMTYPE_NC
 
 
-def condense_constraints(variable_constraints) -> dict[set]:
+def condense_constraints(variable_constraints) -> dict:
     """
     Processes a list of dictionaries containing constraints and condenses them by
     grouping instances where multiple stash codes correspond to the same constraint
