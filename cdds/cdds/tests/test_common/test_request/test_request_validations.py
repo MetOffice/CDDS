@@ -76,7 +76,7 @@ class TestValidateDataSection(TestCase):
         validate_data_section(self.section)
 
     def test_incorrect_workflow_id_format_failed(self):
-        for invalid_id in ["5-125", "adf-fa223", "ad-gwsgs", "3-", True, None, ""]:
+        for invalid_id in ['5-125', 'adf-fa223', 'ad-gwsgs', '3-', True, None, '']:
             with self.subTest(model_workflow_id=invalid_id):
                 self.section.model_workflow_id = invalid_id
                 self.assertRaises(AttributeError, validate_data_section, self.section)
