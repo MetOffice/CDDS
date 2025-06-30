@@ -113,13 +113,12 @@ class DataSection(Section):
         :rtype: DataSection
         """
         defaults = data_defaults()
-
-        data = DataSection(**defaults)
+        # model_workflow_id must be set here otherwise validation will fail.
+        data = DataSection(model_workflow_id=arguments.suite, **defaults)
         data.end_date = suite_info.end_date()
         data.mass_data_class = arguments.mass_data_class
         data.start_date = suite_info.start_date()
         data.streams = arguments.streams
-        data.model_workflow_id = arguments.suite
         data.model_workflow_branch = arguments.branch
         data.model_workflow_revision = arguments.revision
 
