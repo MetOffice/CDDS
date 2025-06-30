@@ -301,7 +301,7 @@ class SectionValidatorFactory:
         def validate(value: str, property_name: str):
             if not value or (isinstance(value, str) and not value.strip()):
                 return False, '"{}" must not be blank.'.format(property_name)
-            # Only check format if not blank
+
             pattern = r"^[a-zA-Z]{1,2}-[a-zA-Z]{2}\d{3}$"
             if not re.match(pattern, value.strip()):
                 return False, (

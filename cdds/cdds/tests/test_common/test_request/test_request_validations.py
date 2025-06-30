@@ -59,6 +59,7 @@ class TestValidateDataSection(TestCase):
 
     def setUp(self):
         defaults = data_defaults()
+        defaults['model_workflow_id'] = 'u-gs135'
         self.section = DataSection(**defaults)
 
     def test_start_date_before_end_date_succeed(self):

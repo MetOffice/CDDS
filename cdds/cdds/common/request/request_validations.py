@@ -57,7 +57,7 @@ def validate_data_section(section: 'DataSection') -> None:
         valid, message = validate_start_before_end(section.start_date, section.end_date, 'start_date', 'end_date')
         if not valid:
             messages.append(message)
-    
+
     validate_workflow_id = SectionValidatorFactory.workflow_id_validator()
     workflow_id_valid, workflow_invalid_message = validate_workflow_id(section.model_workflow_id, 'model_workflow_id')
     if not workflow_id_valid:
