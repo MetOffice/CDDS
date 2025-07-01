@@ -5,6 +5,7 @@ import sys
 
 from cdds.archive.command_line import main_store_spice
 
+
 if __name__ == '__main__':
     exit_code = main_store_spice()
     sys.exit(exit_code)

@@ -5,6 +5,7 @@ import sys
 
 from cdds.archive.command_line import main_publish
 
+
 if __name__ == '__main__':
     exit_code = main_publish()
     sys.exit(exit_code)

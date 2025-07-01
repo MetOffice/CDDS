@@ -5,5 +5,6 @@ import sys
 
 from cdds.deprecated.transfer.command_line import main_sim_review
 
+
 if __name__ == '__main__':
     sys.exit(main_sim_review())
