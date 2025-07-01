@@ -3,10 +3,6 @@
 # Please see LICENSE.md for license details.
 import sys
 
-from cdds.common.environment import fix_import_paths
-
-fix_import_paths()
-
 from cdds.convert.command_line import main_organise_files
 
 if __name__ == '__main__':
