@@ -5,5 +5,6 @@ import sys
 
 from cdds.qc.command_line import main_quality_control
 
+
 if __name__ == '__main__':
     sys.exit(main_quality_control())
