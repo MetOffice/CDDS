@@ -3,7 +3,6 @@
 """
 Module to modify and manage the UNIX file system
 """
-import grp
 import logging
 import os
 
