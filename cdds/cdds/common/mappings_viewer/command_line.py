@@ -19,7 +19,7 @@ def main():
     for model in models:
         load_mapping_plugin(model)
         mip_convert_root_dir = os.path.dirname(os.path.realpath(mip_convert.__file__))
-        mappings_dir = os.path.join(mip_convert_root_dir, 'plugins', model, 'data')
+        mappings_dir = os.path.join(mip_convert_root_dir, 'plugins', model.lower(), 'data')
         mappings = get_mappings(model, mappings_dir, arguments)
         table = build_table(mappings, mappings_dir, arguments)
         generate_html(table, model, arguments)
