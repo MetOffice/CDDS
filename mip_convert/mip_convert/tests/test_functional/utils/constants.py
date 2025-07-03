@@ -31,7 +31,7 @@ GCMODELDEV_LICENSE = ('GCModelDev model data is licensed under the Open Governme
 DEBUG = True
 
 COMPARE_NETCDF = (
-    'nccmp -dmgfbi {tolerance} {history} {options} --globalex=cmor_version,creation_date,cv_version,'
+    'nccmp -dmgfi {tolerance} {history} {options} --globalex=cmor_version,creation_date,cv_version,'
     'data_specs_version,table_info,tracking_id,_NCProperties {output} {reference}'
 )
 

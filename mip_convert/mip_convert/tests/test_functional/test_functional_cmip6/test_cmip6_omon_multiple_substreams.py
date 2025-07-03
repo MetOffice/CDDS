@@ -37,8 +37,8 @@ class TestCmip6OmonMultipleSubstreams(AbstractFunctionalTests):
                     'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
-                    'onm_grid-T': {'CMIP6_Omon': 'tos'},
-                    'onm_grid-V': {'CMIP6_Omon': 'vo'}
+                    'onm2_grid-T': {'CMIP6_Omon': 'tos'},
+                    'onm2_grid-V': {'CMIP6_Omon': 'vo'}
                 },
                 other={
                     'reference_version': 'v1',
