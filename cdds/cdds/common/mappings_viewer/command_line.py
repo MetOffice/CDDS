@@ -22,7 +22,7 @@ def main():
         mappings_dir = os.path.join(mip_convert_root_dir, 'plugins', model.lower(), 'data')
         mappings = get_mappings(model, mappings_dir, arguments)
         table = build_table(mappings, mappings_dir, arguments)
-        generate_html(table, model, arguments)
+        generate_html(table, model, mappings_dir, arguments)
 
 
 def parse_args():
