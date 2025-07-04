@@ -13,16 +13,15 @@ def main():
     Main function for generating the mappings html pages.
     """
     arguments = parse_args()
-
-    models = ['UKESM1', 'HadGEM3']
-
-    for model in models:
-        load_mapping_plugin(model)
-        mip_convert_root_dir = os.path.dirname(os.path.realpath(mip_convert.__file__))
-        mappings_dir = os.path.join(mip_convert_root_dir, 'plugins', model.lower(), 'data')
-        mappings = get_mappings(model, mappings_dir, arguments)
-        table = build_table(mappings, mappings_dir, arguments)
-        generate_html(table, model, mappings_dir, arguments)
+    model = arguments.model_name
+    # models = ['UKESM1', 'HadGEM3']
+    # for model in models:
+    load_mapping_plugin(model)
+    mip_convert_root_dir = os.path.dirname(os.path.realpath(mip_convert.__file__))
+    mappings_dir = os.path.join(mip_convert_root_dir, 'plugins', model.lower(), 'data')
+    mappings = get_mappings(model, mappings_dir, arguments)
+    table = build_table(mappings, mappings_dir, arguments)
+    generate_html(table, model, mappings_dir, arguments)
 
 
 def parse_args():
@@ -43,6 +42,16 @@ def parse_args():
                         '--output_directory',
                         default=None,
                         help='The location of the generated html files.',
+                        type=str)
+    parser.add_argument('-m',
+                        '--model_name',
+                        required=True,
+                        help='The model you require mappings for',
+                        type=str)
+    parser.add_argument('-l',
+                        '--model_location',
+                        default=None,
+                        help='The directory of the model you require mappings for',
                         type=str)
     args = parser.parse_args()
 
