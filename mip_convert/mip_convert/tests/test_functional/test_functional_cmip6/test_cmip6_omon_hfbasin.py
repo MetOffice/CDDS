@@ -37,7 +37,7 @@ class TestCmip6OmonHfbasin(AbstractFunctionalTests):
                     'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
-                    'onm': {'CMIP6_Omon': 'hfbasin'}
+                    'onm2': {'CMIP6_Omon': 'hfbasin'}
                 },
                 other={
                     'reference_version': 'v1',

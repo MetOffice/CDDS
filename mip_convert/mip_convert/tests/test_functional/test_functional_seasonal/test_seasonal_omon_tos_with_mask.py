@@ -28,28 +28,28 @@ class TestSeasonalOmonTosWithMask(AbstractFunctionalTests):
                 },
                 cmor_dataset={
                     'output_dir': get_output_dir(test_location),
-                    'calendar': 'noleap',
+                    'calendar': '360_day',
                     'contact': 'enquiries@metoffice.gov.uk',
                     'output_file_template': '<variable_id><table><source_id><experiment_id>',
                 },
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': MODEL_OUTPUT_DIR,
-                    'run_bounds': '1976-01-01T00:00:00 1976-01-11T00:00:00',
-                    'suite_id': 'ai022',
+                    'run_bounds': '1960-01-01T00:00:00 1960-03-01T00:00:00',
+                    'suite_id': 'u-aw310',
                     'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
-                    'onb': {'SEASONAL_Omon': 'tos'}
+                    'onm2_grid-T': {'SEASONAL_Omon': 'tos'}
                 },
                 masking={
-                    'onb': {
+                    'onm2_grid-T': {
                         'default': '0:100,0:100'
                     }
                 },
                 other={
-                    'reference_version': 'v2',
-                    'filenames': ['tos_Omon_UKESM1-0-LL_amip_197601-197601.nc'],
+                    'reference_version': 'v3',
+                    'filenames': ['tos_Omon_UKESM1-0-LL_amip_196001-196002.nc'],
                 }
             )
         )

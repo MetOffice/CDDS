@@ -37,7 +37,7 @@ class TestCmip6OmonVo(AbstractFunctionalTests):
                     'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
-                    'onm_grid-V': {'CMIP6_Omon': 'vo'}
+                    'onm2_grid-V': {'CMIP6_Omon': 'vo'}
                 },
                 other={
                     'reference_version': 'v1',

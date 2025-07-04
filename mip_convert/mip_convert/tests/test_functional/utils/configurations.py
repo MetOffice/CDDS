@@ -282,7 +282,7 @@ class ProjectInfo:
             global_attributes={
                 'contact': 'a.b.c',
                 'domain': 'Europe',
-                'domain_id': 'EUR-11',
+                'domain_id': 'EUR-12',
                 'driving_experiment': 'evaluation',
                 'driving_experiment_id': 'evaluation',
                 'driving_experiment_name': 'evaluation',
