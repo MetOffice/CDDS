@@ -238,6 +238,9 @@ def format_comments(comments):
     return formatted_cell
 
 
+#  TODO: URL links removed for the time being as they are currently non functional.
+#  If this isn't reimplemented in future then this format_mapping_link function
+#  can be removed.
 def format_mapping_link(entry, line_mappings):
     """
     Adds a hyperlink to .cfg file name which point to the file and line of the mapping on github.
@@ -286,10 +289,12 @@ def build_table(table_data, mappings_directory, arguments):
     for i, row in enumerate(table_data):
         cell_type = 'th' if i == 0 else 'td'
         row_html = ''
+        filter_row_html = ''
         if i == 0:
             for entry in row:
                 row_html += CELL_TEMPLATE.format(cell_type, entry)
-            html += HEADER_ROW_TEMPLATE.format(BGCOLORS[i % len(BGCOLORS)], row_html)
+                filter_row_html += CELL_TEMPLATE.format(cell_type, '')
+            html += HEADER_ROW_TEMPLATE.format(BGCOLORS[i % len(BGCOLORS)], row_html, filter_row_html)
             continue
         for x, entry in enumerate(row):
             if x == 2:
@@ -297,7 +302,7 @@ def build_table(table_data, mappings_directory, arguments):
             elif x == 3:
                 row_html += CELL_TEMPLATE.format(cell_type, format_comments(entry))
             elif x == 8:
-                row_html += CELL_TEMPLATE.format(cell_type, format_mapping_link(entry, mapping_lines))
+                row_html += CELL_TEMPLATE.format(cell_type, entry[1])
             else:
                 row_html += CELL_TEMPLATE.format(cell_type, entry)
 
@@ -308,7 +313,7 @@ def build_table(table_data, mappings_directory, arguments):
     return table_html
 
 
-def generate_html(table, model, arguments):
+def generate_html(table, model, mappings_dir, arguments):
     """
     Parameters
     ----------
@@ -321,8 +326,9 @@ def generate_html(table, model, arguments):
     """
     html = (HEADER +
             '<h2>Variable Mappings for {} (Generated with CDDS v{})</h2>'.format(model, cdds._NUMERICAL_VERSION) +
-            '<p> </p>' + '<p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p>' + table +
-            FOOTER)
+            '<p> </p>' + '<p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p>' +
+            '<p>Mapping files should be located in {}</p>'.format(mappings_dir) +
+            table + FOOTER)
 
     if not arguments.output_directory:
         cdds_path = os.environ['CDDS_DIR']
