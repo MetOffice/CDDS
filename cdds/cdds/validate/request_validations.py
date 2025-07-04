@@ -5,20 +5,17 @@ Module providing functionality to validate request configuration
 """
 import logging
 
-from configparser import ConfigParser
 from metomi.isodatetime.data import Calendar
 from typing import Tuple, List
 
-from cdds.common.request.request import load_cdds_plugins
+from cdds.common.request.request import load_cdds_plugins, read_request_config
 from cdds.common.request.request import Request
 from cdds.common.request.metadata_section import MetadataSection
 from cdds.common.request.misc_section import MiscSection
 from cdds.common.request.inventory_section import InventorySection
 from cdds.common.request.common_section import CommonSection
 from cdds.common.request.data_section import DataSection
-from cdds.common.configparser.interpolation import EnvInterpolation
 from cdds.common.request.request_validations import validate_request
-from cdds.common.request.request_section import expand_path
 from cdds.common.request.validations.exceptions import CVPathError, CVEntryError
 
 from cdds.common.plugins.plugins import PluginStore
@@ -37,18 +34,7 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
     valid = True
     messages = []
 
-    interpolation = EnvInterpolation()
-    request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
-    request_config.optionxform = str   # type: ignore # Preserve case.
-    request_config.read(request_path)
-    if request_config.has_section('inheritance'):
-        template = request_config.get('inheritance', 'template')
-        if template:
-            template_path = expand_path(template)
-            interpolation = EnvInterpolation()
-            request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
-            request_config.optionxform = str  # type: ignore # Preserve case.
-            request_config.read([template_path, request_path])
+    request_config = read_request_config(request_path)
 
     load_cdds_plugins(request_config)
 

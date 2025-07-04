@@ -186,21 +186,7 @@ def read_request(request_path: str) -> Request:
     :return: The information from the request.
     :rtype: Request
     """
-    logger = logging.getLogger(__name__)
-    logger.debug('Reading request information from "{}"'.format(request_path))
-
-    interpolation = EnvInterpolation()
-    request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
-    request_config.optionxform = str  # type: ignore # Preserve case.
-    request_config.read(request_path)
-    if request_config.has_section('inheritance'):
-        template = request_config.get('inheritance', 'template')
-        if template:
-            template_path = expand_path(template)
-            interpolation = EnvInterpolation()
-            request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
-            request_config.optionxform = str  # type: ignore # Preserve case.
-            request_config.read([template_path, request_path])
+    request_config = read_request_config(request_path)
 
     load_cdds_plugins(request_config)
     calendar = request_config.get('metadata', 'calendar')
@@ -213,6 +199,44 @@ def read_request(request_path: str) -> Request:
         plugin = PluginStore.instance().get_plugin()
         plugin.overload_models_parameters(request.conversion.model_params_dir)
     return request
+
+
+def read_request_config(request_path: str) -> ConfigParser:
+    """
+    Returns the information from the request file as a configparser object.
+    The inheritance section of the request is handled here
+
+    :param request_path: The full path to the cfg file containing the information from the request.
+    :type request_path: str
+    :return: The information from the request.
+    :rtype: ConfigParser
+    """
+    logger = logging.getLogger(__name__)
+    logger.debug('Reading request information from "{}"'.format(request_path))
+
+    interpolation = EnvInterpolation()
+    request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
+    request_config.optionxform = str  # type: ignore # Preserve case.
+
+    # Confirm provided request config file exists first
+    if not os.path.exists(request_path):
+        raise RuntimeError(f'Request config file "{request_path}" not found. '
+                           'Please check the command line arguments and try again.')
+
+    request_config.read(request_path)
+    if request_config.has_section('inheritance'):
+        template = request_config.get('inheritance', 'template')
+        if template:
+            template_path = expand_path(template)
+            if not os.path.exists(template_path):
+                raise RuntimeError(f'Request config file "{template_path}" specified in the template field '
+                                   f'(inheritance section) of the request file "{request_path}" was not found. '
+                                   'Please correct this path and try again.')
+            interpolation = EnvInterpolation()
+            request_config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
+            request_config.optionxform = str  # type: ignore # Preserve case.
+            request_config.read([template_path, request_path])
+    return request_config
 
 
 def read_request_from_rose_suite_info(svn_url: str, arguments: RoseSuiteArguments) -> Request:

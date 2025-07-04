@@ -60,6 +60,16 @@ class TestReadRequest(TestCase):
         self.assertDictEqual(request.inventory.items, expected_test_minimal_inventory())
         self.assertDictEqual(request.conversion.items, expected_test_minimal_conversion())
 
+    def test_read_missing_request_file(self):
+        request_path = os.path.join(self.data_dir, 'non-existent-request-file.cfg')
+        with self.assertRaises(RuntimeError):
+            read_request(request_path)
+
+    def test_read_missing_inheritance_template_in_request_file(self):
+        request_path = os.path.join(self.data_dir, 'test_request_inheritance_failure.cfg')
+        with self.assertRaises(RuntimeError):
+            read_request(request_path)
+
 
 class TestWriteRequest(TestCase):
     def setUp(self) -> None:
