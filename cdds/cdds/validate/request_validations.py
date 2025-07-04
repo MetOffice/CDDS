@@ -4,9 +4,7 @@
 Module providing functionality to validate request configuration
 """
 import logging
-import os
 
-from configparser import ConfigParser
 from metomi.isodatetime.data import Calendar
 from typing import Tuple, List
 
@@ -17,9 +15,7 @@ from cdds.common.request.misc_section import MiscSection
 from cdds.common.request.inventory_section import InventorySection
 from cdds.common.request.common_section import CommonSection
 from cdds.common.request.data_section import DataSection
-from cdds.common.configparser.interpolation import EnvInterpolation
 from cdds.common.request.request_validations import validate_request
-from cdds.common.request.request_section import expand_path
 from cdds.common.request.validations.exceptions import CVPathError, CVEntryError
 
 from cdds.common.plugins.plugins import PluginStore
