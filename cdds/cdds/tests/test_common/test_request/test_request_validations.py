@@ -59,6 +59,7 @@ class TestValidateDataSection(TestCase):
 
     def setUp(self):
         defaults = data_defaults()
+        defaults['model_workflow_id'] = 'u-gs135'
         self.section = DataSection(**defaults)
 
     def test_start_date_before_end_date_succeed(self):
@@ -70,6 +71,15 @@ class TestValidateDataSection(TestCase):
         self.section.start_date = TimePoint(year=2010, month_of_year=1, day_of_month=1)
         self.section.end_date = TimePoint(year=1990, month_of_year=1, day_of_month=1)
         self.assertRaises(AttributeError, validate_data_section, self.section)
+
+    def test_correct_workflow_id_format_succeed(self):
+        validate_data_section(self.section)
+
+    def test_incorrect_workflow_id_format_failed(self):
+        for invalid_id in ['5-125', 'adf-fa223', 'ad-gwsgs', '3-', True, None, '']:
+            with self.subTest(model_workflow_id=invalid_id):
+                self.section.model_workflow_id = invalid_id
+                self.assertRaises(AttributeError, validate_data_section, self.section)
 
 
 class TestValidateMetadataSection(TestCase):

@@ -260,6 +260,34 @@ class TestSectionValidatorFactory(TestCase):
         self.assertFalse(valid)
         self.assertEqual(message, 'Property "mip_era" must be set.')
 
+    def test_valid_workflow_id_succeed(self):
+        validate_func = SectionValidatorFactory.workflow_id_validator()
+        valid, message = validate_func('u-gs135', 'model_workflow_id')
+        self.assertTrue(valid)
+        self.assertEqual(message, '')
+
+    def test_workflow_id_value_falsy_failed(self):
+        validate_func = SectionValidatorFactory.workflow_id_validator()
+        valid, message = validate_func('', 'model_workflow_id')
+        self.assertFalse(valid)
+        self.assertEqual(message, '"model_workflow_id" must not be blank.')
+
+    def test_workflow_id_value_blank_failed(self):
+        validate_func = SectionValidatorFactory.workflow_id_validator()
+        valid, message = validate_func('   ', 'model_workflow_id')
+        self.assertFalse(valid)
+        self.assertEqual(message, '"model_workflow_id" must not be blank.')
+
+    def test_workflow_id_value_incorrect_format_failed(self):
+        validate_func = SectionValidatorFactory.workflow_id_validator()
+        valid, message = validate_func('dd-ddd', 'model_workflow_id')
+        self.assertFalse(valid)
+        self.assertEqual(
+            message,
+            '"model_workflow_id" must match the format: one or two letters, a dash, '
+            'two letters, three digits (e.g. "u-gs135" or "uf-gs135").'
+        )
+
 
 if __name__ == '__main__':
     unittest.main()

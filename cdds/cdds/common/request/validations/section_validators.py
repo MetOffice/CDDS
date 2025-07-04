@@ -290,6 +290,28 @@ class SectionValidatorFactory:
         return validate
 
     @classmethod
+    def workflow_id_validator(cls) -> Callable[[str, str], Tuple[bool, str]]:
+        """
+        Returns a validator to ensure model_workflow_id is not blank or only whitespace,
+        and if set, matches the required format: one or two letters, a dash, two letters, three digits.
+        E.g. "u-gs135" or "uf-gs135"
+        :return: validate function
+        :rtype: Callable[[str, str], Tuple[bool, str]]
+        """
+        def validate(value: str, property_name: str):
+            if not value or (isinstance(value, str) and not value.strip()):
+                return False, '"{}" must not be blank.'.format(property_name)
+
+            pattern = r"^[a-zA-Z]{1,2}-[a-zA-Z]{2}\d{3}$"
+            if not re.match(pattern, value.strip()):
+                return False, (
+                    '"{}" must match the format: one or two letters, a dash, two letters, three digits '
+                    '(e.g. "u-gs135" or "uf-gs135").'.format(property_name)
+                )
+            return True, ''
+        return validate
+
+    @classmethod
     def exist_validator(cls) -> Callable[[str, str], Tuple[bool, str]]:
         """
         Returns a validator to validate if given value exist and set.
