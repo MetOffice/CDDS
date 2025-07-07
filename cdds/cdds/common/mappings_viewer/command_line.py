@@ -14,13 +14,11 @@ def main():
     """
     arguments = parse_args()
     model = arguments.model_name
-    # models = ['UKESM1', 'HadGEM3']
-    # for model in models:
-    load_mapping_plugin(model)
+
+    load_mapping_plugin(model, arguments.plugin_module_path, arguments.plugin_location)
     mip_convert_root_dir = os.path.dirname(os.path.realpath(mip_convert.__file__))
-    plugin = find_external_plugin(model, arguments.plugin_location)
-    if arguments.model_location is not None:
-        mappings_dir = os.path.join(arguments.model_location, 'data')
+    if arguments.plugin_location:
+        mappings_dir = os.path.join(arguments.plugin_location, model, 'data')
     else:
         mappings_dir = os.path.join(mip_convert_root_dir, 'plugins', model.lower(), 'data')
     mappings = get_mappings(model, mappings_dir, arguments)
@@ -55,7 +53,12 @@ def parse_args():
     parser.add_argument('-l',
                         '--plugin_location',
                         default=None,
-                        help='The directory of the model you require mappings for',
+                        help='The directory of the plugin you require mappings for',
+                        type=str)
+    parser.add_argument('-p',
+                        '--plugin_module_path',
+                        default=None,
+                        help='The module path of the plugin you require mappings for',
                         type=str)
     args = parser.parse_args()
 
