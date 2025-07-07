@@ -198,6 +198,7 @@ def format_mapping(expression, stash_meta_dictionary, processors):
                 tooltip_stash = TOOLTIP_TEMPLATE.format(code, description + '\n' + help)
                 formatted_expression = formatted_expression.replace(code, tooltip_stash)
     # Format the constants
+    breakpoint()
     mapping_plugin = MappingPluginStore.instance().get_plugin()
     for k, v in mapping_plugin.constants().items():
         if k in expression:
