@@ -5,7 +5,7 @@ import os
 import mip_convert
 
 from cdds.common.mappings_viewer.mappings_viewer import build_table, generate_html, get_mappings
-from mip_convert.plugins.plugin_loader import load_mapping_plugin, find_external_plugin
+from mip_convert.plugins.plugin_loader import load_mapping_plugin, find_external_plugin, find_internal_plugin
 
 
 def main():
@@ -16,11 +16,11 @@ def main():
     model = arguments.model_name
 
     load_mapping_plugin(model, arguments.plugin_module_path, arguments.plugin_location)
-    mip_convert_root_dir = os.path.dirname(os.path.realpath(mip_convert.__file__))
     if arguments.plugin_location:
-        mappings_dir = os.path.join(arguments.plugin_location, model, 'data')
+        plugin = find_external_plugin(model, arguments.plugin_module_path)
     else:
-        mappings_dir = os.path.join(mip_convert_root_dir, 'plugins', model.lower(), 'data')
+        plugin = find_internal_plugin(model)
+    mappings_dir = plugin.mapping_data_dir
     mappings = get_mappings(model, mappings_dir, arguments)
     table = build_table(mappings, mappings_dir, arguments)
     generate_html(table, model, mappings_dir, arguments)

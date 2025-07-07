@@ -3,6 +3,7 @@
 import glob
 import os
 import re
+import warnings
 
 from configparser import ConfigParser, ExtendedInterpolation
 
@@ -117,7 +118,9 @@ def get_mapping_lines(arguments, mappings_directory):
         with open(cfg_file, 'r') as f:
             lines = f.readlines()
             for i, line in enumerate(lines):
-                result = re.match(r'^[[][\w]+[]]', line)
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    result = re.match(r'^[[][\w]+[]]', line)
                 if result:
                     mapping_name = line.strip().lstrip('[').rstrip(']')
                     line_mappings[cfg_name][mapping_name] = i + 1
