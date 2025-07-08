@@ -2,12 +2,11 @@
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 import unittest
-from tempfile import TemporaryDirectory
+import tempfile
 import os
 from cdds.common.mappings_viewer.command_line import main
 from unittest.mock import patch
 import unittest
-import tempfile
 import os
 import sys
 
