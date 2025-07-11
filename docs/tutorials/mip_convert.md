@@ -23,7 +23,9 @@ graph LR
 
 ## Quick Start Guide
 
-1. Download the template user configuration file [`mip_convert.cfg`](https://github.com/MetOffice/CDDS/blob/main/mip_convert/etc/mip_convert.cfg).
+1. Download a template user configuration file (For ad hoc use we recommend using the no parent example):
+    - If you intend to convert a dataset without a parent: [`mip_convert_amip_no_parent.cfg`](https://github.com/MetOffice/CDDS/blob/main/mip_convert/etc/mip_convert_amip_no_parent.cfg).
+    - If you intend to convert the child of a parent dataset: [`mip_convert_piControl_parent.cfg`](https://github.com/MetOffice/CDDS/blob/main/mip_convert/etc/mip_convert_piControl_parent.cfg).
 
 2. Make the appropriate edits to the template user configuration file using the information provided in the "User Configuration File" section and the specified sections in the [CMOR Documentation](https://cmor.llnl.gov/).
 
@@ -34,7 +36,7 @@ graph LR
 
 4. Produce the output netCDF files by running `mip_convert` and passing in the modified user configuration file as an argument.
     ```bash
-    mip_convert mip_convert.cfg
+    mip_convert mip_convert_<modified_template_name>.cfg
     ```
 
 5. Check the exit code
