@@ -152,7 +152,10 @@ class Dataset(object):
         self._items.update({'history': self._user_config.history})
         # Add whether CMIP6 validation should be performed.
         if not self._relaxed_cmor:
-            self._items.update({'_cmip6_option': 'CMIP6'})
+            if self._items['mip_era'].startswith('CMIP7'):
+                self._items.update({'_cmip7_option': 'CMIP7'})
+            else:
+                self._items.update({'_cmip6_option': 'CMIP6'})
         # Add the items that can be determined from the 'variant_label'.
         self._items.update(self._items_from_variant_label)
         # Add the items that can be determined from the CV file.

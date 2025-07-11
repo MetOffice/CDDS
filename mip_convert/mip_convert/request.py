@@ -111,6 +111,11 @@ def convert(parameters):
         model_to_mip_mappings = mapping_plugin.load_model_to_mip_mapping(mip_table_name)
 
         # Read and validate the 'MIP table'.
+        # Handle CMIP7 style references:
+        if "@" in mip_table_name:
+            mip_table_name, frequency = mip_table_name.split("@")
+        else:
+            frequency = None
         mip_table_name_json = mip_table_name + '.json'
         mip_table = get_mip_table(user_config.inpath, mip_table_name_json)
 
@@ -119,7 +124,7 @@ def convert(parameters):
             try:
                 produce_mip_requested_variable(variable_name, stream_id, substream, mip_table, user_config,
                                                site_information, hybrid_height_information, replacement_coordinates,
-                                               model_to_mip_mappings, filenames)
+                                               model_to_mip_mappings, filenames, frequency)
             except Exception as error:
                 total_number_of_variables_with_errors += 1
                 message = 'Unable to produce MIP requested variable "{}" for "{}": {}'
