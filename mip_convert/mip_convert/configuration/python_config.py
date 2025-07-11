@@ -12,6 +12,7 @@ import configparser
 from cdds.common.constants import COMMENT_FORMAT, DATE_TIME_FORMAT
 from cdds.common import remove_newlines
 from mip_convert.configuration.common import AbstractConfig, ValidateConfigError
+from cdds.common.configparser.interpolation import EnvInterpolation
 from mip_convert.configuration.user_config import cmor_setup_config, cmor_dataset_config, request_config
 from mip_convert.configuration.masking_config import load_mask_from_config
 from mip_convert.configuration.removal_config import load_halo_removal_from_config
@@ -28,7 +29,7 @@ class PythonConfig(AbstractConfig):
 
     @staticmethod
     def _config():
-        interpolation = configparser.ExtendedInterpolation()
+        interpolation = EnvInterpolation()
         config = configparser.ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
         config.optionxform = str  # Preserve case.
         return config
