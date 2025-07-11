@@ -23,9 +23,9 @@ graph LR
 
 ## Quick Start Guide
 
-1. Download a template user configuration file (For ad hoc use we recommend using the no parent example):
-    - If you intend to convert a dataset without a parent: [`mip_convert_amip_no_parent.cfg`](https://github.com/MetOffice/CDDS/blob/main/mip_convert/etc/mip_convert_amip_no_parent.cfg).
-    - If you intend to convert the child of a parent dataset: [`mip_convert_piControl_with_parent.cfg`](https://github.com/MetOffice/CDDS/blob/main/mip_convert/etc/mip_convert_piControl_with_parent.cfg).
+1. Download a template user configuration file. Below are provided two examples, one with parent information and one without. Parent experiment information is used in CMIP to define where the initial conditions in a simulation are taken from, for example the historical experiments take their initial conditions from a point the pre-industrial control run (which needs to be documented). Certain experiments, such as the amip (atmosphere only recent history simulation) do not have a parent experiment and therefore this information is not required. For ad hoc use we recommend using the no parent example:
+    - If you intend to convert a dataset without parent information: [`mip_convert_amip_no_parent.cfg`](https://github.com/MetOffice/CDDS/blob/main/mip_convert/etc/mip_convert_amip_no_parent.cfg).
+    - If you intend to convert a dataset with parent information: [`mip_convert_piControl_with_parent.cfg`](https://github.com/MetOffice/CDDS/blob/main/mip_convert/etc/mip_convert_piControl_with_parent.cfg).
 
 2. Make the appropriate edits to the template user configuration file using the information provided in the "User Configuration File" section and the specified sections in the [CMOR Documentation](https://cmor.llnl.gov/).
 
