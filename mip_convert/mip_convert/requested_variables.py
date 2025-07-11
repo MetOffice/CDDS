@@ -57,7 +57,7 @@ def get_requested_variables(
 def produce_mip_requested_variable(
         variable_name: str, stream_id: str, substream: str, mip_table: MIPConfig, user_config: UserConfig,
         site_information: SitesConfig, hybrid_height_information: HybridHeightConfig, replacement_coordinates: CubeList,
-        model_to_mip_mappings: ModelToMIPMappingConfig, filenames: List[str]) -> None:
+        model_to_mip_mappings: ModelToMIPMappingConfig, filenames: List[str], frequency: str) -> None:
     """
     Produce the |output netCDF files| for the |MIP requested variable|.
 
@@ -85,6 +85,8 @@ def produce_mip_requested_variable(
         The filenames (including the full path) of the files required
         to produce the |output netCDF files| for the
         |MIP requested variable|.
+    frequency: str or None
+        The frequency at which to procude the specified variable.
     """
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
@@ -115,6 +117,9 @@ def produce_mip_requested_variable(
 
     # Create the CMOR saver.
     saver = cmor_lite.get_saver(mip_table.name, variable_name)
+    # set the frequency to use if needed
+    if frequency:
+        saver.cmor.set_frequency(frequency)
 
     # Process the data by performing the appropriate 'model to MIP mapping', then save the 'MIP output variable'
     # to an 'output netCDF file'.

@@ -193,7 +193,13 @@ class MipVar(object):
         """
         returns a list of dimension entry names for this variable
         """
-        return self.parsed['dimensions'].split()
+        dimensions = self.parsed['dimensions']
+        if isinstance(dimensions, str):
+            return dimensions.split()
+        elif isinstance(dimensions, list):
+            return dimensions
+        else:
+            raise RuntimeError(f'Dimensions "{dimensions}" not recognised')
 
 
 class MipAxis(object):
