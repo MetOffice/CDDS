@@ -114,7 +114,7 @@ class TestDataset(unittest.TestCase):
         self.parent_activity_id = 'CMIP'
         self.required_global_attributes = [
             'activity_id', 'branch_method', 'experiment', 'experiment_id', 'institution_id',
-            'source', 'source_type', 'variant_label'
+            'source', 'source_type', 'sub_experiment_id', 'sub_experiment', 'variant_label'
         ]
         self.required_source_type = ['AOGCM', 'BGC']
         self.source = 'Long description of model'
