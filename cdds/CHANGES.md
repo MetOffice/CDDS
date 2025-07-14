@@ -1,3 +1,12 @@
+## Release 3.2.0, June 12, 2025
+
+-   Support for MIP Convert mappings plugin (CDDSO-541)
+-   Introduced core code to support SI3 sea-ice model for HadGEM3-GC5 (CDDSO-591)
+-   Extract handles TSSC_SPANS_TOO_MANY_RESOURCES error correctly when retrieving data from MASS (CDDSO-647)
+-   Added a --no-submit option to cdds_convert to allow option for user to modify cylc workflow before submission (CDDSO-637)
+-   Rewrote path_reformatter script as cdds_arrange_input_data and improved documentation (CDDSO-658)
+-   Improved generation of moose select query files to avoid hitting size limits for large queries (#470)
+
 ## Release 3.1.2, April 30 2025
 
 -   The `conversion` workflow now runs on JASMIN/LOTUS2 (CDDS-584)
