@@ -244,7 +244,10 @@ class CVConfig(JSONConfig):
         sub_experiment_id: str
             The sub-|experiment identifier|.
         """
-        return self._get_value_from_cv(CVKey.SUB_EXPERIMENT_ID, sub_experiment_id)
+        if 'sub_experiment_id' in self.config['CV']['required_global_attributes']:
+            return self._get_value_from_cv(CVKey.SUB_EXPERIMENT_ID, sub_experiment_id)
+        else:
+            return None
 
     @property
     def tracking_prefix(self):
