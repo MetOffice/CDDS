@@ -1003,7 +1003,13 @@ class VariableMIPMetadata(object):
                  as specified in the |MIP table|
         :rtype: list
         """
-        return self.variable_info['dimensions'].split()
+        dimensions = self.variable_info['dimensions']
+        if isinstance(dimensions, str):
+            return dimensions.split()
+        elif isinstance(dimensions, list):
+            return dimensions
+        else:
+            raise RuntimeError(f'Dimensions "{dimensions}" not recognised')
 
     @property
     def axes_directions_names(self):
