@@ -198,7 +198,7 @@ The required `request` section contains the following options which are used onl
 | `hybrid_heights_file`                 |          | A space separated list of the full path to the files containing the information about the hybrid heights.                                                                              | [3]    |
 | `mask_slice`                          | Yes      | Optional slicing expression for masking data in the form of `n:m,i:j`, or `no_mask`                                                                                                    | [4][8] |
 | `model_output_dir`                    | Yes      | The full path to the root directory containing the model output files.                                                                                                                 | [5]    |
-| `mip_convert_plugin`                  | Yes      | The id of the MIP convert plugin that should be used.                                                                                                                                  | [5]    |
+| `mip_convert_plugin`                  | Yes      | The id of the MIP convert plugin that should be used.                                                                                                                                  |      |
 | `mip_convert_external_plugin`         |          | The module path to external MIP convert plugin, e.g. `cdds_arise.arise_mip_convert_plugin`.                                                                                            |        |
 | `mip_convert_external_plugin_location`|          | The full path to the external plugin implementation, e.g. `$CDDS_ETC/mapping_plugins/arise`.                                                                                                    |        |
 | `reference_time`                      | Yes      | The reference time used to construct `reftime` and `leadtime` coordinates. Only used if these coordinates are specified corresponding variable entries in the MIP table                |        |
@@ -292,5 +292,12 @@ For all streams that have no specified slicing period the default slicing period
 
 ### **global_attributes**
 
-The optional `global_attributes` section.
-Any information provided in the optional `global_attributes <global_attributes>` section will be written to the header of the output netCDF files.
+The required `global_attributes` section.
+
+You must add the following line here or Mip Convert will not run:
+
+```config
+further_info_url = https://furtherinfo.es-doc.org/
+```
+
+Any additional information provided in the `global_attributes <global_attributes>` section will be written to the header of the output netCDF files.
