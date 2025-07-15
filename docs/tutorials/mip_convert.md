@@ -247,12 +247,12 @@ Multiple `[stream_<stream_id>]` sections can be defined.
 
     ```config
     [stream_ap5]
-    CMIP6_Amon: tas pr
-    CMIP6_Emon: ps
+    CMIP6_Amon = tas pr
+    CMIP6_Emon = ps
     
     [stream_ap6]
-    CMIP6_Amon: tasmax
-    CMIP6_day: tasmin
+    CMIP6_Amon = tasmax
+    CMIP6_day = tasmin
     ```
 
 
@@ -274,8 +274,8 @@ The optional `halo removal` section is used if for a particular stream haloes ar
 !!! example
     ```config
     [halo_removal]
-    stream_apa: 5:,:-10
-    stream_ap6: 20:-15
+    stream_apa = 5:,:-10
+    stream_ap6 = 20:-15
     ```
 
 ### **slicing_periods**
@@ -286,8 +286,8 @@ For all streams that have no specified slicing period the default slicing period
 !!! example
     ```config
     [slicing_periods]
-    stream_apa: month
-    stream_ap6: year
+    stream_apa = month
+    stream_ap6 = year
     ```
 
 ### **global_attributes**
