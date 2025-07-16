@@ -4,16 +4,28 @@
 Module to specify the classes that are needed for storing the information of the test data for
 functional tests in MIP convert
 """
-from abc import ABC
-from dataclasses import dataclass, asdict, field
-from typing import Dict, Any, List
 
-from mip_convert.tests.test_functional.utils.constants import (ARISE_LICENSE, CMIP6_LICENSE, CORDEX_LICENSE,
-                                                               GCMODELDEV_LICENSE)
-from mip_convert.tests.test_functional.utils.directories import (CMIP6_MIP_TABLE_DIR, CORDEX_MIP_TABLE_DIR,
-                                                                 ARISE_MIP_TABLE_DIR, SEASONAL_MIP_TABLE_DIR,
-                                                                 NAHOSMIP_MIP_TABLE_DIR,
-                                                                 ROOT_REFERENCE_DATA_DIR, ROOT_ANCIL_DIR)
+from abc import ABC
+from dataclasses import asdict, dataclass, field
+from typing import Any, Dict, List
+
+from mip_convert.tests.test_functional.utils.constants import (
+    ARISE_LICENSE,
+    CMIP6_LICENSE,
+    CMIP7_LICENSE,
+    CORDEX_LICENSE,
+    GCMODELDEV_LICENSE,
+)
+from mip_convert.tests.test_functional.utils.directories import (
+    ARISE_MIP_TABLE_DIR,
+    CMIP6_MIP_TABLE_DIR,
+    CMIP7_MIP_TABLE_DIR,
+    CORDEX_MIP_TABLE_DIR,
+    NAHOSMIP_MIP_TABLE_DIR,
+    ROOT_ANCIL_DIR,
+    ROOT_REFERENCE_DATA_DIR,
+    SEASONAL_MIP_TABLE_DIR,
+)
 
 
 @dataclass
@@ -76,6 +88,30 @@ class CommonInfo:
                 'calendar': '360_day',
                 'grid_label': 'gn',
                 'institution_id': 'MOHC',
+            }
+        )
+
+    @classmethod
+    def default_cmip7_common_info(cls) -> 'CommonInfo':
+        """
+        Returns the default common values for the projects CMIP6, CORDEX and ARISE.
+
+        :return: Default common values
+        :rtype: CommonInfo
+        """
+        return CommonInfo(
+            common={
+                'root_test_location': ROOT_REFERENCE_DATA_DIR,
+                'root_ancil_dir': ROOT_ANCIL_DIR
+            },
+            cmor_setup={
+                # 'cmor_log_file': '${COMMON:test_location}/cmor.log',  # Kerstin move to specific info?
+                'create_subdirectories': '0'
+            },
+            cmor_dataset={
+                'calendar': '360_day',
+                'grid_label': 'gn',
+                'institution_id': 'PCMDI',
             }
         )
 
@@ -156,6 +192,58 @@ class ProjectInfo:
             },
             global_attributes={
                 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1'
+            }
+        )
+
+    @classmethod
+    def cmip7_project_info(cls) -> 'ProjectInfo':
+        """
+        Returns all common values that are specific for CMIP7 projects.
+
+        :return: Values that are specific for CMIP7 projects
+        :rtype: ProjectInfo
+        """
+        return ProjectInfo(
+            project_id='CMIP7',
+            cmor_setup={
+                'mip_table_dir': CMIP7_MIP_TABLE_DIR,
+                'netcdf_file_action': 'CMOR_REPLACE_4',
+            },
+            cmor_dataset={
+                'grid': 'Native N96 grid; 192 x 144 longitude/latitude',
+                'branch_method': 'standard',
+                'experiment_id': '1pctCO2',
+                'license': CMIP7_LICENSE,
+                'mip': 'CMIP',
+                'mip_era': 'CMIP7',
+                'model_id': 'PCMDI-test-1-0',
+                'model_type': 'AOGCM AER',
+                'nominal_resolution': '250 km',
+                'variant_label': 'r1i1p1f1',
+                'parent_experiment_id': 'piControl',
+                'parent_mip_era': 'CMIP7',
+                'parent_time_units': 'days since 1850-01-01',
+                'parent_variant_label': 'r1i1p1f1'
+
+            },
+            request={
+                'base_date': '1850-01-01T00:00:00',
+                'force_coordinate_rotation': False
+            },
+            global_attributes={
+                # 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1',
+                'archive_id': 'WCRP',
+                'area_label': 'u',
+                'branch_time_in_child': "1850-01-01",
+                'branch_time_in_parent': "1860-01-01",
+                'branding_suffix': 'tavg-h2m-hxy-u',
+                'temporal_label': 'tavg',
+                'vertical_label': 'h2m',
+                'horizontal_label': 'hxy',
+                'host_collection': 'CMIP7',
+                'parent_source_id': "PCMDI-test-1-0",
+                'region': "glb",
+                'license_id': 'CC BY 4.0'
             }
         )
 
@@ -485,6 +573,17 @@ class Cmip6TestData(AbstractTestData):
     project_id: str = field(init=False, default_factory=lambda: 'CMIP6')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cmip6_project_info())
+    specific_info: SpecificInfo = None
+
+
+@dataclass
+class Cmip7TestData(AbstractTestData):
+    """
+    Stores test data for CMIP6 projects
+    """
+    project_id: str = field(init=False, default_factory=lambda: 'CMIP7')
+    common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_cmip7_common_info())
+    project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cmip7_project_info())
     specific_info: SpecificInfo = None
 
 
