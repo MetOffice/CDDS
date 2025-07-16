@@ -243,7 +243,6 @@ class ProjectInfo:
                 'host_collection': 'CMIP7',
                 'parent_source_id': "PCMDI-test-1-0",
                 'region': "glb",
-                'license_id': 'CC BY 4.0'
             }
         )
 
