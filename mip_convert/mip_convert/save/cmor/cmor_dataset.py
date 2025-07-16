@@ -154,7 +154,7 @@ class Dataset(object):
         if not self._relaxed_cmor:
             if self._items['mip_era'] == 'CMIP7':
                 self._items.update({'_cmip7_option': 'CMIP7'})
-            elif self._items['mip_era'] == 'CMIP6':
+            else:
                 self._items.update({'_cmip6_option': 'CMIP6'})
         # Add CMIP7 specific item.
         if self._items['mip_era'] == 'CMIP7':
