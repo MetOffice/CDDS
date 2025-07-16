@@ -222,26 +222,19 @@ class ProjectInfo:
                 'variant_label': 'r1i1p1f1',
                 'parent_experiment_id': 'piControl',
                 'parent_mip_era': 'CMIP7',
+                'parent_model_id': 'PCMDI-test-1-0',
                 'parent_time_units': 'days since 1850-01-01',
                 'parent_variant_label': 'r1i1p1f1'
-
             },
             request={
                 'base_date': '1850-01-01T00:00:00',
                 'force_coordinate_rotation': False
             },
             global_attributes={
-                # 'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.amip.none.r1i1p1f1',
                 'archive_id': 'WCRP',
-                'area_label': 'u',
                 'branch_time_in_child': "1850-01-01",
                 'branch_time_in_parent': "1860-01-01",
-                'branding_suffix': 'tavg-h2m-hxy-u',
-                'temporal_label': 'tavg',
-                'vertical_label': 'h2m',
-                'horizontal_label': 'hxy',
                 'host_collection': 'CMIP7',
-                'parent_source_id': "PCMDI-test-1-0",
                 'region': "glb",
             }
         )
