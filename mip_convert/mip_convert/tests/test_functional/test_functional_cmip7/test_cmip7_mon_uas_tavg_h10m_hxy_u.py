@@ -45,7 +45,7 @@ class TestCmip7_uas_tavg_h10m_hxy_u(AbstractFunctionalTests):
             )
         )
 
-    # @pytest.mark.slow
+    @pytest.mark.slow
     def test_cmip7_amon_tasmax(self):
         self.maxDiff = True
         self.check_convert()

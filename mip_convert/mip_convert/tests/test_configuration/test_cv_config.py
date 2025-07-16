@@ -66,6 +66,7 @@ class TestCVConfig(unittest.TestCase):
                 'institution_id': {
                     self.institution_id: self.institution
                 },
+                'mip_era': self.mip_era,
                 'source_id': {
                     self.source_id: {
                         'source': self.source

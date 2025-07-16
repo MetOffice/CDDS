@@ -290,6 +290,12 @@ class CVConfig(JSONConfig):
             'Conventions', 'creation_date', 'data_specs_version', 'frequency',
             'mip_era', 'product', 'realm', 'table_id', 'tracking_id',
             'variable_id']
+
+        if 'CMIP7' in self.config['CV']['mip_era']:
+            written_by_cmor += [
+                'area_label', 'branding_suffix', 'horizontal_label',
+                'temporal_label', 'vertical_label']
+
         required = []
         if CVKey.REQUIRED_GLOBAL_ATTRIBUTES in self.config['CV']:
             required = self.config['CV'][CVKey.REQUIRED_GLOBAL_ATTRIBUTES]
