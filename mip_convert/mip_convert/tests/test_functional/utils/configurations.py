@@ -404,7 +404,7 @@ class ProjectInfo:
                 'experiment_id': 'amip',
                 'license': CMIP6_LICENSE,
                 'mip': 'CMIP',
-                'mip_era': 'SEASONAL',
+                'mip_era': 'CMIP6',
                 'model_id': 'UKESM1-0-LL',
                 'model_type': 'AGCM',
                 'nominal_resolution': '5 km',
