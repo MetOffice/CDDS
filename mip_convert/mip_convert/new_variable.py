@@ -440,7 +440,22 @@ class Variable(object):
             for key, cube in self.input_variables.items():
                 new_latitude = cube.coord('latitude')[stream_removal.slice_latitude]
                 new_longitude = cube.coord('longitude')[stream_removal.slice_longitude]
-                new_cube = cube.subset(new_latitude).subset(new_longitude)
+                try:
+                    new_cube = cube.subset(new_latitude).subset(new_longitude)
+                except Exception as e:
+                    self.logger.info(f"Subsetting failed for cube {cube.name()} as it has 2D coordinates. Attempting halo removal via masking.")
+                    lat_min = np.nanmin(new_latitude.points)
+                    lat_max = np.nanmax(new_latitude.points)
+                    lon_min = np.nanmin(new_longitude.points)
+                    lon_max = np.nanmax(new_longitude.points)
+                    lat_points = cube.coord('latitude').points
+                    lon_points = cube.coord('longitude').points
+                    mask = (lat_points >= lat_min) & (lat_points <= lat_max) & (lon_points >= lon_min) & (lon_points <= lon_max)
+
+                    broadcast_mask = np.broadcast_to(mask, cube.data.shape)
+                    cube.data = np.ma.masked_where(~broadcast_mask, cube.data)
+                    new_cube = cube  # If you want to keep the same reference
+
                 self.input_variables[key] = new_cube
 
     def _apply_expression(self):
