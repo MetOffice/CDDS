@@ -5,12 +5,11 @@ Module to provide checks for values defined in the rose-suite.info
 """
 import logging
 import time
-
 from typing import Dict, List, Callable, Any
 
-from cdds.common.configuration.cv_config import CVConfig
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo
 from cdds.common.validation import BaseCheckResult
+from mip_convert.configuration.cv_config import CVConfig
 
 
 ROSE_SUITE_EXPERIMENT_ID = 'experiment-id'
