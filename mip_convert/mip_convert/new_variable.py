@@ -454,7 +454,7 @@ class Variable(object):
 
                     broadcast_mask = np.broadcast_to(mask, cube.data.shape)
                     cube.data = np.ma.masked_where(~broadcast_mask, cube.data)
-                    new_cube = cube  # If you want to keep the same reference
+                    new_cube = cube
 
                 self.input_variables[key] = new_cube
 
