@@ -7,8 +7,7 @@ import os
 
 
 from typing import TYPE_CHECKING, Tuple, List
-
-from cdds.common.configuration.cv_config import CVConfig
+from mip_convert.configuration.cv_config import CVConfig
 from cdds.common.request.validations.section_validators import (SectionValidatorFactory,
                                                                 CommonSectionValidator,
                                                                 MetadataSectionValidator,

@@ -6,8 +6,10 @@ Module to validate request against the controlled vocabulary
 import os
 
 from typing import Callable, TYPE_CHECKING
-from cdds.common.configuration.cv_config import CVConfig
+
 from cdds.common.request.validations.exceptions import CVPathError, CVEntryError
+from mip_convert.configuration.cv_config import CVConfig
+
 
 if TYPE_CHECKING:
     from cdds.common.request.request import Request
