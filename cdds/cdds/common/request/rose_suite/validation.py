@@ -11,7 +11,7 @@ from typing import Dict
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
-from cdds.common.configuration.cv_config import CVConfig
+from mip_convert.configuration.cv_config import CVConfig
 
 
 ROSE_SUITE_CV = 'controlled-vocabulary'

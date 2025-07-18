@@ -8,9 +8,9 @@ from unittest import TestCase
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.plugins import PluginStore
 from cdds.tests.factories.request_factory import simple_request
-from cdds.common.configuration.cv_config import CVConfig
 from cdds.common.request.validations.exceptions import CVPathError, CVEntryError
 from cdds.common.request.validations.cv_validators import CVValidatorFactory
+from mip_convert.configuration.cv_config import CVConfig
 
 
 class TestCVValidatorFactory(TestCase):
