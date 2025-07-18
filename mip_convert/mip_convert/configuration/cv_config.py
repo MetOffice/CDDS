@@ -162,6 +162,8 @@ class CVConfig(JSONConfig):
             return self._UNKNOWN
         # Otherwise attempt to get parent activity id from parentage
         # dictionary
+        # CMIP6 had multiple options for the parent activity id of an experiment, which needed to be
+        # handled separately. Not sure if this is true for CMIP7 yet.
         if mip_era == 'CMIP6':
             parentage_dict = self._get_parentage_dictionary(info)
             if parent_experiment_id not in parentage_dict:
