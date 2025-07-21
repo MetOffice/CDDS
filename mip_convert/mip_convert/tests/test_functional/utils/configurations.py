@@ -212,6 +212,8 @@ class ProjectInfo:
             cmor_dataset={
                 'grid': 'Native N96 grid; 192 x 144 longitude/latitude',
                 'branch_method': 'standard',
+                'branch_date_in_child': "1850-01-01T00:00:00",
+                'branch_date_in_parent': "1860-01-01T00:00:00",
                 'experiment_id': '1pctCO2',
                 'license': CMIP7_LICENSE,
                 'mip': 'CMIP',
@@ -220,6 +222,7 @@ class ProjectInfo:
                 'model_type': 'AOGCM AER',
                 'nominal_resolution': '250 km',
                 'variant_label': 'r1i1p1f1',
+                'parent_base_date': '1850-01-01T00:00:00',
                 'parent_experiment_id': 'piControl',
                 'parent_mip_era': 'CMIP7',
                 'parent_model_id': 'PCMDI-test-1-0',
@@ -232,8 +235,6 @@ class ProjectInfo:
             },
             global_attributes={
                 'archive_id': 'WCRP',
-                'branch_time_in_child': "1850-01-01",
-                'branch_time_in_parent': "1860-01-01",
                 'host_collection': 'CMIP7',
                 'region': "glb",
             }
