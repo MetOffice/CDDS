@@ -198,7 +198,7 @@ The required `request` section contains the following options which are used onl
 | `hybrid_heights_file`                 |          | A space separated list of the full path to the files containing the information about the hybrid heights.                                                                              | [3]    |
 | `mask_slice`                          | Yes      | Optional slicing expression for masking data in the form of `n:m,i:j`, or `no_mask`                                                                                                    | [4][8] |
 | `model_output_dir`                    | Yes      | The full path to the root directory containing the model output files.                                                                                                                 | [5]    |
-| `mip_convert_plugin`                  | Yes      | The id of the MIP convert plugin that should be used.                                                                                                                                  | [5]    |
+| `mip_convert_plugin`                  | Yes      | The id of the MIP convert plugin that should be used.                                                                                                                                  |      |
 | `mip_convert_external_plugin`         |          | The module path to external MIP convert plugin, e.g. `cdds_arise.arise_mip_convert_plugin`.                                                                                            |        |
 | `mip_convert_external_plugin_location`|          | The full path to the external plugin implementation, e.g. `$CDDS_ETC/mapping_plugins/arise`.                                                                                                    |        |
 | `reference_time`                      | Yes      | The reference time used to construct `reftime` and `leadtime` coordinates. Only used if these coordinates are specified corresponding variable entries in the MIP table                |        |
@@ -247,12 +247,12 @@ Multiple `[stream_<stream_id>]` sections can be defined.
 
     ```config
     [stream_ap5]
-    CMIP6_Amon: tas pr
-    CMIP6_Emon: ps
+    CMIP6_Amon = tas pr
+    CMIP6_Emon = ps
     
     [stream_ap6]
-    CMIP6_Amon: tasmax
-    CMIP6_day: tasmin
+    CMIP6_Amon = tasmax
+    CMIP6_day = tasmin
     ```
 
 
@@ -274,8 +274,8 @@ The optional `halo_removal` section is used if haloes need to be removed from pa
 !!! example
     ```config
     [halo_removal]
-    stream_apa: 5:,:-10
-    stream_ap6: 20:-15
+    stream_apa = 5:,:-10
+    stream_ap6 = 20:-15
     ```
 
 !!! tip
@@ -289,11 +289,20 @@ For all streams that have no specified slicing period the default slicing period
 !!! example
     ```config
     [slicing_periods]
-    stream_apa: month
-    stream_ap6: year
+    stream_apa = month
+    stream_ap6 = year
     ```
 
 ### **global_attributes**
 
-The optional `global_attributes` section.
-Any information provided in the optional `global_attributes <global_attributes>` section will be written to the header of the output netCDF files.
+The `global_attributes` section takes additional metadata to be added to the global attributes of 
+every netCDF file produced.
+
+Where a project specifies additional `required_global_attributes` in the Controlled Vocabulary files 
+these *must* be specified in this section. For example, for CMIP6 you must add the following line 
+here or MIP Convert will fail:
+
+```config
+further_info_url = https://furtherinfo.es-doc.org/
+```
+
