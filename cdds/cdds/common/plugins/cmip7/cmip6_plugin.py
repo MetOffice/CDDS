@@ -12,10 +12,10 @@ from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
 from cdds.common.plugins.base.base_plugin import BasePlugin, MipEra
 from cdds.common.plugins.base.base_models import BaseModelParameters
-from cdds.common.plugins.cmip6.cmip6_attributes import Cmip6GlobalAttributes
-from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
-from cdds.common.plugins.cmip6.cmip6_models import Cmip6ModelsStore
-from cdds.common.plugins.cmip6.cmip6_streams import Cmip6StreamStore
+from cdds.common.plugins.cmip7.cmip6_attributes import Cmip6GlobalAttributes
+from cdds.common.plugins.cmip7.cmip6_grid import Cmip6GridLabel
+from cdds.common.plugins.cmip7.cmip6_models import Cmip6ModelsStore
+from cdds.common.plugins.cmip7.cmip6_streams import Cmip6StreamStore
 if TYPE_CHECKING:
     from cdds.common.request.request import Request
 
@@ -46,7 +46,7 @@ class Cmip6Plugin(BasePlugin):
     """
 
     def __init__(self):
-        super(Cmip6Plugin, self).__init__(MipEra.CMIP6.value)
+        super(Cmip6Plugin, self).__init__(MipEra.CMIP7.value)
 
     def models_parameters(self, model_id: str) -> ModelParameters:
         """
