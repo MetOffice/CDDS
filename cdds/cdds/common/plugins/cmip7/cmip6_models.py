@@ -27,23 +27,23 @@ class Cmip6ModelId(ModelId):
         """
         return '{}.json'.format(self.value)
 
-    UKESM1_1_LL = 'UKESM1-1-LL'
+    UKESM1_3_LL = 'UKESM1-3-LL'
 
 
-class UKESM1_1_LL_Params(BaseModelParameters):
+class UKESM1_3_LL_Params(BaseModelParameters):
     """
-    Class to store the parameters for the UKESM1_0_LL model.
+    Class to store the parameters for the UKESM1_3_LL model.
     """
 
     def __init__(self) -> None:
-        super(UKESM1_1_LL_Params, self).__init__(Cmip6ModelId.UKESM1_1_LL)
+        super(UKESM1_3_LL_Params, self).__init__(Cmip6ModelId.UKESM1_3_LL)
 
     @property
     def model_version(self) -> str:
         """
-        Returns the model version of the UKESM1_0_LL model.
+        Returns the model version of the UKESM1_3_LL model.
 
-        :return: Model version of UKESM1_0_LL
+        :return: Model version of UKESM1_3_LL
         :rtype: str
         """
         return '1.0'
@@ -51,9 +51,9 @@ class UKESM1_1_LL_Params(BaseModelParameters):
     @property
     def data_request_version(self) -> str:
         """
-        Returns the data request version of the UKESM1_0_LL model.
+        Returns the data request version of the UKESM1_3_LL model.
 
-        :return: Data request version of UKESM1_0_LL
+        :return: Data request version of UKESM1_3_LL
         :rtype: str
         """
         return '01.00.17'
@@ -61,9 +61,9 @@ class UKESM1_1_LL_Params(BaseModelParameters):
     @property
     def um_version(self) -> str:
         """
-        Returns the UM version of the UKESM1_0_LL model.
+        Returns the UM version of the UKESM1_3_LL model.
 
-        :return: UM version of UKESM1_0_LL
+        :return: UM version of UKESM1_3_LL
         :rtype: str
         """
         return '10.8'
@@ -80,7 +80,7 @@ class Cmip6ModelsStore(BaseModelStore):
 
     def __init__(self) -> None:
         model_instances: List[BaseModelParameters] = [
-            UKESM1_1_LL_Params(),
+            UKESM1_3_LL_Params(),
         ]
         super(Cmip6ModelsStore, self).__init__(model_instances)
         self.logger = logging.getLogger(self.__class__.__name__)
