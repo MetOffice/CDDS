@@ -444,15 +444,19 @@ class Variable(object):
                     new_cube = cube.subset(new_latitude).subset(new_longitude)
                 except Exception as e:
                     self.logger.info(f"Subsetting failed for cube {cube.name()} as it has 2D coordinates. Attempting halo removal via masking.")
+                    # Create bounding box for region of interest.
                     lat_min = np.nanmin(new_latitude.points)
                     lat_max = np.nanmax(new_latitude.points)
                     lon_min = np.nanmin(new_longitude.points)
                     lon_max = np.nanmax(new_longitude.points)
+                    # Extract original latitude and longitude points from the cube for creating mask.
                     lat_points = cube.coord('latitude').points
                     lon_points = cube.coord('longitude').points
+                    # Create a mask based on the bounding box.
                     mask = (lat_points >= lat_min) & (lat_points <= lat_max) & (lon_points >= lon_min) & (lon_points <= lon_max)
-
+                    # Apply the mask to the data.
                     broadcast_mask = np.broadcast_to(mask, cube.data.shape)
+                    # Mask the data where the mask is False.
                     cube.data = np.ma.masked_where(~broadcast_mask, cube.data)
                     new_cube = cube
 
