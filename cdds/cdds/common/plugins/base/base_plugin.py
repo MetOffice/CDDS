@@ -69,7 +69,6 @@ class MipEra(Enum):
                 return True
         return False
 
-
     @staticmethod
     def is_cmip7(mip_era: str) -> bool:
         """
