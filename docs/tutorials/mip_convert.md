@@ -292,12 +292,14 @@ For all streams that have no specified slicing period the default slicing period
 
 ### **global_attributes**
 
-The required `global_attributes` section.
+The `global_attributes` section takes additional metadata to be added to the global attributes of 
+every netCDF file produced.
 
-You must add the following line here or Mip Convert will not run:
+Where a project specifies additional `required_global_attributes` in the Controlled Vocabulary files 
+these *must* be specified in this section. For example, for CMIP6 you must add the following line 
+here or MIP Convert will fail:
 
 ```config
 further_info_url = https://furtherinfo.es-doc.org/
 ```
 
-Any additional information provided in the `global_attributes <global_attributes>` section will be written to the header of the output netCDF files.
