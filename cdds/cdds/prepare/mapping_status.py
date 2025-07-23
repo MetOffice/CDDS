@@ -109,3 +109,7 @@ class MappingStatus(object):
             logger.debug(('Cannot determine if {} is producible or not. '
                           'So, hope the best.').format(key))
             return ProducibleState.UNKNOWN
+
+    def producible_state(self, variable_name, mip_table):
+        state = self.producible(variable_name, mip_table)
+        return ProducibleState.to_variables_data_value(state)

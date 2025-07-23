@@ -6,7 +6,7 @@ import tempfile
 import os
 import unittest
 
-from cdds.prepare.request_file.command_line import main_write_request
+from cdds.common.request.write_request.command_line import main_write_request
 
 from datetime import datetime
 from unittest.mock import patch
