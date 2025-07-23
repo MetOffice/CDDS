@@ -3,9 +3,9 @@
 """
 The :mod:`base_plugin` module contains the code that have the most plugins in common.
 """
+from functools import cache
 import logging
 import os
-
 from typing import Dict, List, Callable, Any
 
 from mip_convert.configuration.python_config import ModelToMIPMappingConfig
@@ -30,6 +30,7 @@ class BaseMappingPlugin(MappingPlugin):
         self.mapping_data_dir = mapping_data_dir
         self.model_to_mip_mapping_config = Dict[str, ModelToMIPMappingConfig]
 
+    @cache
     def load_model_to_mip_mapping(self, mip_table_name) -> ModelToMIPMappingConfig:
         """
         Load MIPConvert mapping for given MIP table name.
