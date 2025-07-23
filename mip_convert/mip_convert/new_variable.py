@@ -17,6 +17,7 @@ import iris
 from iris.time import PartialDateTime
 from iris.coord_systems import RotatedGeogCS, GeogCS
 from iris.util import guess_coord_axis
+from iris.exceptions import CoordinateMultiDimError
 import numpy as np
 
 from cdds.common import DATE_TIME_REGEX
@@ -368,8 +369,8 @@ class Variable(object):
         self._remove_units_from_input_variables_as_necessary()
         self._remove_forecast_period()
         self._ensure_masked_arrays()
-        self._apply_mask()
         self._apply_removal()
+        self._apply_mask()
         self._apply_expression()
         if self._force_coordinate_rotation:
             self._rotated_coords()
@@ -434,6 +435,10 @@ class Variable(object):
                         cube.data[mask] = np.ma.masked
 
     def _apply_removal(self):
+        """
+        Remove halo values from input variables if their removal
+        information is provided in the configuration file.
+        """
         removal = self._variable_metadata.removal
         if self._variable_metadata.stream_id in removal:
             stream_removal = removal[self._variable_metadata.stream_id]
@@ -442,26 +447,15 @@ class Variable(object):
                 new_longitude = cube.coord('longitude')[stream_removal.slice_longitude]
                 try:
                     new_cube = cube.subset(new_latitude).subset(new_longitude)
-                except Exception as e:
-                    self.logger.info(
-                        f"Subsetting failed for cube {cube.name()} as it has 2D coordinates."
-                        " Attempting halo removal via masking.")
-                    # Create bounding box for region of interest.
-                    lat_min = np.nanmin(new_latitude.points)
-                    lat_max = np.nanmax(new_latitude.points)
-                    lon_min = np.nanmin(new_longitude.points)
-                    lon_max = np.nanmax(new_longitude.points)
-                    # Extract original latitude and longitude points from the cube for creating mask.
-                    lat_points = cube.coord('latitude').points
-                    lon_points = cube.coord('longitude').points
-                    # Create a mask based on the bounding box.
-                    mask = ((lat_points >= lat_min) & (lat_points <= lat_max) &
-                            (lon_points >= lon_min) & (lon_points <= lon_max))
-                    # Apply the mask to the data.
-                    broadcast_mask = np.broadcast_to(mask, cube.data.shape)
-                    # Mask the data where the mask is False.
-                    cube.data = np.ma.masked_where(~broadcast_mask, cube.data)
-                    new_cube = cube
+                except CoordinateMultiDimError:
+                    lat_dims = cube.coord_dims('latitude')
+                    lon_dims = cube.coord_dims('longitude')
+                    expected_dims = tuple(range(len(cube.shape)))[-2:]
+                    if not (lat_dims == lon_dims == expected_dims):
+                        raise RuntimeError("Latitude and longitude dimensions need to be the final "
+                                           f"two dimensions on the cube. Found {expected_dims}")
+
+                    new_cube = cube[..., stream_removal.slice_latitude, stream_removal.slice_longitude]
 
                 self.input_variables[key] = new_cube
 
