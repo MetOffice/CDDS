@@ -1,61 +1,56 @@
+# (C) British Crown Copyright 2025, Met Office.
+# Please see LICENSE.md for license details.
 # function that iterates over env vars in turn and prints them. If any arent set  or paths dont exist it should be flagged provides 1 exit code if it fails
 #put wrapper into bin
-
 import os
-import pytest
-from cdds import _DEV
-
-# jasmin:
-# CYLC_VERSION : 8
-# LC_ALL : en_GB.UTF-8
-# TZ : UTC
-# CDDS_PLATFORM : JASMIN
-# CDDS_ETC : $HOME/etc
-# CDDS_ENV_COMMAND : $HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z
-
-# metoffice = {
-# "CYLC_VERSION" : "8",
-# "LC_ALL" : en_GB.UTF-8 < doesnt exist?????,
-# "TZ" : "UTC",
-# "CDDS_PLATFORM" : "AZURE",
-# "CDDS_ETC" : "$HOME/etc", <this needs to check the location resolves with os.exists_expand_vars
-# "CDDS_ENV_COMMAND" : "conda activate $HOME/conda_environments/cdds-3.2.0", 
-# }
-# os.environ['CDDS_ENV_COMMAND']
-
-# only needs to check all are set, not specific values
+import argparse
+# from cdds import _DEV
 
 def check_environment_variables():
     """
-    Check if all required environment variables are set and valid.
+    Print current values of the required environment variables.
+    Notify user of any that are currently unset or any invalid paths that have been assigned.
     """
     required_vars = [
+        'CYLC_VERSION',
+        'TZ'
         'CDDS_PLATFORM',
         'CDDS_ETC',
         'CDDS_ENV_COMMAND',
-        'CYLC_VERSION',
-        'TZ'
     ]
-    #create a set^
 
+    required_path_vars = [
+        'CDDS_ETC',
+        'CDDS_ENV_COMMAND'
+    ]
+
+    env_vars = dict(os.environ)
+    unset_vars = []
+    unresolved_paths = []
+
+    # Print required environment variables from environ and notify user if any are not set.
     for var in required_vars:
-        value = os.getenv(var)
-        if not value:
-            raise EnvironmentError(f"Required environment variable '{var}' is not set.")
-        
-        # Check if the path exists if it's a path variable
-        if 'CDDS_ETC' in var or 'CDDS_ENV_COMMAND' in var:
-            expanded_value = os.path.expandvars(value)
-            if not os.path.exists(expanded_value):
-                raise EnvironmentError(f"Path '{expanded_value}' for '{var}' does not exist.")
+        x = env_vars.get(var)
+        print(f"{var}: {x}")
+        if x is None:
+            unset_vars.append(var)
+            print(f"Required environment variable '{var}' is not set.")
 
-def test_environment_variable():
-    # Set an environment variable for testing
-    breakpoint()    
-    os.environ['TEST_ENV_VAR'] = 'test_value'
+    # Check variables with required paths are valid.
+    for var in required_path_vars:
+        expanded_value = os.path.expandvars(env_vars[var])
+        if expanded_value.startswith('source '):
+            expanded_value = expanded_value[len('source '):].strip()
+        if not os.path.exists(expanded_value):
+            unresolved_paths.append(var)
+            print(f"Path '{expanded_value}' for '{var}' is not valid.")
+
+    if unset_vars or unresolved_paths:
+        exit_code = 1
     
-    # Check if the environment variable is set correctly
-    assert os.getenv('TEST_ENV_VAR') == 'test_value'
-    
-    # Clean up by removing the environment variable
-    del os.environ['TEST_ENV_VAR']
+    else:
+        exit_code = 0
+
+check_environment_variables()
+
+
