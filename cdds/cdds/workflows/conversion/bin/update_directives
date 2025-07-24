@@ -185,7 +185,7 @@ class Directives:
             "--mem": self._memory_directive(),
             "--time": self._time_directive(),
         }
-        if not os.environ["PLATFORM"] == "JASMIN":
+        if not os.environ["CDDS_PLATFORM"] == "JASMIN":
             directives["--gres"] = self._storage_directive()
 
         return directives
@@ -312,7 +312,7 @@ def update_directives(new_directives: dict, existing_directives: dict):
     CHANGE_THRESHOLD = 1.05
     directives = {}
 
-    if not os.environ["PLATFORM"] == "JASMIN":
+    if not os.environ["CDDS_PLATFORM"] == "JASMIN":
         valid_directives= ["--mem", "--time", "--gres"]
     else:
         valid_directives= ["--mem", "--time"]
