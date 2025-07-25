@@ -3,8 +3,8 @@
 # Please see LICENSE.md for license details.
 import sys
 
-from cdds.misc.system_information import main_stream_mappings
+from cdds.misc.system_information import check_environment_variables
 
 
 if __name__ == '__main__':
-    sys.exit(main_stream_mappings())
+    sys.exit(check_environment_variables())
