@@ -9,7 +9,7 @@ def check_environment_variables():
     Print current values of the required environment variables.
     Notify user of any that are currently unset or any invalid paths that have been assigned.
     """
-    required_vars = [
+    required_variables = [
         'CYLC_VERSION',
         'TZ',
         'CDDS_PLATFORM',
@@ -17,33 +17,32 @@ def check_environment_variables():
         'CDDS_ENV_COMMAND',
     ]
 
-    required_path_vars = [
+    required_path_variables = [
         'CDDS_ETC',
         'CDDS_ENV_COMMAND'
     ]
 
-    env_vars = dict(os.environ)
     unset_vars = []
     unresolved_paths = []
 
-    for var in required_vars:
-        x = env_vars.get(var)
-        print(f"{var}: {x}")
-        if not x:
-            unset_vars.append(var)
+    for required_variable in required_variables:
+        required_value = os.environ.get(required_variable)
+        print(f"{required_variable}: {required_value}")
+        if not required_value:
+            unset_vars.append(required_variable)
 
     # Check variables with required paths are valid.
-    for var in required_path_vars:
-        value = env_vars.get(var)
+    for required_path_variable in required_path_variables:
+        path = os.environ.get(required_path_variable)
         # If path var is unset, continue to avoid path expansion error.
-        if not value:
+        if not path:
             continue
         # Expand and validate path environment variables.
-        expanded_value = os.path.expandvars(value)
+        expanded_value = os.path.expandvars(path)
         if expanded_value.startswith('source '):
             expanded_value = expanded_value[len('source '):].strip()
         if not os.path.exists(expanded_value):
-            unresolved_paths.append(var)
+            unresolved_paths.append(required_path_variable)
 
     if unset_vars or unresolved_paths:
         print("\nIssues detected with environment variables:")
@@ -54,7 +53,6 @@ def check_environment_variables():
 
     if unset_vars or unresolved_paths:
         exit_code = 1
-
     else:
         exit_code = 0
 
