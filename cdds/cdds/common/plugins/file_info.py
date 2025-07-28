@@ -8,7 +8,7 @@ from abc import ABCMeta, abstractmethod
 from typing import TYPE_CHECKING, List, Tuple, Dict
 
 from metomi.isodatetime.data import TimePoint, Duration
-from metomi.isodatetime.parsers import TimePointParser
+from metomi.isodatetime.parsers import TimePointParser, DurationParser
 
 from cdds.archive.constants import OUTPUT_FILE_DT_STR
 
@@ -128,7 +128,10 @@ class ModelFileInfo(object, metaclass=ABCMeta):
 
         # for the end date, we want the start of the next day for easier processing.
         # So if the range is 20100101-20191230, use 20200101 as the end date.
-        delta_to_add = Duration(days=OUTPUT_FILE_DT_STR[frequency]['delta'][0], seconds=seconds_for_delta)
+        if OUTPUT_FILE_DT_STR[frequency].get("iso"):
+            delta_to_add = DurationParser().parse(OUTPUT_FILE_DT_STR[frequency].get("iso"))
+        else:
+            delta_to_add = Duration(days=OUTPUT_FILE_DT_STR[frequency]['delta'][0], seconds=seconds_for_delta)
         file_end_date = TimePoint(year=file_end.year, month_of_year=file_end.month_of_year,
                                   day_of_month=file_end.day_of_month)
         end_date = file_end_date + delta_to_add

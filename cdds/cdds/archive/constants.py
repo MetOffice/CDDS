@@ -16,12 +16,12 @@ DATA_PUBLICATION_STATUS_DICT = {
 # https://docs.google.com/document/d/
 #     1h0r8RZr_f3-8egBMMh7aqLwy3snpD6_MrDz1q8n5XUk/edit
 OUTPUT_FILE_DT_STR = {
-    'yr': {'str': '%Y', 'delta': [360, 0]},
-    'yrPt': {'str': '%Y', 'delta': [360, 0]},
-    'dec': {'str': '%Y', 'delta': [360, 0]},
-    'mon': {'str': '%Y%m', 'delta': [30, 0]},
-    'monC': {'str': '%Y%m', 'delta': [30, 0]},
-    'day': {'str': '%Y%m%d', 'delta': [1, 0]},
+    'yr': {'str': '%Y', 'delta': [360, 0], "iso": "P1Y"},
+    'yrPt': {'str': '%Y', 'delta': [360, 0], "iso": "P1Y"},
+    'dec': {'str': '%Y', 'delta': [360, 0], "iso": "P1Y"},
+    'mon': {'str': '%Y%m', 'delta': [30, 0], "iso": "P1M"},
+    'monC': {'str': '%Y%m', 'delta': [30, 0], "iso": "P1Y"},
+    'day': {'str': '%Y%m%d', 'delta': [1, 0], "iso": "P1Y"},
     '6hr': {'str': '%Y%m%d%H%M', 'delta': [0, 6 * 3600]},
     '3hr': {'str': '%Y%m%d%H%M', 'delta': [0, 3 * 3600]},
     '1hr': {'str': '%Y%m%d%H%M', 'delta': [0, 1 * 3600]},
