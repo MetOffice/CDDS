@@ -722,6 +722,7 @@ class Filters(object):
                 count += 1
                 file_name = "{}/extract/{}_{}s.dff".format(
                     self.procdir, self.stream, substream)
+
                 try:
                     self._create_filterfile_nc(file_name, filter_str,
                                                self.stream, substream)
@@ -791,9 +792,10 @@ class Filters(object):
         with open(file_name, "w") as file_h:
             # add variable filters to file
             file_h.write("-a\n-v {}".format(variables))
-            if substream in self.grid_info.halo_options:
-                for ncks_opt in self.grid_info.halo_options[substream]:
-                    file_h.write("\n{}".format(ncks_opt))
+            # if substream in self.grid_info.halo_options:
+            #     breakpoint()
+            #     for ncks_opt in self.grid_info.halo_options[substream]:
+            #         file_h.write("\n{}".format(ncks_opt))
 
     def _update_mass_cmd(
         self,
