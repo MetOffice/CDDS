@@ -148,16 +148,15 @@ def run_mip_convert(stream, dummy_run, timestamp, user_config_template_name,
     logger.info('Launching subprocess')
     mip_convert_proc = subprocess.Popen(cmd.split(), env=os.environ.copy(),
                                         stdout=subprocess.PIPE,
-                                        stderr=subprocess.PIPE,
-                                        universal_newlines=True)
-    output, error = mip_convert_proc.communicate()
-    return_code = mip_convert_proc.returncode
-    logger.info('============ STDOUT ============')
-    logger.info(output)
-    logger.info('========== STDOUT END ==========')
-    logger.info('============ STDERR ============')
-    logger.info(error)
-    logger.info('========== STDERR END ==========')
+                                        stderr=subprocess.STDOUT,
+                                        universal_newlines=True,
+                                        bufsize=1)
+    logger.info('============ MIP_CONVERT OUTPUT ============')
+    for line in mip_convert_proc.stdout:
+        logger.info(line.rstrip())
+    mip_convert_proc.stdout.close()
+    return_code = mip_convert_proc.wait()
+    logger.info('========== MIP_CONVERT OUTPUT END ==========')
     if return_code != 0:
         logger.critical('Command failed with return code {}'
                         ''.format(return_code))
