@@ -8,7 +8,7 @@ from abc import ABCMeta, abstractmethod
 from typing import TYPE_CHECKING, List, Tuple, Dict
 
 from metomi.isodatetime.data import TimePoint, Duration
-from metomi.isodatetime.parsers import TimePointParser
+from metomi.isodatetime.parsers import TimePointParser, DurationParser
 
 from cdds.archive.constants import OUTPUT_FILE_DT_STR
 
@@ -119,16 +119,18 @@ class ModelFileInfo(object, metaclass=ABCMeta):
         file_end = TimePointParser().strptime(file_match.group('end_date'),
                                               strptime_format_string=OUTPUT_FILE_DT_STR[frequency]['str'])
 
-        # For subhrPt frequency the seconds can be either the model time step or the radiation time step (1hr)
-        seconds_for_delta = OUTPUT_FILE_DT_STR[frequency]['delta'][1]
-        if seconds_for_delta is None:
-            last_file_end = re.search(self._nc_files_to_archive_regex, nc_files[-1]).group('end_date')
-            # Assuming all time steps are an integer number of minutes
-            seconds_for_delta = 60 * (60 - int(last_file_end[10:12]))
-
         # for the end date, we want the start of the next day for easier processing.
         # So if the range is 20100101-20191230, use 20200101 as the end date.
-        delta_to_add = Duration(days=OUTPUT_FILE_DT_STR[frequency]['delta'][0], seconds=seconds_for_delta)
+        if frequency == "subhrPt":
+            # For subhrPt frequency the seconds can be either the model time step or the radiation time step (1hr)
+            last_file_end = re.search(self._nc_files_to_archive_regex, nc_files[-1]).group('end_date')
+            seconds_for_delta = 60 * (60 - int(last_file_end[10:12]))
+            delta_to_add = Duration(days=OUTPUT_FILE_DT_STR[frequency]['delta'][0], seconds=seconds_for_delta)
+        elif iso_duration := OUTPUT_FILE_DT_STR[frequency].get("iso"):
+            delta_to_add = DurationParser().parse(iso_duration)
+        else:
+            raise ValueError(f"Unknown frequency {frequency}.")
+
         file_end_date = TimePoint(year=file_end.year, month_of_year=file_end.month_of_year,
                                   day_of_month=file_end.day_of_month)
         end_date = file_end_date + delta_to_add
