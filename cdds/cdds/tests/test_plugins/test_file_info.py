@@ -179,15 +179,15 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
     def setUp(self):
         Calendar.default().set_mode('360_day')
         self.model_file_info = GlobalModelFileInfo()
-
-    def test_get_date_range_daily(self):
-        file_template = (
+        self.file_template = (
             '/path/to/output/data/ap6/day/ua/ua_day_dummymodel_dummyexp_dummyvariant_dummygrid_{start}-{end}.nc'
         )
+
+    def test_get_date_range_daily(self):
         nc_files = [
-            file_template.format(start='20000101', end='20091230'),
-            file_template.format(start='20100101', end='20191230'),
-            file_template.format(start='20200101', end='20291230'),
+            self.file_template.format(start='20000101', end='20091230'),
+            self.file_template.format(start='20100101', end='20191230'),
+            self.file_template.format(start='20200101', end='20291230'),
         ]
         frequency = 'day'
 
@@ -199,10 +199,7 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
         self.assertEqual(expected_end, end)
 
     def test_get_date_range_single_file(self):
-        file_template = (
-            '/path/to/output/data/ap6/day/ua/ua_day_dummymodel_dummyexp_dummyvariant_dummygrid_{start}-{end}.nc'
-        )
-        nc_files = [file_template.format(start='20000101', end='20251230')]
+        nc_files = [self.file_template.format(start='20000101', end='20251230')]
         frequency = 'day'
 
         start, end = self.model_file_info.get_date_range(nc_files, frequency)
@@ -213,13 +210,10 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
         self.assertEqual(expected_end, end)
 
     def test_get_date_range_yearly(self):
-        file_template = (
-            '/path/to/output/data/ap6/day/ua/ua_day_dummymodel_dummyexp_dummyvariant_dummygrid_{start}-{end}.nc'
-        )
         nc_files = [
-            file_template.format(start='2000', end='2009'),
-            file_template.format(start='2010', end='2019'),
-            file_template.format(start='2020', end='2029'),
+            self.file_template.format(start='2000', end='2009'),
+            self.file_template.format(start='2010', end='2019'),
+            self.file_template.format(start='2020', end='2029'),
         ]
         frequency = 'yr'
 
@@ -231,13 +225,10 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
         self.assertEqual(expected_end, end)
 
     def test_get_date_range_monthly(self):
-        file_template = (
-            '/path/to/output/data/ap6/day/ua/ua_day_dummymodel_dummyexp_dummyvariant_dummygrid_{start}-{end}.nc'
-        )
         nc_files = [
-            file_template.format(start='200001', end='200912'),
-            file_template.format(start='201001', end='201912'),
-            file_template.format(start='202001', end='202912'),
+            self.file_template.format(start='200001', end='200912'),
+            self.file_template.format(start='201001', end='201912'),
+            self.file_template.format(start='202001', end='202912'),
         ]
         frequency = 'mon'
 
@@ -249,13 +240,10 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
         self.assertEqual(expected_end, end)
 
     def test_get_date_range_6hr(self):
-        file_template = (
-            '/path/to/output/data/ap6/day/ua/ua_day_dummymodel_dummyexp_dummyvariant_dummygrid_{start}-{end}.nc'
-        )
         nc_files = [
-            file_template.format(start='200001010000', end='200912301800'),
-            file_template.format(start='201001010000', end='201912301800'),
-            file_template.format(start='202001010000', end='202912301800'),
+            self.file_template.format(start='200001010000', end='200912301800'),
+            self.file_template.format(start='201001010000', end='201912301800'),
+            self.file_template.format(start='202001010000', end='202912301800'),
         ]
         frequency = '6hr'
 
@@ -267,13 +255,10 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
         self.assertEqual(expected_end, end)
 
     def test_get_date_range_subhr_20min(self):
-        file_template = (
-            '/path/to/output/data/ap6/day/ua/ua_day_dummymodel_dummyexp_dummyvariant_dummygrid_{start}-{end}.nc'
-        )
         nc_files = [
-            file_template.format(start='20000101000000', end='20091230234000'),
-            file_template.format(start='20100101000000', end='20191230234000'),
-            file_template.format(start='20200101000000', end='20291230234000'),
+            self.file_template.format(start='20000101000000', end='20091230234000'),
+            self.file_template.format(start='20100101000000', end='20191230234000'),
+            self.file_template.format(start='20200101000000', end='20291230234000'),
         ]
         frequency = 'subhrPt'
 
@@ -285,13 +270,121 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
         self.assertEqual(expected_end, end)
 
     def test_get_date_range_subhr_60min(self):
-        file_template = (
+        nc_files = [
+            self.file_template.format(start='20000101000000', end='20091230230000'),
+            self.file_template.format(start='20100101000000', end='20191230230000'),
+            self.file_template.format(start='20200101000000', end='20291230230000'),
+        ]
+        frequency = 'subhrPt'
+
+        start, end = self.model_file_info.get_date_range(nc_files, frequency)
+
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
+        self.assertEqual(expected_start, start)
+        self.assertEqual(expected_end, end)
+
+
+class TestGlobalModelFileGetRangeGregorian(unittest.TestCase):
+
+    def setUp(self):
+        Calendar.default().set_mode('gregorian')
+        self.model_file_info = GlobalModelFileInfo()
+        self.file_template = (
             '/path/to/output/data/ap6/day/ua/ua_day_dummymodel_dummyexp_dummyvariant_dummygrid_{start}-{end}.nc'
         )
+
+    def test_get_date_range_daily(self):
         nc_files = [
-            file_template.format(start='20000101000000', end='20091230230000'),
-            file_template.format(start='20100101000000', end='20191230230000'),
-            file_template.format(start='20200101000000', end='20291230230000'),
+            self.file_template.format(start='20000101', end='20091231'),
+            self.file_template.format(start='20100101', end='20191231'),
+            self.file_template.format(start='20200101', end='20291231'),
+        ]
+        frequency = 'day'
+
+        start, end = self.model_file_info.get_date_range(nc_files, frequency)
+
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
+        self.assertEqual(expected_start, start)
+        self.assertEqual(expected_end, end)
+
+    def test_get_date_range_single_file(self):
+        nc_files = [self.file_template.format(start='20000101', end='20251231')]
+        frequency = 'day'
+
+        start, end = self.model_file_info.get_date_range(nc_files, frequency)
+
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2026, month_of_year=1, day_of_month=1)
+        self.assertEqual(expected_start, start)
+        self.assertEqual(expected_end, end)
+
+    def test_get_date_range_yearly(self):
+        nc_files = [
+            self.file_template.format(start='2000', end='2009'),
+            self.file_template.format(start='2010', end='2019'),
+            self.file_template.format(start='2020', end='2029'),
+        ]
+        frequency = 'yr'
+
+        start, end = self.model_file_info.get_date_range(nc_files, frequency)
+
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
+        self.assertEqual(expected_start, start)
+        self.assertEqual(expected_end, end)
+
+    def test_get_date_range_monthly(self):
+        nc_files = [
+            self.file_template.format(start='200001', end='200912'),
+            self.file_template.format(start='201001', end='201912'),
+            self.file_template.format(start='202001', end='202912'),
+        ]
+        frequency = 'mon'
+
+        start, end = self.model_file_info.get_date_range(nc_files, frequency)
+
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
+        self.assertEqual(expected_start, start)
+        self.assertEqual(expected_end, end)
+
+    def test_get_date_range_6hr(self):
+        nc_files = [
+            self.file_template.format(start='200001010000', end='200912311800'),
+            self.file_template.format(start='201001010000', end='201912311800'),
+            self.file_template.format(start='202001010000', end='202912311800'),
+        ]
+        frequency = '6hr'
+
+        start, end = self.model_file_info.get_date_range(nc_files, frequency)
+
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
+        self.assertEqual(expected_start, start)
+        self.assertEqual(expected_end, end)
+
+    def test_get_date_range_subhr_20min(self):
+        nc_files = [
+            self.file_template.format(start='20000101000000', end='20091231234000'),
+            self.file_template.format(start='20100101000000', end='20191231234000'),
+            self.file_template.format(start='20200101000000', end='20291231234000'),
+        ]
+        frequency = 'subhrPt'
+
+        start, end = self.model_file_info.get_date_range(nc_files, frequency)
+
+        expected_start = TimePoint(year=2000, month_of_year=1, day_of_month=1)
+        expected_end = TimePoint(year=2030, month_of_year=1, day_of_month=1)
+        self.assertEqual(expected_start, start)
+        self.assertEqual(expected_end, end)
+
+    def test_get_date_range_subhr_60min(self):
+        nc_files = [
+            self.file_template.format(start='20000101000000', end='20091231230000'),
+            self.file_template.format(start='20100101000000', end='20191231230000'),
+            self.file_template.format(start='20200101000000', end='20291231230000'),
         ]
         frequency = 'subhrPt'
 
@@ -306,6 +399,7 @@ class TestGlobalModelFileGetRange(unittest.TestCase):
 class TestRegionalModelFileIsCmorFile(TestCase):
 
     def setUp(self):
+        Calendar.default().set_mode('360_day')
         self.model_file_info = RegionalModelFileInfo()
 
     def test_empty_file_name(self):
