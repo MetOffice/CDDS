@@ -125,7 +125,7 @@ class ModelFileInfo(object, metaclass=ABCMeta):
             # For subhrPt frequency the seconds can be either the model time step or the radiation time step (1hr)
             last_file_end = re.search(self._nc_files_to_archive_regex, nc_files[-1]).group('end_date')
             seconds_for_delta = 60 * (60 - int(last_file_end[10:12]))
-            delta_to_add = Duration(days=OUTPUT_FILE_DT_STR[frequency]['delta'][0], seconds=seconds_for_delta)
+            delta_to_add = Duration(days=0, seconds=seconds_for_delta)
         elif iso_duration := OUTPUT_FILE_DT_STR[frequency].get("iso"):
             delta_to_add = DurationParser().parse(iso_duration)
         else:

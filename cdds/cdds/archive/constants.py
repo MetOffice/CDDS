@@ -16,22 +16,22 @@ DATA_PUBLICATION_STATUS_DICT = {
 # https://docs.google.com/document/d/
 #     1h0r8RZr_f3-8egBMMh7aqLwy3snpD6_MrDz1q8n5XUk/edit
 OUTPUT_FILE_DT_STR = {
-    'yr': {'str': '%Y', 'delta': [360, 0], "iso": "P1Y"},
-    'yrPt': {'str': '%Y', 'delta': [360, 0], "iso": "P1Y"},
-    'dec': {'str': '%Y', 'delta': [360, 0], "iso": "P1Y"},
-    'mon': {'str': '%Y%m', 'delta': [30, 0], "iso": "P1M"},
-    'monC': {'str': '%Y%m', 'delta': [30, 0], "iso": "P1M"},
-    'day': {'str': '%Y%m%d', 'delta': [1, 0], "iso": "P1D"},
-    '6hr': {'str': '%Y%m%d%H%M', 'delta': [0, 6 * 3600], "iso": "PT6H"},
-    '3hr': {'str': '%Y%m%d%H%M', 'delta': [0, 3 * 3600], "iso": "PT3H"},
-    '1hr': {'str': '%Y%m%d%H%M', 'delta': [0, 1 * 3600], "iso": "PT1H"},
-    '1hrCM': {'str': '%Y%m%d%H%M', 'delta': [0, 1 * 3600], "iso": "PT1H"},
-    '6hrPt': {'str': '%Y%m%d%H%M', 'delta': [0, 6 * 3600], "iso": "PT6H"},
-    '3hrPt': {'str': '%Y%m%d%H%M', 'delta': [0, 3 * 3600], "iso": "PT3H"},
-    '1hrPt': {'str': '%Y%m%d%H%M', 'delta': [0, 1 * 3600], "iso": "PT1H"},
+    'yr': {'str': '%Y', "iso": "P1Y"},
+    'yrPt': {'str': '%Y', "iso": "P1Y"},
+    'dec': {'str': '%Y', "iso": "P1Y"},
+    'mon': {'str': '%Y%m', "iso": "P1M"},
+    'monC': {'str': '%Y%m', "iso": "P1M"},
+    'day': {'str': '%Y%m%d', "iso": "P1D"},
+    '6hr': {'str': '%Y%m%d%H%M', "iso": "PT6H"},
+    '3hr': {'str': '%Y%m%d%H%M', "iso": "PT3H"},
+    '1hr': {'str': '%Y%m%d%H%M', "iso": "PT1H"},
+    '1hrCM': {'str': '%Y%m%d%H%M', "iso": "PT1H"},
+    '6hrPt': {'str': '%Y%m%d%H%M', "iso": "PT6H"},
+    '3hrPt': {'str': '%Y%m%d%H%M', "iso": "PT3H"},
+    '1hrPt': {'str': '%Y%m%d%H%M', "iso": "PT1H"},
     # None in the list below forces the code to pick up the offset from the
     # filenames themselves
-    'subhrPt': {'str': '%Y%m%d%H%M%S', 'delta': [0, None]},
+    'subhrPt': {'str': '%Y%m%d%H%M%S'},
 }
 
 MASS_STATUS_DICT = {
