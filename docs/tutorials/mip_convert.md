@@ -189,7 +189,8 @@ MIP Convert determines:
     
     1. CMOR requires ``branch_time_in_child`` and ``branch_time_in_parent``, which is determined from the options ``base_date`` (see the `request <request_section>` section) / ``parent_base_date`` (the base date of the ``child_experiment_id`` / ``parent_experiment_id``) and ``branch_date_in_child`` / ``branch_date_in_parent`` (the date in the ``child_experiment_id`` / ``parent_experiment_id`` from which the experiment branches) from the `cmor_dataset <cmor_dataset_section>` section in the |user configuration file| by taking the difference (in days) between the ``branch_date_in_child`` / ``branch_date_in_parent`` and the ``base_date`` / ``parent_base_date``. If ``branch_date_in_child`` or ``branch_date_in_parent`` is ``N/A`` then ``branch_time_in_parent`` is set to 0.
     2. Dates should be provided in the form `YYYY-MM-DDThh:mm:ssZ`.
-    3. For a description of each option, please see the [CMIP6 Global Attributes document](https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/) See ``parent_source_id`` in the [CMIP6 Global Attributes document](https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/).
+    3. For a description of each option, please see the [CMIP6 Global Attributes document](https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/).
+    4. See ``parent_source_id`` in the [CMIP6 Global Attributes document](https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/).
     
     
 ### **request**
