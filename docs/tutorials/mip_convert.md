@@ -126,7 +126,7 @@ The required `cmor_dataset` section contains the following options used for [cmo
 |---------------------------------|--------------------|--------------------|---------|
 | ``branch_method``               | MIP Convert + CMOR | MIP Convert + CMOR | *1*     |
 | ``calendar``                    | MIP Convert + CMOR | MIP Convert + CMOR | *2*     |
-| ``comment``                     |                    | CMOR               | *1*     |
+| ``comment``                     |                    | CMOR               | *1*, *3*|
 | ``contact``                     |                    | CMOR               | *1*     |
 | ``experiment_id``               | MIP Convert + CMOR | MIP Convert + CMOR | *1*     |
 | ``grid``                        | CMOR               | CMOR               | *1*     |
