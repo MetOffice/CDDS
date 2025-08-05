@@ -62,7 +62,7 @@ The `[variable name]` sections provide the model to MIP mapping corresponding to
 | `expression`                         | The expression required to convert the input variable / input variables to the MIP requested variable.           |        |
 | `mip_table_id`                       | A space-separated list of MIP table identifiers that the model to MIP mapping is valid for.                      |        |
 | `positive`                           | The direction of a vertical energy (heat) flux or surface momentum flux (stress) input; use 'up' or 'down' depending on whether the direction is positive when it is directed upward or downward, respectively. This argument is required for vertical energy and salt fluxes, for flux correction fields, and for surface stress.| *1*   |
-| `status`                             | The status of the MIP requested variable. Valid values are `ok` and `embargoed`.                                 | *2**3* |
+| `status`                             | The status of the MIP requested variable. Valid values are `ok` and `embargoed`.                                 | *2*, *3* |
 | `units`                              | The units of the data of the MIP requested variable i.e., after the `expression` has been applied.               |        |
 
 
