@@ -148,13 +148,22 @@ The required `cmor_dataset` section contains the following options used for [cmo
 
 **Notes**
 
-1. For a description of each option, please see the [CMIP6 Global Attributes document](https://docs.google.com/document/d/1h0r8RZr_f3-8egBMMh7aqLwy3snpD6_MrDz1q8n5XUk).
-1. See calendars for allowed values.
+1. For a description of each option, please see the [CMIP6 Global Attributes document](https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/).
+1. Calendar types allowed are:
+    - standard
+    - gregorian
+    - proleptic_gregorian
+    - noleap
+    - 365_day
+    - 360_day
+    - julian
+    - all_leap
+    - 366_day
 1. It is recommended to use the ``comment`` option to record any perturbed physics details.
-1. See MIP.
-1. See model identifier.
-1. See model type.
-1. See ``outpath`` in the documentation for `cmor_dataset_json`_.
+1. See [activity_id](https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/). For more examples see [CMIP6 CV's](https://wcrp-cmip.github.io/CMIP6_CVs/docs/CMIP6_experiment_id.html).
+1. See [source_id](https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/). For more examples see [CMIP6 CV's](https://wcrp-cmip.github.io/CMIP6_CVs/docs/CMIP6_source_id_licenses.html).
+1. See [source_type](https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/).
+1. If ``create_subdirectories`` is set to True CMOR will construct the full directory structure used by CMIP, as specified in the DRS (Directory Reference Syntax) information held in the CVs, underneath ``output_dir``. If ``create_directories`` is set to False (as is usual within CDDS) files will be directly written to ``output_dir``.
 
 MIP Convert determines:
 
