@@ -5,18 +5,25 @@
 Utility functions for extract processing.
 """
 
-import logging
-import sys
-import pwd
-import os
-import subprocess
-import re
 import json
+import logging
+import os
+import pwd
+import re
+import subprocess
+import sys
 from collections import defaultdict
 from operator import itemgetter
-from cdds.extract.constants import (NUM_PP_HEADER_LINES, TIME_REGEXP, MAX_MOOSE_LOG_MESSAGE,
-                                    MOOSE_TAPE_PATTERN, STREAMTYPE_PP, STREAMTYPE_NC)
-from cdds.common import run_command, retry
+
+from cdds.common import retry, run_command
+from cdds.extract.constants import (
+    MAX_MOOSE_LOG_MESSAGE,
+    MOOSE_TAPE_PATTERN,
+    NUM_PP_HEADER_LINES,
+    STREAMTYPE_NC,
+    STREAMTYPE_PP,
+    TIME_REGEXP,
+)
 from cdds.extract.variables import Variables
 
 
@@ -43,7 +50,7 @@ def moose_date(when, mode):
     return when.replace("-", "/").replace("T", " ")
 
 
-def get_stash_from_pp(filepath):
+def get_stash_from_pp(filepath) -> dict[int, int] | None:
     """Executes a ppfp command as a subprocess and parses the output
     to extract stash codes
 
@@ -74,60 +81,6 @@ def get_stash_from_pp(filepath):
             except ValueError:
                 continue
         return stash
-
-
-def validate_stash_fields(path, stash_codes, validation_result):
-    """Validates if pp files in a given location contain all required
-    stash codes, and if the number of codes remains consistent in all files.
-
-    Parameters
-    ----------
-    path : str
-        path to directory of interest
-    stash_codes : set
-        A set of requried stash codes
-    validation_result: cdds.common.StreamValidationResult
-        An object to hold results from the stream validation
-    """
-    referencedict = ()
-    for _, _, files in os.walk(path):
-        if len(files) == 0:
-            continue
-
-        for datafile in sorted(files):
-            if not datafile.endswith('.pp'):
-                continue
-
-            stash = get_stash_from_pp(os.path.join(path, datafile))
-            if stash is None:
-                validation_result.add_file_content_error(
-                    FileContentError(os.path.join(path, datafile), "unreadable file"))
-            else:
-                if referencedict == ():
-                    # populate stash reference dictionary
-                    referencedict = (datafile, stash)
-                    # test against provided stash_codes
-                    # If there are entries in stash_codes (requested data)
-                    # that are not in stash (data on disk) then flag up
-                    # missing data
-                    stash_diff = stash_codes.difference(set(stash.keys()))
-                    if stash_diff:
-                        error = StashError(os.path.join(path, datafile), "STASH errors")
-                        for diff in stash_diff:
-                            error.add_stash_error(diff)
-                        validation_result.add_file_content_error(error)
-                    # If there is additional data on disk that was not asked
-                    # for then do nothing.
-                # test against a reference dictionary
-                elif referencedict[1] != stash:
-                    error = StashError(os.path.join(path, datafile), "STASH errors relative to reference values")
-                    for key, value in referencedict[1].items():
-                        if key not in stash or stash[key] != value:
-                            error.add_stash_error(key)
-                    for key in stash:
-                        if key not in referencedict[1]:
-                            error.add_stash_error(key)
-                    validation_result.add_file_content_error(error)
 
 
 def run_moo_cmd(sub_cmd, args, simulate=False, verbose=True):
