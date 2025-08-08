@@ -50,7 +50,7 @@ def moose_date(when, mode):
     return when.replace("-", "/").replace("T", " ")
 
 
-def get_stash_from_pp(filepath) -> dict[int, int] | None:
+def get_stash_from_pp(filepath) -> dict[str, int] | None:
     """Executes a ppfp command as a subprocess and parses the output
     to extract stash codes
 
@@ -64,8 +64,7 @@ def get_stash_from_pp(filepath) -> dict[int, int] | None:
     set|None
         A set of stash codes from the file or None if the command fails
     """
-
-    stash = defaultdict(int)
+    stash: dict = defaultdict(int)
 
     command = ["ppfp", "-stash", filepath]
     process = subprocess.Popen(command, stdout=subprocess.PIPE,

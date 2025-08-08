@@ -159,7 +159,7 @@ def validate_directory_netcdf(path, validation_result):
                 validation_result.add_file_content_error(error)
 
 
-def get_stash_fields(path: str, validation_result: StreamValidationResult) -> dict[str, dict[int, int]]:
+def get_stash_fields(path: str, validation_result: StreamValidationResult) -> dict[str, dict[str, int]]:
     """ Validates if pp files in a given location contain all required
     stash codes,
 
@@ -200,7 +200,6 @@ def check_expected_stash(
     :param expected_stash: The set of expected stash codes.
     :type expected_stash: set[int]
     """
-
     for file, stash in stash_in_file.items():
         if expected_stash.difference(set(stash.keys())):
             stash_diff = expected_stash.difference(set(stash.keys()))
@@ -212,11 +211,11 @@ def check_expected_stash(
 
 
 def check_consistent_stash(
-    stash_in_file: dict,
+    stash_in_file: dict[str, dict[str, int]],
     validation_result: StreamValidationResult,
     path: str,
     file_frequency: str
-):
+) -> None:
     """ Checks that the number of stash entries is consistent across all files.
 
     :param stash_in_file: Stash entries in files.
@@ -226,22 +225,25 @@ def check_consistent_stash(
     :param path: Path to files.
     :type path: str
     """
-
     if Calendar.default().mode == "gregorian" and file_frequency in ["monthly", "seasonal"]:
         logger = logging.getLogger(__name__)
-        logger.info("Skipping stash consistency check due to gregorian calendar.")
+        logger.info(
+            f"Skipping stash consistency check as CDDS does not currently validate \
+            {file_frequency} files when using the gregorian calendar."
+        )
         return None
 
-    referencedict = ()
+    reference_file: str
+    reference_stash: dict[str, int]
+    reference_file, reference_stash = next(iter(stash_in_file.items()))
+
     for file, stash in stash_in_file.items():
-        if referencedict == ():
-            referencedict: tuple[str, dict] = (file, stash)
-        elif referencedict[1] != stash:
-            error = StashError(os.path.join(path, file), "STASH errors relative to reference values")
-            for key, value in referencedict[1].items():
+        if reference_stash != stash:
+            error = StashError(os.path.join(path, file), f"STASH errors relative to reference file {reference_file}")
+            for key, value in reference_stash.items():
                 if key not in stash or stash[key] != value:
                     error.add_stash_error(key)
             for key in stash:
-                if key not in referencedict[1]:
+                if key not in reference_stash:
                     error.add_stash_error(key)
             validation_result.add_file_content_error(error)
