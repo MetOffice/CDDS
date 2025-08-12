@@ -467,12 +467,15 @@ class Variable(object):
         if self._variable_metadata.stream_id in removal:
             stream_removal = removal[self._variable_metadata.stream_id]
             for key, cube in self.input_variables.items():
-                # print(f"Processing cube: {cube}")
-                cube = cube.copy()
-                if cube.coords("latitude"):
-                    new_cube = self._remove_latitude_halo(cube, stream_removal)
-                if cube.coords("longitude"):
-                    new_cube = self._remove_longitude_halo(new_cube, stream_removal)
+                new_cube = cube.copy()
+                if 'haloes_removed' in new_cube.attributes:
+                    self.logger.debug(f'{new_cube} has the "haloes_removed" attribute, skipping halo removal')
+                else:
+                    if new_cube.coords("latitude"):
+                        new_cube = self._remove_latitude_halo(new_cube, stream_removal)
+                    if new_cube.coords("longitude"):
+                        new_cube = self._remove_longitude_halo(new_cube, stream_removal)
+                    print("haloes removed")
 
                 self.input_variables[key] = new_cube
 
