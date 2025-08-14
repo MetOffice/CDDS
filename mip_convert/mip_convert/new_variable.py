@@ -434,30 +434,6 @@ class Variable(object):
                         # update the existing mask
                         cube.data[mask] = np.ma.masked
 
-    # def _apply_removal(self):
-    #     """
-    #     Remove halo values from input variables if their removal
-    #     information is provided in the configuration file.
-    #     """
-    #     removal = self._variable_metadata.removal
-    #     if self._variable_metadata.stream_id in removal:
-    #         stream_removal = removal[self._variable_metadata.stream_id]
-    #         for key, cube in self.input_variables.items():
-    #             # breakpoint()
-    #             new_latitude = cube.coord('latitude')[stream_removal.slice_latitude]
-    #             new_longitude = cube.coord('longitude')[stream_removal.slice_longitude]
-    #             try:
-    #                 new_cube = cube.subset(new_latitude).subset(new_longitude)
-    #             except CoordinateMultiDimError:
-    #                 lat_dims = cube.coord_dims('latitude')
-    #                 lon_dims = cube.coord_dims('longitude')
-    #                 expected_dims = tuple(range(len(cube.shape)))[-2:]
-    #                 if not (lat_dims == lon_dims == expected_dims):
-    #                     raise RuntimeError("Latitude and longitude dimensions need to be the final "
-    #                                        f"two dimensions on the cube. Found {expected_dims}")
-    #                 new_cube = cube[..., stream_removal.slice_latitude, stream_removal.slice_longitude]
-    #             breakpoint()
-    #             self.input_variables[key] = new_cube
     def _apply_removal(self):
         """
         Remove halo values from input variables if their removal
@@ -480,8 +456,6 @@ class Variable(object):
                     self.logger.debug(f'Haloes removed from {new_cube}')
 
                 self.input_variables[key] = new_cube
-
-
 
     def _remove_latitude_halo(self, cube, stream_removal):
         """
