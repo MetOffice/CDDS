@@ -14,7 +14,7 @@ from cdds.common.request.validations.pre_validations import do_pre_validations
 from cdds.common.request.request_validations import validate_misc_section
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
-from cdds.common.plugins.base.base_grid import AtmosBaseGridInfo
+from cdds.common.plugins.base.base_grid import AtmosBaseGridInfo,OceanBaseGridInfo
 
 
 def misc_defaults(model_id: str) -> Dict[str, Any]:
@@ -32,13 +32,24 @@ def misc_defaults(model_id: str) -> Dict[str, Any]:
     if isinstance(grid_info, AtmosBaseGridInfo):
         atmos_timestep = grid_info.atmos_timestep
 
-    return {
-        'atmos_timestep': atmos_timestep,
-        'use_proc_dir': True,
-        'no_overwrite': False,
-        'force_coordinate_rotation': False
-    }
+        return {
+            'atmos_timestep': atmos_timestep,
+            'use_proc_dir': True,
+            'no_overwrite': False,
+            'force_coordinate_rotation': False
+        }
 
+    ocean_grid_info = PluginStore.instance().get_plugin().grid_info(model_id, GridType.OCEAN)
+    halo_removal = None
+    if isinstance(ocean_grid_info, OceanBaseGridInfo):
+        halo_removal = ocean_grid_info.default_halo_removal
+
+        return {
+            'halo_removal': halo_removal,
+            'use_proc_dir': True,
+            'no_overwrite': False,
+            'force_coordinate_rotation': False  
+        }
 
 @dataclass
 class MiscSection(Section):

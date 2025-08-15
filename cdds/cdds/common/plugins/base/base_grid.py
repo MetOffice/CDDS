@@ -199,6 +199,16 @@ class OceanBaseGridInfo(BaseGridInfo):
         :rtype: dict
         """
         return self._halo_options
+    
+    @property
+    def default_halo_removal(self) -> dict:
+        """
+        Returns default halo removal info for this grid.
+        """
+        if 'default_halo_removal' in self._values:
+            return self._values['default_halo_removal']
+        # Fallback
+        return {'stream_onm': [(1, -1), (1, -1)]}
 
     def hybrid_heights_files(self) -> List[str]:
         """
