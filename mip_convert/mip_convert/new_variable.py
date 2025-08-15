@@ -470,8 +470,10 @@ class Variable(object):
             lon_dims = cube.coord_dims('longitude')
             expected_dims = tuple(range(len(cube.shape)))[-2:]
             if not (lat_dims == lon_dims == expected_dims):
-                raise RuntimeError("Latitude and longitude dimensions need to be the final "
-                                    f"two dimensions on the cube. Found {expected_dims}")
+                raise RuntimeError(
+                    "Latitude and longitude dimensions need to be the final "
+                    f"two dimensions on the cube. Found {expected_dims}"
+                )
 
             new_cube = cube[..., stream_removal.slice_latitude, :]
         return new_cube
@@ -489,11 +491,13 @@ class Variable(object):
             lon_dims = cube.coord_dims('longitude')
             expected_dims = tuple(range(len(cube.shape)))[-2:]
             if not (lat_dims == lon_dims == expected_dims):
-                raise RuntimeError("Latitude and longitude dimensions need to be the final "
-                                    f"two dimensions on the cube. Found {expected_dims}")
+                raise RuntimeError(
+                    "Latitude and longitude dimensions need to be the final "
+                    f"two dimensions on the cube. Found {expected_dims}"
+                )
+
             new_cube = cube[..., stream_removal.slice_longitude]
         return new_cube
- 
 
     def _apply_expression(self):
         # Persist the fill_value attribute from the 'input variables' to the 'output variable'.
