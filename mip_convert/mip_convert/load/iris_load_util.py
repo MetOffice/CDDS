@@ -376,7 +376,7 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
             "ignore",
             message=".*invalid units.*",
             category=UserWarning,
-            module=r"iris\.fileformats\.cf"
+            module=r"iris\.fileformats\._nc_load_rules\.helpers"
         )
         merged_cubes = iris.load(all_input_data, load_constraints, callback=preprocess_callback)
 
