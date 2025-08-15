@@ -32,6 +32,7 @@ from mip_convert.common import (
     replace_coordinates)
 from mip_convert.load.fix_pp import fix_pp_field
 from functools import reduce
+import warnings
 
 _CACHED_FIELDS = {}
 ADDITIONAL_STASHCODE_IMPLIED_HEIGHTS = {3329: 1.5,
@@ -358,7 +359,26 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
     :return: a list of merged cubes
     :rtype: :class:`iris.cube.CubeList`
     """
-    merged_cubes = iris.load(all_input_data, load_constraints, callback=preprocess_callback)
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            message=".*Missing CF-netCDF measure variable.*",
+            category=UserWarning,
+            module=r"iris\.fileformats\.cf"
+        )
+        warnings.filterwarnings(
+            "ignore",
+            message=".*Missing CF-netCDF boundary variable.*",
+            category=UserWarning,
+            module=r"iris\.fileformats\.cf"
+        )
+        warnings.filterwarnings(
+            "ignore",
+            message=".*invalid units.*",
+            category=UserWarning,
+            module=r"iris\.fileformats\.cf"
+        )
+        merged_cubes = iris.load(all_input_data, load_constraints, callback=preprocess_callback)
 
     cubes = iris.cube.CubeList()
     if merged_cubes:
