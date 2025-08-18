@@ -359,25 +359,18 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
     :return: a list of merged cubes
     :rtype: :class:`iris.cube.CubeList`
     """
+    userwarnings = [
+        {"message": ".*Missing CF-netCDF measure variable.*", "category": UserWarning},
+        {"message": ".*Missing CF-netCDF boundary variable.*", "category": UserWarning},
+        {"message": ".*invalid units.*", "category": UserWarning}
+    ]
     with warnings.catch_warnings():
-        warnings.filterwarnings(
-            "ignore",
-            message=".*Missing CF-netCDF measure variable.*",
-            category=UserWarning,
-            module=r"iris\.fileformats\.cf"
-        )
-        warnings.filterwarnings(
-            "ignore",
-            message=".*Missing CF-netCDF boundary variable.*",
-            category=UserWarning,
-            module=r"iris\.fileformats\.cf"
-        )
-        warnings.filterwarnings(
-            "ignore",
-            message=".*invalid units.*",
-            category=UserWarning,
-            module=r"iris\.fileformats\._nc_load_rules\.helpers"
-        )
+        for warn in userwarnings:
+            warnings.filterwarnings(
+                "ignore",
+                message=warn["message"],
+                category=warn["category"]
+            )
         merged_cubes = iris.load(all_input_data, load_constraints, callback=preprocess_callback)
 
     cubes = iris.cube.CubeList()
