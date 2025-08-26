@@ -486,7 +486,14 @@ def pp_fields(all_input_data):
     all_input_data = tuple(all_input_data)
     if all_input_data not in _CACHED_FIELDS:
         logger.debug('Start loading PP fields from model output files')
-        fields = [field for filename in all_input_data for field in load(filename)]
+
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                message=".*Unable to interpret field 0.*",
+                category=UserWarning
+            )
+            fields = [field for filename in all_input_data for field in load(filename)]
 
         logger.debug('Completed loading PP fields from model output files')
         logger.debug('Start fixing PP fields')
