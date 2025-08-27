@@ -5,20 +5,34 @@
 """
 Tests for common utility functions in the extract module
 """
-import unittest
 import os
 import shutil
-import pytest
+import unittest
 from unittest.mock import patch
-import builtins
+
+import pytest
+
 from cdds.extract.common import (
-    validate_stash_fields, validate_netcdf, check_moo_cmd, calculate_period, FileContentError,
-    StreamValidationResult, create_dir, build_mass_location, chunk_by_files_and_tapes, condense_constraints)
+    FileContentError,
+    StreamValidationResult,
+    build_mass_location,
+    calculate_period,
+    check_moo_cmd,
+    chunk_by_files_and_tapes,
+    condense_constraints,
+    create_dir,
+    validate_netcdf,
+)
+from cdds.extract.validate import check_expected_stash, get_stash_fields
 from cdds.tests.test_common.common import create_simple_netcdf_file
-from cdds.tests.test_extract.common import break_netcdf_file, init_defaultdict
+from cdds.tests.test_extract.common import break_netcdf_file
 from cdds.tests.test_extract.constants import (
-    TMP_DIR_FOR_NETCDF_TESTS, MINIMAL_CDL, MINIMAL_CDL_NO_DATA,
-    MINIMAL_CDL_NEMO, MINIMAL_CDL_NO_DATA_NEMO)
+    MINIMAL_CDL,
+    MINIMAL_CDL_NEMO,
+    MINIMAL_CDL_NO_DATA,
+    MINIMAL_CDL_NO_DATA_NEMO,
+    TMP_DIR_FOR_NETCDF_TESTS,
+)
 
 
 class TestCommon(unittest.TestCase):
@@ -39,82 +53,54 @@ class TestCommon(unittest.TestCase):
 
             assert validation.valid == expected
 
-    @patch("os.walk")  # decorators are applied in reverse order :S
-    @patch("cdds.extract.common.get_stash_from_pp")
-    def test_stash_fields_validation_ref_fail(self, mock_get_stash_from_pp,
-                                              mock_walk):
-        ret_dict = init_defaultdict(["1234", "5678"])
-
-        mock_get_stash_from_pp.return_value = ret_dict
-        mock_walk.return_value = [("/foo", [], ["bar.pp", "baz.pp", ],), ]
-
-        expected_stash_codes = {"1234", "2345", "5678"}
+    def test_stash_fields_validation_ref_fail(self):
+        stash_in_file = {"bar.pp": {1234: 1}}
+        expected_stash_codes = {1234, 5678}
         validation_result = StreamValidationResult("foo")
-        validate_stash_fields("foo", expected_stash_codes, validation_result)
+        check_expected_stash(stash_in_file, validation_result, "foo", expected_stash_codes)
         self.assertFalse(validation_result.valid)
         self.assertEqual(len(validation_result.file_errors.keys()), 1)
-        self.assertEqual(validation_result.file_errors["foo/bar.pp"].stash_errors, ["2345"])
+        self.assertEqual(validation_result.file_errors["foo/bar.pp"].stash_errors, [5678])
 
-    @patch("os.walk")
-    def test_stash_fields_validation_fail(self, mock_walk):
-        results = [
-            init_defaultdict(["1234", "2345", "5678"]),
-            init_defaultdict(["1234", "2345"]),
-            init_defaultdict(["1234", "2345", "2345", "5678"]),
-        ]
+    def test_stash_fields_validation_fail(self):
+        stash_in_file = {"bar.pp": {1234: 1, 2345: 1},
+                         "baz.pp": {1234: 1},
+                         "foobaz.pp": {2345: 1}}
 
-        with patch("cdds.extract.common.get_stash_from_pp", side_effect=results):
-            mock_walk.return_value = [
-                ("/foo", [], ["bar.pp", "baz.pp", "foobaz.pp"],), ]
-
-            expected_stash_codes = {"1234", "2345", "5678"}
-            validation_result = StreamValidationResult("foo")
-            validate_stash_fields("foo", expected_stash_codes, validation_result)
-            self.assertFalse(validation_result.valid)
-            self.assertEqual(len(validation_result.file_errors.keys()), 2)
-            self.assertEqual(validation_result.file_errors["foo/baz.pp"].stash_errors, ["5678"])
-            self.assertEqual(validation_result.file_errors["foo/foobaz.pp"].stash_errors, ["2345"])
-
-    @patch("os.walk")  # decorators are applied in reverse order :S
-    @patch("cdds.extract.common.get_stash_from_pp")
-    def test_stash_fields_validation_unreadable(self, mock_get_stash_from_pp,
-                                                mock_walk):
-        mock_get_stash_from_pp.return_value = None
-        mock_walk.return_value = [("/foo", [], ["bar.pp", ],), ]
-
-        expected_stash_codes = {"1234", "2345", "5678"}
+        expected_stash_codes = {1234, 2345}
         validation_result = StreamValidationResult("foo")
-        validate_stash_fields("foo", expected_stash_codes, validation_result)
+        check_expected_stash(stash_in_file, validation_result, "foo", expected_stash_codes)
+        self.assertFalse(validation_result.valid)
+        self.assertEqual(len(validation_result.file_errors.keys()), 2)
+        self.assertEqual(validation_result.file_errors["foo/baz.pp"].stash_errors, [2345])
+        self.assertEqual(validation_result.file_errors["foo/foobaz.pp"].stash_errors, [1234])
+
+    @patch("os.listdir")  # decorators are applied in reverse order :S
+    @patch("cdds.extract.common.get_stash_from_pp")
+    def test_stash_fields_validation_unreadable(self, mock_get_stash_from_pp, mock_listdir):
+        mock_get_stash_from_pp.return_value = None
+        mock_listdir.return_value = ["bar.pp"]
+        validation_result = StreamValidationResult("foo")
+        get_stash_fields("foo", validation_result)
+
         self.assertFalse(validation_result.valid)
         self.assertIsInstance(validation_result.file_errors["foo/bar.pp"], FileContentError)
         self.assertEqual(validation_result.file_errors["foo/bar.pp"].error_message, "unreadable file")
 
-    @patch("os.walk")
-    @patch("cdds.extract.common.get_stash_from_pp")
-    def test_stash_fields_validation_pass(self, mock_get_stash_from_pp,
-                                          mock_walk):
-        ret_dict = init_defaultdict(["1234", "5678"])
-
-        mock_get_stash_from_pp.return_value = ret_dict
-        mock_walk.return_value = [("/foo", [], ["bar.pp", "baz.pp", ],), ]
-
-        expected_stash_codes = {"1234", "5678"}
+    def test_stash_fields_validation_pass(self):
+        stash_in_file = {"file1.pp": {1234: 1, 5678: 1}}
+        expected_stash_codes = {1234, 5678}
         validation_result = StreamValidationResult("foo")
-        validate_stash_fields("foo", expected_stash_codes, validation_result)
+        check_expected_stash(stash_in_file, validation_result, "foo", expected_stash_codes)
+
         self.assertTrue(validation_result.valid)
 
-    @patch("os.walk")
-    @patch("cdds.extract.common.get_stash_from_pp")
-    def test_stash_fields_validation_pass_ignore_unwanted_stash(
-            self, mock_get_stash_from_pp, mock_walk):
-        ret_dict = init_defaultdict(["1234", "5678", "9999"])
-
-        mock_get_stash_from_pp.return_value = ret_dict
-        mock_walk.return_value = [("/foo", [], ["bar.pp", "baz.pp", ],), ]
-
-        expected_stash_codes = {"1234", "5678"}
+    def test_stash_fields_validation_pass_ignore_unwanted_stash(self):
+        stash_in_file = {"file1.pp": {1234: 1, 5678: 1, 3456: 1}}
+        expected_stash_codes = {1234, 5678}
         validation_result = StreamValidationResult("foo")
-        validate_stash_fields("foo", expected_stash_codes, validation_result)
+        check_expected_stash(stash_in_file, validation_result, "foo", expected_stash_codes)
+
         self.assertTrue(validation_result.valid)
 
     @pytest.mark.slow
