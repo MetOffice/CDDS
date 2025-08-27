@@ -29,6 +29,7 @@ from mip_convert.common import (
     parse_to_loadables)
 from mip_convert.constants import TIMESTEP, PREDEFINED_BOUNDS, OVERRIDE_AXIS_DIRECTION
 from mip_convert.variable import make_masked
+import warnings
 
 
 class VariableMetadata(object):
@@ -459,9 +460,25 @@ class Variable(object):
         expression = _update_constraints_in_expression(list(self.input_variables.keys()), expression)
         self.logger.debug('Evaluating expression "{}"'.format(expression))
         plugin = MappingPluginStore.instance().get_plugin()
-        self.cube = plugin.evaluate_expression(expression, self.input_variables)
-        if fill_value is not None:
-            self.cube.attributes['fill_value'] = fill_value
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                message=".*Cannot check if coordinate is contiguous.*",
+                category=UserWarning
+            )
+            warnings.filterwarnings(
+                "ignore",
+                message=".*Collapsing a multi-dimensional coordinate.*",
+                category=UserWarning
+            )
+            warnings.filterwarnings(
+                "ignore",
+                message=".*Collapsing spatial coordinate.*",
+                category=UserWarning
+            )
+            self.cube = plugin.evaluate_expression(expression, self.input_variables)
+            if fill_value is not None:
+                self.cube.attributes['fill_value'] = fill_value
         self.logger.debug('{cube}'.format(cube=self.cube))
 
     def _rotated_coords(self):

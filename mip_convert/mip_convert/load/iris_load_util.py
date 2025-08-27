@@ -491,7 +491,8 @@ def pp_fields(all_input_data):
             warnings.filterwarnings(
                 "ignore",
                 message=".*Unable to interpret field 0.*",
-                category=UserWarning
+                category=UserWarning,
+                module=r"iris\.fileformats\.pp"
             )
             fields = [field for filename in all_input_data for field in load(filename)]
 
