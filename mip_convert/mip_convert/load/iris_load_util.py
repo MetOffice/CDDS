@@ -11,6 +11,8 @@ import metomi.isodatetime.data as data
 from operator import and_
 import os
 import regex as re
+from functools import reduce
+import warnings
 
 import iris
 # TODO: look at whether this can be removed
@@ -31,8 +33,6 @@ from mip_convert.common import (
     apply_time_constraint, get_field_attribute_name, remove_extra_time_axis, promote_aux_time_coord_to_dim,
     replace_coordinates)
 from mip_convert.load.fix_pp import fix_pp_field
-from functools import reduce
-import warnings
 
 _CACHED_FIELDS = {}
 ADDITIONAL_STASHCODE_IMPLIED_HEIGHTS = {3329: 1.5,

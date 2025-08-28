@@ -460,22 +460,19 @@ class Variable(object):
         expression = _update_constraints_in_expression(list(self.input_variables.keys()), expression)
         self.logger.debug('Evaluating expression "{}"'.format(expression))
         plugin = MappingPluginStore.instance().get_plugin()
+
+        userwarnings = [
+            {"message": ".*Cannot check if coordinate is contiguous.*", "category": UserWarning},
+            {"message": ".*Collapsing a multi-dimensional coordinate.*", "category": UserWarning},
+            {"message": ".*Collapsing spatial coordinate.*", "category": UserWarning}
+        ]
         with warnings.catch_warnings():
-            warnings.filterwarnings(
-                "ignore",
-                message=".*Cannot check if coordinate is contiguous.*",
-                category=UserWarning
-            )
-            warnings.filterwarnings(
-                "ignore",
-                message=".*Collapsing a multi-dimensional coordinate.*",
-                category=UserWarning
-            )
-            warnings.filterwarnings(
-                "ignore",
-                message=".*Collapsing spatial coordinate.*",
-                category=UserWarning
-            )
+            for warn in userwarnings:
+                warnings.filterwarnings(
+                    "ignore",
+                    message=warn["message"],
+                    category=warn["category"]
+                )
             self.cube = plugin.evaluate_expression(expression, self.input_variables)
             if fill_value is not None:
                 self.cube.attributes['fill_value'] = fill_value
