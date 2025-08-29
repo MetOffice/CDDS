@@ -103,7 +103,6 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
     # Retrieve 'MIP requested variables' by grid.
     variables_by_grid = retrieve_variables_by_grid(requested_variables_list, request.common.mip_table_dir)
     streams = retrieve_streams_by_grid(requested_variables_list)
-
     # Output file template from the plugins
     plugin = PluginStore.instance().get_plugin()
     output_file_template = plugin.model_file_info().output_file_template
@@ -122,7 +121,6 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
             maskings = get_masking_attributes(request.metadata.model_id, streams)
 
             halo_removals = get_halo_removal_attributes(request)
-            # breakpoint()
             slicing = get_slicing_periods(request)
             user_config = OrderedDict()
             user_config.update(deepcopy(metadata))
@@ -172,12 +170,17 @@ def get_halo_removal_attributes(request: Request):
     logger = logging.getLogger(__name__)
     halo_removal_latitude = request.misc.halo_removal_latitude
     halo_removal_longitude = request.misc.halo_removal_longitude
-    # breakpoint()
-    if not halo_removal_latitude or not halo_removal_longitude:
+    # For implementing default halo removal values for ocean streams
+    ocean_streams = ['stream_onm', 'stream_inm']
+    
+    if not halo_removal_latitude or not halo_removal_longitude and stream not in ocean_streams:
         message = ('At least one halo removal option is empty. For using halo removals both options must '
                    'be set in the request.cfg. Skip halo removals.')
         logger.debug(message)
         return None
+    elif (not halo_removal_latitude or not halo_removal_longitude) and stream in ocean_streams:
+        halo_removal_latitude = request.misc.halo_removal_latitude
+        halo_removal_longitude = request.misc.halo_removal_longitude
 
     removal_attributes = OrderedDict()
     key_template = 'stream_{}'
@@ -187,18 +190,7 @@ def get_halo_removal_attributes(request: Request):
         key = key_template.format(stream)
         value = value_template.format(halo_removal_latitude, halo_removal_longitude)
         removal_attributes[key] = value
-        # breakpoint()
-    ocean_streams = ['onm', 'inm']
-    # breakpoint()
-    for stream in ocean_streams:
-        if stream in request.data.streams and (not halo_removal_latitude or not halo_removal_longitude):
-            halo_removal_latitude = request.misc.halo_removal_latitude
-            halo_removal_longitude = request.misc.halo_removal_longitude
 
-            message = (f'Halo removal values required for ocean stream "{stream}". '
-                       f'However, none provided, so default values of "1,-1" for both latitude and longitude used.')
-            logger.warning(message)
-    
     return removal_attributes
 
 
