@@ -11,6 +11,8 @@ import metomi.isodatetime.data as data
 from operator import and_
 import os
 import regex as re
+from functools import reduce
+import warnings
 
 import iris
 # TODO: look at whether this can be removed
@@ -31,7 +33,6 @@ from mip_convert.common import (
     apply_time_constraint, get_field_attribute_name, remove_extra_time_axis, promote_aux_time_coord_to_dim,
     replace_coordinates)
 from mip_convert.load.fix_pp import fix_pp_field
-from functools import reduce
 
 _CACHED_FIELDS = {}
 ADDITIONAL_STASHCODE_IMPLIED_HEIGHTS = {3329: 1.5,
@@ -358,7 +359,19 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
     :return: a list of merged cubes
     :rtype: :class:`iris.cube.CubeList`
     """
-    merged_cubes = iris.load(all_input_data, load_constraints, callback=preprocess_callback)
+    userwarnings = [
+        {"message": ".*Missing CF-netCDF measure variable.*", "category": UserWarning},
+        {"message": ".*Missing CF-netCDF boundary variable.*", "category": UserWarning},
+        {"message": ".*invalid units.*", "category": UserWarning}
+    ]
+    with warnings.catch_warnings():
+        for warn in userwarnings:
+            warnings.filterwarnings(
+                "ignore",
+                message=warn["message"],
+                category=warn["category"]
+            )
+        merged_cubes = iris.load(all_input_data, load_constraints, callback=preprocess_callback)
 
     cubes = iris.cube.CubeList()
     if merged_cubes:
@@ -473,7 +486,15 @@ def pp_fields(all_input_data):
     all_input_data = tuple(all_input_data)
     if all_input_data not in _CACHED_FIELDS:
         logger.debug('Start loading PP fields from model output files')
-        fields = [field for filename in all_input_data for field in load(filename)]
+
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                message=".*Unable to interpret field 0.*",
+                category=UserWarning,
+                module=r"iris\.fileformats\.pp"
+            )
+            fields = [field for filename in all_input_data for field in load(filename)]
 
         logger.debug('Completed loading PP fields from model output files')
         logger.debug('Start fixing PP fields')
