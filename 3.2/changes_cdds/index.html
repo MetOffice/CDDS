@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#release-320-june-12-2025" class="md-skip">
+        <a href="#release-321-august-29-2025" class="md-skip">
           Skip to content
         </a>
       
@@ -378,6 +378,13 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#release-321-august-29-2025" class="md-nav__link">
+    Release 3.2.1, August 29, 2025
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#release-320-june-12-2025" class="md-nav__link">
@@ -2151,6 +2158,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#release-321-august-29-2025" class="md-nav__link">
+    Release 3.2.1, August 29, 2025
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#release-320-june-12-2025" class="md-nav__link">
     Release 3.2.0, June 12, 2025
   </a>
@@ -2804,6 +2818,36 @@
 
   <h1>Changelog (CDDS)</h1>
 
+<h2 id="release-321-august-29-2025">Release 3.2.1, August 29, 2025</h2>
+<ul>
+<li>
+<p>Improved error messages when not passing a valid <code>request.cfg</code> path (#575)</p>
+</li>
+<li>
+<p>Fixed the generate_mappings_html command (#474)</p>
+</li>
+<li>
+<p>Removed <code>fix_import_paths()</code> due to Cylc 8 using separate jinja2 library(#571)</p>
+</li>
+<li>
+<p>The <code>model_workflow_id</code> in now a required option in the <code>request.cfg</code> (#484)</p>
+</li>
+<li>
+<p>Fixed validation failing for daily data when using the Gregorian calendar (#494)</p>
+</li>
+<li>
+<p>Add missing default cycling frequencies for HadGEM3-GC5E-HH model (#619)</p>
+</li>
+<li>
+<p>Fixed <code>mypy</code> errors (#471, #568)</p>
+</li>
+<li>
+<p>Output from <code>mip_convert</code> is now streamed to stdout of the <code>run_mip_convert_wrapper</code> whilst running (#614)</p>
+</li>
+<li>
+<p>Added a <code>cdds_system_information</code> command that checks expected environment variables are present (#611)</p>
+</li>
+</ul>
 <h2 id="release-320-june-12-2025">Release 3.2.0, June 12, 2025</h2>
 <ul>
 <li>
