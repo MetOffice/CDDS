@@ -187,9 +187,8 @@
       "replacement_coordinates_file": "cice_eORCA12_coords.nc",
       "ancil_filenames": [],
       "default_halo_removal": {
-      "stream_onm": [[1, -1], [1, -1]],
-      "grid-T": [[1, -1], [1, -1]],
-      "grid-U": [[1, -1], [1, -1]]
+      "onm": [[1, -1], [1, -1]],
+      "ond": [[1, -1], [1, -1]]
     },
       "masked": {
         "grid-V": {

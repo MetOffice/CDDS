@@ -164,7 +164,6 @@ class OceanBaseGridInfo(BaseGridInfo):
             self.bounds_coordinate_overrides = {}
 
     def _load_default_halo_removal(self, json) -> None:
-        # breakpoint()
         self._default_halo_removal = json["default_halo_removal"]
 
     @staticmethod

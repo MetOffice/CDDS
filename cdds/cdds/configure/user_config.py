@@ -170,17 +170,20 @@ def get_halo_removal_attributes(request: Request):
     logger = logging.getLogger(__name__)
     halo_removal_latitude = request.misc.halo_removal_latitude
     halo_removal_longitude = request.misc.halo_removal_longitude
-    # For implementing default halo removal values for ocean streams
-    ocean_streams = ['stream_onm', 'stream_inm']
-    
-    if not halo_removal_latitude or not halo_removal_longitude and stream not in ocean_streams:
-        message = ('At least one halo removal option is empty. For using halo removals both options must '
-                   'be set in the request.cfg. Skip halo removals.')
-        logger.debug(message)
-        return None
-    elif (not halo_removal_latitude or not halo_removal_longitude) and stream in ocean_streams:
-        halo_removal_latitude = request.misc.halo_removal_latitude
-        halo_removal_longitude = request.misc.halo_removal_longitude
+
+    halo_removal_info = {
+        "apa": {'longitude': [-1,1], 'latitude': [-1,1]},
+        "onm": {'longitude': [-1,1], 'latitude': [-1,1]}
+    }
+
+    # if not halo_removal_latitude or not halo_removal_longitude and stream not in ocean_streams:
+    #     message = ('At least one halo removal option is empty. For using halo removals both options must '
+    #                'be set in the request.cfg. Skip halo removals.')
+    #     logger.debug(message)
+    #     return None
+    # elif (not halo_removal_latitude or not halo_removal_longitude) and stream in ocean_streams:
+    #     halo_removal_latitude = request.misc.halo_removal_latitude
+    #     halo_removal_longitude = request.misc.halo_removal_longitude
 
     removal_attributes = OrderedDict()
     key_template = 'stream_{}'

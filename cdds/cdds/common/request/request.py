@@ -173,7 +173,6 @@ class Request:
         self.misc.add_to_config(config, self.metadata.model_id)
         self.inventory.add_to_config(config)
         self.conversion.add_to_config(config)
-        breakpoint()
         with open(config_file, 'w') as fp:
             config.write(fp)
 
