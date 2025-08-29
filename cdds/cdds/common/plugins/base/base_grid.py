@@ -145,6 +145,8 @@ class OceanBaseGridInfo(BaseGridInfo):
         self._ocean_grid_polar_masks: Dict[str, str] = {}
         self._load_ocean_grid_polar_masks(json)
         self._load_bounds_coordinates(json)
+        self._load_default_halo_removal(json)
+
 
     def _load_ocean_grid_polar_masks(self, json) -> None:
         masked_data = json['masked']
@@ -160,6 +162,10 @@ class OceanBaseGridInfo(BaseGridInfo):
             self.bounds_coordinate_overrides = json["bounds_coordinates"]
         else:
             self.bounds_coordinate_overrides = {}
+
+    def _load_default_halo_removal(self, json) -> None:
+        # breakpoint()
+        self._default_halo_removal = json["default_halo_removal"]
 
     @staticmethod
     def _to_mask_slice_str(arguments):
@@ -205,10 +211,7 @@ class OceanBaseGridInfo(BaseGridInfo):
         """
         Returns default halo removal info for this grid.
         """
-        if 'default_halo_removal' in self._values:
-            return self._values['default_halo_removal']
-        # Fallback
-        return {'stream_onm': [(1, -1), (1, -1)]}
+        return self._default_halo_removal
 
     def hybrid_heights_files(self) -> List[str]:
         """

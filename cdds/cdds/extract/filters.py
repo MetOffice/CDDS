@@ -793,7 +793,6 @@ class Filters(object):
             # add variable filters to file
             file_h.write("-a\n-v {}".format(variables))
             # if substream in self.grid_info.halo_options:
-            #     breakpoint()
             #     for ncks_opt in self.grid_info.halo_options[substream]:
             #         file_h.write("\n{}".format(ncks_opt))
 
