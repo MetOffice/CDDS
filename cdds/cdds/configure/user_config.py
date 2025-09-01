@@ -172,7 +172,6 @@ def get_halo_removal_attributes(request: Request, model_id: str = None,):
     plugin = PluginStore.instance().get_plugin()
     model_parameters = plugin.models_parameters(model_id)
     halo_removal_info = model_parameters.halo_removal_info()
-    breakpoint()
 
 
     # if not halo_removal_latitude or not halo_removal_longitude and stream not in ocean_streams:
@@ -190,9 +189,10 @@ def get_halo_removal_attributes(request: Request, model_id: str = None,):
 
     for stream in request.data.streams:
         key = key_template.format(stream)
-        value = value_template.format(latitude, longitude)
+        value = value_template.format(halo_removal_info[stream]["latitude"], halo_removal_info[stream]["longitude"])
         removal_attributes[key] = value
 
+    # breakpoint()
     return removal_attributes
 
 

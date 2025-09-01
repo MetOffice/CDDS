@@ -253,10 +253,7 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
             self._temp_space.update(new_temp_space)
             self._sizing.update(new_sizing_info)
             self._halo_removal_info.update(new_halo_removal)
-            if "UKESM1-0-LL" in json_file:
-                breakpoint()
 
-            # breakpoint()
             if new_grid_info:
                 self._load_grid_info(new_grid_info)
             loaded = True
