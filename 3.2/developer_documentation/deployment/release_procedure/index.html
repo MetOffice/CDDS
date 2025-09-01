@@ -926,8 +926,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-a-deployment-branch" class="md-nav__link">
-    Create a Deployment Branch
+  <a href="#create-the-deployment-branch" class="md-nav__link">
+    Create the Deployment Branch
   </a>
   
 </li>
@@ -940,15 +940,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#publish-the-documentation" class="md-nav__link">
-    Publish the Documentation
+  <a href="#merge-deployment-branch-into-release-branch" class="md-nav__link">
+    Merge Deployment Branch into Release Branch
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#merge-deployment-branch-into-release-branch" class="md-nav__link">
-    Merge Deployment Branch into Release Branch
+  <a href="#publish-the-documentation" class="md-nav__link">
+    Publish the Documentation
   </a>
   
 </li>
@@ -982,15 +982,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-release-on-github" class="md-nav__link">
-    Create Release on GitHub
+  <a href="#create-a-release-on-github" class="md-nav__link">
+    Create a Release on GitHub
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#close-jira-ticket" class="md-nav__link">
-    Close Jira ticket
+  <a href="#close-issue" class="md-nav__link">
+    Close Issue
   </a>
   
 </li>
@@ -1592,8 +1592,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-a-deployment-branch" class="md-nav__link">
-    Create a Deployment Branch
+  <a href="#create-the-deployment-branch" class="md-nav__link">
+    Create the Deployment Branch
   </a>
   
 </li>
@@ -1606,15 +1606,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#publish-the-documentation" class="md-nav__link">
-    Publish the Documentation
+  <a href="#merge-deployment-branch-into-release-branch" class="md-nav__link">
+    Merge Deployment Branch into Release Branch
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#merge-deployment-branch-into-release-branch" class="md-nav__link">
-    Merge Deployment Branch into Release Branch
+  <a href="#publish-the-documentation" class="md-nav__link">
+    Publish the Documentation
   </a>
   
 </li>
@@ -1648,15 +1648,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-release-on-github" class="md-nav__link">
-    Create Release on GitHub
+  <a href="#create-a-release-on-github" class="md-nav__link">
+    Create a Release on GitHub
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#close-jira-ticket" class="md-nav__link">
-    Close Jira ticket
+  <a href="#close-issue" class="md-nav__link">
+    Close Issue
   </a>
   
 </li>
@@ -1677,49 +1677,67 @@
 
 
 <h1 id="release-procedure">Release Procedure</h1>
-<p>The changes necessary for the release are first made on a "deployment" branch which are then merged in to the release branch via a pull request.
-The following diagram gives an overview of the steps that follow.</p>
+<p>The changes needed for a release are first made on a deployment branch (denoted by <code>gh-issue_X.Y.Z</code> below) which are then merged in to the release branch via a pull request.</p>
 <pre class="mermaid"><code>gitGraph
    commit id: "some feature"
-   branch v3.1_release
-   checkout v3.1_release
-   branch CDDSO-X_3.1.0_release
-   checkout CDDSO-X_3.1.0_release
+   branch vX.Y_release
+   checkout vX.Y_release
+   branch gh-issue_vX.Y.Z_release
+   checkout gh-issue_vX.Y.Z_release
    commit id: "Disable Dev Mode"
    commit id: "Update CHANGES.md"
-   checkout v3.1_release
-   merge CDDSO-X_3.1.0_release tag: "v3.1.0"
+   checkout vX.Y_release
+   merge gh-issue_vX.Y.Z_release tag: "vX.Y.Z"
    commit id: "Enable Dev Mode / Version"
-   commit id: "New 3.1.1 features"
+   commit id: "Next micro release features (vX.Y.Z+1)"
    checkout main
    cherry-pick id: "Update CHANGES.md"</code></pre>
-<h2 id="create-a-deployment-branch">Create a Deployment Branch</h2>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>&lt;release_branch&gt;
-git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>&lt;ticket_number&gt;_v&lt;tag&gt;_release
-</code></pre></div>
-<p>where <code>&lt;release_branch&gt;</code> is the name of the release branch. If an appropriate release branch doesn't exist, create one:</p>
+<h2 id="create-the-deployment-branch">Create the Deployment Branch</h2>
+<p>If this is a new major or minor release i.e <code>X.Y.0</code>, you will need to create a <code>vX.Y_release</code> branch from <code>main</code> if one does not already exist.</p>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
-git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>v&lt;release_version&gt;_release
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>v&lt;X.Y&gt;_release
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v&lt;X.Y&gt;_release
 </code></pre></div>
-<p>where <code>&lt;release_version&gt;</code> is e.g. <code>3.1</code>.</p>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>v3.2_release
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v3.2_release
+</code></pre></div>
+</details>
+<p>Once the release branch has been created, or if it already exists, create the deployment branch for this release.</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>v&lt;X.Y&gt;_release
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>&lt;gh-issue&gt;_v&lt;X.Y.Z&gt;_release
+</code></pre></div>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>v3.2_release
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>123_v3.2.1_release
+</code></pre></div>
+</details>
 <h2 id="prepare-the-deployment-branch">Prepare the Deployment Branch</h2>
-<ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Update the development tag in <code>cdds/cdds/__init__.py</code> and <code>mip_covert/mip_convert/__init__.py</code>
-    <div class="highlight"><pre><span></span><code><span class="nv">_DEV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>False
-</code></pre></div>
-    Use following command to do that:
+<p>Each of these steps should be made as separate commits to allow for cherry picking the <code>CHANGES.md</code> on to <code>main</code>.</p>
+<ol>
+<li>
+<p>Update the <code>_DEV</code> flag in <code>cdds/cdds/__init__.py</code> and <code>mip_covert/mip_convert/__init__.py</code> to <code>False</code>
     <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/_DEV = True/_DEV = False/&quot;</span><span class="w"> </span>*/*/__init__.py
-</code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Check <code>_NUMERICAL_VERSION</code> in <code>cdds/cdds/__init__.py</code> and <code>mip_covert/mip_convert/__init__.py</code>.
+</code></pre></div></p>
+</li>
+<li>
+<p>Check that <code>_NUMERICAL_VERSION</code> in <code>cdds/cdds/__init__.py</code> and <code>mip_covert/mip_convert/__init__.py</code> matches the release <code>X.Y.Z</code> you are preparing.
       It should be set to the current release version e.g. <code>3.1.0</code> (This must include any suffixes e.g. for
-      release candidates)</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Ensure that:<ul>
-<li>All changes  since the last release have been described in the relevant <code>CHANGES.md</code> files. These should be added as a separate commit to allow 
-   cherry picking onto main later</li>
+      release candidates)</p>
+</li>
+<li>
+<p>Update the <code>CHANGES.md</code> files with all the relevant changes from the last release.</p>
+<ul>
 <li>Any new files added since the last release that do not have a <code>.py</code> extension are included in <code>MANIFEST.in</code> and <code>setup.py</code>.</li>
 </ul>
 </li>
-</ul>
+</ol>
+<h2 id="merge-deployment-branch-into-release-branch">Merge Deployment Branch into Release Branch</h2>
+<p>Create a pull request for the changes. After the pull request is approved, merge the changes into the release branch, <strong>but do not squash merge them</strong>. 
+This will allow you cherry-pick release notes from the release branch into main.</p>
 <h2 id="publish-the-documentation">Publish the Documentation</h2>
 <ol>
 <li>Deploy the new version of the documentation.
@@ -1737,47 +1755,26 @@ git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </
 </code></pre></div>
 For more information, see <a href="../documentation/">Documentation</a>. If you have any doubts, please speak to Jared or Matthew.</li>
 </ol>
-<h2 id="merge-deployment-branch-into-release-branch">Merge Deployment Branch into Release Branch</h2>
-<ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a pull request for the changes. After the pull request is approved, merge the changes into the release branch, <strong>but do not squash merge them</strong>. 
-      This will allow you cherry-pick release notes from the release branch into main.</li>
-</ul>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>After changing this version number, the setup script won't work until the new version has been installed centrally in the cdds account. </p>
-</div>
 <h2 id="create-a-tag">Create a tag</h2>
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
 <p>You must remember to <code>git checkout</code> the <code>v3.X_release</code> branch and then <code>git pull</code> the changes that were merged via PR.</p>
 </div>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Using command line</label><label for="__tabbed_1_2">Using GitHub</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
 <p>Only those that have admin permissions on the <abbr title="Climate Data Dissemination System">CDDS</abbr> repository can create tags.</p>
-<ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Switch to the branch you want to tag (normally, the release branch) and <strong><em>make sure you have pulled changes on github to your local branch – 
-  failure to do this can lead to installation errors that manifest as failure to build wheels</em></strong></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create the tag:
-      <div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>&lt;tagname&gt;<span class="w"> </span>-a
+<ol>
+<li>Switch to the branch you want to tag (normally, the release branch) and <strong><em>make sure you have pulled changes on github to your local branch – 
+    failure to do this can lead to installation errors that manifest as failure to build wheels</em></strong></li>
+<li>Create the tag:
+        <div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>&lt;tagname&gt;<span class="w"> </span>-a
 </code></pre></div>
-      The <code>&lt;tagname&gt;</code> normally is the release version, e.g. <code>v3.1.0</code>.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Push the tag to the branch:
-      <div class="highlight"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>&lt;tagname&gt;
+        The <code>&lt;tagname&gt;</code> normally is the release version, e.g. <code>v3.1.0</code>.</li>
+<li>Push the tag to the branch:
+        <div class="highlight"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>&lt;tagname&gt;
 </code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> To show all tags and check if your tag is successfully created, run:
-      <div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>-l
+<li>To show all tags and check if your tag is successfully created, run:
+        <div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>-l
 </code></pre></div></li>
-</ul>
-</div>
-<div class="tabbed-block">
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Github has a good documentation about release processes, see: <a href="https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository">Managing releases - GitHub Docs</a></p>
-</div>
-</div>
-</div>
-</div>
+</ol>
 <h2 id="install-the-code">Install the code</h2>
 <p>Follow the instructions provided in the <a href="../cdds_installation/">Installation</a> guide.</p>
 <h2 id="restore-development-mode-and-bump-version">Restore development mode and bump version</h2>
@@ -1792,13 +1789,22 @@ For more information, see <a href="../documentation/">Documentation</a>. If you 
 </code></pre></div></li>
 </ul>
 <h2 id="propagate-release-note-to-main">Propagate Release Note to main</h2>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Using cherry-pick</label><label for="__tabbed_2_2">Using merge</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Using cherry-pick</label><label for="__tabbed_1_2">Using merge</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Ensure local copy of both <code>main</code> and <code>release_branch</code> are up to date.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> On the main branch use the <code>git cherry-pick</code> command to pull in just the <code>CHANGES.md</code> updates with release notes and commit them.</li>
-</ul>
+<ol>
+<li>
+<p>Ensure local copy of both <code>main</code> and <code>release_branch</code> are up to date.
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
+git<span class="w"> </span>pull<span class="w"> </span>main
+git<span class="w"> </span>checkout<span class="w"> </span>vX.Y_release
+git<span class="w"> </span>pull<span class="w"> </span>checkout<span class="w"> </span>vX.Y_release
+</code></pre></div></p>
+</li>
+<li>
+<p>On the main branch use the <code>git cherry-pick</code> command to pull in just the <code>CHANGES.md</code> updates with release notes and commit them.</p>
+</li>
+</ol>
 </div>
 <div class="tabbed-block">
 <p>If you are unable to use the cherry-pick for the changes then the following may be useful.</p>
@@ -1811,15 +1817,21 @@ For more information, see <a href="../documentation/">Documentation</a>. If you 
 </div>
 </div>
 </div>
+<h2 id="create-a-release-on-github">Create a Release on GitHub</h2>
+<p>Create a release on github from the tag. Include all major release notes and ensure that all links back to Jira work as expected. 
+Create a discussion announcement from the release.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Github has a good documentation about release processes, see: <a href="https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository">Managing releases - GitHub Docs</a></p>
+</div>
+<h2 id="close-issue">Close Issue</h2>
+<ol>
+<li>Finally, close the release gh-issue.</li>
+</ol>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p><strong>Do not delete the release branch! (expect Matthew Mizielinski told you so)</strong></p>
 </div>
-<h2 id="create-release-on-github">Create Release on GitHub</h2>
-<p>Create a release on github from the tag. Include all major release notes and ensure that all links back to Jira work as expected. 
-Create a discussion announcement from the release.</p>
-<h2 id="close-jira-ticket">Close Jira ticket</h2>
-<p>Set the status of the Jira ticket to <code>Done</code>.</p>
 
 
 
