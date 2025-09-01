@@ -123,6 +123,7 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         self._stream_file_info: StreamFileInfo = None
         self._streams: List[str] = []
         self._grid_mappings: BaseGridMapping = BaseGridMapping()
+        self._halo_removal: Dict[str, str] = {}
 
     def temp_space(self, stream_id: str) -> int:
         """
@@ -235,6 +236,7 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
             new_temp_space = parameters.get('temp_space', {})
             new_sizing_info = parameters.get('sizing_info', {})
             new_grid_info = parameters.get('grid_info')
+            new_halo_removal = parameters.get('halo_removal', {})
 
             self._load_stream_file_info(parameters.get('stream_file_frequency', {}))
             self._subdaily_streams = parameters.get('subdaily_streams', [])
@@ -242,6 +244,7 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
             self._memory.update(new_memory)
             self._temp_space.update(new_temp_space)
             self._sizing.update(new_sizing_info)
+            self._halo_removal.update(new_halo_removal)
 
             if new_grid_info:
                 self._load_grid_info(new_grid_info)
@@ -340,6 +343,15 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         return list(map(
             lambda file: os.path.join(root_directory, file), file_names
         ))
+    
+    def halo_removal_info(self) -> Dict[str, str]:
+        """
+        Returns the halo removal information for this model.
+
+        :return: Halo removal information
+        :rtype: Dict[str, str]
+        """
+        return self._halo_removal
 
 
 class BaseModelStore(ModelsStore, metaclass=ABCMeta):

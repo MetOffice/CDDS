@@ -256,6 +256,12 @@
         "diaptr": [
           "-dy,1,330"
         ]
+      },
+      "halo_removal": {
+        "onm": {
+          "longitude": "1:-1",
+          "latitude": "1:-1"
+        }
       }
     }
   }
