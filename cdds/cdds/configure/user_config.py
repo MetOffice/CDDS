@@ -120,7 +120,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
                 'Producing user configuration file for "{}"'.format(file_suffix))
             maskings = get_masking_attributes(request.metadata.model_id, streams)
 
-            halo_removals = get_halo_removal_attributes(request)
+            halo_removals = get_halo_removal_attributes(request, model_id=request.metadata.model_id)
             slicing = get_slicing_periods(request)
             user_config = OrderedDict()
             user_config.update(deepcopy(metadata))
@@ -152,7 +152,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
     return user_configs
 
 
-def get_halo_removal_attributes(request: Request):
+def get_halo_removal_attributes(request: Request, model_id: str = None,):
     """
     Returns the removal attributes of the halo rows and cloumns. Only masks for the given streams are loaded.
 
@@ -168,13 +168,11 @@ def get_halo_removal_attributes(request: Request):
     :rtype: OrderedDict[str, str]
     """
     logger = logging.getLogger(__name__)
-    halo_removal_latitude = request.misc.halo_removal_latitude
-    halo_removal_longitude = request.misc.halo_removal_longitude
 
-    halo_removal_info = {
-        "apa": {'longitude': [-1,1], 'latitude': [-1,1]},
-        "onm": {'longitude': [-1,1], 'latitude': [-1,1]}
-    }
+    plugin = PluginStore.instance().get_plugin()
+    model_parameters = plugin.models_parameters(model_id)
+    halo_removal_info = model_parameters.halo_removal_info()
+
 
     # if not halo_removal_latitude or not halo_removal_longitude and stream not in ocean_streams:
     #     message = ('At least one halo removal option is empty. For using halo removals both options must '
@@ -191,7 +189,7 @@ def get_halo_removal_attributes(request: Request):
 
     for stream in request.data.streams:
         key = key_template.format(stream)
-        value = value_template.format(halo_removal_latitude, halo_removal_longitude)
+        value = value_template.format(latitude, longitude)
         removal_attributes[key] = value
 
     return removal_attributes
