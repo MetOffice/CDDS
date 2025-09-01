@@ -24,22 +24,19 @@
           ```
           where `X.Y.Z` is the new version number of CDDS
 
-    !!! note
-        This has been updated following the roll out of Conda to MO systems. If the `-p` option is omitted then the installation will end up 
-        under `$HOME/.conda` and will not be visible to other users.
-
     - [x] Activate environment and set `CDDS_ENV_COMMAND` variable:
           ```bash
           conda activate cdds-X.Y.Z
           conda env config vars set CDDS_ENV_COMMAND="conda activate $HOME/conda_environments/cdds-X.Y.Z"
           ```
           where `X.Y.Z` is the new version number of CDDS
-          ```
-    - [x] Set platform in the `CDDS_PLATFORM` variable:
+
+    - [x] Set the `CDDS_PLATFORM` and `CDDS_ETC` variables
           ```bash
-          conda activate cdds-X.Y.Z
           conda env config vars set CDDS_PLATFORM=AZURE
+          conda env config vars set CDDS_ETC=$HOME/etc
           ```
+
     - [x] Confirm environment variables:
           ```bash
           echo $CYLC_VERSION
@@ -63,6 +60,7 @@
 
 === "On Jasmin"
     - [x] Login to one of the JASMIN [sci-servers](https://help.jasmin.ac.uk/docs/interactive-computing/sci-servers/#available-sci-servers) as the `cdds` user.
+
     - [x] Activate the `base` miniforge `conda` environment
           ```
           source $HOME/software/miniforge3/bin/activate
@@ -75,21 +73,24 @@
           ```bash
           sed -i "s/<location>/X.Y.Z/" environment.yml
           ```
-    - [x] Uncomment the `cdds` and `mip_convert` python pip install lines.
-          ```bash
-            #- git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds&subdirectory=cdds
-            #- git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
-          ```
+
     - [x] Create environment, where `X.Y.Z` is the new version number of CDDS
           ```bash
           conda env create -f environment.yml -p $HOME/conda_environments/cdds-X.Y.Z
           ```
-    - [x] Set the `CDDS` variables making sure to replace `X.Y.Z` with the appropriate version number.
+
+    - [x] Set the `CDDS_PLATFORM` and `CDDS_ETC` variables
           ```bash
+          conda activate cdds-X.Y.Z
           conda env config vars set CDDS_PLATFORM=JASMIN
           conda env config vars set CDDS_ETC=$HOME/etc
+          ```
+
+    - [x] Set the `CDDS_ENV_COMMAND` variable making sure to substitue `X.Y.Z` with the appropriate version number.
+          ```bash
           conda env config vars set CDDS_ENV_COMMAND="$HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z"
           ```
+
     - [x] Deactivate the environment
           ```bash
           conda deactivate

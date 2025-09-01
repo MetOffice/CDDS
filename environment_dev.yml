@@ -239,7 +239,6 @@ dependencies:
       - dreqpy==1.0.29
       - mkdocs-section-index==0.3.8
 variables:
-  CDDS_ETC: $CDDS_HOME/etc
   CYLC_VERSION: 8
   LC_ALL: en_GB.UTF-8
   TZ: UTC
