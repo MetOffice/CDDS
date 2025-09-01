@@ -147,6 +147,15 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         :rtype: str
         """
         return self._memory[stream_id]
+    
+    def halo_removal_info(self) -> Dict[str, str]:
+        """
+        Returns the halo removal information for this model.
+
+        :return: Halo removal information
+        :rtype: Dict[str, str]  """
+        # breakpoint()
+        return self._halo_removal_info
 
     def cycle_length(self, stream_id: str) -> str:
         """
@@ -237,8 +246,6 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
             new_sizing_info = parameters.get('sizing_info', {})
             new_grid_info = parameters.get('grid_info')
             new_halo_removal = parameters.get('halo_removal', {})
-            breakpoint()
-
             self._load_stream_file_info(parameters.get('stream_file_frequency', {}))
             self._subdaily_streams = parameters.get('subdaily_streams', [])
             self._cycle_lengths.update(new_cylc_lengths)
@@ -246,7 +253,10 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
             self._temp_space.update(new_temp_space)
             self._sizing.update(new_sizing_info)
             self._halo_removal_info.update(new_halo_removal)
+            if "UKESM1-0-LL" in json_file:
+                breakpoint()
 
+            # breakpoint()
             if new_grid_info:
                 self._load_grid_info(new_grid_info)
             loaded = True
@@ -344,15 +354,6 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         return list(map(
             lambda file: os.path.join(root_directory, file), file_names
         ))
-    
-    def halo_removal_info(self) -> Dict[str, str]:
-        """
-        Returns the halo removal information for this model.
-
-        :return: Halo removal information
-        :rtype: Dict[str, str]  """
-        
-        return self._halo_removal_info
 
 
 class BaseModelStore(ModelsStore, metaclass=ABCMeta):
