@@ -237,11 +237,9 @@ dependencies:
   - pip:
     - dreqpy==1.0.29
     - mkdocs-section-index==0.3.8
-    #- git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds&subdirectory=cdds
-    #- git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
+    - git+https://git@github.com/MetOffice/CDDS.git@v<location>#egg=cdds&subdirectory=cdds
+    - git+https://git@github.com/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
 variables:
-  CDDS_ETC: $CDDS_HOME/etc
   CYLC_VERSION: 8
   LC_ALL: en_GB.UTF-8
   TZ: UTC
-prefix: $CDDS_HOME/conda_environments/cdds-3.3.0
