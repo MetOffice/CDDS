@@ -1,3 +1,7 @@
+## Release 3.2.1, August 29, 2025
+
+-   No Changes
+
 ## Release 3.2.0, June 12, 2025
 
 -   Introduced new mappings plugins functionality to allow users to independently specify how variables are calculated  plus updates to documentation (CDDSO-541, CDDSO-659, CDDSO-503, CDDSO-653, CDDSO-630)

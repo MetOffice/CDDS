@@ -1,3 +1,15 @@
+## Release 3.2.1, August 29, 2025
+
+-   Improved error messages when not passing a valid `request.cfg` path (#575)
+-   Fixed the generate_mappings_html command (#474)
+-   Removed `fix_import_paths()` due to Cylc 8 using separate jinja2 library(#571)
+-   The `model_workflow_id` in now a required option in the `request.cfg` (#484)
+-   Fixed validation failing for daily data when using the Gregorian calendar (#494)
+-   Add missing default cycling frequencies for HadGEM3-GC5E-HH model (#619)
+-   Fixed `mypy` errors (#471, #568)
+-   Output from `mip_convert` is now streamed to stdout of the `run_mip_convert_wrapper` whilst running (#614)
+-   Added a `cdds_system_information` command that checks expected environment variables are present (#611)
+
 ## Release 3.2.0, June 12, 2025
 
 -   Support for MIP Convert mappings plugin (CDDSO-541)
