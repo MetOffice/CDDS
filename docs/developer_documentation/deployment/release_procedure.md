@@ -1,61 +1,79 @@
 # Release Procedure
 
-The changes necessary for the release are first made on a "deployment" branch which are then merged in to the release branch via a pull request.
-The following diagram gives an overview of the steps that follow.
+The changes needed for a release are first made on a deployment branch (denoted by `gh-issue_X.Y.Z` below) which are then merged in to the release branch via a pull request.
 
 ``` mermaid
 gitGraph
    commit id: "some feature"
-   branch v3.1_release
-   checkout v3.1_release
-   branch CDDSO-X_3.1.0_release
-   checkout CDDSO-X_3.1.0_release
+   branch vX.Y_release
+   checkout vX.Y_release
+   branch gh-issue_vX.Y.Z_release
+   checkout gh-issue_vX.Y.Z_release
    commit id: "Disable Dev Mode"
    commit id: "Update CHANGES.md"
-   checkout v3.1_release
-   merge CDDSO-X_3.1.0_release tag: "v3.1.0"
+   checkout vX.Y_release
+   merge gh-issue_vX.Y.Z_release tag: "vX.Y.Z"
    commit id: "Enable Dev Mode / Version"
-   commit id: "New 3.1.1 features"
+   commit id: "Next micro release features (vX.Y.Z+1)"
    checkout main
    cherry-pick id: "Update CHANGES.md"
 ```
 
+## Create the Deployment Branch
 
-## Create a Deployment Branch
-
-
-```bash
-git checkout <release_branch>
-git checkout -b <ticket_number>_v<tag>_release
-```
-
-where `<release_branch>` is the name of the release branch. If an appropriate release branch doesn't exist, create one:
+If this is a new major or minor release i.e `X.Y.0`, you will need to create a `vX.Y_release` branch from `main` if one does not already exist.
 
 ```bash
 git checkout main
-git checkout -b v<release_version>_release
+git checkout -b v<X.Y>_release
+git push origin v<X.Y>_release
 ```
 
-where `<release_version>` is e.g. `3.1`.
+??? example
+
+    ```bash
+    git checkout main
+    git checkout -b v3.2_release
+    git push origin v3.2_release
+    ```
+
+Once the release branch has been created, or if it already exists, create the deployment branch for this release.
+
+```bash
+git checkout v<X.Y>_release
+git checkout -b <gh-issue>_v<X.Y.Z>_release
+```
+
+??? example
+
+    ```bash
+    git checkout v3.2_release
+    git checkout -b 123_v3.2.1_release
+    ```
 
 
 ## Prepare the Deployment Branch
 
-- [x] Update the development tag in `cdds/cdds/__init__.py` and `mip_covert/mip_convert/__init__.py`
-    ```bash
-    _DEV = False
-    ```
-    Use following command to do that:
+Each of these steps should be made as separate commits to allow for cherry picking the `CHANGES.md` on to `main`.
+
+1. Update the `_DEV` flag in `cdds/cdds/__init__.py` and `mip_covert/mip_convert/__init__.py` to `False`
     ```bash
     sed -i "s/_DEV = True/_DEV = False/" */*/__init__.py
     ```
-- [x] Check `_NUMERICAL_VERSION` in `cdds/cdds/__init__.py` and `mip_covert/mip_convert/__init__.py`.
+
+2. Check that `_NUMERICAL_VERSION` in `cdds/cdds/__init__.py` and `mip_covert/mip_convert/__init__.py` matches the release `X.Y.Z` you are preparing.
       It should be set to the current release version e.g. `3.1.0` (This must include any suffixes e.g. for
       release candidates)
-- [x] Ensure that:
-    - All changes  since the last release have been described in the relevant `CHANGES.md` files. These should be added as a separate commit to allow 
-       cherry picking onto main later
+
+3. Update the `CHANGES.md` files with all the relevant changes from the last release.
     - Any new files added since the last release that do not have a `.py` extension are included in `MANIFEST.in` and `setup.py`.
+
+
+## Merge Deployment Branch into Release Branch
+
+Create a pull request for the changes. After the pull request is approved, merge the changes into the release branch, **but do not squash merge them**. 
+This will allow you cherry-pick release notes from the release branch into main.
+
 
 ## Publish the Documentation
 
@@ -78,44 +96,30 @@ where `<release_version>` is e.g. `3.1`.
     ```
 For more information, see [Documentation](documentation.md). If you have any doubts, please speak to Jared or Matthew.
 
-## Merge Deployment Branch into Release Branch
-
-- [x] Create a pull request for the changes. After the pull request is approved, merge the changes into the release branch, **but do not squash merge them**. 
-      This will allow you cherry-pick release notes from the release branch into main.
-
-!!! warning
-    After changing this version number, the setup script won't work until the new version has been installed centrally in the cdds account. 
-
 
 ## Create a tag
 
 !!! danger
     You must remember to `git checkout` the `v3.X_release` branch and then `git pull` the changes that were merged via PR.
 
-=== "Using command line"
+Only those that have admin permissions on the CDDS repository can create tags.
 
-    Only those that have admin permissions on the CDDS repository can create tags.
+1. Switch to the branch you want to tag (normally, the release branch) and ***make sure you have pulled changes on github to your local branch – 
+    failure to do this can lead to installation errors that manifest as failure to build wheels***
+1. Create the tag:
+        ```bash
+        git tag <tagname> -a
+        ```
+        The `<tagname>` normally is the release version, e.g. `v3.1.0`.
+1. Push the tag to the branch:
+        ```bash
+        git push origin <tagname>
+        ```
+1. To show all tags and check if your tag is successfully created, run:
+        ```bash
+        git tag -l
+        ```
 
-    - [x] Switch to the branch you want to tag (normally, the release branch) and ***make sure you have pulled changes on github to your local branch – 
-      failure to do this can lead to installation errors that manifest as failure to build wheels***
-    - [x] Create the tag:
-          ```bash
-          git tag <tagname> -a
-          ```
-          The `<tagname>` normally is the release version, e.g. `v3.1.0`.
-    - [x] Push the tag to the branch:
-          ```bash
-          git push origin <tagname>
-          ```
-    - [x] To show all tags and check if your tag is successfully created, run:
-          ```bash
-          git tag -l
-          ```
-
-=== "Using GitHub"
-
-    !!! info
-        Github has a good documentation about release processes, see: [Managing releases - GitHub Docs](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
 
 ## Install the code
 
@@ -139,8 +143,15 @@ Follow the instructions provided in the [Installation](cdds_installation.md) gui
 
 === "Using cherry-pick"
     
-    - [x] Ensure local copy of both `main` and `release_branch` are up to date.
-    - [x] On the main branch use the `git cherry-pick` command to pull in just the `CHANGES.md` updates with release notes and commit them.
+    1. Ensure local copy of both `main` and `release_branch` are up to date.
+    ```bash
+    git checkout main
+    git pull main
+    git checkout vX.Y_release
+    git pull checkout vX.Y_release
+    ```
+
+    1. On the main branch use the `git cherry-pick` command to pull in just the `CHANGES.md` updates with release notes and commit them.
 
 === "Using merge"
     
@@ -152,14 +163,18 @@ Follow the instructions provided in the [Installation](cdds_installation.md) gui
     - [x] Commit and push changes to the main branch.
 
 
-!!!important
-    **Do not delete the release branch! (expect Matthew Mizielinski told you so)**
-
-## Create Release on GitHub
+## Create a Release on GitHub
 
 Create a release on github from the tag. Include all major release notes and ensure that all links back to Jira work as expected. 
 Create a discussion announcement from the release.
 
-## Close Jira ticket
+!!! info
+    Github has a good documentation about release processes, see: [Managing releases - GitHub Docs](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
 
-Set the status of the Jira ticket to `Done`.
+
+## Close Issue
+
+1. Finally, close the release gh-issue.
+
+!!!important
+    **Do not delete the release branch! (expect Matthew Mizielinski told you so)**
