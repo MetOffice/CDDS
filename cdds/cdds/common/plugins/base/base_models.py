@@ -153,8 +153,8 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         Returns the halo removal information for this model.
 
         :return: Halo removal information
-        :rtype: Dict[str, str]  """
-        # breakpoint()
+        :rtype: Dict[str, str]
+        """
         return self._halo_removal_info
 
     def cycle_length(self, stream_id: str) -> str:
