@@ -176,7 +176,7 @@ def get_halo_removal_attributes(request: Request, model_id: str = None,):
     removal_attributes = {}
     key_template = 'stream_{}'
     value_template = '{},{}'
- 
+
     for stream in request.data.streams:
         key = key_template.format(stream)
         value = value_template.format(halo_removal_info[stream]["latitude"], halo_removal_info[stream]["longitude"])
