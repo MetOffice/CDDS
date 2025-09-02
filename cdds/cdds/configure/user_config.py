@@ -173,26 +173,15 @@ def get_halo_removal_attributes(request: Request, model_id: str = None,):
     model_parameters = plugin.models_parameters(model_id)
     halo_removal_info = model_parameters.halo_removal_info()
 
-
-    # if not halo_removal_latitude or not halo_removal_longitude and stream not in ocean_streams:
-    #     message = ('At least one halo removal option is empty. For using halo removals both options must '
-    #                'be set in the request.cfg. Skip halo removals.')
-    #     logger.debug(message)
-    #     return None
-    # elif (not halo_removal_latitude or not halo_removal_longitude) and stream in ocean_streams:
-    #     halo_removal_latitude = request.misc.halo_removal_latitude
-    #     halo_removal_longitude = request.misc.halo_removal_longitude
-
-    removal_attributes = OrderedDict()
+    removal_attributes = {}
     key_template = 'stream_{}'
     value_template = '{},{}'
-
+ 
     for stream in request.data.streams:
         key = key_template.format(stream)
         value = value_template.format(halo_removal_info[stream]["latitude"], halo_removal_info[stream]["longitude"])
         removal_attributes[key] = value
 
-    # breakpoint()
     return removal_attributes
 
 

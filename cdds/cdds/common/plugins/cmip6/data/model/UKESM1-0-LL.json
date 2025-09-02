@@ -170,6 +170,10 @@
     "onm": {
       "longitude": "1:-1",
       "latitude": "1:-1"
+    },
+    "ond": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
     }
   },
   "grid_info": {

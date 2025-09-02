@@ -170,6 +170,16 @@
     "ap9",
     "apt"
   ],
+  "halo_removal": {
+    "onm": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
+    },
+    "ond": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
+    }
+  },
   "grid_info": {
     "atmos": {
       "atmos_timestep": 1200,
