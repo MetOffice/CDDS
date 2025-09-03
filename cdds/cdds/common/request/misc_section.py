@@ -32,12 +32,12 @@ def misc_defaults(model_id: str) -> Dict[str, Any]:
     if isinstance(grid_info, AtmosBaseGridInfo):
         atmos_timestep = grid_info.atmos_timestep
 
-        return {
-            'atmos_timestep': atmos_timestep,
-            'use_proc_dir': True,
-            'no_overwrite': False,
-            'force_coordinate_rotation': False
-        }
+    return {
+        'atmos_timestep': atmos_timestep,
+        'use_proc_dir': True,
+        'no_overwrite': False,
+        'force_coordinate_rotation': False
+    }
 
 
 @dataclass

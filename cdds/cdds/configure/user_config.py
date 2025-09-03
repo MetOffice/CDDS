@@ -121,6 +121,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
             maskings = get_masking_attributes(request.metadata.model_id, streams)
 
             halo_removals = get_halo_removal_attributes(request, model_id=request.metadata.model_id)
+
             slicing = get_slicing_periods(request)
             user_config = OrderedDict()
             user_config.update(deepcopy(metadata))
@@ -144,6 +145,8 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
                 user_config['masking'] = maskings
             if halo_removals:
                 user_config['halo_removal'] = halo_removals
+            else:
+                pass
             if slicing:
                 user_config['slicing_periods'] = slicing
             user_config.update(mip_requested_variables)
@@ -178,9 +181,12 @@ def get_halo_removal_attributes(request: Request, model_id: str = None,):
     value_template = '{},{}'
 
     for stream in request.data.streams:
-        key = key_template.format(stream)
-        value = value_template.format(halo_removal_info[stream]["latitude"], halo_removal_info[stream]["longitude"])
-        removal_attributes[key] = value
+        if stream not in halo_removal_info:
+            removal_attributes
+        else:
+            key = key_template.format(stream)
+            value = value_template.format(halo_removal_info[stream]["latitude"], halo_removal_info[stream]["longitude"])
+            removal_attributes[key] = value
 
     return removal_attributes
 

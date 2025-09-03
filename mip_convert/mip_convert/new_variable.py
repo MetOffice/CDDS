@@ -446,13 +446,11 @@ class Variable(object):
                 new_cube = cube.copy()
                 if 'haloes_removed' in new_cube.attributes:
                     self.logger.debug(f'{new_cube} has the "haloes_removed" attribute, skipping halo removal')
-                    print("skipping halo removal")
                 else:
                     if new_cube.coords("latitude"):
                         new_cube = self._remove_latitude_halo(new_cube, stream_removal)
                     if new_cube.coords("longitude"):
                         new_cube = self._remove_longitude_halo(new_cube, stream_removal)
-                    print("haloes removed")
                     self.logger.debug(f'Haloes removed from {new_cube}')
 
                 self.input_variables[key] = new_cube
