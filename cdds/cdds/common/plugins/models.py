@@ -53,6 +53,17 @@ class ModelParameters(object, metaclass=ABCMeta):
         """
         pass
 
+    @property
+    @abstractmethod
+    def halo_removal_info(self) -> dict:
+        """
+        Returns halo removal information for the model.
+
+        :return: Halo removal info
+        :rtype: dict
+        """
+        pass
+
     @abstractmethod
     def grid_info(self, grid_type: GridType) -> GridInfo:
         """
