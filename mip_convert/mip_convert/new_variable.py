@@ -473,8 +473,11 @@ class Variable(object):
                     "Latitude and longitude dimensions need to be the final "
                     f"two dimensions on the cube. Found {expected_dims}"
                 )
-
-            new_cube = cube[..., stream_removal.slice_latitude, :]
+            if cube.shape[-2] == 1:
+                new_cube = cube
+                self.logger.debug(f'Cube {cube} has a singleton latitude dimension, skipping latitude halo removal')
+            else:
+                new_cube = cube[..., stream_removal.slice_latitude, :]
         return new_cube
 
     def _remove_longitude_halo(self, cube, stream_removal):
@@ -494,6 +497,7 @@ class Variable(object):
                     "Latitude and longitude dimensions need to be the final "
                     f"two dimensions on the cube. Found {expected_dims}"
                 )
+            breakpoint()
             if cube.shape[-1] == 1:
                 new_cube = cube
                 self.logger.debug(f'Cube {cube} has a singleton longitude dimension, skipping longitude halo removal')
