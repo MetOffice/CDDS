@@ -147,11 +147,10 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         :rtype: str
         """
         return self._memory[stream_id]
-
+    @property
     def halo_removal_info(self) -> Dict[str, str]:
         """
         Returns the halo removal information for this model.
-
         :return: Halo removal information
         :rtype: Dict[str, str]
         """
