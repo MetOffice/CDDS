@@ -53,6 +53,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
 
         if input_dir_suffix:
             input_directory = '{}_{}'.format(input_directory, input_dir_suffix)
+            
         write_user_configuration_file(self.os_handle, self.test_info)
         reference_data_directory = os.path.join(ROOT_REFERENCE_CASES_DIR, input_directory)
         output_data_directory = os.path.join(ROOT_OUTPUT_CASES_DIR, input_directory)
@@ -64,7 +65,6 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         output_files = [os.path.join(output_directory, filename) for filename in filenames]
         reference_dir = os.path.join(reference_data_directory, REFERENCE_OUTPUT_DIR_NAME, reference_version)
         reference_files = [os.path.join(reference_dir, filename) for filename in filenames]
-        # breakpoint()
 
         # Provide help if the reference file does not exist.
         for reference_file in reference_files:
