@@ -497,7 +497,6 @@ class Variable(object):
                     "Latitude and longitude dimensions need to be the final "
                     f"two dimensions on the cube. Found {expected_dims}"
                 )
-            breakpoint()
             if cube.shape[-1] == 1:
                 new_cube = cube
                 self.logger.debug(f'Cube {cube} has a singleton longitude dimension, skipping longitude halo removal')
