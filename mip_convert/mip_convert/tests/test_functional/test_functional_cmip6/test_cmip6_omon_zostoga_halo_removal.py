@@ -46,7 +46,7 @@ class TestCmip6OmonZostogaPiControl(AbstractFunctionalTests):
                     'onm': {'CMIP6_Omon': 'zostoga'}
                 },
                 halo_removal={
-                    "onm": "1:-1,1:-1"
+                    'onm': '1:-1,1:-1'
                 },
                 other={
                     'reference_version': 'v1',

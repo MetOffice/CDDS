@@ -103,6 +103,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
     # Retrieve 'MIP requested variables' by grid.
     variables_by_grid = retrieve_variables_by_grid(requested_variables_list, request.common.mip_table_dir)
     streams = retrieve_streams_by_grid(requested_variables_list)
+
     # Output file template from the plugins
     plugin = PluginStore.instance().get_plugin()
     output_file_template = plugin.model_file_info().output_file_template
@@ -185,7 +186,7 @@ def get_halo_removal_attributes(request: Request, model_id: str = None,):
             removal_attributes
         else:
             key = key_template.format(stream)
-            value = value_template.format(halo_removal_info[stream]["latitude"], halo_removal_info[stream]["longitude"])
+            value = value_template.format(halo_removal_info[stream]['latitude'], halo_removal_info[stream]['longitude'])
             removal_attributes[key] = value
 
     return removal_attributes

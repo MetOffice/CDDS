@@ -246,6 +246,7 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
             new_sizing_info = parameters.get('sizing_info', {})
             new_grid_info = parameters.get('grid_info')
             new_halo_removal = parameters.get('halo_removal', {})
+
             self._load_stream_file_info(parameters.get('stream_file_frequency', {}))
             self._subdaily_streams = parameters.get('subdaily_streams', [])
             self._cycle_lengths.update(new_cylc_lengths)

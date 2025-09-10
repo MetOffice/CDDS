@@ -53,7 +53,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
 
         if input_dir_suffix:
             input_directory = '{}_{}'.format(input_directory, input_dir_suffix)
-            
+
         write_user_configuration_file(self.os_handle, self.test_info)
         reference_data_directory = os.path.join(ROOT_REFERENCE_CASES_DIR, input_directory)
         output_data_directory = os.path.join(ROOT_OUTPUT_CASES_DIR, input_directory)
