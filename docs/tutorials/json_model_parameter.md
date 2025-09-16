@@ -226,80 +226,6 @@ Following information should be provided:
         }
         ```
 
-`halo_options`
-:   the ncks options needed to move ocean halo rows and columns. Each option are given by grid label. They are used when 
-    extracting data from MASS.
-
-    ??? example
-        ```json
-        "halo_options": {
-            "grid-T": [
-                "-dx,1,360",
-                "-dy,1,330"
-            ],
-            "grid-U": [
-                "-dx,1,360",
-                "-dy,1,330"
-            ]
-        }
-        ```
-
-??? example
-    ```json
-    "ocean": {
-        "model_info": "eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics",
-        "nominal_resolution": "100 km",
-        "longitude": 360,
-        "latitude": 330,
-        "levels": 75,
-        "replacement_coordinates_file": "cice_eORCA1_coords.nc",
-        "ancil_filenames": [
-            "ocean_constants.nc",
-            "ocean_byte_masks.nc"
-        ],
-        "hybrid_heights_files": [],
-        "bounds_coordinates": {
-          "onm-grid-T": ["bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds", "deptht_bounds"]
-        },
-        "masked": {
-            "grid-V": {
-                "slice_latitude": [
-                    -1,
-                    null,
-                    null
-                ],
-                "slice_longitude": [
-                    180,
-                    null,
-                    null
-                ]
-            },
-            "cice-U": {
-                "slice_latitude": [
-                    -1,
-                    null,
-                    null
-                ],
-                "slice_longitude": [
-                    180,
-                    null,
-                    null
-                ]
-            }
-        },
-        "halo_options": {
-            "grid-T": [
-                "-dx,1,360",
-                "-dy,1,330"
-            ],
-            "grid-U": [
-                "-dx,1,360",
-                "-dy,1,330"
-            ]
-        }
-    }
-    ```
-
 ## Example
 !!! example
     ```json
@@ -401,16 +327,6 @@ Following information should be provided:
                         null
                     ]
                 }
-            },
-            "halo_options": {
-                "grid-T": [
-                    "-dx,1,360",
-                    "-dy,1,330"
-                ],
-                "grid-U": [
-                    "-dx,1,360",
-                    "-dy,1,330"
-                ]
             }
         }
     }
