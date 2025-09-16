@@ -149,41 +149,6 @@ class MetadataSectionValidator(SectionValidator):
                 self._manage_results(valid, message)
 
 
-class MiscSectionValidator(SectionValidator):
-    """
-    Validator to validate misc section in the request.cfg
-    """
-
-    def validate(self) -> Tuple[bool, List[str]]:
-        """
-        Validate the section:
-            * Check if halo removal latitude and halo removal longitude are both set or both unset
-
-        :return: is valid or not and a list of messages
-        :rtype: bool, List[str]
-        """
-        halo_removal_latitude = getattr(self.section, "halo_removal_latitude", None)
-        halo_removal_longitude = getattr(self.section, "halo_removal_longitude", None)
-
-        if not halo_removal_latitude and halo_removal_longitude:
-            message = 'If halo_removal_latitude is defined then halo_removal_longitude must be defined as well'
-            self._manage_results(False, message)
-        if not halo_removal_longitude and halo_removal_latitude:
-            message = 'If halo_removal_longitude is defined then halo_removal_latitude must be defined as well'
-            self._manage_results(False, message)
-
-        if halo_removal_latitude and halo_removal_longitude:
-            matches_latitude = re.match('(-)?\\d+:(-)?\\d+', halo_removal_latitude)
-            if not matches_latitude:
-                self._manage_results(False,
-                                     'Halo removal latiutde attribute must be of the format: <start>:<stop>')
-            matches_longitude = re.match('(-)?\\d+:(-)?\\d+', halo_removal_longitude)
-            if not matches_longitude:
-                self._manage_results(False,
-                                     'Halo removal latiutde attribute must be of the format: <start>:<stop>')
-        return self.valid, self.messages
-
-
 class SectionValidatorFactory:
     """
     Factory to create section validators
