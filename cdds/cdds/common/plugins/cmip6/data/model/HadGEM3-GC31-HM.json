@@ -202,28 +202,6 @@
         "diaptr_basin_masks.nc",
         "ocean_zostoga.nc"
       ],
-      "default_halo_removal": {
-        "onm": [
-          [
-            1,
-            -1
-          ],
-          [
-            1,
-            -1
-          ]
-        ],
-        "ond": [
-          [
-            1,
-            -1
-          ],
-          [
-            1,
-            -1
-          ]
-        ]
-      },
       "masked": {
         "grid-V": {
           "slice_latitude": [
