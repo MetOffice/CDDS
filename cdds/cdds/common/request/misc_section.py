@@ -11,6 +11,7 @@ from cdds.common.request.request_section import Section, load_types
 from cdds.common.request.metadata_section import MetadataSection
 from cdds.common.request.rose_suite.suite_info import RoseSuiteInfo, RoseSuiteArguments
 from cdds.common.request.validations.pre_validations import do_pre_validations
+from cdds.common.request.request_validations import validate_misc_section
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.base.base_grid import AtmosBaseGridInfo
@@ -48,7 +49,15 @@ class MiscSection(Section):
     # Todo: needs considerations:
     use_proc_dir: bool = True
     no_overwrite: bool = False
+    halo_removal_latitude: str = ''
+    halo_removal_longitude: str = ''
     force_coordinate_rotation: bool = False
+
+    def __post_init__(self):
+        """
+        Pre-validates the values of the section before create it
+        """
+        validate_misc_section(self)
 
     @classmethod
     def name(cls) -> str:
