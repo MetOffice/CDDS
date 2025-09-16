@@ -62,8 +62,7 @@
       "latitude": null,
       "v_latitude": null,
       "levels": null,
-      "ancil_filenames": [
-      ],
+      "ancil_filenames": [],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
         "atmosphere_rho_levels_86.txt"
@@ -76,13 +75,9 @@
       "latitude": null,
       "levels": null,
       "replacement_coordinates_file": null,
-      "ancil_filenames": [
-      ],
+      "ancil_filenames": [],
       "hybrid_heights_files": [],
-      "masked": {
-      },
-      "halo_options": {
-      }
+      "masked": {}
     }
   }
 }

@@ -1,20 +1,20 @@
 {
   "stream_file_frequency": {
     "daily": [
-        "apa",
-        "ap1",
-        "apc",
-        "apb",
-        "apd",
-        "ape",
-        "apg",
-        "aph",
-        "apq",
-        "apr"
-      ],
+      "apa",
+      "ap1",
+      "apc",
+      "apb",
+      "apd",
+      "ape",
+      "apg",
+      "aph",
+      "apq",
+      "apr"
+    ],
     "monthly": [
-        "apm"
-      ]
+      "apm"
+    ]
   },
   "cycle_length": {
     "apa": "P1Y",
@@ -85,7 +85,15 @@
     }
   },
   "subdaily_streams": [
-    "apa", "apb", "apc", "apd", "ape", "apg", "aph", "apq", "apr"
+    "apa",
+    "apb",
+    "apc",
+    "apd",
+    "ape",
+    "apg",
+    "aph",
+    "apq",
+    "apr"
   ],
   "grid_info": {
     "atmos": {
@@ -96,8 +104,7 @@
       "latitude": 2000,
       "v_latitude": 2001,
       "levels": 85,
-      "ancil_filenames": [
-      ],
+      "ancil_filenames": [],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
         "atmosphere_rho_levels_86.txt"
@@ -110,12 +117,8 @@
       "latitude": null,
       "levels": null,
       "replacement_coordinates_file": null,
-      "ancil_filenames": [
-      ],
-      "masked": {
-      },
-      "halo_options": {
-      }
+      "ancil_filenames": [],
+      "masked": {}
     }
   }
 }

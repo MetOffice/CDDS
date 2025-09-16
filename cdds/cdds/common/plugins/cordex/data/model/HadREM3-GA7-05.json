@@ -82,12 +82,8 @@
       "latitude": null,
       "levels": null,
       "replacement_coordinates_file": null,
-      "ancil_filenames": [
-      ],
-      "masked": {
-      },
-      "halo_options": {
-      }
+      "ancil_filenames": [],
+      "masked": {}
     }
   }
 }
