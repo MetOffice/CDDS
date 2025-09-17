@@ -164,6 +164,23 @@ Following information should be provided:
     }
     ```
 
+`halo_removal`
+:   The size of haloes to be stripped from the specified streams.
+
+??? example
+    ```json
+    "halo_removal": {
+        "onm": {
+        "longitude": "1:-1",
+        "latitude": "1:-1"
+        },
+        "ond": {
+        "longitude": "1:-1",
+        "latitude": "1:-1"
+        }
+    },
+    ```
+
 ### Ocean Grid Information
 
 Following information should be provided:
@@ -271,6 +288,16 @@ Following information should be provided:
     "subdaily_streams": [
         "ap6"
     ],
+    "halo_removal": {
+        "onm": {
+        "longitude": "1:-1",
+        "latitude": "1:-1"
+        },
+        "ond": {
+        "longitude": "1:-1",
+        "latitude": "1:-1"
+        }
+    },
     "grid_info": {
         "atmos": {
             "atmos_timestep": 1200,
