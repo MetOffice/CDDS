@@ -188,6 +188,16 @@
         "atmosphere_rho_levels_86.txt"
       ]
     },
+    "halo_removal": {
+      "onm": {
+        "longitude": "1:-1",
+        "latitude": "1:-1"
+      },
+      "ond": {
+        "longitude": "1:-1",
+        "latitude": "1:-1"
+      }
+    },
     "ocean": {
       "model_info": "eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics",
       "nominal_resolution": "100 km",
