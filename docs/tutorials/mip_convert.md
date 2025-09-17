@@ -269,7 +269,7 @@ This is usually only used for polar row masking in NEMO & CICE output
 
 ### **halo_removal**
 
-The optional `halo removal` section is used if for a particular stream haloes are to be removed.
+The optional `halo_removal` section is used if haloes need to be removed from particular streams.
 
 !!! example
     ```config
@@ -277,6 +277,9 @@ The optional `halo removal` section is used if for a particular stream haloes ar
     stream_apa: 5:,:-10
     stream_ap6: 20:-15
     ```
+
+!!! tip
+    If a cube is used which has the `haloes_removed = "true"` global attribute, the halo removal process will be skipped for that cube.
 
 ### **slicing_periods**
 
