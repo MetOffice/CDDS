@@ -156,6 +156,16 @@
     "apt",
     "ap1"
   ],
+  "halo_removal": {
+    "onm": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
+    },
+    "ond": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
+    }
+  },
   "grid_info": {
     "atmos": {
       "atmos_timestep": 600,
