@@ -53,6 +53,7 @@
     "ap7",
     "ap9"
   ],
+  "halo_removal": {},
   "grid_info": {
     "atmos": {
       "atmos_timestep": null,
