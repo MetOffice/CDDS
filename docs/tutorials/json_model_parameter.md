@@ -107,6 +107,23 @@ There are one entry for the subdaily streams `subdaily_streams` that contains an
     ]
     ```
 
+`halo_removal`
+:   The size of haloes to be stripped from the specified streams.
+
+??? example
+    ```json
+    "halo_removal": {
+        "onm": {
+            "longitude": "1:-1",
+            "latitude": "1:-1"
+        },
+        "ond": {
+            "longitude": "1:-1",
+            "latitude": "1:-1"
+        }
+    },
+    ```
+
 ## Grid information
 
 There are two supported grids - atmosphere and ocean. The entries are `atoms` and `ocean`.
@@ -162,23 +179,6 @@ Following information should be provided:
         "atmosphere_rho_levels_86.txt"
       ]
     }
-    ```
-
-`halo_removal`
-:   The size of haloes to be stripped from the specified streams.
-
-??? example
-    ```json
-    "halo_removal": {
-        "onm": {
-        "longitude": "1:-1",
-        "latitude": "1:-1"
-        },
-        "ond": {
-        "longitude": "1:-1",
-        "latitude": "1:-1"
-        }
-    },
     ```
 
 ### Ocean Grid Information
@@ -247,112 +247,103 @@ Following information should be provided:
 !!! example
     ```json
     {
-    "stream_file_frequency": {
-        "monthly": [
-            "ap4",
-            "ap5"
-        ],
-        "10 day": [
-          "ap6"
-       ]
-    },
-    "cycle_length": {
-        "ap4": "P5Y",
-        "ap5": "P5Y",
-        "ap6": "P1Y"
-    },
-    "memory": {
-        "ap4": "12G",
-        "ap5": "8G",
-        "ap6": "30G"
-    },
-    "temp_space": {
-        "ap4": 98304,
-        "ap5": 40960,
-        "ap6": 98304
-    },
-    "sizing_info": {
-        "mon": {
-            "default": 100,
-            "85-144-192": 50,
-            "85-145-192": 50,
-            "86-144-192": 50,
-            "75-330-360": 50
-        },
-        "day": {
-            "default": 20,
-            "144-192": 100,
-            "19-144-192": 20
-        },
-    },
-    "subdaily_streams": [
-        "ap6"
-    ],
-    "halo_removal": {
-        "onm": {
-        "longitude": "1:-1",
-        "latitude": "1:-1"
-        },
-        "ond": {
-        "longitude": "1:-1",
-        "latitude": "1:-1"
-        }
-    },
-    "grid_info": {
-        "atmos": {
-            "atmos_timestep": 1200,
-            "model_info": "N96 grid",
-            "nominal_resolution": "250 km",
-            "longitude": 192,
-            "latitude": 144,
-            "v_latitude": 145,
-            "levels": 85,
-            "ancil_filenames": [
-                "qrparm.landfrac.pp",
-                "qrparm.soil.pp"
+        "stream_file_frequency": {
+            "monthly": [
+                "ap4",
+                "ap5"
             ],
-            "hybrid_heights_files": [
-                "atmosphere_theta_levels_85.txt",
-                "atmosphere_rho_levels_86.txt"
-            ]
+            "10 day": [
+            "ap6"
+        ]
         },
-        "ocean": {
-            "model_info": "eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics",
-            "nominal_resolution": "100 km",
-            "longitude": 360,
-            "latitude": 330,
-            "levels": 75,
-            "replacement_coordinates_file": "cice_eORCA1_coords.nc",
-            "ancil_filenames": [
-                "ocean_constants.nc",
-                "ocean_byte_masks.nc",
-                "ocean_basin.nc",
-                "diaptr_basin_masks.nc",
-                "ocean_zostoga.nc"
-            ],
-            "bounds_coordinates": {
-                "onm-grid-T": ["bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds", "deptht_bounds"]
+        "cycle_length": {
+            "ap4": "P5Y",
+            "ap5": "P5Y",
+            "ap6": "P1Y"
+        },
+        "memory": {
+            "ap4": "12G",
+            "ap5": "8G",
+            "ap6": "30G"
+        },
+        "temp_space": {
+            "ap4": 98304,
+            "ap5": 40960,
+            "ap6": 98304
+        },
+        "sizing_info": {
+            "mon": {
+                "default": 100,
+                "85-144-192": 50,
+                "85-145-192": 50,
+                "86-144-192": 50,
+                "75-330-360": 50
             },
-            "hybrid_heights_files": [],
-            "masked": {
-                "grid-V": {
-                    "slice_latitude": [
-                    -1,
-                    null,
-                    null
-                    ],
-                    "slice_longitude": [
-                        180,
-                        null,
-                        null
-                    ]
+            "day": {
+                "default": 20,
+                "144-192": 100,
+                "19-144-192": 20
+            },
+        },
+        "subdaily_streams": [
+            "ap6"
+        ],
+        "grid_info": {
+            "atmos": {
+                "atmos_timestep": 1200,
+                "model_info": "N96 grid",
+                "nominal_resolution": "250 km",
+                "longitude": 192,
+                "latitude": 144,
+                "v_latitude": 145,
+                "levels": 85,
+                "ancil_filenames": [
+                    "qrparm.landfrac.pp",
+                    "qrparm.soil.pp"
+                ],
+                "hybrid_heights_files": [
+                    "atmosphere_theta_levels_85.txt",
+                    "atmosphere_rho_levels_86.txt"
+                ]
+            },
+            "ocean": {
+                "model_info": "eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics",
+                "nominal_resolution": "100 km",
+                "longitude": 360,
+                "latitude": 330,
+                "levels": 75,
+                "replacement_coordinates_file": "cice_eORCA1_coords.nc",
+                "ancil_filenames": [
+                    "ocean_constants.nc",
+                    "ocean_byte_masks.nc",
+                    "ocean_basin.nc",
+                    "diaptr_basin_masks.nc",
+                    "ocean_zostoga.nc"
+                ],
+                "bounds_coordinates": {
+                    "onm-grid-T": ["bounds_nav_lon", "bounds_nav_lat", "time_centered_bounds", "deptht_bounds"]
                 },
-                "cice-U": {
-                    "slice_latitude": [
+                "hybrid_heights_files": [],
+                "masked": {
+                    "grid-V": {
+                        "slice_latitude": [
                         -1,
                         null,
                         null
-                    ]
+                        ],
+                        "slice_longitude": [
+                            180,
+                            null,
+                            null
+                        ]
+                    },
+                    "cice-U": {
+                        "slice_latitude": [
+                            -1,
+                            null,
+                            null
+                        ]
+                    }
                 }
             }
         }
