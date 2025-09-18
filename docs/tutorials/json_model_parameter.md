@@ -94,7 +94,7 @@ JSON object has as key the frequency and as value the shape with its coordinates
 
 ## Sub daily streams
 
-There are one entry for the subdaily streams `subdaily_streams` that contains an array of subdaily streams.
+There is one entry for the subdaily streams `subdaily_streams` that contains an array of subdaily streams.
 
 ??? example
     ```json
@@ -107,8 +107,9 @@ There are one entry for the subdaily streams `subdaily_streams` that contains an
     ]
     ```
 
-`halo_removal`
-:   The size of haloes to be stripped from the specified streams.
+## Halo removal
+
+The `halo_removal` entry describes the size of haloes to be stripped from the specified streams.
 
 ??? example
     ```json
