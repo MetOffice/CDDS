@@ -173,7 +173,7 @@ def get_halo_removal_attributes(request: Request):
     """
 
     plugin = PluginStore.instance().get_plugin()
-    model_id=request.metadata.model_id
+    model_id = request.metadata.model_id
     model_parameters = plugin.models_parameters(model_id)
     halo_removal_info = model_parameters.halo_removal_info
 
