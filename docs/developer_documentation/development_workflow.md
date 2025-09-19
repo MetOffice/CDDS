@@ -39,27 +39,7 @@ Leave one empty line after the first line and then give a more detailed descript
 After creating the branch, your working copy is already on this branch.
 You do not need to run an extra switch command like when using SVN.
 
-#### Create a release branch
 
-The branch name should start with release  and should have the release number in it. For example, you like to create a release branch for all work for a release 2.2.x , the release_2.2.x .
-
-```bash
-git checkout -b release_<release_number>
-```
-
-The commit message should contain the release number in it for example:
-
-Create branch for release <release_number>
-Don’t wrap the line of the commit message and don’t use more than 72 characters. If you need a longer commit message. Leave one empty line after the first line and then give a more detailed description (now you can wrap this description).
-
-After creating the branch, your working copy is already on this branch. You do not need to run an extra switch command like when using SVN.
-
-Create a branch from a release branch
-Switch to the release branch, you want to branch from
-
-Then, create a new branch like described at Create-a-issue-branch 
-
-Update the Github issue
 
 
 ### Code
@@ -248,4 +228,3 @@ Push the changes
 #### Using Github
 
 For using cherry-picking, see Cherry-picking a commit in GitHub Desktop - GitHub Docs 
-
