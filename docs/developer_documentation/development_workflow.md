@@ -6,19 +6,26 @@
 
 Each change should be described in a Github issue.
 Before submitting an issue, make sure that the issue explains the purpose of the changes and what changes should be done.
-New issues should be created in the backlog and marked as <to-review>. The team will look each week at the new created issues.
-A issue will be put into a sprint if everyone of the team understand what to do for the issue and all information are provided to proceed the issue.
-Before creating a new issue, look through the backlog and current sprint if issue is not already reported.
+New issues will be reviewed by the development team at daily stand ups to identify reviewer and release target. These will be added to the todo status on the corresponding project board (only for use by CDDS developers)
+Before creating a new issue, look through the current issues and milestones to confirm that it doesn't already exist.
 
 ## Start Working on an Issue
 
-- Assign the issue to you
-- Put the issue into In progress
+- Assign the issue to yourself
+- Move the issue to in progress in the corresponding project board
 - Create a new branch for the issue
 
 ### Create a New Branch
 
-#### Create a issue branch
+#### Create a new branch for an issue
+
+Identify where your new branch should start from, e.g. is this for an update going into the next bug fix or is this targetted at the next minor version of CDDS.
+For a bugfix ensure that you are working off the corresponding release branch, e.g
+
+```bash
+git switch v3.2_release
+```
+while for a larger developments switch to `main`.
 
 The branch name should be start with the issue number and has a brief description of the task.
 Use underscores in the branch name to separate words.
@@ -36,9 +43,7 @@ The commit message should be:
 Don’t wrap the line of the commit message and don’t use more than 72 characters.
 If you need a longer commit message.
 Leave one empty line after the first line and then give a more detailed description (now you can wrap this description).
-After creating the branch, your working copy is already on this branch.
-You do not need to run an extra switch command like when using SVN.
-
+After creating the branch, your working copy is already on this branch (provided you used the `-b` option).
 
 
 
@@ -58,21 +63,13 @@ The first line should start with the issue number and have a really short brief 
 
 If more descriptions are necessary, leave an empty line and then write more text, e.g.
 
-
-
-CDDSO-109 Merge fixing duplicate coordinates error from cmor
+```
+Issue #109 Merge fixing duplicate coordinates error from cmor
 * Add functional tests for ARISE model
 * Simplify mean cube calculation
-After the first commit:
+```
 
-Do your additional changes and then use:
-
-
-
-git commit --amend
-That combine latest and the current commit to one commit. Using this one allows use to have only one commit per issue even if you “actual“ did multiple commits. A push can be done at any time! (You can still do a git commit --amend after a push, because it always use the latest commit command!)
-
-Remote commit:
+Push changes to github using
 
 ```bash
 git push origin
@@ -86,10 +83,9 @@ git push origin <branch_name_to_commit_to>
 
 ### Tests
 
-Make sure that unit tests covers your code changes, see Unit Tests 
+Make sure that unit tests covers your code changes and pass! the `run_all_tests` script at the root of the repository should take around 10-15 minutes to run all tests, but commands such as `pytest cdds` can be used during development.
 
-If there were changes in CDDS Transfer, also run integration tests with RabbitMQ, see CDDS Transfer Tests With RabbitMQ 
-- Run the unit tests regularly
+Any changes in the submission code (check with CDDS team) should be done with extreme care and frequent testing.
 
 It is a good approach to ensure that every time you push a commit to the repository that the tests pass successfully.
 
@@ -103,11 +99,11 @@ It is a good approach to ensure that every time you push a commit to the reposit
 1. For coding reviews, we use the pull requests functionality of Github
 1. Go to Github and the pull requests for the cdds-project: https://github.com/MetOffice/cdds/pulls
     1. Click on New pull request (green box on the right)
-    1. Choose as base branch the branch you branched from (often: main)
-    1. Choose as compare branch your branch
-    1. Then, click on Create pull request
-    1. Write into the message box what you did and other useful information for the reviewers
-    1. Add to your issue the URL link to the pull request for the reviewers
+    1. Choose as base branch the branch you branched from (often: main or one of the release branches)
+    1. Choose your branch as the  compare branch 
+    1. Click on Create pull request
+    1. Describe the change, reference the issue and add  other useful information for the reviewers
+    1. Reference your PR from the issue.
 1. Put your issue into Review
 1. Assign it to the main reviewer
 1. Mention in the team channel that the issue is now ready to review. So, everyone has the change to review your changes.
@@ -117,7 +113,7 @@ It is a good approach to ensure that every time you push a commit to the reposit
 1. If the main reviewer is happy with the changes and no comments or issues are needed to addressed anymore, the issue will moved to Approved and re-assigned to you. Now, you can merge your changes
 
 ## Merge changes
-You have two possibilities how to merge a branch - via command line or using Github.
+You have two possibilities how to merge a branch - via command line or using Github. Where possible please merge using github and use "squash and merge".
 
 ### Merge to parent branch
 
@@ -158,7 +154,7 @@ You could face merging conflicts that you need to solve before you can end the m
 
 1. remove branch if working on `main`
 
-### Cherry pick changes on main branch (or any other branches)
+### Cherry pick changes to main branch (or any other branches)
 
 If your parent branch is a release branch, you also need to merge the changes into the main branch. Therefore, cherry picking is the best to do. You can do this after merging your changes into the release branch.
 
@@ -200,7 +196,7 @@ Go to the branch you want to cherry-pick to:
 
 
 ```bash
-git checkout <branch-to-cerry-pick-to>
+git checkout <branch-to-cherry-pick-to>
 ```
 
 Cherry pick:
@@ -228,3 +224,7 @@ Push the changes
 #### Using Github
 
 For using cherry-picking, see Cherry-picking a commit in GitHub Desktop - GitHub Docs 
+
+## tidy up
+
+Please delete your branches from github once they are no longer needed.
