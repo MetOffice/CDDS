@@ -63,7 +63,6 @@ nav:
       - Development Workflow: developer_documentation/development_workflow.md
       - Review Process: developer_documentation/review_process.md
       - Working with Github and Git: developer_documentation/github.md
-      - Working with Jira: developer_documentation/jira.md
       - Managing Conda Environments: developer_documentation/managing_environments.md
       - Documentation: developer_documentation/building_documentation.md
     - Request:

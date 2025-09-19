@@ -2,9 +2,9 @@
 
     This documentation is currently under construction and may not be up to date.
 
-## Create a Jira Issue
+## Create a Github Issue
 
-Each change should be described in a Jira issue.
+Each change should be described in a Github issue.
 Before submitting an issue, make sure that the issue explains the purpose of the changes and what changes should be done.
 New issues should be created in the backlog and marked as <to-review>. The team will look each week at the new created issues.
 A issue will be put into a sprint if everyone of the team understand what to do for the issue and all information are provided to proceed the issue.
@@ -15,7 +15,6 @@ Before creating a new issue, look through the backlog and current sprint if issu
 - Assign the issue to you
 - Put the issue into In progress
 - Create a new branch for the issue
-- Put the branch name on the Jira issue
 
 ### Create a New Branch
 
@@ -60,13 +59,8 @@ Switch to the release branch, you want to branch from
 
 Then, create a new branch like described at Create-a-issue-branch 
 
-Update Jira issue
+Update the Github issue
 
-Add the branch name to your Jira issue
-
-## Make Changes
-
-Even if you are working on a Jira issue, keep an eye on the issue to notice any new comments on the issues.
 
 ### Code
 
@@ -122,7 +116,7 @@ It is a good approach to ensure that every time you push a commit to the reposit
 ### Documentation
 
 - Document your code. Try to be short but precise.
-- Briefly describe the work on the Jira issue
+- Briefly describe the work on the Github issue
 
 ## Reviews
 
@@ -255,6 +249,3 @@ Push the changes
 
 For using cherry-picking, see Cherry-picking a commit in GitHub Desktop - GitHub Docs 
 
-## Close the Jira issue
-
-Move the Jira issue to Done

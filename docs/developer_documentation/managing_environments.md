@@ -24,7 +24,7 @@ Examples of such changes could include
 - old package(s) removed,
 - a channel usage change
 
-In the majority of cases, a change will normally be driven by a change to the cdds code base, so will have an existing JIRA issue. However, if this isn't the case then an issue should still be raised to cover any environment change (E.g. if a change to conda channels is needed but no package version changes thus no code changes are needed.). During the completion of the ticket in question, the process should be as follows. (This example assumes a new package is needed for new functionality within cdds and working on main)
+In the majority of cases, a change will normally be driven by a change to the cdds code base, so will have an existing Github issue. However, if this isn't the case then an issue should still be raised to cover any environment change (E.g. if a change to conda channels is needed but no package version changes thus no code changes are needed.). During the completion of the ticket in question, the process should be as follows. (This example assumes a new package is needed for new functionality within cdds and working on main)
 
 1. Create a new conda environment for development work on this particular change.
     1. This could be done on the cdds account, although modifying environments can sometimes be tricky.  Initially it would be better to do this on a user account first as this minimises the chance of accidentally modifying any existing cdds development environments. There are two approaches adding a package.

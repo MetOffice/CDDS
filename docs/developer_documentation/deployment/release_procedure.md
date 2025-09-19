@@ -165,7 +165,8 @@ Follow the instructions provided in the [Installation](cdds_installation.md) gui
 
 ## Create a Release on GitHub
 
-Create a release on github from the tag. Include all major release notes and ensure that all links back to Jira work as expected. 
+Create a release on github from the tag and make sure to include all major release notes.
+
 Create a discussion announcement from the release.
 
 !!! info
