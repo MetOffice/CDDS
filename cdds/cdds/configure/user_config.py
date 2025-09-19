@@ -121,7 +121,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
                 'Producing user configuration file for "{}"'.format(file_suffix))
             maskings = get_masking_attributes(request.metadata.model_id, streams)
 
-            halo_removals = get_halo_removal_attributes(request, model_id=request.metadata.model_id)
+            halo_removals = get_halo_removal_attributes(request)
 
             slicing = get_slicing_periods(request)
             user_config = OrderedDict()
@@ -156,7 +156,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
     return user_configs
 
 
-def get_halo_removal_attributes(request: Request, model_id: str = None,):
+def get_halo_removal_attributes(request: Request):
     """
     Returns the removal attributes of the halo rows and cloumns. Only masks for the given streams are loaded.
 
@@ -171,9 +171,9 @@ def get_halo_removal_attributes(request: Request, model_id: str = None,):
     :return: A dictionary contains the halo removal attributes according the stream
     :rtype: OrderedDict[str, str]
     """
-    logger = logging.getLogger(__name__)
 
     plugin = PluginStore.instance().get_plugin()
+    model_id=request.metadata.model_id
     model_parameters = plugin.models_parameters(model_id)
     halo_removal_info = model_parameters.halo_removal_info
 
