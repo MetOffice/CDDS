@@ -24,6 +24,7 @@
           ```
           where `X.Y.Z` is the new version number of CDDS
 
+<<<<<<< HEAD
     !!! note
         This has been updated following the roll out of Conda to MO systems. If the `-p` option is omitted then the installation will end up 
         under `$HOME/.conda` and will not be visible to other users.
@@ -32,6 +33,8 @@
         If the `wheel` installation fails then you can end up with `#!python` rather than the full paths – this is known to be caused by not having 
         `_DEV` updated in the packages, possibly due to tagging without pulling the release branch from the repository first
 
+=======
+>>>>>>> 25ccf412 (Documentation improvements following v3.2.1 release)
     - [x] Activate environment and set `CDDS_ENV_COMMAND` variable:
           ```bash
           conda activate cdds-X.Y.Z
@@ -85,10 +88,15 @@
           ```bash
           sed -i "s/<location>/X.Y.Z/" environment.yml
           ```
+<<<<<<< HEAD
+=======
+
+>>>>>>> 25ccf412 (Documentation improvements following v3.2.1 release)
     - [x] Create environment, where `X.Y.Z` is the new version number of CDDS
           ```bash
           conda env create -f environment.yml -p $HOME/conda_environments/cdds-X.Y.Z
           ```
+<<<<<<< HEAD
     - [x] Uncomment the `cdds` and `mip_convert` python pip install lines.
           ```bash
             #- git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds&subdirectory=cdds
@@ -99,6 +107,10 @@
           conda env create -f environment.yml -p $HOME/conda_environments/cdds-X.Y.Z
           ```
     - [x] Set the `CDDS` variables making sure to replace `X.Y.Z` with the appropriate version number.
+=======
+
+    - [x] Set the `CDDS_PLATFORM` and `CDDS_ETC` variables
+>>>>>>> 25ccf412 (Documentation improvements following v3.2.1 release)
           ```bash
           conda activate cdds-X.Y.Z
           conda env config vars set CDDS_PLATFORM=JASMIN
