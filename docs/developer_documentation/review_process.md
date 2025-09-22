@@ -6,10 +6,10 @@
     - If time is a factor, focus effort on the High Priority items.
     - Agree whether the reviewer can make corrections related to the Low Priority items, e.g., typos or unused imports, directly to the branch.
 - If the reviewer feels they need more information after an initial look at the code, they request a pair review with the reviewee.
-- The reviewer presents the review to the reviewee (with reasons for priority as necessary), either via the Jira ticket (e.g., if the feedback is minimal), a Confluence page, e-mails, or in person, as appropriate.
+- The reviewer presents the review to the reviewee (with reasons for priority as necessary), either via the Github issue (e.g., if the feedback is minimal), a Confluence page, e-mails, or in person, as appropriate.
 - The reviewee assesses the reviewer's recommendations and makes any appropriate changes to the code.
-    - Open a new Jira ticket for any low risk issues that do not need to be resolved immediately.
-- The reviewee documents the important points from the review about why things were done (or not done) for whatever reasons on the Jira ticket (for future reference).
+    - Open a new Github issue for any low risk issues that do not need to be resolved immediately.
+- The reviewee documents the important points from the review about why things were done (or not done) for whatever reasons on the Github issue (for future reference).
 - The reviewee updates the [Coding Guidelines](coding_guidelines.md) appropriately.
 
 ### Review Checklists
