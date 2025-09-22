@@ -114,31 +114,8 @@ class TestMiscSection(TestCase):
         defaults = misc_defaults('UKESM1-0-LL')
         self.section = MiscSection(**defaults)
 
-    def test_misc_values_succed_if_halo_options_not_set(self):
+    def test_misc_values_succeed_if_no_misc_values_provided(self):
         validate_misc_section(self.section)
-
-    def test_misc_values_succeed_if_halo_options_are_set(self):
-        self.section.halo_removal_latitude = '5:-5'
-        self.section.halo_removal_longitude = '-1:-12'
-        validate_misc_section(self.section)
-
-    def test_misc_values_only_halo_removal_latitude_is_set(self):
-        self.section.halo_removal_latitude = '5:-5'
-        self.assertRaises(AttributeError, validate_misc_section, self.section)
-
-    def test_misc_values_only_halo_removal_longitude_is_set(self):
-        self.section.halo_removal_longitude = '5:-5'
-        self.assertRaises(AttributeError, validate_misc_section, self.section)
-
-    def test_misc_values_failed_because_halo_removal_latitude_not_matches_pattern(self):
-        self.section.halo_removal_latitude = '5,-5'
-        self.section.halo_removal_longitude = '-1:-12'
-        self.assertRaises(AttributeError, validate_misc_section, self.section)
-
-    def test_misc_values_failed_because_halo_removal_longitude_not_matches_pattern(self):
-        self.section.halo_removal_latitude = '5:-5'
-        self.section.halo_removal_longitude = 'h:-9'
-        self.assertRaises(AttributeError, validate_misc_section, self.section)
 
 
 if __name__ == '__main__':

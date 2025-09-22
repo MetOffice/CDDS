@@ -95,8 +95,6 @@ def expected_test_misc():
         'atmos_timestep': 1200,
         'use_proc_dir': True,
         'no_overwrite': False,
-        'halo_removal_latitude': '',
-        'halo_removal_longitude': '',
         'force_coordinate_rotation': False
     }
 
@@ -217,8 +215,6 @@ def expected_test_minimal_misc():
         'atmos_timestep': 1200,
         'no_overwrite': False,
         'use_proc_dir': True,
-        'halo_removal_latitude': '',
-        'halo_removal_longitude': '',
         'force_coordinate_rotation': False
     }
 

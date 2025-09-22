@@ -161,6 +161,16 @@
     "apt",
     "apa"
   ],
+  "halo_removal": {
+    "onm": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
+    },
+    "ond": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
+    }
+  },
   "grid_info": {
     "atmos": {
       "atmos_timestep": 900,
@@ -254,27 +264,6 @@
             null
           ]
         }
-      },
-      "halo_options": {
-        "grid-T": [
-          "-dx,1,1440",
-          "-dy,1,1205"
-        ],
-        "grid-U": [
-          "-dx,1,1440",
-          "-dy,1,1205"
-        ],
-        "grid-V": [
-          "-dx,1,1440",
-          "-dy,1,1205"
-        ],
-        "grid-W": [
-          "-dx,1,1440",
-          "-dy,1,1205"
-        ],
-        "diaptr": [
-          "-dy,1,1205"
-        ]
       }
     }
   }

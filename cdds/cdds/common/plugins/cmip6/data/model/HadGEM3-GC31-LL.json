@@ -170,6 +170,16 @@
     "ap9",
     "apt"
   ],
+  "halo_removal": {
+    "onm": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
+    },
+    "ond": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
+    }
+  },
   "grid_info": {
     "atmos": {
       "atmos_timestep": 1200,
@@ -202,6 +212,28 @@
         "diaptr_basin_masks.nc",
         "ocean_zostoga.nc"
       ],
+      "halo_removal": {
+        "onm": [
+          [
+            1,
+            -1
+          ],
+          [
+            1,
+            -1
+          ]
+        ],
+        "ond": [
+          [
+            1,
+            -1
+          ],
+          [
+            1,
+            -1
+          ]
+        ]
+      },
       "masked": {
         "grid-V": {
           "slice_latitude": [
@@ -227,27 +259,6 @@
             null
           ]
         }
-      },
-      "halo_options": {
-        "grid-T": [
-          "-dx,1,360",
-          "-dy,1,330"
-        ],
-        "grid-U": [
-          "-dx,1,360",
-          "-dy,1,330"
-        ],
-        "grid-V": [
-          "-dx,1,360",
-          "-dy,1,330"
-        ],
-        "grid-W": [
-          "-dx,1,360",
-          "-dy,1,330"
-        ],
-        "diaptr": [
-          "-dy,1,330"
-        ]
       }
     }
   }
