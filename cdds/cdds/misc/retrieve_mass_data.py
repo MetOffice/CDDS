@@ -27,7 +27,9 @@ def main_cdds_retrieve_data():
     parser.add_argument('destination', help='Destination directory')
     args = parser.parse_args()
 
-    final_moose_dir = (args.moose_base_location + args.base_dataset_id)
+    # Convert base_dataset_id dots to slashes and build base moose filepath
+    converted_id = args.base_dataset_id.replace('.', '/')
+    full_moose_dir = args.moose_base_location + converted_id
 
 
     variable_list_from_file = []
@@ -36,7 +38,7 @@ def main_cdds_retrieve_data():
             line = line.strip()
             variable_list_from_file.append(line + ".")
 
-    mass_file_list = mass_list_files_recursively(mass_path="moose:/adhoc/projects/cdds/production/CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2", simulation=None)
+    mass_file_list = mass_list_files_recursively(mass_path=full_moose_dir, simulation=None)
 
 
     variable_info_dict = {}
@@ -62,15 +64,12 @@ def main_cdds_retrieve_data():
         base_output_folder = folder_path.replace(prefix,"")
         output_dir = Path(args.destination) / base_output_folder
         output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         # retrieve files into those directories:
         # for file in file_data:
         #     command = ["moo", "get", "-f", folder_path + "/*.nc" , output_dir]
         #     # command = ["moo", "get", "-f", file["mass_path"], args.destination]
         #     run_mass_command(command)
-
-
-
 
 
     desired_structure = {"moose:.../version/":{"files":["list of the .nc files"]}}
