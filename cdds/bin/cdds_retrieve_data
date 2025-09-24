@@ -3,8 +3,8 @@
 # Please see LICENSE.md for license details.
 import sys
 
-from cdds.misc.retrieve_mass_data import retrieve_mass_data
+from cdds.misc.retrieve_mass_data import main_cdds_retrieve_data
 
 
 if __name__ == '__main__':
-    sys.exit(retrieve_mass_data())
+    sys.exit(main_cdds_retrieve_data())
