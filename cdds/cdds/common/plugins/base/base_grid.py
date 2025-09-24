@@ -153,7 +153,6 @@ class OceanBaseGridInfo(BaseGridInfo):
             slice_longitude = self._to_mask_slice_str(values['slice_longitude'])
             mask_slice = '{},{}'.format(slice_latitude, slice_longitude)
             self._ocean_grid_polar_masks[grid_name] = mask_slice
-        self._halo_options = json['halo_options']
 
     def _load_bounds_coordinates(self, json) -> None:
         if "bounds_coordinates" in json:
@@ -183,22 +182,6 @@ class OceanBaseGridInfo(BaseGridInfo):
         :rtype: dict
         """
         return self._ocean_grid_polar_masks
-
-    @property
-    def halo_options(self) -> Dict[str, List[str]]:
-        """
-        Returns the ncks options needed to move ocean holo rows and columns.
-        For example::
-
-          {
-            'grid-T': ['-dx,1,360', '-dy,1,330'],
-            'grid-U': ['-dx,1,360', '-dy,1,330']
-          }
-
-        :return: The ncks options according their gird names
-        :rtype: dict
-        """
-        return self._halo_options
 
     def hybrid_heights_files(self) -> List[str]:
         """

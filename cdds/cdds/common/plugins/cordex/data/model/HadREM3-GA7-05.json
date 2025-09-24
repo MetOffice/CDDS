@@ -53,6 +53,24 @@
     "ap7",
     "ap9"
   ],
+  "halo_removal": {
+    "apm": {
+      "longitude": "13:-13",
+      "latitude": "13:-13"
+    },
+    "ap6": {
+      "longitude": "13:-13",
+      "latitude": "13:-13"
+    },
+    "ap7": {
+      "longitude": "13:-13",
+      "latitude": "13:-13"
+    },
+    "ap9": {
+      "longitude": "13:-13",
+      "latitude": "13:-13"
+    }
+  },
   "grid_info": {
     "atmos": {
       "atmos_timestep": null,
@@ -82,12 +100,8 @@
       "latitude": null,
       "levels": null,
       "replacement_coordinates_file": null,
-      "ancil_filenames": [
-      ],
-      "masked": {
-      },
-      "halo_options": {
-      }
+      "ancil_filenames": [],
+      "masked": {}
     }
   }
 }

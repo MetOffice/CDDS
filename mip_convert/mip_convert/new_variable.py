@@ -17,6 +17,7 @@ import iris
 from iris.time import PartialDateTime
 from iris.coord_systems import RotatedGeogCS, GeogCS
 from iris.util import guess_coord_axis
+from iris.exceptions import CoordinateMultiDimError, CoordinateNotFoundError
 import numpy as np
 
 from cdds.common import DATE_TIME_REGEX
@@ -369,8 +370,8 @@ class Variable(object):
         self._remove_units_from_input_variables_as_necessary()
         self._remove_forecast_period()
         self._ensure_masked_arrays()
-        self._apply_mask()
         self._apply_removal()
+        self._apply_mask()
         self._apply_expression()
         if self._force_coordinate_rotation:
             self._rotated_coords()
@@ -435,14 +436,74 @@ class Variable(object):
                         cube.data[mask] = np.ma.masked
 
     def _apply_removal(self):
+        """
+        Remove halo values from input variables if their removal
+        information is provided in the configuration file.
+        """
         removal = self._variable_metadata.removal
         if self._variable_metadata.stream_id in removal:
             stream_removal = removal[self._variable_metadata.stream_id]
             for key, cube in self.input_variables.items():
-                new_latitude = cube.coord('latitude')[stream_removal.slice_latitude]
-                new_longitude = cube.coord('longitude')[stream_removal.slice_longitude]
-                new_cube = cube.subset(new_latitude).subset(new_longitude)
+                new_cube = cube.copy()
+                if 'haloes_removed' in new_cube.attributes:
+                    self.logger.debug(f'{new_cube} has the "haloes_removed" attribute, skipping halo removal')
+                else:
+                    if new_cube.coords("latitude"):
+                        new_cube = self._remove_latitude_halo(new_cube, stream_removal)
+                    if new_cube.coords("longitude"):
+
+                        new_cube = self._remove_longitude_halo(new_cube, stream_removal)
+                    self.logger.debug(f'Haloes removed from {new_cube}')
+
                 self.input_variables[key] = new_cube
+
+    def _remove_latitude_halo(self, cube, stream_removal):
+        """
+        Remove the latitude halo from the cube.
+        """
+        new_latitude = cube.coord('latitude')[stream_removal.slice_latitude]
+
+        try:
+            new_cube = cube.subset(new_latitude)
+        except CoordinateMultiDimError:
+            lat_dims = cube.coord_dims('latitude')
+            lon_dims = cube.coord_dims('longitude')
+            expected_dims = tuple(range(len(cube.shape)))[-2:]
+            if not (lat_dims == lon_dims == expected_dims):
+                raise RuntimeError(
+                    "Latitude and longitude dimensions need to be the final "
+                    f"two dimensions on the cube. Found {expected_dims}"
+                )
+            if cube.shape[-2] == 1:
+                new_cube = cube
+                self.logger.debug(f'Cube {cube} has a singleton latitude dimension, skipping latitude halo removal')
+            else:
+                new_cube = cube[..., stream_removal.slice_latitude, :]
+        return new_cube
+
+    def _remove_longitude_halo(self, cube, stream_removal):
+        """
+        Remove the longitude halo from the cube.
+        """
+        new_longitude = cube.coord('longitude')[stream_removal.slice_longitude]
+
+        try:
+            new_cube = cube.subset(new_longitude)
+        except CoordinateMultiDimError:
+            lat_dims = cube.coord_dims('latitude')
+            lon_dims = cube.coord_dims('longitude')
+            expected_dims = tuple(range(len(cube.shape)))[-2:]
+            if not (lat_dims == lon_dims == expected_dims):
+                raise RuntimeError(
+                    "Latitude and longitude dimensions need to be the final "
+                    f"two dimensions on the cube. Found {expected_dims}"
+                )
+            if cube.shape[-1] == 1:
+                new_cube = cube
+                self.logger.debug(f'Cube {cube} has a singleton longitude dimension, skipping longitude halo removal')
+            else:
+                new_cube = cube[..., stream_removal.slice_longitude]
+        return new_cube
 
     def _apply_expression(self):
         # Persist the fill_value attribute from the 'input variables' to the 'output variable'.
