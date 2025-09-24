@@ -29,20 +29,22 @@ def main_cdds_retrieve_data():
 
     final_moose_dir = (args.moose_base_location + args.base_dataset_id)
 
-    variable_list = []
+
+    variable_list_from_file = []
     with open(args.variable_file, 'r') as f:
         for line in f:
             line = line.strip()
-            variable_list.append(line + ".")
+            variable_list_from_file.append(line + ".")
 
-    x = mass_list_files_recursively(mass_path="moose:/adhoc/projects/cdds/production/CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2", simulation=None)
+    mass_file_list = mass_list_files_recursively(mass_path="moose:/adhoc/projects/cdds/production/CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2", simulation=None)
 
 
     variable_info_dict = {}
-    # Filter mass files into variable_info_dict if 'Amon.tas.' (the desired variable) is found as a key
-    for key, value in x.items():
-        if variable_list[0] in key:
-            variable_info_dict[key] = value
+    # Filter mass files into variable_info_dict if the desired variables are found
+    for key, value in mass_file_list.items():
+        for variable in variable_list_from_file:
+            if variable in key:
+                variable_info_dict[key] = value
 
     # Create dictionary with folder paths as keys and list of files in those folders as values
     dir_path_key_dict = {}
@@ -54,17 +56,18 @@ def main_cdds_retrieve_data():
             dir_path_key_dict[folder_path].append(file)
 
 
-    # Create directory structure for output files, then retrieve files into those directories
+    # Create directory structure for output files  
     for folder_path, file_data in dir_path_key_dict.items():
         prefix = "moose:/adhoc/projects/cdds/production/"
         base_output_folder = folder_path.replace(prefix,"")
         output_dir = Path(args.destination) / base_output_folder
         output_dir.mkdir(parents=True, exist_ok=True)
-
-        for file in file_data:
-            command = ["moo", "get", "-f", folder_path + "/*.nc" , output_dir]
-            # command = ["moo", "get", "-f", file["mass_path"], args.destination]
-            run_mass_command(command)
+        
+        # retrieve files into those directories:
+        # for file in file_data:
+        #     command = ["moo", "get", "-f", folder_path + "/*.nc" , output_dir]
+        #     # command = ["moo", "get", "-f", file["mass_path"], args.destination]
+        #     run_mass_command(command)
 
 
 
