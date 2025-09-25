@@ -25,6 +25,7 @@ def main_cdds_retrieve_data():
     parser.add_argument('base_dataset_id', help='CMIP structured location, e.g. CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2')
     parser.add_argument('variable_file', help='Path to variable file')
     parser.add_argument('destination', help='Destination directory')
+    # parser.add_argument('--chunk-size', type=int, help='Chunk size in MB for file retrieval', default=500)
     args = parser.parse_args()
 
     # Convert base_dataset_id dots to slashes and build base moose filepath
@@ -64,6 +65,38 @@ def main_cdds_retrieve_data():
         base_output_folder = folder_path.replace(prefix,"")
         output_dir = Path(args.destination) / base_output_folder
         output_dir.mkdir(parents=True, exist_ok=True)
+        # breakpoint()
+
+        default_chunk_size = 524288000
+        files_to_transfer = []
+        current_chunk_size = 0
+
+        for file_info in file_data:
+                file_size = int(file_info['filesize'])
+                # Create chunk of files smaller than default_chunk_size
+                if current_chunk_size + file_size <= default_chunk_size:
+                    files_to_transfer.append(file_info['mass_path'])
+                    current_chunk_size += file_size
+                else:
+                    # Run moo command to retrieve files once the default_chunk_size is reached
+                    if files_to_transfer:
+                        filepaths_string = ' '.join(files_to_transfer)
+                        command = ["moo", "get", filepaths_string , output_dir]
+                        # command = ["moo", "get", "-f", file["mass_path"], args.destination]
+                        # breakpoint()
+                        # run_mass_command(command)
+                        print(f"\n Chunk to transfer: {filepaths_string}.\n"
+                              f"To output dir: {output_dir}\n"
+                              f"Chunk size: {current_chunk_size}\n")
+                        files_to_transfer = []
+                        current_chunk_size = 0
+    breakpoint()
+
+
+
+
+
+
 
         # retrieve files into those directories:
         # for file in file_data:
