@@ -8,6 +8,8 @@ from pathlib import PurePosixPath, Path
 
 from cdds.common.mass import mass_list_files_recursively, run_mass_command
 
+logger = logging.getLogger(__name__)
+
 DEFAULT_MOOSE_BASE = 'moose:/adhoc/projects/cdds/production/'
 DEFAULT_CHUNK_SIZE = 524_288_000  # 500 MB
 
@@ -66,7 +68,7 @@ def chunk_and_transfer_files(file_data, output_dir, chunk_size=DEFAULT_CHUNK_SIZ
             if files_to_transfer:
                 command = ['moo', 'get', '-f'] + files_to_transfer + [str(output_dir)]
                 run_mass_command(command)
-                logging.info(f'Transferred chunk: {files_to_transfer} to {output_dir} (size: {current_chunk_size})')
+                logger.info(f'Transferred chunk: {files_to_transfer} to {output_dir} (size: {current_chunk_size})')
                 files_to_transfer = [file_info['mass_path']]
                 current_chunk_size = file_size
 
@@ -74,11 +76,10 @@ def chunk_and_transfer_files(file_data, output_dir, chunk_size=DEFAULT_CHUNK_SIZ
     if files_to_transfer:
         command = ['moo', 'get', '-f'] + files_to_transfer + [str(output_dir)]
         run_mass_command(command)
-        logging.info(f'Transferred final chunk: {files_to_transfer} to {output_dir} (size: {current_chunk_size})')
+        logger.info(f'Transferred final chunk: {files_to_transfer} to {output_dir} (size: {current_chunk_size})')
 
 def main_cdds_retrieve_data():
-    logging.basicConfig(level=logging.INFO)
-    
+
     args = parse_args()
 
     full_moose_dir = str(PurePosixPath(args.moose_base_location) / args.base_dataset_id.replace('.', '/'))
@@ -87,14 +88,12 @@ def main_cdds_retrieve_data():
     mass_file_list = mass_list_files_recursively(mass_path=full_moose_dir, simulation=None)
     variable_info_dict = filter_mass_files(mass_file_list, variable_list)
     dir_path_key_dict = group_files_by_folder(variable_info_dict)
-    # breakpoint()
 
     for folder_path, file_data in dir_path_key_dict.items():
         base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE, '')
         output_dir = create_output_dir(base_output_folder, args.destination)
+        breakpoint()
         chunk_and_transfer_files(file_data, output_dir)
 
-    logging.info('Finished processing all files.')
-
-if __name__ == '__main__':
-    main_cdds_retrieve_data()
+    logger.info('Finished processing all files.')
+    return 0
