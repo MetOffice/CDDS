@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
-# import os
 import argparse
 
 from pathlib import PurePosixPath, Path
-from collections import defaultdict
-import subprocess
+# from collections import defaultdict
+# import subprocess
 # from cdds.deprecated.transfer.moo_cmd import get
 # from cdds.deprecated.transfer.dds import DataTransfer
 # from cdds.deprecated.transfer import moo
@@ -25,6 +24,7 @@ def main_cdds_retrieve_data():
     parser.add_argument('base_dataset_id', help='CMIP structured location, e.g. CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2')
     parser.add_argument('variable_file', help='Path to variable file')
     parser.add_argument('destination', help='Destination directory')
+    parser.add_argument('--dry-run', action='store_true', help='Print actions without retrieving files')
     # parser.add_argument('--chunk-size', type=int, help='Chunk size in MB for file retrieval', default=500)
     args = parser.parse_args()
 
@@ -65,7 +65,6 @@ def main_cdds_retrieve_data():
         base_output_folder = folder_path.replace(prefix,"")
         output_dir = Path(args.destination) / base_output_folder
         output_dir.mkdir(parents=True, exist_ok=True)
-        # breakpoint()
 
         default_chunk_size = 524288000
         files_to_transfer = []
@@ -81,16 +80,17 @@ def main_cdds_retrieve_data():
                     # Run moo command to retrieve files once the default_chunk_size is reached
                     if files_to_transfer:
                         filepaths_string = ' '.join(files_to_transfer)
-                        command = ["moo", "get", filepaths_string , output_dir]
-                        # command = ["moo", "get", "-f", file["mass_path"], args.destination]
+                        command = ['moo', 'get', '-f'] + files_to_transfer + [str(output_dir)]
+                        
+                        run_mass_command(command)
                         # breakpoint()
-                        # run_mass_command(command)
                         print(f"\n Chunk to transfer: {filepaths_string}.\n"
                               f"To output dir: {output_dir}\n"
                               f"Chunk size: {current_chunk_size}\n")
                         files_to_transfer = []
                         current_chunk_size = 0
     breakpoint()
+    print("\nFinished processing all files.\n")
 
 
 
@@ -105,7 +105,7 @@ def main_cdds_retrieve_data():
         #     run_mass_command(command)
 
 
-    desired_structure = {"moose:.../version/":{"files":["list of the .nc files"]}}
+    # desired_structure = {"moose:.../version/":{"files":["list of the .nc files"]}}
     #^ this will be extended to include filesize for chunking of retrieval based on filesize
 
 
