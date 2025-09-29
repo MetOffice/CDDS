@@ -2,9 +2,14 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
 import sys
-
+from cdds.common import configure_logger
 from cdds.misc.retrieve_mass_data import main_cdds_retrieve_data
 
 
 if __name__ == '__main__':
+    configure_logger(
+        log_name='retrieve_mass_data',      # Name for your log
+        log_level=20,                       # 20 = logging.INFO
+        append_log=False,                    # Append to log file
+    )
     sys.exit(main_cdds_retrieve_data())
