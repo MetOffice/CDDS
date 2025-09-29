@@ -11,7 +11,7 @@ from pathlib import PurePosixPath, Path
 # from cdds.deprecated.transfer import moo
 
 from cdds.common.mass import mass_list_dir, mass_list_files_recursively, run_mass_command
-
+import logging
 
 # identify data
 
@@ -24,7 +24,7 @@ def main_cdds_retrieve_data():
     parser.add_argument('base_dataset_id', help='CMIP structured location, e.g. CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2')
     parser.add_argument('variable_file', help='Path to variable file')
     parser.add_argument('destination', help='Destination directory')
-    parser.add_argument('--dry-run', action='store_true', help='Print actions without retrieving files')
+    # parser.add_argument('--dry-run', action='store_true', help='Print actions without retrieving files')
     # parser.add_argument('--chunk-size', type=int, help='Chunk size in MB for file retrieval', default=500)
     args = parser.parse_args()
 
@@ -73,6 +73,8 @@ def main_cdds_retrieve_data():
         for file_info in file_data:
                 file_size = int(file_info['filesize'])
                 # Create chunk of files smaller than default_chunk_size
+                # if args.dry_run:
+                #             print(f"[DRY RUN] Would run: {' '.join(command)}")
                 if current_chunk_size + file_size <= default_chunk_size:
                     files_to_transfer.append(file_info['mass_path'])
                     current_chunk_size += file_size
@@ -93,81 +95,8 @@ def main_cdds_retrieve_data():
     print("\nFinished processing all files.\n")
 
 
-
-
-
-
-
-        # retrieve files into those directories:
-        # for file in file_data:
-        #     command = ["moo", "get", "-f", folder_path + "/*.nc" , output_dir]
-        #     # command = ["moo", "get", "-f", file["mass_path"], args.destination]
-        #     run_mass_command(command)
-
-
     # desired_structure = {"moose:.../version/":{"files":["list of the .nc files"]}}
     #^ this will be extended to include filesize for chunking of retrieval based on filesize
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##########OLD(throw away)############
-    # for variable in variable_list:
-    #     variable_found = False
-    #     for dataset in x.values():
-    #         for file in dataset["files"]:
-    #             if variable in file["mass_path"]:
-    #                 # print(file["mass_path"])
-    #                 # breakpoint()
-    #                 filtered_mass_paths.append(f"{file['mass_path']}")
-    #                 variable_found = True
-    #                 # f"{file['mass_path']}"
-    #     if not variable_found:
-    #         # USE LOGGER TO THROW CRITICAL WARNING
-    #         print(f"no match for {variable} in Mass")
-    # breakpoint()
-#####################
-
-
-################
-    # for dataset in x.values():
-    #     for file in dataset["files"]:
-    #         if "Amon" in file["mass_path"] and "vas" in file["mass_path"]:
-    #             print(file["mass_path"])
-###########
-    # d = {'CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2.Amon.tas.gn': {'files': [{'filename': 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_196001-204912.nc',
-    #                                                                        'filesize': '64845513',
-    #                                                                        'mass_path': 'moose:/adhoc/projects/cdds/production/CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/available/v20200828/tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_196001-204912.nc'},
-    #                                                                       {'filename': 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_205001-214912.nc',
-    #                                                                        'filesize': '71579197',
-    #                                                                        'mass_path': 'moose:/adhoc/projects/cdds/production/CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/available/v20200828/tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_205001-214912.nc'}]}}
-    
-    # print(d['CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2.Amon.tas.gn']["files"][0]["filename"])
-    # print(d['CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2.Amon.tas.gn']["files"][0]["filename"])
-
-    # for dataset in d.values():
-    #     for file in dataset["files"]:
-    #         print(file["mass_path"])
-
-
-    # breakpoint()
-# get hold of a batch of the files and put them in a temporary directory
 
 
 
@@ -190,17 +119,6 @@ def main_cdds_retrieve_data():
 #     arg = ["-f", "-j", transfer_threads, remote, local]
 #     moo.run_moo_cmd("get", arg, simulation=simulation, logger=logger)
 #     return
-
-
-
-    # for filepath in filepath_list:
-
-    #     result = subprocess.run(["moo", "ls" , filepath], capture_output=True, text=True)
-    #     mass_folder = [line.strip() for line in result.stdout.splitlines()]
-
-        # make the target directory structure:
-
-        # transfer the files in there:
 
         
 
