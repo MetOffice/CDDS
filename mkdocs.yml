@@ -51,7 +51,7 @@ nav:
     - Model Parameters JSON File:
       -  tutorials/json_model_parameter.md
   - Developer Documentation:
-    - developer_documentation/index.md
+    - developer_documentation/developer_documentation.md
     - Deployment:
       - Release Procedure: developer_documentation/deployment/release_procedure.md
       - Installation: developer_documentation/deployment/cdds_installation.md

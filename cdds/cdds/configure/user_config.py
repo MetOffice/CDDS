@@ -120,7 +120,9 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
             logger.info(
                 'Producing user configuration file for "{}"'.format(file_suffix))
             maskings = get_masking_attributes(request.metadata.model_id, streams)
+
             halo_removals = get_halo_removal_attributes(request)
+
             slicing = get_slicing_periods(request)
             user_config = OrderedDict()
             user_config.update(deepcopy(metadata))
@@ -144,6 +146,8 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
                 user_config['masking'] = maskings
             if halo_removals:
                 user_config['halo_removal'] = halo_removals
+            else:
+                pass
             if slicing:
                 user_config['slicing_periods'] = slicing
             user_config.update(mip_requested_variables)
@@ -167,24 +171,24 @@ def get_halo_removal_attributes(request: Request):
     :return: A dictionary contains the halo removal attributes according the stream
     :rtype: OrderedDict[str, str]
     """
-    logger = logging.getLogger(__name__)
-    halo_removal_latitude = request.misc.halo_removal_latitude
-    halo_removal_longitude = request.misc.halo_removal_longitude
 
-    if not halo_removal_latitude or not halo_removal_longitude:
-        message = ('At least one halo removal option is empty. For using halo removals both options must '
-                   'be set in the request.cfg. Skip halo removals.')
-        logger.debug(message)
-        return None
+    plugin = PluginStore.instance().get_plugin()
+    model_id = request.metadata.model_id
+    model_parameters = plugin.models_parameters(model_id)
+    halo_removal_info = model_parameters.halo_removal_info
 
-    removal_attributes = OrderedDict()
+    removal_attributes: dict[str, str] = {}
     key_template = 'stream_{}'
     value_template = '{},{}'
 
     for stream in request.data.streams:
-        key = key_template.format(stream)
-        value = value_template.format(halo_removal_latitude, halo_removal_longitude)
-        removal_attributes[key] = value
+        if stream not in halo_removal_info:
+            removal_attributes
+        else:
+            key = key_template.format(stream)
+            value = value_template.format(halo_removal_info[stream]['latitude'], halo_removal_info[stream]['longitude'])
+            removal_attributes[key] = value
+
     return removal_attributes
 
 

@@ -15,7 +15,6 @@ from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.request.request import read_request
 from cdds.extract.lang import set_language
 from cdds.extract.runner import ExtractRunner
-from cdds.extract.halo_removal import dehalo_multiple_files
 from cdds.extract.validate import validate_streams
 from cdds.common import configure_logger
 from cdds.common.plugins.plugins import PluginStore
@@ -98,32 +97,6 @@ def main_cdds_extract(arguments=None):
     return exit_code
 
 
-def parse_remove_ocean_haloes_command_line(user_arguments):
-    """
-    Return the names of the command line arguments for ``remove_ocean_haloes``
-    and their validated values.
-
-    Parameters
-    ----------
-    user_arguments: list of strings
-        The command line arguments to be parsed.
-
-    Returns
-    -------
-    : :class:`cdds.arguments.Arguments` object
-        The names of the command line arguments and their validated values.
-    """
-    parser = argparse.ArgumentParser(description='Strip ocean haloes from multiple files')
-    parser.add_argument('destination', help='Directory to write stripped files to')
-    parser.add_argument('filenames', nargs='+', help='Files to strip haloes from')
-    parser.add_argument('model_id', help='The model_id of the model which produced the output')
-    parser.add_argument('--overwrite', help='Overwrite files in target directory')
-    parser.add_argument('--mip_era', default='CMIP6', help='The cdds plugin to load, "CMIP6" loaded by default')
-    parser.add_argument('--plugin_module', help='The directory of an external plugin module')
-
-    return parser.parse_args(user_arguments)
-
-
 def parse_validate_streams_command_line(user_arguments):
     """
     Return the names of the command line arguments for ``validate_streams``
@@ -197,38 +170,6 @@ def main_validate_streams(arguments=None):
                 exit_code = 0
             else:
                 exit_code = 1
-    except BaseException as exc:
-        logger.critical(exc, exc_info=1)
-        exit_code = 1
-    return exit_code
-
-
-def main_remove_ocean_haloes(arguments=None):
-    """
-    Strip haloes from multiple ocean files
-
-    Parameters
-    ----------
-    arguments: list of strings
-        The command line arguments to be parsed.
-    """
-    # Parse the arguments
-    args = parse_remove_ocean_haloes_command_line(arguments)
-
-    # Create the configured logger.
-    configure_logger(LOG_NAME, logging.INFO, False)
-
-    # Retrieve the logger.
-    logger = logging.getLogger(__name__)
-
-    # Log version.
-    logger.info('Using Extract version {}'.format(__version__))
-
-    load_plugin(args.mip_era, args.plugin_module)
-
-    try:
-        dehalo_multiple_files(args.filenames, args.destination, args.overwrite, args.model_id)
-        exit_code = 0
     except BaseException as exc:
         logger.critical(exc, exc_info=1)
         exit_code = 1
