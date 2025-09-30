@@ -22,14 +22,14 @@ def parse_args():
     parser.add_argument('destination', help='Destination directory')
     parser.add_argument('--chunk-size',
                         type=int,
-                        help='Chunk size in MB for file retrieval. Default size is 500.',
+                        help='Chunk size in GB for file retrieval. Default size is 500.',
                         default=500)
     # parser.add_argument('--dry-run', action='store_true', help='Print actions without retrieving files')
     return parser.parse_args()
 
-def mb_to_bytes(chunk_size):
-    """Convert megabytes to bytes."""
-    return int(chunk_size * 1024 * 1024)
+def gb_to_bytes(chunk_size):
+    """Convert gigabytes to bytes."""
+    return int(chunk_size * 1024 * 1024 * 1024)
 
 def read_variable_list(variable_file):
     """ Return list of variables from file, each ending with a full stop
@@ -92,7 +92,7 @@ def chunk_and_transfer_files(file_data, output_dir, chunk_size_as_bytes):
 
 def main_cdds_retrieve_data():
     args = parse_args()
-    chunk_size_as_bytes = mb_to_bytes(args.chunk_size)
+    chunk_size_as_bytes = gb_to_bytes(args.chunk_size)
     full_moose_dir = str(PurePosixPath(args.moose_base_location) / args.base_dataset_id.replace('.', '/'))
 
     variable_list = read_variable_list(args.variable_file)
