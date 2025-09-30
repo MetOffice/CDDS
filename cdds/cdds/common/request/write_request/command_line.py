@@ -13,7 +13,7 @@ from typing import List
 
 from cdds import __version__
 from cdds.common.request.rose_suite.suite_info import RoseSuiteArguments
-from cdds.prepare.request_file.request import write_request_from_rose_suite_info
+from cdds.common.request.write_request.request import write_request_from_rose_suite_info
 from cdds.common import configure_logger
 
 
