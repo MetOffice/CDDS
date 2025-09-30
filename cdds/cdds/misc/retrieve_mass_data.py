@@ -22,9 +22,9 @@ def parse_args():
     parser.add_argument('destination', help='Destination directory')
     parser.add_argument('--chunk-size',
                         type=int,
-                        help='Chunk size in GB for file retrieval. Default size is 500.',
-                        default=500)
-    # parser.add_argument('--dry-run', action='store_true', help='Print actions without retrieving files')
+                        help='Chunk size in GB for file retrieval. Default size is 100.',
+                        default=100)
+    parser.add_argument('--dry-run', action='store_true', help='Print actions without retrieving files')
     return parser.parse_args()
 
 def gb_to_bytes(chunk_size):
@@ -99,11 +99,11 @@ def main_cdds_retrieve_data():
     mass_file_list = mass_list_files_recursively(mass_path=full_moose_dir, simulation=None)
     variable_info_dict = filter_mass_files(mass_file_list, variable_list)
     dir_path_key_dict = group_files_by_folder(variable_info_dict)
+    # breakpoint()
 
     for folder_path, file_data in dir_path_key_dict.items():
         base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE, '')
         output_dir = create_output_dir(base_output_folder, args.destination)
-        # breakpoint()
         chunk_and_transfer_files(file_data, output_dir, chunk_size_as_bytes)
 
     logger.info('Finished processing all files.')
