@@ -11,19 +11,25 @@ from cdds.common.mass import mass_list_files_recursively, run_mass_command
 logger = logging.getLogger(__name__)
 
 DEFAULT_MOOSE_BASE = 'moose:/adhoc/projects/cdds/production/'
-DEFAULT_CHUNK_SIZE = 524_288_000  # 500 MB
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Tool for retrieving mass data from MOOSE')
     parser.add_argument('moose_base_location', nargs='?', default=DEFAULT_MOOSE_BASE,
                         help=f'Base location for moose (default: {DEFAULT_MOOSE_BASE})')
-    parser.add_argument('base_dataset_id', help='CMIP structured location, e.g. CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2')
+    parser.add_argument('base_dataset_id',
+                        help='CMIP structured location, e.g. CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2')
     parser.add_argument('variable_file', help='Path to variable file')
     parser.add_argument('destination', help='Destination directory')
+    parser.add_argument('--chunk-size',
+                        type=int,
+                        help='Chunk size in MB for file retrieval. Default size is 500.',
+                        default=500)
     # parser.add_argument('--dry-run', action='store_true', help='Print actions without retrieving files')
-    # parser.add_argument('--chunk-size', type=int, help='Chunk size in MB for file retrieval', default=500)
     return parser.parse_args()
 
+def mb_to_bytes(chunk_size):
+    """Convert megabytes to bytes."""
+    return int(chunk_size * 1024 * 1024)
 
 def read_variable_list(variable_file):
     """ Return list of variables from file, each ending with a full stop
@@ -53,14 +59,20 @@ def create_output_dir(base_output_folder, destination):
     output_dir.mkdir(parents=True, exist_ok=True)
     return output_dir
 
-def chunk_and_transfer_files(file_data, output_dir, chunk_size=DEFAULT_CHUNK_SIZE):
+def chunk_and_transfer_files(file_data, output_dir, chunk_size_as_bytes):
     files_to_transfer = []
     current_chunk_size = 0
 
     for file_info in file_data:
         file_size = int(file_info['filesize'])
+        if file_size > chunk_size_as_bytes:
+            raise ValueError(
+                f'Chunk size too small: file {file_info["mass_path"]} is {file_size} bytes, '
+                f'but chunk size is {chunk_size_as_bytes} bytes. Please provide a larger chunk size.'
+            )
+
         # Create chunk
-        if current_chunk_size + file_size <= chunk_size:
+        if current_chunk_size + file_size <= chunk_size_as_bytes:
             files_to_transfer.append(file_info['mass_path'])
             current_chunk_size += file_size
         else:
@@ -69,8 +81,8 @@ def chunk_and_transfer_files(file_data, output_dir, chunk_size=DEFAULT_CHUNK_SIZ
                 command = ['moo', 'get', '-f'] + files_to_transfer + [str(output_dir)]
                 run_mass_command(command)
                 logger.info(f'Transferred chunk: {files_to_transfer} to {output_dir} (size: {current_chunk_size})')
-                files_to_transfer = [file_info['mass_path']]
-                current_chunk_size = file_size
+            files_to_transfer = [file_info['mass_path']]
+            current_chunk_size = file_size
 
     # Transfer any remaining files if they exist.
     if files_to_transfer:
@@ -79,9 +91,8 @@ def chunk_and_transfer_files(file_data, output_dir, chunk_size=DEFAULT_CHUNK_SIZ
         logger.info(f'Transferred final chunk: {files_to_transfer} to {output_dir} (size: {current_chunk_size})')
 
 def main_cdds_retrieve_data():
-
     args = parse_args()
-
+    chunk_size_as_bytes = mb_to_bytes(args.chunk_size)
     full_moose_dir = str(PurePosixPath(args.moose_base_location) / args.base_dataset_id.replace('.', '/'))
 
     variable_list = read_variable_list(args.variable_file)
@@ -92,8 +103,8 @@ def main_cdds_retrieve_data():
     for folder_path, file_data in dir_path_key_dict.items():
         base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE, '')
         output_dir = create_output_dir(base_output_folder, args.destination)
-        breakpoint()
-        chunk_and_transfer_files(file_data, output_dir)
+        # breakpoint()
+        chunk_and_transfer_files(file_data, output_dir, chunk_size_as_bytes)
 
     logger.info('Finished processing all files.')
     return 0
