@@ -23,13 +23,13 @@ def parse_args():
     parser.add_argument('--chunk-size',
                         type=int,
                         help='Chunk size in GB for file retrieval. Default size is 100.',
-                        default=100)
+                        default=600)
     parser.add_argument('--dry-run', action='store_true', help='Print actions without retrieving files')
     return parser.parse_args()
 
 def gb_to_bytes(chunk_size):
     """Convert gigabytes to bytes."""
-    return int(chunk_size * 1024 * 1024 * 1024)
+    return int(chunk_size * 1024 * 1024)
 
 def read_variable_list(variable_file):
     """ Return list of variables from file, each ending with a full stop
@@ -59,36 +59,46 @@ def create_output_dir(base_output_folder, destination):
     output_dir.mkdir(parents=True, exist_ok=True)
     return output_dir
 
-def chunk_and_transfer_files(file_data, output_dir, chunk_size_as_bytes):
-    files_to_transfer = []
+def chunk_and_transfer_files(file_data, output_dir, chunk_size_as_bytes, dry_run=False):
+    chunk = []
+    list_of_chunks = []
     current_chunk_size = 0
 
     for file_info in file_data:
         file_size = int(file_info['filesize'])
+
+        # Raise error if file is larger than chunk size.
         if file_size > chunk_size_as_bytes:
             raise ValueError(
                 f'Chunk size too small: file {file_info["mass_path"]} is {file_size} bytes, '
                 f'but chunk size is {chunk_size_as_bytes} bytes. Please provide a larger chunk size.'
             )
 
-        # Create chunk
+        # Create chunks based on chunk size.
         if current_chunk_size + file_size <= chunk_size_as_bytes:
-            files_to_transfer.append(file_info['mass_path'])
+            chunk.append(file_info['mass_path'])
             current_chunk_size += file_size
+
+        # Add chunk to list of chunks when chunk size exceeded.
         else:
-            # Transfer chunk
-            if files_to_transfer:
-                command = ['moo', 'get', '-f'] + files_to_transfer + [str(output_dir)]
-                run_mass_command(command)
-                logger.info(f'Transferred chunk: {files_to_transfer} to {output_dir} (size: {current_chunk_size})')
-            files_to_transfer = [file_info['mass_path']]
+            if chunk:
+                print(f'Chunk added with size: {current_chunk_size} bytes')
+                list_of_chunks.append(chunk)
+            chunk = [file_info['mass_path']]
             current_chunk_size = file_size
 
-    # Transfer any remaining files if they exist.
-    if files_to_transfer:
-        command = ['moo', 'get', '-f'] + files_to_transfer + [str(output_dir)]
-        run_mass_command(command)
-        logger.info(f'Transferred final chunk: {files_to_transfer} to {output_dir} (size: {current_chunk_size})')
+    # Handle any remaining files.
+    if chunk:
+        print(f'Chunk added with size: {current_chunk_size} bytes')
+        list_of_chunks.append(chunk)
+
+    breakpoint()
+    if list_of_chunks:
+        for chunk in list_of_chunks:
+            command = ['moo', 'get', '-f'] + chunk + [str(output_dir)]
+            run_mass_command(command)
+            logger.info(f'Transferred chunk: {chunk} to {output_dir} (size: {current_chunk_size})')
+            print(f'dry run was: {dry_run}')
 
 def main_cdds_retrieve_data():
     args = parse_args()
@@ -99,12 +109,12 @@ def main_cdds_retrieve_data():
     mass_file_list = mass_list_files_recursively(mass_path=full_moose_dir, simulation=None)
     variable_info_dict = filter_mass_files(mass_file_list, variable_list)
     dir_path_key_dict = group_files_by_folder(variable_info_dict)
-    # breakpoint()
+
 
     for folder_path, file_data in dir_path_key_dict.items():
         base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE, '')
         output_dir = create_output_dir(base_output_folder, args.destination)
-        chunk_and_transfer_files(file_data, output_dir, chunk_size_as_bytes)
+        chunk_and_transfer_files(file_data, output_dir, chunk_size_as_bytes, dry_run=args.dry_run)
 
     logger.info('Finished processing all files.')
     return 0
