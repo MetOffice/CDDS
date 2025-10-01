@@ -59,7 +59,7 @@ def create_output_dir(base_output_folder, destination):
     output_dir.mkdir(parents=True, exist_ok=True)
     return output_dir
 
-def chunk_and_transfer_files(file_data, output_dir, chunk_size_as_bytes, dry_run=False):
+def chunk_files(file_data, chunk_size_as_bytes):
     chunk = []
     list_of_chunks = []
     current_chunk_size = 0
@@ -74,7 +74,7 @@ def chunk_and_transfer_files(file_data, output_dir, chunk_size_as_bytes, dry_run
                 f'but chunk size is {chunk_size_as_bytes} bytes. Please provide a larger chunk size.'
             )
 
-        # Create chunks based on chunk size.
+        # Add files to a chunk until chunk size is reached.
         if current_chunk_size + file_size <= chunk_size_as_bytes:
             chunk.append(file_info['mass_path'])
             current_chunk_size += file_size
@@ -82,8 +82,8 @@ def chunk_and_transfer_files(file_data, output_dir, chunk_size_as_bytes, dry_run
         # Add chunk to list of chunks when chunk size exceeded.
         else:
             if chunk:
-                print(f'Chunk added with size: {current_chunk_size} bytes')
                 list_of_chunks.append(chunk)
+                print(f'Chunk added with size: {current_chunk_size} bytes')
             chunk = [file_info['mass_path']]
             current_chunk_size = file_size
 
@@ -92,12 +92,15 @@ def chunk_and_transfer_files(file_data, output_dir, chunk_size_as_bytes, dry_run
         print(f'Chunk added with size: {current_chunk_size} bytes')
         list_of_chunks.append(chunk)
 
+    return list_of_chunks
+
+def transfer_files(list_of_chunks, output_dir, dry_run=False):
     breakpoint()
     if list_of_chunks:
         for chunk in list_of_chunks:
             command = ['moo', 'get', '-f'] + chunk + [str(output_dir)]
             run_mass_command(command)
-            logger.info(f'Transferred chunk: {chunk} to {output_dir} (size: {current_chunk_size})')
+            logger.info(f'Transferred chunk: {chunk} to {output_dir}')
             print(f'dry run was: {dry_run}')
 
 def main_cdds_retrieve_data():
@@ -114,7 +117,8 @@ def main_cdds_retrieve_data():
     for folder_path, file_data in dir_path_key_dict.items():
         base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE, '')
         output_dir = create_output_dir(base_output_folder, args.destination)
-        chunk_and_transfer_files(file_data, output_dir, chunk_size_as_bytes, dry_run=args.dry_run)
+        list_of_chunks = chunk_files(file_data, chunk_size_as_bytes)
+        transfer_files(list_of_chunks, output_dir, dry_run=args.dry_run)
 
     logger.info('Finished processing all files.')
     return 0
