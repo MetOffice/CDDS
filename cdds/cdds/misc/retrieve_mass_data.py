@@ -5,6 +5,7 @@
 import argparse
 import logging
 from pathlib import PurePosixPath, Path
+import subprocess
 
 from cdds.common.mass import mass_list_files_recursively, run_mass_command
 
@@ -83,25 +84,34 @@ def chunk_files(file_data, chunk_size_as_bytes):
         else:
             if chunk:
                 list_of_chunks.append(chunk)
-                print(f'Chunk added with size: {current_chunk_size} bytes')
+            # Carry over file that exceeded limit for next chunk.
             chunk = [file_info['mass_path']]
             current_chunk_size = file_size
 
-    # Handle any remaining files.
+    # Handle last file.
     if chunk:
-        print(f'Chunk added with size: {current_chunk_size} bytes')
         list_of_chunks.append(chunk)
 
     return list_of_chunks
 
 def transfer_files(list_of_chunks, output_dir, dry_run=False):
-    breakpoint()
+
     if list_of_chunks:
         for chunk in list_of_chunks:
-            command = ['moo', 'get', '-f'] + chunk + [str(output_dir)]
-            run_mass_command(command)
-            logger.info(f'Transferred chunk: {chunk} to {output_dir}')
-            print(f'dry run was: {dry_run}')
+            if dry_run:
+                command = ['moo', 'get', '-f', '-n'] + chunk + [str(output_dir)]
+            else:
+                command = ['moo', 'get', '-f'] + chunk + [str(output_dir)]
+            try:
+                stdout_str = run_mass_command(command)
+                logger.info(stdout_str)
+            except subprocess.CalledProcessError:
+                stdout_str = ''
+                logger.critical('Error running MASS command.')
+            except RuntimeError as e:
+                logger.critical(str(e))
+                raise e
+
 
 def main_cdds_retrieve_data():
     args = parse_args()
@@ -120,5 +130,5 @@ def main_cdds_retrieve_data():
         list_of_chunks = chunk_files(file_data, chunk_size_as_bytes)
         transfer_files(list_of_chunks, output_dir, dry_run=args.dry_run)
 
-    logger.info('Finished processing all files.')
+    logger.info(f'Finished transferring files to {output_dir}')
     return 0
