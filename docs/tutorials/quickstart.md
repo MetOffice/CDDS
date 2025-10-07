@@ -220,7 +220,7 @@ The highlighted lines in each request indicate fields that the user may need to 
    ```
 6. Activate the CDDS environment 
    ```bash
-   source ~cdds/bin/setup_env_for_cdds 3.1.2
+   source ~cdds/bin/setup_env_for_cdds <the version of CDDS you're using, e.g. 3.2.1>
    ```
 7. Validate the `request.cfg`.
    ```
