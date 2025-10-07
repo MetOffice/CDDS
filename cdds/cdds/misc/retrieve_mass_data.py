@@ -6,6 +6,7 @@ import argparse
 import logging
 import subprocess
 from pathlib import Path, PurePosixPath
+from typing import List, Dict, Any
 
 from cdds.common.mass import mass_list_files_recursively, run_mass_command
 
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_MOOSE_BASE_PATH = 'moose:/adhoc/projects/cdds/production/'
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     """
     Parse command line arguments.
 
@@ -50,7 +51,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def gb_to_bytes(chunk_size):
+def gb_to_bytes(chunk_size: int) -> int:
     """
     Convert gigabytes to bytes.
 
@@ -67,7 +68,7 @@ def gb_to_bytes(chunk_size):
     return int(chunk_size * 1024 * 1024 * 1024)
 
 
-def read_variable_list_file(variable_file):
+def read_variable_list_file(variable_file: str | Path) -> List[str]:
     """
     Return list of variables from file, each ending with a full stop
     to ensure variables with same prefix are not used incorrectly. e.g. tas and tasmax.
@@ -86,7 +87,9 @@ def read_variable_list_file(variable_file):
         return [line.strip() + '.' for line in f if line.strip()]
 
 
-def filter_mass_files(mass_file_list, variable_list):
+def filter_mass_files(
+    mass_file_list: Dict[str, Any], variable_list: List[str]
+) -> Dict[str, Any]:
     """
     Filters the full mass file list so only the information relevant to the specified
     variables is selected into a new dictionary.
@@ -110,7 +113,9 @@ def filter_mass_files(mass_file_list, variable_list):
     }
 
 
-def group_files_by_folder(variable_info_dict):
+def group_files_by_folder(
+    variable_info_dict: Dict[str, Any]
+) -> Dict[str, List[Dict[str, Any]]]:
     """
     Return dict with the base folder path for each variable as key and list of
     file info dicts as values.
@@ -125,7 +130,7 @@ def group_files_by_folder(variable_info_dict):
     dict
         Dictionary with folder paths as keys and lists of file info dicts as values.
     """
-    dir_path_key_dict = {}
+    dir_path_key_dict: Dict[str, List[Dict[str, Any]]] = {}
     for dataset in variable_info_dict.values():
         for file in dataset['files']:
             folder_path = str(PurePosixPath(file['mass_path']).parent)
@@ -133,7 +138,9 @@ def group_files_by_folder(variable_info_dict):
     return dir_path_key_dict
 
 
-def create_output_dir(base_output_folder, destination):
+def create_output_dir(
+    base_output_folder: str, destination: Path
+) -> Path:
     """
     Create output directory for a variable if it does not exist and return a Path object.
 
@@ -154,7 +161,9 @@ def create_output_dir(base_output_folder, destination):
     return output_dir
 
 
-def chunk_files(file_data, chunk_size_as_bytes):
+def chunk_files(
+    file_data: List[Dict[str, Any]], chunk_size_as_bytes: int
+) -> List[List[str]]:
     """
     Return list of lists of files, where each of those inner lists is a chunk of files
     that does not exceed the specified chunk size in bytes.
@@ -170,7 +179,7 @@ def chunk_files(file_data, chunk_size_as_bytes):
     -------
     list of list of str
         List of file path chunks.
-    
+
     Raises
     ------
     ValueError
@@ -210,7 +219,9 @@ def chunk_files(file_data, chunk_size_as_bytes):
     return list_of_chunks
 
 
-def transfer_files(list_of_chunks, output_dir, dry_run=False):
+def transfer_files(
+    list_of_chunks: List[List[str]], output_dir: Path, dry_run: bool = False
+) -> None:
     """
     Transfer each chunk in the list using moo get.
 
@@ -244,7 +255,7 @@ def transfer_files(list_of_chunks, output_dir, dry_run=False):
                 raise e
 
 
-def main_cdds_retrieve_data():
+def main_cdds_retrieve_data() -> None:
     """
     Main function to retrieve data from MOOSE using CDDS.
 
