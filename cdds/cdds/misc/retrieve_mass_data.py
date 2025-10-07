@@ -11,18 +11,26 @@ from cdds.common.mass import mass_list_files_recursively, run_mass_command
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_MOOSE_BASE = 'moose:/adhoc/projects/cdds/production/'
+DEFAULT_MOOSE_BASE_PATH = 'moose:/adhoc/projects/cdds/production/'
 
 
 def parse_args():
+    """
+    Parse command line arguments.
+
+    Returns
+    -------
+    argparse.Namespace
+        Parsed command line arguments.
+    """
     parser = argparse.ArgumentParser(
         description='Tool for retrieving mass data from MOOSE'
     )
     parser.add_argument(
         'moose_base_location',
         nargs='?',
-        default=DEFAULT_MOOSE_BASE,
-        help=f'Base location for moose (default: {DEFAULT_MOOSE_BASE})',
+        default=DEFAULT_MOOSE_BASE_PATH,
+        help=f'Base location for moose (default: {DEFAULT_MOOSE_BASE_PATH})',
     )
     parser.add_argument(
         'base_dataset_id',
@@ -34,7 +42,7 @@ def parse_args():
         '--chunk-size',
         type=int,
         help='Chunk size in GB for file retrieval. Default size is 100.',
-        default=600,
+        default=100,
     )
     parser.add_argument(
         '--dry-run', action='store_true', help='Print actions without retrieving files'
@@ -43,19 +51,58 @@ def parse_args():
 
 
 def gb_to_bytes(chunk_size):
-    '''Convert gigabytes to bytes.'''
-    return int(chunk_size * 1024 * 1024)
+    """
+    Convert gigabytes to bytes.
+
+    Parameters
+    ----------
+    chunk_size : int
+        Size in gigabytes.
+
+    Returns
+    -------
+    int
+        Size in bytes.
+    """
+    return int(chunk_size * 1024 * 1024 * 1024)
 
 
-def read_variable_list(variable_file):
-    '''Return list of variables from file, each ending with a full stop
-    to ensure variables with same prefix are not matched incorrectly. e.g. tas and tasmax.'''
+def read_variable_list_file(variable_file):
+    """
+    Return list of variables from file, each ending with a full stop
+    to ensure variables with same prefix are not used incorrectly. e.g. tas and tasmax.
+
+    Parameters
+    ----------
+    variable_file : str or Path
+        Path to the file containing variable names.
+
+    Returns
+    -------
+    list of str
+        List of variable names, each ending with a full stop.
+    """
     with open(variable_file, 'r') as f:
         return [line.strip() + '.' for line in f if line.strip()]
 
 
 def filter_mass_files(mass_file_list, variable_list):
-    '''Return dict of files matching any variable in variable_list.'''
+    """
+    Filters the full mass file list so only the information relevant to the specified
+    variables is selected into a new dictionary.
+
+    Parameters
+    ----------
+    mass_file_list : dict
+        Dictionary of all mass files.
+    variable_list : list of str
+        List of variable names to filter by.
+
+    Returns
+    -------
+    dict
+        Dictionary of filtered file info.
+    """
     return {
         key: value
         for key, value in mass_file_list.items()
@@ -64,7 +111,20 @@ def filter_mass_files(mass_file_list, variable_list):
 
 
 def group_files_by_folder(variable_info_dict):
-    '''Return dict: folder_path -> list of file dicts.'''
+    """
+    Return dict with the base folder path for each variable as key and list of
+    file info dicts as values.
+
+    Parameters
+    ----------
+    variable_info_dict : dict
+        Dictionary of variable information.
+
+    Returns
+    -------
+    dict
+        Dictionary with folder paths as keys and lists of file info dicts as values.
+    """
     dir_path_key_dict = {}
     for dataset in variable_info_dict.values():
         for file in dataset['files']:
@@ -74,12 +134,48 @@ def group_files_by_folder(variable_info_dict):
 
 
 def create_output_dir(base_output_folder, destination):
+    """
+    Create output directory for a variable if it does not exist and return a Path object.
+
+    Parameters
+    ----------
+    base_output_folder : str
+        Base output folder name.
+    destination : str or Path
+        Destination directory.
+
+    Returns
+    -------
+    Path
+        Path object for the created output directory.
+    """
     output_dir = Path(destination) / base_output_folder
     output_dir.mkdir(parents=True, exist_ok=True)
     return output_dir
 
 
 def chunk_files(file_data, chunk_size_as_bytes):
+    """
+    Return list of lists of files, where each of those inner lists is a chunk of files
+    that does not exceed the specified chunk size in bytes.
+
+    Parameters
+    ----------
+    file_data : list of dict
+        List of file information dictionaries.
+    chunk_size_as_bytes : int
+        Maximum chunk size in bytes.
+
+    Returns
+    -------
+    list of list of str
+        List of file path chunks.
+    
+    Raises
+    ------
+    ValueError
+        If any file is larger than the chunk size.
+    """
     chunk = []
     list_of_chunks = []
     current_chunk_size = 0
@@ -115,6 +211,22 @@ def chunk_files(file_data, chunk_size_as_bytes):
 
 
 def transfer_files(list_of_chunks, output_dir, dry_run=False):
+    """
+    Transfer each chunk in the list using moo get.
+
+    Parameters
+    ----------
+    list_of_chunks : list of list of str
+        List of file path chunks.
+    output_dir : str or Path
+        Output directory.
+    dry_run : bool, optional
+        If True, print actions without retrieving files (default is False).
+
+    Returns
+    -------
+    None
+    """
     if list_of_chunks:
         for chunk in list_of_chunks:
             if dry_run:
@@ -133,13 +245,20 @@ def transfer_files(list_of_chunks, output_dir, dry_run=False):
 
 
 def main_cdds_retrieve_data():
+    """
+    Main function to retrieve data from MOOSE using CDDS.
+
+    Returns
+    -------
+    None
+    """
     args = parse_args()
     chunk_size_as_bytes = gb_to_bytes(args.chunk_size)
     full_moose_dir = str(
         PurePosixPath(args.moose_base_location) / args.base_dataset_id.replace('.', '/')
     )
 
-    variable_list = read_variable_list(args.variable_file)
+    variable_list = read_variable_list_file(args.variable_file)
     mass_file_list = mass_list_files_recursively(
         mass_path=full_moose_dir, simulation=None
     )
@@ -147,10 +266,9 @@ def main_cdds_retrieve_data():
     dir_path_key_dict = group_files_by_folder(variable_info_dict)
 
     for folder_path, file_data in dir_path_key_dict.items():
-        base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE, '')
+        base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE_PATH, '')
         output_dir = create_output_dir(base_output_folder, args.destination)
         list_of_chunks = chunk_files(file_data, chunk_size_as_bytes)
         transfer_files(list_of_chunks, output_dir, dry_run=args.dry_run)
 
     logger.info(f'Finished transferring files to {output_dir}')
-    return 0
