@@ -1,3 +1,9 @@
+## Release 3.3.0, October 8, 2025
+
+-   The removal of halo data (additional rows and columns) from NEMO and MEDUSA output files has been moved from the extraction step to the conversion step within CDDS. This both reduces load on the MASS archive when extracting data and makes it more straightforward for CDDS to be used without MASS. The removal of halo data is controlled by additional fields within the model config files that are embedded in CDDS with the model plugins or provided by users when they wish to override CDDS defaults. The remove_halo script has been retired as a result (#547)
+-   The CMOR version has been updated to `3.11.0` (#487)
+-   Added early support for the CMIP7 CV's and Mip Tables (#583, #586, #462)
+
 ## Release 3.2.1, August 29, 2025
 
 -   No Changes
