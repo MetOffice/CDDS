@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#release-321-august-29-2025" class="md-skip">
+        <a href="#release-330-october-8-2025" class="md-skip">
           Skip to content
         </a>
       
@@ -378,6 +378,13 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#release-330-october-8-2025" class="md-nav__link">
+    Release 3.3.0, October 8, 2025
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#release-321-august-29-2025" class="md-nav__link">
@@ -2124,6 +2131,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#release-330-october-8-2025" class="md-nav__link">
+    Release 3.3.0, October 8, 2025
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#release-321-august-29-2025" class="md-nav__link">
     Release 3.2.1, August 29, 2025
   </a>
@@ -2784,6 +2798,21 @@
 
   <h1>Changelog (CDDS)</h1>
 
+<h2 id="release-330-october-8-2025">Release 3.3.0, October 8, 2025</h2>
+<ul>
+<li>
+<p>The removal of halo data (additional rows and columns) from NEMO and MEDUSA output files has been moved from the extraction step to the conversion step within <abbr title="Climate Data Dissemination System">CDDS</abbr>. This both reduces load on the MASS archive when extracting data and makes it more straightforward for <abbr title="Climate Data Dissemination System">CDDS</abbr> to be used without MASS. The removal of halo data is controlled by additional fields within the model config files that are embedded in <abbr title="Climate Data Dissemination System">CDDS</abbr> with the model plugins or provided by users when they wish to override <abbr title="Climate Data Dissemination System">CDDS</abbr> defaults. The remove_halo script has been retired as a result (#547)</p>
+</li>
+<li>
+<p>The archiving step within <abbr title="Climate Data Dissemination System">CDDS</abbr> can now correctly append/prepend to existing data sets where the variable is sampled instantaneously, which leads to a gap in the time bounds between files (#635)</p>
+</li>
+<li>
+<p>The submission code now supports running outside specific hosts (#630)</p>
+</li>
+<li>
+<p>A CMIP7 plugin has been added to facilitate CMIP7 development (#600)</p>
+</li>
+</ul>
 <h2 id="release-321-august-29-2025">Release 3.2.1, August 29, 2025</h2>
 <ul>
 <li>
