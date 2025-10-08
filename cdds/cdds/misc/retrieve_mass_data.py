@@ -241,9 +241,9 @@ def transfer_files(
     if list_of_chunks:
         for chunk in list_of_chunks:
             if dry_run:
-                command = ['moo', 'get', '-f', '-n'] + chunk + [str(output_dir)]
+                command = ['moo', 'get', '-I', '-n'] + chunk + [str(output_dir)]
             else:
-                command = ['moo', 'get', '-f'] + chunk + [str(output_dir)]
+                command = ['moo', 'get', '-I'] + chunk + [str(output_dir)]
             try:
                 stdout_str = run_mass_command(command)
                 logger.info(stdout_str)
