@@ -1,0 +1,2324 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>CMIP6 and CMIP6 Plus - Climate Data Dissemination System</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#generating-cmorised-data-with-cdds-for-cmip6-cmip6-plus-simulations-using-the-cdds-workflow" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Climate Data Dissemination System" class="md-header__button md-logo" aria-label="Climate Data Dissemination System" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Climate Data Dissemination System
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CMIP6 and CMIP6 Plus
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../" class="md-tabs__link md-tabs__link--active">
+      Operational Procedures
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tutorials/quickstart/" class="md-tabs__link">
+        Tutorials
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../developer_documentation/developer_documentation/" class="md-tabs__link">
+      Developer Documentation
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../cdds_components/" class="md-tabs__link">
+      CDDS Components
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../reference" class="md-tabs__link">
+      API Documentation
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Climate Data Dissemination System" class="md-nav__button md-logo" aria-label="Climate Data Dissemination System" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Climate Data Dissemination System
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_cdds/" class="md-nav__link">
+        Changelog (CDDS)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_mip_convert/" class="md-nav__link">
+        Changelog (Mip Convert)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../">Operational Procedures</a>
+          
+            <label for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Operational Procedures" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Operational Procedures
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          CMIP6 and CMIP6 Plus
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        CMIP6 and CMIP6 Plus
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#packages" class="md-nav__link">
+    Packages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partial-processing-of-a-simulation" class="md-nav__link">
+    Partial processing of a simulation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-to-do-when-things-go-wrong" class="md-nav__link">
+    What to do when things go wrong
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-up-the-cdds-operational-simulation-ticket" class="md-nav__link">
+    Set up the CDDS operational simulation ticket
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activate-the-cdds-install" class="md-nav__link">
+    Activate the CDDS install
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-request-configuration-file" class="md-nav__link">
+    Create the request configuration file
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-a-list-of-variables-to-process" class="md-nav__link">
+    Prepare a list of variables to process
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-request-configuration" class="md-nav__link">
+    Configure request configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkout-and-configure-the-cdds-workflow" class="md-nav__link">
+    Checkout and configure the CDDS workflow
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitor-conversion-workflows" class="md-nav__link">
+    Monitor conversion workflows
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-cdds-operational-simulation-ticket-for-review-submission" class="md-nav__link">
+    Prepare CDDS operational simulation ticket for review &amp; submission
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-cdds-teardown" class="md-nav__link">
+    Run CDDS Teardown
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../gcmodeldev/">GCModelDev</a>
+          
+            <label for="__nav_2_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="GCModelDev" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          GCModelDev
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gcmodeldev_examples/HadGEM3-GC31-LL/" class="md-nav__link">
+        GCModelDev HadGEM3-GC31-LL Request
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gcmodeldev_examples/HadGEM3-GC31-LL_envs/" class="md-nav__link">
+        GCModelDev HadGEM3-GC31-LL ensemble class Request
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gcmodeldev_examples/HadGEM3-GC31-MM/" class="md-nav__link">
+        GCModelDev HadGEM3-GC31-MM Request
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gcmodeldev_examples/UKESM1-0-LL/" class="md-nav__link">
+        GCModelDev UKESM1-0-LL Request
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sim_review/" class="md-nav__link">
+        Simulation Review Procedure
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Tutorials
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Tutorials" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Tutorials
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/quickstart/" class="md-nav__link">
+        Quickstart
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/search_inventory/" class="md-nav__link">
+        Search Inventory
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/add_mapping/" class="md-nav__link">
+        Add a Variable Mapping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/add_mapping_plugin/" class="md-nav__link">
+        Add a Mapping Plugin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/add_plugin/" class="md-nav__link">
+        Add a Plugin
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/mip_convert/" class="md-nav__link">
+        MIP Convert User Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_7" type="checkbox" id="__nav_3_7" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../tutorials/request/config_request/">Request Configuration</a>
+          
+            <label for="__nav_3_7">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Request Configuration" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_7">
+          <span class="md-nav__icon md-icon"></span>
+          Request Configuration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/inheritance/" class="md-nav__link">
+        Inheritance Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/metadata/" class="md-nav__link">
+        Metadata Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/common/" class="md-nav__link">
+        Common Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/data/" class="md-nav__link">
+        Data Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/inventory/" class="md-nav__link">
+        Inventory Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/conversion/" class="md-nav__link">
+        Conversion Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/global_attributes/" class="md-nav__link">
+        Global Attributes Section
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/request/misc/" class="md-nav__link">
+        Misc Section
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/json_model_parameter/" class="md-nav__link">
+        Model Parameters JSON File
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../developer_documentation/developer_documentation/">Developer Documentation</a>
+          
+            <label for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Developer Documentation" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Developer Documentation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_1" type="checkbox" id="__nav_4_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Deployment" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/release_procedure/" class="md-nav__link">
+        Release Procedure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/cdds_installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/deployment/infrastructure/" class="md-nav__link">
+        Infrastructure
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2">
+          Development Practices
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Development Practices" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Development Practices
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/coding_guidelines/" class="md-nav__link">
+        Coding Guidelines
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/development_workflow/" class="md-nav__link">
+        Development Workflow
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/review_process/" class="md-nav__link">
+        Review Process
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/managing_environments/" class="md-nav__link">
+        Managing Conda Environments
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/building_documentation/" class="md-nav__link">
+        Documentation
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_3" type="checkbox" id="__nav_4_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_3">
+          Request
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Request" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_3">
+          <span class="md-nav__icon md-icon"></span>
+          Request
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/request/request/" class="md-nav__link">
+        Request Architecture
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_4" type="checkbox" id="__nav_4_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_4">
+          Testing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Testing" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_4">
+          <span class="md-nav__icon md-icon"></span>
+          Testing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/unittests/" class="md-nav__link">
+        Unit Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/pytest/" class="md-nav__link">
+        Pytest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/nightly_tests/" class="md-nav__link">
+        Nightly Tests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/mip_convert_functional_tests/" class="md-nav__link">
+        Mip Convert Functional Tests
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_5" type="checkbox" id="__nav_4_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_5">
+          Mapping Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Mapping Plugins" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Mapping Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/mapping_plugins/available_mapping_plugins/" class="md-nav__link">
+        Available Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/mapping_plugins/mapping_plugin_framework/" class="md-nav__link">
+        Mapping Plugin Framework
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_6" type="checkbox" id="__nav_4_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_6">
+          Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Plugins" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_6">
+          <span class="md-nav__icon md-icon"></span>
+          Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/plugins/available_plugins/" class="md-nav__link">
+        Available Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/plugins/plugin_framework/" class="md-nav__link">
+        Plugin Framework
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../cdds_components/">CDDS Components</a>
+          
+            <label for="__nav_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="CDDS Components" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          CDDS Components
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/convert/" class="md-nav__link">
+        convert
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/extract/" class="md-nav__link">
+        extract
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/qc/" class="md-nav__link">
+        qc
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cdds_components/transfer/" class="md-nav__link">
+        transfer
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference" class="md-nav__link">
+        API Documentation
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#packages" class="md-nav__link">
+    Packages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#partial-processing-of-a-simulation" class="md-nav__link">
+    Partial processing of a simulation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-to-do-when-things-go-wrong" class="md-nav__link">
+    What to do when things go wrong
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-up-the-cdds-operational-simulation-ticket" class="md-nav__link">
+    Set up the CDDS operational simulation ticket
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activate-the-cdds-install" class="md-nav__link">
+    Activate the CDDS install
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-request-configuration-file" class="md-nav__link">
+    Create the request configuration file
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-a-list-of-variables-to-process" class="md-nav__link">
+    Prepare a list of variables to process
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-request-configuration" class="md-nav__link">
+    Configure request configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checkout-and-configure-the-cdds-workflow" class="md-nav__link">
+    Checkout and configure the CDDS workflow
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitor-conversion-workflows" class="md-nav__link">
+    Monitor conversion workflows
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-cdds-operational-simulation-ticket-for-review-submission" class="md-nav__link">
+    Prepare CDDS operational simulation ticket for review &amp; submission
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-cdds-teardown" class="md-nav__link">
+    Run CDDS Teardown
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="generating-cmorised-data-with-cdds-for-cmip6-cmip6-plus-simulations-using-the-cdds-workflow">Generating CMORised data with <abbr title="Climate Data Dissemination System">CDDS</abbr> for <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> / <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> Plus <abbr title="Particular model runs, with associated workflow identifiers, which are defined by an experiment and have an assigned variant label.">simulations</abbr> using the <abbr title="Climate Data Dissemination System">CDDS</abbr> Workflow</h1>
+<p>See also <a href="../gcmodeldev/">guidance for adhoc generation of CMORised data</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Use <code>&lt;script&gt; -h</code> or <code>&lt;script&gt; --help</code> to print information about the script, including available parameters.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>A <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> for the pre-industrial control from UKESM will be used as an example in these instructions.</p>
+</div>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before running the <abbr title="Climate Data Dissemination System">CDDS</abbr> Operational Procedure, please ensure that:</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> you own a <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> (see the <a href="https://code.metoffice.gov.uk/trac/cdds/wiki/CMIP6Simulations">list of <abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> tickets</a>) 
+      that will monitor the processing of a <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> / <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> Plus <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> using <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> you belong to the <code>cdds</code> group</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>type <code>groups</code> on the command line to print the groups a user is in</p>
+</div>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> you have write permissions to <code>moose:/adhoc/projects/cdds/</code> on MASS</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can check if you have correct permissions by running following command and check if your moose username is included 
+in the access control list output:
+<div class="highlight"><pre><span></span><code>moo<span class="w"> </span>getacl<span class="w"> </span>moose:/adhoc/projects/cdds
+</code></pre></div></p>
+</div>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> you use a bash shell. <abbr title="Climate Data Dissemination System">CDDS</abbr> uses Conda which can experience problems running in a shell other than bash.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can check which shell you use by following command:
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$SHELL</span>
+</code></pre></div>
+If the result is not <code>/bin/bash</code>, you can switch to a bash shell by running:
+<div class="highlight"><pre><span></span><code>/bin/bash
+</code></pre></div></p>
+</div>
+</li>
+</ul>
+<p>If any of the above are not true please contact the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> for guidance.</p>
+<h3 id="packages">Packages</h3>
+<p><abbr title="Climate Data Dissemination System">CDDS</abbr> is designed to handle a "<abbr title="An identifier indicating the phase of CDDS processing.">package</abbr>" of <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> data at one time; a set of variables from a particular <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> 
+run. Multiple "<abbr title="Identifiers indicating the phase of CDDS processing.">packages</abbr>" can be run for a given <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> to add new or corrected variables to the archive. Each <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> 
+should be run using a separate processing (<code>proc</code>) and <code>data</code> directory. The simplest way to separate two run throughs 
+of <abbr title="Climate Data Dissemination System">CDDS</abbr> is to use a different <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> name. This is set either when running the <code>write_request</code> script below or by modifying 
+the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> itself.</p>
+<h3 id="partial-processing-of-a-simulation">Partial processing of a <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr></h3>
+<p>In certain circumstances it may be desirable to process and submit a subset of an entire <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr>, i.e. the first 250 
+years of the <code>esm-piControl</code> <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr>. Please contact the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> to discuss this 
+prior to starting processing to </p>
+<ol>
+<li>Get appropriate guidance on the steps needed to correctly construct the requested variables file in <abbr title="Climate Data Dissemination System">CDDS</abbr> Prepare</li>
+<li>Arrange for an appropriate <a href="https://errata.es-doc.org/static/index.html">Errata</a> to be issued following submission of data sets.</li>
+</ol>
+<h3 id="what-to-do-when-things-go-wrong">What to do when things go wrong</h3>
+<p>On occasion issues will arise with tasks performed by users of <abbr title="Climate Data Dissemination System">CDDS</abbr> and these will trigger <code>CRITICAL</code> error messages in 
+the logs and usually require user intervention. Many simple issues (MASS/MOOSE or file system problems) can be resolved 
+by re-triggering tasks. When you take any action please ensure that you update your <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> 
+and if support is needed contact the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a>.</p>
+<h2 id="set-up-the-cdds-operational-simulation-ticket">Set up the <abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Select <code>start work</code> on the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> (so that the status is <code>in_progress</code>) to 
+      indicate that work is starting. </li>
+</ul>
+<h2 id="activate-the-cdds-install">Activate the <abbr title="Climate Data Dissemination System">CDDS</abbr> install</h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">MOHC</label><label for="__tabbed_1_2">JASMIN</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ol>
+<li>
+<p>Setup the environment to use the central installation of <abbr title="Climate Data Dissemination System">CDDS</abbr> and its dependencies:
+   <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~cdds/bin/setup_env_for_cdds<span class="w"> </span>&lt;cdds_version&gt;
+</code></pre></div>
+   where <code>&lt;cdds_version&gt;</code> is the version of <abbr title="Climate Data Dissemination System">CDDS</abbr> you wish to use, e.g. <code>3.0.0</code>. Unless instructed otherwise 
+   you should use the most recent version of <abbr title="Climate Data Dissemination System">CDDS</abbr> available (to ensure that all bugfixes are picked up), and 
+   this version should be used in all stages of the <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> being processed. If in doubt contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team 
+   for advice.</p>
+</li>
+<li>
+<p><strong>Ticket</strong>: Record the version of <abbr title="Climate Data Dissemination System">CDDS</abbr> being used on the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em>.</p>
+</li>
+</ol>
+</div>
+<div class="tabbed-block">
+<ol>
+<li>
+<p>Setup the environment to use the central installation of <abbr title="Climate Data Dissemination System">CDDS</abbr> and its dependencies:
+   <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~cdds/bin/setup_env_for_cdds<span class="w"> </span>&lt;cdds_version&gt;
+</code></pre></div>
+   where <code>&lt;cdds_version&gt;</code> is the version of <abbr title="Climate Data Dissemination System">CDDS</abbr> you wish to use, e.g. <code>3.3.0</code>. Unless instructed otherwise 
+   you should use the most recent version of <abbr title="Climate Data Dissemination System">CDDS</abbr> available (to ensure that all bugfixes are picked up), and 
+   this version should be used in all stages of the <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> being processed. If in doubt contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team 
+   for advice.</p>
+</li>
+<li>
+<p><strong>Ticket</strong>: Record the version of <abbr title="Climate Data Dissemination System">CDDS</abbr> being used on the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li>The available version numbers for this script can be found <a href="https://github.com/MetOffice/CDDS/tags">here</a></li>
+<li>If you wish to deactivate the <abbr title="Climate Data Dissemination System">CDDS</abbr> environment then you can use the command <code>conda deactivate</code>.</li>
+</ul>
+</div>
+<h2 id="create-the-request-configuration-file">Create the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> file</h2>
+<p>The <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> file is constructed from information in the <code>rose-suite.info</code> files within each workflow. </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>If the <code>rose-suite.info</code> file contains incorrect information, this will be propagated through <abbr title="Climate Data Dissemination System">CDDS</abbr>. As such it is 
+critically important that the information in these files is correct</p>
+</div>
+<p>To construct the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> file take the following steps</p>
+<ol>
+<li>
+<p>Set up a working directory
+    <div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>cdds-example-1
+<span class="nb">cd</span><span class="w"> </span>cdds-example-1
+<span class="nb">export</span><span class="w"> </span><span class="nv">WORKING_DIR</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
+</code></pre></div>
+    Add the location of your working directory to the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em>.</p>
+</li>
+<li>
+<p>Collect required information on the rose workflow for the <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr>;</p>
+<ul>
+<li>workflow id, e.g. <code>u-aw310</code></li>
+<li>branch, e.g. <code>cdds</code></li>
+<li>revision</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>You can find the revision of the workflow branch for a <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> workflow by using the following command:
+<div class="highlight"><pre><span></span><code>rosie<span class="w"> </span>lookup<span class="w"> </span>--prefix<span class="o">=</span>u<span class="w"> </span>--query<span class="w"> </span>project<span class="w"> </span>eq<span class="w"> </span>u-cmip6<span class="w"> </span>and<span class="w"> </span>id<span class="w"> </span>eq<span class="w"> </span>u-aw310<span class="w"> </span>and<span class="w"> </span>branch<span class="w"> </span>eq<span class="w"> </span>cdds
+</code></pre></div></p>
+</div>
+</li>
+<li>
+<p>Create the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> file;
+    <div class="highlight"><pre><span></span><code>write_request<span class="w"> </span>&lt;workflow<span class="w"> </span>id&gt;<span class="w"> </span>&lt;branch&gt;<span class="w"> </span>&lt;revision&gt;<span class="w"> </span>&lt;package<span class="w"> </span>name&gt;<span class="w"> </span><span class="o">[</span>&lt;list<span class="w"> </span>of<span class="w"> </span>streams&gt;<span class="o">]</span><span class="w"> </span>-c<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>proc<span class="w"> </span>dir&gt;<span class="w"> </span>-t<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>data<span class="w"> </span>dir&gt;
+</code></pre></div></p>
+<details class="example">
+<summary>Example</summary>
+<p>Create a <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> file for the rose suite <code>u-aw310</code>, branch <code>cdds</code> and <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> <code>round-20</code>:
+<div class="highlight"><pre><span></span><code>write_request<span class="w"> </span>u-aw310<span class="w"> </span>cdds<span class="w"> </span><span class="m">115492</span><span class="w"> </span>round-20<span class="w"> </span>ap4<span class="w"> </span>ap5<span class="w"> </span>ap6<span class="w"> </span>onm<span class="w"> </span>inm<span class="w"> </span><span class="se">\</span>
+-c<span class="w"> </span>/project/cdds/proc<span class="w"> </span>-t<span class="w"> </span>/project/cdds_data
+</code></pre></div></p>
+</details>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Be careful when re-running <abbr title="Climate Data Dissemination System">CDDS</abbr> using the same <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> file: pre-existing data will cause problems for 
+the extraction tasks and pre-existing logs in the proc directory may cause issues when diagnosing problems. If in 
+doubt use a different <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> name in the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> file.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If necessary the start and end dates for processing can be overridden using the <code>--start_date</code> and <code>--end_date</code> 
+arguments. Please consult with the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> if you believe this is necessary.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The log file and <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> file are written to the current working directory</p>
+</div>
+<h2 id="prepare-a-list-of-variables-to-process">Prepare a list of variables to process</h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method does not refer to the <abbr title="Information describing which MIP requested variables need to be produced for a given MIP-experiment combination. For CMIP6, see the CMIP6 Data Request.">Data Request</abbr> or <abbr title="Climate Data Dissemination System">CDDS</abbr> inventory database (to check which <abbr title="Many groups of data containing some or all of the model output files from model simulations.">Datasets</abbr> have been previously produced), 
+so care should be taken with the choice of variables.</p>
+</div>
+<ol>
+<li>
+<p>Create a text file with the list of variables or copy and modify an existing list. Each line in the file should have the form
+   <div class="highlight"><pre><span></span><code>&lt;mip<span class="w"> </span>table&gt;/&lt;variable<span class="w"> </span>name&gt;:&lt;stream&gt;
+</code></pre></div></p>
+<details class="example">
+<summary>Example</summary>
+<p>For example process the variable <code>tas</code> for the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table <code>Amon</code> when processing the <code>ap5</code> <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr>:
+<div class="highlight"><pre><span></span><code>Amon/tas:ap5
+</code></pre></div></p>
+</details>
+</li>
+<li>
+<p>Set the value <code>variable_list_file</code> in the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> to the path of the created variable file.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are using a workflow with the <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> set up then you can add the default <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> to a list of variables using the command
+<div class="highlight"><pre><span></span><code>stream_mappings --varfile &lt;filename without streams&gt; --outfile &lt;new file with streams&gt;
+</code></pre></div>
+If you are not using a workflow with the <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> configuration then contact us for advice as this process will need to be performed by hand.</p>
+</div>
+<h2 id="configure-request-configuration">Configure <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr></h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The <code>request.cfg</code> file contains all information that is needed to process the data through <abbr title="Climate Data Dissemination System">CDDS</abbr>. The creation of the 
+file does not set all values. So, it must be adjusted manually.</p>
+</div>
+<p>You need to adjust your <code>request.cfg</code>:</p>
+<ol>
+<li>
+<p>Open the <code>request.cfg</code> via a text editor, e.g. <code>vi</code> or <code>gedit</code></p>
+</li>
+<li>
+<p>Following values need to be set manually:</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Value</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>variable_list_file</code></td>
+<td style="text-align: left;">Path to your variables file</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>output_mass_root</code></td>
+<td style="text-align: left;">Path to the moose loction where the data should be archived starts with <code>moose:</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>output_mass_suffix</code></td>
+<td style="text-align: left;">Sub-directory in MASS to used when moving data.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please check the other values as well and do adjustments as needed. For any help, please contact the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a>.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> era (<code>CMIP6</code> or <code>CIMP6 Plus</code>) you are using is defined in the value <code>mip_era</code> of the <code>metdata</code> section.</p>
+</div>
+<h2 id="checkout-and-configure-the-cdds-workflow">Checkout and configure the <abbr title="Climate Data Dissemination System">CDDS</abbr> workflow</h2>
+<ol>
+<li>
+<p>Run the following command after replacing values within <code>&lt;&gt;</code>:
+   <div class="highlight"><pre><span></span><code>checkout_processing_workflow<span class="w"> </span>&lt;name<span class="w"> </span><span class="k">for</span><span class="w"> </span>processing<span class="w"> </span>workflow&gt;<span class="w"> </span><span class="se">\</span>
+&lt;path<span class="w"> </span>to<span class="w"> </span>request<span class="w"> </span>configuration&gt;<span class="w"> </span><span class="se">\</span>
+--workflow_destination<span class="w"> </span>.
+</code></pre></div></p>
+<details class="example">
+<summary>Example</summary>
+<p>Checkout the <abbr title="Climate Data Dissemination System">CDDS</abbr> processing workflow with the name <code>my-cdds-test</code> and the <abbr title="Information about a simulation used by all CDDS components.">request file</abbr> location <code>/home/foo/cdds-example-1/request.cfg</code>:
+<div class="highlight"><pre><span></span><code>checkout_processing_workflow my-cdds-test \
+/home/foo/cdds-example-1/request.cfg \
+--workflow_destination .
+</code></pre></div></p>
+</details>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>A directory containing a rose workflow will be placed in a subdirectory under the location specified in <code>--workflow_destination</code>.<br />
+If this is not specified it will be checked out under <code>~/roses/</code></p>
+</div>
+</li>
+<li>
+<p><strong>This step is optional:</strong> Set some useful environmental variables to access the <abbr title="Climate Data Dissemination System">CDDS</abbr> directories:
+   <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CDDS_PROC_DIR</span><span class="o">=</span>/&lt;root_proc_dir&gt;/&lt;mip_era&gt;/&lt;mip&gt;/&lt;model_id&gt;_&lt;experiment_id&gt;_&lt;variant_label&gt;/&lt;package&gt;/
+<span class="nb">export</span><span class="w"> </span><span class="nv">CDDS_DATA_DIR</span><span class="o">=</span>/&lt;root_data_dir&gt;/&lt;mip_era&gt;/&lt;mip&gt;/&lt;model_id&gt;/&lt;experiment_id&gt;/&lt;variant_label&gt;/&lt;package&gt;/
+ls<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span>
+ls<span class="w"> </span><span class="nv">$CDDS_DATA_DIR</span>
+</code></pre></div>
+   where you must replace all values within <code>&lt;&gt;</code>. The <code>root_proc_dir</code> and <code>root_data_dir</code> are the values that has been 
+   specified in the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr>.</p>
+<details class="example">
+<summary>Example</summary>
+<p>Assume:</p>
+<ul>
+<li>Path to the root proc directory is <code>/home/foo/cdds-example-1/proc</code>.</li>
+<li>Path to the root data directory is <code>/home/foo/cdds-example-1/data</code>.</li>
+<li><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> era is <code>CMIP6</code> and <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> <code>CMIP</code>.</li>
+<li>Model ID is <code>UKESM1-0-LL</code> for <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> <code>piControl</code> with variant label <code>r1i1p1f2</code> and <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> <code>round-1</code></li>
+</ul>
+<p>Then the command to set the environmental variables is:
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CDDS_PROC_DIR</span><span class="o">=</span>/home/foo/cdds-example-1/data/CMIP6/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
+<span class="nb">export</span><span class="w"> </span><span class="nv">CDDS_DATA_DIR</span><span class="o">=</span>/home/foo/cdds-example-1/data/CMIP6/CMIP/UKESM1-0-LL/piControl/r1i1p1f2/round-1/
+</code></pre></div></p>
+</details>
+</li>
+<li>
+<p>Run the workflow:
+   <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>&lt;name<span class="w"> </span><span class="k">for</span><span class="w"> </span>processing<span class="w"> </span>workflow&gt;
+cylc<span class="w"> </span>vip<span class="w"> </span>.
+</code></pre></div></p>
+<details class="example">
+<summary>Example</summary>
+<p>If the name of the processing workflow is <code>my-cdds-test</code>, then run:
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>my-cdds-test
+cylc<span class="w"> </span>vip<span class="w"> </span>.
+</code></pre></div></p>
+</details>
+</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Cylc 8 is used for running the processing workflow. You can do this by running following command before 
+running the workflow:
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CYLC_VERSION</span><span class="o">=</span><span class="m">8</span>
+</code></pre></div></p>
+</div>
+<h2 id="monitor-conversion-workflows">Monitor conversion workflows</h2>
+<p>For each <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> a <abbr title="Climate Data Dissemination System">CDDS</abbr> Convert workflow will be triggered by the processing workflow. Each of the workflows launched by <abbr title="Climate Data Dissemination System">CDDS</abbr> Convert 
+requires monitoring. This can be done using the command line tool <code>cylc gui</code> to obtain a window with an updating summary 
+of workflows progress or equivalently the <a href="http://fcm1/cylc-review/">Cylc Review</a> online tools.</p>
+<p>Conversion workflows will usually be named <code>cdds_&lt;workflow_base_name&gt;_&lt;stream&gt;</code> and each <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> will 
+run completely independently.
+If a workflow has issues, due to task failure, it will stall, and you will receive an e-mail.</p>
+<p>If you hit issues or are unsure how to proceed update the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> for your <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> with 
+anything you believe is relevant (include the location of your working directory) and contact the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> 
+for advice.</p>
+<p>The conversion workflows run the following steps</p>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>run_extract_&lt;stream&gt;</code></p>
+<details class="info">
+<summary>Extract</summary>
+<ul>
+<li>Run <abbr title="Climate Data Dissemination System">CDDS</abbr> Extract for this <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr>. </li>
+<li>Runs in <code>long</code> queue with a wall time of 2 days.</li>
+<li>If there are any issues with extracting data they will be reported in the <code>job.out</code> log file in the workflow and the 
+  <code>$CDDS_PROC_DIR/extract/log/cdds_extract_&lt;stream&gt;_&lt;date stamp&gt;.log</code> log file and the task will fail.</li>
+<li>The extraction task will automatically resubmit 4 times if it fails and manual intervention is required to proceed.</li>
+<li>Most issues are related to either MASS (i.e. moo commands failing), file system anomalies (failure to create files /directories) or running out of time.</li>
+<li>Identify issues either by searching for "CRITICAL" in the <code>job.out</code> logs in Cylc Review or by using 
+  <div class="highlight"><pre><span></span><code>grep<span class="w"> </span>CRITICAL<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span>/extract/log/cdds_extract_&lt;stream&gt;_&lt;date<span class="w"> </span>stamp&gt;.log
+</code></pre></div></li>
+<li>If the issue appears to be due to MASS issues you can re-run the failed <abbr title="Climate Data Dissemination System">CDDS</abbr> Extract job by re-triggering the 
+  <code>run_extract_&lt;stream&gt;</code> task via the cylc gui or via the cylc command line tools:
+  <div class="highlight"><pre><span></span><code>cylc<span class="w"> </span>trigger<span class="w"> </span>cdds_&lt;workflow_base_name&gt;_&lt;stream&gt;<span class="w"> </span>run_extract_&lt;stream&gt;:failed
+</code></pre></div></li>
+<li>If in doubt update your <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> and contact <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> for advice.</li>
+</ul>
+</details>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>validate_extract_&lt;stream&gt;</code></p>
+<details class="info">
+<summary>Extract Validation</summary>
+<p>Validation of the output is now performed as a separate task from extracting it. This task will report missing 
+or unexpected files and unreadable <abbr title="Network Common Data Form">netCDF</abbr> files.</p>
+</details>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>setup_output_dir_&lt;stream&gt;</code></p>
+<details class="info">
+<summary>Setup Output Directory</summary>
+<p>This task will create output directories for conversion output.</p>
+</details>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>mip_convert_&lt;stream&gt;_&lt;grid group&gt;</code></p>
+<details class="info">
+<summary><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert</summary>
+<ul>
+<li>Run <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert to produce output files for a small time window for this <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr>.</li>
+<li>Will retry up to 3 times before workflow stalls.</li>
+<li>CRITICAL issues are appended to <code>$CDDS_PROC_DIR/convert/log/critical_issues.log</code>. 
+  These will likely need user action to correct for. So, update your <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> and 
+  contact <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> for advice.</li>
+<li>The CRITICAL log file will not exist if there are no critical issues.</li>
+<li>A variant named <code>mip_convert_first_&lt;stream&gt;_&lt;grid group&gt;</code> may be launched to align the cycling dates with 
+  the concatenation processing.</li>
+</ul>
+</details>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>finaliser_&lt;stream&gt;</code></p>
+<details class="info">
+<summary><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert Finaliser</summary>
+<p>This ensures that <abbr title="Concatenation Tasks are then run to join the files into a single file for a larger date range of length Concatenation Period. Concatenation Tasks are executed once per Concatenation Cycle.">Concatenation Tasks</abbr> are launched once all <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert tasks have been successfully performed 
+for a particular time range. This step <strong>should</strong> never fail.</p>
+</details>
+<details class="note">
+<summary>Note</summary>
+<p>If this task fails, the reason is that the adjustment of the memory and time limits failed. So, please resubmit the task.</p>
+</details>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>organise_files_&lt;stream&gt;</code></p>
+<details class="info">
+<summary>Organise Files</summary>
+<ul>
+<li>Re-arranges the output files on disk from a directory structure created by the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert tasks of the form 
+<div class="highlight"><pre><span></span><code><span class="nv">$CDDS_DATA_DIR</span>/output/&lt;stream&gt;_mip_convert/&lt;YYYY-MM-DD&gt;/&lt;grid&gt;/&lt;files&gt;
+</code></pre></div>
+to 
+<div class="highlight"><pre><span></span><code><span class="nv">$CDDS_DATA_DIR</span>/output/&lt;stream&gt;_concat/&lt;MIP<span class="w"> </span>table&gt;/&lt;variable<span class="w"> </span>name&gt;/&lt;files&gt;
+</code></pre></div></li>
+<li>Ready for concatenation. A variation named <code>organise_files_final_&lt;stream&gt;</code> does the same thing but at the end 
+  of the conversion process.</li>
+</ul>
+</details>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>mip_concatenate_setup_&lt;stream&gt;</code></p>
+<details class="info">
+<summary><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Concatenate Setup</summary>
+<ul>
+<li>This step constructs a list of concatenation jobs that must be performed</li>
+</ul>
+</details>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>mip_concatenate_batch_&lt;stream&gt;</code></p>
+<details class="info">
+<summary><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Concatenate Batch</summary>
+<ul>
+<li>Perform the concatenation commands (<code>ncrcat</code>) required to join small files together. </li>
+<li>Runs in <code>long</code> queue with a wall time of 2 days and can retry up to 3 times before workflow stalls 
+  (failures are usually due to running out of time while performing a concatenation).</li>
+<li>Only one <code>mip_concatenate_batch_&lt;stream&gt;</code> task can run at one time.</li>
+<li>Issues can be identified using:
+  <div class="highlight"><pre><span></span><code>grep<span class="w"> </span>CRITICAL<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span>/convert/log/mip_concatenate_*.log
+</code></pre></div>
+  If any critical issues arise or tasks fail update your <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> and 
+  contact the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> for advice.</li>
+<li>Output data is written to 
+  <div class="highlight"><pre><span></span><code><span class="nv">$CDDS_DATA_DIR</span>/output/&lt;stream&gt;/&lt;MIP<span class="w"> </span>table&gt;/&lt;variable<span class="w"> </span>name&gt;/&lt;files&gt;
+</code></pre></div></li>
+</ul>
+</details>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>run_qc_&lt;stream&gt;</code></p>
+<details class="info">
+<summary>Quality Check (QC)</summary>
+<ul>
+<li>Run the QC process on output data for this <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr></li>
+<li>Produces a report at:
+  <div class="highlight"><pre><span></span><code><span class="nv">$CDDS_PROC_DIR</span>/qualitycheck/report_&lt;stream&gt;_&lt;datestamp&gt;.json
+</code></pre></div>
+  and a list of variables which pass the quality checks at:
+  <div class="highlight"><pre><span></span><code><span class="nv">$CDDS_PROC_DIR</span>/qualitycheck/approved_variables_&lt;stream&gt;_&lt;datestamp&gt;.txt
+</code></pre></div>
+  and a log file at:
+  <div class="highlight"><pre><span></span><code><span class="nv">$CDDS_PROC_DIR</span>/qualitycheck/log/qc_run_and_report_&lt;stream&gt;_&lt;datestamp&gt;.log
+</code></pre></div></li>
+<li>The approved variables file will have one line per successfully produced <abbr title="A group of data containing some or all of the model output files from a single model simulation (i.e., model output files from a single realization of a single experiment from a single model).">Dataset</abbr> of the form: 
+  <div class="highlight"><pre><span></span><code>&lt;MIP<span class="w"> </span>table&gt;/&lt;variable<span class="w"> </span>name&gt;<span class="p">;</span>&lt;Directory<span class="w"> </span>containing<span class="w"> </span>files&gt;
+</code></pre></div></li>
+<li>This task will fail if any QC issues are found and will not resubmit. If this occurs please update your <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> 
+  and contact the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> for advice. </li>
+</ul>
+</details>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>run_transfer_&lt;stream&gt;</code></p>
+<details class="info">
+<summary>Transfer</summary>
+<ul>
+<li>Archive data for variables that are marked active in the requested variables file produced by <abbr title="Climate Data Dissemination System">CDDS</abbr> Prepare and 
+  have successfully passed the QC checks, i.e. are listed in the approved variables file.</li>
+<li>Will not automatically retry, even if failure was due to MASS/MOOSE issues.</li>
+<li>The location in MASS to which these data are archived is determined by the <code>output_mass_suffix</code> argument 
+  specified in the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> file.</li>
+<li>Task will fail if</li>
+<li>There are MASS issues: For example if the following command returns anything there has been a MASS outage and you can re-trigger the task:
+    <div class="highlight"><pre><span></span><code>grep<span class="w"> </span>SSC_STORAGE_SYSTEM_UNAVAILABLE<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span>/archive/log/cdds_store_&lt;stream&gt;_&lt;date<span class="w"> </span>stamp&gt;.log
+</code></pre></div></li>
+<li>An attempt is made to archive data that already exists in MASS. If this occurs please update your <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> 
+    and contact the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> for advice.</li>
+</ul>
+</details>
+<div class="admonition important">
+<p class="admonition-title">VERY IMPORTANT</p>
+<p><strong>Do not delete data from MASS without consultation with <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> support</a>.</strong></p>
+</div>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>completion_&lt;stream&gt;</code></p>
+<details class="info">
+<summary>Completion</summary>
+<p>This is a dummy task that is the last thing to run in the workflow -- this is to allow inter workflow dependencies by 
+allowing the <code>CDDS workflow</code> to monitor whether each per <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> workflow has completed.</p>
+</details>
+</li>
+</ul>
+<p>If all goes well the workflow will complete, and you will receive an email confirming that the workflow has shutdown containing content of the form:
+<div class="highlight"><pre><span></span><code>Message: AUTOMATIC
+See: http://fcm1/cylc-review/taskjobs/&lt;user id&gt;/&lt;workflow name&gt;
+</code></pre></div></p>
+<h2 id="prepare-cdds-operational-simulation-ticket-for-review-submission">Prepare <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> for review &amp; submission</h2>
+<p>Once all workflows for a particular <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> have completed update your <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> confirming that 
+the Extract, Convert, QC and Transfer tasks have been completed.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can check if workflows has completed by using the command <code>cylc gscan</code> or using the cylc review tool.</p>
+</div>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Copy the request JSON file and any logs to <code>$CDDS_PROC_DIR</code>
+      <div class="highlight"><pre><span></span><code>cp<span class="w"> </span>request.json<span class="w"> </span>*.log<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span>/
+</code></pre></div></p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Add a comment to the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> specifying the archived data is ready for submission, 
+      and include the full path to your <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> location.</p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Select <code>assign for review to</code> on the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> (so that the status is <code>reviewing</code>) and 
+      assign the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em> to Matthew Mizielinski by selecting this name from the list.</p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> The ticket will then be reviewed according to the <a href="../sim_review/"><abbr title="Climate Data Dissemination System">CDDS</abbr> <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> review procedure</a> by members of the <abbr title="Climate Data Dissemination System">CDDS</abbr> team.</p>
+</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The review script used by the <abbr title="Climate Data Dissemination System">CDDS</abbr> team involves running the following command
+<div class="highlight"><pre><span></span><code>cdds_sim_review<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>request<span class="w"> </span>configuration&gt;
+</code></pre></div>
+checking any CRITICAL issues and following up any other anomalies.</p>
+</div>
+<h2 id="run-cdds-teardown">Run <abbr title="Climate Data Dissemination System">CDDS</abbr> Teardown</h2>
+<ol>
+<li>Once the approved ticket has been returned to you following submission, delete the contents of the data directory:
+    <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>data<span class="w"> </span>directory&gt;
+rm<span class="w"> </span>-rf<span class="w"> </span>input<span class="w"> </span>output
+</code></pre></div></li>
+<li>
+<p>Delete all workflows used:
+    <div class="highlight"><pre><span></span><code>cdds_clean<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>request<span class="w"> </span>configuration&gt;
+</code></pre></div></p>
+</li>
+<li>
+<p>Update and close the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em></p>
+</li>
+</ol>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Operational Procedures" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Operational Procedures
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../gcmodeldev/" class="md-footer__link md-footer__link--next" aria-label="Next: GCModelDev" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              GCModelDev
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.expand", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
