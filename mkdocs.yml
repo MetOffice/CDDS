@@ -76,12 +76,12 @@ nav:
     - Plugins:
         - Available Plugins: developer_documentation/plugins/available_plugins.md
         - Plugin Framework: developer_documentation/plugins/plugin_framework.md
-  - CDDS Components:
-    - cdds_components/index.md
-    - convert: cdds_components/convert.md
-    - extract: cdds_components/extract.md
-    - qc: cdds_components/qc.md
-    - transfer: cdds_components/transfer.md
+  - Subpackages:
+    - subpackages/index.md
+    - cdds.convert: subpackages/convert.md
+    - cdds.extract: subpackages/extract.md
+    - cdds.qc: subpackages/qc.md
+    - cdds.transfer: subpackages/transfer.md
 markdown_extensions:
   - abbr
   - admonition
