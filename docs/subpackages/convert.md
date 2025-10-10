@@ -1,17 +1,32 @@
-!!! warning
+The `cdds.convert` subpackage provides the functionality for the `cdds_convert` command (mostly in a further subpackage `cdds.convert.configure_workflow`) as well as supporting code for a number of commands that can only be used in the context of the Cylc conversion workflow.
 
-    This documentation is currently under construction and may not be up to date.
+## cdds_convert
 
-The `cdds.convert` component designed to check out, configure and run a copy of the suite, specified in the config.
-Suite ​u-ak283 is currently set up for this purpose.
+Roughly, the main operations performed by the `cdds_convert` command are  the following
 
-## Development workflow
+1. Running `generate_user_config_files` (unless explicitly skipped in the `request.cfg`).
+1. Determining Jinja2 variable values for use in the Cylc conversion workflow.
+1. Copying the Cylc conversion workflow from `cdds.workflows.conversion` [^1] into the users `proc` directory (found under `conversion`).
+1. Interpolating the Jina2 variables into the users copy of the processing workflow.
+1. Running a specific invocation of `cylc vip` on the processing workflow.
 
-To work on suite developments please follow the standard practices set out in the Development Workflow and use the --rose-suite-branch argument to cdds_convert to point at the branch you wish to use when running.
+Most of the functionality contained in the modules of `cdds.convert.configure_workflow` is reasonably straightforward.
+The one exception being `CalculateISODatetimes`, which is used to determine various durations, cycle frequencies, and dates.
 
-## Release procedure
-Create a branch named cdds_<release number>, e.g. cdds_1.0.0 of the suite and make the change shown in changeset of the rose suite u-ak283.
 
-Create a branch the config and modify the rose_suite_branch settings, e.g. to cdds_1.0.0@100752 if revision 100752 is appropriate, in the [convert] section of CMIP6.cfg. If a different suite id is being used then the rose_suite setting will also need altering.
+## run_mip_convert
 
-Review config branch as per standard practises, merge to trunk and update config checkout on disk under the cdds account.
+The main purpose of `run_mip_convert` is to
+
+- Interpolate values into the MIP Convert template configuration files created by `generate_user_config_files` for a given cycle point.
+- Copy the necessary input files to temporary storage on the node.
+- Run the `mip_convert` command in a subprocess.
+
+
+## mip_batch_concatenate, mip_concatenate, mip_concatenate_organise, mip_concatenate_setup
+
+
+
+[^1]:
+    Historically the conversion workflow was developed in a separate roses repository (​u-ak283).
+    This provided flexibility for modifying the workflow independently (i.e., not needing to re-release CDDS to fix a workflow bug) but did incur greater complexity during development and for initial releases.
