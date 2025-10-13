@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
+"""
+Retrieve data from MASS whilst replicating it's directory structure.
+"""
 
 import argparse
 import logging
 import subprocess
 from pathlib import Path, PurePosixPath
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 from cdds.common.mass import mass_list_files_recursively, run_mass_command
 
