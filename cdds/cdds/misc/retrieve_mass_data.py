@@ -12,8 +12,8 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Dict, List
 
 from cdds.common.mass import mass_list_files_recursively, run_mass_command
+from cdds.common import configure_logger
 
-logger = logging.getLogger(__name__)
 
 DEFAULT_MOOSE_BASE_PATH = 'moose:/adhoc/projects/cdds/production/'
 
@@ -241,6 +241,8 @@ def transfer_files(
     -------
     None
     """
+    logger = logging.getLogger(__name__)
+
     if list_of_chunks:
         for chunk in list_of_chunks:
             if dry_run:
@@ -266,6 +268,14 @@ def main_cdds_retrieve_data() -> None:
     -------
     None
     """
+    configure_logger(
+    log_name='retrieve_mass_data',
+    log_level=20,
+    append_log=False,
+    )
+
+    logger = logging.getLogger(__name__)
+
     args = parse_args()
     chunk_size_as_bytes = gb_to_bytes(args.chunk_size)
     full_moose_dir = str(
