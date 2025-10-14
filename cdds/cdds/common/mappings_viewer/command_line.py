@@ -23,7 +23,12 @@ def main():
     mappings_dir = plugin.mapping_data_dir
     mappings = get_mappings(model, mappings_dir, arguments)
     table = build_table(mappings, mappings_dir, arguments)
-    generate_html(table, model, mappings_dir, arguments)
+    # generate_html(table, model, mappings_dir, arguments)
+    html = (HEADER +
+            '<h2>Variable Mappings for {} (Generated with CDDS v{})</h2>'.format(model, cdds._NUMERICAL_VERSION) +
+            '<p> </p>' + '<p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p>' +
+            '<p>Mapping files should be located in {}</p>'.format(mappings_dir) +
+            table + FOOTER)
 
 
 def parse_args():

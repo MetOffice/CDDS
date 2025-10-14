@@ -17,7 +17,7 @@ from cdds.common.mappings_viewer.constants import (HEADINGS, HEADER_ROW_TEMPLATE
 from mip_convert.plugins.plugins import MappingPluginStore
 
 
-def get_mappings(model, mappings_directory, arguments):
+def get_mappings(mappings_directory):
     """
     Read all of the mappings for a given model and return them as a list of lists.
 
@@ -63,7 +63,7 @@ def get_mappings(model, mappings_directory, arguments):
     return table_data
 
 
-def get_processor_lines(arguments, mappings_directory):
+def get_processor_lines(mappings_directory):
     """
     Get the function names and their lines within the file from processors.py
 
@@ -92,7 +92,7 @@ def get_processor_lines(arguments, mappings_directory):
     return processor_line_mappings
 
 
-def get_mapping_lines(arguments, mappings_directory):
+def get_mapping_lines(mappings_directory):
     """
     Reads in the .cfg mapping files from mip_convert and returns a dict of dicts where
     each dictionary contains key:value pairs of variable_name:line_of_file.
@@ -267,7 +267,7 @@ def format_mapping_link(entry, line_mappings):
     return mapping_hyperlink
 
 
-def build_table(table_data, mappings_directory, arguments):
+def build_table(table_data, mappings_directory, stash_path):
     """
     Build the  HTML for table showing the supplied table_data
 
@@ -284,9 +284,9 @@ def build_table(table_data, mappings_directory, arguments):
     table_html : str
         The table_data formatted as a html table.
     """
-    stash_meta_dictionary = get_stash_meta_dict(arguments.stash_meta_filepath)
-    processor_lines = get_processor_lines(arguments, mappings_directory)
-    mapping_lines = get_mapping_lines(arguments, mappings_directory)
+    stash_meta_dictionary = get_stash_meta_dict(stash_path)
+    processor_lines = get_processor_lines(mappings_directory)
+    # mapping_lines = get_mapping_lines(mappings_directory)
 
     html = ''
     for i, row in enumerate(table_data):

@@ -83,6 +83,7 @@ nav:
     - qc: cdds_components/qc.md
     - transfer: cdds_components/transfer.md
   - API Documentation: reference/
+  - Mappings: mappings/index.md
 markdown_extensions:
   - abbr
   - admonition
@@ -112,6 +113,7 @@ plugins:
 - gen-files:
     scripts:
     - scripts/changes.py
+    - scripts/mappings.py
 - literate-nav:
     nav_file: SUMMARY.md
 - mkdocstrings:
