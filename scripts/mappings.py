@@ -12,20 +12,15 @@ from mip_convert.plugins.plugin_loader import find_internal_plugin, load_mapping
 
 from cdds.versions import get_version
 
-models = {
-    "HadGEM3": os.path.expandvars("$UMDIR/vn13.1/ctldata/STASHmaster/STASHmaster-meta.conf"),
-    "HadGEM3GC5": os.path.expandvars("$UMDIR/vn13.1/ctldata/STASHmaster/STASHmaster-meta.conf"),
-    "HadREM-CP4A": os.path.expandvars("$UMDIR/vn13.1/ctldata/STASHmaster/STASHmaster-meta.conf"),
-    "HadREM3": os.path.expandvars("$UMDIR/vn13.1/ctldata/STASHmaster/STASHmaster-meta.conf"),
-    "UKESM1": os.path.expandvars("$UMDIR/vn13.1/ctldata/STASHmaster/STASHmaster-meta.conf"),
-}
+models = {"HadGEM3": "vn13.1", "HadGEM3GC5": "vn13.1", "HadREM-CP4A": "vn13.1", "HadREM3": "vn13.1", "UKESM1": "vn13.1"}
 
 
 def main():
     """
     Main function for generating the mappings html pages.
     """
-    for model, stash_path in models.items():
+    for model, stash_version in models.items():
+        stash_path = os.path.expandvars(f"$UMDIR/{stash_version}/ctldata/STASHmaster/STASHmaster-meta.conf")
         load_mapping_plugin(model)
         plugin = find_internal_plugin(model)
 
@@ -36,6 +31,7 @@ def main():
         html = (
             HEADER
             + "<h2>Variable Mappings for {} (Created with CDDS v{})</h2>".format(model, get_version("cdds"))
+            + "<h2>STASHmaster {}".format(stash_version)
             + "<p> </p>"
             + '<p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p>'
             + table
