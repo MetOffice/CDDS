@@ -23,12 +23,8 @@ def get_mappings(mappings_directory):
 
     Parameters
     ----------
-    model : str
-        Name of model to produce mappings for.
     mappings_directory: str
         The location of the mappings configurations directory within CDDS.
-    arguments : argparse.Namespace
-        User arguments.
     Returns
     -------
     table_data : list
@@ -128,18 +124,21 @@ def get_mapping_lines(mappings_directory):
     return line_mappings
 
 
-def get_stash_meta_dict(stash_meta_filepath):
+def get_stash_meta_dict(stashmaster_path: str) -> dict:
     """
     Read a STASHmaster-meta.conf file and returns a dictionary of stash codes with an associated
-    dictionary containg the description and help fields if they exist.
+    dictionary containing the description and help fields if they exist.
 
+    Parameters
+    ----------
+    stashmaster_path : str
+        Path to a STASHmaster.conf file
     Returns
     -------
     stash_dict_formatted : dict
         A dictionary where each key is a stash code in the format m01sXXiXXX
     """
-    stashmaster_meta_path = stash_meta_filepath
-    stash_dict = load_suite_info_from_file(stashmaster_meta_path)
+    stash_dict = load_suite_info_from_file(stashmaster_path)
 
     stash_dict_formatted = {}
 
@@ -267,7 +266,7 @@ def format_mapping_link(entry, line_mappings):
     return mapping_hyperlink
 
 
-def build_table(table_data, mappings_directory, stash_path):
+def build_table(table_data, mappings_directory, stashmaster_path):
     """
     Build the  HTML for table showing the supplied table_data
 
@@ -277,16 +276,15 @@ def build_table(table_data, mappings_directory, stash_path):
         The data to populate the table with.
     mappings_directory: str
         The location of the mappings configurations directory within CDDS.
-    arguments : argparse.Namespace
-        User arguments.
+    stashmaster_path : str
+        Path to a STASHmaster.conf file
     Returns
     -------
     table_html : str
         The table_data formatted as a html table.
     """
-    stash_meta_dictionary = get_stash_meta_dict(stash_path)
+    stash_meta_dictionary = get_stash_meta_dict(stashmaster_path)
     processor_lines = get_processor_lines(mappings_directory)
-    # mapping_lines = get_mapping_lines(mappings_directory)
 
     html = ''
     for i, row in enumerate(table_data):
