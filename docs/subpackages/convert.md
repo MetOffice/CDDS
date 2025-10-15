@@ -25,7 +25,9 @@ The main purpose of `run_mip_convert` is to
 
 ## mip_batch_concatenate, mip_concatenate, mip_concatenate_organise, mip_concatenate_setup
 
+As CDDS breaks down the conversion process into small chunks to support scalability and speed of conversion many small files can be produced. This is not optimal for data management where files in the range 5-10 GB are preferred.
 
+The concatenate tools identify the files that should be concatenated together based upon "sizing" information from the Model Parameters JSON file (how many years of data should be concatenated together for a given frequency and "shape" of data) and the base date specified in the Request file.
 
 [^1]:
     Historically the conversion workflow was developed in a separate roses repository (​u-ak283).
