@@ -7,16 +7,17 @@ Retrieve data from MASS whilst replicating it's directory structure.
 
 import argparse
 import logging
+import os
+import shutil
 import subprocess
 from pathlib import Path, PurePosixPath
 from typing import Any, Dict, List
 
-from cdds.common.mass import mass_list_files_recursively, run_mass_command
 from cdds.common import configure_logger
-
+from cdds.common.mass import mass_list_files_recursively, run_mass_command
 
 DEFAULT_MOOSE_BASE_PATH = "moose:/adhoc/projects/cdds/production/"
-
+TMPDIR = os.environ['TMPDIR']
 
 def parse_args() -> argparse.Namespace:
     """
@@ -224,7 +225,7 @@ def chunk_files(
 
 
 def transfer_files(
-    list_of_chunks: List[List[str]], output_dir: Path, dry_run: bool = False
+    list_of_chunks: List[List[str]], TMPDIR: str, output_dir: Path, dry_run: bool = False
 ) -> None:
     """
     Transfer each chunk in the list using moo get.
@@ -247,12 +248,15 @@ def transfer_files(
     if list_of_chunks:
         for chunk in list_of_chunks:
             if dry_run:
-                command = ["moo", "get", "-I", "-n"] + chunk + [str(output_dir)]
+                command = ["moo", "get", "-I", "-n"] + chunk + [str(TMPDIR)]
             else:
-                command = ["moo", "get", "-I"] + chunk + [str(output_dir)]
+                # Move files to TMPDIR
+                command = ["moo", "get", "-I"] + chunk + [str(TMPDIR)]
             try:
                 stdout_str = run_mass_command(command)
                 logger.info(stdout_str)
+                # Move files from TMPDIR to output_dir after each chunk
+                transfer_files_to_final_dir(chunk, TMPDIR, output_dir, dry_run)
             except subprocess.CalledProcessError:
                 stdout_str = ""
                 logger.critical("Error running MASS command.")
@@ -260,6 +264,29 @@ def transfer_files(
                 logger.critical(str(e))
                 raise e
 
+def transfer_files_to_final_dir(chunk, TMPDIR, output_dir, dry_run):
+    """
+    Move files from temporary directory to output_dir after each chunk.
+
+    Parameters
+    ----------
+    chunk : list of str
+        List of file paths transferred to the temporary directory.
+    TMPDIR : str
+        Temporary directory path.
+    output_dir : Path
+        Final output directory.
+    dry_run : bool
+        If True, do not move files.
+    """
+    for file_path in chunk:
+        filename = Path(file_path).name
+        temporary_filepath = Path(TMPDIR) / filename
+        destination_filepath = Path(output_dir) / filename
+        if dry_run:
+            pass
+        else:
+            shutil.move(str(temporary_filepath), str(destination_filepath))
 
 def main_cdds_retrieve_data() -> None:
     """
@@ -294,6 +321,6 @@ def main_cdds_retrieve_data() -> None:
         base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE_PATH, "")
         output_dir = create_output_dir(base_output_folder, args.destination, dry_run=args.dry_run)
         list_of_chunks = chunk_files(file_data, chunk_size_as_bytes)
-        transfer_files(list_of_chunks, output_dir, dry_run=args.dry_run)
+        transfer_files(list_of_chunks, TMPDIR, output_dir, dry_run=args.dry_run)
 
     logger.info(f"Finished transferring files to {output_dir}")
