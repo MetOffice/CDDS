@@ -141,7 +141,7 @@ def group_files_by_folder(
     return dir_path_key_dict
 
 
-def create_output_dir(base_output_folder: str, destination: Path) -> Path:
+def create_output_dir(base_output_folder: str, destination: Path, dry_run: bool = False) -> Path:
     """
     Create output directory for a variable if it does not exist and return a Path object.
 
@@ -151,14 +151,17 @@ def create_output_dir(base_output_folder: str, destination: Path) -> Path:
         Base output folder name.
     destination : str or Path
         Destination directory.
+    dry_run : bool, optional
+        If True, skip directory creation (default is False).
 
     Returns
     -------
     Path
         Path object for the created output directory.
     """
-    output_dir = Path(destination) / base_output_folder
-    output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir = (Path(destination) / base_output_folder)
+    if not dry_run:
+        output_dir.mkdir(parents=True, exist_ok=True)
     return output_dir
 
 
@@ -289,7 +292,7 @@ def main_cdds_retrieve_data() -> None:
 
     for folder_path, file_data in dir_path_key_dict.items():
         base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE_PATH, "")
-        output_dir = create_output_dir(base_output_folder, args.destination)
+        output_dir = create_output_dir(base_output_folder, args.destination, dry_run=args.dry_run)
         list_of_chunks = chunk_files(file_data, chunk_size_as_bytes)
         transfer_files(list_of_chunks, output_dir, dry_run=args.dry_run)
 
