@@ -28,7 +28,7 @@ def parse_args() -> argparse.Namespace:
         Parsed command line arguments.
     """
     parser = argparse.ArgumentParser(
-        description="Tool for retrieving mass data from MOOSE"
+        description="Tool for retrieving mass data via MOOSE."
     )
     parser.add_argument(
         "moose_base_location",
