@@ -40,7 +40,7 @@ def parse_args() -> argparse.Namespace:
         "base_dataset_id",
         help="CMIP structured location, e.g. CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2",
     )
-    parser.add_argument("variable_file", help="Path to variable file")
+    parser.add_argument("variables_file", help="Path to variables file")
     parser.add_argument("destination", help="Destination directory")
     parser.add_argument(
         "--chunk-size",
@@ -71,14 +71,14 @@ def gb_to_bytes(chunk_size: int) -> int:
     return int(chunk_size * 1024 * 1024 * 1024)
 
 
-def read_variable_list_file(variable_file: str | Path) -> List[str]:
+def read_variables_file(variables_file: str | Path) -> List[str]:
     """
     Return list of variables from file, each ending with a full stop
     to ensure variables with same prefix are not used incorrectly. e.g. tas and tasmax.
 
     Parameters
     ----------
-    variable_file : str or Path
+    variables_file : str or Path
         Path to the file containing variable names.
 
     Returns
@@ -86,7 +86,7 @@ def read_variable_list_file(variable_file: str | Path) -> List[str]:
     list of str
         List of variable names, each ending with a full stop.
     """
-    with open(variable_file, "r") as f:
+    with open(variables_file, "r") as f:
         return [line.strip() + "." for line in f if line.strip()]
 
 
@@ -280,7 +280,7 @@ def main_cdds_retrieve_data() -> None:
         PurePosixPath(args.moose_base_location) / args.base_dataset_id.replace(".", "/")
     )
 
-    variable_list = read_variable_list_file(args.variable_file)
+    variable_list = read_variables_file(args.variables_file)
     mass_file_list = mass_list_files_recursively(
         mass_path=full_moose_dir, simulation=None
     )
