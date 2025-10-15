@@ -264,7 +264,8 @@ def transfer_files(
                 logger.critical(str(e))
                 raise e
 
-def transfer_files_to_final_dir(chunk, TMPDIR, output_dir, dry_run):
+def transfer_files_to_final_dir(chunk: list[str], TMPDIR: str,
+                                 output_dir: Path, dry_run: bool) -> None:
     """
     Move files from temporary directory to output_dir after each chunk.
 
@@ -322,5 +323,8 @@ def main_cdds_retrieve_data() -> None:
         output_dir = create_output_dir(base_output_folder, args.destination, dry_run=args.dry_run)
         list_of_chunks = chunk_files(file_data, chunk_size_as_bytes)
         transfer_files(list_of_chunks, TMPDIR, output_dir, dry_run=args.dry_run)
-
-    logger.info(f"Finished transferring files to {output_dir}")
+    
+    if not args.dry_run:
+        logger.info(f"Finished transferring files to {output_dir}")
+    else:
+        pass
