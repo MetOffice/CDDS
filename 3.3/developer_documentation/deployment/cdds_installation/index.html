@@ -250,8 +250,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../../cdds_components/" class="md-tabs__link">
-      CDDS Components
+    <a href="../../../subpackages/" class="md-tabs__link">
+      Subpackages
     </a>
   </li>
 
@@ -262,8 +262,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../../reference" class="md-tabs__link">
-      API Documentation
+    <a href="../../../mappings/" class="md-tabs__link">
+      Mappings
     </a>
   </li>
 
@@ -1383,7 +1383,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../cdds_components/">CDDS Components</a>
+          <a href="../../../subpackages/">Subpackages</a>
           
             <label for="__nav_5">
               <span class="md-nav__icon md-icon"></span>
@@ -1391,10 +1391,10 @@
           
         </div>
       
-      <nav class="md-nav" aria-label="CDDS Components" data-md-level="1">
+      <nav class="md-nav" aria-label="Subpackages" data-md-level="1">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
-          CDDS Components
+          Subpackages
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -1404,8 +1404,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cdds_components/convert/" class="md-nav__link">
-        convert
+      <a href="../../../subpackages/convert/" class="md-nav__link">
+        cdds.convert
       </a>
     </li>
   
@@ -1418,8 +1418,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cdds_components/extract/" class="md-nav__link">
-        extract
+      <a href="../../../subpackages/extract/" class="md-nav__link">
+        cdds.extract
       </a>
     </li>
   
@@ -1432,8 +1432,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cdds_components/qc/" class="md-nav__link">
-        qc
+      <a href="../../../subpackages/qc/" class="md-nav__link">
+        cdds.qc
       </a>
     </li>
   
@@ -1446,8 +1446,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cdds_components/transfer/" class="md-nav__link">
-        transfer
+      <a href="../../../subpackages/transfer/" class="md-nav__link">
+        cdds.transfer
       </a>
     </li>
   
@@ -1468,8 +1468,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../reference" class="md-nav__link">
-        API Documentation
+      <a href="../../../mappings/" class="md-nav__link">
+        Mappings
       </a>
     </li>
   
@@ -1531,7 +1531,7 @@
 
 
 <h1 id="installation">Installation</h1>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">On Azure (Met Office)</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">On Azure (Met Office)</label><label for="__tabbed_1_2">On Jasmin</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <ul class="task-list">
@@ -1547,169 +1547,161 @@
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Update locations pointed to within the environment file:
       <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/&lt;location&gt;/X.Y.Z/&quot;</span><span class="w"> </span>environment.yml
 </code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create environment
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create environment
       <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
 </code></pre></div>
-      where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr></li>
+      where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr></p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate environment and set <code>CDDS_ENV_COMMAND</code> variable:
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>cdds-X.Y.Z
+conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_ENV_COMMAND</span><span class="o">=</span><span class="s2">&quot;conda activate </span><span class="nv">$HOME</span><span class="s2">/conda_environments/cdds-X.Y.Z&quot;</span>
+</code></pre></div>
+      where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr></p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>CDDS_PLATFORM</code> and <code>CDDS_ETC</code> variables
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_PLATFORM</span><span class="o">=</span>AZURE
+conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_ETC</span><span class="o">=</span><span class="nv">$HOME</span>/etc
+</code></pre></div></p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Confirm environment variables:
+      <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$CYLC_VERSION</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$LC_ALL</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$TZ</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_PLATFORM</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_ETC</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_ENV_COMMAND</span>
+</code></pre></div></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$CYLC_VERSION</code></td>
+<td><code>8</code></td>
+</tr>
+<tr>
+<td><code>$LC_ALL</code></td>
+<td><code>en_GB.UTF-8</code></td>
+</tr>
+<tr>
+<td><code>$TZ</code></td>
+<td><code>UTC</code></td>
+</tr>
+<tr>
+<td><code>$CDDS_PLATFORM</code></td>
+<td><code>AZURE</code></td>
+</tr>
+<tr>
+<td><code>$CDDS_ETC</code></td>
+<td><code>$HOME/etc</code></td>
+</tr>
+<tr>
+<td><code>$CDDS_ENV_COMMAND</code></td>
+<td><code>$conda activate $HOME/conda_environments/cdds-3.2.0</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Login to one of the JASMIN <a href="https://help.jasmin.ac.uk/docs/interactive-computing/sci-servers/#available-sci-servers">sci-servers</a> as the <code>cdds</code> user.</p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate the <code>base</code> miniforge <code>conda</code> environment
+      <div class="highlight"><pre><span></span><code>source $HOME/software/miniforge3/bin/activate
+</code></pre></div></p>
+</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Obtain the conda environment file for the release.
+      <div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/&lt;tagname&gt;/environment.yml
+</code></pre></div></li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Update locations pointed to within the environment file (omitting the leading <code>v</code>)
+      <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/&lt;location&gt;/X.Y.Z/&quot;</span><span class="w"> </span>environment.yml
+</code></pre></div></p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create environment, where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr>
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
+</code></pre></div></p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>CDDS_PLATFORM</code> and <code>CDDS_ETC</code> variables
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>cdds-X.Y.Z
+conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_PLATFORM</span><span class="o">=</span>JASMIN
+conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_ETC</span><span class="o">=</span><span class="nv">$HOME</span>/etc
+</code></pre></div></p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>CDDS_ENV_COMMAND</code> variable making sure to substitue <code>X.Y.Z</code> with the appropriate version number.
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_ENV_COMMAND</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/software/miniforge3/bin/activate </span><span class="nv">$HOME</span><span class="s2">/conda_environments/cdds-X.Y.Z&quot;</span>
+</code></pre></div></p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Deactivate the environment
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>deactivate
+</code></pre></div></p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Confirm that the environment variables were set correctly.
+      <div class="highlight"><pre><span></span><code><span class="nv">$HOME</span>/software/miniforge3/bin/activate<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
+</code></pre></div>
+      <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$CYLC_VERSION</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$LC_ALL</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$TZ</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_PLATFORM</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_ETC</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_ENV_COMMAND</span>
+</code></pre></div></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$CYLC_VERSION</code></td>
+<td><code>8</code></td>
+</tr>
+<tr>
+<td><code>$LC_ALL</code></td>
+<td><code>en_GB.UTF-8</code></td>
+</tr>
+<tr>
+<td><code>$TZ</code></td>
+<td><code>UTC</code></td>
+</tr>
+<tr>
+<td><code>$CDDS_PLATFORM</code></td>
+<td><code>JASMIN</code></td>
+</tr>
+<tr>
+<td><code>$CDDS_ETC</code></td>
+<td><code>$HOME/etc</code></td>
+</tr>
+<tr>
+<td><code>$CDDS_ENV_COMMAND</code></td>
+<td><code>$HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z</code></td>
+</tr>
+</tbody>
+</table>
+</li>
 </ul>
 </div>
 </div>
 </div>
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-    !!! note
-        This has been updated following the roll out of Conda to MO systems. If the <code>-p</code> option is omitted then the installation will end up 
-        under <code>$HOME/.conda</code> and will not be visible to other users.</p>
-<pre><code>!!! info 
-    If the `wheel` installation fails then you can end up with `#!python` rather than the full paths – this is known to be caused by not having 
-    `_DEV` updated in the packages, possibly due to tagging without pulling the release branch from the repository first
-</code></pre>
-<p>=======</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>25ccf412 (Documentation improvements following v3.2.1 release)
-    - [x] Activate environment and set <code>CDDS_ENV_COMMAND</code> variable:
-          <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>cdds-X.Y.Z
-conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_ENV_COMMAND</span><span class="o">=</span><span class="s2">&quot;conda activate </span><span class="nv">$HOME</span><span class="s2">/conda_environments/cdds-X.Y.Z&quot;</span>
-</code></pre></div>
-          where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr></p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-<pre><code>- [x] Set the `CDDS_PLATFORM` and `CDDS_ETC` variables
-      ```bash
-      conda env config vars set CDDS_PLATFORM=AZURE
-      conda env config vars set CDDS_ETC=$HOME/etc
-      ```
-
-- [x] Confirm environment variables:
-      ```bash
-      echo $CYLC_VERSION
-      echo $LC_ALL
-      echo $TZ
-      echo $CDDS_PLATFORM
-      echo $CDDS_ETC
-      echo $CDDS_ENV_COMMAND
-      ```
-
-      | Variable    | Value                                |
-      | ----------- | ------------------------------------ |
-      | `$CYLC_VERSION`     | `8` |
-      | `$LC_ALL`           | `en_GB.UTF-8`  |
-      | `$TZ`               | `UTC` |
-      | `$CDDS_PLATFORM`    | `AZURE` |
-      | `$CDDS_ETC`         | `$HOME/etc` |
-      | `$CDDS_ENV_COMMAND` | `$conda activate $HOME/conda_environments/cdds-3.2.0` |
-</code></pre>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">On Jasmin</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block"></div>
-</div>
-</div>
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-    - [x] Login to one of the JASMIN science <a href="https://help.jasmin.ac.uk/docs/interactive-computing/sci-servers/#available-sci-servers">servers</a> as the <code>cdds</code> user
-=======
-    - [x] Login to one of the JASMIN <a href="https://help.jasmin.ac.uk/docs/interactive-computing/sci-servers/#available-sci-servers">sci-servers</a> as the <code>cdds</code> user.</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>25ccf412 (Documentation improvements following v3.2.1 release)
-    - [x] Activate the <code>base</code> miniforge <code>conda</code> environment
-          <div class="highlight"><pre><span></span><code>source $HOME/software/miniforge3/bin/activate
-</code></pre></div>
-    - [x] Obtain the conda environment file for the release.
-          <div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/&lt;tagname&gt;/environment.yml
-</code></pre></div>
-    - [x] Update locations pointed to within the environment file (omitting the leading <code>v</code>)
-          <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/&lt;location&gt;/X.Y.Z/&quot;</span><span class="w"> </span>environment.yml
-</code></pre></div>
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-=======</p>
-<p>25ccf412 (Documentation improvements following v3.2.1 release)
-    - [x] Create environment, where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr>
-          <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
-</code></pre></div>
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-    - [x] Uncomment the <code>cdds</code> and <code>mip_convert</code> python pip install lines.
-          <div class="highlight"><pre><span></span><code><span class="w">  </span><span class="c1">#- git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v&lt;location&gt;#egg=cdds&amp;subdirectory=cdds</span>
-<span class="w">  </span><span class="c1">#- git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v&lt;location&gt;#egg=mip_convert&amp;subdirectory=mip_convert</span>
-</code></pre></div>
-    - [x] Create environment, where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr>
-          <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
-</code></pre></div>
-    - [x] Set the <code>CDDS</code> variables making sure to replace <code>X.Y.Z</code> with the appropriate version number.
-=======</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-<pre><code>- [x] Set the `CDDS_PLATFORM` and `CDDS_ETC` variables
-</code></pre>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>25ccf412 (Documentation improvements following v3.2.1 release)
-          <code>bash
-          conda activate cdds-X.Y.Z
-          conda env config vars set CDDS_PLATFORM=JASMIN
-          conda env config vars set CDDS_ETC=$HOME/etc</code></p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-<pre><code>- [x] Set the `CDDS_ENV_COMMAND` variable making sure to substitue `X.Y.Z` with the appropriate version number.
-      ```bash
-      conda env config vars set CDDS_ENV_COMMAND="$HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z"
-      ```
-
-- [x] Deactivate the environment
-      ```bash
-      conda deactivate
-      ```
-- [x] Confirm that the environment variables were set correctly.
-      ```bash
-      $HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z
-      ```
-      ```bash
-      echo $CYLC_VERSION
-      echo $LC_ALL
-      echo $TZ
-      echo $CDDS_PLATFORM
-      echo $CDDS_ETC
-      echo $CDDS_ENV_COMMAND
-      ```
-
-      | Variable    | Value                                |
-      | ----------- | ------------------------------------ |
-      | `$CYLC_VERSION`     | `8` |
-      | `$LC_ALL`           | `en_GB.UTF-8`  |
-      | `$TZ`               | `UTC` |
-      | `$CDDS_PLATFORM`    | `JASMIN` |
-      | `$CDDS_ETC`         | `$HOME/etc` |
-      | `$CDDS_ENV_COMMAND` | `$HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z` |
-</code></pre>
 <h2 id="ensure-all-the-tests-pass-in-the-real-live-environment">Ensure all the tests pass in the 'real live environment'</h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>

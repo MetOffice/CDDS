@@ -13,7 +13,7 @@
     
     
       
-        <title>qc - Climate Data Dissemination System</title>
+        <title>cdds.transfer - Climate Data Dissemination System</title>
       
     
     
@@ -67,6 +67,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#adding-a-queue" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -100,7 +105,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              qc
+              cdds.transfer
             
           </span>
         </div>
@@ -246,7 +251,7 @@
 
   <li class="md-tabs__item">
     <a href="../" class="md-tabs__link md-tabs__link--active">
-      CDDS Components
+      Subpackages
     </a>
   </li>
 
@@ -257,8 +262,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../reference" class="md-tabs__link">
-      API Documentation
+    <a href="../../mappings/" class="md-tabs__link">
+      Mappings
     </a>
   </li>
 
@@ -1328,7 +1333,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../">CDDS Components</a>
+          <a href="../">Subpackages</a>
           
             <label for="__nav_5">
               <span class="md-nav__icon md-icon"></span>
@@ -1336,10 +1341,10 @@
           
         </div>
       
-      <nav class="md-nav" aria-label="CDDS Components" data-md-level="1">
+      <nav class="md-nav" aria-label="Subpackages" data-md-level="1">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
-          CDDS Components
+          Subpackages
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -1350,7 +1355,7 @@
   
     <li class="md-nav__item">
       <a href="../convert/" class="md-nav__link">
-        convert
+        cdds.convert
       </a>
     </li>
   
@@ -1364,7 +1369,21 @@
   
     <li class="md-nav__item">
       <a href="../extract/" class="md-nav__link">
-        extract
+        cdds.extract
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qc/" class="md-nav__link">
+        cdds.qc
       </a>
     </li>
   
@@ -1384,24 +1403,134 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          cdds.transfer
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
-        qc
+        cdds.transfer
       </a>
       
-    </li>
-  
+        
 
-            
-          
-            
-              
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
   
-    <li class="md-nav__item">
-      <a href="../transfer/" class="md-nav__link">
-        transfer
-      </a>
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#adding-a-queue" class="md-nav__link">
+    Adding a Queue
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding a Queue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    Implementation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-code" class="md-nav__link">
+    Example code
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clearing-a-queue" class="md-nav__link">
+    Clearing a Queue
+  </a>
+  
+    <nav class="md-nav" aria-label="Clearing a Queue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description_1" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_1" class="md-nav__link">
+    Implementation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-code_1" class="md-nav__link">
+    Example code
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-a-queue" class="md-nav__link">
+    Removing a queue
+  </a>
+  
+    <nav class="md-nav" aria-label="Removing a queue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description_2" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_2" class="md-nav__link">
+    Implementation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-code_2" class="md-nav__link">
+    Example code
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1421,8 +1550,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference" class="md-nav__link">
-        API Documentation
+      <a href="../../mappings/" class="md-nav__link">
+        Mappings
       </a>
     </li>
   
@@ -1446,6 +1575,116 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#adding-a-queue" class="md-nav__link">
+    Adding a Queue
+  </a>
+  
+    <nav class="md-nav" aria-label="Adding a Queue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    Implementation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-code" class="md-nav__link">
+    Example code
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clearing-a-queue" class="md-nav__link">
+    Clearing a Queue
+  </a>
+  
+    <nav class="md-nav" aria-label="Clearing a Queue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description_1" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_1" class="md-nav__link">
+    Implementation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-code_1" class="md-nav__link">
+    Example code
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-a-queue" class="md-nav__link">
+    Removing a queue
+  </a>
+  
+    <nav class="md-nav" aria-label="Removing a queue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description_2" class="md-nav__link">
+    Description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation_2" class="md-nav__link">
+    Implementation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-code_2" class="md-nav__link">
+    Example code
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1459,12 +1698,99 @@
                   
 
 
-  <h1>qc</h1>
+  <h1>cdds.transfer</h1>
 
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This documentation is currently under construction and may not be up to date.</p>
-</div>
+<p>The following is from the <abbr title="Climate Data Dissemination System">CDDS</abbr> Trac pages and relate to the construction of queues on the RabbitMQ server  at CEDA</p>
+<h2 id="adding-a-queue">Adding a Queue</h2>
+<h3 id="description">Description</h3>
+<p>We need to add a new type of queue (to the existing set of "moose" and "admin"), or an additional queue to the original set ("moose.available", "moose.withdrawn", "admin.critical", "admin.info").</p>
+<p>We have agreed with CEDA to set up queues per project, e.g. CMIP6_available and CMIP6_withdrawn. There is also a testing set of queues to avoid functional unit tests in cdds_transfer from nuking the queues.</p>
+<h3 id="implementation">Implementation</h3>
+<p>There's no method in the API to create queues directly, although invoking message methods (e.g. publishing a message) will create durable queues automatically.</p>
+<p>If you want to create the queues in advance, you can do so using pika calls.</p>
+<h3 id="example-code">Example code</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pika</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdds_transfer</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
+<span class="n">credentials_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="s1">&#39;$HOME/.cdds_credentials&#39;</span><span class="p">)</span>
+<span class="n">cfg</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">Config</span><span class="p">([</span><span class="n">credentials_file</span><span class="p">])</span>
+<span class="c1"># get rabbit connection details from the rabbit section of the </span>
+<span class="c1"># cdds credentials file</span>
+<span class="n">rabbit_cfg</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">_cp</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="s1">&#39;rabbit&#39;</span><span class="p">))</span>
+<span class="c1"># Prefix to use to construct queue names</span>
+<span class="n">mip_era</span> <span class="o">=</span> <span class="s1">&#39;CMIP6&#39;</span>
+<span class="c1"># Name of the exchange on the rabbit server that directs</span>
+<span class="c1"># messages to queues.</span>
+<span class="n">exchange</span> <span class="o">=</span> <span class="s1">&#39;dds&#39;</span> 
+<span class="n">credentials</span> <span class="o">=</span> <span class="n">pika</span><span class="o">.</span><span class="n">PlainCredentials</span><span class="p">(</span><span class="n">rabbit_cfg</span><span class="p">[</span><span class="s1">&#39;userid&#39;</span><span class="p">],</span> 
+                                    <span class="n">rabbit_cfg</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span>
+<span class="n">connection_parameters</span> <span class="o">=</span> <span class="n">pika</span><span class="o">.</span><span class="n">ConnectionParameters</span><span class="p">(</span>
+    <span class="n">rabbit_cfg</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">],</span> <span class="n">rabbit_cfg</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">],</span> <span class="n">rabbit_cfg</span><span class="p">[</span><span class="s1">&#39;vhost&#39;</span><span class="p">],</span>
+    <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">connection</span> <span class="o">=</span> <span class="n">pika</span><span class="o">.</span><span class="n">BlockingConnection</span><span class="p">(</span><span class="n">connection_parameters</span><span class="p">)</span>
+<span class="n">channel</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">channel</span><span class="p">()</span>
+<span class="n">channel</span><span class="o">.</span><span class="n">exchange_declare</span><span class="p">(</span>
+    <span class="n">exchange</span><span class="o">=</span><span class="n">exchange</span><span class="p">,</span> <span class="n">exchange_type</span><span class="o">=</span><span class="s2">&quot;direct&quot;</span><span class="p">,</span> <span class="n">durable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">queue</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;available&quot;</span><span class="p">,</span> <span class="s2">&quot;withdrawn&quot;</span><span class="p">]:</span>
+    <span class="n">queue_name</span> <span class="o">=</span> <span class="s1">&#39;moose.</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mip_era</span><span class="p">,</span> <span class="n">queue</span><span class="p">)</span>
+    <span class="n">channel</span><span class="o">.</span><span class="n">queue_declare</span><span class="p">(</span><span class="n">queue</span><span class="o">=</span><span class="n">queue_name</span><span class="p">,</span> <span class="n">durable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">channel</span><span class="o">.</span><span class="n">queue_bind</span><span class="p">(</span><span class="n">exchange</span><span class="o">=</span><span class="n">exchange</span><span class="p">,</span> <span class="n">queue</span><span class="o">=</span><span class="n">queue_name</span><span class="p">,</span>
+                       <span class="n">routing_key</span><span class="o">=</span><span class="n">queue_name</span><span class="p">)</span>
+<span class="n">channel</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="clearing-a-queue">Clearing a Queue</h2>
+<h3 id="description_1">Description</h3>
+<p>You need to connect to a remote queue and clear out all the messages it contains, optionally keeping back-up copies of the messages you remove in the local message store.</p>
+<h3 id="implementation_1">Implementation</h3>
+<p>Note: this page describes how to use the API to clear a queue. You can also use RabbitMQ's web management interface to purge messages from a queue, if you have the necessary access permissions.</p>
+<p>create a cdds_transfer.config.Config object to wrap your local configuration. You will need to configure Rabbit, and you may also need to configure your local directories (if you want to save copies of messages to the local message store).</p>
+<p>create a cdds_transfer.msg.Queue object to point to the remote queue</p>
+<p>create a cdds_transfer.msg.Communication object</p>
+<p>loop over all the messages returned by get_all_messages in reverse order1:</p>
+<p>invoke the remove_message method</p>
+<p>(optional) invoke the store_message method to save a copy of the message in the local message store</p>
+<p>Note: if you don't keep a back-up copy of a message that you delete, there is no way it can be recovered. If you accidentally delete a message without a back-up copy, you will need to regenerate and resend the message.</p>
+<p>1 Messages are identified by their delivery_tag, but this is not a unique identifier for a message it is just the position in the queue, so if you attempt to remove delivery_tag 1 then 2 then 3 the change of delivery_tag following each removal will result in the removal of the first, third and fifth messages from the original queue state. Performing the removals in reverse order avoids this problem. This highlights an issue with using the delivery_tag for message identification.</p>
+<h3 id="example-code_1">Example code</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cdds_transfer</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span><span class="p">,</span> <span class="n">msg</span>
+<span class="n">cfg</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">Config</span><span class="p">([</span><span class="s1">&#39;.cdds_credentials&#39;</span><span class="p">])</span>
+<span class="n">queue</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">Queue</span><span class="p">(</span><span class="s1">&#39;moose&#39;</span><span class="p">,</span> <span class="s1">&#39;CMIP6_available&#39;</span><span class="p">)</span>
+<span class="n">comm</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">Communication</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">comm</span><span class="o">.</span><span class="n">get_all_messages</span><span class="p">(</span><span class="n">queue</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># reverse order</span>
+    <span class="n">comm</span><span class="o">.</span><span class="n">remove_message</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+    <span class="c1"># comm.store_message(message)  # optional</span>
+</code></pre></div>
+<h2 id="removing-a-queue">Removing a queue</h2>
+<h3 id="description_2">Description</h3>
+<p>A queue needs to be deleted, either because one with a new name and the same function has been created, or because the queue was created by mistake.</p>
+<h3 id="implementation_2">Implementation</h3>
+<p>The API does not provide a method for deleting a queue. Instead, you will either need to use the RabbitMQ web API, or use the delete_queue method provided by pika to delete the queue.</p>
+<h3 id="example-code_2">Example code</h3>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pika</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdds_transfer</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
+<span class="n">credentials_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="s1">&#39;$HOME/.cdds_credentials&#39;</span><span class="p">)</span>
+<span class="n">cfg</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">Config</span><span class="p">([</span><span class="n">credentials_file</span><span class="p">])</span>
+<span class="c1"># get rabbit connection details from the rabbit section of the </span>
+<span class="c1"># cdds credentials file</span>
+<span class="n">rabbit_cfg</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">_cp</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="s1">&#39;rabbit&#39;</span><span class="p">))</span>
+<span class="c1"># Name of the queue to be deleted</span>
+<span class="n">queue_name</span> <span class="o">=</span> <span class="s1">&#39;queue_to_be_deleted&#39;</span>
+<span class="c1"># Set up and open connection</span>
+<span class="n">credentials</span> <span class="o">=</span> <span class="n">pika</span><span class="o">.</span><span class="n">PlainCredentials</span><span class="p">(</span><span class="n">rabbit_cfg</span><span class="p">[</span><span class="s1">&#39;userid&#39;</span><span class="p">],</span> 
+                                    <span class="n">rabbit_cfg</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span>
+<span class="n">connection_parameters</span> <span class="o">=</span> <span class="n">pika</span><span class="o">.</span><span class="n">ConnectionParameters</span><span class="p">(</span>
+    <span class="n">rabbit_cfg</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">],</span> <span class="n">rabbit_cfg</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">],</span> <span class="n">rabbit_cfg</span><span class="p">[</span><span class="s1">&#39;vhost&#39;</span><span class="p">],</span>
+    <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">connection</span> <span class="o">=</span> <span class="n">pika</span><span class="o">.</span><span class="n">BlockingConnection</span><span class="p">(</span><span class="n">connection_parameters</span><span class="p">)</span>
+<span class="n">channel</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">channel</span><span class="p">()</span>
+<span class="c1"># Delete the queue</span>
+<span class="n">channel</span><span class="o">.</span><span class="n">queue_delete</span><span class="p">(</span><span class="n">queue</span><span class="o">=</span><span class="n">queue_name</span><span class="p">)</span>
+<span class="c1"># Close down the connection</span>
+<span class="n">channel</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
 
 
 
@@ -1487,7 +1813,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../extract/" class="md-footer__link md-footer__link--prev" aria-label="Previous: extract" rel="prev">
+        <a href="../qc/" class="md-footer__link md-footer__link--prev" aria-label="Previous: cdds.qc" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -1496,20 +1822,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              extract
+              cdds.qc
             </div>
           </div>
         </a>
       
       
         
-        <a href="../transfer/" class="md-footer__link md-footer__link--next" aria-label="Next: transfer" rel="next">
+        <a href="../../mappings/" class="md-footer__link md-footer__link--next" aria-label="Next: Mappings" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              transfer
+              Mappings
             </div>
           </div>
           <div class="md-footer__button md-icon">
