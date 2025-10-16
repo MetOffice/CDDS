@@ -82,7 +82,6 @@ nav:
     - cdds.extract: subpackages/extract.md
     - cdds.qc: subpackages/qc.md
     - cdds.transfer: subpackages/transfer.md
-  - Mappings: mappings/index.md
 markdown_extensions:
   - abbr
   - admonition
@@ -113,7 +112,6 @@ plugins:
 - gen-files:
     scripts:
     - scripts/changes.py
-    - scripts/mappings.py
 - literate-nav:
     nav_file: SUMMARY.md
 - mkdocstrings:

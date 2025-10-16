@@ -210,7 +210,7 @@ def load_rose_suite_info(svn_url: str, arguments: RoseSuiteArguments) -> RoseSui
     return RoseSuiteInfo(suite_info)
 
 
-def load_suite_info_from_file(file_path: str):
+def load_suite_info_from_file(file_path: str) -> Dict[str, str]:
     """
     Loads the rose suite info from a file
 

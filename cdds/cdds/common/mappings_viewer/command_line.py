@@ -21,8 +21,8 @@ def main():
     else:
         plugin = find_internal_plugin(model)
     mappings_dir = plugin.mapping_data_dir
-    mappings = get_mappings(mappings_dir)
-    table = build_table(mappings, mappings_dir, arguments.stash_meta_filepath)
+    mappings = get_mappings(model, mappings_dir, arguments)
+    table = build_table(mappings, mappings_dir, arguments)
     generate_html(table, model, mappings_dir, arguments)
 
 
