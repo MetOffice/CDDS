@@ -1,7 +1,7 @@
 # Mass data retrieval
 
 Data can be retrieved from MASS using our cdds_retrieve_data tool. This
-can be used locally, via SPICE or JASMIN.
+can be used locally or via SPICE.
 
 It's benefits include:
 
@@ -9,6 +9,8 @@ It's benefits include:
 - Customisable chunking to reduce load on infrastructure during retrieval.
 - A dry run option to print actions without retrieving the files.
 
+!!!Note
+    For JASMIN users, this tool is not currently functional, as it requires the use of recursive listings - which are not permitted on JASMIN.
 
 ## Using it from the command line
 
@@ -28,22 +30,16 @@ The tool takes six arguments:
 
 ## Usage via SPICE
 
+Below is a template example script that would be run via a sbatch command.
+
 ???example
     ```bash
     #!/bin/bash -l
-
-    # Submit this batch submission file using:
-    #   sbatch --mail-user=<your_email_address> --partition=<rhel6|rhel7>
-    #   submit_run_all_tests.batch
-    # This will return 'Submitted batch job <JOBID>' if the submission
-    # succeeded. Wait for the e-mail from 'SLURM user', then check the
-    # 'slurm-<JOBID>.out' file in the current working directory.
 
     #SBATCH --mail-type=END
     #SBATCH --mem=5G
     #SBATCH --qos=normal
     #SBATCH --time=30
-    #SBATCH --wckey=CDDS
 
     cdds_retrieve_data CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2 variables_file desired/output/directory
     ```
