@@ -126,7 +126,7 @@ def group_files_by_folder(
 ) -> Dict[str, List[Dict[str, Any]]]:
     """
     Return dict with the base folder path for each variable as key and list of
-    file info dicts as values.
+    file info dicts as values. Check that 'available' or 'embargoed' is in the MOOSE path.
 
     Parameters
     ----------
@@ -143,6 +143,11 @@ def group_files_by_folder(
         for file in dataset["files"]:
             folder_path = str(PurePosixPath(file["mass_path"]).parent)
             dir_path_key_dict.setdefault(folder_path, []).append(file)
+            if "available" not in folder_path and "embargoed" not in folder_path:
+                raise ValueError(
+                    f"'available' or 'embargoed' not found in source filepath: {folder_path}"
+                )
+
     return dir_path_key_dict
 
 
@@ -295,8 +300,6 @@ def transfer_files_to_final_dir(
     ----------
     chunk : list of str
         List of file paths transferred to the temporary directory.
-    TMPDIR : str
-        Temporary directory path.
     output_dir : Path
         Final output directory.
     dry_run : bool
@@ -346,17 +349,12 @@ def main_cdds_retrieve_data() -> None:
     dir_path_key_dict = group_files_by_folder(variable_info_dict)
 
     for folder_path, file_data in dir_path_key_dict.items():
-        if "available" not in folder_path and "embargoed" not in folder_path:
-            raise ValueError(
-                f"'available' or 'embargoed' not found in source filepath, got: {folder_path}"
-            )
-        else:
-            base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE_PATH, "")
-            output_dir = create_output_dir(
-                base_output_folder, args.destination, dry_run=args.dry_run
-            )
-            list_of_chunks = chunk_files(file_data, chunk_size_as_bytes)
-            transfer_files(list_of_chunks, output_dir, dry_run=args.dry_run)
+        base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE_PATH, "")
+        output_dir = create_output_dir(
+            base_output_folder, args.destination, dry_run=args.dry_run
+        )
+        list_of_chunks = chunk_files(file_data, chunk_size_as_bytes)
+        transfer_files(list_of_chunks, output_dir, dry_run=args.dry_run)
 
     if not args.dry_run:
         logger.info(f"Finished transferring files to {output_dir}")
