@@ -226,7 +226,7 @@ def chunk_files(
 
 
 def transfer_files(
-    list_of_chunks: List[List[str]], TMPDIR: str, output_dir: Path, dry_run: bool = False
+    list_of_chunks: List[List[str]], output_dir: Path, dry_run: bool = False
 ) -> None:
     """
     Transfer each chunk in the list using moo get.
@@ -257,7 +257,7 @@ def transfer_files(
                 stdout_str = run_mass_command(command)
                 logger.info(stdout_str)
                 # Move files from TMPDIR to output_dir after each chunk
-                transfer_files_to_final_dir(chunk, TMPDIR, output_dir, dry_run)
+                transfer_files_to_final_dir(chunk, output_dir, dry_run)
             except subprocess.CalledProcessError:
                 stdout_str = ""
                 logger.critical("Error running MASS command.")
@@ -266,8 +266,8 @@ def transfer_files(
                 raise e
 
 
-def transfer_files_to_final_dir(chunk: list[str], TMPDIR: str,
-                                output_dir: Path, dry_run: bool) -> None:
+def transfer_files_to_final_dir(chunk: list[str], output_dir: Path,
+                                dry_run: bool) -> None:
     """
     Move files from temporary directory to output_dir after each chunk.
 
@@ -308,7 +308,12 @@ def main_cdds_retrieve_data() -> None:
 
     logger = logging.getLogger(__name__)
 
+
     args = parse_args()
+
+    if args.dry_run:
+        logger.info("Dry run mode enabled. No files will be retrieved.")
+
     chunk_size_as_bytes = gb_to_bytes(args.chunk_size)
     full_moose_dir = str(
         PurePosixPath(args.moose_base_location) / args.base_dataset_id.replace(".", "/")
@@ -325,7 +330,7 @@ def main_cdds_retrieve_data() -> None:
         base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE_PATH, "")
         output_dir = create_output_dir(base_output_folder, args.destination, dry_run=args.dry_run)
         list_of_chunks = chunk_files(file_data, chunk_size_as_bytes)
-        transfer_files(list_of_chunks, TMPDIR, output_dir, dry_run=args.dry_run)
+        transfer_files(list_of_chunks, output_dir, dry_run=args.dry_run)
 
     if not args.dry_run:
         logger.info(f"Finished transferring files to {output_dir}")
