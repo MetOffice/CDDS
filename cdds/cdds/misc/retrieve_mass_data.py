@@ -248,12 +248,17 @@ def transfer_files(
 
     if list_of_chunks:
         for chunk in list_of_chunks:
+            formatted_file_list = '\n'.join(chunk)
             if dry_run:
+                logger.info(f"Files to be transferred in this chunk:\n{formatted_file_list}\n"
+                            f"Files in this chunk would be transferred to:\n{output_dir}\n")
                 command = ["moo", "get", "-I", "-n"] + chunk + [str(TMPDIR)]
             else:
                 # Move files to TMPDIR
                 command = ["moo", "get", "-I"] + chunk + [str(TMPDIR)]
             try:
+                logger.info(f"Files to be transferred in this chunk:\n{formatted_file_list}\n"
+                            f"Files in this chunk will be transferred to:\n{output_dir}\n")
                 stdout_str = run_mass_command(command)
                 logger.info(stdout_str)
                 # Move files from TMPDIR to output_dir after each chunk
