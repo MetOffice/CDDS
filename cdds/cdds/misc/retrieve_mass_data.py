@@ -17,7 +17,10 @@ from cdds.common import configure_logger
 from cdds.common.mass import mass_list_files_recursively, run_mass_command
 
 DEFAULT_MOOSE_BASE_PATH = "moose:/adhoc/projects/cdds/production/"
-TMPDIR = os.environ['TMPDIR']
+try:
+    TMPDIR = os.environ["TMPDIR"]
+except KeyError:
+    raise RuntimeError("Environment variable TMPDIR must be set.")
 
 
 def parse_args() -> argparse.Namespace:
@@ -143,7 +146,9 @@ def group_files_by_folder(
     return dir_path_key_dict
 
 
-def create_output_dir(base_output_folder: str, destination: Path, dry_run: bool = False) -> Path:
+def create_output_dir(
+    base_output_folder: str, destination: Path, dry_run: bool = False
+) -> Path:
     """
     Create output directory for a variable if it does not exist and return a Path object.
 
@@ -161,7 +166,12 @@ def create_output_dir(base_output_folder: str, destination: Path, dry_run: bool 
     Path
         Path object for the created output directory.
     """
-    output_dir = (Path(destination) / base_output_folder)
+
+    parts = Path(base_output_folder).parts
+    # Remove "status" (available/embargoed) folder from path
+    status_removed = parts[:-2] + (parts[-1],)
+    output_dir = Path(destination).joinpath(*status_removed)
+
     if not dry_run:
         output_dir.mkdir(parents=True, exist_ok=True)
     return output_dir
@@ -248,17 +258,21 @@ def transfer_files(
 
     if list_of_chunks:
         for chunk in list_of_chunks:
-            formatted_file_list = '\n'.join(chunk)
+            formatted_file_list = "\n".join(chunk)
             if dry_run:
-                logger.info(f"Files to be transferred in this chunk:\n{formatted_file_list}\n"
-                            f"Files in this chunk would be transferred to:\n{output_dir}\n")
+                logger.info(
+                    f"Files to be transferred in this chunk:\n{formatted_file_list}\n"
+                    f"Files in this chunk would be transferred to:\n{output_dir}\n"
+                )
                 command = ["moo", "get", "-I", "-n"] + chunk + [str(TMPDIR)]
             else:
                 # Move files to TMPDIR
                 command = ["moo", "get", "-I"] + chunk + [str(TMPDIR)]
             try:
-                logger.info(f"Files to be transferred in this chunk:\n{formatted_file_list}\n"
-                            f"Files in this chunk will be transferred to:\n{output_dir}\n")
+                logger.info(
+                    f"Files to be transferred in this chunk:\n{formatted_file_list}\n"
+                    f"Files in this chunk will be transferred to:\n{output_dir}\n"
+                )
                 stdout_str = run_mass_command(command)
                 logger.info(stdout_str)
                 # Move files from TMPDIR to output_dir after each chunk
@@ -271,8 +285,9 @@ def transfer_files(
                 raise e
 
 
-def transfer_files_to_final_dir(chunk: list[str], output_dir: Path,
-                                dry_run: bool) -> None:
+def transfer_files_to_final_dir(
+    chunk: list[str], output_dir: Path, dry_run: bool
+) -> None:
     """
     Move files from temporary directory to output_dir after each chunk.
 
@@ -313,7 +328,6 @@ def main_cdds_retrieve_data() -> None:
 
     logger = logging.getLogger(__name__)
 
-
     args = parse_args()
 
     if args.dry_run:
@@ -332,10 +346,17 @@ def main_cdds_retrieve_data() -> None:
     dir_path_key_dict = group_files_by_folder(variable_info_dict)
 
     for folder_path, file_data in dir_path_key_dict.items():
-        base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE_PATH, "")
-        output_dir = create_output_dir(base_output_folder, args.destination, dry_run=args.dry_run)
-        list_of_chunks = chunk_files(file_data, chunk_size_as_bytes)
-        transfer_files(list_of_chunks, output_dir, dry_run=args.dry_run)
+        if "available" not in folder_path and "embargoed" not in folder_path:
+            raise ValueError(
+                f"'available' or 'embargoed' not found in source filepath, got: {folder_path}"
+            )
+        else:
+            base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE_PATH, "")
+            output_dir = create_output_dir(
+                base_output_folder, args.destination, dry_run=args.dry_run
+            )
+            list_of_chunks = chunk_files(file_data, chunk_size_as_bytes)
+            transfer_files(list_of_chunks, output_dir, dry_run=args.dry_run)
 
     if not args.dry_run:
         logger.info(f"Finished transferring files to {output_dir}")
