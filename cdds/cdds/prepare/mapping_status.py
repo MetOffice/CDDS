@@ -110,6 +110,20 @@ class MappingStatus(object):
                           'So, hope the best.').format(key))
             return ProducibleState.UNKNOWN
 
-    def producible_state(self, variable_name, mip_table):
+    def producible_state(self, variable_name, mip_table) -> str:
+        """Convenience function for determining producible state of a variable.
+
+        Parameters
+        ----------
+        variable_name: :class: `string`
+            name of the variable
+        mip_table: :class: `string`
+            corresponding mip table name
+
+        Returns
+        -------
+        str
+            if the variable is producible or not
+        """
         state = self.producible(variable_name, mip_table)
         return ProducibleState.to_variables_data_value(state)

@@ -26,7 +26,7 @@ def cmip6_mip_tables() -> UserMipTables:
     return mip_tables
 
 
-def test_cmi6_expected_user_variable(cmip6_mip_tables: UserMipTables):
+def test_cmip6_expected_user_variable(cmip6_mip_tables: UserMipTables):
     load_plugin("CMIP6")
     variable_list = ["Amon/tas"]
     result = parse_variable_list(cmip6_mip_tables, variable_list)
@@ -35,7 +35,7 @@ def test_cmi6_expected_user_variable(cmip6_mip_tables: UserMipTables):
     assert result[0].stream == "ap5"
 
 
-def test_cmi6_user_stream(cmip6_mip_tables: UserMipTables):
+def test_cmip6_user_stream(cmip6_mip_tables: UserMipTables):
     load_plugin("CMIP6")
     variable_list = ["Amon/tas:foo"]
     result = parse_variable_list(cmip6_mip_tables, variable_list)
