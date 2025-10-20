@@ -96,7 +96,7 @@ def generate_variable_list(arguments: Namespace) -> None:
     # TODO: take inventory check into account!
     # Write the 'requested variables list'.
     logger.info('Writing the Requested variables list to "{}".'.format(output_file))
-    write_json(f"{output_file}.json", var_list)
+    write_json(f"{output_file}", var_list)
 
     if (arguments.reconfigure):
         reconfigure_mip_cfg_file(request, output_file)
