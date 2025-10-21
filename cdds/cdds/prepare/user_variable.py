@@ -123,24 +123,3 @@ def parse_variable_list(mip_tables: UserMipTables, requested_variables: list[str
         variable_list.append(user_variable)
 
     return variable_list
-
-
-def list_all_variables(variables_file: str, mip_table_path: str) -> Dict[str, Dict[str, UserDefinedVariable]]:
-    """
-    Build a list of all the variables from the mip tables.
-
-    :param variables_file: path to the list of user provided requested variables
-    :type variables_file: str
-    :param mip_table_path: path to the mip tables
-    :type mip_table_path: str
-    :return: Dictionary containing each requested variabled as a UserDefinedVariable
-    :rtype: Dict[str, Dict[str, UserDefinedVariable]]
-    """
-    mt = UserMipTables(mip_table_path)
-    variables_list = validate_variable_list(mt, variables_file)
-
-    variable_list_new: Dict[str, Dict[str, UserDefinedVariable]] = defaultdict(dict)
-    for table, variable, stream in variables_list:
-        variable_list_new[table][variable] = UserDefinedVariable(table, variable, mip_table_path, stream)
-
-    return dict(variable_list_new)
