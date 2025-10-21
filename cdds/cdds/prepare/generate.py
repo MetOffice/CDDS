@@ -262,7 +262,7 @@ class VariablesConstructor:
             "mip": self.request.metadata.mip,
             "mip_era": self.request.metadata.mip_era,
             "model_id": self.request.metadata.model_id,
-            "model_type": self.request.metadata.model_type,
+            "model_type": ' '.join(self.request.metadata.model_type),
             "production_info": 'Produced using CDDS Prepare version "{}"'.format(__version__),
             "metadata": {},
             "status": "ok",
