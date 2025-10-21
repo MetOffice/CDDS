@@ -3,21 +3,28 @@
 """
 The :mod:`eerie_plugin` module contains the code for the EERIE plugin.
 """
-from typing import Type, Dict, Any
+import os
 
+from typing import Type, Dict, Any, TYPE_CHECKING
+
+from cdds.common.plugins.base.base_plugin import BasePlugin, MipEra
 from cdds.common.plugins.file_info import ModelFileInfo, GlobalModelFileInfo
 from cdds.common.plugins.grid import GridLabel
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
-from cdds.common.plugins.plugins import CddsPlugin
 from cdds.common.plugins.base.base_plugin import MipEra
 from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 from cdds.common.plugins.attributes import DefaultGlobalAttributes
 from cdds.common.plugins.eerie.eerie_models import EERIEStore
 from cdds.common.plugins.eerie.eerie_streams import EERIEStreamStore
+if TYPE_CHECKING:
+    from cdds.common.request.request import Request
 
 
-class EERIEPlugin(CddsPlugin):
+EERIE_LICENSE = ('EERIE model data is licensed under the Open Government License v3 '
+                 '(https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)')
+
+class EERIEPlugin(BasePlugin):
     """
     Plugin for EERIE models
     """
@@ -81,3 +88,22 @@ class EERIEPlugin(CddsPlugin):
 
     def model_file_info(self) -> ModelFileInfo:
         return GlobalModelFileInfo()
+
+    def license(self) -> str:
+        """
+        Returns the license for EERIE.
+
+        :return: License
+        :rtype: str
+        """
+        return EERIE_LICENSE
+
+    def mip_table_dir(self) -> str:
+        """
+        Returns the path to the MIP table directory that should be used for CORDEX
+
+        :return: Path to the MIP table directory
+        :rtype: str
+        """
+        #TODO this is too hardcoded and should be refactored somehow.
+        return "/home/users/jon.seddon/eerie/cdds/dreq_tools/Tables"
