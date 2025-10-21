@@ -90,11 +90,28 @@ class MipEra(Enum):
             if mip_era == cordex.value:
                 return True
         return False
+    
+    @staticmethod
+    def is_eerie(mip_era: str) -> bool:
+        """
+        Checks if given project is an EERIE project.
+
+        :param mip_era: ID of project to check (case-sensitive check!)
+        :type mip_era: str
+        :return: True if project is an EERIE project otherwise False
+        :rtype: bool
+
+        """
+        for eerie in [MipEra.EERIE]:
+            if mip_era == eerie.value:
+                return True
+        return False
 
     CMIP6 = "CMIP6"
     CMIP6_Plus = "CMIP6Plus"
     GC_MODEL_DEV = "GCModelDev"
     CORDEX = "CORDEX"
+    EERIE = "EERIE"
 
 
 class BasePlugin(CddsPlugin, ABC):

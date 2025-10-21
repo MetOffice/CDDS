@@ -133,3 +133,4 @@ dmypy.json
 # IDEs settings
 .vscode/
 .idea/
+*.code-workspace
