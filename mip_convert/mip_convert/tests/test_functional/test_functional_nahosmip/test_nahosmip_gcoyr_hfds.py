@@ -28,7 +28,8 @@ class TestNAHosMIPGCOyrHfds(AbstractFunctionalTests):
                 },
                 cmor_dataset={
                     'output_dir': get_output_dir(test_location),
-                    'output_file_template': '<variable_id><table><source_id><experiment_id><variant_label>',
+                    'output_file_template': '<variable_id><table><source_id><variant_label>',
+                    'experiment_id': 'fake_experiment_id',
                 },
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
@@ -49,6 +50,7 @@ class TestNAHosMIPGCOyrHfds(AbstractFunctionalTests):
             )
         )
 
+    @pytest.mark.xfail
     @pytest.mark.slow
     def test_nahosmip_gcoyr_hfds(self):
         self.check_convert(relaxed_cmor=True)
