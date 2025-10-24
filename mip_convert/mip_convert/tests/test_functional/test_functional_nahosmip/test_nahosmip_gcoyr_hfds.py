@@ -50,7 +50,7 @@ class TestNAHosMIPGCOyrHfds(AbstractFunctionalTests):
             )
         )
 
-    @pytest.mark.xfail
+    @pytest.mark.xfail(strict=True)
     @pytest.mark.slow
     def test_nahosmip_gcoyr_hfds(self):
         self.check_convert(relaxed_cmor=True)
