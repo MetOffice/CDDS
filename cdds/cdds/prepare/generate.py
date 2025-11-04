@@ -4,29 +4,35 @@
 """
 This module contains the code to generate |requested variables lists|.
 """
+import configparser
 import glob
-import os
 import logging
-
+import os
 from argparse import Namespace
+from collections import defaultdict
 from datetime import datetime
+from typing import Any
 
-from cdds.configure.user_config import create_user_config_files
-from cdds.common.cdds_files.cdds_directories import component_directory
-from cdds.common.io import write_json
-from cdds.common import set_checksum
-
-from cdds.common.request.request import read_request, Request
-from cdds.common.cdds_files.cdds_directories import requested_variables_file
+from mip_convert.plugins.plugins import MappingPluginStore
+from mip_convert.requested_variables import get_variable_model_to_mip_mapping
 
 from cdds import __version__
+from cdds.common import set_checksum
+from cdds.common.cdds_files.cdds_directories import component_directory
+from cdds.common.io import write_json
+from cdds.common.mappings.ancils import remove_ancils_from_mapping
+from cdds.common.mip_tables import UserMipTables
 from cdds.common.plugins.plugins import PluginStore
-from cdds.prepare.constants import (VARIABLE_IN_INVENTORY_LOG,
-                                    VARIABLE_NOT_IN_INVENTORY_LOG,
-                                    VARIABLE_IN_INVENTORY_COMMENT)
-from cdds.prepare.mapping_status import MappingStatus, ProducibleState
-from cdds.prepare.parameters import VariableParameters
-from cdds.inventory.dao import InventoryDAO, DBVariableStatus
+from cdds.common.request.request import Request, read_request
+from cdds.configure.user_config import create_user_config_files
+from cdds.inventory.dao import DBVariableStatus, InventoryDAO
+from cdds.prepare.constants import (
+    VARIABLE_IN_INVENTORY_COMMENT,
+    VARIABLE_IN_INVENTORY_LOG,
+    VARIABLE_NOT_IN_INVENTORY_LOG,
+)
+from cdds.prepare.mapping_status import MappingStatus
+from cdds.prepare.user_variable import UserDefinedVariable, parse_variable_list
 
 
 def generate_variable_list(arguments: Namespace) -> None:
@@ -68,20 +74,29 @@ def generate_variable_list(arguments: Namespace) -> None:
     if os.path.exists(output_file) and request.misc.no_overwrite:
         raise IOError('Output file "{}" already exists'.format(output_file))
 
-    # Bypass data request and build variables directly from tables.
-    config = VariableParameters(request)
+    cmip_tables = UserMipTables(request.common.mip_table_dir)
 
-    # Determine which 'MIP requested variables' can and will be produced.
+    with open(request.data.variable_list_file, "r") as fh:
+        requested_variables = [line.strip() for line in fh.readlines()]
+
+    user_requested_variables = parse_variable_list(cmip_tables, requested_variables)
+
+    model_to_mip_mappings = retrieve_mappings(
+        user_requested_variables,
+        request.metadata.mip_era,
+        request.metadata.model_id,
+    )
+
     logger.info('Bypassing the Data Request and using Mip Tables.')
-    constructor = VariablesConstructor(config)
-
-    requested_variables_list = constructor.construct_requested_variables_list()
-    constructor.clean_up()
+    # Bypass data request and build variables directly from tables.
+    requested_variables = resolve_requested_variables(user_requested_variables, model_to_mip_mappings)
+    variable_constructor = VariablesConstructor(request, requested_variables)
+    var_list = variable_constructor.construct_requested_variables_list()
 
     # TODO: take inventory check into account!
     # Write the 'requested variables list'.
     logger.info('Writing the Requested variables list to "{}".'.format(output_file))
-    write_json(output_file, requested_variables_list)
+    write_json(f"{output_file}", var_list)
 
     if (arguments.reconfigure):
         reconfigure_mip_cfg_file(request, output_file)
@@ -115,15 +130,121 @@ def reconfigure_mip_cfg_file(request: Request, requested_variables_file: str) ->
     logger.info('* Completed reconfiguration *')
 
 
-class VariablesConstructor:
+def retrieve_mappings(variables: list[UserDefinedVariable], mip_era, model_id) -> dict[str, dict[str, Any]]:
     """
-    Abstract class for all classes constructing the
-    requested list of variables
-    """
+    Return the |model to MIP mappings| for the |MIP requested variables|.
 
-    def __init__(self, config):
-        self._config = config
-        self._plugin = PluginStore.instance().get_plugin()
+    The returned |model to MIP mappings| are organised by |MIP table|,
+    then |MIP requested variable name|. Note if the
+    |model to MIP mapping| is not found for a given
+    |MIP requested variable|, the exception raised will be returned
+    instead of the |model to MIP mapping|.
+
+    Parameters
+    ----------
+    data_request_variables : dict of :class:`DataRequestVariables`
+        The |MIP requested variables| from the |data request|.
+    mip_era : str
+        The |MIP era|.
+    model_id : str
+        The |model identifier|.
+
+    Returns
+    -------
+    : dict of :class:`VariableModelToMIPMapping`
+        The |model to MIP mappings| for the |MIP requested variables|.
+    """
+    mapping_plugin = MappingPluginStore.instance().get_plugin()
+    mappings: dict = defaultdict(dict)
+
+    for variable in variables:
+        mip_table_name = "{}_{}".format(mip_era, variable.mip_table)
+        model_to_mip_mappings = mapping_plugin.load_model_to_mip_mapping(mip_table_name)
+        try:
+            mapping = get_variable_model_to_mip_mapping(model_to_mip_mappings, variable.var_name, variable.mip_table)
+            mapping = remove_ancils_from_mapping(mapping, model_id)
+        except (RuntimeError, configparser.Error) as exc:
+            mapping = exc
+        mappings[variable.mip_table][variable.var_name] = mapping
+
+    return mappings
+
+
+def check_mappings(variable: UserDefinedVariable, model_to_mip_mappings):
+    """
+    Return whether the |MIP requested variable| provided by the
+    ``variable`` parameter has an associated |model to MIP mapping|
+    provided by the ``model_to_mip_mappings`` parameter, along with the
+    |model to MIP mapping|.
+
+    Parameters
+    ----------
+    variable : :class:`DataRequestVariable`
+        The |MIP requested variable| from the |data request|.
+    comments : list
+        The comments related to the |MIP requested variable|.
+
+    Returns
+    -------
+    : bool, :class:`VariableModelToMIPMapping`
+        Whether the |MIP requested variable| has an associated
+        |model to MIP mapping|, along with the |model to MIP mapping|
+        for the |MIP requested variable|.
+    """
+    mapping = model_to_mip_mappings[variable.mip_table][variable.variable_name]
+    comments = []
+    if isinstance(mapping, Exception):
+        variable_in_mappings = False
+        comments.append(str(mapping))
+        # Return None rather than an exception as it is easier for subsequent checks to handle.
+    else:
+        variable_in_mappings = True
+
+    return variable_in_mappings, comments
+
+
+def resolve_requested_variables(request_variables: list[UserDefinedVariable], model_to_mip_mappings):
+    """
+    Return the resolved |MIP requested variables|.
+
+    Returns
+    -------
+    : list
+        The resolved |MIP requested variables|.
+    """
+    mapping_data = MappingStatus.get_instance()
+
+    requested_variables = []
+    for variable in request_variables:
+        # Mappings check (returns mapping object for use in subsequent checks.
+        variable_in_model = True
+        variable_in_mappings, comments = check_mappings(variable, model_to_mip_mappings)
+
+        # Combine all above flags to determine whether this variable should be active.
+        active = all([variable_in_model, variable_in_mappings])
+
+        requested_variable = {
+            "active": active,
+            "producible": mapping_data.producible_state(variable.variable_name, variable.mip_table),
+            "cell_methods": variable.cell_methods,
+            "comments": sorted(comments),
+            "dimensions": variable.dimensions,
+            "frequency": variable.frequency,
+            "in_model": variable_in_model,
+            "in_mappings": variable_in_mappings,
+            "label": variable.variable_name,
+            "miptable": variable.mip_table,
+            "stream": variable.stream,
+        }
+        requested_variables.append(requested_variable)
+
+    return requested_variables
+
+
+class VariablesConstructor:
+    def __init__(self, request: Request, requested_variables: list[UserDefinedVariable]):
+        self.request = request
+        self.requested_variables = requested_variables
 
     def construct_requested_variables_list(self):
         """
@@ -134,162 +255,25 @@ class VariablesConstructor:
         dict:
             The |requested variables list|.
         """
-        requested_variables = self.resolve_requested_variables()
 
         requested_variables_list = {
-            'experiment_id': self._config.experiment_id,
-            'history': [
-                {'comment': 'Requested variables file created.',
-                 'time': datetime.now().isoformat()}
-            ],
-            'mip': self._config.request_mip,
-            'mip_era': self._config.request_mip_era,
-            'model_id': self._config.model_id,
-            'model_type': self._config.model_type,
-            'production_info': 'Produced using CDDS Prepare version "{}"'.format(__version__),
-            'metadata': self._config.experiment_metadata,
-            'status': 'ok',
-            'requested_variables': requested_variables,
-            'suite_branch': self._config.suite_branch,
-            'suite_id': self._config.suite_id,
-            'suite_revision': self._config.suite_revision
+            "experiment_id": self.request.metadata.experiment_id,
+            "history": [{"comment": "Requested variables file created.", "time": datetime.now().isoformat()}],
+            "mip": self.request.metadata.mip,
+            "mip_era": self.request.metadata.mip_era,
+            "model_id": self.request.metadata.model_id,
+            "model_type": ' '.join(self.request.metadata.model_type),
+            "production_info": 'Produced using CDDS Prepare version "{}"'.format(__version__),
+            "metadata": {},
+            "status": "ok",
+            "requested_variables": self.requested_variables,
+            "suite_branch": self.request.data.model_workflow_branch,
+            "suite_id": self.request.data.model_workflow_id,
+            "suite_revision": self.request.data.model_workflow_revision,
         }
 
         set_checksum(requested_variables_list)
         return requested_variables_list
-
-    def resolve_requested_variables(self):
-        """
-        Return the resolved |MIP requested variables|.
-
-        Returns
-        -------
-        : list
-            The resolved |MIP requested variables|.
-        """
-        requested_variables = []
-        for mip_table in sorted(self._config.request_variables):
-            for variable_name, variable in sorted(self._config.request_variables[mip_table].items()):
-                comments = []
-
-                # Variable in model check.
-                variable_in_model = self.check_in_model(variable, comments)
-
-                # Mappings check (returns mapping object for use in subsequent checks.
-                variable_in_mappings, _ = self.check_mappings(variable, comments)
-
-                # Combine all above flags to determine whether this variable should be active.
-                active = all([variable_in_model, variable_in_mappings])
-
-                producible_state = self.check_producible(variable_name, mip_table)
-
-                requested_variable = {
-                    'active': active,
-                    'producible': producible_state,
-                    'cell_methods': variable.cell_methods,
-                    'comments': sorted(comments),
-                    'dimensions': variable.dimensions,
-                    'frequency': variable.frequency,
-                    'in_model': variable_in_model,
-                    'in_mappings': variable_in_mappings,
-                    'label': variable_name,
-                    'miptable': mip_table,
-                    'stream': variable.stream
-                }
-                requested_variables.append(requested_variable)
-
-        return requested_variables
-
-    def check_in_model(self, variable, comments):
-        """
-        Return whether the |MIP requested variable| provided by the
-        ``variable`` parameter is enabled in the model suite provided by the
-        ``model_suite_variables``.
-
-        If the |MIP requested variable| is disabled or not found in model
-        suite, a message is added to the comments provided by the
-        ``comments`` parameter.
-
-        Parameters
-        ----------
-        variable : :class:`DataRequestVariable`
-            The |MIP requested variable| from the |data request|.
-        comments : list
-            The comments related to the |MIP requested variable|.
-
-        Returns
-        -------
-        : bool
-            Whether the |MIP requested variable| is enabled in the model
-            suite.
-        """
-        key = '{}/{}'.format(variable.mip_table, variable.variable_name)
-        variable_enabled = key in self._config.enabled_suite_variables
-        variable_disabled = key in self._config.disabled_suite_variables
-        if not variable_enabled:
-            if variable_disabled:
-                comments.append('Variable not enabled in model suite')
-            else:
-                comments.append('Variable does not exist in model suite')
-        return variable_enabled
-
-    def check_mappings(self, variable, comments):
-        """
-        Return whether the |MIP requested variable| provided by the
-        ``variable`` parameter has an associated |model to MIP mapping|
-        provided by the ``model_to_mip_mappings`` parameter, along with the
-        |model to MIP mapping|.
-
-        Parameters
-        ----------
-        variable : :class:`DataRequestVariable`
-            The |MIP requested variable| from the |data request|.
-        comments : list
-            The comments related to the |MIP requested variable|.
-
-        Returns
-        -------
-        : bool, :class:`VariableModelToMIPMapping`
-            Whether the |MIP requested variable| has an associated
-            |model to MIP mapping|, along with the |model to MIP mapping|
-            for the |MIP requested variable|.
-        """
-        mapping = self._config.model_to_mip_mappings[variable.mip_table][variable.variable_name]
-        if isinstance(mapping, Exception):
-            variable_in_mappings = False
-            comments.append(str(mapping))
-            # Return None rather than an exception as it is easier for subsequent checks to handle.
-            mapping = None
-        else:
-            variable_in_mappings = True
-
-        return variable_in_mappings, mapping
-
-    @staticmethod
-    def check_producible(variable_name, mip_table):
-        """
-        Check if a variable with given name and in given MIP table will be
-        produced or not. The string representation of the producible state
-        will be returned that is needed for the variables data list.
-
-        Parameters
-        ----------
-        variable_name: string
-            name of the requested variable
-        mip_table: string
-            name of the MIP table of the requested variable
-
-        Returns
-        -------
-        : string
-            the string value of the producible state for the variables data list
-        """
-        mapping_data = MappingStatus.get_instance()
-        producible = mapping_data.producible(variable_name, mip_table)
-        return ProducibleState.to_variables_data_value(producible)
-
-    def clean_up(self):
-        pass
 
 
 class InventoryVariablesConstructor(VariablesConstructor):

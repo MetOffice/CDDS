@@ -15,6 +15,7 @@ from cdds.common.plugins.exceptions import PluginLoadError
 from cdds.common.plugins.base.base_plugin import MipEra
 from cdds.common.plugins.cmip6.cmip6_plugin import Cmip6Plugin
 from cdds.common.plugins.cmip6_plus.cmip6_plus_plugin import Cmip6PlusPlugin
+from cdds.common.plugins.cmip7.cmip6_plugin import Cmip6Plugin as Cmip7Plugin
 from cdds.common.plugins.cordex.cordex_plugin import CordexPlugin
 from cdds.common.plugins.gcmodeldev.gcmodeldev_plugin import GCModelDevPlugin
 
@@ -45,6 +46,8 @@ def load_plugin(mip_era: str = MipEra.CMIP6.value, plugin_module_path: str = Non
         load_cmip_plugin(mip_era)
     elif MipEra.is_cmip_plus(mip_era):
         load_cmip_plus_plugin(mip_era)
+    elif MipEra.is_cmip7(mip_era):
+        load_cmip7_plugin(mip_era)
     elif MipEra.is_gcmodeldev(mip_era):
         load_gc_model_dev_plugin(mip_era)
     elif MipEra.is_cordex(mip_era):
@@ -91,6 +94,26 @@ def load_cmip_plus_plugin(mip_era: str) -> None:
         plugin_store.register_plugin(cmip6_plus_plugin)
     else:
         message = 'Failed to find CMIP6Plus plugin for project "{}"'.format(mip_era)
+        logger.critical(message)
+        raise PluginLoadError(message)
+
+
+def load_cmip7_plugin(mip_era: str) -> None:
+    """
+    Loads the CMIP7 plugin implemented by the CDDS project that is responsible for
+    the project with given ID.
+
+    :param mip_era: MIP era for that the plugin is responsible
+    :type mip_era: str
+    """
+    logger = logging.getLogger(__name__)
+    cmip7_plugin = Cmip7Plugin()
+
+    if cmip7_plugin.is_responsible(mip_era):
+        plugin_store = PluginStore.instance()
+        plugin_store.register_plugin(cmip7_plugin)
+    else:
+        message = 'Failed to find CMIP7 plugin for project "{}"'.format(mip_era)
         logger.critical(message)
         raise PluginLoadError(message)
 

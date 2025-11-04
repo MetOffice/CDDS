@@ -3,7 +3,7 @@
 # Please see LICENSE.md for license details.
 import sys
 
-from cdds.prepare.request_file.command_line import main_write_request
+from cdds.common.request.write_request.command_line import main_write_request
 
 
 if __name__ == '__main__':
