@@ -77,6 +77,17 @@ def generate_variable_list(arguments: Namespace) -> None:
     # Note: requested_variables_list is a dictionary data structure with information on
     # the selected variables - not a list.
     requested_variables_list = constructor.construct_requested_variables_list()
+
+    unrecognised_variables = []
+    for var in requested_variables_list['requested_variables']:
+        if not var['active']:
+            unrecognised_variables.append(var)
+
+    for x in unrecognised_variables:
+        logger.critical(f'Unrecognised variable: {x["comments"]}')
+
+    breakpoint()
+
     constructor.clean_up()
 
     # TODO: take inventory check into account!
