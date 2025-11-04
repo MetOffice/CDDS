@@ -74,7 +74,8 @@ def generate_variable_list(arguments: Namespace) -> None:
     # Determine which 'MIP requested variables' can and will be produced.
     logger.info('Bypassing the Data Request and using Mip Tables.')
     constructor = VariablesConstructor(config)
-
+    # Note: requested_variables_list is a dictionary data structure with information on
+    # the selected variables - not a list.
     requested_variables_list = constructor.construct_requested_variables_list()
     constructor.clean_up()
 
