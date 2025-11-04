@@ -5,6 +5,7 @@ import os
 import re
 import warnings
 
+from argparse import Namespace
 from configparser import ConfigParser, ExtendedInterpolation
 
 import cdds
@@ -17,18 +18,14 @@ from cdds.common.mappings_viewer.constants import (HEADINGS, HEADER_ROW_TEMPLATE
 from mip_convert.plugins.plugins import MappingPluginStore
 
 
-def get_mappings(model, mappings_directory, arguments):
+def get_mappings(mappings_directory):
     """
     Read all of the mappings for a given model and return them as a list of lists.
 
     Parameters
     ----------
-    model : str
-        Name of model to produce mappings for.
     mappings_directory: str
         The location of the mappings configurations directory within CDDS.
-    arguments : argparse.Namespace
-        User arguments.
     Returns
     -------
     table_data : list
@@ -63,14 +60,12 @@ def get_mappings(model, mappings_directory, arguments):
     return table_data
 
 
-def get_processor_lines(arguments, mappings_directory):
+def get_processor_lines(mappings_directory: str) -> dict[str, int]:
     """
     Get the function names and their lines within the file from processors.py
 
     Parameters
     ----------
-    arguments : argparse.Namespace
-        User arguments.
     mappings_directory: str
         The location of the mappings configurations directory within CDDS.
     Returns
@@ -92,15 +87,13 @@ def get_processor_lines(arguments, mappings_directory):
     return processor_line_mappings
 
 
-def get_mapping_lines(arguments, mappings_directory):
+def get_mapping_lines(mappings_directory: str):
     """
     Reads in the .cfg mapping files from mip_convert and returns a dict of dicts where
     each dictionary contains key:value pairs of variable_name:line_of_file.
 
     Parameters
     ----------
-    arguments : argparse.Namespace
-        User arguments.
     mappings_directory: str
         The location of the mappings configurations directory within CDDS.
     Returns
@@ -111,7 +104,7 @@ def get_mapping_lines(arguments, mappings_directory):
     glob_string = os.path.join(mappings_directory, '*mappings.cfg')
     cfg_files = glob.glob(glob_string)
 
-    line_mappings = {}
+    line_mappings: dict = {}
     for cfg_file in cfg_files:
         cfg_name = os.path.basename(cfg_file)
         line_mappings[cfg_name] = {}
@@ -128,20 +121,23 @@ def get_mapping_lines(arguments, mappings_directory):
     return line_mappings
 
 
-def get_stash_meta_dict(stash_meta_filepath):
+def get_stash_meta_dict(stashmaster_path: str):
     """
     Read a STASHmaster-meta.conf file and returns a dictionary of stash codes with an associated
-    dictionary containg the description and help fields if they exist.
+    dictionary containing the description and help fields if they exist.
 
+    Parameters
+    ----------
+    stashmaster_path : str
+        Path to a STASHmaster.conf file
     Returns
     -------
     stash_dict_formatted : dict
         A dictionary where each key is a stash code in the format m01sXXiXXX
     """
-    stashmaster_meta_path = stash_meta_filepath
-    stash_dict = load_suite_info_from_file(stashmaster_meta_path)
+    stash_dict = load_suite_info_from_file(stashmaster_path)
 
-    stash_dict_formatted = {}
+    stash_dict_formatted: dict = {}
 
     for stash_code, options in stash_dict.items():
         # Format Keys to Reflect the "m01s00i000" Style
@@ -181,7 +177,11 @@ def format_mapping(expression, stash_meta_dictionary, processors):
     Parameters
     ----------
     expression : str
-
+        A mapping expression as a string.
+    stash_meta_dictionary : dict
+        A dictionary of stash descriptions.
+    processors :
+        A dictionary that maps processor name to the line number in source.
     Returns
     -------
     formatted_expression : str
@@ -251,7 +251,7 @@ def format_mapping_link(entry, line_mappings):
     Parameters
     ----------
     entry : tuple
-        Tuple contining the variable name and the cfg file.
+        Tuple containing the variable name and the cfg file.
     line_mappings : dict
         A dict of dicts containing all line mappings.
     Returns
@@ -267,7 +267,7 @@ def format_mapping_link(entry, line_mappings):
     return mapping_hyperlink
 
 
-def build_table(table_data, mappings_directory, arguments):
+def build_table(table_data, mappings_directory, stashmaster_path):
     """
     Build the  HTML for table showing the supplied table_data
 
@@ -277,16 +277,15 @@ def build_table(table_data, mappings_directory, arguments):
         The data to populate the table with.
     mappings_directory: str
         The location of the mappings configurations directory within CDDS.
-    arguments : argparse.Namespace
-        User arguments.
+    stashmaster_path : str
+        Path to a STASHmaster.conf file
     Returns
     -------
     table_html : str
         The table_data formatted as a html table.
     """
-    stash_meta_dictionary = get_stash_meta_dict(arguments.stash_meta_filepath)
-    processor_lines = get_processor_lines(arguments, mappings_directory)
-    mapping_lines = get_mapping_lines(arguments, mappings_directory)
+    stash_meta_dictionary = get_stash_meta_dict(stashmaster_path)
+    processor_lines = get_processor_lines(mappings_directory)
 
     html = ''
     for i, row in enumerate(table_data):
@@ -316,7 +315,7 @@ def build_table(table_data, mappings_directory, arguments):
     return table_html
 
 
-def generate_html(table, model, mappings_dir, arguments):
+def generate_html(table: str, model: str, mappings_dir: str, arguments: Namespace) -> None:
     """
     Parameters
     ----------
@@ -324,6 +323,8 @@ def generate_html(table, model, mappings_dir, arguments):
         The html table
     model : str
         Name of the model.
+    mappings_dir : str
+        Directory containing the mappings .cfg files.
     arguments : argparse.Namespace
         User arguments.
     """

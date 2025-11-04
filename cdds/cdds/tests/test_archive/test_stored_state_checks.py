@@ -164,6 +164,45 @@ class TestStoredStateChecks(unittest.TestCase):
         ref_status = 'APPENDING'
         self.assertEqual(ref_status, output_status)
 
+    def test_check_state_appending_to_embargoed_match_gap(self):
+        fname_list = [
+            'ps_6hrLev_UKESM1-0-LL_ssp126_r1i1p1f2_gn_204001010600-205001010000.nc',
+            'ps_6hrLev_UKESM1-0-LL_ssp126_r1i1p1f2_gn_205001010600-206001010000.nc',
+        ]
+        dummy_mass_path = 'moose://dummy/path/to/archived/file'
+        dummy_data_path = '/path/to/mip/output/data'
+        old_ts = 'v20190909'
+        new_ts = 'v20191010'
+        stored_state = 'EMBARGOED'
+        test_var_dict = {
+            'mip_table_id': '6hrLev',
+            'variable_id': 'ps',
+            'frequency': '6hrPt',
+            'new_datestamp': new_ts,
+            'mip_output_files': [os.path.join(dummy_data_path, f1)
+                                 for f1 in fname_list[2:]],
+            'date_range': (TimePoint(year=2060, month_of_year=1, day_of_month=1, hour_of_day=6),
+                           TimePoint(year=2070, month_of_year=1, day_of_month=1)),
+            'stored_data': {stored_state: {old_ts: [
+                os.path.join(dummy_mass_path,
+                             DATA_PUBLICATION_STATUS_DICT[stored_state],
+                             old_ts, fname1)
+                for fname1 in fname_list[:2]
+            ]}}
+        }
+        output_status = stored_state_checks.check_state_extending_embargoed(
+            test_var_dict)
+        ref_status = 'APPENDING'
+        self.assertEqual(ref_status, output_status)
+
+        test_var_dict['date_range'] = (
+            TimePoint(year=2030, month_of_year=1, day_of_month=1, hour_of_day=6),
+            TimePoint(year=2040, month_of_year=1, day_of_month=1))
+        output_status = stored_state_checks.check_state_extending_embargoed(
+            test_var_dict)
+        ref_status = 'PREPENDING'
+        self.assertEqual(ref_status, output_status)
+
     def test_check_state_appending_to_published_nomatch(self):
         fname_list = [
             'pr_Amon_UKESM1-0-LL_ssp126_r1i1p1f2_gn_205001-205912.nc',

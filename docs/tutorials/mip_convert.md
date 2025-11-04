@@ -120,41 +120,50 @@ For a description of each option please see the documentation for [cmor_setup()]
 
 ### **cmor_dataset**
 
-The required `cmor_dataset` section contains the following options used for [cmor_data_set_json()](https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_dataset_json)
+The required `cmor_dataset` section contains the following options used for [cmor_data_set_json()](https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_dataset_json) for CMIP6.
 
 |              Option             | Required by        |          Used by   | Notes   |
 |---------------------------------|--------------------|--------------------|---------|
-| ``branch_method``               | MIP Convert + CMOR | MIP Convert + CMOR | [1]     |
-| ``calendar``                    | MIP Convert + CMOR | MIP Convert + CMOR | [2]     |
-| ``comment``                     |                    | CMOR               | [1] [3] |
-| ``contact``                     |                    | CMOR               | [1]     |
-| ``experiment_id``               | MIP Convert + CMOR | MIP Convert + CMOR | [1]     |
-| ``grid``                        | CMOR               | CMOR               | [1]     |
-| ``grid_label``                  | CMOR               | CMOR               | [1]     |
-| ``institution_id``              | MIP Convert + CMOR | MIP Convert + CMOR | [1]     |
-| ``license``                     | CMOR               | CMOR               | [1]     |
-| ``mip``                         | CMOR               | CMOR               | [1] [4] |
-| ``mip_era``                     | MIP Convert + CMOR | MIP Convert + CMOR | [1]     |
-| ``model_id``                    | MIP Convert + CMOR | MIP Convert + CMOR | [1] [5] |
-| ``model_type``                  | CMOR               | CMOR               | [1] [6] |
-| ``nominal_resolution``          | CMOR               | CMOR               | [1]     |
-| ``output_dir``                  | MIP Convert + CMOR | MIP Convert + CMOR | [7]     |
+| ``branch_method``               | MIP Convert + CMOR | MIP Convert + CMOR | *1*     |
+| ``calendar``                    | MIP Convert + CMOR | MIP Convert + CMOR | *2*     |
+| ``comment``                     |                    | CMOR               | *1*, *3*|
+| ``contact``                     |                    | CMOR               | *1*     |
+| ``experiment_id``               | MIP Convert + CMOR | MIP Convert + CMOR | *1*     |
+| ``grid``                        | CMOR               | CMOR               | *1*     |
+| ``grid_label``                  | CMOR               | CMOR               | *1*     |
+| ``institution_id``              | MIP Convert + CMOR | MIP Convert + CMOR | *1*     |
+| ``license``                     | CMOR               | CMOR               | *1*     |
+| ``mip``                         | CMOR               | CMOR               | *1*, *4*|
+| ``mip_era``                     | MIP Convert + CMOR | MIP Convert + CMOR | *1*     |
+| ``model_id``                    | MIP Convert + CMOR | MIP Convert + CMOR | *1*, *5*|
+| ``model_type``                  | CMOR               | CMOR               | *1*, *6*|
+| ``nominal_resolution``          | CMOR               | CMOR               | *1*     |
+| ``output_dir``                  | MIP Convert + CMOR | MIP Convert + CMOR | *7*     |
 | ``output_file_template``        |                    | CMOR               |         |
 | ``output_path_template``        |                    | CMOR               |         |
-| ``references``                  |                    | CMOR               | [1]     |
-| ``sub_experiment_id``           | MIP Convert + CMOR | MIP Convert        | [1]     |
-| ``variant_info``                |                    | CMOR               | [1]     |
-| ``variant_label``               | MIP Convert + CMOR | MIP Convert + CMOR | [1]     |
+| ``references``                  |                    | CMOR               | *1*     |
+| ``sub_experiment_id``           | MIP Convert + CMOR | MIP Convert        | *1*     |
+| ``variant_info``                |                    | CMOR               | *1*     |
+| ``variant_label``               | MIP Convert + CMOR | MIP Convert + CMOR | *1*     |
 
 **Notes**
 
-1. For a description of each option, please see the `CMIP6 Global Attributes document`_.
-1. See calendars for allowed values.
-1. It is recommended to use the ``comment`` to record any perturbed physicsdetails.
-1. See MIP.
-1. See model identifier.
-1. See model type.
-1. See ``outpath`` in the documentation for `cmor_dataset_json`_.
+1. For a description of each option, please see the [CMIP6 Global Attributes document](https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/).
+1. Calendar types allowed are:
+    - standard
+    - gregorian
+    - proleptic_gregorian
+    - noleap
+    - 365_day
+    - 360_day
+    - julian
+    - all_leap
+    - 366_day
+1. It is recommended to use the ``comment`` option to record any perturbed physics details.
+1. See [activity_id](https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/). For more examples see [CMIP6 CV's](https://wcrp-cmip.github.io/CMIP6_CVs/docs/CMIP6_experiment_id.html).
+1. See [source_id](https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/). For more examples see [CMIP6 CV's](https://wcrp-cmip.github.io/CMIP6_CVs/docs/CMIP6_source_id_licenses.html).
+1. See [source_type](https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/).
+1. If ``create_subdirectories`` is set to True CMOR will construct the full directory structure used by CMIP, as specified in the DRS (Directory Reference Syntax) information held in the CVs, underneath ``output_dir``. If ``create_directories`` is set to False (as is usual within CDDS) files will be directly written to ``output_dir``.
 
 MIP Convert determines:
 
@@ -167,21 +176,21 @@ MIP Convert determines:
 
     |              Option             |     Used by     |   Notes   |
     |---------------------------------|-----------------|-----------|
-    | ``branch_date_in_child``        | MIP Convert     | [1][2][3] |
-    | ``branch_date_in_parent``       | MIP Convert     | [1][2][3] |
-    | ``parent_base_date``            | MIP Convert     | [1][2]    |
-    | ``parent_experiment_id``        | CMOR            | [3]       |
-    | ``parent_mip_era``              | CMOR            | [3]       |
-    | ``parent_model_id``             | CMOR            | [3][4]    |
-    | ``parent_time_units``           | CMOR            | [3]       |
-    | ``parent_variant_label``        | CMOR            | [3]       |
+    | ``branch_date_in_child``        | MIP Convert     | *1*,*2*,*3* |
+    | ``branch_date_in_parent``       | MIP Convert     | *1*,*2*,*3* |
+    | ``parent_base_date``            | MIP Convert     | *1*,*2*    |
+    | ``parent_experiment_id``        | CMOR            | *3*       |
+    | ``parent_mip_era``              | CMOR            | *3*       |
+    | ``parent_model_id``             | CMOR            | *3**4*    |
+    | ``parent_time_units``           | CMOR            | *3*       |
+    | ``parent_variant_label``        | CMOR            | *3*       |
     
     **Notes**
     
     1. CMOR requires ``branch_time_in_child`` and ``branch_time_in_parent``, which is determined from the options ``base_date`` (see the `request <request_section>` section) / ``parent_base_date`` (the base date of the ``child_experiment_id`` / ``parent_experiment_id``) and ``branch_date_in_child`` / ``branch_date_in_parent`` (the date in the ``child_experiment_id`` / ``parent_experiment_id`` from which the experiment branches) from the `cmor_dataset <cmor_dataset_section>` section in the |user configuration file| by taking the difference (in days) between the ``branch_date_in_child`` / ``branch_date_in_parent`` and the ``base_date`` / ``parent_base_date``. If ``branch_date_in_child`` or ``branch_date_in_parent`` is ``N/A`` then ``branch_time_in_parent`` is set to 0.
     2. Dates should be provided in the form `YYYY-MM-DDThh:mm:ssZ`.
-    3. For a description of each option, please see the [CMIP6 Global Attributes document](https://docs.google.com/document/d/1h0r8RZr_f3-8egBMMh7aqLwy3snpD6_MrDz1q8n5XUk).
-    4. See ``parent_source_id`` in the [CMIP6 Global Attributes document](https://docs.google.com/document/d/1h0r8RZr_f3-8egBMMh7aqLwy3snpD6_MrDz1q8n5XUk).
+    3. For a description of each option, please see the [CMIP6 Global Attributes document](https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/).
+    4. See ``parent_source_id`` in the [CMIP6 Global Attributes document](https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/).
     
     
 ### **request**
@@ -191,21 +200,21 @@ The required `request` section contains the following options which are used onl
 | <div style="width:125px">Option</div> | Required | Description                                                                                                                                                                            | Notes  |
 |---------------------------------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
 | `ancil_files`                         |          | A space separated list of the full paths to any required ancillary files.                                                                                                              |        |
-| `atmos_timestep`                      |          | The atmospheric model timestep in integer seconds.                                                                                                                                     | [1]    |
-| `base_date`                           | Yes      | The date in the form `YYYY-MM-DDThh:mm:ss`.                                                                                                                                            | [2]    |
+| `atmos_timestep`                      |          | The atmospheric model timestep in integer seconds.                                                                                                                                     | *1*    |
+| `base_date`                           | Yes      | The date in the form `YYYY-MM-DDThh:mm:ss`.                                                                                                                                            | *2*    |
 | `deflate_level`                       |          | The deflation level when writing the output netCDF file from 0 (no compression) to 9 (maximum compression).                                                                            |        |
 | `force_coordinate_rotation`           |          | If set to `True`, output data will be forced to include rotated coordinates and true lat-lon coordinates.                                                                              |        |
-| `hybrid_heights_file`                 |          | A space separated list of the full path to the files containing the information about the hybrid heights.                                                                              | [3]    |
-| `mask_slice`                          | Yes      | Optional slicing expression for masking data in the form of `n:m,i:j`, or `no_mask`                                                                                                    | [4][8] |
-| `model_output_dir`                    | Yes      | The full path to the root directory containing the model output files.                                                                                                                 | [5]    |
+| `hybrid_heights_file`                 |          | A space separated list of the full path to the files containing the information about the hybrid heights.                                                                              | *3*    |
+| `mask_slice`                          | Yes      | Optional slicing expression for masking data in the form of `n:m,i:j`, or `no_mask`                                                                                                    | *4*,*8* |
+| `model_output_dir`                    | Yes      | The full path to the root directory containing the model output files.                                                                                                                 | *5*    |
 | `mip_convert_plugin`                  | Yes      | The id of the MIP convert plugin that should be used.                                                                                                                                  |      |
 | `mip_convert_external_plugin`         |          | The module path to external MIP convert plugin, e.g. `cdds_arise.arise_mip_convert_plugin`.                                                                                            |        |
 | `mip_convert_external_plugin_location`|          | The full path to the external plugin implementation, e.g. `$CDDS_ETC/mapping_plugins/arise`.                                                                                                    |        |
 | `reference_time`                      | Yes      | The reference time used to construct `reftime` and `leadtime` coordinates. Only used if these coordinates are specified corresponding variable entries in the MIP table                |        |
-| `replacement_coordinates_file`        |          | The full path to the netCDF file containing area variables that refer to the horizontal coordinates that should be used to replace the corresponding values in the model output files. | [6]    |
+| `replacement_coordinates_file`        |          | The full path to the netCDF file containing area variables that refer to the horizontal coordinates that should be used to replace the corresponding values in the model output files. | *6*    |
 | `run_bounds`                          | Yes      | The start and end time in the form `<start_time> <end_time>`, where `<start_time>` and `<end_time>` are in the form `YYYY-MM-DDThh:mm:ss`.                                             |        |
 | `shuffle`                             |          | Whether to shuffle when writing the output netCDF file.                                                                                                                                |        |
-| `sites_file`                          |          | The full path to the file containing the information about the sites.                                                                                                                  | [7]    |
+| `sites_file`                          |          | The full path to the file containing the information about the sites.                                                                                                                  | *7*    |
 | `suite_id`                            | Yes      | The suite identifier of the model.                                                                                                                                                     |        |
 
 **Notes**
@@ -269,7 +278,7 @@ This is usually only used for polar row masking in NEMO & CICE output
 
 ### **halo_removal**
 
-The optional `halo removal` section is used if for a particular stream haloes are to be removed.
+The optional `halo_removal` section is used if haloes need to be removed from particular streams.
 
 !!! example
     ```config
@@ -277,6 +286,9 @@ The optional `halo removal` section is used if for a particular stream haloes ar
     stream_apa = 5:,:-10
     stream_ap6 = 20:-15
     ```
+
+!!! tip
+    If a cube is used which has the `haloes_removed = "true"` global attribute, the halo removal process will be skipped for that cube.
 
 ### **slicing_periods**
 

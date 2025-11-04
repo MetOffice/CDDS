@@ -1,3 +1,22 @@
+## Release 3.3.0, October 16, 2025
+
+-   The removal of halo data (additional rows and columns) from NEMO and MEDUSA output files has been moved from the extraction step to the conversion step within CDDS. This both reduces load on the MASS archive when extracting data and makes it more straightforward for CDDS to be used without MASS. The removal of halo data is controlled by additional fields within the model config files that are embedded in CDDS with the model plugins or provided by users when they wish to override CDDS defaults. The remove_halo script has been retired as a result (#547)
+-   The archiving step within CDDS can now correctly append/prepend to existing data sets where the variable is sampled instantaneously, which leads to a gap in the time bounds between files (#635)
+-   The submission code now supports running outside specific hosts (#630)
+-   A CMIP7 plugin has been added to facilitate CMIP7 development (#600)
+
+## Release 3.2.1, August 29, 2025
+
+-   Improved error messages when not passing a valid `request.cfg` path (#575)
+-   Fixed the generate_mappings_html command (#474)
+-   Removed `fix_import_paths()` due to Cylc 8 using separate jinja2 library(#571)
+-   The `model_workflow_id` in now a required option in the `request.cfg` (#484)
+-   Fixed validation failing for daily data when using the Gregorian calendar (#494)
+-   Add missing default cycling frequencies for HadGEM3-GC5E-HH model (#619)
+-   Fixed `mypy` errors (#471, #568)
+-   Output from `mip_convert` is now streamed to stdout of the `run_mip_convert_wrapper` whilst running (#614)
+-   Added a `cdds_system_information` command that checks expected environment variables are present (#611)
+
 ## Release 3.2.0, June 12, 2025
 
 -   Support for MIP Convert mappings plugin (CDDSO-541)

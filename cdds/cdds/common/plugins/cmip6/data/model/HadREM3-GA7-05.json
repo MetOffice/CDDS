@@ -11,15 +11,21 @@
       "ond"
     ]
   },
-  "cycle_length": {
-  },
-  "memory": {
-  },
-  "temp_space": {
-  },
-  "sizing_info": {
-  },
+  "cycle_length": {},
+  "memory": {},
+  "temp_space": {},
+  "sizing_info": {},
   "subdaily_streams": [],
+  "halo_removal": {
+    "onm": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
+    },
+    "ond": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
+    }
+  },
   "grid_info": {
     "atmos": {
       "atmos_timestep": null,
@@ -52,9 +58,12 @@
         "diaptr_basin_masks.nc",
         "ocean_zostoga.nc"
       ],
-      "masked": {
-      },
-      "halo_options": {
+      "masked": {},
+      "halo_removal": {
+        "onm": {
+          "longitude": "1:-1",
+          "latitude": "1:-1"
+        }
       }
     }
   }

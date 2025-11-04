@@ -18,7 +18,7 @@ The entire process can be roughly split into three parts.
 ### Configuring the Request
 
 Running CDDS requires the user to appropriately configure a `request.cfg` file (from here on simply referred to as the "request").
-This request is provided to many `cdds` commands as a positional argument and contains information ranging from experiment metadata, workflow configuration, ancilary paths, MASS locations, and more.
+This request is provided to many `cdds` commands as a positional argument and contains information ranging from experiment metadata, workflow configuration, ancillary paths, MASS locations, and more.
 Each option belongs to a particular section and is documented in [Request Configuration](request/config_request.md).
 
 ??? example "An Explicit Request Example Including Unused Fields"
@@ -147,6 +147,7 @@ The highlighted lines in each request indicate fields that the user may need to 
     skip_configure = False
     skip_qc = False
     skip_archive = False
+    mip_convert_plugin = HadGEM3
     ```
 
 === "JASMIN request.cfg"
@@ -170,8 +171,8 @@ The highlighted lines in each request indicate fields that the user may need to 
     mip_table_dir = $CDDS_ETC/mip_tables/GCModelDev/0.0.23
     mode = relaxed
     package = round-1
-    root_proc_dir = $DATADIR/cdds_quickstart_tutorial/proc
-    root_data_dir = $DATADIR/cdds_quickstart_tutorial/data
+    root_proc_dir = $HOME/cdds_quickstart_tutorial/proc
+    root_data_dir = $HOME/cdds_quickstart_tutorial/data
 
     [data]
     end_date = 1955-01-01T00:00:00Z
@@ -179,15 +180,16 @@ The highlighted lines in each request indicate fields that the user may need to 
     start_date = 1950-01-01T00:00:00Z
     model_workflow_id = u-bg466
     streams = ap5
-    variable_list_file = $DATADIR/cdds_quickstart_tutorial/variables.txt
+    variable_list_file = $HOME/cdds_quickstart_tutorial/variables.txt
 
     [conversion]
-    skip_extract = True
-    skip_extract_validation = True
+    skip_extract = False
+    skip_extract_validation = False
     skip_configure = False
     skip_qc = False
     skip_archive = True
     jasmin_account =
+    mip_convert_plugin = HadGEM3
     ```
 
 !!! question "What is GCModelDev?"
@@ -218,7 +220,7 @@ The highlighted lines in each request indicate fields that the user may need to 
    ```
 6. Activate the CDDS environment 
    ```bash
-   source ~cdds/bin/setup_env_for_cdds 3.1.2
+   source ~cdds/bin/setup_env_for_cdds <the version of CDDS you're using, e.g. 3.2.1>
    ```
 7. Validate the `request.cfg`.
    ```
@@ -339,32 +341,22 @@ The following commands assume you are in the working directory created previousl
 
 === "JASMIN"
 
-    1. Until a LOTUS2 MASS partition  is available the `cdds_extract` command must be run manually rather than within the workflow.
-        To access `mass` on JASMIN `ssh` into the MASS `mass-cli.jasmin.ac.uk` server.
+    1. On Jasmin Cylc workflows must be launched from `cylc2.jasmin.ac.uk`.
         ```
-        ssh <username>@mass-cli.jasmin.ac.uk
-        ```
-    2. Reactivate the CDDS environment.
-        ```bash
-        source /home/users/cdds/bin/setup_env_for_cdds 3.1.2
-        ```
-    3. You can then run extract. (Not applicable to this example, but if you are processing multiple streams then these must be done individually e.g. `cdds_extract request.cfg -s ap5; cdds_extract request.cfg -s onm`)
-        ```
-        cdds_extract request.cfg
-        ```
-    4. Once this command has completed you will then need to `ssh` into the Cylc server
-        ```
-        exit
         ssh <username>@cylc2.jasmin.ac.uk -XYA
-       ```
-    5. Reactivate the CDDS environment.
-        ```bash
-        source /home/users/cdds/bin/setup_env_for_cdds 3.1.2
         ```
-    6. Launch the `cylc` conversion workflow.
-       ```
-       cdds_convert request.cfg
-       ```
+    1. You may need to `cd` back to the directory containing your `request.cfg`.
+        ```bash
+        cd $HOME/cdds_quickstart_tutorial
+        ```
+    1. Reactivate the CDDS environment.
+        ```bash
+        source ~cdds/bin/setup_env_for_cdds 3.2.0
+        ```
+    1. Launch the `cylc` conversion workflow.
+        ```
+        cdds_convert request.cfg
+        ```
 
 The `cdds_convert` command does several things when run.
 
@@ -399,32 +391,36 @@ If you are running the example at the Met Office and you did *not* switch off ar
 This will be stored in a location based on the request fields `output_mass_root` `output_mass_suffix` e.g., `moo ls moose:/adhoc/users/<username>/quickstart`.
 
 
-## Adapting the Request
-
-If you are wanting to CMORise data for publication then you should follow the relevant Operational Procedure.
-
-
 ## Useful Configuration Options
 
 What follows are some examples of options that are useful to be aware of but the list is not exhaustive.
 The full list of configuration options available in the request can be found in the [Request Configuration](request/config_request.md) tutorial.
 
 
-### Adding More Variables
+### How do I add more output variables?
 
-To process more variables you will first need to add the appropriate entry to the `variables.txt`.
+To process more variables you will need to add the appropriate entry to your `variables.txt` file.
+Each output variable must be specified on a separate line and follow the below format.
 
 ```
 <mip table>/<variable name>:<stream>
 ```
 
-If you have the CMIP6 STASH configuration then you can use the `stream_mappings` command to add the stream field to each line for CMIP6 variables that CDDS has information for.
+If you do not know the <stream> for each variable and your model follows a typical CMIP6 STASH configuration, you can omit the `:<stream>` and use the `stream_mappings` command to add this information for you.
 
 ```bash
-stream_mappings
+stream_mappings --varfile variables.txt --outfile vairables_with_streams.txt
 ```
 
-### Relaxed and Strict Modes
+Finally, you must update the `streams` option in the `request.cfg` with the names of any additional streams.
+For example if you added a variable from the monthly ocean `onm` stream.
+
+```ini
+[conversion]
+streams = ap5 onm
+```
+
+### How do I process data with arbitrary metadata e.g. custom experiment names?
 
 The example `request.cfg` configuration given in this tutorial runs in "relaxed" mode.
 This allows the user to provide arbitrary metadata values that do not exist in the Controlled Vocabulary, and is particularly useful for model development work.
@@ -435,13 +431,14 @@ If you want to ensure that the metadata is consistent with the Controlled Vocabu
 mode = strict
 ```
 
-### Global Attributes
+### How do I add extra global attributes to my netCDF output?
 
-Arbitrary netcdf global attributes can be added to the CMORised files by adding entries to the `[netcdf_global_attributes]` section of the request file e.g.
+Arbitrary netcdf global attributes can be added to the CMORised files by adding a section `[netcdf_global_attributes]` to a `.request.cfg` file.
+Any key=value pairs in this section will be written out to every output netcdf file as global attributes..
 
 ```ini
 [netcdf_global_attributes]
-ensemble = 
+foo = bar
 ```
 
 ### I don't need to retrieve data from MASS it's already on disk, how do I use it with CDDS?

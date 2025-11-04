@@ -6,6 +6,8 @@ current state of already stored data is.
 """
 import os
 
+from metomi.isodatetime.data import Duration
+
 from cdds.common.plugins.plugins import PluginStore
 
 from cdds.archive.constants import DATA_PUBLICATION_STATUS_DICT
@@ -133,8 +135,18 @@ def _calculate_extending_state(var_dict, archived_data):
 
     # To be appending, the start date of the new data must be the same as
     # the end date of the previously published data, and the end date of
-    # the new data must be after that date.
-    if new_start_date == end_date and new_end_date > end_date:
+    # the new data must be after that date. For time point data there will
+    # be a gap of one record, so need to allow an appropriate gap.
+
+    FREQUENCIES_WITH_ALLOWED_GAPS = {
+        '6hrPt': Duration(hours=6),
+        '3hrPt': Duration(hours=3),
+        '1hrPt': Duration(hours=1),
+    }
+    default_tolerance = Duration(hours=0)
+    tolerance = FREQUENCIES_WITH_ALLOWED_GAPS.get(var_dict['frequency'], default_tolerance)
+
+    if (abs(new_start_date - end_date) <= tolerance) and new_end_date > end_date:
         # if checks pass, then this is an append operation, which
         # will be handled by another filter.
         return 'APPENDING'

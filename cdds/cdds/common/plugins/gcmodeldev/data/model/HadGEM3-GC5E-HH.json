@@ -25,19 +25,32 @@
       "inm",
       "ond",
       "onm"
+    ],
+    "quarterly": [
+      "aps"
     ]
   },
   "cycle_length": {
     "ap1": "P1M",
+    "ap2": "P1M",
+    "ap3": "P1M",
     "ap4": "P1Y",
     "ap5": "P1Y",
-    "apm": "P1Y",
-    "apu": "P1Y",
     "ap6": "P3M",
     "ap7": "P1M",
     "ap8": "P6M",
     "ap9": "P1Y",
+    "apa": "P1Y",
+    "apb": "P1Y",
+    "apc": "P1Y",
+    "apd": "P1Y",
+    "ape": "P1Y",
+    "apf": "P1Y",
+    "apg": "P1Y",
+    "apk": "P1Y",
+    "apm": "P1Y",
     "apt": "P3M",
+    "apu": "P1Y",
     "ind": "P1Y",
     "inm": "P1Y",
     "ond": "P1Y",
@@ -45,15 +58,26 @@
   },
   "memory": {
     "ap1": "16G",
+    "ap2": "16G",
+    "ap3": "16G",
     "ap4": "32G",
     "ap5": "16G",
-    "apm": "16G",
-    "apu": "16G",
     "ap6": "10G",
     "ap7": "32G",
     "ap8": "32G",
     "ap9": "32G",
+    "apa": "16G",
+    "apb": "16G",
+    "apc": "16G",
+    "apd": "16G",
+    "ape": "16G",
+    "apf": "16G",
+    "apg": "16G",
+    "apk": "16G",
+    "apm": "16G",
+    "aps": "12G",
     "apt": "16G",
+    "apu": "16G",
     "ind": "16G",
     "inm": "8G",
     "ond": "128G",
@@ -61,15 +85,26 @@
   },
   "temp_space": {
     "ap1": 32768,
+    "ap2": 80960,
+    "ap3": 8192,
     "ap4": 131072,
     "ap5": 65536,
-    "apm": 16384,
-    "apu": 40960,
     "ap6": 196608,
     "ap7": 196608,
     "ap8": 196608,
     "ap9": 65536,
+    "apa": 80960,
+    "apb": 80960,
+    "apc": 80960,
+    "apd": 80960,
+    "ape": 80960,
+    "apf": 80960,
+    "apg": 40960,
+    "apk": 98304,
+    "apm": 16384,
+    "aps": 32768,
     "apt": 32768,
+    "apu": 40960,
     "ind": 16384,
     "inm": 16384,
     "ond": 65536,
@@ -163,6 +198,16 @@
     },
     "subhrPt": {
       "default": 10
+    }
+  },
+  "halo_removal": {
+    "onm": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
+    },
+    "ond": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
     }
   },
   "grid_info": {
@@ -278,27 +323,6 @@
             null
           ]
         }
-      },
-      "halo_options": {
-        "grid-T": [
-          "-dx,1,4320",
-          "-dy,1,3604"
-        ],
-        "grid-U": [
-          "-dx,1,4320",
-          "-dy,1,3604"
-        ],
-        "grid-V": [
-          "-dx,1,4320",
-          "-dy,1,3604"
-        ],
-        "grid-W": [
-          "-dx,1,4320",
-          "-dy,1,3604"
-        ],
-        "diaptr": [
-          "-dy,1,3604"
-        ]
       }
     }
   }
