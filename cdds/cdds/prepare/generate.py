@@ -78,16 +78,12 @@ def generate_variable_list(arguments: Namespace) -> None:
     # the selected variables - not a list.
     requested_variables_list = constructor.construct_requested_variables_list()
 
-    # unrecognised_variables = []
-    # for var in requested_variables_list['requested_variables']:
-    #     if not var['active']:
-    #         unrecognised_variables.append(var)
-
-    # for x in unrecognised_variables:
-    #     logger.critical(f'Unrecognised variable: {x["comments"]}')
     check_variables_result = check_variables_recognised(requested_variables_list)
+    
+    if check_variables_result != 0:
+        logger.warning("Issues found but continuing, a non zero exit code will be returned")
 
-
+ 
     constructor.clean_up()
 
     # TODO: take inventory check into account!
