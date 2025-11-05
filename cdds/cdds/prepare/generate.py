@@ -86,7 +86,7 @@ def generate_variable_list(arguments: Namespace) -> None:
     # for x in unrecognised_variables:
     #     logger.critical(f'Unrecognised variable: {x["comments"]}')
     check_variables_result = check_variables_recognised(requested_variables_list)
-    breakpoint()
+
 
     constructor.clean_up()
 

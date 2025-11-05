@@ -95,8 +95,9 @@ def main_generate_variable_list(arguments: List[str] = None) -> int:
     logger.info('Using CDDS Prepare version {}'.format(__version__))
 
     try:
-        generate_variable_list(args)
-        return 0
+        result = generate_variable_list(args)
+        # breakpoint()
+        return result
     except BaseException as exc:
         logger.exception(exc, exc_info=PRINT_STACK_TRACE)
         return 1
