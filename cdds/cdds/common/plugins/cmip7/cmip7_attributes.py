@@ -7,9 +7,9 @@ if TYPE_CHECKING:
     from cdds.common.request.request import Request
 
 
-class Cmip6GlobalAttributes(GlobalAttributes):
+class Cmip7GlobalAttributes(GlobalAttributes):
     """
-    Class to store and manage global attributes for CMIP6
+    Class to store and manage global attributes for CMIP7
 
     The request given in the init method will be validated if it contains
     all expected information that is need to handle the global attributes.
@@ -17,14 +17,14 @@ class Cmip6GlobalAttributes(GlobalAttributes):
 
     def __init__(self, request: 'Request') -> None:
         AttributesValidator.validate_request(request)
-        super(Cmip6GlobalAttributes, self).__init__(request)
-        self._mip_era = 'CMIP6'
+        super(Cmip7GlobalAttributes, self).__init__(request)
+        self._mip_era = 'CMIP7'
 
     def further_info_url(self) -> str:
         """
         Returns the further info url according the global attributes values.
 
-        :return: The further info url for CMIP6
+        :return: The further info url for CMIP7
         :rtype: str
         """
         root_url = 'https://furtherinfo.es-doc.org'
@@ -40,7 +40,7 @@ class Cmip6GlobalAttributes(GlobalAttributes):
 
 class AttributesValidator:
     """
-    Class that provides validations for objects relating to CMIP6 attributes
+    Class that provides validations for objects relating to CMIP7 attributes
     """
 
     @classmethod

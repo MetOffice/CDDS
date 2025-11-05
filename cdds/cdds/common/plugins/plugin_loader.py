@@ -15,7 +15,7 @@ from cdds.common.plugins.exceptions import PluginLoadError
 from cdds.common.plugins.base.base_plugin import MipEra
 from cdds.common.plugins.cmip6.cmip6_plugin import Cmip6Plugin
 from cdds.common.plugins.cmip6_plus.cmip6_plus_plugin import Cmip6PlusPlugin
-from cdds.common.plugins.cmip7.cmip6_plugin import Cmip6Plugin as Cmip7Plugin
+from cdds.common.plugins.cmip7.cmip7_plugin import Cmip7Plugin
 from cdds.common.plugins.cordex.cordex_plugin import CordexPlugin
 from cdds.common.plugins.gcmodeldev.gcmodeldev_plugin import GCModelDevPlugin
 

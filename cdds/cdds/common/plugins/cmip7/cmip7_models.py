@@ -1,8 +1,8 @@
 # (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
 """
-The :mod:`cmip6_models` module contains the code required to
-handle model parameters information for CMIP6 models.
+The :mod:`cmip7_models` module contains the code required to
+handle model parameters information for CMIP7 models.
 """
 import logging
 import os
@@ -13,9 +13,9 @@ from cdds.common.plugins.common import LoadResults
 from cdds.common.plugins.base.base_models import BaseModelParameters, ModelId, BaseModelStore
 
 
-class Cmip6ModelId(ModelId):
+class Cmip7ModelId(ModelId):
     """
-    Represents the ID of a CMIP6 model.
+    Represents the ID of a CMIP7 model.
     """
 
     def get_json_file(self) -> str:
@@ -36,7 +36,7 @@ class UKESM1_3_LL_Params(BaseModelParameters):
     """
 
     def __init__(self) -> None:
-        super(UKESM1_3_LL_Params, self).__init__(Cmip6ModelId.UKESM1_3_LL)
+        super(UKESM1_3_LL_Params, self).__init__(Cmip7ModelId.UKESM1_3_LL)
 
     @property
     def model_version(self) -> str:
@@ -69,7 +69,7 @@ class UKESM1_3_LL_Params(BaseModelParameters):
         return '10.8'
 
 
-class Cmip6ModelsStore(BaseModelStore):
+class Cmip7ModelsStore(BaseModelStore):
     """
     Singleton class to store for each model the corresponding parameters.
     The parameters are defined in json files. The default parameters are
@@ -82,18 +82,18 @@ class Cmip6ModelsStore(BaseModelStore):
         model_instances: List[BaseModelParameters] = [
             UKESM1_3_LL_Params(),
         ]
-        super(Cmip6ModelsStore, self).__init__(model_instances)
+        super(Cmip7ModelsStore, self).__init__(model_instances)
         self.logger = logging.getLogger(self.__class__.__name__)
 
     @classmethod
-    def create_instance(cls) -> 'Cmip6ModelsStore':
+    def create_instance(cls) -> 'Cmip7ModelsStore':
         """
         Creates a new class instance.
 
         :return: New class instance
-        :rtype: Cmip6ModelsStore
+        :rtype: Cmip7ModelsStore
         """
-        return Cmip6ModelsStore()
+        return Cmip7ModelsStore()
 
     def _load_default_params(self) -> None:
         local_dir = os.path.dirname(os.path.abspath(__file__))
