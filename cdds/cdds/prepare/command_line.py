@@ -96,7 +96,6 @@ def main_generate_variable_list(arguments: List[str] = None) -> int:
 
     try:
         result = generate_variable_list(args)
-        # breakpoint()
         return result
     except BaseException as exc:
         logger.exception(exc, exc_info=PRINT_STACK_TRACE)
