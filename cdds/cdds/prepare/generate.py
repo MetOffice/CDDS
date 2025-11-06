@@ -122,19 +122,20 @@ def check_variables_recognised(var_list):
     else:
         return 0
 
-def check_streams_match_variables(requested_variables_list, request):
+def check_streams_match_variables(var_list, request):
     logger = logging.getLogger(__name__)
     mismatched_streams = []
     variables_list_streams = set()
     request_streams = set()
     requested_streams = request.data.streams
-    for var in requested_variables_list['requested_variables']:
+    for var in var_list['requested_variables']:
         variables_list_streams.add(var['stream'])
 
     for var in requested_streams:
         request_streams.add(var)
     
-    x = variables_list_streams.difference(request_streams)
+    streams_in_variables_list_but_not_in_request = variables_list_streams.difference(request_streams)
+    streams_in_request_but_not_in_variables_list = request_streams.difference(variables_list_streams)
 
     breakpoint()
     
