@@ -92,7 +92,10 @@ def generate_variable_list(arguments: Namespace) -> None:
     requested_variables = resolve_requested_variables(user_requested_variables, model_to_mip_mappings)
     variable_constructor = VariablesConstructor(request, requested_variables)
     var_list = variable_constructor.construct_requested_variables_list()
-    # add my function here
+
+    check_variables_result = check_variables_recognised(var_list)
+    if check_variables_result != 0:
+        logger.warning("Issues found but continuing, a non zero exit code will be returned")
     # TODO: take inventory check into account!
     # Write the 'requested variables list'.
     logger.info('Writing the Requested variables list to "{}".'.format(output_file))
@@ -102,6 +105,20 @@ def generate_variable_list(arguments: Namespace) -> None:
         reconfigure_mip_cfg_file(request, output_file)
 
     logger.info('*** Complete ***')
+
+def check_variables_recognised(var_list):
+    logger = logging.getLogger(__name__)
+    unrecognised_variables = []
+    for var in var_list['requested_variables']:
+        if not var['active']:
+            unrecognised_variables.append(var)
+
+    for x in unrecognised_variables:
+        logger.critical(f'Unrecognised variable: {x["comments"]}')
+    if unrecognised_variables:
+        return 1
+    else:
+        return 0
 
 
 def reconfigure_mip_cfg_file(request: Request, requested_variables_file: str) -> None:
