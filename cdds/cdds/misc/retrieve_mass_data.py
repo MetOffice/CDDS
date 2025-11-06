@@ -266,7 +266,7 @@ def transfer_files(
             formatted_file_list = "\n".join(chunk)
             if dry_run:
                 logger.info(
-                    f"Files to be transferred in this chunk:\n{formatted_file_list}\n"
+                    f"Files that would be transferred in this chunk:\n{formatted_file_list}\n"
                     f"Files in this chunk would be transferred to:\n{output_dir}\n"
                 )
                 command = ["moo", "get", "-I", "-n"] + chunk + [str(TMPDIR)]

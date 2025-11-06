@@ -26,14 +26,11 @@ class TestTransferFiles(unittest.TestCase):
     @patch("logging.getLogger")
     def test_transfer_files_dry_run(self, mock_get_logger, mock_run_mass_command):
         mock_logger = mock_get_logger.return_value
-        mock_run_mass_command.return_value = (self.MASS_COMMAND_OUTPUT,)
-        transfer_files(self.dummy_chunks, self.TMPDIR, self.output_dir, dry_run=True)
+        mock_run_mass_command.return_value = self.MASS_COMMAND_OUTPUT
+        transfer_files(self.dummy_chunks, self.output_dir, dry_run=True)
         self.assertEqual(mock_run_mass_command.call_count, len(self.dummy_chunks))
-        for call in mock_logger.info.call_args_list:
-            self.assertIn(
-                self.MASS_COMMAND_OUTPUT,
-                call[0][0],
-            )
+        info_msgs = [call[0][0] for call in mock_logger.info.call_args_list]
+        self.assertIn(self.MASS_COMMAND_OUTPUT, info_msgs)
 
     @patch(
         "cdds.misc.retrieve_mass_data.run_mass_command",
@@ -43,7 +40,7 @@ class TestTransferFiles(unittest.TestCase):
     def test_transfer_files_runtime_error(self, mock_get_logger, mock_run_mass_command):
         mock_logger = mock_get_logger.return_value
         with self.assertRaises(RuntimeError):
-            transfer_files(self.dummy_chunks, self.TMPDIR, self.output_dir, dry_run=True)
+            transfer_files(self.dummy_chunks, self.output_dir, dry_run=True)
         self.assertTrue(mock_logger.critical.called)
 
 
