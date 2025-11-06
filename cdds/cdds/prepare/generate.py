@@ -92,7 +92,7 @@ def generate_variable_list(arguments: Namespace) -> None:
     requested_variables = resolve_requested_variables(user_requested_variables, model_to_mip_mappings)
     variable_constructor = VariablesConstructor(request, requested_variables)
     var_list = variable_constructor.construct_requested_variables_list()
-
+    # add my function here
     # TODO: take inventory check into account!
     # Write the 'requested variables list'.
     logger.info('Writing the Requested variables list to "{}".'.format(output_file))
