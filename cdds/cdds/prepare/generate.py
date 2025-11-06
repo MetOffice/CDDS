@@ -96,6 +96,8 @@ def generate_variable_list(arguments: Namespace) -> None:
     check_variables_result = check_variables_recognised(var_list)
     if check_variables_result != 0:
         logger.warning("Issues found but continuing, a non zero exit code will be returned")
+    check_streams_match_variables(var_list, request)
+    
     # TODO: take inventory check into account!
     # Write the 'requested variables list'.
     logger.info('Writing the Requested variables list to "{}".'.format(output_file))
@@ -120,6 +122,26 @@ def check_variables_recognised(var_list):
     else:
         return 0
 
+def check_streams_match_variables(requested_variables_list, request):
+    logger = logging.getLogger(__name__)
+    mismatched_streams = []
+    variables_list_streams = set()
+    request_streams = set()
+    requested_streams = request.data.streams
+    for var in requested_variables_list['requested_variables']:
+        variables_list_streams.add(var['stream'])
+
+    for var in requested_streams:
+        request_streams.add(var)
+    
+    x = variables_list_streams.difference(request_streams)
+
+    breakpoint()
+    
+    # if mismatched_streams:
+    #     logger.warning(f'Mismatched streams found: {mismatched_streams}')
+
+    return 0
 
 def reconfigure_mip_cfg_file(request: Request, requested_variables_file: str) -> None:
     """
