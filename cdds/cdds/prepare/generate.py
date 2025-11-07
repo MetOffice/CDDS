@@ -108,7 +108,23 @@ def generate_variable_list(arguments: Namespace) -> None:
 
     logger.info('*** Complete ***')
 
-def check_variables_recognised(var_list):
+def check_variables_recognised(var_list: dict[str, Any]) -> int:
+    """
+    Checks for unrecognised variables in the provided list and logs critical messages if they exist.
+
+    Parameters
+    ----------
+    var_list : dict
+        The user requested variables.
+    Returns
+    -------
+    int
+        Returns 1 if there are any unrecognised (inactive) variables, otherwise returns 0.
+    Logs
+    ----
+    Critical log messages for each unrecognised variable, including its comments.
+    """
+
     logger = logging.getLogger(__name__)
     unrecognised_variables = []
     for var in var_list['requested_variables']:
@@ -122,7 +138,28 @@ def check_variables_recognised(var_list):
     else:
         return 0
 
-def check_streams_match_variables(var_list, request):
+def check_streams_match_variables(var_list: dict[str, Any], request: Any) -> int:
+    """
+    Compares the set of streams present in the variables list file with those from the request file.
+    Logs critical errors for any streams found in one but not the other, and returns a status code of 1 if
+    mismatches are found.
+
+    Parameters
+    ----------
+    var_list : dict
+        Variables from the variables file.
+    request : object
+        Request containing all information for the MIP convert cfg file.
+    Returns
+    -------
+    int
+        Returns 1 if there are mismatched streams between variables list and the request streams, otherwise returns 0.
+    Logs
+    ----
+    Critical
+        Logs critical messages for each mismatched stream found.
+    """
+
     logger = logging.getLogger(__name__)
     mismatched_streams = []
     variables_list_streams = set()
