@@ -97,38 +97,38 @@ class TestCheckVariableValidation(unittest.TestCase):
     def setUp(self):
         class DummyRequest:
             class Data:
-                streams = ['Amon', 'Emon']
+                streams = ['ap4', 'ap7']
             data = Data()
         self.request = DummyRequest()
 
         self.var_list_all_active = {
             'requested_variables': [
-                {'active': True, 'miptable': 'Amon', 'label': 'tas', 'comments': '', 'stream': 'Amon'},
-                {'active': True, 'miptable': 'Amon', 'label': 'pr', 'comments': '', 'stream': 'Emon'}
+                {'active': True, 'miptable': 'ap4', 'label': 'tas', 'comments': ''},
+                {'active': True, 'miptable': 'ap4', 'label': 'pr', 'comments': ''}
             ]
         }
         self.var_list_some_inactive = {
             'requested_variables': [
-                {'active': True, 'miptable': 'Amon', 'label': 'tas', 'comments': '', 'stream': 'Amon'},
-                {'active': False, 'miptable': 'Amon', 'label': 'pr', 'comments': '', 'stream': 'Emon'}
+                {'active': True, 'miptable': 'ap4', 'label': 'tas', 'comments': ''},
+                {'active': False, 'miptable': 'ap4', 'label': 'pr', 'comments': ''}
             ]
         }
         self.var_list_streams_match_request = {
             'requested_variables': [
-                {'stream': 'Amon', 'active': True, 'miptable': 'Amon', 'label': 'tas', 'comments': ''},
-                {'stream': 'Emon', 'active': True, 'miptable': 'Amon', 'label': 'pr', 'comments': ''}
+                {'stream': 'ap4'},
+                {'stream': 'ap7'}
             ]
         }
         self.var_list_extra_stream = {
             'requested_variables': [
-                {'stream': 'Amon', 'active': True, 'miptable': 'Amon', 'label': 'tas', 'comments': ''},
-                {'stream': 'Emon', 'active': True, 'miptable': 'Amon', 'label': 'pr', 'comments': ''},
-                {'stream': '6hrPlevPt', 'active': True, 'miptable': 'Amon', 'label': 'pr', 'comments': ''}
+                {'stream': 'ap4'},
+                {'stream': 'ap7'},
+                {'stream': 'onm'}
             ]
         }
         self.var_list_missing_stream = {
             'requested_variables': [
-                {'stream': 'Amon', 'active': True, 'miptable': 'Amon', 'label': 'tas', 'comments': ''}
+                {'stream': 'ap4'}
             ]
         }
 

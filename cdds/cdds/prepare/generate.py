@@ -163,7 +163,6 @@ def check_streams_match_variables(var_list: dict[str, Any], request: Any) -> int
     """
 
     logger = logging.getLogger(__name__)
-    mismatched_streams = []
     variables_list_streams = set()
     request_streams = set()
     requested_streams = request.data.streams
@@ -181,14 +180,12 @@ def check_streams_match_variables(var_list: dict[str, Any], request: Any) -> int
             logger.critical(
                 f'Stream "{stream}" found in variables list but not in request file streams: {request_streams}'
             )
-            mismatched_streams.append(stream)
 
     if streams_in_request_but_not_in_variables_list:
         for stream in streams_in_request_but_not_in_variables_list:
             logger.critical(
                 f'Stream "{stream}" found in request streams but not in variables list file: {variables_list_streams}'
             )
-            mismatched_streams.append(stream)
 
     if streams_in_variables_list_but_not_in_request or streams_in_request_but_not_in_variables_list:
         return 1
