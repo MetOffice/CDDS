@@ -14,7 +14,9 @@ import pytest
 
 from cdds.common.mip_tables import UserMipTables
 from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.prepare.generate import check_mappings, parse_variable_list, check_variables_recognised, check_streams_match_variables
+from cdds.prepare.generate import (
+    check_mappings, parse_variable_list, check_variables_recognised, check_streams_match_variables
+)
 from cdds.tests.factories.request_factory import simple_request
 from cdds.tests.test_common.common import DummyMapping
 
@@ -89,6 +91,7 @@ class TestCheckMappings(unittest.TestCase):
         assert comments == expected_comments
         assert not mapping
 
+
 class TestCheckVariableValidation(unittest.TestCase):
 
     def setUp(self):
@@ -110,16 +113,22 @@ class TestCheckVariableValidation(unittest.TestCase):
                 {'active': False, 'miptable': 'Amon', 'label': 'pr', 'comments': '', 'stream': 'Emon'}
             ]
         }
-        self.var_list_streams_all_match = {
+        self.var_list_streams_match_request = {
             'requested_variables': [
                 {'stream': 'Amon', 'active': True, 'miptable': 'Amon', 'label': 'tas', 'comments': ''},
                 {'stream': 'Emon', 'active': True, 'miptable': 'Amon', 'label': 'pr', 'comments': ''}
             ]
         }
-        self.var_list_streams_mismatch = {
+        self.var_list_extra_stream = {
             'requested_variables': [
                 {'stream': 'Amon', 'active': True, 'miptable': 'Amon', 'label': 'tas', 'comments': ''},
+                {'stream': 'Emon', 'active': True, 'miptable': 'Amon', 'label': 'pr', 'comments': ''},
                 {'stream': '6hrPlevPt', 'active': True, 'miptable': 'Amon', 'label': 'pr', 'comments': ''}
+            ]
+        }
+        self.var_list_missing_stream = {
+            'requested_variables': [
+                {'stream': 'Amon', 'active': True, 'miptable': 'Amon', 'label': 'tas', 'comments': ''}
             ]
         }
 
@@ -131,10 +140,14 @@ class TestCheckVariableValidation(unittest.TestCase):
         result = check_variables_recognised(self.var_list_some_inactive)
         self.assertEqual(result, 1)
 
-    def test_check_streams_match_variables_all_match(self):
-        result = check_streams_match_variables(self.var_list_streams_all_match, self.request)
+    def test_check_var_list_streams_match_request(self):
+        result = check_streams_match_variables(self.var_list_streams_match_request, self.request)
         self.assertEqual(result, 0)
 
-    def test_check_streams_match_variables_mismatch(self):
-        result = check_streams_match_variables(self.var_list_streams_mismatch, self.request)
+    def test_check_streams_match_extra_value_in_var_list(self):
+        result = check_streams_match_variables(self.var_list_extra_stream, self.request)
+        self.assertEqual(result, 1)
+
+    def test_check_streams_match_extra_value_in_request(self):
+        result = check_streams_match_variables(self.var_list_missing_stream, self.request)
         self.assertEqual(result, 1)
