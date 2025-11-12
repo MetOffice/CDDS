@@ -11,7 +11,7 @@ from typing import List
 
 from cdds.common.plugins.common import LoadResults
 from cdds.common.plugins.base.base_models import BaseModelParameters, ModelId, BaseModelStore
-
+from cdds.common.plugins.cmip7.cmip7_grid_mapping import CMIP7GridMapping
 
 class Cmip7ModelId(ModelId):
     """
@@ -37,6 +37,7 @@ class UKESM1_3_LL_Params(BaseModelParameters):
 
     def __init__(self) -> None:
         super(UKESM1_3_LL_Params, self).__init__(Cmip7ModelId.UKESM1_3_LL)
+        self._grid_mappings: CMIP7GridMapping = CMIP7GridMapping()
 
     @property
     def model_version(self) -> str:
