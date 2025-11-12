@@ -1760,7 +1760,22 @@ def divide_by_mask(cube, weights_cube):
         A cube with corrected tau pseudo level coordinate data with
         weights applied.
     """
-    return divide_cubes(tau_pseudo_level(cube), weights_cube)
+    result = divide_cubes(tau_pseudo_level(cube), weights_cube)
+    coord_order = [
+        "time",
+        "atmosphere_optical_thickness_due_to_cloud",
+        "pressure",
+        "latitude",
+        "longitude"
+    ]
+    # if no time dimension on cube promote scalar axis to dimension
+    if len(result.coord_dims('time')) == 0:
+        result = iris.util.new_axis(result, 'time')
+    order = [result.coord_dims(i)[0] for i in coord_order]
+
+    result.transpose(order)
+
+    return result
 
 
 def jpdftaure_divide_by_mask(cube, weights_cube):
