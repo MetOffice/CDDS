@@ -35,7 +35,7 @@ from cdds.prepare.mapping_status import MappingStatus
 from cdds.prepare.user_variable import UserDefinedVariable, parse_variable_list
 
 
-def generate_variable_list(arguments: Namespace) -> None:
+def generate_variable_list(arguments: Namespace) -> int:
     """
     Generate the |requested variables list|.
 
@@ -107,6 +107,8 @@ def generate_variable_list(arguments: Namespace) -> None:
         reconfigure_mip_cfg_file(request, output_file)
 
     logger.info('*** Complete ***')
+
+    return 1 if check_variables_result or check_streams_match else 0
 
 
 def check_variables_recognised(var_list: dict[str, Any]) -> int:
