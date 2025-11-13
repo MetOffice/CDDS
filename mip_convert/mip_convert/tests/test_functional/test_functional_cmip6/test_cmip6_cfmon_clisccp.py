@@ -27,7 +27,7 @@ class TestCmip6CFmonClisccp(AbstractFunctionalTests):
                     'cmor_log_file': get_cmor_log(test_location)
                 },
                 cmor_dataset={
-                    'output_dir': get_output_dir(test_location),
+                    'output_dir': get_output_dir(test_location)
                 },
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
