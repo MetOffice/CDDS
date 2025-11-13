@@ -13,6 +13,7 @@ from cdds.common.plugins.common import LoadResults
 from cdds.common.plugins.base.base_models import BaseModelParameters, ModelId, BaseModelStore
 from cdds.common.plugins.cmip7.cmip7_grid_mapping import CMIP7GridMapping
 
+
 class Cmip7ModelId(ModelId):
     """
     Represents the ID of a CMIP7 model.
