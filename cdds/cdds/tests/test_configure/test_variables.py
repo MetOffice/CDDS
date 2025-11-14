@@ -32,11 +32,13 @@ class TestRetrieveVariablesByGrid(unittest.TestCase):
                 {'active': 'true',
                  'label': 'tas',
                  'miptable': 'Amon',
-                 'stream': 'ap5'},
+                 'stream': 'ap5',
+                 'frequency': 'mon'},
                 {'active': 'true',
                  'label': 'evs',
                  'miptable': 'Omon',
-                 'stream': 'onm/grid-T'}
+                 'stream': 'onm/grid-T',
+                 'frequency': 'mon'},
             ]
         }
         set_checksum(self.requested_variables_list)
