@@ -46,11 +46,13 @@ class TestProduceUserConfigs(unittest.TestCase):
                 {'active': True,
                  'label': 'tas',
                  'miptable': 'Amon',
-                 'stream': 'ap4'},
+                 'stream': 'ap4',
+                 'frequency': 'mon'},
                 {'active': True,
                  'label': 'utendnogw',
                  'miptable': 'EmonZ',
-                 'stream': 'ap5'}]}
+                 'stream': 'ap5',
+                 'frequency': 'mon'}]}
         set_checksum(self.requested_variables_list)
         self._write_requested_variables_list(self.requested_variables_list)
         self.requested_variables = RequestedVariablesList(

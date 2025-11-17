@@ -192,7 +192,8 @@ class TestMain(unittest.TestCase):
                 {'active': 'true',
                  'label': 'tas',
                  'miptable': 'Amon',
-                 'stream': 'ap5'}],
+                 'stream': 'ap5',
+                 'frequency': 'mon'}],
             'suite_id': self.suite_id}
         set_checksum(self.requested_variables_list)
 

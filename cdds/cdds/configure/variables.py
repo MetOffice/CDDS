@@ -11,8 +11,13 @@ import os
 from cdds.common.grids import retrieve_grid_info
 from cdds.common.plugins.plugins import PluginStore
 
+from cdds.common.variables import RequestedVariablesList
+from typing import Mapping
 
-def retrieve_variables_by_grid(requested_variables, mip_table_directory):
+
+def retrieve_variables_by_grid(
+    requested_variables: RequestedVariablesList, mip_table_directory: str
+) -> Mapping[tuple[str, ...], Mapping[str, Mapping[str, str]]]:
     """
     Return the |MIP requested variables| by grid.
 
@@ -21,7 +26,7 @@ def retrieve_variables_by_grid(requested_variables, mip_table_directory):
     be written to a file via :mod:`configparser`, e.g. ``{section1:
     {option1: value1, option2: value2}, {section2: {}}``, where the
     section is ``stream_<stream_id>``, the option is the |MIP table|
-    and the value is a space seperated list of
+    and the value is a space separated list of
     |MIP requested variables|.
 
     Parameters
@@ -39,14 +44,14 @@ def retrieve_variables_by_grid(requested_variables, mip_table_directory):
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
 
-    variables_by_grid = defaultdict(
+    variables_by_grid: defaultdict[tuple[str, ...], defaultdict[str, defaultdict[str, str]]] = defaultdict(
         lambda: defaultdict(lambda: defaultdict(str)))
     active_variables = requested_variables.active_variables_by_mip_table
     for mip_table_id, variable_list in active_variables.items():
         for variable in variable_list:
-            variable_name, stream_id, substream = variable
-            grid_info = retrieve_grid_info(variable_name, mip_table_id, requested_variables.model_id)
-            if grid_info is None:
+            variable_name, stream_id, substream, frequency = variable
+            grid = retrieve_grid_info(variable_name, mip_table_id, requested_variables.model_id)
+            if grid is None:
                 logger.critical('No grid information available for "{}" for "{}"'
                                 ''.format(variable_name, mip_table_id))
                 continue
@@ -54,7 +59,6 @@ def retrieve_variables_by_grid(requested_variables, mip_table_directory):
                 logger.critical('No stream identifier available for "{}" for '
                                 '"{}"'.format(variable_name, mip_table_id))
                 continue
-            section = 'stream_{}'.format(stream_id)
             # Still need to support substreams in MIP Convert.
             if substream is None:
                 section = 'stream_{}'.format(stream_id)
@@ -62,9 +66,11 @@ def retrieve_variables_by_grid(requested_variables, mip_table_directory):
                 section = 'stream_{}_{}'.format(stream_id, substream)
                 logger.debug('Updating grid information for substream "{}"'
                              ''.format(substream))
-            grid_info = tuple(list(grid_info) + [substream])
+            grid_info: tuple[str, ...] = tuple(list(grid) + [substream])
             # Work out whether specific (e.g. CMIP6_Amon) tables are being used or generic (MIP_APmon)
             mip_table = identify_mip_table_name(requested_variables.mip_era, mip_table_directory, mip_table_id)
+            if requested_variables.mip_era == "CMIP7":
+                mip_table = mip_table + "@" + frequency
             if variables_by_grid[grid_info][section][mip_table]:
                 variables_by_grid[grid_info][section][mip_table] += ' '
             variables_by_grid[grid_info][section][mip_table] += variable_name
@@ -134,6 +140,6 @@ def retrieve_streams_by_grid(requested_variables):
     active_variables = requested_variables.active_variables_by_mip_table
     for mip_table_id, variable_list in active_variables.items():
         for variable in variable_list:
-            variable_name, stream_id, substream = variable
+            variable_name, stream_id, substream, frequency = variable
             streams.append(stream_id)
     return streams

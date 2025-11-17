@@ -150,6 +150,9 @@ def retrieve_grid_objects(variable_name: str, mip_table_id: str, model: str) -> 
     plugin = PluginStore.instance().get_plugin()
     grids_mapping = plugin.models_parameters(model).grids_mapping()
 
+    if "_" in variable_name:
+        variable_name = variable_name.split("_")[0]
+
     grid_type, grid_name = grids_mapping.retrieve_mapping(variable_name, mip_table_id)
 
     grid = None

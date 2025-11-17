@@ -25,10 +25,10 @@ class TestRequestedVariablesList(unittest.TestCase):
         self.requested_variables_list = {
             key: '' for key in RequestedVariablesList.ALLOWED_ATTRIBUTES}
         self.requested_variables = [
-            {'active': True, 'label': 'tas', 'miptable': 'Amon', 'stream': 'ap5'},
-            {'active': False, 'label': 'tas', 'miptable': 'Emon', 'stream': 'ap8'},
-            {'active': True, 'label': 'tas', 'miptable': 'day', 'stream': 'ap6'},
-            {'active': True, 'label': 'ps', 'miptable': 'day', 'stream': 'ap6'}]
+            {'active': True, 'label': 'tas', 'miptable': 'Amon', 'stream': 'ap5', 'frequency': 'mon'},
+            {'active': False, 'label': 'tas', 'miptable': 'Emon', 'stream': 'ap8', 'frequency': 'mon'},
+            {'active': True, 'label': 'tas', 'miptable': 'day', 'stream': 'ap6', 'frequency': 'day'},
+            {'active': True, 'label': 'ps', 'miptable': 'day', 'stream': 'ap6', 'frequency': 'day'}]
         self.requested_variables_list['requested_variables'] = (
             self.requested_variables)
         set_checksum(self.requested_variables_list)
@@ -46,15 +46,18 @@ class TestRequestedVariablesList(unittest.TestCase):
 
     def test_active_variables(self):
         output = self.obj.active_variables
-        reference = [{'active': True, 'miptable': 'Amon', 'label': 'tas', 'stream': 'ap5'},
-                     {'active': True, 'miptable': 'day', 'label': 'tas', 'stream': 'ap6'},
-                     {'active': True, 'miptable': 'day', 'label': 'ps', 'stream': 'ap6'}]
+        reference = [{'active': True, 'miptable': 'Amon', 'label': 'tas', 'stream': 'ap5', 'frequency': 'mon'},
+                     {'active': True, 'miptable': 'day', 'label': 'tas', 'stream': 'ap6', 'frequency': 'day'},
+                     {'active': True, 'miptable': 'day', 'label': 'ps', 'stream': 'ap6', 'frequency': 'day'}]
         for ref_var, out_var in zip(reference, output):
             self.assertDictEqual(ref_var, out_var)
 
     def test_active_variables_by_mip_table(self):
         output = self.obj.active_variables_by_mip_table
-        reference = {'day': [('tas', 'ap6', None), ('ps', 'ap6', None)], 'Amon': [('tas', 'ap5', None)]}
+        reference = {
+            "day": [("tas", "ap6", None, "day"), ("ps", "ap6", None, "day")],
+            "Amon": [("tas", "ap5", None, "mon")],
+        }
         self.assertDictEqual(output, reference)
 
 

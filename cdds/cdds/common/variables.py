@@ -58,7 +58,7 @@ class RequestedVariablesList(JSONConfig):
         return active_variables
 
     @property
-    def active_variables_by_mip_table(self):
+    def active_variables_by_mip_table(self) -> dict[str, list[tuple[str, str, str, str]]]:
         """
         dict: The active |MIP requested variables| by
         |MIP table identifier|.
@@ -67,6 +67,7 @@ class RequestedVariablesList(JSONConfig):
         for variable in self.requested_variables:
             variable_name = variable['label']
             mip_table_id = variable['miptable']
+            frequency = variable['frequency']
             if "/" in variable["stream"]:
                 stream_id, substream = variable["stream"].split("/")
             else:
@@ -77,7 +78,7 @@ class RequestedVariablesList(JSONConfig):
             if variable['active']:
                 self.logger.debug('"{}_{}" is active'
                                   ''.format(mip_table_id, variable_name))
-                active_variables[mip_table_id].append((variable_name, stream_id, substream))
+                active_variables[mip_table_id].append((variable_name, stream_id, substream, frequency))
         return active_variables
 
     def get_dimensions(self, variable_id, mip_table_id):
