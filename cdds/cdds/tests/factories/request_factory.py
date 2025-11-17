@@ -37,7 +37,7 @@ def simple_request():
         model_workflow_id='u-bp880',
         model_workflow_branch='cdds',
         model_workflow_revision='HEAD',
-        streams=['ap4', 'ap5', 'ap6'],
+        streams=['apa'],
         output_mass_root='',
         output_mass_suffix='',
         variable_list_file=variable_list_file

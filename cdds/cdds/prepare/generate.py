@@ -35,7 +35,7 @@ from cdds.prepare.mapping_status import MappingStatus
 from cdds.prepare.user_variable import UserDefinedVariable, parse_variable_list
 
 
-def generate_variable_list(arguments: Namespace) -> None:
+def generate_variable_list(arguments: Namespace) -> int:
     """
     Generate the |requested variables list|.
 
@@ -93,6 +93,11 @@ def generate_variable_list(arguments: Namespace) -> None:
     variable_constructor = VariablesConstructor(request, requested_variables)
     var_list = variable_constructor.construct_requested_variables_list()
 
+    check_variables_result = check_variables_recognised(var_list)
+    check_streams_match = check_streams_match_variables(var_list, request)
+    if check_variables_result or check_streams_match != 0:
+        logger.warning("Issues found but continuing, a non zero exit code will be returned")
+
     # TODO: take inventory check into account!
     # Write the 'requested variables list'.
     logger.info('Writing the Requested variables list to "{}".'.format(output_file))
@@ -102,6 +107,92 @@ def generate_variable_list(arguments: Namespace) -> None:
         reconfigure_mip_cfg_file(request, output_file)
 
     logger.info('*** Complete ***')
+
+    return 1 if check_variables_result or check_streams_match else 0
+
+
+def check_variables_recognised(var_list: dict[str, Any]) -> int:
+    """
+    Checks for unrecognised variables in the provided list and logs critical messages if they exist.
+
+    Parameters
+    ----------
+    var_list : dict
+        The user requested variables.
+    Returns
+    -------
+    int
+        Returns 1 if there are any unrecognised (inactive) variables, otherwise returns 0.
+    Logs
+    ----
+    Critical log messages for each unrecognised variable, including its comments.
+    """
+
+    logger = logging.getLogger(__name__)
+    unrecognised_variables = []
+    for var in var_list['requested_variables']:
+        if not var['active']:
+            unrecognised_variables.append(var)
+
+    for x in unrecognised_variables:
+        logger.critical(f'Unrecognised variable: {x["miptable"]}/{x["label"]}{x["comments"]}')
+    if unrecognised_variables:
+        return 1
+    else:
+        return 0
+
+
+def check_streams_match_variables(var_list: dict[str, Any], request: Any) -> int:
+    """
+    Compares the set of streams present in the variables list file with those from the request file.
+    Logs critical errors for any streams found in one but not the other, and returns a status code of 1 if
+    mismatches are found.
+
+    Parameters
+    ----------
+    var_list : dict
+        Variables from the variables file.
+    request : object
+        Request containing all information for the MIP convert cfg file.
+    Returns
+    -------
+    int
+        Returns 1 if there are mismatched streams between variables list and the request streams, otherwise returns 0.
+    Logs
+    ----
+    Critical
+        Logs critical messages for each mismatched stream found.
+    """
+
+    logger = logging.getLogger(__name__)
+    variables_list_streams = set()
+    request_streams = set()
+    requested_streams = request.data.streams
+    for var in var_list['requested_variables']:
+        variables_list_streams.add(var['stream'])
+
+    for var in requested_streams:
+        request_streams.add(var)
+
+    streams_in_variables_list_but_not_in_request = variables_list_streams.difference(request_streams)
+    streams_in_request_but_not_in_variables_list = request_streams.difference(variables_list_streams)
+
+    if streams_in_variables_list_but_not_in_request:
+        for stream in streams_in_variables_list_but_not_in_request:
+            logger.critical(
+                f'Stream "{stream}" found in variables list but not in request file streams: {request_streams}'
+            )
+
+    if streams_in_request_but_not_in_variables_list:
+        for stream in streams_in_request_but_not_in_variables_list:
+            logger.critical(
+                f'Stream "{stream}" found in request streams but not in variables list file: {variables_list_streams}'
+            )
+
+    if streams_in_variables_list_but_not_in_request or streams_in_request_but_not_in_variables_list:
+        return 1
+    else:
+        return 0
 
 
 def reconfigure_mip_cfg_file(request: Request, requested_variables_file: str) -> None:
