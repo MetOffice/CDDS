@@ -99,14 +99,12 @@ class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
 
         # Check input data directory.
         input_data_directory = os.path.join(
-            self.root_data_dir, self.mip_era, self.project, self.model_id, self.experiment_id,
-            self.realisation, self.package, INPUT_DATA_DIRECTORY)
+            self.root_data_dir, self.mip_era, self.project, self.request_id, self.package, INPUT_DATA_DIRECTORY)
         self.assertTrue(os.path.isdir(input_data_directory), msg.format(input_data_directory))
 
         # Check output data directory.
         output_data_directory = os.path.join(
-            self.root_data_dir, self.mip_era, self.project, self.model_id, self.experiment_id,
-            self.realisation, self.package, OUTPUT_DATA_DIRECTORY)
+            self.root_data_dir, self.mip_era, self.project, self.request_id, self.package, OUTPUT_DATA_DIRECTORY)
         self.assertTrue(os.path.isdir(output_data_directory), msg.format(output_data_directory))
 
         # Check component proc directories.
