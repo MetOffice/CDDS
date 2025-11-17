@@ -17,7 +17,7 @@ from typing import Mapping
 
 def retrieve_variables_by_grid(
     requested_variables: RequestedVariablesList, mip_table_directory: str
-) -> Mapping[tuple[str, str, str, str, str], Mapping[str, Mapping[str, str]]]:
+) -> Mapping[tuple[str, ...], Mapping[str, Mapping[str, str]]]:
     """
     Return the |MIP requested variables| by grid.
 
@@ -44,14 +44,14 @@ def retrieve_variables_by_grid(
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
 
-    variables_by_grid = defaultdict(
+    variables_by_grid: defaultdict[tuple[str, ...], defaultdict[str, defaultdict[str, str]]] = defaultdict(
         lambda: defaultdict(lambda: defaultdict(str)))
     active_variables = requested_variables.active_variables_by_mip_table
     for mip_table_id, variable_list in active_variables.items():
         for variable in variable_list:
             variable_name, stream_id, substream, frequency = variable
-            grid_info = retrieve_grid_info(variable_name, mip_table_id, requested_variables.model_id)
-            if grid_info is None:
+            grid = retrieve_grid_info(variable_name, mip_table_id, requested_variables.model_id)
+            if grid is None:
                 logger.critical('No grid information available for "{}" for "{}"'
                                 ''.format(variable_name, mip_table_id))
                 continue
@@ -66,7 +66,7 @@ def retrieve_variables_by_grid(
                 section = 'stream_{}_{}'.format(stream_id, substream)
                 logger.debug('Updating grid information for substream "{}"'
                              ''.format(substream))
-            grid_info = tuple(list(grid_info) + [substream])
+            grid_info: tuple[str, ...] = tuple(list(grid) + [substream])
             # Work out whether specific (e.g. CMIP6_Amon) tables are being used or generic (MIP_APmon)
             mip_table = identify_mip_table_name(requested_variables.mip_era, mip_table_directory, mip_table_id)
             if requested_variables.mip_era == "CMIP7":

@@ -58,7 +58,7 @@ class RequestedVariablesList(JSONConfig):
         return active_variables
 
     @property
-    def active_variables_by_mip_table(self):
+    def active_variables_by_mip_table(self) -> dict[str, list[tuple[str, str, str, str]]]:
         """
         dict: The active |MIP requested variables| by
         |MIP table identifier|.
