@@ -21,8 +21,7 @@ from iris.coord_categorisation import (add_categorised_coord, add_hour,
                                        add_month_number, add_year,
                                        add_day_of_month, add_hour)
 from iris.exceptions import CoordinateNotFoundError
-from iris.util import guess_coord_axis
-from iris.util import equalise_attributes
+from iris.util import equalise_attributes, guess_coord_axis, new_axis
 
 from mip_convert.common import guess_bounds_if_needed
 from mip_convert.constants import (JPDFTAUREICEMODIS_POINTS, JPDFTAUREICEMODIS_BOUNDS,
@@ -1770,8 +1769,8 @@ def divide_by_mask(cube, weights_cube):
     ]
     # if no time dimension on cube promote scalar axis to dimension
     if len(result.coord_dims('time')) == 0:
-        result = iris.util.new_axis(result, 'time')
-    order = [result.coord_dims(i)[0] for i in coord_order]
+        result = new_axis(result, 'time')
+    order = [result.coord_dims(coord_name)[0] for coord_name in coord_order]
 
     result.transpose(order)
 
