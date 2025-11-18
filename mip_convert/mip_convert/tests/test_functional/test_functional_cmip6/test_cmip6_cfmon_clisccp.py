@@ -32,16 +32,16 @@ class TestCmip6CFmonClisccp(AbstractFunctionalTests):
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
                     'model_output_dir': MODEL_OUTPUT_DIR,
-                    'run_bounds': '1902-04-01T00:00:00 1902-05-01T00:00:00',
+                    'run_bounds': '2007-12-01T00:00:00 2008-03-01T00:00:00',
                     'suite_id': 'u-ar766',
                     'mip_convert_plugin': 'UKESM1'
                 },
                 streams={
-                    'ap5': {'CMIP6_CFmon': 'clisccp'}
+                    'ap5clisccp': {'CMIP6_CFmon': 'clisccp'}
                 },
                 other={
-                    'reference_version': 'v1',
-                    'filenames': ['clisccp_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_190204-190204.nc'],
+                    'reference_version': 'v2',
+                    'filenames': ['clisccp_CFmon_UKESM1-0-LL_amip_r1i1p1f1_gn_200712-200802.nc'],
                     'ignore_history': True,
                 }
             )
