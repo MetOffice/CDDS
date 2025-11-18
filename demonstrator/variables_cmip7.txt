@@ -1,0 +1,9 @@
+atmos/tas_tavg-h2m-hxy-u@mon:ap5
+atmos/uas_tavg-h10m-hxy-u@mon:ap5
+atmos/vas_tavg-h10m-hxy-u@mon:ap5
+atmos/tas_tavg-h2m-hxy-u@day:ap6
+atmos/uas_tavg-h10m-hxy-u@day:ap6
+atmos/vas_tavg-h10m-hxy-u@day:ap6
+ocean/tos_tavg-u-hm-sea@mon:onm/grid-T
+ocean/tos_tavg-u-hm-sea@day:ond/grid-T
+ocean/zostoga_tavg-u-hm-sea@mon:onm/grid-T
