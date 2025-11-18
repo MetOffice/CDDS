@@ -167,7 +167,7 @@ You also need to set following values manually:
 2. **This step is optional:** Set some useful environmental variables to access the CDDS directories:
    ```bash
    export CDDS_PROC_DIR=/<root_proc_dir>/<mip_era>/<mip>/<model_id>_<experiment_id>_<variant_label>/<package>/
-   export CDDS_DATA_DIR=/<root_data_dir>/<mip_era>/<mip>/<model_id>/<experiment_id>/<variant_label>/<package>/
+   export CDDS_DATA_DIR=/<root_data_dir>/<mip_era>/<mip>/<model_id>_<experiment_id>_<variant_label>/<package>/
    ls $CDDS_PROC_DIR
    ls $CDDS_DATA_DIR
    ```

@@ -134,7 +134,7 @@ class BasePlugin(CddsPlugin, ABC):
             request.common.root_proc_dir,
             request.metadata.mip_era,
             request.metadata.mip,
-            request.common.workflow_basename,
+            self.request_id(request),
             request.common.package
         )
 
@@ -151,11 +151,20 @@ class BasePlugin(CddsPlugin, ABC):
             request.common.root_data_dir,
             request.metadata.mip_era,
             request.metadata.mip,
-            request.metadata.model_id,
-            request.metadata.experiment_id,
-            request.metadata.variant_label,
+            self.request_id(request),
             request.common.package
         )
+
+    def request_id(self, request: 'Request') -> str:
+        """
+        Return a concatenation of model_id, experiment_id, and variant_label to uniquely identify a simulation.
+
+        :param request: The users request.
+        :type request: Request
+        :return: The unique request_id
+        :rtype: str
+        """
+        return f"{request.metadata.model_id}_{request.metadata.experiment_id}_{request.metadata.variant_label}"
 
     def requested_variables_list_filename(self, request: 'Request') -> str:
         """
