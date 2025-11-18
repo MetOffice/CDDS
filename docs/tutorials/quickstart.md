@@ -249,7 +249,7 @@ The following commands assume you are in the working directory created previousl
         proc
         └── GCModelDev
             └── MOHCCP
-                └── request_id
+                └── HadGEM3-GC31-LL_my-experiment-id_r1i1p1f3
                     └── round-1
                         ├── archive
                         ├── configure
@@ -264,13 +264,11 @@ The following commands assume you are in the working directory created previousl
         data
         └── GCModelDev
             └── MOHCCP
-                └── HadGEM3-GC31-LL
-                    └── my-experiment-id
-                        └── r1i1p1f3
-                            └── round-1
-                                ├── input
-                                │   └── u-bg466
-                                └── output
+                └── HadGEM3-GC31-LL_my-experiment-id_r1i1p1f3
+                    └── round-1
+                        ├── input
+                        │   └── u-bg466
+                        └── output
         ```
 
 
@@ -449,15 +447,13 @@ The typical directory structure CDDS creates looks like this (individual `.pp` a
 ```
 └── CMIP6
     └── ScenarioMIP
-        └── UKESM1-0-LL
-            └── ssp126
-                └── r1i1p1f2
-                    └── cdds_request_ssp126
-                        ├── input
-                            └── u-dn300
-                                ├── ap4
-                                ├── ap5
-                                └── onm
+        └── UKESM1-0-LL_ssp126_r1i1p1f2
+            └── round-1
+                ├── input
+                    └── u-dn300
+                        ├── ap4
+                        ├── ap5
+                        └── onm
 ```
 
 Having made sure you have run the `cdds_create_cdds_directories` first you can then run the arrange script.
@@ -481,18 +477,16 @@ After running `cdds_arrange_input_data` it would `symlink` the files like so.
 ```
 └── CMIP6
     └── ScenarioMIP
-        └── UKESM1-0-LL
-            └── ssp126
-                └── r1i1p1f2
-                    └── cdds_request_ssp126
-                        ├── input
-                            └── u-dn300
-                                ├── ap4
-                                    └── dn300a.p42015apr.pp
-                                ├── ap5
-                                    └── dn300a.p42015apr.pp
-                                └── onm
-                                    └── medusa_dn300o_1m_20150101-20150201_diad-T.nc
+        └── UKESM1-0-LL_ssp126_r1i1p1f2
+            └── round-1
+                ├── input
+                    └── u-dn300
+                        ├── ap4
+                            └── dn300a.p42015apr.pp
+                        ├── ap5
+                            └── dn300a.p42015apr.pp
+                        └── onm
+                            └── medusa_dn300o_1m_20150101-20150201_diad-T.nc
 ```
 
 !!! note

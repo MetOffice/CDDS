@@ -231,7 +231,7 @@ You need to adjust your `request.cfg`:
 2. **This step is optional:** Set some useful environmental variables to access the CDDS directories:
    ```bash
    export CDDS_PROC_DIR=/<root_proc_dir>/<mip_era>/<mip>/<model_id>_<experiment_id>_<variant_label>/<package>/
-   export CDDS_DATA_DIR=/<root_data_dir>/<mip_era>/<mip>/<model_id>/<experiment_id>/<variant_label>/<package>/
+   export CDDS_DATA_DIR=/<root_data_dir>/<mip_era>/<mip>/<model_id>_<experiment_id>_<variant_label>/<package>/
    ls $CDDS_PROC_DIR
    ls $CDDS_DATA_DIR
    ```
@@ -249,7 +249,7 @@ You need to adjust your `request.cfg`:
         Then the command to set the environmental variables is:
         ```bash
         export CDDS_PROC_DIR=/home/foo/cdds-example-1/data/CMIP6/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
-        export CDDS_DATA_DIR=/home/foo/cdds-example-1/data/CMIP6/CMIP/UKESM1-0-LL/piControl/r1i1p1f2/round-1/
+        export CDDS_DATA_DIR=/home/foo/cdds-example-1/data/CMIP6/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
         ```
 
 3. Run the workflow:
