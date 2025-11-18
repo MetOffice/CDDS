@@ -21,8 +21,7 @@ from iris.coord_categorisation import (add_categorised_coord, add_hour,
                                        add_month_number, add_year,
                                        add_day_of_month, add_hour)
 from iris.exceptions import CoordinateNotFoundError
-from iris.util import guess_coord_axis
-from iris.util import equalise_attributes
+from iris.util import equalise_attributes, guess_coord_axis, new_axis
 
 from mip_convert.common import guess_bounds_if_needed
 from mip_convert.constants import (JPDFTAUREICEMODIS_POINTS, JPDFTAUREICEMODIS_BOUNDS,
@@ -1760,7 +1759,22 @@ def divide_by_mask(cube, weights_cube):
         A cube with corrected tau pseudo level coordinate data with
         weights applied.
     """
-    return divide_cubes(tau_pseudo_level(cube), weights_cube)
+    result = divide_cubes(tau_pseudo_level(cube), weights_cube)
+    coord_order = [
+        "time",
+        "atmosphere_optical_thickness_due_to_cloud",
+        "pressure",
+        "latitude",
+        "longitude"
+    ]
+    # if no time dimension on cube promote scalar axis to dimension
+    if len(result.coord_dims('time')) == 0:
+        result = new_axis(result, 'time')
+    order = [result.coord_dims(coord_name)[0] for coord_name in coord_order]
+
+    result.transpose(order)
+
+    return result
 
 
 def jpdftaure_divide_by_mask(cube, weights_cube):
