@@ -4,6 +4,7 @@
 Module to specify the classes that are needed for storing the information of the test data for
 functional tests in MIP convert
 """
+import os
 
 from abc import ABC
 from dataclasses import asdict, dataclass, field
@@ -221,7 +222,7 @@ class ProjectInfo:
                 'model_id': 'PCMDI-test-1-0',
                 'model_type': 'AOGCM AER',
                 'nominal_resolution': '250 km',
-                'variant_label': 'r1i1p1f1',
+                'variant_label': 'r1i1dp1f1',
                 'parent_base_date': '1850-01-01T00:00:00',
                 'parent_experiment_id': 'piControl',
                 'parent_mip_era': 'CMIP7',

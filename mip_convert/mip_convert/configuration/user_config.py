@@ -10,7 +10,8 @@ from cdds.common import (check_run_bounds_format,
                          check_file, check_files, check_number,
                          check_date_format,
                          check_directory,
-                         check_variant_label_format)
+                         check_variant_label_format,
+                         cmip7_check_variant_label_format)
 
 
 def cmor_setup_config():
@@ -32,7 +33,7 @@ def cmor_setup_config():
     return config
 
 
-def cmor_dataset_config():
+def cmor_dataset_config(mip_era):
     """
     Define the |CMOR| dataset-specific information to be read from the
     |user configuration file|.
@@ -57,8 +58,14 @@ def cmor_dataset_config():
     config['model_type'] = _get_config(
         'source_type', section, value_type='multiple')
     config['parent_model_id'] = _get_config('parent_source_id', section)
-    config['variant_label'] = _get_config(
-        'variant_label', section, check_function=check_variant_label_format)
+
+    if mip_era == "CMIP7":
+        config['variant_label'] = _get_config(
+            'variant_label', section, check_function=cmip7_check_variant_label_format)
+    else:
+        config['variant_label'] = _get_config(
+            'variant_label', section, check_function=check_variant_label_format)
+
     return config
 
 
