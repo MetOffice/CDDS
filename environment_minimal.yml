@@ -5,7 +5,7 @@ channels:
 dependencies:
   - cf-units=3.2.0
   - cftime=1.6.2
-  - cmor=3.11.0
+  - cmor=3.13.0
   - compliance-checker=4.3.4
   - dask-core=2023.5
   - debugpy=1.6.6
@@ -23,7 +23,7 @@ dependencies:
   - mkdocstrings=0.24.1
   - mkdocstrings-python=1.9.0
   - mo_pack=0.2.0
-  - nccmp=1.9.1.0
+  - nccmp=1.10.0.0
   - nco=5.3.4
   - numpy=1.26.4
   - mypy
@@ -49,7 +49,6 @@ dependencies:
 #    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds
 #    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
 variables:
-    CDDS_ETC: $CDDS_HOME/etc
     CYLC_VERSION: 8
     LC_ALL: en_GB.UTF-8
     TZ: UTC
