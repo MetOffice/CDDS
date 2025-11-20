@@ -602,12 +602,12 @@ def check_variant_label_format(variant_label):
 
 
 def cmip7_check_variant_label_format(variant_label):
-    r"""
+    """
     Ensure the |variant label| provided to the ``variant_label``
     parameter has the correct CMIP7 format.
 
     The |variant label| must be in the form
-    ``^(r\d+)(i\d+d)(p\d+)(f\d+)$``.
+    ``^(r\d+)(i\d+[a-e])(p\d+)(f\d+)$``.
 
     Parameters
     ----------
