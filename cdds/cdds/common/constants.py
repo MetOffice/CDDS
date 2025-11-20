@@ -247,5 +247,5 @@ USER_CONFIG_OPTIONS = {
     },
 }
 VARIANT_LABEL_FORMAT = r'^r(\d+)i(\d+)p(\d+)f(\d+)$'
-CMIP7_VARIANT_LABEL_FORMAT = r'^(r\d+)(i\d+d)(p\d+)(f\d+)$'
+CMIP7_VARIANT_LABEL_FORMAT = r'^(r\d+)(i\d+[a-e])(p\d+)(f\d+)$'
 PRINT_STACK_TRACE = True
