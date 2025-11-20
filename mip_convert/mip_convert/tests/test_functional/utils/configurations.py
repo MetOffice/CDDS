@@ -220,7 +220,6 @@ class ProjectInfo:
                 'mip': 'CMIP',
                 'mip_era': 'CMIP7',
                 'model_id': 'PCMDI-test-1-0',
-                'model_type': 'AOGCM AER',
                 'nominal_resolution': '250 km',
                 'variant_label': 'r1i1dp1f1',
                 'parent_base_date': '1850-01-01T00:00:00',
