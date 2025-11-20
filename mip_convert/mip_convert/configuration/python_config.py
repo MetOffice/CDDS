@@ -273,9 +273,7 @@ class UserConfig(PythonConfig):
     names equal to each option in the |user configuration file|.
     """
 
-    _configs = [cmor_setup_config(), cmor_dataset_config(), request_config()]
-
-    def __init__(self, read_path, history):
+    def __init__(self, read_path, history, mip_era="CMIP6"):
         super(UserConfig, self).__init__(read_path)
         self._all_options = {}
         self._required_options = {}
@@ -285,7 +283,9 @@ class UserConfig(PythonConfig):
         self._halo_removals = {}
         self.streams_to_process = {}
         self.mip_table_prefix = ''
+        self.mip_era = mip_era
 
+        self._add_configs()
         # Validate the sections.
         self._validate_sections()
         # Validate the options and populate self._all_options.
@@ -302,6 +302,9 @@ class UserConfig(PythonConfig):
         self.history = history
         # Add the date time format.
         self.TIMEFMT = DATE_TIME_FORMAT
+
+    def _add_configs(self):
+        self._configs = [cmor_setup_config(), cmor_dataset_config(self.mip_era), request_config()]
 
     @property
     def masking(self):
@@ -342,7 +345,7 @@ class UserConfig(PythonConfig):
         where the options are the names used in CMOR.
         """
         values = {config['name']: getattr(self, config['name'])
-                  for config in list(cmor_dataset_config().values())
+                  for config in list(cmor_dataset_config(self.mip_era).values())
                   if hasattr(self, config['name'])}
         # Set 'activity_id' and 'source_type' to strings.
         for attribute in ['activity_id', 'source_type']:

@@ -25,8 +25,8 @@ from metomi.isodatetime.parsers import DurationParser, TimePointParser, TimeRecu
 
 from cdds.convert.exceptions import IncompatibleCalendarMode
 from cdds.common.constants import (
-    CDDS_DEFAULT_DIRECTORY_PERMISSIONS, DATE_TIME_REGEX, ROSE_URLS,
-    VARIANT_LABEL_FORMAT, LOG_TIMESTAMP_FORMAT, SUPPORTED_CALENDARS)
+    DATE_TIME_REGEX, ROSE_URLS, VARIANT_LABEL_FORMAT, CMIP7_VARIANT_LABEL_FORMAT, LOG_TIMESTAMP_FORMAT,
+    SUPPORTED_CALENDARS)
 
 
 def get_log_datestamp():
@@ -556,12 +556,9 @@ def check_run_bounds_format(run_bounds):
 
 
 def check_variant_label_format(variant_label):
-    r"""
+    """
     Ensure the |variant label| provided to the ``variant_label``
     parameter has the correct format.
-
-    The |variant label| must be in the form
-    ``r(\d+)i(\d+)p(\d+)f(\d+)``.
 
     Parameters
     ----------
@@ -594,6 +591,29 @@ def check_variant_label_format(variant_label):
     ValueError: Variant label "r3i2p1" does not match the expected format
     """
     pattern = re.compile(VARIANT_LABEL_FORMAT)
+    match = pattern.match(variant_label)
+    if not match:
+        msg = ('Variant label "{}" does not match the expected format'
+               ''.format(variant_label))
+        raise ValueError(msg)
+
+
+def cmip7_check_variant_label_format(variant_label):
+    """
+    Ensure the |variant label| provided to the ``variant_label``
+    parameter has the correct CMIP7 format.
+
+    Parameters
+    ----------
+    variant_label: string
+        The |variant label|.
+
+    Raises
+    ------
+    ValueError:
+        If the |variant label| does not match the format.
+    """
+    pattern = re.compile(CMIP7_VARIANT_LABEL_FORMAT)
     match = pattern.match(variant_label)
     if not match:
         msg = ('Variant label "{}" does not match the expected format'

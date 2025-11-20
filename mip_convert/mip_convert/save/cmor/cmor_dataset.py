@@ -11,7 +11,7 @@ import os
 import regex as re
 from tempfile import mkstemp
 
-from cdds.common import VARIANT_LABEL_FORMAT
+from cdds.common import CMIP7_VARIANT_LABEL_FORMAT, VARIANT_LABEL_FORMAT
 
 from mip_convert import model_date
 
@@ -55,7 +55,8 @@ class Dataset(object):
             self.logger.debug(msg.format(attribute, 'exists'))
         if not self._relaxed_cmor:
             self.validate_activity_id_values()
-            self.validate_source_type_values()
+            if "source_type" in self._cv_config.required_global_attributes:
+                self.validate_source_type_values()
 
     def validate_activity_id_values(self):
         """
@@ -216,7 +217,10 @@ class Dataset(object):
     @property
     def _items_from_variant_label(self):
         logger = logging.getLogger(__name__)
-        pattern = re.compile(VARIANT_LABEL_FORMAT)
+        if self._items['mip_era'] == "CMIP7":
+            pattern = re.compile(CMIP7_VARIANT_LABEL_FORMAT)
+        else:
+            pattern = re.compile(VARIANT_LABEL_FORMAT)
         if 'variant_label' in self._cv_config._get_values_from_cv('required_global_attributes'):
             match = pattern.match(self._user_config.variant_label)
             items_from_variant_label = {

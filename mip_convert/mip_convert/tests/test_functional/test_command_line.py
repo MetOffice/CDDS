@@ -45,7 +45,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
 
     def convert(
             self, filenames: List[str], reference_version: str, relaxed_cmor: bool,
-            mip_convert_log: str, expected_exit_code: int = 0, input_dir_suffix: str = ''
+            mip_convert_log: str, expected_exit_code: int = 0, input_dir_suffix: str = '', plugin_id=None
     ) -> Tuple[List[str], List[str]]:
         input_directory = self.input_dir.format(
             self.test_info.project_id, self.test_info.mip_table, '_'.join(self.test_info.variables)
@@ -78,7 +78,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         # Ignore the Iris warnings sent to stderr by main().
         original_stderr = sys.stderr
         sys.stderr = io.StringIO()
-        parameters = self.get_convert_parameters(log_name, relaxed_cmor)
+        parameters = self.get_convert_parameters(log_name, relaxed_cmor, plugin_id)
 
         # Set the umask so all files produced by 'main' have read and write permissions for all users.
         original_umask = os.umask(000)
@@ -95,11 +95,13 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         print_outcome(output_files, output_directory, output_data_directory)
         return output_files, reference_files
 
-    def get_convert_parameters(self, log_name, relaxed_cmor):
+    def get_convert_parameters(self, log_name, relaxed_cmor, plugin_id):
         # Extracted to allow overriding parameters
         parameters = [self.config_file, '-q', '-l', log_name]
         if relaxed_cmor:
             parameters = parameters + ['--relaxed_cmor']
+        if plugin_id:
+            parameters = parameters + ['--plugin_id', plugin_id]
         return parameters
 
     @staticmethod
@@ -117,7 +119,7 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
 
     def check_convert(
             self, relaxed_cmor: bool = False, use_fast_comparison: bool = False, log_file_identifier: str = '',
-            input_dir_suffix: str = '') -> None:
+            input_dir_suffix: str = '', plugin_id=None) -> None:
         mip_convert_log = self.get_mip_convert_log_filename(log_file_identifier)
         other_items = self.test_info.specific_info.other
         reference_version = other_items['reference_version']
@@ -128,7 +130,12 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
         other_options = other_items.get('other_options')
 
         outputs, references = self.convert(
-            filenames, reference_version, relaxed_cmor, mip_convert_log, input_dir_suffix=input_dir_suffix
+            filenames,
+            reference_version,
+            relaxed_cmor,
+            mip_convert_log,
+            input_dir_suffix=input_dir_suffix,
+            plugin_id=plugin_id,
         )
 
         if use_fast_comparison:

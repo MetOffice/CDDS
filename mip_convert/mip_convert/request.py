@@ -53,7 +53,7 @@ def convert(parameters):
     logger.info('*** Starting conversions ***')
 
     # Read and validate the 'user configuration file'.
-    user_config = UserConfig(parameters.config_file, software_versions())
+    user_config = UserConfig(parameters.config_file, software_versions(), parameters.plugin_id)
 
     # Setup CMOR in preparation for writing the 'output netCDF files', which includes reading and validating
     # the associated Controlled Vocabularies (CV) file, if defined, and ensuring that the required global options exist.
