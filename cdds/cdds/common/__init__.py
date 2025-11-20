@@ -556,12 +556,9 @@ def check_run_bounds_format(run_bounds):
 
 
 def check_variant_label_format(variant_label):
-    r"""
+    """
     Ensure the |variant label| provided to the ``variant_label``
     parameter has the correct format.
-
-    The |variant label| must be in the form
-    ``r(\d+)i(\d+)p(\d+)f(\d+)``.
 
     Parameters
     ----------
@@ -605,9 +602,6 @@ def cmip7_check_variant_label_format(variant_label):
     """
     Ensure the |variant label| provided to the ``variant_label``
     parameter has the correct CMIP7 format.
-
-    The |variant label| must be in the form
-    ``^(r\\d+)(i\\d+[a-e])(p\\d+)(f\\d+)$``.
 
     Parameters
     ----------
