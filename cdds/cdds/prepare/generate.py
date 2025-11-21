@@ -92,7 +92,6 @@ def generate_variable_list(arguments: Namespace) -> int:
     requested_variables = resolve_requested_variables(user_requested_variables, model_to_mip_mappings)
     variable_constructor = VariablesConstructor(request, requested_variables)
     var_list = variable_constructor.construct_requested_variables_list()
-
     check_variables_result = check_variables_recognised(var_list)
     check_streams_match = check_streams_match_variables(var_list, request)
     if check_variables_result or check_streams_match != 0:
@@ -148,6 +147,9 @@ def check_streams_match_variables(var_list: dict[str, Any], request: Any) -> int
     Logs critical errors for any streams found in one but not the other, and returns a status code of 1 if
     mismatches are found.
 
+    Note: Variables in the list can include substreams in format 'stream/substream' (e.g., 'onm/scalar'),
+    so the base stream ID (before '/') is used for comparison with request streams.
+
     Parameters
     ----------
     var_list : dict
@@ -169,7 +171,9 @@ def check_streams_match_variables(var_list: dict[str, Any], request: Any) -> int
     request_streams = set()
     requested_streams = request.data.streams
     for var in var_list['requested_variables']:
-        variables_list_streams.add(var['stream'])
+        stream = var['stream']
+        base_stream = stream.split('/')[0] if '/' in stream else stream
+        variables_list_streams.add(base_stream)
 
     for var in requested_streams:
         request_streams.add(var)
