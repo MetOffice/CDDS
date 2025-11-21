@@ -148,7 +148,7 @@ def check_streams_match_variables(var_list: dict[str, Any], request: Any) -> int
     Logs critical errors for any streams found in one but not the other, and returns a status code of 1 if
     mismatches are found.
 
-    Note: Variables in the list can include substreams in format 'stream/substream' (e.g., 'onm/scalar'),
+    Note: Variables in the list can include substreams in format 'stream/substream' (e.g., 'onm/grid-W'),
     so the base stream ID (before '/') is used for comparison with request streams.
 
     Parameters
