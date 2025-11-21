@@ -92,6 +92,7 @@ def generate_variable_list(arguments: Namespace) -> int:
     requested_variables = resolve_requested_variables(user_requested_variables, model_to_mip_mappings)
     variable_constructor = VariablesConstructor(request, requested_variables)
     var_list = variable_constructor.construct_requested_variables_list()
+
     check_variables_result = check_variables_recognised(var_list)
     check_streams_match = check_streams_match_variables(var_list, request)
     if check_variables_result or check_streams_match != 0:
