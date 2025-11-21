@@ -131,6 +131,12 @@ class TestCheckVariableValidation(unittest.TestCase):
                 {'stream': 'ap4'}
             ]
         }
+        self.var_list_with_substreams = {
+            'requested_variables': [
+                {'stream': 'ap4/substream'},
+                {'stream': 'ap7/substream'}
+            ]
+        }
 
     def test_check_variables_recognised_all_active(self):
         result = check_variables_recognised(self.var_list_all_active)
@@ -151,3 +157,7 @@ class TestCheckVariableValidation(unittest.TestCase):
     def test_check_streams_match_extra_value_in_request(self):
         result = check_streams_match_variables(self.var_list_missing_stream, self.request)
         self.assertEqual(result, 1)
+
+    def test_check_streams_match_variables_with_substream(self):
+        result = check_streams_match_variables(self.var_list_with_substreams, self.request)
+        self.assertEqual(result, 0)
