@@ -15,7 +15,10 @@ import pytest
 from cdds.common.mip_tables import UserMipTables
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.prepare.generate import (
-    check_mappings, parse_variable_list, check_variables_recognised, check_streams_match_variables
+    check_mappings,
+    parse_variable_list,
+    check_variables_recognised,
+    check_streams_match_variables,
 )
 from cdds.tests.factories.request_factory import simple_request
 from cdds.tests.test_common.common import DummyMapping
@@ -23,7 +26,9 @@ from cdds.tests.test_common.common import DummyMapping
 
 @pytest.fixture
 def cmip6_mip_tables() -> UserMipTables:
-    MIP_TABLES_DIR = os.path.join(os.environ["CDDS_ETC"], "mip_tables", "CMIP6", "01.00.29")
+    MIP_TABLES_DIR = os.path.join(
+        os.environ["CDDS_ETC"], "mip_tables", "CMIP6", "01.00.29"
+    )
     mip_tables = UserMipTables(MIP_TABLES_DIR)
     return mip_tables
 
@@ -68,7 +73,9 @@ class TestCheckMappings(unittest.TestCase):
         self.mappings = {
             "Amon": {
                 "tas": self.mapping,
-                "new": configparser.Error("No section: 'new' in model to MIP mapping configuration file"),
+                "new": configparser.Error(
+                    "No section: 'new' in model to MIP mapping configuration file"
+                ),
             }
         }
         self.variable1 = MagicMock()
@@ -87,77 +94,78 @@ class TestCheckMappings(unittest.TestCase):
 
     def test_not_in_mappings(self):
         mapping, comments = check_mappings(self.variable2, self.mappings)
-        expected_comments = ["No section: 'new' in model to MIP mapping configuration file"]
+        expected_comments = [
+            "No section: 'new' in model to MIP mapping configuration file"
+        ]
         assert comments == expected_comments
         assert not mapping
 
 
 class TestCheckVariableValidation(unittest.TestCase):
-
     def setUp(self):
         class DummyRequest:
             class Data:
-                streams = ['ap4', 'ap7']
+                streams = ["ap4", "ap7"]
+
             data = Data()
+
         self.request = DummyRequest()
 
-        self.var_list_all_active = {
-            'requested_variables': [
-                {'active': True, 'miptable': 'ap4', 'label': 'tas', 'comments': ''},
-                {'active': True, 'miptable': 'ap4', 'label': 'pr', 'comments': ''}
-            ]
-        }
-        self.var_list_some_inactive = {
-            'requested_variables': [
-                {'active': True, 'miptable': 'ap4', 'label': 'tas', 'comments': ''},
-                {'active': False, 'miptable': 'ap4', 'label': 'pr', 'comments': ''}
-            ]
-        }
-        self.var_list_streams_match_request = {
-            'requested_variables': [
-                {'stream': 'ap4'},
-                {'stream': 'ap7'}
-            ]
-        }
-        self.var_list_extra_stream = {
-            'requested_variables': [
-                {'stream': 'ap4'},
-                {'stream': 'ap7'},
-                {'stream': 'onm'}
-            ]
-        }
-        self.var_list_missing_stream = {
-            'requested_variables': [
-                {'stream': 'ap4'}
-            ]
-        }
-        self.var_list_with_substreams = {
-            'requested_variables': [
-                {'stream': 'ap4/substream'},
-                {'stream': 'ap7/substream'}
-            ]
-        }
-
     def test_check_variables_recognised_all_active(self):
+        self.var_list_all_active = {
+            "requested_variables": [
+                {"active": True, "miptable": "ap4", "label": "tas", "comments": ""},
+                {"active": True, "miptable": "ap4", "label": "pr", "comments": ""},
+            ]
+        }
         result = check_variables_recognised(self.var_list_all_active)
         self.assertEqual(result, 0)
 
     def test_check_variables_recognised_some_inactive(self):
+        self.var_list_some_inactive = {
+            "requested_variables": [
+                {"active": True, "miptable": "ap4", "label": "tas", "comments": ""},
+                {"active": False, "miptable": "ap4", "label": "pr", "comments": ""},
+            ]
+        }
         result = check_variables_recognised(self.var_list_some_inactive)
         self.assertEqual(result, 1)
 
     def test_check_var_list_streams_match_request(self):
-        result = check_streams_match_variables(self.var_list_streams_match_request, self.request)
+        self.var_list_streams_match_request = {
+            "requested_variables": [{"stream": "ap4"}, {"stream": "ap7"}]
+        }
+        result = check_streams_match_variables(
+            self.var_list_streams_match_request, self.request
+        )
         self.assertEqual(result, 0)
 
     def test_check_streams_match_extra_value_in_var_list(self):
+        self.var_list_extra_stream = {
+            "requested_variables": [
+                {"stream": "ap4"},
+                {"stream": "ap7"},
+                {"stream": "onm"},
+            ]
+        }
         result = check_streams_match_variables(self.var_list_extra_stream, self.request)
         self.assertEqual(result, 1)
 
     def test_check_streams_match_extra_value_in_request(self):
-        result = check_streams_match_variables(self.var_list_missing_stream, self.request)
+        self.var_list_missing_stream = {"requested_variables": [{"stream": "ap4"}]}
+        result = check_streams_match_variables(
+            self.var_list_missing_stream, self.request
+        )
         self.assertEqual(result, 1)
 
     def test_check_streams_match_variables_with_substream(self):
-        result = check_streams_match_variables(self.var_list_with_substreams, self.request)
+        self.var_list_with_substreams = {
+            "requested_variables": [
+                {"stream": "ap4/substream"},
+                {"stream": "ap7/substream"},
+            ]
+        }
+        result = check_streams_match_variables(
+            self.var_list_with_substreams, self.request
+        )
         self.assertEqual(result, 0)
