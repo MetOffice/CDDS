@@ -272,6 +272,15 @@ class GlobalModelFileInfo(ModelFileInfo):
         return True
 
 
+class CMIP7GlobalModelFileInfo(GlobalModelFileInfo):
+    """
+    Manage and check netCDF files from CMIP7 simulation models
+    """
+    _CMOR_FILENAME_PATTERN = (r'([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_'
+                              r'([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_(r\d{1,6}i\d{1,6}[a-e]?p\d{1,6}f\d{1,6})_'
+                              r'((\d+)-(\d+)).nc')
+
+
 class RegionalModelFileInfo(ModelFileInfo):
     """
     Provides methods to manage and check netCDF files from regional simulation models

@@ -6,7 +6,7 @@ The :mod:`cmip7_plugin` module contains the code for the CMIP7 plugin.
 import os
 from typing import Type, Dict, Any, TYPE_CHECKING
 
-from cdds.common.plugins.file_info import ModelFileInfo, GlobalModelFileInfo
+from cdds.common.plugins.file_info import ModelFileInfo, CMIP7GlobalModelFileInfo
 from cdds.common.plugins.grid import GridLabel
 from cdds.common.plugins.models import ModelParameters
 from cdds.common.plugins.streams import StreamInfo
@@ -93,7 +93,7 @@ class Cmip7Plugin(BasePlugin):
         :return: Information to the simulation model files
         :rtype: GlobalModelFileInfo
         """
-        return GlobalModelFileInfo()
+        return CMIP7GlobalModelFileInfo()
 
     def license(self) -> str:
         """
