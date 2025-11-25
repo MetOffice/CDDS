@@ -86,7 +86,7 @@ def main_generate_variable_list(arguments: List[str] = None) -> int:
         log_name = os.path.join(args.output_dir, GENERATE_VARIABLE_LIST_LOG_NAME)
 
     # Create the configured logger.
-    configure_logger(log_name, logging.INFO, False)
+    configure_logger(log_name, logging.INFO, False, show_stacktrace=False)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
