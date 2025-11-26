@@ -6,7 +6,7 @@ from unittest import TestCase
 
 from metomi.isodatetime.data import TimePoint, Calendar
 
-from cdds.common.plugins.file_info import GlobalModelFileInfo, RegionalModelFileInfo
+from cdds.common.plugins.file_info import CMIP7GlobalModelFileInfo, GlobalModelFileInfo, RegionalModelFileInfo
 from cdds.tests.factories.request_factory import simple_request
 
 
@@ -30,6 +30,35 @@ class TestGlobalModelFileIsCmorFile(TestCase):
 
     def test_cmor_file(self):
         filename = 'tas_Amon_UKESM1-0-LL_ssp245_r1i1p1f2_gn_201501-204912.nc'
+        result = self.model_file_info.is_cmor_file(filename)
+        self.assertTrue(result)
+
+
+class TestCMIP7GlobalModelFileIsCmorFile(TestCase):
+
+    def setUp(self):
+        self.model_file_info = CMIP7GlobalModelFileInfo()
+
+    def test_empty_file_name(self):
+        result = self.model_file_info.is_cmor_file('')
+        self.assertFalse(result)
+
+    def test_no_cmor_file(self):
+        result = self.model_file_info.is_cmor_file('something.for.me.txt')
+        self.assertFalse(result)
+
+    def test_cmor_file_does_not_match_pattern_missing_region(self):
+        filename = 'uas_tavg-h10m-hxy-u_mon_gn_PCMDI-test-1-0_1pctCO2_r1i1p1f1_196002-196003.nc'
+        result = self.model_file_info.is_cmor_file(filename)
+        self.assertFalse(result)
+
+    def test_cmor_file(self):
+        filename = 'uas_tavg-h10m-hxy-u_mon_glb_gn_PCMDI-test-1-0_1pctCO2_r1i1p1f1_196002-196003.nc'
+        result = self.model_file_info.is_cmor_file(filename)
+        self.assertTrue(result)
+
+    def test_cmor_file_variant_label(self):
+        filename = 'uas_tavg-h10m-hxy-u_mon_glb_gn_PCMDI-test-1-0_1pctCO2_r1i1dp1f1_196002-196003.nc'
         result = self.model_file_info.is_cmor_file(filename)
         self.assertTrue(result)
 
