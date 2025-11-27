@@ -571,7 +571,19 @@ class QCRunner(object):
                 "non-mandatory"),
             "longitude variable 'vertices_longitude' should define standard_name='longitude' or axis='X'": (
                 "non-mandatory"),
-            "7.1 Cell Boundaries: Boundary variable": "Ignored because of buggy scalar variable implementation",
-            "does not match a dimension, area or auxiliary coordinate": "does not work for collapsed coords, see #2548"
+            "7.1 Cell Boundaries: Boundary variable": (
+                "Ignored because of buggy scalar variable implementation"),
+            "does not match a dimension, area or auxiliary coordinate": (
+                "does not work for collapsed coords, see #2548"),
+            "7.1 Cell Boundaries: The Boundary variables": (
+                "Cell boundary variable attributes were acceptable in CMIP6."),
+            "2.6.3 External Variables: Global attribute external_variables should "
+            "not have any variable names which are present in the dataset.": (
+                "Cmip6 anomaly. Self referencing variable in cell measures. Should only affect volcello."),
+            "7.1 Cell Boundaries: 'lev_bnds'": (
+                "Misinterpretation of hybrid height coordinates."),
+            "7.1 Cell Boundaries: The points specified by the coordinate variable lat"
+            " (0.0) lie outside the boundary of the cell specified by the associated boundary variable lat_bnds": (
+                "This must be an error in checker.")
         }
         return msg_dictionary
