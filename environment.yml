@@ -1,4 +1,4 @@
-name: $CDDS_HOME/conda_environments/cdds-3.3.0
+name: $CDDS_HOME/conda_environments/cdds-3.4_dev-2
 channels:
   - conda-forge
   - nodefaults
@@ -236,13 +236,10 @@ dependencies:
   - zstandard=0.25.0=py310h139afa4_1
   - zstd=1.5.7=hb8e6e7a_2
   - pip:
-      - dreqpy==1.0.29
-      - mkdocs-section-index==0.3.8
-  - pip:
     - dreqpy==1.0.29
     - mkdocs-section-index==0.3.8
-    - git+https://git@github.com/MetOffice/CDDS.git@v<location>#egg=cdds&subdirectory=cdds
-    - git+https://git@github.com/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
+    # - git+https://git@github.com/MetOffice/CDDS.git@v<location>#egg=cdds&subdirectory=cdds
+    # - git+https://git@github.com/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
 variables:
   CYLC_VERSION: 8
   LC_ALL: en_GB.UTF-8
