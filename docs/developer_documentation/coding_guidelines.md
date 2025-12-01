@@ -71,7 +71,7 @@ def my_function(my_param1: float, my_param2: str) -> int:
     :type my_param1: float
     :param my_param2: Description of the second parameter ``my_param2``.
     :type my_param2: string
-    :raises ValueError If ``my_param1`` is less than 0.
+    :raises ValueError: If ``my_param1`` is less than 0.
     :return: Description of anonymous integer return value.
     :rtype: int
     """
