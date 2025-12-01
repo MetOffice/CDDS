@@ -57,23 +57,16 @@ def get_mip_table_dirs(request_file: str, stream: str) -> list:
     :return: List of tuples containing (mip_table_name, mip_table_path).
     :rtype: list
     """
-    # Load the appropriate plugin based on the request's mip_era
+    # Load the plugin using the request's mip_era
     request = read_request(request_file)
     load_plugin(request.metadata.mip_era)
 
     # Get the base output directory of CDDS Convert using CDDS plugin.
     # This constructs: {root_data_dir}/{mip_era}/{mip}/{model_experiment_variant}/{package}/output
     base_output_dir = output_data_directory(request)
-    print(f"Base output directory: {base_output_dir}")
 
     # Add the stream subdirectory
     stream_output_dir = os.path.join(base_output_dir, stream)
-    print(f"Stream output directory: {stream_output_dir}")
-
-    # Verify the stream directory just created exists.
-    if not os.path.exists(stream_output_dir):
-        print(f"ERROR: Stream directory does not exist: {stream_output_dir}")
-        return []
 
     # Find all mip_table directories within this stream
     # Structure: output/{stream}/{mip_table}/
@@ -83,7 +76,6 @@ def get_mip_table_dirs(request_file: str, stream: str) -> list:
         mip_table_dirs.append((item, item_path))
 
     print(f"Found {len(mip_table_dirs)} mip_table directories in stream '{stream}':")
-    breakpoint()
     return mip_table_dirs
 
 
@@ -98,7 +90,7 @@ def find_netcdf_files(mip_table_dirs: list) -> list:
     """
     nc_files = []
     for mip_table, mip_table_path in mip_table_dirs:
-        print(f"  - {mip_table}: {mip_table_path}")
+        print(f"  ersh- {mip_table}: {mip_table_path}")
         # Find NetCDF files recursively in each mip_table directory
         glob_for_nc_files = list(Path(mip_table_path).rglob("*.nc"))
         nc_files.extend(glob_for_nc_files)
@@ -121,7 +113,25 @@ def repack_files(nc_files: list) -> None:
     print(f"\nCompleted repacking {file_counter} files")
 
 
-def run_cmip7repack(file_path: str) -> None:
+def run_check_cmip7_packing(file_path: str) -> int:
+    """
+    Check the packing of a NetCDF file using the check_cmip7_packing tool.
+
+    :param file_path: The full path to the NetCDF file to be checked.
+    :type file_path: str
+    :return: The return code from the check_cmip7_packing command.
+    :rtype: int
+    """
+    result = subprocess.run(
+        ["check_cmip7_packing", file_path],
+        capture_output=True,
+        text=True,
+    )
+
+    return result.returncode
+
+
+def run_cmip7repack(file_path: str, stream: str) -> None:
     """
     Repack a NetCDF file using the cmip7repack tool.
 
@@ -133,7 +143,10 @@ def run_cmip7repack(file_path: str) -> None:
 
     try:
         result = subprocess.run(
-            ["cmip7repack", "-o", file_path], check=True, capture_output=True, text=True
+            ["cmip7repack", "-z", "2", "-o", file_path],
+            check=True,
+            capture_output=True,
+            text=True,
         )
         print(f"Successfully repacked: {file_path}")
         if result.stdout:
@@ -148,18 +161,10 @@ def run_cmip7repack(file_path: str) -> None:
 
 
 def main_cdds_repack() -> None:
-    """
-    Main function for cdds_repack that repacks NetCDF4 files for a given stream.
-
-    Takes a request file and stream name as arguments.
-    """
-    print("cdds_repack starting...\n")
+    print("\ncdds_repack starting...\n")
     args = parse_repack_args(sys.argv[1:])
 
     mip_table_dirs = get_mip_table_dirs(args.request_file, args.stream)
-    if not mip_table_dirs:
-        print("No mip_table directories found. Exiting.")
-        return
 
     nc_files = find_netcdf_files(mip_table_dirs)
     repack_files(nc_files)
