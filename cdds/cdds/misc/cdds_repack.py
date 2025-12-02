@@ -1,16 +1,20 @@
 #!/usr/bin/env python3.10
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
+
 import argparse
+import logging
 import os
 import subprocess
 import sys
 from argparse import Namespace
 from pathlib import Path
 
+from cdds.common import configure_logger
 from cdds.common.cdds_files.cdds_directories import output_data_directory
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.request.request import read_request
+
 
 
 def parse_repack_args(arguments) -> Namespace:
@@ -57,6 +61,8 @@ def get_mip_table_dirs(request_file: str, stream: str) -> list:
     :return: List of tuples containing (mip_table_name, mip_table_path).
     :rtype: list
     """
+    logger = logging.getLogger(__name__)
+    
     # Load the plugin using the request's mip_era
     request = read_request(request_file)
     load_plugin(request.metadata.mip_era)
@@ -75,7 +81,7 @@ def get_mip_table_dirs(request_file: str, stream: str) -> list:
         item_path = os.path.join(stream_output_dir, item)
         mip_table_dirs.append((item, item_path))
 
-    print(f"Found {len(mip_table_dirs)} mip_table directories in stream '{stream}':")
+    logger.info(f"Found {len(mip_table_dirs)} mip_table directories in stream '{stream}':")
     return mip_table_dirs
 
 
@@ -88,9 +94,11 @@ def find_netcdf_files(mip_table_dirs: list) -> list:
     :return: List of paths to NetCDF files.
     :rtype: list
     """
+    logger = logging.getLogger(__name__)
+    
     nc_files = []
     for mip_table, mip_table_path in mip_table_dirs:
-        print(f"  ersh- {mip_table}: {mip_table_path}")
+        logger.info(f"  ersh- {mip_table}: {mip_table_path}")
         # Find NetCDF files recursively in each mip_table directory
         glob_for_nc_files = list(Path(mip_table_path).rglob("*.nc"))
         nc_files.extend(glob_for_nc_files)
@@ -100,17 +108,30 @@ def find_netcdf_files(mip_table_dirs: list) -> list:
 
 def repack_files(nc_files: list) -> None:
     """
-    Repack all NetCDF files in the given list.
+    Check and repack NetCDF files in the given list as needed.
 
-    :param nc_files: List of paths to NetCDF files.
+    For each file, runs the check_cmip7_packing tool. If the file is not already
+    packed according to CMIP7 requirements, repacks it using cmip7repack.
+    Prints a summary of how many files were already packed and how many were repacked.
+
+    :param nc_files: List of paths to NetCDF files to check and repack.
     :type nc_files: list
     """
-    file_counter = 0
+    logger = logging.getLogger(__name__)
+    
+    total_files = len(nc_files)
+    files_repacked = 0
+    files_already_packed = 0
     for nc_file in nc_files:
-        file_counter += 1
-        run_cmip7repack(str(nc_file), file_counter)
-
-    print(f"\nCompleted repacking {file_counter} files")
+        checked_file = run_check_cmip7_packing(str(nc_file))
+        if checked_file == 0:
+            files_already_packed += 1
+        else:
+            run_cmip7repack(str(nc_file))
+            files_repacked += 1
+    logger.info(f"\ncdds_repack ran on {total_files} files")
+    logger.info(f"Files already repacked: {files_already_packed}")
+    logger.info(f"Files repacked: {files_repacked}\n")
 
 
 def run_check_cmip7_packing(file_path: str) -> int:
@@ -131,7 +152,31 @@ def run_check_cmip7_packing(file_path: str) -> int:
     return result.returncode
 
 
-def run_cmip7repack(file_path: str, stream: str) -> None:
+# def run_check_cmip7_packing(nc_files) -> int:
+#     """
+#     Check the packing of a NetCDF file using the check_cmip7_packing tool.
+#     Remove any from the nc_files list if they're already repacked.
+
+#     :param file_path: The full path to the NetCDF file to be checked.
+#     :type file_path: str
+#     :return: The return code from the check_cmip7_packing command.
+#     :rtype: int
+#     """
+#     filelist = []
+
+#     for filepath in nc_files:
+#         result = subprocess.run(
+#             ["check_cmip7_packing", str(filepath)],
+#             capture_output=True,
+#             text=True,
+#         )
+#         if result.returncode == 0:
+#             filelist.append(filepath)
+
+#     return filelist
+
+
+def run_cmip7repack(file_path: str) -> None:
     """
     Repack a NetCDF file using the cmip7repack tool.
 
@@ -140,6 +185,7 @@ def run_cmip7repack(file_path: str, stream: str) -> None:
     :param counter: The number of files processed so far.
     :type counter: int
     """
+    logger = logging.getLogger(__name__)
 
     try:
         result = subprocess.run(
@@ -148,20 +194,26 @@ def run_cmip7repack(file_path: str, stream: str) -> None:
             capture_output=True,
             text=True,
         )
-        print(f"Successfully repacked: {file_path}")
+        logger.info(f"Successfully repacked: {file_path}")
         if result.stdout:
-            print(f"Output: {result.stdout}")
-    except subprocess.CalledProcessError as e:
-        print(f"ERROR: Failed to repack {file_path}")
-        print(f"Return code: {e.returncode}")
-        if e.stdout:
-            print(f"stdout: {e.stdout}")
-        if e.stderr:
-            print(f"stderr: {e.stderr}")
+            logger.info(f"Output: {result.stdout}")
+    except subprocess.CalledProcessError as err:
+        logger.critical(f"ERROR: Failed to repack {file_path}")
+        if err.stdout:
+            logger.critical(f"stdout: {err.stdout}")
+        if err.stderr:
+            logger.critical(f"stderr: {err.stderr}")
 
 
 def main_cdds_repack() -> None:
-    print("\ncdds_repack starting...\n")
+    configure_logger(
+        log_name="cdds_repack",
+        log_level=20,
+        append_log=False,
+    )
+    
+    logger = logging.getLogger(__name__)
+    logger.info("\ncdds_repack starting...\n")
     args = parse_repack_args(sys.argv[1:])
 
     mip_table_dirs = get_mip_table_dirs(args.request_file, args.stream)
