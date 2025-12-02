@@ -14,6 +14,7 @@ from cdds.common import configure_logger
 from cdds.common.cdds_files.cdds_directories import output_data_directory
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.request.request import read_request
+from cdds.configure.constants import DEFLATE_LEVEL
 
 
 
@@ -189,7 +190,7 @@ def run_cmip7repack(file_path: str) -> None:
 
     try:
         result = subprocess.run(
-            ["cmip7repack", "-z", "2", "-o", file_path],
+            ["cmip7repack", "-z", DEFLATE_LEVEL, "-o", file_path],
             check=True,
             capture_output=True,
             text=True,

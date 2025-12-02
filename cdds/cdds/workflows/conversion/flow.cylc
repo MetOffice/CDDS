@@ -71,14 +71,14 @@
     {% else %}
         {% set FOO = 'R/^+' ~ CONCATENATION_FIRST_CYCLE_OFFSET[STREAM] ~ '/' ~ CONCATENATION_WINDOW[STREAM]  %}
     {% endif %}
-        {{ FOO }} = finaliser_{{ STREAM }} => organise_files_{{ STREAM }} => mip_concatenate_setup_{{ STREAM }} => mip_concatenate_batch_{{ STREAM }}
+        {{ FOO }} = finaliser_{{ STREAM }} => organise_files_{{ STREAM }} => mip_concatenate_setup_{{ STREAM }} => mip_concatenate_batch_{{ STREAM }} => run_repack_{{ STREAM }}
 
     {% if DO_FINAL_CONCATENATE[STREAM] %}
-        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = finaliser_{{ STREAM }} => organise_files_final_{{ STREAM }} => mip_concatenate_setup_{{ STREAM }} => mip_concatenate_batch_{{ STREAM }}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = finaliser_{{ STREAM }} => organise_files_final_{{ STREAM }} => mip_concatenate_setup_{{ STREAM }} => mip_concatenate_batch_{{ STREAM }} => run_repack_{{ STREAM }}
     {% endif %}
 
     {% if RUN_QC %}
-        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = mip_concatenate_batch_{{ STREAM }} => run_qc_{{ STREAM }}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = mip_concatenate_batch_{{ STREAM }} => run_repack_{{ STREAM }} => run_qc_{{ STREAM }}
     {% endif %}
 
     {% if RUN_TRANSFER %}
@@ -315,6 +315,16 @@ mkdir -p {{ BASE_OUTPUT }}
             --mem = {{ MEMORY_QC }}
             --ntasks = 1
     {% endif %}
+
+    [[run_repack_{{ STREAM }}]]
+        inherit = {{ PLATFORM }}, COMPLETION_FAMILY_{{ STREAM }}
+        execution retry delays = PT1M, PT3M, PT5M
+        [[[environment]]]
+            ROSE_TASK_APP = repack_output
+            STREAM = {{ STREAM }}
+        [[[directives]]]
+            --mem = {{ MEMORY_DEFAULT }}
+            --ntasks = 1
 
     {% if RUN_TRANSFER %}
     [[run_transfer_{{ STREAM }}]]
