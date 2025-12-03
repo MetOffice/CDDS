@@ -84,7 +84,7 @@ class QCSuite(CheckSuite):
                 checker = checker_class()
             checker.setup(ds)
 
-            checks = self._get_checks(checker, defaultdict(lambda: None))
+            checks = self._get_checks(checker, [], defaultdict(lambda: None))
             vals = []
             errs = {}  # check method name -> (exc, traceback)
             for c, max_level in checks:
