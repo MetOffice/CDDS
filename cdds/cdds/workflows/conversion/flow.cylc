@@ -322,6 +322,7 @@ mkdir -p {{ BASE_OUTPUT }}
         [[[environment]]]
             ROSE_TASK_APP = repack_output
             STREAM = {{ STREAM }}
+            PROC_DIR = {{ CDDS_CONVERT_PROC_DIR }}
         [[[directives]]]
             --mem = {{ MEMORY_DEFAULT }}
             --ntasks = 1
