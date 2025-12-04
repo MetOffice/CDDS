@@ -134,7 +134,7 @@ def get_archive_path(mass_path_root: str, var_dict: Dict[str, str], request: Req
 def get_output_and_stored_files(invalid_var: dict) -> str:
     """
     Generate an additional error message to the user if the mass status is 'UNKNOWN'. The error message contains the
-    first and last 3 files that have been produced and are attenpting to be stored, as well as the first and last 3
+    first and last 3 files that have been produced and are attempting to be stored, as well as the first and last 3
     files already stored in mass that are causing the conflict. Information on the existing files such as the state and
     version is also provided to the user for clarity.
 
@@ -148,7 +148,7 @@ def get_output_and_stored_files(invalid_var: dict) -> str:
     -------
     err_msg: str
         An additional error message containing a representation of the output files attempting to be stored and the
-        relavent exisitng files already in storage along with their state and version.
+        relevant existing files already in storage along with their state and version.
     """
     nl = '\n'
     mip_output_file_paths = sorted(invalid_var["mip_output_files"])
