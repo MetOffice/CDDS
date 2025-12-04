@@ -40,7 +40,7 @@ def main_store(arguments: List[str] = None) -> int:
     request = read_request(args.request)
 
     log_name = update_log_dir(args.log_name, request, COMPONENT)
-    configure_logger(log_name, request.common.log_level, False, stream=args.stream)
+    configure_logger(log_name, request.common.log_level, False, stream=args.stream, show_stacktrace=False)
     logger = logging.getLogger(__name__)
     logger.info('Using CDDS Transfer version {}'.format(__version__))
 
