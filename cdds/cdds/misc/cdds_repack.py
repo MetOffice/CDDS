@@ -82,7 +82,11 @@ def get_mip_table_dirs(request_file: str, stream: str) -> List[Tuple[str, str]]:
 
     # Load the plugin using the request's mip_era
     request = read_request(request_file)
-    load_plugin(request.metadata.mip_era)
+    load_plugin(
+        request.metadata.mip_era,
+        request.common.external_plugin,
+        request.common.external_plugin_location,
+    )
 
     # Get the base output directory of CDDS Convert using CDDS plugin.
     # This constructs: {root_data_dir}/{mip_era}/{mip}/{model_experiment_variant}/{package}/output
