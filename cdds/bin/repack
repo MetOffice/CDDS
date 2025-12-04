@@ -2,8 +2,8 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
 import sys
-from cdds.misc.cdds_repack import main_cdds_repack
+from cdds.convert.repack import main_repack
 
 
 if __name__ == '__main__':
-    main_cdds_repack()
+    main_repack()

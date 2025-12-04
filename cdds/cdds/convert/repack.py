@@ -20,7 +20,7 @@ from cdds.configure.constants import DEFLATE_LEVEL
 
 def parse_repack_args(arguments: List[str]) -> Namespace:
     """
-    Return the names of the command line arguments for ``cdds_repack``
+    Return the names of the command line arguments for ``repack``
     and their validated values.
 
     Parameters
@@ -159,7 +159,7 @@ def repack_files(nc_files: List[Path]) -> None:
         else:
             run_cmip7repack(str(nc_file))
             files_repacked += 1
-    logger.info(f"cdds_repack ran on {total_files} files")
+    logger.info(f"Repack ran on {total_files} files")
     logger.info(f"Files already repacked: {files_already_packed}")
     logger.info(f"Files repacked: {files_repacked}\n")
 
@@ -216,11 +216,11 @@ def run_cmip7repack(file_path: str) -> None:
             logger.critical(f"stderr: {err.stderr}")
 
 
-def main_cdds_repack() -> None:
+def main_repack() -> None:
     args = parse_repack_args(sys.argv[1:])
 
-    # Use log_file from args if provided, otherwise default to "cdds_repack".
-    log_file = args.log_file if args.log_file else "cdds_repack"
+    # Use log_file from args if provided, otherwise default to "repack".
+    log_file = args.log_file if args.log_file else "repack"
 
     configure_logger(
         log_name=log_file,
@@ -229,7 +229,7 @@ def main_cdds_repack() -> None:
     )
 
     logger = logging.getLogger(__name__)
-    logger.info("cdds_repack starting...")
+    logger.info("repack starting...")
 
     mip_table_dirs = get_mip_table_dirs(args.request_file, args.stream)
     nc_files = find_netcdf_files(mip_table_dirs)
