@@ -199,12 +199,13 @@ def run_check_cmip7_packing(file_path: str) -> int:
             stderr=subprocess.PIPE,
             universal_newlines=True,
         )
-    except FileNotFoundError:
-        logger.error(f"Command not found: {command[0]}")
+
+    except FileNotFoundError as exc:
+        # Raises exception from exception for easier debugging.
         raise FileNotFoundError(
-            f"The command '{command[0]}' was not found in PATH. "
+            f"Command not found: {command[0]}. "
             "Please ensure cmip7_repack is properly installed and available."
-        )
+        ) from exc
 
     logger.info(f"check_cmip7_packing result: {result.stdout}")
     
@@ -245,11 +246,11 @@ def run_cmip7repack(file_path: str) -> None:
         )
         logger.info(f"\ncmip7repack stdout:\n{stdout}")
     except FileNotFoundError:
-        logger.error(f"Command not found: {command[0]}")
-        raise FileNotFoundError(
-            f"The command '{command[0]}' was not found."
+        logger.error(
+            f"Command not found: {command[0]}. "
             "Please ensure cmip7_repack is properly installed and available."
         )
+        raise
 
 
 def main_repack() -> None:
