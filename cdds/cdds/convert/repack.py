@@ -11,7 +11,7 @@ from argparse import Namespace
 from pathlib import Path
 from typing import List, Tuple
 
-from cdds.common import configure_logger
+from cdds.common import configure_logger, run_command
 from cdds.common.cdds_files.cdds_directories import output_data_directory
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.request.request import read_request
@@ -168,6 +168,9 @@ def run_check_cmip7_packing(file_path: str) -> int:
     """
     Check the packing of a NetCDF file using the check_cmip7_packing tool.
 
+    Uses subprocess.run directly since both return codes 0 and 1 output
+    by check_cmip7_packing are valid outcomes.
+
     Parameters
     ----------
     file_path : str
@@ -177,14 +180,44 @@ def run_check_cmip7_packing(file_path: str) -> int:
     -------
     int
         The return code from the check_cmip7_packing command.
+        0 if already packed, non-zero if repacking needed.
+    
+    Raises
+    ------
+    FileNotFoundError
+        If the check_cmip7_packing command is not found in PATH.
+    RuntimeError
+        If check_cmip7_packing returns neither PASS nor FAIL in its stdout.
     """
-    result = subprocess.run(
-        ["check_cmip7_packing", file_path],
-        capture_output=True,
-        text=True,
-    )
+    logger = logging.getLogger(__name__)
 
-    return result.returncode
+    command = ["check_cmip7_packing", file_path]
+    try:
+        result = subprocess.run(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+        )
+    except FileNotFoundError:
+        logger.error(f"Command not found: {command[0]}")
+        raise FileNotFoundError(
+            f"The command '{command[0]}' was not found in PATH. "
+            "Please ensure cmip7_repack is properly installed and available."
+        )
+
+    logger.info(f"check_cmip7_packing result: {result.stdout}")
+    
+    if "PASS" in result.stdout:
+        return 0
+    elif "FAIL" in result.stdout:
+        return 1
+    else:
+        if result.stderr:
+            logger.error(f"check_cmip7_packing stderr: {result.stderr}")
+        raise RuntimeError(
+            f"\nNeither PASS nor FAIL found in check_cmip7_packing output for {file_path}"
+        )
 
 
 def run_cmip7repack(file_path: str) -> None:
@@ -195,25 +228,28 @@ def run_cmip7repack(file_path: str) -> None:
     ----------
     file_path : str
         The full path to the NetCDF file to be repacked.
+
+    Raises
+    ------
+    RuntimeError
+        If the cmip7repack command fails.
     """
     logger = logging.getLogger(__name__)
 
+    command = ["cmip7repack", "-z", DEFLATE_LEVEL, "-o", file_path]
     try:
-        result = subprocess.run(
-            ["cmip7repack", "-z", DEFLATE_LEVEL, "-o", file_path],
-            check=True,
-            capture_output=True,
-            text=True,
+        logger.info("Running cmip7repack...")
+        stdout = run_command(
+            command,
+            msg=f"\nFailed to repack: {file_path}",
         )
-        logger.info(f"Successfully repacked: {file_path}")
-        if result.stdout:
-            logger.info(f"cmip7repack stdout: {result.stdout}")
-    except subprocess.CalledProcessError as err:
-        logger.critical(f"ERROR: Failed to repack {file_path}")
-        if err.stdout:
-            logger.critical(f"stdout: {err.stdout}")
-        if err.stderr:
-            logger.critical(f"stderr: {err.stderr}")
+        logger.info(f"\ncmip7repack stdout:\n{stdout}")
+    except FileNotFoundError:
+        logger.error(f"Command not found: {command[0]}")
+        raise FileNotFoundError(
+            f"The command '{command[0]}' was not found."
+            "Please ensure cmip7_repack is properly installed and available."
+        )
 
 
 def main_repack() -> None:
@@ -226,6 +262,7 @@ def main_repack() -> None:
         log_name=log_file,
         log_level=20,
         append_log=False,
+        show_stacktrace=False
     )
 
     logger = logging.getLogger(__name__)

@@ -1,18 +1,34 @@
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
-import shutil
 import os
 import unittest
-from pathlib import Path
-from tempfile import mkdtemp
-from unittest.mock import patch
-from cdds.common.plugins.plugins import PluginStore, CddsPlugin
+from unittest.mock import patch, MagicMock
+from cdds.common.plugins.plugins import PluginStore
 
-from cdds.convert.repack import main_cdds_repack,run_cmip7repack
+from cdds.convert.repack import run_check_cmip7_packing, run_cmip7repack
 from cdds.tests.test_common.common import create_simple_netcdf_file
 from cdds.tests.test_convert.test_concatenation.test_concatenation_setup import MINIMAL_CDL
 
-class TestCddsRepackWrapper(unittest.TestCase):
+class TestRunCheckCmip7Packing(unittest.TestCase):
+    def setUp(self):
+        # PluginStore.instance().register_plugin(DummyCddsPlugin())
+        self.testncfilename = 'testname.nc'
+        create_simple_netcdf_file(MINIMAL_CDL, self.testncfilename)
+
+    def tearDown(self):
+        PluginStore.clean_instance()
+        if os.path.exists(self.testncfilename):
+            os.unlink(self.testncfilename)
+
+    def test_check_cmip7_packing_runs_with_nc(self):
+        result = run_cmip7repack(self.testncfilename, check_only=True)
+        self.assertEqual(result, 0)
+
+    def test_check_cmip7_packing_on_path(self):
+        result = run_cmip7repack(self.testncfilename, check_only=True)
+        self.assertEqual(result, 0)
+
+class TestRunCmip7Repack(unittest.TestCase):
 
     def setUp(self):
         # PluginStore.instance().register_plugin(DummyCddsPlugin())
@@ -24,10 +40,14 @@ class TestCddsRepackWrapper(unittest.TestCase):
         if os.path.exists(self.testncfilename):
             os.unlink(self.testncfilename)
 
-    def test_cdds_repack(self):
+    def test_cdds_repack_runs_with_nc(self):
         result = run_cmip7repack(self.testncfilename)
-        # expected = 
-        # self.assertEqual(result,expected)
+        self.assertEqual(result, 0)
+
+    def test_cdds_repack_on_path(self):
+        result = run_cmip7repack(self.testncfilename)
+        self.assertEqual(result, 0)
+
 
 # class TestCddsRepack(unittest.TestCase):
 #     def setUp(self):
