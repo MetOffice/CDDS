@@ -141,15 +141,15 @@ class StructuredDataset(object, metaclass=ABCMeta):
         the assumption is that for CMIP6-like output standard filename ordering will correspond to time ordering.
 
         Parameters
-        ==========
+        ----------
         var_key: str
             Variable id
         atmos_timestep: int
             Atmospheric time step in seconds
 
         Returns
-        =======
-        : tuple
+        -------
+        tuple
             Time axis dict, time bounds dict, frequency code
         """
         filepaths = sorted(self._aggregated[var_key])
@@ -203,7 +203,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
 
         Returns
         -------
-        : list
+        list
             List of filepaths to the dataset.
         """
         dataset = []

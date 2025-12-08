@@ -266,9 +266,9 @@ class QCRunner(object):
             runs
         location: str
             Where to save the report
-        process_all: boolean
+        process_all: bool
             If True, the report won't ignore some dubious CF warnings
-        with_details: boolean
+        with_details: bool
             If True, the report will include the "details section"
         """
         datetime_suffix = str(

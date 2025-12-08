@@ -126,7 +126,7 @@ class DatetimeCalculator():
 
         Returns
         -------
-        : float
+        float
             Numbers of days since the base date (typically 1850-01-01 00:00)
         """
         return ((parse.TimePointParser().parse(time_point) - self.base_date)._get_non_nominal_seconds()

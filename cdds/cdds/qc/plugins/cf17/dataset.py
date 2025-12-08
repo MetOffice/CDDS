@@ -155,7 +155,7 @@ class Cf17Dataset(StructuredDataset):
 
         Returns
         -------
-        : (dict, dict)
+        (dict, dict)
             Facet-indexed dictionaries
         """
 

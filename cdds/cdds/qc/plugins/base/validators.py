@@ -104,7 +104,7 @@ class ControlledVocabularyValidator:
 
         Returns
         -------
-        : bool
+        bool
             True if the term belongs to the collection
         """
         valid, message = self._cv.validate(collection_name, input_data)

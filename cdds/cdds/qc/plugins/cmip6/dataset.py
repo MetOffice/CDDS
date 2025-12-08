@@ -153,7 +153,7 @@ class Cmip6Dataset(StructuredDataset):
 
         Returns
         -------
-        : (dict, dict)
+        (dict, dict)
             Facet-indexed dictionaries
         """
 

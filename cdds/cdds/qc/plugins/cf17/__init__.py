@@ -57,7 +57,7 @@ class CF17Check(CF1_7Check):
 
         Returns
         -------
-        : compliance_checker.base.Result
+        compliance_checker.base.Result
             Result of the version validation
         """
 
@@ -103,7 +103,7 @@ class CF17Check(CF1_7Check):
 
         Returns
         -------
-        : compliance_checker.base.Result
+        compliance_checker.base.Result
             Result of the version validation
         """
         ret_val = []
