@@ -22,7 +22,7 @@ def main(arguments=None):
 
     Parameters
     ----------
-    arguments: list of strings
+    arguments: list[str]
         The command line arguments to be parsed.
     """
     # Parse the arguments.
@@ -64,7 +64,7 @@ def parse_args(arguments):
 
     Parameters
     ----------
-    arguments: list of strings
+    arguments: list[str]
         The command line arguments to be parsed.
 
     Returns
