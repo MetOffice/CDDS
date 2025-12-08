@@ -212,7 +212,7 @@ def run_check_cmip7_packing(file_path: str) -> int:
         logger.error(f"check_cmip7_packing stderr: {result.stderr}")
 
     # Check for expected PASS/FAIL output first
-    if result.returncode == 0 | 1:
+    if result.returncode in (0, 1):
         return result.returncode
 
     # Handle potential sys.exit codes from check_cmip7_packing.
