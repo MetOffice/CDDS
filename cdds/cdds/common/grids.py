@@ -13,13 +13,14 @@ from cdds.common.plugins.grid import GridType
 class Grid(object):
     """Store information about a grid."""
     def __init__(self, model_id, grid_type, grid_name):
-        """Parameters
+        """
+        Parameters
         ----------
-        model_id: str
+        model_id : str
             The model id
-        grid_type: str
+        grid_type : str
             The grid type; choose from 'atmos' or 'ocean'.
-        grid_name: str
+        grid_name : str
             The grid name, e.g. ``native``, ``ugrid``, etc.
         """
         self.grid_type = grid_type
@@ -119,11 +120,11 @@ def retrieve_grid_objects(variable_name: str, mip_table_id: str, model: str) -> 
 
     Parameters
     ----------
-    variable_name: str
+    variable_name : str
         The |MIP requested variable name|.
     mip_table_id : str
         The |MIP table identifier|.
-    model: str
+    model : str
         The |model|.
 
     Returns
@@ -156,11 +157,11 @@ def retrieve_grid_info(variable_name, mip_table_id, model):
 
     Parameters
     ----------
-    variable_name: str
+    variable_name : str
         The |MIP requested variable name|.
     mip_table_id : str
         The |MIP table identifier|.
-    model: str
+    model : str
         The |model|.
 
     Returns

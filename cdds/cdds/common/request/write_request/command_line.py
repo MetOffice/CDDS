@@ -59,7 +59,7 @@ def main_write_request(arguments=None) -> int:
 
     Returns
     -------
-    : int
+    int
         exit status - 0 everything went fine, 1 an exception occurred
     """
     log_name = 'write_request'
@@ -98,7 +98,7 @@ def _parse_write_request_json_args(arguments: List[str]) -> RoseSuiteArguments:
 
     Returns
     -------
-    : RoseSuiteArguments
+    RoseSuiteArguments
         The names of the command line arguments and their validated
         values.
     """
@@ -116,7 +116,7 @@ def _read_user_arguments() -> argparse.ArgumentParser:
 
     Returns
     -------
-    : :class:`argparse.ArgumentParser`
+    :class:`argparse.ArgumentParser`
         The names of the command line arguments and their validated
         values and the corresponding argument parser
     """

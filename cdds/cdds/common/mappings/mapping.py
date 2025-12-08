@@ -96,7 +96,7 @@ class ModelToMip(object):
 
     Parameters
     ----------
-    to_map : dict
+    to_map: dict
         Request in the following format:
 
           ``{"science": {"mip_era": "MIP_ERA", "model_ver":

@@ -23,7 +23,7 @@ def whereami():
 
     Returns
     -------
-    : Facility
+    Facility
         Facility where the underlying system runs on.
     """
     domain = socket.getfqdn()

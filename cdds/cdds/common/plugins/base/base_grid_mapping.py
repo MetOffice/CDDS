@@ -69,11 +69,9 @@ class BaseGridMapping(GridMapping):
 
         Returns
         -------
-        unknown
+        str
             Path to the default grid information file
 
-
-        :rtype; str
         """
         return ''
 

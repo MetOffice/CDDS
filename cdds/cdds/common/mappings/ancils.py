@@ -13,7 +13,7 @@ def remove_ancils_from_mapping(mapping, model_id):
 
     Parameters
     ----------
-    mapping : :class:`mip_convert.new_variable.VariableModelToMIPMapping`
+    mapping: :class:`mip_convert.new_variable.VariableModelToMIPMapping`
         The |model to MIP mapping| for a |MIP requested variable|.
     model_id : str
         The model ID for that the MIP mapping is for

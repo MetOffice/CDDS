@@ -13,7 +13,7 @@ def stash_to_int(stash_string):
 
     Parameters
     ----------
-    stash_string: string
+    stash_string: str
         The |STASH code|.
 
     Returns

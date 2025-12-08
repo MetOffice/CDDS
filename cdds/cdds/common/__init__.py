@@ -36,11 +36,11 @@ def configure_logger(log_name, log_level, append_log, threaded=False,
 
     Parameters
     ----------
-    log_name: string
+    log_name: str
         The name of the log.
-    log_level: integer
+    log_level: int
         The level of the log (see :meth:`logging.Logger.setLevel`).
-    append_log: boolean
+    append_log: bool
         Whether to append to the log.
     threaded: bool, optional
         Include thread name (processName) in log Formatter.
@@ -115,7 +115,7 @@ def common_command_line_args(parser, default_log_name, log_level, version):
         The argument parser to be added to.
     default_log_name: str
         The default name of log file.
-    log_level: integer
+    log_level: int
         The level of the log (see :meth:`logging.Logger.setLevel`).
     version: str
         The version of the command line script.
@@ -266,15 +266,15 @@ def run_command(command, msg=None, exception=None, environment=None):
 
     Parameters
     ----------
-    command: list of strings
+    command: list[str]
         The command to run.
-    msg: string
+    msg: str
         The message used to provide more information if a non-zero
         return code is returned.
     exception: Exception
         The exception used if a non-zero return code is returned; if
         None, RuntimeError is used.
-    environment: dictionary
+    environment: dict
         The environment variables for the new process; if None, the
         the current process' environment is inherited.
 
@@ -323,17 +323,14 @@ def construct_string_from_facet_string(facet_string, facet_values,
     Returns
     -------
     str
-        The constructed string as described by the ``facet_string`` and
-        the ``facet_values``.
+        The constructed string as described by the ``facet_string`` and the ``facet_values``.
 
     Raises
     ------
     RuntimeError:
-        If ``string_type`` is not equal to either ``path`` or
-        ``filename``.
+        If ``string_type`` is not equal to either ``path`` or ``filename``.
     ValueError:
-        If a facet from the ``facet_string`` does not have a
-        corresponding ``facet_value``.
+        If a facet from the ``facet_string`` does not have a corresponding ``facet_value``.
 
     Examples
     --------
@@ -371,8 +368,8 @@ def construct_string_from_facet_string(facet_string, facet_values,
 
 
 def check_directory(directory):
-    """Return the full path to the directory provided to the ``directory``
-    parameter after checking the directory exists.
+    """Return the full path to the directory provided to the ``directory`` parameter after checking the directory
+    exists.
 
     Parameters
     ----------
@@ -408,7 +405,7 @@ def check_file(filename):
 
     Parameters
     ----------
-    filename: string
+    filename: str
         The name of the file to be checked.
 
     Raises
@@ -427,7 +424,7 @@ def check_files(filenames_string):
 
     Parameters
     ----------
-    filenames_string: string
+    filenames_string: str
         The space separated list of filenames to be checked.
 
     Raises
@@ -448,9 +445,9 @@ def check_date_format(date, date_regex=DATE_TIME_REGEX):
 
     Parameters
     ----------
-    date: string
+    date: str
         The date to be checked.
-    date_regex: string
+    date_regex: str
         The regular expression describing the format of the date.
 
     Raises
@@ -497,7 +494,7 @@ def check_run_bounds_format(run_bounds):
 
     Parameters
     ----------
-    run_bounds: string
+    run_bounds: str
         The run bounds.
 
     Raises
@@ -545,7 +542,7 @@ def check_variant_label_format(variant_label):
 
     Parameters
     ----------
-    variant_label: string
+    variant_label: str
         The |variant label|.
 
     Raises
@@ -587,7 +584,7 @@ def cmip7_check_variant_label_format(variant_label):
 
     Parameters
     ----------
-    variant_label: string
+    variant_label: str
         The |variant label|.
 
     Raises
@@ -651,7 +648,7 @@ def compare_versions(version_to_compare, version_with_expression):
 
     Returns
     -------
-    : boolean
+    bool
         The result of the expression.
     """
     lt_gt_pattern = re.compile(r'(^[<=>]{1,2}?)\s*(\d+\.\d+\.?\d*?)')
@@ -936,7 +933,7 @@ def set_calendar(request):
 
     Parameters
     ----------
-    request_file: str
+    request_file : str
         Path to a request.json file.
 
     Raises
@@ -956,11 +953,11 @@ def generate_datestamps_pp(start_date: TimePoint,
 
     Parameters
     ----------
-    start_date: str
+    start_date : str
         ISO formatted string e.g, 19890101 (Inclusive)
-    end_date: str
+    end_date : str
         ISO formatted string e.g, 19890101 (Exclusive)
-    file_frequency: str
+    file_frequency : str
         Maps to a duration and format string
 
     Returns
@@ -1060,7 +1057,7 @@ def generate_time_points(start_date: TimePoint,
 
     Returns
     -------
-    List[TimePoint]
+    list[TimePoint]
         List of TimePoint objects
     """
     start_date = str(start_date)

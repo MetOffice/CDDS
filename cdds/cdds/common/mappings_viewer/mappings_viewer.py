@@ -95,7 +95,7 @@ def get_mapping_lines(mappings_directory: str):
         The location of the mappings configurations directory within CDDS.
     Returns
     -------
-    line_mappings : dict
+    line_mappings: dict
         Dict of dicts containing variable and line mappings pairs for each .cfg file.
     """
     glob_string = os.path.join(mappings_directory, '*mappings.cfg')
@@ -126,9 +126,10 @@ def get_stash_meta_dict(stashmaster_path: str):
     ----------
     stashmaster_path : str
         Path to a STASHmaster.conf file
+
     Returns
     -------
-    stash_dict_formatted : dict
+    stash_dict_formatted: dict
         A dictionary where each key is a stash code in the format m01sXXiXXX
     """
     stash_dict = load_suite_info_from_file(stashmaster_path)
@@ -171,12 +172,13 @@ def format_mapping(expression, stash_meta_dictionary, processors):
 
     Parameters
     ----------
-    expression : str
+    expression: str
         A mapping expression as a string.
-    stash_meta_dictionary : dict
+    stash_meta_dictionary: dict
         A dictionary of stash descriptions.
-    processors :
+    processors:
         A dictionary that maps processor name to the line number in source.
+
     Returns
     -------
     formatted_expression : str
@@ -215,12 +217,12 @@ def format_comments(comments):
 
     Parameters
     ----------
-    comments : tuple
+    comments: tuple
         A tuple containing the "comment" and "notes" fields if they exist for a mapping.
 
     Returns
     -------
-    formatted_cell : str
+    formatted_cell: str
         A html string containing comments and notes as tooltip information.
     """
     formatted_cell = ''
@@ -243,10 +245,11 @@ def format_mapping_link(entry, line_mappings):
 
     Parameters
     ----------
-    entry : tuple
+    entry: tuple
         Tuple containing the variable name and the cfg file.
-    line_mappings : dict
+    line_mappings: dict
         A dict of dicts containing all line mappings.
+
     Returns
     -------
 
@@ -265,12 +268,13 @@ def build_table(table_data, mappings_directory, stashmaster_path):
 
     Parameters
     ----------
-    table_data : list
+    table_data: list
         The data to populate the table with.
     mappings_directory: str
         The location of the mappings configurations directory within CDDS.
-    stashmaster_path : str
+    stashmaster_path: str
         Path to a STASHmaster.conf file
+
     Returns
     -------
     table_html : str
@@ -310,13 +314,13 @@ def build_table(table_data, mappings_directory, stashmaster_path):
 def generate_html(table: str, model: str, mappings_dir: str, arguments: Namespace) -> None:
     """Parameters
     ----------
-    table : str
+    table: str
         The html table
-    model : str
+    model: str
         Name of the model.
-    mappings_dir : str
+    mappings_dir: str
         Directory containing the mappings .cfg files.
-    arguments : argparse.Namespace
+    arguments: argparse.Namespace
         User arguments.
     """
     html = (HEADER +

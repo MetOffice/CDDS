@@ -9,7 +9,7 @@ def add_to_path(path: str) -> None:
 
     Parameters
     ----------
-    path : str
+    path: str
         Path to add
     """
     sys.path.append(path)

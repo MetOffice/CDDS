@@ -19,9 +19,10 @@ class RequestedVariablesList(JSONConfig):
         'suite_branch', 'suite_id', 'suite_revision']
 
     def __init__(self, read_path):
-        """Parameters
+        """
+        Parameters
         ----------
-        read_path: string
+        read_path: str
             The full path to the |requested variables list|
         """
         super(RequestedVariablesList, self).__init__(read_path)
