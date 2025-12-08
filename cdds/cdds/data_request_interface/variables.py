@@ -25,8 +25,7 @@ class DataRequestVariable(object):
 
         Parameters
         ----------
-        data_request : \
-            :class:`cdds.data_request_interface.load.DataRequestWrapper`
+        data_request : :class:`cdds.data_request_interface.load.DataRequestWrapper`
             The data request object.
         uid : str, optional
             Unique ID of a |MIP requested variable|.
@@ -183,17 +182,16 @@ def retrieve_data_request_variables(experiment_id, data_request):
     ----------
     experiment_id : str
         The |experiment identifier|.
-    data_request : \
-        :class:`cdds.data_request_interface.load.DataRequestWrapper`
+    data_request : :class:`cdds.data_request_interface.load.DataRequestWrapper`
         The |data request|.
 
     Returns
     -------
-    : list
+    list
         Data request variables
         (:class:`cdds.data_request_interface.variables.DataRequestVariable`)
         found.
-    : dict
+    dict
         Metadata associated with this list of |MIP requested variables|.
 
     Raises

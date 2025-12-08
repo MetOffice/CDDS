@@ -73,8 +73,7 @@ class DataRequestNode(object):
 
         Parameters
         ----------
-        data_request : \
-        :class:`cdds.data_request_interface.load.DataRequestWrapper`
+        data_request : :class:`cdds.data_request_interface.load.DataRequestWrapper`
             Data request object.
         """
         for att in DATA_REQUEST_LINKAGES[self.type]:
