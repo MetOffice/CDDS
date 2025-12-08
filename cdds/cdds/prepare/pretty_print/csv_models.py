@@ -127,7 +127,7 @@ class CsvRow(object):
 
         Returns
         -------
-        : :dict of :str
+        dict[str]
             all fields of the row
         """
         return self._row
@@ -143,7 +143,7 @@ class CsvValue(object):
 
         Returns
         -------
-        : function
+        function
             function to convert a list value to
             a valid CSV value
         """
@@ -158,7 +158,7 @@ class CsvValue(object):
 
         Returns
         -------
-        : function
+        function
             function to convert a simple value to a
             valid CSV value
         """

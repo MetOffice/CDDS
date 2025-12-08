@@ -24,8 +24,7 @@ def alter_variable_list(parameters):
     Parameters
     ----------
     parameters: :class:`argparse.Namespace` object
-        The names of the command line arguments and their validated
-        values.
+        The names of the command line arguments and their validated values.
     """
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
