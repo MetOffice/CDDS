@@ -115,7 +115,7 @@ class DBVariableData(object):
 
         Return
         ------
-        :`cdds.inventory.dao.DBVariable`
+        `cdds.inventory.dao.DBVariable`
             data of the variable in the database
         """
         identifier = (mip_table, variable_name)
