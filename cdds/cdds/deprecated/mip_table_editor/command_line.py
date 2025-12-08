@@ -99,11 +99,11 @@ mip_table_editor /path/to/tables view -T Amon
 def parse_args(arguments):
     """Function for parsing the commandline arguments.
 
-    PARAMETERS
+    Parameters
     ----------
     arguments: list | None
 
-    RETURNS
+    Returns
     -------
     args: argparse.Namespace
 

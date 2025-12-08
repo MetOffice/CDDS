@@ -29,15 +29,14 @@ def list_variables_for_experiment(data_request, experiment_id,
 
     Parameters
     ----------
-    data_request : \
-        :class:`cdds.data_request_interface.load.DataRequestWrapper`
+    data_request : :class:`cdds.data_request_interface.load.DataRequestWrapper`
         The specified version of the |data request|.
     experiment_id : str
         The |experiment identifier|.
 
     Returns
     -------
-    : dict of :class:`DataRequestVariables`
+    dict of :class:`DataRequestVariables`
         The |MIP requested variables| for the experiment from the
         specified version of the |data request|.
     """

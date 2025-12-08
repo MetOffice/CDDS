@@ -15,8 +15,10 @@ KNOWN = [EMBARGOED, AVAILABLE, WITHDRAWN, SUPERSEDED]
 def make_state(state):
     """Create an appropriate state object.
 
-    Arguments:
-    state -- (str) name of the state to create.
+    Parameters
+    ----------
+    state: str
+        name of the state to create.
     """
     known = {
         EMBARGOED: Embargoed,

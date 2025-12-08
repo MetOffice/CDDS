@@ -23,7 +23,7 @@ def load_rabbit_mq_credentials(cfg):
 
     Returns
     -------
-    : bool
+    bool
         True if successful
     """
     logger = logging.getLogger(__name__)

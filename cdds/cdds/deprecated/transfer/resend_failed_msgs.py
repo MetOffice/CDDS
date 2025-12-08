@@ -12,7 +12,7 @@ def resend_failed_msgs(delete_msgs):
     pointing at the location to store messages in. Alternatively this information could be
     placed in the .cdds_credentials file.
 
-    PARAMETERS
+    Parameters
     ----------
     delete_msgs : bool
         Delete the messages from disk after sending if True.

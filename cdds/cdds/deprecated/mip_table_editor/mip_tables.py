@@ -16,14 +16,15 @@ from cdds.deprecated.mip_table_editor.constants import CV_OBJECT, TABLE_OBJECT, 
 def editor(input_dict):
     """A general function that takes a python dictionary and opens it for editing in a text editor as
     a .json formatted file, it then returns the edited .json  file as a dictionary.
-    PARAMETERS
+
+    Parameters
     ----------
-    input_dict: dictionary
+    input_dict: dict
         A dictionary representing the .json fields to be edited.
 
-    RETURNS
+    Returns
     -------
-    output_dict: dictionary
+    output_dict: dict
         The .json file converted to a dictionary
     """
 

@@ -11,7 +11,7 @@ from cdds.deprecated.transfer import config, msg
 def print_queue(queue_name, full=False):
     """Obtain and print the messages in the relevant queue.
 
-    PARAMETERS
+    Parameters
     ----------
     queue_name : str
         Queue to print messages from.

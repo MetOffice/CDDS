@@ -52,12 +52,19 @@ class Message(object):
     @staticmethod
     def sort_messages(unsorted, *more_unsorted):
         """Sort messages by published timestamp and returns a sorted
-        list. Raises a ValueError if any of the input messages is
-        missing a "published" date.
+        list. 
 
-        Arguments:
-        unsorted -- (list of Message objects) message(s) to be sorted
-        more_unsorted -- (optional) further lists to merge sort
+        Parameters
+        ----------
+        unsorted: list of Message objects
+            message(s) to be sorted
+        more_unsorted: (optional) 
+            further lists to merge sort
+
+        Raises
+        ------
+        ValueError
+            if any of the input messages is missing a "published" date.
         """
         if more_unsorted:
             to_add = []
@@ -68,11 +75,18 @@ class Message(object):
 
     @staticmethod
     def sortable(message):
-        """Return a sort key for the supplied message. Raises a
-        ValueError if the sort key (published date) isn't defined.
+        """Return a sort key for the supplied message.
 
-        Arguments:
-        message -- (msg.Message) message object
+        Parameters
+        ----------
+        message: msg.Message
+            message object
+
+        Raises
+        ------
+        ValueError
+            if the sort key (published date) isn't defined.
+
         """
         key = message.published
         if key is None:
@@ -87,9 +101,12 @@ class Message(object):
         a body (str in JSON format). You must supply one of the
         arguments, and can't supply both.
 
-        Keyword arguments:
-        content -- (dict) message content
-        body -- (str) message content in JSON format
+        Parameters
+        ----------
+        content: dict
+            message content
+        body: str
+            message content in JSON format
         """
         if content and body:
             raise ValueError("Need only one of content or body")
@@ -212,9 +229,12 @@ class MooseMessage(Message):
         You must supply one (and only one) of either content or body
         to create a message.
 
-        Keyword arguments:
-        content -- (dict) message content
-        body -- (str) message content in JSON format
+        Parameters
+        ----------
+        content: dict
+            message content
+        body: str
+            message content in JSON format
         """
         # self.type = MooseMessage.TYPE
         super(MooseMessage, self).__init__(content, body)
@@ -276,9 +296,12 @@ class AdminMessage(Message):
     def critical(description, action):
         """Create a critical-level admin message.
 
-        Arguments:
-        description -- (str) a description of the admin issue
-        action -- (str) action that should be taken to fix the issue
+        Parameters
+        ----------
+        description: str
+            a description of the admin issue
+        action: str
+            action that should be taken to fix the issue
         """
         message = AdminMessage._build_message(description, action)
         message.content["level"] = "critical"
@@ -288,9 +311,12 @@ class AdminMessage(Message):
     def info(description, action):
         """Create an info-level admin message.
 
-        Arguments:
-        description -- (str) a description of the admin issue
-        action -- (str) action that should be taken to fix the issue
+        Parameters
+        ----------
+        description: str
+            a description of the admin issue
+        action: str
+            action that should be taken to fix the issue
         """
         message = AdminMessage._build_message(description, action)
         message.content["level"] = "info"
@@ -307,9 +333,12 @@ class AdminMessage(Message):
         You must supply one (and only one) of content or body to
         create the message.
 
-        Keyword arguments:
-        content -- (dict) message content
-        body -- (str) message content in JSON format
+        Parameters
+        ----------
+        content: dict
+            message content
+        body: str
+            message content in JSON format
         """
         # self.type = AdminMessage.TYPE
         super(AdminMessage, self).__init__(content, body)
@@ -377,9 +406,12 @@ class Queue(object):
         """Return True if supplied prefix and suffix generate a known
         queue name.
 
-        Arguments:
-        prefix -- (str) queue prefix
-        suffix -- (str) queue suffix
+        Parameters
+        ----------
+        prefix: str
+            queue prefix
+        suffix: str
+            queue suffix
         """
         try:
             is_known = (
@@ -393,8 +425,10 @@ class Queue(object):
     def known_type(prefix):
         """Return True if the queue prefix is known.
 
-        Arguments:
-        prefix -- (str) queue prefix.
+        Parameters
+        ----------
+        prefix: str
+            queue prefix.
         """
         if prefix in Queue.KNOWN_QUEUES:
             return True
@@ -407,8 +441,10 @@ class Queue(object):
         the supplied queue prefix. If the queue is not known, return
         None.
 
-        Arguments:
-        prefix -- (str) queue prefix.
+        Parameters
+        ----------
+        prefix: str
+            queue prefix.
         """
         if Queue.known_type(prefix):
             return Queue.KNOWN_QUEUES[prefix]["message"]
@@ -419,8 +455,10 @@ class Queue(object):
     def is_valid(queue_name):
         """Return True if queue name is known.
 
-        Arguments:
-        queue_name -- (str) queue name
+        Parameters
+        ----------
+        queue_name: str
+            queue name
         """
         try:
             (prefix, suffix) = queue_name.split(".")
@@ -432,9 +470,12 @@ class Queue(object):
     def __init__(self, prefix, suffix):
         """Create a new object to represent a RabbitMQ queue.
 
-        Arguments:
-        prefix -- (str) queue prefix
-        suffix -- (str) queue suffix
+        Parameters
+        ----------
+        prefix: str
+            queue prefix
+        suffix: str
+            queue suffix
         """
         self.prefix = prefix
         self.suffix = suffix
@@ -480,8 +521,10 @@ class Communication(object):
         problems occur, the message will "fail safe" rather than
         raising errors.
 
-        Arguments:
-        config -- (config.Config) wrapper around Rabbit configuration file
+        Parameters
+        ----------
+        config: config.Config
+            wrapper around Rabbit configuration file
         """
         self._config = config
         self._rabbit_mgr = rabbit.RabbitMqManager(self._config)
@@ -495,14 +538,17 @@ class Communication(object):
         occur, a copy of the message will be saved to the message
         store.
 
-        Arguments:
-        message -- (msg.Message) message to be published
-        queue -- (msg.Queue) (optional) override queue specified in
-        message to write to.
+        Parameters
+        ----------
+        message: msg.Message
+            message to be published
+        queue: msg.Queue (optional) 
+            override queue specified in message to write to.
 
-        Raises:
-        RutimeError -- If the message is about some data (i.e.
-        availability, withdrawal) and the dataset id has been omitted.
+        Raises
+        ------
+        RutimeError
+            If the message is about some data (i.e. availability, withdrawal) and the dataset id has been omitted.
         """
         logger = logging.getLogger(__name__)
         if isinstance(message, MooseMessage) and message.dataset_id is None:
@@ -536,8 +582,10 @@ class Communication(object):
         remain visible on the queue until is has been explicitly
         deleted by a "remove_message" call.
 
-        Argument:
-        queue -- (msg.Queue) queue to search for messages
+        Parameters
+        ----------
+        queue: msg.Queue
+            queue to search for messages
         """
         message = None
         channel_callable = rabbit.GetFirst(queue)
@@ -559,8 +607,10 @@ class Communication(object):
         left on the queue until they are explicitly deleted with a
         remove_message call.
 
-        Argument:
-        queue -- (msg.Queue) queue to search for messages.
+        Parameters
+        ----------
+        queue: msg.Queue
+            queue to search for messages.
         """
         messages = []
         channel_callable = rabbit.GetAll(queue)
@@ -582,8 +632,10 @@ class Communication(object):
         the program that calls this method.
 
         Arguments:
-        queue -- (msg.Queue) queue to remove the message from
-        message -- (msg.Message) message to be deleted
+        queue: msg.Queue
+            queue to remove the message from
+        message: msg.Message
+            message to be deleted
         """
         channel_callable = rabbit.AckMessage(queue, message.delivery_tag)
         result = self._rabbit_mgr.call(channel_callable)
@@ -592,8 +644,10 @@ class Communication(object):
     def store_message(self, message):
         """Save a copy of a message to the local message store.
 
-        Arguments:
-        message -- (msg.Message) message to save
+        Parameters
+        ----------
+        message: msg.Message
+            message to save
         """
         message_store = MessageStore(self._config)
         message_store.store_message(message)
@@ -627,8 +681,10 @@ class MessageStore(object):
     def __init__(self, config):
         """Create a new MessageStore object.
 
-        Arguments:
-        config -- (config.Config) interface to configuration files
+        Parameters
+        ----------
+        config: config.Config
+            interface to configuration files
         """
         self._msg_dir = config.attr("msg_store", "top_dir")
 
@@ -640,8 +696,10 @@ class MessageStore(object):
         potentially misleading "published" metadata, a copy of the
         message without any "published" datestamp is saved.
 
-        Arguments:
-        message -- (msg.Message) message to save
+        Parameters
+        ----------
+        message: msg.Message
+            message to save
         """
         to_store = message.timeless_content()
         msg_base = self._msg_file()
@@ -667,8 +725,10 @@ class MessageStore(object):
         return a message object of appropriate type. Otherwise return
         None.
 
-        Arguments:
-        msg_base -- (str) File name containing the stored message
+        Parameters
+        ----------
+        msg_base: str
+            File name containing the stored message
         """
         content = self._read_message(msg_base)
         try:
@@ -681,8 +741,10 @@ class MessageStore(object):
     def remove_saved_message(self, msg_base):
         """Delete a saved message from the message store.
 
-        Arguments:
-        msg_base -- (str) file name containing the stored message
+        Parameters
+        ----------
+        msg_base: str
+            file name containing the stored message
         """
         msg_file = self._msg_full_path(msg_base)
         os.remove(msg_file)
