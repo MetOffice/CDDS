@@ -210,34 +210,19 @@ def run_check_cmip7_packing(file_path: str) -> int:
     logger.info(f"check_cmip7_packing stdout: {result.stdout}")
     if result.stderr:
         logger.error(f"check_cmip7_packing stderr: {result.stderr}")
-
-    if result.returncode == 2:
-        raise ValueError(
-            f"Invalid command-line options passed to check_cmip7_packing for {file_path}\n"
-            f"{result.stdout.strip()}"
+    # Handle fatal error return codes
+    if result.returncode in (2, 3, 4, 5):
+        # These are all fatal errors from check_cmip7_packing
+        # The tool has already printed its error message which we've logged
+        raise RuntimeError(
+            f"check_cmip7_packing failed with exit code {result.returncode}. "
+            "See log output above for details."
         )
-    elif result.returncode == 3:
-        raise FileNotFoundError(
-            f"File does not exist: {file_path}\n{result.stdout.strip()}"
-        )
-    elif result.returncode == 4:
-        raise PermissionError(f"Cannot open file: {file_path}\n{result.stdout.strip()}")
-    elif result.returncode == 5:
-        raise RuntimeError(f"Cannot parse file: {file_path}\n{result.stdout.strip()}")
 
-    # Handle PASS/FAIL from stdout
     if "PASS" in result.stdout:
         return 0
     elif "FAIL" in result.stdout:
-        # Extract the failure message from stdout
-        fail_lines = [line for line in result.stdout.split("\n") if "FAIL:" in line]
-        fail_msg = "\n".join(fail_lines) if fail_lines else result.stdout.strip()
-        logger.warning(f"File failed CMIP7 packing checks: {fail_msg}")
         return 1
-    else:
-        raise RuntimeError(
-            f"Unexpected output from check_cmip7_packing for {file_path}:\n{result.stdout.strip()}"
-        )
 
 
 def run_cmip7repack(file_path: str) -> int:
