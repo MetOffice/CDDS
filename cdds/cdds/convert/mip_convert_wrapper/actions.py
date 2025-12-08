@@ -170,7 +170,7 @@ def get_disk_usage_in_mb(staging_dir):
 
     Returns
     -------
-    : int
+    int
         The disk usage in MB.
     """
     du_cmd = 'du -s --block-size=1M {staging_dir}'.format(
@@ -242,7 +242,7 @@ def manage_critical_issues(mip_convert_config_dir, mip_convert_log,
 
     Returns
     -------
-    : int
+    int
         Exit code to be ultimately returned by sys.exit.
     """
     if fields_to_log is None:

@@ -15,7 +15,7 @@ def scale_memory(memory_limit, scaling_factor):
 
     Returns
     -------
-    : str
+    str
         Scaled memory limit. Note that the memory limit will be converted
         from GB to MB.
     """

@@ -158,11 +158,9 @@ def write_concatenation_work_db(concatenation_work, output_file,
     concatenation_work : dict
         Work to be done
     output_file : str
-        File name to write to (".db" will be appended if not
-        already in the file name).
+        File name to write to (".db" will be appended if not already in the file name).
     close_db : bool
-        if True close the database, otherwise return the connection
-        object (used for testing)
+        if True close the database, otherwise return the connection object (used for testing)
 
     Returns
     -------

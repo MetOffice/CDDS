@@ -25,7 +25,7 @@ def prepare_to_concatenate_files(input_files, output_file, dummy_run):
         A list of paths to the input files for the concatenation.
     output_file: str
         The path where output file from the concatenation will be written.
-    dummy_run: Boolean
+    dummy_run: bool
         If true, the concatenation will not be done, and suitable dry run log
         messages will be output.
     """
