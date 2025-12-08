@@ -84,6 +84,17 @@ class TestRunCheckCmip7Packing(unittest.TestCase):
             "Please ensure cmip7_repack is properly installed", str(context.exception)
         )
 
+    def test_check_packing_raises_err_with_blank_nc_file(self):
+        with tempfile.NamedTemporaryFile(suffix=".nc", delete=False) as temp_file:
+            temp_filename = temp_file.name
+        try:
+            with self.assertRaises(RuntimeError) as context:
+                run_check_cmip7_packing(temp_filename)
+            self.assertIn("check_cmip7_packing failed with exit code 5", str(context.exception))
+        finally:
+            if os.path.exists(temp_filename):
+                os.unlink(temp_filename)
+
 
 class TestRunCmip7Repack(unittest.TestCase):
     def setUp(self):

@@ -210,19 +210,23 @@ def run_check_cmip7_packing(file_path: str) -> int:
     logger.info(f"check_cmip7_packing stdout: {result.stdout}")
     if result.stderr:
         logger.error(f"check_cmip7_packing stderr: {result.stderr}")
-    # Handle fatal error return codes
-    if result.returncode in (2, 3, 4, 5):
-        # These are all fatal errors from check_cmip7_packing
-        # The tool has already printed its error message which we've logged
-        raise RuntimeError(
-            f"check_cmip7_packing failed with exit code {result.returncode}. "
-            "See log output above for details."
-        )
-
+    
+    # Check for expected PASS/FAIL output first
     if "PASS" in result.stdout:
         return 0
     elif "FAIL" in result.stdout:
         return 1
+    # Handle potential sys.exit codes from check_cmip7_packing.
+    elif result.returncode in (2, 3, 4, 5):
+        raise RuntimeError(
+            f"check_cmip7_packing failed with exit code {result.returncode}: {result.stderr}"
+        )
+    #Defensive check for unexpected output.
+    else:
+        raise RuntimeError(
+            f"check_cmip7_packing returned unexpected output. "
+            f"Expected 'PASS' or 'FAIL' in stdout, got: {result.stdout}"
+        )
 
 
 def run_cmip7repack(file_path: str) -> int:
