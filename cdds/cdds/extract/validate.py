@@ -115,18 +115,18 @@ def validate(path, stream, stash_codes, validation_result, filenames, file_frequ
 
 def validate_file_names(path, validation_result, filenames, file_type):
     """Compare a list of expected files against the files on disk. If strict=True then
-        validation will fail if there are additional files that are not expected.
+    validation will fail if there are additional files that are not expected.
 
-        Parameters
-        ----------
-        path: str
-       Path to the dataset.
-        stream: dict
-       Stream description dictionary.
-        substreams: list
-       List of expected substreams.
-        validation_result: cdds.common.StreamValidationResult
-       An object to hold results from the stream validation
+    Parameters
+    ----------
+    path: str
+        Path to the dataset.
+    stream: dict
+        Stream description dictionary.
+    substreams: list
+        List of expected substreams.
+    validation_result: cdds.common.StreamValidationResult
+        An object to hold results from the stream validation
     """
     logger = logging.getLogger(__name__)
     logger.info("Checking for missing and unexpected files")
