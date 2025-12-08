@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module containing functionality to clean CDDS stream workflows
-"""
+"""Module containing functionality to clean CDDS stream workflows"""
 import logging
 
 from cdds.common import configure_logger
@@ -18,13 +16,17 @@ CDDS_CLEAN_LOG = 'cdds_clean'
 
 
 def run_cdds_clean(arguments: List[str] = None) -> int:
-    """
-    Clean the CDDS stream workflows
+    """Clean the CDDS stream workflows
 
-    :param arguments: Command line arguments
-    :type arguments: List[str]
-    :return: Exit code
-    :rtype: int
+    Parameters
+    ----------
+    arguments : List[str]
+        Command line arguments
+
+    Returns
+    -------
+    int
+        Exit code
     """
     args = parse_arguments(arguments)
     request = read_request(args.request)
@@ -41,13 +43,17 @@ def run_cdds_clean(arguments: List[str] = None) -> int:
 
 
 def parse_arguments(arguments: List[str]) -> Namespace:
-    """
-    Parse command line arguments for running CDDS clean
+    """Parse command line arguments for running CDDS clean
 
-    :param arguments: Command line arguments to parse
-    :type arguments: List[str]
-    :return: Parsed command line arguments
-    :rtype: Namespace
+    Parameters
+    ----------
+    arguments : List[str]
+        Command line arguments to parse
+
+    Returns
+    -------
+    Namespace
+        Parsed command line arguments
     """
     parser = ArgumentParser(
         description='Clean the CDDS workflows.',

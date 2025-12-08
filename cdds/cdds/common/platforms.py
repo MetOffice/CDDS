@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2022-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`platforms` module provides information of the underlying system.
-"""
+"""The :mod:`platforms` module provides information of the underlying system."""
 import os
 import importlib
 import socket
@@ -15,16 +13,13 @@ from cdds.common.constants import JASMIN_URL_IDS
 
 
 class Facility(Enum):
-    """
-    Facility where the system runs
-    """
+    """Facility where the system runs"""
     JASMIN = 'Jasmin',
     MET_OFFICE = 'Met Office'
 
 
 def whereami():
-    """
-    Returns the facility where the underlying system runs on.
+    """Returns the facility where the underlying system runs on.
 
     Returns
     -------

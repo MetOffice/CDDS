@@ -8,8 +8,7 @@ from unittest import mock
 
 
 class TestStoreAlreadySubmitted(StoreTestCase):
-    """
-    USE CASE 5
+    """USE CASE 5
         Archive data that has already been (partially) submitted
 
     INPUT

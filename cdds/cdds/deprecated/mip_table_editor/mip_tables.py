@@ -14,8 +14,7 @@ from cdds.deprecated.mip_table_editor.constants import CV_OBJECT, TABLE_OBJECT, 
 
 
 def editor(input_dict):
-    """
-    A general function that takes a python dictionary and opens it for editing in a text editor as
+    """A general function that takes a python dictionary and opens it for editing in a text editor as
     a .json formatted file, it then returns the edited .json  file as a dictionary.
     PARAMETERS
     ----------
@@ -48,8 +47,7 @@ def editor(input_dict):
 
 
 class OperationBaseClass():
-    """
-    A base class for holding common methods between the ControlledVocabulary,
+    """A base class for holding common methods between the ControlledVocabulary,
     MipTable, and MipTableVariable.
     """
 
@@ -92,7 +90,7 @@ class ControlledVocabulary(OperationBaseClass):
         write_json(self.cv_filepath, self.cv_dict, indent=4, sort_keys=False, separators=(',', ':'))
 
     def setup(self):
-        '''Convert the CMIP6_CV.json to a python dictionary'''
+        """Convert the CMIP6_CV.json to a python dictionary"""
 
         self.cv_files = [f for f in listdir(self.arguments.path) if isfile(join(self.arguments.path, f))]
 

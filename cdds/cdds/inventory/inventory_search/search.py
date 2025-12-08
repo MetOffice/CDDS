@@ -8,8 +8,7 @@ from cdds.common.mass import mass_list_dir
 
 
 def perform_user_query(facets, arguments):
-    """
-    Creates an SQL query from a facets dictionary which is then used to query
+    """Creates an SQL query from a facets dictionary which is then used to query
     the inventory.db. Any output of this query is then printed.
 
     Parameters
@@ -28,8 +27,7 @@ def perform_user_query(facets, arguments):
 
 
 def print_query(rows, arguments):
-    """
-    Performs the printing of the results from a query to the terminal. Will
+    """Performs the printing of the results from a query to the terminal. Will
     print the locations in MASS if the appropriate flags are set.
 
     Parameters
@@ -71,8 +69,7 @@ def print_query(rows, arguments):
 
 
 def get_mass_file_paths(fields, arguments):
-    """
-    Finds the URI's for the given facet fields.
+    """Finds the URI's for the given facet fields.
 
     Parameters
     ----------

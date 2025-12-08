@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-CDDS class for setting up and running Extract processes.
-"""
+"""CDDS class for setting up and running Extract processes."""
 
 import getpass
 import logging
@@ -18,9 +16,7 @@ from cdds.common.plugins.plugins import PluginStore
 
 
 class ExtractRunner(object):
-    """
-    Encapsulates configuration setup and triggering of CDDS Extract process.
-    """
+    """Encapsulates configuration setup and triggering of CDDS Extract process."""
 
     def __init__(self, args, language):
         """Initialises runner object

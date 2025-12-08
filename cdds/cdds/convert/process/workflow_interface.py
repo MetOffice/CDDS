@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-'''
-Tools for interfacing with the cdds convert workflow.
-'''
+"""Tools for interfacing with the cdds convert workflow."""
 import json
 from configparser import ConfigParser
 
@@ -10,8 +8,7 @@ from cdds.convert.exceptions import SuiteConfigMissingValueError
 
 
 def update_suite_conf_file(filename, section_name, changes_to_apply, raw_value=False, delimiter="="):
-    """
-    Update the contents of a rose suite configuration file, on disk,
+    """Update the contents of a rose suite configuration file, on disk,
     based on supplied keywords.
 
     Parameters

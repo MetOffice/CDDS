@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`mass` module interact with the MASS archiving system.
-"""
+"""The :mod:`mass` module interact with the MASS archiving system."""
 import logging
 import subprocess
 import re
@@ -13,8 +11,7 @@ from cdds.common.mass_record import get_records_from_stdout
 
 
 def mass_list_dir(mass_path, simulation):
-    """
-    List the contents of a directory in the MASS archive.
+    """List the contents of a directory in the MASS archive.
 
     Parameters
     ----------
@@ -26,7 +23,7 @@ def mass_list_dir(mass_path, simulation):
 
     Returns
     -------
-    : list
+    list
         A list of strings with mass locations for archived files.
     """
     logger = logging.getLogger(__name__)
@@ -49,8 +46,7 @@ def mass_list_dir(mass_path, simulation):
 
 
 def mass_test(mass_path, simulation):
-    """
-    Returns if a directory or set exists with given MASS path.
+    """Returns if a directory or set exists with given MASS path.
 
     Parameters
     ----------
@@ -62,7 +58,7 @@ def mass_test(mass_path, simulation):
 
     Returns
     -------
-    : bool
+    bool
         True if directory/set with given MASS path exists else False.
     """
     logger = logging.getLogger(__name__)
@@ -83,8 +79,7 @@ def mass_test(mass_path, simulation):
 
 
 def mass_rm_empty_dirs(mass_root_path, search_mass_paths=None, simulation=False):
-    """
-    Remove all empty directories recursively containing at the given
+    """Remove all empty directories recursively containing at the given
     MASS location.
 
     Parameters
@@ -101,7 +96,7 @@ def mass_rm_empty_dirs(mass_root_path, search_mass_paths=None, simulation=False)
 
     Returns
     -------
-    : list
+    list
         The list of MASS records that have been removed.
     """
     logger = logging.getLogger(__name__)
@@ -120,8 +115,7 @@ def mass_rm_empty_dirs(mass_root_path, search_mass_paths=None, simulation=False)
 
 
 def mass_list_empty_dirs(mass_path, search_mass_paths=None, simulation=False):
-    """
-    Lists all empty directories recursively containing at the given
+    """Lists all empty directories recursively containing at the given
     MASS location and that paths are matching at least one of the
     given MASS searched paths.
 
@@ -139,7 +133,7 @@ def mass_list_empty_dirs(mass_path, search_mass_paths=None, simulation=False):
 
     Returns
     -------
-    : list
+    list
         The list of MASS records of the empty directories.
     """
     logger = logging.getLogger(__name__)
@@ -166,19 +160,21 @@ def mass_list_empty_dirs(mass_path, search_mass_paths=None, simulation=False):
 
 
 def mass_list_records(mass_path, simulation=False):
-    """
-    Lists the contents of a directory in the MASS and creates for each content a corresponding
+    """Lists the contents of a directory in the MASS and creates for each content a corresponding
     MassRecord. These records will be returned in a dictionary according their path to the
     corresponding content in MASS.
 
-    :param mass_path: The location in MASS to list the contents of
-    :type mass_path: str
-    :param simulation: If true, do not execute MASS commands, but output the command that
-                       would be run to the log. (Default: False)
-    :type simulation: bool
-    :return: Dictionary of mass records where keys are the record paths and values
-             the corresponding MassRecord.
-    :rtype: dict
+    Parameters
+    ----------
+    mass_path : str
+        The location in MASS to list the contents of
+    simulation : bool
+        If true, do not execute MASS commands, but output the command that would be run to the log. (Default: False)
+
+    Returns
+    -------
+    dict
+        Dictionary of mass records where keys are the record paths and values the corresponding MassRecord.
     """
     logger = logging.getLogger(__name__)
     moo_cmd = ['moo', 'ls', '-Rl', mass_path]
@@ -204,8 +200,7 @@ def mass_list_records(mass_path, simulation=False):
 
 
 def mass_list_files_recursively(mass_path, simulation):
-    """
-    List the contents of a directory in the MASS archive.
+    """List the contents of a directory in the MASS archive.
 
     Parameters
     ----------
@@ -217,7 +212,7 @@ def mass_list_files_recursively(mass_path, simulation):
 
     Returns
     -------
-    : list
+    list
         A list of strings with mass locations for archived files.
     """
     logger = logging.getLogger(__name__)
@@ -259,8 +254,7 @@ def mass_list_files_recursively(mass_path, simulation):
 
 
 def mass_isdir(mass_path, simulation):
-    """
-    Check whether the specified directory currently exists in MASS.
+    """Check whether the specified directory currently exists in MASS.
 
     Parameters
     ----------
@@ -272,7 +266,7 @@ def mass_isdir(mass_path, simulation):
 
     Returns
     -------
-    : bool
+    bool
         Return whether specified directory exists in MASS.
 
     Raises
@@ -300,8 +294,7 @@ def mass_isdir(mass_path, simulation):
 
 
 def mass_mkdir(mass_path, simulation, create_parents, exist_ok=False):
-    """
-    Create a directory in MASS at the specified location.
+    """Create a directory in MASS at the specified location.
 
     Parameters
     ----------
@@ -318,7 +311,7 @@ def mass_mkdir(mass_path, simulation, create_parents, exist_ok=False):
 
     Returns
     -------
-    : bool
+    bool
         Return whether specified directory exists in MASS.
 
     Raises
@@ -358,8 +351,7 @@ def mass_mkdir(mass_path, simulation, create_parents, exist_ok=False):
 
 
 def mass_put(input_files, mass_path, simulation, check_mass_location):
-    """
-    Add each of the specified files to the archive at the given location.
+    """Add each of the specified files to the archive at the given location.
 
     Parameters
     ----------
@@ -408,8 +400,7 @@ def mass_put(input_files, mass_path, simulation, check_mass_location):
 
 
 def mass_move(src_mass_files, dest_mass_path, simulation, check_mass_location):
-    """
-    Add each of the specified files to the archive at the given location.
+    """Add each of the specified files to the archive at the given location.
 
     Parameters
     ----------
@@ -479,8 +470,7 @@ def mass_rmdir(mass_dir, simulation):
 
 
 def mass_available(simulation):
-    """
-    Returns True if it successfully runs an si command.
+    """Returns True if it successfully runs an si command.
 
     Note: there is no "is moo available" command, but "moo si" is the closest in intent.
     Although a successful "si" means that MASS is up, it doesn't mean that MASS is
@@ -495,7 +485,7 @@ def mass_available(simulation):
 
     Returns
     -------
-    : bool
+    bool
         Return whether MASS is available or not.
     """
     logger = logging.getLogger(__name__)
@@ -518,8 +508,7 @@ def mass_available(simulation):
 
 
 def mass_info(simulation):
-    """
-    Returns if MASS is available and which commands can be processed and which not.
+    """Returns if MASS is available and which commands can be processed and which not.
 
     Parameters
     ----------
@@ -529,7 +518,7 @@ def mass_info(simulation):
 
     Returns
     -------
-    : bool, dict
+    bool, dict
         Return whether MASS is available and can except commands of specific
         types or not.
         And returns a dictionary contains all commands and if they can be processed
@@ -568,8 +557,7 @@ def mass_info(simulation):
 
 
 def run_mass_command(command):
-    """
-    Run the command in a new process using :class:`subprocess.Popen`.
+    """Run the command in a new process using :class:`subprocess.Popen`.
 
     Parameters
     ----------
@@ -578,7 +566,7 @@ def run_mass_command(command):
 
     Returns
     -------
-    : str
+    str
         The standard output from the command.
     """
     logger = logging.getLogger(__name__)

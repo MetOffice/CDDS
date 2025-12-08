@@ -9,13 +9,10 @@ from compliance_checker.runner import CheckSuite
 
 
 class QCSuite(CheckSuite):
-    """
-    Extending standard check suite to add some configuration capabilities
-    """
+    """Extending standard check suite to add some configuration capabilities"""
 
     def _get_valid_checkers(self, ds, checker_names):
-        """
-        Returns a filtered list of 2-tuples: (name, valid checker) based on
+        """Returns a filtered list of 2-tuples: (name, valid checker) based on
         the ds object's type and the user selected names.
 
         Parameters
@@ -27,7 +24,7 @@ class QCSuite(CheckSuite):
 
         Returns
         -------
-        : list
+        list
             List of valid checkers
         """
         assert self.checkers, "No checkers could be found."
@@ -58,8 +55,7 @@ class QCSuite(CheckSuite):
         return valid
 
     def run(self, ds, checker_config, skip_checks, *checker_names):
-        """
-        Runs this CheckSuite on the dataset with all the passed Checker
+        """Runs this CheckSuite on the dataset with all the passed Checker
         instances.
         Returns a dictionary mapping checker names to a 2-tuple of their
         grouped scores and errors/exceptions while running checks.

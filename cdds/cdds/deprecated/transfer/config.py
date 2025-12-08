@@ -4,7 +4,7 @@ import configparser
 
 
 class ConfigError(Exception):
-    """ Exception raised in the event of configuration problems. """
+    """Exception raised in the event of configuration problems."""
     pass
 
 

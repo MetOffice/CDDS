@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Tools for obtaining information on CMOR variables from the data request
-"""
+"""Tools for obtaining information on CMOR variables from the data request"""
 import logging
 
 from cdds.data_request_interface.constants import (
@@ -16,14 +14,12 @@ from cdds.data_request_interface.navigation import (
 
 
 class DataRequestVariable(object):
-    """
-    Class to hold useful information on a |MIP requested variable| from
+    """Class to hold useful information on a |MIP requested variable| from
     the data request
     """
 
     def __init__(self, data_request, uid=None, mip_table=None, var_name=None):
-        """
-        Construct a object representing a variable from the data
+        """Construct a object representing a variable from the data
         request, either via its uid or via its |MIP| table and
         |MIP requested variable| name.
 
@@ -113,8 +109,7 @@ class DataRequestVariable(object):
             self.dimensions.append(temporal_structure_object.dimensions)
 
     def get_priorities(self, experiment_uid, network):
-        """
-        Construct a dictionary describing the priorities for this
+        """Construct a dictionary describing the priorities for this
         variable in the specified experiment. This dictionary is added
         to the `priorities` property
 
@@ -129,8 +124,7 @@ class DataRequestVariable(object):
             self.uid, experiment_uid, network)
 
     def get_ensemble_sizes(self, experiment_uid, network):
-        """
-        Construct a dictionary describing the ensemble sizes requested
+        """Construct a dictionary describing the ensemble sizes requested
         for this variable in the specified experiment. This dictionary
         is added to the `ensemble_sizes` property
 
@@ -145,8 +139,7 @@ class DataRequestVariable(object):
             self.uid, experiment_uid, network)
 
     def _set_uid_for_variable(self, mip_table, var_name):
-        """
-        Obtain the uid of the |MIP requested variable| from the data
+        """Obtain the uid of the |MIP requested variable| from the data
         request corresponding to the mip_table and cmor_name attributes
         and set the `uid` property on this object.
 
@@ -183,8 +176,7 @@ def _blank_to_none(value):
 
 
 def retrieve_data_request_variables(experiment_id, data_request):
-    """
-    Return the list of |MIP requested variables| for the required
+    """Return the list of |MIP requested variables| for the required
     |experiment| at the specified data request version.
 
     Parameters
@@ -256,8 +248,7 @@ def retrieve_data_request_variables(experiment_id, data_request):
 
 def describe_differences(variable, other_variable,
                          check_variable_comparability=True):
-    """
-    Return a dictionary describing the differences between this
+    """Return a dictionary describing the differences between this
     and another data request variable.
 
     Parameters
@@ -273,12 +264,12 @@ def describe_differences(variable, other_variable,
 
     Returns
     -------
-    : dict
+    dict
         The differences found organised by attribute.
 
     Raises
     ------
-    : RuntimeError
+    RuntimeError
         If an attempt is made to compare different
         |MIP requested variables|, e.g. compare ``pr`` with ``tas`` or
         |MIP requested variables| in different |mip tables| without

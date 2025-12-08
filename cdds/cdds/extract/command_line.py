@@ -1,9 +1,6 @@
 # (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`command_line` module contains the main functions for the
-command line scripts in the ``bin`` directory.
-"""
+"""The :mod:`command_line` module contains the main functions for the command line scripts in the ``bin`` directory."""
 import argparse
 import logging
 import os
@@ -28,8 +25,7 @@ LOG_NAME = 'cdds_extract'
 
 
 def parse_cdds_extract_command_line(user_arguments):
-    """
-    Return the names of the command line arguments for ``cdds_extract_spice``
+    """Return the names of the command line arguments for ``cdds_extract_spice``
     and their validated values.
 
     If this function is called from the Python interpreter with ``arguments``
@@ -46,7 +42,7 @@ def parse_cdds_extract_command_line(user_arguments):
 
     Returns
     -------
-    : :class:`cdds.arguments.Arguments` object
+    :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated values.
     """
     parser = argparse.ArgumentParser(description='Extract the requested data from MASS on SPICE via a batch job')
@@ -61,8 +57,7 @@ def parse_cdds_extract_command_line(user_arguments):
 
 
 def main_cdds_extract(arguments=None):
-    """
-    Extract the requested data from MASS via command line.
+    """Extract the requested data from MASS via command line.
 
     Parameters
     ----------
@@ -98,8 +93,7 @@ def main_cdds_extract(arguments=None):
 
 
 def parse_validate_streams_command_line(user_arguments):
-    """
-    Return the names of the command line arguments for ``validate_streams``
+    """Return the names of the command line arguments for ``validate_streams``
     and their validated values.
 
     Parameters
@@ -109,7 +103,7 @@ def parse_validate_streams_command_line(user_arguments):
 
     Returns
     -------
-    : :class:`cdds.arguments.Arguments` object
+    :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated values.
     """
 
@@ -126,8 +120,7 @@ def parse_validate_streams_command_line(user_arguments):
 
 
 def main_validate_streams(arguments=None):
-    """
-    Validates files in the 'input' directory.
+    """Validates files in the 'input' directory.
 
     Parameters
     ----------
@@ -177,9 +170,7 @@ def main_validate_streams(arguments=None):
 
 
 def main_cdds_arrange_input_data():
-    """
-    Main function of the cdds_arrange_input_data script.
-    """
+    """Main function of the cdds_arrange_input_data script."""
     arguments = parse_arguments()
 
     request = read_request(arguments.request)
@@ -200,13 +191,14 @@ def main_cdds_arrange_input_data():
 
 
 def symlink_files(links,  input_dir):
-    """
-    Construct the symbolic links for the files found by identify_files
+    """Construct the symbolic links for the files found by identify_files
 
-    :param links: list of tuples describing files
-    :type links: list
-    :param input_dir: location of "input" dir under which to create links
-    :type input_dir: str
+    Parameters
+    ----------
+    links : list
+        list of tuples describing files
+    input_dir : str
+        location of "input" dir under which to create links
     """
     for file_workflow_id, stream, directory, filename in links:
         source = os.path.abspath(os.path.join(directory, filename))
@@ -221,16 +213,20 @@ def symlink_files(links,  input_dir):
 
 
 def identify_files(search_dir: str, jobid: str) -> list[tuple[str, str, str, str]]:
-    """
-    Identify files in the search directory that correspond to the workflow
+    """Identify files in the search directory that correspond to the workflow
     being processed
 
-    :param search_dir: The directory to search for input files
-    :type search_dir: str
-    :param jobid: The 5 character jobid used in filenames
-    :type jobid: str
-    :returns: list of tuples describing each file
-    :rtype: list
+    Parameters
+    ----------
+    search_dir : str
+        The directory to search for input files
+    jobid : str
+        The 5 character jobid used in filenames
+
+    Returns
+    -------
+    list
+        list of tuples describing each file
     """
 
     destination = {
@@ -277,8 +273,7 @@ def identify_files(search_dir: str, jobid: str) -> list[tuple[str, str, str, str
 
 
 def parse_arguments():
-    """
-    Parse command line arguments.
+    """Parse command line arguments.
 
     Returns
     -------

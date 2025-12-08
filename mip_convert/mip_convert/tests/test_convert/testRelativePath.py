@@ -8,8 +8,7 @@ from mip_convert.common import RelativePathChecker
 
 
 class DummyOsPath(object):
-    """
-    dummy class to act in the place of the os.path module
+    """dummy class to act in the place of the os.path module
 
     having this class prevents having to manage real file system
     resources during testing

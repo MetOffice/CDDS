@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`base_models` module contains the code required to
+"""The :mod:`base_models` module contains the code required to
 handle basic model parameters information for models.
 """
 import os
@@ -24,25 +23,23 @@ from cdds.common.plugins.grid import GridType
 
 
 class ModelId(Enum, metaclass=ABCEnumMeta):
-    """
-    Represents the ID of a model.
-    """
+    """Represents the ID of a model."""
 
     @abstractmethod
     def get_json_file(self) -> str:
-        """
-        Returns the json file name for a model containing the model parameters data.
+        """Returns the json file name for a model containing the model parameters data.
 
-        :return: Json file name for the model with current ID
-        :rtype: str
+        Returns
+        -------
+        str
+            Json file name for the model with current ID
         """
         pass
 
 
 @dataclass
 class SizingInfo(object):
-    """
-    Represents the sizing information of a model and provides functions
+    """Represents the sizing information of a model and provides functions
     to extract data and update data.
     """
 
@@ -51,33 +48,39 @@ class SizingInfo(object):
     sizing_data: Dict[str, Dict[str, float]]
 
     def update(self, new_data: Dict[str, Dict[str, float]]) -> None:
-        """
-        Update the sizing information
+        """Update the sizing information
 
-        :param new_data: New data to add or update
-        :type new_data: dict
+        Parameters
+        ----------
+        new_data : dict
+            New data to add or update
         """
         self.sizing_data.update(new_data)
 
     def get_all(self) -> Dict[str, Dict[str, float]]:
-        """
-        Returns the whole sizing information as a dict.
+        """Returns the whole sizing information as a dict.
 
-        :return: Sizing information
-        :rtype: dict
+        Returns
+        -------
+        dict
+            Sizing information
         """
         return self.sizing_data
 
     def get_period(self, frequency: str, coordinates: str) -> float:
-        """
-        Get period for given frequency and the shape with given coordinates.
+        """Get period for given frequency and the shape with given coordinates.
 
-        :param frequency: Frequency, for example monthly, daily
-        :type frequency: str
-        :param coordinates: Coordinates of the shape
-        :type coordinates: str
-        :return: Corresponding period
-        :rtype: float
+        Parameters
+        ----------
+        frequency : str
+            Frequency, for example monthly, daily
+        coordinates : str
+            Coordinates of the shape
+
+        Returns
+        -------
+        float
+            Corresponding period
         """
         shape_data = self.sizing_data[frequency]
         shape_key = self._find_shape_key(shape_data, coordinates)
@@ -107,8 +110,7 @@ class SizingInfo(object):
 
 
 class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
-    """
-    Abstract class to store the parameters for a model.
+    """Abstract class to store the parameters for a model.
     The parameters of a model are defined in a json file.
     """
 
@@ -126,115 +128,142 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         self._halo_removal_info: Dict[str, str] = {}
 
     def temp_space(self, stream_id: str) -> int:
-        """
-        Returns the temporary space of the given stream.
+        """Returns the temporary space of the given stream.
 
-        :param stream_id: Stream ID
-        :type stream_id: str
-        :return: Temporary space of the stream
-        :rtype: int
+        Parameters
+        ----------
+        stream_id : str
+            Stream ID
+
+        Returns
+        -------
+        int
+            Temporary space of the stream
         """
         temp_space = self._temp_space[stream_id]
         return temp_space
 
     def memory(self, stream_id: str) -> str:
-        """
-        Returns the memory of the given stream.
+        """Returns the memory of the given stream.
 
-        :param stream_id: Stream ID
-        :type stream_id: str
-        :return: Size of memory
-        :rtype: str
+        Parameters
+        ----------
+        stream_id : str
+            Stream ID
+
+        Returns
+        -------
+        str
+            Size of memory
         """
         return self._memory[stream_id]
 
     @property
     def halo_removal_info(self) -> Dict[str, str]:
-        """
-        Returns the halo removal information for this model.
-        :return: Halo removal information
-        :rtype: Dict[str, str]
+        """Returns the halo removal information for this model.
+
+        Returns
+        -------
+        Dict[str, str]
+            Halo removal information
         """
         return self._halo_removal_info
 
     def cycle_length(self, stream_id: str) -> str:
-        """
-        Returns the cycle length of the given stream.
+        """Returns the cycle length of the given stream.
 
-        :param stream_id: Stream ID
-        :type stream_id: str
-        :return: Cycle length
-        :rtype: str
+        Parameters
+        ----------
+        stream_id : str
+            Stream ID
+
+        Returns
+        -------
+        str
+            Cycle length
         """
         return self._cycle_lengths[stream_id]
 
     def sizing_info(self, frequency: str, shape: str) -> float:
-        """
-        Returns the sizing info for a specific period. The period is specified
+        """Returns the sizing info for a specific period. The period is specified
         by the given frequency and shape coordinates.
 
-        :param frequency: Frequency
-        :type frequency: str
-        :param shape: Shape coordinates
-        :type shape: str
-        :return: The corresponding sizing info
-        :rtype: float
+        Parameters
+        ----------
+        frequency : str
+            Frequency
+        shape : str
+            Shape coordinates
+
+        Returns
+        -------
+        float
+            The corresponding sizing info
         """
         return self._sizing.get_period(frequency, shape)
 
     def full_sizing_info(self) -> Dict[str, Dict[str, float]]:
-        """
-        Returns all sizing information.
+        """Returns all sizing information.
 
-        :return: Sizing information
-        :rtype: dict
+        Returns
+        -------
+        dict
+            Sizing information
         """
         return self._sizing.get_all()
 
     def subdaily_streams(self) -> List[str]:
-        """
-        Returns a list of subdaily atmospheric streams.
+        """Returns a list of subdaily atmospheric streams.
 
-        :return: Subdaily streams
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            Subdaily streams
         """
         return self._subdaily_streams
 
     def streams(self) -> List[str]:
-        """
-        Returns a list of all defined streams.
+        """Returns a list of all defined streams.
 
-        :return: Streams
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            Streams
         """
         return self._streams
 
     def stream_file_info(self) -> StreamFileInfo:
-        """
-        Returns information about the stream files that the model supports.
+        """Returns information about the stream files that the model supports.
 
-        :return: Information about the stream files
-        :rtype: StreamFileInfo
+        Returns
+        -------
+        StreamFileInfo
+            Information about the stream files
         """
         return self._stream_file_info
 
     def grids_mapping(self) -> BaseGridMapping:
-        """
-        Returns mapping information about the grids for the MIP requested variables.
+        """Returns mapping information about the grids for the MIP requested variables.
 
-        :return: Grids mappings for the MIP requested variables
-        :rtype: BaseGridMapping
+        Returns
+        -------
+        BaseGridMapping
+            Grids mappings for the MIP requested variables
         """
         return self._grid_mappings
 
     def load_parameters(self, dir_path: str) -> LoadResult:
-        """
-        Loads parameters from json files contained in the given directory.
+        """Loads parameters from json files contained in the given directory.
 
-        :param dir_path: Path to the directory containing the json files
-        :type dir_path: str
-        :return: The result that indicate if the parameters could be loaded successful
-        :rtype: LoadResult
+        Parameters
+        ----------
+        dir_path : str
+            Path to the directory containing the json files
+
+        Returns
+        -------
+        LoadResult
+            The result that indicate if the parameters could be loaded successful
         """
         loaded = False
         json_file = self._get_json_file(dir_path)
@@ -278,36 +307,48 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         return os.path.join(dir_path, file_name)
 
     def is_model(self, model_id: str) -> bool:
-        """
-        Returns if the current class represents the given model.
+        """Returns if the current class represents the given model.
 
-        :param model_id: Model ID to check
-        :type model_id: str
-        :return: If given model is represent by the class or not
-        :rtype: bool
+        Parameters
+        ----------
+        model_id : str
+            Model ID to check
+
+        Returns
+        -------
+        bool
+            If given model is represent by the class or not
         """
         return model_id.lower() == self._model_id.value.lower()
 
     def grid_info(self, grid_type: GridType) -> BaseGridInfo:
-        """
-        Returns the corresponding grid information for the given grid type.
+        """Returns the corresponding grid information for the given grid type.
 
-        :param grid_type: Grid type (e.g.: ATMOS, OCEAN)
-        :type grid_type: GridType
-        :return: Grid information of the given grid type
-        :rtype: BaseGridInfo
+        Parameters
+        ----------
+        grid_type : GridType
+            Grid type (e.g.: ATMOS, OCEAN)
+
+        Returns
+        -------
+        BaseGridInfo
+            Grid information of the given grid type
         """
         return self._grid_info[grid_type]
 
     def all_ancil_files(self, root_directory: str) -> List[str]:
-        """
-        Returns the paths to all ancillary files of this model in the
+        """Returns the paths to all ancillary files of this model in the
         model directory in given root directory.
 
-        :param root_directory: Path to root directory of the files
-        :type root_directory: str
-        :return: Paths to the ancillary files
-        :rtype: List[str]
+        Parameters
+        ----------
+        root_directory : str
+            Path to root directory of the files
+
+        Returns
+        -------
+        List[str]
+            Paths to the ancillary files
         """
         model_directory = os.path.join(root_directory, self._model_id.value)
         file_names = []
@@ -321,12 +362,13 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         ))
 
     def all_ancil_variables(self) -> List[str]:
-        """
-        Returns all ancillary variables of this model that should
+        """Returns all ancillary variables of this model that should
         be removed.
 
-        :return: Ancillary variables
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            Ancillary variables
         """
         all_ancil_variables = []
         for grid_type in GridType:
@@ -335,14 +377,18 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         return all_ancil_variables
 
     def all_hybrid_heights_files(self, root_directory: str) -> List[str]:
-        """
-        Returns the paths to all hybrid heights files of this model in the
+        """Returns the paths to all hybrid heights files of this model in the
         given root directory.
 
-        :param root_directory: Path to root directory of the files
-        :type root_directory: str
-        :return: Paths to the hybrid heights files
-        :rtype: List[str]
+        Parameters
+        ----------
+        root_directory : str
+            Path to root directory of the files
+
+        Returns
+        -------
+        List[str]
+            Paths to the hybrid heights files
         """
         grids_to_consider = list(filter(lambda x: x != GridType.OCEAN, GridType))
         file_names = []
@@ -355,8 +401,7 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
 
 
 class BaseModelStore(ModelsStore, metaclass=ABCMeta):
-    """
-    Singleton class to store for each model the corresponding parameters.
+    """Singleton class to store for each model the corresponding parameters.
     The parameters are defined in json files.
 
     The class is a singleton to avoid excessive loading of the parameters from the json files.
@@ -369,21 +414,24 @@ class BaseModelStore(ModelsStore, metaclass=ABCMeta):
 
     @abstractmethod
     def _load_default_params(self) -> None:
-        """
-        Loads information from a json in a specific location. The json contains
+        """Loads information from a json in a specific location. The json contains
         the default information for each supported resolution.
         """
         pass
 
     def overload_params(self, dir_path: str) -> LoadResults:
-        """
-        Overloads model parameters. The new parameters are specified in a json file in the given directory.
+        """Overloads model parameters. The new parameters are specified in a json file in the given directory.
         The json file name must match following pattern: <model-name>.json
 
-        :param dir_path: Path to the directory
-        :type dir_path: str
-        :return: Results containing which model values were overloaded
-        :rtype: LoadResults
+        Parameters
+        ----------
+        dir_path : str
+            Path to the directory
+
+        Returns
+        -------
+        LoadResults
+            Results containing which model values were overloaded
         """
         self._logger.info('Load model parameters from: {}'.format(dir_path))
         results = LoadResults()
@@ -393,13 +441,17 @@ class BaseModelStore(ModelsStore, metaclass=ABCMeta):
         return results
 
     def get(self, model_id: str) -> BaseModelParameters:
-        """
-        Returns the model parameters data for the given model.
+        """Returns the model parameters data for the given model.
 
-        :param model_id: Model ID
-        :type model_id: str
-        :return: Class containing the model parameters
-        :rtype: BaseModelParameters
+        Parameters
+        ----------
+        model_id : str
+            Model ID
+
+        Returns
+        -------
+        BaseModelParameters
+            Class containing the model parameters
         """
         for model_instance in self.model_instances:
             if model_instance.is_model(model_id):
@@ -407,17 +459,16 @@ class BaseModelStore(ModelsStore, metaclass=ABCMeta):
         raise ValueError('Cannot find any model parameters for model {}.'.format(model_id))
 
     def get_all(self) -> List[BaseModelParameters]:
-        """
-        Returns all model parameters data stored in this model store.
+        """Returns all model parameters data stored in this model store.
 
-        :return:
-        :rtype: List[BaseModelParameters]
+        Returns
+        -------
+        List[BaseModelParameters]
         """
         return self.model_instances
 
     def add(self, model_instance: BaseModelParameters) -> None:
-        """
-        Adds the given CmipModelParameters instance to the cache
+        """Adds the given CmipModelParameters instance to the cache
 
         Only used in tests!
         """

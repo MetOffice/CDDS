@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`command_line` module contains the main functions for the
+"""The :mod:`command_line` module contains the main functions for the
 command line scripts in the ``bin`` directory.
 """
 import argparse
@@ -32,13 +31,17 @@ PREPARE_SELECT_VARIABLES_LOG_NAME = 'prepare_select_variables'
 
 
 def main_create_cdds_directory_structure(arguments: List[str] = None):
-    """
-    Create the CDDS directory structure.
+    """Create the CDDS directory structure.
 
-    :param arguments: The command line arguments to be parsed.
-    :type arguments: List[str]
-    :return: Exit code
-    :rtype: int
+    Parameters
+    ----------
+    arguments : List[str]
+        The command line arguments to be parsed.
+
+    Returns
+    -------
+    int
+        Exit code
     """
     # Parse the arguments.
     args = parse_create_cdds_directory_structure_args(arguments)
@@ -63,13 +66,17 @@ def main_create_cdds_directory_structure(arguments: List[str] = None):
 
 
 def main_generate_variable_list(arguments: List[str] = None) -> int:
-    """
-    Generate the |requested variables list|.
+    """Generate the |requested variables list|.
 
-    :param arguments: The command line arguments to be parsed.
-    :type arguments: List[str]
-    :return: Exit status
-    :rtype: int
+    Parameters
+    ----------
+    arguments : List[str]
+        The command line arguments to be parsed.
+
+    Returns
+    -------
+    int
+        Exit status
     """
     args = parse_generate_args(arguments)
     request = read_request(args.request)
@@ -103,8 +110,7 @@ def main_generate_variable_list(arguments: List[str] = None) -> int:
 
 
 def main_alter_variable_list(arguments=None):
-    """
-    Alter the |requested variables list|.
+    """Alter the |requested variables list|.
 
     Parameters
     ----------
@@ -113,7 +119,7 @@ def main_alter_variable_list(arguments=None):
 
     Returns
     -------
-    : int
+    int
         The command line exit code.
     """
     args = parse_alter_args(arguments)
@@ -139,13 +145,12 @@ def main_alter_variable_list(arguments=None):
 
 
 def main_select_variables(arguments=None):
-    """
-    Select a subset of |MIP requested variables| to leave in the current state
+    """Select a subset of |MIP requested variables| to leave in the current state
     in the |requested variables list| and deactivate all others.
 
     Returns
     -------
-    : int
+    int
         The command line exit code.
     """
     args = parse_select_variables_args(arguments)
@@ -168,8 +173,7 @@ def main_select_variables(arguments=None):
 
 
 def parse_create_cdds_directory_structure_args(arguments: List[str]) -> Namespace:
-    """
-    Return the names of the command line arguments for ``create_cdds_directory_structure`` and their validated values.
+    """Return the names of the command line arguments for ``create_cdds_directory_structure`` and their validated values.
 
     If this function is called from the Python interpreter with ``arguments`` that contains any of the ``--version``,
     ``-h`` or ``--help`` options, the Python interpreter will be terminated.
@@ -177,10 +181,15 @@ def parse_create_cdds_directory_structure_args(arguments: List[str]) -> Namespac
     The output from this function can be used as the value of the ``arguments`` parameter in the call to
     :func:`cdds.prepare.command_line.main_create_cdds_directory_structure`.
 
-    :param arguments: The command line arguments to be parsed.
-    :type arguments: List[str]
-    :return: The names of the command line arguments and their validated values.
-    :rtype: Namespace
+    Parameters
+    ----------
+    arguments : List[str]
+        The command line arguments to be parsed.
+
+    Returns
+    -------
+    Namespace
+        The names of the command line arguments and their validated values.
     """
     user_arguments = arguments
     parser = argparse.ArgumentParser(
@@ -197,14 +206,18 @@ def parse_create_cdds_directory_structure_args(arguments: List[str]) -> Namespac
 
 
 def parse_generate_args(arguments: List[str]) -> Namespace:
-    """
-    Return the names of the command line arguments for ``prepare_generate_variable_list``
+    """Return the names of the command line arguments for ``prepare_generate_variable_list``
     and their validated values.
 
-    :param arguments: The command line arguments to be parsed.
-    :type arguments: List[str]
-    :return: The names of the command line arguments and their validated values.
-    :rtype: Namespace
+    Parameters
+    ----------
+    arguments : List[str]
+        The command line arguments to be parsed.
+
+    Returns
+    -------
+    Namespace
+        The names of the command line arguments and their validated values.
     """
     user_arguments = arguments
     parser = argparse.ArgumentParser(
@@ -233,8 +246,7 @@ def parse_generate_args(arguments: List[str]) -> Namespace:
 
 
 def parse_alter_args(arguments):
-    """
-    Return the names of the command line arguments for
+    """Return the names of the command line arguments for
     ``prepare_alter_variable_list`` and their validated values.
 
     If this function is called from the Python interpreter with
@@ -252,7 +264,7 @@ def parse_alter_args(arguments):
 
     Returns
     -------
-    : :class:`cdds.arguments.Arguments` object
+    :class:`cdds.arguments.Arguments` object
         The names of the command line arguments and their validated
         values.
     """

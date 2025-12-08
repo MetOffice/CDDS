@@ -9,39 +9,39 @@ import xml.sax.handler
 
 COMMAND_ID_NOT_FOUND = 'command-id not found'
 
-""" Classes and methods to wrap moo commands.
+"""Classes and methods to wrap moo commands.
 
 Public classes:
-    MassError -- raised when a MASS error requiring human intervention occurs
-    RetryableMassError -- raised when a temporary MASS error occurs
+   MassError -- raised when a MASS error requiring human intervention occurs
+   RetryableMassError -- raised when a temporary MASS error occurs
 
 Public methods:
-    run_moo_cmd - runs specified moo command and returns output/errors
-    is_mass_available - checks that MASS is available
-    is_enabled - checks that the specified command type is being accepted
-    parse_xml_output - parses XML output from run_moo_cmd
+   run_moo_cmd - runs specified moo command and returns output/errors
+   is_mass_available - checks that MASS is available
+   is_enabled - checks that the specified command type is being accepted
+   parse_xml_output - parses XML output from run_moo_cmd
 """
 
 
 class MassError(Exception):
-    """ Raised when a moo command fails in a way that suggests there's
-    an underlying problem that will take manual intervention to solve.
-    In our case this is usually a "user error" indicating that, for
-    instance, we've tried to fetch a directory that doesn't exist.
+    """Raised when a moo command fails in a way that suggests there's
+        an underlying problem that will take manual intervention to solve.
+        In our case this is usually a "user error" indicating that, for
+        instance, we've tried to fetch a directory that doesn't exist.
     """
     pass
 
 
 class RetryableMassError(Exception):
-    """ Raised when a moo command fails in a way that suggests it
-    could work if re-run later (e.g. a "cmd type currently
-    unavailable" return code).
+    """Raised when a moo command fails in a way that suggests it
+        could work if re-run later (e.g. a "cmd type currently
+        unavailable" return code).
     """
     pass
 
 
 class SiHandler(xml.sax.ContentHandler):
-    """ XML handler for parsing moo si -lx output. """
+    """XML handler for parsing moo si -lx output."""
 
     def __init__(self):
         self._request_status = {}
@@ -66,42 +66,40 @@ class SiHandler(xml.sax.ContentHandler):
 
 
 def run_moo_cmd(sub_cmd, args, simulation=False, logger=None):
-    """ Runs a moo command.
+    """Runs a moo command.
 
-    MOOSE errors are detected and classified into "can be retried
-    later" or "error with the command that requires manual
-    intervention to fix". An appropriate exception will be raised for
-    either type of error. The exception will be initialised with the
-    stdout and stderr from the command.
+        MOOSE errors are detected and classified into "can be retried
+        later" or "error with the command that requires manual
+        intervention to fix". An appropriate exception will be raised for
+        either type of error. The exception will be initialised with the
+        stdout and stderr from the command.
 
-    Errors will be reported via logging.error calls. Successful
-    commands will be reported via logging.info calls.
+        Errors will be reported via logging.error calls. Successful
+        commands will be reported via logging.info calls.
 
-    Parameters
-    ----------
-    sub_cmd : str
-        The moo command to run (e.g. "put").
-    args : list
-        Options and arguments to the command.
-    simulation : bool, optional
-        If true simulate moo command.
-    logger : :class:`logging.Logger`, optional.
-        Logger to use. If unset a logger will be obtained
+        Parameters
+        ----------
+        sub_cmd : str
+            The moo command to run (e.g. "put").
+        args : list
+            Options and arguments to the command.
+        simulation : bool, optional
+            If true simulate moo command.
+        logger : :class:`logging.Logger`, optional.
+            Logger to use. If unset a logger will be obtained
 
-    Returns
-    -------
-    : list of str
-        Lines of standard output returned by moo command.
+        Returns
+        -------
+        list[str]
+            Lines of standard output returned by moo command.
 
-    Raises
-    ------
-    MassError
-        If the command fails and the return code indicates that the
-        command is not retryable (e.g. due to syntax error or data not
-        being available).
-    RetryableMassError
-        If the command fails, but the return code indeicates that the
-        command is retryable at a later time.
+        Raises
+        ------
+        MassError
+            If the command fails and the return code indicates that the command is not retryable (e.g. due to syntax 
+            error or data not being available).
+        RetryableMassError
+            If the command fails, but the return code indeicates that the command is retryable at a later time.
     """
     if logger is None:
         logger = logging.getLogger(__name__)
@@ -138,13 +136,16 @@ def run_moo_cmd(sub_cmd, args, simulation=False, logger=None):
 
 
 def parse_xml_output(xml_output, content_handler):
-    """ Parses XML output from a MOOSE command using xml.sax. Raises a
-    MassError if parsing fails. Does not return any results - you need
-    to set attributes in content_handler.
+    """Parses XML output from a MOOSE command using xml.sax. Raises a
+        MassError if parsing fails. Does not return any results - you need
+        to set attributes in content_handler.
 
-    Arguments:
-    xml_output -- output from a moo command in XML format. (list of strs)
-    content_handler -- handler for parsing XML (xml.sax.ContentHandler)
+        Parameters
+        ----------
+        xml_output: list[str]
+            output from a moo command in XML format
+        content_handler: xml.sax.ContentHandler
+            handler for parsing XML (xml.sax.ContentHandler
     """
     xml_parser = xml.sax.make_parser()
     xml_parser.setFeature(xml.sax.handler.feature_namespaces, 0)

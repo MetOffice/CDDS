@@ -9,8 +9,7 @@ from cdds.common.sqlite import execute_insert_query, execute_query
 
 
 def setup_db(db_file):
-    """
-    Initialises a qc database.
+    """Initialises a qc database.
 
     Parameters
     ----------
@@ -19,7 +18,7 @@ def setup_db(db_file):
 
     Returns
     -------
-    : sqlite3.Connection
+    sqlite3.Connection
         Database connection instance.
     """
     conn = connect(db_file)
@@ -93,8 +92,7 @@ def setup_db(db_file):
 
 
 def connect(db_file):
-    """
-    Connect to the qc database.
+    """Connect to the qc database.
 
     Parameters
     ----------
@@ -103,7 +101,7 @@ def connect(db_file):
 
     Returns
     -------
-    : sqlite3.Connection
+    sqlite3.Connection
         Database connection instance.
     """
     logger = logging.getLogger(__name__)
@@ -122,8 +120,7 @@ def connect(db_file):
 
 
 def get_row_id_by_column_value(cursor, table_name, value, col_name='name', populate=True):
-    """
-    Searches database table for a row with column having provided value and returns the row id.
+    """Searches database table for a row with column having provided value and returns the row id.
     If the `populate` parameter is True and the row does not exists, inserts a new row and returns the row id.
 
     Parameters
@@ -141,7 +138,7 @@ def get_row_id_by_column_value(cursor, table_name, value, col_name='name', popul
 
     Returns
     -------
-    : int
+    int
         Primary key of the row
     """
     sql = 'SELECT id FROM {} WHERE {} = :{}'.format(table_name, col_name, col_name)
@@ -158,8 +155,7 @@ def get_row_id_by_column_value(cursor, table_name, value, col_name='name', popul
 
 
 def build_sql_query(facets):
-    """
-    Builds a select query for selecting datasets matching given facets
+    """Builds a select query for selecting datasets matching given facets
 
     Parameters
     ----------
@@ -168,7 +164,7 @@ def build_sql_query(facets):
 
     Returns
     -------
-    : string
+    str
         Interpolated query string
     """
 
@@ -209,8 +205,7 @@ def build_sql_query(facets):
 
 
 def populate_dataset_dictionary(cursor, facet_dict):
-    """
-    A helper function to populate a dictionary of facets with matching primary key values from inventory.
+    """A helper function to populate a dictionary of facets with matching primary key values from inventory.
 
     Parameters
     ----------
@@ -221,7 +216,7 @@ def populate_dataset_dictionary(cursor, facet_dict):
 
     Returns
     -------
-    : dict
+    dict
         A dictionary of facet IDs and database PKs.
     """
     return {
@@ -230,8 +225,7 @@ def populate_dataset_dictionary(cursor, facet_dict):
 
 
 def get_simulation_datasets(cursor, mip_era, mip, model, experiment, variant, status):
-    """
-    A helper function to populate a dictionary of facets with matching primary key values from inventory.
+    """A helper function to populate a dictionary of facets with matching primary key values from inventory.
 
     Parameters
     ----------
@@ -242,7 +236,7 @@ def get_simulation_datasets(cursor, mip_era, mip, model, experiment, variant, st
 
     Returns
     -------
-    : list
+    list
         A list of database rows
     """
 
@@ -253,8 +247,7 @@ def get_simulation_datasets(cursor, mip_era, mip, model, experiment, variant, st
 
 
 def is_expired(connection):
-    """
-    Returns if the given connection is still active
+    """Returns if the given connection is still active
 
     Parameters
     ----------
@@ -263,7 +256,7 @@ def is_expired(connection):
 
     Returns
     -------
-    : bool
+    bool
         True if connection is inactive and
         expired otherwise False
     """

@@ -9,18 +9,14 @@ from mip_convert.save.cmor.config_file import CmorSetupConf
 
 class TestCmorSetupConf(unittest.TestCase):
     def get(self, section, option):
-        """
-        stub ConfigParser
-        """
+        """stub ConfigParser"""
         return self.sections[section][option]
 
     def getint(self, section, option):
         return int(self.get(section, option))
 
     def has_option(self, section, option):
-        """
-        stub ConfigParser
-        """
+        """stub ConfigParser"""
         return option in self.sections[section]
 
     def test_attributes(self):
@@ -58,24 +54,18 @@ class TestCmorSetup(unittest.TestCase):
     CMOR_EXIT_ON_MAJOR = 32
 
     def get(self, section, option):
-        """
-        stub ConfigParser
-        """
+        """stub ConfigParser"""
         return self.sections[section][option]
 
     def getint(self, section, option):
         return int(self.get(section, option))
 
     def has_option(self, section, option):
-        """
-        stub ConfigParser
-        """
+        """stub ConfigParser"""
         return option in self.sections[section]
 
     def setup(self, **kwargs):
-        """
-        cmor stub behaviour
-        """
+        """cmor stub behaviour"""
         self.kwargs = kwargs
 
     def test_reads_inpath(self):

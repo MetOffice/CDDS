@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module to provide functionality for CDDS workflows
-"""
+"""Module to provide functionality for CDDS workflows"""
 import logging
 
 from cdds.common import run_command
@@ -10,12 +8,12 @@ from cdds.common.request.request import Request
 
 
 def clean_workflows(request: Request) -> None:
-    """
-    Clean CDDS streams workflows with the workflow base name
-    containing the request
+    """Clean CDDS streams workflows with the workflow base name containing the request
 
-    :param request: Request containing information about the workflows
-    :type request: Request
+    Parameters
+    ----------
+    request : Request
+        Request containing information about the workflows
     """
     check_if_cylc_version()
 
@@ -34,11 +32,12 @@ def clean_workflows(request: Request) -> None:
 
 
 def clean_workflow(workflow_name: str) -> None:
-    """
-    Clean the workflow with the given name
+    """Clean the workflow with the given name
 
-    :param workflow_name: Name of the workflow that should be cleaned
-    :type workflow_name: str
+    Parameters
+    ----------
+    workflow_name : str
+        Name of the workflow that should be cleaned
     """
     logger = logging.getLogger(__name__)
     logger.info('Clean workflow {}'.format(workflow_name))
@@ -49,9 +48,7 @@ def clean_workflow(workflow_name: str) -> None:
 
 
 def check_if_cylc_version() -> None:
-    """
-    Check that cylc >= 8 is active and raise an exception if not
-    """
+    """Check that cylc >= 8 is active and raise an exception if not"""
     logger = logging.getLogger(__name__)
 
     cylc_version_command = ['cylc', '--version']

@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2015-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Common functions for tests in MIP convert.
-"""
+"""Common functions for tests in MIP convert."""
 import cf_units
 import numpy as np
 
@@ -12,8 +10,7 @@ from iris.fileformats.pp import SplittableInt, STASH
 
 
 class DummyField:
-    """
-    Create an object that mimics a :class:`iris.fileformats.pp.PPField`
+    """Create an object that mimics a :class:`iris.fileformats.pp.PPField`
     object.
     """
 
@@ -45,9 +42,7 @@ class DummyField:
 
 def dummy_cube(standard_name=None, long_name=None, var_name=None, units=None, attributes=None,
                cell_methods=None, dimcoords=None, auxcoords=None, axis_length=2):
-    """
-    Return a dummy cube.
-    """
+    """Return a dummy cube."""
     data_shape = [axis_length] * len(dimcoords)
     data_length = axis_length ** len(dimcoords)
     variable_data = np.arange(data_length, dtype=np.float32).reshape(data_shape)

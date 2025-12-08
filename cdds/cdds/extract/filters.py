@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Class for creating MOOSE commands for filtered retrievals from MASS
+"""Class for creating MOOSE commands for filtered retrievals from MASS
 using SELECT and FILTER
 
 """
@@ -26,8 +25,7 @@ from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES, STREAMTYPE_
 
 
 class Filters(object):
-    """
-    Creates MOOSE commands for filtered retrievals from MASS
+    """Creates MOOSE commands for filtered retrievals from MASS
     using SELECT (PP files) and FILTER (netcdf files)
     """
 
@@ -257,8 +255,7 @@ class Filters(object):
 
 # ----- PP specialisation methods ---------------------------------------------
     def _format_filter_pp(self, stream):
-        """
-        Format mapping information for pp data into MASS filter format.
+        """Format mapping information for pp data into MASS filter format.
 
         Parameters
         ----------
@@ -354,11 +351,15 @@ class Filters(object):
         """Recursively split a pp_filelist into chunks that will not exceed moose
         resource limits.
 
-        :param pp_filelist: A pp_filelist
-        :type pp_filelist: List[Dict]
-        :raises: RecursionError If too many calls made.
-        :return: A list of pp_filelist chunks
-        :rtype: List[List[Dict]]
+        Parameters
+        ----------
+        pp_filelist : List[Dict]
+            A pp_filelist
+
+        Returns
+        -------
+        List[List[Dict]]
+            A list of pp_filelist chunks
         """
         self.call_counter = 0
         self.call_limit = MOOSE_CALL_LIMIT
@@ -391,10 +392,15 @@ class Filters(object):
         used in the filename by running a `moo ls` on the source directory
         and checking the returned filenames.
 
-        :param datestamps: List of datestamps
-        :type datestamps: List[str]
-        :return: List of .pp filenames
-        :rtype: Tuple[List[str], List[str]]
+        Parameters
+        ----------
+        datestamps : List[str]
+            List of datestamps
+
+        Returns
+        -------
+        Tuple[List[str], List[str]]
+            List of .pp filenames
         """
         suite = self.suite_id.split("-")[1]
         stream_id = self.stream[-1]
@@ -415,12 +421,17 @@ class Filters(object):
         filter file, accounting for any partial years in the case of monthly or seasonal
         files.
 
-        :param pp_filelist: A pp_filelist
-        :type pp_filelist: List[dict]
-        :param file_frequency: The time range overed by the pp files
-        :type file_frequency: str
-        :return: A pp_file string for use in a filterfile
-        :rtype: str
+        Parameters
+        ----------
+        pp_filelist : List[dict]
+            A pp_filelist
+        file_frequency : str
+            The time range overed by the pp files
+
+        Returns
+        -------
+        str
+            A pp_file string for use in a filterfile
         """
 
         pp_filelist = sorted(pp_filelist, key=itemgetter("timepoint"))
@@ -476,12 +487,17 @@ class Filters(object):
         """Create a list of expected .pp files where each file is represented
         as a dictionary with two values, TimePoint and filename.
 
-        :param start: Start run bound
-        :type start: TimePoint
-        :param end: End run bound
-        :type end: TimePoint
-        :return: A pp_filelist
-        :rtype: List[Dict]
+        Parameters
+        ----------
+        start : TimePoint
+            Start run bound
+        end : TimePoint
+            End run bound
+
+        Returns
+        -------
+        List[Dict]
+            A pp_filelist
         """
         file_frequency = self.model_parameters._stream_file_info.file_frequencies[self.stream].frequency
         datestamps, timepoints = generate_datestamps_pp(start, end, file_frequency)
@@ -499,13 +515,21 @@ class Filters(object):
         """Create the list of mass commands and respective filter files needed for a given
         stream.
 
-        :param start: Start date run bound.
-        :type start: datetime
-        :param end: End date run bound.
-        :type end: datetime
-        :raises FilterFileException:
-        :return: A list of mass cmds represented as dictionaries.
-        :rtype: Tuple[str, List[Dict], str, int]
+        Parameters
+        ----------
+        start : datetime
+            Start date run bound.
+        end : datetime
+            End date run bound.
+
+        Raises
+        ------
+        FilterFileException
+
+        Returns
+        -------
+        Tuple[str, List[Dict], str, int]
+            A list of mass cmds represented as dictionaries.
         """
         self.mass_cmd = []
         pp_filelist = self._create_pp_filelist(start, end)
@@ -532,12 +556,17 @@ class Filters(object):
     def _create_filterfile_pp(self, chunk: List[Dict], test_mode: bool) -> str:
         """_summary_
 
-        :param chunk: _description_
-        :type chunk: List[Dict]
-        :param test_mode: _description_
-        :type test_mode: bool
-        :return: _description_
-        :rtype: str
+        Parameters
+        ----------
+        chunk : List[Dict]
+            _description_
+        test_mode : bool
+            _description_
+
+        Returns
+        -------
+        str
+            _description_
         """
         file_frequency = self.model_parameters._stream_file_info.file_frequencies[self.stream].frequency
 
@@ -579,7 +608,7 @@ class Filters(object):
 
         Returns
         -------
-           tuple (str, str): status information, output from MOOSE
+            tuple (str, str): status information, output from MOOSE
         """
         if override_simulate:
             simulate = False
@@ -747,10 +776,15 @@ class Filters(object):
         used in the filename by running a `moo ls` on the source directory
         and checking the returned filenames.
 
-        :param datestamps: List of datestamps
-        :type datestamps: List[str]
-        :return: List of .pp filenames
-        :rtype: Tuple[List[str], List[str]]
+        Parameters
+        ----------
+        datestamps : List[str]
+            List of datestamps
+
+        Returns
+        -------
+        Tuple[List[str], List[str]]
+            List of .pp filenames
         """
 
         if self.stream[0] == "o":

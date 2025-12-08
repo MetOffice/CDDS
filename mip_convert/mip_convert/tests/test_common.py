@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
-"""
-Tests for common.py.
-"""
+"""Tests for common.py."""
 import cf_units
 import iris
 import numpy as np
@@ -17,9 +15,7 @@ from mip_convert.plugins.config import mappings_config_info
 
 
 class TestCheckValuesEqual(unittest.TestCase):
-    """
-    Tests for ``check_values_equal`` in common.py.
-    """
+    """Tests for ``check_values_equal`` in common.py."""
     def test_strs_equal(self):
         value1 = '3.14159'
         value2 = value1
@@ -345,9 +341,7 @@ class TestParseToLoadables(unittest.TestCase):
 
 
 class TestRemoveExtraTimeAxis(unittest.TestCase):
-    """
-    Tests for ``remove_extra_time_axis`` in common.py.
-    """
+    """Tests for ``remove_extra_time_axis`` in common.py."""
 
     def setUp(self):
         self.cube = iris.cube.Cube([1])

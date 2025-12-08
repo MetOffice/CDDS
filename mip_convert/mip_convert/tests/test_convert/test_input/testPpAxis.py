@@ -174,8 +174,7 @@ class DummyAxis(object):
 
 
 class TestSingleHeightOnSite(unittest.TestCase):
-    """
-    test case in place for situation when the site data
+    """test case in place for situation when the site data
     is not on model levels
     """
 
@@ -205,9 +204,7 @@ class TestHybridHeightPpAxis(unittest.TestCase):
         return result
 
     def makeSampleHeader(self, value, bvalue):
-        """
-        return a sample pp header
-        """
+        """return a sample pp header"""
         header = BaseHeader()
         header.lbvc = 65
         header.blev = value

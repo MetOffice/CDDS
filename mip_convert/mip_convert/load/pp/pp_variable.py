@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2011-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module containing classes related to extracting multidimensional variables
+"""Module containing classes related to extracting multidimensional variables
 from list of pp fields.
 """
 import copy
@@ -22,16 +21,12 @@ from mip_convert.variable import CoordinateDomain
 
 
 class PpVariableError(Exception):
-    """
-    Exception used when there is a problem making a variable from a set of pp fields
-    """
+    """Exception used when there is a problem making a variable from a set of pp fields"""
     pass
 
 
 class ExpandableTimeSeriesHeader(object):
-    """
-    Very simple implementation of a timeseries header with dates
-    """
+    """Very simple implementation of a timeseries header with dates"""
 
     def __init__(self, dated_header):
         self._dated = dated_header
@@ -41,8 +36,7 @@ class ExpandableTimeSeriesHeader(object):
         return self._dated._header
 
     def expand_to(self, other, nrecords):
-        """
-        expand the end time an number of times based on the end time in other
+        """expand the end time an number of times based on the end time in other
         and the number of records.
         """
         self._set_date2(other)
@@ -59,8 +53,7 @@ class ExpandableTimeSeriesHeader(object):
 
 
 class TimeSeriesHeaders(object):
-    """
-    Class responsible for coping with the fact that sometimes timeseries
+    """Class responsible for coping with the fact that sometimes timeseries
     data is spread over more than one record
     """
 
@@ -105,8 +98,7 @@ class TimeSeriesHeaders(object):
 
 
 class VariableGenerator(object):
-    """
-    Class responsible for making multi-dimensional variables from pp headers,
+    """Class responsible for making multi-dimensional variables from pp headers,
     extra-data, and data.
 
     The headers, extradata, and data are provided by clients of instances
@@ -145,22 +137,18 @@ class VariableGenerator(object):
                 'bmdi',  # maychange
                 'bmks'  # maychange
                 ]
-    """
-    VAR_ATTS is a list of attributes that should be the same for all headers in a variable.
+    """VAR_ATTS is a list of attributes that should be the same for all headers in a variable.
     This excludes time and level locations, and none 'logical/geophysical' header attributes.
     Some things are question marked at the moment
     """
 
     _TYPE_MAP = {1: numpy.float32}
-    """
-    map linking pp types to numpy types.
-    """
+    """map linking pp types to numpy types."""
     # NOTE: above does not imply you can simply add new types.
     #      You'll need to test what works.
 
     def __init__(self, fields_factory):
-        """
-        return a VariableGenerator that will use the fields_factory
+        """return a VariableGenerator that will use the fields_factory
 
         @param fields_factory: object that will generate pp fields from headers, extra data and datas
         @type fields_factory: L{mip_convert.load.pp.pp_variable.PpFieldsFactory}
@@ -168,8 +156,7 @@ class VariableGenerator(object):
         self.fields_factory = fields_factory
 
     def makeVariable(self, headers, extras, data):
-        """
-        return a multi-dimensional variable from the headers, extras, and data
+        """return a multi-dimensional variable from the headers, extras, and data
 
         The parameters types are those corresponding to return types
         for methods from the pypp package.
@@ -231,14 +218,10 @@ class VariableGenerator(object):
 
 
 class PpFieldsFactory(object):
-    """
-    The PpFieldsFactory returns a pp field list
-    """
+    """The PpFieldsFactory returns a pp field list"""
 
     def __init__(self, axis_factory):
-        """
-        @param axis_factory: the axis factory for the domains
-        """
+        """@param axis_factory: the axis factory for the domains"""
         self.axis_factory = axis_factory
 
     def getfields(self, headers, extras, data):
@@ -261,8 +244,7 @@ class PpFieldsFactory(object):
         return self._fields(PpLatLonDecorator, headers, extras, data)
 
     def _fields(self, decorator, headers, extras, data):
-        """
-        @param headers: pp headers
+        """@param headers: pp headers
         @param extras: pp extra data
         @param data: data records
         """
@@ -274,14 +256,10 @@ class PpFieldsFactory(object):
 
 
 class PpExternalAxisCmp(object):
-    """
-    Comparison of all the values of the external axes of a set of pp fields
-    """
+    """Comparison of all the values of the external axes of a set of pp fields"""
 
     def __init__(self, ncmps):
-        """
-        @param ncmps: the number of external axes to compare values for
-        """
+        """@param ncmps: the number of external axes to compare values for"""
         self._ncmps = ncmps
 
     def __call__(self, ppfield1, ppfield2):
@@ -294,9 +272,7 @@ class PpExternalAxisCmp(object):
 
 
 class SortedPpList(object):
-    """
-    A list of PP fields
-    """
+    """A list of PP fields"""
 
     def __init__(self, metadatas, datas):
         self._fields = [PpField(header, data) for (header, data) in zip(metadatas, datas)]
@@ -315,8 +291,7 @@ class SortedPpList(object):
         return self._data
 
     def domain(self):
-        """
-        return the domain for this list of pp fields
+        """return the domain for this list of pp fields
         the domain is basically a list of axes
         """
         if self._domain is None:
@@ -335,9 +310,7 @@ class SortedPpList(object):
 
 
 class PpField(object):
-    """
-    A combined pp field - meta data and data
-    """
+    """A combined pp field - meta data and data"""
 
     def __init__(self, metadata, data):
         self._metadata = metadata

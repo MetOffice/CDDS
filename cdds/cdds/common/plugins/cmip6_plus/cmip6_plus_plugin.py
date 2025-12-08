@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`cmip6_plus_plugin` module contains the code for the CMIP6Plus plugin.
-"""
+"""The :mod:`cmip6_plus_plugin` module contains the code for the CMIP6Plus plugin."""
 import os
 
 from typing import Type, Dict, Any, TYPE_CHECKING
@@ -31,91 +29,103 @@ CMIP6_Plus_LICENSE = ('CMIP6Plus model data produced by .* is licensed under a C
 
 
 class Cmip6PlusPlugin(BasePlugin):
-    """
-    Plugin for CMIP6Plus models
-    """
+    """Plugin for CMIP6Plus models"""
 
     def __init__(self):
         super(Cmip6PlusPlugin, self).__init__(MipEra.CMIP6_Plus.value)
 
     def models_parameters(self, model_id: str) -> ModelParameters:
-        """
-        Returns the model parameters of the CMIP6Plus model with given model id.
+        """Returns the model parameters of the CMIP6Plus model with given model id.
 
-        :param model_id: Model ID
-        :type model_id: str
-        :return: Model parameters of model
-        :rtype: BaseModelParameters
+        Parameters
+        ----------
+        model_id : str
+            Model ID
+
+        Returns
+        -------
+        BaseModelParameters
+            Model parameters of model
         """
         models_store = Cmip6PlusModelsStore.instance()
         return models_store.get(model_id)
 
     def overload_models_parameters(self, source_dir: str) -> None:
-        """
-        Overloads model parameters of CMIP6Plus models. The new parameters are
+        """Overloads model parameters of CMIP6Plus models. The new parameters are
         specified in a json file in the given directory. The json file name
         must match following pattern: <model-name>.json
 
-        :param source_dir: Path to the directory containing the files specifies the new values
-        :type source_dir: str
+        Parameters
+        ----------
+        source_dir : str
+            Path to the directory containing the files specifies the new values
         """
         models_store = Cmip6PlusModelsStore.instance()
         models_store.overload_params(source_dir)
 
     def grid_labels(self) -> Type[GridLabel]:
-        """
-        Returns the grid labels related to CMIP6Plus models.
+        """Returns the grid labels related to CMIP6Plus models.
 
-        :return: Grid labels
-        :rtype: Cmip6PlusGridLabel
+        Returns
+        -------
+        Cmip6PlusGridLabel
+            Grid labels
         """
         return Cmip6PlusGridLabel
 
     def stream_info(self) -> StreamInfo:
-        """
-        Returns the information of streams related to CMIP6Plus.
+        """Returns the information of streams related to CMIP6Plus.
 
-        :return: Information of streams
-        :rtype: StreamInfo
+        Returns
+        -------
+        StreamInfo
+            Information of streams
         """
         stream_store = Cmip6PlusStreamStore.instance()
         return stream_store.get()
 
     def global_attributes(self, request: "Request") -> Cmip6PlusGlobalAttributes:
-        """
-        Returns the global attributes for CMIP6Plus. The given request contains all information
+        """Returns the global attributes for CMIP6Plus. The given request contains all information
         about the global attributes.
 
-        :param request: Dictionary containing information about the global attributes
-        :type request: Dict[str, Any]
-        :return: Class to store and manage the global attributes for CMIP6Plus
-        :rtype: Cmip6PlusGlobalAttributes
+        Parameters
+        ----------
+        request : Dict[str, Any]
+            Dictionary containing information about the global attributes
+
+        Returns
+        -------
+        Cmip6PlusGlobalAttributes
+            Class to store and manage the global attributes for CMIP6Plus
         """
         return Cmip6PlusGlobalAttributes(request)
 
     def model_file_info(self) -> ModelFileInfo:
-        """
-        Returns information to the simulation model files related to CMIP6Plus.
+        """Returns information to the simulation model files related to CMIP6Plus.
 
-        :return: Information to the simulation model files
-        :rtype: GlobalModelFileInfo
+        Returns
+        -------
+        GlobalModelFileInfo
+            Information to the simulation model files
         """
         return GlobalModelFileInfo()
 
     def license(self) -> str:
-        """
-        Returns the license for CMIP6Plus
+        """Returns the license for CMIP6Plus
 
-        :return: License
-        :rtype: str
+        Returns
+        -------
+        str
+            License
         """
         return CMIP6_Plus_LICENSE
 
     def mip_table_dir(self) -> str:
-        """
-        Returns the path to the MIP table directory that should be used for CMIP6Plus
+        """Returns the path to the MIP table directory that should be used for CMIP6Plus
 
-        :return: Path to the MIP table directory
-        :rtype: str
+        Returns
+        -------
+        str
+            Path to the MIP table directory
         """
         return os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP6Plus')

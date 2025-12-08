@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`cordex_streams` module contains the code required to
+"""The :mod:`cordex_streams` module contains the code required to
 handle stream information for CORDEX streams.
 """
 import os
@@ -10,8 +9,7 @@ from cdds.common.plugins.base.base_streams import BaseStreamInfo, BaseStreamStor
 
 
 class CordexStreamInfo(BaseStreamInfo):
-    """
-    Class to store the information for streams. The information of the streams
+    """Class to store the information for streams. The information of the streams
     are defined in a json file.
     """
 
@@ -23,8 +21,7 @@ class CordexStreamInfo(BaseStreamInfo):
 
 
 class CordexStreamStore(BaseStreamStore):
-    """
-    Singleton class to store for the stream information.
+    """Singleton class to store for the stream information.
 
     The class is a singleton to avoid excessive loading of the stream information.
     """
@@ -35,10 +32,11 @@ class CordexStreamStore(BaseStreamStore):
 
     @classmethod
     def create_instance(cls) -> 'CordexStreamStore':
-        """
-        Creates a new class instance.
+        """Creates a new class instance.
 
-        :return: New class instance
-        :rtype: CordexStreamStore
+        Returns
+        -------
+        CordexStreamStore
+            New class instance
         """
         return CordexStreamStore()

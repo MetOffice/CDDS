@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
-"""
-Tests for load/fix_pp.py.
-"""
+"""Tests for load/fix_pp.py."""
 import unittest
 
 from cdds.common.constants import (PP_CODE_SOIL, PP_CODE_HYBRID_PRESSURE,
@@ -19,9 +17,7 @@ LBSRCE = 6061111
 
 
 class TestFixPPFieldFunction(unittest.TestCase):
-    """
-    Tests for ``fix_pp_field`` in fix_pp.py.
-    """
+    """Tests for ``fix_pp_field`` in fix_pp.py."""
 
     def test_hybrid_height_correction(self):
         field = hybrid_height_field(LBSRCE)
@@ -81,9 +77,7 @@ class TestFixPPFieldFunction(unittest.TestCase):
 
 
 class TestFixPPFieldClass(unittest.TestCase):
-    """
-    Tests for ``FixPPField`` in fix_pp.py.
-    """
+    """Tests for ``FixPPField`` in fix_pp.py."""
 
     def test_fix_pp_field_hybrid_height_correction(self):
         field = hybrid_height_field(LBSRCE)

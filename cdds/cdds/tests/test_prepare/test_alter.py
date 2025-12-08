@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
-"""
-Tests for :mod:`alter.py`.
-"""
+"""Tests for :mod:`alter.py`."""
 
 from collections import defaultdict
 import copy
@@ -22,8 +20,7 @@ from cdds.tests.test_prepare.common import (TEST_RV_DICT, SELECT_CHANGE_RULES,
 
 
 class TestPrepareSelectAlterVariables(unittest.TestCase):
-    """
-    Tests for :func:`select_variables` in
+    """Tests for :func:`select_variables` in
     :mod:`alter.py`.
     """
 

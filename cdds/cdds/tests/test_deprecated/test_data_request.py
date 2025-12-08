@@ -2,9 +2,7 @@
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = too-many-instance-attributes, no-value-for-parameter
-"""
-Tests for :mod:`cdds.deprecated.data_request`.
-"""
+"""Tests for :mod:`cdds.deprecated.data_request`."""
 from unittest.mock import MagicMock
 import unittest
 
@@ -14,8 +12,7 @@ from cdds.deprecated.data_request import (
 
 
 class TestCalculatePriority(unittest.TestCase):
-    """
-    Tests for ``calculate_priority`` in
+    """Tests for ``calculate_priority`` in
     :mod:`generate.py`.
     """
     def setUp(self):
@@ -43,8 +40,7 @@ class TestCalculatePriority(unittest.TestCase):
 
 
 class TestCalculateEnsembleSize(unittest.TestCase):
-    """
-    Tests for ``calculate_ensemble_size`` in
+    """Tests for ``calculate_ensemble_size`` in
     :mod: `generate.py`.
     """
     def setUp(self):

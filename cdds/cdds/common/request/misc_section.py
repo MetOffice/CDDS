@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module to handle the misc section in the request configuration
-"""
+"""Module to handle the misc section in the request configuration"""
 from configparser import ConfigParser
 from dataclasses import dataclass, asdict
 from typing import Dict, Any
@@ -18,14 +16,18 @@ from cdds.common.plugins.base.base_grid import AtmosBaseGridInfo
 
 
 def misc_defaults(model_id: str) -> Dict[str, Any]:
-    """
-    Calculates the defaults for the misc section of
+    """Calculates the defaults for the misc section of
     the request configuration with given model ID.
 
-    :param model_id: Model ID
-    :type model_id: str
-    :return: The defaults for the misc section
-    :rtype: Dict[str, Any]
+    Parameters
+    ----------
+    model_id : str
+        Model ID
+
+    Returns
+    -------
+    Dict[str, Any]
+        The defaults for the misc section
     """
     grid_info = PluginStore.instance().get_plugin().grid_info(model_id, GridType.ATMOS)
     atmos_timestep = None
@@ -42,9 +44,7 @@ def misc_defaults(model_id: str) -> Dict[str, Any]:
 
 @dataclass
 class MiscSection(Section):
-    """
-    Represents the misc section in the request configuration
-    """
+    """Represents the misc section in the request configuration"""
     atmos_timestep: int = None
     # Todo: needs considerations:
     use_proc_dir: bool = True
@@ -52,40 +52,44 @@ class MiscSection(Section):
     force_coordinate_rotation: bool = False
 
     def __post_init__(self):
-        """
-        Pre-validates the values of the section before create it
-        """
+        """Pre-validates the values of the section before create it"""
         validate_misc_section(self)
 
     @classmethod
     def name(cls) -> str:
-        """
-        Name of the misc section that is used in the request configuration file.
+        """Name of the misc section that is used in the request configuration file.
 
-        :return: Name that is also used in the configuration file
-        :rtype: str
+        Returns
+        -------
+        str
+            Name that is also used in the configuration file
         """
         return 'misc'
 
     @property
     def items(self) -> Dict[str, Any]:
-        """
-        Returns all items of the misc section as a dictionary.
+        """Returns all items of the misc section as a dictionary.
 
-        :return: Items as dictionary
-        :rtype: Dict[str, Any]
+        Returns
+        -------
+        Dict[str, Any]
+            Items as dictionary
         """
         return asdict(self)
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'MiscSection':
-        """
-        Loads the misc section of a request configuration.
+        """Loads the misc section of a request configuration.
 
-        :param config: Parser for the request configuration
-        :type config: ConfigParser
-        :return: New misc section
-        :rtype: MiscSection
+        Parameters
+        ----------
+        config : ConfigParser
+            Parser for the request configuration
+
+        Returns
+        -------
+        MiscSection
+            New misc section
         """
         model_id = config.get(MetadataSection.name(), 'model_id')
         values = misc_defaults(model_id)
@@ -98,28 +102,33 @@ class MiscSection(Section):
 
     @staticmethod
     def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'MiscSection':
-        """
-        Loads the misc section of a rose-suite.info.
+        """Loads the misc section of a rose-suite.info.
 
-        :param suite_info: The rose-suite.info to be loaded
-        :type suite_info: RoseSuiteInfo
-        :param arguments: Additional arguments to be considered
-        :type arguments: RoseSuiteArguments
-        :return: New misc section
-        :rtype: MiscSection
+        Parameters
+        ----------
+        suite_info : RoseSuiteInfo
+            The rose-suite.info to be loaded
+        arguments : RoseSuiteArguments
+            Additional arguments to be considered
+
+        Returns
+        -------
+        MiscSection
+            New misc section
         """
         model_id = suite_info.data['model-id']
         defaults = misc_defaults(model_id)
         return MiscSection(**defaults)
 
     def add_to_config(self, config: ConfigParser, model_id: str) -> None:
-        """
-        Adds values defined by the misc section to given configuration.
+        """Adds values defined by the misc section to given configuration.
 
-        :param config: Configuration where values should add to
-        :type config: ConfigParser
-        :param model_id: Model ID used to get default values
-        :type model_id: str
+        Parameters
+        ----------
+        config : ConfigParser
+            Configuration where values should add to
+        model_id : str
+            Model ID used to get default values
         """
         defaults = misc_defaults(model_id)
         self._add_to_config_section(config, MiscSection.name(), defaults)

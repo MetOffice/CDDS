@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`load.fix_pp` module contains the code to fix any PP field
+"""The :mod:`load.fix_pp` module contains the code to fix any PP field
 header elements that are incorrect.
 """
 import logging
@@ -12,11 +11,12 @@ from mip_convert.common import get_field_attribute_name
 
 
 def fix_pp_field(field):
-    """
-    Fix any PP field header elements in a PP field that are incorrect.
+    """Fix any PP field header elements in a PP field that are incorrect.
 
-    :param field: the PP field
-    :type field: :class:`iris.fileformats.pp.PPField`
+    Parameters
+    ----------
+    field : :class:`iris.fileformats.pp.PPField`
+        the PP field
     """
     for stash_codes, correction_info in list(PP_HEADER_CORRECTIONS.items()):
         if field.lbuser[3] in stash_codes:
@@ -24,13 +24,10 @@ def fix_pp_field(field):
 
 
 class FixPPField(object):
-    """
-    Fix incorrect values of PP field header elements in a PP field.
-    """
+    """Fix incorrect values of PP field header elements in a PP field."""
 
     def __init__(self, field, version_with_expression, correction):
-        """
-        The correction provided to the ``correction`` parameter is a
+        """The correction provided to the ``correction`` parameter is a
         tuple of ``(current_values, correct_values)`` tuples, where
         ``current_values`` and ``correct_values`` are dictionaries. The
         ``current_values`` dictionary contains the PP field header
@@ -38,14 +35,14 @@ class FixPPField(object):
         the ``correct_values`` dictionary contains the PP field header
         element names to be fixed and the correct values to use.
 
-        :param field: the PP field
-        :type field: :class:`iris.fileformats.pp.PPField`
-        :param version_with_expression: the version of the UM for which
-            the ``correction`` is valid
-        :type version_with_expression: string
-        :param correction: the correction to be applied
-        :type correction: tuple of tuples containing a pair of
-            dictionaries
+        Parameters
+        ----------
+        field : :class:`iris.fileformats.pp.PPField`
+            the PP field
+        version_with_expression : string
+            the version of the UM for which the ``correction`` is valid
+        correction : tuple of tuples containing a pair of dictionaries
+            the correction to be applied
         """
         self.logger = logging.getLogger(__name__)
         self._field = field
@@ -53,9 +50,7 @@ class FixPPField(object):
         self._correction = correction
 
     def fix(self):
-        """
-        Fix incorrect values of PP field header elements in a PP field.
-        """
+        """Fix incorrect values of PP field header elements in a PP field."""
         if self._is_fix_required:
             self._fix()
 

@@ -12,13 +12,14 @@ from cdds.tests.nightly_tests.setup_task.common import SetupConfig
 
 
 def setup_directory_structure(config: SetupConfig, request: Request) -> None:
-    """
-    Setup the CDDS directory structure (proc directory, data directory).
+    """Setup the CDDS directory structure (proc directory, data directory).
 
-    :param config: Contains information about the directories that should be created.
-    :type config: SetupConfig
-    :param request: Contains the information from the request.json.
-    :type request: Request
+    Parameters
+    ----------
+    config : SetupConfig
+        Contains information about the directories that should be created.
+    request : Request
+        Contains the information from the request.json.
     """
     logger = logging.getLogger(__name__)
     request_file = config.request_cfg
@@ -38,11 +39,12 @@ def setup_directory_structure(config: SetupConfig, request: Request) -> None:
 
 
 def setup_mass_directories(config: SetupConfig) -> None:
-    """
-    Setup the mass directories where the data for the specific streams will be stored.
+    """Setup the mass directories where the data for the specific streams will be stored.
 
-    :param config: Contains MASS specific information for setup the directories
-    :type config: SetupConfig
+    Parameters
+    ----------
+    config : SetupConfig
+        Contains MASS specific information for setup the directories
     """
     logger = logging.getLogger(__name__)
     logger.info('creating a MASS directory for testing archiving.')
@@ -60,11 +62,12 @@ def setup_mass_directories(config: SetupConfig) -> None:
 
 
 def create_variable_list(config: SetupConfig) -> None:
-    """
-    Creates the variable list for the selected variables stored in the given configuration
+    """Creates the variable list for the selected variables stored in the given configuration
 
-    :param config: Contains the information of the selected variables that list should be created
-    :type config: SetupConfig
+    Parameters
+    ----------
+    config : SetupConfig
+        Contains the information of the selected variables that list should be created
     """
     request_file = config.request_cfg
     generate_variable_list_args = ([request_file])

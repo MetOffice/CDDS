@@ -28,9 +28,7 @@ class FakeVar(object):
 
 class TestQueryOrographyProvider(unittest.TestCase):
     def getOrographyList(self):
-        """
-        fake orography reader
-        """
+        """fake orography reader"""
         return self.orog
 
     def setUp(self):
@@ -63,15 +61,11 @@ class FakeSelectedVariable(object):
 class TestOrographyReader(unittest.TestCase):
 
     def write(self, msg):
-        """
-        interface for messanger
-        """
+        """interface for messanger"""
         self.msg.append(msg)
 
     def makeVariable(self, headers):
-        """
-        partial interface for a variable generator
-        """
+        """partial interface for a variable generator"""
         return headers
 
     def _make_headers(self, lbuser4s, lbuser7s):

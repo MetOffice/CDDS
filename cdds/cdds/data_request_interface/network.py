@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Tools to construct a network describing the links within the CMIP6
+"""Tools to construct a network describing the links within the CMIP6
 data request
 """
 from collections import defaultdict
@@ -11,8 +10,7 @@ from cdds.data_request_interface.constants import (
 
 
 class DataRequestNode(object):
-    """
-    A class to allow navigation through the CMIP6 data request.
+    """A class to allow navigation through the CMIP6 data request.
     A data request node describes a particular object and its edges;
     the links between to other objects within the data request.
 
@@ -21,8 +19,7 @@ class DataRequestNode(object):
     ids of other objects grouped by their type.
     """
     def __init__(self, data_request_object):
-        """
-        Initialise node from data_request_object, and pick out the
+        """Initialise node from data_request_object, and pick out the
         object type, uid and initialise the edges dictionary.
 
         Parameters
@@ -55,8 +52,7 @@ class DataRequestNode(object):
         return str(self)
 
     def add_edge(self, other_data_request_object):
-        """
-        Add an edge to this DataRequestNode pointing at the other data
+        """Add an edge to this DataRequestNode pointing at the other data
         request object.
 
         Parameters
@@ -72,8 +68,7 @@ class DataRequestNode(object):
                 other_data_request_object.uid)
 
     def create_outgoing_edges_from_data_request(self, data_request):
-        """
-        Set up the edges dictionary for the node based on the expected
+        """Set up the edges dictionary for the node based on the expected
         links between objects specified in DATA_REQUEST_LINKAGES.
 
         Parameters
@@ -89,8 +84,7 @@ class DataRequestNode(object):
                 self.add_edge(target_object)
 
     def update_incoming_edges_from_network(self, network):
-        """
-        Update the edges on _other_ nodes in the network dictionary
+        """Update the edges on _other_ nodes in the network dictionary
         based on the information in the edges property of this node.
 
         Parameters
@@ -117,8 +111,7 @@ class DataRequestNode(object):
 
 
 def build_data_request_network(data_request):
-    """
-    Build the data request network dictionary from the data request,
+    """Build the data request network dictionary from the data request,
     controlled by the information in DATA_REQUEST_LINKAGES.
 
     Parameters
@@ -163,8 +156,7 @@ def build_data_request_network(data_request):
 
 
 def _add_dummy_timeslice(network):
-    """
-    Construct a dummy node representing a timeSlice covering all
+    """Construct a dummy node representing a timeSlice covering all
     years in an experiment and add it to the network dictionary.
     Link all requestItem nodes without a tslice property to the
     dummy node.

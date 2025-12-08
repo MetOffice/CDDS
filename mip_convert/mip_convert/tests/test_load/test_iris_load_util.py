@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2015-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
-"""
-Tests for load/iris_load_util.py.
-"""
+"""Tests for load/iris_load_util.py."""
 import unittest
 
 from cftime import datetime
@@ -22,9 +20,7 @@ from mip_convert.new_variable import VariableModelToMIPMapping
 
 
 class TestConstraintConstructor(unittest.TestCase):
-    """
-    Tests for ``ConstraintConstructor`` in iris_load_util.py.
-    """
+    """Tests for ``ConstraintConstructor`` in iris_load_util.py."""
 
     def setUp(self):
         self.model_id = 'HadGEM3-GC31-LL'
@@ -320,9 +316,7 @@ class TestConstraintConstructor(unittest.TestCase):
 
 
 class TestPPFilter(unittest.TestCase):
-    """
-    Tests for ``pp_filter`` in iris_load_util.py.
-    """
+    """Tests for ``pp_filter`` in iris_load_util.py."""
 
     def setUp(self):
         self.stash = 3236
@@ -381,9 +375,7 @@ class TestPPFilter(unittest.TestCase):
 
 
 class TestCompareValues(unittest.TestCase):
-    """
-    Tests for ``compare_values`` in iris_load_util.py.
-    """
+    """Tests for ``compare_values`` in iris_load_util.py."""
 
     def test_compare_values_single_matched(self):
         self.assertTrue(compare_values(0.05, 0.05))
@@ -399,9 +391,7 @@ class TestCompareValues(unittest.TestCase):
 
 
 class TestGetFieldValue(unittest.TestCase):
-    """
-    Tests for ``get_field_value`` in iris_load_util.py.
-    """
+    """Tests for ``get_field_value`` in iris_load_util.py."""
 
     def setUp(self):
         self.stash = 12345
@@ -417,9 +407,7 @@ class TestGetFieldValue(unittest.TestCase):
 
 
 class TestRemoveDuplicateCubes(unittest.TestCase):
-    """
-    Tests for ``remove_duplicate_cubes`` in iris_load_util.py.
-    """
+    """Tests for ``remove_duplicate_cubes`` in iris_load_util.py."""
 
     def setUp(self):
         self.cube_one = realistic_3d()

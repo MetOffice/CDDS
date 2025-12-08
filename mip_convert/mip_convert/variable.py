@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2009-2025, Met Office.
 # Please see LICENSE.md for license details.
-'''
-A Variable is a key concept in the code. It is a multi-dimensional
+"""A Variable is a key concept in the code. It is a multi-dimensional
 gridded geophysical quantity.  A Variable consists of data and
 meta-data.  The data can have a mask representing missing data.  In
 this implementation the meta data is largely concerned with the
@@ -25,7 +24,7 @@ Implementation notes.
    data.
 
 This module contains the core classes related to variables.
-'''
+"""
 import copy
 import numpy
 from numpy.ma import MaskedArray
@@ -53,10 +52,11 @@ def _proj4(pole_lon, pole_lat):
 
 
 def unrotate_pole(rotated_lons, rotated_lats, pole_lon, pole_lat):
-    """
-    Given an array of lons and lats with a rotated pole, convert to unrotated lons and lats.
+    """Given an array of lons and lats with a rotated pole, convert to unrotated lons and lats.
 
-    .. note:: Uses proj.4 to perform the conversion.
+    Notes
+    -----
+    Uses proj.4 to perform the conversion.
     """
     proj4_wrapper = _proj4(pole_lon, pole_lat)
     # NB. pyproj screws with the proj.4 init string and adds unit=meter which breaks our to_meter=57...
@@ -67,15 +67,12 @@ def unrotate_pole(rotated_lons, rotated_lats, pole_lon, pole_lat):
 
 
 class VariableError(Exception):
-    """
-    Errors related to variables
-    """
+    """Errors related to variables"""
     pass
 
 
 class ScalarGetValue(object):
-    """
-    wrapper class to a scalar to give it the same interface as a Variable
+    """wrapper class to a scalar to give it the same interface as a Variable
 
     bit funny but simplest way I could think of to remove duplication in
     operators.
@@ -103,13 +100,10 @@ def make_masked(data, shape, missing_value, dtype):
 
 
 class Variable(object):
-    """
-    The base class for a multi-dimensional variable.
-    """
+    """The base class for a multi-dimensional variable."""
 
     def __init__(self, domain, data):
-        """
-        return the Variable from the domain and data
+        """return the Variable from the domain and data
 
         @param domain: an object containing axis meta data
         @type domain: L{CoordinateDomain}
@@ -132,31 +126,23 @@ class Variable(object):
         return self.domain.is_tripolar
 
     def getAxisOrder(self):
-        """
-        return the order of the axis directions of this instance
-        """
+        """return the order of the axis directions of this instance"""
         return self.domain.getAxisOrder()
 
     def getAxisList(self):
-        """
-        return the axes for this instance, in order.
-        """
+        """return the axes for this instance, in order."""
         # TODO: is this really necessary in public interface?
         return self.domain.getAxisList()
 
     def getAxis(self, axis_dir):
-        """
-        return the axis of the variable with direction axis_dir
-        """
+        """return the axis of the variable with direction axis_dir"""
         try:
             return self.domain.getAxis(axis_dir)
         except BaseException:
             raise VariableError('no axes with direction "%s"' % axis_dir)
 
     def getValue(self):
-        """
-        returns a masked array representation of the data
-        """
+        """returns a masked array representation of the data"""
         return self._data
 
     def time(self):
@@ -269,8 +255,7 @@ class Variable(object):
 
     # TODO: think there is a better way that avoids needing these methods
     def sub_no_check(self, other, skip_checks):
-        """
-        return `self - other` but skipping the axis checks on axes with directions
+        """return `self - other` but skipping the axis checks on axes with directions
         skip_checks.
 
         This form of subtraction is sometimes needed for single level fields.
@@ -279,8 +264,7 @@ class Variable(object):
         return self._make_return(self.getValue() - other.getValue())
 
     def add_no_check(self, other, skip_checks):
-        """
-        return `self + other` but skipping the axis checks on axes with directions
+        """return `self + other` but skipping the axis checks on axes with directions
         skip_checks.
 
         This form of addition is sometimes needed for single level fields.
@@ -311,22 +295,21 @@ class Variable(object):
 
 
 class PolePoint(object):
-    """
-    A geographical location on the earth - used to represent a pole point
-    """
+    """A geographical location on the earth - used to represent a pole point"""
 
     TOLERANCE = 1.e-6
 
     def __init__(self, lat, lon, rotated=None):
-        """
-        Initialise new class instance used to represent a pole point
+        """Initialise new class instance used to represent a pole point
 
-        :param lat: Latitude
-        :type lat: float
-        :param lon: longitude
-        :type lon: float
-        :param rotated: If the pole is rotated or not
-        :type rotated: bool
+        Parameters
+        ----------
+        lat : float
+            Latitude
+        lon : float
+            longitude
+        rotated : bool
+            If the pole is rotated or not
         """
         self.lat = lat
         self.lon = self._normalise_lon(lon)
@@ -336,32 +319,35 @@ class PolePoint(object):
         return self._float_cmp(self.lat, other.lat) and self._float_cmp(self.lon, other.lon)
 
     def units(self):
-        """
-        Returns the units of the pole point in a list
+        """Returns the units of the pole point in a list
 
-        :return: List of units
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            List of units
         """
         # duplication with axis classes?
         return ['degrees_north', 'degrees_east']
 
     def as_list(self):
-        """
-        Returns the latitude and longitude in a list:
+        """Returns the latitude and longitude in a list:
         [latitude, longitude]
 
-        :return: Latitude and longitude in a list
-        :rtype: List[float]
+        Returns
+        -------
+        List[float]
+            Latitude and longitude in a list
         """
         return [self.lat, self.lon]
 
     @property
     def is_rotated(self):
-        """
-        Returns if the pole is rotated or not
+        """Returns if the pole is rotated or not
 
-        :return: Pole is rotated or not
-        :rtype: bool
+        Returns
+        -------
+        bool
+            Pole is rotated or not
         """
         if self.rotated is None:
             return not self == UNROTATED_POLE
@@ -413,9 +399,7 @@ class VerticesForField(object):
 
 
 class TripolarGrid(object):
-    """
-    Store tripolar grid information.
-    """
+    """Store tripolar grid information."""
 
     def __init__(self, grid_lon_vals, grid_lat_vals, grid_lon_bounds, grid_lat_bounds, fingerprint):
         self._geo_longitudes = grid_lon_vals
@@ -442,9 +426,7 @@ class TripolarGrid(object):
 
 
 class HorizontalGrid(object):
-    """
-    Bring together latitudes and longitudes to provide grid information
-    """
+    """Bring together latitudes and longitudes to provide grid information"""
     _XIND = 0
     _YIND = 1
 
@@ -482,8 +464,7 @@ class HorizontalGrid(object):
 
 
 class CoordinateDomain(object):
-    """
-    A wrapper round a list of axes.  The axes span a space or domain.
+    """A wrapper round a list of axes.  The axes span a space or domain.
     The class provides access to information on the domain represented
     by the axes.
     """
@@ -575,21 +556,16 @@ class CoordinateDomain(object):
             return self.grid.fingerprint
 
     def getAxisList(self):
-        """
-        @return the list of axes for this coordinate domain
-        """
+        """@return the list of axes for this coordinate domain"""
         return self._axis_list
 
     def getAxisOrder(self):
-        """
-        @return the order of the directions of the axes in the domain
-        """
+        """@return the order of the directions of the axes in the domain"""
         # need to import it here to prevent circular imports
         return tuple([axis.axis for axis in self.getAxisList()])
 
     def getAxis(self, axis_dir):
-        """
-        return an axis in the domain in the direction of axis_dir
+        """return an axis in the domain in the direction of axis_dir
         @param axis_dir: an axis direction label
         @return: the axis
         """
@@ -598,8 +574,7 @@ class CoordinateDomain(object):
         return self._axes[axis_dir]
 
     def shape(self):
-        """
-        return the shape of the domain
+        """return the shape of the domain
         The shape is the tuple of the lengths of each axis.
         """
         lengths = list()

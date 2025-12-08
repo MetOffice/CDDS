@@ -7,8 +7,7 @@ from cdds.qc.plugins.cmip6.validators import parse_date_range, ValidationError
 
 
 class Cf17Dataset(StructuredDataset):
-    """
-    A representation of a directory containing a netcdf dataset
+    """A representation of a directory containing a netcdf dataset
     Can be sliced by a MIP table and time period.
     """
 
@@ -18,8 +17,7 @@ class Cf17Dataset(StructuredDataset):
                                           logger, stream)
 
     def load_dataset(self, loader_class):
-        """
-        A utility method necessary to make this class testable.
+        """A utility method necessary to make this class testable.
         Walks the root directory and gathers ncdf files.
 
         Parameters
@@ -38,8 +36,7 @@ class Cf17Dataset(StructuredDataset):
         return 'cf17' == project.lower()
 
     def check_filename(self, ds, filename):
-        """
-        Tests filename's facets against a CV, e.g.
+        """Tests filename's facets against a CV, e.g.
         <variable_id>   tas
         <table_id>      Amon
         <source_id>     hadgem3-es
@@ -153,8 +150,7 @@ class Cf17Dataset(StructuredDataset):
         return valid_filename, messages
 
     def _aggregate_files(self):
-        """
-        Aggregate files in the dataset directory by different facets,
+        """Aggregate files in the dataset directory by different facets,
         and corresponding |MIP requested variable name|.
 
         Returns

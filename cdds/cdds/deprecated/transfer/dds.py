@@ -37,10 +37,14 @@ class DataTransfer(object):
         """Create a data transfer object with a communications connection to
         Rabbit (if a connection can be made).
 
-        Arguments:
-        config -- (config.Config object) configuration file wrapper
-        project -- (str) project name
-        simulation -- (bool) print moose commands rather than run them
+        Parameters
+        ----------
+        config: config.Config object
+            configuration file wrapper
+        project: str
+            project name
+        simulation: bool
+            print moose commands rather than run them
         """
         self._config = config
         self._project = project
@@ -56,10 +60,14 @@ class DataTransfer(object):
         copies them across. If the specified state is one that BADC
         are informed about, messages will be sent.
 
-        Arguments:
-        local_top -- (str) path to top of local directory
-        filesets -- (drs.AtomicDatasetCollection) fileset(s) to send
-        state -- (state.State) state the filesets should be placed in
+        Parameters
+        ----------
+        local_top: str
+            path to top of local directory
+        filesets: drs.AtomicDatasetCollection
+            fileset(s) to send
+        state: state.State
+            state the filesets should be placed in
         """
         if not state.can_be_put():
             raise ValueError("Cannot send files to MASS in state \"{}\""
@@ -79,11 +87,16 @@ class DataTransfer(object):
         was run so that the code can identify the directories that
         should exist on MASS for the supplied facets.
 
-        Arguments:
-        local_top -- (str) path to top of local directory
-        filesets -- (drs.AtomicDatasetCollection) fileset(s) to send
-        state -- (state.State) state the filesets should be placed in
-        timestamp -- (str) date the initial "send" method was run
+        Parameters
+        ----------
+        local_top: str
+            path to top of local directory
+        filesets: drs.AtomicDatasetCollection
+            fileset(s) to send
+        state: state.State
+            state the filesets should be placed in
+        timestamp: str
+            date the initial "send" method was run
         """
         if not state.can_be_put():
             raise ValueError("Cannot send files to MASS in state \"{}\""
@@ -134,13 +147,16 @@ class DataTransfer(object):
         will be moved. If you wish to move and earlier version,
         specify the timestamp (str, YYYYMMDD format).
 
-        Arguments:
-        filesets -- (drs.AtomicDatasetCollection) fileset(s) to move
-        old_state -- (state.State) current state of filesets in MASS
-        new_state -- (state.State) new state of facets in MASS
-
-        Keyword arguments:
-        timestamp -- (str) version of facet to move (YYYYMMDD)
+        Parameters
+        ----------
+        filesets: drs.AtomicDatasetCollection
+            fileset(s) to move
+        old_state: state.State
+            current state of filesets in MASS
+        new_state: state.State
+            new state of facets in MASS
+        timestamp: str
+            version of facet to move (YYYYMMDD)
         """
         if not old_state.can_move_to(new_state):
             raise ValueError(
@@ -170,14 +186,18 @@ class DataTransfer(object):
         will be moved. If you want to move an earlier version, specify
         the version datestamp (str, YYYYMMDD format).
 
-        Arguments:
-        filesets -- (drs.AtomicDatasetCollection) fileset(s) to move
-        old_state -- (state.State) current state in MASS
-        new_state -- (state.State) new state in MASS
-        cmd_timestamp -- (str) date the original move was run (YYYYMMDD)
-
-        Keyword arguments:
-        version -- (str) version of facet(s) to move (YYYYMMDD format)
+        Parameters
+        ----------
+        filesets: drs.AtomicDatasetCollection
+            fileset(s) to move
+        old_state: state.State
+            current state in MASS
+        new_state: state.State
+            new state in MASS
+        cmd_timestamp: str
+            date the original move was run (YYYYMMDD)
+        version: str
+            version of facet(s) to move (YYYYMMDD format)
         """
         if not old_state.can_move_to(new_state):
             raise ValueError(
@@ -215,11 +235,14 @@ class DataTransfer(object):
         expected location on local disk will be deduced using the DRS
         facets and your configuration.
 
-        Arguments:
-        local_top -- (str) path to top level directory on local disk
-        mass_dir -- (str) path to directory containing data set
-        drs_facet_builder -- (drs.DataRefSyntax) atomic data set to
-        copy
+        Parameters
+        ----------
+        local_top: str
+            path to top level directory on local disk
+        mass_dir: str
+            path to directory containing data set
+        drs_facet_builder: drs.DataRefSyntax
+            atomic data set to copy
         """
         mass_path = self._mass_path_to_match_drs_var(
             mass_dir, drs_facet_builder.facet_var)
@@ -258,17 +281,20 @@ class DataTransfer(object):
         can't exclude_drs_facet_builder_list facets using the DRS
         "variable" attribute.
 
-        Returns a drs.AtomicDatasetCollection object.
+        Parameters
+        ----------
+        local_directory: str
+            path to top-level local directory
+        drs_fixed_facet_builder: drs.DataRefSyntax
+            facets to match
+        include_drs_facet_builder_list: list[drs.DataRefSyntax]
+            facet builder(s) to include
+        exclude_drs_facet_builder_list: list[drs.DataRefSyntax]
+            facet builder(s) to exclude
 
-        Arguments:
-        local_directory -- (str) path to top-level local directory
-        drs_fixed_facet_builder -- (drs.DataRefSyntax) facets to match
-
-        Keyword arguments:
-        include_drs_facet_builder_list -- (list of
-        drs.DataRefSyntax objects) facet builder(s) to include
-        exclude_drs_facet_builder_list -- (list of
-        drs.DataRefSyntax objects) facet builder(s) to exclude
+        Returns
+        -------
+        Returns a drs.AtomicDatasetCollection object
         """
         self._check_constraints_valid(drs_fixed_facet_builder,
                                       include_drs_facet_builder_list,
@@ -309,17 +335,20 @@ class DataTransfer(object):
         facets by specifying the DRS "variable" to match, you can't
         also "exclude" facets by DRS variable.
 
-        Returns a drs.AtomicDatasetCollection object.
+        Parameters
+        ----------
+        drs_fixed_facet_builder: drs.DataRefSyntax
+            facets to match
+        state: state.State
+            state to match
+        include_drs_facet_builder_list: list[drs.DataRefSyntax]
+            facet(s) to include
+        exclude_drs_facet_builder_list list[drs.DataRefSyntax]
+            facet(s) to exclude
 
-        Arguments:
-        drs_fixed_facet_builder -- (drs.DataRefSyntax) facets to match
-        state -- (state.State) state to match
-
-        Keyword arguments:
-        include_drs_facet_builder_list -- (list of drs.DataRefSyntax
-        objects) facet(s) to include
-        exclude_drs_facet_builder_list -- (list of drs.DataRefSyntax
-        objects) facet(s) to exclude
+        Returns
+        -------
+        drs.AtomicDatasetCollection
         """
         self._check_constraints_valid(drs_fixed_facet_builder,
                                       include_drs_facet_builder_list,
@@ -361,17 +390,20 @@ class DataTransfer(object):
         "include" filesets by specifying the DRS "variable" to match,
         you can't also "exclude" filesets by DRS variable.
 
-        Returns a drs.AtomicDatasetCollection object.
+        Parameters
+        ----------
+        filesets: drs.AtomicDatasetCollection
+            filesets to filter
+        drs_fixed_facet_builder: drs.DataRefSyntax
+            facets to match
+        include_drs_facet_builder_list: list[drs.DataRefSyntax]
+            facet_builder(s) to include
+        exclude_drs_facet_builder_list list[drs.DataRefSyntax]
+            facet_builder(s) to exclude
 
-        Arguments:
-        filesets -- (drs.AtomicDatasetCollection) filesets to filter
-        drs_fixed_facet_builder -- (drs.DataRefSyntax) facets to match
-
-        Keyword arguments:
-        include_drs_facet_builder_list -- (list of drs.DataRefSyntax
-        objects) facet_builder(s) to include
-        exclude_drs_facet_builder_list -- (list of drs.DataRefSyntax
-        objects) facet_builder(s) to exclude
+        Returns
+        -------
+        drs.AtomicDatasetCollection
         """
         self._check_constraints_valid(drs_fixed_facet_builder,
                                       include_drs_facet_builder_list,
@@ -396,11 +428,14 @@ class DataTransfer(object):
         state is one that BADC aren't interested in, no message is
         sent.
 
-        Arguments:
-        drs_facet_builder -- (drs.DataRefSyntax) facet to send message
-        about
-        mass_dir -- (str) path to facet in MASS
-        state -- (state.State) state of facet in MASS
+        Parameters
+        ----------
+        drs_facet_builder: drs.DataRefSyntax
+            facet to send message about
+        mass_dir: str
+            path to facet in MASS
+        state: state.State
+            state of facet in MASS
         """
         if state.inform():
             message = self._prepare_message(drs_facet_builder, mass_dir,
@@ -424,8 +459,10 @@ class DataTransfer(object):
         Returns a representation of the supplied facets as a str in
         JSON format.
 
-        Arguments:
-        filesets -- (drs.AtomicDatasetCollection) filesets to serialise
+        Parameters
+        ----------
+        filesets: drs.AtomicDatasetCollection
+            filesets to serialise
         """
         serialisable = []
         for fileset in filesets:
@@ -439,8 +476,10 @@ class DataTransfer(object):
         Returns a drs.AtomicDatasetCollection object representing the
         fileset(s) contained in the input JSON string.
 
-        Arguments:
-        serialised -- (str) Serialised facets in JSON format
+        Parameters
+        ----------
+        serialised: str
+            Serialised facets in JSON format
         """
         filesets = drs.AtomicDatasetCollection()
         serialisable_filesets = json.loads(serialised)
@@ -451,17 +490,18 @@ class DataTransfer(object):
         return filesets
 
     def _find_files(self, local_directory, drs_fixed_facet_builder):
-        """
-        Return a dictionary of file names : path name found in the
+        """Return a dictionary of file names : path name found in the
         local directory using
         the sublocal structure defined in the configuration file.
         At the same time build up a dictionary relating the
         table_id,variable combination to the stream.
 
-        Arguments:
-        local_directory -- (str) local directory to search
-        drs_fixed_facet_builder -- (drs.DataRefSyntax) Fixed facets to
-        use.
+        Parameters
+        ----------
+        local_directory: str
+            local directory to search
+        drs_fixed_facet_builder: drs.DataRefSyntax
+            Fixed facets to use.
         """
         local_path = drs_fixed_facet_builder.local_dir(local_directory)
         if 'sublocal' not in drs_fixed_facet_builder._project_config:
@@ -472,8 +512,7 @@ class DataTransfer(object):
         return files
 
     def _find_all_local_facets(self, local_directory, drs_fixed_facet_builder):
-        """
-        Return an AtomicDatasetCollection built from the files found
+        """Return an AtomicDatasetCollection built from the files found
         in local_directory that match the fixed facet provided.
         """
         results = drs.AtomicDatasetCollection()
@@ -519,8 +558,7 @@ class DataTransfer(object):
         return filtered
 
     def _prepare_message(self, drs_facet_builder, mass_dir, state):
-        """
-        Construct the message to be sent.
+        """Construct the message to be sent.
 
         Parameters
         ----------
@@ -533,7 +571,7 @@ class DataTransfer(object):
 
         Returns
         -------
-        : :class:`cdds.deprecated.transfer.msg.MooseMessage`
+        :class:`cdds.deprecated.transfer.msg.MooseMessage`
             Message to be sent.
         """
         msg_content = {
@@ -768,8 +806,7 @@ class DataTransfer(object):
 
     def _mass_path_to_timestamp(self, drs_facet_builder, state,
                                 timestamp=None):
-        """
-        Return the mass path including the timestamp component.
+        """Return the mass path including the timestamp component.
 
         Parameters
         ----------
@@ -783,7 +820,7 @@ class DataTransfer(object):
 
         Returns
         -------
-        :str
+        str
             mass path including timestamp
         """
         if not timestamp:
@@ -799,8 +836,7 @@ class DataTransfer(object):
         return os.path.join(mass_dir, "*")
 
     def _ts_from_dir(self, dir_path):
-        """
-        Retrieve the timestamp string from the directory path supplied.
+        """Retrieve the timestamp string from the directory path supplied.
 
         Parameters
         ----------
@@ -809,7 +845,7 @@ class DataTransfer(object):
 
         Returns
         -------
-        : str
+        str
             time stamp
 
         Raises
@@ -912,8 +948,7 @@ class LsHandler(xml.sax.ContentHandler):
 
 
 def search_local_directories(drs_fixed_facet_builder, local_path):
-    """
-    Return a dictionary describing files in the local directory that
+    """Return a dictionary describing files in the local directory that
     match the fixed facets and a dictionary relating the of the
     "sublocal" facets to the corresponding stream.
 
@@ -926,9 +961,9 @@ def search_local_directories(drs_fixed_facet_builder, local_path):
 
     Returns
     -------
-    : dict
+    dict
         {filename : directory}
-    : dict
+    dict
         {comma separated sublocal facets : stream}
     """
     logger = logging.getLogger(__name__)

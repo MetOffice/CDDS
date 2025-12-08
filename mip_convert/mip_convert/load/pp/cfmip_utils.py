@@ -1,14 +1,11 @@
 # (C) British Crown Copyright 2009-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-CFMIP utility functions.
-"""
+"""CFMIP utility functions."""
 __docformat__ = "epytext"
 
 
 def getCfmipSiteDetails(minSiteNo=1, maxSiteNo=119, coordFileURL=None, hasHeight=False):
-    """
-    Read CFMIP2 site numbers, names and lat-long coordinates from a URL. If a URL isn't specified the
+    """Read CFMIP2 site numbers, names and lat-long coordinates from a URL. If a URL isn't specified the
     following default location is used: http://cfmip.metoffice.com/cfmip2/pointlocations.txt
 
     It is assumed that the file contains records ordered by site number, and that the latter increase

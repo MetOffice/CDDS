@@ -58,9 +58,7 @@ from mip_convert.requested_variables import get_variable_model_to_mip_mapping
 
 
 def _as_constraints(mapping):
-    """
-    Return the terms needed for the mass filter from the
-    |model to MIP mapping|.
+    """Return the terms needed for the mass filter from the |model to MIP mapping|.
 
     Parameters
     ----------
@@ -84,8 +82,7 @@ def _as_constraints(mapping):
 
 
 def _filter_constraints(constraints):
-    """
-    Return constraints that could be netCDF filters.
+    """Return constraints that could be netCDF filters.
 
     Only constraints at the netCDF variable level should be filtered in
     MOOSE, not those that filter hyperslabs or sub sections of cubes.
@@ -95,7 +92,6 @@ def _filter_constraints(constraints):
 
 
 class ModelToMip(object):
-
     """Provide services to map a filter request into various formats.
 
     Parameters
@@ -108,8 +104,7 @@ class ModelToMip(object):
           "MIP_VARIABLE_NAME", "table": "MIP_TABLE"}]}``
 
         If you have a request file in JSON format, you can convert it
-        to an appropriate dictionary by calling the
-        :func:`read_request` function.
+        to an appropriate dictionary by calling the :func:`read_request` function.
     """
     def __init__(self, to_map):
         self._to_map = to_map
@@ -205,8 +200,7 @@ class ModelToMip(object):
         return mapping
 
     def _fix_pp_constraint(self, constraint):
-        """
-        Apply fixes to PP constraint using information from
+        """Apply fixes to PP constraint using information from
         PP_HEADER_CORRECTIONS.
 
         Parameters
@@ -250,8 +244,7 @@ class ModelToMip(object):
 
     @property
     def project(self):
-        """
-        The project id.
+        """The project id.
 
         Returns
         -------

@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring
-"""
-Tests for the workflow_interface module.
-"""
+"""Tests for the workflow_interface module."""
 import os
 import subprocess
 import tempfile

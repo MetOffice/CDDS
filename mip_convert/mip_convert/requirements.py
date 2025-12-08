@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2015-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable=unused-import
-"""
-The :mod:`requirements` module contains the code required to determine
+"""The :mod:`requirements` module contains the code required to determine
 the version numbers of the packages required by MIP Convert.
 """
 from datetime import datetime
@@ -23,8 +22,7 @@ SOFTWARE_TO_LOG_VERSIONS = {
 
 
 def software_versions():
-    """
-    Return a string of software versions used by MIP Convert so they
+    """Return a string of software versions used by MIP Convert so they
     can be written to the header of the |output netCDF files|.
 
     CMOR is not included, since CMOR already adds its own version

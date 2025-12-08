@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring
-"""
-Items common to multiple test modules.
-"""
+"""Items common to multiple test modules."""
 RV_ACTIVE = [
     {'active': True, 'miptable': 'Amon', 'label': 'tas', 'frequency': 'mon', 'stream': 'ap5'},
     {'active': True, 'miptable': 'day', 'label': 'ua', 'frequency': 'day', 'stream': 'ap6'},

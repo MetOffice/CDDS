@@ -8,14 +8,12 @@ from cdds.common.rose_config import ConfigNode
 
 
 class AppConfig(ConfigNode):
-    """
-    Read Rose configuration files. This extends ``rose_config.ConfigNode`` to
+    """Read Rose configuration files. This extends ``rose_config.ConfigNode`` to
     provide additional functionality.
     """
 
     def __init__(self, value=None, state=ConfigNode.STATE_NORMAL, comments=None):
-        """
-        Initialise the app config class
+        """Initialise the app config class
 
         Parameters
         ----------
@@ -36,8 +34,7 @@ class AppConfig(ConfigNode):
 
     @staticmethod
     def from_file(filename):
-        """
-        Create an instance from a Rose configuration file.
+        """Create an instance from a Rose configuration file.
 
         Parameters
         ----------
@@ -53,31 +50,29 @@ class AppConfig(ConfigNode):
         return AppConfig(rose_cfg.value, rose_cfg.state, rose_cfg.comments)
 
     def get_property(self, section, property_name, default=None):
-        """
-        Get a string from the specified ``section`` and ``prop_name`` of the
+        """Get a string from the specified ``section`` and ``prop_name`` of the
         loaded Rose configuration.
 
         Parameters
         ----------
-        section: :str
+        section: str
             The name of the section.
 
-        property_name: :str
+        property_name: str
             Name of the property
 
-        default: :str (optional)
+        default: str (optional)
             Default value if the property is not set. Default: None
 
         Returns
         -------
-        :str
+        str
             The string property value
         """
         return self.get_value([section, property_name], default)
 
     def iterate_namelist(self, namelist, callback=None, callback_args=None):
-        """
-        A iterator function (lazy loading of the namelist) to iterate
+        """A iterator function (lazy loading of the namelist) to iterate
         through the items in the specified namelist. A item is represent
         by a dictionaries containing its data.
 
@@ -86,7 +81,7 @@ class AppConfig(ConfigNode):
 
         Parameters
         ----------
-        namelist: :str
+        namelist: str
             The name of the namelist.
 
         callback: :function (optional)
@@ -94,12 +89,12 @@ class AppConfig(ConfigNode):
             containing the properties of a namelist item and return a boolean indicating
             if this namelist item should be output.
 
-        callback_args: :str (optional)
+        callback_args: str (optional)
             Argument of the callback function.
 
         Returns
         -------
-        :dict
+        dict
             Dictionary containing the data of the next namelist item.
         """
         section_keys = list(self.value.keys())
@@ -128,17 +123,16 @@ class AppConfig(ConfigNode):
                     yield output
 
     def section_to_dict(self, section):
-        """
-        Convert a top-level configuration section to a plain dict object.
+        """Convert a top-level configuration section to a plain dict object.
 
         Parameters
         ----------
-        section: :str
+        section: str
             The name of the section to convert to a dictionary.
 
         Returns
         -------
-        :dict
+        dict
             Dictionary containing the key-value pairs of the properties
             defined in the requested section.
         """

@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`config` module contains the code required to access the
+"""The :mod:`config` module contains the code required to access the
 ``config`` for CDDS.
 """
 import os
@@ -15,8 +14,7 @@ from mip_convert.configuration.python_config import PythonConfig
 
 
 def load_override_values(read_path):
-    """
-    Return the override values from the configuration file.
+    """Return the override values from the configuration file.
 
     The override values are returned as a dictionary in the form
     ``{mip_table1: {var_name1: override_value1, var_name2:
@@ -30,7 +28,7 @@ def load_override_values(read_path):
 
     Returns
     -------
-    : dict
+    dict
         The override values.
     """
     # Read and validate the configuration file.
@@ -41,18 +39,16 @@ def load_override_values(read_path):
 
 
 class CDDSConfigGeneral(PythonConfig):
-    """
-    Store information read from the general configuration file for CDDS.
-    """
+    """Store information read from the general configuration file for CDDS."""
 
     def __init__(self, request: Request) -> None:
-        """
-        The general configuration file is named ``<mip_era>.cfg`` and must be located in the directory
+        """The general configuration file is named ``<mip_era>.cfg`` and must be located in the directory
         ``/<root_config_directory>/<mip_era>/general/``.
 
-        :param request: The request containing the required values to construct the paths
-            to the data and proc directories
-        :type request: Request
+        Parameters
+        ----------
+        request : Request
+            The request containing the required values to construct the paths to the data and proc directories
         """
         self._root_config_directory = root_config()
         self._root_proc_directory = request.common.root_proc_dir
@@ -79,10 +75,11 @@ class CDDSConfigGeneral(PythonConfig):
 
     @property
     def transfer_facetmaps(self) -> Dict[str, str]:
-        """
-        Return the dictionary of facet maps used in CDDS Transfer.
+        """Return the dictionary of facet maps used in CDDS Transfer.
 
-        :return: Entries from the `transfer_facetmaps` section of the general config file.
-        :rtype: Dict[str, str]
+        Returns
+        -------
+        Dict[str, str]
+            Entries from the `transfer_facetmaps` section of the general config file.
         """
         return self.items('transfer_facetmaps')

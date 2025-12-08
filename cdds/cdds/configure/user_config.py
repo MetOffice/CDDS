@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`user_config` module contains the code required to produce the
+"""The :mod:`user_config` module contains the code required to produce the
 |user configuration files|.
 """
 from argparse import Namespace
@@ -24,20 +23,20 @@ from cdds.configure.variables import retrieve_variables_by_grid, retrieve_stream
 
 
 def produce_user_config_files(request: Request, arguments: Namespace) -> None:
-    """
-    Produce the |user configuration files|.
+    """Produce the |user configuration files|.
 
-    :param request: Information of the request cfg file
-    :type request: Request
-    :param arguments: The arguments specific to the `configure` script.
-    :type arguments: Namespace
+    Parameters
+    ----------
+    request : Request
+        Information of the request cfg file
+    arguments : Namespace
+        The arguments specific to the `configure` script.
     """
     create_user_config_files(request, arguments.requested_variables_list_file, arguments.output_dir)
 
 
 def create_user_config_files(request, requested_variables_file, output_dir=None):
-    """
-    Creates the |user configuration files|.
+    """Creates the |user configuration files|.
 
     Parameters
     ----------
@@ -70,8 +69,7 @@ def create_user_config_files(request, requested_variables_file, output_dir=None)
 
 
 def produce_user_configs(request: Request, requested_variables_list: RequestedVariablesList, template_name: str):
-    """
-    Return the contents of the |user configuration files|.
+    """Return the contents of the |user configuration files|.
 
     The contents of the |user configuration files| are returned as a
     dictionary in the form ``{filename1: {user_config1}, filename2:
@@ -91,7 +89,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
 
     Returns
     -------
-    : dict
+    dict
         The contents of the |user configuration files|.
     """
     # Retrieve the logger.
@@ -157,8 +155,7 @@ def produce_user_configs(request: Request, requested_variables_list: RequestedVa
 
 
 def get_halo_removal_attributes(request: Request):
-    """
-    Returns the removal attributes of the halo rows and cloumns. Only masks for the given streams are loaded.
+    """Returns the removal attributes of the halo rows and cloumns. Only masks for the given streams are loaded.
 
     The key of the resulted dictionary composed of the prefix stream and the
     stream name: 'stream_<stream_name>'
@@ -166,10 +163,15 @@ def get_halo_removal_attributes(request: Request):
     The value is the slices of latitude and longitude as string representation:
     '<lat_start>:<lat_stop>:<lat_step>,<lon_start>:<lon_stop>:<lon:step>'
 
-    :param request: Contains all information that is needed
-    :type request: Request
-    :return: A dictionary contains the halo removal attributes according the stream
-    :rtype: OrderedDict[str, str]
+    Parameters
+    ----------
+    request : Request
+        Contains all information that is needed
+
+    Returns
+    -------
+    OrderedDict[str, str]
+        A dictionary contains the halo removal attributes according the stream
     """
 
     plugin = PluginStore.instance().get_plugin()
@@ -193,8 +195,7 @@ def get_halo_removal_attributes(request: Request):
 
 
 def get_masking_attributes(model_id, streams):
-    """
-    Returns the masking for the ocean grid of given model. Only masks for the
+    """Returns the masking for the ocean grid of given model. Only masks for the
     given streams are loaded.
 
     The key of the resulted dictionary composed of the prefix stream and the
@@ -205,12 +206,17 @@ def get_masking_attributes(model_id, streams):
     The value is the slices of latitude and longitude as string representation:
     '<lat_start>:<lat_stop>:<lat_step>,<lon_start>:<lon_stop>:<lon:step>'
 
-    :param model_id: Model id
-    :type model_id: str
-    :param streams: Streams that masking is used
-    :type streams: List[str]
-    :return: A dictionary contains the masks according the stream and grid
-    :rtype: OrderedDict[str, str]
+    Parameters
+    ----------
+    model_id : str
+        Model id
+    streams : List[str]
+        Streams that masking is used
+
+    Returns
+    -------
+    OrderedDict[str, str]
+        A dictionary contains the masks according the stream and grid
     """
     maskings = OrderedDict()
     plugin = PluginStore.instance().get_plugin()
@@ -226,17 +232,21 @@ def get_masking_attributes(model_id, streams):
 
 
 def get_slicing_periods(request: Request):
-    """
-    Returns all specifed slicing periods for particular streams. Only return slicing
+    """Returns all specifed slicing periods for particular streams. Only return slicing
     periods of streams that are specify in the request.
 
     The period can be either `year` or `month`. If a stream has not defined
     period. The default will be `year`.
 
-    :param request: Request contains all data to create the slicing periods
-    :type request: :class:`cdds.common.request.request.Request`
-    :return: Slicing period as dictionary
-    :rtype: dict
+    Parameters
+    ----------
+    request : :class:`cdds.common.request.request.Request`
+        Request contains all data to create the slicing periods
+
+    Returns
+    -------
+    dict
+        Slicing period as dictionary
     """
     slicing = OrderedDict()
     template_key = 'stream_{}'
@@ -248,14 +258,18 @@ def get_slicing_periods(request: Request):
 
 
 def get_global_attributes(request):
-    """
-    Returns all global attributes for the user configuration based on the
+    """Returns all global attributes for the user configuration based on the
     given request values.
 
-    :param request: Request contains all data to create the global attributes
-    :type request: :class:`cdds.common.request.request.Request`
-    :return: Global attributes as dictionary
-    :rtype: dict
+    Parameters
+    ----------
+    request : :class:`cdds.common.request.request.Request`
+        Request contains all data to create the global attributes
+
+    Returns
+    -------
+    dict
+        Global attributes as dictionary
     """
     global_attributes = OrderedDict()
     global_attributes['further_info_url'] = get_further_info_url(request)
@@ -265,13 +279,17 @@ def get_global_attributes(request):
 
 
 def get_further_info_url(request):
-    """
-    Returns the further info url according the request values.
+    """Returns the further info url according the request values.
 
-    :param request: Request containing all values to create the further info url
-    :type request: :class:`cdds.common.request.request.Request`
-    :return: Further info url
-    :rtype: str
+    Parameters
+    ----------
+    request : :class:`cdds.common.request.request.Request`
+        Request containing all values to create the further info url
+
+    Returns
+    -------
+    str
+        Further info url
     """
     plugin = PluginStore.instance().get_plugin()
     global_attributes = plugin.global_attributes(request)

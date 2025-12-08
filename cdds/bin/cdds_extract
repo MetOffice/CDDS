@@ -2,9 +2,7 @@
 # (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
 
-"""
-Climate Data Dissemination System script to handle model data
-extractions from MASS
+"""Climate Data Dissemination System script to handle model data extractions from MASS
    - supports pp and nc file types
    - supports file filtering based on required variables mapping
 """

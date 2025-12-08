@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`cmor_dataset` module contains the code required to assemble
+"""The :mod:`cmor_dataset` module contains the code required to assemble
 the information required for the call to ``cmor_dataset_json``.
 """
 import atexit
@@ -23,13 +22,10 @@ _ATTR = {
 
 
 class Dataset(object):
-    """
-    Store information required for the call to ``cmor_dataset_json``.
-    """
+    """Store information required for the call to ``cmor_dataset_json``."""
 
     def __init__(self, user_config, cv_config, relaxed_cmor=False):
-        """
-        Parameters
+        """Parameters
         ----------
         user_config: :class:`configuration.UserConfig` object
             The |user configuration file|.
@@ -45,9 +41,7 @@ class Dataset(object):
         self._relaxed_cmor = relaxed_cmor
 
     def validate_required_global_attributes(self):
-        """
-        Ensure the global attributes required by CMOR are available.
-        """
+        """Ensure the global attributes required by CMOR are available."""
         msg = 'Required global attribute "{}" {}'
         for attribute in self._cv_config.required_global_attributes:
             if attribute not in self.items:
@@ -59,8 +53,7 @@ class Dataset(object):
                 self.validate_source_type_values()
 
     def validate_activity_id_values(self):
-        """
-        Ensure the |MIPs| provided by the |user configuration file|
+        """Ensure the |MIPs| provided by the |user configuration file|
         conform to the CVs.
 
         Note the current version of CMOR (3.4.0) doesn't perform this
@@ -91,8 +84,7 @@ class Dataset(object):
                              'a required global attribute')
 
     def validate_source_type_values(self):
-        """
-        Ensure the 'source_type' provided by the
+        """Ensure the 'source_type' provided by the
         |user configuration file| conforms to the CVs.
 
         Note the current version of CMOR (3.4.0) doesn't perform this
@@ -143,8 +135,7 @@ class Dataset(object):
 
     @property
     def items(self):
-        """
-        Return all items required for the call to
+        """Return all items required for the call to
         ``cmor_dataset_json``.
         """
         # Add the items provided via the 'user configuration file'.
@@ -183,8 +174,7 @@ class Dataset(object):
         return self._items
 
     def write_json(self):
-        """
-        Write the items required for the call to ``cmor_dataset_json``
+        """Write the items required for the call to ``cmor_dataset_json``
         to a JSON file.
 
         Returns
@@ -204,9 +194,7 @@ class Dataset(object):
 
     @property
     def global_attributes(self):
-        """
-        Return the global attributes.
-        """
+        """Return the global attributes."""
         attributes = {}
         attributes.update(self._user_config.global_attributes)
         # Add the 'run identifier' to the global attributes so that it

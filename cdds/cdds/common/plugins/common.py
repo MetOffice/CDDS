@@ -1,17 +1,13 @@
 # (C) British Crown Copyright 2022-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`common` module contains helping methods and
-classes for CDDS plugins.
-"""
+"""The :mod:`common` module contains helping methods and classes for CDDS plugins."""
 from dataclasses import dataclass, field
 from typing import Dict
 
 
 @dataclass
 class LoadResult:
-    """
-    Result when loading model related values from a json file:
+    """Result when loading model related values from a json file:
         - id is the model id
         - path is the absolute path to the json file
         - loaded indicates if values were loaded
@@ -23,8 +19,7 @@ class LoadResult:
 
 @dataclass
 class LoadResults:
-    """
-    Container for a set of loading results:
+    """Container for a set of loading results:
         - unloaded contains the results that data were
           not loaded according their model ids
         - succeed contains the results that data were

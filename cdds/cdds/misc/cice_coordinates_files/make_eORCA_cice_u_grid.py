@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-make_eORCA_cice_u_grid.py
+"""make_eORCA_cice_u_grid.py
 
 Construct CICE ORCA U grids from the T grid bounds.
 """
@@ -12,9 +11,7 @@ import numpy as np
 
 
 def build_u_coord_from_t(rootgrp, coord_name, bounds_name):
-    """
-    From the netCDF file construct the U coordinate.
-    """
+    """From the netCDF file construct the U coordinate."""
     tp = rootgrp[coord_name][:].copy()
     tb = rootgrp[bounds_name][:].copy()
 

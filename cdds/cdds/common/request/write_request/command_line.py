@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-The :mod:`command_line` module contains the main functions for the
+"""The :mod:`command_line` module contains the main functions for the
 command line scripts in the ``bin`` directory.
 """
 import argparse
@@ -51,8 +50,7 @@ KNOWN_STREAMS = ['apm',  # Atmosphere monthly mean (one or two variables)
 
 
 def main_write_request(arguments=None) -> int:
-    """
-    Write the request information from the given rose suite info into a configuration file
+    """Write the request information from the given rose suite info into a configuration file
 
     Parameters
     ----------
@@ -82,8 +80,7 @@ def main_write_request(arguments=None) -> int:
 
 
 def _parse_write_request_json_args(arguments: List[str]) -> RoseSuiteArguments:
-    """
-    Return the names of the command line arguments for
+    """Return the names of the command line arguments for
     ``write_request_json`` and their validated values.
 
     If this function is called from the Python interpreter with
@@ -114,8 +111,7 @@ def _parse_write_request_json_args(arguments: List[str]) -> RoseSuiteArguments:
 
 
 def _read_user_arguments() -> argparse.ArgumentParser:
-    """
-    Read all user arguments that are needed to write a request from a rose
+    """Read all user arguments that are needed to write a request from a rose
     suite info
 
     Returns

@@ -11,23 +11,28 @@ from mip_convert.plugins.plugins import MappingPluginStore
 
 def get_variable_model_to_mip_mapping(model_to_mip_mappings: ModelToMIPMappingConfig,
                                       variable_name: str, mip_table_id: str) -> VariableModelToMIPMapping:
-    """
-    Return an object that enables access to the
+    """Return an object that enables access to the
     |model to MIP mappings| for a specific |MIP requested variable|.
 
-    :param model_to_mip_mappings: the |model to MIP mappings|
-    :type model_to_mip_mappings:
-        :class:`configuration.ModelToMIPMappingConfig` object
-    :param variable_name: the |MIP requested variable name|
-    :type variable_name: string
-    :param mip_table_id: the |MIP table identifier|
-    :type mip_table_id: string
-    :return: access to the |model to MIP mappings| for a specific
-        |MIP requested variable|
-    :rtype: :class:`new_variable.VariableModelToMIPMapping` object
-    :raises RuntimeError: if any of the required options
-        (``expression``, ``mip_table_id``, ``positive``, ``units``) are
-        not available for the |MIP requested variable|
+    Parameters
+    ----------
+    model_to_mip_mappings : :class:`configuration.ModelToMIPMappingConfig` object
+        the |model to MIP mappings|
+    variable_name : string
+        the |MIP requested variable name|
+    mip_table_id : string
+        the |MIP table identifier|
+
+    Returns
+    -------
+    :class:`new_variable.VariableModelToMIPMapping` object
+        access to the |model to MIP mappings| for a specific |MIP requested variable|
+
+    Raises
+    ------
+    RuntimeError
+        if any of the required options (``expression``, ``mip_table_id``, ``positive``, ``units``) are not available for
+        the |MIP requested variable|
     """
     model_to_mip_mapping = model_to_mip_mappings.select_mapping(variable_name, mip_table_id)
 
@@ -45,19 +50,25 @@ def get_variable_model_to_mip_mapping(model_to_mip_mappings: ModelToMIPMappingCo
 
 
 def get_variable_mip_metadata(variable_name: str, mip_table: str) -> VariableMIPMetadata:
-    """
-    Return an object that enables access to the |MIP table| for a
+    """Return an object that enables access to the |MIP table| for a
     specific |MIP requested variable|.
 
-    :param variable_name: the |MIP requested variable name|
-    :type variable_name: string
-    :param mip_table: the |MIP table|
-    :type mip_table: :class:`configuration.MIPConfig` object
-    :return: access to the |MIP table| for a specific
-        |MIP requested variable| and additional constraint information
-    :rtype: :class:`new_variable.VariableMIPMetadata` object
-    :raises KeyError: if |MIP requested variable name| does not exist
-        in the MIP table
+    Parameters
+    ----------
+    variable_name : string
+        the |MIP requested variable name|
+    mip_table : :class:`configuration.MIPConfig` object
+        the |MIP table|
+
+    Returns
+    -------
+    :class:`new_variable.VariableMIPMetadata` object
+        access to the |MIP table| for a specific |MIP requested variable| and additional constraint information
+
+    Raises
+    ------
+    KeyError
+        if |MIP requested variable name| does not exist in the MIP table
     """
     try:
         variable_info = mip_table.variables[variable_name]
@@ -70,16 +81,19 @@ def get_variable_mip_metadata(variable_name: str, mip_table: str) -> VariableMIP
 
 
 def get_mip_table(mip_table_dir: str, mip_table_name: str) -> MIPConfig:
-    """
-    Return an object that enables access to the |MIP table|.
+    """Return an object that enables access to the |MIP table|.
 
-    :param mip_table_dir: the name of the validated |MIP table|
-        directory
-    :type mip_table_dir: string
-    :param mip_table_name: the name of the |MIP table|
-    :type mip_table_name: string
-    :return: access to the |MIP table|
-    :rtype: :class:`configuration.MIPConfig` object
+    Parameters
+    ----------
+    mip_table_dir : string
+        the name of the validated |MIP table| directory
+    mip_table_name : string
+        the name of the |MIP table|
+
+    Returns
+    -------
+    :class:`configuration.MIPConfig` object
+        access to the |MIP table|
     """
     # Read and validate the 'MIP table'.
     logger = logging.getLogger(__name__)

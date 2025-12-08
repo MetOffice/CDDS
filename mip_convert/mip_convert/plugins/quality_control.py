@@ -26,9 +26,7 @@ class OutOfBoundsError(Exception):
         self.vmax = vmax
 
     def __str__(self):
-        """
-        Return a string representation of the exception.
-        """
+        """Return a string representation of the exception."""
         if self.vmin is not None and self.vmax is not None:
             msg = "%s: Value %f is outside range %f to %f" % (self.__class__.__name__, self.value, self.vmin, self.vmax)
         elif self.vmin is not None:
@@ -41,8 +39,7 @@ class OutOfBoundsError(Exception):
 
 
 class BoundsChecker(ObjectWithLogger):
-    """
-    Class for checking and, if required, adjusting arrays of values. Bounds-checking typically
+    """Class for checking and, if required, adjusting arrays of values. Bounds-checking typically
     will be performed against arrays (e.g. lists) of Python floats.
 
     Objects of this class may be reused in different contexts by assigning suitable values to the
@@ -55,8 +52,7 @@ class BoundsChecker(ObjectWithLogger):
 
     def __init__(self, fill_value=UM_MDI, valid_min=None, valid_max=None, tol_min=None, tol_max=None,
                  tol_min_action=RAISE_EXCEPTION, tol_max_action=RAISE_EXCEPTION, oob_action=RAISE_EXCEPTION):
-        """
-        Creates a BoundsChecker instance object.
+        """Creates a BoundsChecker instance object.
 
         @param fill_value: Fill value (aka missing data indicator)
         @type  fill_value: float
@@ -103,8 +99,7 @@ class BoundsChecker(ObjectWithLogger):
         self.stats = dict(total=0, tol_min=0, tol_max=0, oob_min=0, oob_max=0)
 
     def check_bounds(self, array):
-        """
-        Check the array of data values against both min and max bounds, adjusting elements in situ if
+        """Check the array of data values against both min and max bounds, adjusting elements in situ if
         appropriate. If required, the scope of the bounds checks can be constrained, from one
         invocation to another, by modifying the values of the instance attributes tol_min_action,
         tol_max_action and oob_action.
@@ -157,8 +152,7 @@ class BoundsChecker(ObjectWithLogger):
         return self.stats['total']
 
     def _check_value(self, value):
-        """
-        Check the specified input value against min and max bounds, returning an adjusted value if
+        """Check the specified input value against min and max bounds, returning an adjusted value if
         appropriate. Otherwise return None.
         """
         adjusted_value = None
@@ -173,8 +167,7 @@ class BoundsChecker(ObjectWithLogger):
         return adjusted_value
 
     def _check_min(self, value):
-        """
-        Check the specified input value against the minimum bounds, returning an adjusted value or
+        """Check the specified input value against the minimum bounds, returning an adjusted value or
         raising an exception as appropriate.
         """
         adjusted_value = None
@@ -199,8 +192,7 @@ class BoundsChecker(ObjectWithLogger):
         return adjusted_value
 
     def _check_max(self, value):
-        """
-        Check the specified input value against the maximum bounds, returning an adjusted value or
+        """Check the specified input value against the maximum bounds, returning an adjusted value or
         raising an exception as appropriate.
         """
         adjusted_value = None
@@ -238,23 +230,20 @@ class BoundsChecker(ObjectWithLogger):
         array[i] = value
 
     def _is_fill_value(self, array, i):
-        """
-        Default method for determining if value is a fill value. Override with a custom method if
+        """Default method for determining if value is a fill value. Override with a custom method if
         required (e.g. for numpy masked arrays).
         """
         return (array[i] == self.fill_value)
 
     def _set_to_fill_value(self, array, i):
-        """
-        Default method for setting array value at index i to the current fill value. Override with a
+        """Default method for setting array value at index i to the current fill value. Override with a
         custom method if required (e.g. for numpy masked arrays).
         """
         array[i] = self.fill_value
 
     # deprecated
     def _get_array(self):
-        """
-        Return the data object attribute containing the array of values to be checked.
+        """Return the data object attribute containing the array of values to be checked.
         Classes which derive from the current class should override this method if necessary.
         """
         if '_data' in vars(self):
@@ -264,9 +253,7 @@ class BoundsChecker(ObjectWithLogger):
 
 
 class MaskedArrayBoundsChecker(BoundsChecker):
-    """
-    Class for checking and, if required, adjusting numpy MaskedArrays.
-    """
+    """Class for checking and, if required, adjusting numpy MaskedArrays."""
 
     def __init__(self, fill_value=UM_MDI, valid_min=None, valid_max=None, tol_min=None, tol_max=None,
                  tol_min_action=RAISE_EXCEPTION, tol_max_action=RAISE_EXCEPTION, oob_action=RAISE_EXCEPTION):
@@ -275,8 +262,7 @@ class MaskedArrayBoundsChecker(BoundsChecker):
                                                        tol_min_action, tol_max_action, oob_action)
 
     def check_bounds(self, array):
-        """
-        This implementation uses boolean index arrays to locate and, if required, update array values.
+        """This implementation uses boolean index arrays to locate and, if required, update array values.
         It does multiple (fast) read-only passes over the input masked array to generate index arrays
         of any elements that need to be operated upon. The index array has the same shape and size as
         the input array, but performance appears to be good in spite of this.
@@ -314,8 +300,7 @@ class MaskedArrayBoundsChecker(BoundsChecker):
         return self.stats['total']
 
     def _check_for_oob_values(self, array):
-        """
-        Check for out-of-bounds values, raising an OutOfBoundsError if
+        """Check for out-of-bounds values, raising an OutOfBoundsError if
         any are detected.
         """
         # check for lower out-of-bounds values
@@ -349,9 +334,7 @@ class MaskedArrayBoundsChecker(BoundsChecker):
                     raise OutOfBoundsError(bad[0], vmax=maxval)
 
     def _check_lower_bounds(self, array):
-        """
-        Check and, if required, adjust values in or below the lower tolerance zone.
-        """
+        """Check and, if required, adjust values in or below the lower tolerance zone."""
         # if valid_min is defined then do lower bounds checks in 1 or 2 passes
         if self.valid_min is not None:
             # check for values in the lower tolerance zone
@@ -377,9 +360,7 @@ class MaskedArrayBoundsChecker(BoundsChecker):
                     self.stats['oob_min'] = ind.nonzero()[0].size
 
     def _check_upper_bounds(self, array):
-        """
-        Check and, if required, adjust values in or below the upper tolerance zone.
-        """
+        """Check and, if required, adjust values in or below the upper tolerance zone."""
         # if valid_max is defined then do upper bounds checks in 1 or 2 passes
         if self.valid_max is not None:
             # 1: check for values in the upper tolerance zone

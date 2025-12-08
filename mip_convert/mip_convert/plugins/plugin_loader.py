@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`plugin_loader` module contains the code for loading Mapping plugins.
-"""
+"""The :mod:`plugin_loader` module contains the code for loading Mapping plugins."""
 import inspect
 import importlib
 import sys
@@ -27,19 +25,20 @@ INTERNAL_PLUGINS: List[MappingPlugin] = [HadGEM3MappingPlugin(),
 
 
 def load_mapping_plugin(plugin_id: str, plugin_module_path: str = None, plugin_location: str = None) -> None:
-    """
-    Searches for a Mapping plugin that is responsible for the model with given ID,
+    """Searches for a Mapping plugin that is responsible for the model with given ID,
     loads it and registers it.
 
     The search is done on the implemented plugins of the Mapping project and on the
     plugins implemented in the module at the given module path.
 
-    :param plugin_id: The MIP era that plugin is responsible for (Default: CMIP6)
-    :type plugin_id: str
-    :param plugin_module_path: Path to the module that contains the implementation of the plugin that should be loaded
-    :type plugin_module_path: str
-    :param plugin_location: Path to the plugin implementation that should be added to the PYTHONPATH
-    :type plugin_location: str
+    Parameters
+    ----------
+    plugin_id : str
+        The MIP era that plugin is responsible for (Default: CMIP6)
+    plugin_module_path : str
+        Path to the module that contains the implementation of the plugin that should be loaded
+    plugin_location : str
+        Path to the plugin implementation that should be added to the PYTHONPATH
     """
     if plugin_location:
         sys.path.append(plugin_location)
@@ -57,13 +56,17 @@ def load_mapping_plugin(plugin_id: str, plugin_module_path: str = None, plugin_l
 
 
 def find_internal_plugin(plugin_id: str) -> MappingPlugin:
-    """
-    Finds the right internal plugin to load for given model
+    """Finds the right internal plugin to load for given model
 
-    :param model_id: ID of the model
-    :type model_id: str
-    :return: Interal plugin responsible for given model
-    :rtype: MappingPlugin
+    Parameters
+    ----------
+    model_id : str
+        ID of the model
+
+    Returns
+    -------
+    MappingPlugin
+        Interal plugin responsible for given model
     """
     logger = logging.getLogger(__name__)
 
@@ -77,13 +80,14 @@ def find_internal_plugin(plugin_id: str) -> MappingPlugin:
 
 
 def load_external_mapping_plugin(plugin_id: str, plugin_module_path: str, model_id: str) -> None:
-    """
-    Loads the plugin for the model with given ID that is implemented in the module at given path.
+    """Loads the plugin for the model with given ID that is implemented in the module at given path.
 
-    :param model_id: The MIP era for that the plugin is responsible
-    :type model_id: str
-    :param plugin_module_path: Absolute path to the module that implemented the plugin
-    :type plugin_module_path: str
+    Parameters
+    ----------
+    model_id : str
+        The MIP era for that the plugin is responsible
+    plugin_module_path : str
+        Absolute path to the module that implemented the plugin
     """
     logger = logging.getLogger(__name__)
     external_plugin = find_external_plugin(plugin_id, plugin_module_path)
@@ -99,16 +103,20 @@ def load_external_mapping_plugin(plugin_id: str, plugin_module_path: str, model_
 
 
 def find_external_plugin(model_id: str, plugin_module_path: str) -> MappingPlugin:
-    """
-    Search for the Mapping plugin that is responsible for given model and
+    """Search for the Mapping plugin that is responsible for given model and
     is implemented in the module at given path.
 
-    :param model_id: The ID of the model
-    :type model_id: str
-    :param plugin_module_path: Absolute path to the module that implemented the plugin
-    :type plugin_module_path: str
-    :return: The plugin for given model implemented in given module
-    :rtype: MappingPlugin
+    Parameters
+    ----------
+    model_id : str
+        The ID of the model
+    plugin_module_path : str
+        Absolute path to the module that implemented the plugin
+
+    Returns
+    -------
+    MappingPlugin
+        The plugin for given model implemented in given module
     """
     logger = logging.getLogger(__name__)
     external_plugin = None
@@ -129,12 +137,16 @@ def find_external_plugin(model_id: str, plugin_module_path: str) -> MappingPlugi
 
 
 def is_plugin(anything: Any) -> bool:
-    """
-    Checks if given object is a Mapping plugin or not.
+    """Checks if given object is a Mapping plugin or not.
 
-    :param anything: Any object that should be checked if it is a Mapping plugin
-    :type anything: Any
-    :return: True if given object is a Mapping plugin, otherwise false.
-    :rtype: bool
+    Parameters
+    ----------
+    anything : Any
+        Any object that should be checked if it is a Mapping plugin
+
+    Returns
+    -------
+    bool
+        True if given object is a Mapping plugin, otherwise false.
     """
     return inspect.isclass(anything) and not inspect.isabstract(anything) and issubclass(anything, MappingPlugin)

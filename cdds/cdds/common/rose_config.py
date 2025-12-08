@@ -103,7 +103,8 @@ class ConfigNode(object):
     """ConfigNode state if it has been specifically ignored in the config."""
     STATE_SYST_IGNORED = "!!"
     """ConfigNode state if a metadata opperation has logically ignored the
-    config."""
+    config.
+    """
 
     def __init__(self, value=None, state=STATE_NORMAL, comments=None):
         if value is None:
@@ -299,7 +300,6 @@ class ConfigNode(object):
             {'value': 42, 'state': '!', 'comments': []}
             >>> print(config_node.get_filter(True))
             None
-
 
         """
         if no_ignore and self.state:
@@ -937,8 +937,7 @@ class ConfigNodeDiff(object):
 
 class ConfigLoader(object):
 
-    """Loader of an INI format configuration into a ConfigNode object.
-    """
+    """Loader of an INI format configuration into a ConfigNode object."""
 
     RE_SECTION = re.compile(
         r"^(?P<head>\s*\[(?P<state>!?!?))(?P<section>.*)\]\s*$")

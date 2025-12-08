@@ -167,9 +167,7 @@ class TestPpLatLonDecorator(unittest.TestCase):
         self.assertEqual('Y', axisy.axis)  # get tests in here from testPpAxis
 
     def testNExternal(self):
-        """
-        static fields should only have internal pp dimensions
-        """
+        """static fields should only have internal pp dimensions"""
         for static_stash in (30, 33):
             pp_meta = self._decorate(lbuser4=static_stash)
             self.assertEqual(0, pp_meta.nexternal_axis())

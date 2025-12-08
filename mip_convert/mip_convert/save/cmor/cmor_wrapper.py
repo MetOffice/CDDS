@@ -8,8 +8,7 @@ from mip_convert.common import ObjectWithLogger
 
 
 class CmorWrapper(ObjectWithLogger):
-    """
-    Thin wrapper class around the cmor module.
+    """Thin wrapper class around the cmor module.
 
     This wrapper class exists to make testing of the main CMOR
     integration class simpler.  Can substitute in an alternative
@@ -36,8 +35,7 @@ class CmorWrapper(ObjectWithLogger):
 
     @staticmethod
     def _summarise_list(content):
-        """
-        Reduce amount of logging information by summarising large arrays using the
+        """Reduce amount of logging information by summarising large arrays using the
         first and last NCORNER elements. A little inelegant with 3D arrays
         (e.g. bounds for regional/ocean), but better than GB of log info.
         Simple lists are ignored.

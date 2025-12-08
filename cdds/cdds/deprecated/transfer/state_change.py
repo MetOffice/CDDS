@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Top level routines involved in changing states of data to MASS, i.e.
+"""Top level routines involved in changing states of data to MASS, i.e.
 submission of data (embargoed -> available) and retraction (available ->
 withdrawn).
 """
@@ -20,14 +19,15 @@ from cdds.deprecated.config import CDDSConfigGeneral
 
 
 def run_move_in_mass(request: Request, args: Namespace) -> None:
-    """
-    Perform a state change process; load the request and configuration information, identify files in MASS
+    """Perform a state change process; load the request and configuration information, identify files in MASS
     to change state, perform the moves required and send appropriate messages to the CEDA rabbit MQ server.
 
-    :param request: The information contains in the request cfg file
-    :type request: Request
-    :param args: Parsed command line arguments
-    :type args: Namespace
+    Parameters
+    ----------
+    request : Request
+        The information contains in the request cfg file
+    args : Namespace
+        Parsed command line arguments
     """
     logger = logging.getLogger(__name__)
     # Construct configs
@@ -72,8 +72,7 @@ def run_move_in_mass(request: Request, args: Namespace) -> None:
 
 
 def move_in_mass(filesets, transfer_service, original_state, new_state):
-    """
-    Move the specified set of files between the original and new
+    """Move the specified set of files between the original and new
     states using the data transfer service provided.
 
     Parameters
@@ -100,8 +99,7 @@ def move_in_mass(filesets, transfer_service, original_state, new_state):
 
 
 def read_variables_list_file(file_name):
-    """
-    Return a list of variables to operate on, read from the specified
+    """Return a list of variables to operate on, read from the specified
     file. Each entry in the file must be of the format
     `<mip_table>/<variable_name>;<dataset_filepath>` or
     `<mip_table>/<variable_name>` (for backward compatibility).
@@ -113,7 +111,7 @@ def read_variables_list_file(file_name):
 
     Returns
     -------
-    : list of tuples
+    list of tuples
         Variables to limit state change to (mip_table, var_name).
 
     Raises

@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Routines involved multiple tools within CDDS Transfer
-"""
+"""Routines involved multiple tools within CDDS Transfer"""
 import logging
 import os
 
@@ -13,8 +11,7 @@ from cdds.deprecated.config import CDDSConfigGeneral
 
 
 def load_rabbit_mq_credentials(cfg):
-    """
-    Attempt to add credentials information from $HOME/.cdds_credentials
+    """Attempt to add credentials information from $HOME/.cdds_credentials
     to the config object. This will be aborted if an attempt is made to
     run this from a system without visibility of the RabbitMQ server
     or if permissions on the credentials file are too loose.
@@ -53,17 +50,21 @@ def load_rabbit_mq_credentials(cfg):
 
 
 def cfg_from_cdds_general_config(general_config: CDDSConfigGeneral, request: Request) -> config.Config:
-    """
-    Return a configuration object constructed from the supplied CDDSGeneralConfig plus information from the request.
+    """Return a configuration object constructed from the supplied CDDSGeneralConfig plus information from the request.
     This is a nasty hack, as the actual replacement of the config objects within cdds.deprecated.transfer will take
     too much work.
 
-    :param general_config: config object
-    :type general_config: CDDSConfigGeneral
-    :param request: Request object
-    :type request: Request
-    :return: CDDS Transfer config object
-    :rtype: config.Config
+    Parameters
+    ----------
+    general_config : CDDSConfigGeneral
+        config object
+    request : Request
+        Request object
+
+    Returns
+    -------
+    config.Config
+        CDDS Transfer config object
     """
     logger = logging.getLogger(__name__)
     # Initialise config
@@ -90,15 +91,19 @@ def cfg_from_cdds_general_config(general_config: CDDSConfigGeneral, request: Req
 
 
 def drs_facet_builder_from_request(request: Request, cfg: CDDSConfigGeneral) -> drs.DataRefSyntax:
-    """
-    Return the :class:`DataRefSyntax` object constructed from the request and config objects
+    """Return the :class:`DataRefSyntax` object constructed from the request and config objects
 
-    :param request: Request information
-    :type request: Request
-    :param cfg: CDDS Transfer config object
-    :type cfg: CDDSConfigGeneral
-    :return: Object describing the drs fixed facets.
-    :rtype: drs.DataRefSyntax
+    Parameters
+    ----------
+    request : Request
+        Request information
+    cfg : CDDSConfigGeneral
+        CDDS Transfer config object
+
+    Returns
+    -------
+    drs.DataRefSyntax
+        Object describing the drs fixed facets.
     """
     logger = logging.getLogger(__name__)
     drs_fixed_facet_builder = drs.DataRefSyntax(cfg, request.metadata.mip_era)
@@ -115,8 +120,7 @@ def drs_facet_builder_from_request(request: Request, cfg: CDDSConfigGeneral) -> 
 
 
 def log_filesets(filesets):
-    """
-    Log information about the file sets supplied
+    """Log information about the file sets supplied
 
     Parameters
     ----------
@@ -137,8 +141,7 @@ def log_filesets(filesets):
 
 
 def find_local(top_dir, drs_fixed_facet_builder, transfer_service):
-    """
-    Return an atomic dataset collection describing the available local
+    """Return an atomic dataset collection describing the available local
     data sets that match the provided facets.
 
     Parameters
@@ -152,13 +155,13 @@ def find_local(top_dir, drs_fixed_facet_builder, transfer_service):
 
     Returns
     -------
-    : :class:`cdds.deprecated.transfer.drs.AtomicDatasetCollection`
+    :class:`cdds.deprecated.transfer.drs.AtomicDatasetCollection`
         Object describing the file sets found in on disk which
         match the supplied facets.
 
     Raises
     ------
-    : RuntimeError
+    RuntimeError
         If no file sets are found or the local directory does not
         exist.
     """
@@ -185,8 +188,7 @@ def find_local(top_dir, drs_fixed_facet_builder, transfer_service):
 
 
 def find_mass(drs_fixed_facet_builder, current_state, transfer_service):
-    """
-    Return an atomic dataset collection describing the available data
+    """Return an atomic dataset collection describing the available data
     sets that match the provided facets and state.
 
     Parameters
@@ -201,13 +203,13 @@ def find_mass(drs_fixed_facet_builder, current_state, transfer_service):
 
     Returns
     -------
-    : :class:`cdds.deprecated.transfer.drs.AtomicDatasetCollection`
+    :class:`cdds.deprecated.transfer.drs.AtomicDatasetCollection`
         Object describing the file sets found in mass which match the
         supplied facets and state.
 
     Raises
     ------
-    : RuntimeError
+    RuntimeError
         If no file sets are found.
     """
     start_state = state.make_state(current_state)

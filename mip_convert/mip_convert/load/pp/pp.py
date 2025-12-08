@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2009-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Classes to deal with pp input.
-"""
+"""Classes to deal with pp input."""
 from mip_convert.common import ObjectWithLogger
 from mip_convert.load.pp.pp_axis import DatedPpHeader
 from mip_convert.load.pp.pp_fixed import PpFixedFile
@@ -10,20 +8,15 @@ from mip_convert.load.pp.stash_code import from_msi
 
 
 class PpError(Exception):
-    """
-    Exception used when there is a problem related to reading the pp files
-    """
+    """Exception used when there is a problem related to reading the pp files"""
     pass
 
 
 class PpSelectableFile(ObjectWithLogger):
-    """
-    A pp file that supports selection based on pp header elements
-    """
+    """A pp file that supports selection based on pp header elements"""
 
     def __init__(self, timestep, pp_file, var_generator, opener):
-        """
-        @param timestep: the timestep of the model for this file factory
+        """@param timestep: the timestep of the model for this file factory
         @param pp_file: a pp file to read from (support list of headers, read of extras, read of data)
         @param var_generatord: an object capable of generating multi-dimensional variables from a list of pp fields
         @param opener: an object capable of opening a file of this type
@@ -36,15 +29,11 @@ class PpSelectableFile(ObjectWithLogger):
 
     @property
     def pathname(self):
-        """
-        return the path name that the variable is selected from
-        """
+        """return the path name that the variable is selected from"""
         return self.raw_pp_file.pathname
 
     def read_selection(self, stash, **kwargs):
-        """
-        returns a variable for stash code and request
-        """
+        """returns a variable for stash code and request"""
         return self._selector(PpMatch(from_msi(stash), **kwargs)).getVariable()
 
     def _chck_selection(self, matcher, indexes):
@@ -69,8 +58,7 @@ class PpSelectableFile(ObjectWithLogger):
 
 
 class PpSelectedVariable(object):
-    """
-    Instances of PpSelectedVariable are responsible for reading a set
+    """Instances of PpSelectedVariable are responsible for reading a set
     of pp headers extra data and data from a pp file and passing those
     onto a variable generator that can build a multi-dimensional
     variable from the data.  The pp fields read in are determined by
@@ -82,8 +70,7 @@ class PpSelectedVariable(object):
     """
 
     def __init__(self, raw_pp_file, indexes, variable_generator):
-        """
-        @param raw_pp_file: the pp file to read from
+        """@param raw_pp_file: the pp file to read from
         @param indexes: list of pp field (header+data+extradata) in the
                         raw_pp_file from which variable will be made
         @param fields_factory: object needed to generate the pp domains
@@ -93,9 +80,7 @@ class PpSelectedVariable(object):
         self._var_gen = variable_generator
 
     def getVariable(self):
-        """
-        returns a variable with meta-data for this selection
-        """
+        """returns a variable with meta-data for this selection"""
         return self._var_gen.makeVariable(self._getHeaders(), self._getExtraDataVectors(), self._getData())
 
     def _getHeaders(self):
@@ -125,8 +110,7 @@ class PpSelectedVariable(object):
 
 
 class PpFileFactory(object):
-    """
-    Class to act as the route to interact with files.
+    """Class to act as the route to interact with files.
 
     There are two main services offered - the ability to open files,
     and the ability to read a single variable from a file.
@@ -138,13 +122,10 @@ class PpFileFactory(object):
     is particulary big leave as one for now.  Refactor later if necessary.
     """
     _SELECTABLE = PpSelectableFile
-    """
-    _SELECTABLE is the class to use to generate the file types
-    """
+    """_SELECTABLE is the class to use to generate the file types"""
 
     def __init__(self, timestep, pp_module, variable_generator):
-        """
-        @param timestep: the timestep of the model for this file factory
+        """@param timestep: the timestep of the model for this file factory
         @param pp_module: the module providing the basic pp reading capability
         @type pp_module: an object with an openpp method
         @param fields_factory: an object which can extract multi dimensional axis informat from a list of pp headers
@@ -155,8 +136,7 @@ class PpFileFactory(object):
         self._timestep = timestep
 
     def openFile(self, filename):
-        """
-        open a file for reading
+        """open a file for reading
 
         @param filename: the path of the file to be opened
         @type filename: string
@@ -166,8 +146,7 @@ class PpFileFactory(object):
         return self.openFiles([filename])
 
     def openFiles(self, filenames):
-        """
-        open a set of files as a composite for reading
+        """open a set of files as a composite for reading
 
         this was added as a way of getting at some ancillary fields spread
         across multiple files.  Consider a refactor with openFile if you
@@ -177,8 +156,7 @@ class PpFileFactory(object):
         return self._SELECTABLE(self._timestep, PpComposite(fixed_files), self._var_generator, self)
 
     def readVar(self, filename, stashcode):
-        """
-        read a variable from the filename
+        """read a variable from the filename
 
         this is a utility method for use when only one variable will
         be read from a file
@@ -195,8 +173,7 @@ class PpFileFactory(object):
 
 
 class PpComposite(object):
-    """
-    Treat multiple pp files as a single file.
+    """Treat multiple pp files as a single file.
 
     Partial implementation only - good enough for the ancillary case it
     was designed to solve.
@@ -254,21 +231,17 @@ class PpComposite(object):
 
 
 class PpElementComparitor(object):
-    """
-    Abstract Class for matchers on individual pp header elements
-    """
+    """Abstract Class for matchers on individual pp header elements"""
 
     def __init__(self, att, value):
-        """
-        @param att: name of the pp header element to compare against
+        """@param att: name of the pp header element to compare against
         @param value: the value to match
         """
         self._att = att
         self._tomatch = value
 
     def compare(self, dated_header):
-        """
-        return True of the value of the header element matches the value
+        """return True of the value of the header element matches the value
         of this ElementComparitor
         """
         return self._compare(self.attr_header_element(dated_header))
@@ -278,9 +251,7 @@ class PpElementComparitor(object):
 
 
 class ListComparitor(PpElementComparitor):
-    """
-    Compares the header value to a list of possible values
-    """
+    """Compares the header value to a list of possible values"""
 
     def _compare(self, value):
         self._check_only_one_match(value)
@@ -292,18 +263,14 @@ class ListComparitor(PpElementComparitor):
 
 
 class ScalarComparitor(PpElementComparitor):
-    """
-    Compares the header value to required value
-    """
+    """Compares the header value to required value"""
 
     def _compare(self, value):
         return value == self._tomatch
 
 
 class FloatForCompare(object):
-    """
-    Simple float wrapper to enable floating point comparisons, within a tolerance
-    """
+    """Simple float wrapper to enable floating point comparisons, within a tolerance"""
 
     def __init__(self, value, tol):
         self._value = value
@@ -314,16 +281,13 @@ class FloatForCompare(object):
 
 
 class PpMatch(object):
-    """
-    Instances of PpMatch select pp headers from a sequence of pp headers.
-    """
+    """Instances of PpMatch select pp headers from a sequence of pp headers."""
 
     _SCALAR_ATT = ('lbtim', 'lbproc', 'lbuser5', 'delta_time_in_days')
     _FLOAT_LIST_ATT = ('blev',)
 
     def __init__(self, stashcode, blev_tol=1.e-06, first_only=False, **kwargs):
-        """
-        match pp header against pp header elements
+        """match pp header against pp header elements
         @param stashcode: the stashcode to select on
         @type stashcode: L{mip_convert.load.pp.stash_code.StashCode}
         @param blev_tol: tolerance to use when blev_checking.
@@ -346,22 +310,16 @@ class PpMatch(object):
 
     @classmethod
     def matchables(cls):
-        """
-        return tuple of possible header elements to match
-        """
+        """return tuple of possible header elements to match"""
         return cls._SCALAR_ATT + cls._FLOAT_LIST_ATT
 
     @classmethod
     def keywords(cls):
-        """
-        return tuple of possible keyword parameters
-        """
+        """return tuple of possible keyword parameters"""
         return cls.matchables() + ('blev_tol', 'first_only')
 
     def _match(self, header):
-        """
-        returns True if the header matches the clauses of this matcher
-        """
+        """returns True if the header matches the clauses of this matcher"""
         result = True
         for acmp in self._cmps:
             result = result and acmp.compare(DatedPpHeader(header))
@@ -379,9 +337,7 @@ class PpMatch(object):
         return indexes
 
     def _ini_match(self, kwargs):
-        """
-        initialise the attributes to be matched
-        """
+        """initialise the attributes to be matched"""
         for att, value in list(kwargs.items()):
             if att not in self.matchables():
                 raise PpError('select on "%s" not supported' % att)
@@ -405,8 +361,7 @@ class PpMatch(object):
 
 
 class QueryOrographyProvider(object):
-    """
-    Hybrid height axes need an orography field to fully specify the
+    """Hybrid height axes need an orography field to fully specify the
     CF meta-data.  In the HadGEM2 model the orography is on different grids
     because of the numerical scheme.  Instances of this class can be
     used to choose the orography for the correct grid from a list of
@@ -414,9 +369,7 @@ class QueryOrographyProvider(object):
     """
 
     units = 'm'
-    """
-    the units orography is in in a pp file
-    """
+    """the units orography is in in a pp file"""
 
     def __init__(self, orography_reader):
         self._orog = orography_reader.getOrographyList()
@@ -429,8 +382,7 @@ class QueryOrographyProvider(object):
         return result
 
     def getOrography(self, axis_x, axis_y):
-        """
-        return the orography field on the required axes
+        """return the orography field on the required axes
 
         @param axis_x: longitude axis to look for orography on
         @param axis_y: latitude axis to look for orography on
@@ -443,8 +395,7 @@ class QueryOrographyProvider(object):
 
 
 class OrographyReader(object):
-    """
-    This class provides the capability to read in all the orography fields
+    """This class provides the capability to read in all the orography fields
     from a pp file and return them as a list of variables for use elsewhere
     (e.g. in L{QueryOrographyProvider})
     """
@@ -454,8 +405,7 @@ class OrographyReader(object):
     _OROGRAPHY_LBUSER7 = 1
 
     def __init__(self, pp_file, variable_generator, messanger):
-        """
-        return an OrographyReader
+        """return an OrographyReader
 
         @param pp_file: the pp file to find orography in
         @param variable_generator: object to pass pp fields to
@@ -467,8 +417,7 @@ class OrographyReader(object):
         self._messanger = messanger
 
     def getOrographyList(self):
-        """
-        return the list of orography fields
+        """return the list of orography fields
 
         @raises PpError: if there are no orography fields
         """

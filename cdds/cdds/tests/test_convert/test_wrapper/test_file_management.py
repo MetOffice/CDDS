@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Tests of mip_convert_wrapper.file_management
-"""
+"""Tests of mip_convert_wrapper.file_management"""
 import os
 
 from cdds.common.plugins.plugin_loader import load_plugin
@@ -241,9 +239,7 @@ EXPECTED_FILE_LIST_OCEAN_SUBSTREAMS = [
 
 
 class TestMisc(TestCase):
-    """
-    Test miscellaneous helper functions in the file_management.py module.
-    """
+    """Test miscellaneous helper functions in the file_management.py module."""
 
     def setUp(self):
         load_plugin()
@@ -252,9 +248,7 @@ class TestMisc(TestCase):
     @mock.patch('os.walk')
     @mock.patch('os.listdir')
     def test_get_paths(self, mock_list_dir, mock_os_walk):
-        """
-        Tests the file_management.get_paths function.
-        """
+        """Tests the file_management.get_paths function."""
         mock_list_dir.return_value = ATMOS_MONTHLY_FILENAMES
         mock_os_walk.return_value = iter([("foo", ["bar"], ["aw310a.p41997apr.pp"])])
         # mock_os_walk.return_value = ("/path/to/input/dir/u-RUNID/ap4", [""], ("aw310a.p41997apr.pp",))
@@ -306,9 +300,7 @@ class TestMisc(TestCase):
     @mock.patch('os.walk')
     @mock.patch('os.listdir')
     def test_get_paths_substreams(self, mock_list_dir, mock_os_walk):
-        """
-        Tests the file_management.get_paths function.
-        """
+        """Tests the file_management.get_paths function."""
         mock_list_dir.return_value = OCEAN_FILENAMES
         mock_os_walk.return_value = iter([("foo", ["bar"], ["nemo_aw310o_1m_19970101-19970201_grid-T.nc"])])
         suite_name = 'u-RUNID'
@@ -355,9 +347,7 @@ class TestMisc(TestCase):
     def test_copy_to_staging_dir(self,
                                  mock_shutil_copy2,
                                  mock_os_exists):
-        """
-        Tests the file_management.copy_to_staging_dir function.
-        """
+        """Tests the file_management.copy_to_staging_dir function."""
         src_dir = '/path/to/src/dir/'
         dest_dir = '/path/to/dest/dir/'
         expected_files = EXPECTED_FILE_LIST
@@ -377,9 +367,7 @@ class TestMisc(TestCase):
     def test_copy_to_staging_dir_failure(self,
                                          mock_shutil_copy2,
                                          mock_os_exists):
-        """
-        Tests the file_management.copy_to_staging_dir function.
-        """
+        """Tests the file_management.copy_to_staging_dir function."""
         src_dir = '/path/to/src/dir/'
         dest_dir = '/path/to/dest/dir/'
         expected_files = EXPECTED_FILE_LIST
@@ -394,9 +382,7 @@ class TestMisc(TestCase):
     def test_copy_to_staging_dir_failure_then_success(self,
                                                       mock_shutil_copy2,
                                                       mock_os_exists):
-        """
-        Tests the file_management.copy_to_staging_dir function.
-        """
+        """Tests the file_management.copy_to_staging_dir function."""
         src_dir = '/path/to/src/dir/'
         dest_dir = '/path/to/dest/dir/'
         expected_files = EXPECTED_FILE_LIST
@@ -425,9 +411,7 @@ class TestMisc(TestCase):
                        mock_os_exists,
                        mock_os_symlink,
                        mock_glob_glob):
-        """
-        Tests the file_management.link_data function.
-        """
+        """Tests the file_management.link_data function."""
         src_dir = '/path/to/src/dir/'
         dest_dir = '/path/to/dest/dir/'
         expected_files = EXPECTED_FILE_LIST

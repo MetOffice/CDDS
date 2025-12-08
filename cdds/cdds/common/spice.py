@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Code to set up a batch script to run CDDS components on spice
-"""
+"""Code to set up a batch script to run CDDS components on spice"""
 import logging
 import os
 
@@ -11,8 +9,7 @@ from cdds.common import run_command
 
 
 def write_spice_job_script(job_script, substitutions):
-    """
-    Write a batch script to the supplied location using the
+    """Write a batch script to the supplied location using the
     substitutions provided.
 
     Parameters
@@ -41,12 +38,11 @@ def write_spice_job_script(job_script, substitutions):
 
 
 def get_user():
-    """
-    Return the name of the user running this script
+    """Return the name of the user running this script
 
     Returns
     -------
-    : str
+    str
         The name of user running this script.
     """
 
@@ -54,12 +50,11 @@ def get_user():
 
 
 def get_email_of_current_user():
-    """
-    Return the e-mail address of the user running this script.
+    """Return the e-mail address of the user running this script.
 
     Returns
     -------
-    : str
+    str
         The e-mail address of user running this script.
     """
     logger = logging.getLogger(__name__)
@@ -87,8 +82,7 @@ def get_email_of_current_user():
 
 
 def submit_spice_job_script(job_script):
-    """
-    Submit the job script specified to SPICE.
+    """Submit the job script specified to SPICE.
 
     Parameters
     ----------

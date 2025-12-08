@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Tests of mip_convert_wrapper.actions
-"""
+"""Tests of mip_convert_wrapper.actions"""
 import unittest
 
 from cdds.convert.exceptions import MipConvertWrapperDiskUsageError
@@ -12,9 +10,7 @@ from unittest import mock
 
 
 class TestCheckDiskUsage(unittest.TestCase):
-    """
-
-    """
+    """"""
 
     @mock.patch('subprocess.check_output')
     def test_get_disk_usage_in_mb(self, mock_check_output):

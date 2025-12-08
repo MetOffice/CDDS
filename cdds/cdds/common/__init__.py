@@ -1,9 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`common` module contains common library functions used by
-other packages.
-"""
+"""The :mod:`common` module contains common library functions used by other packages."""
 import copy
 import hashlib
 import json
@@ -35,8 +32,7 @@ def get_log_datestamp():
 
 def configure_logger(log_name, log_level, append_log, threaded=False,
                      datestamp=None, stream=None, show_stacktrace=True):
-    """
-    Create the configured logger.
+    """Create the configured logger.
 
     Parameters
     ----------
@@ -111,8 +107,7 @@ def configure_logger(log_name, log_level, append_log, threaded=False,
 
 
 def common_command_line_args(parser, default_log_name, log_level, version):
-    """
-    Add the common command line arguments to the argument parser.
+    """Add the common command line arguments to the argument parser.
 
     Parameters
     ----------
@@ -163,8 +158,7 @@ def mass_output_args(parser, output_mass_suffix, output_mass_root):
 
 
 def root_dir_args(parser, default_root_proc_dir, default_root_data_dir):
-    """
-    Add arguments relating to the root cdds directories to the argument parser
+    """Add arguments relating to the root cdds directories to the argument parser
     object.
 
     Parameters
@@ -185,8 +179,7 @@ def root_dir_args(parser, default_root_proc_dir, default_root_data_dir):
 
 
 def meta_dir_args(parser, default_standard_names_dir):
-    """
-    Add arguments relating to the cdds directories containing metadata
+    """Add arguments relating to the cdds directories containing metadata
     to the argument parser object.
 
     Parameters
@@ -202,8 +195,7 @@ def meta_dir_args(parser, default_standard_names_dir):
 
 
 def determine_rose_suite_url(suite_id, internal=True):
-    """
-    Return the URL for the Rose suite.
+    """Return the URL for the Rose suite.
 
     Parameters
     ----------
@@ -214,7 +206,7 @@ def determine_rose_suite_url(suite_id, internal=True):
 
     Returns
     -------
-    : str
+    str
         The URL for the Rose suite.
 
     Raises
@@ -251,8 +243,7 @@ def determine_rose_suite_url(suite_id, internal=True):
 
 
 def check_svn_location(svn_url):
-    """
-    Return True if the supplied svn location is accessible.
+    """Return True if the supplied svn location is accessible.
 
     Parameters
     ----------
@@ -260,7 +251,7 @@ def check_svn_location(svn_url):
 
     Returns
     -------
-    : bool
+    bool
         True if svn location is accessible
     """
     command = ['svn', 'ls', svn_url, '--depth', 'empty']
@@ -271,8 +262,7 @@ def check_svn_location(svn_url):
 
 
 def run_command(command, msg=None, exception=None, environment=None):
-    """
-    Run the command in a new process using :class:`subprocess.Popen`.
+    """Run the command in a new process using :class:`subprocess.Popen`.
 
     Parameters
     ----------
@@ -290,7 +280,7 @@ def run_command(command, msg=None, exception=None, environment=None):
 
     Returns
     -------
-    : str
+    str
         The standard output from the command.
     """
     process = subprocess.Popen(command, stdout=subprocess.PIPE,
@@ -313,8 +303,7 @@ def run_command(command, msg=None, exception=None, environment=None):
 # TODO: moved method to cdds.common.paths.file_system.py to avoid package dependencies cycles
 def construct_string_from_facet_string(facet_string, facet_values,
                                        string_type='path'):
-    """
-    DEPRECATED: method is moved to cdds.common.paths.file_system.py
+    """DEPRECATED: method is moved to cdds.common.paths.file_system.py
 
     Return the constructed string as described by the ``facet_string``
     and the ``facet_values``.
@@ -333,7 +322,7 @@ def construct_string_from_facet_string(facet_string, facet_values,
 
     Returns
     -------
-    : str
+    str
         The constructed string as described by the ``facet_string`` and
         the ``facet_values``.
 
@@ -382,8 +371,7 @@ def construct_string_from_facet_string(facet_string, facet_values,
 
 
 def check_directory(directory):
-    """
-    Return the full path to the directory provided to the ``directory``
+    """Return the full path to the directory provided to the ``directory``
     parameter after checking the directory exists.
 
     Parameters
@@ -393,7 +381,7 @@ def check_directory(directory):
 
     Returns
     -------
-    : str
+    str
         The full path to the directory.
 
     Raises
@@ -415,8 +403,7 @@ def check_directory(directory):
 
 
 def check_file(filename):
-    """
-    Check whether the file provided to the ``filename`` parameter
+    """Check whether the file provided to the ``filename`` parameter
     exists.
 
     Parameters
@@ -435,8 +422,7 @@ def check_file(filename):
 
 
 def check_files(filenames_string):
-    """
-    Check whether the files provided to the ``filenames_string`` parameter
+    """Check whether the files provided to the ``filenames_string`` parameter
     exist. This checker will split the string before checking for each file.
 
     Parameters
@@ -456,8 +442,7 @@ def check_files(filenames_string):
 
 
 def check_date_format(date, date_regex=DATE_TIME_REGEX):
-    """
-    Ensure the date provided to the ``date``` parameter has a format
+    """Ensure the date provided to the ``date``` parameter has a format
     that is equal to the regular expression provided to the
     ``date_regex`` parameter.
 
@@ -504,8 +489,7 @@ def check_date_format(date, date_regex=DATE_TIME_REGEX):
 
 
 def check_run_bounds_format(run_bounds):
-    """
-    Ensure the run bounds provided to the ``run_bounds`` parameter has
+    """Ensure the run bounds provided to the ``run_bounds`` parameter has
     the correct format.
 
     The run bounds must be in the form
@@ -556,8 +540,7 @@ def check_run_bounds_format(run_bounds):
 
 
 def check_variant_label_format(variant_label):
-    """
-    Ensure the |variant label| provided to the ``variant_label``
+    """Ensure the |variant label| provided to the ``variant_label``
     parameter has the correct format.
 
     Parameters
@@ -599,8 +582,7 @@ def check_variant_label_format(variant_label):
 
 
 def cmip7_check_variant_label_format(variant_label):
-    """
-    Ensure the |variant label| provided to the ``variant_label``
+    """Ensure the |variant label| provided to the ``variant_label``
     parameter has the correct CMIP7 format.
 
     Parameters
@@ -622,8 +604,7 @@ def cmip7_check_variant_label_format(variant_label):
 
 
 def check_number(value):
-    """
-    Check whether the value provided to the ``value`` parameter
+    """Check whether the value provided to the ``value`` parameter
     is a number, or can be converted into a number.
 
     Parameters
@@ -658,15 +639,14 @@ def check_number(value):
 
 
 def compare_versions(version_to_compare, version_with_expression):
-    """
-    Return whether the ``version_to_compare`` falls in the
+    """Return whether the ``version_to_compare`` falls in the
     ``version_with_expression``.
 
     Parameters
     ----------
-    version_to_compare: string
+    version_to_compare: str
         The version to compare.
-    version_with_expression: string
+    version_with_expression: str
         The version with the expression.
 
     Returns
@@ -701,17 +681,16 @@ def compare_versions(version_to_compare, version_with_expression):
 
 
 def remove_newlines(value):
-    """
-    Return the value with new lines replaced with a single whitespace.
+    """Return the value with new lines replaced with a single whitespace.
 
     Parameters
     ----------
-    value: string
+    value: str
         The value.
 
     Returns
     -------
-    : string
+    str
         The value with new lines replaced with a single whitespace.
 
     Examples
@@ -724,12 +703,11 @@ def remove_newlines(value):
 
 
 def netCDF_regexp() -> str:
-    """
-    Return a regular expression matching netCDF filenames.
+    """Return a regular expression matching netCDF filenames.
 
     Returns
     -------
-    : str
+    str
         Regular expression.
     """
     model = r"(?P<model>nemo|medusa|cice|si3)"
@@ -744,8 +722,7 @@ def netCDF_regexp() -> str:
 
 
 def set_checksum(dictionary, overwrite=True):
-    """
-    Calculate the checksum for the ``dictionary``, then add the
+    """Calculate the checksum for the ``dictionary``, then add the
     value to ``dictionary`` under the ``checksum`` key. ``dictionary``
     is modified in place.
 
@@ -771,8 +748,7 @@ def set_checksum(dictionary, overwrite=True):
 
 
 def validate_checksum(dictionary):
-    """
-    Validate the checksum in the ``dictionary``.
+    """Validate the checksum in the ``dictionary``.
 
     Parameters
     ----------
@@ -808,8 +784,7 @@ DATE_ELEMENTS = ['year', 'month', 'day', 'hour', 'minute', 'second']
 
 
 def get_most_recent_file(dir_to_search: str, key: str, pattern: str) -> str:
-    """
-    Look for the most recent file in a given directory that matches a
+    """Look for the most recent file in a given directory that matches a
     pattern like "<prefix>_YYYY-MM-DDTHHMMDD.<ext>.
 
     Parameters
@@ -826,7 +801,7 @@ def get_most_recent_file(dir_to_search: str, key: str, pattern: str) -> str:
 
     Returns
     -------
-    : str
+    str
         The full path to the most recent matching file in the directory.
 
     """
@@ -849,8 +824,7 @@ def get_most_recent_file(dir_to_search: str, key: str, pattern: str) -> str:
 
 
 def get_most_recent_file_by_stream(dir_to_search, key_str, pattern_str):
-    """
-    Look for the most recent file in a given directory that matches a
+    """Look for the most recent file in a given directory that matches a
     pattern like "<prefix>_<stream>_YYYY-MM-DDTHHMMDD.<ext> and return
     a dictionary with results by stream.
 
@@ -868,7 +842,7 @@ def get_most_recent_file_by_stream(dir_to_search, key_str, pattern_str):
 
     Returns
     -------
-    : dict
+    dict
         The full path to the most recent matching file in the directory for each stream.
         The key ``None`` will be used if all streams are included in a file.
     """
@@ -896,8 +870,7 @@ def get_most_recent_file_by_stream(dir_to_search, key_str, pattern_str):
 
 
 def cmp(a, b):
-    """
-    Provides functionality equivalent to Python2 cmp() function.
+    """Provides functionality equivalent to Python2 cmp() function.
 
     Parameters
     ----------
@@ -908,7 +881,7 @@ def cmp(a, b):
 
     Returns
     -------
-    : int
+    int
         -1 if a < b, 0 if 0 == 0, 1 if a > b
     """
     return (a > b) - (a < b)
@@ -916,21 +889,25 @@ def cmp(a, b):
 
 def retry(func: Optional[Callable] = None, exception: Type[Exception] = Exception, retries: int = 3
           ) -> Union[Callable, Tuple[bool, Callable]]:  # ignore: type
-    """
-    Retry decorator with exponential backoff.
+    """Retry decorator with exponential backoff.
 
     For more decorator documentation, see:
     https://www.python.org/dev/peps/pep-0318/
     https://realpython.com/primer-on-python-decorators/
 
-    :param func: Callable on which the decorator is applied, by default None
-    :type func: typing.Callable, optional
-    :param exception: Exception(s) that invoke retry, by default Exception
-    :type exception: Exception or tuple of exceptions, optional
-    :param retries: Number of tries before giving up, by default 3
-    :type retries: int, optional
-    :return: Decorated callable that calls itself when exception(s) occur.
-    :rtype: typing.Callable
+    Parameters
+    ----------
+    func : typing.Callable, optional
+        Callable on which the decorator is applied, by default None
+    exception : Exception or tuple of exceptions, optional
+        Exception(s) that invoke retry, by default Exception
+    retries : int, optional
+        Number of tries before giving up, by default 3
+
+    Returns
+    -------
+    typing.Callable
+        Decorated callable that calls itself when exception(s) occur.
     """
     if func is None:
         return partial(retry, exception=exception, retries=retries)
@@ -955,11 +932,16 @@ def retry(func: Optional[Callable] = None, exception: Type[Exception] = Exceptio
 
 
 def set_calendar(request):
-    """ Set the metomi.isodatetime calendar based on a request.json file.
+    """Set the metomi.isodatetime calendar based on a request.json file.
 
-    :param request_file: Path to a request.json file.
-    :type request_file: str
-    :raises IncompatibleCalendarMode:
+    Parameters
+    ----------
+    request_file: str
+        Path to a request.json file.
+
+    Raises
+    ------
+    IncompatibleCalendarMode
     """
     if request.metadata.calendar in SUPPORTED_CALENDARS:
         Calendar.default().set_mode(request.metadata.calendar)
@@ -970,17 +952,25 @@ def set_calendar(request):
 def generate_datestamps_pp(start_date: TimePoint,
                            end_date: TimePoint,
                            file_frequency: str) -> Tuple[List[str], List[TimePoint]]:
-    """ Generate common datestamp strings used by .pp files.
+    """Generate common datestamp strings used by .pp files.
 
-    :param start_date: ISO formatted string e.g, 19890101 (Inclusive)
-    :type start_date: str
-    :param end_date: ISO formatted string e.g, 19890101 (Exclusive)
-    :type end_date: str
-    :param file_frequency: Maps to a duration and format string
-    :type file_frequency: str
-    :return: A tuple of list of datestamps and list of timepoints
-    :rtype: Tuple[List[str], List[TimePoint]]
-    :raises IncompatibleCalendarMode:
+    Parameters
+    ----------
+    start_date: str
+        ISO formatted string e.g, 19890101 (Inclusive)
+    end_date: str
+        ISO formatted string e.g, 19890101 (Exclusive)
+    file_frequency: str
+        Maps to a duration and format string
+
+    Returns
+    -------
+    Tuple[List[str], List[TimePoint]]
+        A tuple of list of datestamps and list of timepoints
+
+    Raises
+    ------
+    IncompatibleCalendarMode
     """
 
     modes = {"daily": ["P1D", "%Y%m%d"],
@@ -1019,14 +1009,19 @@ def generate_datestamps_nc(start_date: TimePoint,
                            file_frequency: str) -> Tuple[List[str], List[TimePoint]]:
     """Generate common datestamp stings used for .nc files.
 
-    :param start_date: ISO formatted string e.g, 19890101 (Inclusive)
-    :type start_date: str
-    :param end_date: ISO formatted string e.g, 19890101 (Exclusive)
-    :type end_date: str
-    :param file_frequency: Maps to a duration and format string
-    :type file_frequency: str
-    :return: A tuple of list of datestamps and list of timepoints
-    :rtype: Tuple[List[str], List[TimePoint]]
+    Parameters
+    ----------
+    start_date : str
+        ISO formatted string e.g, 19890101 (Inclusive)
+    end_date : str
+        ISO formatted string e.g, 19890101 (Exclusive)
+    file_frequency : str
+        Maps to a duration and format string
+
+    Returns
+    -------
+    Tuple[List[str], List[TimePoint]]
+        A tuple of list of datestamps and list of timepoints
     """
 
     modes = {"monthly": ["P1M", "%Y%m%d"],
@@ -1054,14 +1049,19 @@ def generate_time_points(start_date: TimePoint,
                          duration: str) -> List[TimePoint]:
     """A convenience function for generating a list of TimePoint objects.
 
-    :param start_date: TimePoint
-    :type start_date: TimePoint
-    :param end_date: TimePoint
-    :type end_date: TimePoint
-    :param duration: ISO formatted duration string
-    :type duration: str
-    :return: List of TimePoint objects
-    :rtype: List[TimePoint]
+    Parameters
+    ----------
+    start_date : TimePoint
+        TimePoint
+    end_date : TimePoint
+        TimePoint
+    duration : str
+        ISO formatted duration string
+
+    Returns
+    -------
+    List[TimePoint]
+        List of TimePoint objects
     """
     start_date = str(start_date)
 

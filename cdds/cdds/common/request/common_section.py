@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module to handle the common section in the request configuration
-"""
+"""Module to handle the common section in the request configuration"""
 import os
 
 from dataclasses import dataclass, asdict
@@ -19,19 +17,23 @@ from cdds.common.plugins.plugins import PluginStore
 
 
 def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Dict[str, Any]:
-    """
-    Calculates the defaults for the common section of
+    """Calculates the defaults for the common section of
     the request configuration with given model ID,
     experiment ID and variant label.
 
-    :param model_id: Model ID
-    :type model_id: str
-    :param experiment_id: Experiment ID
-    :type experiment_id: str
-    :param variant_label: Variant label
-    :type variant_label: str
-    :return: The defaults for the common section
-    :rtype: Dict[str, Any]
+    Parameters
+    ----------
+    model_id : str
+        Model ID
+    experiment_id : str
+        Experiment ID
+    variant_label : str
+        Variant label
+
+    Returns
+    -------
+    Dict[str, Any]
+        The defaults for the common section
     """
     mip_table_dir = PluginStore.instance().get_plugin().mip_table_dir()
     root_ancil_dir = os.path.join(os.environ['CDDS_ETC'], 'ancil')
@@ -61,9 +63,7 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
 
 @dataclass
 class CommonSection(Section):
-    """
-    Represents the common section in the request configuration
-    """
+    """Represents the common section in the request configuration"""
     force_plugin: str = ''
     external_plugin: str = ''
     external_plugin_location: str = ''
@@ -83,40 +83,44 @@ class CommonSection(Section):
     log_level: str = 'INFO'
 
     def __post_init__(self):
-        """
-        Pre-validates the values of the section before create it
-        """
+        """Pre-validates the values of the section before create it"""
         validate_common_section(self)
 
     @classmethod
     def name(cls) -> str:
-        """
-        Name of the common section that is used in the request configuration file.
+        """Name of the common section that is used in the request configuration file.
 
-        :return: Name that is also used in the configuration file
-        :rtype: str
+        Returns
+        -------
+        str
+            Name that is also used in the configuration file
         """
         return 'common'
 
     @property
     def items(self) -> Dict[str, Any]:
-        """
-        Returns all items of the common section as a dictionary.
+        """Returns all items of the common section as a dictionary.
 
-        :return: Items as dictionary
-        :rtype: Dict[str, Any]
+        Returns
+        -------
+        Dict[str, Any]
+            Items as dictionary
         """
         return asdict(self)
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'CommonSection':
-        """
-        Loads the common section of a request configuration.
+        """Loads the common section of a request configuration.
 
-        :param config: Parser for the request configuration
-        :type config: ConfigParser
-        :return: New common section
-        :rtype: CommonSection
+        Parameters
+        ----------
+        config : ConfigParser
+            Parser for the request configuration
+
+        Returns
+        -------
+        CommonSection
+            New common section
         """
         model_id = config.get(MetadataSection.name(), 'model_id')
         variant_label = config.get(MetadataSection.name(), 'variant_label')
@@ -139,15 +143,19 @@ class CommonSection(Section):
 
     @staticmethod
     def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'CommonSection':
-        """
-        Loads the common section of a rose-suite.info.
+        """Loads the common section of a rose-suite.info.
 
-        :param suite_info: The rose-suite.info to be loaded
-        :type suite_info: RoseSuiteInfo
-        :param arguments: Additional arguments to be considered
-        :type arguments: RoseSuiteArguments
-        :return: New common section
-        :rtype: CommonSection
+        Parameters
+        ----------
+        suite_info : RoseSuiteInfo
+            The rose-suite.info to be loaded
+        arguments : RoseSuiteArguments
+            Additional arguments to be considered
+
+        Returns
+        -------
+        CommonSection
+            New common section
         """
         model_id = suite_info.data['model-id']
         experiment_id = suite_info.data['experiment-id']
@@ -164,26 +172,28 @@ class CommonSection(Section):
         return common
 
     def add_to_config(self, config: ConfigParser, model_id: str, experiment_id: str, variant_label: str) -> None:
-        """
-        Adds values defined by the common section to given configuration.
+        """Adds values defined by the common section to given configuration.
 
-        :param config: Configuration where values should add to
-        :type config: ConfigParser
-        :param model_id: Model ID used to get default values
-        :type model_id: str
-        :param experiment_id: Experiment ID used to get default values
-        :type experiment_id: str
-        :param variant_label: Variable label used to get default values
-        :type variant_label: str
+        Parameters
+        ----------
+        config : ConfigParser
+            Configuration where values should add to
+        model_id : str
+            Model ID used to get default values
+        experiment_id : str
+            Experiment ID used to get default values
+        variant_label : str
+            Variable label used to get default values
         """
         defaults = common_defaults(model_id, experiment_id, variant_label)
         self._add_to_config_section(config, CommonSection.name(), defaults)
 
     def is_relaxed_cmor(self) -> bool:
-        """
-        Returns if relaxed CMOR is enabled.
+        """Returns if relaxed CMOR is enabled.
 
-        :return: If relaxed CMOR is enabled
-        :rtype: bool
+        Returns
+        -------
+        bool
+            If relaxed CMOR is enabled
         """
         return self.mode == 'relaxed'

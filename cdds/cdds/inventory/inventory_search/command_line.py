@@ -12,8 +12,7 @@ MASS_PRODUCTION_LOCATION = 'moose:/adhoc/projects/cdds/production/'
 
 
 def main_user_search():
-    """
-    Contains the main function calls for performing a search of the inventory.db
+    """Contains the main function calls for performing a search of the inventory.db
     using a users search terms and then printing the output.
     """
     arguments = parse_args()
@@ -26,8 +25,7 @@ def main_user_search():
 
 
 def parse_args():
-    """
-    Function for parsing any command line arguments or flags fiven
+    """Function for parsing any command line arguments or flags fiven
 
     Returns
     -------
@@ -58,8 +56,7 @@ def parse_args():
 
 
 def check_user_input(input_string):
-    """
-    Checks that the correct number of facets have been passed in by the user
+    """Checks that the correct number of facets have been passed in by the user
     and that there are no empty fields. Should raise a RuntimeError if fields
     are missing or the wrong number of fields are given.
 
@@ -90,8 +87,7 @@ def check_user_input(input_string):
 
 
 def populate_facets_dict(values):
-    """
-    Takes in the specific facets the user would like to match and returns a
+    """Takes in the specific facets the user would like to match and returns a
     facets dictionary that will be used as an argument to build an SQL query.
 
     Parameters
@@ -100,7 +96,7 @@ def populate_facets_dict(values):
         A list of the facets to search for
     Returns
     -------
-    facets : dict
+    dict
         Key value pair dictionary of the facet type and the facet search term
     """
 

@@ -2,9 +2,7 @@
 # (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
 
-"""
-Command line tool to handle removal of halo rows and columns in ocean data
-"""
+"""Command line tool to handle removal of halo rows and columns in ocean data"""
 
 import sys
 

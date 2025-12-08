@@ -1,17 +1,14 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-The :mod:`csv_models` module contains the code required to construct,
+"""The :mod:`csv_models` module contains the code required to construct,
 write and read a CSV sheet.
 """
 import csv
 
 
 class CsvSheet(object):
-    """
-    Represent a CSV sheet
-    """
+    """Represent a CSV sheet"""
 
     DIALECT = 'cdds_dialect'
 
@@ -21,8 +18,7 @@ class CsvSheet(object):
         csv.register_dialect(self.DIALECT, delimiter=delimiter)
 
     def add_row(self, row):
-        """
-        Add row to CSV sheet
+        """Add row to CSV sheet
 
         Parameters
         ----------
@@ -32,8 +28,7 @@ class CsvSheet(object):
         self._rows.append(row)
 
     def write(self, output_file):
-        """
-        Write sheet with all current rows and header into the given
+        """Write sheet with all current rows and header into the given
         output file. The delimiter of the class is used as separator
         between each field in a row.
 
@@ -52,8 +47,7 @@ class CsvSheet(object):
             row.write(writer)
 
     def read(self, input_file, append_rows=True):
-        """
-        Read all rows of given CSV sheet except the header. For
+        """Read all rows of given CSV sheet except the header. For
         the fields header and delimiter, in each case the class
         wide defined one is used.
 
@@ -67,9 +61,9 @@ class CsvSheet(object):
 
         Returns
         -------
-        : list
+        list
             The list of the fields header
-        : list of :class:`cdds.prepare.pretty_print.csv_models.CsvRow` object
+        list of :class:`cdds.prepare.pretty_print.csv_models.CsvRow` object
             all rows of the current sheet (including the new read ones)
         """
         with open(input_file, 'rt') as file:
@@ -89,16 +83,13 @@ class CsvSheet(object):
 
 
 class CsvRow(object):
-    """
-    Represent a CSV row
-    """
+    """Represent a CSV row"""
 
     def __init__(self):
         self._row = {}
 
     def add_entry(self, field_name, field_value):
-        """
-        Add or update a single CSV field in the row
+        """Add or update a single CSV field in the row
         Parameters
         ----------
         field_name :str
@@ -110,8 +101,7 @@ class CsvRow(object):
         self._row[field_name] = field_value
 
     def write(self, writer):
-        """
-        Write the row into a CSV file using given writer
+        """Write the row into a CSV file using given writer
 
         Parameters
         ----------
@@ -121,20 +111,18 @@ class CsvRow(object):
         writer.writerow(self._row)
 
     def read(self, content):
-        """
-        Read content and add or update the new fields in
+        """Read content and add or update the new fields in
         the row
 
         Parameters
         ----------
-        content :dict
+        content : dict
             to added or updated fields for the row
         """
         self._row.update(content)
 
     def get_content(self):
-        """
-        Return all fields of the row as dict. The keys are
+        """Return all fields of the row as dict. The keys are
         the field names and the values the field values.
 
         Returns
@@ -146,15 +134,12 @@ class CsvRow(object):
 
 
 class CsvValue(object):
-    """
-    Defines how to convert a value to a CSV value
-    """
+    """Defines how to convert a value to a CSV value"""
     JOINER = ' '
 
     @classmethod
     def from_list(cls):
-        """
-        Return the value converter for a list
+        """Return the value converter for a list
 
         Returns
         -------
@@ -169,8 +154,7 @@ class CsvValue(object):
 
     @classmethod
     def from_value(cls):
-        """
-        Return the value converter for a simple value
+        """Return the value converter for a simple value
 
         Returns
         -------

@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module providing functionality to validate mappings configurations
-"""
+"""Module providing functionality to validate mappings configurations"""
 import logging
 
 from typing import List
@@ -16,13 +14,16 @@ CDDS_MAPPINGS_VALIDTAE_LOG = 'cdds_mapping_validation'
 
 
 def run_mappings_validation(arguments: List[str] = None) -> int:
-    """
-    Runs validations for the mappings given in the command line arguments
+    """Runs validations for the mappings given in the command line arguments
 
-    :param arguments:
-    :type: List[str]
-    :return: Exit code
-    :rtype: int
+    Parameters
+    ----------
+    arguments: List[str]
+
+    Returns
+    -------
+    int
+        Exit code
     """
     args = parse_mappings_validations_arguments(arguments)
 
@@ -38,13 +39,17 @@ def run_mappings_validation(arguments: List[str] = None) -> int:
 
 
 def parse_mappings_validations_arguments(arguments: List[str]) -> Namespace:
-    """
-    Parse command line arguments for running CDDS mappings validations
+    """Parse command line arguments for running CDDS mappings validations
 
-    :param arguments: Command line arguments to parse
-    :type arguments: List[str]
-    :return: Parsed command line arguments
-    :rtype: Namespace
+    Parameters
+    ----------
+    arguments : List[str]
+        Command line arguments to parse
+
+    Returns
+    -------
+    Namespace
+        Parsed command line arguments
     """
     parser = ArgumentParser(
         description='Validate mappings configurations.',

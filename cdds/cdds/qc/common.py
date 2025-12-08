@@ -11,15 +11,12 @@ Common routines for CDDS CF checker
 
 
 class GlobalAttributesCache:
-    """
-    A container class for storing global attributes of a netCDF4 file.
-    """
+    """A container class for storing global attributes of a netCDF4 file."""
     def __init__(self):
         self._cache = {}
 
     def getncattr(self, attrname: str, ncfile: Dataset, check_existence: bool = False) -> str | None:
-        """
-        A replacement for the getncattr method of the netCDF4.Dataset class, caches the attribute value.
+        """A replacement for the getncattr method of the netCDF4.Dataset class, caches the attribute value.
         If check_existence flag is set to True, missing attribute will not raise and Exception, and None
         will be returned instead.
 
@@ -35,7 +32,7 @@ class GlobalAttributesCache:
 
         Returns
         -------
-            : str | None
+        str | None
              Attribute value.
         """
         ncpath = ncfile.filepath()
@@ -54,8 +51,7 @@ class NoDataForQualityCheck(Exception):
 
 
 def equal_with_tolerance(a, b, tolerance):
-    """
-    Compare two numbers and return True if their difference is outside
+    """Compare two numbers and return True if their difference is outside
     the specified tolerance.
 
     Parameters
@@ -69,7 +65,7 @@ def equal_with_tolerance(a, b, tolerance):
 
     Returns
     -------
-    : bool
+    bool
         True if a and b are not equal within tolerance
 
     Examples
@@ -84,8 +80,7 @@ def equal_with_tolerance(a, b, tolerance):
 
 
 def strip_zeros(number):
-    """
-    Remove .0 from a float number with following format x.0.
+    """Remove .0 from a float number with following format x.0.
 
     Parameters
     ----------
@@ -94,7 +89,7 @@ def strip_zeros(number):
 
     Returns
     -------
-    : Union[int, float]
+    Union[int, float]
         Result of rounded value
     """
     if number % 1 == 0:
@@ -104,13 +99,10 @@ def strip_zeros(number):
 
 
 class DatetimeCalculator():
-    """
-    A wrapper class for helper datetime functions calculated with a particular calendar.
-    """
+    """A wrapper class for helper datetime functions calculated with a particular calendar."""
 
     def __init__(self, calendar: str, base_date: TimePoint = TimePoint(year=1850, month_of_year=1, day_of_month=1)):
-        """
-        Parameters
+        """Parameters
         ----------
         calendar: str
             Calendar type (e.g. '360_day'_
@@ -125,16 +117,15 @@ class DatetimeCalculator():
         self.seconds_in_day = Calendar.SECONDS_IN_MINUTE * Calendar.MINUTES_IN_HOUR * Calendar.HOURS_IN_DAY
 
     def days_since_base_date(self, time_point: str) -> float:
-        """
-        For a provided date calculates how many (fractional) days passed since the base date
+        """For a provided date calculates how many (fractional) days passed since the base date
 
         Parameters
-        ==========
+        ----------
         time_point: str
             Datetime string
 
         Returns
-        =======
+        -------
         : float
             Numbers of days since the base date (typically 1850-01-01 00:00)
         """
@@ -142,28 +133,26 @@ class DatetimeCalculator():
                 ) / self.seconds_in_day
 
     def days_since_base_date_to_date(self, days: int) -> TimePoint:
-        """
-        Converts number of days since the base date into a time point object. The limitation is that the number
+        """Converts number of days since the base date into a time point object. The limitation is that the number
         of days must be integer, no fractions are allowed.
 
         Parameters
-        ==========
+        ----------
         days: int
             Number of days since the base date
 
         Returns
-        =======
-        : metomi.isodatetime.data.TimePoint
+        -------
+        metomi.isodatetime.data.TimePoint
             Converted time point
         """
         return parse.DurationParser().parse('P{}D'.format(days)) + self.base_date
 
     def get_sequence(self, start_date: TimePoint, end_date: TimePoint, mode: str, with_bounds=True) -> tuple:
-        """
-        Generates a sequence of time points and bounds between two dates
+        """Generates a sequence of time points and bounds between two dates
 
         Parameters
-        ==========
+        ----------
         start_date: str
             Datetime string of the starting date of the period
         end_date: str
@@ -174,8 +163,8 @@ class DatetimeCalculator():
             If true will generate bounds as well
 
         Returns
-        =======
-        : tuple
+        -------
+        tuple
             A tuple of two lists with sequence time points and bounds
         """
         duration = parse.DurationParser().parse('{}'.format(mode))
@@ -197,17 +186,16 @@ class DatetimeCalculator():
 
     @staticmethod
     def date_in_leap_year(date: TimePoint) -> bool:
-        """
-        Checks if the provided date occurs in a leap year
+        """Checks if the provided date occurs in a leap year
 
         Parameters
-        ==========
+        ----------
         date: metomi.isodatetime.data.TimePoint
             Date to check
 
         Returns
-        =======
-        : bool
+        -------
+        bool
             True if it is a leap year, False otherwise
         """
         return get_is_leap_year(date.year)

@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring
-"""
-Tests for :mod:`store.py`.
-"""
+"""Tests for :mod:`store.py`."""
 
 import cftime
 import collections
@@ -25,8 +23,7 @@ from cdds.tests.factories.request_factory import simple_request
 
 
 class TestGetVariables(unittest.TestCase):
-    """
-    test for functions relating to getting the list of variables to try and
+    """test for functions relating to getting the list of variables to try and
     process.
     """
 
@@ -70,9 +67,7 @@ Emon/hus27;{dir}stream1/Emon/hus
 
 
 class TestRetrieveFilePaths(unittest.TestCase):
-    """
-    Tests for :func:`retrieve_file_paths` in :mod:`mass.py`.
-    """
+    """Tests for :func:`retrieve_file_paths` in :mod:`mass.py`."""
 
     def setUp(self):
         Calendar.default().set_mode('360_day')
@@ -145,9 +140,7 @@ class TestRetrieveFilePaths(unittest.TestCase):
 
 
 class TestCheckVariableMatch(unittest.TestCase):
-    """
-    Tests for :func:`_check_variable_match` in :mod:`store.py`.
-    """
+    """Tests for :func:`_check_variable_match` in :mod:`store.py`."""
     def setUp(self):
         self.variable_str = 'Amon/tas'
         self.pattern = '*/*'

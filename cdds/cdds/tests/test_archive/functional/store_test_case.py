@@ -11,8 +11,7 @@ from cdds.common.mass import mass_info
 
 @pytest.mark.slow
 class StoreTestCase(TestCase):
-    """
-    TEST DIRECTORY
+    """TEST DIRECTORY
         Root test directory
             >> /project/cdds/testdata/functional_tests/transfer/
 

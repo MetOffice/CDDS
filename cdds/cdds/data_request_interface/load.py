@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Tools to load the CMIP6 data request via dreqPy
-"""
+"""Tools to load the CMIP6 data request via dreqPy"""
 import logging
 import os
 
@@ -23,22 +21,19 @@ FIELDS_TO_ALTER_PRIOR_TO_LOAD = {
 
 
 class ExperimentNotFoundError(Exception):
-    """
-    Error raised when the Experiment identifier is not found in the Data
+    """Error raised when the Experiment identifier is not found in the Data
     request at the version specified.
     """
     pass
 
 
 class DataRequestWrapper(object):
-    """
-    A class to provide a consolidated point of access to the CMIP6 data
+    """A class to provide a consolidated point of access to the CMIP6 data
     request.
     """
 
     def __init__(self, required_version, basedir=None):
-        """
-        Load the data request and add top level properties.
+        """Load the data request and add top level properties.
 
         Parameters
         ----------
@@ -61,8 +56,7 @@ class DataRequestWrapper(object):
         self.version = self._data_request.version
 
     def _load_data_request_at_version(self):
-        """
-        Load the data request object at the specified version or from
+        """Load the data request object at the specified version or from
         the specified package directory.
 
         Notes
@@ -138,8 +132,7 @@ class DataRequestWrapper(object):
             setattr(data_request_lib, item, value)
 
     def get_experiment_uid(self, experiment_name):
-        """
-        Return the unique id corresponding to the experiment_name
+        """Return the unique id corresponding to the experiment_name
         supplied in the data request.
 
         Parameters
@@ -149,7 +142,7 @@ class DataRequestWrapper(object):
 
         Returns
         -------
-        : str
+        str
             unique id.
 
         Raises
@@ -189,8 +182,7 @@ class DataRequestWrapper(object):
         return experiment_uids[0]
 
     def get_object_dictionary(self, object_type):
-        """
-        Return a dictionary of uid to data request objects for the
+        """Return a dictionary of uid to data request objects for the
         specified data request object_type.
 
         Parameters
@@ -200,15 +192,14 @@ class DataRequestWrapper(object):
 
         Returns
         -------
-        : dict
+        dict
             The data request objects, of the specified type, organised
             by data request unique id (uid).
         """
         return getattr(self._data_request.inx, object_type).uid
 
     def get_object_by_uid(self, uid):
-        """
-        Return the data request object with the specified uid.
+        """Return the data request object with the specified uid.
 
         Parameters
         ----------
@@ -217,14 +208,13 @@ class DataRequestWrapper(object):
 
         Returns
         -------
-        : object
+        object
             The corresponding data request object.
         """
         return self._data_request.inx.uid[uid]
 
     def get_object_by_label(self, object_type, label):
-        """
-        Return data request objects of the specified type with the
+        """Return data request objects of the specified type with the
         specified label (e.g. CMORvar with label `tas`).
 
         Parameters
@@ -236,7 +226,7 @@ class DataRequestWrapper(object):
 
         Returns
         -------
-        : list
+        list
             The data request objects of specified type and label.
         """
         uids = getattr(self._data_request.inx, object_type).label[label]

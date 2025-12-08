@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module to process the `transform_request` command
-"""
+"""Module to process the `transform_request` command"""
 import argparse
 import logging
 
@@ -11,9 +9,7 @@ from cdds.request_transform.request_transform import transform_request
 
 
 def main_transform_request() -> int:
-    """
-    Transforms a request JSON into a request configuration with corresponding information.
-    """
+    """Transforms a request JSON into a request configuration with corresponding information."""
     log_name = 'transform_request'
     arguments = parse_arguments()
 
@@ -30,11 +26,12 @@ def main_transform_request() -> int:
 
 
 def parse_arguments() -> argparse.Namespace:
-    """
-    Parses the arguments of the `transform_request` command.
+    """Parses the arguments of the `transform_request` command.
 
-    :return: Parsed arguments
-    :rtype: argparse.Namespace
+    Returns
+    -------
+    argparse.Namespace
+        Parsed arguments
     """
     parser = argparse.ArgumentParser(description='Run all tests configuration')
     parser.add_argument('input_json',

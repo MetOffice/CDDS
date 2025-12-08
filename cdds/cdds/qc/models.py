@@ -12,8 +12,7 @@ from cdds.qc.constants import (
 
 
 def setup_db(db_file):
-    """
-    Initialises a qc database.
+    """Initialises a qc database.
 
     Parameters
     ----------
@@ -22,7 +21,7 @@ def setup_db(db_file):
 
     Returns
     -------
-    : sqlite3.Connection
+    sqlite3.Connection
         Database connection instance.
     """
     if not db_file.endswith(".db") and db_file != ":memory:":
@@ -82,8 +81,7 @@ def setup_db(db_file):
 
 
 def get_qc_runs(cursor, run_id):
-    """
-    Executes a select query on the qc_run table filtering by run_id
+    """Executes a select query on the qc_run table filtering by run_id
 
     Parameters
     ----------
@@ -94,7 +92,7 @@ def get_qc_runs(cursor, run_id):
 
     Returns
     -------
-    : sqlite3.Cursor
+    sqlite3.Cursor
         Cursor object
     """
     return cursor.execute(
@@ -103,8 +101,7 @@ def get_qc_runs(cursor, run_id):
 
 
 def get_qc_files(cursor, qc_run_id, all_errors=False):
-    """
-    Executes a select query on the qc_files table filtering by qc_run_id.
+    """Executes a select query on the qc_files table filtering by qc_run_id.
 
     Column order:
     - experiment
@@ -124,7 +121,7 @@ def get_qc_files(cursor, qc_run_id, all_errors=False):
 
     Returns
     -------
-    : sqlite3.Cursor
+    sqlite3.Cursor
         Cursor object
     """
     skipped = 0 if all_errors else STATUS_IGNORED
@@ -139,8 +136,7 @@ def get_qc_files(cursor, qc_run_id, all_errors=False):
 
 
 def get_error_counts(cursor, run_id, all_errors=False):
-    """
-    Executes a select query calculating distribution of errors per .
+    """Executes a select query calculating distribution of errors per .
 
     Column order:
     - mip_table
@@ -157,7 +153,7 @@ def get_error_counts(cursor, run_id, all_errors=False):
 
     Returns
     -------
-    : sqlite3.Cursor
+    sqlite3.Cursor
         Cursor object
     """
     skipped = 0 if all_errors else STATUS_IGNORED
@@ -174,8 +170,7 @@ def get_error_counts(cursor, run_id, all_errors=False):
 
 
 def get_errors_by_variable(cursor, run_id, all_errors=False):
-    """
-    Executes a select query calculating number of errors for every file in
+    """Executes a select query calculating number of errors for every file in
     the qc run.
 
     Column order:
@@ -194,7 +189,7 @@ def get_errors_by_variable(cursor, run_id, all_errors=False):
 
     Returns
     -------
-    : sqlite3.Cursor
+    sqlite3.Cursor
         Cursor object
     """
     skipped = 0 if all_errors else STATUS_IGNORED
@@ -211,8 +206,7 @@ def get_errors_by_variable(cursor, run_id, all_errors=False):
 
 
 def get_aggregated_errors(cursor, run_id, all_errors=False):
-    """
-    Aggregates all errors and calculate a number of occurrences.
+    """Aggregates all errors and calculate a number of occurrences.
 
     Column order:
     - mip_table
@@ -232,7 +226,7 @@ def get_aggregated_errors(cursor, run_id, all_errors=False):
 
     Returns
     -------
-    : sqlite3.Cursor
+    sqlite3.Cursor
         Cursor object
     """
     skipped = 0 if all_errors else STATUS_IGNORED
@@ -250,8 +244,7 @@ def get_aggregated_errors(cursor, run_id, all_errors=False):
 
 
 def get_validated_variables(cursor, run_id, all_errors=False):
-    """
-    Executes a select query returning a list of variables that passed the qc.
+    """Executes a select query returning a list of variables that passed the qc.
 
     Column order:
     - mip_table
@@ -269,7 +262,7 @@ def get_validated_variables(cursor, run_id, all_errors=False):
 
     Returns
     -------
-    : sqlite3.Cursor
+    sqlite3.Cursor
         Cursor object
     """
     skipped = 0 if all_errors else STATUS_IGNORED

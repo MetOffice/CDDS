@@ -11,15 +11,13 @@ from cdds.qc.common import GlobalAttributesCache
 
 
 class StructuredDataset(object, metaclass=ABCMeta):
-    """
-    A representation of a directory containing a netcdf dataset
+    """A representation of a directory containing a netcdf dataset
     Can be sliced by a MIP table and time period.
     """
 
     def __init__(self, root, request, mip_tables, mip_table=None, start=None,
                  end=None, logger=None, stream=None):
-        """
-        Initializes the dataset.
+        """Initializes the dataset.
 
         Parameters
         ----------
@@ -97,8 +95,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
         pass
 
     def check_filenames_and_sizes(self):
-        """
-        Tests all filenames and file sizes in this dataset
+        """Tests all filenames and file sizes in this dataset
 
         Returns
         -------
@@ -139,8 +136,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
             return self._aggregated
 
     def variable_time_axis(self, var_key, atmos_timestep):
-        """
-        Extracts time axis and bounds (if they exist) from a netcdf file, along with corresponding frequency code.
+        """Extracts time axis and bounds (if they exist) from a netcdf file, along with corresponding frequency code.
         Axes and bounds are ordered dictionaries indexed with names of the files from which they have been extracted,
         the assumption is that for CMIP6-like output standard filename ordering will correspond to time ordering.
 

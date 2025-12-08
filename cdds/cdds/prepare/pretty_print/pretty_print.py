@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-The :mod:`pretty_print` module contains the code to
+"""The :mod:`pretty_print` module contains the code to
 pretty print a request variables input file.
 """
 
@@ -12,16 +11,13 @@ from cdds.common.io import read_json
 
 
 class CsvPrinter(object):
-    """
-    Pretty print data into a CSV sheet
-    """
+    """Pretty print data into a CSV sheet"""
 
     def __init__(self, header,  csv_delimiter):
         self._sheet = CsvSheet(header, delimiter=csv_delimiter)
 
     def pretty_print_to_file(self, input_file, output_file):
-        """
-        Pretty print the data in the input file as CSV data into
+        """Pretty print the data in the input file as CSV data into
         the output file
 
         Parameters

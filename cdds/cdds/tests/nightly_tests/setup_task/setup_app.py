@@ -16,8 +16,7 @@ from cdds.tests.nightly_tests.setup_task.activities import (setup_directory_stru
 
 
 class CddsSetupApp(NightlyApp):
-    """
-    App used by nightly tests to setup the CDDS and MASS directories and generate the
+    """App used by nightly tests to setup the CDDS and MASS directories and generate the
     variables list from the selected variables.
     """
 
@@ -39,9 +38,7 @@ class CddsSetupApp(NightlyApp):
 
     @property
     def cli_spec(self) -> List[Dict[str, Any]]:
-        """
-        Defines the command-line parameters for the app
-        """
+        """Defines the command-line parameters for the app"""
         return [
             {"names": ["-c", "--config-file"],
              "help": "Pathname of app configuration file."},
@@ -53,8 +50,7 @@ class CddsSetupApp(NightlyApp):
         ]
 
     def run(self) -> None:
-        """
-        Run application: Setup the necessary CDDS directory and MASS directories. Then, generate
+        """Run application: Setup the necessary CDDS directory and MASS directories. Then, generate
         the |requested variables list|. Finally, link the input directory to the corresponding CDDS
         directory where the |model output files| used as input to CDDS Convert are written.
         """

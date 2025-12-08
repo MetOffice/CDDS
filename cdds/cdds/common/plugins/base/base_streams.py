@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2022-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`base_streams` module contains the code required to
+"""The :mod:`base_streams` module contains the code required to
 handle basic model streams information for streams.
 """
 import os
@@ -17,8 +16,7 @@ from cdds.common.plugins.streams import StreamInfo, StreamStore
 
 @dataclass
 class StreamIdentifier:
-    """
-    Represents the streams for a MIP table. It contains:
+    """Represents the streams for a MIP table. It contains:
         * name of the MIP table
         * the default supported stream
         * the overrides supported streams according MIP requested variables
@@ -28,23 +26,28 @@ class StreamIdentifier:
     overrides: Dict[str, str] = field(default_factory=dict)  # key: variable, value: stream
 
     def add_overrides(self, new_overrides: Dict[str, str]) -> None:
-        """
-        Add new overrides supported streams according MIP request variables
+        """Add new overrides supported streams according MIP request variables
 
-        :param new_overrides: New overrides (key: MIP request variable, value: stream)
-        :type new_overrides: Dict[str, str]
+        Parameters
+        ----------
+        new_overrides : Dict[str, str]
+            New overrides (key: MIP request variable, value: stream)
         """
         self.overrides.update(new_overrides)
 
     def get_stream(self, variable: str = None) -> str:
-        """
-        Return the supported stream for the given MIP requested variable. If the MIP requested variable
+        """Return the supported stream for the given MIP requested variable. If the MIP requested variable
         is NONE, the default stream is returned.
 
-        :param variable: MIP requested variable
-        :type variable: str
-        :return: The stream for the MIP requested variable
-        :rtype: str
+        Parameters
+        ----------
+        variable : str
+            MIP requested variable
+
+        Returns
+        -------
+        str
+            The stream for the MIP requested variable
         """
         if variable:
             return self.overrides.get(variable, self.default_stream)
@@ -53,8 +56,7 @@ class StreamIdentifier:
 
 
 class BaseStreamInfo(StreamInfo, metaclass=ABCMeta):
-    """
-    Abstract class to store the information for a stream.
+    """Abstract class to store the information for a stream.
     The information of a stream are defined in a json file.
 
     The class loads the information from a json in a specific location.
@@ -71,8 +73,7 @@ class BaseStreamInfo(StreamInfo, metaclass=ABCMeta):
             raise BaseException("No stream config json file at path: {}".format(configuration_path))
 
     def _load_streams(self, configuration: Dict[str, Any]) -> None:
-        """
-        Loads and extracts information of the stream of the MIP tables from the given configuration dictionary.
+        """Loads and extracts information of the stream of the MIP tables from the given configuration dictionary.
 
         The configuration dictionary must contain a section <default> and <overrides>. The <default> section
         contains the default stream of a MIP table. The <overrides> section contains all streams that override
@@ -95,8 +96,10 @@ class BaseStreamInfo(StreamInfo, metaclass=ABCMeta):
             }
         }
 
-        :param configuration: Configuration dictionary
-        :type configuration: Dict[str, Any]
+        Parameters
+        ----------
+        configuration : Dict[str, Any]
+            Configuration dictionary
         """
         if 'default' in configuration.keys():
             for mip_table, stream_default in configuration["default"].items():
@@ -108,16 +111,20 @@ class BaseStreamInfo(StreamInfo, metaclass=ABCMeta):
                 self._streams[mip_table] = stream_id
 
     def retrieve_stream_id(self, variable: str, mip_table: str) -> Tuple[str, str]:
-        """
-        Returns the stream and its sub streams of the MIP table for the given MIP requested variable.
+        """Returns the stream and its sub streams of the MIP table for the given MIP requested variable.
         If no stream is found, ``unknown`` is returned.
 
-        :param variable: MIP requested variable
-        :type variable: str
-        :param mip_table: The MIP table that streams should be considered
-        :type mip_table: str
-        :return: Tuple of stream and substream of the MIP table for the MIP requestd variable
-        :rtype: Tuple[str, str]
+        Parameters
+        ----------
+        variable : str
+            MIP requested variable
+        mip_table : str
+            The MIP table that streams should be considered
+
+        Returns
+        -------
+        Tuple[str, str]
+            Tuple of stream and substream of the MIP table for the MIP requestd variable
         """
         try:
             stream = self._streams[mip_table].get_stream(variable)
@@ -137,8 +144,7 @@ class BaseStreamInfo(StreamInfo, metaclass=ABCMeta):
 
 
 class BaseStreamStore(StreamStore, metaclass=ABCMeta):
-    """
-    Singleton class to store for each stream the corresponding stream information.
+    """Singleton class to store for each stream the corresponding stream information.
 
     The class is a singleton to avoid excessive loading of the information.
     """
@@ -148,10 +154,11 @@ class BaseStreamStore(StreamStore, metaclass=ABCMeta):
         self._stream_info = stream_info
 
     def get(self) -> BaseStreamInfo:
-        """
-        Returns the stored stream information data.
+        """Returns the stored stream information data.
 
-        :return: Class containing the stream information
-        :rtype: BaseStreamInfo
+        Returns
+        -------
+        BaseStreamInfo
+            Class containing the stream information
         """
         return self._stream_info

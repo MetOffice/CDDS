@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2015-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable=no-member, logging-format-interpolation
-"""
-Produce the |output netCDF files| for a |MIP| using
+"""Produce the |output netCDF files| for a |MIP| using
 |model output files| that cover a single uninterrupted time period and
 information provided in the |user configuration file|.
 """
@@ -24,8 +23,7 @@ from mip_convert.model_output_files import get_files_to_produce_output_netcdf_fi
 
 
 def convert(parameters):
-    """
-    Produce the |output netCDF files| for a |MIP| using
+    """Produce the |output netCDF files| for a |MIP| using
     |model output files|.
 
     If a |MIP requested variable| is unable to be produced, for
@@ -43,9 +41,10 @@ def convert(parameters):
     message will be written to the log and the exit code will be set
     equal to 2.
 
-    :param parameters: the names of the parameters and their validated
-                       values
-    :type parameters: :class:`argparse.Namespace` object
+    Parameters
+    ----------
+    :class:`argparse.Namespace` object
+        the names of the parameters and their validated values
     """
     # Retrieve the logger.
     exit_code = 0

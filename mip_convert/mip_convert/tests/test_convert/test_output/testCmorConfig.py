@@ -15,9 +15,7 @@ class TestConfigContext(unittest.TestCase):
     DEFAULT_SECTION = 'data_source'
 
     def dataset(self, *args, **kwargs):
-        """
-        stub cmor
-        """
+        """stub cmor"""
         self.dataset_args = args
         self.dataset_kwargs = kwargs
 

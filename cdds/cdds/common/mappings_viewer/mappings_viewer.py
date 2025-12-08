@@ -19,8 +19,7 @@ from mip_convert.plugins.plugins import MappingPluginStore
 
 
 def get_mappings(mappings_directory):
-    """
-    Read all of the mappings for a given model and return them as a list of lists.
+    """Read all of the mappings for a given model and return them as a list of lists.
 
     Parameters
     ----------
@@ -61,8 +60,7 @@ def get_mappings(mappings_directory):
 
 
 def get_processor_lines(mappings_directory: str) -> dict[str, int]:
-    """
-    Get the function names and their lines within the file from processors.py
+    """Get the function names and their lines within the file from processors.py
 
     Parameters
     ----------
@@ -88,8 +86,7 @@ def get_processor_lines(mappings_directory: str) -> dict[str, int]:
 
 
 def get_mapping_lines(mappings_directory: str):
-    """
-    Reads in the .cfg mapping files from mip_convert and returns a dict of dicts where
+    """Reads in the .cfg mapping files from mip_convert and returns a dict of dicts where
     each dictionary contains key:value pairs of variable_name:line_of_file.
 
     Parameters
@@ -122,8 +119,7 @@ def get_mapping_lines(mappings_directory: str):
 
 
 def get_stash_meta_dict(stashmaster_path: str):
-    """
-    Read a STASHmaster-meta.conf file and returns a dictionary of stash codes with an associated
+    """Read a STASHmaster-meta.conf file and returns a dictionary of stash codes with an associated
     dictionary containing the description and help fields if they exist.
 
     Parameters
@@ -170,8 +166,7 @@ def get_stash_meta_dict(stashmaster_path: str):
 
 
 def format_mapping(expression, stash_meta_dictionary, processors):
-    """
-    Takes an expression string from a mapping and replaces the STASH codes and constants
+    """Takes an expression string from a mapping and replaces the STASH codes and constants
     with tooltips, and the processor names with links to the relevant LOC on github.
 
     Parameters
@@ -216,8 +211,7 @@ def format_mapping(expression, stash_meta_dictionary, processors):
 
 
 def format_comments(comments):
-    """
-    Format the notes and comment fields from the mappings as a tooltip.
+    """Format the notes and comment fields from the mappings as a tooltip.
 
     Parameters
     ----------
@@ -245,8 +239,7 @@ def format_comments(comments):
 #  If this isn't reimplemented in future then this format_mapping_link function
 #  can be removed.
 def format_mapping_link(entry, line_mappings):
-    """
-    Adds a hyperlink to .cfg file name which point to the file and line of the mapping on github.
+    """Adds a hyperlink to .cfg file name which point to the file and line of the mapping on github.
 
     Parameters
     ----------
@@ -268,8 +261,7 @@ def format_mapping_link(entry, line_mappings):
 
 
 def build_table(table_data, mappings_directory, stashmaster_path):
-    """
-    Build the  HTML for table showing the supplied table_data
+    """Build the  HTML for table showing the supplied table_data
 
     Parameters
     ----------
@@ -316,8 +308,7 @@ def build_table(table_data, mappings_directory, stashmaster_path):
 
 
 def generate_html(table: str, model: str, mappings_dir: str, arguments: Namespace) -> None:
-    """
-    Parameters
+    """Parameters
     ----------
     table : str
         The html table

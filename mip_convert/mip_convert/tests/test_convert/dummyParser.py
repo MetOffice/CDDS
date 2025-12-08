@@ -3,9 +3,7 @@
 
 
 class SafeConfigParser(object):
-    """
-    act as a stub config parser
-    """
+    """act as a stub config parser"""
 
     def read(self, fname):
         self.read_file = fname

@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-This module contains the code to generate |requested variables lists|.
-"""
+"""This module contains the code to generate |requested variables lists|."""
 import configparser
 import glob
 import logging
@@ -36,13 +34,6 @@ from cdds.prepare.user_variable import UserDefinedVariable, parse_variable_list
 
 
 def generate_variable_list(arguments: Namespace) -> int:
-    """
-    Generate the |requested variables list|.
-
-    :param arguments: The names of the command line arguments and their validated values.
-    :type arguments: Namespace
-    :raises
-    """
     """
     Generate the |requested variables list|.
 
@@ -112,17 +103,18 @@ def generate_variable_list(arguments: Namespace) -> int:
 
 
 def check_variables_recognised(var_list: dict[str, Any]) -> int:
-    """
-    Checks for unrecognised variables in the provided list and logs critical messages if they exist.
+    """Checks for unrecognised variables in the provided list and logs critical messages if they exist.
 
     Parameters
     ----------
     var_list : dict
         The user requested variables.
+
     Returns
     -------
     int
         Returns 1 if there are any unrecognised (inactive) variables, otherwise returns 0.
+
     Logs
     ----
     Critical log messages for each unrecognised variable, including its comments.
@@ -143,8 +135,7 @@ def check_variables_recognised(var_list: dict[str, Any]) -> int:
 
 
 def check_streams_match_variables(var_list: dict[str, Any], request: Any) -> int:
-    """
-    Compares the set of streams present in the variables list file with those from the request file.
+    """Compares the set of streams present in the variables list file with those from the request file.
     Logs critical errors for any streams found in one but not the other, and returns a status code of 1 if
     mismatches are found.
 
@@ -201,15 +192,19 @@ def check_streams_match_variables(var_list: dict[str, Any], request: Any) -> int
 
 
 def reconfigure_mip_cfg_file(request: Request, requested_variables_file: str) -> None:
-    """
-    Reconfigure the MIP convert configuration file.
+    """Reconfigure the MIP convert configuration file.
 
-    :param request: Request containing all information for the MIP convert cfg file
-    :type request: Request
-    :param component: requested_variables_file
-    :type component: str
-    :return: Path to the requested variable file
-    :rtype: str
+    Parameters
+    ----------
+    request : Request
+        Request containing all information for the MIP convert cfg file
+    component : str
+        requested_variables_file
+
+    Returns
+    -------
+    str
+        Path to the requested variable file
     """
     logger = logging.getLogger()
     logger.info('* Starting reconfiguration *')
@@ -227,8 +222,7 @@ def reconfigure_mip_cfg_file(request: Request, requested_variables_file: str) ->
 
 
 def retrieve_mappings(variables: list[UserDefinedVariable], mip_era, model_id) -> dict[str, dict[str, Any]]:
-    """
-    Return the |model to MIP mappings| for the |MIP requested variables|.
+    """Return the |model to MIP mappings| for the |MIP requested variables|.
 
     The returned |model to MIP mappings| are organised by |MIP table|,
     then |MIP requested variable name|. Note if the
@@ -247,7 +241,7 @@ def retrieve_mappings(variables: list[UserDefinedVariable], mip_era, model_id) -
 
     Returns
     -------
-    : dict of :class:`VariableModelToMIPMapping`
+    dict of :class:`VariableModelToMIPMapping`
         The |model to MIP mappings| for the |MIP requested variables|.
     """
     mapping_plugin = MappingPluginStore.instance().get_plugin()
@@ -267,8 +261,7 @@ def retrieve_mappings(variables: list[UserDefinedVariable], mip_era, model_id) -
 
 
 def check_mappings(variable: UserDefinedVariable, model_to_mip_mappings):
-    """
-    Return whether the |MIP requested variable| provided by the
+    """Return whether the |MIP requested variable| provided by the
     ``variable`` parameter has an associated |model to MIP mapping|
     provided by the ``model_to_mip_mappings`` parameter, along with the
     |model to MIP mapping|.
@@ -282,7 +275,7 @@ def check_mappings(variable: UserDefinedVariable, model_to_mip_mappings):
 
     Returns
     -------
-    : bool, :class:`VariableModelToMIPMapping`
+    bool, :class:`VariableModelToMIPMapping`
         Whether the |MIP requested variable| has an associated
         |model to MIP mapping|, along with the |model to MIP mapping|
         for the |MIP requested variable|.
@@ -300,12 +293,11 @@ def check_mappings(variable: UserDefinedVariable, model_to_mip_mappings):
 
 
 def resolve_requested_variables(request_variables: list[UserDefinedVariable], model_to_mip_mappings):
-    """
-    Return the resolved |MIP requested variables|.
+    """Return the resolved |MIP requested variables|.
 
     Returns
     -------
-    : list
+    list
         The resolved |MIP requested variables|.
     """
     mapping_data = MappingStatus.get_instance()
@@ -343,8 +335,7 @@ class VariablesConstructor:
         self.requested_variables = requested_variables
 
     def construct_requested_variables_list(self):
-        """
-        Return the |requested variables list| using the values in the config object.
+        """Return the |requested variables list| using the values in the config object.
 
         Returns
         -------
@@ -373,14 +364,12 @@ class VariablesConstructor:
 
 
 class InventoryVariablesConstructor(VariablesConstructor):
-    """
-    Class that provides function for listing variables with
+    """Class that provides function for listing variables with
     additional in the inventory database
     """
 
     def __init__(self, db_file, config):
-        """
-        Parameters
+        """Parameters
         ----------
         db_file: str
             path to the inventory database configuration file
@@ -392,8 +381,7 @@ class InventoryVariablesConstructor(VariablesConstructor):
         self._db_data = self._dao.get_variables_data(config.model_id, config.experiment_id, config.variant_label)
 
     def additional_active_checks(self, variable, comments):
-        """
-        Returns if the requested variable is according the inventory database active or not.
+        """Returns if the requested variable is according the inventory database active or not.
         A variable is active if the status in the inventory database is not 'available' or 'in progress'. If the
         variable is not found in the inventory database, it is active by default.
         A comment will be added if a variable is inactive.
@@ -405,7 +393,7 @@ class InventoryVariablesConstructor(VariablesConstructor):
             The comments related to the |MIP requested variable|.
         Returns
         -------
-        : bool
+        bool
             Whether the |MIP requested variable| is activated in the inventory database.
         """
         logger = logging.getLogger(__name__)

@@ -2,9 +2,7 @@
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = no-member
-"""
-Tests for new_variable.py.
-"""
+"""Tests for new_variable.py."""
 from copy import copy
 import unittest
 
@@ -25,14 +23,10 @@ from mip_convert.tests.common import dummy_cube
 
 
 class TestVariableMetadata(unittest.TestCase):
-    """
-    Tests for ``VariableMetadata`` in new_variable.py.
-    """
+    """Tests for ``VariableMetadata`` in new_variable.py."""
 
     def setUp(self):
-        """
-        Create the ``VariableMetadata`` object.
-        """
+        """Create the ``VariableMetadata`` object."""
         load_mapping_plugin('UKESM1')
         self.variable_name = 'tnt'
         self.model_id = 'UKESM1-0-LL'
@@ -146,14 +140,10 @@ class TestVariableMetadata(unittest.TestCase):
 
 
 class TestVariable(unittest.TestCase):
-    """
-    Tests for ``Variable`` in new_variable.py.
-    """
+    """Tests for ``Variable`` in new_variable.py."""
 
     def setUp(self):
-        """
-        Create the ``Variable`` object.
-        """
+        """Create the ``Variable`` object."""
         load_plugin()
         load_mapping_plugin('HadGEM3')
         self.variable_name = 'ta'
@@ -444,14 +434,10 @@ def _loadable(term, constraints, number=0):
 
 
 class TestVariableModelToMIPMapping(unittest.TestCase):
-    """
-    Tests for ``VariableModelToMIPMapping`` in new_variable.py.
-    """
+    """Tests for ``VariableModelToMIPMapping`` in new_variable.py."""
 
     def setUp(self):
-        """
-        Create the ``VariableModelToMIPMapping`` object.
-        """
+        """Create the ``VariableModelToMIPMapping`` object."""
         load_mapping_plugin('HadGEM3')
         self.model_id = 'HadGEM3-GC31-LL'
         self.variable_name = 'tasmin'
@@ -608,14 +594,10 @@ class TestVariableModelToMIPMapping(unittest.TestCase):
 
 
 class TestVariableMIPMetadata(unittest.TestCase):
-    """
-    Tests for ``VariableMIPMetadata`` in new_variable.py.
-    """
+    """Tests for ``VariableMIPMetadata`` in new_variable.py."""
 
     def setUp(self):
-        """
-        Create the ``VariableMIPMetadata`` object.
-        """
+        """Create the ``VariableMIPMetadata`` object."""
         self.axes_directions_names = {'Y': 'latitude', 'X': 'longitude', 'Z': 'depth_coord', 'T': 'time'}
         self.axes_names = ['longitude', 'latitude', 'depth_coord', 'time']
         self.obj = variable_mip_metadata('tas', self.axes_names)
@@ -696,9 +678,7 @@ class TestVariableMIPMetadata(unittest.TestCase):
 
 
 class TestReplaceConstants(unittest.TestCase):
-    """
-    Tests for ``replace_constants`` in :mod:`new_variable.py`.
-    """
+    """Tests for ``replace_constants`` in :mod:`new_variable.py`."""
 
     def setUp(self):
         self.expression = 'CO2FLUX * MOLECULAR_MASS_OF_CO2'
@@ -725,9 +705,7 @@ class TestReplaceConstants(unittest.TestCase):
 
 
 class TestNearestCoordinates(unittest.TestCase):
-    """
-    Tests for ``nearest_coordinates`` in new_variable.py.
-    """
+    """Tests for ``nearest_coordinates`` in new_variable.py."""
 
     def setUp(self):
         self.coordinates1 = [(0.0, 1.0), (2.0, 3.0)]

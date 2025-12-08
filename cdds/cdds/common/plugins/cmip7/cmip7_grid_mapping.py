@@ -11,23 +11,28 @@ class CMIP7GridMapping(BaseGridMapping):
 
     @property
     def additional_default_grids_file(self) -> str:
-        """
-        Returns the path to an additional default grid configuration that overrides the values
+        """Returns the path to an additional default grid configuration that overrides the values
         in the basic default grid information.
 
-        :return: Path to the default grid information file
+        Returns
+        -------
+        unknown
+            Path to the default grid information file
+
+
         :rtype; str
         """
         return os.path.join(self.data_folder, "default_grids.cfg")
 
     @property
     def additional_grids_file(self) -> str:
-        """
-        Returns the path to an additional default grid configuration that overrides the values
+        """Returns the path to an additional default grid configuration that overrides the values
         in the basic default grid information.
 
-        :return: Path to the grid information file
-        :rtype: str
+        Returns
+        -------
+        str
+            Path to the grid information file
         """
 
         return os.path.join(self.data_folder, "grids.cfg")
