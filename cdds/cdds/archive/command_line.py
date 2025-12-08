@@ -96,14 +96,13 @@ def main_store_spice(arguments: List[str] = None) -> int:
 
 def main_publish(arguments=None):
     """
-
     Parameters
     ----------
     arguments
 
-    Returns
-    -------
-
+    Raises
+    ------
+    NotImplementedError
     """
     raise NotImplementedError()
 

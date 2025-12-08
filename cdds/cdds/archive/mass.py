@@ -158,12 +158,12 @@ def check_stored_status(
 
     Returns
     -------
-    : list
+    list
         A filtered list of the input mip_approved_variables dictionaries,
         with only those dictionaries where the data files to be archived
         and the files already in the archive are in a valid state
         to process the archiving operation.
-    : list
+    list
         A list of dictionaries with information about the invalid variables
         this is mainly used later to determine whether the issues found
         warrant a non zero exit code.
@@ -213,13 +213,13 @@ def get_stored_data(var_dict, mass_records):
 
     Returns
     -------
-    : dict
-    A dictionary of the |output netCDF files| stored in the archive for this
-    |MIP output variable|. The dictionary contains a dictionary for
-    each of the states listed in DATA_PUBLICATION_STATUS_DICT. Each
-    of those dictionaries has an entry for each datestamp version, which
-    contains a list of the files present in the archive for that state
-    and version.
+    dict
+        A dictionary of the |output netCDF files| stored in the archive for this
+        |MIP output variable|. The dictionary contains a dictionary for
+        each of the states listed in DATA_PUBLICATION_STATUS_DICT. Each
+        of those dictionaries has an entry for each datestamp version, which
+        contains a list of the files present in the archive for that state
+        and version.
     """
     stored_data_dict = {}
     root_path = var_dict['mass_path']
@@ -267,7 +267,7 @@ def filter_archived_files(var_dict):
 
     Returns
     -------
-    : dict
+    dict
         A dictionary containing all the  information specific to
         this | MIP output variable| required to archive the relevant
         |output netCDF files|, with the output files that do not need
@@ -309,7 +309,7 @@ def filter_data_files(var_dict):
 
     Returns
     -------
-    : dict
+    dict
         A dictionary containing all the  information specific to
         this | MIP output variable| required to archive the relevant
         |output netCDF files|, with the output files that do not need
@@ -366,7 +366,7 @@ def move_files_for_prepending_and_appending_cmd(var_dict, simulation=False):
 
     Returns
     -------
-    : dict
+    dict
         A dictionary containing all the  information specific to
         this | MIP output variable| required to archive the relevant
         |output netCDF files|, updated the archive operations performed.
