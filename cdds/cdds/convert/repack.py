@@ -181,7 +181,7 @@ def run_check_cmip7_packing(file_path: str) -> int:
     int
         The return code from the check_cmip7_packing command.
         0 if already packed, non-zero if repacking needed.
-    
+
     Raises
     ------
     FileNotFoundError
@@ -207,21 +207,40 @@ def run_check_cmip7_packing(file_path: str) -> int:
             "Please ensure cmip7_repack is properly installed and available."
         ) from exc
 
-    logger.info(f"check_cmip7_packing result: {result.stdout}")
-    
+    logger.info(f"check_cmip7_packing stdout: {result.stdout}")
+    if result.stderr:
+        logger.error(f"check_cmip7_packing stderr: {result.stderr}")
+
+    if result.returncode == 2:
+        raise ValueError(
+            f"Invalid command-line options passed to check_cmip7_packing for {file_path}\n"
+            f"{result.stdout.strip()}"
+        )
+    elif result.returncode == 3:
+        raise FileNotFoundError(
+            f"File does not exist: {file_path}\n{result.stdout.strip()}"
+        )
+    elif result.returncode == 4:
+        raise PermissionError(f"Cannot open file: {file_path}\n{result.stdout.strip()}")
+    elif result.returncode == 5:
+        raise RuntimeError(f"Cannot parse file: {file_path}\n{result.stdout.strip()}")
+
+    # Handle PASS/FAIL from stdout
     if "PASS" in result.stdout:
         return 0
     elif "FAIL" in result.stdout:
+        # Extract the failure message from stdout
+        fail_lines = [line for line in result.stdout.split("\n") if "FAIL:" in line]
+        fail_msg = "\n".join(fail_lines) if fail_lines else result.stdout.strip()
+        logger.warning(f"File failed CMIP7 packing checks: {fail_msg}")
         return 1
     else:
-        if result.stderr:
-            logger.error(f"check_cmip7_packing stderr: {result.stderr}")
         raise RuntimeError(
-            f"\nNeither PASS nor FAIL found in check_cmip7_packing output for {file_path}"
+            f"Unexpected output from check_cmip7_packing for {file_path}:\n{result.stdout.strip()}"
         )
 
 
-def run_cmip7repack(file_path: str) -> None:
+def run_cmip7repack(file_path: str) -> int:
     """
     Repack a NetCDF file using the cmip7repack tool.
 
@@ -230,10 +249,15 @@ def run_cmip7repack(file_path: str) -> None:
     file_path : str
         The full path to the NetCDF file to be repacked.
 
+    Returns
+    -------
+    int
+        0 if the command runs successfully, 1 if it fails.
+
     Raises
     ------
-    RuntimeError
-        If the cmip7repack command fails.
+    FileNotFoundError
+        If the cmip7repack command is not found in PATH.
     """
     logger = logging.getLogger(__name__)
 
@@ -245,12 +269,16 @@ def run_cmip7repack(file_path: str) -> None:
             msg=f"\nFailed to repack: {file_path}",
         )
         logger.info(f"\ncmip7repack stdout:\n{stdout}")
+        return 0
     except FileNotFoundError:
         logger.error(
             f"Command not found: {command[0]}. "
             "Please ensure cmip7_repack is properly installed and available."
         )
         raise
+    except RuntimeError:
+        logger.error(f"Failed to repack: {file_path}")
+        return 1
 
 
 def main_repack() -> None:
@@ -260,10 +288,7 @@ def main_repack() -> None:
     log_file = args.log_file if args.log_file else "repack"
 
     configure_logger(
-        log_name=log_file,
-        log_level=20,
-        append_log=False,
-        show_stacktrace=False
+        log_name=log_file, log_level=20, append_log=False, show_stacktrace=False
     )
 
     logger = logging.getLogger(__name__)
