@@ -162,7 +162,7 @@ def log_archiving_issues(invalid_var: dict) -> str:
         err_msg += f':\n{str(next(iter(output_parent_path)))} ...\n{mip_output_head_tail}\n'
     else:
         err_msg += f'multiple directories:\n{output_parent_path} ...\n{mip_output_head_tail}\n'
-        
+
     stored_data = invalid_var["stored_data"]
     for state, state_entry in stored_data.items():
         for state_entry, _ in stored_data[state].items():
