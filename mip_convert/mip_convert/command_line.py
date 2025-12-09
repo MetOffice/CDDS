@@ -70,7 +70,7 @@ def parse_parameters(args):
 
     Parameters
     ----------
-    args : list of strings
+    args : list[str]
         the parameters to be parsed
 
     Returns

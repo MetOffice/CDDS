@@ -207,11 +207,11 @@ class RelativePathChecker(object):
         Parameters
         ----------
         base
-            - the base path to provide
+            the base path to provide
         description
-            - descriptive text for the files in this directory, used in error messages
+            descriptive text for the files in this directory, used in error messages
         os_path
-            - object with the same interface as the os_path module
+            object with the same interface as the os_path module
         """
         self.os_path = os_path
         self.base = base
@@ -906,11 +906,8 @@ def parse_to_loadables(expression, constants, mappings_config):
         the |model to MIP mapping| expression as defined in the |model to MIP mapping| configuration files
     constants : dictionary
         the constants that may be used in the expression
-    mappings_config
+    mappings_config: function
         information on the type and multiplicity of terms in expression
-
-
-    :type: function
 
     Returns
     -------

@@ -54,25 +54,27 @@ class BoundsChecker(ObjectWithLogger):
                  tol_min_action=RAISE_EXCEPTION, tol_max_action=RAISE_EXCEPTION, oob_action=RAISE_EXCEPTION):
         """Creates a BoundsChecker instance object.
 
-        @param fill_value: Fill value (aka missing data indicator)
-        @type  fill_value: float
-        @param valid_min: Minimum valid value
-        @type  valid_min: float
-        @param valid_max: Maximum valid value
-        @type  valid_max: float
-        @param tol_min: Minimum tolerable value
-        @type  tol_min: float
-        @param tol_max: Maximum tolerable value
-        @type  tol_max: float
-        @param tol_min_action: Action to take if a value falls within the lower tolerance band.
-           One of the constants: [ PASS_VALUE, SET_TO_FILL_VALUE, SET_TO_VALID_VALUE, RAISE_EXCEPTION ]
-        @type  tol_min_action: int
-        @param tol_max_action: Action to take if a value falls within the upper tolerance band.
-           One of the constants: [ PASS_VALUE, SET_TO_FILL_VALUE, SET_TO_VALID_VALUE, RAISE_EXCEPTION ]
-        @type  tol_max_action: int
-        @param oob_action: Action to take if a value is completely out of bounds.
-           One of the constants: [ PASS_VALUE, SET_TO_FILL_VALUE, RAISE_EXCEPTION ]
-        @type  oob_action: int
+        Parameters
+        ----------
+        fill_value: float
+            Fill value (aka missing data indicator)
+        valid_min: float
+            Minimum valid value
+        valid_max: float
+            Maximum valid value
+        tol_min: float
+            Minimum tolerable value
+        tol_max: float
+            Maximum tolerable value
+        tol_min_action: int
+            Action to take if a value falls within the lower tolerance band. One of the constants: 
+            [ PASS_VALUE, SET_TO_FILL_VALUE, SET_TO_VALID_VALUE, RAISE_EXCEPTION ]
+        tol_max_action: int
+            Action to take if a value falls within the upper tolerance band. One of the constants: 
+            [ PASS_VALUE, SET_TO_FILL_VALUE, SET_TO_VALID_VALUE, RAISE_EXCEPTION ]
+        oob_action: int
+            Action to take if a value is completely out of bounds. One of the constants: 
+            [ PASS_VALUE, SET_TO_FILL_VALUE, RAISE_EXCEPTION ]
         """
         super(BoundsChecker, self).__init__()
 
@@ -113,12 +115,21 @@ class BoundsChecker(ObjectWithLogger):
            oob_min : # of values reset within the lower out-of-bounds zone
            oob_max : # of values reset within the upper out-of-bounds zone
 
-        @param array: A mutable sequence containing the array of values to check. Remember: tuples are
-           immutable so don't pass in one of those!
-        @type  array: mutable sequence object
-        @return: The total number of reset values, which may be 0.
-        @raise OutOfBoundsError: Raised if an array value is out of bounds and oob_action is set to
-           the constant RAISE_EXCEPTION.
+        Parameters
+        ----------
+        array: mutable sequence object
+            A mutable sequence containing the array of values to check. Remember: tuples are immutable so don't pass in
+            one of those!
+
+        Returns
+        -------
+         :
+            The total number of reset values, which may be 0.
+        
+        Raises
+        ------
+        OutOfBoundsError
+            Raised if an array value is out of bounds and oob_action is set to the constant RAISE_EXCEPTION.
         """
         assert array is not None, "Input array is empty."
         assert isinstance(array, (list, ndarray)), "Input array type is not supported: %s" % type(array)
@@ -274,11 +285,20 @@ class MaskedArrayBoundsChecker(BoundsChecker):
            if ind.any() :             # if some values were found...
               array[ind] = new_value  # ...do something
 
-        @param array: A MaskedArray object containing the array of values to check.
-        @type  array: MaskedArray
-        @return: The total number of reset values, which may be 0.
-        @raise OutOfBoundsError: Raised if an array value is out of bounds and oob_action is set to
-           the constant RAISE_EXCEPTION.
+        Parameters
+        ----------
+        array: MaskedArray
+            A MaskedArray object containing the array of values to check.
+
+        Returns
+        -------
+         :
+            The total number of reset values, which may be 0.
+
+        Raises
+        ------
+        OutOfBoundsError
+            Raised if an array value is out of bounds and oob_action is set to the constant RAISE_EXCEPTION.
         """
         self.stats = dict(total=0, tol_min=0, tol_max=0, oob_min=0, oob_max=0)
         if self.tol_min_action == PASS_VALUE and (self.tol_max_action == PASS_VALUE and self.oob_action == PASS_VALUE):

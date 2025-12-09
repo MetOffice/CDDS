@@ -14,7 +14,7 @@ def stash_to_int(stash_string):
 
     Returns
     -------
-    : int
+    int
         The integer form of the |STASH code|.
     """
     stash_int = None

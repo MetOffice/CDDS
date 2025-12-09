@@ -16,10 +16,16 @@ class PpSelectableFile(ObjectWithLogger):
     """A pp file that supports selection based on pp header elements"""
 
     def __init__(self, timestep, pp_file, var_generator, opener):
-        """@param timestep: the timestep of the model for this file factory
-        @param pp_file: a pp file to read from (support list of headers, read of extras, read of data)
-        @param var_generatord: an object capable of generating multi-dimensional variables from a list of pp fields
-        @param opener: an object capable of opening a file of this type
+        """
+        Parameters
+        ----------
+        timestep: 
+            the timestep of the model for this file factory
+        pp_file: 
+            a pp file to read from (support list of headers, read of extras, read of data)
+        var_generatord: 
+            an object capable of generating multi-dimensional variables from a list of pp fields
+        opener:             an object capable of opening a file of this type
         """
         super(self.__class__, self).__init__()
         self.raw_pp_file = pp_file
@@ -70,10 +76,15 @@ class PpSelectedVariable(object):
     """
 
     def __init__(self, raw_pp_file, indexes, variable_generator):
-        """@param raw_pp_file: the pp file to read from
-        @param indexes: list of pp field (header+data+extradata) in the
-                        raw_pp_file from which variable will be made
-        @param fields_factory: object needed to generate the pp domains
+        """
+        Parameters
+        ----------
+        raw_pp_file: 
+            the pp file to read from
+        indexes:
+            list of pp field (header+data+extradata) in the raw_pp_file from which variable will be made
+        fields_factory:
+            object needed to generate the pp domains
         """
         self._raw_pp_file = raw_pp_file
         self._indexes = indexes
@@ -125,11 +136,15 @@ class PpFileFactory(object):
     """_SELECTABLE is the class to use to generate the file types"""
 
     def __init__(self, timestep, pp_module, variable_generator):
-        """@param timestep: the timestep of the model for this file factory
-        @param pp_module: the module providing the basic pp reading capability
-        @type pp_module: an object with an openpp method
-        @param fields_factory: an object which can extract multi dimensional axis informat from a list of pp headers
-        @type fields_factory: L{mip_convert.load.pp.pp_variable.PpFieldsFactory}
+        """
+        Parameters
+        ----------
+        timestep:
+            the timestep of the model for this file factory
+        pp_module: an object with an openpp method
+            the module providing the basic pp reading capability
+        fields_factory: L{mip_convert.load.pp.pp_variable.PpFieldsFactory}
+            an object which can extract multi dimensional axis informat from a list of pp headers
         """
         self.pp_module = pp_module
         self._var_generator = variable_generator
@@ -138,10 +153,15 @@ class PpFileFactory(object):
     def openFile(self, filename):
         """open a file for reading
 
-        @param filename: the path of the file to be opened
-        @type filename: string
-        @return: pp file that supports selection of variables based on pp header elements
-        @rtype: L{PpSelectableFile}
+        Parameters
+        ----------
+        filename: str
+            the path of the file to be opened
+
+        Returns
+        -------
+        L{PpSelectableFile}
+            pp file that supports selection of variables based on pp header elements
         """
         return self.openFiles([filename])
 
@@ -161,10 +181,12 @@ class PpFileFactory(object):
         this is a utility method for use when only one variable will
         be read from a file
 
-        @param filename: the full path of the file to be read from
-        @type filename: string
-        @param stashcode: the stashcode of the variable to be read
-        @type stashcode: string in msi format
+        Parameters
+        ----------
+        filename: str
+            the full path of the file to be read from
+        stashcode: str in msi format
+            the stashcode of the variable to be read
         """
         selectable = self.openFile(filename)
         result = selectable.read_selection(stashcode)
@@ -234,8 +256,13 @@ class PpElementComparitor(object):
     """Abstract Class for matchers on individual pp header elements"""
 
     def __init__(self, att, value):
-        """@param att: name of the pp header element to compare against
-        @param value: the value to match
+        """
+        Parameters
+        ----------
+        att:
+            name of the pp header element to compare against
+        value:
+            the value to match
         """
         self._att = att
         self._tomatch = value
@@ -288,14 +315,18 @@ class PpMatch(object):
 
     def __init__(self, stashcode, blev_tol=1.e-06, first_only=False, **kwargs):
         """match pp header against pp header elements
-        @param stashcode: the stashcode to select on
-        @type stashcode: L{mip_convert.load.pp.stash_code.StashCode}
-        @param blev_tol: tolerance to use when blev_checking.
-        @param **kwargs: key-value pair where the key is a pp header
-                         element to select on, and value the value to select.
-                         allowed keys are taken from L{keywords}.
+        Parameters
+        ----------
+        stashcode: L{mip_convert.load.pp.stash_code.StashCode}
+            the stashcode to select on
+        blev_tol:
+            tolerance to use when blev_checking.
+        **kwargs:
+            key-value pair where the key is a pp header element to select on, and value the value to select. Allowed 
+            keys are taken from L{keywords}.
 
-        examples:
+        Examples
+        --------
         >>> from mip_convert.load.pp.stash_code import StashCode
         >>> match = PpMatch(StashCode(1, 1, 1), lbtim = 322)
         """
@@ -384,9 +415,17 @@ class QueryOrographyProvider(object):
     def getOrography(self, axis_x, axis_y):
         """return the orography field on the required axes
 
-        @param axis_x: longitude axis to look for orography on
-        @param axis_y: latitude axis to look for orography on
-        @raises PpError: if orography not available on the required axes.
+        Parameters
+        ----------
+        axis_x:
+            longitude axis to look for orography on
+        axis_y:
+            latitude axis to look for orography on
+        
+        Raises
+        ------
+        PpError
+            if orography not available on the required axes.
         """
         result = self._match_orog(axis_x, axis_y)
         if result is None:
@@ -407,10 +446,14 @@ class OrographyReader(object):
     def __init__(self, pp_file, variable_generator, messanger):
         """return an OrographyReader
 
-        @param pp_file: the pp file to find orography in
-        @param variable_generator: object to pass pp fields to
-                                   to generate multi-dimensional variables
-        @param messanger: object to receive messages.
+        Parameters
+        ----------
+        pp_file:
+            the pp file to find orography in
+        variable_generator:
+            object to pass pp fields to generate multi-dimensional variables
+        messanger:
+            object to receive messages.
         """
         self._pp_file = pp_file
         self._variable_generator = variable_generator
@@ -419,7 +462,10 @@ class OrographyReader(object):
     def getOrographyList(self):
         """return the list of orography fields
 
-        @raises PpError: if there are no orography fields
+        Raises
+        ------
+        PpError:
+            if there are no orography fields
         """
         indexes = self._getOrographyFieldIndexes()
         self._check_orography_found(indexes)

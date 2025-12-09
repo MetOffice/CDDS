@@ -105,13 +105,17 @@ class Variable(object):
     def __init__(self, domain, data):
         """return the Variable from the domain and data
 
-        @param domain: an object containing axis meta data
-        @type domain: L{CoordinateDomain}
-        @param data: the numerical data associated with the field
-        @type data:  numpy masked array
+        Parameters
+        ----------
+        domain: L{CoordinateDomain}
+            an object containing axis meta data
+        data: numpy masked array
+            the numerical data associated with the field
 
-        @raises VariableError: if data is not a numpy masked array
-        @raises VariableError: if data and meta data are not consistent shapes
+        Raises
+        ------
+        VariableError
+            if data is not a numpy masked array or if data and meta data are not consistent shapes
         """
         self._check(domain, data)
         self.domain = domain
@@ -556,18 +560,38 @@ class CoordinateDomain(object):
             return self.grid.fingerprint
 
     def getAxisList(self):
-        """@return the list of axes for this coordinate domain"""
+        """return the list of axes for this coordinate domain
+        
+        Returns
+        -------
+         :
+            list of axes for this coordinate domain
+        """
         return self._axis_list
 
     def getAxisOrder(self):
-        """@return the order of the directions of the axes in the domain"""
+        """@return the order of the directions of the axes in the domain
+        
+        Returns
+        -------
+         :
+            the order of the directions of the axes in the domain
+        """
         # need to import it here to prevent circular imports
         return tuple([axis.axis for axis in self.getAxisList()])
 
     def getAxis(self, axis_dir):
         """return an axis in the domain in the direction of axis_dir
-        @param axis_dir: an axis direction label
-        @return: the axis
+
+        Parameters
+        ----------
+        axis_dir
+            an axis direction label
+        
+        Returns
+        -------
+         :
+            the axis
         """
         if axis_dir not in self.getAxisOrder():
             raise VariableError('unsupported axis: "%s" ' % axis_dir)

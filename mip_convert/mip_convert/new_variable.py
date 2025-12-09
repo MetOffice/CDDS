@@ -39,7 +39,8 @@ class VariableMetadata(object):
                  hybrid_height_information, replacement_coordinates, model_to_mip_mapping, timestep, run_bounds,
                  calendar, base_date, deflate_level, shuffle, ancil_variables, force_coordinate_rotation=False,
                  reference_time=None, masking=None, removal=None):
-        """Parameters
+        """
+        Parameters
         ----------
         variable_name: string
             The |MIP requested variable name|.
@@ -116,7 +117,8 @@ class Variable(object):
     """Store metadata and data related to a |MIP requested variable|."""
 
     def __init__(self, input_variables, variable_metadata):
-        """Parameters
+        """
+        Parameters
         ----------
         input_variables: dictionary
             The |input variables| required to produce the
@@ -199,8 +201,7 @@ class Variable(object):
         Example
         -------
 
-        Create a :class:`Variable` object and update the
-        :meth:`history` multiple times:
+        Create a :class:`Variable` object and update the :meth:`history` multiple times:
         """
         return self._history
 
@@ -220,7 +221,7 @@ class Variable(object):
 
         Yields
         ------
-        : :class:`new_variable.Variable`
+        :class:`new_variable.Variable`
             The metadata and data related to a |MIP requested variable|
             for a year.
         """
@@ -249,7 +250,7 @@ class Variable(object):
 
         Returns
         -------
-        : a list containing lists of integers
+        a list containing lists of integers
             The date time items that will be used to create each
             :class:`new_variable.Variable` instance.
         """

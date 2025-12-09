@@ -195,7 +195,8 @@ class ValuedAxis(AbstractCmpAxis):
     """
 
     def __init__(self, values, axis, units):
-        """Parameters
+        """
+        Parameters
         ----------
         values : list, numpy array
               The values of the points on the axis.

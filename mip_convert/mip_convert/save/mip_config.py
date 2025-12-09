@@ -38,11 +38,13 @@ class MipTableFactory(object):
     def __init__(self, parser, path_checker):
         """return a MipTableFactory
 
-          parser - object (module or class instance) with a parseMipTable
-                   fucntion/method that returns a dictionary hierarchy
-                   representation of the MIP table
-          path_checker - object with a fullFileName method that
-                   knows where to expect to find a file
+        Parameters
+        ----------
+        parser: obj
+            object (module or class instance) with a parseMipTable fucntion/method that returns a dictionary hierarchy
+                representation of the MIP table
+        path_checker: obj
+            object with a fullFileName method that knows where to expect to find a file
         """
         self.parser = parser
         self.path_checker = path_checker

@@ -74,8 +74,15 @@ class MoNameSpace(object):
         The policy on what goes in stash_history should be dealt
         with elsewhere in the input and processing chain producing variable.
 
-        @param variable: the variable
-        @return: a string with the original_name of the variable
+        Parameters
+        ----------
+        variable
+            the variable
+
+        Returns
+        -------
+         :
+            a string with the original_name of the variable
         """
         return self.namespace_stamp(variable.stash_history)
 
@@ -131,9 +138,14 @@ class MipTableVariable(object):
         """return an object that can coordinate the generation of
         cmor axis ids
 
-        table - table name
-        entry - the variable entry
-        domain_factory - object that can generate domains
+        Parameters
+        ----------
+        table
+            table name
+        entry
+            the variable entry
+        domain_factory
+            object that can generate domains
         """
         self.table = table
         self.entry = entry
@@ -163,7 +175,11 @@ class MipTableVariable(object):
 
 def saverFactory(tablepath, acmor):
     """tablepath: path to MIP tables
-    acmor: cmor that has had setup and dataset defined
+
+    Parameters
+    ----------
+    acmor
+        cmor that has had setup and dataset defined
     """
     rel_path = RelativePathChecker(tablepath, MipTableFactory.TABLE, os.path)
     return CmorSaverFactory(CmorDomainFactory(MipTableFactory(mip_parser, rel_path)), acmor)
@@ -171,8 +187,13 @@ def saverFactory(tablepath, acmor):
 
 class CmorSaverFactory(object):
     def __init__(self, domain_factory, cmor):
-        """@param domain_factory: object that can be used to generate domains
-        @param cmor: the cmor object to use in CMOR API calls
+        """
+        Parameters
+        ----------
+        domain_factory
+            object that can be used to generate domains
+        cmor
+            the cmor object to use in CMOR API calls
         """
         self.cmor = cmor
         self.domain_factory = domain_factory
@@ -206,8 +227,15 @@ class AbstractCmorOutputter(object):
     def write_var(self, variable):
         """write a variable using CMOR
 
-        @param variable: the variable to be written
-        @raises CmorExceptionError: if the variable has longer time axis than allowed in a file
+        Parameters
+        ----------
+        variable
+            the variable to be written
+
+        Raises
+        ------
+        CmorExceptionError
+            if the variable has longer time axis than allowed in a file
         """
         raise NotImplementedError('method on abstract class')
 
@@ -324,7 +352,10 @@ class MultiFileOutputter(AbstractCmorOutputter):
         """Each file will contain ntimes_per_file output times.  The parameters
         are the same as those for L{AbstractCmorOutputter} with the additional:
 
-        @param times_per_file: the number of times to be written to each output file.
+        Parameters
+        ----------
+        times_per_file:
+            the number of times to be written to each output file.
         """
         super(MultiFileOutputter, self).__init__(entry, cmor_wrapper)
         self._ntimes_per_file = times_per_file
@@ -384,10 +415,15 @@ class PeriodWriter(AbstractCmorOutputter):
     """
 
     def __init__(self, entry, cmor, period):
-        """entry - the mip table entry
-        cmor - object with cmor interface
-        period - object that determines whether a time period has a boundary
-                 between two times.
+        """
+        Parameters
+        ----------
+        entry
+            the mip table entry
+        cmor
+            object with cmor interface
+        period 
+            object that determines whether a time period has a boundary between two times.
         """
         super(PeriodWriter, self).__init__(entry, cmor)
         self.last_axis = NotWrittenAxis()
@@ -427,11 +463,12 @@ class CmorDomainFactory(object):
     """
 
     def __init__(self, table_factory):
-        """return the CmorDomainFactory using the MIP table represented
-        by the table_factory
+        """return the CmorDomainFactory using the MIP table represented by the table_factory
 
-        @param table_factory: an object capable of producing MIP tables
-        @type table_factory: L{mip_convert.save.mip_config.MipTableFactory}
+        Parameters
+        ----------
+        table_factory: L{mip_convert.save.mip_config.MipTableFactory}
+            an object capable of producing MIP tables
         """
         self.table_factory = table_factory
 
@@ -440,8 +477,13 @@ class CmorDomainFactory(object):
 
     def getCmorDomain(self, table_name, variable_entry):
         """return the relevant CmorDomain for the variable_entry in table_name
-        @param table_name: the table id (string... format..?)
-        @param variable_entry: the variable_entry in the table that the domain is needed for
+
+        Parameters
+        ----------
+        table_name: 
+            the table id
+        variable_entry
+            the variable_entry in the table that the domain is needed for
         """
         table = self._getTable(table_name)
         if not table.hasVariable(variable_entry):
@@ -536,8 +578,11 @@ class CmorGridMaker(object):
 class CmorDomain(object):
 
     def __init__(self, axis_maker_factory):
-        """@param axis_maker_factory: object used to generate axis makers for this domain
-        @type axis_maker_factory: L{AxisMakerFactory}
+        """
+        Parameters
+        ----------
+        axis_maker_factory: L{AxisMakerFactory}
+            object used to generate axis makers for this domain
         """
         self.axis_maker_factory = axis_maker_factory
         self.axis_ids = dict()
@@ -546,10 +591,16 @@ class CmorDomain(object):
     def getAxisIds(self, variable):
         """assign cmor axis ids for each of the axis of the variable
         the ids are returned in the order of the axes of the variable
-        @param variable: the variable that will be output through CMOR
-        @type variable: L{mip_convert.variable.Variable}
 
-        @raises CmorOutputError: if variable can not use this domain class
+        Parameters
+        ----------
+        variable: L{mip_convert.variable.Variable}
+            the variable that will be output through CMOR
+
+        Raises
+        ------
+        CmorOutputError:
+            if variable can not use this domain class
         """
         self._make_horizontal_axes(variable)
         self._make_non_spatial_axes(variable)
@@ -665,9 +716,15 @@ class AxisMakerFactory(object):
     HORIZONTAL = mip_convert.common.HORIZONTAL
 
     def __init__(self, table, mip_variable, cmor):
-        """@param table: the table object for this factory to
-        @param mip_variable: the name of the mip variable to output
-        @param cmor: an object with a CMOR API
+        """
+        Parameters
+        ----------
+        table
+            the table object for this factory to
+        mip_variable
+            the name of the mip variable to output
+        cmor
+            an object with a CMOR API
         """
         self._table = table
         self._mip_variable = mip_variable
@@ -747,8 +804,13 @@ class AxisMakerFactory(object):
     # TODO: this may live elsewhere
     def getAxisMaker(self, axis_dir, variable):
         """return an AxisMaker for the axis from the variable in the direction axis_dir
-        @param axis_dir: the axis direction: one of "X", "Y", "Z", "T"
-        @param variable: variable to return the AxisMaker for.
+
+        Parameters
+        ----------
+        axis_dir
+            the axis direction: one of "X", "Y", "Z", "T"
+        variable
+            variable to return the AxisMaker for.
 
         The details of the axes depend on the variable - for instance whether it
         is on hybrid heights.
@@ -825,10 +887,17 @@ class AbstractAxisMaker(object):
     axis_cache = dict()
 
     def __init__(self, table, entry, axis, cmor):
-        """@param table: table id for this axis
-        @param entry: the MIP table axis_entry for this axis
-        @param axis: the axis object
-        @param cmor: cmor API object
+        """
+        Parameters
+        ----------
+        table
+            table id for this axis
+        entry
+            the MIP table axis_entry for this axis
+        axis
+            the axis object
+        cmor
+            cmor API object
         """
         self.axis = axis
         self.entry = entry
@@ -895,9 +964,15 @@ class HybridHeightAxisMaker(SimpleAxisMaker):
     OROG = 'orog'
 
     def __init__(self, table, axis, cmor):
-        """@param table: the MIP table id
-        @param axis: the axis for which the axis ids are needed
-        @param cmor: an object with a cmor like interface.
+        """
+        Parameters
+        ----------
+        table
+            the MIP table id
+        axis
+            the axis for which the axis ids are needed
+        cmor
+            an object with a cmor like interface.
         """
         super(HybridHeightAxisMaker, self).__init__(table, axis.name, axis, cmor)
         self._axis_name = axis.name

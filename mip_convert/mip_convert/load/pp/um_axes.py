@@ -87,10 +87,16 @@ class AbstractHybridHeightCoefficients(object):
 
     def getHeights(self, orography_value):
         """Calculate height coordinates using the specified orography value.
-        @param orography_value: The orography value in metres.
-        @type  orography_value: float
-        @return: A list of height coordinates computed using the specified orography value.
-        @rtype: [float]
+
+        Parameters
+        ----------
+        orography_value: float
+            The orography value in metres.
+
+        Returns
+        -------
+        float
+            A list of height coordinates computed using the specified orography value.
         """
         heights = list()
         for index in range(self.nlevels):
@@ -99,10 +105,16 @@ class AbstractHybridHeightCoefficients(object):
 
     def getHeightLowerBounds(self, orography_value):
         """Calculate height coordinates of lower boundaries using the specified orography value.
-        @param orography_value: The orography value in metres.
-        @type  orography_value: float
-        @return: A list of height coordinates computed using the specified orography value.
-        @rtype: [float]
+
+        Parameters
+        ----------
+        orography_value: float
+            The orography value in metres.
+
+        Returns
+        -------
+        float
+            A list of height coordinates computed using the specified orography value.
         """
         bounds = list()
         for index in range(self.nlevels):
@@ -111,10 +123,16 @@ class AbstractHybridHeightCoefficients(object):
 
     def getHeightUpperBounds(self, orography_value):
         """Calculate height coordinates of upper boundaries using the specified orography value.
-        @param orography_value: The orography value in metres.
-        @type  orography_value: float
-        @return: A list of height coordinates computed using the specified orography value.
-        @rtype: [float]
+
+        Parameters
+        ----------
+        orography_value: float
+            The orography value in metres.
+
+        Returns
+        -------
+        float
+            A list of height coordinates computed using the specified orography value.
         """
         bounds = list()
         for index in range(self.nlevels):
@@ -125,10 +143,16 @@ class AbstractHybridHeightCoefficients(object):
     def getHeightBounds2D(self, orography_value):
         """Calculate height coordinates of lower and upper boundary values as a CF-like 2D array, i.e.
         [[lbnd0, ubnd0], [lbnd1, ubnd1],...]
-        @param orography_value: The orography value in metres.
-        @type  orography_value: float
-        @return: A 2D array of lower and upper boundary height coordinates.
-        @rtype: [float]
+
+        Parameters
+        ----------
+        orography_value: float
+            The orography value in metres.
+
+        Returns
+        -------
+        float
+            A 2D array of lower and upper boundary height coordinates.
         """
         bounds = list()
         for index in range(self.nlevels):
