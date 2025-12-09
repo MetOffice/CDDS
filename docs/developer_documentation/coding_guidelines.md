@@ -49,15 +49,15 @@
     This means there is currently a mix of docstring formats used
     throughout the `CDDS` code.
 
-- Docstrings should now be written using [reStructuredText](https://docutils.sourceforge.io/rst.html) as recommended by [pep 287](https://www.python.org/dev/peps/pep-0287/).
-- A detailed example of the reStructuredText style docstrings can be found [here](https://sphinx-rtd-tutorial.readthedocs.io/en/latest/docstrings.html)
+- Docstrings should now be written using [NumPy](https://numpy.org/doc/1.19/docs/howto_document.html).
+- A detailed example of the Numpy style docstrings can be found [here](https://numpy.org/doc/1.19/docs/howto_document.html)
     - Use double backticks `` around argument names 
     - Use the appropriate substitutions for glossary terms.
     - Make use of the [docstring conventions](http://www.python.org/dev/peps/pep-0257).
     - The docstring is a phrase ending in a period and prescribes the function or method's effect as a command, not as a description [reference needed]().
 - It is not necessary to write docstrings for non-public classes, methods and functions, see `cdds/pylintrc` and `mip_convert/pylintrc`. (The maintenance overhead is reduced when refactoring non-public classes, methods and functions).
 
-Below is an example reStructuredText Docstring Example docstring incorporating all of the guidelines above.
+Below is an example NumPy Docstring Example docstring incorporating all of the guidelines above.
 
 ```python
 def my_function(my_param1: float, my_param2: str) -> int:
@@ -67,13 +67,22 @@ def my_function(my_param1: float, my_param2: str) -> int:
     Here's a longer description about the something that is returned.
     It's so long, it goes over one line!
 
-    :param my_param1: Description of the first parameter ``my_param1``.
-    :type my_param1: float
-    :param my_param2: Description of the second parameter ``my_param2``.
-    :type my_param2: string
-    :raises ValueError: If ``my_param1`` is less than 0.
-    :return: Description of anonymous integer return value.
-    :rtype: int
+    Parameters
+    ----------
+    my_param1: float
+        Description of the first parameter ``my_param1``.
+    my_param2: string
+        Description of the second parameter ``my_param2``.
+
+    Returns
+    -------
+    int
+        Description of anonymous integer return value.
+
+    Raises
+    ------
+    ValueError
+        If ``my_param1`` is less than 0.
     """
 ```
 
