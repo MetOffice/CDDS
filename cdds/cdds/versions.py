@@ -18,12 +18,12 @@ def get_version(package: str) -> str:
 
     Parameters
     ----------
-    package: string
+    package: str
         The name of the package.
 
     Returns
     -------
-    version: string
+    version: str
         The version of the package.
     """
     numerical_version = '_NUMERICAL_VERSION'

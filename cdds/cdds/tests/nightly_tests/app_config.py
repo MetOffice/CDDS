@@ -38,7 +38,7 @@ class AppConfig(ConfigNode):
 
         Parameters
         ----------
-        filename: :str
+        filename: str
             The path to the Rose configuration file to load.
 
         Returns
