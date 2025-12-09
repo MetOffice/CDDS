@@ -57,7 +57,13 @@ class AbstractIndex(object):
     """The number of times the contiguous records defining the an axis is repeated in the record list."""
 
     def axis_list(self):
-        """@return: a list of axis for the list of records."""
+        """return a list of axis for the list of records.
+
+        Returns
+        -------
+         :
+            a list of axis for the list of records
+        """
         raise NotImplementedError('abstract class')
 
 
@@ -70,7 +76,12 @@ class InnermostIndex(AbstractIndex):
     block_len = 1
 
     def __init__(self, records):
-        """@param records: list of meta-data records to extract variable"""
+        """
+        Parameters
+        ----------
+        records
+            list of meta-data records to extract variable
+        """
         self.records = records
         self.number_blocks = len(records)
 
@@ -81,12 +92,15 @@ class InnermostIndex(AbstractIndex):
 class NestedIndex(AbstractIndex):
 
     def __init__(self, inner_index, axis_extractor):
-        """@param inner_index: the nested index at the level below this one.
-        @param axis_extractor: object that deals with the axis type dependent
-                               aspects of the headers.  It should be able to
-                               extact the axis from a list of meta-data records
-                               and also determine whether two records have the same
-                               coordinate value along the axis.
+        """
+        Parameters
+        ----------
+        inner_index
+            the nested index at the level below this one.
+        axis_extractor
+            object that deals with the axis type dependent aspects of the headers. It should be able to extact the axis
+            from a list of meta-data records and also determine whether two records have the same coordinate value along
+            the axis.
         """
         self._inner_index = inner_index
         self._axis_extractor = axis_extractor
@@ -164,8 +178,13 @@ class Aggregator(object):
     # not sure this class will live long
 
     def __init__(self, records, axis_extractors):
-        """@param records: list of meta-data records to extract axes from
-        @param axis_extractors: list of axis_extractors: one for each axis
+        """
+        Parameters
+        ----------
+        records
+            list of meta-data records to extract axes from
+        axis_extractors
+            list of axis_extractors: one for each axis
         """
         self._records = records
         self._axis_extractors = axis_extractors

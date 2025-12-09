@@ -30,9 +30,12 @@ class HeaderFixer(object):
     """Overwrite the attributes in a pp header"""
 
     def __init__(self, out_atts):
-        """@param out_atts: dictionary of attributes to overwrite,
-                         keys of the dict are the pp header element names,
-                         values are the new values to overwrite
+        """
+        Parameters
+        ----------
+        out_atts
+            dictionary of attributes to overwrite, keys of the dict are the pp header element names, values are the new
+            values to overwrite
         """
         self.outatts = out_atts
 
@@ -102,9 +105,12 @@ class Matcher(object):
     """Match Header based on selected attributes"""
 
     def __init__(self, match_atts):
-        """@param match_atts: dictionary of attributes to match
-                           keys of the dict are the pp header element names,
-                           values are the values to match
+        """
+        Parameters
+        ----------
+        match_atts
+            dictionary of attributes to match keys of the dict are the pp header element names, values are the values to
+            match
         """
         self.match_atts = match_atts
 

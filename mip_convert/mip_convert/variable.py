@@ -570,7 +570,7 @@ class CoordinateDomain(object):
         return self._axis_list
 
     def getAxisOrder(self):
-        """@return the order of the directions of the axes in the domain
+        """return the order of the directions of the axes in the domain
         
         Returns
         -------

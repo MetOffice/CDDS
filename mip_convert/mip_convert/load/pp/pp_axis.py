@@ -775,7 +775,12 @@ class PpInstantT(object):
     """
 
     def __init__(self, dated_headers):
-        """@param headers: sequence of pp headers"""
+        """
+        Parameters
+        ----------
+        headers
+            sequence of pp headers
+        """
         self._dated_headers = dated_headers
         self._check_headers()
 
@@ -827,21 +832,28 @@ class TimeSeriesSiteAxisFromPP(AbstractCmpAxis):
     units = '1'
 
     def __init__(self, header, extra_data, lats=None, lons=None, use_ed_vectors=False, use_centroids=False):
-        """@param header: The PP header object associated with the time-series field.
-        @type  header: PP_Header
-        @param extra_data: A dictionary of extra data vectors for this field keyed by code number.
-        @type  extra_data: dict
-        @param lats: An optional list of latitude coordinates for each site.
-        @type  lats: [float]
-        @param lons: An optional list of longitude coordinates for each site.
-        @type  lons: [float]
-        @param use_ed_vectors: Set to True/1 to read longitude and latitude coordinates from extra
-           data vectors 1 and 2, respectively.
-        @param use_centroids: Set to True/1 to calculate UM grid box centres from extra data vectors.
-           The calculated coordinates are then stored in the lats and lons attributes.
+        """
+        Parameters
+        ----------
+        header: PP_Header
+            The PP header object associated with the time-series field.
+        extra_data: dict
+            A dictionary of extra data vectors for this field keyed by code number.
+        lats: [float]
+            An optional list of latitude coordinates for each site.
+        lons: [float]
+            An optional list of longitude coordinates for each site.
+        use_ed_vectors
+            Set to True/1 to read longitude and latitude coordinates from extra data vectors 1 and 2, respectively.
+        use_centroids
+            Set to True/1 to calculate UM grid box centres from extra data vectors. The calculated coordinates are then
+            stored in the lats and lons attributes.
 
-        @raise PpAxisError: Raised if length of lats or lons argument (if specified) does not match the
-           axis length determined from the header and/or extra data vectors.
+        Raises
+        ------
+        PpAxisError
+            Raised if length of lats or lons argument (if specified) does not match the axis length determined from the
+            header and/or extra data vectors.
         """
         if not _isTimeSeries(header):
             raise PpAxisError('Header object does not appear to describe a time-series field')
@@ -883,8 +895,16 @@ class TimeSeriesSiteAxisFromPP(AbstractCmpAxis):
 
     def getSiteLatLong(self, site_number):
         """Return a (lat, long) coordinate tuple for the specified site number.
-        @param site_number: The number of the site for which coordinates are requested.
-        @raise PpAxisError: Raised if siteno does not exist or lat/long coord arrays are undefined.
+
+        Parameters
+        ----------
+        site_number
+            The number of the site for which coordinates are requested.
+
+        Raises
+        ------
+        PpAxisError
+            Raised if siteno does not exist or lat/long coord arrays are undefined.
         """
         if site_number not in self._values:
             raise PpAxisError('Specified site number (%d) does not exist.' % site_number)
@@ -896,7 +916,11 @@ class TimeSeriesSiteAxisFromPP(AbstractCmpAxis):
 
     def _calc_centroids(self, extra_data):
         """Calculate and store the lat-long coords of the centres of the model grid boxes.
-        @param extra_data: A dictionary of extra data vectors keyed by code number.
+
+        Parameters
+        ----------
+        extra_data
+            A dictionary of extra data vectors keyed by code number.
         """
         self.lats = [0] * self.nsites
         self.lons = [0] * self.nsites
@@ -908,8 +932,15 @@ class TimeSeriesSiteAxisFromPP(AbstractCmpAxis):
 
     def _read_coord_vectors(self, extra_data):
         """Read longitude and latitude coordinates from extra data vectors 1 and 2, respectively
-        @param extra_data: A dictionary of extra data vectors keyed by code number.
-        @raise PpAxisError: Raised if length of site axis and extra data vectors do not match.
+        Parameters
+        ----------
+        extra_data
+            A dictionary of extra data vectors keyed by code number.
+
+        Raises
+        ------
+        PpAxisError
+            Raised if length of site axis and extra data vectors do not match.
         """
         if self.nsites != len(extra_data[PP_EDV_Y_COORDS]):
             message = 'Length of coordinate vectors (%d) does not match axis length (%d).'
@@ -937,13 +968,19 @@ class TimeSeriesHeightAxis(AbstractCmpAxis):
     units = '1'
 
     def __init__(self, header, extra_data):
-        """@param header: The PP header object associated with the time-series field.
-        @type  header: PP_Header
-        @param extra_data: A dictionary of extra data vectors for this field keyed by code number.
-        @type  extra_data: dict
+        """
+        Parameters
+        ----------
+        header: PP_Header
+            The PP header object associated with the time-series field.
+        extra_data: dict
+            A dictionary of extra data vectors for this field keyed by code number.
 
-        @raise PpAxisError: Raised if header object does not  refer to a PP time-series field or the
-           extra data section does not contain a vector with code = 7 (lower Z).
+        Raises
+        ------
+        PpAxisError
+            Raised if header object does not  refer to a PP time-series field or the extra data section does not contain
+            a vector with code = 7 (lower Z).
         """
         if not _isTimeSeries(header):
             raise PpAxisError('Header object does not appear to describe a time-series field')
@@ -972,18 +1009,21 @@ class CfmipSiteAxis(TimeSeriesSiteAxisFromPP):
     """
 
     def __init__(self, header, extra_data, site_ids=None, expected_nsites=None, coord_file_url=None):
-        """@param header: The PP header object associated with the time-series field.
-        @type  header: PP_Header
-        @param extra_data: A dictionary of extra data vectors for this field keyed by code number.
-        @type  extra_data: dict
-        @param site_ids: Optional sequence of site IDs. If the sequence length is one, then the lone
-           value defines the first side ID. Remaining site IDs are then incremented from this value.
-           If this parameter isn't specified then site IDs simply increment from 1.
-        @type  site_ids: sequence
-        @param expected_nsites: Optionally specifies the expected number of sites present in the input source.
-        @type  expected_nsites: integer
-        @param coord_file_url: The URL of the web page or text file which contains CFMIP2 site details.
-        @type  coord_file_url: string
+        """
+        Parameters
+        ----------
+        header: PP_Header
+            The PP header object associated with the time-series field.
+        extra_data: dict
+            A dictionary of extra data vectors for this field keyed by code number.
+        site_ids: sequence
+            Optional sequence of site IDs. If the sequence length is one, then the lone value defines the first side ID.
+            Remaining site IDs are then incremented from this value. If this parameter isn't specified then site IDs
+            simply increment from 1.
+        expected_nsites: int
+            Optionally specifies the expected number of sites present in the input source.
+        coord_file_url: str
+            The URL of the web page or text file which contains CFMIP2 site details.
         """
         super(CfmipSiteAxis, self).__init__(header, extra_data)
 
@@ -1022,8 +1062,16 @@ class CfmipSiteAxis(TimeSeriesSiteAxisFromPP):
 
     def getSiteHeight(self, site_number):
         """Return the height/orography value for the specified site number.
-        @param site_number: The number of the site for which the height coordinate is requested.
-        @raise PpAxisError: Raised if siteno does not exist or height coord array is undefined.
+
+        Parameters
+        ----------
+        site_number
+            The number of the site for which the height coordinate is requested.
+        
+        Raises
+        ------
+        PpAxisError
+            Raised if siteno does not exist or height coord array is undefined.
         """
         if site_number not in self._values:
             raise PpAxisError('Specified site number (%d) does not exist.' % site_number)
@@ -1044,21 +1092,27 @@ class CfmipHeightAxis(AxisHybridHeight):
     lbvc = 65
 
     def __init__(self, header, extra_data, site_ids=None, expected_nsites=None, coord_file_url=None):
-        """@param header: The PP header object associated with the time-series field.
-        @type  header: PP_Header
-        @param extra_data: A dictionary of extra data vectors for this field keyed by code number.
-        @type  extra_data: dict
-        @param site_ids: Optional sequence of site IDs. If the sequence length is one, then the lone
-           value defines the first side ID. Remaining site IDs are then incremented from this value.
-           If this parameter isn't specified then site IDs simply increment from 1.
-        @type  site_ids: sequence
-        @param expected_nsites: Optionally specifies the expected number of sites present in the input source.
-        @type  expected_nsites: integer
-        @param coord_file_url: The URL of the web page or text file which contains CFMIP2 site details.
-        @type  coord_file_url: string
+        """
+        Parameters
+        ----------
+        header: PP_Header
+            The PP header object associated with the time-series field.
+        extra_data: dict
+            A dictionary of extra data vectors for this field keyed by code number.
+        site_ids: sequence
+            Optional sequence of site IDs. If the sequence length is one, then the lone value defines the first side ID.
+            Remaining site IDs are then incremented from this value. If this parameter isn't specified then site IDs
+            simply increment from 1.
+        expected_nsites: int
+            Optionally specifies the expected number of sites present in the input source.
+        coord_file_url: str
+            The URL of the web page or text file which contains CFMIP2 site details.
 
-        @raise PpAxisError: Raised if header object does not  refer to a PP time-series field or the
-           extra data section does not contain a vector with code = 7 (lower Z).
+        Raises
+        ------
+        PpAxisError
+            Raised if header object does not  refer to a PP time-series field or the extra data section does not contain
+            a vector with code = 7 (lower Z).
         """
         self._check_validity(header, extra_data)
         self._nlevels(extra_data)
@@ -1265,12 +1319,16 @@ class PpAxisFactory(object):
     """
 
     def __init__(self, orography_provider, cfmip_params=None):
-        """@param orography_provider: A QueryOrographyProvider object
-        @param base_time: time to use for the time units, and to infer the
-                          expected calendar
-        @param cfmip_params: Optional dictionary containing the values of
-                             any 'cfmip_*' parameters
-                             specified in the cmor_project configuration file.
+        """
+        Parameters
+        ----------
+        orography_provider
+            A QueryOrographyProvider object
+        base_time
+            time to use for the time units, and to infer the expected calendar
+        cfmip_params
+            optional dictionary containing the values of any 'cfmip_*' parameters specified in the cmor_project
+            configuration file.
         """
         self.orography_provider = orography_provider
         self._cfmip_nsites = None
@@ -1282,9 +1340,14 @@ class PpAxisFactory(object):
     def getZAxis(self, headers, extras):
         """return the vertical axis for the set of headers
 
-        @param headers: headers to extract axes from
-        @param axisX: the longitude axis of the field (todo: refactor out)
-        @param axisY: the latitude axis of the field (todo: refactor out)
+        Parameters
+        ----------
+        headers
+            headers to extract axes from
+        axisX
+            the longitude axis of the field (todo: refactor out)
+        axisY
+            the latitude axis of the field (todo: refactor out)
         """
         # TODO: get rid of these magic numbers
         lbvc_no_values = (0, 5, 133, 137, 138)
@@ -1348,17 +1411,22 @@ class PpAxisFactory(object):
         PP field according to the metadata encoded in the specified header and
         extra data vectors.
 
-        @param header: Header object associated with the target PP field
-        @type  header: PP_Header
-        @param extra_data: Dictionary of extra data vectors associated with the
-                           target PP field
-        @type  extra_data: dict
+        Parameters
+        ----------
+        header: PP_Header
+            Header object associated with the target PP field
+        extra_data: dict
+            Dictionary of extra data vectors associated with the target PP field
 
-        @return: A TimeSeriesSiteAxis object
-        @rtype:  TimeSeriesSiteAxis (or one of its subclasses)
+        Returns
+        -------
+        TimeSeriesSiteAxis (or one of its subclasses)
+            A TimeSeriesSiteAxis object
 
-        @raise PpAxisError: Raised if the header object does not describe a site-based,
-                            time-series PP field.
+        Raises
+        ------
+        PpAxisError
+            Raised if the header object does not describe a site-based, time-series PP field.
         """
         if not _isTimeSeries(header):
             raise PpAxisError('Header object is not associated with a site axis')
@@ -1418,10 +1486,15 @@ class AbstractExtractor(object):
     def getAxis(self, records):
         """extract the axis from the records
 
-        @param records: sequence of pp meta-data records.
-                        These records are usually header
-                        and extra data wrappered in one object
-        @return: an axis from the records
+        Parameters
+        ----------
+        records
+            sequence of pp meta-data records. These records are usually header and extra data wrappered in one object
+
+        Returns
+        -------
+         :
+            an axis from the records
         """
         raise NotImplementedError('abstract method')
 
@@ -1528,11 +1601,17 @@ class BoundedExpectExtractor(AbstractSimpleExtractor):
     """
 
     def __init__(self, attr, expected, axis, factor):
-        """@param attr: the record (pp header) attribute to compare
-        @param expected: list of expected values for the record attribute attr
-        @param axis: the axis to return from the extraction
-        @param factor: the direction factor for sorting on this axis
-                       (-1 for pressure)
+        """
+        Parameters
+        ----------
+        attr
+            the record (pp header) attribute to compare
+        expected
+            list of expected values for the record attribute attr
+        axis
+            the axis to return from the extraction
+        factor
+            the direction factor for sorting on this axis (-1 for pressure)
         """
         self._attr = attr
         self._expected = expected
@@ -1542,8 +1621,10 @@ class BoundedExpectExtractor(AbstractSimpleExtractor):
     def getAxis(self, records):
         """see AbstractExtractor.getAxis
 
-        @raises ExtractorException: if the axis values are not one of
-                                    those expected
+        Raises
+        ------
+        ExtractorException
+            if the axis values are not one of those expected
         """
         self._check(records)
         return self._axis
@@ -1569,8 +1650,13 @@ class AbstractDecorator(object):
     """
 
     def __init__(self, dated_header, extra, axis_factory):
-        """@param header: the pp header to extract from
-        @param extra: the extra data to extract from
+        """
+        Parameters
+        ----------
+        header
+            the pp header to extract from
+        extra
+            the extra data to extract from
         """
         self._dated_header = dated_header
         self.extra = extra

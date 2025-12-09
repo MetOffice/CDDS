@@ -677,7 +677,12 @@ class CmorDomain(object):
         return result
 
     def _get_maker(self, axis_dir, variable):
-        """@return: the axis maker for the variable axis in direction axis_dir"""
+        """
+        Returns
+        -------
+         :
+            the axis maker for the variable axis in direction axis_dir
+        """
         return self.axis_maker_factory.getAxisMaker(axis_dir, variable)
 
     @staticmethod

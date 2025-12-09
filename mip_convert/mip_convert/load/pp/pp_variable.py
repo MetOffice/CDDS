@@ -150,8 +150,10 @@ class VariableGenerator(object):
     def __init__(self, fields_factory):
         """return a VariableGenerator that will use the fields_factory
 
-        @param fields_factory: object that will generate pp fields from headers, extra data and datas
-        @type fields_factory: L{mip_convert.load.pp.pp_variable.PpFieldsFactory}
+        Parameters
+        ----------
+        fields_factory: L{mip_convert.load.pp.pp_variable.PpFieldsFactory}
+            object that will generate pp fields from headers, extra data and datas
         """
         self.fields_factory = fields_factory
 
@@ -161,12 +163,20 @@ class VariableGenerator(object):
         The parameters types are those corresponding to return types
         for methods from the pypp package.
 
-        @param headers: list of pp headers for the variable
-        @param extras: the extra data corresponding to the headers
-        @param data: the data records corresponding to the headers
-        @raises PpVariableError: when there is an inconsistency in the input parameters
-                                 e.g. if they are different lengths, or the headers look
-                                 like they are from more than one STASH code.
+        Parameters
+        ----------
+        headers
+            list of pp headers for the variable
+        extras
+            the extra data corresponding to the headers
+        data
+            the data records corresponding to the headers
+
+        Raises
+        ------
+        PpVariableError
+            when there is an inconsistency in the input parameters e.g. if they are different lengths, or the headers
+            look like they are from more than one STASH code.
         """
         self._check(headers, extras, data)
         fields = self.fields_factory.getfields(headers, extras, data)
@@ -221,7 +231,12 @@ class PpFieldsFactory(object):
     """The PpFieldsFactory returns a pp field list"""
 
     def __init__(self, axis_factory):
-        """@param axis_factory: the axis factory for the domains"""
+        """
+        Parameters
+        ----------
+        axis_factory
+            the axis factory for the domains
+        """
         self.axis_factory = axis_factory
 
     def getfields(self, headers, extras, data):
@@ -244,9 +259,15 @@ class PpFieldsFactory(object):
         return self._fields(PpLatLonDecorator, headers, extras, data)
 
     def _fields(self, decorator, headers, extras, data):
-        """@param headers: pp headers
-        @param extras: pp extra data
-        @param data: data records
+        """
+        Parameters
+        ----------
+        headers
+            pp headers
+        extras
+            pp extra data
+        data
+            data records
         """
         metas = self._make_records(decorator, self._dated_headers(headers), extras)
         return SortedPpList(metas, data)
@@ -259,7 +280,11 @@ class PpExternalAxisCmp(object):
     """Comparison of all the values of the external axes of a set of pp fields"""
 
     def __init__(self, ncmps):
-        """@param ncmps: the number of external axes to compare values for"""
+        """
+        Parameters
+        ----------
+        ncmps
+            the number of external axes to compare values for"""
         self._ncmps = ncmps
 
     def __call__(self, ppfield1, ppfield2):
