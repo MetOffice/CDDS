@@ -1,6 +1,9 @@
 #!/usr/bin/env python3.10
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
+"""
+Wrapper for repacking netCDF-4 files to optimize their read-performance (using cmip7repack).
+"""
 
 import argparse
 import logging
@@ -80,7 +83,6 @@ def get_mip_table_dirs(request_file: str, stream: str) -> List[Tuple[str, str]]:
     """
     logger = logging.getLogger(__name__)
 
-    # Load the plugin using the request's mip_era
     request = read_request(request_file)
     load_plugin(
         request.metadata.mip_era,
@@ -168,8 +170,8 @@ def run_check_cmip7_packing(file_path: str) -> int:
     """
     Check the packing of a NetCDF file using the check_cmip7_packing tool.
 
-    Uses subprocess.run directly since both return codes 0 and 1 output
-    by check_cmip7_packing are valid outcomes.
+    Uses subprocess.run directly since both return codes 0 and 1 from
+    check_cmip7_packing are valid outcomes indicating pass or fail.
 
     Parameters
     ----------
@@ -180,14 +182,15 @@ def run_check_cmip7_packing(file_path: str) -> int:
     -------
     int
         The return code from the check_cmip7_packing command.
-        0 if already packed, non-zero if repacking needed.
+        0 if already packed according to CMIP7 standards, 1 if repacking needed.
 
     Raises
     ------
     FileNotFoundError
         If the check_cmip7_packing command is not found in PATH.
     RuntimeError
-        If check_cmip7_packing returns neither PASS nor FAIL in its stdout.
+        If check_cmip7_packing returns an error exit code (2-5) or an unexpected
+        return code.
     """
     logger = logging.getLogger(__name__)
 

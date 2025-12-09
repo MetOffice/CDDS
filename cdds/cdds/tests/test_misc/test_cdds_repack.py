@@ -45,6 +45,7 @@ variables:
 }
 '''
 
+
 class TestRunCheckCmip7Packing(unittest.TestCase):
     def setUp(self):
         self.test_nc_unpacked = "testname.nc"
@@ -71,8 +72,6 @@ class TestRunCheckCmip7Packing(unittest.TestCase):
 
     @patch("cdds.convert.repack.subprocess.run")
     def test_check_cmip7_packing_raises_filenotfound_for_wrong_command(self, mock_run):
-        """Test that FileNotFoundError is raised when command is not found in PATH."""
-        # Simulate subprocess.run raising FileNotFoundError (e.g. wrong command name)
         mock_run.side_effect = FileNotFoundError(
             "Command not found: 'check_cmip1_packing'"
         )
@@ -120,7 +119,7 @@ class TestRunCmip7Repack(unittest.TestCase):
             if os.path.exists(temp_filename):
                 os.unlink(temp_filename)
 
-    @patch("cdds.common.subprocess.Popen")
+    @patch("cdds.convert.repack.run_command")
     def test_repack_raises_error_when_command_not_on_path(self, mock_run_command):
         """Test that FileNotFoundError is raised when cmip7repack is not on PATH."""
 
