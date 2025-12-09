@@ -35,16 +35,18 @@ def constants():
         'C_TO_N_RATIO': '6.625',  # mol C (mol N)-1 (Molar C to N ratio of phytoplankton in marine bgc model)
         'C_TO_N_RATIO_ZOO': '5.625',  # mol C (mol N)-1 (Molar C to N ratio of zooplankton in marine bgc model)
         'CONV_C_ORGM': '1.4',  # C/ Organic matter ratio
-        'DAYS_IN_YEAR': '360.',  # day year-1
+        'DAYS_IN_YEAR': '360.',  # day year-1  # TODO: remove or update appropriately.
         'FE_TO_N_RATIO': '3.00E-05',  # mol Fe (mol N)-1 (Molar Fe to N ratio in marine bgc model)
         'FRESHWATER_DENSITY': '1000.',  # kg m-3
         'ICE_DENSITY': '917.',  # kg m-3
         'LATENT_HEAT_OF_FREEZING': '334000.',  # J kg-1
+        'KG_PER_MICROGRAM': '1.00E-9',
         'MOLECULAR_MASS_OF_AIR': '28.97',  # g mol-1
         'MOLECULAR_MASS_OF_BRCL': '115.5',  # g mol-1
         'MOLECULAR_MASS_OF_BRO': '96.',  # g mol-1
         'MOLECULAR_MASS_OF_BROMINE': '80.',  # g mol-1
         'MOLECULAR_MASS_OF_BRONO2': '142.',  # g mol-1
+        'MOLECULAR_MASS_OF_C3H6': '42.0',  # g mol-1
         'MOLECULAR_MASS_OF_CH3COCH3': '58.',  # g mol-1
         'MOLECULAR_MASS_OF_CH4': '16.',  # g mol-1
         'MOLECULAR_MASS_OF_CHLORINE': '35.5',  # g mol-1
@@ -58,6 +60,7 @@ def constants():
         'MOLECULAR_MASS_OF_CFC11': '137.5',  # g mol-1 (CFCl3)
         'MOLECULAR_MASS_OF_CFC12': '121.',  # g mol-1 (CF2Cl2)
         'MOLECULAR_MASS_OF_DMS': '62.1',  # g mol-1 (dimethyl sulfide, C2H6S)
+        'MOLECULAR_MASS_OF_H2': '2.0',  # g mol-1 (PRESUMED)
         'MOLECULAR_MASS_OF_HBR': '81.',  # g mol-1
         'MOLECULAR_MASS_OF_HOBR': '97.',  # g mol-1
         'MOLECULAR_MASS_OF_HCHO': '30.',  # g mol-1
@@ -67,6 +70,7 @@ def constants():
         'MOLECULAR_MASS_OF_HO2NO2': '79.',  # g mol-1
         'MOLECULAR_MASS_OF_HOCL': '52.5',  # g mol-1
         'MOLECULAR_MASS_OF_HONO': '47.',  # g mol-1
+        'MOLECULAR_MASS_OF_HONO2': '63.01',  # g mol-1
         'MOLECULAR_MASS_OF_H2SO4': '98.',  # g mol-1
         'MOLECULAR_MASS_OF_ISOPRENE': '68.',  # g mol-1 (C5H8)
         'MOLECULAR_MASS_OF_ME2CO': '58.',  # g mol-1 (ACETONE)
@@ -88,6 +92,8 @@ def constants():
         'MOLECULAR_MASS_OF_SO2': '64.',  # g mol-1
         'MOLECULAR_MASS_OF_SO4': '96.',  # g mol-1
         'P_TO_N_RATIO': '0.0625',  # mol P (mol N)-1 (Molar P to N ratio in marine bgc model)
+        'PM10_DUST_BIN5_FRACTION': '0.398',  # kg kg-1
+        'PM2PT5_DUST_BIN4_FRACTION': '0.194',  # kg kg-1
         'REF_SALINITY': '8.',
         'SEAWATER_DENSITY': '1026.',  # kg m-3
         'SECONDS_IN_DAY': '86400.',  # s day-1
