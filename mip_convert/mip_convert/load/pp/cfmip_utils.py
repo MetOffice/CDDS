@@ -30,7 +30,7 @@ def getCfmipSiteDetails(minSiteNo=1, maxSiteNo=119, coordFileURL=None, hasHeight
 
     Returns
     tuple
-        the 4-element tuple ([ids], [lats], [lons], [names]) or, if hasHeight is True, the 5-element tuple 
+        the 4-element tuple ([ids], [lats], [lons], [names]) or, if hasHeight is True, the 5-element tuple
         ([ids], [lats], [lons], [hts], [names])
 
     Raises

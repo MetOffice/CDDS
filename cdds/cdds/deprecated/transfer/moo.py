@@ -96,7 +96,7 @@ def run_moo_cmd(sub_cmd, args, simulation=False, logger=None):
         Raises
         ------
         MassError
-            If the command fails and the return code indicates that the command is not retryable (e.g. due to syntax 
+            If the command fails and the return code indicates that the command is not retryable (e.g. due to syntax
             error or data not being available).
         RetryableMassError
             If the command fails, but the return code indeicates that the command is retryable at a later time.

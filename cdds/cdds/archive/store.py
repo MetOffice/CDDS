@@ -197,7 +197,7 @@ def get_active_variables(request_vars_path: str) -> List[Dict[str, str]]:
     ----------
     request_vars_path : str
         The path to the |Requested variables list| file. If None, the script will look for the file in proc directory.
-    
+
     Returns
     -------
     List[Dict[str, str]]

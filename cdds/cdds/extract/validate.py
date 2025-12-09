@@ -195,7 +195,7 @@ def check_expected_stash(
 
     Parameters
     ----------
-    stash_in_file : dict[str, dict[int, int]] 
+    stash_in_file : dict[str, dict[int, int]]
         Stash entries in files.
     validation_result : StreamValidationResult
         Validation results for a given stream.

@@ -105,8 +105,10 @@ class MappingPlugin(object, metaclass=ABCMeta):
     def constants(self) -> Dict[str, str]:
         """Returns the names and values of the constants available for use in the |model to MIP mapping| expressions.
 
-                :return: The names and values of the constants available for use in the |model to MIP mapping| expressions.
-                :rtype: Dict[str, str]
+        Returns
+        -------
+        Dict[str, str]
+            The names and values of the constants available for use in the |model to MIP mapping| expressions.
         """
         pass
 

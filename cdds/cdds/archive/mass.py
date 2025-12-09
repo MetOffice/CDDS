@@ -509,7 +509,8 @@ def cleanup_archive_dir(archive_root_dir: str, mip_approved_variables: List[Dict
 
 
 def get_mass_path(var_dict: Dict[str, str]) -> str:
-    """Get the path to the directory on MASS for the |MIP output variable| specified by the given information dictionary.
+    """Get the path to the directory on MASS for the |MIP output variable| specified by the given information
+    dictionary.
 
     Parameters
     ----------

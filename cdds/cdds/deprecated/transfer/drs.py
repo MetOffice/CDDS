@@ -85,7 +85,7 @@ class DataRefSyntax(object):
         consistency issues. No facets are defined at this point,
 
         Arguments:
-        cfg: config.Config) 
+        cfg: config.Config
             wrapper for configuration file(s)
         project: str
             Project name, must match section in configuration
@@ -205,7 +205,6 @@ class DataRefSyntax(object):
         facets = dict(list(zip(template, facets_in_name)))
         self.fill_facets_from_dict(facets, update=update)
         return
-
 
     def fill_facets_from_mass_dir(self, mass_dir, update=False):
         """Fill facets using values contained in a MASS path.

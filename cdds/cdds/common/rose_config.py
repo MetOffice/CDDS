@@ -1026,14 +1026,14 @@ class ConfigLoader(object):
             A list of additional optional configuration names. If source is "rose-${TYPE}.conf", the file of each name
             should be "opt/rose-${TYPE}-${NAME}.conf".
         used_keys: list (optional)
-            If defined, it should be a list for this method to  append to. The key of each successfully loaded optional 
-            configuration will be appended to the list (unless the key is already in the list). Missing optional 
+            If defined, it should be a list for this method to  append to. The key of each successfully loaded optional
+            configuration will be appended to the list (unless the key is already in the list). Missing optional
             configurations that are specified in more_keys will not raise an error. If not defined, any missing optional
             configuration will trigger an OSError.
         mark_opt_configs: bool (optional)
             if True, add comments above any settings which have been loaded from an optional config.
         return_config_map: bool (optional)
-            If True, construct and return a dict (config_map) containing config names vs their uncombined nodes. 
+            If True, construct and return a dict (config_map) containing config names vs their uncombined nodes.
             Optional configurations use their opt keys as keys, and the main configuration uses 'None'.
         defines: list (optional)
             A list of [SECTION]KEY=VALUE overrides.

@@ -173,7 +173,8 @@ def main_select_variables(arguments=None):
 
 
 def parse_create_cdds_directory_structure_args(arguments: List[str]) -> Namespace:
-    """Return the names of the command line arguments for ``create_cdds_directory_structure`` and their validated values.
+    """Return the names of the command line arguments for ``create_cdds_directory_structure`` and their validated
+    values.
 
     If this function is called from the Python interpreter with ``arguments`` that contains any of the ``--version``,
     ``-h`` or ``--help`` options, the Python interpreter will be terminated.

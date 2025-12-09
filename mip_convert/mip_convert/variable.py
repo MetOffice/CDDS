@@ -561,7 +561,7 @@ class CoordinateDomain(object):
 
     def getAxisList(self):
         """return the list of axes for this coordinate domain
-        
+
         Returns
         -------
          :
@@ -571,7 +571,7 @@ class CoordinateDomain(object):
 
     def getAxisOrder(self):
         """return the order of the directions of the axes in the domain
-        
+
         Returns
         -------
          :
@@ -587,7 +587,7 @@ class CoordinateDomain(object):
         ----------
         axis_dir
             an axis direction label
-        
+
         Returns
         -------
          :

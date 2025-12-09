@@ -173,9 +173,9 @@ class CF17Check(CF1_7Check):
         return ret_val
 
     def check_geographic_region(self, ds):
-        """6.1.1 When data is representative of geographic regions which can be identified by names but which have complex
-        boundaries that cannot practically be specified using longitude and latitude boundary coordinates, a labeled
-        axis should be used to identify the regions.
+        """6.1.1 When data is representative of geographic regions which can be identified by names but which have
+        complex boundaries that cannot practically be specified using longitude and latitude boundary coordinates, a
+        labeled axis should be used to identify the regions.
         Recommend that the names be chosen from the list of standardized region names whenever possible. To indicate
         that the label values are standardized the variable that contains the labels must be given the standard_name
         attribute with the value region.

@@ -67,13 +67,13 @@ class BoundsChecker(ObjectWithLogger):
         tol_max: float
             Maximum tolerable value
         tol_min_action: int
-            Action to take if a value falls within the lower tolerance band. One of the constants: 
+            Action to take if a value falls within the lower tolerance band. One of the constants:
             [ PASS_VALUE, SET_TO_FILL_VALUE, SET_TO_VALID_VALUE, RAISE_EXCEPTION ]
         tol_max_action: int
-            Action to take if a value falls within the upper tolerance band. One of the constants: 
+            Action to take if a value falls within the upper tolerance band. One of the constants:
             [ PASS_VALUE, SET_TO_FILL_VALUE, SET_TO_VALID_VALUE, RAISE_EXCEPTION ]
         oob_action: int
-            Action to take if a value is completely out of bounds. One of the constants: 
+            Action to take if a value is completely out of bounds. One of the constants:
             [ PASS_VALUE, SET_TO_FILL_VALUE, RAISE_EXCEPTION ]
         """
         super(BoundsChecker, self).__init__()
@@ -125,7 +125,7 @@ class BoundsChecker(ObjectWithLogger):
         -------
          :
             The total number of reset values, which may be 0.
-        
+
         Raises
         ------
         OutOfBoundsError

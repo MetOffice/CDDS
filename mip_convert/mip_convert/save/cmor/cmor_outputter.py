@@ -422,7 +422,7 @@ class PeriodWriter(AbstractCmorOutputter):
             the mip table entry
         cmor
             object with cmor interface
-        period 
+        period
             object that determines whether a time period has a boundary between two times.
         """
         super(PeriodWriter, self).__init__(entry, cmor)
@@ -480,7 +480,7 @@ class CmorDomainFactory(object):
 
         Parameters
         ----------
-        table_name: 
+        table_name:
             the table id
         variable_entry
             the variable_entry in the table that the domain is needed for

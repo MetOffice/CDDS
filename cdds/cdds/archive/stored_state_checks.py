@@ -18,7 +18,7 @@ def check_state_already_published(var_dict):
     Parameters
     ----------
     var_dict: dict
-        A dictionary containing all the  information specific to this |MIP output variable| required to archive the 
+        A dictionary containing all the  information specific to this |MIP output variable| required to archive the
         relevant |output netCDF files|.
 
     Returns
@@ -145,13 +145,13 @@ def _calculate_extending_state(var_dict, archived_data):
 
 
 def check_state_recovery_continuation(var_dict):
-    """Use the files to archive and files already archived to checker whether this archiving operation is continuing 
+    """Use the files to archive and files already archived to checker whether this archiving operation is continuing
     from a previous unfinished archiving operation.
 
     Parameters
     ----------
     var_dict: dict
-        A dictionary containing all the  information specific to this |MIP output variable| required to archive the 
+        A dictionary containing all the  information specific to this |MIP output variable| required to archive the
         relevant |output netCDF files|.
 
     Returns
@@ -187,13 +187,13 @@ def check_state_recovery_continuation(var_dict):
 
 
 def check_state_withdrawn(var_dict):
-    """Use the files to archive and files already archived to checker whether the data being archived is replacing a 
+    """Use the files to archive and files already archived to checker whether the data being archived is replacing a
     version that was previously withdrawn.
 
     Parameters
     ----------
     var_dict: dict
-        A dictionary containing all the  information specific to this |MIP output variable| required to archive the 
+        A dictionary containing all the  information specific to this |MIP output variable| required to archive the
         relevant |output netCDF files|.
 
     Returns
@@ -223,7 +223,7 @@ def check_state_previously_published_datestamp(var_dict):
     Parameters
     ----------
     var_dict: dict
-        A dictionary containing all the  information specific to this |MIP output variable| required to archive the 
+        A dictionary containing all the  information specific to this |MIP output variable| required to archive the
         relevant |output netCDF files|.
 
     Returns

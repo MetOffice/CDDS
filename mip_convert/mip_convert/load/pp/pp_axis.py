@@ -1067,7 +1067,7 @@ class CfmipSiteAxis(TimeSeriesSiteAxisFromPP):
         ----------
         site_number
             The number of the site for which the height coordinate is requested.
-        
+
         Raises
         ------
         PpAxisError

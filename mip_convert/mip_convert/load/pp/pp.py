@@ -19,11 +19,11 @@ class PpSelectableFile(ObjectWithLogger):
         """
         Parameters
         ----------
-        timestep: 
+        timestep:
             the timestep of the model for this file factory
-        pp_file: 
+        pp_file:
             a pp file to read from (support list of headers, read of extras, read of data)
-        var_generatord: 
+        var_generatord:
             an object capable of generating multi-dimensional variables from a list of pp fields
         opener:             an object capable of opening a file of this type
         """
@@ -79,7 +79,7 @@ class PpSelectedVariable(object):
         """
         Parameters
         ----------
-        raw_pp_file: 
+        raw_pp_file:
             the pp file to read from
         indexes:
             list of pp field (header+data+extradata) in the raw_pp_file from which variable will be made
@@ -322,7 +322,7 @@ class PpMatch(object):
         blev_tol:
             tolerance to use when blev_checking.
         **kwargs:
-            key-value pair where the key is a pp header element to select on, and value the value to select. Allowed 
+            key-value pair where the key is a pp header element to select on, and value the value to select. Allowed
             keys are taken from L{keywords}.
 
         Examples
@@ -421,7 +421,7 @@ class QueryOrographyProvider(object):
             longitude axis to look for orography on
         axis_y:
             latitude axis to look for orography on
-        
+
         Raises
         ------
         PpError

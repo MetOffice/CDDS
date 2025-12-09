@@ -51,14 +51,13 @@ class Message(object):
 
     @staticmethod
     def sort_messages(unsorted, *more_unsorted):
-        """Sort messages by published timestamp and returns a sorted
-        list. 
+        """Sort messages by published timestamp and returns a sorted list.
 
         Parameters
         ----------
         unsorted: list of Message objects
             message(s) to be sorted
-        more_unsorted: (optional) 
+        more_unsorted: (optional)
             further lists to merge sort
 
         Raises
@@ -542,7 +541,7 @@ class Communication(object):
         ----------
         message: msg.Message
             message to be published
-        queue: msg.Queue (optional) 
+        queue: msg.Queue (optional)
             override queue specified in message to write to.
 
         Raises
