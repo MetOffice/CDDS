@@ -150,19 +150,18 @@ def log_archiving_issues(invalid_var: dict) -> str:
         An additional error message containing a representation of the output files attempting to be stored and the
         relevant existing files already in storage along with their state and version.
     """
-    nl = '\n'
     mip_output = sorted(invalid_var["mip_output_files"])
     output_parent_path = set(Path(file).parent for file in mip_output)
     mip_output_files = [Path(file).stem for file in mip_output]
-    mip_output_head_tail = f'{nl.join(mip_output_files[:3])}\n...\n{nl.join(mip_output_files[-3:])}'
+    mip_output_head_tail = '\n'.join(mip_output_files[:3] + ['...'] + mip_output_files[-3:])
 
     err_msg = ('\nCDDS does not believe that this data can be archived, either due to it overlapping existing data or '
                'time gaps between this and existing data in MASS.\nYou are attempting to store '
                f'{len(mip_output_files)} files from')
     if len(output_parent_path) == 1:
-        err_msg += f':\n{str(next(iter(output_parent_path)))}...\n{mip_output_head_tail}\n'
+        err_msg += f':\n{str(next(iter(output_parent_path)))} ...\n{mip_output_head_tail}\n'
     else:
-        err_msg += f'multiple directories:\n{output_parent_path}...\n{mip_output_head_tail}\n'
+        err_msg += f'multiple directories:\n{output_parent_path} ...\n{mip_output_head_tail}\n'
         
     stored_data = invalid_var["stored_data"]
     for state, state_entry in stored_data.items():
@@ -170,10 +169,10 @@ def log_archiving_issues(invalid_var: dict) -> str:
             stored = sorted(stored_data[state][state_entry])
             stored_parent_path = set(Path(file).parent for file in stored)
             stored_files = [Path(file).stem for file in stored]
-            stored_head_tail = f'{nl.join(stored_files[:3])}\n...\n{nl.join(stored_files[-3:])}'
+            stored_head_tail = '\n'.join(stored_files[:3] + ['...'] + stored_files[-3:])
 
             err_msg += (f'\nThere are {len(stored_files)} existing files in storage in the {state} state under version '
-                        f'{state_entry}:\n{str(next(iter(stored_parent_path)))}...\n{stored_head_tail}\n')
+                        f'{state_entry}:\n{str(next(iter(stored_parent_path)))} ...\n{stored_head_tail}\n')
 
     return err_msg
 

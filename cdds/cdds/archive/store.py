@@ -222,7 +222,7 @@ def read_approved_vars_from_file(mip_approved_variables_path: str) -> List[Dict[
         _check_variable_match(match, var_str, pattern)
 
         output_dir = match.group('outdir')
-        out_var_name = [data for data in output_dir.split(os.path.sep) if data is not ''][-1]
+        out_var_name = [data for data in output_dir.split(os.path.sep) if data != ''][-1]
         variable_dict = {'mip_table_id': match.group('mip_table_id'),
                          'variable_id': match.group('variable_id'),
                          'output_dir': output_dir,
