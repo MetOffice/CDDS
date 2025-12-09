@@ -54,7 +54,6 @@ class TestRunCheckCmip7Packing(unittest.TestCase):
         create_simple_netcdf_file(MINIMAL_CDL, self.test_nc_unpacked)
         create_simple_netcdf_file(MINIMAL_PACKED_CDL, self.test_nc_packed)
 
-
     def tearDown(self):
         PluginStore.clean_instance()
         if os.path.exists(self.test_nc_unpacked):
