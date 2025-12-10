@@ -12,6 +12,7 @@ import shutil
 import tempfile
 
 from typing import List, Dict, Tuple
+from pathlib import Path
 
 from cdds.common import construct_string_from_facet_string
 from cdds.common.mass import (mass_isdir, mass_mkdir, mass_move, mass_put, mass_rmdir,
@@ -130,6 +131,52 @@ def get_archive_path(mass_path_root: str, var_dict: Dict[str, str], request: Req
     return mass_path_var
 
 
+def log_archiving_issues(invalid_var: dict) -> str:
+    """
+    Generate an additional error message to the user if the mass status is 'UNKNOWN'. The error message contains the
+    first and last 3 files that have been produced and are attempting to be stored, as well as the first and last 3
+    files already stored in mass that are causing the conflict. Information on the existing files such as the state and
+    version is also provided to the user for clarity.
+
+    Parameters
+    ----------
+    invalid_var: dict
+        A dictionary containing all the  information specific to this |MIP output variable| required to archive the
+        relevant |output netCDF files|.
+
+    Returns
+    -------
+    err_msg: str
+        An additional error message containing a representation of the output files attempting to be stored and the
+        relevant existing files already in storage along with their state and version.
+    """
+    mip_output = sorted(invalid_var["mip_output_files"])
+    output_parent_path = set(Path(file).parent for file in mip_output)
+    mip_output_files = [Path(file).stem for file in mip_output]
+    mip_output_head_tail = '\n'.join(mip_output_files[:3] + ['...'] + mip_output_files[-3:])
+
+    err_msg = ('\nCDDS does not believe that this data can be archived, either due to it overlapping existing data or '
+               'time gaps between this and existing data in MASS.\nYou are attempting to store '
+               f'{len(mip_output_files)} files from')
+    if len(output_parent_path) == 1:
+        err_msg += f':\n{list(output_parent_path)[0]} ...\n{mip_output_head_tail}\n'
+    else:
+        err_msg += f'multiple directories:\n{output_parent_path} ...\n{mip_output_head_tail}\n'
+
+    stored_data = invalid_var["stored_data"]
+    for state, state_entry in stored_data.items():
+        for state_entry, _ in stored_data[state].items():
+            stored = sorted(stored_data[state][state_entry])
+            stored_parent_path = set(Path(file).parent for file in stored)
+            stored_files = [Path(file).stem for file in stored]
+            stored_head_tail = '\n'.join(stored_files[:3] + ['...'] + stored_files[-3:])
+
+            err_msg += (f'\nThere are {len(stored_files)} existing files in storage in the {state} state under version '
+                        f'{state_entry}:\n{list(stored_parent_path)[0]} ...\n{stored_head_tail}\n')
+
+    return err_msg
+
+
 def check_stored_status(
         mip_approved_variables: List[Dict[str, str]], archive_dir: str
 ) -> Tuple[List[Dict[str, str]], List[Dict[str, str]]]:
@@ -183,6 +230,8 @@ def check_stored_status(
                    'invalid mass state: '.format(**invalid_var))
         err_msg += '{description}'.format(
             **MASS_STATUS_DICT[invalid_var['mass_status']])
+        if invalid_var['mass_status'] == 'UNKNOWN':
+            err_msg += log_archiving_issues(invalid_var)
         logger.critical(err_msg)
 
     return valid_vars, invalid_vars
