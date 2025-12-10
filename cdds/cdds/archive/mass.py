@@ -159,7 +159,7 @@ def log_archiving_issues(invalid_var: dict) -> str:
                'time gaps between this and existing data in MASS.\nYou are attempting to store '
                f'{len(mip_output_files)} files from')
     if len(output_parent_path) == 1:
-        err_msg += f':\n{str(next(iter(output_parent_path)))} ...\n{mip_output_head_tail}\n'
+        err_msg += f':\n{list(output_parent_path)[0]} ...\n{mip_output_head_tail}\n'
     else:
         err_msg += f'multiple directories:\n{output_parent_path} ...\n{mip_output_head_tail}\n'
 
@@ -172,7 +172,7 @@ def log_archiving_issues(invalid_var: dict) -> str:
             stored_head_tail = '\n'.join(stored_files[:3] + ['...'] + stored_files[-3:])
 
             err_msg += (f'\nThere are {len(stored_files)} existing files in storage in the {state} state under version '
-                        f'{state_entry}:\n{str(next(iter(stored_parent_path)))} ...\n{stored_head_tail}\n')
+                        f'{state_entry}:\n{list(stored_parent_path)[0]} ...\n{stored_head_tail}\n')
 
     return err_msg
 
