@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`ukesm1_plugin` module contains the code for the UKESM1 plugin.
-"""
+"""The :mod:`ukesm1_plugin` module contains the code for the UKESM1 plugin."""
 import iris.cube
 import os
 
@@ -14,9 +12,7 @@ from mip_convert.plugins.ukesm1p3.data.processors import *
 
 
 class UKESM1p3MappingPlugin(BaseMappingPlugin):
-    """
-    Plugin for UKESM1.3 models
-    """
+    """Plugin for UKESM1.3 models"""
 
     def __init__(self):
         data_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data')
@@ -25,16 +21,19 @@ class UKESM1p3MappingPlugin(BaseMappingPlugin):
         self.input_variables: Dict[str, iris.cube.Cube] = {}
 
     def evaluate_expression(self, expression: Any, input_variables: Dict[str, iris.cube.Cube]) -> iris.cube.Cube:
-        """
-        Update the iris Cube containing in the input variables list by evaluating the given expression.
+        """Update the iris Cube containing in the input variables list by evaluating the given expression.
 
-        :param expression: Expression to be evaluated
-        :type expression: Any
-        :param input_variables: The input variables required to produce the
-            MIP requested variable in the form {input_variable_name: cube}.
-        :type input_variables: Dict[str, Cube]
-        :return: The updated iris Cube
-        :rtype: Cube
+        Parameters
+        ----------
+        expression : Any
+            Expression to be evaluated
+        input_variables : Dict[str, Cube]
+            The input variables required to produce the MIP requested variable in the form {input_variable_name: cube}.
+
+        Returns
+        -------
+        Cube
+            The updated iris Cube
         """
         # TODO: Remove assign to class variable after refactoring mipconvert.mipconvert.new_variable line 793
         self.input_variables = input_variables
