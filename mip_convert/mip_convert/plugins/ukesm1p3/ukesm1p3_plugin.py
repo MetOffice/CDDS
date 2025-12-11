@@ -15,7 +15,7 @@ from mip_convert.plugins.ukesm1.data.processors import *
 
 class UKESM1p3MappingPlugin(BaseMappingPlugin):
     """
-    Plugin for UKESM1 models
+    Plugin for UKESM1.3 models
     """
 
     def __init__(self):
