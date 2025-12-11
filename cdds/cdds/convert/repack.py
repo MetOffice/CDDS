@@ -49,8 +49,8 @@ def parse_repack_args(arguments: List[str]) -> Namespace:
         help=("The name of the stream to repack (e.g. ap4, apm, onm)."),
     )
     parser.add_argument(
-        "log_file",
-        nargs="?",
+        "-l",
+        "--log-file",
         default=None,
         help=("The full path to the log file (optional)."),
     )
