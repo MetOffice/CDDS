@@ -1,0 +1,16 @@
+# Set the maximum line length to 120.
+line-length = 120
+
+[lint]
+select = [
+    #pycodestyle
+    "E",
+    "W",
+]
+ignore = [
+    "E721",
+    #temporary ignore spaces after comma
+    "E241",
+    "E713",
+]
+preview = true
