@@ -155,8 +155,8 @@ def repack_files(nc_files: List[Path]) -> None:
     files_repacked = 0
     files_already_packed = 0
     for nc_file in nc_files:
-        checked_file = run_check_cmip7_packing(str(nc_file))
-        if checked_file == 0:
+        checked_file_return_code = run_check_cmip7_packing(str(nc_file))
+        if checked_file_return_code == 0:
             files_already_packed += 1
         else:
             run_cmip7repack(str(nc_file))
@@ -210,14 +210,13 @@ def run_check_cmip7_packing(file_path: str) -> int:
             "Please ensure cmip7_repack is properly installed and available."
         ) from exc
 
-    logger.info(f"check_cmip7_packing stdout: {result.stdout}")
+    logger.debug(f"check_cmip7_packing stdout: {result.stdout}")
     if result.stderr:
         logger.error(f"check_cmip7_packing stderr: {result.stderr}")
 
     # Check for expected PASS/FAIL output first
     if result.returncode in (0, 1):
         return result.returncode
-
     # Handle potential sys.exit codes from check_cmip7_packing.
     elif result.returncode in (2, 3, 4, 5):
         raise RuntimeError(
@@ -254,12 +253,12 @@ def run_cmip7repack(file_path: str) -> int:
 
     command = ["cmip7repack", "-z", DEFLATE_LEVEL, "-o", file_path]
     try:
-        logger.info("Running cmip7repack...")
+        logger.debug("Running cmip7repack...")
         stdout = run_command(
             command,
             msg=f"\nFailed to repack: {file_path}",
         )
-        logger.info(f"\ncmip7repack stdout:\n{stdout}")
+        logger.debug(f"\ncmip7repack stdout:\n{stdout}")
         return 0
     except FileNotFoundError:
         logger.error(
