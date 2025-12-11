@@ -212,7 +212,7 @@ def run_check_cmip7_packing(file_path: str) -> int:
 
     logger.debug(f"check_cmip7_packing stdout: {result.stdout}")
     if result.stderr:
-        logger.error(f"check_cmip7_packing stderr: {result.stderr}")
+        logger.debug(f"check_cmip7_packing stderr: {result.stderr}")
 
     # Check for expected PASS/FAIL output first
     if result.returncode in (0, 1):
@@ -272,6 +272,28 @@ def run_cmip7repack(file_path: str) -> int:
 
 
 def main_repack() -> None:
+    """
+    Main entry point for the repack utility.
+
+    Identifies NetCDF files in the specified stream's output directories,
+    and repacks them according to CMIP7 standards for optimized read-performance.
+
+    The function:
+    1. Parses arguments.
+    2. Sets up logging.
+    3. Locates mip_table directories for the specified stream.
+    4. Finds all NetCDF files in those directories.
+    5. Checks and repacks files as needed using cmip7repack.
+
+    Parameters
+    ----------
+    None
+        Command line arguments are parsed from sys.argv.
+
+    Returns
+    -------
+    None
+    """
     args = parse_repack_args(sys.argv[1:])
 
     # Use log_file from args if provided, otherwise default to "repack".
