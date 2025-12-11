@@ -6,4 +6,4 @@ from cdds.convert.repack import main_repack
 
 
 if __name__ == '__main__':
-    main_repack()
+    sys.exit(main_repack())
