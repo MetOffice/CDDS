@@ -45,9 +45,9 @@ class BaseMappingPlugin(MappingPlugin):
         ModelToMIPMappingConfig
             MIP mappings
         """
-        mip_table_id = re.split('[_@]',mip_table_name)[1]
-        
-        logger = logging.getLogger(__name__)        
+        mip_table_id = re.split('[_@]', mip_table_name)[1]
+
+        logger = logging.getLogger(__name__)
         suffix = 'mappings.cfg'
 
         filename = '{model_configuration}_{suffix}'.format(model_configuration=self._plugin_id, suffix=suffix)
