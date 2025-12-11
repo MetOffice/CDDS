@@ -9,8 +9,7 @@ from unittest import mock
 
 
 class TestStoreExtendSubmitted(StoreTestCase):
-    """
-    USE CASE 3
+    """USE CASE 3
         Extending previously submitted dataset for variable Amon/tas
 
     INPUT

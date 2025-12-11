@@ -2,9 +2,7 @@
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = no-member, no-value-for-parameter
-"""
-Tests for requested_variables.py.
-"""
+"""Tests for requested_variables.py."""
 from io import StringIO
 from unittest.mock import call, patch
 import os
@@ -22,14 +20,10 @@ NCCMP_TIMINGS = []
 
 
 class TestGetModelToMIPMappings(unittest.TestCase):
-    """
-    Tests for ``get_model_to_mip_mappings`` in request.py.
-    """
+    """Tests for ``get_model_to_mip_mappings`` in request.py."""
 
     def setUp(self):
-        """
-        Create the |model to MIP mappings| configuration file.
-        """
+        """Create the |model to MIP mappings| configuration file."""
         self.plugins_dir = os.path.join(os.path.dirname(os.path.realpath(request.__file__)), 'plugins')
         self.model_configuration = 'HadGEM3'
         load_mapping_plugin(self.model_configuration)
@@ -84,14 +78,10 @@ class TestGetModelToMIPMappings(unittest.TestCase):
 
 
 class TestGetRequestedVariables(unittest.TestCase):
-    """
-    Tests for ``get_requested_variables`` in request.py.
-    """
+    """Tests for ``get_requested_variables`` in request.py."""
 
     def setUp(self):
-        """
-        Create the requested variables.
-        """
+        """Create the requested variables."""
         self.stream_id_1 = 'apa'
         mip_table_name_1 = 'CMIP5_daily'
         variable_1 = 'tas'

@@ -25,19 +25,23 @@ class ConvertArguments:
 
 
 def add_user_config_data_files(arguments: ConvertArguments, request: Request) -> ConvertArguments:
-    """
-    Add all additional data files for producing |user configuration files| during cdds convert to the arguments.
+    """Add all additional data files for producing |user configuration files| during cdds convert to the arguments.
     Following data files will be updated:
     - the paths of the ancil files
     - the replacement coordinates file
     - the hybrid heights files
 
-    :param arguments: Commandline convert arguments
-    :type arguments: ConvertArguments
-    :param request: Information in the request.cfg
-    :type request: Request
-    :return: Updated commandline convert arguments
-    :rtype: ConvertArguments
+    Parameters
+    ----------
+    arguments : ConvertArguments
+        Commandline convert arguments
+    request : Request
+        Information in the request.cfg
+
+    Returns
+    -------
+    ConvertArguments
+        Updated commandline convert arguments
     """
     ancil_files = get_ancil_files(request)
     replacment_coordinates_file = get_replacement_coordinates_file(request)
@@ -55,15 +59,19 @@ def add_user_config_data_files(arguments: ConvertArguments, request: Request) ->
 
 
 def get_component_dir(request: Request, component: str):
-    """
-    Returns the directory for the given component.
+    """Returns the directory for the given component.
 
-    :param request: The request configuration for the cdds_convert process
-    :type request: Request
-    :param component: Component that directory should be returned
-    :type component: str
-    :return: Path to the component directory
-    :rtype: str
+    Parameters
+    ----------
+    request : Request
+        The request configuration for the cdds_convert process
+    component : str
+        Component that directory should be returned
+
+    Returns
+    -------
+    str
+        Path to the component directory
     """
     plugin = PluginStore.instance().get_plugin()
     proc_dir = plugin.proc_directory(request)
@@ -71,13 +79,17 @@ def get_component_dir(request: Request, component: str):
 
 
 def get_ancil_files(request: Request) -> str:
-    """
-    Construct the full paths to the ancillary files.
+    """Construct the full paths to the ancillary files.
 
-    :param request: The request configuration for the cdds_convert process
-    :type request: Request
-    :return: The paths to the ancillary files separated by a whitespace
-    :rtype: str
+    Parameters
+    ----------
+    request : Request
+        The request configuration for the cdds_convert process
+
+    Returns
+    -------
+    str
+        The paths to the ancillary files separated by a whitespace
     """
     plugin = PluginStore.instance().get_plugin()
     models_parameters = plugin.models_parameters(request.metadata.model_id)
@@ -86,13 +98,17 @@ def get_ancil_files(request: Request) -> str:
 
 
 def get_replacement_coordinates_file(request: Request) -> str:
-    """
-    Construct the full paths to the replacement coordinates file.
+    """Construct the full paths to the replacement coordinates file.
 
-    :param request: The request configuration for the cdds_convert process
-    :type request: Request
-    :return: The path to the replacement coordinates file
-    :rtype: str
+    Parameters
+    ----------
+    request : Request
+        The request configuration for the cdds_convert process
+
+    Returns
+    -------
+    str
+        The path to the replacement coordinates file
     """
     plugin = PluginStore.instance().get_plugin()
     grid_info = plugin.grid_info(request.metadata.model_id, GridType.OCEAN)
@@ -103,13 +119,17 @@ def get_replacement_coordinates_file(request: Request) -> str:
 
 
 def get_hybrid_heights_files(request: Request) -> str:
-    """
-    Construct the full paths to the hybrid heights files.
+    """Construct the full paths to the hybrid heights files.
 
-    :param request: The request configuration for the cdds_convert process
-    :type request: Request
-    :return: The paths to the hybrid heights files separated by a whitespace
-    :rtype: str
+    Parameters
+    ----------
+    request : Request
+        The request configuration for the cdds_convert process
+
+    Returns
+    -------
+    str
+        The paths to the hybrid heights files separated by a whitespace
     """
     plugin = PluginStore.instance().get_plugin()
     models_parameters = plugin.models_parameters(request.metadata.model_id)

@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2009-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-A common problem is to extract the multi-dimensional axis
+"""A common problem is to extract the multi-dimensional axis
 information from a list of pp headers.  This module provides support code
 for dealing with the multi-dimensional aspect of the list of pp headers.
 
@@ -40,42 +39,36 @@ level within time. So the nested data structures look something like:
 
 
 class AggregatorError(Exception):
-    """
-    Error if the pp meta data records do not appear to
+    """Error if the pp meta data records do not appear to
     be from a multi-dimensional array.
     """
     pass
 
 
 class AbstractIndex(object):
-    """
-    Abstract class used to document the interface of an Index
-    """
+    """Abstract class used to document the interface of an Index"""
     records = None
-    """
-    records is the list of meta-data (pp header) records that is being indexed
-    """
+    """records is the list of meta-data (pp header) records that is being indexed"""
 
     block_len = None
-    """
-    The total number of contiguous records needed in the record list to define the axis values for this axis.
-    """
+    """The total number of contiguous records needed in the record list to define the axis values for this axis."""
 
     number_blocks = None
-    """
-    The number of times the contiguous records defining the an axis is repeated in the record list.
-    """
+    """The number of times the contiguous records defining the an axis is repeated in the record list."""
 
     def axis_list(self):
-        """
-        @return: a list of axis for the list of records.
+        """return a list of axis for the list of records.
+
+        Returns
+        -------
+         :
+            a list of axis for the list of records
         """
         raise NotImplementedError('abstract class')
 
 
 class InnermostIndex(AbstractIndex):
-    """
-    An InnermostIndex terminates the nested index data structure.
+    """An InnermostIndex terminates the nested index data structure.
     It adds information to a pp header to allow the indexing algorithm
     to work.
     """
@@ -84,7 +77,10 @@ class InnermostIndex(AbstractIndex):
 
     def __init__(self, records):
         """
-        @param records: list of meta-data records to extract variable
+        Parameters
+        ----------
+        records
+            list of meta-data records to extract variable
         """
         self.records = records
         self.number_blocks = len(records)
@@ -97,12 +93,14 @@ class NestedIndex(AbstractIndex):
 
     def __init__(self, inner_index, axis_extractor):
         """
-        @param inner_index: the nested index at the level below this one.
-        @param axis_extractor: object that deals with the axis type dependent
-                               aspects of the headers.  It should be able to
-                               extact the axis from a list of meta-data records
-                               and also determine whether two records have the same
-                               coordinate value along the axis.
+        Parameters
+        ----------
+        inner_index
+            the nested index at the level below this one.
+        axis_extractor
+            object that deals with the axis type dependent aspects of the headers. It should be able to extact the axis
+            from a list of meta-data records and also determine whether two records have the same coordinate value along
+            the axis.
         """
         self._inner_index = inner_index
         self._axis_extractor = axis_extractor
@@ -181,8 +179,12 @@ class Aggregator(object):
 
     def __init__(self, records, axis_extractors):
         """
-        @param records: list of meta-data records to extract axes from
-        @param axis_extractors: list of axis_extractors: one for each axis
+        Parameters
+        ----------
+        records
+            list of meta-data records to extract axes from
+        axis_extractors
+            list of axis_extractors: one for each axis
         """
         self._records = records
         self._axis_extractors = axis_extractors

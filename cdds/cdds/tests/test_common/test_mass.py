@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
-"""
-Tests for :mod:`mass`
-"""
+"""Tests for :mod:`mass`"""
 import logging
 from unittest.mock import patch
 import unittest

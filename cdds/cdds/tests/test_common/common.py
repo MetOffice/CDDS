@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
-"""
-Common functions for tests.
-"""
+"""Common functions for tests."""
 import subprocess
 import jinja2
 
@@ -26,8 +24,7 @@ class DummyMapping(object):
 
 
 def handle_process(proc, command):
-    """
-    Check the output of the subprocess.Popen object proc and raise an
+    """Check the output of the subprocess.Popen object proc and raise an
     appropriate error if there was a problem
     """
     out, err = proc.communicate()
@@ -66,8 +63,7 @@ def create_netcdf_file_with_data(source_cdl, output_filepath, x_size=360, y_size
 
 
 def create_simple_netcdf_file(source_cdl, output_filepath):
-    """
-    Write a small netCDF4 file to the specified output file path
+    """Write a small netCDF4 file to the specified output file path
 
     Parameters
     ----------

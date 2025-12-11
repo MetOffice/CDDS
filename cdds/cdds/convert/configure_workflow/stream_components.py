@@ -20,10 +20,12 @@ class StreamComponents:
         """Class for applying any stream overrides from the request and determining which grid
         and sub-streams are to be processed.
 
-        :param arguments: A ConvertArguments class.
-        :type arguments: ConvertArguments
-        :param request: A Request class.
-        :type request: Request
+        Parameters
+        ----------
+        arguments : ConvertArguments
+            A ConvertArguments class.
+        request : Request
+            A Request class.
         """
         self._arguments = arguments
         self._request = request
@@ -33,9 +35,15 @@ class StreamComponents:
     def user_configs(self) -> dict[str, PythonConfig]:
         """Identify and parse the user configuration files.
 
-        :raises FileNotFoundError: If no user configs are found.
-        :return: Return a dictionary of {component:config} pairs.
-        :rtype: dict[str, PythonConfig]
+        Raises
+        ------
+        FileNotFoundError
+            If no user configs are found.
+
+        Returns
+        -------
+        dict[str, PythonConfig]
+            Return a dictionary of {component:config} pairs.
         """
         configure_directory = component_directory(self._request, "configure")
         pattern_files = re.compile(self._arguments.user_config_template_name.format(r"(?P<grid_id>[\w\-]+)"))
@@ -56,8 +64,7 @@ class StreamComponents:
         return user_configs
 
     def build_stream_components(self) -> None:
-        """_summary_
-        """
+        """_summary_"""
         regex_streams = SECTION_TEMPLATE.format(
             stream_id="(?P<stream_id>[^_]+)", substream="(_(?P<substream>[^_]+))?"
         )
@@ -89,7 +96,10 @@ class StreamComponents:
     def validate_streams(self) -> None:
         """Ensure there are streams to process.
 
-        :raises RuntimeError: If there are no streams to process.
+        Raises
+        ------
+        RuntimeError
+            If there are no streams to process.
         """
         if not self.active_streams:
             msg = "No streams to process"
@@ -104,13 +114,14 @@ class StreamComponents:
 
     @property
     def streams(self) -> List[str]:
-        """
-        Return a list of the |streams| to process. This is determined by the streams in the stream info section
+        """Return a list of the |streams| to process. This is determined by the streams in the stream info section
         of the JSON request file. If the user has specified streams on the command line, only return streams that
         are both in the request file and specified by the user.
 
-        :return: List of the |streams| to process
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            List of the |streams| to process
         """
         streams_to_process = self._request.data.streams
 
@@ -147,12 +158,13 @@ class StreamComponents:
 
     @property
     def active_streams(self) -> List[str]:
-        """
-        Returns a list of the active |streams| to process, which are |streams| that have been checked and
+        """Returns a list of the active |streams| to process, which are |streams| that have been checked and
         have conversions to be done. This is only valid after the __init__ function has run.
 
-        :return: List of the active |streams| to process
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            List of the active |streams| to process
         """
         try:
             active_streams = list(self.stream_components.keys())

@@ -2,9 +2,7 @@
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = no-member, no-value-for-parameter
-"""
-Tests for :mod:`processors.py`.
-"""
+"""Tests for :mod:`processors.py`."""
 import unittest
 
 from operator import mul
@@ -758,9 +756,7 @@ class TestCombineBasin(unittest.TestCase):
 
 
 class TestMultiplyCubes(unittest.TestCase):
-    """
-    Tests for Cube multiplication.
-    """
+    """Tests for Cube multiplication."""
     def setUp(self):
         self.exc_msg = (
             'This operation cannot be performed as there are differing '
@@ -790,9 +786,7 @@ class TestMultiplyCubes(unittest.TestCase):
 
 
 class TestSubtractCubes(unittest.TestCase):
-    """
-    Tests for Cube subtraction in :mod:`processors.py`.
-    """
+    """Tests for Cube subtraction in :mod:`processors.py`."""
     def setUp(self):
         self.exc_msg = (
             'This operation cannot be performed as there are differing '
@@ -811,9 +805,7 @@ class TestSubtractCubes(unittest.TestCase):
 
 
 class TestMaskPolarColumn(unittest.TestCase):
-    """
-    Tests for :func:`mask_polar_column_zonal_means` in :mod:`processors.py`
-    """
+    """Tests for :func:`mask_polar_column_zonal_means` in :mod:`processors.py`"""
     def setUp(self):
         dimcoords = [('T', 'time'), ('Z', 'air_pressure'), ('Y', 'latitude'), ('Z', 'longitude')]
         cube = dummy_cube(dimcoords=dimcoords, axis_length=3)

@@ -8,8 +8,7 @@ from unittest import mock
 
 
 class TestStoreAppendOrRecover(StoreTestCase):
-    """
-    USE CASE 2
+    """USE CASE 2
         Append to embargoed data in MASS or pick up after archiving failure for variable Amon/tas
 
     INPUT

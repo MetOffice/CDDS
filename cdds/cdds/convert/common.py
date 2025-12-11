@@ -8,11 +8,12 @@ from cdds.common.constants import DATESTAMP_PARSER_STR
 
 
 def validate_archive_data_version(archive_data_version):
-    """
-    Checks if the archive data version has the expected date format. If not an exception will be raised
+    """Checks if the archive data version has the expected date format. If not an exception will be raised
 
-    :param archive_data_version: Archive data version as string
-    :type archive_data_version: str
+    Parameters
+    ----------
+    archive_data_version : str
+        Archive data version as string
     """
     try:
         datetime.strptime(archive_data_version, DATESTAMP_PARSER_STR)
@@ -22,13 +23,17 @@ def validate_archive_data_version(archive_data_version):
 
 
 def expand_path(path: str) -> str:
-    """
-    Expands given path and returns the absolute path
+    """Expands given path and returns the absolute path
 
-    :param path:Paht to expand
-    :type path: str
-    :return: Absolute path
-    :rtype: str
+    Parameters
+    ----------
+    path : str
+        Paht to expand
+
+    Returns
+    -------
+    str
+        Absolute path
     """
     if path.startswith('~') or '$' in path:
         path = os.path.expanduser(os.path.expandvars(path))

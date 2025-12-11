@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module to modify and manage the UNIX file system
-"""
+"""Module to modify and manage the UNIX file system"""
 import logging
 import os
 
@@ -14,8 +12,7 @@ CDDS_DEFAULT_DIRECTORY_PERMISSIONS = 0o775
 
 
 class PathType(Enum):
-    """
-    Represents a given path type, e.g.
+    """Represents a given path type, e.g.
      - PATH, e.g. /path/to/dir/
      - FILENAME, e.g. test_file.txt
     """
@@ -25,8 +22,7 @@ class PathType(Enum):
 
 def construct_string_from_facet_string(facet_string: str, facet_values: Dict[str, str],
                                        string_type: PathType = PathType.PATH) -> str:
-    """
-    Return the constructed string as described by the ``facet_string`` and the ``facet_values``.
+    """Return the constructed string as described by the ``facet_string`` and the ``facet_values``.
 
     ``string_type`` can be either ``path`` or ``filename``;
     :func:`os.path.join` is used to join the facets if ``string_type`` is equal to ``path``,
@@ -45,14 +41,18 @@ def construct_string_from_facet_string(facet_string: str, facet_values: Dict[str
     ...     string_type='filename')
     'amip_phase1_CMIP'
 
-    :param facet_string: Names separated by ``|``
-    :type facet_string: str
-    :param facet_values: Values corresponding to the names
-    :type facet_values: Dict[str, str]
-    :param string_type: path or filename
-    :type string_type: str
-    :return:
-    :rtype: list[str]
+    Parameters
+    ----------
+    facet_string : str
+        Names separated by ``|``
+    facet_values : Dict[str, str]
+        Values corresponding to the names
+    string_type : str
+        path or filename
+
+    Returns
+    -------
+    list[str]
     """
     logger = logging.getLogger(__name__)
     facets = []
@@ -73,11 +73,12 @@ def construct_string_from_facet_string(facet_string: str, facet_values: Dict[str
 
 
 def create_directory(path: str) -> None:
-    """
-    Create the directory ``path`` if it does not exists.
+    """Create the directory ``path`` if it does not exists.
 
-    :param path: The full path to the directory to be created.
-    :type path: str
+    Parameters
+    ----------
+    path : str
+        The full path to the directory to be created.
     """
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
@@ -90,8 +91,7 @@ def create_directory(path: str) -> None:
 
 
 def get_directories(path: str, root_dir: str = None) -> list[str]:
-    """
-    Return the directories that make up the path provided to the ``path`` parameter.
+    """Return the directories that make up the path provided to the ``path`` parameter.
 
     Examples
     --------
@@ -101,13 +101,18 @@ def get_directories(path: str, root_dir: str = None) -> list[str]:
     >>> get_directories('/starts/with/sep')
     ['/starts', '/starts/with', '/starts/with/sep']
 
-    :param path: The path to get the directories from.
-    :type path: str
-    :param root_dir: The path to the root of the CDDS directory. No directories higher
-        up the directory structure be returned in the directory list.
-    :type root_dir: str
-    :return: The directories.
-    :rtype: str
+    Parameters
+    ----------
+    path : str
+        The path to get the directories from.
+    root_dir : str
+        The path to the root of the CDDS directory. No directories higher up the directory structure be returned in the
+        directory list.
+
+    Returns
+    -------
+    str
+        The directories.
     """
     directories = []
     dir_list = [i1 for i1 in path.split(os.sep) if i1]

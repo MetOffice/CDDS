@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-The :mod:`configuration` module contains the configuration classes that
+"""The :mod:`configuration` module contains the configuration classes that
 store the information read from the configuration files.
 """
 from collections import OrderedDict
@@ -19,9 +18,7 @@ from mip_convert.configuration.removal_config import load_halo_removal_from_conf
 
 
 class PythonConfig(AbstractConfig):
-    """
-    Read Python configuration files.
-    """
+    """Read Python configuration files."""
 
     def __init__(self, read_path):
         self.config = self._config()
@@ -35,8 +32,7 @@ class PythonConfig(AbstractConfig):
         return config
 
     def read(self, read_path):
-        """
-        Read the configuration file; see
+        """Read the configuration file; see
         `configparser.ConfigParser.read_file`_.
 
         The ``config`` attribute is set equal to an instance of
@@ -45,12 +41,12 @@ class PythonConfig(AbstractConfig):
         the use of values from other sections using the syntax
         ``${section:option}``.
 
-        :raises backports.configparser.DuplicateSectionError: if more
-            than one section with the same name exists in the
-            configuration file
-        :raises backports.configparser.DuplicateOptionError: if more
-            than one option with the same name exists in a single
-            section in the configuration file
+        Raises
+        ------
+        backports.configparser.DuplicateSectionError
+            if more than one section with the same name exists in the configuration file
+        backports.configparser.DuplicateOptionError
+            if more than one option with the same name exists in a single section in the configuration file
         """
         config_to_read = self._config()
         if isinstance(read_path, dict):
@@ -76,28 +72,31 @@ class PythonConfig(AbstractConfig):
 
     @property
     def sections(self):
-        """
-        Return a list of sections available in the configuration file;
+        """Return a list of sections available in the configuration file;
         see `configparser.ConfigParser.sections`_.
 
-        :return: the sections in the configuration file
-        :rtype: list of strings
+        Returns
+        -------
+        list of strings
+            the sections in the configuration file
         """
         # 'configparser' returns the section with a type 'unicode' by
         # default.
         return [str(section) for section in self.config.sections()]
 
     def items(self, section, msg=None):
-        """
-        Return the items (i.e., options and values) within a section in
+        """Return the items (i.e., options and values) within a section in
         the configuration file; see `configparser.ConfigParser.items`_.
 
-        :param section: the name of the section in the configuration
-                        file
-        :type section: string
-        :return: the items within a section in the form
-                 ``{option: value}``
-        :rtype: dictionary
+        Parameters
+        ----------
+        section : str
+            the name of the section in the configuration file
+
+        Returns
+        -------
+        dictionary
+            the items within a section in the form ``{option: value}``
         """
         # 'configparser' returns the option and value with a type
         # 'unicode' by default.
@@ -112,15 +111,18 @@ class PythonConfig(AbstractConfig):
         return all_items
 
     def options(self, section):
-        """
-        Return a list of options available within a section in the
+        """Return a list of options available within a section in the
         configuration file; see `configparser.ConfigParser.options`_.
 
-        :param section: the name of the section in the configuration
-                        file
-        :type section: string
-        :return: the options within a section in the configuration file
-        :rtype: list of strings
+        Parameters
+        ----------
+        section : string
+            the name of the section in the configuration file
+
+        Returns
+        -------
+        list of strings
+            the options within a section in the configuration file
         """
         # 'configparser' returns the option with a type 'unicode' by
         # default.
@@ -130,45 +132,49 @@ class PythonConfig(AbstractConfig):
         return options
 
     def value(self, section, option, ptype):
-        """
-        Return the single value from an option within a section in the
+        """Return the single value from an option within a section in the
         configuration file; see `configparser.ConfigParser.get`_.
 
-        :param section: the name of the section in the configuration
-                        file
-        :type section: string
-        :param option: the name of the option within the section
-        :type option: string
-        :param ptype: the Python type of the value
-        :type ptype: Python built-in function e.g., str, int
-        :return: the single value of the option
-        :rtype: defined by the ``ptype`` parameter
+        Parameters
+        ----------
+        section : string
+            the name of the section in the configuration file
+        option : string
+            the name of the option within the section
+        ptype : Python built-in function e.g., str, int
+            the Python type of the value
+
+        Returns
+        -------
+        defined by the `ptype` parameter
+            the single value of the option
         """
         # 'configparser' returns the value with a type 'unicode' by
         # default.
         return ptype(remove_newlines(self.config.get(section, option)).strip())
 
     def _multiple_values(self, section, option, ptype):
-        """
-        Return the multiple values from an option within a section in
+        """Return the multiple values from an option within a section in
         the configuration file.
 
-        :param section: the name of the section in the configuration
-                        file
-        :type section: string
-        :param option: the name of the option within the section
-        :type option: string
-        :param ptype: the Python type of the values in the list
-        :type ptype: Python built-in function e.g., str, int
-        :return: the multiple values of the option
-        :rtype: list of values with a type defined by the ``ptype``
-                parameter
+        Parameters
+        ----------
+        section : string
+            the name of the section in the configuration file
+        option : string
+            the name of the option within the section
+        ptype : Python built-in function e.g., str, int
+            the Python type of the values in the list
+
+        Returns
+        -------
+        list of values with a type defined by the `ptype` parameter
+            the multiple values of the option
         """
         return [ptype(remove_newlines(value)) for value in self.config.get(section, option).split()]
 
     def _add_attributes(self, options):
-        """
-        Add the options from the configuration file as attributes to
+        """Add the options from the configuration file as attributes to
         the object.
 
         The options provided to the ``options`` parameter must be a
@@ -189,11 +195,15 @@ class PythonConfig(AbstractConfig):
         attribute is added. If the ``function`` returns a value, this
         value will be used as the value of the attribute.
 
-        :param options: the options to be added as attributes
-        :type options: dictionary
+        Parameters
+        ----------
+        options : dictionary
+            the options to be added as attributes
 
-        :raises ValueError: if the ``value_type`` is not 'single' or
-            'multiple'
+        Raises
+        ------
+        ValueError
+            if the ``value_type`` is not 'single' or 'multiple'
         """
         msg = 'Adding attribute "{name}" to "{instance}" with value "{value}"'
         for option, option_info in options.items():
@@ -236,20 +246,23 @@ class PythonConfig(AbstractConfig):
                 setattr(self, name, value)
 
     def _validate_required_options(self, section, options):
-        """
-        Ensure that the section provided to the ``section`` parameter
+        """Ensure that the section provided to the ``section`` parameter
         in the configuration file contains the required options
         provided to the ``options`` parameter.
 
-        :param section: the name of the section in the configuration
-                        file
-        :type section: string
-        :param option: the names of the required options
-        :type option: list of strings
-        :raises ValidateConfigError: if the section does not exist in
-                                     the configuration file
-        :raises ValidateConfigError: if the section is missing a
-                                     required option
+        Parameters
+        ----------
+        section : string
+            the name of the section in the configuration file
+        option : list of strings
+            the names of the required options
+
+        Raises
+        ------
+        ValidateConfigError
+            if the section does not exist in the configuration file
+        ValidateConfigError
+            if the section is missing a required option
         """
         if not self.config.has_section(section):
             raise ValidateConfigError(
@@ -266,8 +279,7 @@ class PythonConfig(AbstractConfig):
 
 
 class UserConfig(PythonConfig):
-    """
-    Store information read from the |user configuration file|.
+    """Store information read from the |user configuration file|.
 
     The :class:`configuration.UserConfig` object has attributes with
     names equal to each option in the |user configuration file|.
@@ -320,17 +332,17 @@ class UserConfig(PythonConfig):
 
     @property
     def global_attributes(self):
-        """
-        Return the items (i.e., options and values) within the
+        """Return the items (i.e., options and values) within the
         ``global_attributes`` section in the |user configuration file|.
 
         Anything in the ``global_attributes`` section in the
         |user configuration file| will be written to the header of the
         |output netCDF file|.
 
-        :return: the items within the ``global_attributes`` section in
-                 the form ``{option: value}``
-        :rtype: dictionary
+        Returns
+        -------
+        dict
+            the items within the ``global_attributes`` section in the form ``{option: value}``
         """
         section = 'global_attributes'
         if self.config.has_section(section):
@@ -339,8 +351,7 @@ class UserConfig(PythonConfig):
 
     @property
     def cmor_dataset(self):
-        """
-        Return the items (i.e. options and values) from the
+        """Return the items (i.e. options and values) from the
         ``cmor_dataset`` section in the |user configuration file|,
         where the options are the names used in CMOR.
         """
@@ -398,17 +409,17 @@ class UserConfig(PythonConfig):
                 self._halo_removals[stream] = mask
 
     def _add_streams(self):
-        """
-        Add the |stream identifiers| from the configuration file as
+        """Add the |stream identifiers| from the configuration file as
         entries in the ``streams_to_process`` dictionary. This
         dictionary is keyed by the tuple (|stream identifier|,
         |MIP table| name) and has the corresponding list of
         |MIP requested variable names| as values.
 
-        :raises ValidateConfigError: if there are duplicate
-            |MIP requested variable names| specified for a given
-            |MIP table| in the ``stream_<stream_id>`` sections in the
-            |user configuration file|
+        Raises
+        ------
+        ValidateConfigError
+            if there are duplicate |MIP requested variable names| specified for a given |MIP table| in the
+            ``stream_<stream_id>`` sections in the |user configuration file|
         """
         # Add all items in any stream sections.
         for section in self.sections:
@@ -448,8 +459,7 @@ class UserConfig(PythonConfig):
 
 
 class ModelToMIPMappingConfig(PythonConfig):
-    """
-    Store information read from the |model to MIP mapping|
+    """Store information read from the |model to MIP mapping|
     configuration files.
     """
 
@@ -458,19 +468,25 @@ class ModelToMIPMappingConfig(PythonConfig):
         self.model_id = model_id
 
     def select_mapping(self, variable_name, mip_table_id):
-        """
-        Return the |model to MIP mapping| for a specific
+        """Return the |model to MIP mapping| for a specific
         |MIP requested variable|.
 
-        :param variable_name: the |MIP requested variable name|
-        :type variable_name: string
-        :param mip_table_id: the |MIP table identifier|
-        :type mip_table_id: string
-        :return: the |model to MIP mapping| for a specific
-            |MIP requested variable| in the form ``{option: value}``
-        :rtype: dictionary
-        :raises RuntimeError: if there is no |model to MIP mapping| for
-            the specified |MIP table identifier|
+        Parameters
+        ----------
+        variable_name : string
+            the |MIP requested variable name|
+        mip_table_id : string
+            the |MIP table identifier|
+
+        Returns
+        -------
+        dict
+            the |model to MIP mapping| for a specific |MIP requested variable| in the form ``{option: value}``
+
+        Raises
+        ------
+        RuntimeError
+            if there is no |model to MIP mapping| for the specified |MIP table identifier|
         """
         msg = 'in model to MIP mapping configuration file'
         items = self.items(variable_name, msg)

@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`sim_review` module contains code to extract information to facilitate
+"""The :mod:`sim_review` module contains code to extract information to facilitate
 reviewing whether simulation tickets have been correctly processed before the
 data is submitted for publiction.
 """
@@ -21,8 +20,7 @@ from cdds.common.plugins.plugins import PluginStore
 
 
 def filter_critical_issues(issue_list):
-    """
-    Filters reported issues by removing the prefix from the string, to show
+    """Filters reported issues by removing the prefix from the string, to show
     only the actual error message, and consolidate and sort error messages
     to remove repeats.
 
@@ -33,7 +31,7 @@ def filter_critical_issues(issue_list):
 
     Returns
     -------
-    : list of strings
+    list of strings
         A filtered list of critical error strings.
     """
     filtered_issues = []
@@ -46,8 +44,7 @@ def filter_critical_issues(issue_list):
 
 
 def check_critical_issues(proc_dir):
-    """
-    Look for critical issues in the component proc directories. This function
+    """Look for critical issues in the component proc directories. This function
     also checks for errors in transfer for legacy reasons, and for the
     presence of a critical_isues.log file in the convert proc dir, which is
     where mip_convert critical issues are reported.
@@ -101,8 +98,7 @@ def check_critical_issues(proc_dir):
 
 
 def check_intermediate_files(data_dir):
-    """
-    Check whether the intermmediate directories in the data output directory
+    """Check whether the intermmediate directories in the data output directory
     (directories with th suffix _mip_convert or _concat), have any remaining
     files in them or subdirectories. If there are this usually indicates a
     convert task has failed or not run.
@@ -140,8 +136,7 @@ def check_intermediate_files(data_dir):
 
 
 def check_qc_report(qc_dir):
-    """
-    Check whether there are any issues reported in the most recent QC
+    """Check whether there are any issues reported in the most recent QC
     report file.
 
     Parameters
@@ -178,8 +173,7 @@ def check_qc_report(qc_dir):
 
 
 def display_approved_variables(qc_dir):
-    """
-    Open the approved variables file in an editor for the reviewer to
+    """Open the approved variables file in an editor for the reviewer to
     check manually. The editor used is defined by the $EDITOR environment
     variable. If this is not set, the user is prompted to open the file
     manually and the path specified in the log.
@@ -189,10 +183,9 @@ def display_approved_variables(qc_dir):
     qc_dir: str
         Path to the `qualitycheck` proc directory for this package.
 
-
     Returns
     -------
-    : str
+    str
         The path to the most recent approved variables list.
 
     """
@@ -240,8 +233,7 @@ def _join_approved_files(path_file_dict):
 
 
 def show_submission_command(request_file_path, recent_approved_path):
-    """
-    Constructs and displays scp commands to be used by the reviewer to copy
+    """Constructs and displays scp commands to be used by the reviewer to copy
     the files needed by the move_in_mass command to the server where the
     command can be run.
 
@@ -263,13 +255,14 @@ def show_submission_command(request_file_path, recent_approved_path):
 
 
 def do_sim_review(request: Request, request_file_path: str) -> None:
-    """
-    The main work function for the simulation review script.
+    """The main work function for the simulation review script.
 
-    :param request: The request configuration to consider
-    :type request: Request
-    :param request_file_path: Path to the given request configuration file
-    :type request_file_path: str
+    Parameters
+    ----------
+    request : Request
+        The request configuration to consider
+    request_file_path : str
+        Path to the given request configuration file
     """
     # Set up the relevant paths
     plugin = PluginStore.instance().get_plugin()

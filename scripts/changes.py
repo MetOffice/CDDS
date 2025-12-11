@@ -8,8 +8,8 @@ import mkdocs_gen_files
 
 
 def generate_changes():
-    """ Generates a CHANGES.md page from the corresponding file in the cdds/mip_convert packages.
-    See https://oprypin.github.io/mkdocs-gen-files/index.html for API usage examples.
+    """Generates a CHANGES.md page from the corresponding file in the cdds/mip_convert packages.
+        See https://oprypin.github.io/mkdocs-gen-files/index.html for API usage examples.
     """
     packages = ["cdds", "mip_convert"]
     for package in packages:

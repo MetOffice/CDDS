@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name
-"""
-Tests for the :mod:`cdds.convert.concatenation.concatenation_setup`
+"""Tests for the :mod:`cdds.convert.concatenation.concatenation_setup`
 module.
 """
 import os
@@ -432,8 +431,7 @@ class TestOrganiseConcatenations(unittest.TestCase):
 
 
 def create_simple_netcdf_file(source_cdl, output_filepath):
-    """
-    Write a small netCDF4 file to the specified output file path based
+    """Write a small netCDF4 file to the specified output file path based
     on the supplied CDL description.
 
     Parameters

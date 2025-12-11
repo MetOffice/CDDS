@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-Utility functions for extract processing.
-"""
+"""Utility functions for extract processing."""
 
 import json
 import logging
@@ -501,12 +499,9 @@ def calculate_period(date, start=True):
 
 
 class FileContentError(object):
-    """
-    Class representing a problematic file (usually an unreadable one).
-    """
+    """Class representing a problematic file (usually an unreadable one)."""
     def __init__(self, filepath, error_message):
-        """
-        Parameters
+        """Parameters
         ----------
         filepath: str
             Where the faulty file is stored.
@@ -518,12 +513,9 @@ class FileContentError(object):
 
 
 class StashError(FileContentError):
-    """
-    Class representing a problematic pp file with STASH errors.
-    """
+    """Class representing a problematic pp file with STASH errors."""
     def __init__(self, filepath, error_message):
-        """
-        Parameters
+        """Parameters
         ----------
         filepath: str
             Where the faulty file is stored.
@@ -534,8 +526,7 @@ class StashError(FileContentError):
         self.stash_errors = []
 
     def add_stash_error(self, stash):
-        """
-        Adds a faulty stash code.
+        """Adds a faulty stash code.
 
         Parameters
         ----------
@@ -546,12 +537,9 @@ class StashError(FileContentError):
 
 
 class StreamValidationResult(object):
-    """
-    Encapsulates results from validation of a single stream.
-    """
+    """Encapsulates results from validation of a single stream."""
     def __init__(self, stream):
-        """
-        Constructor
+        """Constructor
 
         Parameters
         ----------
@@ -564,8 +552,7 @@ class StreamValidationResult(object):
         self.file_errors = {}
 
     def add_file_names(self, expected_files, actual_files):
-        """
-        Stores expected and actual files for a given stream.
+        """Stores expected and actual files for a given stream.
 
         Parameters
         ----------
@@ -579,8 +566,7 @@ class StreamValidationResult(object):
         self.file_names_actual = actual_files
 
     def add_file_content_error(self, file_content_error):
-        """
-        Adds a file content error to the results
+        """Adds a file content error to the results
 
         Parameters
         ----------
@@ -590,8 +576,7 @@ class StreamValidationResult(object):
         self.file_errors[file_content_error.filepath] = file_content_error
 
     def log_results(self, log_directory):
-        """
-        Creates a log of issues for this stream (assuming there are any).
+        """Creates a log of issues for this stream (assuming there are any).
 
         Parameters
         ----------
@@ -633,29 +618,23 @@ class StreamValidationResult(object):
 
     @property
     def valid(self):
-        """
-        Is this stream valid?
+        """Is this stream valid?
 
         Returns
         -------
-        : bool
+        bool
         """
         return self.file_names_expected == self.file_names_actual and not self.file_errors
 
 
 class ValidationResult(object):
-    """
-    Encapsulates results from validation of pp and netcdf streams in Extract.
-    """
+    """Encapsulates results from validation of pp and netcdf streams in Extract."""
     def __init__(self):
-        """
-        Constructor
-        """
+        """Constructor"""
         self.validated_streams = {}
 
     def add_validation_result(self, stream):
-        """
-        Add validation result from a single stream
+        """Add validation result from a single stream
 
         Parameters
         ----------
@@ -665,8 +644,7 @@ class ValidationResult(object):
         self.validated_streams[stream] = StreamValidationResult(stream)
 
     def validation_result(self, stream):
-        """
-        Returns validation result for a single stream
+        """Returns validation result for a single stream
 
         Parameters
         ----------
@@ -675,14 +653,13 @@ class ValidationResult(object):
 
         Returns
         -------
-        : cdds.extract.common.StreamValidationResult
+        cdds.extract.common.StreamValidationResult
         """
         return self.validated_streams[stream]
 
 
 def stream_file_template(stream, model_workflow_id):
-    """
-    Returns glob template for data files from particular stream.
+    """Returns glob template for data files from particular stream.
 
     Parameters
     ----------
@@ -693,7 +670,7 @@ def stream_file_template(stream, model_workflow_id):
 
     Returns
     -------
-    : list of str
+    list of str
         Glob templates.
     """
     if stream.startswith('ap'):
@@ -710,8 +687,7 @@ def stream_file_template(stream, model_workflow_id):
 
 def build_mass_location(mass_data_class: str, model_workflow_id: str, stream: str, streamtype: str,
                         mass_ensemble_member: str = None) -> str:
-    """
-    Returns root of the location of the dataset in MASS.
+    """Returns root of the location of the dataset in MASS.
 
     Parameters
     ----------
@@ -958,8 +934,7 @@ def get_tape_limit(tape_msg_pattern=MOOSE_TAPE_PATTERN, simulation=False):
 
 
 def chunk_by_files_and_tapes(fileset: dict, tape_limit: int, file_limit: int) -> list:
-    """
-    Divides the filelist dictionary into chunks ensuring that each chunk doesn't exceed the file number limit and
+    """Divides the filelist dictionary into chunks ensuring that each chunk doesn't exceed the file number limit and
     the number of tapes accessed in each chunk doesn't exceed the tape limit.
 
     Parameters
@@ -995,8 +970,7 @@ def chunk_by_files_and_tapes(fileset: dict, tape_limit: int, file_limit: int) ->
 
 
 def get_zero_sized_files(dirpath: str) -> list:
-    """
-    Checks if a given directory contain files of zero size and returns them.
+    """Checks if a given directory contain files of zero size and returns them.
 
     Parameters
     ----------
@@ -1019,8 +993,7 @@ def get_zero_sized_files(dirpath: str) -> list:
 
 
 def get_streamtype(stream: str) -> str:
-    """
-    A helper function to determine stream type based on its name.
+    """A helper function to determine stream type based on its name.
 
     Parameters
     ----------
@@ -1039,8 +1012,7 @@ def get_streamtype(stream: str) -> str:
 
 
 def condense_constraints(variable_constraints) -> dict:
-    """
-    Processes a list of dictionaries containing constraints and condenses them by
+    """Processes a list of dictionaries containing constraints and condenses them by
     grouping instances where multiple stash codes correspond to the same constraint
     attributes.
 

@@ -85,9 +85,10 @@ class DataRefSyntax(object):
         consistency issues. No facets are defined at this point,
 
         Arguments:
-        cfg -- (config.Config) wrapper for configuration file(s)
-        project -- (str) Project name, must match section in
-        configuration
+        cfg: config.Config
+            wrapper for configuration file(s)
+        project: str
+            Project name, must match section in configuration
         """
         self._cfg = cfg
         self._project = project
@@ -181,12 +182,17 @@ class DataRefSyntax(object):
         project-specific DRS name template will be used to associate
         values with facets.
 
-        A DrsException will be raised if mandatory facets appear to be
-        missing from the supplied name.
+        Parameters
+        ----------
+        name: str
+            File name in DRS format.
+        update: bool, optional
+            update rather than overwrite facets
 
-        Arguments:
-        name -- (str) File name in DRS format.
-        update -- (bool, optional) update rather than overwrite facets
+        Raises
+        ------
+        DrsException
+            If mandatory facets appear to be missing from the supplied name.
         """
         if not self.is_drs_name(name):
             raise DrsException(
@@ -210,9 +216,12 @@ class DataRefSyntax(object):
         If the path includes a DRS variable name, the variable's state
         will also be deduced and set.
 
-        Arguments:
-        mass_dir -- (str) MOOSE path.
-        update -- (bool, optional) update rather than overwrite facets
+        Parameters
+        ----------
+        mass_dir: str
+            MOOSE path.
+        update: bool, optional
+            update rather than overwrite facets
         """
         drs_facets = self._split_drs_dir(mass_dir)
         # identify sub_experiment_id from variant label
@@ -227,9 +236,12 @@ class DataRefSyntax(object):
     def fill_facets_from_local_path(self, local_path, update=False):
         """Fill facets using values contained in a local path.
 
-        Arguments:
-        local_path -- (str) local path
-        update -- (bool, optional) update rather than overwrite
+        Parameters
+        ----------
+        local_path: str
+            local path
+        update: bool, optional
+            update rather than overwrite
         """
         base_name = os.path.basename(local_path)
         # We may have a filename in DRS format in base_name, or we may
@@ -246,9 +258,11 @@ class DataRefSyntax(object):
         Given a message read from one of the MOOSE RabbitMQ queues, fill
         facets from the message contents.
 
-        Arguments:
-        message -- (msg.MooseMessage) a message read from a MOOSE queue
-        update -- (bool, optional) update rather than overwrite
+        Parameters:
+        message: msg.MooseMessage
+            a message read from a MOOSE queue
+        update: bool, optional
+            update rather than overwrite
         """
         self.fill_facets_from_dict(message.facets, update=update)
         return
@@ -261,10 +275,12 @@ class DataRefSyntax(object):
         is serialised). This method takes a "flattened" object and
         fills facets from it.
 
-        Arguments:
-        serialisable -- (dict) serialised representation of a
-        DataRefSyntax object.
-        update -- (bool, optional) update rather than overwrite
+        arameters
+        ---------
+        serialisable: dict
+            serialised representation of a DataRefSyntax object.
+        update: bool, optional
+            update rather than overwrite
         """
         if not isinstance(serialisable, dict):
             raise TypeError("fill_facets_from_serialisable expects a dict")
@@ -290,9 +306,10 @@ class DataRefSyntax(object):
         Note: MASS facets with a defined state also have their states
         compared as part of the "matches" check.
 
-        Arguments:
-        facet_builder_to_match -- (drs.DataRefSyntax) facets to compare
-        with our values
+        Parameters
+        ----------
+        facet_builder_to_match: drs.DataRefSyntax
+            facets to compare with our values
         """
         matches = True
         if facet_builder_to_match.state != self.state:
@@ -313,8 +330,9 @@ class DataRefSyntax(object):
         a simple count - as controlled vocabularies are defined, a
         more thorough check will become possible.
 
-        Arguments:
-        name -- (str) a file basename
+        Parameters:
+        name: str
+            a file basename
         """
         facets_in_name = name.split("_")
         template, optional = self._drs_file_template()
@@ -352,8 +370,10 @@ class DataRefSyntax(object):
     def basename(self, full_path):
         """Return the base name of the supplied full path.
 
-        Arguments:
-        full_path -- (str) Full MASS or local disk path.
+        Parameters
+        ----------
+        full_path: str
+            Full MASS or local disk path.
         """
         if re.match("moo(se)?:", full_path):
             return full_path.split("/")[-1]
@@ -363,8 +383,10 @@ class DataRefSyntax(object):
     def local_dir(self, local_top):
         """Return the expected local path for this facet.
 
-        Arguments:
-        local_top -- (str) Top-level directory path.
+        Parameters
+        ----------
+        local_top: str
+            Top-level directory path.
         """
         path = self._template_to_path("local")
         local_base = self._cfg.optional_attr("local", "base_dir")
@@ -442,8 +464,10 @@ class DataRefSyntax(object):
         """Return True if MASS path includes a "var_timestamp"
         directory.
 
-        Arguments:
-        mass_dir -- (str) MASS path.
+        Parameters
+        ----------
+        mass_dir: str
+            MASS path.
         """
         full_facets = self._split_full_dir(mass_dir)
         # TODO: obliterate this as "var_timestamp" is no more
@@ -452,8 +476,10 @@ class DataRefSyntax(object):
     def mass_dir_includes_file(self, mass_dir):
         """Return True if MASS path includes a file name.
 
-        Arguments:
-        mass_dir -- (str) MASS path.
+        Parameters
+        ----------
+        mass_dir: str
+            MASS path.
         """
         full_facets = self._split_full_dir(mass_dir)
         if "drs_file" in full_facets:
@@ -465,9 +491,10 @@ class DataRefSyntax(object):
         """Add a file to the list of files contained in our atomic
         dataset.
 
-        Arguments:
-        full_path -- (str) Full path to the file to be added (MASS or
-        local)
+        Parameters
+        ----------
+        full_path: str
+            Full path to the file to be added (MASS or local)
         """
         base = self.basename(full_path)
         self._files.append(base)
@@ -478,8 +505,10 @@ class DataRefSyntax(object):
         Note, this removes the file from the internal list, but does
         not physically remove the file from local disk or MASS.
 
-        Arguments:
-        filename -- (str) path to file to be removed
+        Parameters
+        ----------
+        filename: str
+            path to file to be removed
         """
         basename = self.basename(filename)
         try:
@@ -505,7 +534,8 @@ class DataRefSyntax(object):
     @property
     def files(self):
         """Return the list of files in the atomic dataset (list of
-        strings)."""
+        strings).
+        """
         return self._files
 
     def _init_facets(self):
@@ -641,8 +671,7 @@ class DataRefSyntax(object):
         return dict(list(zip(template_facets, mass_facets)))
 
     def _split_local_dir(self, local_dir):
-        """
-        Return a dictionary of facets derived from the local directory
+        """Return a dictionary of facets derived from the local directory
         based upon the config information and the local and sublocal
         facet templates
 
@@ -653,7 +682,7 @@ class DataRefSyntax(object):
 
         Returns
         -------
-        : dict
+        dict
             Facets derived from local_dir
         """
         local_top = self._cfg.attr("local", "top_dir")
@@ -740,11 +769,12 @@ class AtomicDatasetCollection(object):
         If filename is specified, it will be added to the list of files
         contained in the atomic dataset.
 
-        Arguments:
-        drs_facet_builder -- (drs.DataRefSyntax) facet to add
-
-        Keyword arguments:
-        filename -- (str) DRS filename
+        Parameters
+        ----------
+        drs_facet_builder: drs.DataRefSyntax
+            facet to add
+        filename: str
+            DRS filename
         """
         dataset_id = drs_facet_builder.dataset_id()
         if dataset_id in self._atoms:
@@ -766,11 +796,12 @@ class AtomicDatasetCollection(object):
         it will be removed from the collection. If a filename is supplied it
         will be removed from the list of filenames.
 
-        Arguments:
-        drs_facet_builder -- (drs.DataRefSyntax) facet to remove
-
-        Keyword arguments:
-        filename -- (str) DRS filename.
+        parameters
+        ----------
+        drs_facet_builder: drs.DataRefSyntax
+            facet to remove
+        filename: str
+            DRS filename.
         """
         dataset_id = drs_facet_builder.dataset_id()
         if dataset_id in self._atoms:
@@ -791,8 +822,10 @@ class AtomicDatasetCollection(object):
     def drs_variables(self, dataset_id):
         """Return a sorted list of DRS variable names in specified id.
 
-        Arguments:
-        dataset_id -- (str) DRS dataset id
+        Parameters
+        ----------
+        dataset_id: str
+            DRS dataset id
         """
         return sorted(self._atoms[dataset_id].keys())
 
@@ -800,9 +833,12 @@ class AtomicDatasetCollection(object):
         """Return drs_facet_builder for specified dataset id and DRS
         variable name.
 
-        Arguments:
-        dataset_id -- (str) dataset id
-        drs_variable -- (str) DRS variable name
+        Parameters
+        ----------
+        dataset_id: str
+            dataset id
+        drs_variable: str
+            DRS variable name
         """
         return self._atoms[dataset_id][drs_variable]
 
@@ -817,17 +853,22 @@ class AtomicDatasetCollection(object):
     def filenames(self, dataset_id, drs_variable):
         """Return a sorted list of filenames in the selected atomic dataset.
 
-        Arguments:
-        dataset_id -- (str) dataset id
-        drs_variable -- (str) DRS variable name
+        Parameters
+        ----------
+        dataset_id: str
+            dataset id
+        drs_variable: str
+            DRS variable name
         """
         return sorted(self._atoms[dataset_id][drs_variable].files)
 
     def total_files_in_id(self, dataset_id):
         """Return the total number of files in the dataset id.
 
-        Arguments:
-        dataset_id -- (str) dataset id
+        Parameters
+        ----------
+        dataset_id: str
+            dataset id
         """
         total_files = 0
         if dataset_id in self._atoms:
@@ -839,9 +880,12 @@ class AtomicDatasetCollection(object):
     def total_files_in_atomic_dataset(self, dataset_id, drs_variable):
         """Return the total number of files in the atomic dataset.
 
-        Arguments:
-        dataset_id -- (str) dataset id
-        drs_variable -- (str) DRS variable name
+        Parameters
+        ----------
+        dataset_id: str
+            dataset id
+        drs_variable: str
+            DRS variable name
         """
         try:
             total_files = len(self.filenames(dataset_id, drs_variable))
@@ -885,8 +929,7 @@ class AtomicDatasetCollection(object):
 
 
 def filter_filesets(atomic_dataset_collection, variables_to_operate_on):
-    """
-    Remove variables in the specifed atomic dataset collection that are
+    """Remove variables in the specifed atomic dataset collection that are
     not specified in the `variables_to_operate_on` list.
 
     Parameters

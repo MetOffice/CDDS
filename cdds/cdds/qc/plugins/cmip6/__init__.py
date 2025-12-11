@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
 
-"""
-compliance_checker.cmip6collections
+"""compliance_checker.cmip6collections
 
 Compliance Test Suite for the CMIP6 project
 """
@@ -20,9 +19,7 @@ from cdds.qc.plugins.cmip6.checks import (UserParentAttributesCheckTask, ParentC
 
 
 class CMIP6Check(BaseNCCheck):
-    """
-    The CMIP6 checker class
-    """
+    """The CMIP6 checker class"""
 
     register_checker = True
     name = "cmip6"
@@ -70,8 +67,7 @@ class CMIP6Check(BaseNCCheck):
         return Result(level, (score, out_of), name, messages)
 
     def check_global_attributes(self, netcdf_file):
-        """
-        Checks for existence and validity of global attributes.
+        """Checks for existence and validity of global attributes.
 
         Parameters
         ----------

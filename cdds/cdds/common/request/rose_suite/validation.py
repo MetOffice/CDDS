@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module to provide validation of the values in the rose-suite.info
-"""
+"""Module to provide validation of the values in the rose-suite.info"""
 import os
 
 import cdds.common.request.rose_suite.checks as checkers
@@ -20,13 +18,17 @@ ROSE_SUITE_PROJECT = 'project'
 
 
 def validate_rose_suite(rose_suite: RoseSuiteInfo) -> bool:
-    """
-    Validates the values in the given rose-suite.info.
+    """Validates the values in the given rose-suite.info.
 
-    :param rose_suite: Values in rose-suite.info to check
-    :type rose_suite: RoseSuiteInfo
-    :return: Has validation passed?
-    :rtype: bool
+    Parameters
+    ----------
+    rose_suite : RoseSuiteInfo
+        Values in rose-suite.info to check
+
+    Returns
+    -------
+    bool
+        Has validation passed?
     """
     if ROSE_SUITE_PROJECT not in rose_suite.data.keys():
         raise ValueError('Missing required project field in rose suite info')
@@ -43,8 +45,7 @@ def validate_rose_suite(rose_suite: RoseSuiteInfo) -> bool:
 
 
 class RoseSuiteValidator:
-    """
-    Validator for a rose suite using as the controlled vocabulary as
+    """Validator for a rose suite using as the controlled vocabulary as
     reference
     """
 
@@ -53,14 +54,15 @@ class RoseSuiteValidator:
         self._rose_suite: RoseSuiteInfo = rose_suite
 
     def validate(self) -> bool:
-        """
-        Checks given rose suite info contains only valid entries. The entries
+        """Checks given rose suite info contains only valid entries. The entries
         will be validated using the corresponding controlled vocabulary.
 
         All entries will be checked before the result will be returned.
 
-        :return: True if all checks succeed otherwise False
-        :rtype: bool
+        Returns
+        -------
+        bool
+            True if all checks succeed otherwise False
         """
         if not self._rose_suite or not self._rose_suite.data:
             return True
@@ -74,24 +76,25 @@ class RoseSuiteValidator:
 
 
 class KeyMappings:
-    """
-    Stores the key mappings from rose suite and controlled vocabulary
-    """
+    """Stores the key mappings from rose suite and controlled vocabulary"""
 
     @classmethod
     def key_mappings(cls, rose_suite: RoseSuiteInfo, cv: CVConfig) -> Dict[str, str]:
-        """
-        Searches for all keys that are in the rose-suite.info and controlled vocabulary
+        """Searches for all keys that are in the rose-suite.info and controlled vocabulary
         for an experiment and returns the corresponding key mappings.
 
-        :param rose_suite: The rose-suite.info
-        :type rose_suite: RoseSuiteInfo
-        :param cv: The Controlled Vocabularies configuration containing all the information
-            on a particular experiment
-        :type cv: CVConfig
-        :return: Mappings of the keys (rose suite key - controlled vocabulary key) that
-          are contains in both - rose suite and controlled vocabulary
-        :rtype: Dict[str, str]
+        Parameters
+        ----------
+        rose_suite : RoseSuiteInfo
+            The rose-suite.info
+        cv : CVConfig
+            The Controlled Vocabularies configuration containing all the information on a particular experiment
+
+        Returns
+        -------
+        Dict[str, str]
+            Mappings of the keys (rose suite key - controlled vocabulary key) that are contains in both - rose suite and
+            controlled vocabulary
         """
         experiment_id = rose_suite.data[ROSE_SUITE_EXPERIMENT_ID]
         cv_experiment = cv.experiment_cv(experiment_id)

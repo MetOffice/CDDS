@@ -9,8 +9,7 @@ from mip_convert.save.cmor.cmor_outputter import (
 
 
 class TestCmorOutput(unittest.TestCase):
-    """
-    Test the basic functionality of the CMOR outputter.
+    """Test the basic functionality of the CMOR outputter.
 
     The following functions are provided to act as a stub for real
     CMOR functionality:
@@ -30,27 +29,19 @@ class TestCmorOutput(unittest.TestCase):
         return self.assigned_var_id
 
     def set_deflate(self, *args, **kwargs):
-        """
-        stub cmor
-        """
+        """stub cmor"""
         pass
 
     def dataset(self, *args, **kwargs):
-        """
-        stub cmor
-        """
+        """stub cmor"""
         raise NotImplementedError
 
     def axis(self, *args, **kwargs):
-        """
-        stub cmor
-        """
+        """stub cmor"""
         raise NotImplementedError
 
     def load_table(self, table):
-        """
-        stub cmor
-        """
+        """stub cmor"""
         self.assertEqual(self.table, table)
 
     def variable(self,
@@ -63,9 +54,7 @@ class TestCmorOutput(unittest.TestCase):
                  positive=None,
                  history=None,
                  **optional_keywords):
-        """
-        stub cmor
-        """
+        """stub cmor"""
         self.variable_calls = self.variable_calls + 1
 
         self.assertEqual(self.entry, table_entry)
@@ -86,18 +75,14 @@ class TestCmorOutput(unittest.TestCase):
         pass
 
     def write(self, variable_id, data, time_vals=None, time_bnds=None):
-        """
-        stub cmor - more like a mock interface
-        """
+        """stub cmor - more like a mock interface"""
         self.assertEqual(self.assigned_var_id, variable_id)
         self.assertEqual(self.var.data, data)
         self.assertEqual(self.expect_times, time_vals)
         self.assertEqual(self.expect_time_bounds, time_bnds)
 
     def close(self, variable_id=CLOSE_WITHOUT_VAR, preserve=False):
-        """
-        stub cmor
-        """
+        """stub cmor"""
         self.close_called = self.close_called + 1
         self.assertEqual(self.assigned_var_id, variable_id)
         self.assertEqual(self.preserve, preserve)
@@ -105,15 +90,11 @@ class TestCmorOutput(unittest.TestCase):
     # ------- END of CMOR wrapper functionality
 
     def getCmorDomain(self, table, variable_entry):
-        """
-        stub domain_factory
-        """
+        """stub domain_factory"""
         return self
 
     def getAxisIds(self, variable):
-        """
-        stub cmor domain
-        """
+        """stub cmor domain"""
         self.axis_ids_called = self.axis_ids_called + 1
         self.assertEqual(1, self.axis_ids_called)
 
@@ -214,9 +195,7 @@ class TestCmorOutput(unittest.TestCase):
             self.assertRaises(CmorOutputError, outputter.write_var, self.var)
 
     def testErrorOnLengthChange(self):
-        """
-        test to catch case of 5 fields in a daily 6 hourly with 1 year reset
-        """
+        """test to catch case of 5 fields in a daily 6 hourly with 1 year reset"""
         self.setUpCallRecorders()
         outputter = self._getOutputter(1440)
         self.make_var(5)

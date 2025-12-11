@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module to manage the loading of the rose-suite.info into a request object
-"""
+"""Module to manage the loading of the rose-suite.info into a request object"""
 import os
 
 from argparse import Namespace
@@ -23,18 +21,17 @@ STANDARD = 'standard'
 
 @dataclass
 class RoseSuiteInfo:
-    """
-    Represents a rose-suite.info with its values
-    """
+    """Represents a rose-suite.info with its values"""
     data: Dict[str, str] = field(default_factory=dict)
 
     def license(self) -> str:
-        """
-        Returns the license. First it checks if the license is defined in the
+        """Returns the license. First it checks if the license is defined in the
         rose-suite.info if not returns the license defined in the plugins.
 
-        :return: License
-        :rtype: str
+        Returns
+        -------
+        str
+            License
         """
         if 'license' in self.data.keys() and self.data['license']:
             return self.data['license']
@@ -43,68 +40,75 @@ class RoseSuiteInfo:
             return plugin.license()
 
     def branch_method(self) -> str:
-        """
-        Returns the branch method.
+        """Returns the branch method.
 
-        :return: The branch method
-        :rtype: str
+        Returns
+        -------
+        str
+            The branch method
         """
         return STANDARD if self.has_parent() else NO_PARENT
 
     def branch_date_in_child(self) -> TimePoint:
-        """
-        Returns the branch date in child in isodate format
+        """Returns the branch date in child in isodate format
 
-        :return: Branch date in child
-        :rtype: TimePoint
+        Returns
+        -------
+        TimePoint
+            Branch date in child
         """
         return TimePointParser().parse('{start-date}T00:00:00'.format(**self.data))
 
     def branch_date_in_parent(self) -> TimePoint:
-        """
-        Returns the branch date in parent in isodate format
+        """Returns the branch date in parent in isodate format
 
-        :return: Branch date in parent
-        :rtype: TimePoint
+        Returns
+        -------
+        TimePoint
+            Branch date in parent
         """
         return TimePointParser().parse('{branch-date}T00:00:00'.format(**self.data))
 
     def mip_table_dir(self) -> str:
-        """
-        Returns the path to the MIP table directory by getting it from the plugin.
+        """Returns the path to the MIP table directory by getting it from the plugin.
 
-        :return: Path to the MIP table directory
-        :rtype: str
+        Returns
+        -------
+        str
+            Path to the MIP table directory
         """
         plugin = PluginStore.instance().get_plugin()
         return plugin.mip_table_dir()
 
     def end_date(self) -> TimePoint:
-        """
-        Returns the end date of the experiment in isodate time.
+        """Returns the end date of the experiment in isodate time.
 
-        :return: End date of the experiment
-        :rtype: TimePoint
+        Returns
+        -------
+        TimePoint
+            End date of the experiment
         """
         date = '{}T00:00:00'.format(self.data['end-date'])
         return TimePointParser().parse(date)
 
     def start_date(self) -> TimePoint:
-        """
-        Returns the start date of the experiment in isodate time.
+        """Returns the start date of the experiment in isodate time.
 
-        :return: Start date of the experiment
-        :rtype: TimePoint
+        Returns
+        -------
+        TimePoint
+            Start date of the experiment
         """
         date = '{}T00:00:00'.format(self.data['start-date'])
         return TimePointParser().parse(date)
 
     def has_parent(self) -> bool:
-        """
-        Checks if a parent experiment is defined.
+        """Checks if a parent experiment is defined.
 
-        :return: Is a parent experiment defined?
-        :rtype: bool
+        Returns
+        -------
+        bool
+            Is a parent experiment defined?
         """
         key = 'parent-experiment-id'
         # Allowed values of parent-experiment-id other than valid experiment id's
@@ -113,9 +117,7 @@ class RoseSuiteInfo:
 
 @dataclass
 class RoseSuiteArguments:
-    """
-    Stores all arguments that are used to write a request from a rose suite
-    """
+    """Stores all arguments that are used to write a request from a rose suite"""
     external_plugin: str = ''
     external_plugin_location: str = ''
     suite: str = ''
@@ -134,13 +136,17 @@ class RoseSuiteArguments:
 
     @staticmethod
     def from_user_args(command_line_args: Namespace) -> 'RoseSuiteArguments':
-        """
-        Returns the rose suite arguments from the command line arguments.
+        """Returns the rose suite arguments from the command line arguments.
 
-        :param command_line_args: Arguments defined by the command
-        :type command_line_args: Namespace
-        :return: Rose suite arguments
-        :rtype: RoseSuiteArguments
+        Parameters
+        ----------
+        command_line_args : Namespace
+            Arguments defined by the command
+
+        Returns
+        -------
+        RoseSuiteArguments
+            Rose suite arguments
         """
         arguments = RoseSuiteArguments()
         arguments.external_plugin = command_line_args.external_plugin
@@ -177,26 +183,31 @@ class RoseSuiteArguments:
 
     @property
     def request_file(self) -> str:
-        """
-        Returns the path to the request configuration file.
+        """Returns the path to the request configuration file.
 
-        :return: Path to the request configuration file
-        :rtype: str
+        Returns
+        -------
+        str
+            Path to the request configuration file
         """
         return os.path.join(self.output_dir, self.output_file_name)
 
 
 def load_rose_suite_info(svn_url: str, arguments: RoseSuiteArguments) -> RoseSuiteInfo:
-    """
-    Load rose suite info by given Subversion URL, convert it into a dictionary containing
+    """Load rose suite info by given Subversion URL, convert it into a dictionary containing
     the key and the actual value and store it into a RoseSuiteInfo object.
 
-    :param svn_url: The Subversion URL where the rose suite info is found
-    :type svn_url: str
-    :param arguments: Additional arguments that should be considered
-    :type arguments: RoseSuiteArguments
-    :return: the rose suite info as a RoseSuiteInfo object
-    :rtype: RoseSuiteInfo
+    Parameters
+    ----------
+    svn_url : str
+        The Subversion URL where the rose suite info is found
+    arguments : RoseSuiteArguments
+        Additional arguments that should be considered
+
+    Returns
+    -------
+    RoseSuiteInfo
+        the rose suite info as a RoseSuiteInfo object
     """
     command = ['svn', 'cat', svn_url]
     data = run_command(command)
@@ -211,13 +222,17 @@ def load_rose_suite_info(svn_url: str, arguments: RoseSuiteArguments) -> RoseSui
 
 
 def load_suite_info_from_file(file_path: str):
-    """
-    Loads the rose suite info from a file
+    """Loads the rose suite info from a file
 
-    :param file_path: Path to the rose suite info file
-    :type file_path: str
-    :return: The rose suite info as a dictionary of key :string and value :string
-    :rtype: dict
+    Parameters
+    ----------
+    file_path : str
+        Path to the rose suite info file
+
+    Returns
+    -------
+    dict
+        The rose suite info as a dictionary of key :string and value :string
     """
     full_suite = rose_config.load(file_path)
     suite_info = {k: v.value for k, v in full_suite.value.items() if v.state == ''}
@@ -225,13 +240,17 @@ def load_suite_info_from_file(file_path: str):
 
 
 def expand_path(path: str) -> str:
-    """
-    Expand the given path.
+    """Expand the given path.
 
-    :param path: Path to expand
-    :type path: str
-    :return: The absolute expanded path
-    :rtype: str
+    Parameters
+    ----------
+    path : str
+        Path to expand
+
+    Returns
+    -------
+    str
+        The absolute expanded path
     """
     if path.startswith('~') or '$' in path:
         path = os.path.expanduser(os.path.expandvars(path))

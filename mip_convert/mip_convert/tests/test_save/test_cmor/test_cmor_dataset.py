@@ -2,9 +2,7 @@
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = unused-argument
-"""
-Tests for cmor_dataset.py.
-"""
+"""Tests for cmor_dataset.py."""
 from io import StringIO
 import json
 import os
@@ -21,9 +19,7 @@ from mip_convert.save.cmor.cmor_dataset import Dataset
 
 
 class TestDataset(unittest.TestCase):
-    """
-    Tests for ``Dataset`` in cmor_dataset.
-    """
+    """Tests for ``Dataset`` in cmor_dataset."""
 
     def setUp(self):
         self.maxDiff = None

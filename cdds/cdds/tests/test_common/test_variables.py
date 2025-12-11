@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, no-value-for-parameter
-"""
-Tests for :mod:`variables.py`.
-"""
+"""Tests for :mod:`variables.py`."""
 from io import StringIO
 import json
 from textwrap import dedent
@@ -16,9 +14,7 @@ from cdds.common.variables import RequestedVariablesList
 
 
 class TestRequestedVariablesList(unittest.TestCase):
-    """
-    Tests for :class:`RequestedVariablesList` in :mod:`variables.py`.
-    """
+    """Tests for :class:`RequestedVariablesList` in :mod:`variables.py`."""
     def setUp(self):
         # The read path must start with the 'MIP era'.
         self.read_path = 'CMIP6_CMIP_piControl_UKESM1-0-LL.json'

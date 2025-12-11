@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`stored_state_checks` module contains the code to check what the
-current state of already stored data is.
-"""
+"""The :mod:`stored_state_checks` module contains the code to check what the current state of already stored data is."""
+
 import os
 
 from metomi.isodatetime.data import Duration
@@ -14,22 +12,18 @@ from cdds.archive.constants import DATA_PUBLICATION_STATUS_DICT
 
 
 def check_state_already_published(var_dict):
-    """
-    Use the files to archive and files already archived to
-    checker if this archiving operation is attempting to
-    publish files for an already published and currently
-    avauilable dataset.
+    """Use the files to archive and files already archived to checker if this archiving operation is attempting to
+    publish files for an already published and currently available dataset.
 
     Parameters
     ----------
     var_dict: dict
-        A dictionary containing all the  information specific to
-        this |MIP output variable| required to archive the relevant
-        |output netCDF files|.
+        A dictionary containing all the  information specific to this |MIP output variable| required to archive the
+        relevant |output netCDF files|.
 
     Returns
     -------
-    : str
+    str
         The type of archiving operation required.
     """
     stored_data = var_dict['stored_data']
@@ -67,21 +61,19 @@ def check_state_already_published(var_dict):
 
 
 def check_state_extending_embargoed(var_dict):
-    """
-    Use the files to archive and files already archived to
+    """Use the files to archive and files already archived to
     checker whether appending/prepending to embargoed data
     is required.
 
     Parameters
     ----------
     var_dict: dict
-        A dictionary containing all the  information specific to
-        this |MIP output variable| required to archive the relevant
-        |output netCDF files|.
+        A dictionary containing all the  information specific to this |MIP output variable| required to archive the
+        relevant |output netCDF files|.
 
     Returns
     -------
-    : str
+    str
         The type of archiving operation required.
     """
     stored_data = var_dict['stored_data']
@@ -96,21 +88,18 @@ def check_state_extending_embargoed(var_dict):
 
 
 def check_state_extending_published(var_dict):
-    """
-    Use the files to archive and files already archived to
-    checker whether appending/prepending to published data
-    is required.
+    """Use the files to archive and files already archived to checker whether appending/prepending to published data is
+    required.
 
     Parameters
     ----------
     var_dict: dict
-        A dictionary containing all the  information specific to
-        this |MIP output variable| required to archive the relevant
-        |output netCDF files|.
+        A dictionary containing all the  information specific to this |MIP output variable| required to archive the
+        relevant |output netCDF files|.
 
     Returns
     -------
-    : str
+    str
         The type of archiving operation required.
     """
     stored_data = var_dict['stored_data']
@@ -156,21 +145,18 @@ def _calculate_extending_state(var_dict, archived_data):
 
 
 def check_state_recovery_continuation(var_dict):
-    """
-    Use the files to archive and files already archived to
-    checker whether this archiving operation is continuing from
-    a previous unfinished archiving operation.
+    """Use the files to archive and files already archived to checker whether this archiving operation is continuing
+    from a previous unfinished archiving operation.
 
     Parameters
     ----------
     var_dict: dict
-        A dictionary containing all the  information specific to
-        this |MIP output variable| required to archive the relevant
-        |output netCDF files|.
+        A dictionary containing all the  information specific to this |MIP output variable| required to archive the
+        relevant |output netCDF files|.
 
     Returns
     -------
-    : str
+    str
         The type of archiving operation required.
     """
     stored_data = var_dict['stored_data']
@@ -201,21 +187,18 @@ def check_state_recovery_continuation(var_dict):
 
 
 def check_state_withdrawn(var_dict):
-    """
-    Use the files to archive and files already archived to
-    checker whether the data being archived is replacing
-    a version that was previously withdrawn.
+    """Use the files to archive and files already archived to checker whether the data being archived is replacing a
+    version that was previously withdrawn.
 
     Parameters
     ----------
     var_dict: dict
-        A dictionary containing all the  information specific to
-        this |MIP output variable| required to archive the relevant
-        |output netCDF files|.
+        A dictionary containing all the  information specific to this |MIP output variable| required to archive the
+        relevant |output netCDF files|.
 
     Returns
     -------
-    : str
+    str
         The type of archiving operation required.
     """
     status_key = 'PREVIOUSLY_WITHDRAWN'
@@ -234,22 +217,18 @@ def check_state_withdrawn(var_dict):
 
 
 def check_state_previously_published_datestamp(var_dict):
-    """
-    Use the files to archive and files already archived to
-    checker whether this archiving operation is trying to
-    published data using a previously published datestamp
-    version.
+    """Use the files to archive and files already archived to checker whether this archiving operation is trying to
+    published data using a previously published datestamp version.
 
     Parameters
     ----------
     var_dict: dict
-        A dictionary containing all the  information specific to
-        this |MIP output variable| required to archive the relevant
-        |output netCDF files|.
+        A dictionary containing all the  information specific to this |MIP output variable| required to archive the
+        relevant |output netCDF files|.
 
     Returns
     -------
-    : str
+    str
         The type of archiving operation required.
     """
     datestamp = var_dict['new_datestamp']
@@ -267,20 +246,17 @@ def check_state_previously_published_datestamp(var_dict):
 
 
 def check_state_first_publication(var_dict):
-    """
-    If stored_data dictionary is empty, this is the first publication.
+    """If stored_data dictionary is empty, this is the first publication.
 
     Parameters
     ----------
     var_dict: dict
-        A dictionary containing all the relevant info about this variable
-        for processing.
+        A dictionary containing all the relevant info about this variable for processing.
 
     Returns
     -------
-    : str
-        If this is first publication, the string FIRST_PUBLICATION will be
-        returned. If not, None will be returned.
+    str
+        If this is first publication, the string FIRST_PUBLICATION will be returned. If not, None will be returned.
     """
     if not var_dict['stored_data']:
         return 'FIRST_PUBLICATION'
@@ -296,21 +272,17 @@ def check_state_first_publication(var_dict):
 
 
 def check_state_multiple_embargoed(var_dict):
-    """
-    Check if there is already a datestamp in embargoed, different to the
-    datestamp being published.
+    """Check if there is already a datestamp in embargoed, different to the datestamp being published.
 
     Parameters
     ----------
     var_dict: dict
-        A dictionary containing all the relevant info about this variable
-        for processing.
+        A dictionary containing all the relevant info about this variable for processing.
 
     Returns
     -------
-    : str
-        If there is already data with a different datestamp in the embargoed
-        state, the string FIRST_PUBLICATION will be
+    str
+        If there is already data with a different datestamp in the embargoed state, the string FIRST_PUBLICATION will be
         returned. If not, None will be returned.
     """
     try:
@@ -327,15 +299,12 @@ def check_state_multiple_embargoed(var_dict):
 
 
 def get_stored_state_checkers():
-    """
-    Get the list of functions to apply to the dsata for each
-    |MIP output variable| dictionary to check what archiving
-    operation is required based on the files to archive and
-    the current files already archived.
+    """Get the list of functions to apply to the dsata for each |MIP output variable| dictionary to check what archiving
+    operation is required based on the files to archive and the current files already archived.
 
     Returns
     -------
-    : list
+    list
         A list of functions to check the stored data state.
     """
     # The order of these checkers is important
@@ -358,21 +327,17 @@ def get_stored_state_checkers():
 
 
 def get_stored_state(var_dict):
-    """
-    Get the archiving operation required for this |MIP output variable| based
-    on the state of already stored data.
+    """Get the archiving operation required for this |MIP output variable| based on the state of already stored data.
 
     Parameters
     ----------
     var_dict: dict
-        A dictionary containing all the relevant info about this variable
-        for processing.
+        A dictionary containing all the relevant info about this variable for processing.
 
     Returns
     -------
-    : str
-        The state of the stored data for this variable and the type of
-        archiving operation required.
+    str
+        The state of the stored data for this variable and the type of archiving operation required.
     """
     checkers = get_stored_state_checkers()
     for checker in checkers:

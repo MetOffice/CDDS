@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Tools to navigate the network representing the CMIP6 data request.
+"""Tools to navigate the network representing the CMIP6 data request.
 
 Note that in these tools the term `cmorvar` is used to reflect the
 `CMORvar` objects within the data request. In the rest of CDDS we use
@@ -21,8 +20,7 @@ from cdds.data_request_interface.constants import (
 
 
 def step_through_network_from_nodes(source_uids, network, node_type):
-    """
-    Return the set of nodes that can be reached starting from the set
+    """Return the set of nodes that can be reached starting from the set
     source_ids following an edge to an object of type "node_type".
 
     Parameters
@@ -59,8 +57,7 @@ def step_through_network_from_nodes(source_uids, network, node_type):
 
 
 def get_cmorvar_for_experiment(experiment_uid, network):
-    """
-    Return the set of CMOR variables for the experiment.
+    """Return the set of CMOR variables for the experiment.
 
     Parameters
     ----------
@@ -83,8 +80,7 @@ def get_cmorvar_for_experiment(experiment_uid, network):
 
 
 def get_experiments_for_cmorvar(cmorvar_uid, network):
-    """
-    Return the set of experiment uids for the specified CMOR variable.
+    """Return the set of experiment uids for the specified CMOR variable.
 
     Parameters
     ----------
@@ -107,8 +103,7 @@ def get_experiments_for_cmorvar(cmorvar_uid, network):
 
 
 def get_priorities_for_variable(cmorvar_uid, experiment_uid, network):
-    """
-    Return the priority for a particular experiment, cmor variable
+    """Return the priority for a particular experiment, cmor variable
     combination for each requesting |MIP|. This involves walking to the
     requestVar objects (from both experiment and CMORvar) and picking
     up the priority for each requesting |MIP|.
@@ -152,8 +147,7 @@ def get_priorities_for_variable(cmorvar_uid, experiment_uid, network):
 
 
 def get_ensemble_sizes_for_variable(cmorvar_uid, experiment_uid, network):
-    """
-    Return the number of ensemble members a variable is requested for
+    """Return the number of ensemble members a variable is requested for
     from particular |experiment| for each requesting |MIP|. This
     information is extracted from the `nensmax` attribute of the
     requestItems that link the CMORvar and |experiment| objects.
@@ -198,8 +192,7 @@ def get_ensemble_sizes_for_variable(cmorvar_uid, experiment_uid, network):
 
 def get_timeslice_for_cmorvar_experiment(cmorvar_uid, experiment_uid,
                                          network):
-    """
-    Obtain the timeslices corresponding to a particular variable,
+    """Obtain the timeslices corresponding to a particular variable,
     |experiment| combination by |MIP|. Note that a dummy timeSlice object
     `_slice_all_years` is added to every requestItem that does not
     explicitly link to a timeSlice object.
@@ -232,8 +225,7 @@ def get_timeslice_for_cmorvar_experiment(cmorvar_uid, experiment_uid,
 
 
 def get_rvg_for_cmorvar_experiment(cmorvar_uid, experiment_uid, network):
-    """
-    Obtain the uids of the request variable groups linked to a
+    """Obtain the uids of the request variable groups linked to a
     particular |experiment|, cmor variable combination.
 
     Parameters
@@ -270,8 +262,7 @@ def get_rvg_for_cmorvar_experiment(cmorvar_uid, experiment_uid, network):
 
 
 def walk_network(starting_uids, steps, network):
-    """
-    Walk a route through the network from starting_uids, taking a step
+    """Walk a route through the network from starting_uids, taking a step
     to nodes of the specified types in turn.
 
     Parameters
@@ -296,8 +287,7 @@ def walk_network(starting_uids, steps, network):
 
 
 def cmorvar_to_something(cmorvar_uid, something_type, network):
-    """
-    Navigate the data request from cmor variable to an object of
+    """Navigate the data request from cmor variable to an object of
     a specified type.
 
     Parameters
@@ -327,8 +317,7 @@ def cmorvar_to_something(cmorvar_uid, something_type, network):
 
 
 def experiment_to_something(experiment_uid, something_type, network):
-    """
-    Navigate the data request from |experiment| to an object of
+    """Navigate the data request from |experiment| to an object of
     a specified type.
 
     Parameters
@@ -359,8 +348,7 @@ def experiment_to_something(experiment_uid, something_type, network):
 
 
 def describe_route(cmorvar_uid, experiment_uid, network):
-    """
-    Return a dictionary describing the route through the network
+    """Return a dictionary describing the route through the network
     between the CMORvar and |experiment|.
 
     Parameters
@@ -398,8 +386,7 @@ def describe_route(cmorvar_uid, experiment_uid, network):
 
 def subset_network_for_cmorvar_experiment(cmorvar_uid, experiment_uid,
                                           network):
-    """
-    Return a stripped down copy of the network, where only the elements
+    """Return a stripped down copy of the network, where only the elements
     linking the cmor variable to the |experiment| remain. Note that all
     links to timeSlices are maintained.
 

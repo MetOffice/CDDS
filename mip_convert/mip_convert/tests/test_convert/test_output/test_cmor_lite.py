@@ -143,9 +143,7 @@ class TestSetUpAndDataSet(unittest.TestCase):
         mk_open.assert_called_once_with('inpath/project_table', 'r')
 
     def variable(self):
-        """
-        Return a variable for sample writing
-        """
+        """Return a variable for sample writing"""
         axis = ValuedAxis([180.], 'X', 'degrees_east')
         result = variable(CoordinateDomain([axis], UNROTATED_POLE), [999], 999, numpy.float32)
         result.units = '1'

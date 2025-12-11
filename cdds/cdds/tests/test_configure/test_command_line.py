@@ -2,9 +2,7 @@
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = no-member
-"""
-Tests for :mod:`command_line.py`.
-"""
+"""Tests for :mod:`command_line.py`."""
 import logging
 import os
 import tempfile
@@ -27,9 +25,7 @@ from cdds.configure.constants import HEADER_TEMPLATE
 
 @pytest.mark.slow
 class TestMain(unittest.TestCase):
-    """
-    Tests for :func:`main` in :mod:`command_line.py`.
-    """
+    """Tests for :func:`main` in :mod:`command_line.py`."""
 
     def setUp(self):
         self.maxDiff = None

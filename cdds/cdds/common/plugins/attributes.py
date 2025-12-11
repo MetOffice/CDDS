@@ -8,41 +8,39 @@ if TYPE_CHECKING:
 
 
 class GlobalAttributes(object, metaclass=ABCMeta):
-    """
-    Abstract class to store and manage global attributes of a plugin
-    """
+    """Abstract class to store and manage global attributes of a plugin"""
 
     def __init__(self, request: 'Request') -> None:
         self._request: 'Request' = request
 
     @abstractmethod
     def further_info_url(self) -> str:
-        """
-        Returns the further info url according the global attributes values.
+        """Returns the further info url according the global attributes values.
 
-        :return: The further info url
-        :rtype: str
+        Returns
+        -------
+        str
+            The further info url
         """
         pass
 
 
 class DefaultGlobalAttributes(GlobalAttributes):
-    """
-    Default global attributes for plugins.
-    """
+    """Default global attributes for plugins."""
 
     def __init__(self, request: 'Request' = None) -> None:
         super(DefaultGlobalAttributes, self).__init__(request)
 
     def further_info_url(self) -> str:
-        """
-        Returns the further info url. Here, it returns an empty string because by
+        """Returns the further info url. Here, it returns an empty string because by
         default the plugin has none.
 
         Note: CMOR has problems with None values. Instead the function returns
         an empty string.
 
-        :return: Empty string
-        :rtype: str
+        Returns
+        -------
+        str
+            Empty string
         """
         return 'none'

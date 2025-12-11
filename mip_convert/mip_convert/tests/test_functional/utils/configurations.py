@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2022-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module to specify the classes that are needed for storing the information of the test data for
+"""Module to specify the classes that are needed for storing the information of the test data for
 functional tests in MIP convert
 """
 import os
@@ -31,8 +30,7 @@ from mip_convert.tests.test_functional.utils.directories import (
 
 @dataclass
 class CommonInfo:
-    """
-    Stores common test data information that is necessary and equal for all projects
+    """Stores common test data information that is necessary and equal for all projects
     It stores values (in the corresponding directory) to the chapters of the MIP configuration:
         * cmor_setup
         * cmor_dataset
@@ -43,8 +41,7 @@ class CommonInfo:
     cmor_dataset: Dict[str, Any] = None
 
     def as_dict(self) -> Dict[str, Dict[str, Any]]:
-        """
-        Returns the information as a directory using the MIP configuration structure as template, e.g.:
+        """Returns the information as a directory using the MIP configuration structure as template, e.g.:
         {
             'COMMON': {
                 'root_test_dir': '/path/to/root/test/dir'
@@ -58,8 +55,10 @@ class CommonInfo:
             }
         }
 
-        :return: Values as directory (like Mip configuration)
-        :rtype: Dict[str, Any]
+        Returns
+        -------
+        Dict[str, Any]
+            Values as directory (like Mip configuration)
         """
         excludes = ['common']
         items = {
@@ -70,11 +69,12 @@ class CommonInfo:
 
     @classmethod
     def default_common_info(cls) -> 'CommonInfo':
-        """
-        Returns the default common values for the projects CMIP6, CORDEX and ARISE.
+        """Returns the default common values for the projects CMIP6, CORDEX and ARISE.
 
-        :return: Default common values
-        :rtype: CommonInfo
+        Returns
+        -------
+        CommonInfo
+            Default common values
         """
         return CommonInfo(
             common={
@@ -94,11 +94,12 @@ class CommonInfo:
 
     @classmethod
     def default_cmip7_common_info(cls) -> 'CommonInfo':
-        """
-        Returns the default common values for the projects CMIP6, CORDEX and ARISE.
+        """Returns the default common values for the projects CMIP6, CORDEX and ARISE.
 
-        :return: Default common values
-        :rtype: CommonInfo
+        Returns
+        -------
+        CommonInfo
+            Default common values
         """
         return CommonInfo(
             common={
@@ -119,8 +120,7 @@ class CommonInfo:
 
 @dataclass
 class ProjectInfo:
-    """
-    Stores values that are common for a specific project. The values are stored in following
+    """Stores values that are common for a specific project. The values are stored in following
     dictionaries following the structure of the MIP configuration:
         * cmor_setup
         * cmor_dataset
@@ -134,8 +134,7 @@ class ProjectInfo:
     global_attributes: Dict[str, Any] = None
 
     def as_dict(self) -> Dict[str, Dict[str, Any]]:
-        """
-        Returns the information as a directory using the MIP configuration structure as template, e.g.:
+        """Returns the information as a directory using the MIP configuration structure as template, e.g.:
         {
             'cmor_setup': {
                 'netcdf_file_action': 'CMOR_REPLACE_4'
@@ -151,8 +150,10 @@ class ProjectInfo:
             }
         }
 
-        :return: Values as directory (like Mip configuration)
-        :rtype: Dict[str, Any]
+        Returns
+        -------
+        Dict[str, Any]
+            Values as directory (like Mip configuration)
         """
         excludes = ['project_id']
         items = {
@@ -162,11 +163,12 @@ class ProjectInfo:
 
     @classmethod
     def cmip6_project_info(cls) -> 'ProjectInfo':
-        """
-        Returns all common values that are specific for CMIP6 projects.
+        """Returns all common values that are specific for CMIP6 projects.
 
-        :return: Values that are specific for CMIP6 projects
-        :rtype: ProjectInfo
+        Returns
+        -------
+        ProjectInfo
+            Values that are specific for CMIP6 projects
         """
         return ProjectInfo(
             project_id='CMIP6',
@@ -198,11 +200,12 @@ class ProjectInfo:
 
     @classmethod
     def cmip7_project_info(cls) -> 'ProjectInfo':
-        """
-        Returns all common values that are specific for CMIP7 projects.
+        """Returns all common values that are specific for CMIP7 projects.
 
-        :return: Values that are specific for CMIP7 projects
-        :rtype: ProjectInfo
+        Returns
+        -------
+        ProjectInfo
+            Values that are specific for CMIP7 projects
         """
         return ProjectInfo(
             project_id='CMIP7',
@@ -242,11 +245,12 @@ class ProjectInfo:
 
     @classmethod
     def hires_project_info(cls) -> 'ProjectInfo':
-        """
-        Returns all common values that are specific for high resolution model runs.
+        """Returns all common values that are specific for high resolution model runs.
 
-        :return: Values that are specific for high resolution runs
-        :rtype: ProjectInfo
+        Returns
+        -------
+        ProjectInfo
+            Values that are specific for high resolution runs
         """
         return ProjectInfo(
             project_id='HIRES',
@@ -286,11 +290,12 @@ class ProjectInfo:
 
     @classmethod
     def arise_project_info(cls) -> 'ProjectInfo':
-        """
-        Returns all common values that are specific for ARISE projects.
+        """Returns all common values that are specific for ARISE projects.
 
-        :return: Values that are specific for ARISE projects
-        :rtype: ProjectInfo
+        Returns
+        -------
+        ProjectInfo
+            Values that are specific for ARISE projects
         """
         return ProjectInfo(
             project_id='ARISE',
@@ -330,11 +335,12 @@ class ProjectInfo:
 
     @classmethod
     def cordex_project_info(cls) -> 'ProjectInfo':
-        """
-        Returns all common values that are specific for CORDEX projects.
+        """Returns all common values that are specific for CORDEX projects.
 
-        :return: Values that are specific for CORDEX projects
-        :rtype: ProjectInfo
+        Returns
+        -------
+        ProjectInfo
+            Values that are specific for CORDEX projects
         """
         return ProjectInfo(
             project_id='CORDEX-CMIP6',
@@ -379,11 +385,12 @@ class ProjectInfo:
 
     @classmethod
     def seasonal_project_info(cls) -> 'ProjectInfo':
-        """
-        Returns all common values that are specific for CMIP6 projects.
+        """Returns all common values that are specific for CMIP6 projects.
 
-        :return: Values that are specific for CMIP6 projects
-        :rtype: ProjectInfo
+        Returns
+        -------
+        ProjectInfo
+            Values that are specific for CMIP6 projects
         """
         return ProjectInfo(
             project_id='SEASONAL',
@@ -415,11 +422,12 @@ class ProjectInfo:
 
     @classmethod
     def nahosmip_project_info(cls) -> 'ProjectInfo':
-        """
-        Returns all common values that are specific for CMIP6 projects.
+        """Returns all common values that are specific for CMIP6 projects.
 
-        :return: Values that are specific for CMIP6 projects
-        :rtype: ProjectInfo
+        Returns
+        -------
+        ProjectInfo
+            Values that are specific for CMIP6 projects
         """
         return ProjectInfo(
             project_id='NAHosMIP',
@@ -463,8 +471,7 @@ class SpecificInfo:
     halo_removal: Dict[str, Dict[str, Any]] = field(default_factory=dict)
 
     def as_dict(self) -> Dict[str, Dict[str, Any]]:
-        """
-        Returns the information as a directory using the MIP configuration structure as template, e.g.:
+        """Returns the information as a directory using the MIP configuration structure as template, e.g.:
         {
             'common': {
                 'test_location': '/path/to/specific/test/location'
@@ -493,8 +500,10 @@ class SpecificInfo:
             }
         }
 
-        :return: Values as directory (like Mip configuration)
-        :rtype: Dict[str, Any]
+        Returns
+        -------
+        Dict[str, Any]
+            Values as directory (like Mip configuration)
         """
         excludes = ['common', 'project_id', 'streams', 'masking', 'halo_removal']
         items = {
@@ -536,9 +545,7 @@ class SpecificInfo:
 
 @dataclass
 class AbstractTestData(ABC):
-    """
-    Abstract class for storing test data
-    """
+    """Abstract class for storing test data"""
     project_id: str = ''
     mip_table: str = ''
     variables: List[str] = field(default_factory=list)
@@ -547,22 +554,21 @@ class AbstractTestData(ABC):
     specific_info: SpecificInfo = None
 
     def as_list_dicts(self) -> List[Dict[str, Dict[str, Any]]]:
-        """
-        Returns a list containing the dictionaries of the common information, the project specific information
+        """Returns a list containing the dictionaries of the common information, the project specific information
         and the specific information of the current test data.
 
-        :return: List of dictionaries containing common information, project specific information and specific
-                 information of the test data
-        :rtype: List[Dict[str, Dict[str, Any]]]
+        Returns
+        -------
+        List[Dict[str, Dict[str, Any]]]
+            List of dictionaries containing common information, project specific information and specific information of
+            the test data
         """
         return [self.common_info.as_dict(), self.project_info.as_dict(), self.specific_info.as_dict()]
 
 
 @dataclass
 class Cmip6TestData(AbstractTestData):
-    """
-    Stores test data for CMIP6 projects
-    """
+    """Stores test data for CMIP6 projects"""
     project_id: str = field(init=False, default_factory=lambda: 'CMIP6')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cmip6_project_info())
@@ -571,9 +577,7 @@ class Cmip6TestData(AbstractTestData):
 
 @dataclass
 class Cmip7TestData(AbstractTestData):
-    """
-    Stores test data for CMIP6 projects
-    """
+    """Stores test data for CMIP6 projects"""
     project_id: str = field(init=False, default_factory=lambda: 'CMIP7')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_cmip7_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cmip7_project_info())
@@ -582,9 +586,7 @@ class Cmip7TestData(AbstractTestData):
 
 @dataclass
 class HiResTestData(AbstractTestData):
-    """
-    Stores test data for CMIP6 projects
-    """
+    """Stores test data for CMIP6 projects"""
     project_id: str = field(init=False, default_factory=lambda: 'HIRES')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.hires_project_info())
@@ -593,9 +595,7 @@ class HiResTestData(AbstractTestData):
 
 @dataclass
 class SeasonalTestData(AbstractTestData):
-    """
-    Stores test data for CMIP6 projects
-    """
+    """Stores test data for CMIP6 projects"""
     project_id: str = field(init=False, default_factory=lambda: 'SEASONAL')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.seasonal_project_info())
@@ -604,9 +604,7 @@ class SeasonalTestData(AbstractTestData):
 
 @dataclass
 class AriseTestData(AbstractTestData):
-    """
-    Stores test data for CMIP6 projects
-    """
+    """Stores test data for CMIP6 projects"""
     project_id: str = field(init=False, default_factory=lambda: 'ARISE')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.arise_project_info())
@@ -615,9 +613,7 @@ class AriseTestData(AbstractTestData):
 
 @dataclass
 class CordexTestData(AbstractTestData):
-    """
-    Stores test data for CMIP6 projects
-    """
+    """Stores test data for CMIP6 projects"""
     project_id: str = field(init=False, default_factory=lambda: 'CORDEX-CMIP6')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.cordex_project_info())
@@ -626,9 +622,7 @@ class CordexTestData(AbstractTestData):
 
 @dataclass
 class NAHosMIPTestData(AbstractTestData):
-    """
-    Stores test data for CMIP6 projects
-    """
+    """Stores test data for CMIP6 projects"""
     project_id: str = field(init=False, default_factory=lambda: 'NAHosMIP')
     common_info: CommonInfo = field(init=False, default_factory=lambda: CommonInfo.default_common_info())
     project_info: ProjectInfo = field(init=False, default_factory=lambda: ProjectInfo.nahosmip_project_info())

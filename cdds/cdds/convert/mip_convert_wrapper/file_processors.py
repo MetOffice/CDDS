@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Routines for generating links to data files in order to restrict the
+"""Routines for generating links to data files in order to restrict the
 volume of data that MIP Convert can see and attempt to read
 """
 import calendar
@@ -13,13 +12,12 @@ from cdds.convert.exceptions import IncompatibleCalendarMode
 
 
 def construct_month_lookup():
-    """
-    Create a lookup table of months for getting the month number from the UM
+    """Create a lookup table of months for getting the month number from the UM
     filenames.
 
     Returns
     -------
-    : dict
+    dict
        A dictionary with month names as keys and month number as value.
     """
 
@@ -29,8 +27,7 @@ def construct_month_lookup():
 
 
 def parse_atmos_monthly_filename(fname, pattern):
-    """
-    Parse filenames of files in the atmosphere stream contain a month of data.
+    """Parse filenames of files in the atmosphere stream contain a month of data.
 
     Parameters
     ----------
@@ -57,8 +54,7 @@ def parse_atmos_monthly_filename(fname, pattern):
 
 
 def parse_atmos_submonthly_filename(fname, pattern):
-    """
-    Parse filenames of files in the atmosphere stream contain less than a
+    """Parse filenames of files in the atmosphere stream contain less than a
     month of data.
 
     Parameters
@@ -87,8 +83,7 @@ def parse_atmos_submonthly_filename(fname, pattern):
 
 
 def parse_atmos_daily_filename(fname, pattern):
-    """
-    Parse filenames of files in the atmosphere stream that contain a day of data.
+    """Parse filenames of files in the atmosphere stream that contain a day of data.
 
     Parameters
     ----------
@@ -114,8 +109,7 @@ def parse_atmos_daily_filename(fname, pattern):
 
 
 def parse_atmos_hourly_filename(fname, pattern):
-    """
-    Parse filenames of files in the atmosphere stream that contain an hour of data.
+    """Parse filenames of files in the atmosphere stream that contain an hour of data.
 
     Parameters
     ----------
@@ -140,8 +134,7 @@ def parse_atmos_hourly_filename(fname, pattern):
 
 
 def parse_ocean_seaice_filename(fname, pattern):
-    """
-    Parse filenames of files in the ocean or sea-ica streams.
+    """Parse filenames of files in the ocean or sea-ica streams.
 
     Parameters
     ----------

@@ -5,8 +5,7 @@ from mip_convert.load.model_output_config import AbstractDataSourceUser
 
 
 class CmorSetupConf(object):
-    """
-    Instances of this class read the cmor.setup arguments from the
+    """Instances of this class read the cmor.setup arguments from the
     cmor_project file.
 
     The arguments are options in the [general] section of the
@@ -16,8 +15,10 @@ class CmorSetupConf(object):
 
     def __init__(self, config_parser):
         """
-        :param config_parser: a ConfigParser opened on cmor_project
-                              and already read.
+        Parameters
+        ----------
+        config_parser
+            a ConfigParser opened on cmor_project and already read.
         """
         self.config_parser = config_parser
 
@@ -28,21 +29,16 @@ class CmorSetupConf(object):
         return self._get(attname)
 
     def _get(self, option):
-        """
-        return the string value of the option
-        """
+        """return the string value of the option"""
         return self.config_parser.get(self.SECTION, option)
 
     def _has(self, option):
-        """
-        returns True if have the option
-        """
+        """returns True if have the option"""
         return self.config_parser.has_option(self.SECTION, option)
 
 
 class CmorDatasetConf(AbstractDataSourceUser):
-    """
-    Instances of this class read the cmor.dataset arguments from the
+    """Instances of this class read the cmor.dataset arguments from the
     cmor_project file.
 
     The arguments are options in the [data_source] section of the
@@ -53,12 +49,16 @@ class CmorDatasetConf(AbstractDataSourceUser):
 
     def __init__(self, project_config, application_history, date_generator, outpath):
         """
-        :param project_config: the opened ConfigParser to get configuration
-                               info from.
-        :param application_history: the relevant application_history to be put
-                                    into the CMOR global history attribute.
-        :param date_generator: (no longer used - needs refactoring to remove)
-        :param outpath: the path for any NetCDF files written as part of this data set.
+        Parameters
+        ----------
+        project_config
+            the opened ConfigParser to get configuration info from.
+        application_history
+            the relevant application_history to be put into the CMOR global history attribute.
+        date_generator
+            (no longer used - needs refactoring to remove)
+        outpath
+            the path for any NetCDF files written as part of this data set.
         """
         self._project_config = project_config
         self._date_generator = date_generator
@@ -73,9 +73,7 @@ class CmorDatasetConf(AbstractDataSourceUser):
         return self._get(attname)
 
     def _get(self, option):
-        """
-        return the string value of the option
-        """
+        """return the string value of the option"""
         return self._project_config.get(self.SECTION, option)
 
     def _has(self, option):
@@ -87,8 +85,7 @@ class CmorDatasetConf(AbstractDataSourceUser):
         return glob_atts
 
     def global_attributes(self):
-        """
-        Return iterator of global attributes and their values.
+        """Return iterator of global attributes and their values.
 
         The runids will always be a global attribute in the iterator.
         Other global attributes are read from the [global_attributes]
@@ -100,8 +97,7 @@ class CmorDatasetConf(AbstractDataSourceUser):
 
 
 class _CmorConfigGlobalSection(object):
-    """
-    Instances of this class can be used to interpret the
+    """Instances of this class can be used to interpret the
     [global_attributes] section in the cmor_project file.
 
     Each option in the [global_attributes] section is used as the
@@ -117,13 +113,15 @@ class _CmorConfigGlobalSection(object):
 
     def __init__(self, project_config):
         """
-        :param project_config: the ConfigParser opened on cmor_project
+        Parameters
+        ----------
+        project_config
+            the ConfigParser opened on cmor_project
         """
         self._project_config = project_config
 
     def read(self):
-        """
-        Interpret the options of the [global_attributes] section
+        """Interpret the options of the [global_attributes] section
         and return a dictionary of attribute names and  values.
         """
         glob_atts = dict()

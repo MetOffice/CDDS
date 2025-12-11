@@ -15,13 +15,17 @@ OUTPUT_DATA_DIRECTORY = 'output'
 
 
 def input_data_directory(request: Request) -> str:
-    """
-    Returns the full path to the directory where the |model output files| used as input to CDDS Convert are written.
+    """Returns the full path to the directory where the |model output files| used as input to CDDS Convert are written.
 
-    :param request: Information about the input data directory path facets
-    :type request: Request
-    :return: Path to the directory where the |model output files| are
-    :rtype: str
+    Parameters
+    ----------
+    request : Request
+        Information about the input data directory path facets
+
+    Returns
+    -------
+    str
+        Path to the directory where the |model output files| are
     """
     plugin = PluginStore.instance().get_plugin()
     data_directory = plugin.data_directory(request)
@@ -29,13 +33,17 @@ def input_data_directory(request: Request) -> str:
 
 
 def output_data_directory(request: Request) -> str:
-    """
-    Returns the full path to the directory where the |output netCDF files| produced by CDDS Convert are written.
+    """Returns the full path to the directory where the |output netCDF files| produced by CDDS Convert are written.
 
-    :param request: Information about the output data directory path facets
-    :type request: Request
-    :return: Path to the directory where the |output netCDF files| are
-    :rtype: str
+    Parameters
+    ----------
+    request : Request
+        Information about the output data directory path facets
+
+    Returns
+    -------
+    str
+        Path to the directory where the |output netCDF files| are
     """
     plugin = PluginStore.instance().get_plugin()
     data_directory = plugin.data_directory(request)
@@ -43,13 +51,17 @@ def output_data_directory(request: Request) -> str:
 
 
 def requested_variables_file(request: Request) -> str:
-    """
-    Returns the path to the requested variables file.
+    """Returns the path to the requested variables file.
 
-    :param request: The request configuration for the cdds_convert process
-    :type request: Request
-    :return: Path to the requested variables file
-    :rtype: str
+    Parameters
+    ----------
+    request : Request
+        The request configuration for the cdds_convert process
+
+    Returns
+    -------
+    str
+        Path to the requested variables file
     """
     plugin = PluginStore.instance().get_plugin()
     request_variables_filename = plugin.requested_variables_list_filename(request)
@@ -57,13 +69,17 @@ def requested_variables_file(request: Request) -> str:
 
 
 def ancil_files(request: Request) -> str:
-    """
-    Construct the full paths to the ancillary files.
+    """Construct the full paths to the ancillary files.
 
-    :param request: The request configuration for the cdds_convert process
-    :type request: Request
-    :return: The paths to the ancillary files separated by a whitespace
-    :rtype: str
+    Parameters
+    ----------
+    request : Request
+        The request configuration for the cdds_convert process
+
+    Returns
+    -------
+    str
+        The paths to the ancillary files separated by a whitespace
     """
     plugin = PluginStore.instance().get_plugin()
     models_parameters = plugin.models_parameters(request.metadata.model_id)
@@ -72,13 +88,17 @@ def ancil_files(request: Request) -> str:
 
 
 def replacement_coordinates_file(request: Request) -> str:
-    """
-    Construct the full paths to the replacement coordinates file.
+    """Construct the full paths to the replacement coordinates file.
 
-    :param request: The request configuration for the cdds_convert process
-    :type request: Request
-    :return: The path to the replacement coordinates file
-    :rtype: str
+    Parameters
+    ----------
+    request : Request
+        The request configuration for the cdds_convert process
+
+    Returns
+    -------
+    str
+        The path to the replacement coordinates file
     """
     plugin = PluginStore.instance().get_plugin()
     grid_info = plugin.grid_info(request.metadata.model_id, GridType.OCEAN)
@@ -89,13 +109,17 @@ def replacement_coordinates_file(request: Request) -> str:
 
 
 def hybrid_heights_files(request: Request) -> str:
-    """
-    Construct the full paths to the hybrid heights files.
+    """Construct the full paths to the hybrid heights files.
 
-    :param request: The request configuration for the cdds_convert process
-    :type request: Request
-    :return: The paths to the hybrid heights files separated by a whitespace
-    :rtype: str
+    Parameters
+    ----------
+    request : Request
+        The request configuration for the cdds_convert process
+
+    Returns
+    -------
+    str
+        The paths to the hybrid heights files separated by a whitespace
     """
     plugin = PluginStore.instance().get_plugin()
     models_parameters = plugin.models_parameters(request.metadata.model_id)
@@ -104,15 +128,19 @@ def hybrid_heights_files(request: Request) -> str:
 
 
 def component_directory(request: Request, component: str) -> str:
-    """
-    Returns the specific component directory in the CDDS proc directory.
+    """Returns the specific component directory in the CDDS proc directory.
 
-    :param request: Request containing all information about the proc directory
-    :type request: Request
-    :param component: Component
-    :type component: str
-    :return: Path to the specific component directory in the proc directory
-    :rtype: str
+    Parameters
+    ----------
+    request : Request
+        Request containing all information about the proc directory
+    component : str
+        Component
+
+    Returns
+    -------
+    str
+        Path to the specific component directory in the proc directory
     """
     plugin = PluginStore.instance().get_plugin()
     proc_directory = plugin.proc_directory(request)
@@ -120,21 +148,25 @@ def component_directory(request: Request, component: str) -> str:
 
 
 def log_directory(request: Request, component: str, create_if_not_exist: bool = False) -> Union[str, None]:
-    """
-    Return the full path to the directory where the log files for the CDDS component ``component`` are written
+    """Return the full path to the directory where the log files for the CDDS component ``component`` are written
     within the proc directory or output dir if chosen.
     If the log directory does not exist, it will be created.
     If no log directory can be found it returns None.
 
-    :param request: Request containing information about the CDDS directories
-    :type request: Request
-    :param component: The name of the CDDS component.
-    :type component: str
-    :param create_if_not_exist: Creates the log directory if not exists
-    :type bool
-    :return: The full path to the directory where the log files for the CDDS component are written within the
-        proc directory. If no log directory can be found, None will be returned.
-    :rtype: str
+    Parameters
+    ----------
+    request : Request
+        Request containing information about the CDDS directories
+    component : str
+        The name of the CDDS component.
+    create_if_not_exist : bool
+        Creates the log directory if not exists
+
+    Returns
+    -------
+    Union[str, None]
+        The full path to the directory where the log files for the CDDS component are written within the proc directory.
+        If no log directory can be found, None will be returned.
     """
     component_proc_dir = component_directory(request, component)
 
@@ -148,18 +180,22 @@ def log_directory(request: Request, component: str, create_if_not_exist: bool = 
 
 
 def update_log_dir(log_name: str, request: Request, component: str) -> str:
-    """
-    Returns the updated log_name value that uses the full path to the log file if a specific log directory of
+    """Returns the updated log_name value that uses the full path to the log file if a specific log directory of
     the component can be found.
 
-    :param log_name: The log file name
-    :type log_name: str
-    :param request: Request to process by the component
-    :type request: Request
-    :param component: The name of the CDDS component
-    :type component: str
-    :return: The updated  full path of the log file if a log directory can be found.
-    :rtype: str
+    Parameters
+    ----------
+    log_name : str
+        The log file name
+    request : Request
+        Request to process by the component
+    component : str
+        The name of the CDDS component
+
+    Returns
+    -------
+    str
+        The updated  full path of the log file if a log directory can be found.
     """
     log_dir = log_directory(request, component, True)
     if log_dir is not None:

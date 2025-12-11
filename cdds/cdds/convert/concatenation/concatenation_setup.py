@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-CMOR netCDF file aggregation routines
-"""
+"""CMOR netCDF file aggregation routines"""
 from configparser import ConfigParser
 from datetime import datetime
 import fnmatch
@@ -25,8 +23,7 @@ from cdds.common import configure_logger
 
 def organise_concatenations(reference_date, start_date, end_date,
                             reinitialisation_years, filenames, output_dir):
-    """
-    Using the supplied dates and reinitialisation period arrange the
+    """Using the supplied dates and reinitialisation period arrange the
     files into groups to be concatenated together and return a
     dictionary describing the work to do.
 
@@ -117,8 +114,7 @@ def organise_concatenations(reference_date, start_date, end_date,
 
 
 def list_cmor_files(location, pattern, mip_table=None, recursive=False):
-    """
-    Retrieve the list of input CMOR format files in location that match
+    """Retrieve the list of input CMOR format files in location that match
     the supplied pattern.
 
     Parameters
@@ -155,19 +151,16 @@ def list_cmor_files(location, pattern, mip_table=None, recursive=False):
 
 def write_concatenation_work_db(concatenation_work, output_file,
                                 close_db=True):
-    """
-    Write the concatenation work information to a sqlite database file.
+    """Write the concatenation work information to a sqlite database file.
 
     Parameters
     ----------
     concatenation_work : dict
         Work to be done
     output_file : str
-        File name to write to (".db" will be appended if not
-        already in the file name).
+        File name to write to (".db" will be appended if not already in the file name).
     close_db : bool
-        if True close the database, otherwise return the connection
-        object (used for testing)
+        if True close the database, otherwise return the connection object (used for testing)
 
     Returns
     -------
@@ -238,8 +231,7 @@ def write_concatenation_work_db(concatenation_work, output_file,
 
 
 def times_from_filename(filename):
-    """
-    From a CMOR filename return the start and end dates from the last
+    """From a CMOR filename return the start and end dates from the last
     facet
 
     Parameters
@@ -276,17 +268,21 @@ def get_maximal_days_in_month(time_str, default_month=12):
 
 
 def to_iso_format(time_str: str, default_month='01', default_day_in_month='01') -> str:
-    """
-    Returns a valid iso format time of given time
+    """Returns a valid iso format time of given time
 
-    :param time_str: Time converted to iso format
-    :type time_str: str
-    :param default_month: Month that is used if none is given in time_str
-    :type default_month: str
-    :param default_day_in_month: Day (in month) is used if none is give in time_str
-    :type default_day_in_month: str
-    :return: Valid iso format time
-    :rtype: str
+    Parameters
+    ----------
+    time_str : str
+        Time converted to iso format
+    default_month : str
+        Month that is used if none is given in time_str
+    default_day_in_month : str
+        Day (in month) is used if none is give in time_str
+
+    Returns
+    -------
+    str
+        Valid iso format time
     """
     length = len(time_str)
     if length == 4:
@@ -299,8 +295,7 @@ def to_iso_format(time_str: str, default_month='01', default_day_in_month='01') 
 
 
 def get_reinitialisation_period(filename, model_id):
-    """
-    Use the shape of data in the file to obtain the reinitialisation
+    """Use the shape of data in the file to obtain the reinitialisation
     period from the sizing file.
 
     Parameters
@@ -333,22 +328,20 @@ def get_reinitialisation_period(filename, model_id):
 
 
 def get_file_frequency_shape(filename):
-    """
-    Read a netcdf file and extract the frequency attribute and shape of
+    """Read a netcdf file and extract the frequency attribute and shape of
     the data variable (excluding the time axis).
 
     Parameters
     ----------
     filename : str
-        Name of a file obtain shape from. Must begin with the variable
-        name.
+        Name of a file obtain shape from. Must begin with the variable name.
 
     Returns
     -------
-    : str
+    str
         The frequency (as defined in the
         `CMIP6 Global Attributes document`_).
-    : str
+    str
         Variable shape key of form "X-Y-Z" where X, Y, Z are integers
         describing the shape of the data variable. Note that time axes
         are not included in the shape key.
@@ -365,8 +358,7 @@ def get_file_frequency_shape(filename):
 def build_concatenation_work_dict(available_variables, config,
                                   reference_date, start_date, end_date,
                                   model_id):
-    """
-    Return a dictionary describing the concatenation work to be done.
+    """Return a dictionary describing the concatenation work to be done.
 
     Parameters
     ----------
@@ -421,8 +413,7 @@ def build_concatenation_work_dict(available_variables, config,
 
 
 def load_concatenation_setup_config(config_file):
-    """
-    Read the supplied file and obtain the information needed to run
+    """Read the supplied file and obtain the information needed to run
     the setup stage of the concatenation operation.
 
     Parameters
@@ -454,8 +445,7 @@ def load_concatenation_setup_config(config_file):
 
 
 def concatenation_setup(config_file, log_file, append_log):
-    """
-    Setup up concatenation tasks for a particular cycle and stream of data.
+    """Setup up concatenation tasks for a particular cycle and stream of data.
 
     Parameters
     ----------

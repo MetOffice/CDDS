@@ -8,8 +8,7 @@ from unittest import mock
 
 
 class TestStoreMultipleEmbargoed(StoreTestCase):
-    """
-    USE CASE 6
+    """USE CASE 6
         Archive data when there is already data with a different datestamp in the embargoed state
 
     INPUT

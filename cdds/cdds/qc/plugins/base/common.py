@@ -12,9 +12,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class CheckCache:
-    """
-    Caches the request, the MIP tables and the controlled vocabulary validator
-    """
+    """Caches the request, the MIP tables and the controlled vocabulary validator"""
     request: Request = None
     mip_tables: MipTables = None
     cv_validator: 'CordexCVValidator | Cmip6CVValidator' = None

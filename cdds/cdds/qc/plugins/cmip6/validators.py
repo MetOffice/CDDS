@@ -17,8 +17,7 @@ class Cmip6CVValidator(ControlledVocabularyValidator):
         super(Cmip6CVValidator, self).__init__(repo_location)
 
     def validate_parent_consistency(self, input_data, experiment_id, orphan=False):
-        """
-        Validate global attributes which need to match their CV values.
+        """Validate global attributes which need to match their CV values.
 
         Parameters
         ----------
@@ -44,13 +43,17 @@ class Cmip6CVValidator(ControlledVocabularyValidator):
 
 
 def get_datetime_template(frequency: str) -> str:
-    """
-    Generates a datetime template for the supplied frequency.
+    """Generates a datetime template for the supplied frequency.
 
-    :param frequency: data frequency
-    :type frequency: str
-    :return: regexp template
-    :rtype: str
+    Parameters
+    ----------
+    frequency : str
+        data frequency
+
+    Returns
+    -------
+    str
+        regexp template
     """
     mapping_dict = {
         "yr":       r"^(\d{4})$",
@@ -77,14 +80,18 @@ def get_datetime_template(frequency: str) -> str:
 
 
 def get_numeric_date(calendar: cf_units.Unit, dates: tuple[str | int, ...] | list[int]) -> float:
-    """
-    Calculates a numeric value of a date string in a cf calendar
-    :param calendar: CF calendar instance
-    :type calendar: Unit
-    :param dates: A tuple containing elements of a datetime object (yr, mon, day, etc)
-    :type dates: tuple
-    :return:
-    :rtype: float
+    """Calculates a numeric value of a date string in a cf calendar
+
+    Parameters
+    ----------
+    calendar : Unit
+        CF calendar instance
+    dates : tuple
+        A tuple containing elements of a datetime object (yr, mon, day, etc)
+
+    Returns
+    -------
+    float
     """
     dates = [int(x) for x in dates]
     if len(dates) < 3:
@@ -97,14 +104,19 @@ def get_numeric_date(calendar: cf_units.Unit, dates: tuple[str | int, ...] | lis
 
 
 def parse_date_range(daterange: str, frequency: str, calendar: str = '360_day') -> tuple:
-    """
-    Parses daterange string and returns start and end points.
-    :param daterange: a daterange part of a filename
-    :type daterange: str
-    :param frequency: data frequency
-    :type frequency: str
-    :return: a datetime.datetime tuple with start and end points
-    :rtype: tuple
+    """Parses daterange string and returns start and end points.
+
+    Parameters
+    ----------
+    daterange : str
+        a daterange part of a filename
+    frequency : str
+        data frequency
+
+    Returns
+    -------
+    tuple
+        a datetime.datetime tuple with start and end points
     """
     if frequency == "fx":
         return None

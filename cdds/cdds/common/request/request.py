@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-The module contains the code required to handle the information about the request.
-"""
+"""The module contains the code required to handle the information about the request."""
 import logging
 import os.path
 
@@ -30,9 +28,7 @@ from cdds.common.plugins.plugins import PluginStore
 
 @dataclass
 class Request:
-    """
-    Stores the information about the request.
-    """
+    """Stores the information about the request."""
     metadata: MetadataSection = field(default_factory=MetadataSection)
     netcdf_global_attributes: GlobalAttributesSection = field(default_factory=GlobalAttributesSection)
     common: CommonSection = field(default_factory=CommonSection)
@@ -43,14 +39,18 @@ class Request:
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'Request':
-        """
-        Creates a new request object from given configuration containing all information
+        """Creates a new request object from given configuration containing all information
         defined in the given configuration.
 
-        :param config: Parser of request configuration that should be loaded
-        :type config: ConfigParser
-        :return: New request object
-        :rtype: Request
+        Parameters
+        ----------
+        config : ConfigParser
+            Parser of request configuration that should be loaded
+
+        Returns
+        -------
+        Request
+            New request object
         """
         return Request(
             metadata=MetadataSection.from_config(config),
@@ -64,16 +64,20 @@ class Request:
 
     @staticmethod
     def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'Request':
-        """
-        Creates a new request object from given configuration containing all information
+        """Creates a new request object from given configuration containing all information
         defined in the given rose-suite.info and into the arguments.
 
-        :param suite_info: The rose-suite.info that information should be loaded
-        :type suite_info: RoseSuiteInfo
-        :param arguments: Additional arguments to consider
-        :type arguments: RoseSuiteArguments
-        :return: New request object
-        :rtype: Request
+        Parameters
+        ----------
+        suite_info : RoseSuiteInfo
+            The rose-suite.info that information should be loaded
+        arguments : RoseSuiteArguments
+            Additional arguments to consider
+
+        Returns
+        -------
+        Request
+            New request object
         """
         return Request(
             metadata=MetadataSection.from_rose_suite_info(suite_info, arguments),
@@ -87,13 +91,14 @@ class Request:
 
     @property
     def items(self) -> Dict[str, Any]:
-        """
-        TODO: DEPRECATED METHOD! -> Needs consideration
+        """TODO: DEPRECATED METHOD! -> Needs consideration
         Returns all information of the request as dictionary. Can be a problem
         if there are sections having same keys.
 
-        :return: Information of the request as dictionary
-        :rtype: Dict[str, Any]
+        Returns
+        -------
+        Dict[str, Any]
+            Information of the request as dictionary
         """
         all_items = {}
         all_items.update(self.metadata.items)
@@ -107,11 +112,12 @@ class Request:
 
     @property
     def items_global_attributes(self) -> Dict[str, Any]:
-        """
-        Returns all items of the global attributes section as a dictionary
+        """Returns all items of the global attributes section as a dictionary
 
-        :return: Global attributes items
-        :rtype: Dict[str, Any]
+        Returns
+        -------
+        Dict[str, Any]
+            Global attributes items
         """
         if self.netcdf_global_attributes:
             return self.netcdf_global_attributes.items
@@ -119,12 +125,13 @@ class Request:
 
     @property
     def items_for_cmor(self) -> Dict[str, Any]:
-        """
-        TODO: Method to consider
+        """TODO: Method to consider
         Returns all items for |CMOR|.
 
-        :return: Items for |CMOR|
-        :rtype: Dict[str, Any]
+        Returns
+        -------
+        Dict[str, Any]
+            Items for |CMOR|
         """
         mip = self.metadata.mip
         model_id = self.metadata.model_id
@@ -137,12 +144,13 @@ class Request:
 
     @property
     def flattened_items(self):
-        """
-        TODO: DEPRECATED METHOD! -> Needs consideration after refactoring deprecated methods in transfer
+        """TODO: DEPRECATED METHOD! -> Needs consideration after refactoring deprecated methods in transfer
         Returns all items in a flatted dictionary structure
 
-        :return: The information about the request in a flattened version
-        :rtype: dict
+        Returns
+        -------
+        dict
+            The information about the request in a flattened version
         """
         stack = [self.items]
         flat_dict = {}
@@ -156,11 +164,12 @@ class Request:
         return flat_dict
 
     def write(self, config_file: str) -> None:
-        """
-        Write the request information to a configuration file.
+        """Write the request information to a configuration file.
 
-        :param config_file: Absolute path to the request configruation file
-        :type config_file: str
+        Parameters
+        ----------
+        config_file : str
+            Absolute path to the request configruation file
         """
         interpolation = ExtendedInterpolation()
         config = ConfigParser(interpolation=interpolation, inline_comment_prefixes=('#',))
@@ -178,13 +187,17 @@ class Request:
 
 
 def read_request(request_path: str) -> Request:
-    """
-    Returns the information from the request.
+    """Returns the information from the request.
 
-    :param request_path: The full path to the cfg file containing the information from the request.
-    :type request_path: str
-    :return: The information from the request.
-    :rtype: Request
+    Parameters
+    ----------
+    request_path : str
+        The full path to the cfg file containing the information from the request.
+
+    Returns
+    -------
+    Request
+        The information from the request.
     """
     request_config = read_request_config(request_path)
 
@@ -202,14 +215,18 @@ def read_request(request_path: str) -> Request:
 
 
 def read_request_config(request_path: str) -> ConfigParser:
-    """
-    Returns the information from the request file as a configparser object.
+    """Returns the information from the request file as a configparser object.
     The inheritance section of the request is handled here
 
-    :param request_path: The full path to the cfg file containing the information from the request.
-    :type request_path: str
-    :return: The information from the request.
-    :rtype: ConfigParser
+    Parameters
+    ----------
+    request_path : str
+        The full path to the cfg file containing the information from the request.
+
+    Returns
+    -------
+    ConfigParser
+        The information from the request.
     """
     logger = logging.getLogger(__name__)
     logger.debug('Reading request information from "{}"'.format(request_path))
@@ -240,16 +257,20 @@ def read_request_config(request_path: str) -> ConfigParser:
 
 
 def read_request_from_rose_suite_info(svn_url: str, arguments: RoseSuiteArguments) -> Request:
-    """
-    Reads the information in the rose-suite.info pointed by the given Subversion URL and loads it
+    """Reads the information in the rose-suite.info pointed by the given Subversion URL and loads it
     into a request object.
 
-    :param svn_url: The Subversion URL where the rose-suite.info is found that should be loaded
-    :type svn_url: str
-    :param arguments: Arguments that needed to be defined to load the rose-suite.info into a request
-    :type arguments: RoseSuiteArguments
-    :return: The information from the rose-suite.info loaded into the request object.
-    :rtype: Request
+    Parameters
+    ----------
+    svn_url : str
+        The Subversion URL where the rose-suite.info is found that should be loaded
+    arguments : RoseSuiteArguments
+        Arguments that needed to be defined to load the rose-suite.info into a request
+
+    Returns
+    -------
+    Request
+        The information from the rose-suite.info loaded into the request object.
     """
     suite_info = load_rose_suite_info(svn_url, arguments)
     result = validate_rose_suite(suite_info)
@@ -259,11 +280,12 @@ def read_request_from_rose_suite_info(svn_url: str, arguments: RoseSuiteArgument
 
 
 def load_cdds_plugins(request_config: ConfigParser) -> None:
-    """
-    Loads all internal CDDS plugins and external CDDS plugins specified in the request object.
+    """Loads all internal CDDS plugins and external CDDS plugins specified in the request object.
 
-    :param request_config: Parser of the request configuration contains plugin information
-    :type request_config: ConfigParser
+    Parameters
+    ----------
+    request_config : ConfigParser
+        Parser of the request configuration contains plugin information
     """
     plugin_id = request_config.get('metadata', 'mip_era')
     external_plugin = None

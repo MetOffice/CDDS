@@ -9,8 +9,7 @@ from cdds.common.io import read_json
 
 
 class ProducibleState(enum.Enum):
-    """
-    Enum to specify the possible state if a variable is
+    """Enum to specify the possible state if a variable is
     producible, not producible or unknown
     """
     PRODUCE = 1
@@ -19,8 +18,7 @@ class ProducibleState(enum.Enum):
 
     @staticmethod
     def to_variables_data_value(state):
-        """
-        Convert the given state to the corresponding represented value in the
+        """Convert the given state to the corresponding represented value in the
         variables data file.
 
         Parameters
@@ -31,7 +29,7 @@ class ProducibleState(enum.Enum):
 
         Returns
         -------
-        : :class: `string`
+        :class: `string`
             yes if producible, no if not and 'unknown' if unknown
         """
         if state == ProducibleState.PRODUCE:
@@ -43,9 +41,7 @@ class ProducibleState(enum.Enum):
 
 
 class MappingStatus(object):
-    """
-    Singleton to avoid multiple loading of the mapping_status_data.json
-    """
+    """Singleton to avoid multiple loading of the mapping_status_data.json"""
 
     MAPPING_STATUS_FILE = 'mapping_status_data.json'
     KEY_FORMAT = '{}/{}'
@@ -68,8 +64,7 @@ class MappingStatus(object):
         MappingStatus._instance = self
 
     def _load_mappings(self):
-        """
-        Load the mappings from the mapping_status_data.json.
+        """Load the mappings from the mapping_status_data.json.
 
         Returns
         -------
@@ -81,8 +76,7 @@ class MappingStatus(object):
         return read_json(data_file)
 
     def producible(self, variable_name, mip_table):
-        """
-        Checks if a variable in the given mip table can be produced
+        """Checks if a variable in the given mip table can be produced
         or not. Therefore, the mapping_status_data.json is used
         as reference.
 

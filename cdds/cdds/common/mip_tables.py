@@ -13,8 +13,7 @@ class MipTables(object):
     """A class encapsulating access and basic operations on mip tables"""
 
     def __init__(self, basedir):
-        """
-        A constructor.
+        """A constructor.
 
         Parameters
         ----------
@@ -39,21 +38,16 @@ class MipTables(object):
 
     @property
     def tables(self):
-        """
-        Returns a list of table names
-        """
+        """Returns a list of table names"""
         return sorted(self._tables.keys())
 
     @property
     def version(self):
-        """
-        Returns version of mip tables
-        """
+        """Returns version of mip tables"""
         return self._version
 
     def get_variable_meta(self, table, variable, subset=True):
-        """
-        Retrieves a dictionary of metadata attributes associated with
+        """Retrieves a dictionary of metadata attributes associated with
         a particular variable from a provided mip table
 
         Parameters
@@ -83,8 +77,7 @@ class MipTables(object):
         }
 
     def get_variables(self, table):
-        """
-        Retrieves a list of variables in a provided mip table
+        """Retrieves a list of variables in a provided mip table
 
         Parameters
         ----------
@@ -93,7 +86,7 @@ class MipTables(object):
 
         Returns
         ------
-        : list
+        list
             List of variables
         """
         return self._variables[table]
@@ -130,8 +123,7 @@ class UserMipTables(MipTables):
     """A class encapsulating access and basic operations on mip tables"""
 
     def __init__(self, basedir):
-        """
-        A constructor.
+        """A constructor.
 
         Parameters
         ----------

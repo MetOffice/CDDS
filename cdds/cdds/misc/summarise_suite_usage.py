@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # (C) British Crown Copyright 2022-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Calculate total usage of a set of suites and present summary stats
-"""
+"""Calculate total usage of a set of suites and present summary stats"""
 import argparse
 from collections import defaultdict
 import datetime
@@ -12,9 +10,7 @@ import sys
 
 
 def parse_args(args=None):
-    """
-    Parse command line arguments
-    """
+    """Parse command line arguments"""
     parser = argparse.ArgumentParser(description='Summarise CPU usage')
     parser.add_argument('-s', '--summary', action='store_true',
                         help='Only provide summary totals')
@@ -27,9 +23,7 @@ def parse_args(args=None):
 
 
 def main():
-    """
-    Main routine
-    """
+    """Main routine"""
     suite_names, summary, queue = parse_args()
 
     suite_total = defaultdict(int)
@@ -65,8 +59,7 @@ def main():
 
 
 def print_data(data, suite_total, summary):
-    """
-    Print results
+    """Print results
 
     Parameters
     ----------

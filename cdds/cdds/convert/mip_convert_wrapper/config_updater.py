@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Routines to read MIP Convert config templates and write them out with
+"""Routines to read MIP Convert config templates and write them out with
 the appropriate parameters filled in.
 """
 import errno
@@ -18,8 +17,7 @@ from cdds.common.constants import CYLC_DATE_FORMAT, MIP_CONVERT_DATETIME_FORMAT
 
 def calculate_mip_convert_run_bounds(
         start_point: str, cycle_duration: str, simulation_end: TimePoint) -> Tuple[TimePoint, TimePoint]:
-    """
-    Return a pair of datetime objects describing the  bounds for MIP
+    """Return a pair of datetime objects describing the  bounds for MIP
     Convert to run in this step.
 
     Parameters
@@ -33,7 +31,7 @@ def calculate_mip_convert_run_bounds(
 
     Returns
     -------
-    : tuple
+    tuple
         of TimePoint represent the start and end for this step
     """
 
@@ -49,8 +47,7 @@ def calculate_mip_convert_run_bounds(
 def setup_cfg_file(input_dir, output_dir, mip_convert_config_dir, component,
                    start_time, end_time, timestamp, user_config_template_name,
                    cmor_log_file):
-    """
-    Construct the mip_convert.cfg file from the templates. The
+    """Construct the mip_convert.cfg file from the templates. The
     resulting config file is written to the current directory.
 
     Parameters
@@ -78,7 +75,7 @@ def setup_cfg_file(input_dir, output_dir, mip_convert_config_dir, component,
         The cmor log file.
     Returns
     -------
-    : bool
+    bool
         True if there is work to do by this job step
     """
     logger = logging.getLogger(__name__)

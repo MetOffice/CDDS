@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-The :mod:`user_config` module defines the information to be read from
+"""The :mod:`user_config` module defines the information to be read from
 the |user configuration file|.
 """
 from cdds.common.constants import USER_CONFIG_OPTIONS
@@ -15,8 +14,7 @@ from cdds.common import (check_run_bounds_format,
 
 
 def cmor_setup_config():
-    """
-    Define the |CMOR| setup-specific information to be read from the
+    """Define the |CMOR| setup-specific information to be read from the
     |user configuration file|.
 
     For more information, please see the `cmor_setup section`_ in the
@@ -34,8 +32,7 @@ def cmor_setup_config():
 
 
 def cmor_dataset_config(mip_era):
-    """
-    Define the |CMOR| dataset-specific information to be read from the
+    """Define the |CMOR| dataset-specific information to be read from the
     |user configuration file|.
 
     For more information, please see the `cmor_dataset section`_ in the
@@ -70,8 +67,7 @@ def cmor_dataset_config(mip_era):
 
 
 def request_config():
-    """
-    Define the request information to be read from the
+    """Define the request information to be read from the
     |user configuration file|.
 
     For more information, please see the `request section`_ in the
@@ -129,8 +125,7 @@ def _get_config(option, section, python_type=str, value_type='single',
                 default_value=False, required_by_cmor=False,
                 required_by_mip_convert=False, name='default',
                 check_function=None):
-    """
-    Return the information related to a specific ``option`` from the
+    """Return the information related to a specific ``option`` from the
     |user configuration file|.
 
     This information is used by :class:`configuration.python_config.PythonConfig` to
@@ -177,7 +172,7 @@ def _get_config(option, section, python_type=str, value_type='single',
 
     Returns
     -------
-    : :obj:`dict`
+    :obj:`dict`
         The information related to the ``option`` from the
         |user configuration file|.
     """

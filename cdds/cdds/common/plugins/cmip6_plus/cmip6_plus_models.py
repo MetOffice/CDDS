@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`cmip6_plus_models` module contains the code required to
+"""The :mod:`cmip6_plus_models` module contains the code required to
 handle model parameters information for CMIP6Plus models.
 """
 import logging
@@ -14,16 +13,15 @@ from cdds.common.plugins.base.base_models import BaseModelParameters, ModelId, B
 
 
 class Cmip6PlusModelId(ModelId):
-    """
-    Represents the ID of a CMIP6Plus model.
-    """
+    """Represents the ID of a CMIP6Plus model."""
 
     def get_json_file(self) -> str:
-        """
-        Returns the json file name for a model containing the model ID as identifier.
+        """Returns the json file name for a model containing the model ID as identifier.
 
-        :return: Json file name for the model with current ID
-        :rtype: str
+        Returns
+        -------
+        str
+            Json file name for the model with current ID
         """
         return '{}.json'.format(self.value)
 
@@ -31,47 +29,47 @@ class Cmip6PlusModelId(ModelId):
 
 
 class HadGEM3_GC31_LL_Params(BaseModelParameters):
-    """
-    Class to store the parameters for the HadGEM3_GC31_LL model.
-    """
+    """Class to store the parameters for the HadGEM3_GC31_LL model."""
 
     def __init__(self) -> None:
         super(HadGEM3_GC31_LL_Params, self).__init__(Cmip6PlusModelId.HadGEM3_GC31_LL)
 
     @property
     def model_version(self) -> str:
-        """
-        Returns the model version of the HadGEM3_GC31_LL model.
+        """Returns the model version of the HadGEM3_GC31_LL model.
 
-        :return: Model version of HadGEM3_GC31_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version of HadGEM3_GC31_LL
         """
         return '3.1'
 
     @property
     def data_request_version(self) -> str:
-        """
-        Returns the data request version of the HadGEM3_GC31_LL model.
+        """Returns the data request version of the HadGEM3_GC31_LL model.
 
-        :return: Data request version of HadGEM3_GC31_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version of HadGEM3_GC31_LL
         """
         return '01.00.10'
 
     @property
     def um_version(self) -> str:
-        """
-        Returns the UM version of the HadGEM3_GC31_LL model.
+        """Returns the UM version of the HadGEM3_GC31_LL model.
 
-        :return: UM version of HadGEM3_GC31_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            UM version of HadGEM3_GC31_LL
         """
         return '10.7'
 
 
 class Cmip6PlusModelsStore(BaseModelStore):
-    """
-    Singleton class to store for each model the corresponding parameters.
+    """Singleton class to store for each model the corresponding parameters.
     The parameters are defined in json files. The default parameters are
     stored in the data/model directory.
 
@@ -87,11 +85,12 @@ class Cmip6PlusModelsStore(BaseModelStore):
 
     @classmethod
     def create_instance(cls) -> 'Cmip6PlusModelsStore':
-        """
-        Creates a new class instance.
+        """Creates a new class instance.
 
-        :return: New class instance
-        :rtype: Cmip6PlusModelsStore
+        Returns
+        -------
+        Cmip6PlusModelsStore
+            New class instance
         """
         return Cmip6PlusModelsStore()
 

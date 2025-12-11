@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-The :mod:`command_line` module contains the driver functions for the
+"""The :mod:`command_line` module contains the driver functions for the
 command line scripts in the ``bin`` directory.
 """
 import argparse
@@ -19,12 +18,11 @@ COMPONENT = 'configure'
 
 
 def main(arguments=None):
-    """
-    Produce the |user configuration files|.
+    """Produce the |user configuration files|.
 
     Parameters
     ----------
-    arguments: list of strings
+    arguments: list[str]
         The command line arguments to be parsed.
     """
     # Parse the arguments.
@@ -53,8 +51,7 @@ def main(arguments=None):
 
 
 def parse_args(arguments):
-    """
-    Return the names of the command line arguments for
+    """Return the names of the command line arguments for
     ``generate_user_config_files`` and their validated values.
 
     If this function is called from the Python interpreter with
@@ -67,12 +64,12 @@ def parse_args(arguments):
 
     Parameters
     ----------
-    arguments: list of strings
+    arguments: list[str]
         The command line arguments to be parsed.
 
     Returns
     -------
-    : :class:`cdds.configure.arguments.ConfigureArguments` object
+    :class:`cdds.configure.arguments.ConfigureArguments` object
         The names of the command line arguments and their validated
         values.
     """

@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Routines to perform actions such as running mip_convert or managing the
+"""Routines to perform actions such as running mip_convert or managing the
 log files
 """
 import glob
@@ -16,15 +15,16 @@ from cdds.convert.mip_convert_wrapper.common import print_env
 
 
 def copy_logs(mip_convert_log, cmor_log_file, target_dir):
-    """
-    Copy MIP convert and CMOR log files to given target directory.
+    """Copy MIP convert and CMOR log files to given target directory.
 
-    :param mip_convert_log: Path to MIP convert log file
-    :type mip_convert_log: str
-    :param cmor_log_file: Path to CMOR log file
-    :type cmor_log_file: str
-    :param target_dir: Path to target directory
-    :type target_dir: str
+    Parameters
+    ----------
+    mip_convert_log : str
+        Path to MIP convert log file
+    cmor_log_file : str
+        Path to CMOR log file
+    target_dir : str
+        Path to target directory
     """
     target_mip_convert_log = os.path.join(target_dir, os.path.basename(mip_convert_log))
     target_cmor_log = os.path.join(target_dir, os.path.basename(cmor_log_file))
@@ -34,8 +34,7 @@ def copy_logs(mip_convert_log, cmor_log_file, target_dir):
 
 def manage_logs(stream, component, mip_convert_config_dir,
                 cylc_task_cycle_point):
-    """
-    Create the logs directories under
+    """Create the logs directories under
     mip_convert_config_dir/log/stream_component/date/ and move logs to
     them.
 
@@ -93,8 +92,7 @@ def manage_logs(stream, component, mip_convert_config_dir,
 
 def run_mip_convert(stream, dummy_run, timestamp, user_config_template_name,
                     mip_convert_log, plugin_id, external_plugin, external_plugin_path, relaxed_cmor):
-    """
-    Run MIP Convert, or perform dummy_run if specified, and update logs.
+    """Run MIP Convert, or perform dummy_run if specified, and update logs.
 
     Parameters
     ----------
@@ -164,8 +162,7 @@ def run_mip_convert(stream, dummy_run, timestamp, user_config_template_name,
 
 
 def get_disk_usage_in_mb(staging_dir):
-    """
-    Get the disk usage in MB of the specified directory.
+    """Get the disk usage in MB of the specified directory.
     Parameters
     ----------
     staging_dir: str
@@ -173,7 +170,7 @@ def get_disk_usage_in_mb(staging_dir):
 
     Returns
     -------
-    : int
+    int
         The disk usage in MB.
     """
     du_cmd = 'du -s --block-size=1M {staging_dir}'.format(
@@ -184,8 +181,7 @@ def get_disk_usage_in_mb(staging_dir):
 
 
 def check_disk_usage(staging_dir, max_space_in_mb):
-    """
-    Check the current disk usage of the data in staging_dir, and raises an
+    """Check the current disk usage of the data in staging_dir, and raises an
     exception if exceeds the allocated space specified by max_space.
 
     Parameters
@@ -213,8 +209,7 @@ def check_disk_usage(staging_dir, max_space_in_mb):
 
 
 def report_disk_usage(staging_dir):
-    """
-    Report current disk usage of the data in staging_dir to the log.
+    """Report current disk usage of the data in staging_dir to the log.
 
     Parameters
     ----------
@@ -232,8 +227,7 @@ def report_disk_usage(staging_dir):
 
 def manage_critical_issues(mip_convert_config_dir, mip_convert_log,
                            fields_to_log=None):
-    """
-    Identify critical issues logged by MIP Convert and copy them to a
+    """Identify critical issues logged by MIP Convert and copy them to a
     central log file so that users can keep an eye on them.
 
     Parameters
@@ -248,7 +242,7 @@ def manage_critical_issues(mip_convert_config_dir, mip_convert_log,
 
     Returns
     -------
-    : int
+    int
         Exit code to be ultimately returned by sys.exit.
     """
     if fields_to_log is None:

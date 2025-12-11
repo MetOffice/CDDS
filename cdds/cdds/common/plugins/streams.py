@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2022-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`streams` module contains the code required to
+"""The :mod:`streams` module contains the code required to
 handle stream information for all supported streams.
 """
 import logging
@@ -17,8 +16,7 @@ VALID_STREAM_FREQUENCIES = ['quarterly', 'monthly', '10 day', 'daily', 'hourly']
 
 @dataclass
 class StreamAttributes:
-    """
-    Represents the attributes of a stream. Currently supported:
+    """Represents the attributes of a stream. Currently supported:
         * name of stream
         * start date of stream
         * end date of stream
@@ -38,8 +36,7 @@ class StreamAttributes:
 
 @dataclass
 class StreamFileFrequency:
-    """
-    Represents the frequency of files for a stream:
+    """Represents the frequency of files for a stream:
         * frequency (e.g. monthly, daily, ...)
         * name of the stream
     """
@@ -53,37 +50,37 @@ class StreamFileFrequency:
 
 @dataclass
 class StreamFileInfo:
-    """
-    Represents the information for stream files. It stores information of
+    """Represents the information for stream files. It stores information of
     the file frequencies of streams.
     """
     file_frequencies: Dict[str, StreamFileFrequency] = field(default_factory=dict)
 
 
 class StreamInfo(object, metaclass=ABCMeta):
-    """
-    Abstract class to store the stream information data.
-    """
+    """Abstract class to store the stream information data."""
 
     @abstractmethod
     def retrieve_stream_id(self, variable: str, mip_table: str) -> Tuple[str, str]:
-        """
-        Returns the stream and its sub streams of the MIP table for the given MIP requested variable.
+        """Returns the stream and its sub streams of the MIP table for the given MIP requested variable.
         If no stream is found, ``unknown`` is returned.
 
-        :param variable: MIP requested variable
-        :type variable: str
-        :param mip_table: The MIP table that streams should be considered
-        :type mip_table: str
-        :return: Tuple of stream and substream of the MIP table for the MIP requestd variable
-        :rtype: Tuple[str, str]
+        Parameters
+        ----------
+        variable : str
+            MIP requested variable
+        mip_table : str
+            The MIP table that streams should be considered
+
+        Returns
+        -------
+        Tuple[str, str]
+            Tuple of stream and substream of the MIP table for the MIP requestd variable
         """
         pass
 
 
 class StreamStore(object, metaclass=ABCMeta):
-    """
-    Singleton class to store the stream information data.
+    """Singleton class to store the stream information data.
 
     The class is a singleton to avoid excessive loading of model parameters
     that can be stored in files or otherwise.
@@ -97,12 +94,13 @@ class StreamStore(object, metaclass=ABCMeta):
 
     @classmethod
     def instance(cls) -> 'StreamStore':
-        """
-        Returns the class instance. If none is created, yet, a new instance will
+        """Returns the class instance. If none is created, yet, a new instance will
         be created and stored (see Singleton pattern).
 
-        :return: The instance of StreamStore
-        :rtype: StreamStore
+        Returns
+        -------
+        StreamStore
+            The instance of StreamStore
         """
         if cls._instance is None:
             cls._instance = cls.create_instance()
@@ -111,18 +109,18 @@ class StreamStore(object, metaclass=ABCMeta):
     @classmethod
     @abstractmethod
     def create_instance(cls) -> 'StreamStore':
-        """
-        Creates a new instance of the class.
+        """Creates a new instance of the class.
 
-        :return: New class instance
-        :rtype: StreamStore
+        Returns
+        -------
+        StreamStore
+            New class instance
         """
         pass
 
     @classmethod
     def clean_instance(cls) -> None:
-        """
-        Set class instance to none and allow re-creating a new class instance.
+        """Set class instance to none and allow re-creating a new class instance.
 
         Only used in tests! Do not use in productive code!
         """
@@ -130,10 +128,11 @@ class StreamStore(object, metaclass=ABCMeta):
 
     @abstractmethod
     def get(self) -> StreamInfo:
-        """
-        Returns the stream information data.
+        """Returns the stream information data.
 
-        :return: Class containing stream information
-        :rtype: StreamInfo
+        Returns
+        -------
+        StreamInfo
+            Class containing stream information
         """
         pass

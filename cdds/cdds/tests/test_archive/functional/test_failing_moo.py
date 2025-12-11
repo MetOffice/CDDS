@@ -8,8 +8,7 @@ from unittest import mock
 
 
 class TestStoreFailingMoo(StoreTestCase):
-    """
-    USE CASE 11
+    """USE CASE 11
         Test MASS command failures
 
     INPUT

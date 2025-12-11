@@ -10,9 +10,7 @@ from cdds.deprecated.mip_table_editor.mip_tables import ControlledVocabulary, Mi
 
 
 def main_table_editor(arguments=None):
-    """
-    Main routine for the mip_table_editor
-    """
+    """Main routine for the mip_table_editor"""
 
     arguments = parse_args(arguments)
 
@@ -99,14 +97,13 @@ mip_table_editor /path/to/tables view -T Amon
 
 
 def parse_args(arguments):
-    """
-    Function for parsing the commandline arguments.
+    """Function for parsing the commandline arguments.
 
-    PARAMETERS
+    Parameters
     ----------
     arguments: list | None
 
-    RETURNS
+    Returns
     -------
     args: argparse.Namespace
 

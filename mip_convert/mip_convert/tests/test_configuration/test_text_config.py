@@ -11,9 +11,7 @@ from textwrap import dedent
 
 
 class TestSitesConfig(unittest.TestCase):
-    """
-    Tests for ``SitesConfig`` in configuration.py.
-    """
+    """Tests for ``SitesConfig`` in configuration.py."""
 
     def setUp(self):
         self.read_path = '/path/to/sites.txt'
@@ -80,9 +78,7 @@ class TestSitesConfig(unittest.TestCase):
 
 
 class TestHybridHeightConfig(unittest.TestCase):
-    """
-    Tests for ``HybridHeightConfig`` in configuration.py.
-    """
+    """Tests for ``HybridHeightConfig`` in configuration.py."""
 
     def setUp(self):
         self.read_path = 'hybrid_height_levels.txt'

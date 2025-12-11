@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2009-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-pp axis classes
+"""pp axis classes
 
 An axis is a set of coordinate values with the meta-data needed to describe
 the axis: its direction, its units, any other information to help geolocate
@@ -42,16 +41,14 @@ CFMIP2_COORD_FILE_URL = 'file://{}/cfmip2-sites-orog.txt'.format(CFMIP2_COORD_DI
 
 
 class PpAxisError(Exception):
-    """
-    any errors related to forming an axis from a pp header should raise
+    """any errors related to forming an axis from a pp header should raise
     a PpAxisError
     """
     pass
 
 
 class AbstractAxis(object):
-    """
-    base class for Axes types
+    """base class for Axes types
 
     Note some of the interface results from this being developed as a look-alike
     replacement for cdms axis types
@@ -61,20 +58,15 @@ class AbstractAxis(object):
         return numpy.array(self.getValue(), numpy.float32)
 
     def getValue(self):
-        """
-        return the values of the coordinates for this axis
-        """
+        """return the values of the coordinates for this axis"""
         return self._values
 
     def getBounds(self):
-        """
-        returns the default bounds for any axis
-        """
+        """returns the default bounds for any axis"""
         return None  # Fixme: not the best long term behaviour
 
     def getEdges(self):
-        """
-        return the edges (bounds) as a single sequence.
+        """return the edges (bounds) as a single sequence.
 
         The values in getEdges are the same as those in getBounds, but
         organised differently.  In bounds each grid point has an entry
@@ -91,16 +83,12 @@ class AbstractAxis(object):
 
     @property
     def is_hybrid_height(self):
-        """
-        returns True if axis is a hybrid_height axis
-        """
+        """returns True if axis is a hybrid_height axis"""
         return isinstance(self, AxisHybridHeight)  # not sure this is the best?]
 
     @property
     def is_scalar(self):
-        """
-        returns True if this axis is a scalar (has only one value)
-        """
+        """returns True if this axis is a scalar (has only one value)"""
         return len(self) == 1
 
     def __len__(self):
@@ -111,9 +99,7 @@ class AbstractAxis(object):
 
 
 class AbstractHeaderAxis(object):
-    """
-    sub classes of this class extract axis infomation from a sequence of headers
-    """
+    """sub classes of this class extract axis infomation from a sequence of headers"""
 
     def _addHeaders(self, headers):
         for header in headers:
@@ -121,8 +107,7 @@ class AbstractHeaderAxis(object):
 
 
 class AbstractCmpAxis(AbstractAxis):
-    """
-    basic axis type providing an equality method.
+    """basic axis type providing an equality method.
     if a concrete super class needs to check the bounds
     as well as the values of the axes then do not inherit from this class,
     inherit from AbstractBoundCmpAxis instead.
@@ -148,15 +133,12 @@ class AbstractCmpAxis(AbstractAxis):
 
 
 class AbstractBoundCmpAxis(AbstractCmpAxis):
-    """
-    instances of this class compare their bounds as well as
+    """instances of this class compare their bounds as well as
     the values
     """
 
     def getBounds(self):
-        """
-        return the bounds for this axis
-        """
+        """return the bounds for this axis"""
         return self._bounds
 
     def __eq__(self, other):
@@ -166,8 +148,7 @@ class AbstractBoundCmpAxis(AbstractCmpAxis):
 
 
 class ValuedAxis(AbstractCmpAxis):
-    """
-    Instances of this class represent axes without bounds.
+    """Instances of this class represent axes without bounds.
 
     Examples
     --------
@@ -230,9 +211,7 @@ class ValuedAxis(AbstractCmpAxis):
 
 
 class BoundedAxis(AbstractBoundCmpAxis):
-    """
-    An axis with bounds as well as values
-    """
+    """An axis with bounds as well as values"""
 
     def __init__(self, axis, units, values, bounds):
         self.axis = axis
@@ -253,8 +232,7 @@ class BoundedAxis(AbstractBoundCmpAxis):
 
 
 class BoundedMidPointAxis(AbstractBoundCmpAxis):
-    """
-    An axes where the bounds are infered from the mid-points of the values
+    """An axes where the bounds are infered from the mid-points of the values
     This class assumes that the end points of the axis points are in the centre
     of the end box bounds
     """
@@ -277,9 +255,7 @@ class BoundedMidPointAxis(AbstractBoundCmpAxis):
 
 
 class AbstractAxisRegular(AbstractCmpAxis):
-    """
-    base class for axes with regular spacing
-    """
+    """base class for axes with regular spacing"""
     _GRID_CODES = (1, 101)  # duplicates is_rotated a bit?
 
     def __init__(self, ppheader):
@@ -302,9 +278,7 @@ class AbstractAxisRegular(AbstractCmpAxis):
         return self._fold(edges)
 
     def _get_raw_value(self):
-        """
-        returns the values of this coordinate along this axis
-        """
+        """returns the values of this coordinate along this axis"""
         return [self.bz + self.bd * i for i in range(1, self.len + 1)]
 
     def _edges(self):
@@ -315,9 +289,7 @@ class AbstractAxisRegular(AbstractCmpAxis):
 
 
 class AxisRegularX(AbstractAxisRegular):
-    """
-    Axis for a regular longitude axis
-    """
+    """Axis for a regular longitude axis"""
     axis = 'X'
 
     def _addHeader(self, header):
@@ -331,16 +303,12 @@ class AxisRegularX(AbstractAxisRegular):
         return header.axis_units(self.axis)
 
     def _bring_within_bounds(self, values):
-        """
-        bring all longitudes into range between -180 and 360
-        """
+        """bring all longitudes into range between -180 and 360"""
         return Longitudes(values).within_range()
 
 
 class AbstractAxisY(object):
-    """
-    lightweight class to hold info common to pp latitude axes
-    """
+    """lightweight class to hold info common to pp latitude axes"""
     axis = 'Y'
 
     def _set_units(self, header):
@@ -348,9 +316,7 @@ class AbstractAxisY(object):
 
 
 class AxisRegularY(AbstractAxisRegular, AbstractAxisY):
-    """
-    Axis for a regular latitude axis
-    """
+    """Axis for a regular latitude axis"""
     NORTHPOLE = 90.
     SOUTHPOLE = -1. * NORTHPOLE
 
@@ -376,9 +342,7 @@ class AxisRegularY(AbstractAxisRegular, AbstractAxisY):
 
 
 class AxisStretchedY(AbstractBoundCmpAxis, AbstractAxisY):
-    """
-    axis for a latitude with unequal spacing
-    """
+    """axis for a latitude with unequal spacing"""
 
     Y_EXTRA = PP_EDV_Y_COORDS
     Y_LOWER = PP_EDV_LOWER_Y_BND
@@ -405,8 +369,7 @@ class AxisStretchedY(AbstractBoundCmpAxis, AbstractAxisY):
 
 
 class AbstractZCheckedAxis(AbstractHeaderAxis):
-    """
-    base class for Z axes that check the vertical coordinates
+    """base class for Z axes that check the vertical coordinates
        1. is consistent
        2. has no repeated values
     """
@@ -421,9 +384,7 @@ class AbstractZCheckedAxis(AbstractHeaderAxis):
 
 
 class AxisZ(AbstractCmpAxis, AbstractZCheckedAxis):
-    """
-    axis for an un bounded Z axis
-    """
+    """axis for an un bounded Z axis"""
 
     def __init__(self, headers, units):
         self.lbvc = None
@@ -468,9 +429,7 @@ class HybridHeightFromPp(AbstractZCheckedAxis):
 
 
 class AxisHybridHeight(AbstractBoundCmpAxis, AbstractZCheckedAxis):
-    """
-    A hybrid height axis
-    """
+    """A hybrid height axis"""
     units = 'm'
 
     def __init__(self, name, a, a_bounds, b, b_bounds, orog, orog_units):
@@ -483,34 +442,26 @@ class AxisHybridHeight(AbstractBoundCmpAxis, AbstractZCheckedAxis):
         self._orog_units = orog_units
 
     def getBvalues(self):
-        """
-        Return the b values (or C in MO documentation) for the hybrid height axis.
-        """
+        """Return the b values (or C in MO documentation) for the hybrid height axis."""
         return self._b
 
     def getBbounds(self):
-        """
-        Return the bounds of the b values for the hybrid height axis.
-        """
+        """Return the bounds of the b values for the hybrid height axis."""
         return self._b_bounds
 
     def getOrography(self):
-        """
-        Return the orography field for the hybrid height axis.
-        """
+        """Return the orography field for the hybrid height axis."""
         return self._orog
 
     def getOrographyUnits(self):
-        """
-        Return the units of the orography field for the hybrid height
+        """Return the units of the orography field for the hybrid height
         axis.
         """
         return self._orog_units
 
 
 class NoValueAxisZ(AbstractAxis, AbstractHeaderAxis):
-    """
-    this is a special axis type for scalar vertical coordinates
+    """this is a special axis type for scalar vertical coordinates
     that are not really vertical levels.  For instance if they are a
     notional level such as the top of the atmosphere, or if the field has
     collapsed vertical levels such as a vertical integral.
@@ -533,8 +484,7 @@ class NoValueAxisZ(AbstractAxis, AbstractHeaderAxis):
         raise PpAxisError('axis type does not have bounds')
 
     def __eq__(self, other):
-        """
-        check whether levels are equal,
+        """check whether levels are equal,
         this is needed for the sake of addition of variables
         """
         if not isinstance(other, self.__class__):
@@ -550,9 +500,7 @@ class NoValueAxisZ(AbstractAxis, AbstractHeaderAxis):
 
 
 class Lbproc(object):
-    """
-    Class to represent the pp processing code (lbproc value).
-    """
+    """Class to represent the pp processing code (lbproc value)."""
     _ZON_MEAN = 64
     _MEAN = 128
     _MIN = 4096
@@ -560,23 +508,17 @@ class Lbproc(object):
     _BOUND_TYPES = (_MEAN, _MIN, _MAX)
 
     def __init__(self, lbproc):
-        """
-        integer lbproc - lbproc value from the pp header
-        """
+        """integer lbproc - lbproc value from the pp header"""
         self.lbproc = lbproc
 
     @property
     def is_time_bound(self):
-        """
-        returns True if lbroc looks like it is processing code that would result in a time bound field
-        """
+        """returns True if lbroc looks like it is processing code that would result in a time bound field"""
         return any([self._bit_set(bound_type) for bound_type in self._BOUND_TYPES])
 
     @property
     def is_zonal_mean(self):
-        """
-        return True if lbproc is zonal mean
-        """
+        """return True if lbproc is zonal mean"""
         return self._bit_set(self._ZON_MEAN)
 
     def _bit_set(self, value):
@@ -584,9 +526,7 @@ class Lbproc(object):
 
 
 class DatedPpHeader(object):
-    """
-    Interprets the date elements as the CdDate type
-    """
+    """Interprets the date elements as the CdDate type"""
 
     def __init__(self, header):
         self._header = header
@@ -618,22 +558,17 @@ class DatedPpHeader(object):
         return units
 
     def isClimatology(self):
-        """
-        returns True if header corresponds to a climatological mean
-        """
+        """returns True if header corresponds to a climatological mean"""
         return ((self._header.lbtim % 100) // 10) == 3
 
     def isTimeBounded(self):
-        """
-        returns True if header corresponds to a time mean, min or max field
+        """returns True if header corresponds to a time mean, min or max field
         these are expected to have time bounds
         """
         return ((self._header.lbtim % 100) // 10) == 2 and Lbproc(self._header.lbproc).is_time_bound
 
     def isInstantaneous(self):
-        """
-        returns True if the header corresponds to an instantaneous field
-        """
+        """returns True if the header corresponds to an instantaneous field"""
         # FIXME: better implementation than this
         return self._header.lbtim // 10 in (0, 1) and not Lbproc(self._header.lbproc).is_time_bound
 
@@ -641,8 +576,7 @@ class DatedPpHeader(object):
         return self.date1().mid(self._nominal_end_of_period())
 
     def date1(self):
-        """
-        extract the first date from the pp header.
+        """extract the first date from the pp header.
 
         This can be the validity time or the start of the meaning period
         depending on the axis type
@@ -656,8 +590,7 @@ class DatedPpHeader(object):
                           self._header.lbtim)
 
     def date2(self):
-        """
-        extract the second date from the pp header
+        """extract the second date from the pp header
 
         The meaning of this date will depend on the axis type
         """
@@ -673,9 +606,7 @@ class DatedPpHeader(object):
         return self.date2() - self.date1()
 
     def set_date2(self, other):
-        """
-        enable the setting of date2 on this instance to be the same as date2 on other
-        """
+        """enable the setting of date2 on this instance to be the same as date2 on other"""
         for attname in ('lbyrd', 'lbmond', 'lbdatd', 'lbhrd', 'lbmind'):
             setattr(self._header, attname, getattr(other._header, attname))
 
@@ -711,9 +642,7 @@ class DatedPpHeader(object):
 
 
 class AbstractTimeAxis(AbstractCmpAxis):
-    """
-    base class for time axis types.
-    """
+    """base class for time axis types."""
     axis = 'T'
 
     @property
@@ -721,16 +650,12 @@ class AbstractTimeAxis(AbstractCmpAxis):
         return self._times[0].units
 
     def _out_time(self, time):
-        """
-        convert time into required output time (CF 'days from' in this case)
-        """
+        """convert time into required output time (CF 'days from' in this case)"""
         return time.cf_value
 
     # these could be methods on period?
     def contains_end_of_period(self, period):
-        """
-        returns true if this axis contains the end of a period defined by period
-        """
+        """returns true if this axis contains the end of a period defined by period"""
         result = False
         self.boundary_index = 0
         for date1, date2 in self._pairwise():
@@ -741,25 +666,21 @@ class AbstractTimeAxis(AbstractCmpAxis):
         return result
 
     def pre_period_break(self, period):
-        """
-        returns a tuple of indices that define the portion of the axis before
+        """returns a tuple of indices that define the portion of the axis before
         the period boundard defined by period.
         """
         self._except_if_no_end_of_period(period)
         return 0, self.boundary_index
 
     def post_period_break(self, period):
-        """
-        returns a tuple of indices that define the portion of the axis after
+        """returns a tuple of indices that define the portion of the axis after
         the period boundard defined by period.
         """
         self._except_if_no_end_of_period(period)
         return self.boundary_index, len(self)
 
     def continues_period(self, other, period):
-        """
-        returns true if the period boundard does not appear between self and other
-        """
+        """returns true if the period boundard does not appear between self and other"""
         return period.outside(self._times[-1], other._times[0])
 
     def _except_if_no_end_of_period(self, period):
@@ -770,8 +691,7 @@ class AbstractTimeAxis(AbstractCmpAxis):
         return list(zip(self._times[:-1], self._times[1:]))
 
     def getValue(self):
-        """
-        return the time axis values as a relative time to units
+        """return the time axis values as a relative time to units
 
         this is a template method in this abstract class. Child
         classes should provide a _times property which returns the times
@@ -822,8 +742,7 @@ class BoundTimeAxis(AbstractTimeAxis):
 
 
 class PpBoundedT(object):
-    """
-    Class to deal with extracting bounded time axes from lists
+    """Class to deal with extracting bounded time axes from lists
     of pp headers.
     """
 
@@ -851,31 +770,29 @@ class PpBoundedT(object):
 
 
 class PpInstantT(object):
-    """
-    Class to deal with extracting instant time axes from lists
+    """Class to deal with extracting instant time axes from lists
     of pp headers.
     """
 
     def __init__(self, dated_headers):
         """
-        @param headers: sequence of pp headers
+        Parameters
+        ----------
+        headers
+            sequence of pp headers
         """
         self._dated_headers = dated_headers
         self._check_headers()
 
     def _check_headers(self):
-        """
-        check that the headers are all consistent
-        """
+        """check that the headers are all consistent"""
         for dated_header in self._dated_headers:
             if not dated_header.isInstantaneous():
                 raise PpAxisError('not instantaneous time axis')
 
     @property
     def _times(self):
-        """
-        return the time values for this axis
-        """
+        """return the time values for this axis"""
         return [dated_header.date1() for dated_header in self._dated_headers]
 
     def extractAxis(self):
@@ -893,8 +810,7 @@ class TimeSeriesSiteAxis(AbstractAxis):
 
 
 class TimeSeriesSiteAxisFromPP(AbstractCmpAxis):
-    """
-    Class to represent the site axis associated with a single PP time-series field. The length of the
+    """Class to represent the site axis associated with a single PP time-series field. The length of the
     site axis is determined from the length of the extra data vector 7 (lower Z) and the number of
     unique Z values stored in it, i.e.
 
@@ -917,21 +833,27 @@ class TimeSeriesSiteAxisFromPP(AbstractCmpAxis):
 
     def __init__(self, header, extra_data, lats=None, lons=None, use_ed_vectors=False, use_centroids=False):
         """
-        @param header: The PP header object associated with the time-series field.
-        @type  header: PP_Header
-        @param extra_data: A dictionary of extra data vectors for this field keyed by code number.
-        @type  extra_data: dict
-        @param lats: An optional list of latitude coordinates for each site.
-        @type  lats: [float]
-        @param lons: An optional list of longitude coordinates for each site.
-        @type  lons: [float]
-        @param use_ed_vectors: Set to True/1 to read longitude and latitude coordinates from extra
-           data vectors 1 and 2, respectively.
-        @param use_centroids: Set to True/1 to calculate UM grid box centres from extra data vectors.
-           The calculated coordinates are then stored in the lats and lons attributes.
+        Parameters
+        ----------
+        header: PP_Header
+            The PP header object associated with the time-series field.
+        extra_data: dict
+            A dictionary of extra data vectors for this field keyed by code number.
+        lats: [float]
+            An optional list of latitude coordinates for each site.
+        lons: [float]
+            An optional list of longitude coordinates for each site.
+        use_ed_vectors
+            Set to True/1 to read longitude and latitude coordinates from extra data vectors 1 and 2, respectively.
+        use_centroids
+            Set to True/1 to calculate UM grid box centres from extra data vectors. The calculated coordinates are then
+            stored in the lats and lons attributes.
 
-        @raise PpAxisError: Raised if length of lats or lons argument (if specified) does not match the
-           axis length determined from the header and/or extra data vectors.
+        Raises
+        ------
+        PpAxisError
+            Raised if length of lats or lons argument (if specified) does not match the axis length determined from the
+            header and/or extra data vectors.
         """
         if not _isTimeSeries(header):
             raise PpAxisError('Header object does not appear to describe a time-series field')
@@ -972,10 +894,17 @@ class TimeSeriesSiteAxisFromPP(AbstractCmpAxis):
                 self.lons = lons
 
     def getSiteLatLong(self, site_number):
-        """
-        Return a (lat, long) coordinate tuple for the specified site number.
-        @param site_number: The number of the site for which coordinates are requested.
-        @raise PpAxisError: Raised if siteno does not exist or lat/long coord arrays are undefined.
+        """Return a (lat, long) coordinate tuple for the specified site number.
+
+        Parameters
+        ----------
+        site_number
+            The number of the site for which coordinates are requested.
+
+        Raises
+        ------
+        PpAxisError
+            Raised if siteno does not exist or lat/long coord arrays are undefined.
         """
         if site_number not in self._values:
             raise PpAxisError('Specified site number (%d) does not exist.' % site_number)
@@ -986,9 +915,12 @@ class TimeSeriesSiteAxisFromPP(AbstractCmpAxis):
         return self.lats[idx], self.lons[idx]
 
     def _calc_centroids(self, extra_data):
-        """
-        Calculate and store the lat-long coords of the centres of the model grid boxes.
-        @param extra_data: A dictionary of extra data vectors keyed by code number.
+        """Calculate and store the lat-long coords of the centres of the model grid boxes.
+
+        Parameters
+        ----------
+        extra_data
+            A dictionary of extra data vectors keyed by code number.
         """
         self.lats = [0] * self.nsites
         self.lons = [0] * self.nsites
@@ -999,10 +931,16 @@ class TimeSeriesSiteAxisFromPP(AbstractCmpAxis):
             self.lons[site] = (extra_data[PP_EDV_LOWER_X][index] + extra_data[PP_EDV_UPPER_X][index]) / 2.0
 
     def _read_coord_vectors(self, extra_data):
-        """
-        Read longitude and latitude coordinates from extra data vectors 1 and 2, respectively
-        @param extra_data: A dictionary of extra data vectors keyed by code number.
-        @raise PpAxisError: Raised if length of site axis and extra data vectors do not match.
+        """Read longitude and latitude coordinates from extra data vectors 1 and 2, respectively
+        Parameters
+        ----------
+        extra_data
+            A dictionary of extra data vectors keyed by code number.
+
+        Raises
+        ------
+        PpAxisError
+            Raised if length of site axis and extra data vectors do not match.
         """
         if self.nsites != len(extra_data[PP_EDV_Y_COORDS]):
             message = 'Length of coordinate vectors (%d) does not match axis length (%d).'
@@ -1016,8 +954,7 @@ class TimeSeriesSiteAxisFromPP(AbstractCmpAxis):
 
 
 class TimeSeriesHeightAxis(AbstractCmpAxis):
-    """
-    Class to represent the height axis associated with a single PP time-series field. The length of
+    """Class to represent the height axis associated with a single PP time-series field. The length of
     the axis is determined from the number of unique Z values stored in extra data vector 7, i.e.
 
        nheights = len(unique(ed_vector7))
@@ -1032,13 +969,18 @@ class TimeSeriesHeightAxis(AbstractCmpAxis):
 
     def __init__(self, header, extra_data):
         """
-        @param header: The PP header object associated with the time-series field.
-        @type  header: PP_Header
-        @param extra_data: A dictionary of extra data vectors for this field keyed by code number.
-        @type  extra_data: dict
+        Parameters
+        ----------
+        header: PP_Header
+            The PP header object associated with the time-series field.
+        extra_data: dict
+            A dictionary of extra data vectors for this field keyed by code number.
 
-        @raise PpAxisError: Raised if header object does not  refer to a PP time-series field or the
-           extra data section does not contain a vector with code = 7 (lower Z).
+        Raises
+        ------
+        PpAxisError
+            Raised if header object does not  refer to a PP time-series field or the extra data section does not contain
+            a vector with code = 7 (lower Z).
         """
         if not _isTimeSeries(header):
             raise PpAxisError('Header object does not appear to describe a time-series field')
@@ -1056,8 +998,7 @@ class TimeSeriesHeightAxis(AbstractCmpAxis):
 
 
 class CfmipSiteAxis(TimeSeriesSiteAxisFromPP):
-    """
-    A specialisation of the TimeSeriesSiteAxis class to represent the particular sites used in CFMIP2
+    """A specialisation of the TimeSeriesSiteAxis class to represent the particular sites used in CFMIP2
     experiments.
 
     At the time of writing there are two discrete sets of CFMIP2 sites. The first set encompasses
@@ -1069,18 +1010,20 @@ class CfmipSiteAxis(TimeSeriesSiteAxisFromPP):
 
     def __init__(self, header, extra_data, site_ids=None, expected_nsites=None, coord_file_url=None):
         """
-        @param header: The PP header object associated with the time-series field.
-        @type  header: PP_Header
-        @param extra_data: A dictionary of extra data vectors for this field keyed by code number.
-        @type  extra_data: dict
-        @param site_ids: Optional sequence of site IDs. If the sequence length is one, then the lone
-           value defines the first side ID. Remaining site IDs are then incremented from this value.
-           If this parameter isn't specified then site IDs simply increment from 1.
-        @type  site_ids: sequence
-        @param expected_nsites: Optionally specifies the expected number of sites present in the input source.
-        @type  expected_nsites: integer
-        @param coord_file_url: The URL of the web page or text file which contains CFMIP2 site details.
-        @type  coord_file_url: string
+        Parameters
+        ----------
+        header: PP_Header
+            The PP header object associated with the time-series field.
+        extra_data: dict
+            A dictionary of extra data vectors for this field keyed by code number.
+        site_ids: sequence
+            Optional sequence of site IDs. If the sequence length is one, then the lone value defines the first side ID.
+            Remaining site IDs are then incremented from this value. If this parameter isn't specified then site IDs
+            simply increment from 1.
+        expected_nsites: int
+            Optionally specifies the expected number of sites present in the input source.
+        coord_file_url: str
+            The URL of the web page or text file which contains CFMIP2 site details.
         """
         super(CfmipSiteAxis, self).__init__(header, extra_data)
 
@@ -1118,10 +1061,17 @@ class CfmipSiteAxis(TimeSeriesSiteAxisFromPP):
                                                                              hasHeight=True)
 
     def getSiteHeight(self, site_number):
-        """
-        Return the height/orography value for the specified site number.
-        @param site_number: The number of the site for which the height coordinate is requested.
-        @raise PpAxisError: Raised if siteno does not exist or height coord array is undefined.
+        """Return the height/orography value for the specified site number.
+
+        Parameters
+        ----------
+        site_number
+            The number of the site for which the height coordinate is requested.
+
+        Raises
+        ------
+        PpAxisError
+            Raised if siteno does not exist or height coord array is undefined.
         """
         if site_number not in self._values:
             raise PpAxisError('Specified site number (%d) does not exist.' % site_number)
@@ -1132,8 +1082,7 @@ class CfmipSiteAxis(TimeSeriesSiteAxisFromPP):
 
 
 class CfmipHeightAxis(AxisHybridHeight):
-    """
-    A specialisation of the AxisHybridHeight class to represent the hybrid height axis associated
+    """A specialisation of the AxisHybridHeight class to represent the hybrid height axis associated
     with a CFMIP2 site-based, time-series field. All of MOHCs CFMIP2 experiments will be based upon
     the HadGEM2 model; hence this class is essentially a wrapper (facade?) to the UmL38Axis class.
     """
@@ -1144,21 +1093,26 @@ class CfmipHeightAxis(AxisHybridHeight):
 
     def __init__(self, header, extra_data, site_ids=None, expected_nsites=None, coord_file_url=None):
         """
-        @param header: The PP header object associated with the time-series field.
-        @type  header: PP_Header
-        @param extra_data: A dictionary of extra data vectors for this field keyed by code number.
-        @type  extra_data: dict
-        @param site_ids: Optional sequence of site IDs. If the sequence length is one, then the lone
-           value defines the first side ID. Remaining site IDs are then incremented from this value.
-           If this parameter isn't specified then site IDs simply increment from 1.
-        @type  site_ids: sequence
-        @param expected_nsites: Optionally specifies the expected number of sites present in the input source.
-        @type  expected_nsites: integer
-        @param coord_file_url: The URL of the web page or text file which contains CFMIP2 site details.
-        @type  coord_file_url: string
+        Parameters
+        ----------
+        header: PP_Header
+            The PP header object associated with the time-series field.
+        extra_data: dict
+            A dictionary of extra data vectors for this field keyed by code number.
+        site_ids: sequence
+            Optional sequence of site IDs. If the sequence length is one, then the lone value defines the first side ID.
+            Remaining site IDs are then incremented from this value. If this parameter isn't specified then site IDs
+            simply increment from 1.
+        expected_nsites: int
+            Optionally specifies the expected number of sites present in the input source.
+        coord_file_url: str
+            The URL of the web page or text file which contains CFMIP2 site details.
 
-        @raise PpAxisError: Raised if header object does not  refer to a PP time-series field or the
-           extra data section does not contain a vector with code = 7 (lower Z).
+        Raises
+        ------
+        PpAxisError
+            Raised if header object does not  refer to a PP time-series field or the extra data section does not contain
+            a vector with code = 7 (lower Z).
         """
         self._check_validity(header, extra_data)
         self._nlevels(extra_data)
@@ -1263,52 +1217,36 @@ class CfmipHeightAxis(AxisHybridHeight):
 
     # Methods below implement or override corresponding methods in base class.
     def getLevels(self):
-        """
-        Return the model levels for this axis.
-        """
+        """Return the model levels for this axis."""
         return self._levels
 
     def getValue(self):
-        """
-        Return the 'a' values (zsea values in UM-speak).
-        """
+        """Return the 'a' values (zsea values in UM-speak)."""
         return self._values
 
     def getBounds(self):
-        """
-        Return the bounds of the 'a' values.
-        """
+        """Return the bounds of the 'a' values."""
         return self._bounds
 
     def getBvalues(self):
-        """
-        Return the 'b' values (C co-efficients in UM-speak).
-        """
+        """Return the 'b' values (C co-efficients in UM-speak)."""
         return self._bvalues
 
     def getBbounds(self):
-        """
-        Return the bounds of the 'b' values.
-        """
+        """Return the bounds of the 'b' values."""
         return self._bbounds
 
     def getOrography(self):
-        """
-        Return the orography values at each site.
-        """
+        """Return the orography values at each site."""
         return self._orog
 
     def getOrographyUnits(self):
-        """
-        Return the orography units
-        """
+        """Return the orography units"""
         return 'm'
 
 
 class PseudoAxis(AbstractAxis):  # todo: rename to LandTypeAxis
-    """
-    Axis type for landcover tiles UM-pseudo levels.
-    """
+    """Axis type for landcover tiles UM-pseudo levels."""
     axis = LANDTYPE_AXIS
     units = '1'
     VALUES = ['broadleaf trees',  # These should really be read from somewhere else - where?
@@ -1339,17 +1277,13 @@ def _nlevels_sites(extra):
 
 
 def _isStretched(header):
-    """
-    return True if header is from a stretched latitude grid
-    """
+    """return True if header is from a stretched latitude grid"""
     # may want to move this
     return header.lbcode == 1 and header.lbext != 0 and header.bdy == 0
 
 
 def _isTimeSeries(header):
-    """
-    Return True if header is from a time-vs-point cross-section
-    """
+    """Return True if header is from a time-vs-point cross-section"""
     # return header.isTimeSeries()
     return bool(header.lbcode in (11320, 11323, 31320, 31323))
 
@@ -1371,15 +1305,12 @@ def _isStaticField(header):
 
 
 class PpLatLonFactory(object):
-    """
-    This is legacy, trying to refactor out.
-    """
+    """This is legacy, trying to refactor out."""
     pass
 
 
 class PpAxisFactory(object):
-    """
-    Provide methods for extraction axes from a set of pp headers
+    """Provide methods for extraction axes from a set of pp headers
 
     This is legacy, trying to refactor out.
 
@@ -1389,12 +1320,15 @@ class PpAxisFactory(object):
 
     def __init__(self, orography_provider, cfmip_params=None):
         """
-        @param orography_provider: A QueryOrographyProvider object
-        @param base_time: time to use for the time units, and to infer the
-                          expected calendar
-        @param cfmip_params: Optional dictionary containing the values of
-                             any 'cfmip_*' parameters
-                             specified in the cmor_project configuration file.
+        Parameters
+        ----------
+        orography_provider
+            A QueryOrographyProvider object
+        base_time
+            time to use for the time units, and to infer the expected calendar
+        cfmip_params
+            optional dictionary containing the values of any 'cfmip_*' parameters specified in the cmor_project
+            configuration file.
         """
         self.orography_provider = orography_provider
         self._cfmip_nsites = None
@@ -1404,12 +1338,16 @@ class PpAxisFactory(object):
             self._decode_cfmip_params(cfmip_params)
 
     def getZAxis(self, headers, extras):
-        """
-        return the vertical axis for the set of headers
+        """return the vertical axis for the set of headers
 
-        @param headers: headers to extract axes from
-        @param axisX: the longitude axis of the field (todo: refactor out)
-        @param axisY: the latitude axis of the field (todo: refactor out)
+        Parameters
+        ----------
+        headers
+            headers to extract axes from
+        axisX
+            the longitude axis of the field (todo: refactor out)
+        axisY
+            the latitude axis of the field (todo: refactor out)
         """
         # TODO: get rid of these magic numbers
         lbvc_no_values = (0, 5, 133, 137, 138)
@@ -1459,36 +1397,36 @@ class PpAxisFactory(object):
         return result
 
     def getXAxis(self, header):
-        """
-        return the longitude axis for a set of headers
-        """
+        """return the longitude axis for a set of headers"""
         # keep this in because of orography - and possibly testing?
         return PpLatLonDecorator(DatedPpHeader(header), None, None).getXAxis()
 
     def getYAxis(self, headers, extras):
-        """
-        return the latitude axis for a set of headers, and their associated extra data
-        """
+        """return the latitude axis for a set of headers, and their associated extra data"""
         # keep this in because of orography
         return PpLatLonDecorator(DatedPpHeader(headers[0]), extras[0], None).getYAxis()
 
     def getSAxis(self, header, extra_data):
-        """
-        Create and return the site axis object associated with a time-series
+        """Create and return the site axis object associated with a time-series
         PP field according to the metadata encoded in the specified header and
         extra data vectors.
 
-        @param header: Header object associated with the target PP field
-        @type  header: PP_Header
-        @param extra_data: Dictionary of extra data vectors associated with the
-                           target PP field
-        @type  extra_data: dict
+        Parameters
+        ----------
+        header: PP_Header
+            Header object associated with the target PP field
+        extra_data: dict
+            Dictionary of extra data vectors associated with the target PP field
 
-        @return: A TimeSeriesSiteAxis object
-        @rtype:  TimeSeriesSiteAxis (or one of its subclasses)
+        Returns
+        -------
+        TimeSeriesSiteAxis (or one of its subclasses)
+            A TimeSeriesSiteAxis object
 
-        @raise PpAxisError: Raised if the header object does not describe a site-based,
-                            time-series PP field.
+        Raises
+        ------
+        PpAxisError
+            Raised if the header object does not describe a site-based, time-series PP field.
         """
         if not _isTimeSeries(header):
             raise PpAxisError('Header object is not associated with a site axis')
@@ -1501,15 +1439,11 @@ class PpAxisFactory(object):
                              )
 
     def getPseudoAxis(self, headers):  # TODO inline with LandExtractor
-        """
-        returns the axis along the psuedolevel dimension of the pp headers
-        """
+        """returns the axis along the psuedolevel dimension of the pp headers"""
         return PseudoAxis(headers)
 
     def _decode_cfmip_params(self, cfmip_params):
-        """
-        Decode any CFMIP parameters from the passed in dictionary.
-        """
+        """Decode any CFMIP parameters from the passed in dictionary."""
         if 'cfmip_min_site_id' in cfmip_params:
             try:
                 self._cfmip_site_ids = [int(cfmip_params['cfmip_min_site_id'])]
@@ -1541,8 +1475,7 @@ class ExtractorException(Exception):
 
 
 class AbstractExtractor(object):
-    """
-    An abstract extractor class, somewhere to document the common
+    """An abstract extractor class, somewhere to document the common
     features of extractors.
 
     An extractor is used when an axis spans more than one pp field.
@@ -1551,27 +1484,28 @@ class AbstractExtractor(object):
     """
 
     def getAxis(self, records):
-        """
-        extract the axis from the records
+        """extract the axis from the records
 
-        @param records: sequence of pp meta-data records.
-                        These records are usually header
-                        and extra data wrappered in one object
-        @return: an axis from the records
+        Parameters
+        ----------
+        records
+            sequence of pp meta-data records. These records are usually header and extra data wrappered in one object
+
+        Returns
+        -------
+         :
+            an axis from the records
         """
         raise NotImplementedError('abstract method')
 
     def equals(self, actual, other):
-        """
-        return True if record1 and record2 have the same coordinate value
+        """return True if record1 and record2 have the same coordinate value
         along this axis
         """
         return self._get_value(actual) == self._get_value(other)
 
     def compare(self, actual, other):
-        """
-        acts like cmp() on the two records
-        """
+        """acts like cmp() on the two records"""
         first_val = self._get_value(actual)
         second_val = self._get_value(other)
         if first_val < second_val:
@@ -1592,9 +1526,7 @@ class AbstractSimpleExtractor(AbstractExtractor):
 
 
 class BlevExtractor(AbstractSimpleExtractor):
-    """
-    Extract the level axis from a list of PP headers
-    """
+    """Extract the level axis from a list of PP headers"""
     _attr = 'blev'
 
     def getAxis(self, records):
@@ -1613,9 +1545,7 @@ class BlevExtractor(AbstractSimpleExtractor):
 
 
 class LandExtractor(AbstractSimpleExtractor):
-    """
-    Extract the land cover types axis from a list of PP headers
-    """
+    """Extract the land cover types axis from a list of PP headers"""
     _attr = 'lbuser5'
 
     def getAxis(self, records):
@@ -1626,9 +1556,7 @@ class LandExtractor(AbstractSimpleExtractor):
 
 
 class TimeExtractor(AbstractExtractor):
-    """
-    Extract the time axis from a list of PP headers
-    """
+    """Extract the time axis from a list of PP headers"""
 
     def getAxis(self, records):
         return self._getTAxis([record._dated_header for record in records])
@@ -1666,8 +1594,7 @@ class SubColumnExtractor(AbstractSimpleExtractor):
 
 
 class BoundedExpectExtractor(AbstractSimpleExtractor):
-    """
-    Some axes need extra information to provide values and bounds.
+    """Some axes need extra information to provide values and bounds.
     The BoundedExpectExtractor can act as an extractor in these cases.
 
     It will also check that the headers are from a pre-defined list.
@@ -1675,11 +1602,16 @@ class BoundedExpectExtractor(AbstractSimpleExtractor):
 
     def __init__(self, attr, expected, axis, factor):
         """
-        @param attr: the record (pp header) attribute to compare
-        @param expected: list of expected values for the record attribute attr
-        @param axis: the axis to return from the extraction
-        @param factor: the direction factor for sorting on this axis
-                       (-1 for pressure)
+        Parameters
+        ----------
+        attr
+            the record (pp header) attribute to compare
+        expected
+            list of expected values for the record attribute attr
+        axis
+            the axis to return from the extraction
+        factor
+            the direction factor for sorting on this axis (-1 for pressure)
         """
         self._attr = attr
         self._expected = expected
@@ -1687,11 +1619,12 @@ class BoundedExpectExtractor(AbstractSimpleExtractor):
         self._afactor = factor
 
     def getAxis(self, records):
-        """
-        see AbstractExtractor.getAxis
+        """see AbstractExtractor.getAxis
 
-        @raises ExtractorException: if the axis values are not one of
-                                    those expected
+        Raises
+        ------
+        ExtractorException
+            if the axis values are not one of those expected
         """
         self._check(records)
         return self._axis
@@ -1709,8 +1642,7 @@ class BoundedExpectExtractor(AbstractSimpleExtractor):
 
 
 class AbstractDecorator(object):
-    """
-    A decorator is responsible for extracting the axes from within a single pp field.
+    """A decorator is responsible for extracting the axes from within a single pp field.
     So in the case of gridded fields this is the latitude and longitude, in a time series
     this is the site, times, and levels.
 
@@ -1719,8 +1651,12 @@ class AbstractDecorator(object):
 
     def __init__(self, dated_header, extra, axis_factory):
         """
-        @param header: the pp header to extract from
-        @param extra: the extra data to extract from
+        Parameters
+        ----------
+        header
+            the pp header to extract from
+        extra
+            the extra data to extract from
         """
         self._dated_header = dated_header
         self.extra = extra
@@ -1730,35 +1666,26 @@ class AbstractDecorator(object):
         return getattr(self._dated_header, attr_name)
 
     def axis_list(self):
-        """
-        return the list of axes extracted from the pp meta-data
-        """
+        """return the list of axes extracted from the pp meta-data"""
         raise NotImplementedError('abstract method')
 
     def extractors(self):
-        """
-        return the list of extractors that can be used to fetch the record-external
+        """return the list of extractors that can be used to fetch the record-external
         axis types
         """
         raise NotImplementedError('abstract method')
 
     def cmp_on_axis(self, other, axis_index):
-        """
-        compare the record-external axis value for axis with axis_index
-        """
+        """compare the record-external axis value for axis with axis_index"""
         raise NotImplementedError('abstract method')
 
     def nexternal_axis(self):
-        """
-        return the number of external axes
-        """
+        """return the number of external axes"""
         return len(self.extractors())
 
 
 class PpLatLonDecorator(AbstractDecorator):
-    """
-    Dectorator to extract latitudes and longitudes from a gridded field
-    """
+    """Dectorator to extract latitudes and longitudes from a gridded field"""
     PARASOL_REFL = 2348
     CALIPSO = (2371, 2325)  # not used?
     ZERO_TOL = 1.e-6
@@ -1769,24 +1696,18 @@ class PpLatLonDecorator(AbstractDecorator):
         self._fix_any_values()
 
     def axis_list(self):
-        """
-        return axes 'internal' to the pp record
-        """
+        """return axes 'internal' to the pp record"""
         return [self.getYAxis(), self.getXAxis()]
 
     def getXAxis(self):
-        """
-        return the longitude axis for the header
-        """
+        """return the longitude axis for the header"""
         if self._looks_zonal_mean():
             return BoundedAxis('X', self.axis_units('X'), [180], [[0, 360]])
         else:
             return AxisRegularX(self._dated_header)
 
     def getYAxis(self):
-        """
-        return the latitude axis for the header and extra data
-        """
+        """return the latitude axis for the header and extra data"""
         if _isStretched(self._dated_header):
             result = AxisStretchedY(self._dated_header, self.extra)
         else:
@@ -1851,18 +1772,14 @@ class PpLatLonDecorator(AbstractDecorator):
 
 
 class PpTimeSeriesDecorator(AbstractDecorator):
-    """
-    Decorator to extract site, level, time from a time series field.
-    """
+    """Decorator to extract site, level, time from a time series field."""
 
     def __init__(self, dated_header, extra, axis_factory):
         super(PpTimeSeriesDecorator, self).__init__(dated_header, extra, axis_factory)
         self._check_extras_are_valid()
 
     def axis_list(self):
-        """
-        return a list of Axis types from the pp headers and extra data
-        """
+        """return a list of Axis types from the pp headers and extra data"""
         s_axis = self._axis_factory.getSAxis(self._dated_header, self.extra)
         z_axis = self._axis_factory.getZAxis([self._dated_header], [self.extra])
         return [self._getTAxis(), s_axis, z_axis]
@@ -1880,8 +1797,7 @@ class PpTimeSeriesDecorator(AbstractDecorator):
         return InstantAxis(self.get_times())
 
     def _check_extras_are_valid(self):
-        """
-        Check that the extra data section contains at least vectors 3,4,5,6,7,8 and that the length
+        """Check that the extra data section contains at least vectors 3,4,5,6,7,8 and that the length
         of each vector matches LBNPT, which records the product (nsites x nlevels).
         """
         # Check there are at least 6 extra data vectors.

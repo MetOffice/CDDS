@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module providing functionality to validate model parameters configurations
-"""
+"""Module providing functionality to validate model parameters configurations"""
 import logging
 import os
 
@@ -17,14 +15,17 @@ FREQUENCIES = ['monthly', '10 day', 'quarterly', 'daily', 'hourly']
 
 
 def do_model_params_validations(request_path: str) -> bool:
-    """
-    Validate all model parameters configurations in the given request configuration.
+    """Validate all model parameters configurations in the given request configuration.
 
-    :param request_path: Path to the request configuration containg the directory containing all
-                         model parameters configurations
-    :type request_path: str
-    :return: If the model parameters files in the directory are valid or not
-    :rtype: bool
+    Parameters
+    ----------
+    request_path : str
+        Path to the request configuration containg the directory containing all model parameters configurations
+
+    Returns
+    -------
+    bool
+        If the model parameters files in the directory are valid or not
     """
     logger = logging.getLogger(__name__)
     request = read_request(request_path)
@@ -91,9 +92,7 @@ def _validate_model_params(model_params_dir: str, model_id: str) -> bool:
 
 
 class ModelParamsFileValidator:
-    """
-    Provides functionality to validate model parameters file
-    """
+    """Provides functionality to validate model parameters file"""
 
     def __init__(self):
         self._warning = False
@@ -103,49 +102,54 @@ class ModelParamsFileValidator:
 
     @property
     def error_messages(self) -> List[str]:
-        """
-        Returns error messages of the validation of the model parameter file.
+        """Returns error messages of the validation of the model parameter file.
 
-        :return: Error messages
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            Error messages
         """
         return self._error_messages
 
     @property
     def valid(self) -> bool:
-        """
-        Returns if model parameter file is valid.
+        """Returns if model parameter file is valid.
 
-        :return: Is model parameter file valid
-        :rtype: bool
+        Returns
+        -------
+        bool
+            Is model parameter file valid
         """
         return self._valid
 
     @property
     def warning(self) -> bool:
-        """
-        Returns if there are any warnings after validation the model parameters file.
+        """Returns if there are any warnings after validation the model parameters file.
 
-        :return: Are there any warnings
-        :rtype: bool
+        Returns
+        -------
+        bool
+            Are there any warnings
         """
         return self._warning
 
     def warning_messages(self) -> List[str]:
-        """
-        Returns warning messages of the validation of the model parameter file.
+        """Returns warning messages of the validation of the model parameter file.
 
-        :return: Warning messages
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            Warning messages
         """
         return self._warning_messages
 
     def validate(self, model_params_file: str) -> None:
-        """
-        Validates the sections of the given model parameter configuration file.
+        """Validates the sections of the given model parameter configuration file.
 
-        :param model_params_file: Path to the model parameter configuration file
-        :type model_params_file: str
+        Parameters
+        ----------
+        model_params_file : str
+            Path to the model parameter configuration file
         """
         logger = logging.getLogger(__name__)
 

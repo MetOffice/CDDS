@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2009-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The save package enables the |MIP output variable| to be written to an
+"""The save package enables the |MIP output variable| to be written to an
 |output netCDF file|.
 """
 import copy
@@ -21,8 +20,7 @@ from mip_convert.variable import (CoordinateDomain, PolePoint, TripolarGrid,
 
 
 def save(mip_output_variable, saver):
-    """
-    Save the |MIP output variable| to an |output netCDF file|
+    """Save the |MIP output variable| to an |output netCDF file|
     using |CMOR|.
 
     The following steps are performed:
@@ -31,8 +29,11 @@ def save(mip_output_variable, saver):
       and grid information
     * write the variable
 
-    .. warning:: This function will load the data of the
-                 |MIP output variable|.
+    Warnings
+    --------
+    This function will load the data of the
+    |MIP output variable|.
+
 
     Parameters
     ----------
@@ -48,8 +49,7 @@ def save(mip_output_variable, saver):
 
 
 def create_cmor_variable(mip_output_variable):
-    """
-    Return the |MIP output variable| in a form that enables CMOR to
+    """Return the |MIP output variable| in a form that enables CMOR to
     write the |output netCDF file|.
 
     Parameters
@@ -59,7 +59,7 @@ def create_cmor_variable(mip_output_variable):
 
     Returns
     -------
-    : :class:`variable.Variable`
+    :class:`variable.Variable`
         The |MIP output variable| in a form that enables CMOR to
         write the |output netCDF file|.
     """
@@ -89,14 +89,12 @@ def create_cmor_variable(mip_output_variable):
 
 
 class VariableAxes(object):
-    """
-    Store the information related to the axes of a
+    """Store the information related to the axes of a
     |MIP requested variable|.
     """
 
     def __init__(self, mip_output_variable):
-        """
-        Parameters
+        """Parameters
         ----------
         mip_output_variable: :class:`new_variable.Variable`
             The |MIP output variable|.
@@ -114,8 +112,7 @@ class VariableAxes(object):
 
     @property
     def axes(self):
-        """
-        Return the axes (i.e., the coordinate values) associated with
+        """Return the axes (i.e., the coordinate values) associated with
         each of the dimensions of the data.
         """
         if self._axes is None:
@@ -134,9 +131,7 @@ class VariableAxes(object):
 
     @property
     def pole(self):
-        """
-        Return the pole.
-        """
+        """Return the pole."""
         if self._pole is None:
             grid_mapping_name = None
             pole_lat = 90.
@@ -152,8 +147,7 @@ class VariableAxes(object):
 
     @property
     def grid(self):
-        """
-        Return the grid and its mapping parameters in the case of
+        """Return the grid and its mapping parameters in the case of
         non-Cartesian longitude-latitude grids.
 
         For data that are a function of longitude and latitude, only

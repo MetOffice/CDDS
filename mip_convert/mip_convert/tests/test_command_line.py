@@ -13,9 +13,7 @@ from mip_convert.command_line import LOG_LEVEL, LOG_NAME, parse_parameters
 
 
 class TestParseParameters(unittest.TestCase):
-    """
-    Tests for ``parse_parameters`` in request.py.
-    """
+    """Tests for ``parse_parameters`` in request.py."""
 
     def setUp(self):
         load_plugin()
@@ -24,8 +22,7 @@ class TestParseParameters(unittest.TestCase):
 
     @patch('os.path.isfile')
     def test_basic(self, mock_isfile):
-        """
-        This test was based on a doctest previously in the
+        """This test was based on a doctest previously in the
         mip_convert.request.parse_parameters. This was removed to work better
         when testing the installed version of CDDS.
         """
@@ -123,9 +120,7 @@ class TestParseParameters(unittest.TestCase):
 
 
 class TestEnvironment(unittest.TestCase):
-    """
-    Tests for general environment setup done in the top module.
-    """
+    """Tests for general environment setup done in the top module."""
 
     def test_environment_is_set(self):
         self.assertEqual(os.environ["OMP_NUM_THREADS"], "1")

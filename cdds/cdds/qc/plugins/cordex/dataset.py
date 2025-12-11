@@ -7,8 +7,7 @@ from cdds.qc.plugins.cmip6.validators import parse_date_range, ValidationError
 
 
 class CordexDataset(StructuredDataset):
-    """
-    A representation of a directory containing a netcdf dataset
+    """A representation of a directory containing a netcdf dataset
     Can be sliced by a MIP table and time period.
     """
 
@@ -16,8 +15,7 @@ class CordexDataset(StructuredDataset):
         super(CordexDataset, self).__init__(root, request, mip_tables, mip_table, start, end, logger, stream)
 
     def load_dataset(self, loader_class):
-        """
-        A utility method necessary to make this class testable.
+        """A utility method necessary to make this class testable.
         Walks the root directory and gathers ncdf files.
 
         Parameters
@@ -36,8 +34,7 @@ class CordexDataset(StructuredDataset):
         return 'cordex' == project.lower()
 
     def check_filename(self, ds, filename):
-        """
-        Tests filename's facets against a CV, e.g.
+        """Tests filename's facets against a CV, e.g.
 
         <variable_id>               hus1000
         <domain_id>                 EUR-11
@@ -129,8 +126,7 @@ class CordexDataset(StructuredDataset):
         return valid_filename, messages
 
     def _aggregate_files(self):
-        """
-        Aggregate files in the dataset directory by different facets,
+        """Aggregate files in the dataset directory by different facets,
         and corresponding |MIP requested variable name|.
 
         Returns

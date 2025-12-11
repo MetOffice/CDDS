@@ -1,14 +1,11 @@
 # (C) British Crown Copyright 2009-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-CFMIP utility functions.
-"""
+"""CFMIP utility functions."""
 __docformat__ = "epytext"
 
 
 def getCfmipSiteDetails(minSiteNo=1, maxSiteNo=119, coordFileURL=None, hasHeight=False):
-    """
-    Read CFMIP2 site numbers, names and lat-long coordinates from a URL. If a URL isn't specified the
+    """Read CFMIP2 site numbers, names and lat-long coordinates from a URL. If a URL isn't specified the
     following default location is used: http://cfmip.metoffice.com/cfmip2/pointlocations.txt
 
     It is assumed that the file contains records ordered by site number, and that the latter increase
@@ -20,19 +17,26 @@ def getCfmipSiteDetails(minSiteNo=1, maxSiteNo=119, coordFileURL=None, hasHeight
     Longitude coordinates are adjusted to be in the range 0 - 360 degs. Latitude coordinates are not
     adjusted.
 
-    @param minSiteNo: The minimum site number. Sites with IDs below this value are excluded from the returned lists.
-    @type  minSiteNo: int
-    @param maxSiteNo: The maximum site number. Sites with IDs above this value are excluded from the returned lists.
-    @type  maxSiteNo: int
-    @param coordFileURL: The URL of the web page or text file which contains CFMIP2 site details.
-    @type  coordFileURL: string
-    @param hasHeight: Set to True if the source file contains height values in the fourth column.
-    @type  hasHeight: boolean
+    Parameters
+    ----------
+    minSiteNo: int
+        The minimum site number. Sites with IDs below this value are excluded from the returned lists.
+    maxSiteNo: int
+        The maximum site number. Sites with IDs above this value are excluded from the returned lists.
+    coordFileURL: str
+        The URL of the web page or text file which contains CFMIP2 site details.
+    hasHeight: bool
+        Set to True if the source file contains height values in the fourth column.
 
-    @return: the 4-element tuple ([ids], [lats], [lons], [names]) or, if hasHeight is True, the
-       5-element tuple ([ids], [lats], [lons], [hts], [names])
+    Returns
+    tuple
+        the 4-element tuple ([ids], [lats], [lons], [names]) or, if hasHeight is True, the 5-element tuple
+        ([ids], [lats], [lons], [hts], [names])
 
-    @raise IOError: Raised if the requested or default URL cannot be opened.
+    Raises
+    ------
+    IOError
+        Raised if the requested or default URL cannot be opened.
     """
     from urllib.request import urlopen
 

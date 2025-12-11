@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`models` module contains the abstract classes required
+"""The :mod:`models` module contains the abstract classes required
 to handle model parameters information.
 """
 import logging
@@ -16,63 +15,69 @@ from cdds.common.plugins.grid_mapping import GridMapping
 
 
 class ModelParameters(object, metaclass=ABCMeta):
-    """
-    Abstract class to store the parameters for a specific model.
-    """
+    """Abstract class to store the parameters for a specific model."""
 
     @property
     @abstractmethod
     def model_version(self) -> str:
-        """
-        Returns the model version
+        """Returns the model version
 
-        :return: Model version
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version
         """
         pass
 
     @property
     @abstractmethod
     def data_request_version(self) -> str:
-        """
-        Returns the version of the data request for the model
+        """Returns the version of the data request for the model
 
-        :return: Data request version
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version
         """
         pass
 
     @property
     @abstractmethod
     def um_version(self) -> str:
-        """
-        Returns the um version for the model
+        """Returns the um version for the model
 
-        :return: Um version
-        :rtype: str
+        Returns
+        -------
+        str
+            Um version
         """
         pass
 
     @property
     @abstractmethod
     def halo_removal_info(self) -> dict:
-        """
-        Returns halo removal information for the model.
+        """Returns halo removal information for the model.
 
-        :return: Halo removal info
-        :rtype: dict
+        Returns
+        -------
+        dict
+            Halo removal info
         """
         pass
 
     @abstractmethod
     def grid_info(self, grid_type: GridType) -> GridInfo:
-        """
-        Returns the information for the grid with given type (atmosphere or ocean).
+        """Returns the information for the grid with given type (atmosphere or ocean).
 
-        :param grid_type: Type of the Grid
-        :type grid_type: GridType
-        :return: Information of grid
-        :rtype: GridInfo
+        Parameters
+        ----------
+        grid_type : GridType
+            Type of the Grid
+
+        Returns
+        -------
+        GridInfo
+            Information of grid
         """
         pass
 
@@ -82,148 +87,180 @@ class ModelParameters(object, metaclass=ABCMeta):
 
     @abstractmethod
     def temp_space(self, stream_id: str) -> int:
-        """
-        Returns the temporary space of the given stream.
+        """Returns the temporary space of the given stream.
 
-        :param stream_id: Stream ID
-        :type stream_id: str
-        :return: Temporary space of the stream
-        :rtype: int
+        Parameters
+        ----------
+        stream_id : str
+            Stream ID
+
+        Returns
+        -------
+        int
+            Temporary space of the stream
         """
         pass
 
     @abstractmethod
     def memory(self, stream_id: str) -> str:
-        """
-        Returns the memory of the given stream.
+        """Returns the memory of the given stream.
 
-        :param stream_id: Stream ID
-        :type stream_id: str
-        :return: Size of memory
-        :rtype: str
+        Parameters
+        ----------
+        stream_id : str
+            Stream ID
+
+        Returns
+        -------
+        str
+            Size of memory
         """
         pass
 
     @abstractmethod
     def cycle_length(self, stream_id: str) -> str:
-        """
-        Returns the cycle length of the given stream.
+        """Returns the cycle length of the given stream.
 
-        :param stream_id: Stream ID
-        :type stream_id: str
-        :return: Cycle length
-        :rtype: str
+        Parameters
+        ----------
+        stream_id : str
+            Stream ID
+
+        Returns
+        -------
+        str
+            Cycle length
         """
         pass
 
     @abstractmethod
     def sizing_info(self, frequency: str, shape: str) -> float:
-        """
-        Returns the sizing info for a specific period. The period is specified
+        """Returns the sizing info for a specific period. The period is specified
         by the given frequency and shape coordinates.
 
-        :param frequency: Frequency
-        :type frequency: str
-        :param shape: Shape coordinates
-        :type shape: str
-        :return: The corresponding sizing info
-        :rtype: float
+        Parameters
+        ----------
+        frequency : str
+            Frequency
+        shape : str
+            Shape coordinates
+
+        Returns
+        -------
+        float
+            The corresponding sizing info
         """
         pass
 
     @abstractmethod
     def full_sizing_info(self) -> Dict[str, Dict[str, float]]:
-        """
-        Returns all sizing information.
+        """Returns all sizing information.
 
-        :return: Sizing information
-        :rtype: dict
+        Returns
+        -------
+        dict
+            Sizing information
         """
         pass
 
     @abstractmethod
     def is_model(self, model_id: str) -> bool:
-        """
-        Returns if the current class represents the given model.
+        """Returns if the current class represents the given model.
 
-        :param model_id: Model ID to check
-        :type model_id: str
-        :return: If given model is represent by the class or not
-        :rtype: bool
+        Parameters
+        ----------
+        model_id : str
+            Model ID to check
+
+        Returns
+        -------
+        bool
+            If given model is represent by the class or not
         """
         pass
 
     @abstractmethod
     def subdaily_streams(self) -> List[str]:
-        """
-        Returns a list of subdaily atmospheric streams.
+        """Returns a list of subdaily atmospheric streams.
 
-        :return: Subdaily streams
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            Subdaily streams
         """
         pass
 
     @abstractmethod
     def all_ancil_files(self, root_directory: str) -> List[str]:
-        """
-        Returns the paths to all ancillary files of this model in the
+        """Returns the paths to all ancillary files of this model in the
         given root directory.
 
-        :param root_directory: Path to root directory of the files
-        :type root_directory: str
-        :return: Paths to the ancillary files
-        :rtype: List[str]
+        Parameters
+        ----------
+        root_directory : str
+            Path to root directory of the files
+
+        Returns
+        -------
+        List[str]
+            Paths to the ancillary files
         """
         pass
 
     @abstractmethod
     def all_ancil_variables(self) -> List[str]:
-        """
-        Returns all ancillary variables of this model that should
+        """Returns all ancillary variables of this model that should
         be removed.
 
-        :return: Ancillary variables
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            Ancillary variables
         """
         pass
 
     @abstractmethod
     def all_hybrid_heights_files(self, root_directory: str) -> List[str]:
-        """
-        Returns the paths to all hybrid heights files of this model in the
+        """Returns the paths to all hybrid heights files of this model in the
         given root directory.
 
-        :param root_directory: Path to root directory of the files
-        :type root_directory: str
-        :return: Paths to the hybrid heights files
-        :rtype: List[str]
+        Parameters
+        ----------
+        root_directory : str
+            Path to root directory of the files
+
+        Returns
+        -------
+        List[str]
+            Paths to the hybrid heights files
         """
         pass
 
     @abstractmethod
     def stream_file_info(self) -> StreamFileInfo:
-        """
-        Returns information about the stream files that the model supports.
+        """Returns information about the stream files that the model supports.
 
-        :return: Information about the stream files
-        :rtype: StreamFileInfo
+        Returns
+        -------
+        StreamFileInfo
+            Information about the stream files
         """
         pass
 
     @abstractmethod
     def grids_mapping(self) -> GridMapping:
-        """
-        Returns mapping information about the grids for the MIP requested variables.
+        """Returns mapping information about the grids for the MIP requested variables.
 
-        :return: Grids mappings for the MIP requested variables
-        :rtype: GridMapping
+        Returns
+        -------
+        GridMapping
+            Grids mappings for the MIP requested variables
         """
         pass
 
 
 class ModelsStore(object, metaclass=ABCMeta):
-    """
-    Singleton class to store for each model the corresponding parameters.
+    """Singleton class to store for each model the corresponding parameters.
 
     The class is a singleton to avoid excessive loading of model parameters
     that can be stored in files or otherwise.
@@ -238,12 +275,13 @@ class ModelsStore(object, metaclass=ABCMeta):
 
     @classmethod
     def instance(cls) -> 'ModelsStore':
-        """
-        Returns the class instance. If none is created, yet, a new instance will
+        """Returns the class instance. If none is created, yet, a new instance will
         be created and stored (see Singleton pattern).
 
-        :return: The instance of ModelsStore
-        :rtype: ModelsStore
+        Returns
+        -------
+        ModelsStore
+            The instance of ModelsStore
         """
         if cls._instance is None:
             cls._instance = cls.create_instance()
@@ -252,18 +290,18 @@ class ModelsStore(object, metaclass=ABCMeta):
     @classmethod
     @abstractmethod
     def create_instance(cls) -> 'ModelsStore':
-        """
-        Creates a new instance of the class.
+        """Creates a new instance of the class.
 
-        :return: New class instance
-        :rtype: ModelsStore
+        Returns
+        -------
+        ModelsStore
+            New class instance
         """
         pass
 
     @classmethod
     def clean_instance(cls) -> None:
-        """
-        Set class instance to none and allow re-creating a new class instance.
+        """Set class instance to none and allow re-creating a new class instance.
 
         Only used in tests! Do not use in productive code!
         """
@@ -271,25 +309,33 @@ class ModelsStore(object, metaclass=ABCMeta):
 
     @abstractmethod
     def overload_params(self, dir_path: str) -> LoadResults:
-        """
-        Overloads model parameters. The new parameters are specified in a json file in the given directory.
+        """Overloads model parameters. The new parameters are specified in a json file in the given directory.
         The json file name should match a specific pattern, for example: <model-name>.json
 
-        :param dir_path: Path to the directory
-        :type dir_path: str
-        :return: Results containing which model values were overloaded
-        :rtype: LoadResults
+        Parameters
+        ----------
+        dir_path : str
+            Path to the directory
+
+        Returns
+        -------
+        LoadResults
+            Results containing which model values were overloaded
         """
         pass
 
     @abstractmethod
     def get(self, model_id: str) -> ModelParameters:
-        """
-        Returns the model parameters data for the given model.
+        """Returns the model parameters data for the given model.
 
-        :param model_id: Model ID
-        :type model_id: str
-        :return: Class containing the model parameters
-        :rtype: ModelParameters
+        Parameters
+        ----------
+        model_id : str
+            Model ID
+
+        Returns
+        -------
+        ModelParameters
+            Class containing the model parameters
         """
         pass

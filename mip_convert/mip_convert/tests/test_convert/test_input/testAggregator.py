@@ -8,9 +8,7 @@ from functools import reduce
 
 class TestAggregator(unittest.TestCase):
     RECORD_AXES = [list(range(2)), list(range(3))]
-    """
-    The axes attached to each record (in practice these would be lon and lat)
-    """
+    """The axes attached to each record (in practice these would be lon and lat)"""
 
     def testAxisList(self):
         for shape in ((), (1,), (10,), (1, 1), (4, 5), (1, 1, 1), (4, 9, 2)):
@@ -44,9 +42,7 @@ class RecordDecorator(object):
 
 
 class ExtractorScalar(object):
-    """
-    An example axis extractor - when the record is just a scalar
-    """
+    """An example axis extractor - when the record is just a scalar"""
 
     def equals(self, x, y):
         return x._raw_record == y._raw_record
@@ -56,9 +52,7 @@ class ExtractorScalar(object):
 
 
 class Extractor(object):
-    """
-    An example axis extractor - when the record is an indexable sequence
-    """
+    """An example axis extractor - when the record is an indexable sequence"""
 
     def __init__(self, idim):
         self._idim = idim
@@ -71,8 +65,7 @@ class Extractor(object):
 
 
 class AbstractExample(object):
-    """
-    Tests with different record types and different number of dimensions
+    """Tests with different record types and different number of dimensions
     need different set up, eg of the records and the axis extractors.  These
     are put in Example classes.  The AbstractExample gives a base class for common
     functionality.

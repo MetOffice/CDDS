@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`cmip6_plus_attributes` module contains the code required to
+"""The :mod:`cmip6_plus_attributes` module contains the code required to
 handle global attributes for CMIP6Plus.
 """
 from cdds.common.plugins.attributes import GlobalAttributes
@@ -12,8 +11,7 @@ if TYPE_CHECKING:
 
 
 class Cmip6PlusGlobalAttributes(GlobalAttributes):
-    """
-    Class to store and manage global attributes for CMIP6Plus
+    """Class to store and manage global attributes for CMIP6Plus
 
     The request given in the init method will be validated if it contains
     all expected information that is need to handle the global attributes.
@@ -37,19 +35,22 @@ class Cmip6PlusGlobalAttributes(GlobalAttributes):
 
 
 class AttributesValidator:
-    """
-    Class that provides validations for objects relating to CMIP6 Plus attributes
-    """
+    """Class that provides validations for objects relating to CMIP6 Plus attributes"""
 
     @classmethod
     def validate_request(cls, request: 'Request'):
-        """
-        Validates given request. It checks if the request contains all entries
+        """Validates given request. It checks if the request contains all entries
         that are expected. If request is invalid, a ValueError is raised.
 
-        :param request: Request to be validated
-        :type request: 'Request'
-        :raises ValueError: If request is invalid
+        Parameters
+        ----------
+        request : 'Request'
+            Request to be validated
+
+        Raises
+        ------
+        ValueError
+            If request is invalid
         """
         if not request.metadata.institution_id:
             raise ValueError('Request must contain an institution ID')

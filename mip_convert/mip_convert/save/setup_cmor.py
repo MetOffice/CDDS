@@ -9,13 +9,14 @@ from mip_convert.save.cmor.cmor_dataset import Dataset
 
 
 def setup_cmor(user_config, relaxed_cmor=False):
-    """
-    Setup |CMOR| in preparation for writing the |output netCDF files|.
+    """Setup |CMOR| in preparation for writing the |output netCDF files|.
 
-    :param user_config: the |user configuration file|
-    :type user_config: :class:`configuration.UserConfig` object
-    :param relaxed_cmor: If true then CMOR will not perform CMIP6 validation
-    :type relaxed_cmor: bool
+    Parameters
+    ----------
+    user_config : :class:`configuration.UserConfig` object
+        the |user configuration file|
+    relaxed_cmor : bool
+        If true then CMOR will not perform CMIP6 validation
     """
     logger = logging.getLogger(__name__)
     logger.debug('Setup CMOR:')
@@ -26,15 +27,19 @@ def setup_cmor(user_config, relaxed_cmor=False):
 
 
 def get_cmor_dataset(user_config, relaxed_cmor=False):
-    """
-    Return the items required for ``cmor_dataset_json``.
+    """Return the items required for ``cmor_dataset_json``.
 
-    :param user_config: the |user configuration file|
-    :type user_config: :class:`configuration.UserConfig` object
-    :param relaxed_cmor: If true no cmip6 validation will be run
-    :type relaxed_cmor: bool
-    :return: the items required for ``cmor_dataset_json``
-    :rtype: :class:`save.cmor.cmor_dataset.Dataset` object
+    Parameters
+    ----------
+    user_config : :class:`configuration.UserConfig` object
+        the |user configuration file|
+    relaxed_cmor : bool
+        If true no cmip6 validation will be run
+
+    Returns
+    -------
+    :class:`save.cmor.cmor_dataset.Dataset` object
+        the items required for ``cmor_dataset_json``
     """
     # Read and validate the associated Controlled Vocabularies (CV) file, if defined.
     cv_config = get_cv_config(user_config)
@@ -46,13 +51,17 @@ def get_cmor_dataset(user_config, relaxed_cmor=False):
 
 
 def get_cv_config(user_config):
-    """
-    Return the Controlled Vocabularies (CV).
+    """Return the Controlled Vocabularies (CV).
 
-    :param user_config: the |user configuration file|
-    :type user_config: :class:`configuration.UserConfig` object
-    :return: the Controlled Vocabularies (CV)
-    :rtype: :class:`configuration.CVConfig` object
+    Parameters
+    ----------
+    user_config : :class:`configuration.UserConfig` object
+        the |user configuration file|
+
+    Returns
+    -------
+    :class:`configuration.CVConfig` object
+        the Controlled Vocabularies (CV)
     """
     logger = logging.getLogger(__name__)
     cv_path = ''

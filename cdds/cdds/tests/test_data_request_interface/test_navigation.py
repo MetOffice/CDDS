@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
-"""
-Tests for :mod:`cdds.data_request_interface.navigation` and
+"""Tests for :mod:`cdds.data_request_interface.navigation` and
 :mod:`cdds.data_request_interface.network`
 """
 from copy import deepcopy
@@ -74,8 +73,7 @@ ADDITIONAL_NETWORK_OBJECTS = {
 
 
 def target_type(object_id):
-    """
-    Return the type of dummy data request object
+    """Return the type of dummy data request object
 
     Parameters
     ----------
@@ -84,7 +82,7 @@ def target_type(object_id):
 
     Returns
     -------
-    : str
+    str
         Object type
     """
     object_types = {
@@ -124,8 +122,7 @@ class DummyDataRequestNode(DataRequestNode):
 
 
 def build_dummy_network(network_items):
-    """
-    Return a dummy data request network built from the information in
+    """Return a dummy data request network built from the information in
     DUMMY_NETWORK.
 
     Parameters
@@ -135,7 +132,7 @@ def build_dummy_network(network_items):
 
     Returns
     -------
-    : dict
+    dict
         Dictionary describing the network.
     """
     # create empty network

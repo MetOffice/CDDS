@@ -2,9 +2,7 @@
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = too-many-instance-attributes, no-value-for-parameter
-"""
-Tests for :mod:`cdds.data_request_interface.load`.
-"""
+"""Tests for :mod:`cdds.data_request_interface.load`."""
 import os
 import unittest
 

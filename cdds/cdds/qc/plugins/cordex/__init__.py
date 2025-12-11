@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
 
-"""
-A plugin for regional models
-"""
+"""A plugin for regional models"""
 from compliance_checker.base import BaseCheck, BaseNCCheck, Result
 from netCDF4 import Dataset
 from typing import List, Dict, Any, Optional
@@ -18,9 +16,7 @@ from cdds.qc.plugins.cordex.checks import CordexAttributesCheckTask
 
 
 class CordexCheck(BaseNCCheck):
-    """
-    Cordex checker class
-    """
+    """Cordex checker class"""
 
     register_checker = True
     name = "cordex"
@@ -64,13 +60,17 @@ class CordexCheck(BaseNCCheck):
         self.__messages.extend(messages)
 
     def check_global_attributes(self, netcdf_file: Dataset) -> Result:
-        """
-        Checks for existence and validity of cordex attributes.
+        """Checks for existence and validity of cordex attributes.
 
-        :param netcdf_file: an open netCDF file
-        :type netcdf_file: netCDF4.Dataset
-        :return: container with check's results
-        :rtype: compliance_checker.base.Result
+        Parameters
+        ----------
+        netcdf_file : netCDF4.Dataset
+            an open netCDF file
+
+        Returns
+        -------
+        compliance_checker.base.Result
+            container with check's results
         """
         out_of = 1
         self.__messages = []

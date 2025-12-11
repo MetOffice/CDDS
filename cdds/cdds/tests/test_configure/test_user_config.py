@@ -2,9 +2,7 @@
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = no-member
-"""
-Tests for :mod:`user_config.py`.
-"""
+"""Tests for :mod:`user_config.py`."""
 from collections import defaultdict
 from io import StringIO
 import json
@@ -29,9 +27,7 @@ from cdds.configure.constants import FILENAME_TEMPLATE
 
 
 class TestProduceUserConfigs(unittest.TestCase):
-    """
-    Tests for :func:`produce_user_configs` in :mod:`user_config.py`.
-    """
+    """Tests for :func:`produce_user_configs` in :mod:`user_config.py`."""
     def setUp(self):
         load_plugin()
         current_dir = os.path.dirname(os.path.realpath(__file__))

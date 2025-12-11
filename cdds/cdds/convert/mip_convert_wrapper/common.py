@@ -1,15 +1,11 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Common routines for running mip_convert_wrapper
-"""
+"""Common routines for running mip_convert_wrapper"""
 import os
 
 
 def print_env():
-    """
-    Return a string description of the environment variables (useful
-    for debugging).
+    """Return a string description of the environment variables (useful for debugging).
 
     Returns
     -------

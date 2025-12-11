@@ -1,9 +1,6 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`ancils` module contains functions for removing ancillaries
-from the |model to MIP mappings|.
-"""
+"""The :mod:`ancils` module contains functions for removing ancillaries from the |model to MIP mappings|."""
 import logging
 
 from cdds.common.constants import ANCIL_VARIABLES
@@ -12,22 +9,18 @@ from cdds.common.plugins.plugins import PluginStore
 
 
 def remove_ancils_from_mapping(mapping, model_id):
-    """
-    Return the |model to MIP mapping| for a |MIP requested variable|
-    with any ancillaries removed.
+    """Return the |model to MIP mapping| for a |MIP requested variable| with any ancillaries removed.
 
     Parameters
     ----------
-    mapping: \
-        :class:`mip_convert.new_variable.VariableModelToMIPMapping`
+    mapping: :class:`mip_convert.new_variable.VariableModelToMIPMapping`
         The |model to MIP mapping| for a |MIP requested variable|.
-    model_id:
-        str
+    model_id : str
         The model ID for that the MIP mapping is for
 
     Returns
     -------
-    : :class:`mip_convert.new_variable.VariableModelToMIPMapping`
+    :class:`mip_convert.new_variable.VariableModelToMIPMapping`
         The |model to MIP mapping| for a |MIP requested variable|
         with any ancillaries removed.
     """

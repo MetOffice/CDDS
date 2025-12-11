@@ -1,16 +1,13 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Common functions for tests.
-"""
+"""Common functions for tests."""
 import subprocess
 from collections import defaultdict
 from cdds.tests.test_common.common import handle_process
 
 
 def break_netcdf_file(filepath, nbytes=5):
-    """
-    Remove nbytes from the end of the specified file
+    """Remove nbytes from the end of the specified file
 
     Parameters
     ----------
@@ -25,8 +22,7 @@ def break_netcdf_file(filepath, nbytes=5):
 
 
 def init_defaultdict(init_list):
-    """
-    Populates defaultdict with a list of keys and ones
+    """Populates defaultdict with a list of keys and ones
 
     Parameters
     ----------
@@ -35,7 +31,7 @@ def init_defaultdict(init_list):
 
     Returns
     -------
-    : collections.defaultdict
+    collections.defaultdict
         Populated dictionary
     """
     ret_dict = defaultdict(int)

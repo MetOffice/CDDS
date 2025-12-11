@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2015-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`save.cmor.cmor_lite` module provides a lightweight interface
+"""The :mod:`save.cmor.cmor_lite` module provides a lightweight interface
 to |CMOR|.
 
 Using |CMOR| requires three main stages. The first is to setup the
@@ -45,11 +44,13 @@ _FACTORY = None
 
 
 def setup(setup_conf):
-    """
-    Call ``cmor.setup`` with arguments from setup_conf.
+    """Call ``cmor.setup`` with arguments from setup_conf.
 
-    :param setup_conf: an object with attributes that contain the
-                       options for the call to ``cmor.setup``.
+    Parameters
+    ----------
+    setup_conf
+        an object with attributes that contain the options for the call to ``cmor.setup``.
+
 
     The ``setup_conf`` can have any of the attributes that are needed
     as options for the ``cmor.setup`` call. In this implementation, and
@@ -74,12 +75,14 @@ def setup(setup_conf):
 
 
 def dataset(meta_data):
-    """
-    Call ``cmor.dataset`` with arguments taken from ``meta_data``
+    """Call ``cmor.dataset`` with arguments taken from ``meta_data``
     attributes.
 
-    :param meta_data: an object with attributes that contain the
-                      options for the call to ``cmor.dataset``.
+    Parameters
+    ----------
+    meta_data
+        an object with attributes that contain the options for the call to ``cmor.dataset``.
+
 
     The ``meta_data`` object has some compulsory attributes, and some
     optional attributes. These attributes are used in calls to
@@ -120,12 +123,16 @@ def dataset(meta_data):
 
 
 def setup_and_dataset(setup_conf, meta_data):
-    """
-    Initialise |CMOR|: both the setup configuration and the |dataset|
+    """Initialise |CMOR|: both the setup configuration and the |dataset|
     meta-data.
 
-    :param setup_conf: the |CMOR| setup configuration options
-    :param meta_data: the meta-data for the |dataset| to be written to
+    Parameters
+    ----------
+    setup_conf
+        the |CMOR| setup configuration options
+    meta_data
+        the meta-data for the |dataset| to be written to
+
 
     See the documentation for :func:`setup` and :func:`dataset` for
     more information on the ``setup_conf`` and ``meta_data`` arguments.
@@ -135,23 +142,26 @@ def setup_and_dataset(setup_conf, meta_data):
 
 
 def get_saver(mip_table_id, variable_name, outputs_per_file=None):
-    """
-    Return a saver callable for this ``variable_name`` from the
+    """Return a saver callable for this ``variable_name`` from the
     ``mip_table_id``.
 
     The returned callable when called with a |MIP requested variable|
     (data and meta-data) will write that |MIP requested variable| using
     |CMOR|.
 
-    :param mip_table_id: the |MIP table identifier|
-    :type mip_table_id: string
-    :param variable_name: the |MIP requested variable name|
-    :type variable_name: string
-    :param outputs_per_file: the number of time slices of a variable to
-                             write to each |output netCDF file|
-    :type outputs_per_file: int
-    :return: a function with signature function(data)
-    :rtype: callable
+    Parameters
+    ----------
+    mip_table_id : string
+        the |MIP table identifier|
+    variable_name : string
+        the |MIP requested variable name|
+    outputs_per_file : int
+        the number of time slices of a variable to write to each |output netCDF file|
+
+    Returns
+    -------
+    callable
+        a function with signature function(data)
     """
     if _FACTORY is None:
         raise CmorOutputError('setup_and_dataset should be called before get_saver')
@@ -159,15 +169,12 @@ def get_saver(mip_table_id, variable_name, outputs_per_file=None):
 
 
 def close(variable_id=None):
-    """
-    Call |CMOR| to close down all files.
-    """
+    """Call |CMOR| to close down all files."""
     _CMOR.close(variable_id)
 
 
 class _KeywordsFromAttributes(object):
-    """
-    A base class for classes that need to retrieve attributes from
+    """A base class for classes that need to retrieve attributes from
     objects and perform some translation on the attribute.
 
     Sub classes need to define sequences _STR_ATTS, _INT_ATTS and
@@ -179,8 +186,7 @@ class _KeywordsFromAttributes(object):
         self._ATTS = list(self._STR_ATTS) + list(self._INT_ATTS) + list(self._CMOR_CONSTANT_ATTS)
 
     def _get_optionals(self, conf):
-        """
-        Return a dictionary where the keys are the conf attributes
+        """Return a dictionary where the keys are the conf attributes
         and the values are the attribute values converted to the
         correct type.
         """
@@ -192,15 +198,11 @@ class _KeywordsFromAttributes(object):
         return kwargs
 
     def _str_to_cmor(self, attval):
-        """
-        Return the value of the |CMOR| constant for attval.
-        """
+        """Return the value of the |CMOR| constant for attval."""
         return eval('self._cmor.%s' % attval)
 
     def _translator(self, attname):
-        """
-        Translate the attribute into form for ``cmor.setup``.
-        """
+        """Translate the attribute into form for ``cmor.setup``."""
         result = str
         if attname in self._INT_ATTS:
             result = int
@@ -210,9 +212,7 @@ class _KeywordsFromAttributes(object):
 
 
 class CmorSetupCall(_KeywordsFromAttributes):
-    """
-    See the documentation for :func:`setup`.
-    """
+    """See the documentation for :func:`setup`."""
     _STR_ATTS = ('inpath', 'logfile')
     _INT_ATTS = ('create_subdirectories',)
     _CMOR_CONSTANT_ATTS = ('netcdf_file_action', 'set_verbosity', 'exit_control')
@@ -223,9 +223,7 @@ class CmorSetupCall(_KeywordsFromAttributes):
 
 
 class CmorDatasetCall(_KeywordsFromAttributes):
-    """
-    See the documentation for :func:`dataset`.
-    """
+    """See the documentation for :func:`dataset`."""
 
     _STR_ATTS = ('model_id',
                  'institute_id',
@@ -235,26 +233,18 @@ class CmorDatasetCall(_KeywordsFromAttributes):
                  'forcing',
                  'parent_experiment_id',
                  'parent_experiment_rip')
-    """
-    Attributes that are optional in the configuration file and are passed to ``cmor.dataset``.
-    """
+    """Attributes that are optional in the configuration file and are passed to ``cmor.dataset``."""
 
     _INT_ATTS = ('realization', 'physics_version', 'initialization_method')
-    """
-    Integer attributes that are optional in the configuration file.
-    """
+    """Integer attributes that are optional in the configuration file."""
 
     _CMOR_CONSTANT_ATTS = ()
 
     _BRANCH_DATE_NOT_APPLICABLE = 'N/A'
-    """
-    The section option value indicating the fact that ``branch_date`` is not applicable.
-    """
+    """The section option value indicating the fact that ``branch_date`` is not applicable."""
 
     _BRANCH_TIME_NOT_APPLICABLE = 0.
-    """
-    ``cmor.dataset`` argument indicating a null ``branch_time``.
-    """
+    """``cmor.dataset`` argument indicating a null ``branch_time``."""
 
     def __call__(self, config):
         if hasattr(config, 'write_json'):
@@ -281,9 +271,7 @@ class CmorDatasetCall(_KeywordsFromAttributes):
         return model_date.strptime(getattr(config, option), config.TIME_FORMAT, config.calendar)
 
     def _branch_date(self, config, kwargs):
-        """
-        Deal with branch date if present.
-        """
+        """Deal with branch date if present."""
         if config.branch_date == self._BRANCH_DATE_NOT_APPLICABLE or (config.branch_date is None):
             branch_time = self._BRANCH_TIME_NOT_APPLICABLE
         else:

@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`plugin` module contains the code for the CDDS plugins.
-"""
+"""The :mod:`plugin` module contains the code for the CDDS plugins."""
 from abc import ABCMeta, abstractmethod
 from typing import Type, Dict, Any, TYPE_CHECKING
 
@@ -19,8 +17,7 @@ if TYPE_CHECKING:
 
 
 class CddsPlugin(object, metaclass=ABCMeta):
-    """
-    CDDS plugin interface for supported models (for example CMIP6)
+    """CDDS plugin interface for supported models (for example CMIP6)
 
     The MIP era of a plugin is the MIP era of the models that are supported. The
     MIP era of a plugin must be unique because it is used to distinguish between
@@ -34,113 +31,132 @@ class CddsPlugin(object, metaclass=ABCMeta):
 
     @property
     def mip_era(self) -> str:
-        """
-        Returns the MIP era of the models the plugin supports (for example "cmip6").
+        """Returns the MIP era of the models the plugin supports (for example "cmip6").
 
-        :return: MIP era
-        :rtype: str
+        Returns
+        -------
+        str
+            MIP era
         """
         return self._mip_era
 
     def is_responsible(self, mip_era: str) -> bool:
-        """
-        Returns if the plugin is responsible for the project with given MIP era.
+        """Returns if the plugin is responsible for the project with given MIP era.
 
-        :param mip_era: MIP era to check (case-sensitive check!)
-        :type mip_era: str
-        :return: True if the plugin is responsible otherwise false
-        :rtype: bool
+        Parameters
+        ----------
+        mip_era : str
+            MIP era to check (case-sensitive check!)
+
+        Returns
+        -------
+        bool
+            True if the plugin is responsible otherwise false
         """
         return self._mip_era == mip_era
 
     def grid_info(self, model_id: str, grid_type: GridType) -> GridInfo:
-        """
-        Returns the grid information values of the given grid type
+        """Returns the grid information values of the given grid type
         for model with given id.
 
-        :param model_id: The ID of the model
-        :type model_id: str
-        :param grid_type: The type of the grid
-        :type grid_type: GridType
-        :return: Grid information values of given model and grid type
-        :rtype: GridInfo
+        Parameters
+        ----------
+        model_id : str
+            The ID of the model
+        grid_type : GridType
+            The type of the grid
+
+        Returns
+        -------
+        GridInfo
+            Grid information values of given model and grid type
         """
         models_params = self.models_parameters(model_id)
         return models_params.grid_info(grid_type)
 
     @abstractmethod
     def models_parameters(self, model_id: str) -> ModelParameters:
-        """
-        Returns the model parameters data for the given model. The model
+        """Returns the model parameters data for the given model. The model
         parameters must be implemented by the "ModelParameters" interface.
 
-        :param model_id: Model ID
-        :type model_id: str
-        :return: Class containing the model parameters
-        :rtype: ModelParameters
+        Parameters
+        ----------
+        model_id : str
+            Model ID
+
+        Returns
+        -------
+        ModelParameters
+            Class containing the model parameters
         """
         pass
 
     @abstractmethod
     def overload_models_parameters(self, source_dir: str) -> None:
-        """
-        Overloads model parameters of the models. The new parameters are
+        """Overloads model parameters of the models. The new parameters are
         specified in files in the given directory.
 
-        :param source_dir: Path to the directory containing the files specifies the new values
-        :type source_dir: str
+        Parameters
+        ----------
+        source_dir : str
+            Path to the directory containing the files specifies the new values
         """
         pass
 
     @abstractmethod
     def grid_labels(self) -> Type[GridLabel]:
-        """
-        Returns the grid labels related to models that are supported by that plugin.
+        """Returns the grid labels related to models that are supported by that plugin.
         The grid labels are designed as an enum and must implement the enum interface
         "GridLabel".
 
-        :return: The enum of the grid labels that the plugin supports
-        :rtype: GridLabel
+        Returns
+        -------
+        GridLabel
+            The enum of the grid labels that the plugin supports
         """
         pass
 
     @abstractmethod
     def stream_info(self) -> StreamInfo:
-        """
-        Returns the information of streams related to the MIP era.
+        """Returns the information of streams related to the MIP era.
 
-        :return: Information of streams
-        :rtype: StreamInfo
+        Returns
+        -------
+        StreamInfo
+            Information of streams
         """
         pass
 
     @abstractmethod
     def model_file_info(self) -> ModelFileInfo:
-        """
-        Returns information to the simulation model files.
+        """Returns information to the simulation model files.
 
-        :return: Information to the simulation model files
-        :rtype: ModelFileInfo
+        Returns
+        -------
+        ModelFileInfo
+            Information to the simulation model files
         """
         pass
 
     @abstractmethod
     def license(self) -> str:
-        """
-        Returns the license for the project
+        """Returns the license for the project
 
-        :return: License
-        :rtype: str
+        Returns
+        -------
+        str
+            License
         """
         pass
 
     @abstractmethod
     def mip_table_dir(self) -> str:
-        """
-        Returns the path to the MIP table directory that should be used for project
+        """Returns the path to the MIP table directory that should be used for project
 
-        :return: Path to the MIP table directory
-        :rtype: str
+        Returns
+        -------
+        str
+            Path to the MIP table directory
         """
         pass
 
@@ -149,59 +165,74 @@ class CddsPlugin(object, metaclass=ABCMeta):
 
     @abstractmethod
     def proc_directory(self, request: 'Request') -> str:
-        """
-        Returns the CDDS proc directory where the non-data ouputs are written.
+        """Returns the CDDS proc directory where the non-data ouputs are written.
 
-        :param request: Information that is needed to define the proc directory
-        :type request: Request
-        :return: Path to the proc directory
-        :rtype: str
+        Parameters
+        ----------
+        request : Request
+            Information that is needed to define the proc directory
+
+        Returns
+        -------
+        str
+            Path to the proc directory
         """
         pass
 
     @abstractmethod
     def data_directory(self, request: 'Request') -> str:
-        """
-        Returns the CDDS data directory where the |model output files| are written.
+        """Returns the CDDS data directory where the |model output files| are written.
 
-        :param request: Information that is needed to define the data directory
-        :type request: Request
-        :return: Path to the data directory
-        :rtype: str
+        Parameters
+        ----------
+        request : Request
+            Information that is needed to define the data directory
+
+        Returns
+        -------
+        str
+            Path to the data directory
         """
         pass
 
     @abstractmethod
     def requested_variables_list_filename(self, request: 'Request') -> str:
-        """
-        Returns the file name of the |requested variables list| file.
+        """Returns the file name of the |requested variables list| file.
 
-        :param request: Information that is needed to define the file name of the |requested variables list|
-        :type request: Request
-        :return: File name of the |requested variables list| file
-        :rtype: str
+        Parameters
+        ----------
+        request : Request
+            Information that is needed to define the file name of the |requested variables list|
+
+        Returns
+        -------
+        str
+            File name of the |requested variables list| file
         """
         pass
 
     def global_attributes(self, request: 'Request') -> GlobalAttributes:
-        """
-        Returns the global attributes that a supported by that plugin. The given request
+        """Returns the global attributes that a supported by that plugin. The given request
         contains all information about the global attributes.
 
         By default, the method returns the default global attributes for the plugins. The
         method can be overridden if the global attributes differ from the default one.
 
-        :param request: Dictionary containing information about the global attributes
-        :type request: Dict[str, Any]
-        :return: Class to store and manage the global attributes
-        :rtype: GlobalAttributes
+        Parameters
+        ----------
+        request : Dict[str, Any]
+            Dictionary containing information about the global attributes
+
+        Returns
+        -------
+        GlobalAttributes
+            Class to store and manage the global attributes
         """
         return DefaultGlobalAttributes(request)
 
 
 class PluginStore:
-    """
-    Singleton class to store the CDDS plugin for the current project (e.g. CMIP6).
+    """Singleton class to store the CDDS plugin for the current project (e.g. CMIP6).
 
     The class is a singleton to avoid excessive loading of the plugin.
     """
@@ -215,12 +246,12 @@ class PluginStore:
 
     @classmethod
     def instance(cls) -> 'PluginStore':
-        """
-        Returns the class instance. If none is created, yet, a new instance will
+        """Returns the class instance. If none is created, yet, a new instance will
         be created and stored (see Singleton pattern).
 
-        :return:
-        :rtype:
+        Returns
+        -------
+        unknown
         """
         if cls._instance is None:
             cls._instance = PluginStore()
@@ -228,37 +259,39 @@ class PluginStore:
 
     @classmethod
     def any_plugin_loaded(cls) -> bool:
-        """
-        Returns if any plugin is already loaded.
+        """Returns if any plugin is already loaded.
 
-        :return: True if a plugin is loaded, otherwise False
-        :rtype: bool
+        Returns
+        -------
+        bool
+            True if a plugin is loaded, otherwise False
         """
         return cls.instance().get_plugin() is not None
 
     def register_plugin(self, plugin: CddsPlugin) -> None:
-        """
-        Registers a new plugin. If another plugin is already registered, it
+        """Registers a new plugin. If another plugin is already registered, it
         will be replaced by this one.
 
-        :param plugin: New plugin to be registered
-        :type plugin: CddsPlugin
+        Parameters
+        ----------
+        plugin : CddsPlugin
+            New plugin to be registered
         """
         self._plugin = plugin
 
     def get_plugin(self) -> CddsPlugin:
-        """
-        Returns the current used plugin.
+        """Returns the current used plugin.
 
-        :return: Plugin that is currently used
-        :rtype: CddsPlugin
+        Returns
+        -------
+        CddsPlugin
+            Plugin that is currently used
         """
         return self._plugin
 
     @classmethod
     def clean_instance(cls):
-        """
-        Set class instance to none and allow re-creating a new class instance.
+        """Set class instance to none and allow re-creating a new class instance.
 
         Only used in tests! Do not use in productive code!
         """

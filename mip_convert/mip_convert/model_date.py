@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2009-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-This module provides date manipulation for 'standard', 'gregorian',
+"""This module provides date manipulation for 'standard', 'gregorian',
 'proleptic_gregorian' 'noleap', '365_day', '360_day', 'julian',
 'all_leap' and '366_day' calendars.
 """
@@ -16,8 +15,7 @@ class CdDateError(Exception):
 
 
 class CdDate(object):
-    """
-    A class to represent date times in different calendars.
+    """A class to represent date times in different calendars.
 
     Dates are generated based optionally on the year, month, day, hour,
     minute and second.
@@ -109,8 +107,7 @@ class CdDate(object):
         return template % (self.year, self.month, self.day, self.hour, self.minute, self.second)
 
     def __sub__(self, other):
-        """
-        Return the difference in days between self and other.
+        """Return the difference in days between self and other.
 
         Examples
         --------
@@ -126,8 +123,7 @@ class CdDate(object):
         return self._toValue(self) - self._toValue(other)
 
     def strftime(self, format):
-        """
-        Return a string representation of the date.
+        """Return a string representation of the date.
 
         Examples
         --------
@@ -140,8 +136,7 @@ class CdDate(object):
         return self.comptime.strftime(format=format)
 
     def asUnits(self):
-        """
-        Return the date as a string suitable for use in CF units.
+        """Return the date as a string suitable for use in CF units.
 
         Example
         -------
@@ -151,8 +146,7 @@ class CdDate(object):
         return '%s since %04d-%02d-%02d' % (self.UNIT_MEASURE, self.year, self.month, self.day)
 
     def asCfTime(self, units):  # best interface?
-        """
-        Return the value of this date when expressed relative to units.
+        """Return the value of this date when expressed relative to units.
 
         Examples
         --------
@@ -171,8 +165,7 @@ class CdDate(object):
         return self._torel(units)
 
     def mid(self, other):
-        """
-        Return the mid date/time of self with other.
+        """Return the mid date/time of self with other.
 
         Examples
         --------
@@ -188,8 +181,7 @@ class CdDate(object):
         return self._fromValue((self._toValue(self) + self._toValue(other)) / 2)
 
     def range_from(self, other, ntimes):
-        """
-        Return a list of ntimes date objects that span the time self to
+        """Return a list of ntimes date objects that span the time self to
         other.
 
         The list will not include the date/time specified by other (see
@@ -230,16 +222,14 @@ class CdDate(object):
         return timediff / ntimes  # time interval in days
 
     def _toValue(self, other):
-        """
-        Return other in values suitable for numeric computation.
+        """Return other in values suitable for numeric computation.
 
         other will be returned in units of UNIT_MEASURE from self.
         """
         return other._torel(self.asUnits())
 
     def _fromValue(self, value):
-        """
-        Return a CdDate object based on value.
+        """Return a CdDate object based on value.
 
         Basically the inverse of _toValue.
         """
@@ -345,8 +335,7 @@ class DateFormat(object):
 
 
 def strptime(value, format, calendar='360_day'):
-    """
-    Return a CdDate object based on a string value and format for the
+    """Return a CdDate object based on a string value and format for the
     string.
     """
     date_format = DateFormat(format)
@@ -371,8 +360,7 @@ class CalendarError(Exception):
 
 
 class BasedDateGenerator(object):
-    """
-    Class that can generate a date object that also knows what its base
+    """Class that can generate a date object that also knows what its base
     time is.
     """
     _INCONSISTENT_DATE = 'inconsistent calendars: new date: "%s" and base/reference date: "%s"'
@@ -394,9 +382,7 @@ class BasedDateGenerator(object):
 
 
 class DateWithBase(object):
-    """
-    Object containing a date and a base date.
-    """
+    """Object containing a date and a base date."""
 
     def __init__(self, base_date, yr, mon, day, hour, min):
         self._base_date = base_date
@@ -458,9 +444,7 @@ class DateWithBase(object):
 
 
 def set_base_date(base_cdtime):
-    """
-    Utility function that must be called once to set the base date.
-    """
+    """Utility function that must be called once to set the base date."""
     global CURRENT_BASE_GEN
     CURRENT_BASE_GEN = BasedDateGenerator(base_cdtime)
 
@@ -470,8 +454,7 @@ def set_default_base_date():
 
 
 def based_date(year, month, day, hour, minute, lbtim):
-    """
-    Utility funciton to return a BasedDate depending on the base date
+    """Utility funciton to return a BasedDate depending on the base date
     set in call to set_base_date.
     """
     return CURRENT_BASE_GEN.date(year, month, day, hour, minute, lbtim)

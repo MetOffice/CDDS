@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable=no-member, logging-format-interpolation
-"""
-Produce the |output netCDF files| for a |MIP| using
+"""Produce the |output netCDF files| for a |MIP| using
 |model output files| that cover a single uninterrupted time period and
 information provided in the |user configuration file|.
 """
@@ -18,8 +17,7 @@ from mip_convert.request import convert
 
 
 def main(args=None):
-    """
-    Produce the |output netCDF files| for a |MIP| using
+    """Produce the |output netCDF files| for a |MIP| using
     |model output files|.
 
     If a |MIP requested variable| is unable to be produced, for
@@ -60,8 +58,7 @@ def main(args=None):
 
 
 def parse_parameters(args):
-    """
-    Return the names of the parameters and their validated values.
+    """Return the names of the parameters and their validated values.
 
     If :func:`parse_parameters` is called from the Python interpreter
     with ``args`` that contains any of the ``--version``, ``-h`` or
@@ -71,10 +68,15 @@ def parse_parameters(args):
     as the value of the ``parameters`` parameter in the call to
     :func:`convert`.
 
-    :param args: the parameters to be parsed
-    :type args: list of strings
-    :return: the names of the parameters and their validated values
-    :rtype: :class:`argparse.Namespace` object
+    Parameters
+    ----------
+    args : list[str]
+        the parameters to be parsed
+
+    Returns
+    -------
+    :class:`argparse.Namespace` object
+        the names of the parameters and their validated values
     """
     description = __doc__.replace('|', '').replace('``', '')
     parser = argparse.ArgumentParser(description=description, formatter_class=argparse.ArgumentDefaultsHelpFormatter)

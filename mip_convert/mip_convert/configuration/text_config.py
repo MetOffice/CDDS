@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-The :mod:`configuration` module contains the configuration classes that
+"""The :mod:`configuration` module contains the configuration classes that
 store the information read from the configuration files.
 """
 import csv
@@ -12,17 +11,14 @@ from mip_convert.configuration.common import AbstractConfig, ValidateConfigError
 
 
 class TextConfig(AbstractConfig):
-    """
-    Read simple text configuration files.
-    """
+    """Read simple text configuration files."""
 
     def __init__(self, read_path):
         self.config = None
         super(TextConfig, self).__init__(read_path)
 
     def read(self, read_path):
-        """
-        Read the text file; see :meth:`file.readlines`.
+        """Read the text file; see :meth:`file.readlines`.
 
         The ``config`` attribute is set equal to a list of strings,
         where each string represents a line from the configuration
@@ -33,13 +29,10 @@ class TextConfig(AbstractConfig):
 
 
 class CSVConfig(AbstractConfig):
-    """
-    Read CSV text configuration files.
-    """
+    """Read CSV text configuration files."""
 
     def read(self, read_path):
-        """
-        Read the CSV file; see :func:`csv.reader`.
+        """Read the CSV file; see :func:`csv.reader`.
 
         The ``config`` attribute is set equal to a list of lists of
         strings, where each list of strings represents a line from the
@@ -53,9 +46,7 @@ class CSVConfig(AbstractConfig):
 
     @property
     def shape(self):
-        """
-        Return the number of lines in the configuration file.
-        """
+        """Return the number of lines in the configuration file."""
         return (len(self.config),)
 
     def _validate(self, expected_number_of_columns):
@@ -70,8 +61,7 @@ class CSVConfig(AbstractConfig):
 
 
 class SitesConfig(CSVConfig):
-    """
-    Store information read from the sites file.
+    """Store information read from the sites file.
 
     Each line contains:
 
@@ -93,26 +83,26 @@ class SitesConfig(CSVConfig):
 
     @property
     def sites(self):
-        """
-        Return the site information.
+        """Return the site information.
 
-        :rtype: list of (site_number, longitude, latitude, orography,
-            comment) tuples
+        Returns
+        -------
+        list of (site_number, longitude, latitude, orography, comment) tuples
         """
         return list(zip(self.site_number, self.longitude, self.latitude, self.orography, self.comment))
 
     @property
     def coordinates(self):
-        """
-        Return the longitudes and latitudes of the sites.
+        """Return the longitudes and latitudes of the sites.
 
-        :rtype: list of (longitude, latitude) tuples
+        Returns
+        -------
+        list of (longitude, latitude) tuples
         """
         return list(zip(self.longitude, self.latitude))
 
     def single_site_information(self, coordinate):
-        """
-        Return the information of the single site whose coordinate
+        """Return the information of the single site whose coordinate
         match the coordinates provided by the ``coordinate`` parameter.
         """
         single_site_info = None
@@ -128,8 +118,7 @@ class SitesConfig(CSVConfig):
 
 
 class HybridHeightConfig(CSVConfig):
-    """
-    Store information read from the hybrid heights file.
+    """Store information read from the hybrid heights file.
 
     Each line contains:
 
@@ -163,16 +152,12 @@ class HybridHeightConfig(CSVConfig):
 
     @property
     def a_bounds(self):
-        """
-        Return the bounds for ``a``.
-        """
+        """Return the bounds for ``a``."""
         return list(zip(self.a_lower_bound, self.a_upper_bound))
 
     @property
     def b_bounds(self):
-        """
-        Return the bounds for ``b``.
-        """
+        """Return the bounds for ``b``."""
         # For the bounds to be contiguous, they must be returned in the
         # following order:
         return list(zip(self.b_upper_bound, self.b_lower_bound))

@@ -8,8 +8,7 @@ from unittest import mock
 
 
 class TestStoreFirstArchive(StoreTestCase):
-    """
-    USE CASE 1
+    """USE CASE 1
         First archiving of dataset for variable Amon/tas
 
     INPUT

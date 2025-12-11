@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module to handle the metadata section in the request configuration
-"""
+"""Module to handle the metadata section in the request configuration"""
 from configparser import ConfigParser
 from dataclasses import dataclass, field, asdict
 from metomi.isodatetime.data import TimePoint
@@ -16,16 +14,20 @@ from cdds.common.plugins.plugins import PluginStore
 
 
 def metadata_defaults(model_id: str, branch_method: str) -> Dict[str, Any]:
-    """
-    Calculates the defaults for the metadata section of
+    """Calculates the defaults for the metadata section of
     the request configuration with given model ID.
 
-    :param model_id: Model ID
-    :type model_id: str
-    :param branch_method: Branch method - standard or no parent
-    :type branch_method: str
-    :return: The defaults for the metadata section
-    :rtype: Dict[str, Any]
+    Parameters
+    ----------
+    model_id : str
+        Model ID
+    branch_method : str
+        Branch method - standard or no parent
+
+    Returns
+    -------
+    Dict[str, Any]
+        The defaults for the metadata section
     """
     license = PluginStore.instance().get_plugin().license()
 
@@ -46,9 +48,7 @@ def metadata_defaults(model_id: str, branch_method: str) -> Dict[str, Any]:
 
 @dataclass
 class MetadataSection(Section):
-    """
-    Represents the metadata section in the request configuration
-    """
+    """Represents the metadata section in the request configuration"""
     branch_date_in_child: TimePoint = None
     branch_date_in_parent: TimePoint = None
     branch_method: str = ''
@@ -72,40 +72,44 @@ class MetadataSection(Section):
     model_type: List[str] = field(default_factory=list)
 
     def __post_init__(self):
-        """
-        Pre-validates the values of the section before create it
-        """
+        """Pre-validates the values of the section before create it"""
         validate_metadata_section(self)
 
     @classmethod
     def name(cls) -> str:
-        """
-        Name of the metadata section that is used in the request configuration file.
+        """Name of the metadata section that is used in the request configuration file.
 
-        :return: Name that is also used in the configuration file
-        :rtype: str
+        Returns
+        -------
+        str
+            Name that is also used in the configuration file
         """
         return 'metadata'
 
     @property
     def items(self) -> Dict[str, Any]:
-        """
-        Returns all items of the metadata section as a dictionary.
+        """Returns all items of the metadata section as a dictionary.
 
-        :return: Items as dictionary
-        :rtype: Dict[str, Any]
+        Returns
+        -------
+        Dict[str, Any]
+            Items as dictionary
         """
         return asdict(self)
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'MetadataSection':
-        """
-        Loads the metadata section of a request configuration.
+        """Loads the metadata section of a request configuration.
 
-        :param config: Parser for the request configuration
-        :type config: ConfigParser
-        :return: New metadata section
-        :rtype: MetadataSection
+        Parameters
+        ----------
+        config : ConfigParser
+            Parser for the request configuration
+
+        Returns
+        -------
+        MetadataSection
+            New metadata section
         """
         section_name = MetadataSection.name()
         model_id = config.get(section_name, 'model_id')
@@ -118,15 +122,19 @@ class MetadataSection(Section):
 
     @staticmethod
     def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'MetadataSection':
-        """
-        Loads the metadata section of a rose-suite.info.
+        """Loads the metadata section of a rose-suite.info.
 
-        :param suite_info: The rose-suite.info to be loaded
-        :type suite_info: RoseSuiteInfo
-        :param arguments: Additional arguments to be considered
-        :type arguments: RoseSuiteArguments
-        :return: New metadata section
-        :rtype: MetadataSection
+        Parameters
+        ----------
+        suite_info : RoseSuiteInfo
+            The rose-suite.info to be loaded
+        arguments : RoseSuiteArguments
+            Additional arguments to be considered
+
+        Returns
+        -------
+        MetadataSection
+            New metadata section
         """
         branch_method = suite_info.branch_method()
         model_id = suite_info.data['model-id']
@@ -158,11 +166,12 @@ class MetadataSection(Section):
         return MetadataSection(**values)
 
     def add_to_config(self, config: ConfigParser) -> None:
-        """
-        Adds values defined by the metadata section to given configuration.
+        """Adds values defined by the metadata section to given configuration.
 
-        :param config: Configuration where values should add to
-        :type config: ConfigParser
+        Parameters
+        ----------
+        config : ConfigParser
+            Configuration where values should add to
         """
         defaults = metadata_defaults(self.model_id, self.branch_method)
         self._add_to_config_section(config, MetadataSection.name(), defaults)

@@ -4,7 +4,7 @@ import configparser
 
 
 class ConfigError(Exception):
-    """ Exception raised in the event of configuration problems. """
+    """Exception raised in the event of configuration problems."""
     pass
 
 
@@ -21,10 +21,10 @@ class Config(object):
     def __init__(self, config_file):
         """Create a wrapper object around configuration files.
 
-        Arguments:
-        config_file -- (str or list of strs) Path(s) to config files
-
-        If config_file is None then an empty Config object is returned.
+        Parameters
+        ----------
+        config_file: str or list[str]
+            Path(s) to config files. If config_file is None then an empty Config object is returned.
         """
         self._config_file = config_file
         self._cp = configparser.ConfigParser(interpolation=None)
@@ -39,8 +39,10 @@ class Config(object):
         """Return a configuration section as a dict. Raise a ConfigError if
         the specified section does not exist.
 
-        Arguments:
-        section_name -- (str) name of the section to return
+        Parameters
+        ----------
+        section_name: str
+            name of the section to return
         """
         self._check_section(section_name)
         return dict(self._cp.items(section_name))
@@ -50,9 +52,12 @@ class Config(object):
         a ConfigError if either the section or attribute aren't defined in
         the configuration file(s).
 
-        Arguments:
-        section_name -- (str) name of section containing attribute
-        name -- (str) name of the attribute to return
+        Parameters
+        ----------
+        section_name: str
+            name of section containing attribute
+        name: str
+            name of the attribute to return
         """
         self._check_section(section_name)
         if not self._cp.has_option(section_name, name):
@@ -65,9 +70,12 @@ class Config(object):
         """Return the value of the configuration section and attribute, or
         None if the attribute isn't defined.
 
-        Arguments:
-        section_name -- (str) name of section containing attribute
-        name -- (str) name of the attribute to return
+        Parameters
+        ----------
+        section_name: str
+            name of section containing attribute
+        name: str
+            name of the attribute to return
         """
         attr = None
         if self._cp.has_section(section_name):

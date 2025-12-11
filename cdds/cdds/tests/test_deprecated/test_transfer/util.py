@@ -30,7 +30,7 @@ top_dir = fake_msg_dir
 
 
 def fake_cfg_cmip6():
-    """ Returns fake config file in a file-like form. """
+    """Returns fake config file in a file-like form."""
     valid = (
         "project|institute|model|experiment|frequency|realm|variable|ensemble"
         "|mip|date|area|stream")

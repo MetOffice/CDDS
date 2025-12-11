@@ -25,17 +25,21 @@ class LocalConfig(object):
     def __init__(self, config):
         """Create local handlers.
 
-        Argument:
-        config -- config.Config object
+        Parameters
+        ----------
+        config: config.Config object
         """
         self._cfg = config
 
     def mip_frequency(self, facets, mip_path_builder):
         """Parse MIP table and return frequency.
 
-        Arguments:
-        facets -- (dict) DRS facets
-        mip_path_builder -- (method) build path to MIP table
+        Parameters
+        ----------
+        facets: dict
+            DRS facets
+        mip_path_builder: method
+            build path to MIP table
         """
         mip = self._mip_attrs(facets, mip_path_builder)
         try:
@@ -47,9 +51,12 @@ class LocalConfig(object):
     def mip_realm(self, facets, mip_path_builder):
         """Parse MIP table and return realm.
 
-        Arguments:
-        facets -- (dict) DRS facets
-        mip_path_builder -- (method) build path to MIP table
+        Parameters
+        ----------
+        facets: dict
+            DRS facets
+        mip_path_builder: method
+            build path to MIP table
         """
         mip = self._mip_attrs(facets, mip_path_builder)
         try:
@@ -61,9 +68,12 @@ class LocalConfig(object):
     def split_rcm_model_name(self, facets, mip_path_builder):
         """Deduce model name from RCM model name.
 
-        Arguments:
-        facets -- (dict) DRS facets
-        mip_path_builder -- (method) build path to MIP table
+        Parameters
+        ----------
+        facets: dict
+            DRS facets
+        mip_path_builder: method
+            build path to MIP table
         """
         try:
             model = facets["rcmModelName"].split("-")[1:]
@@ -75,9 +85,12 @@ class LocalConfig(object):
     def experiment_domain(self, facets, mip_path_builder):
         """Make experiment_domain from facets.
 
-        Arguments:
-        facets -- (dict) DRS facets
-        mip_path_builder -- (method) build path to MIP table
+        Parameters
+        ----------
+        facets: dict
+            DRS facets
+        mip_path_builder: method
+            build path to MIP table
         """
         try:
             result = {
@@ -90,9 +103,12 @@ class LocalConfig(object):
     def gcm_model_name(self, facets, mip_path_builder):
         """Deduce GCM model name from driving model.
 
-        Arguments:
-        facets -- (dict) DRS facets
-        mip_path_builder -- (method) build path to MIP table
+        Parameters
+        ----------
+        facets: dict
+            DRS facets
+        mip_path_builder: method
+            build path to MIP table
         """
         try:
             if facets["drivingModel"] != "ERAINT":
@@ -109,9 +125,12 @@ class LocalConfig(object):
     def driving_model(self, facets, mip_path_builder):
         """Deduce driving model from GCM model name.
 
-        Arguments:
-        facets -- (dict) DRS facets
-        mip_path_builder -- (method) build path to MIP table
+        Parameters
+        ----------
+        facets: dict
+            DRS facets
+        mip_path_builder: method
+            build path to MIP table
         """
         if "drivingModel" in facets:
             result = {}

@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2022-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`cmip6_streams` module contains the code required to
+"""The :mod:`cmip6_streams` module contains the code required to
 handle stream information for CMIP6 streams.
 """
 import os
@@ -10,8 +9,7 @@ from cdds.common.plugins.base.base_streams import BaseStreamInfo, BaseStreamStor
 
 
 class Cmip6StreamInfo(BaseStreamInfo):
-    """
-    Class to store the information for streams. The information of the streams
+    """Class to store the information for streams. The information of the streams
     are defined in a json file.
     """
 
@@ -23,8 +21,7 @@ class Cmip6StreamInfo(BaseStreamInfo):
 
 
 class Cmip6StreamStore(BaseStreamStore):
-    """
-    Singleton class to store for the stream information.
+    """Singleton class to store for the stream information.
 
     The class is a singleton to avoid excessive loading of the stream information.
     """
@@ -35,10 +32,11 @@ class Cmip6StreamStore(BaseStreamStore):
 
     @classmethod
     def create_instance(cls) -> 'Cmip6StreamStore':
-        """
-        Creates a new class instance.
+        """Creates a new class instance.
 
-        :return: New class instance
-        :rtype: Cmip6StreamStore
+        Returns
+        -------
+        Cmip6StreamStore
+            New class instance
         """
         return Cmip6StreamStore()

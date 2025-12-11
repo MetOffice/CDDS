@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`constants` module contains the constants available for use
+"""The :mod:`constants` module contains the constants available for use
 in the |model to MIP mapping| expressions.
 """
 
@@ -10,8 +9,7 @@ REQUIRED_MAPPING_OPTIONS = ['dimension', 'expression', 'mip_table_id', 'positive
 
 
 def all_constants():
-    """
-    Return the names and values of the constants available for use in
+    """Return the names and values of the constants available for use in
     the |model to MIP mapping| expressions.
 
     Since the values of the constants are used to replace the names of
@@ -20,7 +18,7 @@ def all_constants():
 
     Returns
     -------
-    : dictionary
+    dict
         The names and values of the constants available for use in the
         |model to MIP mapping| expressions.
     """

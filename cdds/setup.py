@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Setup script for CDDS.
-"""
+"""Setup script for CDDS."""
 import os
 
 from setuptools import setup, find_packages
@@ -11,8 +9,7 @@ from importlib.machinery import SourceFileLoader
 
 
 def extract_version(module_name: str) -> AnyStr:
-    """
-    Returns the version number of the module.
+    """Returns the version number of the module.
 
     Parameters
     ----------
@@ -30,15 +27,14 @@ def extract_version(module_name: str) -> AnyStr:
 
 
 def find_scripts(directories: List[str]) -> List[Union[bytes, str]]:
-    """
-    Finds and returns all the scripts in the directories given.
+    """Finds and returns all the scripts in the directories given.
     The directories are assumed to contain just scripts.
     Directories need not exist: any that don't (or aren't directories)
     will be skipped.
 
     Parameters
     ----------
-    : list of str
+    diretories : list[str]
         directories to search through
     Returns
     -------
@@ -60,8 +56,7 @@ def find_scripts(directories: List[str]) -> List[Union[bytes, str]]:
 
 
 def find_data_files() -> List[Tuple[str, List[str]]]:
-    """
-    Returns a list to use as the value of 'data_files' in the call to 'setup'.
+    """Returns a list to use as the value of 'data_files' in the call to 'setup'.
 
     Returns
     -------
@@ -77,8 +72,7 @@ def find_data_files() -> List[Tuple[str, List[str]]]:
 
 
 def find_doc_files() -> List[Tuple[str, List[str]]]:
-    """
-    Returns a list of tuples (dir, [doc_file ...]) where dir is the path to the
+    """Returns a list of tuples (dir, [doc_file ...]) where dir is the path to the
     directory containing the given documentation files.
 
     Returns

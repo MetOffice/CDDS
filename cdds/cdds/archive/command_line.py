@@ -1,10 +1,7 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-The :mod:`command_line` module contains the main functions for the
-command line scripts in the ``bin`` directory.
-"""
+"""The :mod:`command_line` module contains the main functions for the command line scripts in the ``bin`` directory."""
 import argparse
 import logging
 
@@ -26,13 +23,17 @@ CDDS_STORE_SPICE_LOG_NAME = 'cdds_store_spice'
 
 
 def main_store(arguments: List[str] = None) -> int:
-    """
-    Archive the |output netCDF files| in MASS.
+    """Archive the |output netCDF files| in MASS.
 
-    :param arguments: The command line arguments to be parsed.
-    :type arguments: List[str]
-    :return: Exit code
-    :rtype: int
+    Parameters
+    ----------
+    arguments : List[str]
+        The command line arguments to be parsed.
+
+    Returns
+    -------
+    int
+        Exit code
     """
     # Parse the arguments.
     args = parse_args_store(arguments, CDDS_STORE_LOG_NAME)
@@ -57,13 +58,17 @@ def main_store(arguments: List[str] = None) -> int:
 
 
 def main_store_spice(arguments: List[str] = None) -> int:
-    """
-    Run a job on SPICE to archive the |output netCDF files| to MASS.
+    """Run a job on SPICE to archive the |output netCDF files| to MASS.
 
-    :param arguments: The command line arguments to be parsed.
-    :type arguments: List[str]
-    :return: Exit code
-    :rtype: int
+    Parameters
+    ----------
+    arguments : List[str]
+        The command line arguments to be parsed.
+
+    Returns
+    -------
+    int
+        Exit code
     """
     # Parse the arguments.
     args = parse_args_store(arguments, CDDS_STORE_SPICE_LOG_NAME)
@@ -91,31 +96,34 @@ def main_store_spice(arguments: List[str] = None) -> int:
 
 def main_publish(arguments=None):
     """
-
     Parameters
     ----------
     arguments
 
-    Returns
-    -------
-
+    Raises
+    ------
+    NotImplementedError
     """
     raise NotImplementedError()
 
 
 def parse_args_store(user_arguments: List[str], default_log_name: str) -> Namespace:
-    """
-    Return the names of the command line arguments for ``cdds_store`` and their validated values.
+    """Return the names of the command line arguments for ``cdds_store`` and their validated values.
 
     If this function is called from the Python interpreter with ``arguments`` that contains any
     of the ``--version``, ``-h`` or ``--help`` options, the Python interpreter will be terminated.
 
-    :param user_arguments: The command line arguments to be parsed.
-    :type user_arguments: List[str]
-    :param default_log_name: The default log file name if not given by the arguments
-    :type default_log_name: str
-    :return: The names of the command line arguments and their validated values.
-    :rtype: Namespace
+    Parameters
+    ----------
+    user_arguments : List[str]
+        The command line arguments to be parsed.
+    default_log_name : str
+        The default log file name if not given by the arguments
+
+    Returns
+    -------
+    Namespace
+        The names of the command line arguments and their validated values.
     """
     arguments = user_arguments
     parser = argparse.ArgumentParser(

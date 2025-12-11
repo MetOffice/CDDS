@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
-"""
-Tests for :mod:`variables.py`.
-"""
+"""Tests for :mod:`variables.py`."""
 import os
 import unittest
 import unittest.mock
@@ -19,9 +17,7 @@ from cdds.common import set_checksum
 
 
 class TestRetrieveVariablesByGrid(unittest.TestCase):
-    """
-    Tests for :func:`retrieve_variables_by_grid` in :mod:`variables.py`.
-    """
+    """Tests for :func:`retrieve_variables_by_grid` in :mod:`variables.py`."""
     def setUp(self):
         load_plugin()
         self.model_id = 'HadGEM3-GC31-MM'

@@ -9,8 +9,7 @@ from unittest import mock
 
 
 class TestStorePrependingToEmbargoed(StoreTestCase):
-    """
-    USE CASE 10
+    """USE CASE 10
         Prepend to embargoed data in MASS or pick up after archiving failure for variable Amon/tas
 
     INPUT

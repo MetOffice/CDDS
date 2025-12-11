@@ -13,17 +13,21 @@ from mip_convert.tests.test_functional.utils.constants import DEBUG, COMPARE_NET
 
 
 def quick_compare(outputs, hashes):
-    """
-    Performs a fast comparison of file contents using hashed data
+    """Performs a fast comparison of file contents using hashed data
 
-    :param outputs: The output files that should be compared to the reference files
-    :type outputs: List[str]
-    :param references: The references files compare to
-    :type references: List[str]
-    :param hashes: List of hashes
-    :type hashes: List[str]
-    :return: Corresponding compare commands
-    :rtype: List[str]
+    Parameters
+    ----------
+    outputs : List[str]
+        The output files that should be compared to the reference files
+    references : List[str]
+        The references files compare to
+    hashes : List[str]
+        List of hashes
+
+    Returns
+    -------
+    List[str]
+        Corresponding compare commands
     """
 
     diffs = []
@@ -41,21 +45,25 @@ def quick_compare(outputs, hashes):
 
 
 def compare_command(outputs, references, tolerance_value=None, ignore_history=False, other_options=None):
-    """
-    Returns the compare commands for the given output files and their reference files
+    """Returns the compare commands for the given output files and their reference files
 
-    :param outputs: The output files that should be compared to the reference files
-    :type outputs: List[str]
-    :param references: The references files compare to
-    :type references: List[str]
-    :param tolerance_value: Compare if absolute difference > tolerance value
-    :type tolerance_value: str
-    :param ignore_history: Compare global history attribute
-    :type ignore_history: bool
-    :param other_options: Additional options for comparing
-    :type other_options: str
-    :return: Corresponding compare commands
-    :rtype: List[str]
+    Parameters
+    ----------
+    outputs : List[str]
+        The output files that should be compared to the reference files
+    references : List[str]
+        The references files compare to
+    tolerance_value : str
+        Compare if absolute difference > tolerance value
+    ignore_history : bool
+        Compare global history attribute
+    other_options : str
+        Additional options for comparing
+
+    Returns
+    -------
+    List[str]
+        Corresponding compare commands
     """
     tolerance = '--tolerance={}'.format(tolerance_value) if tolerance_value else ''
     history = '--Attribute=history' if ignore_history else ''
@@ -73,14 +81,18 @@ def compare_command(outputs, references, tolerance_value=None, ignore_history=Fa
 
 
 def compare(compare_commands):
-    """
-    Runs the given compare commands and returns if the result is that the
+    """Runs the given compare commands and returns if the result is that the
     compared files are equal or not.
 
-    :param compare_commands: Compare commands to run
-    :type compare_commands: List[str]
-    :return: Is equal or not and the message
-    :rtype: bool, str
+    Parameters
+    ----------
+    compare_commands : List[str]
+        Compare commands to run
+
+    Returns
+    -------
+    bool, str
+        Is equal or not and the message
     """
     differences = []
     nccmp_timings = []
@@ -117,13 +129,14 @@ def compare(compare_commands):
 
 
 def write_user_configuration_file(config_file_handle, test_data):
-    """
-    Write the test data into the given user configuration file
+    """Write the test data into the given user configuration file
 
-    :param config_file_handle: User configuration file
-    :type config_file_handle: TextIOWrapper
-    :param test_data: Test data to be written into the configuration file
-    :type test_data: AbstractTestData
+    Parameters
+    ----------
+    config_file_handle : TextIOWrapper
+        User configuration file
+    test_data : AbstractTestData
+        Test data to be written into the configuration file
     """
     user_config = configparser.ConfigParser(interpolation=None)
     user_config.optionxform = str  # Preserve case.
@@ -140,15 +153,16 @@ def write_user_configuration_file(config_file_handle, test_data):
 
 
 def print_outcome(outcome_files, output_directory, data_directory):
-    """
-    Prints if expected outcome files are correctly created
+    """Prints if expected outcome files are correctly created
 
-    :param outcome_files: Outcome file paths that should be created
-    :type outcome_files: List[str]
-    :param output_directory: Output directory that should contain the outcome files
-    :type output_directory: str
-    :param data_directory: Data directory that should contain the cmor log file
-    :type data_directory: str
+    Parameters
+    ----------
+    outcome_files : List[str]
+        Outcome file paths that should be created
+    output_directory : str
+        Output directory that should contain the outcome files
+    data_directory : str
+        Data directory that should contain the cmor log file
     """
     for output_come_file in outcome_files:
         if not os.path.isfile(output_come_file):

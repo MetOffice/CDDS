@@ -21,9 +21,7 @@ models = {
 
 
 def main():
-    """
-    Main function for generating the mappings html pages.
-    """
+    """Main function for generating the mappings html pages."""
     for model, stash_version in models.items():
         stash_path = os.path.expandvars(f"$UMDIR/{stash_version}/ctldata/STASHmaster/STASHmaster-meta.conf")
         load_mapping_plugin(model)

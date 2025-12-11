@@ -2,9 +2,7 @@
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = no-member, no-value-for-parameter
-"""
-Tests for mip_table.py.
-"""
+"""Tests for mip_table.py."""
 from io import StringIO
 from unittest.mock import call, patch
 import os
@@ -16,9 +14,7 @@ from mip_convert.mip_table import get_mip_table
 
 
 class TestGetMIPTable(unittest.TestCase):
-    """
-    Tests for ``get_mip_table`` in request.py.
-    """
+    """Tests for ``get_mip_table`` in request.py."""
 
     def setUp(self):
         self.mip_table_dir = 'mip_table_dir'

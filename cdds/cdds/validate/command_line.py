@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module providing functionality to validate request and model parameters configurations
-"""
+"""Module providing functionality to validate request and model parameters configurations"""
 import logging
 
 from typing import List
@@ -19,13 +17,17 @@ CDDS_MODEL_PARAMS_VALIDATE_LOG = 'cdds_model_params_validations'
 
 
 def run_request_validations(arguments: List[str] = None) -> int:
-    """
-    Runs validations for the request given in the command line arguments
+    """Runs validations for the request given in the command line arguments
 
-    :param arguments: List of command line arguments
-    :type arguments: List[str]
-    :return: Exit code
-    :rtype: int
+    Parameters
+    ----------
+    arguments : List[str]
+        List of command line arguments
+
+    Returns
+    -------
+    int
+        Exit code
     """
     args = parse_request_validations_arguments(arguments)
 
@@ -41,13 +43,17 @@ def run_request_validations(arguments: List[str] = None) -> int:
 
 
 def parse_request_validations_arguments(arguments: List[str]) -> Namespace:
-    """
-    Parse command line arguments for running CDDS request validations
+    """Parse command line arguments for running CDDS request validations
 
-    :param arguments: Command line arguments to parse
-    :type arguments: List[str]
-    :return: Parsed command line arguments
-    :rtype: Namespace
+    Parameters
+    ----------
+    arguments : List[str]
+        Command line arguments to parse
+
+    Returns
+    -------
+    Namespace
+        Parsed command line arguments
     """
     parser = ArgumentParser(
         description='Validate request configuration.',
@@ -62,13 +68,17 @@ def parse_request_validations_arguments(arguments: List[str]) -> Namespace:
 
 
 def run_model_params_validations(arguments: List[str] = None) -> int:
-    """
-    Runs validations for the model parameters files directory given in the command line arguments
+    """Runs validations for the model parameters files directory given in the command line arguments
 
-    :param arguments: List of command line arguments
-    :type arguments: List[str]
-    :return: Exit code
-    :rtype: int
+    Parameters
+    ----------
+    arguments : List[str]
+        List of command line arguments
+
+    Returns
+    -------
+    int
+        Exit code
     """
     args = parse_model_params_arguments(arguments)
 
@@ -84,13 +94,17 @@ def run_model_params_validations(arguments: List[str] = None) -> int:
 
 
 def parse_model_params_arguments(arguments: List[str]) -> Namespace:
-    """
-    Parse command line arguments for running model parameters files validations
+    """Parse command line arguments for running model parameters files validations
 
-    :param arguments: Command line arguments to parse
-    :type arguments: List[str]
-    :return: Parsed command line arguments
-    :rtype: Namespace
+    Parameters
+    ----------
+    arguments : List[str]
+        Command line arguments to parse
+
+    Returns
+    -------
+    Namespace
+        Parsed command line arguments
     """
     parser = ArgumentParser(
         description='Validate model params directory',

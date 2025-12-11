@@ -15,15 +15,11 @@ class SimpleHeader(object):
         return self.args == other.args
 
     def __repr__(self):
-        """
-        used in output of comparisons in test cases
-        """
+        """used in output of comparisons in test cases"""
         return 'SimpleHeader(%d, %d, %s)' % self.args
 
     def nexternal_axis(self):
-        """
-        number of external axes
-        """
+        """number of external axes"""
         return len(self.args)
 
     def cmp_on_axis(self, other, axis_index):

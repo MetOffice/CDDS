@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2015-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable=invalid-name, unused-argument
-"""
-The :mod:`load.iris_load_util` module contains the code to support
+"""The :mod:`load.iris_load_util` module contains the code to support
 loading of |model output files| with Iris.
 """
 import logging
@@ -60,23 +59,24 @@ NEMO_VVL_VARIABLES = {  # Variables with Variable Vertical Levels
 
 
 class ConstraintConstructor(object):
-    """
-    Construct the Iris constraints for a |MIP requested variable|.
-    """
+    """Construct the Iris constraints for a |MIP requested variable|."""
     def __init__(self):
         self.logger = logging.getLogger(__name__)
         self._info = None
 
     def load_constraints(self, loadable):
-        """
-        Return the 'load constraints' to be used for filtering cube
+        """Return the 'load constraints' to be used for filtering cube
         loading for a single |input variable|.
 
-        :param loadable: the constraints for a single
-            |input variable|
-        :type loadable: :class:`mip_convert.common.Loadable`
-        :return: the 'load constraints'
-        :rtype: :class:`iris.Constraint`
+        Parameters
+        ----------
+        loadable : :class:`mip_convert.common.Loadable`
+            the constraints for a single |input variable|
+
+        Returns
+        -------
+        :class:`iris.Constraint`
+            the 'load constraints'
         """
         method_extras = {'=': '', '<': 'lt_'}
         load_constraints = []
@@ -88,19 +88,22 @@ class ConstraintConstructor(object):
         return reduce(and_, load_constraints)
 
     def load_pp_constraints(self, loadable):
-        """
-        Return the 'load constraints' for PP-related constraints to be
+        """Return the 'load constraints' for PP-related constraints to be
         used for filtering cube loading for a single |input variable|.
 
         The 'load constraints' are returned in the form
         ``[(the name of the PP field header element,
         the value of the PP field header element)]``.
 
-        :param loadable: the constraints for a single
-            |input variable|
-        :type loadable: :class:`mip_convert.common.Loadable`
-        :return: the PP-related constraint information
-        :rtype: list of tuples
+        Parameters
+        ----------
+        loadable : :class:`mip_convert.common.Loadable`
+            the constraints for a single |input variable|
+
+        Returns
+        -------
+        list of tuples
+            the PP-related constraint information
         """
         pp_info = []
         self._info = None
@@ -117,8 +120,7 @@ class ConstraintConstructor(object):
 
     @property
     def info(self):
-        """
-        Return the constraint information.
+        """Return the constraint information.
 
         Example
         -------
@@ -136,9 +138,7 @@ class ConstraintConstructor(object):
 
     @info.setter
     def info(self, infomation):
-        """
-        Update the constraint information.
-        """
+        """Update the constraint information."""
         if self._info is None:
             self._info = infomation
         else:
@@ -168,22 +168,24 @@ class ConstraintConstructor(object):
 
 
 def load_cubes(all_input_data, run_bounds, loadable, ancil_variables):
-    """
-    Return a list of merged cubes.
+    """Return a list of merged cubes.
 
-    :param all_input_data: the filenames (including the full path) of
-        the files required to produce the |output netCDF files| for the
-        |MIP requested variable|
-    :type all_input_data: list of strings
-    :param run_bounds: the 'run bounds'
-    :type run_bounds: list of strings
-    :param loadable: the constraints for a single
-            |input variable|
-    :type loadable: :class:`mip_convert.common.Loadable`
-    :param ancil_variables: the ancillary variables
-    :type ancil_variables: list of strings
-    :return: a list of merged cubes
-    :rtype: :class:`iris.cube.CubeList`
+    Parameters
+    ----------
+    all_input_data : list of strings
+        the filenames (including the full path) of the files required to produce the |output netCDF files| for the |MIP
+        requested variable|
+    run_bounds : list of strings
+        the 'run bounds'
+    loadable : :class:`mip_convert.common.Loadable`
+        the constraints for a single |input variable|
+    ancil_variables : list of strings
+        the ancillary variables
+
+    Returns
+    -------
+    :class:`iris.cube.CubeList`
+        a list of merged cubes
     """
     logger = logging.getLogger(__name__)
 
@@ -211,24 +213,26 @@ def load_cubes(all_input_data, run_bounds, loadable, ancil_variables):
 
 
 def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates, ancil_variables):
-    """
-    Load a single merged and concatenated cube
+    """Load a single merged and concatenated cube
 
-    :param all_input_data: the filenames (including the full path) of
-        the files required to produce the |output netCDF files| for the
-        |MIP requested variable|
-    :type all_input_data: list of strings
-    :param run_bounds: the 'run bounds'
-    :type run_bounds: list of strings
-    :param loadable: the constraints for a single
-            |input variable|
-    :type loadable: :class:`mip_convert.common.Loadable`
-    :param replacement_coordinates: the replacement coordinates
-    :type replacement_coordinates: :class:`iris.cube.CubeList`
-    :param ancil_variables: the ancillary variables
-    :type ancil_variables: list of strings
-    :return: a single cube
-    :rtype: :class:`iris.cube.Cube`
+    Parameters
+    ----------
+    all_input_data : list of strings
+        the filenames (including the full path) of the files required to produce the |output netCDF files| for the |MIP
+        requested variable|
+    run_bounds : list of strings
+        the 'run bounds'
+    loadable : :class:`mip_convert.common.Loadable`
+        the constraints for a single |input variable|
+    replacement_coordinates : :class:`iris.cube.CubeList`
+        the replacement coordinates
+    ancil_variables : list of strings
+        the ancillary variables
+
+    Returns
+    -------
+    :class:`iris.cube.Cube`
+        a single cube
     """
     merged_cubes = load_cubes(all_input_data, run_bounds, loadable, ancil_variables)
     if len(merged_cubes) == 1:
@@ -258,8 +262,10 @@ def remove_cell_methods_intervals(cubes):
     concatenation. This has been observed when ocean timesteps have been changed
     mid year in model runs to avoid grid point storms.
 
-    :param cubes: cube list to check for inconsistent cell method intervals
-    :type cubes: :class:`iris.cube.CubeList`
+    Parameters
+    ----------
+    cubes : :class:`iris.cube.CubeList`
+        cube list to check for inconsistent cell method intervals
     """
     logger = logging.getLogger(__name__)
 
@@ -291,8 +297,7 @@ def remove_cell_methods_intervals(cubes):
 
 
 def setup_time_constraint(run_bounds):
-    """
-    Return the ``time_constraint`` function.
+    """Return the ``time_constraint`` function.
 
     The ``setup_time_constraint`` function can be used as the value of
     the ``time`` argument when instantiating an
@@ -302,24 +307,32 @@ def setup_time_constraint(run_bounds):
     strings (the start date and the end date) in the form
     ``%Y-%m-%dT%H:%M:%S`` (isoformat).
 
-    :param run_bounds: the 'run bounds'
-    :type run_bounds: list of strings
-    :returns: a function
-    :rtype: the ``time_constraint`` function
+    Parameters
+    ----------
+    run_bounds : list of strings
+        the 'run bounds'
+
+    Returns
+    -------
+    the `time_constraint` function
+        a function
     """
     def time_constraint(cell):
-        """
-        Return True if the time of the :class:`iris.coords.Cell`
+        """Return True if the time of the :class:`iris.coords.Cell`
         provided to the ``cell`` argument is within the ``run_bounds``
         provided to the :func:`setup_time_constraint` function. This
         function is used by the :class:`iris.Constraint` object to
         construct a constraint.
 
-        :param cell: a single cell
-        :type cell: :class:`iris.coords.Cell`
-        :returns: whether the time of the cell is within the
-            ``run_bounds``
-        :rtype: boolean
+        Parameters
+        ----------
+        cell : :class:`iris.coords.Cell`
+            a single cell
+
+        Returns
+        -------
+        boolean
+            whether the time of the cell is within the ``run_bounds``
         """
         start_date_time = to_partial_date_time(run_bounds[0])
         end_date_time = to_partial_date_time(run_bounds[1])
@@ -341,23 +354,26 @@ def to_partial_date_time(isodate: str) -> PartialDateTime:
 
 
 def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
-    """
-    Return a list of merged cubes.
+    """Return a list of merged cubes.
 
     The list provided to the ``run_bounds`` argument contains only two
     strings (the start date and the end date) in the form
     ``%Y-%m-%dT%H:%M:%S`` (isotime format).
 
-    :param all_input_data: the filenames (including the full path) of
-        the files required to produce the |output netCDF files| for the
-        |MIP requested variable|
-    :type all_input_data: list of strings
-    :param load_constraints: the constraint information
-    :type load_constraints: :class:`iris.Constraint`
-    :param run_bounds: the 'run bounds'
-    :type run_bounds: list of strings
-    :return: a list of merged cubes
-    :rtype: :class:`iris.cube.CubeList`
+    Parameters
+    ----------
+    all_input_data : list of strings
+        the filenames (including the full path) of the files required to produce the |output netCDF files| for the |MIP
+        requested variable|
+    load_constraints : :class:`iris.Constraint`
+        the constraint information
+    run_bounds : list of strings
+        the 'run bounds'
+
+    Returns
+    -------
+    :class:`iris.cube.CubeList`
+        a list of merged cubes
     """
     userwarnings = [
         {"message": ".*Missing CF-netCDF measure variable.*", "category": UserWarning},
@@ -391,8 +407,7 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
 
 
 def preprocess_callback(cube, field, filename):
-    """
-    Contains functions that should be applied when loading the netCDF file.
+    """Contains functions that should be applied when loading the netCDF file.
     Callback functions must have the signature
     ``(cube, field, filename)``, see :mod:`iris`.
 
@@ -417,8 +432,7 @@ def preprocess_callback(cube, field, filename):
 
 
 def load_cubes_from_pp(all_input_data, pp_info, run_bounds, ancil_variables):
-    """
-    Return a list of merged cubes.
+    """Return a list of merged cubes.
 
     The tuples in the list provided to the ``pp_info`` argument are the
     PP-related constraint information in the form ``(the name of the PP
@@ -428,18 +442,22 @@ def load_cubes_from_pp(all_input_data, pp_info, run_bounds, ancil_variables):
     strings (the start date and the end date) in the form
     ``%Y-%m-%dT%H:%M:%S``.
 
-    :param all_input_data: the filenames (including the full path) of
-        the files required to produce the |output netCDF files| for the
-        |MIP requested variable|
-    :type all_input_data: list of strings
-    :param pp_info: the PP-related constraint information
-    :type pp_info: list of tuples
-    :param run_bounds: the 'run bounds'
-    :type run_bounds: list of strings
-    :param ancil_variables: the ancillary variables
-    :type ancil_variables: list of strings
-    :return: a list of merged cubes
-    :rtype: :class:`iris.cube.CubeList`
+    Parameters
+    ----------
+    all_input_data : list of strings
+        the filenames (including the full path) of the files required to produce the |output netCDF files| for the |MIP
+        requested variable|
+    pp_info : list of tuples
+        the PP-related constraint information
+    run_bounds : list of strings
+        the 'run bounds'
+    ancil_variables : list of strings
+        the ancillary variables
+
+    Returns
+    -------
+    :class:`iris.cube.CubeList`
+        a list of merged cubes
     """
     filtered_fields = [
         field for field in pp_fields(all_input_data) if pp_filter(field, pp_info, run_bounds, ancil_variables)
@@ -471,15 +489,18 @@ def load_cubes_from_pp(all_input_data, pp_info, run_bounds, ancil_variables):
 
 
 def pp_fields(all_input_data):
-    """
-    Return all the PP fields from the |model output files|.
+    """Return all the PP fields from the |model output files|.
 
-    :param all_input_data: the filenames (including the full path) of
-        the files required to produce the |output netCDF files| for the
-        |MIP requested variable|
-    :type all_input_data: list of strings
-    :returns: the PP fields
-    :rtype: list of :class:`iris.fileformats.pp.PPField`
+    Parameters
+    ----------
+    all_input_data : list of strings
+        the filenames (including the full path) of the files required to produce the |output netCDF files| for the |MIP
+        requested variable|
+
+    Returns
+    -------
+    list of :class:`iris.fileformats.pp.PPField`
+        the PP fields
     """
     logger = logging.getLogger(__name__)
 
@@ -507,8 +528,7 @@ def pp_fields(all_input_data):
 
 
 def pp_filter(field, pp_info, run_bounds, ancil_variables):
-    """
-    Return whether the single PP field provided to the ``field``
+    """Return whether the single PP field provided to the ``field``
     argument should be included when creating the Iris cube.
 
     If all the PP-related constraint information provided to the
@@ -526,17 +546,21 @@ def pp_filter(field, pp_info, run_bounds, ancil_variables):
     strings (the start date and the end date) in the form
     ``%Y-%m-%dT%H:%M:%S``.
 
-    :param field: a single PP field
-    :type field: :class:`iris.fileformats.pp.PPField`
-    :param pp_info: the PP-related constraint information
-    :type pp_info: list of tuples
-    :param run_bounds: the 'run bounds'
-    :type run_bounds: list of strings
-    :param ancil_variables: the ancillary variables
-    :type ancil_variables: list of string
-    :returns: whether the PP field header information matches with
-        the PP field header information in the single PP field
-    :rtype: boolean
+    Parameters
+    ----------
+    field : :class:`iris.fileformats.pp.PPField`
+        a single PP field
+    pp_info : list of tuples
+        the PP-related constraint information
+    run_bounds : list of strings
+        the 'run bounds'
+    ancil_variables : list of string
+        the ancillary variables
+
+    Returns
+    -------
+    boolean
+        whether the PP field header information matches with the PP field header information in the single PP field
     """
     result = False
     matches = []
@@ -574,17 +598,21 @@ def pp_filter(field, pp_info, run_bounds, ancil_variables):
 
 
 def compare_values(field_value, requested_value):
-    """
-    Return whether the value of the PP field header element provided to
+    """Return whether the value of the PP field header element provided to
     the ``field_value`` argument matches with the requested value
     provided to the ``requested_value`` argument.
 
-    :param field_value: the value of the PP field header element
-    :type field_value: depends on the value
-    :param requested_value: the value to compare
-    :type requested_value: depends on the value, can be a list
-    :return: whether ``field_value`` matches with ``requested_value``
-    :rtype: boolean
+    Parameters
+    ----------
+    field_value : depends on the value
+        the value of the PP field header element
+    requested_value : depends on the value, can be a list
+        the value to compare
+
+    Returns
+    -------
+    boolean
+        whether ``field_value`` matches with ``requested_value``
     """
     result = False
     if not isinstance(requested_value, list):
@@ -597,17 +625,20 @@ def compare_values(field_value, requested_value):
 
 
 def get_field_value(field, header_element_name):
-    """
-    Return the value of the attribute on the
+    """Return the value of the attribute on the
     :class:`iris.fileformats.pp.PPField` object.
 
-    :param field: a single PP field
-    :type field: :class:`iris.fileformats.pp.PPField`
-    :param header_element_name: the name of the PP field header element
-    :type header_element_name: string
-    :returns: the value of the attribute on the
-        :class:`iris.fileformats.pp.PPField` object
-    :rtype: depends on the value
+    Parameters
+    ----------
+    field : :class:`iris.fileformats.pp.PPField`
+        a single PP field
+    header_element_name : string
+        the name of the PP field header element
+
+    Returns
+    -------
+    depends on the value
+        the value of the attribute on the :class:`iris.fileformats.pp.PPField` object
     """
     field_attribute_name, item_position = get_field_attribute_name(header_element_name)
     if item_position is not None:
@@ -623,18 +654,22 @@ def get_field_value(field, header_element_name):
 
 
 def fix_cube(cube, field):
-    """
-    Fix metadata on iris cube, based upon information in the PP field
+    """Fix metadata on iris cube, based upon information in the PP field
     from which it was created. This includes dealing with site time
     series and variables with an implied height (that are not covered
     by ``iris.fileformats.um_cf_map.STASHCODE_IMPLIED_HEIGHTS``).
 
-    :param cube: the Iris cube
-    :type cube: :class:`iris.cube.Cube`
-    :param field: a single PP field
-    :type field: :class:`iris.fileformats.pp.PPField`
-    :returns: the fixed Iris cube
-    :rtype: :class:`iris.cube.Cube`
+    Parameters
+    ----------
+    cube : :class:`iris.cube.Cube`
+        the Iris cube
+    field : :class:`iris.fileformats.pp.PPField`
+        a single PP field
+
+    Returns
+    -------
+    :class:`iris.cube.Cube`
+        the fixed Iris cube
     """
     if field.lbuser[3] in ADDITIONAL_STASHCODE_IMPLIED_HEIGHTS:
         points = ADDITIONAL_STASHCODE_IMPLIED_HEIGHTS[field.lbuser[3]]
@@ -650,13 +685,14 @@ def fix_cube(cube, field):
 
 
 def add_depth_coord(cube):
-    """
-    Add scalar depth coordinate to cube from netCDF
+    """Add scalar depth coordinate to cube from netCDF
     |model output files| if it has an implied depth, e.g. if it is
     valid at the ocean surface only.
 
-    :param cube: Cube to add depth coordinate to
-    :type cube: :class:`iris.cube.Cube`
+    Parameters
+    ----------
+    cube : :class:`iris.cube.Cube`
+        Cube to add depth coordinate to
     """
     if cube.var_name in ADDITIONAL_NCVAR_IMPLIED_DEPTHS:
         points = ADDITIONAL_NCVAR_IMPLIED_DEPTHS[cube.var_name]
@@ -665,14 +701,18 @@ def add_depth_coord(cube):
 
 
 def split_netCDF_filename(filename):
-    """
-    Extracts model component and substream from the netCDF
+    """Extracts model component and substream from the netCDF
     (NEMO, MEDUSA, CICE, SI3) filename.
 
-    :param filename: filename
-    :type filename: string
-    :returns: model component, substream
-    :rtype: tuple
+    Parameters
+    ----------
+    filename : string
+        filename
+
+    Returns
+    -------
+    tuple
+        model component, substream
     """
     match = re.search(netCDF_regexp(), filename)
     if match:
@@ -685,55 +725,59 @@ def split_netCDF_filename(filename):
 
 
 def correct_cell_methods_comment(cube, model_component, substream):
-    """
-    Updates cell methods for variables with variable vertical
+    """Updates cell methods for variables with variable vertical
     coordinates.
 
-    :param cube: the Iris cube
-    :type cube: :class:`iris.cube.Cube`
-    :param model_component: name of the model component, e.g. 'nemo'.
-    :type model_component: string
-    :param substream: name of the substream.
-    :type substream: string
+    Parameters
+    ----------
+    cube : :class:`iris.cube.Cube`
+        the Iris cube
+    model_component : string
+        name of the model component, e.g. 'nemo'.
+    substream : string
+        name of the substream.
     """
     if model_component == 'nemo' and substream is not None and substream in NEMO_VVL_VARIABLES:
         fix_cell_methods(cube, NEMO_VVL_VARIABLES[substream])
 
 
 def add_netCDF_model_component(cube, model_component):
-    """
-    Adds model component attribute to the cube.
+    """Adds model component attribute to the cube.
 
-    :param cube: the Iris cube
-    :type cube: :class:`iris.cube.Cube`
-    :param model_component: name of the model component, e.g. 'nemo'.
-    :type model_component: string
+    Parameters
+    ----------
+    cube : :class:`iris.cube.Cube`
+        the Iris cube
+    model_component : string
+        name of the model component, e.g. 'nemo'.
     """
     cube.attributes['model_component'] = model_component
 
 
 def add_substream(cube, substream):
-    """
-    Add the substream from the filename as an attribute on the cube.
+    """Add the substream from the filename as an attribute on the cube.
 
-    :param cube: the cube to add the substream to
-    :type cube: :class:`iris.cube.Cube`
-    :param substream: the substream
-    :type substream: string
+    Parameters
+    ----------
+    cube : :class:`iris.cube.Cube`
+        the cube to add the substream to
+    substream : string
+        the substream
     """
     if substream is not None:
         cube.attributes['substream'] = substream
 
 
 def correct_cice_daily_time_coord(cube, filename):
-    """
-    CICE daily data can have dodgy time point information (set as the upper bound)
+    """CICE daily data can have dodgy time point information (set as the upper bound)
     if the file provided is a CICE daily file correct the time coordinate points.
 
-    :param cube: the cube to fix the time coordinate on
-    :type cube: :class:`iris.cube.Cube`
-    :param filename: the name of the file (used to identify if this is a daily CICE cube)
-    :type filename: string
+    Parameters
+    ----------
+    cube : :class:`iris.cube.Cube`
+        the cube to fix the time coordinate on
+    filename : string
+        the name of the file (used to identify if this is a daily CICE cube)
     """
     logger = logging.getLogger(__name__)
     match = re.search(CICE_DAILY_FILENAME_PATTERN, filename)
@@ -755,13 +799,14 @@ def correct_cice_daily_time_coord(cube, filename):
 
 
 def fix_cell_methods(cube, variables):
-    """
-    Adds a thickness weighted mean cell method to provided variables.
+    """Adds a thickness weighted mean cell method to provided variables.
 
-    :param cube: the Iris cube
-    :type cube: :class:`iris.cube.Cube`
-    :param variables: a list of variables
-    :type variables: list
+    Parameters
+    ----------
+    cube : :class:`iris.cube.Cube`
+        the Iris cube
+    variables : list
+        a list of variables
     """
     if cube.var_name in variables:
         cell_methods_list = []
@@ -785,9 +830,7 @@ def _cell_method_needs_fix(cell_method):
 
 
 def site_number(cube):
-    """
-    Add a ``site_number`` dimension coordinate.
-    """
+    """Add a ``site_number`` dimension coordinate."""
     if not cube.coords('site_number'):
         latitude_coord = cube.coord('latitude')
         site_number_points = list(range(1, len(latitude_coord.points) + 1))
@@ -797,8 +840,7 @@ def site_number(cube):
 
 
 def time_series_sites_hybrid_heights(cube, field):
-    """
-    Return the reconstructed time series sites with hybrid heights
+    """Return the reconstructed time series sites with hybrid heights
     cube.
 
     For hybrid height levels, three basic vertical coordinates are
@@ -865,8 +907,7 @@ def time_series_sites_hybrid_heights(cube, field):
 
 
 def remove_duplicate_cubes(cubes):
-    """
-    Remove duplicate cubes from a CubeList. Identical cubes are
+    """Remove duplicate cubes from a CubeList. Identical cubes are
     identified using the equality operator. The algorithm used runs at
     O(n^2). Sets cannot be used to improve the efficiency because the
     cube.__hash__() method returns id(cube), which is different for
@@ -874,10 +915,15 @@ def remove_duplicate_cubes(cubes):
     data. The poor efficiency should not be a problem as this function
     is generally called with a CubeList of less than 5 cubes.
 
-    :param cubes: The list to remove duplicate cubes from
-    :type cubes: :class:`iris.cube.CubeList`
-    :return: A list of the unique cubes
-    :rtype: :class:`iris.cube.CubeList`
+    Parameters
+    ----------
+    cubes : :class:`iris.cube.CubeList`
+        The list to remove duplicate cubes from
+
+    Returns
+    -------
+    :class:`iris.cube.CubeList`
+        A list of the unique cubes
     """
     logger = logging.getLogger(__name__)
     unique_cubes = iris.cube.CubeList([])
@@ -899,17 +945,21 @@ def remove_duplicate_cubes(cubes):
 
 
 def _compare_cubes(actual, other):
-    """
-    Compare the metadata, coordinates and data shape of two cubes.
+    """Compare the metadata, coordinates and data shape of two cubes.
 
     The data values in the cubes are not compared.
 
-    :param actual: the first cube to compare
-    :type actual: :class:`iris.cube.Cube`
-    :param other: the second cube to compare
-    :type other: :class:`iris.cube.Cube`
-    :return: whether the cubes are identical
-    :rtype: boolean
+    Parameters
+    ----------
+    actual : :class:`iris.cube.Cube`
+        the first cube to compare
+    other : :class:`iris.cube.Cube`
+        the second cube to compare
+
+    Returns
+    -------
+    boolean
+        whether the cubes are identical
     """
     # When comparing two cubes using ==, approximate data equality is
     # checked, which loads the data if not already loaded. This should
@@ -926,18 +976,23 @@ def _compare_cubes(actual, other):
 
 
 def rechunk(cube, chunk_config=None):
-    """
-    Performs rechunking procedure on a cube with time coordinate.
+    """Performs rechunking procedure on a cube with time coordinate.
     The optional chunk_config argument enforces custom rechunking, e.g.
     {0: 10, 1: 100, 2: 300, 3: 'auto'} would set chunk sizes of first,
     second and third coordinate to 10, 100 and 300, respectively, and
     the size of the fourth dimension would be determined by DASK.
 
-    :param cube: the cube to rechunk
-    :param chunk_config: optional dictionary containing chunk sizes.
+    Parameters
+    ----------
+    cube
+        the cube to rechunk
+    chunk_config
+        optional dictionary containing chunk sizes.
 
-    :return: rechunked cube
-    :rtype: :class:`iris.cube.Cube`
+    Returns
+    -------
+    :class:`iris.cube.Cube`
+        rechunked cube
     """
     if any([coord.standard_name == 'time' for coord in cube.coords()]):
         # we wont rechunk timeless cubes as typically they would be small

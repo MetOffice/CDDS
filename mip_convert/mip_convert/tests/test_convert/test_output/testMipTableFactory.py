@@ -10,9 +10,7 @@ from mip_convert.save.mip_config import MipTableFactory
 class TestMipTableFactory(unittest.TestCase):
 
     def parseMipTable(self, mipfile):
-        """
-        stub for mip_parser module
-        """
+        """stub for mip_parser module"""
         self.mip_opened = mipfile
         self.nparse = self.nparse + 1
         return self.table_as_dict
@@ -40,8 +38,7 @@ class TestMipTableFactory(unittest.TestCase):
         self.table = self.factory.getTable(self.valid_table)
 
     def testSingleReadOfTable(self):
-        """
-        test that multiple calls to get the same table only result in one
+        """test that multiple calls to get the same table only result in one
         read of the table file.
         """
         for index in range(2):

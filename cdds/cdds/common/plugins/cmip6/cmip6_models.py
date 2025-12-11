@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`cmip6_models` module contains the code required to
+"""The :mod:`cmip6_models` module contains the code required to
 handle model parameters information for CMIP6 models.
 """
 import logging
@@ -14,16 +13,15 @@ from cdds.common.plugins.base.base_models import BaseModelParameters, ModelId, B
 
 
 class Cmip6ModelId(ModelId):
-    """
-    Represents the ID of a CMIP6 model.
-    """
+    """Represents the ID of a CMIP6 model."""
 
     def get_json_file(self) -> str:
-        """
-        Returns the json file name for a model containing the model ID as identifier.
+        """Returns the json file name for a model containing the model ID as identifier.
 
-        :return: Json file name for the model with current ID
-        :rtype: str
+        Returns
+        -------
+        str
+            Json file name for the model with current ID
         """
         return '{}.json'.format(self.value)
 
@@ -39,8 +37,7 @@ class Cmip6ModelId(ModelId):
 
 
 class HadREM3_GA7_05_Params(BaseModelParameters):
-    """
-    Class to store the parameters for the HadREM3_GA7_05 model.
+    """Class to store the parameters for the HadREM3_GA7_05 model.
     Note: At the moment, there are no sizing info, memory parameters,
     cycle length parameters, temp space parameters or data request
     version for this type of model.
@@ -51,350 +48,360 @@ class HadREM3_GA7_05_Params(BaseModelParameters):
 
     @property
     def model_version(self) -> str:
-        """
-        Returns the model version of the HadREM3_GA7_05 model.
+        """Returns the model version of the HadREM3_GA7_05 model.
 
-        :return: Model version of HadREM3_GA7_05
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version of HadREM3_GA7_05
         """
         return '4.0'
 
     @property
     def data_request_version(self) -> str:
-        """
-        Returns the data request version of the HadREM3_GA7_05 model.
+        """Returns the data request version of the HadREM3_GA7_05 model.
 
-        :return: Data request version of HadREM3_GA7_05
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version of HadREM3_GA7_05
         """
         return ''
 
     @property
     def um_version(self) -> str:
-        """
-        Returns the UM version of the HadREM3_GA7_05 model.
+        """Returns the UM version of the HadREM3_GA7_05 model.
 
-        :return: UM version of HadREM3_GA7_05
-        :rtype: str
+        Returns
+        -------
+        str
+            UM version of HadREM3_GA7_05
         """
         return '10.9'
 
 
 class HadGEM3_GC31_LL_Params(BaseModelParameters):
-    """
-    Class to store the parameters for the HadGEM3_GC31_LL model.
-    """
+    """Class to store the parameters for the HadGEM3_GC31_LL model."""
 
     def __init__(self) -> None:
         super(HadGEM3_GC31_LL_Params, self).__init__(Cmip6ModelId.HadGEM3_GC31_LL)
 
     @property
     def model_version(self) -> str:
-        """
-        Returns the model version of the HadGEM3_GC31_LL model.
+        """Returns the model version of the HadGEM3_GC31_LL model.
 
-        :return: Model version of HadGEM3_GC31_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version of HadGEM3_GC31_LL
         """
         return '3.1'
 
     @property
     def data_request_version(self) -> str:
-        """
-        Returns the data request version of the HadGEM3_GC31_LL model.
+        """Returns the data request version of the HadGEM3_GC31_LL model.
 
-        :return: Data request version of HadGEM3_GC31_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version of HadGEM3_GC31_LL
         """
         return '01.00.10'
 
     @property
     def um_version(self) -> str:
-        """
-        Returns the UM version of the HadGEM3_GC31_LL model.
+        """Returns the UM version of the HadGEM3_GC31_LL model.
 
-        :return: UM version of HadGEM3_GC31_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            UM version of HadGEM3_GC31_LL
         """
         return '10.7'
 
 
 class HadGEM3_GC31_MM_Params(BaseModelParameters):
-    """
-    Class to store the parameters for the HadGEM3_GC31_MM model.
-    """
+    """Class to store the parameters for the HadGEM3_GC31_MM model."""
 
     def __init__(self) -> None:
         super(HadGEM3_GC31_MM_Params, self).__init__(Cmip6ModelId.HadGEM3_GC31_MM)
 
     @property
     def model_version(self) -> str:
-        """
-        Returns the model version of the HadGEM3_GC31_MM model.
+        """Returns the model version of the HadGEM3_GC31_MM model.
 
-        :return: Model version of HadGEM3_GC31_MM
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version of HadGEM3_GC31_MM
         """
         return '3.1'
 
     @property
     def data_request_version(self) -> str:
-        """
-        Returns the data request version of the HadGEM3_GC31_MM model.
+        """Returns the data request version of the HadGEM3_GC31_MM model.
 
-        :return: Data request version of HadGEM3_GC31_MM
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version of HadGEM3_GC31_MM
         """
         return '01.00.10'
 
     @property
     def um_version(self) -> str:
-        """
-        Returns the UM version of the HadGEM3_GC31_MM model.
+        """Returns the UM version of the HadGEM3_GC31_MM model.
 
-        :return: UM version of HadGEM3_GC31_MM
-        :rtype: str
+        Returns
+        -------
+        str
+            UM version of HadGEM3_GC31_MM
         """
         return '10.7'
 
 
 class HadGEM3_GC31_HM_Params(BaseModelParameters):
-    """
-    Class to store the parameters for the HadGEM3_GC31_HM model.
-    """
+    """Class to store the parameters for the HadGEM3_GC31_HM model."""
 
     def __init__(self) -> None:
         super(HadGEM3_GC31_HM_Params, self).__init__(Cmip6ModelId.HadGEM3_GC31_HM)
 
     @property
     def model_version(self) -> str:
-        """
-        Returns the model version of the HadGEM3_GC31_HM model.
+        """Returns the model version of the HadGEM3_GC31_HM model.
 
-        :return: Model version of HadGEM3_GC31_HM
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version of HadGEM3_GC31_HM
         """
         return '3.1'
 
     @property
     def data_request_version(self) -> str:
-        """
-        Returns the data request version of the HadGEM3_GC31_HM model.
+        """Returns the data request version of the HadGEM3_GC31_HM model.
 
-        :return: Data request version of HadGEM3_GC31_HM
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version of HadGEM3_GC31_HM
         """
         return '01.00.10'
 
     @property
     def um_version(self) -> str:
-        """
-        Returns the UM version of the HadGEM3_GC31_HM model.
+        """Returns the UM version of the HadGEM3_GC31_HM model.
 
-        :return: UM version of HadGEM3_GC31_HM
-        :rtype: str
+        Returns
+        -------
+        str
+            UM version of HadGEM3_GC31_HM
         """
         return '10.7'
 
 
 class HadGEM3_GC31_MH_Params(BaseModelParameters):
-    """
-    Class to store the parameters for the HadGEM3_GC31_MH model.
-    """
+    """Class to store the parameters for the HadGEM3_GC31_MH model."""
 
     def __init__(self) -> None:
         super(HadGEM3_GC31_MH_Params, self).__init__(Cmip6ModelId.HadGEM3_GC31_MH)
 
     @property
     def model_version(self) -> str:
-        """
-        Returns the model version of the HadGEM3_GC31_MH model.
+        """Returns the model version of the HadGEM3_GC31_MH model.
 
-        :return: Model version of HadGEM3_GC31_MH
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version of HadGEM3_GC31_MH
         """
         return '3.1'
 
     @property
     def data_request_version(self) -> str:
-        """
-        Returns the data request version of the HadGEM3_GC31_MH model.
+        """Returns the data request version of the HadGEM3_GC31_MH model.
 
-        :return: Data request version of HadGEM3_GC31_MH
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version of HadGEM3_GC31_MH
         """
         return '01.00.10'
 
     @property
     def um_version(self) -> str:
-        """
-        Returns the UM version of the HadGEM3_GC31_MH model.
+        """Returns the UM version of the HadGEM3_GC31_MH model.
 
-        :return: UM version of HadGEM3_GC31_MH
-        :rtype: str
+        Returns
+        -------
+        str
+            UM version of HadGEM3_GC31_MH
         """
         return '10.7'
 
 
 class HadGEM3_GC31_HH_Params(BaseModelParameters):
-    """
-    Class to store the parameters for the HadGEM3_GC31_HH model.
-    """
+    """Class to store the parameters for the HadGEM3_GC31_HH model."""
 
     def __init__(self) -> None:
         super(HadGEM3_GC31_HH_Params, self).__init__(Cmip6ModelId.HadGEM3_GC31_HH)
 
     @property
     def model_version(self) -> str:
-        """
-        Returns the model version of the HadGEM3_GC31_HH model.
+        """Returns the model version of the HadGEM3_GC31_HH model.
 
-        :return: Model version of HadGEM3_GC31_HH
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version of HadGEM3_GC31_HH
         """
         return '3.1'
 
     @property
     def data_request_version(self) -> str:
-        """
-        Returns the data request version of the HadGEM3_GC31_HH model.
+        """Returns the data request version of the HadGEM3_GC31_HH model.
 
-        :return: Data request version of HadGEM3_GC31_HH
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version of HadGEM3_GC31_HH
         """
         return '01.00.10'
 
     @property
     def um_version(self) -> str:
-        """
-        Returns the UM version of the HadGEM3_GC31_HH model.
+        """Returns the UM version of the HadGEM3_GC31_HH model.
 
-        :return: UM version of HadGEM3_GC31_HH
-        :rtype: str
+        Returns
+        -------
+        str
+            UM version of HadGEM3_GC31_HH
         """
         return '10.7'
 
 
 class UKESM1_0_LL_Params(BaseModelParameters):
-    """
-    Class to store the parameters for the UKESM1_0_LL model.
-    """
+    """Class to store the parameters for the UKESM1_0_LL model."""
 
     def __init__(self) -> None:
         super(UKESM1_0_LL_Params, self).__init__(Cmip6ModelId.UKESM1_0_LL)
 
     @property
     def model_version(self) -> str:
-        """
-        Returns the model version of the UKESM1_0_LL model.
+        """Returns the model version of the UKESM1_0_LL model.
 
-        :return: Model version of UKESM1_0_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version of UKESM1_0_LL
         """
         return '1.0'
 
     @property
     def data_request_version(self) -> str:
-        """
-        Returns the data request version of the UKESM1_0_LL model.
+        """Returns the data request version of the UKESM1_0_LL model.
 
-        :return: Data request version of UKESM1_0_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version of UKESM1_0_LL
         """
         return '01.00.17'
 
     @property
     def um_version(self) -> str:
-        """
-        Returns the UM version of the UKESM1_0_LL model.
+        """Returns the UM version of the UKESM1_0_LL model.
 
-        :return: UM version of UKESM1_0_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            UM version of UKESM1_0_LL
         """
         return '10.8'
 
 
 class UKESM1_1_LL_Params(BaseModelParameters):
-    """
-    Class to store the parameters for the UKESM1_0_LL model.
-    """
+    """Class to store the parameters for the UKESM1_0_LL model."""
 
     def __init__(self) -> None:
         super(UKESM1_1_LL_Params, self).__init__(Cmip6ModelId.UKESM1_1_LL)
 
     @property
     def model_version(self) -> str:
-        """
-        Returns the model version of the UKESM1_0_LL model.
+        """Returns the model version of the UKESM1_0_LL model.
 
-        :return: Model version of UKESM1_0_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version of UKESM1_0_LL
         """
         return '1.0'
 
     @property
     def data_request_version(self) -> str:
-        """
-        Returns the data request version of the UKESM1_0_LL model.
+        """Returns the data request version of the UKESM1_0_LL model.
 
-        :return: Data request version of UKESM1_0_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version of UKESM1_0_LL
         """
         return '01.00.17'
 
     @property
     def um_version(self) -> str:
-        """
-        Returns the UM version of the UKESM1_0_LL model.
+        """Returns the UM version of the UKESM1_0_LL model.
 
-        :return: UM version of UKESM1_0_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            UM version of UKESM1_0_LL
         """
         return '10.8'
 
 
 class UKESM1_ice_LL_Params(BaseModelParameters):
-    """
-    Class to store the parameters for the UKESM1_ice_LL model.
-    """
+    """Class to store the parameters for the UKESM1_ice_LL model."""
 
     def __init__(self) -> None:
         super(UKESM1_ice_LL_Params, self).__init__(Cmip6ModelId.UKESM1_ICE_LL)
 
     @property
     def model_version(self) -> str:
-        """
-        Returns the model version of the UKESM1_ice_LL model.
+        """Returns the model version of the UKESM1_ice_LL model.
 
-        :return: Model version of UKESM1_ice_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version of UKESM1_ice_LL
         """
         return '1.0'
 
     @property
     def data_request_version(self) -> str:
-        """
-        Returns the data request version of the UKESM1_ice_LL model.
+        """Returns the data request version of the UKESM1_ice_LL model.
 
-        :return: Data request version of UKESM1_ice_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version of UKESM1_ice_LL
         """
         return '01.00.17'
 
     @property
     def um_version(self) -> str:
-        """
-        Returns the UM version of the UKESM1_ice_LL model.
+        """Returns the UM version of the UKESM1_ice_LL model.
 
-        :return: UM version of UKESM1_ice_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            UM version of UKESM1_ice_LL
         """
         return '10.8'
 
 
 class Cmip6ModelsStore(BaseModelStore):
-    """
-    Singleton class to store for each model the corresponding parameters.
+    """Singleton class to store for each model the corresponding parameters.
     The parameters are defined in json files. The default parameters are
     stored in the data/model directory.
 
@@ -418,11 +425,12 @@ class Cmip6ModelsStore(BaseModelStore):
 
     @classmethod
     def create_instance(cls) -> 'Cmip6ModelsStore':
-        """
-        Creates a new class instance.
+        """Creates a new class instance.
 
-        :return: New class instance
-        :rtype: Cmip6ModelsStore
+        Returns
+        -------
+        Cmip6ModelsStore
+            New class instance
         """
         return Cmip6ModelsStore()
 

@@ -1,17 +1,14 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-The :mod:`constants` module contains the constants required
+"""The :mod:`constants` module contains the constants required
 to create a CSV sheet of requested variables.
 """
 import enum
 
 
 class Field(enum.Enum):
-    """
-    Stores all field keys (json and csv) for approved variables
-    """
+    """Stores all field keys (json and csv) for approved variables"""
 
     def __new__(cls, *args, **kwds):
         value = len(cls.__members__) + 1
@@ -39,9 +36,7 @@ class Field(enum.Enum):
 
 
 class JSONType(enum.Enum):
-    """
-    Define field json value types
-    """
+    """Define field json value types"""
 
     def __new__(cls, *args, **kwds):
         value = len(cls.__members__) + 1

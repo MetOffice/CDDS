@@ -17,22 +17,17 @@ def _fileType(yfile):
 
 
 def getTestFileBase():
-    '''
-    returns the path to the directory containing test files
-    '''
+    """returns the path to the directory containing test files"""
     return os.path.join(os.environ['CDDS_ETC'], 'testdata', 'mip_table_tests')
 
 
 def getTestPath(yfile):
-    '''
-    returns the full path for test file yfile
-    '''
+    """returns the full path for test file yfile"""
     return os.path.join(getTestFileBase(), _fileType(yfile), yfile)
 
 
 def check_db_access():
-    """
-    Raises a SkipTest error if the credentials file isn't found or
+    """Raises a SkipTest error if the credentials file isn't found or
     a RuntimeError if found, but doesn't have the appropriate
     permissions.
     """

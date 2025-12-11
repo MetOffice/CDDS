@@ -1,9 +1,7 @@
 #!/usr/bin/env python3.10
 # (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Path reformatter script for use on JASMIN.
-"""
+"""Path reformatter script for use on JASMIN."""
 
 import sys
 from cdds.extract.command_line import main_cdds_arrange_input_data

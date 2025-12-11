@@ -20,9 +20,7 @@ class StubPpFile(object):
 class TestPpOpenFile(unittest.TestCase):
 
     def openpp(self, filename, failOnError=False):
-        """
-        stub pp opener
-        """
+        """stub pp opener"""
         self.opened = filename
         self.failOnError = failOnError
         return self.file_stub

@@ -5,10 +5,11 @@ import sys
 
 
 def add_to_path(path: str) -> None:
-    """
-    Add a new path to the PYTHONPATH.
+    """Add a new path to the PYTHONPATH.
 
-    :param path: Path to add
-    :type path: str
+    Parameters
+    ----------
+    path: str
+        Path to add
     """
     sys.path.append(path)

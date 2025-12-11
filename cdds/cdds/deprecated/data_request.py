@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-This module contains the code to identify critical changes to variables
+"""This module contains the code to identify critical changes to variables
 between different versions of the data request
 """
 from collections import defaultdict
@@ -21,8 +20,7 @@ from cdds.prepare.constants import (ALLOWED_POSITIVE, CRITICAL_FIELDS,
 
 def list_variables_for_experiment(data_request, experiment_id,
                                   fallback_experiment_id=None):
-    """
-    Return the |MIP requested variables| for the experiment provided by
+    """Return the |MIP requested variables| for the experiment provided by
     the ``experient_id`` parameter from the specified version of the
     |data request|.
 
@@ -31,15 +29,14 @@ def list_variables_for_experiment(data_request, experiment_id,
 
     Parameters
     ----------
-    data_request : \
-        :class:`cdds.data_request_interface.load.DataRequestWrapper`
+    data_request : :class:`cdds.data_request_interface.load.DataRequestWrapper`
         The specified version of the |data request|.
     experiment_id : str
         The |experiment identifier|.
 
     Returns
     -------
-    : dict of :class:`DataRequestVariables`
+    dict of :class:`DataRequestVariables`
         The |MIP requested variables| for the experiment from the
         specified version of the |data request|.
     """
@@ -86,8 +83,7 @@ def list_variables_for_experiment(data_request, experiment_id,
 def get_data_request_variables(data_request_version,
                                experiment_id, data_request_base_dir,
                                fallback_experiment_id=None):
-    """
-    Return the |MIP requested variables| for the experiment provided by
+    """Return the |MIP requested variables| for the experiment provided by
     the ``experient_id`` parameter from the specified version of the
     |data request|.
 
@@ -103,7 +99,7 @@ def get_data_request_variables(data_request_version,
 
     Returns
     -------
-    : dict of :class:`DataRequestVariables`
+    dict of :class:`DataRequestVariables`
         The |MIP requested variables| for the experiment from the
         specified version of the |data request|.
     """
@@ -124,8 +120,7 @@ def get_data_request_variables(data_request_version,
 
 def check_variable_model_data_request(variable, model_data_request_variables,
                                       comments):
-    """
-    Return the |MIP requested variable| from the version of the
+    """Return the |MIP requested variable| from the version of the
     |data request| used to setup the |model|.
 
     Parameters
@@ -140,7 +135,7 @@ def check_variable_model_data_request(variable, model_data_request_variables,
 
     Returns
     -------
-    : :class:`DataRequestVariable` or None
+    :class:`DataRequestVariable` or None
         The |MIP requested variable| from the version of the
         |data request| used to setup the |model|.
     """
@@ -163,8 +158,7 @@ def check_variable_model_data_request(variable, model_data_request_variables,
 
 
 def check_data_request_changes(variable, model_variable, mapping, comments):
-    """
-    Return whether the |MIP requested variable| has changed
+    """Return whether the |MIP requested variable| has changed
     significantly between the version of the |data request| used to
     setup the |model| and the specified version of the |data request|.
 
@@ -182,7 +176,7 @@ def check_data_request_changes(variable, model_variable, mapping, comments):
 
     Returns
     -------
-    :bool
+    bool
         Whether the |MIP requested variable| has changed significantly
         between the version of the |data request| used to setup the
         |model| and the specified version of the |data request|.
@@ -228,8 +222,7 @@ def check_data_request_changes(variable, model_variable, mapping, comments):
 
 
 def positive_is_compatible(positive1, positive2):
-    """
-    Return True if two positive values are compatible.
+    """Return True if two positive values are compatible.
 
     Parameters
     ----------
@@ -240,7 +233,7 @@ def positive_is_compatible(positive1, positive2):
 
     Returns
     -------
-    : bool
+    bool
         False if only one of the arguments supplied is None, otherwise
         True.
 
@@ -259,8 +252,7 @@ def positive_is_compatible(positive1, positive2):
 
 
 def calculate_priority(mips, data_request_variable):
-    """
-    Return the priority of the |MIP requested variable| given the list
+    """Return the priority of the |MIP requested variable| given the list
     of |MIPs| to contribute to and the information about the
     |MIP requested variable| from the |data request|.
 
@@ -276,7 +268,7 @@ def calculate_priority(mips, data_request_variable):
 
     Returns
     -------
-    : int
+    int
         The priority for the |MIP requested variable|.
     """
     priority = PRIORITY_UNSET
@@ -288,8 +280,7 @@ def calculate_priority(mips, data_request_variable):
 
 
 def check_priority(priority, max_priority, comments):
-    """
-    Return whether the priority provided to the ``priority`` parameter
+    """Return whether the priority provided to the ``priority`` parameter
     is equal to or less than the maximum priority provided to the
     ``max_priority`` parameter.
 
@@ -307,7 +298,7 @@ def check_priority(priority, max_priority, comments):
 
     Returns
     -------
-    : bool
+    bool
         Whether the priority is equal to or less than the maximum
         priority.
     """
@@ -321,8 +312,7 @@ def check_priority(priority, max_priority, comments):
 
 
 def calculate_ensemble_size(mips, data_request_variable):
-    """
-    Return the ensemble size of the |MIP requested variable| given the list
+    """Return the ensemble size of the |MIP requested variable| given the list
     of |MIPs| to contribute to and the information about the
     |MIP requested variable| from the |data request|.
 
@@ -338,7 +328,7 @@ def calculate_ensemble_size(mips, data_request_variable):
 
     Returns
     -------
-    : int
+    int
         The largest required ensemble size for the |MIP requested variable|
     """
     ensemble_size = 0

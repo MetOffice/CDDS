@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`cmip7_models` module contains the code required to
+"""The :mod:`cmip7_models` module contains the code required to
 handle model parameters information for CMIP7 models.
 """
 import logging
@@ -15,16 +14,15 @@ from cdds.common.plugins.cmip7.cmip7_grid_mapping import CMIP7GridMapping
 
 
 class Cmip7ModelId(ModelId):
-    """
-    Represents the ID of a CMIP7 model.
-    """
+    """Represents the ID of a CMIP7 model."""
 
     def get_json_file(self) -> str:
-        """
-        Returns the json file name for a model containing the model ID as identifier.
+        """Returns the json file name for a model containing the model ID as identifier.
 
-        :return: Json file name for the model with current ID
-        :rtype: str
+        Returns
+        -------
+        str
+            Json file name for the model with current ID
         """
         return '{}.json'.format(self.value)
 
@@ -32,9 +30,7 @@ class Cmip7ModelId(ModelId):
 
 
 class UKESM1_3_LL_Params(BaseModelParameters):
-    """
-    Class to store the parameters for the UKESM1_3_LL model.
-    """
+    """Class to store the parameters for the UKESM1_3_LL model."""
 
     def __init__(self) -> None:
         super(UKESM1_3_LL_Params, self).__init__(Cmip7ModelId.UKESM1_3_LL)
@@ -42,38 +38,40 @@ class UKESM1_3_LL_Params(BaseModelParameters):
 
     @property
     def model_version(self) -> str:
-        """
-        Returns the model version of the UKESM1_3_LL model.
+        """Returns the model version of the UKESM1_3_LL model.
 
-        :return: Model version of UKESM1_3_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version of UKESM1_3_LL
         """
         return '1.0'
 
     @property
     def data_request_version(self) -> str:
-        """
-        Returns the data request version of the UKESM1_3_LL model.
+        """Returns the data request version of the UKESM1_3_LL model.
 
-        :return: Data request version of UKESM1_3_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version of UKESM1_3_LL
         """
         return '01.00.17'
 
     @property
     def um_version(self) -> str:
-        """
-        Returns the UM version of the UKESM1_3_LL model.
+        """Returns the UM version of the UKESM1_3_LL model.
 
-        :return: UM version of UKESM1_3_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            UM version of UKESM1_3_LL
         """
         return '10.8'
 
 
 class Cmip7ModelsStore(BaseModelStore):
-    """
-    Singleton class to store for each model the corresponding parameters.
+    """Singleton class to store for each model the corresponding parameters.
     The parameters are defined in json files. The default parameters are
     stored in the data/model directory.
 
@@ -89,11 +87,12 @@ class Cmip7ModelsStore(BaseModelStore):
 
     @classmethod
     def create_instance(cls) -> 'Cmip7ModelsStore':
-        """
-        Creates a new class instance.
+        """Creates a new class instance.
 
-        :return: New class instance
-        :rtype: Cmip7ModelsStore
+        Returns
+        -------
+        Cmip7ModelsStore
+            New class instance
         """
         return Cmip7ModelsStore()
 

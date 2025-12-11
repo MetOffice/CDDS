@@ -42,9 +42,7 @@ class TestGetAxisIds(unittest.TestCase):
         return self.makers[axis_dir]
 
     def getAxisMakerDict(self):
-        """
-        test acts as stub axis_map
-        """
+        """test acts as stub axis_map"""
         ids = list(range(len(self.entries)))
         for (axis_direction, entry, a_id) in zip(self._axis_dirs, self.entries, ids):
             self.ids.append(a_id)

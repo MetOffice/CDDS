@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Tests for the file organisation tools module.
-"""
+"""Tests for the file organisation tools module."""
 import datetime
 import unittest
 
@@ -55,9 +53,7 @@ def generate_expected_file_lists(root_dir, component_list, var_list, date_list,
 
 
 class TestOrganiseFiles(unittest.TestCase):
-    """
-    Simple tests of organise_files routines
-    """
+    """Simple tests of organise_files routines"""
     def setUp(self):
         Calendar.default().set_mode('360_day')
 
@@ -68,9 +64,7 @@ class TestOrganiseFiles(unittest.TestCase):
                                     mock_exists,
                                     mock_listdir,
                                     mock_iglob):
-        """
-        Test the organise_files.identify_files_to_move() function.
-        """
+        """Test the organise_files.identify_files_to_move() function."""
         mock_exists.return_value = True
 
         # inputs to the function
@@ -117,8 +111,7 @@ class TestOrganiseFiles(unittest.TestCase):
                                              mock_exists,
                                              mock_listdir,
                                              mock_iglob):
-        """
-        Test the organise_files.identify_files_to_move() function.
+        """Test the organise_files.identify_files_to_move() function.
         This tests tests the function uses parameters eumlating 6 monthly
         cycling. Through mocking, the function sees files for 1850-1860 in
         6 montly steps, but should only list files from 1855-01 to 1859-12
@@ -180,9 +173,7 @@ class TestOrganiseFiles(unittest.TestCase):
     @mock.patch('os.path.isdir')
     @mock.patch('os.mkdir')
     def test_move_files(self, mock_mkdir, mock_isdir, mock_move):
-        """
-        Test the organise_files.move_files() function.
-        """
+        """Test the organise_files.move_files() function."""
 
         mock_isdir.return_value = False
         files_to_move = {'A': {'prw': ['prw_A_date1.nc', 'prw_A_date2.nc'],

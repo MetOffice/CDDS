@@ -5,8 +5,7 @@ import os
 
 
 def check_environment_variables():
-    """
-    Print current values of the required environment variables.
+    """Print current values of the required environment variables.
     Notify user of any that are currently unset or any invalid paths that have been assigned.
     """
     required_variables = [

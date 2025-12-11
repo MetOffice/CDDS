@@ -36,8 +36,7 @@ class CommandLineTestCase(unittest.TestCase):
         self.assertDictEqual(test_expected, test_result)
 
     def test_populate_facets_dict_keys(self):
-        """
-        Test to catch any changes to the constant INVENTORY_FACET_LIST in
+        """Test to catch any changes to the constant INVENTORY_FACET_LIST in
         cdds.common.constants
         """
 

@@ -32,8 +32,10 @@ class ConfigureTemplateVariables:
     def template_variables(self) -> dict:
         """Combine the separate groupings of jinja2 variables into a single dictionary.
 
-        :return: A dictionary of all jinja2 variables needed to run u-ak283
-        :rtype: dict
+        Returns
+        -------
+        dict
+            A dictionary of all jinja2 variables needed to run u-ak283
         """
         template_variables = {}
         template_variables.update(self.flag_variables())
@@ -46,13 +48,14 @@ class ConfigureTemplateVariables:
 
     @property
     def request_path(self) -> str:
-        """
-        In order to run subtasks in the convert suite (extract, QC and transfer), the suite needs to know
+        """In order to run subtasks in the convert suite (extract, QC and transfer), the suite needs to know
         the path to the request cfg file. This path is often specified as a relative path, so we need to
         get the absolute path if this is the case to pass to the suite config.
 
-        :return: Absolute path to the request.cfg
-        :rtype: str
+        Returns
+        -------
+        str
+            Absolute path to the request.cfg
         """
         if os.path.isabs(self._arguments.request_path):
             request_cfg_path = self._arguments.request_path
@@ -63,8 +66,10 @@ class ConfigureTemplateVariables:
     def flag_variables(self) -> dict:
         """A grouping of flag-like jinja2 variables.
 
-        :return: A dictionary of jinja2 flags.
-        :rtype: dict
+        Returns
+        -------
+        dict
+            A dictionary of jinja2 flags.
         """
         flag_variables = {
             "DEV_MODE": _DEV,
@@ -82,8 +87,10 @@ class ConfigureTemplateVariables:
     def general_variables(self) -> dict:
         """A grouping of general jinja2 variables.
 
-        :return: A dictionary of jinja2 general variables
-        :rtype: dict
+        Returns
+        -------
+        dict
+            A dictionary of jinja2 general variables
         """
 
         general_variables = {
@@ -120,8 +127,10 @@ class ConfigureTemplateVariables:
     def plugin_variables(self) -> dict:
         """Set various jinja2 variables relating to plugins.
 
-        :return: A dictionary of jinja2 plugin variables.
-        :rtype: dict
+        Returns
+        -------
+        dict
+            A dictionary of jinja2 plugin variables.
         """
         plugin_variables = {
             "EXTERNAL_PLUGIN": "",
@@ -149,8 +158,10 @@ class ConfigureTemplateVariables:
     def stream_variables(self) -> dict:
         """Return a copy of self.stream_config without FINAL_CYCLE_POINT.
 
-        :return: A dictionary of jinja2 stream variables.
-        :rtype: dict
+        Returns
+        -------
+        dict
+            A dictionary of jinja2 stream variables.
         """
         stream_variables = {
             k: v for k, v in self.stream_config.items() if k != "FINAL_CYCLE_POINT"
@@ -162,8 +173,10 @@ class ConfigureTemplateVariables:
         """A Cylc workflow can only have one final cycle point, so the latest point out of all streams
         is used.
 
-        :return: The latest FINAL_CYCLE_POINT out of all of the streams.
-        :rtype: dict
+        Returns
+        -------
+        dict
+            The latest FINAL_CYCLE_POINT out of all of the streams.
         """
         final_cycle_points = []
         for point in self.stream_config["FINAL_CONCATENATION_CYCLE"].values():

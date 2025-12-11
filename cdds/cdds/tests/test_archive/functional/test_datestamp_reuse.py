@@ -8,8 +8,7 @@ from unittest import mock
 
 
 class TestStoreDatestampReuse(StoreTestCase):
-    """
-    USE CASE 8
+    """USE CASE 8
         Archive data when there is already data with a same datestamp in the embargoed state
 
     INPUT

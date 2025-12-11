@@ -13,9 +13,7 @@ from mip_convert.save.cmor.cmor_outputter import (
 class TestAxisExamples(unittest.TestCase):
 
     def axis(self, table_entry, units=None, **kwargs):
-        """
-        test acts as stub cmor
-        """
+        """test acts as stub cmor"""
         self.nkwargs = (table_entry)
         arguments = {
             'units': units,
@@ -28,9 +26,7 @@ class TestAxisExamples(unittest.TestCase):
         return self.assigned_axis_id
 
     def zfactor(self, axis_id, zfactor_id, axis_ids=None, zfactor_values=None, zfactor_bounds=None, units=None):
-        """
-        test acts as stub cmor
-        """
+        """test acts as stub cmor"""
         self.zfactor_aaxis.append(axis_id)
         self.zfactor_aid.append(zfactor_id)
         self.zfactor_aaxis_ids.append(axis_ids)
@@ -237,8 +233,7 @@ class TestAxisExamples(unittest.TestCase):
 
 
 class RepeatTestAxisMaker(AbstractAxisMaker):
-    """
-    Use this as a test class that inherits from AbstractAxisMaker
+    """Use this as a test class that inherits from AbstractAxisMaker
     for use to test common AxisMaker behaviour.
     """
 
@@ -252,8 +247,7 @@ class RepeatTestAxisMaker(AbstractAxisMaker):
 
 
 class TestAbstractAxisMaker(unittest.TestCase):
-    """
-    test behaviour common to all axes makers
+    """test behaviour common to all axes makers
     these are tests around the repeat calls to axis maker which should not call
     cmor any more times than necessary
     """

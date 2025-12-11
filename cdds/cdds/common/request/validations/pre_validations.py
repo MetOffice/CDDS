@@ -13,15 +13,16 @@ from cdds.common.request.request_section import Section
 
 
 def do_pre_validations(config: ConfigParser, section: Type[Section]) -> None:
-    """
-    Pre-validate the request configuration for the given section by checking if:
+    """Pre-validate the request configuration for the given section by checking if:
         * all defined properties are known
         * all defined properties has the right type and can be parsed
 
-    :param config: Configuration parser contains the properties of the request.cfg
-    :type config: ConfigParser
-    :param section: Class of section that should be checked
-    :type section: Section
+    Parameters
+    ----------
+    config : ConfigParser
+        Configuration parser contains the properties of the request.cfg
+    section : Section
+        Class of section that should be checked
     """
     logger = logging.getLogger(__name__)
     config_values: Dict[str, str] = dict(config.items(section.name()))
@@ -55,15 +56,16 @@ def do_pre_validations(config: ConfigParser, section: Type[Section]) -> None:
 
 
 def validate_time_point(value: str, key: str, section: str) -> None:
-    """
-    Validate if value is a right defined time point and can be parsed.
+    """Validate if value is a right defined time point and can be parsed.
 
-    :param value: Property value to check
-    :type value: str
-    :param key: Property key that is used in the request.cfg for the given value
-    :type key: str
-    :param section: Name of the section where the property is located
-    :type section: str
+    Parameters
+    ----------
+    value : str
+        Property value to check
+    key : str
+        Property key that is used in the request.cfg for the given value
+    section : str
+        Name of the section where the property is located
     """
     logger = logging.getLogger(__name__)
     try:
@@ -77,15 +79,16 @@ def validate_time_point(value: str, key: str, section: str) -> None:
 
 
 def validate_bool(value: str, key: str, section: str):
-    """
-    Validate if value can be converted to a bool.
+    """Validate if value can be converted to a bool.
 
-    :param value: Property value to check
-    :type value: str
-    :param key: Property key that is used in the request.cfg for the given value
-    :type key: str
-    :param section: Name of the section where the property is located
-    :type section: str
+    Parameters
+    ----------
+    value : str
+        Property value to check
+    key : str
+        Property key that is used in the request.cfg for the given value
+    section : str
+        Name of the section where the property is located
     """
     logger = logging.getLogger(__name__)
     if value.lower() not in ['true', 'false']:
@@ -95,15 +98,16 @@ def validate_bool(value: str, key: str, section: str):
 
 
 def validate_number(value: str, key: str, section: str):
-    """
-    Validate if value can be converted to a number.
+    """Validate if value can be converted to a number.
 
-    :param value: Property value to check
-    :type value: str
-    :param key: Property key that is used in the request.cfg for the given value
-    :type key: str
-    :param section: Name of the section where the property is located
-    :type section: str
+    Parameters
+    ----------
+    value : str
+        Property value to check
+    key : str
+        Property key that is used in the request.cfg for the given value
+    section : str
+        Name of the section where the property is located
     """
     logger = logging.getLogger(__name__)
     if not value.isnumeric():
@@ -113,15 +117,16 @@ def validate_number(value: str, key: str, section: str):
 
 
 def validate_float(value: str, key: str, section: str):
-    """
-    Validate if value can be converted to a float.
+    """Validate if value can be converted to a float.
 
-    :param value: Property value to check
-    :type value: str
-    :param key: Property key that is used in the request.cfg for the given value
-    :type key: str
-    :param section: Name of the section where the property is located
-    :type section: str
+    Parameters
+    ----------
+    value : str
+        Property value to check
+    key : str
+        Property key that is used in the request.cfg for the given value
+    section : str
+        Name of the section where the property is located
     """
     logger = logging.getLogger(__name__)
 

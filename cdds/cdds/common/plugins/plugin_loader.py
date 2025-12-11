@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`plugin_loader` module contains the code for loading CDDS plugins.
-"""
+"""The :mod:`plugin_loader` module contains the code for loading CDDS plugins."""
 import inspect
 import importlib
 import logging
@@ -21,20 +19,20 @@ from cdds.common.plugins.gcmodeldev.gcmodeldev_plugin import GCModelDevPlugin
 
 
 def load_plugin(mip_era: str = MipEra.CMIP6.value, plugin_module_path: str = None, plugin_location: str = None) -> None:
-    """
-    Searches for a CDDS plugin that is responsible for the project with given ID,
+    """Searches for a CDDS plugin that is responsible for the project with given ID,
     loads it and registers it.
 
     The search is done on the implemented plugins of the CDDS project and on the
     plugins implemented in the module at the given module path.
 
-    :param mip_era: The MIP era that plugin is responsible for (Default: CMIP6)
-    :type mip_era: str
-    :param plugin_module_path: Path to the module that contains the implementation
-                                of the plugin that should be loaded
-    :param plugin_location: Path to the plugin implementation that should be added
-                                to the PYTHONPATH
-    :type plugin_module_path: str
+    Parameters
+    ----------
+    mip_era : str
+        The MIP era that plugin is responsible for (Default: CMIP6)
+    plugin_module_path : str
+        Path to the module that contains the implementation of the plugin that should be loaded
+    plugin_location
+        Path to the plugin implementation that should be added to the PYTHONPATH
     """
     logger = logging.getLogger(__name__)
     if plugin_location:
@@ -59,12 +57,13 @@ def load_plugin(mip_era: str = MipEra.CMIP6.value, plugin_module_path: str = Non
 
 
 def load_cmip_plugin(mip_era: str) -> None:
-    """
-    Loads the CMIP plugin implemented by the CDDS project that is responsible for
+    """Loads the CMIP plugin implemented by the CDDS project that is responsible for
     the project with given ID.
 
-    :param mip_era: MIP era for that the plugin is responsible
-    :type mip_era: str
+    Parameters
+    ----------
+    mip_era : str
+        MIP era for that the plugin is responsible
     """
     logger = logging.getLogger(__name__)
     cmip6_plugin = Cmip6Plugin()
@@ -79,12 +78,13 @@ def load_cmip_plugin(mip_era: str) -> None:
 
 
 def load_cmip_plus_plugin(mip_era: str) -> None:
-    """
-    Loads the CMIP6Plus plugin implemented by the CDDS project that is responsible for
+    """Loads the CMIP6Plus plugin implemented by the CDDS project that is responsible for
     the project with given ID.
 
-    :param mip_era: MIP era for that the plugin is responsible
-    :type mip_era: str
+    Parameters
+    ----------
+    mip_era : str
+        MIP era for that the plugin is responsible
     """
     logger = logging.getLogger(__name__)
     cmip6_plus_plugin = Cmip6PlusPlugin()
@@ -99,12 +99,13 @@ def load_cmip_plus_plugin(mip_era: str) -> None:
 
 
 def load_cmip7_plugin(mip_era: str) -> None:
-    """
-    Loads the CMIP7 plugin implemented by the CDDS project that is responsible for
+    """Loads the CMIP7 plugin implemented by the CDDS project that is responsible for
     the project with given ID.
 
-    :param mip_era: MIP era for that the plugin is responsible
-    :type mip_era: str
+    Parameters
+    ----------
+    mip_era : str
+        MIP era for that the plugin is responsible
     """
     logger = logging.getLogger(__name__)
     cmip7_plugin = Cmip7Plugin()
@@ -119,12 +120,13 @@ def load_cmip7_plugin(mip_era: str) -> None:
 
 
 def load_gc_model_dev_plugin(mip_era: str) -> None:
-    """
-    Loads the GcModelDev plugin implemented by the CDDS project that is responsible for
+    """Loads the GcModelDev plugin implemented by the CDDS project that is responsible for
     the project with given ID.
 
-    :param mip_era: MIP era for that the plugin is responsible
-    :type mip_era: str
+    Parameters
+    ----------
+    mip_era : str
+        MIP era for that the plugin is responsible
     """
     logger = logging.getLogger(__name__)
     gc_model_dev_plugin = GCModelDevPlugin()
@@ -139,12 +141,13 @@ def load_gc_model_dev_plugin(mip_era: str) -> None:
 
 
 def load_cordex_plugin(mip_era: str) -> None:
-    """
-    Loads the CORDEX plugin implemented by the CDDS project that is responsible for
+    """Loads the CORDEX plugin implemented by the CDDS project that is responsible for
     the project with given ID.
 
-    :param mip_era: MIP era for that the plugin is responsible
-    :type mip_era: str
+    Parameters
+    ----------
+    mip_era : str
+        MIP era for that the plugin is responsible
     """
     logger = logging.getLogger(__name__)
     cordex_plugin = CordexPlugin()
@@ -159,13 +162,14 @@ def load_cordex_plugin(mip_era: str) -> None:
 
 
 def load_external_plugin(mip_era: str, plugin_module_path: str) -> None:
-    """
-    Loads the plugin for the project with given ID that is implemented in the module at given path.
+    """Loads the plugin for the project with given ID that is implemented in the module at given path.
 
-    :param mip_era: The MIP era for that the plugin is responsible
-    :type mip_era: str
-    :param plugin_module_path: Absolute path to the module that implemented the plugin
-    :type plugin_module_path: str
+    Parameters
+    ----------
+    mip_era : str
+        The MIP era for that the plugin is responsible
+    plugin_module_path : str
+        Absolute path to the module that implemented the plugin
     """
     logger = logging.getLogger(__name__)
     external_plugin = find_external_plugin(mip_era, plugin_module_path)
@@ -180,15 +184,19 @@ def load_external_plugin(mip_era: str, plugin_module_path: str) -> None:
 
 
 def find_external_plugin(mip_era: str, plugin_module_path: str) -> CddsPlugin:
-    """
-    Search for the CDDS plugin for given MIP era that is implemented in the module at given path.
+    """Search for the CDDS plugin for given MIP era that is implemented in the module at given path.
 
-    :param mip_era: The MIP era of the searched plugin
-    :type mip_era: str
-    :param plugin_module_path: Absolute path to the module that implemented the plugin
-    :type plugin_module_path: str
-    :return: The plugin for given project implemented in given module
-    :rtype: CddsPlugin
+    Parameters
+    ----------
+    mip_era : str
+        The MIP era of the searched plugin
+    plugin_module_path : str
+        Absolute path to the module that implemented the plugin
+
+    Returns
+    -------
+    CddsPlugin
+        The plugin for given project implemented in given module
     """
     logger = logging.getLogger(__name__)
     external_plugin = None
@@ -209,12 +217,16 @@ def find_external_plugin(mip_era: str, plugin_module_path: str) -> CddsPlugin:
 
 
 def is_plugin(anything: Any) -> bool:
-    """
-    Checks if given object is a CDDS plugin or not.
+    """Checks if given object is a CDDS plugin or not.
 
-    :param anything: Any object that should be checked if it is a CDDS plugin
-    :type anything: Any
-    :return: True if given object is a CDDS plugin, otherwise false.
-    :rtype: bool
+    Parameters
+    ----------
+    anything : Any
+        Any object that should be checked if it is a CDDS plugin
+
+    Returns
+    -------
+    bool
+        True if given object is a CDDS plugin, otherwise false.
     """
     return inspect.isclass(anything) and not inspect.isabstract(anything) and issubclass(anything, CddsPlugin)

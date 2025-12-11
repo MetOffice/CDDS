@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Exceptions raised by accessing MASS
-"""
+"""Exceptions raised by accessing MASS"""
 from enum import Enum
 
 
@@ -61,26 +59,20 @@ class MassFailure(Enum):
 
 
 class MassError(Exception):
-    """
-    Raised if errors occur when accessing MASS or processing MASS commands.
-    """
+    """Raised if errors occur when accessing MASS or processing MASS commands."""
     def __init__(self, mass_failure, command):
         super(MassError, self).__init__(mass_failure.get_message(command))
         self.msg = mass_failure.get_message(command)
 
 
 class FileNotExistMassError(MassError):
-    """
-    Raised if errors occur when accessing a non existing MASS location.
-    """
+    """Raised if errors occur when accessing a non existing MASS location."""
     def __init__(self, command):
         super(FileNotExistMassError, self).__init__(MassFailure.NOT_EXIST_ERROR, command)
 
 
 class DirAlreadyExistMassError(MassError):
-    """
-    Raised if errors occur when trying to create an already existing directory
-    """
+    """Raised if errors occur when trying to create an already existing directory"""
 
     def __init__(self, command):
         super(DirAlreadyExistMassError, self).__init__(MassFailure.DIR_ALREADY_EXIST_ERROR, command)

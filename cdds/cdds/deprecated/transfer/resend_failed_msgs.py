@@ -8,12 +8,11 @@ from cdds.deprecated.transfer import config, msg
 
 
 def resend_failed_msgs(delete_msgs):
-    """
-    The message store file should contain the section `msg_store` with the key `top_dir`
+    """The message store file should contain the section `msg_store` with the key `top_dir`
     pointing at the location to store messages in. Alternatively this information could be
     placed in the .cdds_credentials file.
 
-    PARAMETERS
+    Parameters
     ----------
     delete_msgs : bool
         Delete the messages from disk after sending if True.

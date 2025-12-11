@@ -114,7 +114,7 @@ def validate(path, stream, stash_codes, validation_result, filenames, file_frequ
 
 
 def validate_file_names(path, validation_result, filenames, file_type):
-    """ Compare a list of expected files against the files on disk. If strict=True then
+    """Compare a list of expected files against the files on disk. If strict=True then
     validation will fail if there are additional files that are not expected.
 
     Parameters
@@ -138,8 +138,7 @@ def validate_file_names(path, validation_result, filenames, file_type):
 
 
 def validate_directory_netcdf(path, validation_result):
-    """
-    Checks that |netCDF| files at provided location can be read.
+    """Checks that |netCDF| files at provided location can be read.
     Returns overall validation status, error message(s), and a list
     of unreadable files (if present).
 
@@ -160,15 +159,18 @@ def validate_directory_netcdf(path, validation_result):
 
 
 def get_stash_fields(path: str, validation_result: StreamValidationResult) -> dict[str, dict[str, int]]:
-    """ Validates if pp files in a given location contain all required
-    stash codes,
+    """Validates if pp files in a given location contain all requiredmstash codes,
 
-    :param path: Path of interest.
-    :type path: str
-    :param validation_result: Holds errors and results of validation.
-    :type validation_result: StreamValidationResult
-    :return:
-    :rtype: dict[in, int]
+    Parameters
+    ----------
+    path: str
+        Path of interest.
+    validation_result: StreamValidationResult
+        Holds errors and results of validation.
+
+    Returns
+    -------
+    dict[in, int]
     """
     stash_in_file = {}
     pp_files = [file for file in os.listdir(path) if file.endswith('.pp')]
@@ -189,16 +191,18 @@ def check_expected_stash(
     path: str,
     expected_stash: set[int],
 ):
-    """ Checks that all the expected stash codes are found in each file.
+    """Checks that all the expected stash codes are found in each file.
 
-    :param stash_in_file: Stash entries in files.
-    :type stash_in_file: dict[str, dict[int, int]]
-    :param validation_result: Validation results for a given stream.
-    :type validation_result: StreamValidationResult
-    :param path: Path to files.
-    :type path: str
-    :param expected_stash: The set of expected stash codes.
-    :type expected_stash: set[int]
+    Parameters
+    ----------
+    stash_in_file : dict[str, dict[int, int]]
+        Stash entries in files.
+    validation_result : StreamValidationResult
+        Validation results for a given stream.
+     path : str
+        Path to files.
+    expected_stash : set[int]
+        The set of expected stash codes.
     """
     for file, stash in stash_in_file.items():
         if expected_stash.difference(set(stash.keys())):
@@ -216,14 +220,16 @@ def check_consistent_stash(
     path: str,
     file_frequency: str
 ) -> None:
-    """ Checks that the number of stash entries is consistent across all files.
+    """Checks that the number of stash entries is consistent across all files.
 
-    :param stash_in_file: Stash entries in files.
-    :type stash_in_file: dict
-    :param validation_result: Validation results for a given stream.
-    :type validation_result: StreamValidationResult
-    :param path: Path to files.
-    :type path: str
+    Parameters
+    ----------
+    stash_in_file : dict
+        Stash entries in files.
+    validation_result : StreamValidationResult
+        Validation results for a given stream.
+    path : str
+        Path to files.
     """
     if Calendar.default().mode == "gregorian" and file_frequency in ["monthly", "seasonal"]:
         logger = logging.getLogger(__name__)

@@ -48,8 +48,7 @@ LBTIM_DEFAULT_POINT = (0, 1)
 
 
 class _ListWrapper(object):
-    """
-    Wrapper for a list class to give it an interface a little like
+    """Wrapper for a list class to give it an interface a little like
     a numpy array.
     """
 
@@ -67,8 +66,7 @@ class _ListWrapper(object):
 
 
 class _NumpyWrapper(object):
-    """
-    Wrapper for a numpy class to give it an interface that can be
+    """Wrapper for a numpy class to give it an interface that can be
     used in the Longitudes calculation.
     """
 
@@ -86,17 +84,17 @@ class _NumpyWrapper(object):
 
 
 class Longitudes(object):
-    """
-    Class to represent a sequence of longitudes (in degrees)
-    """
+    """Class to represent a sequence of longitudes (in degrees)"""
     _PERIOD = 360
     _MAX_LONGITUDE = _PERIOD
     _MIN_LONGITUDE = -180
 
     def __init__(self, values):
         """
-        :param values: list or numpy of longitude values
-                       assumed to be in degrees (no checking)
+        Parameters
+        ----------
+        values
+            list or numpy of longitude values assumed to be in degrees (no checking)
         """
         # make sure the data has the same interface to make following
         # logic simpler
@@ -106,8 +104,7 @@ class Longitudes(object):
             self._values = _NumpyWrapper(values)
 
     def within_range(self):
-        """
-        Return the longitudes in a range between -180 and 360 degrees
+        """Return the longitudes in a range between -180 and 360 degrees
         the type returned is consistent with the type passed into the
         constructor.
         """
@@ -132,26 +129,24 @@ class Longitudes(object):
 
 
 class ObjectWithLogger(object):
-    """
-    Base class providing an object with a logger.
-    """
+    """Base class providing an object with a logger."""
 
     def __init__(self):
         self.logger = logging.getLogger("%s.%s" % (self.__class__.__module__, self.__class__.__name__))
 
 
 class VersionString(object):
-    """
-    Lightweight class to represent version strings, allows comparison
+    """Lightweight class to represent version strings, allows comparison
     of a UM version string with a float.
     """
     # this is a barebones implementation enough to enable progress
 
     def __init__(self, value):
         """
-        :param value: a string of the form 'x', or 'x.y', or 'x.y.z'
-                      in the latter case the micro version number z is
-                      thrown away
+        Parameters
+        ----------
+        value
+            a string of the form 'x', or 'x.y', or 'x.y.z' in the latter case the micro version number z is thrown away
         """
         parts = list(map(int, value.split('.')))
         self._version = parts[0]
@@ -159,59 +154,49 @@ class VersionString(object):
             self._version = self._version + (parts[1] / 10.)
 
     def __lt__(self, other):
-        """
-        Return conventional values for cmp. Compares self to a float
+        """Return conventional values for cmp. Compares self to a float
         other.
         """
         return self._version < other
 
     def __gt__(self, other):
-        """
-        Return conventional values for cmp. Compares self to a float
+        """Return conventional values for cmp. Compares self to a float
         other.
         """
         return self._version > other
 
     def __le__(self, other):
-        """
-        Return conventional values for cmp. Compares self to a float
+        """Return conventional values for cmp. Compares self to a float
         other.
         """
         return self._version <= other
 
     def __ge__(self, other):
-        """
-        Return conventional values for cmp. Compares self to a float
+        """Return conventional values for cmp. Compares self to a float
         other.
         """
         return self._version >= other
 
     def __eq__(self, other):
-        """
-        Return conventional values for cmp. Compares self to a float
+        """Return conventional values for cmp. Compares self to a float
         other.
         """
         return self._version == other
 
     def __ne__(self, other):
-        """
-        Return conventional values for cmp. Compares self to a float
+        """Return conventional values for cmp. Compares self to a float
         other.
         """
         return self._version != other
 
 
 class RelativePathError(Exception):
-    """
-    Exception if a path does not exist or is not expected type.
-    """
+    """Exception if a path does not exist or is not expected type."""
     pass
 
 
 class RelativePathChecker(object):
-    """
-    Provides file names relative to a base path.
-    """
+    """Provides file names relative to a base path."""
 
     NO_PATH = '%s path "%s" does not exist'
     NOT_DIR = '%s path "%s" not a directory'
@@ -219,11 +204,14 @@ class RelativePathChecker(object):
 
     def __init__(self, base, description, os_path):
         """
-        :param base: - the base path to provide
-        :param description: - descriptive text for the files in this
-                              directory, used in error messages
-        :param os_path: - object with the same interface as the os_path
-                          module
+        Parameters
+        ----------
+        base
+            the base path to provide
+        description
+            descriptive text for the files in this directory, used in error messages
+        os_path
+            object with the same interface as the os_path module
         """
         self.os_path = os_path
         self.base = base
@@ -231,15 +219,12 @@ class RelativePathChecker(object):
         self._checkDir()
 
     def _errorExist(self, ypath, message):
-        """
-        Throw an exception if the path ypath does not exist.
-        """
+        """Throw an exception if the path ypath does not exist."""
         if not self.os_path.exists(ypath):
             raise RelativePathError(message)
 
     def _checkDir(self):
-        """
-        Throw an exception if the base directory does not exist or is
+        """Throw an exception if the base directory does not exist or is
         not a directory.
         """
         self._errorExist(self.base, self.NO_PATH % (self.description, self.base))
@@ -248,8 +233,7 @@ class RelativePathChecker(object):
             raise RelativePathError(self.NOT_DIR % (self.description, self.base))
 
     def fullFileName(self, relative):
-        """
-        Return the full file name for the file "relative".
+        """Return the full file name for the file "relative".
 
         Raises and exception if the file does not exist or is not a
         file.
@@ -264,19 +248,25 @@ class RelativePathChecker(object):
 
 
 def check_extension(filenames, extension):
-    """
-    Return whether the files provided to the ``filenames`` parameter
+    """Return whether the files provided to the ``filenames`` parameter
     all have the same extension provided to the ``extension``
     parameter.
 
-    :param filenames: the names of the files to be checked
-    :type filenames: list of strings
-    :param extension: the expected extension of the files
-    :type extension: string
-    :return: whether the files have the same extension
-    :rtype: boolean
+    Parameters
+    ----------
+    filenames : list of strings
+        the names of the files to be checked
+    extension : string
+        the expected extension of the files
 
-    :Examples:
+    Returns
+    -------
+    boolean
+        whether the files have the same extension
+
+    Examples
+    --------
+
 
     >>> check_extension(['file1.nc', 'file2.nc', 'file3.nc'], '.nc')
     True
@@ -295,18 +285,18 @@ def check_extension(filenames, extension):
 
 
 def check_values_equal(value1, value2, tolerance=0.001):
-    """
-    Return whether ``value1`` and ``value2`` are equal.
+    """Return whether ``value1`` and ``value2`` are equal.
 
     The ``tolerance`` is used to check whether two floats are equal.
 
-    :param value1: the first value to check
-    :type value1: string or numeric
-    :param value2: the second value to check
-    :type value2: string or numeric
-    :param tolerance: the tolerance used when checking whether two
-        floats are equal
-    :type tolerance: float
+    Parameters
+    ----------
+    value1 : string or numeric
+        the first value to check
+    value2 : string or numeric
+        the second value to check
+    tolerance : float
+        the tolerance used when checking whether two floats are equal
     """
     if isinstance(value1, (float, np.floating)) and isinstance(value2, (float, np.floating)):
         result = abs(value1 - value2) < tolerance
@@ -316,19 +306,19 @@ def check_values_equal(value1, value2, tolerance=0.001):
 
 
 def is_time_constant(cube):
-    """
-    Return True if the cube does not have a time axis so is time constant.
+    """Return True if the cube does not have a time axis so is time constant.
 
-    :param cube: the cube to check
-    :type coord: :class:`iris.cube.Cube`
-
+    Parameters
+    ----------
+    cube
+        the cube to check
+    coord : :class:`iris.cube.Cube`
     """
     return len(cube.coords(axis='T')) == 0
 
 
 def apply_time_constraint(cube, time_constraint_function):
-    """
-    Return the cube after applying the time constraint.
+    """Return the cube after applying the time constraint.
 
     Parameters
     ----------
@@ -362,20 +352,25 @@ def apply_time_constraint(cube, time_constraint_function):
 
 
 def separate_date(date, date_regex=DATE_TIME_REGEX):
-    """
-    Separate the date provided to the ``date`` parameter into
+    """Separate the date provided to the ``date`` parameter into
     components i.e., year, month, day, hours, minutes, seconds based on
     the regular expression provided to the ``date_regex`` parameter
 
-    :param date: the date to be separated
-    :type date: string
-    :param date_regex: the regular expression describing the format of
-                       the date
-    :type date_regex: string
-    :return: the components of the date
-    :rtype: dictionary
+    Parameters
+    ----------
+    date : string
+        the date to be separated
+    date_regex : string
+        the regular expression describing the format of the date
 
-    :Examples:
+    Returns
+    -------
+    dictionary
+        the components of the date
+
+    Examples
+    --------
+
 
     >>> date = separate_date(
     ...     '1970-02-01',
@@ -404,22 +399,27 @@ def separate_date(date, date_regex=DATE_TIME_REGEX):
 
 def format_date(date, date_regex=DATE_TIME_REGEX,
                 output_format='%Y-%m-%d %H:%M:%S'):
-    """
-    Convert the format of the date provided to the ``date`` parameter
+    """Convert the format of the date provided to the ``date`` parameter
     from the format provided to the ``date_regex`` parameter to the
     format provided to the ``output_format`` parameter.
 
-    :param date: the date to be formatted
-    :type date: string
-    :param date_regex: the regular expression describing the format
-                        of the date
-    :type date_regex: string
-    :param output_format: the output format
-    :type output_format: string
-    :return: the formatted date
-    :rtype: string
+    Parameters
+    ----------
+    date : string
+        the date to be formatted
+    date_regex : string
+        the regular expression describing the format of the date
+    output_format : string
+        the output format
 
-    :Examples:
+    Returns
+    -------
+    string
+        the formatted date
+
+    Examples
+    --------
+
 
     >>> print(format_date(
     ...     '19700101000000',
@@ -444,19 +444,22 @@ def format_date(date, date_regex=DATE_TIME_REGEX,
 
 
 def nearest_coordinates(coordinates1, coordinates2):
-    """
-    Return the coordinates in ``coordinates2`` that are nearest to the
+    """Return the coordinates in ``coordinates2`` that are nearest to the
     coordinates in ``coordinates1`` in the order of ``coordinates1``.
 
     This function uses Euclidean geometry.
 
-    :param coordinates1: the coordinates to compare to ``coordinates2``
-    :type coordinates1: list of (longitude, latitude) tuples [degrees]
-    :param coordinates2: the coordinates to compare to ``coordinates1``
-    :type coordinates2: list of (longitude, latitude) tuples [degrees]
-    :return: the coordinates in ``coordinates2`` that are nearest to
-        the coordinates in ``coordinates1``
-    :rtype: list of (longitude, latitude) tuples [degrees]
+    Parameters
+    ----------
+    coordinates1 : list of (longitude, latitude) tuples [degrees]
+        the coordinates to compare to ``coordinates2``
+    coordinates2 : list of (longitude, latitude) tuples [degrees]
+        the coordinates to compare to ``coordinates1``
+
+    Returns
+    -------
+    list of (longitude, latitude) tuples [degrees]
+        the coordinates in ``coordinates2`` that are nearest to the coordinates in ``coordinates1``
     """
     logger = logging.getLogger(__name__)
     # Using Euclidean geometry instead of Spherical geometry is good
@@ -482,8 +485,7 @@ def nearest_coordinates(coordinates1, coordinates2):
 
 
 def replace_coord_points_bounds(coord, points, bounds, dim_coord=True):
-    """
-    Return the coordinate provided to the ``coord`` parameter with
+    """Return the coordinate provided to the ``coord`` parameter with
     the points and bounds replaced with the values provided to the
     ``points`` and ``bounds`` parameters, respectively.
 
@@ -495,16 +497,19 @@ def replace_coord_points_bounds(coord, points, bounds, dim_coord=True):
     :class:`iris.coords.AuxCoord` object is returned with the requested
     points and bounds.
 
-    :param coord: the coordinate to update
-    :type coord: :class:`iris.coords.DimCoord` or
-        :class:`iris.coords.AuxCoord`
-    :param points: the new array of values for each cell
-    :type points: Numpy array
-    :param bounds: the new array of values describing the bounds of
-        each cell
-    :return: the updated coordinate
-    :rtype: :class:`iris.coords.DimCoord` or
-        :class:`iris.coords.AuxCoord`
+    Parameters
+    ----------
+    coord : :class:`iris.coords.DimCoord` or :class:`iris.coords.AuxCoord`
+        the coordinate to update
+    points : Numpy array
+        the new array of values for each cell
+    bounds
+        the new array of values describing the bounds of each cell
+
+    Returns
+    -------
+    :class:`iris.coords.DimCoord` or :class:`iris.coords.AuxCoord`
+        the updated coordinate
     """
     if dim_coord:
         updated_coord = iris.coords.DimCoord(
@@ -522,8 +527,7 @@ def replace_coord_points_bounds(coord, points, bounds, dim_coord=True):
 
 
 def get_field_attribute_name(header_element_name):
-    """
-    Return the name of the attribute on the
+    """Return the name of the attribute on the
     :class:`iris.fileformats.pp.PPField` object and the item position
     corresponding to the name of the PP field header element.
 
@@ -536,19 +540,24 @@ def get_field_attribute_name(header_element_name):
 
     The item position uses 0-based indexing.
 
-    :Examples:
+    Examples
+    --------
+
 
     >>> print(get_field_attribute_name('lbtim'))
     ('lbtim', None)
     >>> print(get_field_attribute_name('lbuser4'))
     ('lbuser', 3)
 
-    :param header_element_name: the name of the PP field header element
-    :type header_element_name: string
-    :returns: the name of the attribute on the
-        :class:`iris.fileformats.pp.PPField` object and the item
-        position
-    :rtype: a tuple containing a string and an integer
+    Parameters
+    ----------
+    header_element_name : string
+        the name of the PP field header element
+
+    Returns
+    -------
+    a tuple containing a string and an integer
+        the name of the attribute on the :class:`iris.fileformats.pp.PPField` object and the item position
     """
     field_attribute_name = header_element_name
     item_position = None
@@ -562,10 +571,11 @@ def get_field_attribute_name(header_element_name):
 
 
 def validate_latitudes(latitudes):
-    """
-    Return the validated latitudes.
+    """Return the validated latitudes.
 
-    :Example:
+    Examples
+    --------
+
 
     >>> import numpy as np
     >>> latitudes = np.array(
@@ -574,10 +584,15 @@ def validate_latitudes(latitudes):
     array([-90.    , -90.    , -89.9999, -89.9   ,  89.9   ,  89.9999,
             90.    ,  90.    ])
 
-    :param latitudes: latitudes to be validated
-    :type latitudes: Numpy array
-    :return: the validated latitudes
-    :rtype: Numpy array
+    Parameters
+    ----------
+    latitudes : Numpy array
+        latitudes to be validated
+
+    Returns
+    -------
+    Numpy array
+        the validated latitudes
     """
     minimum_latitude = -90.
     maximum_latitude = 90.
@@ -590,8 +605,7 @@ def validate_latitudes(latitudes):
 
 
 def guess_bounds_if_needed(coord):
-    """
-    Guess the bounds on a coordinate if not already present
+    """Guess the bounds on a coordinate if not already present
     and bring the latitude bounds in range as necessary.
 
     Parameters
@@ -608,18 +622,24 @@ def guess_bounds_if_needed(coord):
 
 
 def pretty_print_pairs(pairs):
-    """
-    Return the pairs nicely formatted for logging.
+    """Return the pairs nicely formatted for logging.
 
     The tuples in the list provided to the ``pairs`` parameter contain
     only two values in the form ``[(key1, value1), (key2, value2)]``.
 
-    :param pairs: the pairs to be printed
-    :type pairs: list of tuples
-    :return: the nicely formatted pairs
-    :rtype: string
+    Parameters
+    ----------
+    pairs : list of tuples
+        the pairs to be printed
 
-    :Example:
+    Returns
+    -------
+    string
+        the nicely formatted pairs
+
+    Examples
+    --------
+
 
     >>> pairs = [('this', 'that'), (4, 5), ('hello', 2)]
     >>> print(pretty_print_pairs(pairs))
@@ -666,18 +686,21 @@ def _is_stash(term):
 
 
 def raw_to_value(type_map_func, key, raw_value):
-    """
-    Return the ``raw_value`` converted to correct type.
+    """Return the ``raw_value`` converted to correct type.
 
-    :param type_map_func: function returning map of keys to type
-                          and multiplicity
-    :type type_map_func: function
-    :param key: the key that specifies the type conversion to perform
-    :type key: str
-    :param raw_value: the raw value to convert
-    :type raw_value: str
-    :return: the ``raw_value`` converted to correct type
-    :rtype: str, int, float list depending on ``type_map_func``
+    Parameters
+    ----------
+    type_map_func : function
+        function returning map of keys to type and multiplicity
+    key : str
+        the key that specifies the type conversion to perform
+    raw_value : str
+        the raw value to convert
+
+    Returns
+    -------
+    str, int, float list depending on `type_map_func`
+        the ``raw_value`` converted to correct type
     """
     type_map = type_map_func()
     if raw_value == 'None':
@@ -704,8 +727,7 @@ def raw_to_value(type_map_func, key, raw_value):
 
 
 class Loadable(object):
-    """
-    Instances of this class represent an |input variable| with possible
+    """Instances of this class represent an |input variable| with possible
     constraints on level etc.  The |input variables| are in files on
     disk or in mass.  A Loadable does not know where it is or how to
     extract it (from the file or mass).  This is left to the client
@@ -713,15 +735,19 @@ class Loadable(object):
     """
     def __init__(self, name, tokens, number=0):
         """
-        :param name: name of the constraint - the form it appears in
-                     an expression
-        :type name: str
-        :param tokens: the names, comparators and values of the
-                       diagnostic identifiers (stash, lbproc etc.)
-        :type tokens: list of tuples
-        :param number: number of this |input variable| in expression.
+        Parameters
+        ----------
+        name : str
+            name of the constraint - the form it appears in an expression
+        tokens : list of tuples
+            the names, comparators and values of the diagnostic identifiers (stash, lbproc etc.)
+        number
+            number of this |input variable| in expression.
 
-        :Example:
+        Examples
+        --------
+
+
         >>> loadable = Loadable(
         ...     'm01s01i001', [('stash', '=', 'm01s01i001')], 1)
         """
@@ -765,8 +791,7 @@ class Loadable(object):
         return result
 
     def _add_default_lbtim(self):
-        """
-        Add an lbtim constraint if one does not exist already. Default to
+        """Add an lbtim constraint if one does not exist already. Default to
         LBTIM_DEFAULT_MEAN (122) for most time mean fields, or
         LBTIM_DEFAULT_POINT (12) for instantaneous (lbproc=0).
         """
@@ -873,19 +898,21 @@ def _expand_values(constraints, constants, mappings_config):
 
 
 def parse_to_loadables(expression, constants, mappings_config):
-    """
-    Return the parsed |model to MIP mapping| expression.
+    """Return the parsed |model to MIP mapping| expression.
 
-    :param expression: the |model to MIP mapping| expression as defined
-        in the |model to MIP mapping| configuration files
-    :type expression: string
-    :param constants: the constants that may be used in the expression
-    :type constants: dictionary
-    :param mappings_config: information on the type and multiplicity of
-        terms in expression
-    :type: function
-    :return: the parsed |model to MIP mapping| expression
-    :rtype: list of :class:`mip_convert.common.Loadable`
+    Parameters
+    ----------
+    expression : string
+        the |model to MIP mapping| expression as defined in the |model to MIP mapping| configuration files
+    constants : dictionary
+        the constants that may be used in the expression
+    mappings_config: function
+        information on the type and multiplicity of terms in expression
+
+    Returns
+    -------
+    list of :class:`mip_convert.common.Loadable`
+        the parsed |model to MIP mapping| expression
     """
 
     input_variables = _parse_to_components(expression)
@@ -903,17 +930,23 @@ def parse_to_loadables(expression, constants, mappings_config):
 
 
 def get_supported_constraint(constraint):
-    """
-    Return the name of the constraint as specified in the
+    """Return the name of the constraint as specified in the
     SUPPORTED_CONSTRAINTS list.
 
-    :param constraint: the name of the constraint, which may have a
-        numerical suffix
-    :type constraint_name: string
-    :return: the supported name of the constraint
-    :rtype: string
+    Parameters
+    ----------
+    constraint
+        the name of the constraint, which may have a numerical suffix
+    constraint_name : string
 
-    :examples:
+    Returns
+    -------
+    string
+        the supported name of the constraint
+
+    Examples
+    --------
+
 
     >>> get_supported_constraint('lbproc')
     'lbproc'
@@ -932,8 +965,7 @@ def get_supported_constraint(constraint):
 
 
 def is_auxiliary_coord(cube, coord_name):
-    """
-    Return whether a coordinate in a cube is an auxiliary coordinate.
+    """Return whether a coordinate in a cube is an auxiliary coordinate.
 
     Parameters
     ----------
@@ -957,8 +989,7 @@ def is_auxiliary_coord(cube, coord_name):
 
 
 def has_auxiliary_latitude_longitude(cube, data_dimensions):
-    """
-    Return whether the latitude and longitude coordinates in a cube
+    """Return whether the latitude and longitude coordinates in a cube
     are auxilliary coordinates with the dimensions provided.
 
     Parameters
@@ -983,8 +1014,7 @@ def has_auxiliary_latitude_longitude(cube, data_dimensions):
 
 
 def remove_extra_time_axis(input_variable):
-    """
-    Remove the extra time axis from the |input variable| provided by
+    """Remove the extra time axis from the |input variable| provided by
     the ``input_variable`` parameter.
 
     If two or more time coordinates with the same standard name exist
@@ -1003,8 +1033,10 @@ def remove_extra_time_axis(input_variable):
     coordinate, so the remaining auxiliary time coordinate is promoted
     to a dimension coordinate.
 
-    :param input_variable: the |input variable|
-    :type input_variable: :class:`iris.cube.Cube`
+    Parameters
+    ----------
+    input_variable : :class:`iris.cube.Cube`
+        the |input variable|
     """
     count_time_axes = 0
     time_axes_names = []
@@ -1024,13 +1056,14 @@ def remove_extra_time_axis(input_variable):
 
 
 def promote_aux_time_coord_to_dim(input_variable):
-    """
-    If appropriate promote an auxilliary time coordinate
+    """If appropriate promote an auxilliary time coordinate
     to a dimension coordinate. Note that changes are made
     to the supplied cube in place.
 
-    :param input_variable: the |input variable|
-    :type input_variable: :class:`iris.cube.Cube`
+    Parameters
+    ----------
+    input_variable : :class:`iris.cube.Cube`
+        the |input variable|
     """
     for aux_coord in input_variable.coords(dim_coords=False):
         if not isinstance(aux_coord, iris.coords.DimCoord):
@@ -1039,8 +1072,7 @@ def promote_aux_time_coord_to_dim(input_variable):
 
 
 def replace_coordinates(cube, replacement_coordinates):
-    """
-    Replace the points and bounds of the coordinates in the cube
+    """Replace the points and bounds of the coordinates in the cube
     provided to the ``cube`` parameter with the points and bounds from
     the area cubes provided to the ``replacement_coordinates``
     parameter.
@@ -1048,11 +1080,12 @@ def replace_coordinates(cube, replacement_coordinates):
     The ``var_name`` is used to determine whether the replacement
     should occur.
 
-    :param cube: the cube with values to be replaced
-    :type cube: :class:`iris.cube.Cube`
-    :param replacement_coordinates: the area cubes containing the
-        replacement coordinates
-    :type replacement_coordinates: :class:`iris.cube.CubeList`
+    Parameters
+    ----------
+    cube : :class:`iris.cube.Cube`
+        the cube with values to be replaced
+    replacement_coordinates : :class:`iris.cube.CubeList`
+        the area cubes containing the replacement coordinates
     """
     for area_cube in replacement_coordinates:
         for area_coord in area_cube.coords():
@@ -1063,8 +1096,7 @@ def replace_coordinates(cube, replacement_coordinates):
 
 
 def MIP_to_model_axis_name_mapping():
-    """
-    Return the name of the coordinate that should exist in a cube given
+    """Return the name of the coordinate that should exist in a cube given
     the name of the axis from the |MIP table|.
     """
     return {
@@ -1084,8 +1116,7 @@ def MIP_to_model_axis_name_mapping():
 
 
 def cmp_to_key(mycmp):
-    """
-    Return a callable which can compare two objects using a provided function emulating Python2 cmp().
+    """Return a callable which can compare two objects using a provided function emulating Python2 cmp().
 
     This provides a way to translate Python2 dictionary sorting with cmp function into Python3 sort-by-key method.
 
