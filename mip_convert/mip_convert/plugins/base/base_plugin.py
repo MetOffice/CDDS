@@ -6,6 +6,7 @@ The :mod:`base_plugin` module contains the code that have the most plugins in co
 from functools import cache
 import logging
 import os
+import re
 from typing import Dict, List, Callable, Any
 
 from mip_convert.configuration.python_config import ModelToMIPMappingConfig
@@ -35,17 +36,17 @@ class BaseMappingPlugin(MappingPlugin):
         """
         Load MIPConvert mapping for given MIP table name.
         The MIP table name as following format:
-            <project>_<table_id>
-        e.g. CMIP6_mon.
+            <project>_<table_id>[@frequency]
+        e.g. CMIP6_Amon, CMIP7_atmos@mon
 
         :param mip_table_name: Name of the MIP table
         :type mip_table_name: str
         :return: MIP mappings
         :rtype: ModelToMIPMappingConfig
         """
-        mip_table_id = mip_table_name.split('_')[1]
-        logger = logging.getLogger(__name__)
-        dirname = self.mapping_data_dir
+        mip_table_id = re.split('[_@]',mip_table_name)[1]
+        
+        logger = logging.getLogger(__name__)        
         suffix = 'mappings.cfg'
 
         filename = '{model_configuration}_{suffix}'.format(model_configuration=self._plugin_id, suffix=suffix)
