@@ -317,15 +317,19 @@ mkdir -p {{ BASE_OUTPUT }}
     {% endif %}
 
     [[run_repack_{{ STREAM }}]]
-        inherit = {{ PLATFORM }}, COMPLETION_FAMILY_{{ STREAM }}
-        execution retry delays = PT1M, PT3M, PT5M
+        inherit = MIP_CONCATENATE_{{ STREAM }}, {{ PLATFORM }}, COMPLETION_FAMILY_{{ STREAM }}
+        execution time limit = P2D
         [[[environment]]]
             ROSE_TASK_APP = repack_output
             STREAM = {{ STREAM }}
-            PROC_DIR = {{ CDDS_CONVERT_PROC_DIR }}
         [[[directives]]]
             --mem = {{ MEMORY_DEFAULT }}
             --ntasks = 1
+        {% if PLATFORM == 'AZURE' %}
+            --partition = cpu-long
+        {% elif PLATFORM == 'JASMIN' %}
+            --qos = long
+        {% endif %}
 
     {% if RUN_TRANSFER %}
     [[run_transfer_{{ STREAM }}]]

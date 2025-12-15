@@ -9,34 +9,31 @@ import argparse
 import logging
 import os
 import subprocess
-import sys
 from argparse import Namespace
 from pathlib import Path
 from typing import List, Tuple
 
 from cdds.common import configure_logger, run_command
-from cdds.common.cdds_files.cdds_directories import output_data_directory
+from cdds.common.cdds_files.cdds_directories import (
+    output_data_directory,
+    update_log_dir,
+)
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.request.request import read_request
 from cdds.configure.constants import DEFLATE_LEVEL
 
 
-def parse_repack_args(arguments: List[str]) -> Namespace:
+def parse_repack_args() -> Namespace:
     """
     Return the names of the command line arguments for ``repack``
     and their validated values.
-
-    Parameters
-    ----------
-    arguments : List[str]
-        The command line arguments to be parsed.
 
     Returns
     -------
     Namespace
         The names of the command line arguments and their validated values.
     """
-    user_arguments = arguments
+
     parser = argparse.ArgumentParser(
         description="Wrapper for repacking netCDF-4 files to optimize their read-performance."
     )
@@ -55,7 +52,7 @@ def parse_repack_args(arguments: List[str]) -> Namespace:
         help=("The full path to the log file (optional)."),
     )
 
-    args = parser.parse_args(user_arguments)
+    args = parser.parse_args()
 
     return args
 
@@ -84,11 +81,6 @@ def get_mip_table_dirs(request_file: str, stream: str) -> List[Tuple[str, str]]:
     logger = logging.getLogger(__name__)
 
     request = read_request(request_file)
-    load_plugin(
-        request.metadata.mip_era,
-        request.common.external_plugin,
-        request.common.external_plugin_location,
-    )
 
     # Get the base output directory of CDDS Convert using CDDS plugin.
     # This constructs: {root_data_dir}/{mip_era}/{mip}/{model_experiment_variant}/{package}/output
@@ -294,14 +286,22 @@ def main_repack() -> None:
     -------
     None
     """
-    args = parse_repack_args(sys.argv[1:])
+    args = parse_repack_args()
 
-    # Use log_file from args if provided, otherwise default to "repack".
-    log_file = args.log_file if args.log_file else "repack"
-
-    configure_logger(
-        log_name=log_file, log_level=20, append_log=False, show_stacktrace=False
+    request = read_request(args.request_file)
+    load_plugin(
+        request.metadata.mip_era,
+        request.common.external_plugin,
+        request.common.external_plugin_location,
     )
+
+    # Use custom log file if provided, otherwise use default log directory
+    if args.log_file:
+        log_name = args.log_file
+    else:
+        log_name = update_log_dir("cdds_repack", request, "convert")
+
+    configure_logger(log_name, log_level=20, append_log=False, show_stacktrace=False)
 
     logger = logging.getLogger(__name__)
     logger.info("repack starting...")
