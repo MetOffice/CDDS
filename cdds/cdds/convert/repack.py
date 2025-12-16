@@ -195,30 +195,30 @@ def run_check_cmip7_packing(file_path: str) -> int:
             universal_newlines=True,
         )
 
-    except FileNotFoundError as exc:
+    except FileNotFoundError:
         # Raises exception from exception for easier debugging.
-        raise FileNotFoundError(
+        logger.error(
             f"Command not found: {command[0]}. "
-            "Please ensure cmip7_repack is properly installed and available."
-        ) from exc
+            "Please ensure check_cmip7_packing is properly installed and available."
+        )
+        raise
 
     logger.debug(f"check_cmip7_packing stdout: {result.stdout}")
     if result.stderr:
         logger.debug(f"check_cmip7_packing stderr: {result.stderr}")
-
     # Check for expected PASS/FAIL output first
     if result.returncode in (0, 1):
         return result.returncode
     # Handle potential sys.exit codes from check_cmip7_packing.
     elif result.returncode in (2, 3, 4, 5):
         raise RuntimeError(
-            f"check_cmip7_packing failed with exit code {result.returncode}: {result.stderr}"
+            logger.error(f"check_cmip7_packing failed with exit code {result.returncode}: {result.stderr}")
         )
     # Defensive check for unexpected output.
     else:
         raise RuntimeError(
-            f"check_cmip7_packing returned unexpected output. "
-            f"Expected 'PASS' or 'FAIL' in stdout, got: {result.stdout}"
+            logger.error(f"check_cmip7_packing returned unexpected output. "
+            f"Expected 'PASS' or 'FAIL' in stdout, got: {result.stdout}")
         )
 
 
@@ -260,10 +260,10 @@ def run_cmip7repack(file_path: str) -> int:
         raise
     except RuntimeError:
         logger.error(f"Failed to repack: {file_path}")
-        return 1
+        raise
 
 
-def main_repack() -> None:
+def main_repack() -> int:
     """
     Main entry point for the repack utility.
 
@@ -284,7 +284,9 @@ def main_repack() -> None:
 
     Returns
     -------
-    None
+    int
+        0 if successful, 1 if there is a problem with repacking,
+        2 if the repack tools cannot be found.
     """
     args = parse_repack_args()
 
@@ -308,4 +310,12 @@ def main_repack() -> None:
 
     mip_table_dirs = get_mip_table_dirs(args.request_file, args.stream)
     nc_files = find_netcdf_files(mip_table_dirs)
-    repack_files(nc_files)
+    
+    try:
+        repack_files(nc_files)
+        logger.info("repack completed successfully.")
+        return 0
+    except RuntimeError:
+        return 1
+    except FileNotFoundError:
+        return 2
