@@ -212,12 +212,12 @@ def run_check_cmip7_packing(file_path: str) -> int:
     # Handle potential sys.exit codes from check_cmip7_packing.
     elif result.returncode in (2, 3, 4, 5):
         raise RuntimeError(
-            logger.error(f"check_cmip7_packing failed with exit code {result.returncode}: {result.stderr}")
+            (f"check_cmip7_packing failed with exit code {result.returncode}: {result.stderr}")
         )
     # Defensive check for unexpected output.
     else:
         raise RuntimeError(
-            logger.error(f"check_cmip7_packing returned unexpected output. "
+            (f"check_cmip7_packing returned unexpected output. "
             f"Expected 'PASS' or 'FAIL' in stdout, got: {result.stdout}")
         )
 
@@ -253,14 +253,11 @@ def run_cmip7repack(file_path: str) -> int:
         logger.debug(f"\ncmip7repack stdout:\n{stdout}")
         return 0
     except FileNotFoundError:
-        logger.critical(
-            f"Command not found: {command[0]}. "
-            "Please ensure cmip7_repack is properly installed and available."
-        )
-        raise
+        raise FileNotFoundError(f"Command attempted to run '{command[0]}'. "
+        "Please ensure cmip7_repack is properly installed and available.")
     except RuntimeError:
-        logger.critical(f"Failed to repack: {file_path}")
-        raise
+        raise RuntimeError(f"Failed to repack: {file_path}")
+        
 
 
 def main_repack() -> int:
@@ -315,7 +312,9 @@ def main_repack() -> int:
         repack_files(nc_files)
         logger.info("repack completed successfully.")
         return 0
-    except RuntimeError:
+    except RuntimeError as err:
+        logger.critical(f"Runtime error during repack: {err}")
         return 1
-    except FileNotFoundError:
+    except FileNotFoundError as err:
+        logger.critical(f"Repack tool not found. {err}")
         return 2
