@@ -197,11 +197,10 @@ def run_check_cmip7_packing(file_path: str) -> int:
 
     except FileNotFoundError:
         # Raises exception from exception for easier debugging.
-        logger.critical(
-            f"Command not found: {command[0]}. "
+        raise FileNotFoundError(
+            f"Command attempted to run '{command[0]}'. "
             "Please ensure check_cmip7_packing is properly installed and available."
         )
-        raise
 
     logger.debug(f"check_cmip7_packing stdout: {result.stdout}")
     if result.stderr:
@@ -212,13 +211,17 @@ def run_check_cmip7_packing(file_path: str) -> int:
     # Handle potential sys.exit codes from check_cmip7_packing.
     elif result.returncode in (2, 3, 4, 5):
         raise RuntimeError(
-            (f"check_cmip7_packing failed with exit code {result.returncode}: {result.stderr}")
+            (
+                f"check_cmip7_packing failed with exit code {result.returncode}: {result.stderr}"
+            )
         )
     # Defensive check for unexpected output.
     else:
         raise RuntimeError(
-            (f"check_cmip7_packing returned unexpected output. "
-            f"Expected 'PASS' or 'FAIL' in stdout, got: {result.stdout}")
+            (
+                f"check_cmip7_packing returned unexpected output. "
+                f"Expected 'PASS' or 'FAIL' in stdout, got: {result.stdout}"
+            )
         )
 
 
@@ -246,18 +249,16 @@ def run_cmip7repack(file_path: str) -> int:
     command = ["cmip7repack", "-z", DEFLATE_LEVEL, "-o", file_path]
     try:
         logger.debug("Running cmip7repack...")
-        stdout = run_command(
-            command,
-            msg=f"\nFailed to repack: {file_path}",
-        )
+        stdout = run_command(command)
         logger.debug(f"\ncmip7repack stdout:\n{stdout}")
         return 0
     except FileNotFoundError:
-        raise FileNotFoundError(f"Command attempted to run '{command[0]}'. "
-        "Please ensure cmip7_repack is properly installed and available.")
+        raise FileNotFoundError(
+            f"Command attempted to run '{command[0]}'. "
+            "Please ensure cmip7repack is properly installed and available."
+        )
     except RuntimeError:
         raise RuntimeError(f"Failed to repack: {file_path}")
-        
 
 
 def main_repack() -> int:
@@ -307,13 +308,13 @@ def main_repack() -> int:
 
     mip_table_dirs = get_mip_table_dirs(args.request_file, args.stream)
     nc_files = find_netcdf_files(mip_table_dirs)
-    
+
     try:
         repack_files(nc_files)
         logger.info("repack completed successfully.")
         return 0
     except RuntimeError as err:
-        logger.critical(f"Runtime error during repack: {err}")
+        logger.critical(f"Runtime error during repack. {err}")
         return 1
     except FileNotFoundError as err:
         logger.critical(f"Repack tool not found. {err}")
