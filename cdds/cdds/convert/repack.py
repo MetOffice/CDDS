@@ -212,12 +212,12 @@ def run_check_cmip7_packing(file_path: str) -> int:
     # Handle potential sys.exit codes from check_cmip7_packing.
     elif result.returncode in (2, 3, 4, 5):
         raise RuntimeError(
-            logger.critical(f"check_cmip7_packing failed with exit code {result.returncode}: {result.stderr}")
+            logger.error(f"check_cmip7_packing failed with exit code {result.returncode}: {result.stderr}")
         )
     # Defensive check for unexpected output.
     else:
         raise RuntimeError(
-            logger.critical(f"check_cmip7_packing returned unexpected output. "
+            logger.error(f"check_cmip7_packing returned unexpected output. "
             f"Expected 'PASS' or 'FAIL' in stdout, got: {result.stdout}")
         )
 
