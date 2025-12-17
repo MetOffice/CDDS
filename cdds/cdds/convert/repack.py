@@ -272,7 +272,7 @@ def main_repack() -> int:
     and repacks them according to CMIP7 standards for optimized read-performance.
 
     The function:
-    1. Parses arguments.
+    1. Parses arguments.    
     2. Sets up logging.
     3. Locates mip_table directories for the specified stream.
     4. Finds all NetCDF files in those directories.
