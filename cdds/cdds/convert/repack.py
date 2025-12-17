@@ -173,16 +173,17 @@ def run_check_cmip7_packing(file_path: str) -> int:
     Returns
     -------
     int
-        The return code from the check_cmip7_packing command.
+        The return code from the check_cmip7_packing command:
         0 if already packed according to CMIP7 standards, 1 if repacking needed.
+        Only returns for exit codes 0 or 1; all other exit codes raise exceptions.
 
     Raises
     ------
     FileNotFoundError
         If the check_cmip7_packing command is not found in PATH.
     RuntimeError
-        If check_cmip7_packing returns an error exit code (2-5) or an unexpected
-        return code.
+        If check_cmip7_packing returns an error exit code (2-5) or any
+        unexpected return code other than 0 or 1.
     """
     logger = logging.getLogger(__name__)
 
@@ -237,12 +238,14 @@ def run_cmip7repack(file_path: str) -> int:
     Returns
     -------
     int
-        0 if the command runs successfully, 1 if it fails.
+        0 if the command runs successfully.
 
     Raises
     ------
     FileNotFoundError
         If the cmip7repack command is not found in PATH.
+    RuntimeError
+        If the repacking operation fails.
     """
     logger = logging.getLogger(__name__)
 
