@@ -71,15 +71,13 @@ class TestRunCheckCmip7Packing(unittest.TestCase):
 
     @patch("cdds.convert.repack.subprocess.run")
     def test_check_cmip7_packing_raises_filenotfound_for_wrong_command(self, mock_run):
-        mock_run.side_effect = FileNotFoundError(
-            "Command not found: 'check_cmip1_packing'"
-        )
+        mock_run.side_effect = FileNotFoundError()
 
         with self.assertRaises(FileNotFoundError) as context:
             run_check_cmip7_packing(self.test_nc_unpacked)
 
         self.assertIn(
-            "Please ensure cmip7_repack is properly installed", str(context.exception)
+            "Please ensure check_cmip7_packing is properly installed and available.", str(context.exception)
         )
 
     def test_check_packing_raises_err_with_blank_nc_file(self):
@@ -112,8 +110,9 @@ class TestRunCmip7Repack(unittest.TestCase):
         with tempfile.NamedTemporaryFile(suffix=".nc", delete=False) as temp_file:
             temp_filename = temp_file.name
         try:
-            result = run_cmip7repack(temp_filename)
-            self.assertEqual(result, 1)
+            with self.assertRaises(RuntimeError) as context:
+                run_cmip7repack(temp_filename)
+            self.assertIn("Failed to repack", str(context.exception))
         finally:
             if os.path.exists(temp_filename):
                 os.unlink(temp_filename)
