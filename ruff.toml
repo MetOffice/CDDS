@@ -7,7 +7,5 @@ select = [
     "E",
     "W",
 ]
-ignore = [
-    "E713",
-]
+ignore = []
 preview = true
