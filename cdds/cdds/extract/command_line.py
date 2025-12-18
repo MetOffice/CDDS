@@ -190,7 +190,7 @@ def main_cdds_arrange_input_data():
     print('Complete')
 
 
-def symlink_files(links,  input_dir):
+def symlink_files(links, input_dir):
     """Construct the symbolic links for the files found by identify_files
 
     Parameters

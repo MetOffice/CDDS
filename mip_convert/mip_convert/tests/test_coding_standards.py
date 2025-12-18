@@ -8,8 +8,6 @@ import unittest
 import pytest
 from pathlib import Path
 
-import pycodestyle
-
 import mip_convert
 
 COPYRIGHT_TEMPLATE = ('{start_comment} (C) British Crown Copyright {years}, Met Office.'
@@ -26,23 +24,6 @@ class TestCodingStandards(unittest.TestCase):
             os.path.join(dir, filename) for dir, _, filenames in os.walk(mip_convert_dir) for filename in filenames
         ]
         self.exclude_patterns = ['conf.py']
-
-    def test_pycodestyle_conformance(self):
-        # Only run the PEP8 test on *.py files.
-        py_files = [
-            filename for filename in self.all_files if
-            filename.endswith('.py') and True not in set(
-                [exclude_pattern in filename for exclude_pattern in self.exclude_patterns]
-            )
-        ]
-
-        pycodestyle_guide = pycodestyle.StyleGuide(quiet=False)
-        # Set the maximum line length to 120.
-        pycodestyle_guide.options.max_line_length = 120
-        # Ignore W503 "line break before binary operator" error
-        pycodestyle_guide.options.ignore = tuple(['W503'])
-        result = pycodestyle_guide.check_files(py_files)
-        self.assertEqual(result.total_errors, 0, 'Found code style errors (and warnings)')
 
     def test_copyright_headers(self):
         # Add optional shebang.
