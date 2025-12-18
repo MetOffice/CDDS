@@ -8,7 +8,6 @@ select = [
     "W",
 ]
 ignore = [
-    "E721",
     #temporary ignore spaces after comma
     "E241",
     "E713",

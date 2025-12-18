@@ -433,7 +433,7 @@ class QCRunner(object):
         """
 
         errors = []
-        if type(elem) == str:
+        if isinstance(elem, str):
             errors.append(elem)
         elif len(elem.children) == 0:
             for msg in elem.msgs:

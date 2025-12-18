@@ -241,7 +241,7 @@ class ValidatorFactory:
             Validator function
         """
         def validator_function(value):
-            if type(value) != np.float64 and type(value) != float:
+            if not isinstance(value, np.float64) and not isinstance(value, float):
                 raise ValidationError("'{}' is not a float, but {}".format(
                     value, type(value)))
 

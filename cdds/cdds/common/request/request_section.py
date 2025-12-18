@@ -106,7 +106,7 @@ class Section(object, metaclass=ABCMeta):
         for option, value in self.items.items():
             if not value and option in defaults.keys():
                 config_value = str(defaults[option])
-            elif type(value) == list:
+            elif isinstance(value, list):
                 config_value = ' '.join(value) if value else ''
             else:
                 config_value = str(value) if value else ''
