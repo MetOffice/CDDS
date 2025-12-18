@@ -8,8 +8,6 @@ select = [
     "W",
 ]
 ignore = [
-    #temporary ignore spaces after comma
-    "E241",
     "E713",
 ]
 preview = true
