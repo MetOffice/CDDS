@@ -168,7 +168,6 @@ dependencies:
   - pthread-stubs=0.4=hb9d3cd8_1002
   - py=1.11.0=pyhd8ed1ab_1
   - pyaml=25.5.0=pyhe01879c_0
-  - pycodestyle=2.10.0=pyhd8ed1ab_0
   - pycparser=2.22=pyh29332c3_1
   - pygeoif=1.5.1=pyhd8ed1ab_0
   - pygments=2.19.2=pyhd8ed1ab_0
@@ -191,6 +190,7 @@ dependencies:
   - readline=8.2=h8c095d6_2
   - regex=2024.11.6=py310ha75aee5_0
   - requests=2.32.4=pyhd8ed1ab_0
+  - ruff=0.14.8
   - scipy=1.15.2=py310h1d65ade_0
   - setuptools=80.9.0=pyhff2d567_0
   - shapely=2.1.1=py310h247727d_0
