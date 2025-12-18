@@ -1,66 +1,49 @@
 # (C) British Crown Copyright 2009-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module containing classes representing UM axes.
-"""
+"""Module containing classes representing UM axes."""
 __docformat__ = "epytext"
 
 
 class AbstractHybridHeightCoefficients(object):
     def __new__(cls, *args, **kwargs):
-        """
-        Ensures that this is a singleton class.
-        """
+        """Ensures that this is a singleton class."""
         if '_inst' not in vars(cls):
             cls._inst = object.__new__(cls, *args, **kwargs)
         return cls._inst
 
     def __init__(self):
-        """
-        Instantiates a UmL38Axis object.
-        """
+        """Instantiates a UmL38Axis object."""
         self._zsea_bounds2d = None
         self._c_bounds2d = None
 
     @property
     def nlevels(self):
-        """
-        Number of vertical levels.
-        """
+        """Number of vertical levels."""
         return len(self._zsea_vals)
 
     @property
     def zsea_values(self):
-        """
-        Return all zsea values.
-        """
+        """Return all zsea values."""
         return self._zsea_vals
 
     @property
     def zsea_bounds(self):
-        """
-        Return all zsea boundary values.
-        """
+        """Return all zsea boundary values."""
         return self._zsea_bnds
 
     @property
     def zsea_lbounds(self):
-        """
-        Return all zsea lower boundary values.
-        """
+        """Return all zsea lower boundary values."""
         return self._zsea_bnds[:-1]
 
     @property
     def zsea_ubounds(self):
-        """
-        Return all zsea upper boundary values.
-        """
+        """Return all zsea upper boundary values."""
         return self._zsea_bnds[1:]
 
     @property
     def zsea_bounds2d(self):
-        """
-        Return zsea values at lower and upper boundaries as a CF-like 2D array, i.e.
+        """Return zsea values at lower and upper boundaries as a CF-like 2D array, i.e.
         [[lbnd0, ubnd0], [lbnd1, ubnd1],...]
         """
         if self._zsea_bounds2d:
@@ -72,36 +55,27 @@ class AbstractHybridHeightCoefficients(object):
 
     @property
     def c_values(self):
-        """
-        Return all C co-efficient values.
-        """
+        """Return all C co-efficient values."""
         return self._c_vals
 
     @property
     def c_bounds(self):
-        """
-        Return all C co-efficient boundary values.
-        """
+        """Return all C co-efficient boundary values."""
         return self._c_bnds
 
     @property
     def c_lbounds(self):
-        """
-        Return all C co-efficient lower boundary values.
-        """
+        """Return all C co-efficient lower boundary values."""
         return self._c_bnds[:-1]
 
     @property
     def c_ubounds(self):
-        """
-        Return all C co-efficient upper boundary values.
-        """
+        """Return all C co-efficient upper boundary values."""
         return self._c_bnds[1:]
 
     @property
     def c_bounds2d(self):
-        """
-        Return C co-efficient values at lower and upper boundaries as a CF-like 2D array, i.e.
+        """Return C co-efficient values at lower and upper boundaries as a CF-like 2D array, i.e.
         [[lbnd0, ubnd0], [lbnd1, ubnd1],...]
         """
         if self._c_bounds2d:
@@ -112,12 +86,17 @@ class AbstractHybridHeightCoefficients(object):
         return self._c_bounds2d
 
     def getHeights(self, orography_value):
-        """
-        Calculate height coordinates using the specified orography value.
-        @param orography_value: The orography value in metres.
-        @type  orography_value: float
-        @return: A list of height coordinates computed using the specified orography value.
-        @rtype: [float]
+        """Calculate height coordinates using the specified orography value.
+
+        Parameters
+        ----------
+        orography_value: float
+            The orography value in metres.
+
+        Returns
+        -------
+        float
+            A list of height coordinates computed using the specified orography value.
         """
         heights = list()
         for index in range(self.nlevels):
@@ -125,12 +104,17 @@ class AbstractHybridHeightCoefficients(object):
         return heights
 
     def getHeightLowerBounds(self, orography_value):
-        """
-        Calculate height coordinates of lower boundaries using the specified orography value.
-        @param orography_value: The orography value in metres.
-        @type  orography_value: float
-        @return: A list of height coordinates computed using the specified orography value.
-        @rtype: [float]
+        """Calculate height coordinates of lower boundaries using the specified orography value.
+
+        Parameters
+        ----------
+        orography_value: float
+            The orography value in metres.
+
+        Returns
+        -------
+        float
+            A list of height coordinates computed using the specified orography value.
         """
         bounds = list()
         for index in range(self.nlevels):
@@ -138,12 +122,17 @@ class AbstractHybridHeightCoefficients(object):
         return bounds
 
     def getHeightUpperBounds(self, orography_value):
-        """
-        Calculate height coordinates of upper boundaries using the specified orography value.
-        @param orography_value: The orography value in metres.
-        @type  orography_value: float
-        @return: A list of height coordinates computed using the specified orography value.
-        @rtype: [float]
+        """Calculate height coordinates of upper boundaries using the specified orography value.
+
+        Parameters
+        ----------
+        orography_value: float
+            The orography value in metres.
+
+        Returns
+        -------
+        float
+            A list of height coordinates computed using the specified orography value.
         """
         bounds = list()
         for index in range(self.nlevels):
@@ -152,13 +141,18 @@ class AbstractHybridHeightCoefficients(object):
         return bounds
 
     def getHeightBounds2D(self, orography_value):
-        """
-        Calculate height coordinates of lower and upper boundary values as a CF-like 2D array, i.e.
+        """Calculate height coordinates of lower and upper boundary values as a CF-like 2D array, i.e.
         [[lbnd0, ubnd0], [lbnd1, ubnd1],...]
-        @param orography_value: The orography value in metres.
-        @type  orography_value: float
-        @return: A 2D array of lower and upper boundary height coordinates.
-        @rtype: [float]
+
+        Parameters
+        ----------
+        orography_value: float
+            The orography value in metres.
+
+        Returns
+        -------
+        float
+            A 2D array of lower and upper boundary height coordinates.
         """
         bounds = list()
         for index in range(self.nlevels):
@@ -169,8 +163,7 @@ class AbstractHybridHeightCoefficients(object):
 
 
 class UmL38Axis(AbstractHybridHeightCoefficients):
-    """
-    Singleton class for representing the 38-level vertical coordinate system used, for example, in
+    """Singleton class for representing the 38-level vertical coordinate system used, for example, in
     the HadGEM1 and HadGEM2 atmosphere models.
     """
 
@@ -210,8 +203,7 @@ class UmL38Axis(AbstractHybridHeightCoefficients):
 
 
 class RadHalfLevelAxis(AbstractHybridHeightCoefficients):
-    """
-    Singleton class for representing the 38-level vertical coordinate system used, for example, in
+    """Singleton class for representing the 38-level vertical coordinate system used, for example, in
     the HadGEM1 and HadGEM2 atmosphere models.
     """
 

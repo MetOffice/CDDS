@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`dao.py` module contains all necessary object and
+"""The :mod:`dao.py` module contains all necessary object and
 methods to access the inventory database
 """
 import enum
@@ -11,15 +10,13 @@ import cdds.common as common
 
 
 class InventoryDAO(object):
-    """
-    Database access object holds a connection to the
+    """Database access object holds a connection to the
     inventory database and provides access methods
     """
     _connected = False
 
     def __init__(self, db_file):
-        """
-        Creates a class instance, checks if the given inventory configuration file exists
+        """Creates a class instance, checks if the given inventory configuration file exists
         and creates a new connection to the inventory database
 
         Parameters
@@ -41,16 +38,13 @@ class InventoryDAO(object):
             self._connection = inventory.connect(self._db_file)
 
     def close(self):
-        """
-        Closes the inventory database connection
-        """
+        """Closes the inventory database connection"""
         if not inventory.is_expired(self._connection):
             self._connection.close()
         InventoryDAO._connected = False
 
     def get_variables_data(self, model, experiment, variant_label, mip_era=None, institution=None):
-        """
-        Returns all variables specified by given experiment, model, variant,
+        """Returns all variables specified by given experiment, model, variant,
         MIP era and institution.
 
         Parameters
@@ -67,7 +61,7 @@ class InventoryDAO(object):
 
         Returns
         -------
-        : :class:`DBData`
+        :class:`DBData`
             contains all variables in the inventory database
         """
         self._check_connection()
@@ -96,14 +90,12 @@ class InventoryDAO(object):
 
 
 class DBVariableData(object):
-    """
-    Contains the data of variables in the inventory
+    """Contains the data of variables in the inventory
     data base specified by the key `mip_table.variable_name`
     """
 
     def __init__(self, db_data):
-        """
-        Parameters
+        """Parameters
         ----------
         db_data: list of list of str
             rows in the database containing the variable data
@@ -112,8 +104,7 @@ class DBVariableData(object):
         self._variables_data = {(row[11], row[12]): DBVariable(row) for row in db_data}
 
     def get_variable(self, mip_table, variable_name):
-        """
-        Returns the data of the variable having given mip table and name
+        """Returns the data of the variable having given mip table and name
 
         Parameters
         ----------
@@ -124,7 +115,7 @@ class DBVariableData(object):
 
         Return
         ------
-        :`cdds.inventory.dao.DBVariable`
+        `cdds.inventory.dao.DBVariable`
             data of the variable in the database
         """
         identifier = (mip_table, variable_name)
@@ -132,8 +123,7 @@ class DBVariableData(object):
 
 
 class DBVariable(object):
-    """
-    Database variable and its information containing in the
+    """Database variable and its information containing in the
     inventory database
     """
 
@@ -199,9 +189,7 @@ class DBVariable(object):
 
 
 class DBVariableStatus(enum.Enum):
-    """
-    Define status of variables in the inventory database
-    """
+    """Define status of variables in the inventory database"""
     AVAILABLE = 'available'
     EMBARGOED = 'embargoed'
     IN_PROGRESS = 'in progress'

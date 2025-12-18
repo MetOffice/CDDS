@@ -8,8 +8,7 @@ from typing import Any, Dict, Tuple
 
 
 def read_json(json_file: str) -> Dict[str, Any]:
-    """
-    Read the JSON file ``json_file``.
+    """Read the JSON file ``json_file``.
 
     Parameters
     ----------
@@ -18,7 +17,7 @@ def read_json(json_file: str) -> Dict[str, Any]:
 
     Returns
     -------
-    : dict
+    dict
         Data read from ``json_file``.
     """
     with open(json_file, 'r') as file_handle:
@@ -28,8 +27,7 @@ def read_json(json_file: str) -> Dict[str, Any]:
 
 def write_json(json_file: str, data: Dict[str, Any], indent: int = 2, sort_keys: bool = True,
                separators: Tuple[str, str] = (',', ':'), **kwargs: Any):
-    """
-    Write ``data`` to a JSON file with the name ``json_file``.
+    """Write ``data`` to a JSON file with the name ``json_file``.
 
     Parameters
     ----------
@@ -51,24 +49,29 @@ def write_json(json_file: str, data: Dict[str, Any], indent: int = 2, sort_keys:
 
 
 def delete_file(file_path: str) -> None:
-    """
-    Delete file if exists.
+    """Delete file if exists.
 
-    :param file_path: Path to the file that should be deleted
-    :type file_path: str
+    Parameters
+    ----------
+    file_path : str
+        Path to the file that should be deleted
     """
     if os.path.exists(file_path):
         os.remove(file_path)
 
 
 def write_into_temp_file(data: Any) -> str:
-    """
-    Writes the data into a new created temporary file.
+    """Writes the data into a new created temporary file.
 
-    :param data: Data that should be written
-    :type data: Any
-    :return: Path to the new temporary file where data is written to
-    :rtype: str
+    Parameters
+    ----------
+    data : Any
+        Data that should be written
+
+    Returns
+    -------
+    str
+        Path to the new temporary file where data is written to
     """
     id, path = tempfile.mkstemp()
     try:

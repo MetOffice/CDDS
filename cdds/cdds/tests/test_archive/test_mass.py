@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring
-"""
-Tests for :mod:`mass.py`.
-"""
+"""Tests for :mod:`mass.py`."""
 
 import copy
 import os
@@ -131,9 +129,7 @@ class TestMassPaths(unittest.TestCase):
 
 
 class TestArchiveFiles(unittest.TestCase):
-    """
-    Tests for :func:`archive_files` in :mod:`mass.py`.
-    """
+    """Tests for :func:`archive_files` in :mod:`mass.py`."""
 
     def setUp(self):
         self.simulation = True

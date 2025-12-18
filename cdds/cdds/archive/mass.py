@@ -1,9 +1,6 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`mass` module contains the code required to archive
-|output netCDF files| to MASS.
-"""
+"""The :mod:`mass` module contains the code required to archive |output netCDF files| to MASS."""
 
 import datetime
 import logging
@@ -12,6 +9,7 @@ import shutil
 import tempfile
 
 from typing import List, Dict, Tuple
+from pathlib import Path
 
 from cdds.common import construct_string_from_facet_string
 from cdds.common.mass import (mass_isdir, mass_mkdir, mass_move, mass_put, mass_rmdir,
@@ -30,25 +28,29 @@ from cdds.common.grids import retrieve_grid_info
 def construct_mass_paths(
         mip_approved_variables: List[Dict[str, str]], request: Request, mass_path_root: str,
         datestamp: str, new_status: str) -> List[Dict[str, str]]:
-    """
-    Construct the path where the data for each variable will be archived, and add the path to each of the
+    """Construct the path where the data for each variable will be archived, and add the path to each of the
     variable dictionaries.
 
-    :param mip_approved_variables: A list of dictionaries, each dictionary containing all the information
-        specific to one |MIP output variable| required to archive the relevant |output netCDF files|.
-    :type mip_approved_variables: List[Dict[str, str]]
-    :param request: The information about the request being processed by this package.
-    :type request: Request
-    :param mass_path_root: The path to the root mass location for archiving data.
-    :type mass_path_root: str
-    :param datestamp: The datestamp to use as the data version for archiving. Format: vYYYYMMDD e.g. v20190526
-    :type datestamp: str
-    :param new_status: The status in the archive of the data after archiving. Taken from the list
-        DATA_PUBLICATION_STATUS_DICT in constants.py.
-    :type new_status: str
-    :return: A list of dictionaries representing the variables to be processed, with the path in the archive for
-        the data for this variable.
-    :rtype: List[Dict[str, str]]
+    Parameters
+    ----------
+    mip_approved_variables : List[Dict[str, str]]
+        A list of dictionaries, each dictionary containing all the information specific to one |MIP output variable|
+        required to archive the relevant |output netCDF files|.
+    request : Request
+        The information about the request being processed by this package.
+    mass_path_root : str
+        The path to the root mass location for archiving data.
+    datestamp : str
+        The datestamp to use as the data version for archiving. Format: vYYYYMMDD e.g. v20190526
+    new_status : str
+        The status in the archive of the data after archiving. Taken from the list DATA_PUBLICATION_STATUS_DICT in
+        constants.py.
+
+    Returns
+    -------
+    List[Dict[str, str]]
+        A list of dictionaries representing the variables to be processed, with the path in the archive for the data for
+        this variable.
     """
 
     var_list = []
@@ -64,15 +66,19 @@ def construct_mass_paths(
 
 
 def construct_archive_dir_mass_path(mass_path_root: str, request: Request) -> str:
-    """
-    Construct the path where the data of the simulation will be archived.
+    """Construct the path where the data of the simulation will be archived.
 
-    :param mass_path_root: The path to the root mass location for archiving data.
-    :type mass_path_root: str
-    :param request: The information about the request of the simulation being processed by this package.
-    :type request: Request
-    :return: The path to the archive directory in MASS for the data of the simulation.
-    :rtype: str
+    Parameters
+    ----------
+    mass_path_root : str
+        The path to the root mass location for archiving data.
+    request : Request
+        The information about the request of the simulation being processed by this package.
+
+    Returns
+    -------
+    str
+        The path to the archive directory in MASS for the data of the simulation.
     """
     update_memberid_if_needed(request)
 
@@ -82,8 +88,7 @@ def construct_archive_dir_mass_path(mass_path_root: str, request: Request) -> st
 
 
 def update_memberid_if_needed(request: Request):
-    """
-    Update the facet dictionary with the correct "member id" if the
+    """Update the facet dictionary with the correct "member id" if the
     sub experiment id is not none. The member id is the sub experiment id
     and variant label joined by "-".
 
@@ -101,18 +106,22 @@ def update_memberid_if_needed(request: Request):
 
 
 def get_archive_path(mass_path_root: str, var_dict: Dict[str, str], request: Request) -> str:
-    """
-    Get the path to where the |output netCDF files| will be stored in the archive before publication.
+    """Get the path to where the |output netCDF files| will be stored in the archive before publication.
 
-    :param mass_path_root: The root path in mass for storing output data.
-    :type mass_path_root: str
-    :param var_dict: A dictionary containing all the  information specific to this | MIP output variable| required to
-        archive the relevant |output netCDF files|.
-    :type var_dict: Dict[str, str]
-    :param request: The information about the request being processed by this package.
-    :type request: Request
-    :return: The path in the archive where the |output netCDF files| will be stored for this variable.
-    :rtype: str
+    Parameters
+    ----------
+    mass_path_root : str
+        The root path in mass for storing output data.
+    var_dict : Dict[str, str]
+        A dictionary containing all the  information specific to this | MIP output variable| required to archive the
+        relevant |output netCDF files|.
+    request : Request
+        The information about the request being processed by this package.
+
+    Returns
+    -------
+    str
+        The path in the archive where the |output netCDF files| will be stored for this variable.
     """
     mip_table = var_dict['mip_table_id']
     variable = var_dict['variable_id']
@@ -130,11 +139,56 @@ def get_archive_path(mass_path_root: str, var_dict: Dict[str, str], request: Req
     return mass_path_var
 
 
+def log_archiving_issues(invalid_var: dict) -> str:
+    """
+    Generate an additional error message to the user if the mass status is 'UNKNOWN'. The error message contains the
+    first and last 3 files that have been produced and are attempting to be stored, as well as the first and last 3
+    files already stored in mass that are causing the conflict. Information on the existing files such as the state and
+    version is also provided to the user for clarity.
+
+    Parameters
+    ----------
+    invalid_var: dict
+        A dictionary containing all the  information specific to this |MIP output variable| required to archive the
+        relevant |output netCDF files|.
+
+    Returns
+    -------
+    err_msg: str
+        An additional error message containing a representation of the output files attempting to be stored and the
+        relevant existing files already in storage along with their state and version.
+    """
+    mip_output = sorted(invalid_var["mip_output_files"])
+    output_parent_path = set(Path(file).parent for file in mip_output)
+    mip_output_files = [Path(file).stem for file in mip_output]
+    mip_output_head_tail = '\n'.join(mip_output_files[:3] + ['...'] + mip_output_files[-3:])
+
+    err_msg = ('\nCDDS does not believe that this data can be archived, either due to it overlapping existing data or '
+               'time gaps between this and existing data in MASS.\nYou are attempting to store '
+               f'{len(mip_output_files)} files from')
+    if len(output_parent_path) == 1:
+        err_msg += f':\n{list(output_parent_path)[0]} ...\n{mip_output_head_tail}\n'
+    else:
+        err_msg += f'multiple directories:\n{output_parent_path} ...\n{mip_output_head_tail}\n'
+
+    stored_data = invalid_var["stored_data"]
+    for state, state_entry in stored_data.items():
+        for state_entry, _ in stored_data[state].items():
+            stored = sorted(stored_data[state][state_entry])
+            stored_parent_path = set(Path(file).parent for file in stored)
+            stored_files = [Path(file).stem for file in stored]
+            stored_head_tail = '\n'.join(stored_files[:3] + ['...'] + stored_files[-3:])
+
+            err_msg += (f'\nThere are {len(stored_files)} existing files in storage in the {state} state under version '
+                        f'{state_entry}:\n{list(stored_parent_path)[0]} ...\n{stored_head_tail}\n')
+
+    return err_msg
+
+
 def check_stored_status(
         mip_approved_variables: List[Dict[str, str]], archive_dir: str
 ) -> Tuple[List[Dict[str, str]], List[Dict[str, str]]]:
-    """
-    Check each of the datasets to be processed what the current state stored
+    """Check each of the datasets to be processed what the current state stored
     data it. If it is a valid state, then retain the dataset for publication.
     If it is not valid, log a critical error and remove from the processing
     list.
@@ -151,12 +205,12 @@ def check_stored_status(
 
     Returns
     -------
-    : list
+    list
         A filtered list of the input mip_approved_variables dictionaries,
         with only those dictionaries where the data files to be archived
         and the files already in the archive are in a valid state
         to process the archiving operation.
-    : list
+    list
         A list of dictionaries with information about the invalid variables
         this is mainly used later to determine whether the issues found
         warrant a non zero exit code.
@@ -183,14 +237,15 @@ def check_stored_status(
                    'invalid mass state: '.format(**invalid_var))
         err_msg += '{description}'.format(
             **MASS_STATUS_DICT[invalid_var['mass_status']])
+        if invalid_var['mass_status'] == 'UNKNOWN':
+            err_msg += log_archiving_issues(invalid_var)
         logger.critical(err_msg)
 
     return valid_vars, invalid_vars
 
 
 def get_stored_data(var_dict, mass_records):
-    """
-    Create a dictionary of listing what data is currently stored in the
+    """Create a dictionary of listing what data is currently stored in the
     archive for this |MIP output variable|.
 
     Parameters
@@ -207,13 +262,13 @@ def get_stored_data(var_dict, mass_records):
 
     Returns
     -------
-    : dict
-    A dictionary of the |output netCDF files| stored in the archive for this
-    |MIP output variable|. The dictionary contains a dictionary for
-    each of the states listed in DATA_PUBLICATION_STATUS_DICT. Each
-    of those dictionaries has an entry for each datestamp version, which
-    contains a list of the files present in the archive for that state
-    and version.
+    dict
+        A dictionary of the |output netCDF files| stored in the archive for this
+        |MIP output variable|. The dictionary contains a dictionary for
+        each of the states listed in DATA_PUBLICATION_STATUS_DICT. Each
+        of those dictionaries has an entry for each datestamp version, which
+        contains a list of the files present in the archive for that state
+        and version.
     """
     stored_data_dict = {}
     root_path = var_dict['mass_path']
@@ -248,8 +303,7 @@ def get_stored_data(var_dict, mass_records):
 
 
 def filter_archived_files(var_dict):
-    """
-    Check which of the files to be archived are already present in the archive
+    """Check which of the files to be archived are already present in the archive
     in the embargoed (pre-publication) state, and remove those files from the
     list of files to archive.
 
@@ -262,7 +316,7 @@ def filter_archived_files(var_dict):
 
     Returns
     -------
-    : dict
+    dict
         A dictionary containing all the  information specific to
         this | MIP output variable| required to archive the relevant
         |output netCDF files|, with the output files that do not need
@@ -292,8 +346,7 @@ DATA_FILES_FILTERS = {'PROCESSING_CONTINUATION': filter_archived_files}
 
 
 def filter_data_files(var_dict):
-    """
-    Apply any filter to the list of files to be processed specific to the
+    """Apply any filter to the list of files to be processed specific to the
     type of archiving operation to be performed.
 
     Parameters
@@ -305,7 +358,7 @@ def filter_data_files(var_dict):
 
     Returns
     -------
-    : dict
+    dict
         A dictionary containing all the  information specific to
         this | MIP output variable| required to archive the relevant
         |output netCDF files|, with the output files that do not need
@@ -321,8 +374,7 @@ def filter_data_files(var_dict):
 
 
 def _write_superseded_info_file(files_to_move, mass_dest, log_path):
-    """
-    Write out a file to a temporary directory with information about
+    """Write out a file to a temporary directory with information about
     what files have been moved in mass as part of appending data
     to previously published data.
     """
@@ -342,8 +394,7 @@ def _write_superseded_info_file(files_to_move, mass_dest, log_path):
 
 
 def move_files_for_prepending_and_appending_cmd(var_dict, simulation=False):
-    """
-    If the state of the archive is such that we are prepending/
+    """If the state of the archive is such that we are prepending/
     appending the data to be archived to an existing dataset,
     the combined |output netCDF files| for this |MIP output variable|
     will be published with the new datestamp version. Before the new
@@ -364,7 +415,7 @@ def move_files_for_prepending_and_appending_cmd(var_dict, simulation=False):
 
     Returns
     -------
-    : dict
+    dict
         A dictionary containing all the  information specific to
         this | MIP output variable| required to archive the relevant
         |output netCDF files|, updated the archive operations performed.
@@ -413,14 +464,15 @@ MASS_PREPROC_CMD = {
 
 
 def run_archiving_commands(var_dict: Dict[str, str], simulation: bool) -> None:
-    """
-    Run all required archiving commands for this |MIP output variable|.
+    """Run all required archiving commands for this |MIP output variable|.
 
-    :param var_dict: A dictionary containing all the  information specific to this | MIP output variable| required to
-        archive the relevant |output netCDF files|.
-    :type var_dict: Dict[str, str]
-    :param simulation: If true, do not execute MASS commands, but output the command that would be run to the log.
-    :type simulation: bool
+    Parameters
+    ----------
+    var_dict : Dict[str, str]
+        A dictionary containing all the  information specific to this | MIP output variable| required to archive the
+        relevant |output netCDF files|.
+    simulation : bool
+        If true, do not execute MASS commands, but output the command that would be run to the log.
     """
     logger = logging.getLogger(__name__)
 
@@ -449,14 +501,15 @@ def run_archiving_commands(var_dict: Dict[str, str], simulation: bool) -> None:
 
 
 def archive_files(mip_approved_variables: List[Dict[str, str]], simulation: bool) -> None:
-    """
-    Archive the files specified by ``mip_approved_variables`` in MASS.
+    """Archive the files specified by ``mip_approved_variables`` in MASS.
 
-    :param mip_approved_variables: A list of dictionaries, each dictionary containing all the information
-        specific to one | MIP output variable| required to archive the relevant |output netCDF files|.
-    :type mip_approved_variables: List[Dict[str, str]]
-    :param simulation: If true, do not execute MASS commands, but output the command that would be run to the log.
-    :type simulation: bool
+    Parameters
+    ----------
+    mip_approved_variables : List[Dict[str, str]]
+        A list of dictionaries, each dictionary containing all the information specific to one | MIP output variable|
+        required to archive the relevant |output netCDF files|.
+    simulation : bool
+        If true, do not execute MASS commands, but output the command that would be run to the log.
     """
     logger = logging.getLogger(__name__)
     for var_dict in mip_approved_variables:
@@ -478,16 +531,16 @@ def archive_files(mip_approved_variables: List[Dict[str, str]], simulation: bool
 
 
 def cleanup_archive_dir(archive_root_dir: str, mip_approved_variables: List[Dict[str, str]], simulation: bool) -> None:
-    """
-    Clean up the archived files specified by ``mip_approved_variables`` in MASS by removing all empty directories.
+    """Clean up the archived files specified by ``mip_approved_variables`` in MASS by removing all empty directories.
 
-    :param archive_root_dir: A dictionary path in MASS.
-    :type archive_root_dir: str
-    :param mip_approved_variables: A list of dictionaries, each dictionary containing all the information specific to
-        one |MIP output variable| required to specify which directories in the archive root directory need to be cleaned
-    :type mip_approved_variables: List[Dict[str, str]]
-    :param simulation:
-    :type simulation:
+    Parameters
+    ----------
+    archive_root_dir : str
+        A dictionary path in MASS.
+    mip_approved_variables : List[Dict[str, str]]
+        A list of dictionaries, each dictionary containing all the information specific to one |MIP output variable|
+        required to specify which directories in the archive root directory need to be cleaned
+    simulation
     """
     logger = logging.getLogger(__name__)
     logger.info('Clean up archive directory "{}" in MASS.'.format(archive_root_dir))
@@ -505,12 +558,17 @@ def cleanup_archive_dir(archive_root_dir: str, mip_approved_variables: List[Dict
 
 
 def get_mass_path(var_dict: Dict[str, str]) -> str:
-    """
-    Get the path to the directory on MASS for the |MIP output variable| specified by the given information dictionary.
+    """Get the path to the directory on MASS for the |MIP output variable| specified by the given information
+    dictionary.
 
-    :param var_dict: A dictionary containing all the  information specific to this | MIP output variable|.
-    :type var_dict: Dict[str, str]
-    :return: Path to the MASS directory for the MIP variable
-    :rtype: str
+    Parameters
+    ----------
+    var_dict : Dict[str, str]
+        A dictionary containing all the  information specific to this | MIP output variable|.
+
+    Returns
+    -------
+    str
+        Path to the MASS directory for the MIP variable
     """
     return os.path.join(var_dict['mass_path'], var_dict['mass_status_suffix'])

@@ -10,9 +10,7 @@ from textwrap import dedent
 
 
 class TestMIPConfig(unittest.TestCase):
-    """
-    Tests for ``MIPConfig`` in configuration.py.
-    """
+    """Tests for ``MIPConfig`` in configuration.py."""
 
     def setUp(self):
         mip = 'CMIP6'

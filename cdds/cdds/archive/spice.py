@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Code to set up a batch script to run CDDS store on SPICE.
-"""
+"""Code to set up a batch script to run CDDS store on SPICE."""
 import os
 import sys
 
@@ -16,11 +14,12 @@ from cdds.common.spice import submit_spice_job_script, write_spice_job_script
 
 
 def run_store_spice_job(request: Request) -> None:
-    """
-    Run script to store output netCDF files for this package in MASS on SPICE via a batch job.
+    """Run script to store output netCDF files for this package in MASS on SPICE via a batch job.
 
-    :param request: Request configuration contains all necessary information to store netCDF files
-    :type request: Request
+    Parameters
+    ----------
+    request : Request
+        Request configuration contains all necessary information to store netCDF files
     """
     plugin = PluginStore.instance().get_plugin()
     proc_directory = plugin.proc_directory(request)

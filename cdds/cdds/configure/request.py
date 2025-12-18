@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`request` module contains the code required to manipulate the
+"""The :mod:`request` module contains the code required to manipulate the
 information about the request.
 """
 from collections import OrderedDict, defaultdict
@@ -85,8 +84,7 @@ def _add_items(config, section, option, value):
 
 
 def get_ancil_files(request):
-    """
-    Constructs the full paths to the ancillary files for a specific model
+    """Constructs the full paths to the ancillary files for a specific model
     and makes them available via the ``ancil_files`` and ``args`` attributes.
     """
     root_dir = request.common.root_ancil_dir
@@ -98,9 +96,7 @@ def get_ancil_files(request):
 
 
 def get_ancil_variables(request):
-    """
-    Returns all additional ancillary variables for a specific model
-    """
+    """Returns all additional ancillary variables for a specific model"""
     plugin = PluginStore.instance().get_plugin()
     models_parameters = plugin.models_parameters(request.metadata.model_id)
     ancil_variables = models_parameters.all_ancil_variables()
@@ -108,8 +104,7 @@ def get_ancil_variables(request):
 
 
 def get_replacement_coordinates_file(request):
-    """
-    Constructs the full paths to the replacement coordinates file for a specific
+    """Constructs the full paths to the replacement coordinates file for a specific
     model and makes them available via the ``replacement_coordinates_file`` and
     ``args`` attributes.
     """
@@ -121,12 +116,13 @@ def get_replacement_coordinates_file(request):
 
 
 def get_hybrid_heights_files(request):
-    """
-    Constructs the full paths to the hybrid heights files of a specific
+    """Constructs the full paths to the hybrid heights files of a specific
     model and overwrites the hybrid_heights_files attribute.
 
-    :param model_id: ID of model
-    :type model_id: str
+    Parameters
+    ----------
+    model_id : str
+        ID of model
     """
     root_dir = request.common.root_hybrid_heights_dir
     plugin = PluginStore.instance().get_plugin()

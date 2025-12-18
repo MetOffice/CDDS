@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-The :mod:`command_line` module contains the main functions for the
+"""The :mod:`command_line` module contains the main functions for the
 command line scripts in the ``bin`` directory.
 """
 import argparse
@@ -17,8 +16,7 @@ from cdds.prepare.pretty_print.pretty_print import CsvPrinter
 
 
 def main_pretty_print_variables(arguments=None):
-    """
-    Converts the a approved request variable list to CSV entries and
+    """Converts the a approved request variable list to CSV entries and
     pretty print them into a csv file
 
     Parameters
@@ -28,7 +26,7 @@ def main_pretty_print_variables(arguments=None):
 
     Returns
     -------
-    : int
+    int
         The command line exit code.
     """
     user_arguments = _parse_arguments(arguments)
@@ -49,8 +47,7 @@ def main_pretty_print_variables(arguments=None):
 
 
 def _parse_arguments(arguments):
-    """
-    Parse command line arguments of pretty print command
+    """Parse command line arguments of pretty print command
 
     Parameters
     ----------
@@ -59,7 +56,7 @@ def _parse_arguments(arguments):
 
     Returns
     -------
-    : :class:`argparse.Namespace` object
+    :class:`argparse.Namespace` object
         The names of the command line arguments and their validated
         values.
     """

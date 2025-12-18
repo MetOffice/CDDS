@@ -2,9 +2,7 @@
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 
-"""
-Tests for extract filters.
-"""
+"""Tests for extract filters."""
 from copy import deepcopy
 import logging
 import unittest

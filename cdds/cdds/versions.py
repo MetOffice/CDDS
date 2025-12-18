@@ -1,14 +1,11 @@
 # (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`versions` module contains the code required to determine the version number of a package.
-"""
+"""The :mod:`versions` module contains the code required to determine the version number of a package."""
 import subprocess
 
 
 def get_version(package: str) -> str:
-    """
-    Return the version of a package.
+    """Return the version of a package.
 
     In development mode, ``.dev0+<branch_name>.g<git_hash>`` is
     appended to the version, where ``<branch_name>`` is the name
@@ -21,12 +18,12 @@ def get_version(package: str) -> str:
 
     Parameters
     ----------
-    package: string
+    package: str
         The name of the package.
 
     Returns
     -------
-    version: string
+    version: str
         The version of the package.
     """
     numerical_version = '_NUMERICAL_VERSION'

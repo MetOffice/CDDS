@@ -4,8 +4,7 @@ import logging
 
 
 def scale_memory(memory_limit, scaling_factor):
-    """
-    Return a scaled memory limit for batch jobs.
+    """Return a scaled memory limit for batch jobs.
 
     Parameters
     ----------
@@ -16,7 +15,7 @@ def scale_memory(memory_limit, scaling_factor):
 
     Returns
     -------
-    : str
+    str
         Scaled memory limit. Note that the memory limit will be converted
         from GB to MB.
     """

@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-This module contains code related to the directory structures for CDDS.
-"""
+"""This module contains code related to the directory structures for CDDS."""
 import logging
 import os
 import shutil
@@ -19,11 +17,12 @@ from cdds.prepare.constants import ARCHIVE_LOG_DIRECTORY_PERMISSIONS
 
 
 def create_cdds_directory_structure(arguments: Namespace):
-    """
-    Create the CDDS directory structure.
+    """Create the CDDS directory structure.
 
-    :param arguments: The arguments specific to the `create_cdds_directory_structure` script.
-    :type arguments: Namespace
+    Parameters
+    ----------
+    arguments : Namespace
+        The arguments specific to the `create_cdds_directory_structure` script.
     """
     logger = logging.getLogger(__name__)
     # Read the request information.

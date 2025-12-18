@@ -11,8 +11,7 @@ from cdds.common.plugins.plugins import PluginStore
 
 
 def read_variables_file(filepath):
-    """
-    Reads variables file
+    """Reads variables file
 
     Parameters
     ----------
@@ -21,7 +20,7 @@ def read_variables_file(filepath):
 
     Returns
     -------
-    : dict
+    dict
         Variables dictionary {(mip_table, var): stream}
     """
     variables = {}
@@ -38,8 +37,7 @@ def read_variables_file(filepath):
 
 
 def check_mappings(variables):
-    """
-    Parses stream configuration file and updates the variables dictionary
+    """Parses stream configuration file and updates the variables dictionary
 
     Parameters
     ----------
@@ -48,7 +46,7 @@ def check_mappings(variables):
 
     Returns
     -------
-    : dict
+    dict
         Variables dictionary {(mip_table, var): stream}
     """
     load_plugin('CMIP6')
@@ -63,8 +61,7 @@ def check_mappings(variables):
 
 
 def save_mappings(filepath, variables):
-    """
-    Writes updated variables to a file
+    """Writes updated variables to a file
 
     Parameters
     ----------

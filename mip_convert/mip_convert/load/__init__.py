@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2009-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The load package enables the |input variables| for a
+"""The load package enables the |input variables| for a
 |MIP requested variable| to be loaded from the |model output files|.
 """
 import logging
@@ -17,8 +16,7 @@ from mip_convert.new_variable import Variable
 
 
 def load(filenames, variable_metadata):
-    """
-    Return the data and metadata related to a |MIP requested variable|.
+    """Return the data and metadata related to a |MIP requested variable|.
 
     Parameters
     ----------
@@ -33,7 +31,7 @@ def load(filenames, variable_metadata):
 
     Returns
     -------
-    : :class:`new_variable.Variable`
+    :class:`new_variable.Variable`
         The data and metadata related to a |MIP requested variable|.
     """
     logger = logging.getLogger(__name__)

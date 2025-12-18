@@ -10,9 +10,7 @@ from mip_convert.variable import (
 
 
 class TestNumPySlicing(unittest.TestCase):
-    """
-    this class contains only learner tests around numpy.ma
-    """
+    """this class contains only learner tests around numpy.ma"""
 
     def test_ma_array(self):
         test.assert_array_equal(list(range(3)), np.ma.arange(3))

@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module for defining and managing the request object
-"""
+"""Module for defining and managing the request object"""
 import os
 
 from abc import abstractmethod, ABCMeta
@@ -16,83 +14,93 @@ TIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 
 class Section(object, metaclass=ABCMeta):
-    """
-    Abstract class to specify a section in the request configuration.
-    """
+    """Abstract class to specify a section in the request configuration."""
 
     @classmethod
     @abstractmethod
     def name(cls) -> str:
-        """
-        Name of the section that is used in the request configuration file.
+        """Name of the section that is used in the request configuration file.
 
-        :return: Name that is also used in the configuration file
-        :rtype: str
+        Returns
+        -------
+        str
+            Name that is also used in the configuration file
         """
         pass
 
     @property
     @abstractmethod
     def items(self) -> Dict[str, Any]:
-        """
-        Returns all items of the section as a dictionary.
+        """Returns all items of the section as a dictionary.
 
-        :return: Items as dictionary
-        :rtype: Dict[str, Any]
+        Returns
+        -------
+        Dict[str, Any]
+            Items as dictionary
         """
         pass
 
     @staticmethod
     @abstractmethod
     def from_config(config: ConfigParser) -> 'Section':
-        """
-        Loads the section of a request configuration.
+        """Loads the section of a request configuration.
 
-        :param config: Parser for the request configuration
-        :type config: ConfigParser
-        :return: New section object
-        :rtype: Section
+        Parameters
+        ----------
+        config : ConfigParser
+            Parser for the request configuration
+
+        Returns
+        -------
+        Section
+            New section object
         """
         pass
 
     @staticmethod
     @abstractmethod
     def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'Section':
-        """
-        Loads the section of a rose-suite.info.
+        """Loads the section of a rose-suite.info.
 
-        :param suite_info: The rose-suite.info to be loaded
-        :type suite_info: RoseSuiteInfo
-        :param arguments: Additional arguments to be considered
-        :type arguments: RoseSuiteArguments
-        :return: New section
-        :rtype: Section
+        Parameters
+        ----------
+        suite_info : RoseSuiteInfo
+            The rose-suite.info to be loaded
+        arguments : RoseSuiteArguments
+            Additional arguments to be considered
+
+        Returns
+        -------
+        Section
+            New section
         """
         pass
 
     @abstractmethod
     def add_to_config(self, config: ConfigParser, *args: Optional[Any]) -> None:
-        """
-        Adds values defined by the section to given configuration.
+        """Adds values defined by the section to given configuration.
 
-        :param config: Configuration where values should add to
-        :type config: ConfigParser
-        :param args: Optional values to consider
-        :type args: Optional[Any]
+        Parameters
+        ----------
+        config : ConfigParser
+            Configuration where values should add to
+        *args : Optional[Any]
+            Optional values to consider
         """
         pass
 
     def _add_to_config_section(self, config: ConfigParser, section: str = '', defaults: Dict[str, Any] = {}) -> None:
-        """
-        Add values of section to given configuration. If a value is not specified,
+        """Add values of section to given configuration. If a value is not specified,
         add default value if given.
 
-        :param config: Parser for configuration
-        :type config: ConfigParser
-        :param section: Name of section to added to configuration
-        :type section: str
-        :param defaults: Default values
-        :type defaults: Dict[str, Any]
+        Parameters
+        ----------
+        config : ConfigParser
+            Parser for configuration
+        section : str
+            Name of section to added to configuration
+        defaults : Dict[str, Any]
+            Default values
         """
         config.add_section(section)
         for option, value in self.items.items():
@@ -106,17 +114,21 @@ class Section(object, metaclass=ABCMeta):
 
 
 def load_types(dictionary: Dict[str, str], as_list: List[str] = []) -> Dict[str, Any]:
-    """
-    Takes a dictionary of string entries and converts the values from str to the specific type,
+    """Takes a dictionary of string entries and converts the values from str to the specific type,
     like int, list, float, str, bool, TimePoint. The given as_list keys specifies the values
     that should be converted as list of strings.
 
-    :param dictionary: Dictionary that values types should be loaded
-    :type dictionary: Dict[str, str]
-    :param as_list: Keys of entries that should be loaded as list of string
-    :type as_list: List[str]
-    :return: Dictionary containing values in the correct types
-    :rtype: Dict[str, Any]
+    Parameters
+    ----------
+    dictionary : Dict[str, str]
+        Dictionary that values types should be loaded
+    as_list : List[str]
+        Keys of entries that should be loaded as list of string
+
+    Returns
+    -------
+    Dict[str, Any]
+        Dictionary containing values in the correct types
     """
     output: Dict[str, Any] = {}
     for key, value in dictionary.items():
@@ -146,13 +158,14 @@ def _is_float(value: Any) -> bool:
 
 
 def expand_paths(dictionary: Dict[str, Any], path_keys: List[str]) -> None:
-    """
-    Expands the paths in given dictionary for entries with given keys.
+    """Expands the paths in given dictionary for entries with given keys.
 
-    :param dictionary: Dictionary
-    :type dictionary: Dict[str, Any]
-    :param path_keys: Keys of entries that paths should be expanded
-    :type path_keys: List[str]
+    Parameters
+    ----------
+    dictionary : Dict[str, Any]
+        Dictionary
+    path_keys : List[str]
+        Keys of entries that paths should be expanded
     """
     for path_key in path_keys:
         if path_key in dictionary and dictionary[path_key]:

@@ -21,23 +21,28 @@ from mip_convert.mip_table import get_variable_model_to_mip_mapping, get_variabl
 
 def get_requested_variables(
         user_config: UserConfig, requested_stream_ids: List[str]) -> Dict[Tuple[str, str, str], List[str]]:
-    """
-    Return the |MIP requested variable names| based on the
+    """Return the |MIP requested variable names| based on the
     |stream identifiers| provided by the ``requested_stream_ids``
     parameter. If the value provided in the ``requested_stream_ids``
     parameter is ``None`` the |MIP requested variable names| for all
     |stream identifiers| are returned.
 
-    :param user_config: the |user configuration file|
-    :type user_config: :class:`configuration.UserConfig` object
-    :param requested_stream_ids: the requested |stream identifiers|
-    :type requested_stream_ids: list
-    :return: the |MIP requested variable names| in the form
-        ``{(stream_id_1, mip_table_name_1): [var_1, var_2]}``
-    :rtype: dictionary
-    :raises RuntimeError: if there are no
-        |MIP requested variable names| defined in the
-        |user configuration file|
+    Parameters
+    ----------
+    user_config : :class:`configuration.UserConfig` object
+        the |user configuration file|
+    requested_stream_ids : list
+        the requested |stream identifiers|
+
+    Returns
+    -------
+    dict
+        the |MIP requested variable names| in the form ``{(stream_id_1, mip_table_name_1): [var_1, var_2]}``
+
+    Raises
+    ------
+    RuntimeError
+        if there are no |MIP requested variable names| defined in the |user configuration file|
     """
     if requested_stream_ids is None:
         requested_variables = user_config.streams_to_process
@@ -58,8 +63,7 @@ def produce_mip_requested_variable(
         variable_name: str, stream_id: str, substream: str, mip_table: MIPConfig, user_config: UserConfig,
         site_information: SitesConfig, hybrid_height_information: HybridHeightConfig, replacement_coordinates: CubeList,
         model_to_mip_mappings: ModelToMIPMappingConfig, filenames: List[str], frequency: str) -> None:
-    """
-    Produce the |output netCDF files| for the |MIP requested variable|.
+    """Produce the |output netCDF files| for the |MIP requested variable|.
 
     Parameters
     ----------

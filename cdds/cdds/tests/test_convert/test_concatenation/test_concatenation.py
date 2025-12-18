@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring
-"""
-Tests for the :mod:`cdds.convert.concatenation` module.
-"""
+"""Tests for the :mod:`cdds.convert.concatenation` module."""
 from collections import defaultdict
 import logging
 import os
@@ -48,9 +46,7 @@ data:
 
 
 class TestConcatenation(unittest.TestCase):
-    """
-    Tests of :mod:`cdds.convert.concatenation`
-    """
+    """Tests of :mod:`cdds.convert.concatenation`"""
     def setUp(self):
         load_plugin()
         self.testing_db = 'concatenation_testing_{}.db'.format(os.getpid())

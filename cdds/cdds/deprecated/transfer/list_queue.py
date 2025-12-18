@@ -1,9 +1,7 @@
 #!/usr/bin/env python3.6
 # (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Print a list of messages in the CMIP6 queues
-"""
+"""Print a list of messages in the CMIP6 queues"""
 import json
 import os
 
@@ -11,10 +9,9 @@ from cdds.deprecated.transfer import config, msg
 
 
 def print_queue(queue_name, full=False):
-    """
-    Obtain and print the messages in the relevant queue.
+    """Obtain and print the messages in the relevant queue.
 
-    PARAMETERS
+    Parameters
     ----------
     queue_name : str
         Queue to print messages from.

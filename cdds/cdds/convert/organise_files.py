@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Wrapper for mip_concatenate_setup to run within a Rose suite using environment
+"""Wrapper for mip_concatenate_setup to run within a Rose suite using environment
 variables to obtain arguments
 """
 import glob
@@ -24,13 +23,12 @@ from cdds.common import configure_logger
 
 
 def construct_expected_concat_config():
-    """
-    Constructs a dictionary of the expected elements that should be in the
+    """Constructs a dictionary of the expected elements that should be in the
     configuration file used by the concatenation tasks.
 
     Returns
     -------
-    : dict
+    dict
         A dictionary with the expected components of the concat config file.
     """
     expected_concatenation_config = {
@@ -49,8 +47,7 @@ def construct_expected_concat_config():
 
 def transpose_directory_structure(mip_convert_output_dir, staging_dir,
                                   start_date, end_date):
-    """
-    Re-organise files on disk. MIP convert will write to the structure
+    """Re-organise files on disk. MIP convert will write to the structure
     <location>/<cycle date>/<component>/, but for concatenation it would
     be far simpler to use <location>/<mip_table>/<variable>.
 
@@ -111,8 +108,7 @@ def transpose_directory_structure(mip_convert_output_dir, staging_dir,
 
 
 def move_files(files_to_move, location):
-    """
-    Move files to new directory structure
+    """Move files to new directory structure
 
     Parameters
     ----------
@@ -147,8 +143,7 @@ def move_files(files_to_move, location):
 
 
 def identify_files_to_move(location, start_date, end_date):
-    """
-    Identify files that should be moved prior to concatenation. Only that
+    """Identify files that should be moved prior to concatenation. Only that
     the files that fall within the time window specified by
     [start_year, end_year]  will be considered for moving.
 
@@ -216,8 +211,7 @@ def identify_files_to_move(location, start_date, end_date):
 
 
 def write_mip_concatenate_cfg(config_filename, **kwargs):
-    """
-    Write the mip_concatenate_setup.cfg file based on the kwargs
+    """Write the mip_concatenate_setup.cfg file based on the kwargs
     dictionary.
 
     Parameters
@@ -244,8 +238,7 @@ def write_mip_concatenate_cfg(config_filename, **kwargs):
 
 
 def organise_files():
-    """
-    Get the required parameters from environment variables, set up the
+    """Get the required parameters from environment variables, set up the
     mip_convert.cfg file and run mip_convert
     """
     # do not have access to request here, pick proc dir from environment

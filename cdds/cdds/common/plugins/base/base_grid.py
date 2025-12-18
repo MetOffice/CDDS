@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`base_grid` module contains the code required
+"""The :mod:`base_grid` module contains the code required
 to handle basic grid information of models.
 """
 from abc import ABCMeta
@@ -11,8 +10,7 @@ from cdds.common.plugins.grid import GridInfo, GridType
 
 
 class BaseGridInfo(GridInfo, metaclass=ABCMeta):
-    """
-    Stores all information for a specific grid type.
+    """Stores all information for a specific grid type.
     This is the abstract class from which all specific
     grid info classes should inherit.
     """
@@ -23,31 +21,34 @@ class BaseGridInfo(GridInfo, metaclass=ABCMeta):
 
     @property
     def model_info(self) -> str:
-        """
-        Returns the model info of the grid.
+        """Returns the model info of the grid.
 
-        :return: Model info
-        :rtype: str
+        Returns
+        -------
+        str
+            Model info
         """
         return self._values['model_info']
 
     @property
     def nominal_resolution(self) -> str:
-        """
-        Returns the nominal of the grid.
+        """Returns the nominal of the grid.
 
-        :return: Nominal resolution
-        :rtype: str
+        Returns
+        -------
+        str
+            Nominal resolution
         """
         return self._values['nominal_resolution']
 
     @property
     def grid_description_prefix(self) -> str:
-        """
-        Returns the prefix of the description of the grid
+        """Returns the prefix of the description of the grid
 
-        :return: Prefix of the grid description
-        :rtype: str
+        Returns
+        -------
+        str
+            Prefix of the grid description
         """
         if 'grid_description_prefix' in self._values:
             return self._values['grid_description_prefix']
@@ -56,73 +57,80 @@ class BaseGridInfo(GridInfo, metaclass=ABCMeta):
 
     @property
     def longitude(self) -> int:
-        """
-        Returns the size of the longitude coordinate.
+        """Returns the size of the longitude coordinate.
 
-        :return: Size of the longitude coordinate
-        :rtype: int
+        Returns
+        -------
+        int
+            Size of the longitude coordinate
         """
         value = self._values['longitude']
         return self._to_int(value)
 
     @property
     def latitude(self) -> int:
-        """
-        Returns the size of the latitude coordinate.
+        """Returns the size of the latitude coordinate.
 
-        :return: Size of the latitude coordinate
-        :rtype: int
+        Returns
+        -------
+        int
+            Size of the latitude coordinate
         """
         value = self._values['latitude']
         return self._to_int(value)
 
     @property
     def v_latitude(self) -> int:
-        """
-        Returns the size of the latitude coordinate for data on v-points.
+        """Returns the size of the latitude coordinate for data on v-points.
 
-        :return: Size of the latitude coordinate on v-points
-        :rtype: int
+        Returns
+        -------
+        int
+            Size of the latitude coordinate on v-points
         """
         value = self._values['v_latitude']
         return self._to_int(value)
 
     @property
     def levels(self) -> int:
-        """
-        Returns the number of vertical levels.
+        """Returns the number of vertical levels.
 
-        :return: Number of vertical levels
-        :rtype: int
+        Returns
+        -------
+        int
+            Number of vertical levels
         """
         value = self._values['levels']
         return self._to_int(value)
 
     @property
     def replacement_coordinates_file(self) -> str:
-        """
-        Returns the name of the replacement coordinate file.
+        """Returns the name of the replacement coordinate file.
 
-        :return: Name of the replacement coordinate file
-        :rtype: str
+        Returns
+        -------
+        str
+            Name of the replacement coordinate file
         """
         return self._values['replacement_coordinates_file']
 
     def ancil_filenames(self) -> List[str]:
-        """
-        Returns the ancillary file names.
+        """Returns the ancillary file names.
 
-        :return: Ancillary file names
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            Ancillary file names
         """
         return self._values['ancil_filenames']
 
     def ancil_variables(self) -> List[str]:
-        """
-        Returns the ancillary variables that should be removed.
+        """Returns the ancillary variables that should be removed.
 
-        :return: Ancillary variables
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            Ancillary variables
         """
         if 'ancil_variables' in self._values.keys():
             return self._values['ancil_variables']
@@ -136,9 +144,7 @@ class BaseGridInfo(GridInfo, metaclass=ABCMeta):
 
 
 class OceanBaseGridInfo(BaseGridInfo):
-    """
-    Stores the information for an ocean grid
-    """
+    """Stores the information for an ocean grid"""
 
     def __init__(self, json: Dict[str, Any] = None) -> None:
         super(OceanBaseGridInfo, self).__init__(GridType.OCEAN, json)
@@ -169,8 +175,7 @@ class OceanBaseGridInfo(BaseGridInfo):
 
     @property
     def masks(self) -> Dict[str, str]:
-        """
-        Returns a dictionary of ocean grid polar masks for the grid.
+        """Returns a dictionary of ocean grid polar masks for the grid.
         For example::
 
           {
@@ -178,32 +183,40 @@ class OceanBaseGridInfo(BaseGridInfo):
             'cice-U': '-1:None:None,180:None:None
           }
 
-        :return: Ocean grid polar masks stored in a dictionary according their grid names
-        :rtype: dict
+        Returns
+        -------
+        dict
+            Ocean grid polar masks stored in a dictionary according their grid names
         """
         return self._ocean_grid_polar_masks
 
     def hybrid_heights_files(self) -> List[str]:
-        """
-        Returns the hybrid heights file names.
+        """Returns the hybrid heights file names.
         Ocean grids have no hybrid heights files. So, None will be returned.
 
-        :return: Hybrid heights file names
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            Hybrid heights file names
         """
         return None
 
     def bounds_coordinates(self, stream: str, substream: str) -> List[str]:
-        """
-        Returns a list of names of bounds coordinates
+        """Returns a list of names of bounds coordinates
         For example::
           ['bounds_lon', 'bounds_lat', 'time_centered_bounds', 'depthw_bounds']
-        :param stream: Name of the stream
-        :type stream: str
-        :param substream: Name of the substream
-        :type substream: str
-        :return: Names of bounds coordinates
-        :rtype: List[str]
+
+        Parameters
+        ----------
+        stream : str
+            Name of the stream
+        substream : str
+            Name of the substream
+
+        Returns
+        -------
+        List[str]
+            Names of bounds coordinates
         """
         if stream.startswith('o') and substream[-1] not in 'TUVWr':
             raise RuntimeError('Could not interpret substream "{}"'.format(substream))
@@ -228,39 +241,40 @@ class OceanBaseGridInfo(BaseGridInfo):
 
 
 class AtmosBaseGridInfo(BaseGridInfo):
-    """
-    Stores the information for an atmosphere grid
-    """
+    """Stores the information for an atmosphere grid"""
 
     def __init__(self, json: Dict[str, Any] = None) -> None:
         super(AtmosBaseGridInfo, self).__init__(GridType.ATMOS, json)
 
     @property
     def masks(self) -> Dict[str, str]:
-        """
-        Returns a dictionary of ocean grid polar masks for the grid.
+        """Returns a dictionary of ocean grid polar masks for the grid.
         Atmosphere grids have no ocean grid polar masks. So, 'None' will be returned.
 
-        :return: 'None' because atmosphere grids have no ocean grid polar masks
-        :rtype: dict
+        Returns
+        -------
+        dict
+            'None' because atmosphere grids have no ocean grid polar masks
         """
         return None
 
     @property
     def atmos_timestep(self) -> int:
-        """
-        Returns the atmosphere time step.
+        """Returns the atmosphere time step.
 
-        :return: Atmosphere time step
-        :rtype: int
+        Returns
+        -------
+        int
+            Atmosphere time step
         """
         return self._values['atmos_timestep']
 
     def hybrid_heights_files(self) -> List[str]:
-        """
-        Returns the hybrid heights file names.
+        """Returns the hybrid heights file names.
 
-        :return: Hybrid heights file names
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            Hybrid heights file names
         """
         return self._values['hybrid_heights_files']

@@ -8,8 +8,7 @@ from cdds.tests.nightly_tests.app_config import AppConfig
 
 
 class NightlyApp(object, metaclass=ABCMeta):
-    """
-    Defines the abstract class which all Nightly apps should inherited.
+    """Defines the abstract class which all Nightly apps should inherited.
     Subclasses should define the application's command-line interface by over-
     riding the :attr:`cli_spec` property. The application's functionality should
     be specified by overriding the :meth:`run` method. The latter may of course
@@ -27,8 +26,7 @@ class NightlyApp(object, metaclass=ABCMeta):
     @property
     @abstractmethod
     def cli_spec(self):
-        """
-        Defines the command-line interface specification for the application.
+        """Defines the command-line interface specification for the application.
         This should be a list of dictionaries, each of which specifies a series
         of parameters.
 
@@ -38,14 +36,11 @@ class NightlyApp(object, metaclass=ABCMeta):
 
     @abstractmethod
     def run(self):
-        """
-        Interface to run the application.
-        """
+        """Interface to run the application."""
         raise NotImplementedError
 
     def _parse_cli_args(self, app_name):
-        """
-        Parse command-line arguments according to the app's 'cli_spec'
+        """Parse command-line arguments according to the app's 'cli_spec'
         property. Parsed options and/or arguments can subsequently be accessed
         via the application object's 'cli_args' attribute.
 
@@ -55,7 +50,7 @@ class NightlyApp(object, metaclass=ABCMeta):
 
         Parameters
         ----------
-        app_name: :str
+        app_name: str
             the name of the app to display in the usage text.
         """
         program_name = self.__class__.__name__
@@ -76,13 +71,12 @@ class NightlyApp(object, metaclass=ABCMeta):
         parser.parse_args(namespace=self.cli_args)
 
     def _parse_app_config(self, config_file=None):
-        """
-        Parse configuration options from a file in Rose's extended INI format
+        """Parse configuration options from a file in Rose's extended INI format
         and wrap it in an :class:`cdds.tests.nightly_tests.app_config` object.
 
         Parameters
         ----------
-        config_file: :str
+        config_file: str
             Path to the configuration file to parse. If not specified then the
             command-line argument list is checked for a --config-file option.
         """

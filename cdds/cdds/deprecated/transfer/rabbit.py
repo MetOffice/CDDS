@@ -32,8 +32,10 @@ class RabbitMqManager(object):
         Note: creating an object does not start a connection to the
         RabbitMQ server - you must run the start method to do that.
 
-        Arguments:
-        cfg -- (config.Config) wrapper to Rabbit configuration file
+        Parameters
+        ----------
+        cfg: config.Config
+            wrapper to Rabbit configuration file
         """
         self._config = cfg
         self._section = "rabbit"
@@ -86,8 +88,9 @@ class RabbitMqManager(object):
         invoke the "call" method on the supplied callable on the
         configured channel.
 
-        Argument
-        channel_callable -- (rabbit.ChannelCallable)
+        Parameters
+        ----------
+        channel_callable: rabbit.ChannelCallable)
         """
         if not self._connection:
             logging.warning("no connection so immediately returning")
@@ -223,8 +226,10 @@ class GetFirst(ChannelCallable):
     def __init__(self, queue):
         """Creates a new GetFirst object.
 
-        Arguments:
-        queue -- (msg.Queue) queue to get from
+        Parameters
+        ----------
+        queue: msg.Queue
+            queue to get from
         """
         self.queue = queue
         self._queue_name = queue.queue_name
@@ -232,9 +237,12 @@ class GetFirst(ChannelCallable):
     def call(self, channel, exchange):
         """Run basic_get to retrieve a message from the channel.
 
-        Arguments:
-        channel -- (pika.Channel) configured channel
-        exchange -- (str) exchange to use if necessary
+        Parameters
+        ----------
+        channel: pika.Channel
+            configured channel
+        exchange: str
+            exchange to use if necessary
         """
         logging.info("basic_get with route %s" % self._queue_name)
         method_frame, _, body = channel.basic_get(queue=self._queue_name)
@@ -249,8 +257,10 @@ class GetAll(ChannelCallable):
     def __init__(self, queue):
         """Create a new GetAll object.
 
-        Arguments:
-        queue -- (msg.Queue) queue to get messages from
+        Parameters
+        ----------
+        queue: msg.Queue
+            queue to get messages from
         """
         self.queue = queue
         self._queue_name = queue.queue_name
@@ -258,9 +268,12 @@ class GetAll(ChannelCallable):
     def call(self, channel, exchange):
         """Run basic get to retrieve all messages from the channel.
 
-        Arguments:
-        channel -- (pika.Channel) configured channel
-        exchange -- (str) exchange to use if necessary
+        Parameters
+        ----------
+        channel: pika.Channel
+            configured channel
+        exchange: str
+            exchange to use if necessary
         """
         messages = []
         logging.info("basic_get (all) with route %s" % self._queue_name)
@@ -278,9 +291,12 @@ class PersistentPublish(ChannelCallable):
     def __init__(self, queue, body):
         """Create a new PersistentPublish object.
 
-        Arguments:
-        queue -- (msg.Queue) queue to publish to
-        body -- (str) body of the message to publish
+        Parameters
+        ----------
+        queue: msg.Queue
+            queue to publish to
+        body: str
+            body of the message to publish
         """
         self.queue = queue
         self._queue_name = queue.queue_name
@@ -295,9 +311,12 @@ class PersistentPublish(ChannelCallable):
         Return True if we receive confirm that the message was
         published successfully, False if not.
 
-        Arguments:
-        channel -- (pika.Channel) configured channel
-        exchange -- (str) exchange to use if necessary
+        Parameters
+        ----------
+        channel: pika.Channel
+            configured channel
+        exchange: str
+            exchange to use if necessary
         """
         logging.info("basic_publish, route %s, body %s" % (
             self._queue_name, self._body))
@@ -320,9 +339,12 @@ class AckMessage(ChannelCallable):
         Note: delivery_tag must be obtained from a message object. You
         should never need to set it explicitly yourself.
 
-        Arguments:
-        queue -- (msg.Queue) queue to look for message on
-        delivery_tag -- (int) message's internal delivery tag
+        Parameters
+        ----------
+        queue: msg.Queue
+            queue to look for message on
+        delivery_tag: int
+            message's internal delivery tag
         """
         self.queue = queue
         self._queue_name = queue.queue_name
@@ -335,9 +357,12 @@ class AckMessage(ChannelCallable):
         If one is found, run basic_ack on the channel to remove that
         message from the queue.
 
-        Arguments:
-        channel -- (pika.Channel) configured channel
-        exchange -- (str) exchange to use if necessary
+        Parameters
+        ----------
+        channel: pika.Channel
+            configured channel
+        exchange: str
+            exchange to use if necessary
         """
         while True:
             method_frame, _, _ = channel.basic_get(queue=self._queue_name)

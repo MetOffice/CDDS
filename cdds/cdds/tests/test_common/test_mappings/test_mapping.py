@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name
-"""
-These tests relies on the MIP convert mapping configurations
-"""
+"""These tests relies on the MIP convert mapping configurations"""
 import unittest
 
 import cdds.common.mappings.mapping as mapping
@@ -136,9 +134,7 @@ class TestMassFilters(unittest.TestCase):
         self.assertEqual(mass_filters, expected)
 
     def test_multi_var_nemo(self):
-        """
-        test some variables in different ocean streams including one unknown
-        """
+        """test some variables in different ocean streams including one unknown"""
         json_request = TestMassFilters.add_var_to_json(
             [{"name": "uo", "table": "Omon", "stream": "onm/grid-U"},
              {"name": "tos", "table": "Omon", "stream": "onm/grid-T"},

@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Populate the dataset inventory.
-"""
+"""Populate the dataset inventory."""
 import argparse
 import gzip
 import logging
@@ -27,9 +25,7 @@ JASMIN_STATUS_MAP = {
 
 
 def main_populate_inventory(arguments=None):
-    """
-    Populate the dataset inventory.
-    """
+    """Populate the dataset inventory."""
     args = parse_args(arguments)
     configure_logger(args.log_name, args.log_level, args.append_log)
     logger = logging.getLogger(__name__)
@@ -58,8 +54,7 @@ def main_populate_inventory(arguments=None):
 
 
 def parse_args(arguments):
-    """
-    Return the names of the command_line arguments for
+    """Return the names of the command_line arguments for
     ``populate_inventory`` and their validated values.
 
     If this function is called from the Python interpreter with
@@ -73,7 +68,7 @@ def parse_args(arguments):
 
     Returns
     -------
-    : :class:`args.Namespace`
+    :class:`args.Namespace`
         The names of the command line arguments and their validated
         values.
     """
@@ -95,8 +90,7 @@ def parse_args(arguments):
 
 
 def parse_line(line):
-    """
-    Parse a line containing a CREPP dataset
+    """Parse a line containing a CREPP dataset
 
     Parameters
     ----------
@@ -105,7 +99,7 @@ def parse_line(line):
 
     Returns
     -------
-        : tuple(str, str)
+    tuple(str, str)
         Dataset id and status
     """
     line_elems = line.split()
@@ -115,8 +109,7 @@ def parse_line(line):
 
 
 def populate_inventory_from_file(db_connection, crepp_filepath):
-    """
-    Opens and parses the contents of CREPP dataset dump, and populates inventory's dataset table.
+    """Opens and parses the contents of CREPP dataset dump, and populates inventory's dataset table.
 
     Parameters
     ----------
@@ -145,8 +138,7 @@ def populate_inventory_from_file(db_connection, crepp_filepath):
 
 
 def walk_mass_dir(root, facet_list, inventory):
-    """
-    Explores recursively MASS location given as root, matching
+    """Explores recursively MASS location given as root, matching
     directories at the current level with the first element from
     the facet_list. Once it gets down to the final 4 facets, it builds
     a list of datasets contained in the (current) root directory and
@@ -192,8 +184,7 @@ def walk_mass_dir(root, facet_list, inventory):
 
 
 def build_facet_dictionary(dataset_facets, facet_list):
-    """
-    Builds a dictionary with facet values from dataset_id
+    """Builds a dictionary with facet values from dataset_id
 
     Parameters
     ----------
@@ -204,7 +195,7 @@ def build_facet_dictionary(dataset_facets, facet_list):
 
     Returns
     -------
-    : dict
+    dict
         Dictionary of facets and their values
     """
     # these facets correspond to simple strings in the database, so there is no need to find their primary keys
@@ -213,8 +204,7 @@ def build_facet_dictionary(dataset_facets, facet_list):
 
 
 def populate_inventory_from_mass(db_conn, mass_dir):
-    """
-    Build inventory for the provided MASS location
+    """Build inventory for the provided MASS location
 
     Parameters
     ----------
@@ -227,8 +217,7 @@ def populate_inventory_from_mass(db_conn, mass_dir):
 
 
 def archive_and_replace_file(new_inventory_path, old_inventory_path):
-    """
-    Gzip newly created archive and rename the file (possibly overwriting the previous version).
+    """Gzip newly created archive and rename the file (possibly overwriting the previous version).
 
     Parameters
     ----------

@@ -1,14 +1,10 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`mass_record` module contains record object of the MASS archiving system
-and functions on this record.
-"""
+"""The :mod:`mass_record` module contains record object of the MASS archiving system and functions on this record."""
 
 
 def filter_records_by_paths(record_map, search_paths):
-    """
-    Filters the records of the given record map and returns a map that only
+    """Filters the records of the given record map and returns a map that only
     contains the records that paths contain at least one path of the given
     search paths.
 
@@ -22,7 +18,7 @@ def filter_records_by_paths(record_map, search_paths):
 
     Returns
     -------
-    : dict
+    dict
         Filtered map of records where the path contains at least one path of
         the given search paths.
     """
@@ -34,8 +30,7 @@ def filter_records_by_paths(record_map, search_paths):
 
 
 def get_records_from_stdout(stdout, searched_paths=None):
-    """
-    Returns a map of Mass records for the paths specified in the stdout. A Mass record
+    """Returns a map of Mass records for the paths specified in the stdout. A Mass record
     contains the record path, the parent record path, a flag if empty and a flag if
     it is a directory. If the `searched_paths` argument is set, only Mass records that
     paths are contained (completely or partly) in the given searched paths will be returned.
@@ -50,7 +45,7 @@ def get_records_from_stdout(stdout, searched_paths=None):
 
     Returns
     -------
-    : dict
+    dict
         Map of records where keys are the record paths and values the corresponding MassRecord.
     """
     stdout_lines = [line for line in stdout.split('\n') if line]
@@ -68,8 +63,7 @@ def get_records_from_stdout(stdout, searched_paths=None):
 
 
 def set_is_empty_flag(record_map):
-    """
-    Finds all empty records in the given record map and sets the empty flag for each record
+    """Finds all empty records in the given record map and sets the empty flag for each record
     correctly. It assumes that files, collections or data sets are not empty by default.
 
     Parameters
@@ -79,7 +73,7 @@ def set_is_empty_flag(record_map):
 
     Returns
     -------
-    : dict
+    dict
         Map of records where keys are the record paths and values the corresponding MassRecord
         with correct set empty flag.
     """
@@ -106,8 +100,7 @@ def set_is_empty_flag(record_map):
 
 
 class MassRecord:
-    """
-    A MassRecord object represents a record (directory, file, data set, collection) in
+    """A MassRecord object represents a record (directory, file, data set, collection) in
     Mass storing the record path, its parent path, a flag if dir and a flag if empty
     """
 
@@ -119,55 +112,50 @@ class MassRecord:
 
     @property
     def path(self):
-        """
-        Returns the record path in Mass.
+        """Returns the record path in Mass.
 
         Returns
         -------
-        : str
+        str
             Absolute path of the record.
         """
         return self._path
 
     @property
     def parent(self):
-        """
-        Returns path of the parent of the record in Mass.
+        """Returns path of the parent of the record in Mass.
 
         Returns
         -------
-        : str
+        str
             Absolute path of parent of the record.
         """
         return self._parent
 
     @property
     def is_empty(self):
-        """
-        Returns if record is empty.
+        """Returns if record is empty.
 
         Returns
         -------
-        : bool
+        bool
             True if record is empty.
         """
         return self._empty
 
     @property
     def not_empty(self):
-        """
-        Returns if record is not empty
+        """Returns if record is not empty
 
         Returns
         -------
-        : bool
+        bool
             True if record is not empty.
         """
         return not self._empty
 
     def set_empty(self, empty):
-        """
-        Sets the empty flag of the record to the given value.
+        """Sets the empty flag of the record to the given value.
 
         Parameters
         ----------
@@ -178,24 +166,22 @@ class MassRecord:
 
     @property
     def is_dir(self):
-        """
-        Returns if the record is a directory.
+        """Returns if the record is a directory.
 
         Returns
         -------
-        : bool
+        bool
             True if record is a directory.
         """
         return self._is_dir
 
     @property
     def is_not_dir(self):
-        """
-        Returns if the record is not a directory.
+        """Returns if the record is not a directory.
 
         Returns
         -------
-        : bool
+        bool
             True if record is not a directory.
         """
         return not self._is_dir

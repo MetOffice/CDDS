@@ -1,13 +1,10 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`sqlite` module contains helper functions to simplify sqlite queries.
-"""
+"""The :mod:`sqlite` module contains helper functions to simplify sqlite queries."""
 
 
 def generate_insert_sql(table, columns, pk='id'):
-    """
-    A helper function to generate sql insert queries.
+    """A helper function to generate sql insert queries.
 
     Parameters
     ----------
@@ -20,7 +17,7 @@ def generate_insert_sql(table, columns, pk='id'):
 
     Returns
     -------
-    : str
+    str
         A string containing an insert query.
     """
 
@@ -30,8 +27,7 @@ def generate_insert_sql(table, columns, pk='id'):
 
 
 def execute_insert_query(cursor, table, values, pk='id'):
-    """
-    Executes insert query.
+    """Executes insert query.
 
     Parameters
     ----------
@@ -52,8 +48,7 @@ def execute_insert_query(cursor, table, values, pk='id'):
 
 
 def execute_query(cursor, sql, params):
-    """
-    Executes generic sql query
+    """Executes generic sql query
 
     Parameters
     ----------

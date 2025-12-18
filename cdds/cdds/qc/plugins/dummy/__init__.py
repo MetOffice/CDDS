@@ -1,17 +1,13 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
 
-"""
-A dummy QC plugin for development
-"""
+"""A dummy QC plugin for development"""
 
 from compliance_checker.base import BaseCheck, BaseNCCheck, Result
 
 
 class DummyCheck(BaseNCCheck):
-    """
-    Dummy checker class
-    """
+    """Dummy checker class"""
 
     register_checker = True
     name = 'dummy'
@@ -44,8 +40,7 @@ class DummyCheck(BaseNCCheck):
         self.__messages.append(message)
 
     def check_dummy_validator(self, netcdf_file):
-        """
-        Dummy validation method
+        """Dummy validation method
 
         Parameters
         ----------

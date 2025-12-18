@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
-"""
-Tests for :mod:`command_line.py`.
-"""
+"""Tests for :mod:`command_line.py`."""
 from io import StringIO
 import json
 import logging
@@ -39,8 +37,7 @@ from mip_convert.configuration.python_config import UserConfig
 
 
 class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
-    """
-    Tests for :func:`main_create_cdds_directory_structure` in
+    """Tests for :func:`main_create_cdds_directory_structure` in
     :mod:`command_line.py`.
     """
 
@@ -127,9 +124,7 @@ class TestMainCreateCDDSDirectoryStructure(unittest.TestCase):
 
 @pytest.mark.slow
 class TestMainGenerateVariableList(unittest.TestCase):
-    """
-    Tests for ``main_generate_variable_list`` in :mod:`command_line.py`.
-    """
+    """Tests for ``main_generate_variable_list`` in :mod:`command_line.py`."""
     MODEL_DATA_REQUEST_VERSION = '01.00.10'
     DATA_REQUEST_VERSION = '01.00.29'
 
@@ -389,14 +384,10 @@ class TestPrepareSelect(unittest.TestCase):
 
 
 class TestMainAlterVariableList(unittest.TestCase):
-    """
-    Tests for ``main_alter_variable_list`` in :mod:`command_line.py`.
-    """
+    """Tests for ``main_alter_variable_list`` in :mod:`command_line.py`."""
 
     def setUp(self):
-        """
-        Set up variable_list and files to be cleared out
-        """
+        """Set up variable_list and files to be cleared out"""
         load_plugin()
         self.variable_list = {
             'checksum': None,
@@ -424,18 +415,14 @@ class TestMainAlterVariableList(unittest.TestCase):
         self.maxDiff = None
 
     def tearDown(self):
-        """
-        delete all files written to disk
-        """
+        """delete all files written to disk"""
         for filename in self.files_to_delete:
             for suffix in ['', '.old']:
                 if os.path.exists(filename + suffix):
                     os.remove(filename + suffix)
 
     def add_variable(self, **kwargs):
-        """
-        add a variable to the variable_list based on a template
-        """
+        """add a variable to the variable_list based on a template"""
         variable = {'active': True,
                     'cell_methods': None,
                     'comments': [],
@@ -451,8 +438,7 @@ class TestMainAlterVariableList(unittest.TestCase):
         self.variable_list['requested_variables'].append(variable)
 
     def write_file(self):
-        """
-        write a json file to disk and add its name to the files to
+        """write a json file to disk and add its name to the files to
         delete list
         """
         set_checksum(self.variable_list)
@@ -460,9 +446,7 @@ class TestMainAlterVariableList(unittest.TestCase):
         self.files_to_delete.append(self.test_filename)
 
     def check_result(self, expected_active=(True,), additional_variables=()):
-        """
-        check that the data produced by a test is correct.
-        """
+        """check that the data produced by a test is correct."""
         # read result
         result = json.load(open(self.test_filename))
         # add additional expected variables
@@ -487,9 +471,7 @@ class TestMainAlterVariableList(unittest.TestCase):
 
     @patch('cdds.common.get_log_datestamp')
     def test_activate(self, mock_log_datestamp):
-        """
-        Test the activation of a variable from the command line
-        """
+        """Test the activation of a variable from the command line"""
         mock_log_datestamp.return_value = self.log_datestamp
         self.test_filename = __name__ + '.json'
         miptable, label = 'Lmon', 'tsl'
@@ -522,9 +504,7 @@ class TestMainAlterVariableList(unittest.TestCase):
 
     @patch('cdds.common.get_log_datestamp')
     def test_deactivate(self, mock_log_datestamp):
-        """
-        Test deactivating a variable from the command line
-        """
+        """Test deactivating a variable from the command line"""
         mock_log_datestamp.return_value = self.log_datestamp
         self.test_filename = __name__ + '.json'
         miptable, label = 'Lmon', 'tsl'
@@ -557,9 +537,7 @@ class TestMainAlterVariableList(unittest.TestCase):
 
 
 class TestParseAlterArgs(unittest.TestCase):
-    """
-    Tests for ``parse_alter_args`` in :mod:`command_line.py`.
-    """
+    """Tests for ``parse_alter_args`` in :mod:`command_line.py`."""
 
     def setUp(self):
         self.rvfile = 'CMIP6_CMIP_piControl_HadGEM3-GC31-LL.json'

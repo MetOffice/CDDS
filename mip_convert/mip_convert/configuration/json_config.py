@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-The :mod:`configuration` module contains the configuration classes that
+"""The :mod:`configuration` module contains the configuration classes that
 store the information read from the configuration files.
 """
 import json
@@ -12,13 +11,10 @@ from mip_convert.configuration.common import AbstractConfig
 
 
 class JSONConfig(AbstractConfig):
-    """
-    Read JSON text configuration files.
-    """
+    """Read JSON text configuration files."""
 
     def read(self, read_path):
-        """
-        Read the JSON file; see :func:`json.load`.
+        """Read the JSON file; see :func:`json.load`.
 
         The ``config`` attribute is set equal to a dictionary.
         """
@@ -27,9 +23,7 @@ class JSONConfig(AbstractConfig):
 
 
 class CoordinateConfig(JSONConfig):
-    """
-    Store information read from the coordinates file
-    """
+    """Store information read from the coordinates file"""
 
     def __init__(self, read_path):
         self.config = None
@@ -37,23 +31,23 @@ class CoordinateConfig(JSONConfig):
 
     @property
     def axes(self):
-        """
-        Return all the axes in the |MIP table|.
+        """Return all the axes in the |MIP table|.
 
         The axes are returned in the form ``{axis: dictionary}``, where
         ``axis`` is a string specifying the standard name of the axis
         and ``dictionary`` is a dictionary that contains information
         about the axis.
 
-        :return: the axes in the |MIP table|
-        :rtype: dictionary
+        Returns
+        -------
+        dict
+            the axes in the |MIP table|
         """
         return self.config['axis_entry']
 
 
 class MIPConfig(JSONConfig):
-    """
-    Store information read from the |MIP table|.
+    """Store information read from the |MIP table|.
 
     There may be many instances of this class, one for each
     |MIP table|. Methods are defined such that they return a value that
@@ -68,11 +62,12 @@ class MIPConfig(JSONConfig):
 
     @property
     def mip_era(self):
-        """
-        Return the MIP era, e.g. ``CMIP6``.
+        """Return the MIP era, e.g. ``CMIP6``.
 
-        :return: the MIP era
-        :rtype: string
+        Returns
+        -------
+        str
+            the MIP era
         """
         return self.config['Header']['mip_era']
 
@@ -82,21 +77,23 @@ class MIPConfig(JSONConfig):
 
     @property
     def id(self):
-        """
-        Return the |MIP table identifier|.
+        """Return the |MIP table identifier|.
 
-        :return: the |MIP table identifier|
-        :rtype: string
+        Returns
+        -------
+        str
+            the |MIP table identifier|
         """
         return self.config['Header']['table_id'].split()[-1]
 
     @property
     def name(self):
-        """
-        Return the name of the |MIP table|.
+        """Return the name of the |MIP table|.
 
-        :return: the name of the |MIP table|
-        :rtype: string
+        Returns
+        -------
+        str
+            the name of the |MIP table|
         """
         mip_table_name = os.path.basename(self.read_path)
         constructed_mip_table_name = '{}_{}.json'.format(self.filename_prefix, self.id)
@@ -110,19 +107,19 @@ class MIPConfig(JSONConfig):
 
     @property
     def interval(self):
-        """
-        Return the interval between successive time samples specified
+        """Return the interval between successive time samples specified
         by the |MIP table|.
 
-        :return: the approximate interval specified by the |MIP table|
-        :rtype: float
+        Returns
+        -------
+        float
+            the approximate interval specified by the |MIP table|
         """
         return float(self.config['Header']['approx_interval'])
 
     @property
     def variables(self):
-        """
-        Return all the variables in the |MIP table|.
+        """Return all the variables in the |MIP table|.
 
         The variables are returned in the form
         ``{variable: dictionary}``, where ``variable`` is a string
@@ -130,23 +127,26 @@ class MIPConfig(JSONConfig):
         ``dictionary`` is a dictionary that contains information
         related to the |MIP requested variable name|.
 
-        :return: the variables in the |MIP table|
-        :rtype: dictionary
+        Returns
+        -------
+        dict
+            the variables in the |MIP table|
         """
         return self.config['variable_entry']
 
     @property
     def axes(self):
-        """
-        Return all the axes in the MIP axes file.
+        """Return all the axes in the MIP axes file.
 
         The axes are returned in the form ``{axis: dictionary}``, where
         ``axis`` is a string specifying the standard name of the axis
         and ``dictionary`` is a dictionary that contains information
         about the axis.
 
-        :return: the axes in the MIP axes file
-        :rtype: dictionary
+        Returns
+        -------
+        dict
+            the axes in the MIP axes file
         """
         if self._axes is None:
             mip_table_dir = os.path.dirname(self.read_path)

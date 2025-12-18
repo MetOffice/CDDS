@@ -1,9 +1,6 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`grids` module contains the code required to handle
-grids.
-"""
+"""The :mod:`grids` module contains the code required to handle grids."""
 import os
 
 from cdds.deprecated.config import load_override_values
@@ -14,18 +11,16 @@ from cdds.common.plugins.grid import GridType
 
 
 class Grid(object):
-    """
-    Store information about a grid.
-    """
+    """Store information about a grid."""
     def __init__(self, model_id, grid_type, grid_name):
         """
         Parameters
         ----------
-        model_id: str
+        model_id : str
             The model id
-        grid_type: str
+        grid_type : str
             The grid type; choose from 'atmos' or 'ocean'.
-        grid_name: str
+        grid_name : str
             The grid name, e.g. ``native``, ``ugrid``, etc.
         """
         self.grid_type = grid_type
@@ -40,10 +35,7 @@ class Grid(object):
 
     @property
     def id(self):
-        """
-        str: The grid identifier used in the name of the
-        |user configuration files|.
-        """
+        """str: The grid identifier used in the name of the |user configuration files|."""
         if self.grid_name == 'regridded':
             grid_id = 'seaice-from-atmos'
         else:
@@ -52,23 +44,17 @@ class Grid(object):
 
     @property
     def label(self):
-        """
-        str: The grid label, see the CMIP6 CVs.
-        """
+        """str: The grid label, see the CMIP6 CVs."""
         return self.grid_labels.from_name(self.grid_name).label
 
     @property
     def nominal_resolution(self):
-        """
-        str: The nominal resolution, see the CMIP6 CVs.
-        """
+        """str: The nominal resolution, see the CMIP6 CVs."""
         return self.grid_info.nominal_resolution
 
     @property
     def description(self):
-        """
-        str: The description of the grid, see the CMIP6 CVs.
-        """
+        """str: The description of the grid, see the CMIP6 CVs."""
         template = '{} {}{}; {}'
         return template.format(self.grid_info.grid_description_prefix,
                                self._model_info,
@@ -124,8 +110,7 @@ class Grid(object):
 
 
 def retrieve_grid_objects(variable_name: str, mip_table_id: str, model: str) -> Grid:
-    """
-    Return the grid information (grid_id, grid, grid_label and nominal
+    """Return the grid information (grid_id, grid, grid_label and nominal
     resolution) for the |MIP requested variable|.
 
     If a grid information override for the |MIP requested variable|
@@ -135,16 +120,16 @@ def retrieve_grid_objects(variable_name: str, mip_table_id: str, model: str) -> 
 
     Parameters
     ----------
-    variable_name: str
+    variable_name : str
         The |MIP requested variable name|.
     mip_table_id : str
         The |MIP table identifier|.
-    model: str
+    model : str
         The |model|.
 
     Returns
     -------
-    : Grid
+    Grid
         A cdds.common.grids.Grid object.
     """
     plugin = PluginStore.instance().get_plugin()
@@ -162,8 +147,7 @@ def retrieve_grid_objects(variable_name: str, mip_table_id: str, model: str) -> 
 
 
 def retrieve_grid_info(variable_name, mip_table_id, model):
-    """
-    Return the grid information (grid_id, grid, grid_label and nominal
+    """Return the grid information (grid_id, grid, grid_label and nominal
     resolution) for the |MIP requested variable|.
 
     If a grid information override for the |MIP requested variable|
@@ -173,16 +157,16 @@ def retrieve_grid_info(variable_name, mip_table_id, model):
 
     Parameters
     ----------
-    variable_name: str
+    variable_name : str
         The |MIP requested variable name|.
     mip_table_id : str
         The |MIP table identifier|.
-    model: str
+    model : str
         The |model|.
 
     Returns
     -------
-    : (str, str, str, str)
+    (str, str, str, str)
         The grid_id, grid, grid label and nominal resolution for the
         |MIP requested variable|.
     """

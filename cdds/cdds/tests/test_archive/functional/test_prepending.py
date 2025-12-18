@@ -9,8 +9,7 @@ from unittest import mock
 
 
 class TestStorePrepending(StoreTestCase):
-    """
-    USE CASE 9
+    """USE CASE 9
         Prepend to data in MASS or pick up after archiving failure for variable Amon/tas
 
     INPUT

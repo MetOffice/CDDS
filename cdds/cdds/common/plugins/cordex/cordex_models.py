@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`cordex_models` module contains the code required to
+"""The :mod:`cordex_models` module contains the code required to
 handle model parameters information for CORDEX models.
 """
 import logging
@@ -15,16 +14,15 @@ from cdds.common.plugins.base.base_models import BaseModelParameters, ModelId, B
 
 
 class CordexModelId(ModelId):
-    """
-    Represents the ID of a CORDEX model.
-    """
+    """Represents the ID of a CORDEX model."""
 
     def get_json_file(self) -> str:
-        """
-        Returns the json file name for a model containing the model ID as identifier.
+        """Returns the json file name for a model containing the model ID as identifier.
 
-        :return: Json file name for the model with current ID
-        :rtype: str
+        Returns
+        -------
+        str
+            Json file name for the model with current ID
         """
         return '{}.json'.format(self.value)
 
@@ -32,9 +30,7 @@ class CordexModelId(ModelId):
 
 
 class HadREM3_GA7_05_Params(BaseModelParameters):
-    """
-    Class to store the parameters for the HadREM3_GA7_05 model.
-    """
+    """Class to store the parameters for the HadREM3_GA7_05 model."""
 
     def __init__(self) -> None:
         super(HadREM3_GA7_05_Params, self).__init__(CordexModelId.HadREM3_GA7_05)
@@ -45,38 +41,40 @@ class HadREM3_GA7_05_Params(BaseModelParameters):
 
     @property
     def model_version(self) -> str:
-        """
-        Returns the model version of the HadREM3_GA7_05 model.
+        """Returns the model version of the HadREM3_GA7_05 model.
 
-        :return: Model version of HadREM3_GA7_05
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version of HadREM3_GA7_05
         """
         return '3.1'
 
     @property
     def data_request_version(self) -> str:
-        """
-        Returns the data request version of the HadREM3_GA7_05 model.
+        """Returns the data request version of the HadREM3_GA7_05 model.
 
-        :return: Data request version of HadREM3_GA7_05
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version of HadREM3_GA7_05
         """
         return '01.00.10'
 
     @property
     def um_version(self) -> str:
-        """
-        Returns the UM version of the HadREM3_GA7_05 model.
+        """Returns the UM version of the HadREM3_GA7_05 model.
 
-        :return: UM version of HadREM3_GA7_05
-        :rtype: str
+        Returns
+        -------
+        str
+            UM version of HadREM3_GA7_05
         """
         return '10.7'
 
 
 class CordexModelStore(BaseModelStore):
-    """
-    Singleton class to store for each model the corresponding parameters.
+    """Singleton class to store for each model the corresponding parameters.
     The parameters are defined in json files. The default parameters are
     stored in the data/model directory.
 
@@ -90,11 +88,12 @@ class CordexModelStore(BaseModelStore):
 
     @classmethod
     def create_instance(cls) -> 'CordexModelStore':
-        """
-        Creates a new class instance.
+        """Creates a new class instance.
 
-        :return: New class instance
-        :rtype: CordexModelStore
+        Returns
+        -------
+        CordexModelStore
+            New class instance
         """
         return CordexModelStore()
 

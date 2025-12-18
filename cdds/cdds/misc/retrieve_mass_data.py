@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Retrieve data from MASS whilst replicating it's directory structure.
-"""
+"""Retrieve data from MASS whilst replicating it's directory structure."""
 
 import argparse
 import logging
@@ -24,8 +22,7 @@ except KeyError:
 
 
 def parse_args() -> argparse.Namespace:
-    """
-    Parse command line arguments.
+    """Parse command line arguments.
 
     Returns
     -------
@@ -60,8 +57,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def gb_to_bytes(chunk_size: int) -> int:
-    """
-    Convert gigabytes to bytes.
+    """Convert gigabytes to bytes.
 
     Parameters
     ----------
@@ -77,8 +73,7 @@ def gb_to_bytes(chunk_size: int) -> int:
 
 
 def read_variables_file(variables_file: str | Path) -> List[str]:
-    """
-    Return list of variables from file, each ending with a full stop
+    """Return list of variables from file, each ending with a full stop
     to ensure variables with same prefix are not used incorrectly. e.g. tas and tasmax.
 
     Parameters
@@ -98,8 +93,7 @@ def read_variables_file(variables_file: str | Path) -> List[str]:
 def filter_mass_files(
     mass_file_list: Dict[str, Any], variable_list: List[str]
 ) -> Dict[str, Any]:
-    """
-    Filters the full mass file list so only the information relevant to the specified
+    """Filters the full mass file list so only the information relevant to the specified
     variables is selected into a new dictionary.
 
     Parameters
@@ -124,8 +118,7 @@ def filter_mass_files(
 def group_files_by_folder(
     variable_info_dict: Dict[str, Any],
 ) -> Dict[str, List[Dict[str, Any]]]:
-    """
-    Return dict with the base folder path for each variable as key and list of
+    """Return dict with the base folder path for each variable as key and list of
     file info dicts as values. Check that 'available' or 'embargoed' is in the MOOSE path.
 
     Parameters
@@ -154,8 +147,7 @@ def group_files_by_folder(
 def create_output_dir(
     base_output_folder: str, destination: Path, dry_run: bool = False
 ) -> Path:
-    """
-    Create output directory for a variable if it does not exist and return a Path object.
+    """Create output directory for a variable if it does not exist and return a Path object.
 
     Parameters
     ----------
@@ -185,8 +177,7 @@ def create_output_dir(
 def chunk_files(
     file_data: List[Dict[str, Any]], chunk_size_as_bytes: int
 ) -> List[List[str]]:
-    """
-    Return list of lists of files, where each of those inner lists is a chunk of files
+    """Return list of lists of files, where each of those inner lists is a chunk of files
     that does not exceed the specified chunk size in bytes.
 
     Parameters
@@ -243,8 +234,7 @@ def chunk_files(
 def transfer_files(
     list_of_chunks: List[List[str]], output_dir: Path, dry_run: bool = False
 ) -> None:
-    """
-    Transfer each chunk in the list using moo get.
+    """Transfer each chunk in the list using moo get.
 
     Parameters
     ----------
@@ -293,8 +283,7 @@ def transfer_files(
 def transfer_files_to_final_dir(
     chunk: list[str], output_dir: Path, dry_run: bool
 ) -> None:
-    """
-    Move files from temporary directory to output_dir after each chunk.
+    """Move files from temporary directory to output_dir after each chunk.
 
     Parameters
     ----------
@@ -316,8 +305,7 @@ def transfer_files_to_final_dir(
 
 
 def main_cdds_retrieve_data() -> None:
-    """
-    Main function to retrieve data from MOOSE using CDDS.
+    """Main function to retrieve data from MOOSE using CDDS.
 
     Returns
     -------

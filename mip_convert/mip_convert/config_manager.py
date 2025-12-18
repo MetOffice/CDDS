@@ -1,21 +1,18 @@
 # (C) British Crown Copyright 2009-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module providing support for parsing of config files and items.  Support
+"""Module providing support for parsing of config files and items.  Support
 includes things like conventions for time strings.
 """
 from mip_convert.common import ObjectWithLogger
 
 
 class ReadParserFactory(ObjectWithLogger):
-    """
-    A factory for ConfigParser objects.
+    """A factory for ConfigParser objects.
     The ConfigParser objects are created and read.
     """
 
     def __init__(self, path_maker, parser_module):
-        """
-        path_maker is an object with a makePath(file_name) method which returns
+        """path_maker is an object with a makePath(file_name) method which returns
           the full path of a file
         parser_module is the module name to make a parser
         """
@@ -24,9 +21,7 @@ class ReadParserFactory(ObjectWithLogger):
         self.parser_module = parser_module
 
     def getReadParser(self, fname):
-        """
-        returns the SafeConfigParser for file fname
-        """
+        """returns the SafeConfigParser for file fname"""
         self.logger.debug('opening config: "%s"', self.path_maker.fullFileName(fname))
 
         parser = self.parser_module.SafeConfigParser()
@@ -35,8 +30,7 @@ class ReadParserFactory(ObjectWithLogger):
 
 
 class AbstractConfig(object):
-    """
-    Abstract Base class providing support for items with the same
+    """Abstract Base class providing support for items with the same
     date format.
     """
 

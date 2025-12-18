@@ -2,9 +2,7 @@
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 # pylint: disable = no-member
-"""
-Tests for save.
-"""
+"""Tests for save."""
 import unittest
 
 from unittest.mock import patch
@@ -15,14 +13,10 @@ from mip_convert.tests.common import dummy_cube
 
 
 class TestVariableAxes(unittest.TestCase):
-    """
-    Tests for ``VariableAxes`` in save.
-    """
+    """Tests for ``VariableAxes`` in save."""
 
     def setUp(self):
-        """
-        Create the ``VariableAxes`` object.
-        """
+        """Create the ``VariableAxes`` object."""
         variable_name = 'ta'
         axes_names = ['time', 'latitude', 'longitude', 'plevs']
         axes_directions = ['T', 'Y', 'X', 'Z']

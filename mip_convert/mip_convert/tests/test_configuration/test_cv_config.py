@@ -11,9 +11,7 @@ from textwrap import dedent
 
 
 class TestCVConfig(unittest.TestCase):
-    """
-    Tests for ``CVConfig`` in configuration.py.
-    """
+    """Tests for ``CVConfig`` in configuration.py."""
 
     def setUp(self):
         self.read_path = 'cv_config'

@@ -5,8 +5,7 @@ from collections import OrderedDict
 
 
 def parseMipTable(mipfile):
-    """
-    Parse a MIP table, returning a composite dictionary of the form::
+    """Parse a MIP table, returning a composite dictionary of the form::
 
         {
           'atts': {k1: v1, k2: v2, ... },
@@ -39,11 +38,15 @@ def parseMipTable(mipfile):
     All dictionary values are stored as strings. Conversion to other
     data types must be done by the calling program.
 
-    :param mipfile: The pathname of the MIP table to parse.
-    :type  mipfile: string
+    Parameters
+    ----------
+    mipfile : string
+        The pathname of the MIP table to parse.
 
-    :return: A composite dictionary as described above.
-    :rtype:  dict
+    Returns
+    -------
+    dict
+        A composite dictionary as described above.
     """
     mipDict = {
         'atts': {},
@@ -117,8 +120,7 @@ def _addBlock(blockType, blockID, blockDict, mipDict):
 
 
 def _trimValue(value):
-    """
-    Trim superfluous characters and trailing comments from an attribute
+    """Trim superfluous characters and trailing comments from an attribute
     value.
     """
     if '!' in value:

@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`command_line` module contains the main functions for the
+"""The :mod:`command_line` module contains the main functions for the
 command line scripts in the ``bin`` directory.
 """
 import argparse
@@ -33,12 +32,17 @@ LOG_NAME_MOVE_IN_MASS = 'move_in_mass'
 
 
 def main_move_in_mass(arguments: List[str] = None) -> int:
-    """
-    Command line interface for move_in_mass.
-    :param arguments: The command line arguments to be parsed.
-    :type arguments: List[str]
-    :return: Exit code (0 == success, 1 == failure)
-    :rtype: int
+    """Command line interface for move_in_mass.
+
+    Parameters
+    ----------
+    arguments : List[str]
+        The command line arguments to be parsed.
+
+    Returns
+    -------
+    int
+        Exit code (0 == success, 1 == failure)
     """
     args = parse_arguments_move_in_mass(arguments)
     request = read_request(args.request)
@@ -60,13 +64,17 @@ def main_move_in_mass(arguments: List[str] = None) -> int:
 
 
 def parse_arguments_move_in_mass(arguments: List[str]) -> Namespace:
-    """
-    Returns the arguments provided to move_in_mass
+    """Returns the arguments provided to move_in_mass
 
-    :param arguments: The command line arguments to be parsed
-    :type arguments: List[str]
-    :return: The parsed arguments
-    :rtype: Namespace
+    Parameters
+    ----------
+    arguments : List[str]
+        The command line arguments to be parsed
+
+    Returns
+    -------
+    Namespace
+        The parsed arguments
     """
     parser = argparse.ArgumentParser(description='Moves file sets to MASS between specified states',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -102,11 +110,12 @@ def parse_arguments_move_in_mass(arguments: List[str]) -> Namespace:
 
 
 def main_sim_review() -> int:
-    """
-    Review the simulation process.
+    """Review the simulation process.
 
-    :return: Exit code
-    :rtype: int
+    Returns
+    -------
+    int
+        Exit code
     """
     args = parse_sim_review_args()
 
@@ -132,11 +141,12 @@ def main_sim_review() -> int:
 
 
 def parse_sim_review_args() -> Namespace:
-    """
-    Parses the command line arguments of the simulation review command
+    """Parses the command line arguments of the simulation review command
 
-    :return: Command line argument namespace.
-    :rtype: Namespace
+    Returns
+    -------
+    Namespace
+        Command line argument namespace.
     """
     log_name = 'sim_review'
     parser = argparse.ArgumentParser()
@@ -147,12 +157,13 @@ def parse_sim_review_args() -> Namespace:
 
 
 def main_list_queue() -> int:
-    """
-    Function for parsing arguments of the list_queue commandline tool and calling
+    """Function for parsing arguments of the list_queue commandline tool and calling
     the main print function.
 
-    :return: Exit code
-    :rtype: int
+    Returns
+    -------
+    int
+        Exit code
     """
     log_name = 'list_queue'
 
@@ -185,12 +196,13 @@ def main_list_queue() -> int:
 
 
 def main_resend_failed_msg() -> int:
-    """
-    Function for parsing arguments of the resend_failed_msgs commandline tool and
+    """Function for parsing arguments of the resend_failed_msgs commandline tool and
     calling the main resend function.
 
-    :return: Exit code
-    :rtype: int
+    Returns
+    -------
+    int
+        Exit code
     """
     log_name = 'resend_failed_msgs'
 

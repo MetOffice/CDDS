@@ -1,19 +1,19 @@
 # (C) British Crown Copyright 2015-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`config` module defines the information to be read from the
+"""The :mod:`config` module defines the information to be read from the
 |model to MIP mapping| configuration file.
 """
 from typing import Dict, Any
 
 
 def mappings_config_info() -> Dict[str, Dict[str, Any]]:
-    """
-    Define the information to be read from the |model to MIP mapping|
+    """Define the information to be read from the |model to MIP mapping|
     configuration file.
 
-    :return: Information to be read from the |model to MIP mapping| configuration file
-    :rtype: Dict[str, Dict[str, Any]]
+    Returns
+    -------
+    Dict[str, Dict[str, Any]]
+        Information to be read from the |model to MIP mapping| configuration file
     """
     return {
         'blev': {

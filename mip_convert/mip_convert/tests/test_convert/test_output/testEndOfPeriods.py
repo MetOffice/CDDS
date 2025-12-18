@@ -8,29 +8,23 @@ from mip_convert.save.cmor.cmor_outputter import (
 
 
 class BaseTestTimeBoundary(unittest.TestCase):
-    """
-    Base class used to test the period boundary detection
-    """
+    """Base class used to test the period boundary detection"""
 
     def date(self, year, month):
-        """
-        return a date object for year mon.
+        """return a date object for year mon.
         uses the sub class instance variable _DAY to determine the day
         """
         return based_date(year, month, self._DAY, 0, 0, 12)
 
     def same_period(self, date1, date2):
-        """
-        return True of date1 and date2 would be in the same period
+        """return True of date1 and date2 would be in the same period
         this means they would be in the same output file
         """
         return self.period.outside(date1, date2)
 
 
 class TestYearEnds(BaseTestTimeBoundary):
-    """
-    Test case for annual, 5 annual and decadal periods/chunks
-    """
+    """Test case for annual, 5 annual and decadal periods/chunks"""
     _DAY = 1
 
     def same_period_with_years(self, date1, date2, period):
@@ -84,9 +78,7 @@ class TestYearEnds(BaseTestTimeBoundary):
 
 
 class TestSeasonalDecadal(BaseTestTimeBoundary):
-    """
-    Test cases for seasonal - decadal period used in CORDEX
-    """
+    """Test cases for seasonal - decadal period used in CORDEX"""
     _DAY = 15
 
     def setUp(self):

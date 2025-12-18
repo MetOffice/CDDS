@@ -10,9 +10,7 @@ from cdds.qc.plugins.base.validators import ValidatorFactory
 
 
 class CheckTask(object, metaclass=ABCMeta):
-    """
-    Check task for specific attributes
-    """
+    """Check task for specific attributes"""
 
     def __init__(self, check_cache: CheckCache) -> None:
         self._cache = check_cache
@@ -21,30 +19,30 @@ class CheckTask(object, metaclass=ABCMeta):
 
     @abstractmethod
     def execute(self, netcdf_file, attr_dict) -> None:
-        """
-        Runs checks on the NetCDF file with given basic attribute directory.
+        """Runs checks on the NetCDF file with given basic attribute directory.
 
-        :param netcdf_file: NetCDF file to check
-        :type netcdf_file: Dataset
-        :param attr_dict: Basic attribute directory of defined attributes in the NetCDF file
-        :type attr_dict: Dict[str, Any]
+        Parameters
+        ----------
+        netcdf_file : Dataset
+            NetCDF file to check
+        attr_dict : Dict[str, Any]
+            Basic attribute directory of defined attributes in the NetCDF file
         """
         pass
 
     @property
     def messages(self) -> List[str]:
-        """
-        Returns messages that are created during the check
+        """Returns messages that are created during the check
 
-        :return: Messages created during the check
-        :rtype: List[str]
+        Returns
+        -------
+        List[str]
+            Messages created during the check
         """
         return self._messages
 
     def relax_cmor(self, relax_cmor: bool = False) -> 'CheckTask':
-        """
-        Turns on the relaxed CMOR flag and returns the checker instance.
-        """
+        """Turns on the relaxed CMOR flag and returns the checker instance."""
         self.relaxed_cmor = relax_cmor
         return self
 
@@ -70,22 +68,21 @@ class CheckTask(object, metaclass=ABCMeta):
 
 
 class StringAttributesCheckTask(CheckTask):
-    """
-    Checker for the string attributes
-    """
+    """Checker for the string attributes"""
     SOURCE_REGEX: str = r"^([a-zA-Z\d\-_\.\s]+) \(\d{4}\)"
 
     def __init__(self, check_cache: CheckCache) -> None:
         super(StringAttributesCheckTask, self).__init__(check_cache)
 
     def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
-        """
-        Checks string attributes.
+        """Checks string attributes.
 
-        :param netcdf_file: NetCDF file to check
-        :type netcdf_file: Dataset
-        :param attr_dict: Basic attribute dictionary of NetCDF file
-        :type attr_dict: Dict[str, Any]
+        Parameters
+        ----------
+        netcdf_file : Dataset
+            NetCDF file to check
+        attr_dict : Dict[str, Any]
+            Basic attribute dictionary of NetCDF file
         """
         validator = self._cache.cv_validator
 
@@ -120,9 +117,7 @@ class StringAttributesCheckTask(CheckTask):
 
 
 class VariableAttributesCheckTask(CheckTask):
-    """
-    Checker for the variable attributes
-    """
+    """Checker for the variable attributes"""
     MISSING_VALUE = 1.e+20
     EXTERNAL_VARIABLES = ["areacella", "areacello", "volcello"]
 
@@ -130,13 +125,14 @@ class VariableAttributesCheckTask(CheckTask):
         super(VariableAttributesCheckTask, self).__init__(check_cache)
 
     def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
-        """
-        Checks the attributes of the variables.
+        """Checks the attributes of the variables.
 
-        :param netcdf_file: NetCDF file to check
-        :type netcdf_file: Dataset
-        :param attr_dict: Basic attribute dictionary of NetCDF file
-        :type attr_dict: Dict[str, Any]
+        Parameters
+        ----------
+        netcdf_file : Dataset
+            NetCDF file to check
+        attr_dict : Dict[str, Any]
+            Basic attribute dictionary of NetCDF file
         """
         var_attr = {
             "standard_name": "",
@@ -208,21 +204,20 @@ class VariableAttributesCheckTask(CheckTask):
 
 
 class ComplexAttributesCheckTask(CheckTask):
-    """
-    Checker for complex attributes like variant_label
-    """
+    """Checker for complex attributes like variant_label"""
 
     def __init__(self, check_cache: CheckCache) -> None:
         super(ComplexAttributesCheckTask, self).__init__(check_cache)
 
     def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
-        """
-        Checks complex attributes in the NetCDF file.
+        """Checks complex attributes in the NetCDF file.
 
-        :param netcdf_file: NetCDF file to check
-        :type netcdf_file: Dataset
-        :param attr_dict: Basic attribute dictionary of NetCDF file
-        :type attr_dict: Dict[str, Any]
+        Parameters
+        ----------
+        netcdf_file : Dataset
+            NetCDF file to check
+        attr_dict : Dict[str, Any]
+            Basic attribute dictionary of NetCDF file
         """
         derived_dict = {
             "variable_id": ValidatorFactory.value_in_validator(
@@ -238,9 +233,7 @@ class ComplexAttributesCheckTask(CheckTask):
 
 
 class RunIndexAttributesCheckTask(CheckTask):
-    """
-    Checker for run index attributes
-    """
+    """Checker for run index attributes"""
     RUN_INDEX_ATTRIBUTES: List[str] = [
         "forcing_index",
         "physics_index",
@@ -252,13 +245,14 @@ class RunIndexAttributesCheckTask(CheckTask):
         super(RunIndexAttributesCheckTask, self).__init__(check_cache)
 
     def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
-        """
-        Checks run index specific attributes.
+        """Checks run index specific attributes.
 
-        :param netcdf_file: NetCDF file to check
-        :type netcdf_file: Dataset
-        :param attr_dict: Basic attribute dictionary of NetCDF file
-        :type attr_dict: Dict[str, Any]
+        Parameters
+        ----------
+        netcdf_file : Dataset
+            NetCDF file to check
+        attr_dict : Dict[str, Any]
+            Basic attribute dictionary of NetCDF file
         """
         positive_integer_validator = ValidatorFactory.integer_validator()
         for index_attribute in self.RUN_INDEX_ATTRIBUTES:
@@ -266,9 +260,7 @@ class RunIndexAttributesCheckTask(CheckTask):
 
 
 class MandatoryTextAttributesCheckTask(CheckTask):
-    """
-    Checker of the mandatory text attribute (e.g. grid)
-    """
+    """Checker of the mandatory text attribute (e.g. grid)"""
     MANDATORY_TEXT_ATTRIBUTES: List[str] = [
         "grid",
     ]
@@ -277,13 +269,14 @@ class MandatoryTextAttributesCheckTask(CheckTask):
         super(MandatoryTextAttributesCheckTask, self).__init__(check_cache)
 
     def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
-        """
-        Checks mandatory text attributes (e.g. grid).
+        """Checks mandatory text attributes (e.g. grid).
 
-        :param netcdf_file: NetCDF file to check
-        :type netcdf_file: Dataset
-        :param attr_dict: Basic attribute dictionary of NetCDF file
-        :type attr_dict: Dict[str, Any]
+        Parameters
+        ----------
+        netcdf_file : Dataset
+            NetCDF file to check
+        attr_dict : Dict[str, Any]
+            Basic attribute dictionary of NetCDF file
         """
         nonempty_string_validator = ValidatorFactory.string_validator()
         for mandatory_string in self.MANDATORY_TEXT_ATTRIBUTES:
@@ -291,9 +284,7 @@ class MandatoryTextAttributesCheckTask(CheckTask):
 
 
 class OptionalTextAttributesCheckTask(CheckTask):
-    """
-    Checker for optional text attributes
-    """
+    """Checker for optional text attributes"""
     OPTIONAL_TEXT_ATTRIBUTES: List[str] = [
         "history",
         "references",
@@ -307,13 +298,14 @@ class OptionalTextAttributesCheckTask(CheckTask):
         super(OptionalTextAttributesCheckTask, self).__init__(check_cache)
 
     def execute(self, netcdf_file: Dataset, attr_dict: Dict[str, Any]) -> None:
-        """
-        Checks optional text attributes.
+        """Checks optional text attributes.
 
-        :param netcdf_file: NetCDF file to check
-        :type netcdf_file: Dataset
-        :param attr_dict: Basic attribute dictionary of NetCDF file
-        :type attr_dict: Dict[str, Any]
+        Parameters
+        ----------
+        netcdf_file : Dataset
+            NetCDF file to check
+        attr_dict : Dict[str, Any]
+            Basic attribute dictionary of NetCDF file
         """
         nonempty_string_validator = ValidatorFactory.string_validator()
         for optional_string in self.OPTIONAL_TEXT_ATTRIBUTES:

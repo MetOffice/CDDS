@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2021-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring
-"""
-Tests for checking CV editing.
-"""
+"""Tests for checking CV editing."""
 import filecmp
 import json
 import shutil
@@ -18,12 +16,9 @@ from cdds.deprecated.mip_table_editor.command_line import main_table_editor
 
 
 class TestCVActions(unittest.TestCase):
-    """
-    Tests for adding a new domain entry to the CV's.
-    """
+    """Tests for adding a new domain entry to the CV's."""
     def setUp(self):
-        """
-        A SetUp function that makes a copy of the Mip Tables in a temporary file that can be modified
+        """A SetUp function that makes a copy of the Mip Tables in a temporary file that can be modified
         by the test functions. Known good data, mocking data, and the commands to test are also set here.
         """
         self.log_date = '2021-10-25T1432Z'
@@ -47,9 +42,7 @@ class TestCVActions(unittest.TestCase):
             chmod(path, 0o666)
 
     def tearDown(self):
-        """
-        Remove the temporary directory that was created containing a copy of the mip tables.
-        """
+        """Remove the temporary directory that was created containing a copy of the mip tables."""
         shutil.rmtree(self.tmp_tables_directory)
         if isfile(self.log_file_path):
             remove(self.log_file_path)
@@ -57,9 +50,7 @@ class TestCVActions(unittest.TestCase):
     @patch('cdds.common.get_log_datestamp')
     @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_add(self, mock_editor, mock_log_datestamp):
-        """
-        Check that the test values match the expected output.
-        """
+        """Check that the test values match the expected output."""
         mock_log_datestamp.return_value = self.log_date
         # Provide path to the known expected output.
         self.good_data = join(dirname(abspath(__file__)), 'data/good_data/CMIP6template_add_CV.json')
@@ -95,9 +86,7 @@ class TestCVActions(unittest.TestCase):
     @patch('cdds.common.get_log_datestamp')
     @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_clone(self, mock_editor, mock_log_datestamp):
-        """
-        Check that the test values match the expected output.
-        """
+        """Check that the test values match the expected output."""
         mock_log_datestamp.return_value = self.log_date
         # Provide path to the known expected output.
         self.good_data = join(dirname(abspath(__file__)), 'data/good_data/CMIP6template_clone_CV.json')
@@ -135,9 +124,7 @@ class TestCVActions(unittest.TestCase):
     @patch('cdds.common.get_log_datestamp')
     @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_modify(self, mock_editor, mock_log_datestamp):
-        """
-        Check that the test values match the expected output.
-        """
+        """Check that the test values match the expected output."""
         mock_log_datestamp.return_value = self.log_date
         # Set path to a known good output.
         self.good_data = join(dirname(abspath(__file__)), 'data/good_data/CMIP6template_modify_CV.json')
@@ -191,12 +178,9 @@ class TestCVActions(unittest.TestCase):
 
 
 class TestMipTableVariableActions(unittest.TestCase):
-    """
-    Tests for adding a new variable to a mip table.
-    """
+    """Tests for adding a new variable to a mip table."""
     def setUp(self):
-        """
-        A SetUp function that makes a copy of the Mip Tables in a temporary file that can be modified
+        """A SetUp function that makes a copy of the Mip Tables in a temporary file that can be modified
         by the test functions. Known good data, mocking data, and the commands to test are also set here.
         """
         self.log_date = '2021-10-25T1432Z'
@@ -220,9 +204,7 @@ class TestMipTableVariableActions(unittest.TestCase):
             chmod(path, 0o666)
 
     def tearDown(self):
-        """
-        Remove the temporary directory that was created containing a copy of the mip tables.
-        """
+        """Remove the temporary directory that was created containing a copy of the mip tables."""
         shutil.rmtree(self.tmp_tables_directory)
         if isfile(self.log_file_path):
             remove(self.log_file_path)
@@ -230,9 +212,7 @@ class TestMipTableVariableActions(unittest.TestCase):
     @patch('cdds.common.get_log_datestamp')
     @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_add(self, mock_editor, mock_log_datestamp):
-        """
-        Check that the test values match the expected output.
-        """
+        """Check that the test values match the expected output."""
         # Set path to a known good output.
         mock_log_datestamp.return_value = self.log_date
         self.good_data = join(dirname(abspath(__file__)), 'data/good_data/CMIP6templateadd_Emon.json')
@@ -277,9 +257,7 @@ class TestMipTableVariableActions(unittest.TestCase):
     @patch('cdds.common.get_log_datestamp')
     @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_clone(self, mock_editor, mock_log_datestamp):
-        """
-        Check that the test values match the expected output.
-        """
+        """Check that the test values match the expected output."""
         mock_log_datestamp.return_value = self.log_date
         # Set path to a known good output.
         self.good_data = join(dirname(abspath(__file__)), 'data/good_data/CMIP6templateclone_Emon.json')
@@ -324,9 +302,7 @@ class TestMipTableVariableActions(unittest.TestCase):
     @patch('cdds.common.get_log_datestamp')
     @patch('cdds.deprecated.mip_table_editor.mip_tables.editor')
     def test_dict_modify(self, mock_editor, mock_log_datestamp):
-        """
-        Check that the test values match the expected output.
-        """
+        """Check that the test values match the expected output."""
         mock_log_datestamp.return_value = self.log_date
         # Set path to a known good output.
         self.good_data = join(dirname(abspath(__file__)), 'data/good_data/CMIP6templatemodify_Emon.json')

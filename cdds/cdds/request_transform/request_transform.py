@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module to transform a request JSON object into a request configuration object
-"""
+"""Module to transform a request JSON object into a request configuration object"""
 import logging
 import os
 
@@ -21,14 +19,15 @@ from cdds.common.request.attributes_section import GlobalAttributesSection
 
 
 def transform_request(input_json: str, output_cfg: str) -> None:
-    """
-    Transforms the request JSON from the input file into a request configuration
+    """Transforms the request JSON from the input file into a request configuration
     with corresponding information and writes it into to given output file.
 
-    :param input_json: Input file containing the request JSON information
-    :type input_json: str
-    :param output_cfg: Output file where the request cfg will be written to
-    :type output_cfg: str
+    Parameters
+    ----------
+    input_json : str
+        Input file containing the request JSON information
+    output_cfg : str
+        Output file where the request cfg will be written to
     """
     logger = logging.getLogger(__name__)
 

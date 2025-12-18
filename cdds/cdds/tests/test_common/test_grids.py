@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
-"""
-Tests for :mod:`grids.py`.
-"""
+"""Tests for :mod:`grids.py`."""
 import tempfile
 
 import unittest
@@ -16,9 +14,7 @@ from cdds.common.plugins.cmip6.cmip6_grid import Cmip6GridLabel
 
 
 class TestGrid(unittest.TestCase):
-    """
-    Tests for :class:`Grid` in :mod:`grids.py`.
-    """
+    """Tests for :class:`Grid` in :mod:`grids.py`."""
     def setUp(self):
         load_plugin()
 
@@ -70,9 +66,7 @@ class TestGrid(unittest.TestCase):
 
 
 class TestRetrieveGridInfo(unittest.TestCase):
-    """
-    Tests for :func:`retrieve_grid_info` in :mod:`grids.py`.
-    """
+    """Tests for :func:`retrieve_grid_info` in :mod:`grids.py`."""
     def setUp(self):
         load_plugin()
 

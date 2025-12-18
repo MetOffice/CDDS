@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-CDDS class for accessing MASS archive through the moo API
-"""
+"""CDDS class for accessing MASS archive through the moo API"""
 
 import os
 import sys
@@ -20,8 +18,7 @@ from cdds.extract.filters import FilterFileException
 
 
 class Process(object):
-    """
-    Provides CDDS extract methods for accessing the MASS archive through the
+    """Provides CDDS extract methods for accessing the MASS archive through the
     moo API.
 
     Class supports filtered pp (select) and nc (filter) extractions.
@@ -110,7 +107,7 @@ class Process(object):
 
         Returns
         -------
-        : str
+        str
             Log message.
         """
         log_msg = self.lang["request_detail"].format(
@@ -291,8 +288,7 @@ class Process(object):
         return exists
 
     def mass_request(self, cmd):
-        """
-        Submits a MOOSE request and returns the MOOSE return code and the
+        """Submits a MOOSE request and returns the MOOSE return code and the
         terminal output.
 
         Parameters
@@ -320,8 +316,7 @@ class Process(object):
         return code, cmd_out
 
     def delete_files(self, files_to_remove):
-        """
-        Deletes files.
+        """Deletes files.
 
         Parameters
         ----------

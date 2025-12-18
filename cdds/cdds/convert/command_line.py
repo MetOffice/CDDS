@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Command line interfaces for cdds_convert and mip_concatenate tasks.
-"""
+"""Command line interfaces for cdds_convert and mip_concatenate tasks."""
 import argparse
 import logging
 
@@ -22,9 +20,7 @@ CONVERT_LOG_NAME = 'cdds_convert'
 
 
 def _parse_args_concat_setup():
-    """
-    Setup argument parser for mip_concatenate_setup
-    """
+    """Setup argument parser for mip_concatenate_setup"""
     parser = argparse.ArgumentParser(description=('Batch concatenation '
                                                   'setup tool'))
     parser.add_argument('config_file', type=str,
@@ -49,9 +45,7 @@ def _parse_args_concat_setup():
 
 
 def main_concatenation_setup():
-    """
-    Command line interface for mip_concatenate_setup tasks.
-    """
+    """Command line interface for mip_concatenate_setup tasks."""
     config_file, log_file, append_log = _parse_args_concat_setup()
     try:
         concatenation_setup(config_file, log_file, append_log)
@@ -65,9 +59,7 @@ def main_concatenation_setup():
 
 
 def main_concatenation_batch():
-    """
-    Command line interface for mip_batch_concatenate tasks.
-    """
+    """Command line interface for mip_batch_concatenate tasks."""
     parser = argparse.ArgumentParser(description='MIP batch concatenation '
                                                  'tool')
     parser.add_argument('database', type=str, help='task database')
@@ -95,12 +87,11 @@ def main_concatenation_batch():
 
 
 def main_run_mip_convert():
-    """
-    The main function for the run_mip_convert script.
+    """The main function for the run_mip_convert script.
 
     Returns
     -------
-    : int
+    int
         The exit code for the script, which is 0 if execution was successful,
         non-zero otherwise.
     """
@@ -123,12 +114,11 @@ def main_run_mip_convert():
 
 
 def main_organise_files():
-    """
-    The main function for the organise_files script.
+    """The main function for the organise_files script.
 
     Returns
     -------
-    : int
+    int
         The exit code for the script, which is 0 if execution was successful,
         non-zero otherwise.
     """

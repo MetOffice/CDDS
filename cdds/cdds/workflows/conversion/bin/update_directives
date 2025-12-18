@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # (C) British Crown Copyright 2023-2025, Met Office.
-"""
-This script generates new directives based on observations of mip_convert task usage.
+"""This script generates new directives based on observations of mip_convert task usage.
 These directives are then used in conjuntion with cylc broadcast to update directives of
 future mip_convert tasks.
 """
@@ -22,10 +21,13 @@ class MipConvertTask:
     def __init__(self, task_name, time_point):
         """Class for storing information on a single mip_convert task
 
-        :param task_name: Task name
-        :type str:
-        :param time_point: Time point
-        :type str: 
+        Parameters
+        ----------
+        task_name
+            Task name
+        str
+        time_point
+            Time point
         """
         self.task_name = task_name
         self.time_point = time_point
@@ -110,8 +112,10 @@ class MipConvertTask:
         """Return a dictionary containing all information pertaining to
         a tasks resource usage. Used for updating the .csv
 
-        :return: task resource usage info.
-        :rtype: dict
+        Returns
+        -------
+        dict
+            task resource usage info.
         """
         resources = {
             "task_name": self.task_name,
@@ -149,8 +153,10 @@ class Directives:
         new directive is checked to make sure it doesn't exceed an upper
         bound.
 
-        :param mip_convert_task: A mip_convert task
-        :type mip_convert_task: MipConvertTask
+        Parameters
+        ----------
+        mip_convert_task : MipConvertTask
+            A mip_convert task
         """
         df = pd.read_csv(mip_convert_task.resource_usage_csv)
         self.df = df[df["task_name"] == mip_convert_task.task_name]
@@ -194,8 +200,10 @@ class Directives:
 def get_mip_convert_tasks() -> List[MipConvertTask]:
     """Extracting each mip_convert task and associated cycle point.
 
-    :return: list of MipConvertTask.
-    :rtype: List[MipConvertTask]
+    Returns
+    -------
+    List[MipConvertTask]
+        list of MipConvertTask.
     """
     task_dependencies = get_cylc_tasks_dependencies()
     tasks = [
@@ -211,8 +219,10 @@ def get_mip_convert_tasks() -> List[MipConvertTask]:
 def get_cylc_tasks_dependencies():
     """Obtain list of cylc task ids for the dependencies of the current task.
 
-    :return: list of tasks.
-    :rtype: List[str]
+    Returns
+    -------
+    List[str]
+        list of tasks.
     """
     workflow_id = os.environ['CYLC_WORKFLOW_ID']
     task_id = '//{}'.format(os.environ['CYLC_TASK_ID'])
@@ -236,8 +246,10 @@ def get_cylc_tasks_dependencies():
 def write_resource_usage_csv(mip_convert_task: MipConvertTask):
     """Write a tasks resource usage to the .csv file.
 
-    :param mip_convert_task: A given mip_convert task.
-    :type mip_convert_task: MipConvertTask
+    Parameters
+    ----------
+    mip_convert_task : MipConvertTask
+        A given mip_convert task.
     """
     resource_used = mip_convert_task.resource_usage()
 
@@ -257,10 +269,15 @@ def write_resource_usage_csv(mip_convert_task: MipConvertTask):
 def get_existing_directives(mip_convert_task: MipConvertTask) -> Dict:
     """If there existing broadcasts for the given task return them as a dictionary.
 
-    :param mip_convert_task: A particular mip convert task.
-    :type mip_convert_task: MipConvertTask
-    :return: Dictionary of existinng broadcast states.
-    :rtype: Dict
+    Parameters
+    ----------
+    mip_convert_task : MipConvertTask
+        A particular mip convert task.
+
+    Returns
+    -------
+    Dict
+        Dictionary of existinng broadcast states.
     """
     db_conn = sqlite3.connect(mip_convert_task.db_uri, uri=True, timeout=1.0)
     directive_query = (
@@ -281,12 +298,17 @@ def get_existing_directives(mip_convert_task: MipConvertTask) -> Dict:
 def convert(directive_type: str, directive_value: Union[str, None]) -> int:
     """Helper function for converting a string
 
-    :param directive_type: Type of directive
-    :type directive_type: str
-    :param directive_value: Value of the given directive.
-    :type directive_value: Union[str, None]
-    :return: An integer representation of the given directive.
-    :rtype: int
+    Parameters
+    ----------
+    directive_type : str
+        Type of directive
+    directive_value : Union[str, None]
+        Value of the given directive.
+
+    Returns
+    -------
+    int
+        An integer representation of the given directive.
     """
     if directive_value == None:
         return 0
@@ -302,12 +324,17 @@ def update_directives(new_directives: dict, existing_directives: dict):
     """Check whether the newly calculated directives exceed any of the
     existing directives by a certain CHANGE_THRESHOLD.
 
-    :param new_directives: Newly calculated directives
-    :type new_directives: dict
-    :param existing_directives: Existing broadcast directives.
-    :type existing_directives: dict
-    :return: New directives to be broadcast.
-    :rtype: Dict
+    Parameters
+    ----------
+    new_directives : dict
+        Newly calculated directives
+    existing_directives : dict
+        Existing broadcast directives.
+
+    Returns
+    -------
+    Dict
+        New directives to be broadcast.
     """
     CHANGE_THRESHOLD = 1.05
     directives = {}
@@ -334,8 +361,10 @@ def update_directives(new_directives: dict, existing_directives: dict):
 def broadcast_directives(mip_convert_task: MipConvertTask):
     """Broadcast the new directives.
 
-    :param mip_convert_task: A mip_convert task
-    :type mip_convert_task: MipConvertTask
+    Parameters
+    ----------
+    mip_convert_task : MipConvertTask
+        A mip_convert task
     """
     new_directives = Directives(mip_convert_task).as_dict()
     existing_directives = get_existing_directives(mip_convert_task)

@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`constants` module contains constants (values that should never
+"""The :mod:`constants` module contains constants (values that should never
 be changes by a user and exist for readability and maintainability
 purposes) for CDDS Prepare.
 """

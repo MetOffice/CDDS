@@ -9,9 +9,7 @@ from mip_convert.plugins.plugin_loader import load_mapping_plugin, find_external
 
 
 def main():
-    """
-    Main function for generating the mappings html pages.
-    """
+    """Main function for generating the mappings html pages."""
     arguments = parse_args()
     model = arguments.model_name
 
@@ -27,8 +25,7 @@ def main():
 
 
 def parse_args():
-    """
-    Parse any user arguments.
+    """Parse any user arguments.
 
     Returns
     -------

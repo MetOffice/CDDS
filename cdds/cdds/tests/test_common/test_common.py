@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
-"""
-Tests for :mod:`common.py`.
-"""
+"""Tests for :mod:`common.py`."""
 from unittest.mock import patch
 import os
 import unittest
@@ -87,9 +85,7 @@ class TestNetcdfRegexp(unittest.TestCase):
 
 
 class TestGetRecentFile(unittest.TestCase):
-    """
-    Test the cdds.common.get_most_recent_file function.
-    """
+    """Test the cdds.common.get_most_recent_file function."""
 
     def setUp(self):
         pass
@@ -141,9 +137,7 @@ class TestGetRecentFile(unittest.TestCase):
 
 
 class TestGetRecentFileByStream(unittest.TestCase):
-    """
-    Test the cdds.common.get_most_recent_file_by_stream function.
-    """
+    """Test the cdds.common.get_most_recent_file_by_stream function."""
 
     def setUp(self):
         pass
@@ -190,9 +184,7 @@ class TestGetRecentFileByStream(unittest.TestCase):
 
 
 class TestConstructStringFromFacetString(unittest.TestCase):
-    """
-    Test cdds.common.construct_string_from_facet_string
-    """
+    """Test cdds.common.construct_string_from_facet_string"""
     def setUp(self):
         self.facet_values = {'project': 'CMIP', 'experiment': 'amip',
                              'package': 'phase1'}

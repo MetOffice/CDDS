@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Routines for generating links to data files in order to restrict the
+"""Routines for generating links to data files in order to restrict the
 volume of data that MIP Convert can see and attempt to read
 """
 
@@ -24,8 +23,7 @@ from cdds.convert.mip_convert_wrapper.file_processors import (
 
 
 def filter_streams(file_list, stream):
-    """
-    Filters provided file list based on selected stream.
+    """Filters provided file list based on selected stream.
 
     Parameters
     ----------
@@ -36,7 +34,7 @@ def filter_streams(file_list, stream):
 
     Returns
     -------
-    : list
+    list
         Filtered list of filepaths.
     """
     if stream[0] == 'a':
@@ -65,8 +63,7 @@ def construct_processors_dict():
 
 def get_paths(suite_name, model_id, stream, substream, start_date: TimePoint, end_date: TimePoint, input_dir,
               work_dir, filepath_type=FILEPATH_METOFFICE):
-    """
-    Creates a list of paths to current input directory, directory for symlinks
+    """Creates a list of paths to current input directory, directory for symlinks
     or copies of the files, and a list of the files name thatwill be input
     to this batch of processing.
 
@@ -142,15 +139,19 @@ def get_paths(suite_name, model_id, stream, substream, start_date: TimePoint, en
 
 
 def find_stream_prefix(model_id: str, stream: str) -> str:
-    """
-    Finds the stream prefix for a particular stream ('ap', 'in', 'on', 'ap_submonthly, ap_daily, ap_hourly)
+    """Finds the stream prefix for a particular stream ('ap', 'in', 'on', 'ap_submonthly, ap_daily, ap_hourly)
 
-    :param input_location: Model ID that stream prefix should be found
-    :type input_location: str
-    :param stream: Stream for that prefix should be found
-    :type stream: str
-    :return: Prefix of the given stream
-    :rtype: str
+    Parameters
+    ----------
+    input_location : str
+        Model ID that stream prefix should be found
+    stream : str
+        Stream for that prefix should be found
+
+    Returns
+    -------
+    str
+        Prefix of the given stream
     """
     stream_prefix = stream[:2]  # `ap`, `in` or `on`
     if stream_prefix not in ['ap', 'in', 'on']:
@@ -162,16 +163,20 @@ def find_stream_prefix(model_id: str, stream: str) -> str:
 
 
 def _ap_stream_prefix(model_id: str, stream: str) -> str:
-    """
-    Returns the right ap related prefix by checking if the stream frequency
+    """Returns the right ap related prefix by checking if the stream frequency
     (ap, ap_submonthly, ap_daily, ap_hourly).
 
-    :param model_id: Model ID that streams should be checked
-    :type model_id: str
-    :param stream: Stream that should be checked
-    :type stream: str
-    :return: The right ap related prefix
-    :rtype: str
+    Parameters
+    ----------
+    model_id : str
+        Model ID that streams should be checked
+    stream : str
+        Stream that should be checked
+
+    Returns
+    -------
+    str
+        The right ap related prefix
     """
     plugin = PluginStore.instance().get_plugin()
     stream_file_info = plugin.models_parameters(model_id).stream_file_info()
@@ -217,7 +222,7 @@ def _assemble_file_dicts(all_files, cycle_dirs, filename_processor,
 
     Returns
     -------
-    : list
+    list
         Reorganised list of files.
     """
     file_list = []
@@ -258,8 +263,7 @@ def copy_to_staging_dir(expected_files,
                         old_input_location,
                         new_input_location,
                         ):
-    """
-    Copy data from old_input_location to new_input_location. These values
+    """Copy data from old_input_location to new_input_location. These values
     should be constructed using the get_paths function in this module.
 
     Parameters
@@ -273,7 +277,7 @@ def copy_to_staging_dir(expected_files,
 
     Returns
     -------
-    : int
+    int
         Number of files copied.
 
     Raises
@@ -328,8 +332,7 @@ def link_data(expected_files,
               old_input_location,
               new_input_location,
               ):
-    """
-    Identify data to be used and set up soft links only to the files
+    """Identify data to be used and set up soft links only to the files
     that need to be read for this particular job step.
 
     Parameters
@@ -343,9 +346,9 @@ def link_data(expected_files,
 
     Returns
     -------
-    : int
+    int
         Number of source files found.
-    : str
+    str
         Location where symlinks have been created.
     """
     logger = logging.getLogger(__name__)
@@ -361,8 +364,7 @@ def link_data(expected_files,
 
 
 def _setup_symlink_directory(new_input_location):
-    """
-    Create or empty the directory for the symlinks to be created and
+    """Create or empty the directory for the symlinks to be created and
     return its location.
 
     Parameters
@@ -371,7 +373,7 @@ def _setup_symlink_directory(new_input_location):
 
     Returns
     -------
-    : str
+    str
         Name of the directory that has been created.
     """
     logger = logging.getLogger(__name__)
@@ -391,8 +393,7 @@ def _create_symlinks(expected_files,
                      old_input_location,
                      new_input_location,
                      ):
-    """
-    Create the symlinks required for MIP Convert to run this task.
+    """Create the symlinks required for MIP Convert to run this task.
 
     Parameters
     ----------
@@ -405,7 +406,7 @@ def _create_symlinks(expected_files,
 
     Returns
     -------
-    : int
+    int
         The number of links created
     """
     logger = logging.getLogger(__name__)

@@ -9,27 +9,31 @@ from typing import List
 
 def get_files_to_produce_output_netcdf_files(root_load_path: str, suite_id: str, stream_id: str,
                                              substream: str, ancil_files: List[str]) -> List[str]:
-    """
-    Return the filenames (including the full path) of the files
+    """Return the filenames (including the full path) of the files
     required to produce the |output netCDF files| for the
     |MIP requested variables|.
 
-    :param root_load_path: the full path to the root directory
-        containing the |model output files|
-    :type root_load_path: string
-    :param suite_id: the |run identifier| of the model
-    :type suite_id: string
-    :param stream_id: the |stream identifier|
-    :type stream_id: string
-    :param ancil_files: the filenames (including the full path) of any
-        ancillary files
-    :type ancil_files: list of strings
-    :return: the filenames (including the full path) of the files
-        required to produce the |output netCDF files| for the
-        |MIP requested variables|.
-    :rtype: list of strings
-    :raises IOError: if no |model output files| are found in the
-        directory ``/<root_load_path>/<suite_id>/<stream_id>/``
+    Parameters
+    ----------
+    root_load_path : string
+        the full path to the root directory containing the |model output files|
+    suite_id : string
+        the |run identifier| of the model
+    stream_id : string
+        the |stream identifier|
+    ancil_files : list of strings
+        the filenames (including the full path) of any ancillary files
+
+    Returns
+    -------
+    list of strings
+        the filenames (including the full path) of the files required to produce the |output netCDF files| for the |MIP
+        requested variables|.
+
+    Raises
+    ------
+    IOError
+        if no |model output files| are found in the directory ``/<root_load_path>/<suite_id>/<stream_id>/``
     """
     logger = logging.getLogger(__name__)
 

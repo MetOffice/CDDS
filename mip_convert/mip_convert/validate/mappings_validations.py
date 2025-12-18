@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module providing functionality to validate mappings configurations
-"""
+"""Module providing functionality to validate mappings configurations"""
 import os
 import glob
 import logging
@@ -14,15 +12,19 @@ from mip_convert.validate.required_option_checks import check_contains_all_requi
 
 
 def do_mappings_configurations_validations(plugin_id: str, mappings_data_dir: str) -> bool:
-    """
-    Run the validation for the mappings in given mappings data dir and given plugin.
+    """Run the validation for the mappings in given mappings data dir and given plugin.
 
-    :param plugin_id: Plugin ID for that the mappings are
-    :type plugin_id: str
-    :param mappings_data_dir: Path to the mappings data directoring containing all mappings files
-    :type mappings_data_dir: str
-    :return: If everything is valid or not
-    :rtype: bool
+    Parameters
+    ----------
+    plugin_id : str
+        Plugin ID for that the mappings are
+    mappings_data_dir : str
+        Path to the mappings data directoring containing all mappings files
+
+    Returns
+    -------
+    bool
+        If everything is valid or not
     """
     logger = logging.getLogger(__name__)
 
@@ -59,13 +61,17 @@ def do_mappings_configurations_validations(plugin_id: str, mappings_data_dir: st
 
 
 def check_mapping_data_dir(data_dir: str) -> bool:
-    """
-    Checks if given mapping data directory exits.
+    """Checks if given mapping data directory exits.
 
-    :param data_dir: Path to the mappings data directory
-    :type data_dir: str
-    :return: If the mapping data directory exits or not
-    :rtype: bool
+    Parameters
+    ----------
+    data_dir : str
+        Path to the mappings data directory
+
+    Returns
+    -------
+    bool
+        If the mapping data directory exits or not
     """
     logger = logging.getLogger(__name__)
     logger.info('Checking mapping data directory')
@@ -88,17 +94,21 @@ def check_mapping_data_dir(data_dir: str) -> bool:
 
 
 def check_mappings_files(plugin_id: str, common_mappings_files: List[str], mip_table_mappings_files: List[str]) -> bool:
-    """
-    Check if mappings files can be found.
+    """Check if mappings files can be found.
 
-    :param plugin_id: Plugin ID
-    :type plugin_id: str
-    :param common_mappings_files: Found common mappings files
-    :type common_mappings_files: List[str]
-    :param mip_table_mappings_files: Found MIP table mappings files
-    :type mip_table_mappings_files: List[str]
-    :return: Mappings files are present or not
-    :rtype: bool
+    Parameters
+    ----------
+    plugin_id : str
+        Plugin ID
+    common_mappings_files : List[str]
+        Found common mappings files
+    mip_table_mappings_files : List[str]
+        Found MIP table mappings files
+
+    Returns
+    -------
+    bool
+        Mappings files are present or not
     """
     logger = logging.getLogger(__name__)
     logger.info('Checking if mappings can be found')
@@ -119,16 +129,20 @@ def check_mappings_files(plugin_id: str, common_mappings_files: List[str], mip_t
 
 
 def search_for_mappings(data_dir: str, basename: str) -> List[str]:
-    """
-    Search for mappings in given data directory and matching given filename.
+    """Search for mappings in given data directory and matching given filename.
     The filename can be a regex.
 
-    :param data_dir: Path to the data directory where the files exists
-    :type data_dir: str
-    :param basename: basename or regex that matches the wanted mapping filenames
-    :type basename: str
-    :return: Mappings files that matches given basename
-    :rtype: List[str]
+    Parameters
+    ----------
+    data_dir : str
+        Path to the data directory where the files exists
+    basename : str
+        basename or regex that matches the wanted mapping filenames
+
+    Returns
+    -------
+    List[str]
+        Mappings files that matches given basename
     """
     mappings_files = os.path.join(data_dir, basename)
     mappings_files = glob.glob(mappings_files)

@@ -18,40 +18,46 @@ if TYPE_CHECKING:
 
 
 class ModelFileInfo(object, metaclass=ABCMeta):
-    """
-    Provides methods to manage and check netCDF files from simulation models
-    """
+    """Provides methods to manage and check netCDF files from simulation models"""
 
     @abstractmethod
     def mass_location_suffix(
             self, request: 'Request', mip_table: str, variable: str, grid_label: str, frequency: str) -> str:
-        """
-        Returns the suffix to the MASS location for the simulation model files of a variable
+        """Returns the suffix to the MASS location for the simulation model files of a variable
 
-        :param request: The information about the request being processed
-        :type request: Request
-        :param mip_table: MIP table
-        :type mip_table: str
-        :param variable: Variable
-        :type variable: str
-        :param grid_label: Grid label
-        :type grid_label: str
-        :param frequency: Frequency of the variable
-        :type: str
-        :return: The suffix to the MASS location for the simulation model files of a variable
-        :rtype: str
+        Parameters
+        ----------
+        request : Request
+            The information about the request being processed
+        mip_table : str
+            MIP table
+        variable : str
+            Variable
+        grid_label : str
+            Grid label
+        frequency : str
+            Frequency of the variable
+
+        Returns
+        -------
+        str
+            The suffix to the MASS location for the simulation model files of a variable
         """
         pass
 
     @abstractmethod
     def mass_root_location_suffix(self, request: 'Request') -> str:
-        """
-        Returns the suffix to the MASS root location that contains all simulation model files
+        """Returns the suffix to the MASS root location that contains all simulation model files
 
-        :param request: The information about the request being processed
-        :type request: Request
-        :return: The suffix to the MASS root location containing all simulation model files
-        :rtype: str
+        Parameters
+        ----------
+        request : Request
+            The information about the request being processed
+
+        Returns
+        -------
+        str
+            The suffix to the MASS root location containing all simulation model files
         """
         pass
 
@@ -67,47 +73,59 @@ class ModelFileInfo(object, metaclass=ABCMeta):
 
     @abstractmethod
     def is_cmor_file(self, filename: str) -> bool:
-        """
-        Checks if the given file name matches the expected cmor file name pattern.
+        """Checks if the given file name matches the expected cmor file name pattern.
 
-        :param filename: File name to check
-        :type filename: str
-        :return: True if the file name matches the expected cmor file name pattern, otherwise False
-        :rtype: bool
+        Parameters
+        ----------
+        filename : str
+            File name to check
+
+        Returns
+        -------
+        bool
+            True if the file name matches the expected cmor file name pattern, otherwise False
         """
         pass
 
     @abstractmethod
     def is_relevant_for_archiving(
             self, request: 'Request', variable_dict: Dict[str, str], nc_file: str) -> bool:
-        """
-        Checks if the given |Output netCDF file| is ready for archiving by checking if it matches the expected
+        """Checks if the given |Output netCDF file| is ready for archiving by checking if it matches the expected
         file pattern by using the given information of the request and variable information.
 
-        :param request: The information about the request being processed
-        :type request: old_request.Request
-        :param variable_dict: Information about the MIP approved variable
-        :type variable_dict: Dict[str, str]
-        :param nc_file: Path to the netCDF file to archive
-        :type nc_file: str
-        :return: True if the netCDF file can be archived otherwise False
-        :rtype: bool
+        Parameters
+        ----------
+        request : old_request.Request
+            The information about the request being processed
+        variable_dict : Dict[str, str]
+            Information about the MIP approved variable
+        nc_file : str
+            Path to the netCDF file to archive
+
+        Returns
+        -------
+        bool
+            True if the netCDF file can be archived otherwise False
         """
         pass
 
     def get_date_range(self, nc_files: List[str], frequency: str) -> Tuple[TimePoint, TimePoint]:
-        """
-        Calculates the date range for the given |Output netCDF files|. It is assumed this set of files
+        """Calculates the date range for the given |Output netCDF files|. It is assumed this set of files
         has been through the CDDS quality control process and represents a contiguous dataset, so this
         is not checked.
 
-        :param nc_files: A list of filenames that have been checked for valid formatting.
-        :type nc_files: List[str]
-        :param frequency: A string describing the output frequency for the variables, which is used
-                          to determine the expected datestamp format used in the filename.
-        :type frequency: str
-        :return: A tuple of cftime objects representing the start and end of the date range.
-        :rtype: Tuple[TimePoint, TimePoint]
+        Parameters
+        ----------
+        nc_files : List[str]
+            A list of filenames that have been checked for valid formatting.
+        frequency : str
+            A string describing the output frequency for the variables, which is used to determine the expected
+            datestamp format used in the filename.
+
+        Returns
+        -------
+        Tuple[TimePoint, TimePoint]
+            A tuple of cftime objects representing the start and end of the date range.
         """
         filename_pattern = re.compile(self._nc_files_to_archive_regex)
         file_match = filename_pattern.search(nc_files[0])
@@ -157,9 +175,7 @@ class ModelFileInfo(object, metaclass=ABCMeta):
 
 
 class GlobalModelFileInfo(ModelFileInfo):
-    """
-    Provides methods to manage and check netCDF files from global simulation models
-    """
+    """Provides methods to manage and check netCDF files from global simulation models"""
 
     _CMOR_FILENAME_PATTERN = (r'([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)_'
                               r'([a-zA-Z0-9-]+)_([a-zA-Z0-9]+-)?(r\d+i\d+p\d+f\d+)_g([a-zA-Z0-9]+)'
@@ -179,33 +195,41 @@ class GlobalModelFileInfo(ModelFileInfo):
 
     def mass_location_suffix(
             self, request: 'Request', mip_table: str, variable: str, grid_label: str, frequency: str) -> str:
-        """
-        Returns the suffix to the MASS location for the simulation model files of a variable
+        """Returns the suffix to the MASS location for the simulation model files of a variable
 
-        :param request: The information about the request being processed
-        :type request: Request
-        :param mip_table: MIP table
-        :type mip_table: str
-        :param variable: Variable
-        :type variable: str
-        :param grid_label: Grid label
-        :type grid_label: str
-        :param frequency: Frequency of the variable
-        :type: str
-        :return: The suffix to the MASS location for the simulation model files of a variable
-        :rtype: str
+        Parameters
+        ----------
+        request : Request
+            The information about the request being processed
+        mip_table : str
+            MIP table
+        variable : str
+            Variable
+        grid_label : str
+            Grid label
+        frequency : str
+            Frequency of the variable
+
+        Returns
+        -------
+        str
+            The suffix to the MASS location for the simulation model files of a variable
         """
         mass_root_location = self.mass_root_location_suffix(request)
         return os.path.join(mass_root_location, mip_table, variable, grid_label)
 
     def mass_root_location_suffix(self, request: 'Request') -> str:
-        """
-        Returns the suffix to the MASS root location that contains all simulation model files
+        """Returns the suffix to the MASS root location that contains all simulation model files
 
-        :param request: The information about the request being processed
-        :type request: Request
-        :return: The suffix to the MASS root location containing all simulation model files
-        :rtype: str
+        Parameters
+        ----------
+        request : Request
+            The information about the request being processed
+
+        Returns
+        -------
+        str
+            The suffix to the MASS root location containing all simulation model files
         """
         return os.path.join(
             request.metadata.mip_era,
@@ -225,30 +249,38 @@ class GlobalModelFileInfo(ModelFileInfo):
         return ''
 
     def is_cmor_file(self, filename) -> bool:
-        """
-        Checks if the given file name matches the expected cmor file name pattern.
+        """Checks if the given file name matches the expected cmor file name pattern.
 
-        :param filename: File name to check
-        :type filename: str
-        :return: True if the file name matches the expected cmor file name pattern, otherwise False
-        :rtype: bool
+        Parameters
+        ----------
+        filename : str
+            File name to check
+
+        Returns
+        -------
+        bool
+            True if the file name matches the expected cmor file name pattern, otherwise False
         """
         return re.match(self._CMOR_FILENAME_PATTERN, filename)
 
     def is_relevant_for_archiving(
             self, request: 'Request', variable_dict: Dict[str, str], nc_file: str) -> bool:
-        """
-        Checks if the given |Output netCDF file| is ready for archiving by checking if it matches the expected
+        """Checks if the given |Output netCDF file| is ready for archiving by checking if it matches the expected
         file pattern by using the given information of the request and variable information.
 
-        :param request: The information about the request being processed
-        :type request: Request
-        :param variable_dict: Information about the MIP approved variable
-        :type variable_dict: Dict[str, str]
-        :param nc_file: Path to the netCDF file to archive
-        :type nc_file: str
-        :return: True if the netCDF file can be archived otherwise False
-        :rtype: bool
+        Parameters
+        ----------
+        request : Request
+            The information about the request being processed
+        variable_dict : Dict[str, str]
+            Information about the MIP approved variable
+        nc_file : str
+            Path to the netCDF file to archive
+
+        Returns
+        -------
+        bool
+            True if the netCDF file can be archived otherwise False
         """
         pattern = re.compile(self._NC_FILES_TO_ARCHIVE_REGEX)
         match = pattern.search(nc_file)
@@ -272,10 +304,22 @@ class GlobalModelFileInfo(ModelFileInfo):
         return True
 
 
+class CMIP7GlobalModelFileInfo(GlobalModelFileInfo):
+    """Manage and check netCDF files from CMIP7 simulation models"""
+    _CMOR_FILENAME_PATTERN = r'_'.join([
+        r'([a-zA-Z0-9]+)',  # variable id
+        r'([a-zA-Z0-9-]+)',  # branding suffix
+        r'([a-zA-Z0-9]+)',  # frequency
+        r'([a-zA-Z0-9]+)',  # region
+        r'([a-zA-Z0-9]+)',  # grid label
+        r'([a-zA-Z0-9-]+)',  # model id
+        r'([a-zA-Z0-9-]+)',  # experiment id
+        r'(r\d{1,6}i\d{1,6}[a-e]?p\d{1,6}f\d{1,6})',  # variant label
+        r'((\d+)-(\d+))(-clim)?.nc'])  # time range
+
+
 class RegionalModelFileInfo(ModelFileInfo):
-    """
-    Provides methods to manage and check netCDF files from regional simulation models
-    """
+    """Provides methods to manage and check netCDF files from regional simulation models"""
 
     _CMOR_FILENAME_PATTERN = (r'([a-zA-Z0-9]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_'
                               r'(r\d+i\d+p\d+f\d+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_([a-zA-Z0-9-]+)_'
@@ -300,21 +344,25 @@ class RegionalModelFileInfo(ModelFileInfo):
 
     def mass_location_suffix(
             self, request: 'Request', mip_table: str, variable: str, grid_label: str, frequency: str) -> str:
-        """
-        Returns the suffix to the MASS location for the simulation model files of a variable
+        """Returns the suffix to the MASS location for the simulation model files of a variable
 
-        :param request: The information about the request being processed
-        :type request: Request
-        :param mip_table: MIP table
-        :type mip_table: str
-        :param variable: Variable
-        :type variable: str
-        :param grid_label: Grid label
-        :type grid_label: str
-        :param frequency: Frequency of the variable
-        :type: str
-        :return: The suffix to the MASS location for the simulation model files of a variable
-        :rtype: str
+        Parameters
+        ----------
+        request : Request
+            The information about the request being processed
+        mip_table : str
+            MIP table
+        variable : str
+            Variable
+        grid_label : str
+            Grid label
+        frequency : str
+            Frequency of the variable
+
+        Returns
+        -------
+        str
+            The suffix to the MASS location for the simulation model files of a variable
         """
         mass_root_location = self.mass_root_location_suffix(request)
         return os.path.join(
@@ -324,13 +372,17 @@ class RegionalModelFileInfo(ModelFileInfo):
         )
 
     def mass_root_location_suffix(self, request: 'Request') -> str:
-        """
-        Returns the suffix to the MASS root location that contains all simulation model files
+        """Returns the suffix to the MASS root location that contains all simulation model files
 
-        :param request: The information about the request being processed
-        :type request: Request
-        :return: The suffix to the MASS root location containing all simulation model files
-        :rtype: str
+        Parameters
+        ----------
+        request : Request
+            The information about the request being processed
+
+        Returns
+        -------
+        str
+            The suffix to the MASS root location containing all simulation model files
         """
 
         return os.path.join(
@@ -355,30 +407,38 @@ class RegionalModelFileInfo(ModelFileInfo):
         return self._OUTPUT_FILE_TEMPLATE
 
     def is_cmor_file(self, filename) -> bool:
-        """
-        Checks if the given file name matches the expected cmor file name pattern.
+        """Checks if the given file name matches the expected cmor file name pattern.
 
-        :param filename: File name to check
-        :type filename: str
-        :return: True if the file name matches the expected cmor file name pattern, otherwise False
-        :rtype: bool
+        Parameters
+        ----------
+        filename : str
+            File name to check
+
+        Returns
+        -------
+        bool
+            True if the file name matches the expected cmor file name pattern, otherwise False
         """
         return re.match(self._CMOR_FILENAME_PATTERN, filename)
 
     def is_relevant_for_archiving(
             self, request: 'Request', variable_dict: Dict[str, str], nc_file: str) -> bool:
-        """
-        Checks if the given |Output netCDF file| is ready for archiving by checking if it matches the expected
+        """Checks if the given |Output netCDF file| is ready for archiving by checking if it matches the expected
         file pattern by using the given information of the request and variable information.
 
-        :param request: The information about the request being processed
-        :type request: Request
-        :param variable_dict: Information about the MIP approved variable
-        :type variable_dict: Dict[str, str]
-        :param nc_file: Path to the netCDF file to archive
-        :type nc_file: str
-        :return: True if the netCDF file can be archived otherwise False
-        :rtype: bool
+        Parameters
+        ----------
+        request : Request
+            The information about the request being processed
+        variable_dict : Dict[str, str]
+            Information about the MIP approved variable
+        nc_file : str
+            Path to the netCDF file to archive
+
+        Returns
+        -------
+        bool
+            True if the netCDF file can be archived otherwise False
         """
         global_attributes = request.items_global_attributes
         pattern = re.compile(self._NC_FILES_TO_ARCHIVE_REGEX)

@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2015-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Setup script for the MIP Convert package.
-"""
+"""Setup script for the MIP Convert package."""
 import os
 from setuptools import setup, find_packages
 from typing import AnyStr
@@ -10,8 +8,7 @@ from importlib.machinery import SourceFileLoader
 
 
 def extract_version(module_name: str) -> AnyStr:
-    """
-    Returns the version number of the module.
+    """Returns the version number of the module.
 
     Parameters
     ----------
@@ -30,8 +27,7 @@ def extract_version(module_name: str) -> AnyStr:
 
 
 def data_file_search(directory):
-    """
-    Return a list in the form [(p1, f1), (p2, f2), ...], where p<#> is
+    """Return a list in the form [(p1, f1), (p2, f2), ...], where p<#> is
     a string containing the path to a directory (the root of the
     directory is provided by the 'directory' argument) and f<#> is a
     list containing the files in that directory.
@@ -45,8 +41,7 @@ def data_file_search(directory):
 
 
 def find_data_files():
-    """
-    Return a list to use as the value of 'data_files' in the call to
+    """Return a list to use as the value of 'data_files' in the call to
     'setup'.
     """
     data_files = [('', ['CHANGES.md', 'LICENSE.md', 'pylintrc', 'setup.py', 'setup.cfg'])]
@@ -56,8 +51,7 @@ def find_data_files():
 
 
 def find_scripts(directories):
-    """
-    Find and return all the scripts in the directories given.
+    """Find and return all the scripts in the directories given.
     The directories are assumed to contain just scripts.
     Directories need not exist: any that don't (or aren't directories)
     will be skipped.

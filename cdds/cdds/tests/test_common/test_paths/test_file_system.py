@@ -10,9 +10,7 @@ from cdds.common.paths.file_system import create_directory, get_directories
 
 
 class TestCreateDirectory(TestCase):
-    """
-    Tests for :func:`create_directory` in :mod:`common.py`.
-    """
+    """Tests for :func:`create_directory` in :mod:`common.py`."""
 
     def setUp(self):
         self.root_path = None

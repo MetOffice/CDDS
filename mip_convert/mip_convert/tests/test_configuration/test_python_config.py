@@ -13,9 +13,7 @@ from textwrap import dedent
 
 
 class TestUserConfig(unittest.TestCase):
-    """
-    Tests for ``UserConfig`` in configuration.py.
-    """
+    """Tests for ``UserConfig`` in configuration.py."""
 
     def setUp(self):
         self.read_path = 'user_config_file'
@@ -265,9 +263,7 @@ class TestUserConfig(unittest.TestCase):
 
 
 class TestModelToMIPMappingConfig(unittest.TestCase):
-    """
-    Tests for ``ModelToMIPMappingConfig`` in configuration.py.
-    """
+    """Tests for ``ModelToMIPMappingConfig`` in configuration.py."""
 
     def setUp(self):
         self.read_path = 'mappings.cfg'

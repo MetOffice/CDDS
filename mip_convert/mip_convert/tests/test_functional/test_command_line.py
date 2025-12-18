@@ -22,8 +22,7 @@ from mip_convert.tests.test_functional.utils.tools import (compare, compare_comm
 
 
 class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
-    """
-    Abstract test class for MIP convert functional tests. New functional tests must extend from it and implement
+    """Abstract test class for MIP convert functional tests. New functional tests must extend from it and implement
     the get_test_data method what returns the test data for this test
     """
 
@@ -35,11 +34,12 @@ class AbstractFunctionalTests(TestCase, metaclass=ABCMeta):
 
     @abstractmethod
     def get_test_data(self) -> AbstractTestData:
-        """
-        Returns the test data for the test
+        """Returns the test data for the test
 
-        :return: test data
-        :rtype: AbstractTestData
+        Returns
+        -------
+        AbstractTestData
+            test data
         """
         pass
 

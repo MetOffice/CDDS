@@ -3,9 +3,7 @@
 
 
 class AnyStruct(object):
-    """
-    a structure that can be added to
-    """
+    """a structure that can be added to"""
 
     def __init__(self, **kwargs):
         for arg, value in list(kwargs.items()):

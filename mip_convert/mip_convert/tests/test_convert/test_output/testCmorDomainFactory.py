@@ -196,8 +196,7 @@ class FakeVariable(object):
 
 
 class MyGridId(object):
-    """
-    light weight class to act as a marker for a grid
+    """light weight class to act as a marker for a grid
     rather than using a special grid id
     """
 

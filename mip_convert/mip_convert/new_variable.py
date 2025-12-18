@@ -2,8 +2,7 @@
 # Please see LICENSE.md for license details.
 # pylint: disable=no-member, eval-used, wildcard-import
 # pylint: disable=unused-wildcard-import
-"""
-The :mod:`new_variable` module contains the class that represents a
+"""The :mod:`new_variable` module contains the class that represents a
 |multi-dimensional data object|.
 """
 import copy
@@ -34,9 +33,7 @@ import warnings
 
 
 class VariableMetadata(object):
-    """
-    Store metadata related to a |MIP requested variable|.
-    """
+    """Store metadata related to a |MIP requested variable|."""
 
     def __init__(self, variable_name, stream_id, substream, mip_table_name, mip_metadata, site_information,
                  hybrid_height_information, replacement_coordinates, model_to_mip_mapping, timestep, run_bounds,
@@ -117,9 +114,7 @@ class VariableMetadata(object):
 
 
 class Variable(object):
-    """
-    Store metadata and data related to a |MIP requested variable|.
-    """
+    """Store metadata and data related to a |MIP requested variable|."""
 
     def __init__(self, input_variables, variable_metadata):
         """
@@ -181,9 +176,7 @@ class Variable(object):
 
     @property
     def info(self):
-        """
-        Return useful information about a specific instance.
-        """
+        """Return useful information about a specific instance."""
         variable_info = (
             '\n    MIP requested variable name: {variable_name}'
             '\n    Stream identifier: {stream_id}'
@@ -202,22 +195,19 @@ class Variable(object):
 
     @property
     def history(self):
-        """
-        Return messages describing what has happened to the data in
+        """Return messages describing what has happened to the data in
         this instance.
 
         Example
         -------
 
-        Create a :class:`Variable` object and update the
-        :meth:`history` multiple times:
+        Create a :class:`Variable` object and update the :meth:`history` multiple times:
         """
         return self._history
 
     @history.setter
     def history(self, message):
-        """
-        Update the history with a message describing what has happened
+        """Update the history with a message describing what has happened
         to the data in this instance.
         """
         if self._history is None:
@@ -226,13 +216,12 @@ class Variable(object):
             self._history = '{history}\n{message}'.format(history=self._history, message=message)
 
     def slices_over(self, period):
-        """
-        Return an iterator of :class:`new_variable.Variable` instances
+        """Return an iterator of :class:`new_variable.Variable` instances
         that contain a years worth of data.
 
         Yields
         ------
-        : :class:`new_variable.Variable`
+        :class:`new_variable.Variable`
             The metadata and data related to a |MIP requested variable|
             for a year.
         """
@@ -249,8 +238,7 @@ class Variable(object):
                 raise RuntimeError('Slicing MIP output variable not yet implemented')
 
     def date_times_for_slices_over(self, period):
-        """
-        Return the date time items specifiying the period for each
+        """Return the date time items specifiying the period for each
         slice.
 
         Parameters
@@ -262,7 +250,7 @@ class Variable(object):
 
         Returns
         -------
-        : a list containing lists of integers
+        a list containing lists of integers
             The date time items that will be used to create each
             :class:`new_variable.Variable` instance.
         """
@@ -308,8 +296,7 @@ class Variable(object):
 
     @property
     def ordered_coords(self):
-        """
-        Return the coordinates in the cube that correspond with the
+        """Return the coordinates in the cube that correspond with the
         axes in the |MIP table| in the order that matches the data in
         the cube, in the form ``[(coord, axis_direction, axis_name)]``,
         where ``coord`` is the coordinate in the cube,
@@ -351,8 +338,7 @@ class Variable(object):
         return self._ordered_coords
 
     def process(self):
-        """
-        Process the data.
+        """Process the data.
 
         The units of the data of the |MIP requested variable| are the
         units of the data after the expression from the
@@ -436,8 +422,7 @@ class Variable(object):
                         cube.data[mask] = np.ma.masked
 
     def _apply_removal(self):
-        """
-        Remove halo values from input variables if their removal
+        """Remove halo values from input variables if their removal
         information is provided in the configuration file.
         """
         removal = self._variable_metadata.removal
@@ -458,9 +443,7 @@ class Variable(object):
                 self.input_variables[key] = new_cube
 
     def _remove_latitude_halo(self, cube, stream_removal):
-        """
-        Remove the latitude halo from the cube.
-        """
+        """Remove the latitude halo from the cube."""
         new_latitude = cube.coord('latitude')[stream_removal.slice_latitude]
 
         try:
@@ -482,9 +465,7 @@ class Variable(object):
         return new_cube
 
     def _remove_longitude_halo(self, cube, stream_removal):
-        """
-        Remove the longitude halo from the cube.
-        """
+        """Remove the longitude halo from the cube."""
         new_longitude = cube.coord('longitude')[stream_removal.slice_longitude]
 
         try:
@@ -685,8 +666,7 @@ class Variable(object):
         return array
 
     def _match_cube_coords_with_mip_axes(self):
-        """
-        Return the coordinates in the cube that correspond to the
+        """Return the coordinates in the cube that correspond to the
         axes of the dimensions for the |MIP requested variable| as
         specified in the |MIP table| in the form
         ``[(coord, axis_direction)]``.
@@ -811,9 +791,7 @@ class Variable(object):
         )
 
     def _data_dimension(self, coord, axis_direction):
-        """
-        Return the data dimension of the coordinate in the cube.
-        """
+        """Return the data dimension of the coordinate in the cube."""
         # 'cube.coord_dims' returns a tuple of the data dimensions relevant to the given coordinate.
         data_dimensions = self.cube.coord_dims(coord)
         if not data_dimensions:
@@ -884,24 +862,21 @@ def _update_constraints_in_expression(constraints, expression):
 
 
 class VariableModelToMIPMapping(object):
-    """
-    Store the |model to MIP mapping| for a |MIP requested variable|.
-    """
+    """Store the |model to MIP mapping| for a |MIP requested variable|."""
 
     def __init__(self, mip_requested_variable_name, model_to_mip_mapping, model_id):
-        """
-        Parse the expression provided by the ``model_to_mip_mapping``
+        """Parse the expression provided by the ``model_to_mip_mapping``
         parameter and add attributes to this object corresponding to
         the |input variables| and each constraint to this object.
 
-        :param mip_requested_variable_name: the
-            |MIP requested variable name|
-        :type mip_requested_variable_name: string
-        :param model_to_mip_mapping: the |model to MIP mapping| for the
-            |MIP requested variable|
-        :type model_to_mip_mapping: dictionary
-        :param model_id: the |model identifier|
-        :type model_id: str
+        Parameters
+        ----------
+        mip_requested_variable_name : string
+            the |MIP requested variable name|
+        model_to_mip_mapping : dictionary
+            the |model to MIP mapping| for the |MIP requested variable|
+        model_id : str
+            the |model identifier|
         """
         self.logger = logging.getLogger(__name__)
         self.mip_requested_variable_name = mip_requested_variable_name
@@ -913,8 +888,7 @@ class VariableModelToMIPMapping(object):
 
     @property
     def info(self):
-        """
-        Return useful constraint-related information about a specific
+        """Return useful constraint-related information about a specific
         instance.
         """
         expression = self.expression
@@ -944,8 +918,7 @@ class VariableModelToMIPMapping(object):
         return parse_to_loadables(self.model_to_mip_mapping['expression'], consts, mapping_config_info__func)
 
     def _add_attributes(self):
-        """
-        Add the options from the |model to MIP mapping| configuration
+        """Add the options from the |model to MIP mapping| configuration
         file for the |MIP requested variable| as specified by the
         ``model_to_mip_mapping`` parameter as attributes to the object.
         """
@@ -957,8 +930,7 @@ class VariableModelToMIPMapping(object):
 
 
 def replace_constants(expression, constant_items, replacement_string='value'):
-    """
-    Return the expression specified by ``expression`` with any strings
+    """Return the expression specified by ``expression`` with any strings
     representing constant names (keys in ``constant_items``) replaced
     with the constant values (values in ``constant_items``).
 
@@ -989,14 +961,12 @@ def replace_constants(expression, constant_items, replacement_string='value'):
 
 
 class VariableMIPMetadata(object):
-    """
-    Store the values from the |MIP table| related to a
+    """Store the values from the |MIP table| related to a
     |MIP requested variable|.
     """
 
     def __init__(self, variable_info, axes):
-        """
-        The dictionaries provided by the ``variable_info`` and
+        """The dictionaries provided by the ``variable_info`` and
         ``axis`` parameters contains information about the
         |MIP requested variable| and the axes from the |MIP table|,
         respectively.
@@ -1008,14 +978,14 @@ class VariableMIPMetadata(object):
 
     @property
     def axes_names(self):
-        """
-        Return the names (e.g., ``latitude``, ``longitude``, ``time``,
+        """Return the names (e.g., ``latitude``, ``longitude``, ``time``,
         etc.) of the axes of the |MIP requested variable| as specified
         in the |MIP table|.
 
-        :return: the names of the axes of the |MIP requested variable|
-                 as specified in the |MIP table|
-        :rtype: list
+        Returns
+        -------
+        list
+            the names of the axes of the |MIP requested variable| as specified in the |MIP table|
         """
         dimensions = self.variable_info['dimensions']
         if isinstance(dimensions, str):
@@ -1027,18 +997,17 @@ class VariableMIPMetadata(object):
 
     @property
     def axes_directions_names(self):
-        """
-        Return the directions (e.g., ``X``, ``Y``, ``T``, ``Z``, etc.)
+        """Return the directions (e.g., ``X``, ``Y``, ``T``, ``Z``, etc.)
         and names of the axes of the |MIP requested variable| as
         specified in the |MIP table|.
 
         The names of the axes are returned in the form
         ``{axis_direction: axis_name}``.
 
-        :return: the directions of the axes of the
-                 |MIP requested variable| as specified in the
-                 |MIP table|
-        :rtype: dictionary
+        Returns
+        -------
+        dictionary
+            the directions of the axes of the |MIP requested variable| as specified in the |MIP table|
         """
 
         # Sometimes 'self.axes_names' contains a dimension with a name that doesn't exist as an 'axis' in
@@ -1096,16 +1065,18 @@ class VariableMIPMetadata(object):
         return value
 
     def must_have_bounds(self, axis_direction):
-        """
-        Return whether the axis must have bounds as specified in the
+        """Return whether the axis must have bounds as specified in the
         |MIP table|.
 
-        :param axis_direction: the direction (e.g., ``X``, ``Y``,
-            ``T``, ``Z``, etc.) of the axis
-        :type axis_direction: string
-        :return: whether the axis must have bound as specified in the
-            |MIP table|
-        :rtype: Boolean
+        Parameters
+        ----------
+        axis_direction : string
+            the direction (e.g., ``X``, ``Y``, ``T``, ``Z``, etc.) of the axis
+
+        Returns
+        -------
+        Boolean
+            whether the axis must have bound as specified in the |MIP table|
         """
         axis_name = self.axes_directions_names[axis_direction]
         try:
@@ -1121,43 +1092,49 @@ class VariableMIPMetadata(object):
         return have_bounds
 
     def points(self, axis_direction):
-        """
-        Return the points for the axis as specified in the |MIP table|.
+        """Return the points for the axis as specified in the |MIP table|.
 
-        :param axis_direction: the direction (e.g., ``X``, ``Y``,
-            ``T``, ``Z``, etc.) of the axis
-        :type axis_direction: string
-        :return: the points for the axis as specified in the
-            |MIP table|
-        :rtype: :func:`numpy.array`
+        Parameters
+        ----------
+        axis_direction : string
+            the direction (e.g., ``X``, ``Y``, ``T``, ``Z``, etc.) of the axis
+
+        Returns
+        -------
+        :func:`numpy.array`
+            the points for the axis as specified in the |MIP table|
         """
         attribute_names = ['requested', 'value']
         return self._get_values(axis_direction, 'points', attribute_names)
 
     def bounds(self, axis_direction):
-        """
-        Return the bounds for the axis as specified in the |MIP table|.
+        """Return the bounds for the axis as specified in the |MIP table|.
 
-        :param axis_direction: the direction (e.g., ``X``, ``Y``,
-            ``T``, ``Z``, etc.) of the axis
-        :type axis_direction: string
-        :return: the bounds for the axis as specified in the
-            |MIP table|
-        :rtype: :func:`numpy.array`
+        Parameters
+        ----------
+        axis_direction : string
+            the direction (e.g., ``X``, ``Y``, ``T``, ``Z``, etc.) of the axis
+
+        Returns
+        -------
+        :func:`numpy.array`
+            the bounds for the axis as specified in the |MIP table|
         """
         attribute_names = ['requested_bounds', 'bounds_values']
         return self._get_values(axis_direction, 'bounds', attribute_names)
 
     def units(self, axis_direction):
-        """
-        Return the units for the axis as specified in the |MIP table|.
+        """Return the units for the axis as specified in the |MIP table|.
 
-        :param axis_direction: the direction (e.g., ``X``, ``Y``,
-            ``T``, ``Z``, etc.) of the axis
-        :type axis_direction: string
-        :return: the units for the axis as specified in the
-            |MIP table|
-        :rtype: string
+        Parameters
+        ----------
+        axis_direction : str
+            the direction (e.g., ``X``, ``Y``, ``T``, ``Z``, etc.) of the axis
+
+        Returns
+        -------
+        str
+            the units for the axis as specified in the |MIP table|
         """
         axis_name = self.axes_directions_names[axis_direction]
         return self._get_raw_value(axis_name, 'units')

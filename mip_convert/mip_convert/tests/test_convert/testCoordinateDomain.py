@@ -80,9 +80,7 @@ class CoordinateDomainTest(unittest.TestCase):
         self.assertClose([[-10., 10.]], self.domain.geo_longitudes(), 1.e-3)
 
     def assertClose(self, a, b, tol=1.e-6):
-        """
-        bit of a cludge
-        """
+        """bit of a cludge"""
         for index in range(len(a)):
             self.assertRealsClose(a[index][0], b[index][0], tol)
 

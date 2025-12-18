@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module to provide validations for each request section
-"""
+"""Module to provide validations for each request section"""
 import os
 
 
@@ -25,11 +23,12 @@ if TYPE_CHECKING:
 
 
 def validate_common_section(section: 'CommonSection') -> None:
-    """
-    Validates given common section and raises an error if validation failed.
+    """Validates given common section and raises an error if validation failed.
 
-    :param section: common section to validate
-    :type section: 'CommonSection'
+    Parameters
+    ----------
+    section : 'CommonSection'
+        common section to validate
     """
     validator = CommonSectionValidator(section=section)
     valid, messages = validator.validate()
@@ -39,11 +38,12 @@ def validate_common_section(section: 'CommonSection') -> None:
 
 
 def validate_data_section(section: 'DataSection') -> None:
-    """
-    Validates given data sections and raises an error if validation failed.
+    """Validates given data sections and raises an error if validation failed.
 
-    :param section: data section to validate
-    :type section: 'DataSection'
+    Parameters
+    ----------
+    section : 'DataSection'
+        data section to validate
     """
     messages = []
     validate_file = SectionValidatorFactory.file_validator()
@@ -67,11 +67,12 @@ def validate_data_section(section: 'DataSection') -> None:
 
 
 def validate_inventory_section(section: 'InventorySection') -> None:
-    """
-    Validates given inventory section and raises an error if validation failed.
+    """Validates given inventory section and raises an error if validation failed.
 
-    :param section: inventory section to validate
-    :type section: 'InventorySection'
+    Parameters
+    ----------
+    section : 'InventorySection'
+        inventory section to validate
     """
     if section.inventory_check:
         validate_file = SectionValidatorFactory.file_validator()
@@ -81,11 +82,12 @@ def validate_inventory_section(section: 'InventorySection') -> None:
 
 
 def validate_metadata_section(section: 'MetadataSection') -> None:
-    """
-    Validates given metadata section and raises an error if validation failed.
+    """Validates given metadata section and raises an error if validation failed.
 
-    :param section: metadata section to validate
-    :type section: 'MetadataSection'
+    Parameters
+    ----------
+    section : 'MetadataSection'
+        metadata section to validate
     """
     validator = MetadataSectionValidator(section=section)
     valid, messages = validator.validate()
@@ -95,11 +97,12 @@ def validate_metadata_section(section: 'MetadataSection') -> None:
 
 
 def validate_misc_section(section: 'MiscSection') -> None:
-    """
-    Validates given metadata section and raises an error if validation failed.
+    """Validates given metadata section and raises an error if validation failed.
 
-    :param section: misc section to validate
-    :type section: 'MiscSection'
+    Parameters
+    ----------
+    section : 'MiscSection'
+        misc section to validate
     """
     validator = MiscSectionValidator(section=section)
     valid, messages = validator.validate()
@@ -109,11 +112,12 @@ def validate_misc_section(section: 'MiscSection') -> None:
 
 
 def validate_request(request: 'Request') -> None:
-    """
-    Validates given request against the controlled vocabulary
+    """Validates given request against the controlled vocabulary
 
-    :param request: request to validate
-    :type request: 'Request'
+    Parameters
+    ----------
+    request : 'Request'
+        request to validate
     """
     mip_era = request.metadata.mip_era
 

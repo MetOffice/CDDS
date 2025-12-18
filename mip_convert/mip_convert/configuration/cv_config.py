@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-The :mod:`configuration` module contains the configuration classes that
+"""The :mod:`configuration` module contains the configuration classes that
 store the information read from the configuration files.
 """
 import enum
@@ -36,8 +35,7 @@ class CVKey(object):
 
 
 class CVConfig(JSONConfig):
-    """
-    Store information read from the Controlled Vocabularies (CV) file.
+    """Store information read from the Controlled Vocabularies (CV) file.
 
     Methods are defined such that they return a value that is true for
     the entire instance.
@@ -51,9 +49,7 @@ class CVConfig(JSONConfig):
 
     @property
     def version(self):
-        """
-        Return the version number of the CV file.
-        """
+        """Return the version number of the CV file."""
         version_metadata = self.config['CV'].get('version_metadata', {})
         if version_metadata and 'CV_collection_version' in version_metadata:
             cv_version = version_metadata['CV_collection_version']
@@ -65,14 +61,11 @@ class CVConfig(JSONConfig):
 
     @property
     def activity_ids(self):
-        """
-        Return all the |MIPs| specified by the CV file.
-        """
+        """Return all the |MIPs| specified by the CV file."""
         return self._get_values_from_cv(CVKey.ACTIVITY_ID)
 
     def activity_id(self, experiment_id):
-        """
-        Return the allowed |MIPs| specified by the CV file.
+        """Return the allowed |MIPs| specified by the CV file.
 
         Parameters
         ----------
@@ -86,8 +79,7 @@ class CVConfig(JSONConfig):
         return value
 
     def experiment_cv(self, experiment_id):
-        """
-        Return the a dictionary from the Controlled Vocabularies
+        """Return the a dictionary from the Controlled Vocabularies
         with all the information on a particular experiment
 
         Parameters
@@ -99,8 +91,7 @@ class CVConfig(JSONConfig):
         return info
 
     def experiment(self, experiment_id):
-        """
-        Return the long description of the |experiment| specified by
+        """Return the long description of the |experiment| specified by
         the CV file.
 
         Parameters
@@ -115,8 +106,7 @@ class CVConfig(JSONConfig):
         return value
 
     def driving_experiment(self, driving_experiment_id):
-        """
-        Return the long description of the |driving experiment| specified by
+        """Return the long description of the |driving experiment| specified by
         the CV file.
 
         Parameters
@@ -131,8 +121,7 @@ class CVConfig(JSONConfig):
         return value
 
     def institution(self, institution_id):
-        """
-        Return the long description of the institution specified by the
+        """Return the long description of the institution specified by the
         CV file.
 
         Parameters
@@ -143,8 +132,7 @@ class CVConfig(JSONConfig):
         return self._get_value_from_cv(CVKey.INSTITUTION_ID, institution_id)
 
     def parent_activity_id(self, experiment_id, parent_experiment_id, mip_era):
-        """
-        Return the parent |mip| specified by the CV file.
+        """Return the parent |mip| specified by the CV file.
 
         Parameters
         ----------
@@ -175,8 +163,7 @@ class CVConfig(JSONConfig):
             return self._get_single_value(CVKey.PARENT_ACTIVITY_ID, info)
 
     def source(self, source_id):
-        """
-        Return the long description of the source (|model|) specified
+        """Return the long description of the source (|model|) specified
         by the CV file.
 
         Parameters
@@ -192,14 +179,11 @@ class CVConfig(JSONConfig):
 
     @property
     def source_types(self):
-        """
-        Return all the |model types| specified by the CV file.
-        """
+        """Return all the |model types| specified by the CV file."""
         return self._get_values_from_cv(CVKey.SOURCE_TYPE)
 
     def allowed_source_types(self, experiment_id):
-        """
-        Return the required |model types| and the additional allowed |model types|
+        """Return the required |model types| and the additional allowed |model types|
         specified by the CV file.
 
         Parameters
@@ -210,8 +194,7 @@ class CVConfig(JSONConfig):
         return self.required_source_type(experiment_id) + self.additional_source_type(experiment_id)
 
     def required_source_type(self, experiment_id):
-        """
-        Return the required |model types| specified by the CV file.
+        """Return the required |model types| specified by the CV file.
 
         Parameters
         ----------
@@ -225,8 +208,7 @@ class CVConfig(JSONConfig):
         return value
 
     def additional_source_type(self, experiment_id):
-        """
-        Return the additional allowed |model types| specified by the CV
+        """Return the additional allowed |model types| specified by the CV
         file.
 
         Parameters
@@ -241,8 +223,7 @@ class CVConfig(JSONConfig):
         return value
 
     def sub_experiment(self, sub_experiment_id):
-        """
-        Return the long description of the sub experiment specified by
+        """Return the long description of the sub experiment specified by
         the CV file.
 
         Parameters
@@ -257,9 +238,7 @@ class CVConfig(JSONConfig):
 
     @property
     def tracking_prefix(self):
-        """
-        Return the tracking prefix specified by the CV file.
-        """
+        """Return the tracking prefix specified by the CV file."""
         result = self._UNKNOWN
         if CVKey.TRACKING_ID in self.config['CV']:
             tracking_ids = self.config['CV'][CVKey.TRACKING_ID]
@@ -268,9 +247,7 @@ class CVConfig(JSONConfig):
 
     @property
     def tracking_id(self):
-        """
-        Return the tracking prefix specified by the CV file.
-        """
+        """Return the tracking prefix specified by the CV file."""
         result = self._UNKNOWN
         if CVKey.TRACKING_ID in self.config['CV']:
             result = self.config['CV'][CVKey.TRACKING_ID][0]
@@ -278,19 +255,17 @@ class CVConfig(JSONConfig):
 
     @property
     def conventions(self):
-        """
-        Return the first element of the Conventions attribute
-        """
+        """Return the first element of the Conventions attribute"""
         return self._get_values_from_cv("Conventions")[0].replace('\\', '')
 
     @property
     def required_global_attributes(self):
-        """
-        Return the required global attributes specified by the CV file.
+        """Return the required global attributes specified by the CV file.
 
-        :return: the required global attributes specified by the CV
-            file
-        :rtype: list
+        Returns
+        -------
+        list
+            the required global attributes specified by the CV file
         """
         written_by_cmor = [
             'Conventions', 'creation_date', 'data_specs_version', 'frequency',
@@ -308,8 +283,7 @@ class CVConfig(JSONConfig):
         return [attribute for attribute in required if attribute not in written_by_cmor]
 
     def validate_with_error(self, expected_value, attribute_key):
-        """
-        Ensure ``expected_value`` exists in the list of values returned
+        """Ensure ``expected_value`` exists in the list of values returned
         when checking the attribute with key ``attribute_key``.
 
         Parameters
@@ -330,8 +304,7 @@ class CVConfig(JSONConfig):
             raise RuntimeError('"{}" does not exist in "{}"'.format(expected_value, attribute_key))
 
     def validate(self, attribute_name, attribute_value):
-        """
-        Ensure ``attribute_value`` exists in the list of values returned
+        """Ensure ``attribute_value`` exists in the list of values returned
         when calling the method ``method_name``.
 
         Parameters

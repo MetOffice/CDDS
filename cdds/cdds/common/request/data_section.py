@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module to handle the data section in the request configuration
-"""
+"""Module to handle the data section in the request configuration"""
 from configparser import ConfigParser
 from datetime import datetime
 from dataclasses import dataclass, asdict, field
@@ -17,12 +15,13 @@ from cdds.common.request.request_validations import validate_data_section
 
 
 def data_defaults() -> Dict[str, Any]:
-    """
-    Calculates the defaults for the data section of
+    """Calculates the defaults for the data section of
     the request configuration.
 
-    :return: The defaults of the data section
-    :rtype: Dict[str, Any]
+    Returns
+    -------
+    Dict[str, Any]
+        The defaults of the data section
     """
     return {
         'data_version': datetime.utcnow().strftime(DATESTAMP_PARSER_STR),
@@ -36,9 +35,7 @@ def data_defaults() -> Dict[str, Any]:
 
 @dataclass
 class DataSection(Section):
-    """
-    Represents the data section in the request configuration
-    """
+    """Represents the data section in the request configuration"""
     data_version: str = ''
     end_date: TimePoint = None
     mass_data_class: str = 'crum'
@@ -54,39 +51,44 @@ class DataSection(Section):
     max_file_size: float = 20e9  # maximum file size in bytes
 
     def __post_init__(self):
-        """
-        Pre-validates the values of the section before create it
-        """
+        """Pre-validates the values of the section before create it"""
         validate_data_section(self)
 
     @classmethod
     def name(cls) -> str:
-        """
-        Name of the data section that is used in the request configuration file.
+        """Name of the data section that is used in the request configuration file.
 
-        :return: Name that is also used in the configuration file
-        :rtype: str        """
+        Returns
+        -------
+        str
+            Name that is also used in the configuration file
+        """
         return 'data'
 
     @property
     def items(self):
-        """
-        Returns all items of the data section as a dictionary.
+        """Returns all items of the data section as a dictionary.
 
-        :return: Items as dictionary
-        :rtype: Dict[str, Any]
+        Returns
+        -------
+        Dict[str, Any]
+            Items as dictionary
         """
         return asdict(self)
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'DataSection':
-        """
-        Loads the data section of a request configuration.
+        """Loads the data section of a request configuration.
 
-        :param config: Parser for the request configuration
-        :type config: ConfigParser
-        :return: New data section
-        :rtype: DataSection
+        Parameters
+        ----------
+        config : ConfigParser
+            Parser for the request configuration
+
+        Returns
+        -------
+        DataSection
+            New data section
         """
         values = data_defaults()
         section_name = DataSection.name()
@@ -102,15 +104,19 @@ class DataSection(Section):
 
     @staticmethod
     def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'DataSection':
-        """
-        Loads the data section of a rose-suite.info.
+        """Loads the data section of a rose-suite.info.
 
-        :param suite_info: The rose-suite.info to be loaded
-        :type suite_info: RoseSuiteInfo
-        :param arguments: Additional arguments to be considered
-        :type arguments: RoseSuiteArguments
-        :return: New data section
-        :rtype: DataSection
+        Parameters
+        ----------
+        suite_info : RoseSuiteInfo
+            The rose-suite.info to be loaded
+        arguments : RoseSuiteArguments
+            Additional arguments to be considered
+
+        Returns
+        -------
+        DataSection
+            New data section
         """
         defaults = data_defaults()
         # model_workflow_id must be set here otherwise validation will fail.
@@ -133,11 +139,12 @@ class DataSection(Section):
         return data
 
     def add_to_config(self, config: ConfigParser) -> None:
-        """
-        Adds values defined by the data section to given configuration.
+        """Adds values defined by the data section to given configuration.
 
-        :param config: Configuration where values should add to
-        :type config: ConfigParser
+        Parameters
+        ----------
+        config : ConfigParser
+            Configuration where values should add to
         """
         defaults = data_defaults()
         self._add_to_config_section(config, DataSection.name(), defaults)

@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module for the main function for the mip convert wrapper run in the suite.
-"""
+"""Module for the main function for the mip convert wrapper run in the suite."""
 import logging
 import os
 import shutil
@@ -28,8 +26,7 @@ from cdds.convert.mip_convert_wrapper.file_management import copy_to_staging_dir
 
 
 def run_mip_convert_wrapper():
-    """
-    Retrieve the required parameters from environment variables, set up
+    """Retrieve the required parameters from environment variables, set up
     the mip_convert.cfg config file and run mip_convert.
     """
     exit_code = 0

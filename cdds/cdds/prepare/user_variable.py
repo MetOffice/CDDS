@@ -9,8 +9,7 @@ from cdds.common.plugins.plugins import PluginStore
 
 
 class UserDefinedVariable:
-    """
-    Class to hold information on a user requested variable built from mip tables.
+    """Class to hold information on a user requested variable built from mip tables.
     It is designed to have close similarity to the DataRequestVariable Class from
     cdds.prepare.data_request_interface.
     """
@@ -23,18 +22,19 @@ class UserDefinedVariable:
         stream: str | None = None,
         frequency: str | None = None,
     ) -> None:
-        """
-        Construct an object representing a variable from given mip tables,
+        """Construct an object representing a variable from given mip tables,
         based on its |MIP| table and |MIP requested variable| name.
 
-        :param mip_table: |MIP table| for the variable.
-        :type mip_table: str
-        :param var_name: |MIP requested variable name.
-        :type var_name: str
-        :param mip_table_dir: Directory containing Mip tables
-        :type mip_table_dir: str
-        :param stream: Only consider this stream (optional)
-        :type stream: str
+        Parameters
+        ----------
+        mip_table : str
+            |MIP table| for the variable.
+        var_name : str
+            |MIP requested variable name.
+        mip_table_dir : str
+            Directory containing Mip tables
+        stream : str
+            Only consider this stream (optional)
         """
         self.mip_table = mip_table
         self.var_name = var_name

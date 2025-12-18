@@ -1,9 +1,7 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
-"""
-Tests for :mod:`request.py`.
-"""
+"""Tests for :mod:`request.py`."""
 from collections import OrderedDict, defaultdict
 import unittest
 import os
@@ -13,9 +11,7 @@ from cdds.configure.request import retrieve_request_metadata
 
 
 class TestRetrieveRequestMetadata(unittest.TestCase):
-    """
-    Tests for :func:`retrieve_request_metadata` in :mod:`request.py`.
-    """
+    """Tests for :func:`retrieve_request_metadata` in :mod:`request.py`."""
 
     def setUp(self):
         self.maxDiff = None
@@ -109,9 +105,7 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
 
 
 class TestRetrieveRequestMetadataForCordex(unittest.TestCase):
-    """
-    Tests for :func:`retrieve_request_metadata` in :mod:`request.py`.
-    """
+    """Tests for :func:`retrieve_request_metadata` in :mod:`request.py`."""
 
     def setUp(self):
         self.maxDiff = None

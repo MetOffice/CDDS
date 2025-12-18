@@ -18,8 +18,10 @@ class WorkflowManager:
     def __init__(self, request: Request, workflow_configuration: ConfigureTemplateVariables):
         """Class for copying, managing, and submitting the Cylc conversion workflow.
 
-        :param request: A Request class.
-        :type request: Request
+        Parameters
+        ----------
+        request : Request
+            A Request class.
         """
         self._request = request
         self.template_variables = workflow_configuration.template_variables
@@ -29,8 +31,10 @@ class WorkflowManager:
     def workflow_src_directory(self) -> str:
         """Set the directory of the Cylc workflow to use.
 
-        :return: The full path of the local copy of the Cylc workflow.
-        :rtype: str
+        Returns
+        -------
+        str
+            The full path of the local copy of the Cylc workflow.
         """
         cwd = Path(__file__).parent.parent.parent.resolve()
         return os.path.join(cwd, WORKFLOWS_DIRECTORY, CONVERSION_WORKFLOW)
@@ -39,8 +43,10 @@ class WorkflowManager:
     def workflow_destination(self) -> str:
         """Returns the destination of the Cylc workflow on checkout.
 
-        :return: The full path of the local copy of the Cylc workflow.
-        :rtype: str
+        Returns
+        -------
+        str
+            The full path of the local copy of the Cylc workflow.
         """
         component_dir = component_directory(self._request, 'convert')
         return os.path.join(component_dir, self.workflow_name)
@@ -50,8 +56,7 @@ class WorkflowManager:
         return os.path.join(self.workflow_destination, "rose-suite.conf")
 
     def delete_convert_workflow(self) -> None:
-        """
-        Deletes the existing conversion suite if it exists.
+        """Deletes the existing conversion suite if it exists.
         OSErrors arising from the deletion are caught and logged, but are not raised further.
         """
         if os.path.exists(self.workflow_destination):
@@ -70,8 +75,10 @@ class WorkflowManager:
     def checkout_convert_workflow(self, delete_original: bool = True) -> None:
         """Retrieves the source code of the conversion suite from the local workflow directory.
 
-        :param delete_original: If True clear out any existing files at the suite destination.
-        :type delete_original: bool, optional
+        Parameters
+        ----------
+        delete_original : bool, optional
+            If True clear out any existing files at the suite destination.
         """
         if delete_original:
             self.delete_convert_workflow()
@@ -101,8 +108,10 @@ class WorkflowManager:
     def workflow_name(self) -> str:
         """Create the workflow name from workflow_basename in the Request.
 
-        :return: The workflow name.
-        :rtype: str
+        Returns
+        -------
+        str
+            The workflow name.
         """
         return f"cdds_{self._request.common.workflow_basename}"
 
@@ -110,8 +119,10 @@ class WorkflowManager:
     def cylc_command(self) -> list:
         """Construct the cylc command to run.
 
-        :return: A list of cylc command options.
-        :rtype: list
+        Returns
+        -------
+        list
+            A list of cylc command options.
         """
         command = ['cylc', 'vip', self.workflow_destination, '--no-run-name']
         command += ['--workflow-name', self.workflow_name]
@@ -131,7 +142,10 @@ class WorkflowManager:
     def run_workflow(self) -> None:
         """Run the templated conversion workflow.
 
-        :raises FileNotFoundError: If no workflow exists.
+        Raises
+        ------
+        FileNotFoundError
+            If no workflow exists.
         """
         if not os.path.exists(self.workflow_destination):
             raise FileNotFoundError('No directory {}'.format(self.workflow_destination))

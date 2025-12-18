@@ -8,8 +8,7 @@ if TYPE_CHECKING:
 
 
 class Cmip7GlobalAttributes(GlobalAttributes):
-    """
-    Class to store and manage global attributes for CMIP7
+    """Class to store and manage global attributes for CMIP7
 
     The request given in the init method will be validated if it contains
     all expected information that is need to handle the global attributes.
@@ -21,11 +20,12 @@ class Cmip7GlobalAttributes(GlobalAttributes):
         self._mip_era = 'CMIP7'
 
     def further_info_url(self) -> str:
-        """
-        Returns the further info url according the global attributes values.
+        """Returns the further info url according the global attributes values.
 
-        :return: The further info url for CMIP7
-        :rtype: str
+        Returns
+        -------
+        str
+            The further info url for CMIP7
         """
         root_url = 'https://furtherinfo.es-doc.org'
         further_info_url = '{}/{}.{}.{}.{}.{}.{}'.format(root_url,
@@ -39,19 +39,22 @@ class Cmip7GlobalAttributes(GlobalAttributes):
 
 
 class AttributesValidator:
-    """
-    Class that provides validations for objects relating to CMIP7 attributes
-    """
+    """Class that provides validations for objects relating to CMIP7 attributes"""
 
     @classmethod
     def validate_request(cls, request: 'Request') -> None:
-        """
-        Validates given request. It checks if the request contains all entries
+        """Validates given request. It checks if the request contains all entries
         that are expected. If request is invalid, a ValueError is raised.
 
-        :param request: Request to be validated
-        :type request: 'Request'
-        :raises ValueError: If request is invalid
+        Parameters
+        ----------
+        request : 'Request'
+            Request to be validated
+
+        Raises
+        ------
+        ValueError
+            If request is invalid
         """
         if not request.metadata.institution_id:
             raise ValueError('Request must contain an institution ID')

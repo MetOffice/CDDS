@@ -11,9 +11,7 @@ from netCDF4 import Dataset
 
 
 class CF17Check(CF1_7Check):
-    """
-    The CF1.7 checker class
-    """
+    """The CF1.7 checker class"""
     _cc_spec_version = "1.7"
     _cc_spec = "cf17"
     register_checker = True
@@ -21,8 +19,7 @@ class CF17Check(CF1_7Check):
     supported_ds = [Dataset]
 
     def __init__(self, **kwargs):
-        """
-        CFBaseCheck uses a global attribute to determine version of the
+        """CFBaseCheck uses a global attribute to determine version of the
         standard names table, and if it does not find it, uses a packaged
         version (v46 at the moment). Here we provide the location explicitly,
         which also allows us to add some not-yet-standardised names to the
@@ -49,8 +46,7 @@ class CF17Check(CF1_7Check):
             os.path.join(standard_names_dir, table_file))
 
     def check_conventions_version(self, ds):
-        """
-        Check the global attribute conventions to contain CF-1.7
+        """Check the global attribute conventions to contain CF-1.7
         CF 2.6.1 the NUG defined global attribute Conventions to the string
         value "CF-1.7" or "CMIP 6.2"
 
@@ -61,7 +57,7 @@ class CF17Check(CF1_7Check):
 
         Returns
         -------
-        : compliance_checker.base.Result
+        compliance_checker.base.Result
             Result of the version validation
         """
 
@@ -87,8 +83,7 @@ class CF17Check(CF1_7Check):
         )
 
     def check_cell_measures(self, ds):
-        """
-        7.2 To indicate extra information about the spatial properties of a
+        """7.2 To indicate extra information about the spatial properties of a
         variable's grid cells, a cell_measures attribute may be defined for a
         variable. This is a string attribute comprising a list of
         blank-separated pairs of words of the form "measure: name". "area" and
@@ -108,7 +103,7 @@ class CF17Check(CF1_7Check):
 
         Returns
         -------
-        : compliance_checker.base.Result
+        compliance_checker.base.Result
             Result of the version validation
         """
         ret_val = []
@@ -178,16 +173,22 @@ class CF17Check(CF1_7Check):
         return ret_val
 
     def check_geographic_region(self, ds):
-        """
-        6.1.1 When data is representative of geographic regions which can be identified by names but which have complex
-        boundaries that cannot practically be specified using longitude and latitude boundary coordinates, a labeled
-        axis should be used to identify the regions.
+        """6.1.1 When data is representative of geographic regions which can be identified by names but which have
+        complex boundaries that cannot practically be specified using longitude and latitude boundary coordinates, a
+        labeled axis should be used to identify the regions.
         Recommend that the names be chosen from the list of standardized region names whenever possible. To indicate
         that the label values are standardized the variable that contains the labels must be given the standard_name
         attribute with the value region.
-        :param netCDF4.Dataset ds: An open netCDF dataset
-        :rtype: list
-        :return: List of results
+
+        Parameters
+        ----------
+        ds : netCDF4.Dataset
+            An open netCDF dataset
+
+        Returns
+        -------
+        list
+            List of results
         """
         ret_val = []
         region_list = [

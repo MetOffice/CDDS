@@ -8,8 +8,7 @@ from unittest import mock
 
 
 class TestStoreAlteringPublishedDatestamp(StoreTestCase):
-    """
-    USE CASE 7
+    """USE CASE 7
         Archive additional data for a variable with a version number that has already been used in publication
 
     INPUT

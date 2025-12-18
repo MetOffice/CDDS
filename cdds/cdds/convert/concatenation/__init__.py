@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-CMOR netCDF file concatenation routines
-"""
+"""CMOR netCDF file concatenation routines"""
 import glob
 import logging
 import os
@@ -18,8 +16,7 @@ from cdds.convert.exceptions import ConcatenationError
 
 
 def prepare_to_concatenate_files(input_files, output_file, dummy_run):
-    """
-    Make any necessary peparation for the concatenation operation. This
+    """Make any necessary peparation for the concatenation operation. This
     includes creating the output dirctory if it does not yet exist.
 
     Parameters
@@ -28,7 +25,7 @@ def prepare_to_concatenate_files(input_files, output_file, dummy_run):
         A list of paths to the input files for the concatenation.
     output_file: str
         The path where output file from the concatenation will be written.
-    dummy_run: Boolean
+    dummy_run: bool
         If true, the concatenation will not be done, and suitable dry run log
         messages will be output.
     """
@@ -47,8 +44,7 @@ def prepare_to_concatenate_files(input_files, output_file, dummy_run):
 
 def concatenate_files(input_files, output_file, candidate_file,
                       dummy_run=False):
-    """
-    Perform the concatenation operation.
+    """Perform the concatenation operation.
 
     Parameters
     ----------
@@ -59,8 +55,7 @@ def concatenate_files(input_files, output_file, candidate_file,
     candidate_file: str
         The name of the temporary file that ncrcat will write to.
     dummy_run : bool, optional
-        If True print the command to be executed rather than execute
-        it.
+        If True print the command to be executed rather than executeit.
 
     Returns
     -------
@@ -89,8 +84,7 @@ def concatenate_files(input_files, output_file, candidate_file,
 
 
 def move_single_file(input_file, output_file, dummy_run=False):
-    """
-    Perform the concatenation operation.
+    """Perform the concatenation operation.
 
     Parameters
     ----------
@@ -122,8 +116,7 @@ def move_single_file(input_file, output_file, dummy_run=False):
 
 def batch_concatenation(task_db, nworkers, timeout=DEFAULT_SQLITE_TIMEOUT,
                         **kwargs):
-    """
-    Manage the concatenations defined in task_db using nworkers threads
+    """Manage the concatenations defined in task_db using nworkers threads
     to run processing in parallel. Tasks are organised by variable,
     i.e. all the concatenations required for a single variable are
     worked through in sequence, with separate threads handling the
@@ -199,8 +192,7 @@ def batch_concatenation(task_db, nworkers, timeout=DEFAULT_SQLITE_TIMEOUT,
 
 def concatenation_task(variable, task_db, timeout=DEFAULT_SQLITE_TIMEOUT,
                        **kwargs):
-    """
-    Routine to manage the processing of the specified variable
+    """Routine to manage the processing of the specified variable
 
     Parameters
     ----------
@@ -270,8 +262,7 @@ def concatenation_task(variable, task_db, timeout=DEFAULT_SQLITE_TIMEOUT,
 def run_single_concatenation_task(db_conn, output_file, input_files,
                                   candidate_file, dummy_run=False,
                                   delete_source=True, **kwargs):
-    """
-    Wrapper to run a single concatenation task and update the task
+    """Wrapper to run a single concatenation task and update the task
     database accordingly.
 
     Parameters
@@ -285,16 +276,14 @@ def run_single_concatenation_task(db_conn, output_file, input_files,
     input_files : list
         list of files to be concatenated
     dummy_run : bool, optional
-        if True simulate the concatenation process and do not make any
-        changes to the task database.
+        if True simulate the concatenation process and do not make any changes to the task database.
     delete_source : bool, optional
         if True delete the original files
 
     Returns
     -------
     list
-        Results of the call to concatenate_files. Includes Exceptions
-        raised if commands fail.
+        Results of the call to concatenate_files. Includes Exceptions raised if commands fail.
     """
     logger = logging.getLogger(__name__)
     task_cursor = db_conn.cursor()
@@ -349,8 +338,7 @@ def run_single_concatenation_task(db_conn, output_file, input_files,
 
 
 def delete_originals(db_conn, output_file):
-    """
-    Delete the original files after checking that a concatenation task
+    """Delete the original files after checking that a concatenation task
     has succeeded.
 
     Parameters

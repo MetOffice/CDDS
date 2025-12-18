@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-This module contains the code required to alter
+"""This module contains the code required to alter
 |requested variables lists|.
 """
 from collections import defaultdict
@@ -20,14 +19,12 @@ SUBSET_HISTORY_COMMENT = 'User selected a subset of variables for test purposes.
 
 
 def alter_variable_list(parameters):
-    """
-    Alter the |requested variables list|.
+    """Alter the |requested variables list|.
 
     Parameters
     ----------
     parameters: :class:`argparse.Namespace` object
-        The names of the command line arguments and their validated
-        values.
+        The names of the command line arguments and their validated values.
     """
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
@@ -68,8 +65,7 @@ def alter_variable_list(parameters):
 
 
 def select_variables(rv_file, variables):
-    """
-    Deactivate all |MIP requested variables| in the |requested variables list|
+    """Deactivate all |MIP requested variables| in the |requested variables list|
     specified by ``rv_file`` except those listed in ``variables``.
 
     Parameters
@@ -138,8 +134,7 @@ def _get_now_iso_string():
 
 
 def _construct_change_rules(variables):
-    """
-    Construct the list of change rules for main_alter_variable_list
+    """Construct the list of change rules for main_alter_variable_list
 
     Parameters
     ----------
@@ -148,7 +143,7 @@ def _construct_change_rules(variables):
 
     Returns
     -------
-    : list
+    list
         Dictionaries representing changes to be made to the requested
         variables file.
     """
@@ -163,8 +158,7 @@ def _construct_change_rules(variables):
 
 
 def _check_rules(change_rules, entry):
-    """
-    Identify whether this entry (in the request-variables section of
+    """Identify whether this entry (in the request-variables section of
     a |requested variables list|) should be changed based on the change
     rules.
 
@@ -177,9 +171,9 @@ def _check_rules(change_rules, entry):
 
     Returns
     -------
-    : bool
+    bool
         Should this entry be changed
-    : int or None
+    int or None
         index within the change_rules list indicating the change to be
         made
     """
@@ -205,8 +199,7 @@ def _check_rules(change_rules, entry):
 
 def _apply_activate_deactivate(requested_variables, change_type, change_rules,
                                user_comment, timestamp, override=False):
-    """
-    Apply change type to entries in the requested_variables structure
+    """Apply change type to entries in the requested_variables structure
     as identified by the change_rules. Note that the
     requested_variables structure is altered in place.
 
@@ -230,10 +223,10 @@ def _apply_activate_deactivate(requested_variables, change_type, change_rules,
 
     Returns
     -------
-    : defaultdict(list)
+    defaultdict(list)
         structure describing the variables in each mip table that have
         been altered by this operation
-    : dict
+    dict
         The altered requested variables dictionary
 
     Raises

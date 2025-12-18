@@ -24,11 +24,12 @@ CONVERT_LOG_NAME = 'cdds_convert'
 
 
 def main_cdds_convert() -> int:
-    """
-    Initialise the CDDS convert process.
+    """Initialise the CDDS convert process.
 
-    :return: Exit code
-    :rtype: int
+    Returns
+    -------
+    int
+        Exit code
     """
     arguments, request = parse_args_cdds_convert()
 
@@ -47,11 +48,12 @@ def main_cdds_convert() -> int:
 
 
 def parse_args_cdds_convert() -> Tuple[ConvertArguments, Request]:
-    """
-    Returns the command line arguments and the request for 'cdds_convert'
+    """Returns the command line arguments and the request for 'cdds_convert'
 
-    :return: Tuple of command line arguments and request object
-    :rtype: Tuple[ConvertArguments, Request]
+    Returns
+    -------
+    Tuple[ConvertArguments, Request]
+        Tuple of command line arguments and request object
     """
     description = 'CDDS convert process initiator'
     parser = argparse.ArgumentParser(description=description)
@@ -93,11 +95,12 @@ def parse_args_cdds_convert() -> Tuple[ConvertArguments, Request]:
 
 def run_cdds_convert(arguments: ConvertArguments, request: "Request") -> None:
     """
-
-    :param arguments: The arguments specific to the 'cdds_convert' script.
-    :type arguments: ConvertArguments
-    :param request: The request information of 'cdds_convert'
-    :type request: Request
+    Parameters
+    ----------
+    arguments : ConvertArguments
+        The arguments specific to the 'cdds_convert' script.
+    request : Request
+        The request information of 'cdds_convert'
     """
     logger = logging.getLogger(__name__)
 

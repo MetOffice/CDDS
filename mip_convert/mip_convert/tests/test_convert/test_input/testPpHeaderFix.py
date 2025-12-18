@@ -11,42 +11,30 @@ from header_util import BaseHeader
 class TestFixVerticalLevels(unittest.TestCase):
 
     def loadField(self, pos):
-        """
-        stub for pp file
-        """
+        """stub for pp file"""
         self.loaded = pos
         return self.data
 
     def unloadField(self, pos):
-        """
-        stub for pp file
-        """
+        """stub for pp file"""
         self.unloaded = pos
 
     def getExtraDataVectors(self, pos):
-        """
-        stub for pp file
-        """
+        """stub for pp file"""
         self.extra = pos
         return self.extra_data
 
     def close(self):
-        """
-        stub for pp file
-        """
+        """stub for pp file"""
         self.closed = True
 
     def _make_header(self, lbuser4, lbuser7, lbvc, blev):
-        """
-        return a header using values of lbuser4, lbuser7 lbvc, blev
-        """
+        """return a header using values of lbuser4, lbuser7 lbvc, blev"""
         return BaseHeader(lbuser4=lbuser4, lbuser7=lbuser7,
                           lbvc=lbvc, blev=blev)
 
     def assertOnHeader(self, header, expect):
-        """
-        asserts that headers are equal
-        """
+        """asserts that headers are equal"""
         for attribute in ('lbuser4', 'lbuser7', 'lbvc', 'blev'):
             message = 'stash %s attr %s expect %s got %s'
             self.assertEqual(getattr(expect, attribute), getattr(header, attribute),
@@ -54,8 +42,7 @@ class TestFixVerticalLevels(unittest.TestCase):
                                         getattr(header, attribute)))
 
     def _add_unchanged_header(self, example):
-        """
-        add a header that should not be changed to the
+        """add a header that should not be changed to the
         test list
         """
         self._add_header_with_result(example, example)

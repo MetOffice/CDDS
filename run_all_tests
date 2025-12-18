@@ -1,8 +1,6 @@
 #!/usr/bin/env python3.10
 # (C) British Crown Copyright 2017-2025, Met Office.
-"""
-Run all the tests in the CDDS packages.
-"""
+"""Run all the tests in the CDDS packages."""
 import argparse
 import datetime
 import os
@@ -27,23 +25,17 @@ ADDITIONAL_OPTS = {
 
 
 def _red(text):
-    """
-    Returns text in red
-    """
+    """Returns text in red"""
     return '\033[31m{}\033[0m'.format(text)
 
 
 def _green(text):
-    """
-    Returns text in green
-    """
+    """Returns text in green"""
     return '\033[32m{}\033[0m'.format(text)
 
 
 def du(path):
-    """
-    Disk usage in human readable format (e.g. '2,1GB')
-    """
+    """Disk usage in human readable format (e.g. '2,1GB')"""
     out = subprocess.check_output(['quotas']).decode('utf-8')
     try:
         usage = [i for i in out.split("\n") if "spice:scratch" in i][0].split()[1]
@@ -59,9 +51,7 @@ def parse_arguments():
 
 
 def main():
-    """
-    Run all the tests in the CDDS packages.
-    """
+    """Run all the tests in the CDDS packages."""
     exit_code = 0
     arguments = parse_arguments()
     start = timer()

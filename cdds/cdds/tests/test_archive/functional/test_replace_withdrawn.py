@@ -8,8 +8,7 @@ from unittest import mock
 
 
 class TestStoreReplaceWithdrawn(StoreTestCase):
-    """
-    USE CASE 4
+    """USE CASE 4
         Replace previously withdrawn dataset
 
     INPUT

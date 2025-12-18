@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module providing functionality to validate request configuration
-"""
+"""Module providing functionality to validate request configuration"""
 import logging
 
 from metomi.isodatetime.data import Calendar
@@ -22,13 +20,17 @@ from cdds.common.plugins.plugins import PluginStore
 
 
 def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
-    """
-    Validates request stored at given path
+    """Validates request stored at given path
 
-    :param request_path: Path to the request to validate
-    :type request_path: str
-    :return: Is valid and a list of messages
-    :rtype: Tuple[bool, List[str]]
+    Parameters
+    ----------
+    request_path : str
+        Path to the request to validate
+
+    Returns
+    -------
+    Tuple[bool, List[str]]
+        Is valid and a list of messages
     """
     logger = logging.getLogger(__name__)
     valid = True
@@ -106,13 +108,18 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
 
 
 def validate_streams(request: "Request") -> Tuple[bool, List[str]]:
-    """
-    Validates the streams that are given in the request
+    """Validates the streams that are given in the request
 
-    :param request: Request configuration contains the streams to be validated
-    :type request: Request
-    :return: Is valid and a list of messages
-    :rtyp: Tuple[bool, List[str]]
+    Parameters
+    ----------
+    request : Request
+        Request configuration contains the streams to be validated
+
+    Returns
+    -------
+    Tuple[bool, List[str]]
+        Is valid and a list of messages
+
     """
     logger = logging.getLogger(__name__)
 

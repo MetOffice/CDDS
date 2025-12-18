@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
-"""
-The :mod:`common.py` module contains the helping resp. common
+"""The :mod:`common.py` module contains the helping resp. common
 functions for the cdd_prepare module.
 """
 import configparser
@@ -14,8 +13,7 @@ from mip_convert.plugins.plugins import MappingPluginStore
 
 
 def retrieve_mappings(data_request_variables, mip_era, model_id):
-    """
-    Return the |model to MIP mappings| for the |MIP requested variables|.
+    """Return the |model to MIP mappings| for the |MIP requested variables|.
 
     The returned |model to MIP mappings| are organised by |MIP table|,
     then |MIP requested variable name|. Note if the
@@ -34,7 +32,7 @@ def retrieve_mappings(data_request_variables, mip_era, model_id):
 
     Returns
     -------
-    : dict of :class:`VariableModelToMIPMapping`
+    dict of :class:`VariableModelToMIPMapping`
         The |model to MIP mappings| for the |MIP requested variables|.
     """
     mapping_plugin = MappingPluginStore.instance().get_plugin()

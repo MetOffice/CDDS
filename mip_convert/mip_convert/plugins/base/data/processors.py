@@ -1,8 +1,7 @@
 # (C) British Crown Copyright 2016-2025, Met Office.
 # Please see LICENSE.md for license details.
 
-"""
-Module containing processor functions.  These processors can be referred
+"""Module containing processor functions.  These processors can be referred
 to from |model to MIP mapping| expressions.
 """
 from itertools import chain
@@ -29,21 +28,15 @@ from mip_convert.constants import (JPDFTAUREICEMODIS_POINTS, JPDFTAUREICEMODIS_B
 
 
 def _check_daily_cube(cube):
-    """
-    Raise an exception if the cube does not contain daily statistics.
-    """
+    """Raise an exception if the cube does not contain daily statistics."""
 
     def _start_month_at_index(times, index):
-        """
-        Return True if date at index in times is at start of month.
-        """
+        """Return True if date at index in times is at start of month."""
         date = times.units.num2date(times.bounds[index])
         return (date.day, date.hour, date.minute, date.second) == (1, 0, 0, 0)
 
     def _is_daily(times):
-        """
-        Return True if times is a coordinate for daily data.
-        """
+        """Return True if times is a coordinate for daily data."""
         st_units = 'days since {}'.format(times.units.title(0))
         days_since = Unit(st_units, calendar=times.units.calendar)
         bounds = times.units.convert(times.bounds, days_since)
@@ -51,9 +44,7 @@ def _check_daily_cube(cube):
         return np.all(time_deltas == 1)
 
     def _range_bounds_months(times):
-        """
-        Return True if the times coordinate spans a whole number of months.
-        """
+        """Return True if the times coordinate spans a whole number of months."""
         beg_index = (0, 0)
         end_index = (-1, -1)
         return all(_start_month_at_index(times, index) for index in (beg_index, end_index))
@@ -74,17 +65,14 @@ def _check_daily_cube(cube):
 
 
 def _monthly_mean(cube):
-    """
-    Return the monthly mean the cube.
-    """
+    """Return the monthly mean the cube."""
     add_month_number(cube, 'time', name='month')
     add_year(cube, 'time', name='year')
     return cube.aggregated_by(['month', 'year'], MEAN)
 
 
 def mon_mean_from_day(cube):
-    """
-    Calculate a monthly mean from a cube of daily statistics.
+    """Calculate a monthly mean from a cube of daily statistics.
 
     This function can be used to calculate quantities such as the
     monthly mean daily minumum temperature.  It will raise an
@@ -106,8 +94,7 @@ def mon_mean_from_day(cube):
 
 
 def mdi_to_zero(cube):
-    """
-    Changes any values corresponding to missing data to zero.
+    """Changes any values corresponding to missing data to zero.
 
     Parameters
     ----------
@@ -125,8 +112,7 @@ def mdi_to_zero(cube):
 
 
 def fix_parasol_sza_axis(cube):
-    """
-    Fixes the vertical axis of a PARASOL reflectance cube (m01s02i348).
+    """Fixes the vertical axis of a PARASOL reflectance cube (m01s02i348).
     Changes the axis from geometric height to solar zenith angle.
 
     Parameters
@@ -148,8 +134,7 @@ def fix_parasol_sza_axis(cube):
 
 
 def area_mean(cube, areacube):
-    """
-    Calculate an area weighted mean of input cube
+    """Calculate an area weighted mean of input cube
 
     Parameters
     ----------
@@ -169,8 +154,7 @@ def area_mean(cube, areacube):
 
 
 def primavera_make_uva100m(cube):
-    """
-    The model runs to generate the PRIMAVERA variables ua100m and
+    """The model runs to generate the PRIMAVERA variables ua100m and
     va100m contain data on two levels because it wasn't known which
     level users would require when the model runs had to start. This
     function returns a cube on model level 4, which is now known to be
@@ -193,8 +177,7 @@ def primavera_make_uva100m(cube):
 
 
 def primavera_make_uva150m(cube):
-    """
-    The model runs to generate the PRIMAVERA variables ua150m and
+    """The model runs to generate the PRIMAVERA variables ua150m and
     va150m contain data on two levels because it wasn't known which
     level users would require when the model runs had to start. This
     function returns a cube on model level 4, which is now known to be
@@ -217,8 +200,7 @@ def primavera_make_uva150m(cube):
 
 
 def scale_epflux(cube_data, cube_heaviside):
-    """
-    Model output for epfy and epfz is in units kg s-2.  We require
+    """Model output for epfy and epfz is in units kg s-2.  We require
     units m3 s-2 for CMIP6, and so need to divide by density on
     each pressure level.
 
@@ -248,8 +230,7 @@ def scale_epflux(cube_data, cube_heaviside):
 
 
 def tau_pseudo_level(cube):
-    """
-    Return a cube with corrected tau coordinates (e.g. for use in
+    """Return a cube with corrected tau coordinates (e.g. for use in
     `clisccp`)
 
     Parameters
@@ -328,8 +309,7 @@ _MULTI_TILES = {
 
 
 def tile_ids_for_class(land_class):
-    """
-    Return a list of tile ids for the land_class
+    """Return a list of tile ids for the land_class
 
     Some land classes, such as 'tree' are made of more than
     one tile.  This function will do the lookup of land classes
@@ -369,9 +349,7 @@ def tile_ids_for_class(land_class):
 
 
 def _pseudo_constraint(land_class):
-    """
-    Return an iris constraint for pseudo levels for this land_class.
-    """
+    """Return an iris constraint for pseudo levels for this land_class."""
     try:
         tile_ids = tile_ids_for_class(land_class)
     except KeyError:
@@ -380,8 +358,7 @@ def _pseudo_constraint(land_class):
 
 
 def _collapse_pseudo(cube, aggregator, **kwargs):
-    """
-    Returns cube collased along pseudo_level using aggregator
+    """Returns cube collased along pseudo_level using aggregator
     with kwargs.
     """
     result = cube
@@ -393,8 +370,7 @@ def _collapse_pseudo(cube, aggregator, **kwargs):
 
 
 def land_class_mean(variable_cube, tile_cube, land_class=None):
-    """
-    Returns the cube of the mean variable_cube over a land class.
+    """Returns the cube of the mean variable_cube over a land class.
 
     This can be used when the MIP request is for
     cell_methods: 'area: mean where land'.
@@ -425,8 +401,7 @@ def land_class_mean(variable_cube, tile_cube, land_class=None):
 
 
 def land_class_sum(variable_cube, tile_cube, land_class=None):
-    """
-    Returns the cube of the sum variable_cube over a land class.
+    """Returns the cube of the sum variable_cube over a land class.
 
     This can be used when the MIP request is for
     cell_methods: 'area: sum where land'.
@@ -457,8 +432,7 @@ def land_class_sum(variable_cube, tile_cube, land_class=None):
 
 
 def land_class_area(tile_cube, land_frac_cube, land_class=None):
-    """
-    Returns the cube of the area covered by the chosen land class.
+    """Returns the cube of the area covered by the chosen land class.
 
     This can be used when the MIP requests cell_methods: 'area:mean'.
 
@@ -491,8 +465,7 @@ def land_class_area(tile_cube, land_frac_cube, land_class=None):
 
 
 def snc_calc(variable_cube, tile_fraction_cube, land_fraction_cube):
-    """
-    Sum of land frac over tiles with snow for the land portion of the grid cell
+    """Sum of land frac over tiles with snow for the land portion of the grid cell
     It is assumed if there is less than 0.1 kg/m2 (0.1 mm SWE) of snow on the
     ground there is no snow otherwise we have snow in the Sahara. This threshold
     is a rather arbitrary value.
@@ -523,8 +496,7 @@ def snc_calc(variable_cube, tile_fraction_cube, land_fraction_cube):
 
 
 def areacella(cube):
-    """
-    From a cube containing any data on a model's standard grid, the area of
+    """From a cube containing any data on a model's standard grid, the area of
     each cell is calculated and returned in an Iris cube.
 
     Parameters
@@ -564,8 +536,7 @@ def areacella(cube):
 
 
 def fix_packing_division(numerator, denominator):
-    """
-    It fixes the zeroes introduced by the loss of precision caused by
+    """It fixes the zeroes introduced by the loss of precision caused by
     packing. It performs a division of 2 cubes of the same shape,
     and replaces the zeroes with a new value (0.5*minimum).
 
@@ -594,8 +565,7 @@ def _z_axis(cube):
 
 
 def level_sum(cube):
-    """
-    Return the sum over vertical levels of a cube.
+    """Return the sum over vertical levels of a cube.
 
     Parameters
     ----------
@@ -618,8 +588,7 @@ def level_sum(cube):
 
 
 def sum_over_upper_100m(cube, thickness):
-    """
-    Return the sum over the upper 100m of a cube.
+    """Return the sum over the upper 100m of a cube.
 
     Parameters
     ----------
@@ -673,8 +642,7 @@ def sum_over_upper_100m(cube, thickness):
 
 
 def level_mean(cube, thick):
-    """
-    Return a mean over the vertical levels of cube weighted by thick
+    """Return a mean over the vertical levels of cube weighted by thick
 
     Parameters
     ----------
@@ -692,8 +660,7 @@ def level_mean(cube, thick):
 
 
 def vortmean(cube):
-    """
-    Generate the CMIP6 vortmean variable, the mean vorticity over the
+    """Generate the CMIP6 vortmean variable, the mean vorticity over the
     850-600 hPa layer.
 
     Parameters
@@ -722,8 +689,7 @@ def vortmean(cube):
 
 
 def mask_zeros(cube):
-    """
-    Returns cube with the data set to masked values where the value is 0.
+    """Returns cube with the data set to masked values where the value is 0.
 
     If the cube data is a numpy array containing no zeros then the cube is
     unchanged on output.
@@ -747,8 +713,7 @@ def mask_zeros(cube):
 
 
 def mask_using_cube(cube, cube_for_mask):
-    """
-    Return the ``cube`` masked where the data in ``cube_for_mask`` is
+    """Return the ``cube`` masked where the data in ``cube_for_mask`` is
     less than or equal to zero.
 
     Parameters
@@ -770,8 +735,7 @@ def mask_using_cube(cube, cube_for_mask):
 
 
 def correct_evaporation(cube_evs, cube_res, cube_area):
-    """
-    Return corrected evs data using the residual (i.e. differences
+    """Return corrected evs data using the residual (i.e. differences
     between the total fresh water flux and its reconstruction).
 
     Parameters
@@ -863,8 +827,7 @@ def correct_evaporation(cube_evs, cube_res, cube_area):
 
 
 def div_by_area(incube):
-    """
-    Divide the input cube with area of each gridcell
+    """Divide the input cube with area of each gridcell
 
     Parameters
     ----------
@@ -883,8 +846,7 @@ def div_by_area(incube):
 
 
 def mask_copy(cube, cube_mask):
-    """
-    Overwrite the mask of a cube.
+    """Overwrite the mask of a cube.
 
     Parameters
     ----------
@@ -941,8 +903,7 @@ def mask_copy(cube, cube_mask):
 
 
 def sum_2d_and_3d(cube2d, cube3d):
-    """
-    Adds a 2D cube to the 1st level of a 3D cube (excluding time dimension).
+    """Adds a 2D cube to the 1st level of a 3D cube (excluding time dimension).
 
     Parameters
     ----------
@@ -964,8 +925,7 @@ def sum_2d_and_3d(cube2d, cube3d):
 
 
 def eos_insitu(zt, zs, zh):
-    """
-    Computes the in-situ density of seawater using a modified version of the
+    """Computes the in-situ density of seawater using a modified version of the
     Jackett and McDougall (1995) [eos_insitu_1]_ equation of state.
 
     Parameters
@@ -995,7 +955,6 @@ def eos_insitu(zt, zs, zh):
 
         >>> round(eos_insitu(3., 35.5, 3000.), 3)
         1041.833
-
 
     Notes
     -----
@@ -1063,8 +1022,7 @@ def eos_insitu(zt, zs, zh):
 
 
 def calc_loaddust(total_dust_concentration, grid_cell_volume):
-    """
-    Calculate the loaddust variable.
+    """Calculate the loaddust variable.
 
     Parameters
     ----------
@@ -1097,8 +1055,7 @@ def calc_loaddust(total_dust_concentration, grid_cell_volume):
 
 
 def calc_rho_mean(thetao, so, zfullo, areacello, thkcello):
-    """
-    Computes the global mean in-situ density of seawater using a modified
+    """Computes the global mean in-situ density of seawater using a modified
     version of the Jackett and McDougall (1995) [calc_rho_mean_1]_
     equation of state.
 
@@ -1160,8 +1117,7 @@ def calc_rho_mean(thetao, so, zfullo, areacello, thkcello):
 
 
 def calc_zostoga(thetao, thkcello, areacello, zfullo_0, so_0, rho_0_mean, deptho_0_mean):
-    """
-    Calculate the global mean thermosteric sea level change with
+    """Calculate the global mean thermosteric sea level change with
     respect to a reference state.
 
     Parameters
@@ -1244,8 +1200,7 @@ def calc_zostoga(thetao, thkcello, areacello, zfullo_0, so_0, rho_0_mean, deptho
 
 
 def trop_o3col(o3mass):
-    """
-    This function will generate a 'Tropospheric Ozone Column' diagnostic.
+    """This function will generate a 'Tropospheric Ozone Column' diagnostic.
 
     Method:
      - Expected input is Ozone MMR x Tropmask x Airmass i.e.
@@ -1291,8 +1246,7 @@ def trop_o3col(o3mass):
 
 
 def mmr2molefrac(mass, incube, molmass, climatology='False'):
-    """
-    This function converts a 3-D (or 4-D) Mass-mixing-ratio cube to a global
+    """This function converts a 3-D (or 4-D) Mass-mixing-ratio cube to a global
     (and annual) mean molefraction
 
     Steps:
@@ -1340,8 +1294,7 @@ def mmr2molefrac(mass, incube, molmass, climatology='False'):
 
 
 def combine_sw_lw(swcube, lwcube, swmask=None, minval=None, maxval=None):
-    """
-    Combine cubes containing ShortWave and LongWave band (pseudo-levels)
+    """Combine cubes containing ShortWave and LongWave band (pseudo-levels)
     into a single cube with extended pslev dimension
 
     Parameters
@@ -1398,8 +1351,7 @@ def combine_sw_lw(swcube, lwcube, swmask=None, minval=None, maxval=None):
 
 
 def ocean_quasi_barotropic_streamfunc(cube, areacello, cube_mask=None):
-    """
-    Computes the quasi-barotropic streamfunction from the vertically integrated
+    """Computes the quasi-barotropic streamfunction from the vertically integrated
     zonal mass transport.
 
     Parameters
@@ -1448,8 +1400,7 @@ def ocean_quasi_barotropic_streamfunc(cube, areacello, cube_mask=None):
 
 
 def achem_emdrywet(mfac, incube, cube2d=None, sumlev=False, areadiv=False):
-    """
-    This function produces Aerosol and Chemistry emission, dry- and
+    """This function produces Aerosol and Chemistry emission, dry- and
     wet-deposition diagnostics via common operations on the input cube.
 
     The common operations required are a combination of:
@@ -1489,8 +1440,7 @@ def achem_emdrywet(mfac, incube, cube2d=None, sumlev=False, areadiv=False):
 
 
 def volcello(thkcello, areacello):
-    """
-    Return the ocean cell volume, product of thkcello (4D) and
+    """Return the ocean cell volume, product of thkcello (4D) and
     areacello (2D).
 
     Parameters
@@ -1512,8 +1462,7 @@ def volcello(thkcello, areacello):
 
 
 def combine_cubes_to_basin_coord(cube_global, cube_atl, cube_indpac, mask_global=None, mask_atl=None, mask_indpac=None):
-    """
-    Combine data for individual basins into a single cube with a basin dimension.
+    """Combine data for individual basins into a single cube with a basin dimension.
 
     Parameters
     ----------
@@ -1581,8 +1530,7 @@ def combine_cubes_to_basin_coord(cube_global, cube_atl, cube_indpac, mask_global
 
 
 def land_use_tile_mean(variable_cube, tile_fraction_cube):
-    """
-    Returns the cube of the mean variable_cube over the CMIP6 land use types.
+    """Returns the cube of the mean variable_cube over the CMIP6 land use types.
 
     Parameters
     ----------
@@ -1624,8 +1572,7 @@ def land_use_tile_mean(variable_cube, tile_fraction_cube):
 
 
 def land_use_tile_area(tile_fraction_cube, land_fraction_cube):
-    """
-    Returns cube of land cover fraction over the CMIP6 land use types.
+    """Returns cube of land cover fraction over the CMIP6 land use types.
 
     Parameters
     ----------
@@ -1662,8 +1609,7 @@ def land_use_tile_area(tile_fraction_cube, land_fraction_cube):
 
 
 def land_use_tile_mean_difference(tile_fraction1, tile_fraction2, land_fraction_cube):
-    """
-    Returns cube of land cover fraction over the CMIP6 land use types,
+    """Returns cube of land cover fraction over the CMIP6 land use types,
     based on difference between the first 2 cubes.
 
     Parameters
@@ -1687,8 +1633,7 @@ def land_use_tile_mean_difference(tile_fraction1, tile_fraction2, land_fraction_
 
 
 def divide_cubes(cube1, cube2):
-    """
-    Divide cube1 by cube2, ignoring any differing coordinates.
+    """Divide cube1 by cube2, ignoring any differing coordinates.
 
     Parameters
     ----------
@@ -1742,8 +1687,7 @@ def _deepcopy_cube_if_no_time_coord(cube):
 
 
 def divide_by_mask(cube, weights_cube):
-    """
-    Correct the tau pseudo level coordinate data in the supplied cube
+    """Correct the tau pseudo level coordinate data in the supplied cube
     and then divide by the weights cube.
 
     Parameters
@@ -1778,8 +1722,7 @@ def divide_by_mask(cube, weights_cube):
 
 
 def jpdftaure_divide_by_mask(cube, weights_cube):
-    """
-    Correct the tau pseudo level coordinate data in the supplied cube
+    """Correct the tau pseudo level coordinate data in the supplied cube
     and then divide by the weights cube. Also set the units of the
     "height" coordinate (really the "radius" axis) to "micron" and
     adds bounds. Note that the bounds values are hard coded into
@@ -1819,8 +1762,7 @@ def jpdftaure_divide_by_mask(cube, weights_cube):
 
 
 def fix_clmisr_height(cube, weights_cube):
-    """
-    Correct the height coordinate data to reflect the alt16 requested altitudes for
+    """Correct the height coordinate data to reflect the alt16 requested altitudes for
     the clmisr variables.
 
     Parameters
@@ -1851,8 +1793,7 @@ def fix_clmisr_height(cube, weights_cube):
 
 
 def _finalize_lut_cube(cube):
-    """
-    The data on Land Use Tiles needs some final processing:
+    """The data on Land Use Tiles needs some final processing:
     1) the tiles must be in a specific order
     2) all tiles must be pressent
     3) the tile names need to be added
@@ -1894,9 +1835,7 @@ def _finalize_lut_cube(cube):
 
 
 def _lut_area_type(coordinate, value):
-    """
-    Adds land use tile names as an auxiliary coordinate.
-    """
+    """Adds land use tile names as an auxiliary coordinate."""
     lookup = {
         0: "primary_and_secondary_land",
         1: "crops",
@@ -1908,8 +1847,7 @@ def _lut_area_type(coordinate, value):
 
 
 def _lut_categorisation(coordinate, value):
-    """
-    Reads in a UM/JULES tile ID and returns a CMIP6/LUMIP land use type number
+    """Reads in a UM/JULES tile ID and returns a CMIP6/LUMIP land use type number
     psl=natural=0, crp=crop=1, pst=pasture=2, urb=urban=3
 
     >>> _lut_categorisation(None, 1)
@@ -1948,8 +1886,7 @@ def _lut_categorisation(coordinate, value):
 
 
 def calc_fgdms(land_fraction, cube):
-    """
-    Calculate the ``fgdms`` diagnostic by masking out land grid points
+    """Calculate the ``fgdms`` diagnostic by masking out land grid points
     from Atmos-surface-DMS emissions. Uses the land_fraction
     field in a inverse manner i.e. masks where land_fraction == 1.
 
@@ -1984,8 +1921,7 @@ def calc_fgdms(land_fraction, cube):
 
 
 def remove_altitude_coords(cube):
-    """
-    Return a cube with the altitude-related coordinates removed.
+    """Return a cube with the altitude-related coordinates removed.
 
     This enables arithmetic to be performed between cubes, where one
     cube was created by selecting a single level from hybrid height
@@ -2017,8 +1953,7 @@ def remove_altitude_coords(cube):
 
 
 def mask_polar_column_zonal_means(cube_data, cube_heaviside):
-    """
-    Return a cube with the columns corresponding to the north and south
+    """Return a cube with the columns corresponding to the north and south
     poles masked out to avoid publishing erroneous data. This is only
     intended for the correction of zonal mean diagnostics
 
@@ -2066,8 +2001,7 @@ def mask_polar_column_zonal_means(cube_data, cube_heaviside):
 
 
 def hotspot(upward_lw_flux, olr_s3, olr_s2):
-    """
-    Returns a cube with adjusted time-mean GCM upward LW flux using the
+    """Returns a cube with adjusted time-mean GCM upward LW flux using the
     difference between the OLRs diagnosed by Sections 3 & 2.
 
     The "hotspot" code in the GCM surface scheme re-calculates the
@@ -2110,8 +2044,7 @@ def hotspot(upward_lw_flux, olr_s3, olr_s2):
 
 
 def correct_multilevel_metadata(cube):
-    """
-    Returns a cube with corrected level metadata for multi-level fluxes
+    """Returns a cube with corrected level metadata for multi-level fluxes
     between theta levels.
 
     Since New Dynamics was introduced STASH has given them metadata
@@ -2157,8 +2090,7 @@ def correct_multilevel_metadata(cube):
 
 
 def mask_vtem(cube_vtem, cube_heaviside):
-    """
-    Returns a cube with all data at and below 700 hPa masked out.
+    """Returns a cube with all data at and below 700 hPa masked out.
     Note that the vtem data is produced as a zonal mean, while the
     zonal meaning is done by STASH in the UM. They end up with
     slightly different scalar longitude coordinates, so some
@@ -2181,8 +2113,7 @@ def mask_vtem(cube_vtem, cube_heaviside):
 
 
 def zonal_apply_heaviside(cube, cube_heaviside):
-    """
-    Apply the Heaviside field to zonal mean variables after
+    """Apply the Heaviside field to zonal mean variables after
     fixing the longitude coordinate
 
     Parameters
@@ -2206,8 +2137,7 @@ def zonal_apply_heaviside(cube, cube_heaviside):
 
 
 def mean_diurnal_cycle(cube):
-    """
-    Calculates the monthly mean diurnal cycle. It averages all
+    """Calculates the monthly mean diurnal cycle. It averages all
     the fields within the same hour for each month. The output
     will contain 24 fields for each month.
 
@@ -2258,7 +2188,7 @@ def day_max(cube):
 
 
 def avg_from_hourly(cube, period_in_hours=3):
-    """Return the n-hour average of the cube """
+    """Return the n-hour average of the cube"""
 
     def _select_n_hourly_period(period_in_hours):
         def _function(coord, value):
@@ -2293,7 +2223,7 @@ def rotate_winds(cube_u, cube_v):
 
 
 def urot_calc(cube_u, cube_v):
-    """Calculate the u component with respect to the standard lon-lat system """
+    """Calculate the u component with respect to the standard lon-lat system"""
 
     cube_u_prime, cube_v_prime = rotate_winds(cube_u, cube_v)
 
@@ -2301,14 +2231,14 @@ def urot_calc(cube_u, cube_v):
 
 
 def vrot_calc(cube_u, cube_v):
-    """Calculate the v component with respect to the standard lon-lat system """
+    """Calculate the v component with respect to the standard lon-lat system"""
     cube_u_prime, cube_v_prime = rotate_winds(cube_u, cube_v)
 
     return cube_v_prime
 
 
 def urot_calc_extract_n_hourly(cube_u, cube_v, period_in_hours=6):
-    """Extract 6-hourly winds and calculate the u component with respect to the standard lon-lat system """
+    """Extract 6-hourly winds and calculate the u component with respect to the standard lon-lat system"""
 
     cube_u = extract_n_hourly(cube_u, period_in_hours)
     cube_v = extract_n_hourly(cube_v, period_in_hours)
@@ -2317,7 +2247,7 @@ def urot_calc_extract_n_hourly(cube_u, cube_v, period_in_hours=6):
 
 
 def vrot_calc_extract_n_hourly(cube_u, cube_v, period_in_hours=6):
-    """Extract 6-hourly winds and calculate the v component with respect to the standard lon-lat system """
+    """Extract 6-hourly winds and calculate the v component with respect to the standard lon-lat system"""
 
     cube_u = extract_n_hourly(cube_u, period_in_hours)
     cube_v = extract_n_hourly(cube_v, period_in_hours)
@@ -2367,7 +2297,8 @@ def calculate_thkcello_weights(cube):
 
 def annual_from_monthly_3d(cube, thkcello):
     """Calculates annual mean from a three-dimensional cube with monthly data. Requires a corresponding thickcello
-    cube to take into account changing thickness of the ocean column."""
+    cube to take into account changing thickness of the ocean column.
+    """
     check_data_is_monthly(cube)
     iris.coord_categorisation.add_year(cube, 'time')
     weights = calculate_thkcello_weights(thkcello)
@@ -2377,7 +2308,8 @@ def annual_from_monthly_3d(cube, thkcello):
 
 def annual_from_monthly_3d_masked(cube, mask, thkcello):
     """Calculates annual mean from a three-dimensional cube with monthly data. Requires a corresponding thickcello
-    cube to take into account changing thickness of the ocean column."""
+    cube to take into account changing thickness of the ocean column.
+    """
     check_data_is_monthly(cube)
     iris.coord_categorisation.add_year(cube, 'time')
     weights = calculate_thkcello_weights(thkcello)

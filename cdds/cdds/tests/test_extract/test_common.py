@@ -2,9 +2,7 @@
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 
-"""
-Tests for common utility functions in the extract module
-"""
+"""Tests for common utility functions in the extract module"""
 import os
 import shutil
 import unittest

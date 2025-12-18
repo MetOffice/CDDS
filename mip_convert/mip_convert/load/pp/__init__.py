@@ -1,14 +1,11 @@
 # (C) British Crown Copyright 2015-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`pp` module contains code related to PP |model output files|.
-"""
+"""The :mod:`pp` module contains code related to PP |model output files|."""
 from iris.fileformats.pp import STASH
 
 
 def stash_to_int(stash_string):
-    """
-    Return the integer form of the |STASH code|.
+    """Return the integer form of the |STASH code|.
 
     Parameters
     ----------
@@ -17,7 +14,7 @@ def stash_to_int(stash_string):
 
     Returns
     -------
-    : int
+    int
         The integer form of the |STASH code|.
     """
     stash_int = None

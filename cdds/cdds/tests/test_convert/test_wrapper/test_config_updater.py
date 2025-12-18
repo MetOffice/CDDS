@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Tests of mip_convert_wrapper.config_updater
-"""
+"""Tests of mip_convert_wrapper.config_updater"""
 import unittest
 
 from metomi.isodatetime.data import Calendar
@@ -11,9 +9,7 @@ from cdds.convert.mip_convert_wrapper.config_updater import calculate_mip_conver
 
 
 class TestCalculateBounds(unittest.TestCase):
-    """
-    Tests of calculate_mip_convert_run_bounds.
-    """
+    """Tests of calculate_mip_convert_run_bounds."""
     def tearDown(self):
         Calendar.default().set_mode('360day')
 

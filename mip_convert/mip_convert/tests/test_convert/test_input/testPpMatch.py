@@ -24,8 +24,7 @@ class TestPpMatch(unittest.TestCase):
         self.stash = from_header(self.header1)
 
     def incrAttrToDifferent(self, attribute):
-        """
-        increment the value in attribute attr, simply to make it
+        """increment the value in attribute attr, simply to make it
         a different value during match
         """
         setattr(self.header2, attribute, getattr(self.header2, attribute) + 1)

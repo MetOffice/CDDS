@@ -29,8 +29,7 @@ QC_LOG_NAME = 'cdds_qc'
 
 
 def main_quality_control(arguments=None):
-    """
-    Check whether the |output netCDF files| conform to the WGCM CMIP
+    """Check whether the |output netCDF files| conform to the WGCM CMIP
     standards.
 
     Parameters
@@ -66,8 +65,7 @@ def main_quality_control(arguments=None):
 
 
 def parse_args(arguments: List[str]) -> Tuple[Namespace, Request]:
-    """
-    Return the names of the command line arguments for ``qc_run_and_report`` and their validated values.
+    """Return the names of the command line arguments for ``qc_run_and_report`` and their validated values.
 
     If this function is called from the Python interpreter with ``arguments`` that contains any of the
     ``--version``, ``-h`` or ``--help`` options, the Python interpreter will be terminated.
@@ -75,10 +73,15 @@ def parse_args(arguments: List[str]) -> Tuple[Namespace, Request]:
     The output from this function can be used as the value of the ``arguments`` parameter in the call to
     :func:`cdds_qc.command_line.main_qc_run_and_report`.
 
-    :param arguments: The command line arguments to be parsed.
-    :type arguments: List[str]
-    :return: The names of the command line arguments and the request object
-    :rtype: Tuple[Namespace, Request]
+    Parameters
+    ----------
+    arguments : List[str]
+        The command line arguments to be parsed.
+
+    Returns
+    -------
+    Tuple[Namespace, Request]
+        The names of the command line arguments and the request object
     """
     user_arguments = arguments
     parser = argparse.ArgumentParser(
@@ -121,15 +124,19 @@ def parse_args(arguments: List[str]) -> Tuple[Namespace, Request]:
 
 
 def run_and_report(args: Namespace, request: Request) -> dict:  # TODO: kerstin correct return type hint
-    """
-    Check whether the |output netCDF files| conform to the WGCM CMIP standards.
+    """Check whether the |output netCDF files| conform to the WGCM CMIP standards.
 
-    :param args: The names of the command line arguments and their validated values.
-    :type args: Namespace
-    :param request: The |Request| cfg file.
-    :type request: Request
-    :return: QC json report
-    :rtype: dict
+    Parameters
+    ----------
+    args : Namespace
+        The names of the command line arguments and their validated values.
+    request : Request
+        The |Request| cfg file.
+
+    Returns
+    -------
+    dict
+        QC json report
     """
     logger = logging.getLogger()
     output_dir = component_directory(request, 'qualitycheck') if request.misc.use_proc_dir else args.output_dir

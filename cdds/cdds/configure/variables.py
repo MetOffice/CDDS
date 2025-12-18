@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-The :mod:`variables` module contains the code required to determine the
+"""The :mod:`variables` module contains the code required to determine the
 |MIP requested variables| for the request.
 """
 from collections import defaultdict
@@ -18,8 +17,7 @@ from typing import Mapping
 def retrieve_variables_by_grid(
     requested_variables: RequestedVariablesList, mip_table_directory: str
 ) -> Mapping[tuple[str, ...], Mapping[str, Mapping[str, str]]]:
-    """
-    Return the |MIP requested variables| by grid.
+    """Return the |MIP requested variables| by grid.
 
     The |MIP requested variables| are returned as a dictionary, where
     the key is the grid and the value is a nested dictionary that can
@@ -38,7 +36,7 @@ def retrieve_variables_by_grid(
 
     Returns
     -------
-    : dict
+    dict
         The |MIP requested variables| by grid.
     """
     # Retrieve the logger.
@@ -78,8 +76,7 @@ def retrieve_variables_by_grid(
 
 
 def identify_mip_table_name(mip_era, mip_table_directory, mip_table_id, prefix=''):
-    """
-    Identify whether the MIP being used is a generic table (named MIP_XXX.json)
+    """Identify whether the MIP being used is a generic table (named MIP_XXX.json)
     or a specific one (named <MIP_ERA>_XXX.json) and return the corresponding file name
 
     Parameters
@@ -93,7 +90,7 @@ def identify_mip_table_name(mip_era, mip_table_directory, mip_table_id, prefix='
 
     Returns
     -------
-    : str
+    str
         MIP table name
 
     Raises
@@ -123,8 +120,7 @@ def identify_mip_table_name(mip_era, mip_table_directory, mip_table_id, prefix='
 
 
 def retrieve_streams_by_grid(requested_variables):
-    """
-    Returns the streams in the |MIP requested variables|.
+    """Returns the streams in the |MIP requested variables|.
 
     Parameters
     ----------
@@ -133,7 +129,7 @@ def retrieve_streams_by_grid(requested_variables):
 
     Returns
     -------
-    : list
+    list
         Streams in the |MIP requested variables|
     """
     streams = []

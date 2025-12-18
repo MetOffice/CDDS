@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
-"""
-Module to handle the conversion section in the request configuration
-"""
+"""Module to handle the conversion section in the request configuration"""
 from configparser import ConfigParser
 from dataclasses import dataclass, asdict, field
 from typing import Dict, List, Any
@@ -15,12 +13,13 @@ from cdds.common.request.validations.pre_validations import do_pre_validations
 
 
 def conversion_defaults() -> Dict[str, Any]:
-    """
-    Calculates the defaults for the conversion section of
+    """Calculates the defaults for the conversion section of
     the request configuration.
 
-    :return: The defaults for the conversion section
-    :rtype: Dict[str, Any]
+    Returns
+    -------
+    Dict[str, Any]
+        The defaults for the conversion section
     """
     facility = whereami()
 
@@ -52,9 +51,7 @@ def conversion_defaults() -> Dict[str, Any]:
 
 @dataclass
 class ConversionSection(Section):
-    """
-    Represents the conversion section in the request configuration
-    """
+    """Represents the conversion section in the request configuration"""
     skip_extract: bool = False
     skip_extract_validation: bool = False
     skip_configure: bool = False
@@ -76,33 +73,39 @@ class ConversionSection(Section):
 
     @classmethod
     def name(cls) -> str:
-        """
-        Name of the conversion section that is used in the request configuration file.
+        """Name of the conversion section that is used in the request configuration file.
 
-        :return: Name that is also used in the configuration file
-        :rtype: str
+        Returns
+        -------
+        str
+            Name that is also used in the configuration file
         """
         return 'conversion'
 
     @property
     def items(self) -> Dict[str, Any]:
-        """
-        Returns all items of the conversion section as a dictionary.
+        """Returns all items of the conversion section as a dictionary.
 
-        :return: Items as dictionary
-        :rtype: Dict[str, Any]
+        Returns
+        -------
+        Dict[str, Any]
+            Items as dictionary
         """
         return asdict(self)
 
     @staticmethod
     def from_config(config: ConfigParser) -> 'ConversionSection':
-        """
-        Loads the conversion section of a request configuration.
+        """Loads the conversion section of a request configuration.
 
-        :param config: Parser for the request configuration
-        :type config: ConfigParser
-        :return: New conversion section
-        :rtype: ConversionSection
+        Parameters
+        ----------
+        config : ConfigParser
+            Parser for the request configuration
+
+        Returns
+        -------
+        ConversionSection
+            New conversion section
         """
         values = conversion_defaults()
         section_name = ConversionSection.name()
@@ -122,25 +125,30 @@ class ConversionSection(Section):
 
     @staticmethod
     def from_rose_suite_info(suite_info: RoseSuiteInfo, arguments: RoseSuiteArguments) -> 'ConversionSection':
-        """
-        Loads the conversion section of a rose-suite.info.
+        """Loads the conversion section of a rose-suite.info.
 
-        :param suite_info: The rose-suite.info to be loaded
-        :type suite_info: RoseSuiteInfo
-        :param arguments: Additional arguments to be considered
-        :type arguments: RoseSuiteArguments
-        :return: New conversion section
-        :rtype: ConversionSection
+        Parameters
+        ----------
+        suite_info : RoseSuiteInfo
+            The rose-suite.info to be loaded
+        arguments : RoseSuiteArguments
+            Additional arguments to be considered
+
+        Returns
+        -------
+        ConversionSection
+            New conversion section
         """
         defaults = conversion_defaults()
         return ConversionSection(**defaults)
 
     def add_to_config(self, config: ConfigParser) -> None:
-        """
-        Adds values defined by the conversion section to given configuration.
+        """Adds values defined by the conversion section to given configuration.
 
-        :param config: Configuration where values should add to
-        :type config: ConfigParser
+        Parameters
+        ----------
+        config : ConfigParser
+            Configuration where values should add to
         """
         defaults = conversion_defaults()
         self._add_to_config_section(config, ConversionSection.name(), defaults)

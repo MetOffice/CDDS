@@ -11,9 +11,7 @@ from cdds.common import construct_string_from_facet_string
 
 @dataclass
 class SetupConfig:
-    """
-    Store information that is needed to generate the variable list.
-    """
+    """Store information that is needed to generate the variable list."""
     test_base_dir: str = None
     request_cfg: str = None
     package: str = None

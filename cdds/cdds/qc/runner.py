@@ -50,8 +50,7 @@ class QCRunner(object):
         self.logger = logging.getLogger(__name__)
 
     def init_suite(self, check_suite, dataset, relaxed_cmor=False):
-        """
-        Configures IOOS QC checker and prepares a dataset to be checked
+        """Configures IOOS QC checker and prepares a dataset to be checked
 
         Parameters
         ----------
@@ -72,8 +71,7 @@ class QCRunner(object):
         self.dataset = dataset
 
     def get_checks(self, checker_name):
-        """
-        A helper method listing all avaiable and loaded checks
+        """A helper method listing all avaiable and loaded checks
 
         Parameters
         ----------
@@ -82,7 +80,7 @@ class QCRunner(object):
 
         Returns
         -------
-        : list
+        list
             A list of checker methods
         """
 
@@ -95,8 +93,7 @@ class QCRunner(object):
         return [x[0] for x in methods if x[0].startswith("check_")]
 
     def run_tests(self, mip_tables_dir, request, run_id=None):
-        """
-        Runs all ioos and ad-hoc checks
+        """Runs all ioos and ad-hoc checks
 
         Parameters
         ----------
@@ -110,7 +107,7 @@ class QCRunner(object):
 
         Returns
         -------
-        : int
+        int
             Run id of the test.
         """
         plugin = PluginStore.instance().get_plugin()
@@ -260,8 +257,7 @@ class QCRunner(object):
 
     def generate_report(self, run_id, location="", process_all=False,
                         with_details=False):
-        """
-        Generates a json report for a given run_id
+        """Generates a json report for a given run_id
 
         Parameters
         ----------
@@ -270,9 +266,9 @@ class QCRunner(object):
             runs
         location: str
             Where to save the report
-        process_all: boolean
+        process_all: bool
             If True, the report won't ignore some dubious CF warnings
-        with_details: boolean
+        with_details: bool
             If True, the report will include the "details section"
         """
         datetime_suffix = str(
@@ -324,8 +320,7 @@ class QCRunner(object):
         return output
 
     def _get_error_details(self, cursor, run_id, process_all):
-        """
-        Retrieves and processes error messages
+        """Retrieves and processes error messages
 
         Parameters
         ----------
@@ -338,7 +333,7 @@ class QCRunner(object):
 
         Returns
         -------
-            : list
+        list
             List containing error messages and other meta data
         """
         output = []
@@ -367,8 +362,7 @@ class QCRunner(object):
         return output
 
     def _get_error_summary(self, cursor, run_id):
-        """
-        Retrieves and processes error summaries
+        """Retrieves and processes error summaries
 
         Parameters
         ----------
@@ -379,7 +373,7 @@ class QCRunner(object):
 
         Returns
         -------
-            : list
+        list
             List containing error statistics
         """
         output = []
@@ -394,8 +388,7 @@ class QCRunner(object):
         return output
 
     def _get_aggregated_errors(self, cursor, run_id, process_all):
-        """
-        Retrieves and processes aggregated errors
+        """Retrieves and processes aggregated errors
 
         Parameters
         ----------
@@ -408,7 +401,7 @@ class QCRunner(object):
 
         Returns
         -------
-            : list
+        list
             List containing aggregated errors
         """
 
@@ -426,8 +419,7 @@ class QCRunner(object):
         return output
 
     def _process_children(self, elem):
-        """
-        Flattens a message tuple
+        """Flattens a message tuple
 
         Parameters
         ----------
@@ -435,7 +427,7 @@ class QCRunner(object):
             A tuple with QC results
 
         Returns
-        : list
+        list
             A flattened list with error messages
         -------
         """
@@ -452,8 +444,7 @@ class QCRunner(object):
         return errors
 
     def _parse_and_log(self, cursor, result, qc_dataset_id):
-        """
-        Parses a result instance returned by the QC checker and saves it
+        """Parses a result instance returned by the QC checker and saves it
         in the database
 
         Parameters
@@ -467,7 +458,7 @@ class QCRunner(object):
 
         Returns
         -------
-        : boolean
+        bool
             True if the run was a success, i.e. the checked dataset was
             validated, and there were no other errors raised when running
             QC checks.
@@ -511,8 +502,7 @@ class QCRunner(object):
         return errors
 
     def _process_errors(self, message):
-        """
-        An ugly metod evaluate error messages and discard/downgrade those
+        """An ugly metod evaluate error messages and discard/downgrade those
         we don't really care about
         e.g. things that are too difficult to implement in the qc module
 
@@ -522,7 +512,7 @@ class QCRunner(object):
             QC message to be evaluated
         Returns
         -------
-        : bool
+        bool
             True if the message is to be included in the QC results
         """
         if any([m in message for m in list(self.get_ignored_messages().keys())]):
@@ -531,13 +521,12 @@ class QCRunner(object):
         return True
 
     def get_ignored_messages(self):
-        """
-        A dictionary containing strings of error messages to ignore along with
+        """A dictionary containing strings of error messages to ignore along with
         the reason
 
         Returns
         -------
-        : dict
+        dict
             A dictionary with message strings as keys
         """
         msg_dictionary = {
@@ -571,7 +560,19 @@ class QCRunner(object):
                 "non-mandatory"),
             "longitude variable 'vertices_longitude' should define standard_name='longitude' or axis='X'": (
                 "non-mandatory"),
-            "7.1 Cell Boundaries: Boundary variable": "Ignored because of buggy scalar variable implementation",
-            "does not match a dimension, area or auxiliary coordinate": "does not work for collapsed coords, see #2548"
+            "7.1 Cell Boundaries: Boundary variable": (
+                "Ignored because of buggy scalar variable implementation"),
+            "does not match a dimension, area or auxiliary coordinate": (
+                "does not work for collapsed coords, see #2548"),
+            "7.1 Cell Boundaries: The Boundary variables": (
+                "Cell boundary variable attributes were acceptable in CMIP6."),
+            "2.6.3 External Variables: Global attribute external_variables should "
+            "not have any variable names which are present in the dataset.": (
+                "Cmip6 anomaly. Self referencing variable in cell measures. Should only affect volcello."),
+            "7.1 Cell Boundaries: 'lev_bnds'": (
+                "Misinterpretation of hybrid height coordinates."),
+            "7.1 Cell Boundaries: The points specified by the coordinate variable lat"
+            " (0.0) lie outside the boundary of the cell specified by the associated boundary variable lat_bnds": (
+                "This must be an error in checker.")
         }
         return msg_dictionary

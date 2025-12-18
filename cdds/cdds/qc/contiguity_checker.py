@@ -2,9 +2,7 @@
 # Please see LICENSE.md for license details.
 
 
-"""
-Contiguity checker.
-"""
+"""Contiguity checker."""
 from collections import defaultdict
 from typing import DefaultDict, List, Dict, TYPE_CHECKING
 
@@ -23,17 +21,14 @@ class CollectionsCheck(object):
     supported_ds = [Cmip6Dataset, CordexDataset]
 
     def __init__(self, request: "Request"):
-        """
-        A constructor.
-        """
+        """A constructor."""
         self.request = request
         self.calendar_calculator = DatetimeCalculator(
             self.request.metadata.calendar, self.request.metadata.base_date)
         self.results: DefaultDict[str, List[Dict[str, str]]] = defaultdict(list)
 
     def perform_checks(self, ds):
-        """
-        Runs tests on a provided dataset.
+        """Runs tests on a provided dataset.
 
         Parameters
         ----------
@@ -42,7 +37,7 @@ class CollectionsCheck(object):
 
         Returns
         -------
-        : tuple
+        tuple
             Result of the tests.
         """
         if type(ds) not in self.supported_ds:
@@ -51,8 +46,7 @@ class CollectionsCheck(object):
         return self.check_time_contiguity(ds)
 
     def check_time_contiguity(self, ds):
-        """
-        Runs internal and external time contiguity checks.
+        """Runs internal and external time contiguity checks.
 
         Parameters
         ----------
@@ -61,7 +55,7 @@ class CollectionsCheck(object):
 
         Returns
         -------
-        : tuple
+        tuple
             Result of the tests.
         """
         aggregated = ds.get_aggregated_files(False)
@@ -75,8 +69,7 @@ class CollectionsCheck(object):
         return "Time contiguity check", self.results
 
     def check_diurnal_climatology(self, time_dim, time_bnds):
-        """
-        1-hourly climatologies are calculated in 24-hourly cycles, with one value per month.
+        """1-hourly climatologies are calculated in 24-hourly cycles, with one value per month.
         Time coordinate corresponds to the hour (fractional day) of the 14th or 15th day of the month.
         Time bounds correspond to the beginning and end of each month, shifted by N hours, i.e.
         1st day of the month 00:00 - last day of the month 01:00.
@@ -92,7 +85,7 @@ class CollectionsCheck(object):
             Time bounds coordinate.
         Returns
         -------
-        : None|string
+        None|string
             Error message.
         """
         msg = None
@@ -138,8 +131,7 @@ class CollectionsCheck(object):
         return msg
 
     def check_contiguity(self, var_key, time_axis, time_bounds, frequency, run_start, run_end):
-        """
-        Consolidated time contiguity check.
+        """Consolidated time contiguity check.
 
         Parameters
         ----------
@@ -149,7 +141,7 @@ class CollectionsCheck(object):
             Time bounds coordinate.
         Returns
         -------
-        : None|string
+        None|string
             Error message.
         """
 
@@ -254,8 +246,7 @@ class CollectionsCheck(object):
         return start_error or end_error or start_bound_error or end_bound_error, offset_adjustment
 
     def add_message(self, filepath, var_key, message):
-        """
-        Helper function populating internal error message dictionary.
+        """Helper function populating internal error message dictionary.
         Parameters
         ----------
         filepath: str
