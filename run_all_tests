@@ -89,6 +89,19 @@ def check_ruff_compliance(start: float, exit_code: int):
         sad_face = u'\U0001F627'
         print('{} {}'.format(_red('Some tests failed.'), sad_face))
 
+
+def main():
+    """Run all the tests in the CDDS packages."""
+    exit_code = 0
+    arguments = parse_arguments()
+    start = timer()
+    print('Using $SCRATCH ({}) for temporary large volume storage'.format(os.environ['SCRATCH']))
+    # not yet implemented on Azure
+    # print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH']+"/testdata")))
+
+    print('Running ruff')
+    check_ruff_compliance(start, exit_code)
+
     for package, tests in TESTS_TO_RUN.items():
         print('\nExecuting tests for {}:'.format(package))
         for test in tests:
@@ -132,19 +145,6 @@ def check_ruff_compliance(start: float, exit_code: int):
     else:
         sad_face = u'\U0001F627'
         print('{} {}'.format(_red('Some tests failed.'), sad_face))
-
-
-def main():
-    """Run all the tests in the CDDS packages."""
-    exit_code = 0
-    arguments = parse_arguments()
-    start = timer()
-    print('Using $SCRATCH ({}) for temporary large volume storage'.format(os.environ['SCRATCH']))
-    # not yet implemented on Azure
-    # print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH']+"/testdata")))
-
-    print('Running ruff')
-    check_ruff_compliance(start, exit_code)
 
     print('Running mypy')
     command = [os.path.join(CDDS_DIR, 'run_mypy')]
