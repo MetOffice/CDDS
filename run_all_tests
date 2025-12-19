@@ -50,16 +50,17 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def main():
-    """Run all the tests in the CDDS packages."""
-    exit_code = 0
-    arguments = parse_arguments()
-    start = timer()
-    print('Using $SCRATCH ({}) for temporary large volume storage'.format(os.environ['SCRATCH']))
-    # not yet implemented on Azure
-    # print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH']+"/testdata")))
+def check_ruff_compliance(start: float, exit_code: int):
+    """Runs 'ruff check' to verify code quality against the rules defined in ruff.toml (replaces the need for
+    pycodestyle checks).
 
-    print('Running ruff')
+    Parameters
+    ----------
+    start: float
+        The start time of the process.
+    exit_code: int
+        The exit code.
+    """
     command = ['ruff', 'check']
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdoutdata, stderrdata = process.communicate()
@@ -131,6 +132,19 @@ def main():
     else:
         sad_face = u'\U0001F627'
         print('{} {}'.format(_red('Some tests failed.'), sad_face))
+
+
+def main():
+    """Run all the tests in the CDDS packages."""
+    exit_code = 0
+    arguments = parse_arguments()
+    start = timer()
+    print('Using $SCRATCH ({}) for temporary large volume storage'.format(os.environ['SCRATCH']))
+    # not yet implemented on Azure
+    # print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH']+"/testdata")))
+
+    print('Running ruff')
+    check_ruff_compliance(start, exit_code)
 
     print('Running mypy')
     command = [os.path.join(CDDS_DIR, 'run_mypy')]
