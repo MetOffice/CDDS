@@ -1,0 +1,11 @@
+# Set the maximum line length to 120.
+line-length = 120
+
+[lint]
+select = [
+    #pycodestyle
+    "E",
+    "W",
+]
+ignore = []
+preview = true

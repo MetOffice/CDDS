@@ -13,7 +13,7 @@ from cdds.common.io import read_json
 class CsvPrinter(object):
     """Pretty print data into a CSV sheet"""
 
-    def __init__(self, header,  csv_delimiter):
+    def __init__(self, header, csv_delimiter):
         self._sheet = CsvSheet(header, delimiter=csv_delimiter)
 
     def pretty_print_to_file(self, input_file, output_file):

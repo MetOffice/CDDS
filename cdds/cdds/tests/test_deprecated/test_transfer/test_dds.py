@@ -336,7 +336,7 @@ class TestMooseMove(unittest.TestCase):
             call(coll.get_drs_facet_builder(self.ds_id, "foo"),
                  expected_new[0], self.available),
             call(coll.get_drs_facet_builder(self.ds_id, "tas"),
-                 expected_new[1],   self.available)]
+                 expected_new[1], self.available)]
         mock_move_atom = util.create_patch(
             self, "cdds.deprecated.transfer.dds.DataTransfer._move_atom")
 

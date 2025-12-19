@@ -205,7 +205,7 @@ class TestMain(unittest.TestCase):
     def _main(self, use_proc_dir, template):
         # Use '--quiet' to ensure no log messages are printed to screen.
         args = [self.request_path, '--requested_variables_list_file',
-                self.requested_variables_list_path,  '--output_dir', self.output_dir_for_ucf,]
+                self.requested_variables_list_path, '--output_dir', self.output_dir_for_ucf,]
         self._construct_log_path()
         exit_code = main(args)
         return exit_code

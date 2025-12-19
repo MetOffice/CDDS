@@ -20,7 +20,7 @@ from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
 from cdds.extract.constants import MOOSE_CALL_LIMIT
 from cdds.extract.common import (check_moo_cmd, chunk_by_files_and_tapes, fetch_filelist_from_mass, get_streamtype,
-                                 get_stash, get_tape_limit, run_moo_cmd,  condense_constraints)
+                                 get_stash, get_tape_limit, run_moo_cmd, condense_constraints)
 from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES, STREAMTYPE_PP, STREAMTYPE_NC
 
 

@@ -223,7 +223,7 @@ class ModelToMip(object):
                     for name, value in correct_values.items():
                         # Constraint and fix are the same type, but
                         # different values.
-                        if (type(constraint[name]) == type(value) and
+                        if (type(constraint[name]) is type(value) and
                                 constraint[name] != value):
                             fix_required = False
                         # Constraint is list, but value is scalar

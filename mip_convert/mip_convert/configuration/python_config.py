@@ -230,7 +230,7 @@ class PythonConfig(AbstractConfig):
                     if vtype == 'multiple':
                         value = self._multiple_values(section, option, ptype)
                     elif vtype == 'single':
-                        if ptype == bool:
+                        if ptype is bool:
                             value = self.config.getboolean(section, option)
                         else:
                             value = self.value(section, option, ptype)

@@ -518,7 +518,7 @@ def areacella(cube):
     def _lat_lon_dim_coords(cube):
         coord_names = ['latitude', 'longitude']
         for icoord, coord in enumerate(cube.coords(dim_coords=True)):
-            if not coord_names[icoord] in coord.name():
+            if coord_names[icoord] not in coord.name():
                 message = 'areacella assumes a 2D cube ordered latitude, longitude'
                 raise ValueError(message)
 

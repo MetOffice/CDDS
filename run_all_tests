@@ -50,6 +50,46 @@ def parse_arguments():
     return parser.parse_args()
 
 
+def check_ruff_compliance(start: float, exit_code: int):
+    """Runs 'ruff check' to verify code quality against the rules defined in ruff.toml (replaces the need for
+    pycodestyle checks).
+
+    Parameters
+    ----------
+    start: float
+        The start time of the process.
+    exit_code: int
+        The exit code.
+    """
+    command = ['ruff', 'check']
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdoutdata, stderrdata = process.communicate()
+    if process.returncode == 0:
+        info = stdoutdata.decode('utf-8').split('\n')
+        msg = info[-2].replace('=', '').strip()
+        print(_green('{} success! [{}]'.format(' ' * 3, msg)))
+    else:
+        exit_code = 1
+        print(_red('{} failed!\n!!! Please see "{}" for more details'.format(' ' * 3, LOG_NAME)))
+        current_date = datetime.datetime.now()
+        msg = '{}: {}: {}\n\n'.format(current_date, 'ruff', command)
+        with open(LOG_NAME, 'a') as file_handle:
+            file_handle.write(msg)
+            file_handle.write(stdoutdata.decode('utf-8'))
+            file_handle.write(stderrdata.decode('utf-8'))
+            file_handle.write('\n')
+    end = timer()
+    elapsed_time = timedelta(seconds=end - start)
+    print('\n{}'.format('+' * 46))
+    print('Elapsed time: {}'.format(elapsed_time))
+    if exit_code == 0:
+        smiling_face = u'\U0001f604'
+        print('{} {}'.format(_green('All tests succeed.'), smiling_face))
+    else:
+        sad_face = u'\U0001F627'
+        print('{} {}'.format(_red('Some tests failed.'), sad_face))
+
+
 def main():
     """Run all the tests in the CDDS packages."""
     exit_code = 0
@@ -58,6 +98,10 @@ def main():
     print('Using $SCRATCH ({}) for temporary large volume storage'.format(os.environ['SCRATCH']))
     # not yet implemented on Azure
     # print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH']+"/testdata")))
+
+    print('Running ruff')
+    check_ruff_compliance(start, exit_code)
+
     for package, tests in TESTS_TO_RUN.items():
         print('\nExecuting tests for {}:'.format(package))
         for test in tests:
@@ -101,7 +145,7 @@ def main():
     else:
         sad_face = u'\U0001F627'
         print('{} {}'.format(_red('Some tests failed.'), sad_face))
-    
+
     print('Running mypy')
     command = [os.path.join(CDDS_DIR, 'run_mypy')]
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

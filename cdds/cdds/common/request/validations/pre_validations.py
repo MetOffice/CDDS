@@ -45,13 +45,13 @@ def do_pre_validations(config: ConfigParser, section: Type[Section]) -> None:
             raise ValueError(error_message)
 
         type_hint = resolved_field_types[key]
-        if type_hint == TimePoint:
+        if type_hint is TimePoint:
             validate_time_point(value, key, section.name())
-        elif type_hint == bool:
+        elif type_hint is bool:
             validate_bool(value, key, section.name())
-        elif type_hint == int:
+        elif type_hint is int:
             validate_number(value, key, section.name())
-        elif type_hint == float:
+        elif type_hint is float:
             validate_float(value, key, section.name())
 
 
