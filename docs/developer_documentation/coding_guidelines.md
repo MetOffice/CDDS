@@ -50,7 +50,7 @@
     throughout the `CDDS` code.
 
 - Docstrings should now be written using [NumPy](https://numpy.org/doc/1.19/docs/howto_document.html).
-- A detailed example of the Numpy style docstrings can be found [here](https://numpy.org/doc/1.19/docs/howto_document.html)
+- A detailed example of NumPy style docstrings can be found [here](https://numpy.org/doc/1.19/docs/howto_document.html)
     - Use double backticks `` around argument names 
     - Use the appropriate substitutions for glossary terms.
     - Make use of the [docstring conventions](http://www.python.org/dev/peps/pep-0257).
