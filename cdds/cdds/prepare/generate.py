@@ -39,7 +39,7 @@ def get_requested_variables(request: Request):
     Parameters
     ----------
     request: Request
-        The request information
+        The request information.
 
     Returns
     -------
