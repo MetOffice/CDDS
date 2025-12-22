@@ -33,6 +33,35 @@ from cdds.prepare.mapping_status import MappingStatus
 from cdds.prepare.user_variable import UserDefinedVariable, parse_variable_list
 
 
+def get_requested_variables(request: Request):
+    """Collects a valid list of variables and filters out all comments and blank lines.
+
+    Parameters
+    ----------
+    request: Request
+        The request information
+
+    Returns
+    -------
+    list[str]
+        A cleaned list of request variables.
+    """
+    requested_variables = []
+
+    with open(request.data.variable_list_file, "r") as fh:
+        for variable in fh.readlines():
+            # Remove all trailing comments.
+            if "#" in variable:
+                variable = variable.split("#")[0]
+            variable = variable.strip()
+
+            # Filter out any blank lines or comments.
+            if variable and not variable.startswith("#"):
+                requested_variables.append(variable)
+
+    return requested_variables
+
+
 def generate_variable_list(arguments: Namespace) -> int:
     """
     Generate the |requested variables list|.
@@ -67,8 +96,7 @@ def generate_variable_list(arguments: Namespace) -> int:
 
     cmip_tables = UserMipTables(request.common.mip_table_dir)
 
-    with open(request.data.variable_list_file, "r") as fh:
-        requested_variables = [line.strip() for line in fh.readlines()]
+    requested_variables = get_requested_variables(request)
 
     user_requested_variables = parse_variable_list(cmip_tables, requested_variables)
 
