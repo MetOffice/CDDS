@@ -44,7 +44,6 @@ dependencies:
   - scipy=1.15.2
   - sphinx=4.2.0
   - pip:
-    - dreqpy==1.0.29
     - mkdocs-section-index==0.3.8
 #    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=cdds
 #    - git+ssh://git@github.com-deploy/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
