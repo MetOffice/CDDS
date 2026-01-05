@@ -20,7 +20,7 @@ from iris.coord_categorisation import (add_categorised_coord, add_hour,
                                        add_month_number, add_year,
                                        add_day_of_month, add_hour)
 from iris.exceptions import CoordinateNotFoundError
-from iris.util import equalise_attributes, guess_coord_axis, new_axis
+from iris.util import equalise_attributes, guess_coord_axis, new_axis, is_masked
 
 from mip_convert.common import guess_bounds_if_needed
 from mip_convert.constants import (JPDFTAUREICEMODIS_POINTS, JPDFTAUREICEMODIS_BOUNDS,
@@ -2371,7 +2371,7 @@ def calc_slthick(soil_cube, frac_cube, ice_class=None):
         slthick_data[:, ice_mask] = 0.0
 
     # Copy the land/sea mask from the source cube to the new array.
-    if not iris.util.is_masked(soil_cube) or not iris.util.is_masked(soil_cube.data):
+    if not is_masked(soil_cube.data):
         logger.warning("The soil cube is not masked, any land/sea masks will not be copied to the new array.")
     else:
         slthick_data.mask = soil_cube.data.mask

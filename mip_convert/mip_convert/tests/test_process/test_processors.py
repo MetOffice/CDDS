@@ -16,13 +16,10 @@ from iris.cube import Cube
 import numpy as np
 
 from mip_convert.plugins.base.data.processors import (
-    area_mean, areacella, calc_rho_mean, calc_zostoga,
-    combine_cubes_to_basin_coord, eos_insitu, fix_clmisr_height,
-    land_class_area, land_class_mean, level_sum, mask_copy,
-    mask_zeros, mask_polar_column_zonal_means,
-    mon_mean_from_day,
-    ocean_quasi_barotropic_streamfunc, tile_ids_for_class, volcello, vortmean,
-    annual_from_monthly_2d, annual_from_monthly_3d, calculate_thkcello_weights, check_data_is_monthly)
+    area_mean, areacella, calc_rho_mean, calc_zostoga, combine_cubes_to_basin_coord, eos_insitu, fix_clmisr_height,
+    land_class_area, land_class_mean, level_sum, mask_copy, mask_zeros, mask_polar_column_zonal_means,
+    mon_mean_from_day, ocean_quasi_barotropic_streamfunc, tile_ids_for_class, volcello, vortmean,
+    annual_from_monthly_2d, annual_from_monthly_3d, calculate_thkcello_weights, check_data_is_monthly, calc_slthick)
 from mip_convert.tests.common import dummy_cube
 from functools import reduce
 
@@ -986,6 +983,31 @@ class TestAnnualFromMonthly3D(unittest.TestCase):
         expected = np.array([286.0 + 2 / 3] * 8 + [280.0] * 8 + [313.0 + 1 / 3] * 8).reshape(
             self.YEARS, self.NX, self.NY, self.NZ)
         np.testing.assert_array_almost_equal(result.data, expected, decimal=12)
+
+
+class TestCalcSlthick(unittest.TestCase):  # Convert to functional test when ancil data is available
+    def setUp(self):
+        # Set up a dummy input soil cube
+        height = DimCoord([10, 20], standard_name='height', bounds=([5, 15], [15, 25]), units='m',
+                          attributes={'positive': 'up'})
+        lat = DimCoord([-45, 45], standard_name='latitude', units='degrees')
+        lon = DimCoord([90, 270], standard_name='longitude', units='degrees')
+        dim_coords_and_dims = [(height, 0), (lon, 1), (lat, 2)]
+        cube_shape = tuple([i[0].shape[0] for i in dim_coords_and_dims])
+        self.soil_cube = Cube(np.ones(cube_shape), dim_coords_and_dims=dim_coords_and_dims)
+
+        # Set up a dummy input jules fraction cube.
+        self.jules_frac_cube = Cube(np.full(cube_shape, 0.1), dim_coords_and_dims=dim_coords_and_dims)
+
+        # Set up expected outcome
+        self.expected = Cube(np.full(cube_shape, 10), dim_coords_and_dims=dim_coords_and_dims)
+
+    def test_calc_slthick(self):
+        soil_cube = self.soil_cube
+        jules_frac_cube = self.jules_frac_cube
+        result = calc_slthick(soil_cube, jules_frac_cube).data
+        expected = self.expected.data
+        np.testing.assert_array_equal(result, expected, f"Unexpected result", verbose=True)
 
 
 if __name__ == '__main__':
