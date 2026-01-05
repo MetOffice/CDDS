@@ -81,12 +81,12 @@
         R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = mip_concatenate_batch_{{ STREAM }} => run_repack_{{ STREAM }} => run_qc_{{ STREAM }}
     {% endif %}
 
-    {% if RUN_SIM_REVIEW %}
-        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = mip_concatenate_batch_{{ STREAM }} => run_repack_{{ STREAM }} => run_sim_review_{{ STREAM }}
-    {% endif %}
-
     {% if RUN_TRANSFER %}
         R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_qc_{{ STREAM }} => run_transfer_{{ STREAM }}
+    {% endif %}
+
+    {% if RUN_SIM_REVIEW %}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = mip_concatenate_batch_{{ STREAM }} => run_repack_{{ STREAM }} => run_sim_review
     {% endif %}
 
         R1/{{ FINAL_CYCLE_POINT }} = """
@@ -320,17 +320,6 @@ mkdir -p {{ BASE_OUTPUT }}
             --ntasks = 1
     {% endif %}
 
-    {% if RUN_SIM_REVIEW %}
-    [[run_sim_review_{{ STREAM }}]]
-        inherit = {{ PLATFORM }}, COMPLETION_FAMILY_{{ STREAM }}
-        [[[environment]]]
-            ROSE_TASK_APP = run_sim_review
-            STREAM = {{ STREAM }}
-        [[[directives]]]
-            --mem = {{ MEMORY_QC }}
-            --ntasks = 1
-    {% endif %}
-
     [[run_repack_{{ STREAM }}]]
         inherit = MIP_CONCATENATE_{{ STREAM }}, {{ PLATFORM }}, COMPLETION_FAMILY_{{ STREAM }}
         execution time limit = P2D
@@ -360,6 +349,16 @@ mkdir -p {{ BASE_OUTPUT }}
             --ntasks = 1
     {% endif %}
 {% endfor %} # STREAM LOOP END
+
+    {% if RUN_SIM_REVIEW %}
+    [[run_sim_review]]
+        inherit = {{ PLATFORM }}
+        [[[environment]]]
+            ROSE_TASK_APP = run_sim_review
+        [[[directives]]]
+            --mem = {{ MEMORY_QC }}
+            --ntasks = 1
+    {% endif %}
 
     [[workflow_complete]]
         script = sleep 5
