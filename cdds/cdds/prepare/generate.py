@@ -46,16 +46,25 @@ def get_requested_variables(request: Request):
     list[str]
         A cleaned list of request variables.
     """
+    logger = logging.getLogger(__name__)
     requested_variables = []
 
     with open(request.data.variable_list_file, "r") as fh:
-        for variable in fh.readlines():
+        for (line, variable) in enumerate(fh):
             # Remove all trailing comments.
             if "#" in variable:
                 variable = variable.split("#")[0]
+
+            # Remove any leading or trailing whitespace
             variable = variable.strip()
 
-            # Filter out any blank lines or comments.
+            # Check for whitespace within variables
+            if " " in variable:
+                logger.warning(f"Whitespace found in variable list file on line {line + 1}: '{variable}'. "
+                               f"Proceeding with variable as {variable.replace(' ', '')}.")
+                variable = variable.replace(" ", "")
+
+            # Filter out any blank lines, comments.
             if variable and not variable.startswith("#"):
                 requested_variables.append(variable)
 

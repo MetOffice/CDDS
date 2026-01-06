@@ -12,6 +12,7 @@ from textwrap import dedent
 import unittest
 
 from pathlib import Path
+from textwrap import dedent
 
 from cdds.common.constants import (
     COMPONENT_LIST, INPUT_DATA_DIRECTORY, OUTPUT_DATA_DIRECTORY, LOG_DIRECTORY)
@@ -188,14 +189,19 @@ class TestMainGenerateVariableList(unittest.TestCase):
         self.assertEqual(return_code, 0)
 
     def test_get_requested_variables(self):
-        variables = ("day/uas # this is a test comment\nday/vas\nAmon/pr    \n \n# oops we left some blank lines\n"
-                     "#AERmon/emiso2  # lets comment one out")
+        variables = """  day/uas # this is a test comment
+        day/vas
+        Amo n/ pr
+
+        # oops we left some blank lines
+        #AERmon/emiso2  # lets comment one out")
+        """
         expected = ["day/uas", "day/vas", "Amon/pr"]
         msg = "The requested variable list contains invalid whitespace or comments"
 
         request = simple_request()
         with open(self.variable_list, 'w') as fh:
-            fh.writelines(variables)
+            fh.writelines(dedent(variables))
         request.data.variable_list_file = self.variable_list
 
         requested_variables = get_requested_variables(request)
