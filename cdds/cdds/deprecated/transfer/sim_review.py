@@ -217,7 +217,7 @@ def display_approved_variables(qc_dir):
     return recent_approved_path_file
 
 
-def _join_approved_files(path_file_dict):
+def _join_approved_files(path_file_dict):  #what if no stream files is found exception or warning? #wha tif path file dict is empty? 
     per_stream_files = list(path_file_dict.values())
     datetime_suffix = str(
         datetime.datetime.now().replace(microsecond=0).isoformat()
