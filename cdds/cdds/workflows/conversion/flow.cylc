@@ -85,12 +85,8 @@
         R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_qc_{{ STREAM }} => run_transfer_{{ STREAM }}
     {% endif %}
 
-    {% if RUN_SIM_REVIEW %}
-        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = mip_concatenate_batch_{{ STREAM }} => run_repack_{{ STREAM }} => run_sim_review
-    {% endif %}
-
         R1/{{ FINAL_CYCLE_POINT }} = """
-            COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => workflow_complete
+            COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => run_sim_review => workflow_complete
         """
 {% endfor %}
 
@@ -350,7 +346,6 @@ mkdir -p {{ BASE_OUTPUT }}
     {% endif %}
 {% endfor %} # STREAM LOOP END
 
-    {% if RUN_SIM_REVIEW %}
     [[run_sim_review]]
         inherit = {{ PLATFORM }}
         [[[environment]]]
@@ -358,7 +353,6 @@ mkdir -p {{ BASE_OUTPUT }}
         [[[directives]]]
             --mem = {{ MEMORY_QC }}
             --ntasks = 1
-    {% endif %}
 
     [[workflow_complete]]
         script = sleep 5
