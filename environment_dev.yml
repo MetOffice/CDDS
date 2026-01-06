@@ -235,7 +235,6 @@ dependencies:
   - zstandard=0.23.0=py310ha75aee5_2
   - zstd=1.5.7=hb8e6e7a_2
   - pip:
-      - dreqpy==1.0.29
       - mkdocs-section-index==0.3.8
 variables:
   CYLC_VERSION: 8

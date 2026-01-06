@@ -9,10 +9,7 @@ from cdds.common.plugins.plugins import PluginStore
 
 
 class UserDefinedVariable:
-    """Class to hold information on a user requested variable built from mip tables.
-    It is designed to have close similarity to the DataRequestVariable Class from
-    cdds.prepare.data_request_interface.
-    """
+    """Class to hold information on a user requested variable built from mip tables."""
 
     def __init__(
         self,
