@@ -378,8 +378,10 @@ class Filters(object):
                 return [chunk]
             elif valid == "stop":
                 if "QUERY_MATCHES_NO_RESULTS" in moo_output:
-                    logger.critical("\nQuery matches no results, meaning your requested"
-                    " data could not be found on MASS for this stream.\n")
+                    logger.critical(
+                        "None of the data required for this stream was found in MASS. Please "
+                        "review your request config and variables files before re-running (in "
+                        "particular check the assignment of variables to streams).")
                 raise MooseException(
                     "Could not access the dataset ({})".format(moo_output))
 
