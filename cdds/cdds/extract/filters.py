@@ -376,6 +376,9 @@ class Filters(object):
                     str(chunk[0]["timepoint"]), str(chunk[-1]["timepoint"]), len(chunk)))
                 return [chunk]
             elif valid == "stop":
+                if "QUERY_MATCHES_NO_RESULTS" in moo_output:
+                    logger.critical("\nQuery matches no results, meaning your requested"
+                    " data could not be found on MASS for this stream.\n")
                 raise MooseException(
                     "Could not access the dataset ({})".format(moo_output))
 
