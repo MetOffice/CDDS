@@ -351,7 +351,6 @@ mkdir -p {{ BASE_OUTPUT }}
         [[[environment]]]
             ROSE_TASK_APP = run_sim_review
         [[[directives]]]
-            --mem = {{ MEMORY_DEFAULT }}
             --ntasks = 1
 
     [[workflow_complete]]
