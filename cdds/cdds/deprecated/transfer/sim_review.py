@@ -15,7 +15,7 @@ from cdds.common.request.request import Request
 from cdds.common.plugins.plugins import PluginStore
 
 
-def filter_critical_issues(issue_list: list[str]) -> set[list[str]]:
+def filter_critical_issues(issue_list: list[str]) -> list:
     """Filters reported issues by removing the prefix from the string, to show only the actual error message, and
     consolidate and sort error messages to remove repeats.
 
@@ -26,7 +26,7 @@ def filter_critical_issues(issue_list: list[str]) -> set[list[str]]:
 
     Returns
     -------
-    list[str]
+    list
         A filtered list of critical error strings.
     """
     filtered_issues = []
