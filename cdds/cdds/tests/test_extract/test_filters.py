@@ -582,7 +582,7 @@ class TestFilters(unittest.TestCase):
     @patch("cdds.extract.filters.Filters._check_block_size_pp")
     @patch("cdds.extract.filters.MOOSE_CALL_LIMIT", 5)
     def test_moo_filter_chunk_raises_exc_and_no_results_logger(
-        self, mock_block_size, mock_f, mock_logger):
+            self, mock_block_size, mock_f, mock_logger):
 
         mock_block_size.side_effect = [
             ("fail", ""), ("fail", ""), ("fail", ""),
