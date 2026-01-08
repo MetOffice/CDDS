@@ -92,6 +92,11 @@ def check_intermediate_files(data_dir: str) -> None:
     ----------
     data_dir: str
         Path to the data directory for this package.
+
+    Raises
+    ------
+    RuntimeError:
+        If partial files are found in the output directories.
     """
     logger = logging.getLogger(__name__)
     logger.info('\nChecking for intermediate files in output directories.')
@@ -122,6 +127,11 @@ def check_qc_report(qc_dir: str) -> None:
     ----------
     qc_dir: str
         Path to the `qualitycheck` proc directory for this package.
+
+    Raises
+    ------
+    RuntimeError
+        If there are problems reported in the quality control report that require further investigation.
     """
     logger = logging.getLogger(__name__)
     logger.info('\nChecking QC report.')
@@ -175,12 +185,15 @@ def display_approved_variables(qc_dir: str) -> str:
     else:
         recent_approved_path_file = _join_approved_files(recent_approved_path_dict)
 
-    if 'EDITOR' in os.environ:
-        cmd1 = '$EDITOR {recent_approved_path}'.format(recent_approved_path=recent_approved_path_file)
-        _ = subprocess.call(cmd1, shell=True)
-    else:
-        logger.info('$EDITOR not defined, so cannot open approved variables list. Please check the following approved'
-                    'variables list as part of the review:\n{0}'.format(recent_approved_path_file))
+    # Append the approved variable file to the logs
+    try:
+        with open(recent_approved_path_file, "r") as fh:
+            logger.info(fh.read())
+    except FileNotFoundError as e:
+        logger.critical(f"Unable to read {recent_approved_path_file}: {e}")  # edit this to cause failure ---------------------
+    except PermissionError as e:
+        logger.critical(f"Unable to read {recent_approved_path_file}: {e}")  # edit this to cause failure ---------------------
+
     return recent_approved_path_file
 
 
