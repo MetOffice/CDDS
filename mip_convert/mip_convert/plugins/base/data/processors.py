@@ -2319,3 +2319,61 @@ def annual_from_monthly_3d_masked(cube, mask, thkcello):
 
 def tos_ORCA12(tos_con, tossq_con):
     return tos_con
+
+
+def calc_rootd(soil_cube, frac_cube, ice_class=None):
+    """
+    Returns a cube of the maximum rooting depth calculated from a cube on a model's standard latitude-longitude grid and
+    on soil levels.
+
+    Parameters
+    ----------
+    soil_cube: :class:`iris.cube.Cube`
+        A cube containing data on soil levels for that model.
+
+    frac_cube: :class:`iris.cube.Cube`
+        A cube containing JULES tile fractions for that model.
+
+    ice_class: str
+        Tile ID string for land ice.  If present, max root depth is set to zero on land ice points.
+
+    Returns
+    -------
+    : :class:`iris.cube.Cube`
+        A cube containing the maximum root depth of that model.
+
+    Raises
+    ------
+    ValueError
+        If the cube contains a time coordinate.
+    """
+    if soil_cube.coord_dims('time'):
+        raise ValueError('Source cube must not have a time coordinate.')
+
+    area_cube = soil_cube.slices(["latitude", "longitude"]).next()
+
+    # Calculate the max root depth as the maxiumum bound of the vertical coords.
+    depth_coord = _z_axis(soil_cube)
+    soil_depth = max(layer.bounds.max() for layer in depth_coord)
+
+    rootd_data = np.ma.masked_all_like(area_cube.data)
+    rootd_data[~area_cube.data.mask] = soil_depth
+
+    # Set max root depth to 0.0 m on land ice points.
+    if ice_class is not None:
+        ice_frac = frac_cube.extract(_pseudo_constraint(ice_class))
+        ice_cube = _collapse_pseudo(ice_frac, SUM)
+        ice_mask = ice_cube.data.data > 1e-6
+        rootd_data[ice_mask] = 0.0
+
+    # Create a Cube of the max root depth data.
+    dim_coords_and_dims = list((coord, k) for (k, coord) in enumerate(area_cube.dim_coords))
+
+    rootd_cube = iris.cube.Cube(rootd_data,
+                                standard_name="root_depth",
+                                long_name="Maximum Root Depth",
+                                units=depth_coord.units,
+                                dim_coords_and_dims=dim_coords_and_dims,
+    )
+
+    return rootd_cube
