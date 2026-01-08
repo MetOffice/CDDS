@@ -1,7 +1,7 @@
 # (C) British Crown Copyright 2019-2025, Met Office.
 # Please see LICENSE.md for license details.
 """The :mod:`sim_review` module contains code to extract information to facilitate reviewing whether simulation tickets
-have been correctly processed before the data is submitted for publiction.
+have been correctly processed before the data is submitted for publication.
 """
 import datetime
 import logging
@@ -15,7 +15,7 @@ from cdds.common.request.request import Request
 from cdds.common.plugins.plugins import PluginStore
 
 
-def filter_critical_issues(issue_list: list[str]) -> list[str]:
+def filter_critical_issues(issue_list: list[str]) -> set[list[str]]:
     """Filters reported issues by removing the prefix from the string, to show only the actual error message, and
     consolidate and sort error messages to remove repeats.
 
@@ -35,7 +35,29 @@ def filter_critical_issues(issue_list: list[str]) -> list[str]:
             filtered_issues += [' '.join(issue_str.split(' ')[4:])]
         except IndexError:
             filtered_issues += [issue_str]
+
     return sorted(set(filtered_issues))
+
+
+def remove_empty_list_elements(output_list: list[str]) -> list[str]:
+    """Removes any blank elements from a single list. The nature of using .split('\n') on the subprocess output causes
+    an empty element to be appended at the end of the output leading to unnecessary blank lines within the logs.
+
+    Parameters
+    ----------
+    output_list: list[str]
+        The list of outputs from the subprocess command.
+
+    Returns
+    -------
+    list[str]
+        The list of outputs from the subprocess command with no empty elements.
+    """
+    for line in output_list:
+        if not line:
+            output_list.remove(line)
+
+    return output_list
 
 
 def check_critical_issues(proc_dir: str) -> None:
@@ -49,13 +71,13 @@ def check_critical_issues(proc_dir: str) -> None:
         Path to the proc directory for this package.
     """
     logger = logging.getLogger(__name__)
-    logger.info('\nChecking for critical issues in CDDS components.')
+    logger.info('Checking for critical issues in CDDS components.')
     for component in COMPONENT_LIST:
         package_dir = os.path.join(proc_dir, component)
         cmd1 = ['grep', '-irI', 'critical', package_dir, '--exclude', '*.py', '--exclude', '*.svn*']
         try:
             output = subprocess.check_output(cmd1, universal_newlines=True)
-            output_lines = output.split('\n')
+            output_lines = remove_empty_list_elements(output.split('\n'))
             compact_output = '\n'.join(filter_critical_issues(output_lines))
             logger.info('Critical issues in {0}:'.format(component))
             logger.info(compact_output)
@@ -78,15 +100,15 @@ def check_critical_issues(proc_dir: str) -> None:
         msg = (
             'Critical issues found for CDDS convert. '
             'Contents of file {0}:\n{1}'.format(convert_critical_issues_path, cci_msg_str))
-        logger.info(msg)    # should this be critical since issues found in convert? -----------------------------------------
+        logger.info(msg)
     else:
         logger.info('No convert critical issues log file found.')
 
 
 def check_intermediate_files(data_dir: str) -> None:
-    """Check whether the intermmediate directories in the data output directory (directories with th suffix _mip_convert
-    or _concat), have any remaining files in them or subdirectories. If there are this usually indicates a convert task
-    has failed or not run.
+    """Check whether the  intermediate directories in the data output directory (directories with the suffix
+    _mip_convert or _concat), have any remaining files in them or subdirectories. If there are this usually indicates a
+    convert task has failed or not run.
 
     Parameters
     ----------
@@ -99,7 +121,7 @@ def check_intermediate_files(data_dir: str) -> None:
         If partial files are found in the output directories.
     """
     logger = logging.getLogger(__name__)
-    logger.info('\nChecking for intermediate files in output directories.')
+    logger.info('Checking for intermediate files in output directories.')
     output_dir = os.path.join(data_dir, 'output')
     inter_dirs = [os.path.join(output_dir, dir1) for dir1 in
                   os.listdir(output_dir) if
@@ -127,14 +149,9 @@ def check_qc_report(qc_dir: str) -> None:
     ----------
     qc_dir: str
         Path to the `qualitycheck` proc directory for this package.
-
-    Raises
-    ------
-    RuntimeError
-        If there are problems reported in the quality control report that require further investigation.
     """
     logger = logging.getLogger(__name__)
-    logger.info('\nChecking QC report.')
+    logger.info('Checking QC report.')
     prefix = 'report'
     # Note that the report file name uses a similar format to the approved vars file, hence the use of the approved
     # variables regex
@@ -153,7 +170,6 @@ def check_qc_report(qc_dir: str) -> None:
                 msg = ('Problems reported in {0} of report {1}, please investigate further.'.format(section,
                                                                                                     report_path))
                 logger.critical(msg)
-                raise RuntimeError(msg)
 
 
 def display_approved_variables(qc_dir: str) -> str:
@@ -172,7 +188,7 @@ def display_approved_variables(qc_dir: str) -> str:
         The path to the most recent approved variables list.
     """
     logger = logging.getLogger(__name__)
-    logger.info('\nOpening approved variables files.')
+    logger.info('Opening approved variables files.')
     approved_prefix = 'approved_variables'
     approved_regex = approved_prefix + '_' + APPROVED_VARS_DATETIME_STREAM_REGEX + '\\.txt'
 
@@ -186,13 +202,12 @@ def display_approved_variables(qc_dir: str) -> str:
         recent_approved_path_file = _join_approved_files(recent_approved_path_dict)
 
     # Append the approved variable file to the logs
-    try:
-        with open(recent_approved_path_file, "r") as fh:
-            logger.info(fh.read())
-    except FileNotFoundError as e:
-        logger.critical(f"Unable to read {recent_approved_path_file}: {e}")  # edit this to cause failure ---------------------
-    except PermissionError as e:
-        logger.critical(f"Unable to read {recent_approved_path_file}: {e}")  # edit this to cause failure ---------------------
+    with open(recent_approved_path_file, "r") as fh:
+        approved_variables = remove_empty_list_elements(fh.read().split('\n'))
+        approved_variable_output = '\n'.join(approved_variables)
+        logger.info("-----")
+        logger.info(approved_variable_output)
+        logger.info("-----")
 
     return recent_approved_path_file
 
@@ -211,6 +226,7 @@ def _join_approved_files(path_file_dict):
         for stream_file in per_stream_files:
             with open(stream_file, 'r') as stream_fh:
                 combined_fh.write(stream_fh.read())
+
     return combined_file_path
 
 
@@ -226,7 +242,7 @@ def show_submission_command(request_file_path: str, recent_approved_path: str) -
         The path to the most recent approved variables list.
     """
     logger = logging.getLogger(__name__)
-    logger.info('\nCommand for data submission:')
+    logger.info('Command for data submission:')
     logger.info('move_in_mass {request} -o . \\\n--original_state=embargoed --new_state=available '
                 '\\\n--approved_variables_path={recent_approved_path}'
                 ''.format(request=request_file_path, recent_approved_path=recent_approved_path))
@@ -241,6 +257,11 @@ def do_sim_review(request: Request, request_file_path: str) -> None:
         The request configuration to consider
     request_file_path: str
         Path to the given request configuration file
+
+    Raises
+    ------
+    IOError
+        If the specified proc or data directory is not a valid.
     """
     # Set up the relevant paths
     plugin = PluginStore.instance().get_plugin()
