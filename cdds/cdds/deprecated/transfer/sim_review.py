@@ -78,7 +78,7 @@ def check_critical_issues(proc_dir: str) -> None:
         msg = (
             'Critical issues found for CDDS convert. '
             'Contents of file {0}:\n{1}'.format(convert_critical_issues_path, cci_msg_str))
-        logger.info(msg)
+        logger.info(msg)    # should this be critical since issues found in convert? -----------------------------------------
     else:
         logger.info('No convert critical issues log file found.')
 
@@ -101,8 +101,7 @@ def check_intermediate_files(data_dir: str) -> None:
                   '_concat' in dir1 or '_mip_convert' in dir1]
     inter_dirs_clean = True
     for id1 in inter_dirs:
-        partial_files_found = any(
-            len(files) != 0 for path1, dirs, files in os.walk(id1))
+        partial_files_found = any(len(files) != 0 for path1, dirs, files in os.walk(id1))
         if partial_files_found:
             err_msg = ('Partial files found in intermediate directory:\n{0}\n'
                        'Please check that all convert tasks completed successfully'.format(id1))
@@ -111,7 +110,9 @@ def check_intermediate_files(data_dir: str) -> None:
     if inter_dirs_clean:
         logger.info('No intermediate convert files found.')
     else:
-        raise RuntimeError('Partial files found, please check convert tasks.')
+        msg = 'Partial files found, please check convert tasks.'
+        logger.critical(msg)
+        raise RuntimeError(msg)
 
 
 def check_qc_report(qc_dir: str) -> None:
@@ -137,12 +138,12 @@ def check_qc_report(qc_dir: str) -> None:
 
         for section in ['aggregated_summary', 'details']:
             if report[section] == []:
-                logger.info(
-                    'Nothing reported in {0} in QC report.'.format(section))
+                logger.info('Nothing reported in {0} in QC report.'.format(section))
             else:
                 msg = ('Problems reported in {0} of report {1}, please investigate further.'.format(section,
                                                                                                     report_path))
-                raise RuntimeError(msg)   # look at ------------------------------------------------------------------------------ crit log non zero return 
+                logger.critical(msg)
+                raise RuntimeError(msg)
 
 
 def display_approved_variables(qc_dir: str) -> str:
@@ -223,9 +224,9 @@ def do_sim_review(request: Request, request_file_path: str) -> None:
 
     Parameters
     ----------
-    request : Request
+    request: Request
         The request configuration to consider
-    request_file_path : str
+    request_file_path: str
         Path to the given request configuration file
     """
     # Set up the relevant paths
@@ -234,13 +235,11 @@ def do_sim_review(request: Request, request_file_path: str) -> None:
     data_dir = plugin.data_directory(request)
 
     if not os.path.isdir(proc_dir):
-        msg = ('The specified proc dir {0} is not a valid directory, please '
-               'check your arguments.'.format(proc_dir))
+        msg = ('The specified proc dir {0} is not a valid directory, please check your arguments.'.format(proc_dir))
         raise IOError(msg)
 
     if not os.path.isdir(data_dir):
-        msg = ('The specified data dir {0} is not a valid directory, please '
-               'check your arguments.'.format(data_dir))
+        msg = ('The specified data dir {0} is not a valid directory, please check your arguments.'.format(data_dir))
         raise IOError(msg)
 
     qc_dir = os.path.join(proc_dir, 'qualitycheck')
