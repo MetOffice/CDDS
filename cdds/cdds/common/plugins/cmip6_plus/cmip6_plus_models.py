@@ -19,11 +19,12 @@ class Cmip6PlusModelId(ModelId):
     """
 
     def get_json_file(self) -> str:
-        """
-        Returns the json file name for a model containing the model ID as identifier.
+        """        Returns the json file name for a model containing the model ID as identifier.
 
-        :return: Json file name for the model with current ID
-        :rtype: str
+        Returns
+        -------
+        str
+            JSON file name for the model with current ID
         """
         return '{}.json'.format(self.value)
 
@@ -81,31 +82,34 @@ class HadGEM3_GC31_MM_Params(BaseModelParameters):
 
     @property
     def model_version(self) -> str:
-        """
-        Returns the model version of the HadGEM3_GC31_MM model.
+        """Returns the model version of the HadGEM3_GC31_MM model.
 
-        :return: Model version of HadGEM3_GC31_MM
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version of HadGEM3_GC31_MM
         """
         return '3.1'
 
     @property
     def data_request_version(self) -> str:
-        """
-        Returns the data request version of the HadGEM3_GC31_MM model.
+        """Returns the data request version of the HadGEM3_GC31_MM model.
 
-        :return: Data request version of HadGEM3_GC31_MM
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version of HadGEM3_GC31_MM
         """
         return '01.00.10'
 
     @property
     def um_version(self) -> str:
-        """
-        Returns the UM version of the HadGEM3_GC31_MM model.
+        """Returns the UM version of the HadGEM3_GC31_MM model.
 
-        :return: UM version of HadGEM3_GC31_MM
-        :rtype: str
+        Returns
+        -------
+        str
+            UM version of HadGEM3_GC31_MM
         """
         return '10.7'
 
@@ -120,31 +124,34 @@ class UKESM1_0_LL_Params(BaseModelParameters):
 
     @property
     def model_version(self) -> str:
-        """
-        Returns the model version of the UKESM1_0_LL model.
+        """Returns the model version of the UKESM1_0_LL model.
 
-        :return: Model version of UKESM1_0_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            Model version of UKESM1_0_LL
         """
         return '1.0'
 
     @property
     def data_request_version(self) -> str:
-        """
-        Returns the data request version of the UKESM1_0_LL model.
+        """Returns the data request version of the UKESM1_0_LL model.
 
-        :return: Data request version of UKESM1_0_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            Data request version of UKESM1_0_LL
         """
         return '01.00.17'
 
     @property
     def um_version(self) -> str:
-        """
-        Returns the UM version of the UKESM1_0_LL model.
+        """Returns the UM version of the UKESM1_0_LL model.
 
-        :return: UM version of UKESM1_0_LL
-        :rtype: str
+        Returns
+        -------
+        str
+            UM version of UKESM1_0_LL
         """
         return '10.8'
 
