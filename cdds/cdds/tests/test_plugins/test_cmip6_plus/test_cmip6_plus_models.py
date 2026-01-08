@@ -46,7 +46,7 @@ class TestModelsStore(TestCase):
 
         self.assertTrue(result.loaded['HadGEM3-GC31-LL'].loaded)
         self.assertSize(result.loaded, 1)
-        self.assertSize(result.unloaded, 0)
+        self.assertSize(result.unloaded, 2)  # This number will change as the plugin is expanded to allow other models
 
     def test_models_store_is_singleton(self):
         Cmip6PlusModelsStore.instance()
