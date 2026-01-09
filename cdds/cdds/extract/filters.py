@@ -130,10 +130,18 @@ class Filters(object):
                     else:
                         self.mappings[key].append(var)
                         if var["status"] == "embargoed":
+                            # Look up frequency from original var_list
+                            frequency = None
+                            for original_var in self.var_list["variables"]:
+                                if (original_var["name"] == var["name"] and 
+                                    original_var["table"] == var["table"]):
+                                    frequency = original_var["frequency"]
+                                    break
                             self.mappings_embargoed[key].append(
                                 {
                                     "table": var["table"],
-                                    "var": var["name"]
+                                    "var": var["name"],
+                                    "frequency": frequency
                                 }
                             )
 
