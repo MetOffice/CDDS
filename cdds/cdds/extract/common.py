@@ -834,7 +834,7 @@ def configure_mappings(mappings):
                 else:
                     mip_table = " - "
                 msg += " {:<15} {:<15}\n".format(
-                    var["var"], "[ {} ]".format(mip_table))
+                    var["var"], "[ {},@{} ]".format(mip_table, var["frequency"]))
 
     if len(msg) > 0:
         logger.info("\n ----- Embargoed Variable Mappings -----\n{} \n".format(msg))
