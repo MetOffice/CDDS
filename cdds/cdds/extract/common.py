@@ -1032,9 +1032,9 @@ def condense_constraints(variable_constraints) -> dict:
 
     for variable in variable_constraints:
         for constraint in variable["constraint"]:
-            if "stash" in constraint:
-                stash = constraint.pop("stash")
-                hashed_constraint = json.dumps(constraint, sort_keys=True)
-                condensed_constraints[hashed_constraint].add(stash)
+            stash = constraint["stash"]
+            # Hash the constraint without stash for grouping
+            hashed_constraint = json.dumps({k: v for k, v in constraint.items() if k != "stash"}, sort_keys=True)
+            condensed_constraints[hashed_constraint].add(stash)
 
     return condensed_constraints

@@ -226,7 +226,6 @@ class Process(object):
                     "constraint: {} ".format(filtered_constraints),
                     rec["status"])
             logger.info(log_msg)
-            # breakpoint()
 
             if filter_msg_exc:
 

@@ -133,7 +133,7 @@ class Filters(object):
                             # Look up frequency from original var_list
                             frequency = None
                             for original_var in self.var_list["variables"]:
-                                if (original_var["name"] == var["name"] and 
+                                if (original_var["name"] == var["name"] and
                                     original_var["table"] == var["table"]):
                                     frequency = original_var["frequency"]
                                     break
