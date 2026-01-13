@@ -86,7 +86,7 @@
     {% endif %}
 
         R1/{{ FINAL_CYCLE_POINT }} = """
-            COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => workflow_complete
+            COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => run_sim_review => workflow_complete
         """
 {% endfor %}
 
@@ -345,6 +345,13 @@ mkdir -p {{ BASE_OUTPUT }}
             --ntasks = 1
     {% endif %}
 {% endfor %} # STREAM LOOP END
+
+    [[run_sim_review]]
+        inherit = {{ PLATFORM }}
+        [[[environment]]]
+            ROSE_TASK_APP = run_sim_review
+        [[[directives]]]
+            --ntasks = 1
 
     [[workflow_complete]]
         script = sleep 5
