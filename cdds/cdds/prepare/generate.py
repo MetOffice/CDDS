@@ -33,6 +33,44 @@ from cdds.prepare.mapping_status import MappingStatus
 from cdds.prepare.user_variable import UserDefinedVariable, parse_variable_list
 
 
+def get_requested_variables(request: Request):
+    """Collects a valid list of variables and filters out all comments and blank lines.
+
+    Parameters
+    ----------
+    request: Request
+        The request information.
+
+    Returns
+    -------
+    list[str]
+        A cleaned list of request variables.
+    """
+    logger = logging.getLogger(__name__)
+    requested_variables = []
+
+    with open(request.data.variable_list_file, "r") as fh:
+        for (line, variable) in enumerate(fh):
+            # Remove all trailing comments.
+            if "#" in variable:
+                variable = variable.split("#")[0]
+
+            # Remove any leading or trailing whitespace
+            variable = variable.strip()
+
+            # Check for whitespace within variables
+            if " " in variable:
+                logger.warning(f"Whitespace found in variable list file on line {line + 1}: '{variable}'. "
+                               f"Proceeding with variable as {variable.replace(' ', '')}.")
+                variable = variable.replace(" ", "")
+
+            # Filter out any blank lines, comments.
+            if variable and not variable.startswith("#"):
+                requested_variables.append(variable)
+
+    return requested_variables
+
+
 def generate_variable_list(arguments: Namespace) -> int:
     """
     Generate the |requested variables list|.
@@ -67,8 +105,7 @@ def generate_variable_list(arguments: Namespace) -> int:
 
     cmip_tables = UserMipTables(request.common.mip_table_dir)
 
-    with open(request.data.variable_list_file, "r") as fh:
-        requested_variables = [line.strip() for line in fh.readlines()]
+    requested_variables = get_requested_variables(request)
 
     user_requested_variables = parse_variable_list(cmip_tables, requested_variables)
 
