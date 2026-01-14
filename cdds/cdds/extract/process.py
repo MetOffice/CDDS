@@ -219,8 +219,6 @@ class Process(object):
             # report filters status
             log_msg = self.lang["filter_list"].format("VALID")
             for rec in filter_msg:
-                # Filter out empty dicts from constraint list for output.
-                # filtered_constraints = [c for c in rec["constraint"] if c]
                 log_msg += self.lang["filter_ok"].format(
                     rec["name"], rec["table"],
                     "constraint: {} ".format(rec["constraint"]),
