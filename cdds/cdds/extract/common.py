@@ -1028,10 +1028,14 @@ def condense_constraints(variable_constraints) -> dict:
         A defaultdict where the keys are hashed representations of constraints and the
         values are sets of 'stash' values corresponding to those constraints.
     """
+    logger = logging.getLogger(__name__)
     condensed_constraints = defaultdict(set)
 
     for variable in variable_constraints:
         for constraint in variable["constraint"]:
+            if "stash" not in constraint:
+                logger.critical("Constraint without stash found: {}".format(constraint))
+                continue
             stash = constraint["stash"]
             # Create a copy and remove stash for grouping whilst avoiding mutating the
             # original (needed to ensure stash codes appear in logs).
