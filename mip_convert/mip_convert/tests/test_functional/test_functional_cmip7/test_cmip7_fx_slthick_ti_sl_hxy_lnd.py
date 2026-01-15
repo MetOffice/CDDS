@@ -29,17 +29,20 @@ class TestCmip7_fx_slthick_ti_sl_hxy_lnd(AbstractFunctionalTests):
                     'output_dir': get_output_dir(test_location)
                 },
                 request={
+                    'ancil_files': ' '.join([
+                        os.path.join(MODEL_OUTPUT_DIR, 'u-dk469', 'ancil', 'test_input_land_fx_u-dk469.pp'),
+                    ]),
                     'model_output_dir': MODEL_OUTPUT_DIR,
-                    'run_bounds': '1960-02-01T00:00:00 1960-04-01T00:00:00',
+                    'run_bounds': '2257-01-01T00:00:00 2257-02-01T00:00:00',
                     'suite_id': 'u-dk469',
                     'mip_convert_plugin': 'HadGEM3GC5'
                 },
                 streams={
-                    'ap4': {'CMIP7_land@fx': 'slthick_ti-sl-hxy-lnd'}
+                    'ancil': {'CMIP7_land@fx': 'slthick_ti-sl-hxy-lnd'}
                 },
                 other={
                     'reference_version': 'v1',
-                    'filenames': ['output.nc'],
+                    'filenames': ['slthick_ti-sl-hxy-lnd_fx_glb_gn_PCMDI-test-1-0_1pctCO2_r1i1dp1f1.nc'],
                     'ignore_history': True,
                 }
             )
