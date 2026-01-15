@@ -20,7 +20,7 @@ from iris.coord_categorisation import (add_categorised_coord, add_hour,
                                        add_month_number, add_year,
                                        add_day_of_month, add_hour)
 from iris.exceptions import CoordinateNotFoundError
-from iris.util import equalise_attributes, guess_coord_axis, new_axis
+from iris.util import equalise_attributes, guess_coord_axis, new_axis, is_masked
 
 from mip_convert.common import guess_bounds_if_needed
 from mip_convert.constants import (JPDFTAUREICEMODIS_POINTS, JPDFTAUREICEMODIS_BOUNDS,
@@ -2344,20 +2344,28 @@ def calc_rootd(soil_cube, frac_cube, ice_class=None):
 
     Raises
     ------
+    AttributeError
+        If the soil cube does not contain cell bounds.
     ValueError
-        If the cube contains a time coordinate.
+        If any root depth would be calculated as a negative value.
     """
-    if soil_cube.coord_dims('time'):
-        raise ValueError('Source cube must not have a time coordinate.')
+    # if soil_cube.coord_dims('time'):
+    #     raise ValueError('Source cube must not have a time coordinate.')
 
     area_cube = soil_cube.slices(["latitude", "longitude"]).next()
 
     # Calculate the max root depth as the maxiumum bound of the vertical coords.
     depth_coord = _z_axis(soil_cube)
+    for cell in depth_coord:
+        if not cell.has_bounds():
+            raise AttributeError("The provided cube does not contian cell bounds on the identified Z axis.")
     soil_depth = max(layer.bounds.max() for layer in depth_coord)
 
     rootd_data = np.ma.masked_all_like(area_cube.data)
-    rootd_data[~area_cube.data.mask] = soil_depth
+    area_cube_masked = np.ma.masked_array(area_cube.data)
+    rootd_data[~area_cube_masked.mask] = soil_depth
+    if rootd_data.any() < 0:
+        raise ValueError("Soil cannot have a negative thickness.")
 
     # Set max root depth to 0.0 m on land ice points.
     if ice_class is not None:
