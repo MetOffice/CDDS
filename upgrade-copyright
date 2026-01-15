@@ -26,7 +26,8 @@ parse_options() {
   # Set defaults
   if [ -z "$PARENT_BRANCH" ]
   then
-    PARENT_BRANCH="main"
+    # last commit before New Year
+    PARENT_BRANCH="ed53ed859f6d6e35e03753213551c47dd3b26714"
   fi
 
   if [ -z "$NEW_YEAR" ]
@@ -43,6 +44,7 @@ set_work_branch() {
 }
 
 do_upgrade() {
+  echo "Your branch must have been pushed for this to work"
   echo "Working Branch: ${WORK_BRANCH}"
   echo "Parent Branch: ${PARENT_BRANCH}"
   echo "New year: ${NEW_YEAR}"
@@ -53,6 +55,8 @@ do_upgrade() {
 
   for file in "${filePaths[@]}"
   do
+    # remove first two characters (appears as "b/" in output of git diff command)
+    file=${file:2}
     if test -f "$file"; then
       echo "Upgrade copyright in $file"
       sed -i -E "s/Copyright ([0-9]+)-[0-9]+,/Copyright \\1-${NEW_YEAR},/g" $file
