@@ -49,6 +49,6 @@ class TestCmip7_fx_slthick_ti_sl_hxy_lnd(AbstractFunctionalTests):
         )
 
     @pytest.mark.slow
-    def test_cmip7_efx_slthick_udk469(self):
+    def test_cmip7_efx_slthick(self):
         self.maxDiff = True
         self.check_convert(plugin_id="CMIP7")

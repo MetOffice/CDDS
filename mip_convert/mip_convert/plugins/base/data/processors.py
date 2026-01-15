@@ -2343,15 +2343,12 @@ def calc_slthick(soil_cube, frac_cube, ice_class=None):
 
     Raises
     ------
-    ValueError
-        If the cube contains a time coordinate or the soil is identified as having a negative thickness.
     AttributeError
         If the given soil cube does not contain cell bounds on the z axis.
+    ValueError
+        If the soil is identified as having a negative thickness.
     """
     logger = logging.getLogger(__name__)
-
-    # if soil_cube.coords("time"):
-    #     raise ValueError("Source cube must not contain a time coordinate.")
 
     # Calculate the thickness of a soil layer from the cell bounds of the vertical coord of the input cube.
     depth_coord = _z_axis(soil_cube)
