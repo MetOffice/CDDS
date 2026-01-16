@@ -70,7 +70,8 @@ class Variables(object):
                     {
                         "name": str(var['label']),
                         "table": str(var['miptable']),
-                        "stream": str(var["stream"])
+                        "stream": str(var["stream"]),
+                        "frequency": str(var["frequency"])
                     })
             else:
                 reason_str = "not active "

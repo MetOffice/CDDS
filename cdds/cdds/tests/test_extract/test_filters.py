@@ -21,13 +21,13 @@ from cdds.extract.filters import Filters, MooseException
 class TestFilters(unittest.TestCase):
 
     VAR_LIST = [
-        {"table": "Amon", "name": "tas"},
-        {"table": "Amon", "name": "pr"},
-        {"table": "Amon", "name": "uo"}
+        {"table": "Amon", "name": "tas", "frequency": "mon"},
+        {"table": "Amon", "name": "pr", "frequency": "mon"},
+        {"table": "Amon", "name": "uo", "frequency": "mon"}
     ]
 
     VAR_LIST_OCEAN = [
-        {"table": "Omon", "name": "tos"},
+        {"table": "Omon", "name": "tos", "frequency": "mon"},
     ]
 
     def setUp(self):
@@ -262,7 +262,7 @@ class TestFilters(unittest.TestCase):
         mock_mass_filters.return_value = model_to_mip_response
         filters.set_mappings(self.request)
 
-        self.assertDictEqual({"ap5": [{"var": "pr", "table": "Amon"}]},
+        self.assertDictEqual({"ap5": [{"var": "pr", "table": "Amon", "frequency": "mon"}]},
                              filters.get_embargoed_mappings())
         # The expected behaviour of filters.set_mappings is to add all
         # entries from the model_to_mip_response which have status "ok" or
