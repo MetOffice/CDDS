@@ -23,16 +23,16 @@ parse_options() {
     esac
   done
 
-  # Set defaults
-  if [ -z "$PARENT_BRANCH" ]
-  then
-    PARENT_BRANCH='none'
-  fi
-
   if [ -z "$NEW_YEAR" ]
   then
     # Get current year from system
     NEW_YEAR=`date +'%Y'`
+  fi
+
+  # Set defaults
+  if [ -z "$PARENT_BRANCH" ]
+  then
+    PARENT_BRANCH=$( git log --before="${NEW_YEAR}-01-01" --pretty=format:"%h" | head -n1)
   fi
 }
 
@@ -43,9 +43,6 @@ set_work_branch() {
 }
 
 do_upgrade() {
-  if [ ${PARENT_BRANCH} = 'none' ] ; then
-     PARENT_BRANCH=$( git log --before="${NEW_YEAR}-01-01" --pretty=format:"%h" | head -n1)
-  fi
   echo "Your branch must have been pushed for this to work"
   echo "Working Branch: ${WORK_BRANCH}"
   echo "Parent Branch: ${PARENT_BRANCH}"
