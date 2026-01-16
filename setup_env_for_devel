@@ -8,7 +8,7 @@ DEV_ENV='cdds-3.4_dev-4'
 
 if [[ "$(hostname -f)" =~ "spice.sc" ]]; then
     CONDA=/opt/conda/bin/activate
-    DEV_ENV="${CDDS_HOME}/conda_environments/${DEV_ENV}"
+    DEV_ENV="cdds-dev-minimal-py12" #change back before review
 elif [[ "$(hostname -f)" =~ "jasmin" ]]; then
     CONDA=${CDDS_HOME}/software/miniforge3/bin/activate
     DEV_ENV="${CDDS_HOME}/conda_environments/${DEV_ENV}"
