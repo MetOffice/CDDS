@@ -23,7 +23,7 @@ This function will trigger MIP convert with your given test data.
 1. Mark your test as a slow test by add following annotation to your test method
 
     ```python
-    @attr('slow')
+    @pytest.mark.slow
     ```
 
 !!! note
