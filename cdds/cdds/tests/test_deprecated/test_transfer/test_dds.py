@@ -159,14 +159,15 @@ class TestMoosePut(unittest.TestCase):
         self.patch_local_dir_exists()
         local_path = os.path.join("local", "dir")
         expected_call = [
-            call("mkdir", ["-p", "moose_dir"]),
-            call("put", [os.path.join(local_path, "bsi_Oyr_*"), "moose_dir"]),
-            call("rmdir", ["moose_dir"])]
+            call("test", ["-d", "moose_dir"], simulation=False),
+            call("mkdir", ["-p", "moose_dir"], simulation=False),
+            call("put", ["moose_dir"], simulation=False),
+            call("rmdir", ["moose_dir"], simulation=False)]
         facet = drs.DataRefSyntax(self.cfg, self.project)
         facet.fill_facets_from_drs_name(
             "bsi_Oyr_HadGEM2-ES_G4seaSalt_r1i1p1_2021-2090.nc")
         self.xfer._put_atom(facet, local_path, "moose_dir", moo_cmd.put)
-        mock_cmd.has_calls(expected_call)
+        mock_cmd.assert_has_calls(expected_call)
 
     def patch_local_dir_exists(self):
         mock_exists = util.create_patch(
@@ -341,8 +342,8 @@ class TestMooseMove(unittest.TestCase):
             self, "cdds.deprecated.transfer.dds.DataTransfer._move_atom")
 
         self.xfer.change_mass_state(coll, self.embargoed, self.available)
-        mock_move_atom.has_calls(expected_call)
-        self.mock_inform.has_calls(expected_inform_call)
+        mock_move_atom.assert_has_calls(expected_call)
+        self.mock_inform.assert_has_calls(expected_inform_call)
 
     def test_move_older_version(self):
         expected_old = self._mass_dir("embargoed", "tas", "20150326")
@@ -419,11 +420,15 @@ class TestMooseMove(unittest.TestCase):
         mock_move_atom.assert_called_once_with(fake_dir[0], new_dir)
 
     def test_successful_move_atom(self):
+        mock_dir_exists = util.create_patch(
+            self, "cdds.deprecated.transfer.moo_cmd.dir_exists")
+        mock_dir_exists.return_value = False
         self.xfer._move_atom("moose/old", "moose/new")
         expected_call = [
-            call("mkdir", ["moose/new"]),
-            call("mv", ["moose/old/*", "moose/new"])]
-        self.mock_moo.has_calls(expected_call)
+            call("mkdir", ["-p", "moose/new"], simulation=False),
+            call("mv", ["moose/old/*", "moose/new"], simulation=False),
+            call("rmdir", ["moose/old"], simulation=False)]
+        self.mock_moo.assert_has_calls(expected_call)
 
     def fake_single_ls(self, mock_output):
         # Mock a single ls with a single fake list of output.
