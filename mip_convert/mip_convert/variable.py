@@ -95,7 +95,7 @@ def make_masked(data, shape, missing_value, dtype):
         logger.debug('Received data type "{}", converting to float32 to avoid issues later')
         dtype = numpy.dtype('float32')
 
-    data_array = numpy.array(data, dtype=dtype, copy=False)
+    data_array = numpy.asarray(data, dtype=dtype)
     return numpy.ma.masked_values(data_array.reshape(shape), missing_value, copy=False)
 
 
