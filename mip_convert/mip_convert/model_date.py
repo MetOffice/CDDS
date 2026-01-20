@@ -66,37 +66,37 @@ class CdDate(object):
         self._raise_on_different_calendar(other)
         datetime1 = date2num(self.comptime, self.asUnits(), self.calendar)
         datetime2 = date2num(other.comptime, self.asUnits(), other.calendar)
-        return datetime1 < datetime2
+        return bool(datetime1 < datetime2)
 
     def __gt__(self, other):
         self._raise_on_different_calendar(other)
         datetime1 = date2num(self.comptime, self.asUnits(), self.calendar)
         datetime2 = date2num(other.comptime, self.asUnits(), other.calendar)
-        return datetime1 > datetime2
+        return bool(datetime1 > datetime2)
 
     def __le__(self, other):
         self._raise_on_different_calendar(other)
         datetime1 = date2num(self.comptime, self.asUnits(), self.calendar)
         datetime2 = date2num(other.comptime, self.asUnits(), other.calendar)
-        return datetime1 <= datetime2
+        return bool(datetime1 <= datetime2)
 
     def __ge__(self, other):
         self._raise_on_different_calendar(other)
         datetime1 = date2num(self.comptime, self.asUnits(), self.calendar)
         datetime2 = date2num(other.comptime, self.asUnits(), other.calendar)
-        return datetime1 >= datetime2
+        return bool(datetime1 >= datetime2)
 
     def __eq__(self, other):
         self._raise_on_different_calendar(other)
         datetime1 = date2num(self.comptime, self.asUnits(), self.calendar)
         datetime2 = date2num(other.comptime, self.asUnits(), other.calendar)
-        return datetime1 == datetime2
+        return bool(datetime1 == datetime2)
 
     def __ne__(self, other):
         self._raise_on_different_calendar(other)
         datetime1 = date2num(self.comptime, self.asUnits(), self.calendar)
         datetime2 = date2num(other.comptime, self.asUnits(), other.calendar)
-        return datetime1 != datetime2
+        return bool(datetime1 != datetime2)
 
     def __repr__(self):
         return '%s(%s, %s, %s, %s, %s, %s)' % (self.__class__.__name__,
