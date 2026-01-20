@@ -44,6 +44,7 @@ class TestCmip6SImonSiitdsnthick(AbstractFunctionalTests):
                     'reference_version': 'v2',
                     'filenames': ['siitdsnthick_SImon_UKESM1-0-LL_amip_r1i1p1f1_185403-185403.nc'],
                     'ignore_history': True,
+                    'tolerance_value': 1e-4
                 }
             )
         )

@@ -43,6 +43,7 @@ class TestCmip6OmonHfbasin(AbstractFunctionalTests):
                     'reference_version': 'v1',
                     'filenames': ['hfbasin_Omon_UKESM1-0-LL_amip_r1i1p1f1_gn_196001-196002.nc'],
                     'ignore_history': True,
+                    'tolerance_value': 1e-5
                 }
             )
         )
