@@ -2348,8 +2348,6 @@ def calc_slthick(soil_cube, frac_cube, ice_class=None):
     ValueError
         If the soil is identified as having a negative thickness.
     """
-    logger = logging.getLogger(__name__)
-
     # Calculate the thickness of a soil layer from the cell bounds of the vertical coord of the input cube.
     depth_coord = _z_axis(soil_cube)
     slthick_data = soil_cube.data.copy()
