@@ -404,7 +404,7 @@ Each output variable must be specified on a separate line and follow the below f
 <mip table>/<variable name>:<stream>
 ```
 
-If you do not know the <stream> for each variable and your model follows a typical CMIP6 STASH configuration, you can omit the `:<stream>` and use the `stream_mappings` command to add this information for you.
+If you do not know the `stream` for each variable and your model follows a typical CMIP6 STASH configuration, you can omit the `:<stream>` and use the `stream_mappings` command to add this information for you.
 
 ```bash
 stream_mappings --varfile variables.txt --outfile vairables_with_streams.txt
