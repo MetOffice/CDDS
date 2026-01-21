@@ -2343,8 +2343,8 @@ def calc_slthick(soil_cube, frac_cube, ice_class=None):
 
     Raises
     ------
-    AttributeError
-        If the given soil cube does not contain cell bounds on the z axis.
+    RuntimeError
+        If the given soil cube does not contain cell bounds on the z axis or the soil cube is not masked.
     ValueError
         If the soil is identified as having a negative thickness.
     """
@@ -2355,7 +2355,7 @@ def calc_slthick(soil_cube, frac_cube, ice_class=None):
     slthick_data = soil_cube.data.copy()
     for cell, data in zip(depth_coord, slthick_data):
         if not cell.has_bounds():
-            raise AttributeError("The provided cube does not contian cell bounds on the identified Z axis.")
+            raise RuntimeError("The provided cube does not contian cell bounds on the identified Z axis.")
         data[:] = cell.bounds[0][1] - cell.bounds[0][0]
     if np.any(data < 0):
         raise ValueError("Soil cannot have a negative thickness.")
@@ -2369,9 +2369,9 @@ def calc_slthick(soil_cube, frac_cube, ice_class=None):
 
     # Copy the land/sea mask from the source cube to the new array.
     if not is_masked(soil_cube.data):
-        logger.warning("The soil cube is not masked, any land/sea masks will not be copied to the new array.")
-    else:
-        slthick_data.mask = soil_cube.data.mask
+        raise RuntimeError("The soil cube is not masked, any land/sea masks will not be copied to the new array.")
+
+    slthick_data.mask = soil_cube.data.mask
 
     # Create a Cube of the soil level thickness data.
     dim_coords_and_dims = [(coord, k) for (k, coord) in enumerate(soil_cube.dim_coords)]
