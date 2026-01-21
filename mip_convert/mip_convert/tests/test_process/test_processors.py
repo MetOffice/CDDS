@@ -918,7 +918,7 @@ class TestAnnualFromMonthly2D(unittest.TestCase):
         cube_shape = tuple([i[0].shape[0] for i in dim_coords_and_dims])
         test_cube = Cube(np.ones(cube_shape), dim_coords_and_dims=dim_coords_and_dims)
         check_data_is_monthly(test_cube)
-        self.assertEquals(str(test_cube.coord('time').units), 'hours since 01-01-01 00:00:00')
+        self.assertEqual(str(test_cube.coord('time').units), 'hours since 01-01-01 00:00:00')
 
     def test_check_data_is_monthly_hourly_unit_wrong_resolution(self):
         lat = DimCoord([-45, 45], 'latitude')

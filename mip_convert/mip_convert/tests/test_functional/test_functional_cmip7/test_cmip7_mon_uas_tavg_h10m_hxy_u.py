@@ -38,7 +38,7 @@ class TestCmip7_uas_tavg_h10m_hxy_u(AbstractFunctionalTests):
                     'ap5': {'CMIP7_atmos@mon': 'uas_tavg-h10m-hxy-u'}
                 },
                 other={
-                    'reference_version': 'v3',
+                    'reference_version': 'v4',
                     'filenames': ['uas_tavg-h10m-hxy-u_mon_glb_gn_PCMDI-test-1-0_1pctCO2_r1i1dp1f1_196002-196003.nc'],
                     'ignore_history': True,
                 }

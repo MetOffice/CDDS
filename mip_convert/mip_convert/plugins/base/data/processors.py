@@ -949,12 +949,12 @@ def eos_insitu(zt, zs, zh):
     * From the NEMO `eos_insitu` docstring
 
         >>> round(eos_insitu(40., 40., 10000.), 5)
-        1060.93299
+        np.float64(1060.93299)
 
     * From Jackett and McDougall (1995) [eos_insitu_1]_
 
         >>> round(eos_insitu(3., 35.5, 3000.), 3)
-        1041.833
+        np.float64(1041.833)
 
     Notes
     -----

@@ -60,7 +60,7 @@ class TestPpMatch(unittest.TestCase):
         match = PpMatch(self.stash, lbproc=128)
         expected = self.stash.asDict()
         expected.update({'lbproc': 128})
-        self.assertEquals("%s" % expected, "%s" % match)
+        self.assertEqual("%s" % expected, "%s" % match)
 
     def testErrorOnMultiMatch(self):
         blevs = [0., 0.1]

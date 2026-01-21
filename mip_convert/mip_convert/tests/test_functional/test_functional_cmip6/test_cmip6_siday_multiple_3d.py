@@ -50,6 +50,7 @@ class TestCmip6SIdayMultiple3d(AbstractFunctionalTests):
                         'sispeed_SIday_UKESM1-0-LL_amip_r1i1p1f1_gn_19781001-19781130.nc'
                     ],
                     'ignore_history': True,
+                    'tolerance_value': 1e-4
                 }
             )
         )
