@@ -2358,7 +2358,7 @@ def calc_rootd(soil_cube, frac_cube, ice_class=None):
     depth_coord = _z_axis(soil_cube)
     for cell in depth_coord:
         if not cell.has_bounds():
-            raise AttributeError("The provided cube does not contian cell bounds on the identified Z axis.")
+            raise RuntimeError("The provided cube does not contian cell bounds on the identified Z axis.")
     soil_depth = max(layer.bounds.max() for layer in depth_coord)
 
     rootd_data = np.ma.masked_all_like(area_cube.data)
