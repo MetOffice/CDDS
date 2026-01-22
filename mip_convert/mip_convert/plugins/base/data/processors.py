@@ -2383,8 +2383,8 @@ def calc_slthick(soil_cube, frac_cube, ice_class=None):
 
 
 def calc_rootd(soil_cube, frac_cube, ice_class=None):
-    """Returns a cube of the maximum rooting depth calculated from a cube on a model's standard latitude-longitude grid and
-    on soil levels.
+    """Returns a cube of the maximum rooting depth calculated from a cube on a model's standard latitude-longitude grid
+    and on soil levels.
 
     Parameters
     ----------
