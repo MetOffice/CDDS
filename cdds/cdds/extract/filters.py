@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2025, Met Office.
+# (C) British Crown Copyright 2016-2026, Met Office.
 # Please see LICENSE.md for license details.
 """Class for creating MOOSE commands for filtered retrievals from MASS
 using SELECT and FILTER
@@ -377,6 +377,11 @@ class Filters(object):
                     str(chunk[0]["timepoint"]), str(chunk[-1]["timepoint"]), len(chunk)))
                 return [chunk]
             elif valid == "stop":
+                if "QUERY_MATCHES_NO_RESULTS" in moo_output:
+                    logger.critical(
+                        "None of the data required for this stream was found in MASS. Please "
+                        "review your request config and variables files before re-running (in "
+                        "particular check the assignment of variables to streams).")
                 raise MooseException(
                     "Could not access the dataset ({})".format(moo_output))
 

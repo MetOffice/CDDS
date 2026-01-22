@@ -1,19 +1,21 @@
-# (C) British Crown Copyright 2017-2025, Met Office.
+# (C) British Crown Copyright 2017-2026, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 
 """Tests for extract filters."""
 from copy import deepcopy
 import logging
-import unittest
 import os
+import unittest
+from copy import deepcopy
 from unittest.mock import patch
+
 from metomi.isodatetime.parsers import TimePointParser
 
-from cdds.common.plugins.plugin_loader import load_plugin
-from cdds.extract.filters import Filters
 from cdds.common import configure_logger
+from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.request.request import read_request
+from cdds.extract.filters import Filters, MooseException
 
 
 class TestFilters(unittest.TestCase):
@@ -572,6 +574,28 @@ class TestFilters(unittest.TestCase):
         filters = Filters(procdir="foo")
         filelist_pp = [{"timepoint": str(i)} for i in range(50)]
         self.assertRaises(RecursionError, filters._chunk_pp_filelist, filelist_pp)
+
+    @patch("cdds.extract.filters.logging.getLogger")
+    @patch("cdds.extract.filters.Filters._create_filterfile_pp")
+    @patch("cdds.extract.filters.Filters._check_block_size_pp")
+    @patch("cdds.extract.filters.MOOSE_CALL_LIMIT", 5)
+    def test_moo_filter_chunk_raises_exc_and_no_results_logger(
+            self, mock_block_size, mock_f, mock_logger):
+
+        mock_block_size.side_effect = [
+            ("fail", ""), ("fail", ""), ("fail", ""),
+            ("stop", "QUERY_MATCHES_NO_RESULTS"), ("fail", "")
+        ]
+        filters = Filters(procdir="foo")
+        filelist_pp = [{"timepoint": str(i)} for i in range(50)]
+        with self.assertRaises(MooseException):
+            chunk_list = filters._chunk_pp_filelist(filelist_pp)
+
+        mock_logger.return_value.critical.assert_called_once_with(
+            "None of the data required for this stream was found in MASS. Please "
+            "review your request config and variables files before re-running (in "
+            "particular check the assignment of variables to streams)."
+        )
 
 
 class TestSubdailyFilters(unittest.TestCase):

@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2025, Met Office.
+# (C) British Crown Copyright 2016-2026, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
 """Utility functions for extract processing."""
@@ -147,11 +147,11 @@ def check_moo_cmd(code, output):
     # default status
     STOP_ERRORS = [
         'PATH_DOES_NOT_EXIST', 'INSUFFICIENT_DISK_SPACE', 'COLLECTION_DOES_NOT_EXIST', 'ERROR_TRANSFER',
-        'STORAGE_SYSTEM_UNAVAILABLE', 'SINGLE_COPY_UNAVAILABLE'
+        'STORAGE_SYSTEM_UNAVAILABLE', 'SINGLE_COPY_UNAVAILABLE', 'QUERY_MATCHES_NO_RESULTS'
     ]
     SKIP_ERRORS = [
         'EXCEEDS_DATA_VOLUME_LIMIT', 'EXCEEDS_FILE_NUMBER_LIMIT', 'SPANS_TOO_MANY_RESOURCES',
-        'QUERY_MATCHES_TOO_MANY_RESULTS', 'QUERY_MATCHES_NO_RESULTS', 'does not match',
+        'QUERY_MATCHES_TOO_MANY_RESULTS', 'does not match',
         'ncks: ERROR'
     ]
     OK_ERRORS = ['PATH_ALREADY_EXISTS']

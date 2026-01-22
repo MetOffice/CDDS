@@ -9,6 +9,7 @@ import os
 # Note that orography (m01s00i033) must not go in this list
 ANCIL_VARIABLES = [
     # soil moisture content
+    # root depth
     'm01s00i009',
     'm01s00i216',
     # land frac

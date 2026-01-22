@@ -12,6 +12,7 @@ from textwrap import dedent
 import unittest
 
 from pathlib import Path
+from textwrap import dedent
 
 from cdds.common.constants import (
     COMPONENT_LIST, INPUT_DATA_DIRECTORY, OUTPUT_DATA_DIRECTORY, LOG_DIRECTORY)
@@ -29,6 +30,7 @@ from cdds.prepare.command_line import (
     main_create_cdds_directory_structure, main_generate_variable_list,
     main_alter_variable_list, parse_alter_args, main_select_variables,
 )
+from cdds.prepare.generate import get_requested_variables
 from cdds.common.cdds_files.cdds_directories import component_directory
 from cdds.tests.test_prepare.common import TEST_RV_DICT
 from cdds.tests.factories.request_factory import simple_request
@@ -185,6 +187,25 @@ class TestMainGenerateVariableList(unittest.TestCase):
         self._construct_log_path()
         return_code = main_generate_variable_list(parameters)
         self.assertEqual(return_code, 0)
+
+    def test_get_requested_variables(self):
+        variables = """  day/uas # this is a test comment
+        day/vas
+        Amo n/ pr
+
+        # oops we left some blank lines
+        #AERmon/emiso2  # lets comment one out")
+        """
+        expected = ["day/uas", "day/vas", "Amon/pr"]
+        msg = "The requested variable list contains invalid whitespace or comments"
+
+        request = simple_request()
+        with open(self.variable_list, 'w') as fh:
+            fh.writelines(dedent(variables))
+        request.data.variable_list_file = self.variable_list
+
+        requested_variables = get_requested_variables(request)
+        self.assertEqual(requested_variables, expected, msg)
 
     @patch('cdds.common.get_log_datestamp')
     def test_main_single_mip(self, mock_log_datestamp):
