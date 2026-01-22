@@ -2324,6 +2324,7 @@ def tos_ORCA12(tos_con, tossq_con):
 def calc_slthick(soil_cube, frac_cube, ice_class=None):
     """Returns a cube of soil layer thickness calculated from a cube on a model's standard latitude-longitude grid and
     on soil levels.
+
     Parameters
     ----------
     soil_cube: :class:`iris.cube.Cube`
@@ -2332,10 +2333,12 @@ def calc_slthick(soil_cube, frac_cube, ice_class=None):
         A cube containing JULES tile fractions for that model.
     ice_class: str
         The tile ID string for land ice. If present, the soil layer thickness is set to zero on land ice points.
+
     Returns
     -------
     :class:`iris.cube.Cube`
         A cube containing the thickness of each soil level of that model.
+
     Raises
     ------
     RuntimeError
@@ -2380,9 +2383,9 @@ def calc_slthick(soil_cube, frac_cube, ice_class=None):
 
 
 def calc_rootd(soil_cube, frac_cube, ice_class=None):
-    """
-    Returns a cube of the maximum rooting depth calculated from a cube on a model's standard latitude-longitude grid and
+    """Returns a cube of the maximum rooting depth calculated from a cube on a model's standard latitude-longitude grid and
     on soil levels.
+
     Parameters
     ----------
     soil_cube: :class:`iris.cube.Cube`
@@ -2391,10 +2394,12 @@ def calc_rootd(soil_cube, frac_cube, ice_class=None):
         A cube containing JULES tile fractions for that model.
     ice_class: str
         Tile ID string for land ice.  If present, max root depth is set to zero on land ice points.
+
     Returns
     -------
     : :class:`iris.cube.Cube`
         A cube containing the maximum root depth of that model.
+
     Raises
     ------
     AttributeError
