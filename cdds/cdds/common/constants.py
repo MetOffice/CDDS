@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2025, Met Office.
+# (C) British Crown Copyright 2019-2026, Met Office.
 # Please see LICENSE.md for license details.
 """The :mod:`constants` module contains constants (values that should never be changed by a user and exist for
 readability and maintainability purposes) for all CDDS components.
@@ -8,6 +8,7 @@ import os
 
 # Note that orography (m01s00i033) must not go in this list
 ANCIL_VARIABLES = [
+    # soil moisture content
     # root depth
     'm01s00i009',
     'm01s00i216',
