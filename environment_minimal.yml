@@ -1,4 +1,4 @@
-name: cdds-dev-minimal-py12-mkdocs # change back to cdds-dev before review
+name: cdds-dev
 channels:
   - conda-forge
   - nodefaults 
@@ -11,7 +11,7 @@ dependencies:
   - dask-core=2025.12.0
   - debugpy=1.8.19
   - gsw=3.6.19
-  - iris=3.14.1
+  - iris=3.12.3
   - libmo_unpack=3.1.2
   - metomi-isodatetime=1!3.0.0
   - mike=2.0.0
