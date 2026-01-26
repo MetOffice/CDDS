@@ -459,6 +459,7 @@ def load_cubes_from_pp(all_input_data, pp_info, run_bounds, ancil_variables):
     :class:`iris.cube.CubeList`
         a list of merged cubes
     """
+    iris.COMBINE_POLICY.set("legacy")
     filtered_fields = [
         field for field in pp_fields(all_input_data) if pp_filter(field, pp_info, run_bounds, ancil_variables)
     ]
