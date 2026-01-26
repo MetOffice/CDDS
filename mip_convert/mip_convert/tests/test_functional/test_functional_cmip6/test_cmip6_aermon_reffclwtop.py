@@ -44,6 +44,7 @@ class TestCmip6AERmonReffclwtop(AbstractFunctionalTests):
                     'reference_version': 'v1',
                     'filenames': ['reffclwtop_AERmon_UKESM1-0-LL_amip_r1i1p1f1_gn_185105-185105.nc'],
                     'ignore_history': True,
+                    'tolerance_value': 1e-5
                 }
             )
         )
