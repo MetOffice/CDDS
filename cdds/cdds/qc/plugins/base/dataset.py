@@ -143,7 +143,9 @@ class StructuredDataset(object, metaclass=ABCMeta):
         Parameters
         ----------
         var_key: str
-            Variable id
+            The full variable name of the form:
+            <MIP era>_<model ID>_<experiment ID>_<sub experiment ID>_<variable ID>_<variant label>_<grid_label>
+            (e.g.CMIP6_UKESM1-0-LL_piControl_none_Emon_r1i1p1f2_cLand_gn).
         atmos_timestep: int
             Atmospheric time step in seconds
 
