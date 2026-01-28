@@ -164,6 +164,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
                 if "time_bnds" in nc_file.variables:
                     time_bnds[filepath] = nc_file.variables["time_bnds"][:].data
                 frequency_code = self.global_attributes_cache.getncattr("frequency", nc_file)
+                variable_id = self.global_attributes_cache.getncattr("variable_id", nc_file)
                 if frequency_code == 'subhrPt':
                     if variable_id.startswith("rs") or variable_id.startswith("rl"):
                         # despite the frequency code, radiation variables are on hourly timepoints
