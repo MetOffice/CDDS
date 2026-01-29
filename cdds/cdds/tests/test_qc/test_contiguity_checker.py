@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2025, Met Office.
+# (C) British Crown Copyright 2019-2026, Met Office.
 # Please see LICENSE.md for license details.
 
 import unittest
@@ -398,7 +398,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
         run_start = self.request.data.start_date
         run_end = self.request.data.end_date
         cc.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
-        self.assertEquals(len(cc.results.keys()), 1)
+        self.assertEqual(len(cc.results.keys()), 1)
 
     def test_invalid_time_bounds(self):
         request = simple_request()

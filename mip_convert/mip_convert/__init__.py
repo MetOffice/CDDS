@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2009-2025, Met Office.
+# (C) British Crown Copyright 2009-2026, Met Office.
 # Please see LICENSE.md for license details.
 """The MIP Convert package produces the |output netCDF files| for a |MIP|
 using |model output files| and information provided in the
@@ -6,6 +6,11 @@ using |model output files| and information provided in the
 """
 from mip_convert.versions import get_version
 from os import environ
+
+# Opt-in to microsecond precision to prevent FutureWarning appearing whenever
+# cubes are logged.
+import iris
+iris.FUTURE.date_microseconds = True
 
 # these need to be called before numpy imports
 environ["OMP_NUM_THREADS"] = "1"

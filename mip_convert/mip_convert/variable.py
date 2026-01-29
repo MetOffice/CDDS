@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2009-2025, Met Office.
+# (C) British Crown Copyright 2009-2026, Met Office.
 # Please see LICENSE.md for license details.
 """A Variable is a key concept in the code. It is a multi-dimensional
 gridded geophysical quantity.  A Variable consists of data and
@@ -95,7 +95,7 @@ def make_masked(data, shape, missing_value, dtype):
         logger.debug('Received data type "{}", converting to float32 to avoid issues later')
         dtype = numpy.dtype('float32')
 
-    data_array = numpy.array(data, dtype=dtype, copy=False)
+    data_array = numpy.asarray(data, dtype=dtype)
     return numpy.ma.masked_values(data_array.reshape(shape), missing_value, copy=False)
 
 

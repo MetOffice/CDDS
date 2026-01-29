@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2015-2025, Met Office.
+# (C) British Crown Copyright 2015-2026, Met Office.
 # Please see LICENSE.md for license details.
 
 import unittest
@@ -60,7 +60,7 @@ class TestPpMatch(unittest.TestCase):
         match = PpMatch(self.stash, lbproc=128)
         expected = self.stash.asDict()
         expected.update({'lbproc': 128})
-        self.assertEquals("%s" % expected, "%s" % match)
+        self.assertEqual("%s" % expected, "%s" % match)
 
     def testErrorOnMultiMatch(self):
         blevs = [0., 0.1]

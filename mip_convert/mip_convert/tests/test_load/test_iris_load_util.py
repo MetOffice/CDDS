@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2015-2025, Met Office.
+# (C) British Crown Copyright 2015-2026, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 """Tests for load/iris_load_util.py."""
@@ -17,12 +17,14 @@ from mip_convert.load.iris_load_util import (
     remove_cell_methods_intervals)
 from mip_convert.tests.common import DummyField, realistic_3d_atmos
 from mip_convert.new_variable import VariableModelToMIPMapping
+from mip_convert.plugins.plugin_loader import load_mapping_plugin
 
 
 class TestConstraintConstructor(unittest.TestCase):
     """Tests for ``ConstraintConstructor`` in iris_load_util.py."""
 
     def setUp(self):
+        load_mapping_plugin('HadGEM3')
         self.model_id = 'HadGEM3-GC31-LL'
         self.variable_name = 'tas'
         self.name = 'time'

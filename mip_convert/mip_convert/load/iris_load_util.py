@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2015-2025, Met Office.
+# (C) British Crown Copyright 2015-2026, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable=invalid-name, unused-argument
 """The :mod:`load.iris_load_util` module contains the code to support
@@ -459,6 +459,7 @@ def load_cubes_from_pp(all_input_data, pp_info, run_bounds, ancil_variables):
     :class:`iris.cube.CubeList`
         a list of merged cubes
     """
+    iris.COMBINE_POLICY.set("legacy")
     filtered_fields = [
         field for field in pp_fields(all_input_data) if pp_filter(field, pp_info, run_bounds, ancil_variables)
     ]

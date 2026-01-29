@@ -125,7 +125,7 @@
 - [x] The tests must be executed as the `cdds` user
 - [x] Set the following environment variable, making sure to replace `X.Y.Z` with the relevant version.
       ```bash
-      export SRCDIR=$HOME/conda_environments/cdds-X.Y.Z/lib/python3.10/site-packages
+      export SRCDIR=$HOME/conda_environments/cdds-X.Y.Z/lib/python3.12/site-packages
       ```
 - [x] Run the following tests.
       ```bash

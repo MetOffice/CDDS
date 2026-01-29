@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2025, Met Office.
+# (C) British Crown Copyright 2017-2026, Met Office.
 # Please see LICENSE.md for license details.
 
 import unittest
@@ -86,7 +86,7 @@ class TestValidators(unittest.TestCase):
         Calendar.default().set_mode("360_day")
         validator_gregorian = ValidatorFactory.date_validator("%Y-%m-%dT%H:%M:%SZ", "gregorian")
         self.assertIsNone(validator_gregorian("2023-07-31T01:20:05Z"))
-        self.assertEquals(Calendar.default().mode, "360_day")
+        self.assertEqual(Calendar.default().mode, "360_day")
 
         self.assertRaises(ValidationError, validator_gregorian, "2023-02-30T01:20:05Z")
-        self.assertEquals(Calendar.default().mode, "360_day")
+        self.assertEqual(Calendar.default().mode, "360_day")
