@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# (C) British Crown Copyright 2017-2022, Met Office.
+# (C) British Crown Copyright 2017-2026, Met Office.
 """Run all the tests using RabbitMQ in the CDDS packages.
 
 Only the server els055 and els056 have RabbitMQ properly installed for CDDS. So,

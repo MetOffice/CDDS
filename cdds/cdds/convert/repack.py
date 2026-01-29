@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# (C) British Crown Copyright 2025, Met Office.
+# (C) British Crown Copyright 2025-2026, Met Office.
 # Please see LICENSE.md for license details.
 """
 Wrapper for repacking netCDF-4 files to optimize their read-performance (using cmip7repack).
