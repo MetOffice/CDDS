@@ -41,7 +41,7 @@ class TestCmip7_fx_slthick_ti_sl_hxy_lnd(AbstractFunctionalTests):
                     'ancil': {'CMIP7_land@fx': 'slthick_ti-sl-hxy-lnd'}
                 },
                 other={
-                    'reference_version': 'v1',
+                    'reference_version': 'v2',
                     'filenames': ['slthick_ti-sl-hxy-lnd_fx_glb_gn_PCMDI-test-1-0_1pctCO2_r1i1dp1f1.nc'],
                     'ignore_history': True,
                 }
