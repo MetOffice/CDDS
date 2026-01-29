@@ -27,7 +27,7 @@ class CVValidatorFactory:
         """
         def validate(path):
             if not os.path.exists(path):
-                raise CVPathError()
+                raise CVPathError(f"{path} not found")
             elif not os.path.isfile(path):
                 raise CVPathError()
         return validate

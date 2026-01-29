@@ -20,6 +20,7 @@ _ATTR = {
     'branch_time_in_parent': ['branch_date_in_parent', 'parent_base_date'],
     'branch_time_in_child': ['branch_date_in_child', 'base_date']}
 
+GLOBAL_ATTRIBUTES_PROVIDED_BY_TABLES = ['branded_variable', 'drs_specs']
 
 class Dataset(object):
     """Store information required for the call to ``cmor_dataset_json``."""
@@ -44,7 +45,8 @@ class Dataset(object):
         """Ensure the global attributes required by CMOR are available."""
         msg = 'Required global attribute "{}" {}'
         for attribute in self._cv_config.required_global_attributes:
-            if attribute not in self.items:
+            if (attribute not in self.items and 
+                attribute not in GLOBAL_ATTRIBUTES_PROVIDED_BY_TABLES):
                 raise RuntimeError(msg.format(attribute, 'missing'))
             self.logger.debug(msg.format(attribute, 'exists'))
         if not self._relaxed_cmor:
