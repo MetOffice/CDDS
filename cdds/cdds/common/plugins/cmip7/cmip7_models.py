@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021-2025, Met Office.
+# (C) British Crown Copyright 2021-2026, Met Office.
 # Please see LICENSE.md for license details.
 """The :mod:`cmip7_models` module contains the code required to
 handle model parameters information for CMIP7 models.
@@ -27,6 +27,7 @@ class Cmip7ModelId(ModelId):
         return '{}.json'.format(self.value)
 
     UKESM1_3_LL = 'UKESM1-3-LL'
+    UKCM2_0_LL = 'UKCM2-0-LL'
 
 
 class UKESM1_3_LL_Params(BaseModelParameters):
@@ -36,6 +37,47 @@ class UKESM1_3_LL_Params(BaseModelParameters):
         super(UKESM1_3_LL_Params, self).__init__(Cmip7ModelId.UKESM1_3_LL)
         self._grid_mappings: CMIP7GridMapping = CMIP7GridMapping()
 
+    @property
+    def model_version(self) -> str:
+        """Returns the model version of the UKESM1_3_LL model.
+
+        Returns
+        -------
+        str
+            Model version of UKESM1_3_LL
+        """
+        return '1.0'
+
+    @property
+    def data_request_version(self) -> str:
+        """Returns the data request version of the UKESM1_3_LL model.
+
+        Returns
+        -------
+        str
+            Data request version of UKESM1_3_LL
+        """
+        return '01.00.17'
+
+    @property
+    def um_version(self) -> str:
+        """Returns the UM version of the UKESM1_3_LL model.
+
+        Returns
+        -------
+        str
+            UM version of UKESM1_3_LL
+        """
+        return '10.8'
+
+
+class UKCM2_0_LL_Params(BaseModelParameters):
+    """Class to store the parameters for the UKESM1_3_LL model."""
+
+    def __init__(self) -> None:
+        super(UKCM2_0_LL_Params, self).__init__(Cmip7ModelId.UKCM2_0_LL)
+        self._grid_mappings: CMIP7GridMapping = CMIP7GridMapping()
+    
     @property
     def model_version(self) -> str:
         """Returns the model version of the UKESM1_3_LL model.
@@ -81,6 +123,7 @@ class Cmip7ModelsStore(BaseModelStore):
     def __init__(self) -> None:
         model_instances: List[BaseModelParameters] = [
             UKESM1_3_LL_Params(),
+            UKCM2_0_LL_Params(),
         ]
         super(Cmip7ModelsStore, self).__init__(model_instances)
         self.logger = logging.getLogger(self.__class__.__name__)
