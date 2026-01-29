@@ -23,16 +23,16 @@ parse_options() {
     esac
   done
 
-  # Set defaults
-  if [ -z "$PARENT_BRANCH" ]
-  then
-    PARENT_BRANCH="main"
-  fi
-
   if [ -z "$NEW_YEAR" ]
   then
     # Get current year from system
     NEW_YEAR=`date +'%Y'`
+  fi
+
+  # Set defaults
+  if [ -z "$PARENT_BRANCH" ]
+  then
+    PARENT_BRANCH=$( git log --before="${NEW_YEAR}-01-01" --pretty=format:"%h" | head -n1)
   fi
 }
 
@@ -43,18 +43,21 @@ set_work_branch() {
 }
 
 do_upgrade() {
+  echo "Your branch must have been pushed for this to work"
   echo "Working Branch: ${WORK_BRANCH}"
   echo "Parent Branch: ${PARENT_BRANCH}"
   echo "New year: ${NEW_YEAR}"
 
   filesToUpdate=$(git diff ${WORK_BRANCH}  ${PARENT_BRANCH} | diffstat | sed 's/[ \t]*|.*$//')
-  echo "${filesToUpdate}"
+  # echo "${filesToUpdate}"
   filePaths=($(echo "$filesToUpdate" | tr ' ' '\n'))
 
   for file in "${filePaths[@]}"
   do
+    # remove first two characters (appears as "b/" in output of git diff command)
+    file=${file:2}
     if test -f "$file"; then
-      echo "Upgrade copyright in $file"
+      echo "Checking copyright in $file"
       sed -i -E "s/Copyright ([0-9]+)-[0-9]+,/Copyright \\1-${NEW_YEAR},/g" $file
       sed -i -E "s/British Crown ([0-9]+)-[0-9]+,/British Crown \\1-${NEW_YEAR},/g" $file
 
@@ -62,6 +65,7 @@ do_upgrade() {
       sed -i -E "s/British Crown ([0-9]+),/British Crown \\1-${NEW_YEAR},/g" $file
     fi
   done
+  echo "See git diff for changes made"
 }
 
 show_help() {

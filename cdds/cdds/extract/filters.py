@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2025, Met Office.
+# (C) British Crown Copyright 2016-2026, Met Office.
 # Please see LICENSE.md for license details.
 """Class for creating MOOSE commands for filtered retrievals from MASS
 using SELECT and FILTER
@@ -130,10 +130,18 @@ class Filters(object):
                     else:
                         self.mappings[key].append(var)
                         if var["status"] == "embargoed":
+                            # Look up frequency from original var_list
+                            frequency = None
+                            for original_var in self.var_list["variables"]:
+                                if (original_var["name"] == var["name"] and
+                                    original_var["table"] == var["table"]):
+                                    frequency = original_var["frequency"]
+                                    break
                             self.mappings_embargoed[key].append(
                                 {
                                     "table": var["table"],
-                                    "var": var["name"]
+                                    "var": var["name"],
+                                    "frequency": frequency
                                 }
                             )
 

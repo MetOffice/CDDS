@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2025, Met Office.
+# (C) British Crown Copyright 2016-2026, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
 """Utility functions for extract processing."""
@@ -834,7 +834,7 @@ def configure_mappings(mappings):
                 else:
                     mip_table = " - "
                 msg += " {:<15} {:<15}\n".format(
-                    var["var"], "[ {} ]".format(mip_table))
+                    var["var"], "[ {},@{} ]".format(mip_table, var["frequency"]))
 
     if len(msg) > 0:
         logger.info("\n ----- Embargoed Variable Mappings -----\n{} \n".format(msg))
@@ -1028,13 +1028,20 @@ def condense_constraints(variable_constraints) -> dict:
         A defaultdict where the keys are hashed representations of constraints and the
         values are sets of 'stash' values corresponding to those constraints.
     """
+    logger = logging.getLogger(__name__)
     condensed_constraints = defaultdict(set)
 
     for variable in variable_constraints:
         for constraint in variable["constraint"]:
-            if "stash" in constraint:
-                stash = constraint.pop("stash")
-                hashed_constraint = json.dumps(constraint, sort_keys=True)
-                condensed_constraints[hashed_constraint].add(stash)
+            if "stash" not in constraint:
+                logger.critical("Constraint without stash found: {}".format(constraint))
+                continue
+            stash = constraint["stash"]
+            # Create a copy and remove stash for grouping whilst avoiding mutating the
+            # original (needed to ensure stash codes appear in logs).
+            constraint_without_stash = constraint.copy()
+            constraint_without_stash.pop("stash")
+            hashed_constraint = json.dumps(constraint_without_stash, sort_keys=True)
+            condensed_constraints[hashed_constraint].add(stash)
 
     return condensed_constraints

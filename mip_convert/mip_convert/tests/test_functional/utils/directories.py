@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2022-2025, Met Office.
+# (C) British Crown Copyright 2022-2026, Met Office.
 # Please see LICENSE.md for license details.
 import os
 
@@ -17,7 +17,7 @@ ROOT_MIP_TABLES_DIR = os.path.join(CDDS_ETC, 'mip_tables')
 CORDEX_MIP_TABLE_DIR = '{}/CORDEX/cordex-cmip6-cmor-tables/Tables'.format(ROOT_MIP_TABLES_DIR)
 ARISE_MIP_TABLE_DIR = '{}/ARISE/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)
 CMIP6_MIP_TABLE_DIR = '{}/CMIP6/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)
-CMIP7_MIP_TABLE_DIR = '{}/CMIP7/DR-1.2.2.2-v1.0.1'.format(ROOT_MIP_TABLES_DIR)
+CMIP7_MIP_TABLE_DIR = '{}/CMIP7/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)
 SEASONAL_MIP_TABLE_DIR = '{}/SEASONAL/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)
 NAHOSMIP_MIP_TABLE_DIR = '{}/GCModelDev/for_functional_tests'.format(ROOT_MIP_TABLES_DIR)
 

@@ -143,7 +143,9 @@ class StructuredDataset(object, metaclass=ABCMeta):
         Parameters
         ----------
         var_key: str
-            Variable id
+            The full variable name of the form:
+            <MIP era>_<model ID>_<experiment ID>_<sub experiment ID>_<variable ID>_<variant label>_<grid_label>
+            (e.g.CMIP6_UKESM1-0-LL_piControl_none_Emon_r1i1p1f2_cLand_gn).
         atmos_timestep: int
             Atmospheric time step in seconds
 
@@ -164,6 +166,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
                 if "time_bnds" in nc_file.variables:
                     time_bnds[filepath] = nc_file.variables["time_bnds"][:].data
                 frequency_code = self.global_attributes_cache.getncattr("frequency", nc_file)
+                variable_id = self.global_attributes_cache.getncattr("variable_id", nc_file)
                 if frequency_code == 'subhrPt':
                     if variable_id.startswith("rs") or variable_id.startswith("rl"):
                         # despite the frequency code, radiation variables are on hourly timepoints
