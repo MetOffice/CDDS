@@ -141,8 +141,8 @@ class Process(object):
             success, (status, msg) = create_dir(
                 data_target, STREAMDIR_PERMISSIONS)
         except OSError as exc:
-            msg = ("Problem creating subdirectory {} in directory path {} [{} - [{}:{}]]".format(
-                subdirpath, directory, os.strerror(exc.errno), user, group))
+            msg = ("Problem creating directory path {} [{} - [{}]]".format(data_target, os.strerror(exc.errno),
+                                                                              self.pinfo["user"]))
             status = "failed"
             success = False
         if success and (status == "created" or status == "exists"):
