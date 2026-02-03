@@ -6,7 +6,14 @@ from os.path import isfile, join
 import json
 
 # If a file matches one of the following suffixes, then it is ignored when loading MIP tables
-NON_TABLE_FILE_SUFFIXES = ['_CV.json', '_coordinate.json', '_grids.json', '_formula_terms.json', '_long_name_overrides.json', '_cell_measures.json']
+NON_TABLE_FILE_SUFFIXES = [
+    '_CV.json',
+    '_coordinate.json',
+    '_grids.json',
+    '_formula_terms.json',
+    '_long_name_overrides.json',  # Added for CMIP7
+    '_cell_measures.json',  # Added for CMIP7
+]
 
 
 class MipTables(object):
