@@ -114,6 +114,7 @@ setup(
     entry_points={'compliance_checker.suites': [
         'cf17 = cdds.qc.plugins.cf17:CF17Check',
         'cmip6 = cdds.qc.plugins.cmip6:CMIP6Check',
+        'cmip7 = cdds.qc.plugins.cmip7:CMIP7Check',
         'cordex = cdds.qc.plugins.cordex:CordexCheck'
     ]
     }
