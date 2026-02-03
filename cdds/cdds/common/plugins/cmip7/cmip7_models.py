@@ -77,7 +77,11 @@ class UKCM2_0_LL_Params(BaseModelParameters):
     def __init__(self) -> None:
         super(UKCM2_0_LL_Params, self).__init__(Cmip7ModelId.UKCM2_0_LL)
         self._grid_mappings: CMIP7GridMapping = CMIP7GridMapping()
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 3cb582dd0371d566d4797fa500b551f22ead3c41
     @property
     def model_version(self) -> str:
         """Returns the model version of the UKESM1_3_LL model.

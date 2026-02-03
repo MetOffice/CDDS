@@ -77,6 +77,7 @@ atmos/zg_tavg-p19-hxy-air@day:ap6  # embargoed
 atmos/zg_tavg-p19-hxy-air@mon:ap5  # embargoed
 land/evspsblsoi_tavg-u-hxy-lnd@mon:ap5  # embargoed
 land/evspsblveg_tavg-u-hxy-lnd@mon:ap5  # embargoed
+land/lai_tavg-u-hxy-lnd@mon:ap5  # embargoed
 land/mrro_tavg-u-hxy-lnd@mon:ap5  # embargoed
 land/mrros_tavg-u-hxy-lnd@mon:ap5  # embargoed
 land/mrso_tavg-u-hxy-lnd@mon:ap5  # embargoed
