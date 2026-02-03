@@ -88,7 +88,7 @@ class CMIP7Check(BaseNCCheck):
         check_tasks = [
             # CVAttributesCheckTask(self.__cache).relax_cmor(self.relaxed_cmor),
             RunIndexAttributesCheckTask(self.__cache),
-            # MandatoryTextAttributesCheckTask(self.__cache),
+            MandatoryTextAttributesCheckTask(self.__cache),
             # OptionalTextAttributesCheckTask(self.__cache),
             # StringAttributesCheckTask(self.__cache).relax_cmor(self.relaxed_cmor),
             # VariableAttributesCheckTask(self.__cache),
