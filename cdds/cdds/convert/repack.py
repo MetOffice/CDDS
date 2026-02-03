@@ -10,6 +10,7 @@ import logging
 import os
 import subprocess
 from argparse import Namespace
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import List, Tuple
 
@@ -96,9 +97,7 @@ def get_mip_table_dirs(request_file: str, stream: str) -> List[Tuple[str, str]]:
         item_path = os.path.join(stream_output_dir, item)
         mip_table_dirs.append((item, item_path))
 
-    logger.info(
-        f"Found {len(mip_table_dirs)} mip_table directories in stream '{stream}':"
-    )
+    logger.info(f"Found {len(mip_table_dirs)} mip_table directories in stream '{stream}':")
     return mip_table_dirs
 
 
@@ -128,31 +127,50 @@ def find_netcdf_files(mip_table_dirs: List[Tuple[str, str]]) -> List[Path]:
     return nc_files
 
 
+def repack_single_file(nc_file: Path) -> bool:
+    """
+    Check and repack a single NetCDF file if needed.
+    Parameters
+    ----------
+    nc_file : Path
+        Path to the NetCDF file.
+    Returns
+    -------
+    bool
+        True if file was repacked, False if already packed.
+    """
+    checked_file_return_code = run_check_cmip7_packing(str(nc_file))
+    if checked_file_return_code == 0:
+        return False
+    else:
+        run_cmip7repack(str(nc_file))
+        return True
+
+
 def repack_files(nc_files: List[Path]) -> None:
     """
     Check and repack NetCDF files in the given list as needed.
-
     For each file, runs the check_cmip7_packing tool. If the file is not already
     packed according to CMIP7 requirements, repacks it using cmip7repack.
     Logs a summary of how many files were already packed and how many were repacked.
-
     Parameters
     ----------
     nc_files : List[Path]
         List of Path objects pointing to NetCDF files to check and repack.
     """
     logger = logging.getLogger(__name__)
-
     total_files = len(nc_files)
-    files_repacked = 0
-    files_already_packed = 0
-    for nc_file in nc_files:
-        checked_file_return_code = run_check_cmip7_packing(str(nc_file))
-        if checked_file_return_code == 0:
-            files_already_packed += 1
-        else:
-            run_cmip7repack(str(nc_file))
-            files_repacked += 1
+
+    # Use ThreadPoolExecutor for parallel processing
+    max_workers = min(8, os.cpu_count() or 1)  # Limit to 8 workers or CPU count
+    logger.info(f"Using parallel processing with {max_workers} worker threads. os cpu count is {os.cpu_count()} ")
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        results = list(executor.map(repack_single_file, nc_files))
+
+    files_repacked = sum(results)
+    files_already_packed = total_files - files_repacked
+
     logger.info(f"Repack ran on {total_files} files")
     logger.info(f"Files already repacked: {files_already_packed}")
     logger.info(f"Files repacked: {files_repacked}\n")
@@ -211,11 +229,7 @@ def run_check_cmip7_packing(file_path: str) -> int:
         return result.returncode
     # Handle potential sys.exit codes from check_cmip7_packing.
     elif result.returncode in (2, 3, 4, 5):
-        raise RuntimeError(
-            (
-                f"check_cmip7_packing failed with exit code {result.returncode}: {result.stderr}"
-            )
-        )
+        raise RuntimeError(f"check_cmip7_packing failed with exit code {result.returncode}: {result.stderr}")
     # Defensive check for unexpected output.
     else:
         raise RuntimeError(
@@ -257,8 +271,7 @@ def run_cmip7repack(file_path: str) -> int:
         return 0
     except FileNotFoundError:
         raise FileNotFoundError(
-            f"Command attempted to run '{command[0]}'. "
-            "Please ensure cmip7repack is properly installed and available."
+            f"Command attempted to run '{command[0]}'. Please ensure cmip7repack is properly installed and available."
         )
     except RuntimeError:
         raise RuntimeError(f"Failed to repack: {file_path}")
