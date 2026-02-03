@@ -162,8 +162,9 @@ def repack_files(nc_files: List[Path]) -> None:
     total_files = len(nc_files)
 
     # Use ThreadPoolExecutor for parallel processing
-    max_workers = min(8, os.cpu_count() or 1)  # Limit to 8 workers or CPU count
-    logger.info(f"Using parallel processing with {max_workers} worker threads. os cpu count is {os.cpu_count()} ")
+    slurm_ntasks = os.environ.get('SLURM_NTASKS')
+    max_workers = int(slurm_ntasks) if slurm_ntasks else 1
+    logger.info(f"Using parallel processing with {max_workers} worker threads (SLURM_NTASKS={slurm_ntasks})")
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         results = list(executor.map(repack_single_file, nc_files))
