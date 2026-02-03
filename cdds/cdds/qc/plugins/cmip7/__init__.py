@@ -93,8 +93,8 @@ class CMIP7Check(BaseNCCheck):
             # StringAttributesCheckTask(self.__cache).relax_cmor(self.relaxed_cmor),
             # VariableAttributesCheckTask(self.__cache),
             # ComplexAttributesCheckTask(self.__cache),
-            OrphanAttributesCheckTask(self.__cache).relax_cmor(self.relaxed_cmor), # CMIP6
-            # UserParentAttributesCheckTask(self.__cache),
+            OrphanAttributesCheckTask(self.__cache).relax_cmor(self.relaxed_cmor),  # CMIP6
+            UserParentAttributesCheckTask(self.__cache),  # CMIP6
         ]
         if not self.relaxed_cmor:
             check_tasks.append(ParentConsistencyCheckTask(self.__cache))
