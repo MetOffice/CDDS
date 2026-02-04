@@ -1,7 +1,9 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
 
+from collections import defaultdict
 import re
+
 from cdds.qc.plugins.base.dataset import StructuredDataset
 from cdds.qc.plugins.cmip6.validators import parse_date_range, ValidationError
 
@@ -31,7 +33,7 @@ class Cmip7Dataset(StructuredDataset):
 
     @classmethod
     def is_responsible(cls, project):
-        return 'cmip6' == project.lower()
+        return 'cmip7' == project.lower()
 
     def check_filename(self, ds, filename):
         """Tests filename's facets against a CV, e.g.
@@ -131,54 +133,39 @@ class Cmip7Dataset(StructuredDataset):
 
         return valid_filename, messages
 
-    def _aggregate_files(self):
-        """Aggregate files in the dataset directory by different facets,
-        and corresponding |MIP requested variable name|.
+    def _aggregate_files(self) -> tuple[dict, dict]:
+        """Aggregate files in the dataset directory by a particular set of facets.
 
         Returns
         -------
-        (dict, dict)
+        tuple[dict, dict]
             Facet-indexed dictionaries
         """
-
-        aggregated_dataset = {}
+        aggregated_dataset = defaultdict(list)
         variable_names = {}
         self._logger.info("Aggregating files")
         for filepath in self._dataset:
             with self._loader_class(filepath) as ds:
-                attrs = [
+                facet_attrs = [
                     'mip_era',
                     'source_id',
                     'experiment_id',
-                    'sub_experiment_id',
-                    'table_id',
                     'variant_label',
-                    'variable_id',
+                    'table_id',
+                    'frequency',
+                    'variable_name',
                     'grid_label',
+                    'region',
                 ]
                 try:
-                    file_index = '_'.join([self.global_attributes_cache.getncattr(x, ds) for x in attrs])
-                    try:
-                        var_name = self.global_attributes_cache.getncattr('variable_name', ds)
-                    except AttributeError:
-                        # Following changes introduced #1052,
-                        # the `variable_name` attribute is expected
-                        # to be present in all output files.
-                        # To make the code backward compatible
-                        # with datasets generated pre-1052,
-                        # we try to replace it with `variable_id`
-                        # when it's not present.
-                        # Note that this mean some variables will not pass QC.
-                        var_name = self.global_attributes_cache.getncattr('variable_id', ds)
+                    file_index = '_'.join([self.global_attributes_cache.getncattr(x, ds) for x in facet_attrs])
+
+                    var_name = self.global_attributes_cache.getncattr('variable_name', ds)
                     if file_index not in variable_names:
                         variable_names[file_index] = var_name
 
-                    if file_index in aggregated_dataset:
-                        aggregated_dataset[file_index].append(filepath)
-                    else:
-                        aggregated_dataset[file_index] = [filepath]
+                    aggregated_dataset[file_index].append(filepath)
+
                 except AttributeError as e:
-                    self._logger.error(
-                        "Error when parsing dataset {}: {}".format(
-                            filepath, str(e)))
+                    self._logger.error("Error when parsing dataset {}: {}".format(filepath, str(e)))
         return aggregated_dataset, variable_names

@@ -1,10 +1,7 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
 
-"""compliance_checker.cmip6collections
-
-Compliance Test Suite for the CMIP6 project
-"""
+"""Compliance Check for the CMIP7 project"""
 
 from compliance_checker.base import BaseCheck, BaseNCCheck, Result
 

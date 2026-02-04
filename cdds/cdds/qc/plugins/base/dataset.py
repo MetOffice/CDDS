@@ -3,6 +3,7 @@
 
 import re
 import os
+from logging import Logger
 
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
@@ -51,7 +52,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
         self._loader_class = None
         self._mip_tables = mip_tables
         self._stream = stream
-        self._logger = logger
+        self._logger: Logger | None = logger
         self._dataset = []
         self._aggregated = {}
         self._var_names = {}
