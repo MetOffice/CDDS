@@ -150,9 +150,16 @@ def repack_single_file(nc_file: Path) -> bool:
 def repack_files(nc_files: List[Path]) -> None:
     """
     Check and repack NetCDF files in the given list as needed.
+
     For each file, runs the check_cmip7_packing tool. If the file is not already
     packed according to CMIP7 requirements, repacks it using cmip7repack.
+
+    Files are processed in parallel using ThreadPoolExecutor. The number of worker
+    threads is determined by the SLURM_NTASKS environment variable, defaulting to 1
+    if not set.
+
     Logs a summary of how many files were already packed and how many were repacked.
+
     Parameters
     ----------
     nc_files : List[Path]
@@ -162,7 +169,7 @@ def repack_files(nc_files: List[Path]) -> None:
     total_files = len(nc_files)
 
     # Use ThreadPoolExecutor for parallel processing
-    slurm_ntasks = os.environ.get('SLURM_NTASKS')
+    slurm_ntasks = os.environ.get("SLURM_NTASKS")
     max_workers = int(slurm_ntasks) if slurm_ntasks else 1
     logger.info(f"Using parallel processing with {max_workers} worker threads (SLURM_NTASKS={slurm_ntasks})")
 
