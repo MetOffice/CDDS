@@ -324,7 +324,7 @@ mkdir -p {{ BASE_OUTPUT }}
             STREAM = {{ STREAM }}
         [[[directives]]]
             --mem = {{ MEMORY_DEFAULT }}
-            --ntasks = 8
+            --ntasks = 10
         {% if PLATFORM == 'AZURE' %}
             --partition = cpu-long
         {% elif PLATFORM == 'JASMIN' %}
