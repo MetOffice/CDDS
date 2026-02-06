@@ -249,14 +249,12 @@
         "ond-grid-U": [
           "bounds_nav_lon",
           "bounds_nav_lat",
-          "time_centered_bounds",
-          "deptht_bounds"
+          "time_centered_bounds"
         ],
         "ond-grid-V": [
           "bounds_nav_lon",
           "bounds_nav_lat",
-          "time_centered_bounds",
-          "deptht_bounds"
+          "time_centered_bounds"
         ],
         "inm-icemod": [
           "bounds_nav_lon_grid_T",
