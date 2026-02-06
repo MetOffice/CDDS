@@ -550,6 +550,17 @@ class StreamValidationResult(object):
         self.file_names_expected = None
         self.file_names_actual = None
         self.file_errors = {}
+        self.mappings = None
+
+    def add_mappings(self, mappings):
+        """Adds mappings for this stream.
+
+        Parameters
+        ----------
+        mappings: dict
+            Mappings for this stream.
+        """
+        self.mappings = mappings
 
     def add_file_names(self, expected_files, actual_files):
         """Stores expected and actual files for a given stream.
@@ -608,6 +619,7 @@ class StreamValidationResult(object):
                         msg += f"{file}\n"
 
                 if self.file_errors:
+                    breakpoint()
                     msg += "Problems detected with the following files:\n"
                     for _, file_error in self.file_errors.items():
                         msg += "{}: {}\n".format(file_error.filepath, file_error.error_message)
