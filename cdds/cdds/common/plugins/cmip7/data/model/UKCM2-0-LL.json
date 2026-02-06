@@ -220,19 +220,19 @@
           "bounds_nav_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
-          "deptht_bounds"
+          "depthu_bounds"
         ],
         "onm-grid-V": [
           "bounds_nav_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
-          "deptht_bounds"
+          "depthv_bounds"
         ],
         "onm-grid-W": [
           "bounds_nav_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
-          "deptht_bounds"
+          "depthw_bounds"
         ],
         "onm-grid-X": [
           "bounds_nav_lon",
