@@ -185,11 +185,10 @@ def repack_files(nc_files: List[Path]) -> None:
     files_already_packed = 0
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_file = {executor.submit(repack_single_file, nc_file): nc_file for nc_file in nc_files}
+        futures = {executor.submit(repack_single_file, nc_file): nc_file for nc_file in nc_files}
 
         try:
-            for future in concurrent.futures.as_completed(future_to_file):
-                nc_file = future_to_file[future]
+            for future in concurrent.futures.as_completed(futures):
                 was_repacked = future.result()  # Raises exception if worker thread failed.
                 if was_repacked:
                     files_repacked += 1
