@@ -9,8 +9,8 @@ import argparse
 import logging
 import os
 import subprocess
+import concurrent.futures
 from argparse import Namespace
-from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import List, Tuple
 
@@ -156,7 +156,8 @@ def repack_files(nc_files: List[Path]) -> None:
 
     Files are processed in parallel using ThreadPoolExecutor. The number of worker
     threads is determined by the SLURM_NTASKS environment variable, defaulting to 1
-    if not set.
+    if not set. If any file fails to repack, processing stops immediately and the
+    exception is propagated.
 
     Logs a summary of how many files were already packed and how many were repacked.
 
@@ -164,6 +165,13 @@ def repack_files(nc_files: List[Path]) -> None:
     ----------
     nc_files : List[Path]
         List of Path objects pointing to NetCDF files to check and repack.
+
+    Raises
+    ------
+    RuntimeError
+        If check_cmip7_packing or cmip7repack fails for any file.
+    FileNotFoundError
+        If check_cmip7_packing or cmip7repack tools are not found.
     """
     logger = logging.getLogger(__name__)
     total_files = len(nc_files)
@@ -173,11 +181,22 @@ def repack_files(nc_files: List[Path]) -> None:
     max_workers = int(slurm_ntasks) if slurm_ntasks else 1
     logger.info(f"Using parallel processing with {max_workers} worker threads (SLURM_NTASKS={slurm_ntasks})")
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        results = list(executor.map(repack_single_file, nc_files))
+    files_repacked = 0
+    files_already_packed = 0
 
-    files_repacked = sum(results)
-    files_already_packed = total_files - files_repacked
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_file = {executor.submit(repack_single_file, nc_file): nc_file for nc_file in nc_files}
+
+        try:
+            for future in concurrent.futures.as_completed(future_to_file):
+                nc_file = future_to_file[future]
+                was_repacked = future.result()  # Raises exception if worker thread failed.
+                if was_repacked:
+                    files_repacked += 1
+                else:
+                    files_already_packed += 1
+        except Exception:
+            raise
 
     logger.info(f"Repack ran on {total_files} files")
     logger.info(f"Files already repacked: {files_already_packed}")
@@ -230,14 +249,15 @@ def run_check_cmip7_packing(file_path: str) -> int:
         )
 
     logger.debug(f"check_cmip7_packing stdout: {result.stdout}")
-    if result.stderr:
-        logger.debug(f"check_cmip7_packing stderr: {result.stderr}")
+
     # Check for expected PASS/FAIL output first
     if result.returncode in (0, 1):
         return result.returncode
     # Handle potential sys.exit codes from check_cmip7_packing.
     elif result.returncode in (2, 3, 4, 5):
-        raise RuntimeError(f"check_cmip7_packing failed with exit code {result.returncode}: {result.stderr}")
+        raise RuntimeError(
+            f"check_cmip7_packing failed for file: '{file_path}' with exit code {result.returncode}: {result.stdout}"
+        )
     # Defensive check for unexpected output.
     else:
         raise RuntimeError(
@@ -282,7 +302,7 @@ def run_cmip7repack(file_path: str) -> int:
             f"Command attempted to run '{command[0]}'. Please ensure cmip7repack is properly installed and available."
         )
     except RuntimeError:
-        raise RuntimeError(f"Failed to repack: {file_path}")
+        raise RuntimeError(f"Failed to repack: '{file_path}'")
 
 
 def main_repack() -> int:
