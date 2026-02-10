@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2016-2026, Met Office.
+# (C) British Crown Copyright 2016-26, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = no-member
 """Utility functions for extract processing."""
@@ -619,14 +619,70 @@ class StreamValidationResult(object):
                         msg += f"{file}\n"
 
                 if self.file_errors:
-                    breakpoint()
                     msg += "Problems detected with the following files:\n"
+                    # Collect problematic STASH codes while reporting file errors
+                    problematic_stash_codes = set()
                     for _, file_error in self.file_errors.items():
                         msg += "{}: {}\n".format(file_error.filepath, file_error.error_message)
                         if isinstance(file_error, StashError):
-                            msg += "\t\tSuspected STASH codes: {}\n".format(", ".join(file_error.stash_errors))
+                            msg += "\t\tMissing STASH codes: {}\n".format(", ".join(file_error.stash_errors))
+                            problematic_stash_codes.update(file_error.stash_errors)
+
+                    # Cross-reference missing STASH with requested variables
+                    affected_variables = self._get_affected_variables(problematic_stash_codes)
+                    if affected_variables:
+                        msg += "\nImpacted variables (cannot be produced):\n"
+                        for table in sorted(affected_variables.keys()):
+                            var_list = ", ".join(sorted(affected_variables[table]))
+                            msg += "\t{}: {}\n".format(table, var_list)
+
+                breakpoint()
                 fn.write(msg)
                 logger.critical(msg)
+
+    def _get_affected_variables(self, problematic_stash_codes):
+        """Determines which variables cannot be produced due to file errors by cross
+        referencing the problematic STASH codes with the variable mappings for this stream.
+
+        Parameters
+        ----------
+        problematic_stash_codes : set
+            Set of STASH codes that are missing or problematic in the data files
+
+        Returns
+        -------
+        dict
+            Dictionary mapping MIP table names to sets of affected variable names
+        """
+        affected_vars = defaultdict(set)
+
+        # Ensure mappings have been set
+        if self.mappings is None:
+            logger = logging.getLogger(__name__)
+            logger.warning("Mappings not set for stream {}".format(self.stream))
+            return affected_vars
+
+        # Get the mappings for this stream
+        stream_mappings = self.mappings.get_mappings()
+        if self.stream not in stream_mappings:
+            return affected_vars
+
+        # Check each variable's constraints against problematic STASH codes
+        for var_dict in stream_mappings[self.stream]:
+            if "constraint" not in var_dict:
+                continue
+            for constraint in var_dict["constraint"]:
+                if "stash" in constraint:
+                    # Get the truncated stash code for comparison (e.g. m01s05i216 -> 5216)
+                    stash = get_stash(constraint["stash"])
+                    if stash in problematic_stash_codes:
+                        var_name = var_dict.get("name", "unknown")
+                        mip_table = var_dict.get("table", "unknown")
+                        # Group by MIP table
+                        affected_vars[mip_table].add(var_name)
+                        break
+
+        return affected_vars
 
     @property
     def valid(self):
