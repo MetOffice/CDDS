@@ -60,6 +60,8 @@ def validate_streams(streams, args):
 
     stream_validation = StreamValidationResult(stream)
 
+    stream_validation.add_mappings(mappings)
+
     if stream in mapping_status:
         data_target = get_data_target(os.path.join(plugin.data_directory(request), 'input'),
                                       request.data.model_workflow_id, stream)
@@ -80,7 +82,7 @@ def validate_streams(streams, args):
     else:
         logger.info('skipped [{}]: there are no variables requiring this stream'.format(stream))
     stream_validation.log_results(log_directory(request, "extract"))
-
+    breakpoint()
     return stream_validation
 
 
@@ -204,6 +206,7 @@ def check_expected_stash(
     expected_stash : set[int]
         The set of expected stash codes.
     """
+    # breakpoint()
     for file, stash in stash_in_file.items():
         if expected_stash.difference(set(stash.keys())):
             stash_diff = expected_stash.difference(set(stash.keys()))
