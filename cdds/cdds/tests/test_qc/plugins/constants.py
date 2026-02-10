@@ -3,6 +3,7 @@
 import os
 
 MIP_TABLES_DIR = os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP6')
+CMIP7_MIP_TABLES_DIR = os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP7')
 CORDEX_MIP_TABLES_DIR = os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CORDEX', 'for_unit_tests')
 
 CV_REPO = os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP6', '01.00.29', 'CMIP6_CV.json')
