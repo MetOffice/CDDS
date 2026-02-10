@@ -118,7 +118,6 @@ class CMIP7Check(BaseNCCheck):
             "institution_id": None,
             "table_id": None,
             "variable_id": None,
-            "further_info_url": None
         }
         # populate attribute dictionary with values
         for attr_key in attr_dict:
