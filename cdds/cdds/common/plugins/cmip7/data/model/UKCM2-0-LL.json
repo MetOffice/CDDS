@@ -33,7 +33,7 @@
     "apt": "P3M",
     "ind": "P1Y",
     "inm": "P5Y",
-    "ond": "P6M",
+    "ond": "P3M",
     "onm": "P2Y"
   },
   "memory": {
