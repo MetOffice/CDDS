@@ -97,7 +97,6 @@ class CMIP7Check(BaseNCCheck):
             check_tasks.append(ParentConsistencyCheckTask(self.__cache))
 
         for check_task in check_tasks:
-            print(check_task)
             check_task.execute(netcdf_file, attr_dict)
             self._add_error_messages(check_task.messages)
 
