@@ -32,6 +32,6 @@ class RunIndexAttributesCheckTask(CheckTask):
         attr_dict : Dict[str, Any]
             Basic attribute dictionary of NetCDF file
         """
-        positive_integer_validator = ValidatorFactory.string_validator()
+        string_validator = ValidatorFactory.string_validator()
         for index_attribute in self.RUN_INDEX_ATTRIBUTES:
-            self._exists_and_valid(netcdf_file, index_attribute, positive_integer_validator)
+            self._exists_and_valid(netcdf_file, index_attribute, string_validator)
