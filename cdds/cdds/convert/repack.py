@@ -187,19 +187,28 @@ def repack_files(nc_files: List[Path]) -> None:
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = {executor.submit(repack_single_file, nc_file): nc_file for nc_file in nc_files}
 
-        try:
-            for future in concurrent.futures.as_completed(futures):
-                was_repacked = future.result()  # Raises exception if worker thread failed.
+        failure_exception = []
+        failure_count = 0
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                was_repacked = future.result()
                 if was_repacked:
                     files_repacked += 1
                 else:
                     files_already_packed += 1
-        except Exception:
-            raise
+            except Exception as exc:
+                failure_exception.append(exc)
+                failure_count += 1
 
-    logger.info(f"Repack ran on {total_files} files")
-    logger.info(f"Files already repacked: {files_already_packed}")
-    logger.info(f"Files repacked: {files_repacked}\n")
+        logger.info(f"Repack ran on {total_files} files")
+        logger.info(f"Files already repacked: {files_already_packed}")
+        logger.info(f"Files repacked: {files_repacked}\n")
+
+        if failure_exception:
+            logger.critical(f"Files failed: {failure_count}")
+            for exc in failure_exception:
+                logger.critical(exc)
+            raise failure_exception[-1]  # Raise the last exception for visibility
 
 
 def run_check_cmip7_packing(file_path: str) -> int:
