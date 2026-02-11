@@ -641,8 +641,9 @@ class StreamValidationResult(object):
                 logger.critical(msg)
 
     def _get_affected_variables(self, problematic_stash_codes):
-        """Determines which variables cannot be produced due to file errors by cross
-        referencing the problematic STASH codes with the variable mappings for this stream.
+        """Determines which variables cannot be produced due to file errors by cross-referencing
+        the problematic STASH codes with the variable mappings for this stream. Requires that
+        mappings have been set via add_mappings() before calling this method.
 
         Parameters
         ----------
@@ -652,15 +653,22 @@ class StreamValidationResult(object):
         Returns
         -------
         dict
-            Dictionary mapping MIP table names to sets of affected variable names
+            Dictionary mapping MIP table names to sets of affected variable names. Returns
+            an empty dict if mappings are not set or the stream has no mappings.
+
+        Raises
+        ------
+        RuntimeError
+            If mappings have not been set for this stream validation result
         """
         affected_vars = defaultdict(set)
 
         # Ensure mappings have been set
         if self.mappings is None:
             logger = logging.getLogger(__name__)
-            logger.warning("Mappings not set for stream {}".format(self.stream))
-            return affected_vars
+            msg = logger.critical("Mappings not found for stream {}".format(self.stream))
+            logger.critical(msg)
+            raise RuntimeError(msg)
 
         # Get the mappings for this stream
         stream_mappings = self.mappings.get_mappings()
