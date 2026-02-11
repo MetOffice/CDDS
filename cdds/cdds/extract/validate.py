@@ -82,7 +82,7 @@ def validate_streams(streams, args):
     else:
         logger.info('skipped [{}]: there are no variables requiring this stream'.format(stream))
     stream_validation.log_results(log_directory(request, "extract"))
-    breakpoint()
+    # breakpoint()
     return stream_validation
 
 

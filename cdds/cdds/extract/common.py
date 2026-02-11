@@ -631,12 +631,12 @@ class StreamValidationResult(object):
                     # Cross-reference missing STASH with requested variables
                     affected_variables = self._get_affected_variables(problematic_stash_codes)
                     if affected_variables:
-                        msg += "\nImpacted variables (cannot be produced):\n"
+                        msg += "\nAs a result, these variables cannot be produced:\n"
                         for table in sorted(affected_variables.keys()):
                             var_list = ", ".join(sorted(affected_variables[table]))
                             msg += "\t{}: {}\n".format(table, var_list)
 
-                breakpoint()
+                # breakpoint()
                 fn.write(msg)
                 logger.critical(msg)
 
@@ -673,11 +673,10 @@ class StreamValidationResult(object):
                 continue
             for constraint in var_dict["constraint"]:
                 if "stash" in constraint:
-                    # Get the truncated stash code for comparison (e.g. m01s05i216 -> 5216)
                     stash = get_stash(constraint["stash"])
                     if stash in problematic_stash_codes:
-                        var_name = var_dict.get("name", "unknown")
-                        mip_table = var_dict.get("table", "unknown")
+                        var_name = var_dict.get("name")
+                        mip_table = var_dict.get("table")
                         # Group by MIP table
                         affected_vars[mip_table].add(var_name)
                         break
