@@ -35,7 +35,7 @@ class Cmip7GlobalAttributes(GlobalAttributes):
                                                          self._request.metadata.experiment_id,
                                                          self._request.metadata.sub_experiment_id,
                                                          self._request.metadata.variant_label)
-        return further_info_url
+        return None
 
 
 class AttributesValidator:
@@ -62,7 +62,7 @@ class AttributesValidator:
             raise ValueError('Request must contain a model ID')
         if not request.metadata.experiment_id:
             raise ValueError('Request must contain an experiment ID')
-        if not request.metadata.sub_experiment_id:
-            raise ValueError('Request must contain a sub experiment ID')
+        # if not request.metadata.sub_experiment_id:
+        #     raise ValueError('Request must contain a sub experiment ID')
         if not request.metadata.variant_label:
             raise ValueError('Request must contain a variant label')
