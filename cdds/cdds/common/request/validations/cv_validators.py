@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2024-2025, Met Office.
+# (C) British Crown Copyright 2024-2026, Met Office.
 # Please see LICENSE.md for license details.
 """Module to validate request against the controlled vocabulary"""
 import os
@@ -27,7 +27,7 @@ class CVValidatorFactory:
         """
         def validate(path):
             if not os.path.exists(path):
-                raise CVPathError()
+                raise CVPathError(f"{path} not found")
             elif not os.path.isfile(path):
                 raise CVPathError()
         return validate

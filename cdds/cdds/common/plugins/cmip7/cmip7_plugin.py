@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021-2025, Met Office.
+# (C) British Crown Copyright 2021-2026, Met Office.
 # Please see LICENSE.md for license details.
 """The :mod:`cmip7_plugin` module contains the code for the CMIP7 plugin."""
 import os
@@ -18,7 +18,7 @@ if TYPE_CHECKING:
     from cdds.common.request.request import Request
 
 
-CMIP7_LICENSE = "CC-BY 4.0"
+CMIP7_LICENSE = "CC-BY-4-0"
 
 
 class Cmip7Plugin(BasePlugin):
@@ -121,4 +121,4 @@ class Cmip7Plugin(BasePlugin):
         str
             Path to the MIP table directory
         """
-        return os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP7', '01.00.29')
+        return os.path.join(os.environ['CDDS_ETC'], 'mip_tables', 'CMIP7', 'DR-1.2.2.3-v1.0.2')

@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2021-2025, Met Office.
+# (C) British Crown Copyright 2021-2026, Met Office.
 # Please see LICENSE.md for license details.
 """The :mod:`cmip7_grid` module contains the code required
 handle grid information for CMIP7 models.
@@ -37,12 +37,12 @@ class Cmip7GridLabel(GridLabel):
                 return grid_label
         raise KeyError('Not supported grid labels for {}'.format(name))
 
-    NATIVE = 'native', 'gn', False
-    NATIVE_ZONAL = 'native-zonal', 'gnz', False
-    REGRIDDED = 'regridded', 'gr', False
-    GLOBAL_MEAN = 'global-mean', 'gm', False
-    UGRID = 'ugrid', 'gn', True
-    VGRID = 'vgrid', 'gn', True
-    UVGRID = 'uvgrid', 'gn', True
-    UVGRID_ZONAL = 'uvgrid-zonal', 'gnz', True
-    SITES = 'sites', 'gn', False
+    NATIVE = 'native', 'g100', False
+    NATIVE_ZONAL = 'native-zonal', 'g100z', False
+    REGRIDDED = 'regridded', 'g100', False
+    GLOBAL_MEAN = 'global-mean', 'g100m', False
+    UGRID = 'ugrid', 'g100', True
+    VGRID = 'vgrid', 'g100', True
+    UVGRID = 'uvgrid', 'g100', True
+    UVGRID_ZONAL = 'uvgrid-zonal', 'g100z', True
+    SITES = 'sites', 'g100', False
