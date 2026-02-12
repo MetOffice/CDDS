@@ -1,31 +1,42 @@
 # (C) British Crown Copyright 2018-2025, Met Office.
 # Please see LICENSE.md for license details.
 
-import logging
 import datetime
-import time
-import os
 import inspect
 import json
+import logging
+import os
+import time
+
 from compliance_checker.runner import CheckSuite
+
 from cdds.common.constants import (
-    APPROVED_VARS_FILENAME_TEMPLATE,
     APPROVED_VARS_FILENAME_STREAM_TEMPLATE,
+    APPROVED_VARS_FILENAME_TEMPLATE,
 )
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.sqlite import execute_insert_query
-from cdds.qc.plugins.base.dataset import StructuredDataset
 from cdds.qc.common import NoDataForQualityCheck
-from cdds.qc.models import (
-    setup_db,
-    get_qc_runs, get_qc_files, get_error_counts, get_aggregated_errors,
-    get_validated_variables
-)
 from cdds.qc.constants import (
-    STATUS_ERROR, STATUS_WARNING, STATUS_IGNORED,
-    SUMMARY_STARTED, SUMMARY_FAILED, SUMMARY_PASSED,
-    QC_REPORT_STREAM_FILENAME, QC_REPORT_FILENAME)
+    QC_REPORT_FILENAME,
+    QC_REPORT_STREAM_FILENAME,
+    STATUS_ERROR,
+    STATUS_IGNORED,
+    STATUS_WARNING,
+    SUMMARY_FAILED,
+    SUMMARY_PASSED,
+    SUMMARY_STARTED,
+)
 from cdds.qc.contiguity_checker import CollectionsCheck
+from cdds.qc.models import (
+    get_aggregated_errors,
+    get_error_counts,
+    get_qc_files,
+    get_qc_runs,
+    get_validated_variables,
+    setup_db,
+)
+from cdds.qc.plugins.base.dataset import StructuredDataset
 
 
 class QCRunner(object):
@@ -122,6 +133,13 @@ class QCRunner(object):
                 "relaxed_cmor": self.relaxed_cmor,
                 "global_attributes_cache": self.dataset.global_attributes_cache
             },
+            "cmip7": {
+                "mip_tables_dir": mip_tables_dir,
+                "cv_location": cv_location,
+                "request": request,
+                "relaxed_cmor": self.relaxed_cmor,
+                "global_attributes_cache": self.dataset.global_attributes_cache
+            },
             "cf17": {
                 "standard_names_version": request.common.standard_names_version,
                 "standard_names_dir": request.common.standard_names_dir,
@@ -205,6 +223,8 @@ class QCRunner(object):
                 with self.check_suite.load_dataset(data_file) as ds:
                     if request.common.force_plugin == 'CORDEX':
                         output = self.check_suite.run(ds, conf, [], "cf17", "cordex")
+                    elif request.metadata.mip_era == 'CMIP7':
+                        output = self.check_suite.run(ds, conf, [], "cf17", "cmip7")
                     else:
                         output = self.check_suite.run(ds, conf, [], "cf17", "cmip6")
                 invalid = self._parse_and_log(cursor, output, qc_dataset_id)

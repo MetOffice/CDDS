@@ -9,6 +9,7 @@ from typing import DefaultDict, List, Dict, TYPE_CHECKING
 if TYPE_CHECKING:
     from cdds.common.request.request import Request
 from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
+from cdds.qc.plugins.cmip7.dataset import Cmip7Dataset
 from cdds.qc.plugins.cordex.dataset import CordexDataset
 from cdds.qc.common import equal_with_tolerance, DatetimeCalculator
 from cdds.qc.constants import DIURNAL_CLIMATOLOGY, HOURLY_OFFSET, DIURNAL_OFFSETS, TIME_TOLERANCE
@@ -18,7 +19,7 @@ class CollectionsCheck(object):
     """Time contiguity checker for a set of ncdf files."""
 
     name = "collections"
-    supported_ds = [Cmip6Dataset, CordexDataset]
+    supported_ds = [Cmip6Dataset, Cmip7Dataset, CordexDataset]
 
     def __init__(self, request: "Request"):
         """A constructor."""

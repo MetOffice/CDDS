@@ -22,6 +22,7 @@ from cdds.qc.constants import COMPONENT, QC_DB_FILENAME
 from cdds.qc.suite import QCSuite
 from cdds.qc.runner import QCRunner
 from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
+from cdds.qc.plugins.cmip7.dataset import Cmip7Dataset
 from cdds.qc.plugins.cordex.dataset import CordexDataset
 
 
@@ -151,11 +152,13 @@ def run_and_report(args: Namespace, request: Request) -> dict:  # TODO: kerstin 
 
     mip_tables = MipTables(mip_table_dir)
 
-    ds: Union[CordexDataset, Cmip6Dataset]
-
+    ds: Union[Cmip6Dataset, Cmip7Dataset, CordexDataset]
     if request.common.force_plugin == 'CORDEX':
         ds = CordexDataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
                            args.stream)
+    elif request.metadata.mip_era == 'CMIP7':
+        ds = Cmip7Dataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
+                          args.stream)
     else:
         ds = Cmip6Dataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
                           args.stream)
