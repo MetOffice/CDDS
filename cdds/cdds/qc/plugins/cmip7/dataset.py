@@ -109,7 +109,7 @@ class Cmip7Dataset(StructuredDataset):
                 messages.append(f"Invalid variable {variable} in the filename {filename}")
         else:
             valid_filename = False
-            messages.append(f"Invalid MIP table {table} in the filename {filename}")
+            messages.append(f"Invalid table_id Global Attribute {table} in file {filename}")
 
         if filename_parts[8]:
             try:
