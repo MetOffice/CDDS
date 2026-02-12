@@ -1,613 +1,614 @@
 # Note: only global variables are currently producible by CDDS
-atmos/pr_tavg-u-hxy-u@mon:ap5  # approved
-atmos/tas_tavg-h2m-hxy-u@day:ap6  # approved
-atmos/tas_tavg-h2m-hxy-u@mon:ap5  # approved
-atmos/cl_tavg-al-hxy-u@mon:ap5  # embargoed
-atmos/cli_tavg-al-hxy-u@mon:ap5  # embargoed
-atmos/clivi_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/clt_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/clt_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/clw_tavg-al-hxy-u@mon:ap5  # embargoed
-atmos/clwvi_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/evspsbl_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/hfls_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/hfss_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/hur_tavg-p19-hxy-air@mon:ap5  # embargoed
-atmos/hur_tavg-p19-hxy-u@day:ap6  # embargoed
-atmos/hurs_tavg-h2m-hxy-u@6hr:ap7  # embargoed
-atmos/hurs_tavg-h2m-hxy-u@day:ap6  # embargoed
-atmos/hurs_tavg-h2m-hxy-u@mon:ap5  # embargoed
-atmos/hus_tavg-p19-hxy-u@day:ap6  # embargoed
-atmos/hus_tavg-p19-hxy-u@mon:ap5  # embargoed
-atmos/huss_tavg-h2m-hxy-u@day:ap6  # embargoed
-atmos/huss_tavg-h2m-hxy-u@mon:ap5  # embargoed
-atmos/huss_tpt-h2m-hxy-u@3hr:ap8  # embargoed
-atmos/pr_tavg-u-hxy-u@1hr:ap9  # embargoed
-atmos/pr_tavg-u-hxy-u@3hr:ap8  # embargoed
-atmos/pr_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/prc_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/prsn_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/prw_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/ps_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/ps_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/psl_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/psl_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rlds_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rldscs_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rlus_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rluscs_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rlut_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rlutcs_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rsds_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/rsds_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rsdscs_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rsdt_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rsus_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rsuscs_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rsut_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rsutcs_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/sfcWind_tavg-h10m-hxy-u@day:ap6  # embargoed
-atmos/sfcWind_tavg-h10m-hxy-u@mon:ap5  # embargoed
-atmos/ta_tavg-p19-hxy-air@day:ap6  # embargoed
-atmos/ta_tavg-p19-hxy-air@mon:ap5  # embargoed
-atmos/ta_tpt-p3-hxy-air@6hr:ap7  # embargoed
-atmos/tas_tmax-h2m-hxy-u@day:ap6  # embargoed
-atmos/tas_tmaxavg-h2m-hxy-u@mon:ap6  # embargoed
-atmos/tas_tmin-h2m-hxy-u@day:ap6  # embargoed
-atmos/tas_tminavg-h2m-hxy-u@mon:ap6  # embargoed
-atmos/tas_tpt-h2m-hxy-u@3hr:ap8  # embargoed
-atmos/tauu_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/tauv_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/ts_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/ua_tavg-p19-hxy-air@day:ap6  # embargoed
-atmos/ua_tavg-p19-hxy-air@mon:ap5  # embargoed
-atmos/ua_tpt-p3-hxy-air@6hr:ap7  # embargoed
-atmos/uas_tavg-h10m-hxy-u@day:ap6  # embargoed
-atmos/uas_tavg-h10m-hxy-u@mon:ap5  # embargoed
-atmos/uas_tpt-h10m-hxy-u@3hr:ap8  # embargoed
-atmos/va_tavg-p19-hxy-air@day:ap6  # embargoed
-atmos/va_tavg-p19-hxy-air@mon:ap5  # embargoed
-atmos/va_tpt-p3-hxy-air@6hr:ap7  # embargoed
-atmos/vas_tavg-h10m-hxy-u@day:ap6  # embargoed
-atmos/vas_tavg-h10m-hxy-u@mon:ap5  # embargoed
-atmos/vas_tpt-h10m-hxy-u@3hr:ap8  # embargoed
-atmos/wap_tavg-p19-hxy-air@mon:ap5  # embargoed
-atmos/wap_tavg-p19-hxy-u@day:ap6  # embargoed
-atmos/zg_tavg-p19-hxy-air@day:ap6  # embargoed
-atmos/zg_tavg-p19-hxy-air@mon:ap5  # embargoed
-land/evspsblsoi_tavg-u-hxy-lnd@mon:ap5  # embargoed
-land/evspsblveg_tavg-u-hxy-lnd@mon:ap5  # embargoed
-land/lai_tavg-u-hxy-lnd@mon:ap5  # embargoed
-land/mrro_tavg-u-hxy-lnd@mon:ap5  # embargoed
-land/mrros_tavg-u-hxy-lnd@mon:ap5  # embargoed
-land/mrso_tavg-u-hxy-lnd@mon:ap5  # embargoed
-land/mrsol_tavg-d10cm-hxy-lnd@mon:ap5  # embargoed
-landIce/mrfso_tavg-u-hxy-lnd@mon:ap5  # embargoed
-landIce/snc_tavg-u-hxy-lnd@mon:ap5  # embargoed
-landIce/snw_tavg-u-hxy-lnd@mon:ap5  # embargoed
-#ocean/bigthetao_tavg-ol-hxy-sea@mon  # embargoed
-#ocean/hfds_tavg-u-hxy-sea@mon  # embargoed
-#ocean/masscello_tavg-ol-hxy-sea@mon  # embargoed
-#ocean/mlotst_tavg-u-hxy-sea@mon  # embargoed
-#ocean/so_tavg-ol-hxy-sea@mon  # embargoed
-#ocean/sos_tavg-u-hxy-sea@day  # embargoed
-#ocean/sos_tavg-u-hxy-sea@mon  # embargoed
-#ocean/tauuo_tavg-u-hxy-sea@mon  # embargoed
-#ocean/tauvo_tavg-u-hxy-sea@mon  # embargoed
-#ocean/thetao_tavg-ol-hxy-sea@mon  # embargoed
-#ocean/thkcello_tavg-ol-hxy-sea@mon  # embargoed
-#ocean/tos_tavg-u-hxy-sea@day  # embargoed
-#ocean/tos_tavg-u-hxy-sea@mon  # embargoed
-#ocean/umo_tavg-ol-hxy-sea@mon  # embargoed
-#ocean/uo_tavg-ol-hxy-sea@mon  # embargoed
-#ocean/vmo_tavg-ol-hxy-sea@mon  # embargoed
-#ocean/vo_tavg-ol-hxy-sea@mon  # embargoed
-#ocean/wmo_tavg-ol-hxy-sea@mon  # embargoed
-#ocean/wo_tavg-ol-hxy-sea@mon  # embargoed
-#ocean/zos_tavg-u-hxy-sea@day  # embargoed
-#ocean/zos_tavg-u-hxy-sea@mon  # embargoed
-#ocean/zostoga_tavg-u-hm-sea@mon  # embargoed
-#seaIce/siconc_tavg-u-hxy-u@day  # embargoed
-#seaIce/siconc_tavg-u-hxy-u@mon  # embargoed
-#seaIce/simass_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sithick_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sitimefrac_tavg-u-hxy-sea@mon  # embargoed
-#seaIce/siu_tavg-u-hxy-si@mon  # embargoed
-#seaIce/siv_tavg-u-hxy-si@mon  # embargoed
-#seaIce/snd_tavg-u-hxy-sn@mon  # embargoed
-seaIce/ts_tavg-u-hxy-si@mon:ap5  # embargoed
-aerosol/abs550aer_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/abs550dust_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/airmass_tavg-al-hxy-u@mon:ap4  # embargoed
-aerosol/ccldncl_tavg-u-hxy-ccl@mon:ap5  # embargoed
-aerosol/cdnc_tavg-al-hxy-u@mon:ap4  # embargoed
-aerosol/cheaqpso4_tavg-al-hxy-u@mon:ap4  # embargoed
-aerosol/chegpso4_tavg-al-hxy-u@mon:ap4  # embargoed
-aerosol/chepsoa_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/cod_tavg-u-hxy-u@day:ap6  # embargoed
-aerosol/cod_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/conccn_tavg-al-hxy-u@mon:ap5  # embargoed
-aerosol/conccn_tpt-u-hs-u@3hr:apt  # embargoed
-aerosol/depdust_tavg-u-hxy-u@mon:ap5  # embargoed
-aerosol/drydust_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/ec550aer_tavg-al-hxy-u@mon:ap5  # embargoed
-#aerosol/ec550aer_tpt-al-hxy-u@6hr:ap7  # embargoed # do-not-produce(testing)
-aerosol/emibc_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/emibvoc_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/emidms_tavg-u-hxy-u@mon:ap5  # embargoed
-aerosol/emidust_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/emiisop_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/emiso2_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/emiso4_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/emiss_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/h2o_tavg-al-hxy-u@mon:ap4  # embargoed
-aerosol/lwp_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/mmraerh2o_tavg-h2m-hxy-u@day:ap6  # embargoed
-aerosol/mmraerh2o_tpt-h2m-hs-u@3hr:apt  # embargoed
-aerosol/mmrbc_tavg-al-hxy-u@mon:ap4  # embargoed
-aerosol/mmrbc_tavg-h2m-hxy-u@day:ap6  # embargoed
-aerosol/mmrbc_tpt-h2m-hs-u@3hr:apt  # embargoed
-aerosol/mmrdust_tavg-al-hxy-u@mon:ap4  # embargoed
-aerosol/mmrdust_tavg-h2m-hxy-u@day:ap6  # embargoed
-aerosol/mmrdust_tpt-h2m-hs-u@3hr:apt  # embargoed
-aerosol/mmroa_tavg-al-hxy-u@mon:ap4  # embargoed
-aerosol/mmroa_tavg-h2m-hxy-u@day:ap6  # embargoed
-aerosol/mmroa_tpt-h2m-hs-u@3hr:apt  # embargoed
-aerosol/mmrpm2p5_tavg-al-hxy-u@mon:ap4  # embargoed
-aerosol/mmrso4_tavg-al-hxy-u@mon:ap4  # embargoed
-aerosol/mmrso4_tavg-h2m-hxy-u@day:ap6  # embargoed
-aerosol/mmrso4_tpt-h2m-hs-u@3hr:apt  # embargoed
-aerosol/mmrss_tavg-al-hxy-u@mon:ap4  # embargoed
-aerosol/mmrss_tavg-h2m-hxy-u@day:ap6  # embargoed
-aerosol/mmrss_tpt-h2m-hs-u@3hr:apt  # embargoed
-aerosol/od443aer_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/od550aer_tavg-u-hxy-u@day:ap6  # embargoed
-aerosol/od550aer_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/od550dust_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/od550lt1aer_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/od865aer_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/reffclwtop_tavg-u-hxy-cl@mon:ap4  # embargoed
-aerosol/rluscsaf_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/rlutaf_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/rlutcsaf_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/rsutaf_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/rsutcsaf_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/sfpm10_tavg-al-hxy-u@mon:ap4  # embargoed
-aerosol/sfpm10_tavg-h2m-hxy-u@day:ap6  # embargoed
-aerosol/sfpm25_tavg-h2m-hxy-u@1hr:ap9  # embargoed
-aerosol/sfpm25_tavg-h2m-hxy-u@day:ap6  # embargoed
-aerosol/so2_tavg-al-hxy-u@mon:ap4  # embargoed
-aerosol/so2_tavg-h2m-hxy-u@day:ap6  # embargoed
-aerosol/so2_tpt-h2m-hs-u@3hr:apt  # embargoed
-aerosol/tatp_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/ua_tavg-10hPa-hxy-air@day:ap6  # embargoed
-aerosol/wa_tavg-al-hxy-u@mon:ap4  # embargoed
-aerosol/wetdust_tavg-u-hxy-u@mon:ap4  # embargoed
-aerosol/zg_tavg-10hPa-hxy-air@day:ap6  # embargoed
-atmos/albisccp_tavg-u-hxy-cl@day:ap6  # embargoed
-atmos/albisccp_tavg-u-hxy-cl@mon:ap5  # embargoed
-atmos/bldep_tavg-u-hxy-u@mon:ap4  # embargoed
-atmos/bldep_tmax-u-hxy-u@day:ap6  # embargoed
-atmos/bldep_tmin-u-hxy-u@day:ap6  # embargoed
-atmos/ci_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/cl_tavg-al-hxy-u@day:ap6  # embargoed
-atmos/clc_tavg-al-hxy-u@mon:ap5  # embargoed
-atmos/clcalipso_tavg-220hPa-hxy-air@day:ap6  # embargoed
-atmos/clcalipso_tavg-220hPa-hxy-air@mon:ap5  # embargoed
-atmos/clcalipso_tavg-560hPa-hxy-air@day:ap6  # embargoed
-atmos/clcalipso_tavg-560hPa-hxy-air@mon:ap5  # embargoed
-atmos/clcalipso_tavg-840hPa-hxy-air@day:ap6  # embargoed
-atmos/clcalipso_tavg-840hPa-hxy-air@mon:ap5  # embargoed
-atmos/clcalipso_tavg-h40-hxy-air@mon:ap5  # embargoed
-atmos/cldncl_tavg-u-hxy-cl@mon:ap5  # embargoed
-atmos/cldnvi_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/clic_tavg-al-hxy-u@mon:ap5  # embargoed
-atmos/clis_tavg-al-hxy-u@mon:ap5  # embargoed
-atmos/clisccp_tavg-p7c-hxy-air@mon:ap5  # embargoed
-atmos/clivi_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/clivic_tavg-u-hxy-u@day:ap6  # embargoed
-#atmos/clmisr_tavg-h16-hxy-air@mon:ap5  # embargoed do-not-produce(testing)
-atmos/clmodis_tavg-p7c-hxy-air@mon:ap5  # embargoed
-atmos/cls_tavg-al-hxy-u@mon:ap5  # embargoed
-atmos/clt_tavg-u-hxy-lnd@day:ap6  # embargoed
-atmos/cltcalipso_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/cltcalipso_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/cltisccp_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/cltisccp_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/clwc_tavg-al-hxy-u@mon:ap5  # embargoed
-atmos/clws_tavg-al-hxy-u@mon:ap5  # embargoed
-atmos/clwvi_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/clwvic_tavg-u-hxy-u@day:ap6  # embargoed
-#atmos/co2mass_tavg-u-hm-u@mon:ap5  # embargoed do-not-produce(testing)
-atmos/epfy_tavg-p39-hy-air@day:ap6  # embargoed
-atmos/epfy_tavg-p39-hy-air@mon:ap5  # embargoed
-atmos/epfz_tavg-p39-hy-air@day:ap6  # embargoed
-atmos/epfz_tavg-p39-hy-air@mon:ap5  # embargoed
-# atmos/evspsbl_tavg-u-hxy-lnd@day:ap6  # embargoed do-not-produce(testing)
-atmos/hfls_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/hfss_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/hur_tavg-al-hxy-u@mon:ap5  # embargoed
-atmos/hurs_tmax-h2m-hxy-u@day:ap6  # embargoed
-atmos/hurs_tmin-h2m-hxy-u@day:ap6  # embargoed
-atmos/hus_tavg-al-hxy-u@mon:ap5  # embargoed
-atmos/hus_tpt-p7h-hxy-air@6hr:ap7  # embargoed
-atmos/intuadse_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/intuadse_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/intuaw_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/intuaw_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/intuaw_tpt-u-hxy-u@6hr:ap7  # embargoed
-atmos/intvadse_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/intvadse_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/intvaw_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/intvaw_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/intvaw_tpt-u-hxy-u@6hr:ap7  # embargoed
-atmos/mc_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/mcd_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/mcu_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/pctisccp_tavg-u-hxy-cl@day:ap6  # embargoed
-atmos/pctisccp_tavg-u-hxy-cl@mon:ap5  # embargoed
-atmos/pfull_tavg-al-hxy-u@mon:ap4  # embargoed
-atmos/phalf_tavg-alh-hxy-u@mon:ap4  # embargoed
-atmos/pr_tpt-u-hxy-u@6hr:ap7  # embargoed
-atmos/prc_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/prra_tavg-u-hxy-lnd@day:ap6  # embargoed
-atmos/prra_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/prsn_tavg-u-hxy-u@3hr:ap8  # embargoed
-atmos/prsn_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/prw_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/prw_tpt-u-hxy-u@6hr:ap7  # embargoed
-atmos/ps_tavg-u-hxy-u@1hr:ap9  # embargoed
-#atmos/psl_tpt-u-hxy-u@1hr:ap9  # embargoed #do-not-produce(testing)
-atmos/psl_tpt-u-hxy-u@6hr:ap7  # embargoed
-atmos/ptp_tavg-u-hxy-u@mon:ap4  # embargoed
-atmos/reffcclwtop_tavg-u-hxy-ccl@mon:ap5  # embargoed
-atmos/reffclic_tavg-al-hxy-ccl@mon:ap5  # embargoed
-atmos/reffclis_tavg-al-hxy-scl@mon:ap5  # embargoed
-atmos/reffclwc_tavg-al-hxy-ccl@mon:ap5  # embargoed
-atmos/reffclws_tavg-al-hxy-scl@mon:ap5  # embargoed
-atmos/reffsclwtop_tavg-u-hxy-scl@mon:ap5  # embargoed
-atmos/rld_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rld4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rldcs_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rldcs4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rlds_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/rldscs_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/rlu_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rlu4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rlucs_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rlucs4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rlus_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/rluscs_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/rlut_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/rlut4co2_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rlutcs_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/rlutcs4co2_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rsd_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rsd4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rsdcs_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rsdcs4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rsdscs_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/rsdt_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/rsu_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rsu4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rsucs_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rsucs4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
-atmos/rsus_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/rsuscs_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/rsut_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/rsut4co2_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rsutcs_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/rsutcs4co2_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rtmt_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/rv850_tpt-850hPa-hxy-air@6hr:ap7  # embargoed
-atmos/sci_tavg-u-hxy-u@mon:ap5  # embargoed
-atmos/scldncl_tavg-u-hxy-scl@mon:ap5  # embargoed
-atmos/sfcWind_tmax-h10m-hxy-u@day:ap6  # embargoed
-atmos/ta_tavg-700hPa-hxy-air@day:ap6  # embargoed
-atmos/ta_tavg-al-hxy-u@mon:ap5  # embargoed
-atmos/ta_tavg-p39-hy-air@day:ap6  # embargoed
-atmos/ta_tavg-p39-hy-air@mon:ap4  # embargoed
-atmos/tas_tavg-h2m-hxy-u@1hr:ap9  # embargoed
-atmos/tauu_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/tauv_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/tdps_tavg-h2m-hxy-u@mon:ap5  # embargoed
-atmos/tnhus_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tnhusa_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tnhusc_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tnhusmp_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tnhuspbl_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tnhusscp_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tnhusscpbl_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tnt_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tnta_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tntc_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tntmp_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tntpbl_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tntr_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tntrl_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tntrlcs_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tntrs_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tntrscs_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tntscp_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/tntscpbl_tavg-al-hxy-u@mon:apu  # embargoed
-atmos/ts_tavg-u-hxy-u@day:ap6  # embargoed
-atmos/ua_tavg-al-hxy-u@mon:ap4  # embargoed
-atmos/ua_tavg-p39-hy-air@day:ap6  # embargoed
-atmos/ua_tavg-p39-hy-air@mon:ap4  # embargoed
-atmos/uas_tpt-h10m-hxy-u@1hr:ap9  # embargoed
-atmos/uas_tpt-h10m-hxy-u@6hr:ap7  # embargoed
-atmos/utendepfd_tavg-p39-hy-air@day:ap6  # embargoed
-atmos/utendepfd_tavg-p39-hy-air@mon:ap5  # embargoed
-atmos/utendnogw_tavg-p39-hy-air@day:ap6  # embargoed
-atmos/utendnogw_tavg-p39-hy-air@mon:ap5  # embargoed
-atmos/utendogw_tavg-p39-hy-air@day:ap6  # embargoed
-atmos/va_tavg-al-hxy-u@mon:ap4  # embargoed
-atmos/va_tavg-p39-hy-air@mon:ap4  # embargoed
-atmos/vas_tpt-h10m-hxy-u@1hr:ap9  # embargoed
-atmos/vas_tpt-h10m-hxy-u@6hr:ap7  # embargoed
-atmos/vtem_tavg-p39-hy-air@day:ap6  # embargoed
-atmos/vtem_tavg-p39-hy-air@mon:ap5  # embargoed
-atmos/wap_tavg-500hPa-hxy-air@day:ap6  # embargoed
-atmos/wtem_tavg-p39-hy-air@day:ap6  # embargoed
-atmos/wtem_tavg-p39-hy-air@mon:ap5  # embargoed
-atmos/zg_tavg-1000hPa-hxy-air@day:ap6  # embargoed
-atmos/zg_tavg-500hPa-hxy-air@day:ap6  # embargoed
-atmos/zg_tavg-al-hxy-u@mon:ap4  # embargoed
-atmos/zg_tavg-p39-hy-air@day:ap6  # embargoed
-atmos/zg_tavg-p39-hy-air@mon:ap4  # embargoed
-atmos/zg_tpt-500hPa-hxy-air@6hr:ap7  # embargoed
-atmos/zg_tpt-p3-hxy-air@6hr:ap7  # embargoed
-atmos/zg_tpt-p7h-hxy-air@6hr:ap7  # embargoed
-atmos/ztp_tavg-u-hxy-u@mon:ap4  # embargoed
-atmosChem/dms_tavg-al-hxy-u@mon:ap4  # embargoed
-#land/evspsblpot_tavg-u-hxy-lnd@day:ap6  # embargoed do-not-produce(testing)
-land/evspsblpot_tavg-u-hxy-lnd@mon:ap5  # embargoed
-land/evspsblsoi_tavg-u-hxy-u@day:ap6  # embargoed
-land/evspsblveg_tavg-u-hxy-u@day:ap6  # embargoed
-land/mrro_tavg-u-hxy-lnd@day:ap6  # embargoed
-land/mrrob_tavg-u-hxy-lnd@day:ap6  # embargoed
-land/mrsfl_tavg-sl-hxy-lnd@mon:ap5  # embargoed
-land/mrsll_tavg-sl-hxy-lnd@day:ap6  # embargoed
-land/mrsll_tavg-sl-hxy-lnd@mon:ap5  # embargoed
-land/mrso_tavg-u-hxy-lnd@day:ap6  # embargoed
-land/mrsol_tavg-d10cm-hxy-lnd@day:ap6  # embargoed
-land/mrsol_tavg-sl-hxy-lnd@day:ap6  # embargoed
-land/mrsol_tavg-sl-hxy-lnd@mon:ap5  # embargoed
-land/sftgif_tavg-u-hxy-u@mon:ap5  # embargoed
-land/tsl_tavg-sl-hxy-lnd@day:ap6  # embargoed
-land/tsl_tavg-sl-hxy-lnd@mon:ap5  # embargoed
-land/wetlandCH4_tavg-u-hxy-lnd@mon:ap5  # embargoed
-land/wtd_tavg-u-hxy-lnd@day:ap6  # embargoed
-#landIce/acabf_tavg-u-hxy-is@mon:ap5  # embargoed do-not-produce(testing)
-#landIce/hfls_tavg-u-hxy-is@mon:ap5  # embargoed do-not-produce(testing)
-#landIce/hfss_tavg-u-hxy-is@mon:ap5  # embargoed do-not-produce(testing)
-#landIce/litemptop_tavg-u-hxy-is@mon:ap5  # embargoed do-not-produce(testing)
-#landIce/mrro_tavg-u-hxy-is@mon:ap5  # embargoed do-not-produce(testing)
-#landIce/rlds_tavg-u-hxy-is@mon:ap5  # embargoed do-not-produce(testing)
-#landIce/rlus_tavg-u-hxy-is@mon:ap5  # embargoed do-not-produce(testing)
-#landIce/sbl_tavg-u-hxy-is@mon:ap5  # embargoed do-not-produce(testing)
-landIce/sbl_tavg-u-hxy-u@mon:ap5  # embargoed
-#landIce/snc_tavg-u-hxy-lnd@day:ap6  # embargoed do-not-produce(testing)
-#landIce/snd_tavg-u-hxy-lnd@mon:ap5  # embargoed do-not-produce(testing)
-#landIce/snicem_tavg-u-hxy-is@mon:ap5  # embargoed do-not-produce(testing)
-#landIce/snm_tavg-u-hxy-is@mon:ap5  # embargoed do-not-produce(testing)
-#landIce/snm_tavg-u-hxy-lnd@mon:ap5  # embargoed do-not-produce(testing)
-#landIce/snrefr_tavg-u-hxy-is@mon:ap5  # embargoed do-not-produce(testing)
-#landIce/snw_tavg-u-hxy-lnd@day:ap6  # embargoed do-not-produce(testing)
-#landIce/tas_tavg-h2m-hxy-is@mon:ap5  # embargoed do-not-produce(testing)
-#landIce/ts_tavg-u-hxy-is@mon:ap5  # embargoed do-not-produce(testing)
-#ocean/bigthetao_tavg-ol-hm-sea@mon  # embargoed
-#ocean/bigthetao_tavg-op20bar-hxy-sea@day  # embargoed
-#ocean/flandice_tavg-u-hxy-sea@mon  # embargoed
-#ocean/hfbasin_tavg-u-hyb-sea@mon  # embargoed
-#ocean/hfbasinpadv_tavg-u-hyb-sea@mon  # embargoed
-#ocean/hfbasinpmadv_tavg-u-hyb-sea@mon  # embargoed
-#ocean/hfbasinpmdiff_tavg-u-hyb-sea@mon  # embargoed
-#ocean/hfx_tavg-u-hxy-sea@day  # embargoed
-#ocean/hfx_tavg-u-hxy-sea@mon  # embargoed
-#ocean/hfy_tavg-u-hxy-sea@day  # embargoed
-#ocean/hfy_tavg-u-hxy-sea@mon  # embargoed
-#ocean/htovgyre_tavg-u-hyb-sea@mon  # embargoed
-#ocean/htovovrt_tavg-u-hyb-sea@mon  # embargoed
-#ocean/masso_tavg-u-hm-sea@mon  # embargoed
-#ocean/mlotst_tavg-u-hxy-sea@day  # embargoed
-#ocean/mlotst_tmax-u-hxy-sea@mon  # embargoed
-#ocean/mlotst_tmin-u-hxy-sea@mon  # embargoed
-#ocean/msftbarot_tavg-u-hxy-sea@mon  # embargoed
-#ocean/msfty_tavg-ol-ht-sea@mon  # embargoed
-#ocean/obvfsq_tavg-ol-hxy-sea@mon  # embargoed
-#ocean/pbo_tavg-u-hxy-sea@mon  # embargoed
-#ocean/sfx_tavg-u-hxy-sea@mon  # embargoed
-#ocean/sfy_tavg-u-hxy-sea@mon  # embargoed
-#ocean/sltbasin_tavg-u-hyb-sea@mon  # embargoed
-#ocean/sltovgyre_tavg-u-hyb-sea@mon  # embargoed
-#ocean/sltovovrt_tavg-u-hyb-sea@mon  # embargoed
-#ocean/so_tavg-ol-hm-sea@mon  # embargoed
-#ocean/sob_tavg-u-hxy-sea@mon  # embargoed
-#ocean/sos_tavg-u-hm-sea@mon  # embargoed
-#ocean/thetao_tavg-ol-hm-sea@mon  # embargoed
-#ocean/thetao_tavg-op20bar-hxy-sea@day  # embargoed
-#ocean/tos_tavg-u-hm-sea@mon  # embargoed
-#ocean/tos_tpt-u-hxy-sea@3hr  # embargoed
-#ocean/tossq_tavg-u-hxy-sea@day  # embargoed
-#ocean/uos_tavg-u-hxy-sea@day  # embargoed
-#ocean/volcello_tavg-ol-hxy-sea@mon  # embargoed
-#ocean/volcello_tavg-ol-hxy-sea@yr  # embargoed
-#ocean/volo_tavg-u-hm-sea@mon  # embargoed
-#ocean/vos_tavg-u-hxy-sea@day  # embargoed
-#ocean/wfo_tavg-u-hxy-sea@mon  # embargoed
-#ocean/zossq_tavg-u-hxy-sea@mon  # embargoed
-#ocean/zostoga_tavg-u-hm-sea@day  # embargoed
-#seaIce/evspsbl_tavg-u-hxy-si@mon  # embargoed
-#seaIce/prsn_tavg-u-hxy-si@mon  # embargoed
-seaIce/rlds_tavg-u-hxy-si@day:ap6  # embargoed
-seaIce/rlds_tavg-u-hxy-si@mon:ap5  # embargoed
-seaIce/rlus_tavg-u-hxy-si@day:ap6  # embargoed
-seaIce/rlus_tavg-u-hxy-si@mon:ap5  # embargoed
-seaIce/rsds_tavg-u-hxy-si@day:ap6  # embargoed
-seaIce/rsds_tavg-u-hxy-si@mon:ap5  # embargoed
-seaIce/rsus_tavg-u-hxy-si@day:ap6  # embargoed
-seaIce/rsus_tavg-u-hxy-si@mon:ap5  # embargoed
-#seaIce/sbl_tavg-u-hxy-si@mon  # embargoed
-#seaIce/siage_tavg-u-hxy-si@day  # embargoed
-seaIce/siconca_tavg-u-hxy-u@day:ap6  # embargoed
-seaIce/siconca_tavg-u-hxy-u@mon:ap5  # embargoed
-#seaIce/sidconcdyn_tavg-u-hxy-sea@mon  # embargoed
-#seaIce/sidconcth_tavg-u-hxy-sea@mon  # embargoed
-#seaIce/sidmassdyn_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sidmassgrowthbot_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sidmassgrowthsi_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sidmassgrowthwat_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sidmassmeltbot_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sidmassmeltlat_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sidmassmelttop_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sidmassth_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sieqthick_tavg-u-hxy-si@mon  # embargoed
-#seaIce/siflcondbot_tavg-u-hxy-si@day  # embargoed
-#seaIce/siflcondbot_tavg-u-hxy-si@mon  # embargoed
-#seaIce/siflcondtop_tavg-u-hxy-si@day  # embargoed
-#seaIce/siflcondtop_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sifllattop_tavg-u-hxy-si@day  # embargoed
-#seaIce/sifllattop_tavg-u-hxy-si@mon  # embargoed
-#seaIce/siflsensbot_tavg-u-hxy-si@day  # embargoed
-#seaIce/siflsensbot_tavg-u-hxy-si@mon  # embargoed
-seaIce/siflsenstop_tavg-u-hxy-si@day:ap6  # embargoed
-seaIce/siflsenstop_tavg-u-hxy-si@mon:ap5  # embargoed
-#seaIce/siflswdbot_tavg-u-hxy-si@day  # embargoed
-#seaIce/siflswdbot_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sihc_tavg-u-hxy-sea@day  # embargoed
-#seaIce/sihc_tavg-u-hxy-sea@mon  # embargoed
-#seaIce/siitdconc_tavg-u-hxy-si@mon  # embargoed
-#seaIce/siitdsnconc_tavg-u-hxy-si@mon  # embargoed
-#seaIce/siitdthick_tavg-u-hxy-si@mon  # embargoed
-#seaIce/simpconc_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sisaltmass_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sisndmassdyn_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sisndmasssi_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sisnhc_tavg-u-hxy-si@day  # embargoed
-#seaIce/sispeed_tavg-u-hxy-si@day  # embargoed
-#seaIce/sispeed_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sistressave_tpt-u-hxy-si@mon  # embargoed
-#seaIce/sistressmax_tpt-u-hxy-si@mon  # embargoed
-#seaIce/sistrxdtop_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sistrxubot_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sistrydtop_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sistryubot_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sitempsnic_tavg-u-hxy-si@mon  # embargoed
-#seaIce/sithick_tavg-u-hxy-si@day  # embargoed
-#seaIce/sitimefrac_tavg-u-hxy-sea@day  # embargoed
-#seaIce/siu_tavg-u-hxy-si@day  # embargoed
-#seaIce/siv_tavg-u-hxy-si@day  # embargoed
-#seaIce/snc_tavg-u-hxy-si@mon  # embargoed
-#seaIce/snd_tavg-u-hxy-sn@day  # embargoed
-#seaIce/snm_tavg-u-hxy-si@mon  # embargoed
-#seaIce/snw_tavg-u-hxy-si@mon  # embargoed
-seaIce/ts_tavg-u-hxy-si@day:ap6  # embargoed
-atmos/hur_tavg-700hPa-hxy-air@day:ap6  # embargoed, priority=medium
-atmos/hur_tpt-100hPa-hxy-u@6hr:ap7  # embargoed, priority=medium
-atmos/hur_tpt-500hPa-hxy-air@6hr:ap7  # embargoed, priority=medium
-atmos/hur_tpt-850hPa-hxy-air@6hr:ap7  # embargoed, priority=medium
-atmos/hurs_tpt-h2m-hxy-u@3hr:ap8  # embargoed, priority=medium
-atmos/ps_tpt-u-hxy-u@3hr:ap8  # embargoed, priority=medium
-atmos/rlds_tavg-u-hxy-u@3hr:ap8  # embargoed, priority=medium
-atmos/rls_tavg-u-hxy-u@day:ap6  # embargoed, priority=medium
-atmos/rls_tavg-u-hxy-u@mon:ap5  # embargoed, priority=medium
-atmos/rsds_tavg-u-hxy-u@3hr:ap8  # embargoed, priority=medium
-atmos/rsdsdiff_tavg-u-hxy-u@day:ap6  # embargoed, priority=medium
-atmos/rss_tavg-u-hxy-u@day:ap6  # embargoed, priority=medium
-atmos/rss_tavg-u-hxy-u@mon:ap5  # embargoed, priority=medium
-atmos/sfcWind_tavg-h10m-hxy-u@3hr:ap8  # embargoed, priority=medium
-atmos/tauupbl_tavg-u-hxy-u@day:ap6  # embargoed, priority=medium
-atmos/tauvpbl_tavg-u-hxy-u@day:ap6  # embargoed, priority=medium
-atmos/ua_tpt-200hPa-hxy-u@6hr:ap7  # embargoed, priority=medium
-atmos/utendnogw_tavg-p19-hxy-air@day:ap6  # embargoed, priority=medium
-atmos/utendnogw_tavg-p19-hxy-air@mon:ap5  # embargoed, priority=medium
-atmos/utendogw_tavg-p19-hxy-air@day:ap6  # embargoed, priority=medium
-atmos/utendogw_tavg-p19-hxy-air@mon:ap5  # embargoed, priority=medium
-atmos/va_tpt-200hPa-hxy-u@6hr:ap7  # embargoed, priority=medium
-atmos/zg_tpt-700hPa-hxy-u@6hr:ap7  # embargoed, priority=medium
-atmos/zg_tpt-925hPa-hxy-u@6hr:ap7  # embargoed, priority=medium
-land/mrro_tavg-u-hxy-lnd@3hr:ap8  # embargoed, priority=medium
-land/mrros_tavg-u-hxy-lnd@3hr:ap8  # embargoed, priority=medium
-land/mrsol_tpt-d10cm-hxy-lnd@3hr:ap8  # embargoed, priority=medium
-#ocean/evspsbl_tavg-u-hxy-ifs@mon  # embargoed, priority=medium
-#ocean/ficeberg_tavg-ol-hxy-sea@mon  # embargoed, priority=medium
-#ocean/friver_tavg-u-hxy-sea@mon  # embargoed, priority=medium
-#ocean/hfevapds_tavg-u-hxy-ifs@mon  # embargoed, priority=medium
-#ocean/hfibthermds_tavg-ol-hxy-sea@mon  # embargoed, priority=medium
-#ocean/hfrainds_tavg-u-hxy-ifs@mon  # embargoed, priority=medium
-#ocean/hfrunoffds_tavg-ol-hxy-sea@mon  # embargoed, priority=medium
-#ocean/hfsnthermds_tavg-ol-hxy-sea@mon  # embargoed, priority=medium
-#ocean/sfdsi_tavg-u-hxy-sea@mon  # embargoed, priority=medium
-#ocean/siflfwbot_tavg-u-hxy-sea@mon  # embargoed, priority=medium
-#ocean/so_tavg-ol-hxy-sea@day  # embargoed, priority=medium
-#seaIce/sfdsi_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/siage_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/sicompstren_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/sidivvel_tpt-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/sidmasstranx_tavg-u-hxy-u@mon  # embargoed, priority=medium
-#seaIce/sidmasstrany_tavg-u-hxy-u@mon  # embargoed, priority=medium
-seaIce/sidragtop_tavg-u-hxy-si@mon:ap5  # embargoed, priority=medium
-#seaIce/sifb_tavg-u-hxy-si@day  # embargoed, priority=medium
-#seaIce/sifb_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/siflfwbot_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/siflfwdrain_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/siforcecoriolx_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/siforcecorioly_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/siforceintstrx_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/siforceintstry_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/siforcetiltx_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/siforcetilty_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/siitdconc_tavg-u-hxy-si@day  # embargoed, priority=medium
-#seaIce/siitdsnconc_tavg-u-hxy-si@day  # embargoed, priority=medium
-#seaIce/siitdsnthick_tavg-u-hxy-si@day  # embargoed, priority=medium
-#seaIce/siitdthick_tavg-u-hxy-si@day  # embargoed, priority=medium
-#seaIce/simpconc_tavg-u-hxy-si@day  # embargoed, priority=medium
-#seaIce/simpeffconc_tavg-u-hxy-si@day  # embargoed, priority=medium
-#seaIce/simpeffconc_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/simprefrozen_tavg-u-hxy-simp@day  # embargoed, priority=medium
-#seaIce/simprefrozen_tavg-u-hxy-simp@mon  # embargoed, priority=medium
-#seaIce/simpthick_tavg-u-hxy-si@day  # embargoed, priority=medium
-#seaIce/simpthick_tavg-u-hxy-simp@mon  # embargoed, priority=medium
-#seaIce/sisali_tavg-u-hxy-si@day  # embargoed, priority=medium
-#seaIce/sisali_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/sisaltmass_tavg-u-hxy-si@day  # embargoed, priority=medium
-#seaIce/sishearvel_tpt-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/sitempbot_tavg-u-hxy-si@day  # embargoed, priority=medium
-#seaIce/sitempbot_tavg-u-hxy-si@mon  # embargoed, priority=medium
-#seaIce/sitempsnic_tavg-u-hxy-si@day  # embargoed, priority=medium
-aerosol/ccldncl_tavg-u-hxy-ccl@day:ap6  # embargoed, priority=low
-aerosol/sfpm10_tavg-h2m-hxy-u@1hr:ap9  # embargoed, priority=low
-atmos/cldnvi_tavg-u-hxy-u@day:ap6  # embargoed, priority=low
-atmos/hurs_tavg-h2m-hxy-u@1hr:ap9  # embargoed, priority=low
-atmos/hurs_tmin-h2m-hxy-crp@day:ap6  # embargoed, priority=low
-atmos/loaddust_tavg-u-hxy-u@day:ap6  # embargoed, priority=low
-atmos/reffcclwtop_tavg-u-hxy-ccl@day:ap6  # embargoed, priority=low
-atmos/reffsclwtop_tavg-u-hxy-scl@day:ap6  # embargoed, priority=low
-atmos/rsds_tavg-u-hxy-u@1hr:ap9  # embargoed, priority=low
-atmos/scldncl_tavg-u-hxy-scl@day:ap6  # embargoed, priority=low
-atmos/sfcWind_tavg-h10m-hxy-u@1hr:ap9  # embargoed, priority=low
-land/tran_tavg-u-hxy-lnd@mon:ap5  # embargoed, priority=low
-#ocean/difvho_tavg-ol-hxy-sea@yr  # embargoed, priority=low
-#ocean/difvso_tavg-ol-hxy-sea@yr  # embargoed, priority=low
-#ocean/mlotstsq_tavg-u-hxy-sea@mon  # embargoed, priority=low
-#ocean/ocontempdiff_tavg-ol-hxy-sea@yr  # embargoed, priority=low
-#ocean/ocontempmint_tavg-u-hxy-sea@yr  # embargoed, priority=low
-#ocean/ocontemppmdiff_tavg-ol-hxy-sea@yr  # embargoed, priority=low
-#ocean/ocontemprmadvect_tavg-ol-hxy-sea@yr  # embargoed, priority=low
-#ocean/ocontemptend_tavg-ol-hxy-sea@yr  # embargoed, priority=low
-#ocean/opottempmint_tavg-u-hxy-sea@yr  # embargoed, priority=low
-#ocean/osaltdiff_tavg-ol-hxy-sea@yr  # embargoed, priority=low
-#ocean/osaltpmdiff_tavg-ol-hxy-sea@yr  # embargoed, priority=low
-#ocean/osaltrmadvect_tavg-ol-hxy-sea@yr  # embargoed, priority=low
-#ocean/osalttend_tavg-ol-hxy-sea@yr  # embargoed, priority=low
-#ocean/rsdoabsorb_tavg-ol-hxy-sea@yr  # embargoed, priority=low
-#ocean/somint_tavg-u-hxy-sea@yr  # embargoed, priority=low
-#ocean/sossq_tavg-u-hxy-sea@mon  # embargoed, priority=low
-#ocean/thkcelluo_tavg-ol-hxy-sea@mon  # embargoed, priority=low
-#ocean/thkcellvo_tavg-ol-hxy-sea@mon  # embargoed, priority=low
-#ocean/tnpeo_tavg-u-hxy-sea@yr  # embargoed, priority=low
-#ocean/tossq_tavg-u-hxy-sea@mon  # embargoed, priority=low
+#atmos/pr_tavg-u-hxy-u@mon:ap5  # approved
+#atmos/tas_tavg-h2m-hxy-u@day:ap6  # approved
+#atmos/tas_tavg-h2m-hxy-u@mon:ap5  # approved
+#atmos/cl_tavg-al-hxy-u@mon:ap5  # embargoed
+#atmos/cli_tavg-al-hxy-u@mon:ap5  # embargoed
+#atmos/clivi_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/clt_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/clt_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/clw_tavg-al-hxy-u@mon:ap5  # embargoed
+#atmos/clwvi_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/evspsbl_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/hfls_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/hfss_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/hur_tavg-p19-hxy-air@mon:ap5  # embargoed
+#atmos/hur_tavg-p19-hxy-u@day:ap6  # embargoed
+#atmos/hurs_tavg-h2m-hxy-u@6hr:ap7  # embargoed
+#atmos/hurs_tavg-h2m-hxy-u@day:ap6  # embargoed
+#atmos/hurs_tavg-h2m-hxy-u@mon:ap5  # embargoed
+#atmos/hus_tavg-p19-hxy-u@day:ap6  # embargoed
+#atmos/hus_tavg-p19-hxy-u@mon:ap5  # embargoed
+#atmos/huss_tavg-h2m-hxy-u@day:ap6  # embargoed
+#atmos/huss_tavg-h2m-hxy-u@mon:ap5  # embargoed
+#atmos/huss_tpt-h2m-hxy-u@3hr:ap8  # embargoed
+#atmos/pr_tavg-u-hxy-u@1hr:ap9  # embargoed
+#atmos/pr_tavg-u-hxy-u@3hr:ap8  # embargoed
+#atmos/pr_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/prc_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/prsn_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/prw_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/ps_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/ps_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/psl_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/psl_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rlds_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rldscs_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rlus_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rluscs_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rlut_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rlutcs_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rsds_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/rsds_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rsdscs_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rsdt_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rsus_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rsuscs_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rsut_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rsutcs_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/sfcWind_tavg-h10m-hxy-u@day:ap6  # embargoed
+#atmos/sfcWind_tavg-h10m-hxy-u@mon:ap5  # embargoed
+#atmos/ta_tavg-p19-hxy-air@day:ap6  # embargoed
+#atmos/ta_tavg-p19-hxy-air@mon:ap5  # embargoed
+#atmos/ta_tpt-p3-hxy-air@6hr:ap7  # embargoed
+#atmos/tas_tmax-h2m-hxy-u@day:ap6  # embargoed
+#atmos/tas_tmaxavg-h2m-hxy-u@mon:ap6  # embargoed
+#atmos/tas_tmin-h2m-hxy-u@day:ap6  # embargoed
+#atmos/tas_tminavg-h2m-hxy-u@mon:ap6  # embargoed
+#atmos/tas_tpt-h2m-hxy-u@3hr:ap8  # embargoed
+#atmos/tauu_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/tauv_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/ts_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/ua_tavg-p19-hxy-air@day:ap6  # embargoed
+#atmos/ua_tavg-p19-hxy-air@mon:ap5  # embargoed
+#atmos/ua_tpt-p3-hxy-air@6hr:ap7  # embargoed
+#atmos/uas_tavg-h10m-hxy-u@day:ap6  # embargoed
+#atmos/uas_tavg-h10m-hxy-u@mon:ap5  # embargoed
+#atmos/uas_tpt-h10m-hxy-u@3hr:ap8  # embargoed
+#atmos/va_tavg-p19-hxy-air@day:ap6  # embargoed
+#atmos/va_tavg-p19-hxy-air@mon:ap5  # embargoed
+#atmos/va_tpt-p3-hxy-air@6hr:ap7  # embargoed
+#atmos/vas_tavg-h10m-hxy-u@day:ap6  # embargoed
+#atmos/vas_tavg-h10m-hxy-u@mon:ap5  # embargoed
+#atmos/vas_tpt-h10m-hxy-u@3hr:ap8  # embargoed
+#atmos/wap_tavg-p19-hxy-air@mon:ap5  # embargoed
+#atmos/wap_tavg-p19-hxy-u@day:ap6  # embargoed
+#atmos/zg_tavg-p19-hxy-air@day:ap6  # embargoed
+#atmos/zg_tavg-p19-hxy-air@mon:ap5  # embargoed
+#land/evspsblsoi_tavg-u-hxy-lnd@mon:ap5  # embargoed
+#land/evspsblveg_tavg-u-hxy-lnd@mon:ap5  # embargoed
+#land/mrro_tavg-u-hxy-lnd@mon:ap5  # embargoed
+#land/mrros_tavg-u-hxy-lnd@mon:ap5  # embargoed
+#land/mrso_tavg-u-hxy-lnd@mon:ap5  # embargoed
+#land/mrsol_tavg-d10cm-hxy-lnd@mon:ap5  # embargoed
+#landIce/mrfso_tavg-u-hxy-lnd@mon:ap5  # embargoed
+#landIce/snc_tavg-u-hxy-lnd@mon:ap5  # embargoed
+#landIce/snw_tavg-u-hxy-lnd@mon:ap5  # embargoed
+ocean/bigthetao_tavg-ol-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/hfds_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/masscello_tavg-ol-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/mlotst_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/so_tavg-ol-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/sos_tavg-u-hxy-sea@day:ond/grid-T  # embargoed
+ocean/sos_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/tauuo_tavg-u-hxy-sea@mon:onm/grid-U  # embargoed
+ocean/tauvo_tavg-u-hxy-sea@mon:onm/grid-V  # embargoed
+ocean/thetao_tavg-ol-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/thkcello_tavg-ol-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/tos_tavg-u-hxy-sea@day:ond/grid-T  # embargoed
+ocean/tos_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/umo_tavg-ol-hxy-sea@mon:onm/grid-U  # embargoed
+ocean/uo_tavg-ol-hxy-sea@mon:onm/grid-U  # embargoed
+ocean/vmo_tavg-ol-hxy-sea@mon:onm/grid-V  # embargoed
+ocean/vo_tavg-ol-hxy-sea@mon:onm/grid-V  # embargoed
+ocean/wmo_tavg-ol-hxy-sea@mon:onm/grid-W  # embargoed
+ocean/wo_tavg-ol-hxy-sea@mon:onm/grid-W  # embargoed
+ocean/zos_tavg-u-hxy-sea@day:ond/grid-T  # embargoed
+ocean/zos_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/zostoga_tavg-u-hm-sea@mon:onm/grid-T  # embargoed
+seaIce/siconc_tavg-u-hxy-u@day:ind/icemod  # embargoed
+seaIce/siconc_tavg-u-hxy-u@mon:inm/icemod  # embargoed
+seaIce/simass_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sithick_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sitimefrac_tavg-u-hxy-sea@mon:inm/icemod  # embargoed
+seaIce/siu_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/siv_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/snd_tavg-u-hxy-sn@mon:inm/icemod  # embargoed
+#seaIce/ts_tavg-u-hxy-si@mon:ap5  # embargoed
+#aerosol/abs550aer_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/abs550dust_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/airmass_tavg-al-hxy-u@mon:ap4  # embargoed
+#aerosol/ccldncl_tavg-u-hxy-ccl@mon:ap5  # embargoed
+#aerosol/cdnc_tavg-al-hxy-u@mon:ap4  # embargoed
+#aerosol/cheaqpso4_tavg-al-hxy-u@mon:ap4  # embargoed
+#aerosol/chegpso4_tavg-al-hxy-u@mon:ap4  # embargoed
+#aerosol/chepsoa_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/cod_tavg-u-hxy-u@day:ap6  # embargoed
+#aerosol/cod_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/conccn_tavg-al-hxy-u@mon:ap5  # embargoed
+#aerosol/conccn_tpt-u-hs-u@3hr:apt  # embargoed
+#aerosol/depdust_tavg-u-hxy-u@mon:ap5  # embargoed
+#aerosol/drydust_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/ec550aer_tavg-al-hxy-u@mon:ap5  # embargoed
+#aerosol/ec550aer_tpt-al-hxy-u@6hr:ap7  # embargoed
+#aerosol/emibc_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/emibvoc_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/emidms_tavg-u-hxy-u@mon:ap5  # embargoed
+#aerosol/emidust_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/emiisop_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/emiso2_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/emiso4_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/emiss_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/h2o_tavg-al-hxy-u@mon:ap4  # embargoed
+#aerosol/lwp_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/mmraerh2o_tavg-h2m-hxy-u@day:ap6  # embargoed
+#aerosol/mmraerh2o_tpt-h2m-hs-u@3hr:apt  # embargoed
+#aerosol/mmrbc_tavg-al-hxy-u@mon:ap4  # embargoed
+#aerosol/mmrbc_tavg-h2m-hxy-u@day:ap6  # embargoed
+#aerosol/mmrbc_tpt-h2m-hs-u@3hr:apt  # embargoed
+#aerosol/mmrdust_tavg-al-hxy-u@mon:ap4  # embargoed
+#aerosol/mmrdust_tavg-h2m-hxy-u@day:ap6  # embargoed
+#aerosol/mmrdust_tpt-h2m-hs-u@3hr:apt  # embargoed
+#aerosol/mmroa_tavg-al-hxy-u@mon:ap4  # embargoed
+#aerosol/mmroa_tavg-h2m-hxy-u@day:ap6  # embargoed
+#aerosol/mmroa_tpt-h2m-hs-u@3hr:apt  # embargoed
+#aerosol/mmrpm2p5_tavg-al-hxy-u@mon:ap4  # embargoed
+#aerosol/mmrso4_tavg-al-hxy-u@mon:ap4  # embargoed
+#aerosol/mmrso4_tavg-h2m-hxy-u@day:ap6  # embargoed
+#aerosol/mmrso4_tpt-h2m-hs-u@3hr:apt  # embargoed
+#aerosol/mmrss_tavg-al-hxy-u@mon:ap4  # embargoed
+#aerosol/mmrss_tavg-h2m-hxy-u@day:ap6  # embargoed
+#aerosol/mmrss_tpt-h2m-hs-u@3hr:apt  # embargoed
+#aerosol/od443aer_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/od550aer_tavg-u-hxy-u@day:ap6  # embargoed
+#aerosol/od550aer_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/od550dust_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/od550lt1aer_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/od865aer_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/reffclwtop_tavg-u-hxy-cl@mon:ap4  # embargoed
+#aerosol/rluscsaf_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/rlutaf_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/rlutcsaf_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/rsutaf_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/rsutcsaf_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/sfpm10_tavg-al-hxy-u@mon:ap4  # embargoed
+#aerosol/sfpm10_tavg-h2m-hxy-u@day:ap6  # embargoed
+#aerosol/sfpm25_tavg-h2m-hxy-u@1hr:ap9  # embargoed
+#aerosol/sfpm25_tavg-h2m-hxy-u@day:ap6  # embargoed
+#aerosol/so2_tavg-al-hxy-u@mon:ap4  # embargoed
+#aerosol/so2_tavg-h2m-hxy-u@day:ap6  # embargoed
+#aerosol/so2_tpt-h2m-hs-u@3hr:apt  # embargoed
+#aerosol/tatp_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/ua_tavg-10hPa-hxy-air@day:ap6  # embargoed
+#aerosol/wa_tavg-al-hxy-u@mon:ap4  # embargoed
+#aerosol/wetdust_tavg-u-hxy-u@mon:ap4  # embargoed
+#aerosol/zg_tavg-10hPa-hxy-air@day:ap6  # embargoed
+#atmos/albisccp_tavg-u-hxy-cl@day:ap6  # embargoed
+#atmos/albisccp_tavg-u-hxy-cl@mon:ap5  # embargoed
+#atmos/bldep_tavg-u-hxy-u@mon:ap4  # embargoed
+#atmos/bldep_tmax-u-hxy-u@day:ap6  # embargoed
+#atmos/bldep_tmin-u-hxy-u@day:ap6  # embargoed
+#atmos/ci_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/cl_tavg-al-hxy-u@day:ap6  # embargoed
+#atmos/clc_tavg-al-hxy-u@mon:ap5  # embargoed
+#atmos/clcalipso_tavg-220hPa-hxy-air@day:ap6  # embargoed
+#atmos/clcalipso_tavg-220hPa-hxy-air@mon:ap5  # embargoed
+#atmos/clcalipso_tavg-560hPa-hxy-air@day:ap6  # embargoed
+#atmos/clcalipso_tavg-560hPa-hxy-air@mon:ap5  # embargoed
+#atmos/clcalipso_tavg-840hPa-hxy-air@day:ap6  # embargoed
+#atmos/clcalipso_tavg-840hPa-hxy-air@mon:ap5  # embargoed
+#atmos/clcalipso_tavg-h40-hxy-air@mon:ap5  # embargoed
+#atmos/cldncl_tavg-u-hxy-cl@mon:ap5  # embargoed
+#atmos/cldnvi_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/clic_tavg-al-hxy-u@mon:ap5  # embargoed
+#atmos/clis_tavg-al-hxy-u@mon:ap5  # embargoed
+#atmos/clisccp_tavg-p7c-hxy-air@mon:ap5  # embargoed
+#atmos/clivi_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/clivic_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/clmisr_tavg-h16-hxy-air@mon:ap5  # embargoed
+#atmos/clmodis_tavg-p7c-hxy-air@mon:ap5  # embargoed
+#atmos/cls_tavg-al-hxy-u@mon:ap5  # embargoed
+#atmos/clt_tavg-u-hxy-lnd@day:ap6  # embargoed
+#atmos/cltcalipso_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/cltcalipso_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/cltisccp_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/cltisccp_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/clwc_tavg-al-hxy-u@mon:ap5  # embargoed
+#atmos/clws_tavg-al-hxy-u@mon:ap5  # embargoed
+#atmos/clwvi_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/clwvic_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/co2mass_tavg-u-hm-u@mon:ap5  # embargoed
+#atmos/epfy_tavg-p39-hy-air@day:ap6  # embargoed
+#atmos/epfy_tavg-p39-hy-air@mon:ap5  # embargoed
+#atmos/epfz_tavg-p39-hy-air@day:ap6  # embargoed
+#atmos/epfz_tavg-p39-hy-air@mon:ap5  # embargoed
+#atmos/evspsbl_tavg-u-hxy-lnd@day:ap6  # embargoed
+#atmos/hfls_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/hfss_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/hur_tavg-al-hxy-u@mon:ap5  # embargoed
+#atmos/hurs_tmax-h2m-hxy-u@day:ap6  # embargoed
+#atmos/hurs_tmin-h2m-hxy-u@day:ap6  # embargoed
+#atmos/hus_tavg-al-hxy-u@mon:ap5  # embargoed
+#atmos/hus_tpt-p7h-hxy-air@6hr:ap7  # embargoed
+#atmos/intuadse_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/intuadse_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/intuaw_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/intuaw_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/intuaw_tpt-u-hxy-u@6hr:ap7  # embargoed
+#atmos/intvadse_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/intvadse_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/intvaw_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/intvaw_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/intvaw_tpt-u-hxy-u@6hr:ap7  # embargoed
+#atmos/mc_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/mcd_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/mcu_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/pctisccp_tavg-u-hxy-cl@day:ap6  # embargoed
+#atmos/pctisccp_tavg-u-hxy-cl@mon:ap5  # embargoed
+#atmos/pfull_tavg-al-hxy-u@mon:ap4  # embargoed
+#atmos/phalf_tavg-alh-hxy-u@mon:ap4  # embargoed
+#atmos/pr_tpt-u-hxy-u@6hr:ap7  # embargoed
+#atmos/prc_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/prra_tavg-u-hxy-lnd@day:ap6  # embargoed
+#atmos/prra_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/prsn_tavg-u-hxy-u@3hr:ap8  # embargoed
+#atmos/prsn_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/prw_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/prw_tpt-u-hxy-u@6hr:ap7  # embargoed
+#atmos/ps_tavg-u-hxy-u@1hr:ap9  # embargoed
+#atmos/psl_tpt-u-hxy-u@1hr:ap9  # embargoed
+#atmos/psl_tpt-u-hxy-u@6hr:ap7  # embargoed
+#atmos/ptp_tavg-u-hxy-u@mon:ap4  # embargoed
+#atmos/reffcclwtop_tavg-u-hxy-ccl@mon:ap5  # embargoed
+#atmos/reffclic_tavg-al-hxy-ccl@mon:ap5  # embargoed
+#atmos/reffclis_tavg-al-hxy-scl@mon:ap5  # embargoed
+#atmos/reffclwc_tavg-al-hxy-ccl@mon:ap5  # embargoed
+#atmos/reffclws_tavg-al-hxy-scl@mon:ap5  # embargoed
+#atmos/reffsclwtop_tavg-u-hxy-scl@mon:ap5  # embargoed
+#atmos/rld_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rld4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rldcs_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rldcs4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rlds_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/rldscs_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/rlu_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rlu4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rlucs_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rlucs4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rlus_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/rluscs_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/rlut_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/rlut4co2_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rlutcs_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/rlutcs4co2_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rsd_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rsd4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rsdcs_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rsdcs4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rsdscs_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/rsdt_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/rsu_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rsu4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rsucs_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rsucs4co2_tavg-alh-hxy-u@mon:ap5  # embargoed
+#atmos/rsus_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/rsuscs_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/rsut_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/rsut4co2_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rsutcs_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/rsutcs4co2_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rtmt_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/rv850_tpt-850hPa-hxy-air@6hr:ap7  # embargoed
+#atmos/sci_tavg-u-hxy-u@mon:ap5  # embargoed
+#atmos/scldncl_tavg-u-hxy-scl@mon:ap5  # embargoed
+#atmos/sfcWind_tmax-h10m-hxy-u@day:ap6  # embargoed
+#atmos/ta_tavg-700hPa-hxy-air@day:ap6  # embargoed
+#atmos/ta_tavg-al-hxy-u@mon:ap5  # embargoed
+#atmos/ta_tavg-p39-hy-air@day:ap6  # embargoed
+#atmos/ta_tavg-p39-hy-air@mon:ap4  # embargoed
+#atmos/tas_tavg-h2m-hxy-u@1hr:ap9  # embargoed
+#atmos/tauu_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/tauv_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/tdps_tavg-h2m-hxy-u@mon:ap5  # embargoed
+#atmos/tnhus_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tnhusa_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tnhusc_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tnhusmp_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tnhuspbl_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tnhusscp_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tnhusscpbl_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tnt_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tnta_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tntc_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tntmp_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tntpbl_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tntr_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tntrl_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tntrlcs_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tntrs_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tntrscs_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tntscp_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/tntscpbl_tavg-al-hxy-u@mon:apu  # embargoed
+#atmos/ts_tavg-u-hxy-u@day:ap6  # embargoed
+#atmos/ua_tavg-al-hxy-u@mon:ap4  # embargoed
+#atmos/ua_tavg-p39-hy-air@day:ap6  # embargoed
+#atmos/ua_tavg-p39-hy-air@mon:ap4  # embargoed
+#atmos/uas_tpt-h10m-hxy-u@1hr:ap9  # embargoed
+#atmos/uas_tpt-h10m-hxy-u@6hr:ap7  # embargoed
+#atmos/utendepfd_tavg-p39-hy-air@day:ap6  # embargoed
+#atmos/utendepfd_tavg-p39-hy-air@mon:ap5  # embargoed
+#atmos/utendnogw_tavg-p39-hy-air@day:ap6  # embargoed
+#atmos/utendnogw_tavg-p39-hy-air@mon:ap5  # embargoed
+#atmos/utendogw_tavg-p39-hy-air@day:ap6  # embargoed
+#atmos/va_tavg-al-hxy-u@mon:ap4  # embargoed
+#atmos/va_tavg-p39-hy-air@mon:ap4  # embargoed
+#atmos/vas_tpt-h10m-hxy-u@1hr:ap9  # embargoed
+#atmos/vas_tpt-h10m-hxy-u@6hr:ap7  # embargoed
+#atmos/vtem_tavg-p39-hy-air@day:ap6  # embargoed
+#atmos/vtem_tavg-p39-hy-air@mon:ap5  # embargoed
+#atmos/wap_tavg-500hPa-hxy-air@day:ap6  # embargoed
+#atmos/wtem_tavg-p39-hy-air@day:ap6  # embargoed
+#atmos/wtem_tavg-p39-hy-air@mon:ap5  # embargoed
+#atmos/zg_tavg-1000hPa-hxy-air@day:ap6  # embargoed
+#atmos/zg_tavg-500hPa-hxy-air@day:ap6  # embargoed
+#atmos/zg_tavg-al-hxy-u@mon:ap4  # embargoed
+#atmos/zg_tavg-p39-hy-air@day:ap6  # embargoed
+#atmos/zg_tavg-p39-hy-air@mon:ap4  # embargoed
+#atmos/zg_tpt-500hPa-hxy-air@6hr:ap7  # embargoed
+#atmos/zg_tpt-p3-hxy-air@6hr:ap7  # embargoed
+#atmos/zg_tpt-p7h-hxy-air@6hr:ap7  # embargoed
+#atmos/ztp_tavg-u-hxy-u@mon:ap4  # embargoed
+#atmosChem/dms_tavg-al-hxy-u@mon:ap4  # embargoed
+#land/evspsblpot_tavg-u-hxy-lnd@day:ap6  # embargoed
+#land/evspsblpot_tavg-u-hxy-lnd@mon:ap5  # embargoed
+#land/evspsblsoi_tavg-u-hxy-u@day:ap6  # embargoed
+#land/evspsblveg_tavg-u-hxy-u@day:ap6  # embargoed
+#land/mrro_tavg-u-hxy-lnd@day:ap6  # embargoed
+#land/mrrob_tavg-u-hxy-lnd@day:ap6  # embargoed
+#land/mrros_tavg-u-hxy-lnd@day:ap6  # embargoed
+#land/mrsfl_tavg-sl-hxy-lnd@day:ap6  # embargoed
+#land/mrsfl_tavg-sl-hxy-lnd@mon:ap5  # embargoed
+#land/mrsll_tavg-sl-hxy-lnd@day:ap6  # embargoed
+#land/mrsll_tavg-sl-hxy-lnd@mon:ap5  # embargoed
+#land/mrso_tavg-u-hxy-lnd@day:ap6  # embargoed
+#land/mrsol_tavg-d10cm-hxy-lnd@day:ap6  # embargoed
+#land/mrsol_tavg-sl-hxy-lnd@day:ap6  # embargoed
+#land/mrsol_tavg-sl-hxy-lnd@mon:ap5  # embargoed
+#land/sftgif_tavg-u-hxy-u@mon:ap5  # embargoed
+#land/tsl_tavg-sl-hxy-lnd@day:ap6  # embargoed
+#land/tsl_tavg-sl-hxy-lnd@mon:ap5  # embargoed
+#land/wetlandCH4_tavg-u-hxy-lnd@mon:ap5  # embargoed
+#land/wtd_tavg-u-hxy-lnd@day:ap6  # embargoed
+#landIce/acabf_tavg-u-hxy-is@mon:ap5  # embargoed
+#landIce/hfls_tavg-u-hxy-is@mon:ap5  # embargoed
+#landIce/hfss_tavg-u-hxy-is@mon:ap5  # embargoed
+#landIce/litemptop_tavg-u-hxy-is@mon:ap5  # embargoed
+#landIce/mrro_tavg-u-hxy-is@mon:ap5  # embargoed
+#landIce/rlds_tavg-u-hxy-is@mon:ap5  # embargoed
+#landIce/rlus_tavg-u-hxy-is@mon:ap5  # embargoed
+#landIce/sbl_tavg-u-hxy-is@mon:ap5  # embargoed
+#landIce/sbl_tavg-u-hxy-u@mon:ap5  # embargoed
+#landIce/snc_tavg-u-hxy-lnd@day:ap6  # embargoed
+#landIce/snd_tavg-u-hxy-lnd@mon:ap5  # embargoed
+#landIce/snicem_tavg-u-hxy-is@mon:ap5  # embargoed
+#landIce/snm_tavg-u-hxy-is@mon:ap5  # embargoed
+#landIce/snm_tavg-u-hxy-lnd@mon:ap5  # embargoed
+#landIce/snrefr_tavg-u-hxy-is@mon:ap5  # embargoed
+#landIce/snw_tavg-u-hxy-lnd@day:ap6  # embargoed
+#landIce/tas_tavg-h2m-hxy-is@mon:ap5  # embargoed
+#landIce/ts_tavg-u-hxy-is@mon:ap5  # embargoed
+ocean/bigthetao_tavg-ol-hm-sea@mon:onm/grid-T  # embargoed
+ocean/bigthetao_tavg-op20bar-hxy-sea@day:ond/grid-T  # embargoed
+ocean/flandice_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/hfbasin_tavg-u-hyb-sea@mon:onm/diaptr  # embargoed 
+ocean/hfbasinpadv_tavg-u-hyb-sea@mon:onm/diaptr  # embargoed
+ocean/hfbasinpmadv_tavg-u-hyb-sea@mon:onm/diaptr  # embargoed
+ocean/hfbasinpmdiff_tavg-u-hyb-sea@mon:onm/diaptr  # embargoed
+ocean/hfx_tavg-u-hxy-sea@day:ond/grid-U  # embargoed
+ocean/hfx_tavg-u-hxy-sea@mon:onm/grid-U  # embargoed
+ocean/hfy_tavg-u-hxy-sea@day:ond/grid-V  # embargoed
+ocean/hfy_tavg-u-hxy-sea@mon:onm/grid-V  # embargoed
+ocean/htovgyre_tavg-u-hyb-sea@mon:onm/diaptr  # embargoed
+ocean/htovovrt_tavg-u-hyb-sea@mon:onm/diaptr  # embargoed
+ocean/masso_tavg-u-hm-sea@mon:onm/scalar  # embargoed
+ocean/mlotst_tavg-u-hxy-sea@day:ond/grid-T  # embargoed
+ocean/mlotst_tmax-u-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/mlotst_tmin-u-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/msftbarot_tavg-u-hxy-sea@mon:onm/grid-U  # embargoed
+ocean/msfty_tavg-ol-ht-sea@mon:onm/diaptr  # embargoed
+ocean/obvfsq_tavg-ol-hxy-sea@mon:onm/grid-W  # embargoed
+ocean/pbo_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/sfx_tavg-u-hxy-sea@mon:onm/grid-U  # embargoed
+ocean/sfy_tavg-u-hxy-sea@mon:onm/grid-V  # embargoed
+ocean/sltbasin_tavg-u-hyb-sea@mon:onm/diaptr  # embargoed 
+ocean/sltovgyre_tavg-u-hyb-sea@mon:onm/diaptr  # embargoed 
+ocean/sltovovrt_tavg-u-hyb-sea@mon:onm/diaptr  # embargoed
+ocean/so_tavg-ol-hm-sea@mon:onm/grid-T  # embargoed
+ocean/sob_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/sos_tavg-u-hm-sea@mon:onm/grid-T  # embargoed
+ocean/thetao_tavg-ol-hm-sea@mon:onm/grid-T  # embargoed
+ocean/thetao_tavg-op20bar-hxy-sea@day:ond/grid-T  # embargoed
+ocean/tos_tavg-u-hm-sea@mon:onm/grid-T  # embargoed
+#ocean/tos_tpt-u-hxy-sea@3hr:on3/grid-T  # embargoed
+ocean/tossq_tavg-u-hxy-sea@day:ond/grid-T  # embargoed
+ocean/uos_tavg-u-hxy-sea@day:ond/grid-U  # embargoed
+ocean/volcello_tavg-ol-hxy-sea@mon:onm/grid-T  # embargoed
+#ocean/volcello_tavg-ol-hxy-sea@yr:onm/grid-T  # embargoed
+ocean/volo_tavg-u-hm-sea@mon:onm/scalar  # embargoed
+ocean/vos_tavg-u-hxy-sea@day:ond/grid-V  # embargoed
+ocean/wfo_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/zossq_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed
+ocean/zostoga_tavg-u-hm-sea@day:ond/grid-T  # embargoed
+seaIce/evspsbl_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/prsn_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+#seaIce/rlds_tavg-u-hxy-si@day:ap6  # embargoed
+#seaIce/rlds_tavg-u-hxy-si@mon:ap5  # embargoed
+#seaIce/rlus_tavg-u-hxy-si@day:ap6  # embargoed
+#seaIce/rlus_tavg-u-hxy-si@mon:ap5  # embargoed
+#seaIce/rsds_tavg-u-hxy-si@day:ap6  # embargoed
+#seaIce/rsds_tavg-u-hxy-si@mon:ap5  # embargoed
+#seaIce/rsus_tavg-u-hxy-si@day:ap6  # embargoed
+#seaIce/rsus_tavg-u-hxy-si@mon:ap5  # embargoed
+seaIce/sbl_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/siage_tavg-u-hxy-si@day:ind/icemod  # embargoed
+#seaIce/siconca_tavg-u-hxy-u@day:ap6  # embargoed
+#seaIce/siconca_tavg-u-hxy-u@mon:ap5  # embargoed
+seaIce/sidconcdyn_tavg-u-hxy-sea@mon:inm/icemod  # embargoed
+seaIce/sidconcth_tavg-u-hxy-sea@mon:inm/icemod  # embargoed
+seaIce/sidmassdyn_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sidmassgrowthbot_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sidmassgrowthsi_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sidmassgrowthwat_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sidmassmeltbot_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sidmassmeltlat_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sidmassmelttop_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sidmassth_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sieqthick_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/siflcondbot_tavg-u-hxy-si@day:ind/icemod  # embargoed
+seaIce/siflcondbot_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/siflcondtop_tavg-u-hxy-si@day:ind/icemod  # embargoed
+seaIce/siflcondtop_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sifllattop_tavg-u-hxy-si@day:ind/icemod  # embargoed
+seaIce/sifllattop_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/siflsensbot_tavg-u-hxy-si@day:ind/icemod  # embargoed
+seaIce/siflsensbot_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+#seaIce/siflsenstop_tavg-u-hxy-si@day:ap6  # embargoed
+#seaIce/siflsenstop_tavg-u-hxy-si@mon:ap5  # embargoed
+seaIce/siflswdbot_tavg-u-hxy-si@day:ind/icemod  # embargoed
+seaIce/siflswdbot_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sihc_tavg-u-hxy-sea@day:ind/icemod  # embargoed
+seaIce/sihc_tavg-u-hxy-sea@mon:inm/icemod  # embargoed
+seaIce/siitdconc_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/siitdsnconc_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/siitdthick_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/simpconc_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sisaltmass_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sisndmassdyn_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sisndmasssi_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sisnhc_tavg-u-hxy-si@day:ind/icemod  # embargoed
+seaIce/sispeed_tavg-u-hxy-si@day:ind/icemod  # embargoed
+seaIce/sispeed_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sistressave_tpt-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sistressmax_tpt-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sistrxdtop_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sistrxubot_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sistrydtop_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sistryubot_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sitempsnic_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/sithick_tavg-u-hxy-si@day:ind/icemod  # embargoed
+seaIce/sitimefrac_tavg-u-hxy-sea@day:ind/icemod  # embargoed
+seaIce/siu_tavg-u-hxy-si@day:ind/icemod  # embargoed
+seaIce/siv_tavg-u-hxy-si@day:ind/icemod  # embargoed
+seaIce/snc_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/snd_tavg-u-hxy-sn@day:ind/icemod  # embargoed
+seaIce/snm_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+seaIce/snw_tavg-u-hxy-si@mon:inm/icemod  # embargoed
+#seaIce/ts_tavg-u-hxy-si@day:ap6  # embargoed
+#atmos/hur_tavg-700hPa-hxy-air@day:ap6  # embargoed, priority=medium
+#atmos/hur_tpt-100hPa-hxy-u@6hr:ap7  # embargoed, priority=medium
+#atmos/hur_tpt-500hPa-hxy-air@6hr:ap7  # embargoed, priority=medium
+#atmos/hur_tpt-850hPa-hxy-air@6hr:ap7  # embargoed, priority=medium
+#atmos/hurs_tpt-h2m-hxy-u@3hr:ap8  # embargoed, priority=medium
+#atmos/ps_tpt-u-hxy-u@3hr:ap8  # embargoed, priority=medium
+#atmos/rlds_tavg-u-hxy-u@3hr:ap8  # embargoed, priority=medium
+#atmos/rls_tavg-u-hxy-u@day:ap6  # embargoed, priority=medium
+#atmos/rls_tavg-u-hxy-u@mon:ap5  # embargoed, priority=medium
+#atmos/rsds_tavg-u-hxy-u@3hr:ap8  # embargoed, priority=medium
+#atmos/rsdsdiff_tavg-u-hxy-u@day:ap6  # embargoed, priority=medium
+#atmos/rss_tavg-u-hxy-u@day:ap6  # embargoed, priority=medium
+#atmos/rss_tavg-u-hxy-u@mon:ap5  # embargoed, priority=medium
+#atmos/sfcWind_tavg-h10m-hxy-u@3hr:ap8  # embargoed, priority=medium
+#atmos/tauupbl_tavg-u-hxy-u@day:ap6  # embargoed, priority=medium
+#atmos/tauvpbl_tavg-u-hxy-u@day:ap6  # embargoed, priority=medium
+#atmos/ua_tpt-200hPa-hxy-u@6hr:ap7  # embargoed, priority=medium
+#atmos/utendnogw_tavg-p19-hxy-air@day:ap6  # embargoed, priority=medium
+#atmos/utendnogw_tavg-p19-hxy-air@mon:ap5  # embargoed, priority=medium
+#atmos/utendogw_tavg-p19-hxy-air@day:ap6  # embargoed, priority=medium
+#atmos/utendogw_tavg-p19-hxy-air@mon:ap5  # embargoed, priority=medium
+#atmos/va_tpt-200hPa-hxy-u@6hr:ap7  # embargoed, priority=medium
+#atmos/zg_tpt-700hPa-hxy-u@6hr:ap7  # embargoed, priority=medium
+#atmos/zg_tpt-925hPa-hxy-u@6hr:ap7  # embargoed, priority=medium
+#land/mrro_tavg-u-hxy-lnd@3hr:ap8  # embargoed, priority=medium
+#land/mrros_tavg-u-hxy-lnd@3hr:ap8  # embargoed, priority=medium
+#land/mrsol_tpt-d10cm-hxy-lnd@3hr:ap8  # embargoed, priority=medium
+ocean/evspsbl_tavg-u-hxy-ifs@mon:onm/grid-T  # embargoed, priority=medium
+ocean/ficeberg_tavg-ol-hxy-sea@mon:onm/grid-T  # embargoed, priority=medium
+ocean/friver_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed, priority=medium
+ocean/hfevapds_tavg-u-hxy-ifs@mon:onm/grid-T  # embargoed, priority=medium
+ocean/hfibthermds_tavg-ol-hxy-sea@mon:onm/grid-T  # embargoed, priority=medium
+ocean/hfrainds_tavg-u-hxy-ifs@mon:onm/grid-T  # embargoed, priority=medium
+ocean/hfrunoffds_tavg-ol-hxy-sea@mon:onm/grid-T  # embargoed, priority=medium
+ocean/hfsnthermds_tavg-ol-hxy-sea@mon:onm/grid-T  # embargoed, priority=medium
+ocean/sfdsi_tavg-u-hxy-sea@mon:inm/icemod  # embargoed, priority=medium
+ocean/siflfwbot_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed, priority=medium
+ocean/so_tavg-ol-hxy-sea@day:ond/grid-T  # embargoed, priority=medium
+seaIce/sfdsi_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/siage_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/sicompstren_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/sidivvel_tpt-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/sidmasstranx_tavg-u-hxy-u@mon:inm/icemod  # embargoed, priority=medium
+seaIce/sidmasstrany_tavg-u-hxy-u@mon:inm/icemod  # embargoed, priority=medium
+#seaIce/sidragtop_tavg-u-hxy-si@mon:ap5  # embargoed, priority=medium
+seaIce/sifb_tavg-u-hxy-si@day:ind/icemod  # embargoed, priority=medium
+seaIce/sifb_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/siflfwbot_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/siflfwdrain_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/siforcecoriolx_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/siforcecorioly_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/siforceintstrx_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/siforceintstry_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/siforcetiltx_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/siforcetilty_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/siitdconc_tavg-u-hxy-si@day:ind/icemod  # embargoed, priority=medium
+seaIce/siitdsnconc_tavg-u-hxy-si@day:ind/icemod  # embargoed, priority=medium
+seaIce/siitdsnthick_tavg-u-hxy-si@day:ind/icemod  # embargoed, priority=medium
+seaIce/siitdthick_tavg-u-hxy-si@day:ind/icemod  # embargoed, priority=medium
+seaIce/simpconc_tavg-u-hxy-si@day:ind/icemod  # embargoed, priority=medium
+seaIce/simpeffconc_tavg-u-hxy-si@day:ind/icemod  # embargoed, priority=medium
+seaIce/simpeffconc_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/simprefrozen_tavg-u-hxy-simp@day:ind/icemod  # embargoed, priority=medium
+seaIce/simprefrozen_tavg-u-hxy-simp@mon:inm/icemod  # embargoed, priority=medium
+seaIce/simpthick_tavg-u-hxy-si@day:ind/icemod  # embargoed, priority=medium
+seaIce/simpthick_tavg-u-hxy-simp@mon:inm/icemod  # embargoed, priority=medium
+seaIce/sisali_tavg-u-hxy-si@day:ind/icemod  # embargoed, priority=medium
+seaIce/sisali_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/sisaltmass_tavg-u-hxy-si@day:ind/icemod  # embargoed, priority=medium
+seaIce/sishearvel_tpt-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/sitempbot_tavg-u-hxy-si@day:ind/icemod  # embargoed, priority=medium
+seaIce/sitempbot_tavg-u-hxy-si@mon:inm/icemod  # embargoed, priority=medium
+seaIce/sitempsnic_tavg-u-hxy-si@day:ind/icemod  # embargoed, priority=medium
+#aerosol/ccldncl_tavg-u-hxy-ccl@day:ap6  # embargoed, priority=low
+#aerosol/sfpm10_tavg-h2m-hxy-u@1hr:ap9  # embargoed, priority=low
+#atmos/cldnvi_tavg-u-hxy-u@day:ap6  # embargoed, priority=low
+#atmos/hurs_tavg-h2m-hxy-u@1hr:ap9  # embargoed, priority=low
+#atmos/hurs_tmin-h2m-hxy-crp@day:ap6  # embargoed, priority=low
+#atmos/loaddust_tavg-u-hxy-u@day:ap6  # embargoed, priority=low
+#atmos/reffcclwtop_tavg-u-hxy-ccl@day:ap6  # embargoed, priority=low
+#atmos/reffsclwtop_tavg-u-hxy-scl@day:ap6  # embargoed, priority=low
+#atmos/rsds_tavg-u-hxy-u@1hr:ap9  # embargoed, priority=low
+#atmos/scldncl_tavg-u-hxy-scl@day:ap6  # embargoed, priority=low
+#atmos/sfcWind_tavg-h10m-hxy-u@1hr:ap9  # embargoed, priority=low
+#land/tran_tavg-u-hxy-lnd@mon:ap5  # embargoed, priority=low
+#ocean/difvho_tavg-ol-hxy-sea@yr:onm/grid-W  # embargoed, priority=low
+#ocean/difvso_tavg-ol-hxy-sea@yr:onm/grid-W  # embargoed, priority=low
+ocean/mlotstsq_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed, priority=low
+#ocean/ocontempdiff_tavg-ol-hxy-sea@yr:onm/grid-T  # embargoed, priority=low
+#ocean/ocontempmint_tavg-u-hxy-sea@yr:onm/grid-T  # embargoed, priority=low
+#ocean/ocontemppmdiff_tavg-ol-hxy-sea@yr:onm/grid-T  # embargoed, priority=low
+#ocean/ocontemprmadvect_tavg-ol-hxy-sea@yr:onm/grid-T  # embargoed, priority=low
+#ocean/ocontemptend_tavg-ol-hxy-sea@yr:onm/grid-T  # embargoed, priority=low
+#ocean/opottempmint_tavg-u-hxy-sea@yr:onm/grid-T  # embargoed, priority=low
+#ocean/osaltdiff_tavg-ol-hxy-sea@yr:onm/grid-T  # embargoed, priority=low
+#ocean/osaltpmdiff_tavg-ol-hxy-sea@yr:onm/grid-T  # embargoed, priority=low
+#ocean/osaltrmadvect_tavg-ol-hxy-sea@yr:onm/grid-T  # embargoed, priority=low
+#ocean/osalttend_tavg-ol-hxy-sea@yr:onm/grid-T  # embargoed, priority=low
+#ocean/rsdoabsorb_tavg-ol-hxy-sea@yr:onm/grid-T  # embargoed, priority=low
+#ocean/somint_tavg-u-hxy-sea@yr:onm/grid-T  # embargoed, priority=low
+ocean/sossq_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed, priority=low
+ocean/thkcelluo_tavg-ol-hxy-sea@mon:onm/grid-U  # embargoed, priority=low
+ocean/thkcellvo_tavg-ol-hxy-sea@mon:onm/grid-V  # embargoed, priority=low
+#ocean/tnpeo_tavg-u-hxy-sea@yr:onm/grid-T  # embargoed, priority=low
+ocean/tossq_tavg-u-hxy-sea@mon:onm/grid-T  # embargoed, priority=low
 #atmos/areacella_ti-u-hxy-u@fx  # do-not-produce (not available with this model)
 #atmos/sftlf_ti-u-hxy-u@fx  # do-not-produce (not available with this model)
 #land/lai_tavg-u-hxy-lnd@mon:ap5  # do-not-produce (not available with this model)
