@@ -123,7 +123,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
         return errors
 
     @abstractmethod
-    def check_filename(self, ds, filename):
+    def check_filename(self, ds, filename) -> tuple[bool, list[str]]:
         pass
 
     def get_aggregated_files(self, chunked_only=True):
