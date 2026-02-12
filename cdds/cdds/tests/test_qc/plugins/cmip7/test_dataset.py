@@ -2,9 +2,7 @@
 # Please see LICENSE.md for license details.
 
 import os
-import shutil
-import unittest
-from fileinput import filename
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -38,11 +36,18 @@ def nc_dataset():
 
 
 @pytest.fixture
-@patch('logging.Logger')
+@patch("logging.Logger")
 def structured_dataset(logger, cmip7_request: Request) -> Cmip7Dataset:
     mip_tables = MipTables(os.path.join(CMIP7_MIP_TABLES_DIR, "DR-1.2.2.2-v1.0.1"))
-    structured_dataset = Cmip7Dataset('.', cmip7_request, mip_tables,
-                                          None, None, None, logger)
+    output_dir = Path(cmip7_request.common.root_data_dir, "output")
+    directories = ["ap5", "ap5_mip_convert", "ap5_concat", "onm", "onm_mip_convert", "onm_concat"]
+
+    for directory in directories:
+        dir = Path(output_dir, directory, "branded_suffix")
+        dir.mkdir(parents=True)
+        Path(dir, "test.nc").touch()
+
+    structured_dataset = Cmip7Dataset(output_dir, cmip7_request, mip_tables, logger=logger)
     return structured_dataset
 
 
@@ -98,92 +103,12 @@ class TestCmip7DatasetCheckFilename:
         assert exepected_error in messages
 
 
-# class TestCmip7DatasetWalkDirectories(unittest.TestCase):
-#     def setUp(self):
-#         self.maxDiff = None
-#         self.mip_tables = MipTables(os.path.join(CMIP7_MIP_TABLES_DIR, "DR-1.2.2.2-v1.0.1"))
-#         self.test_datadir = os.path.join(
-#             os.path.dirname(os.path.realpath(__file__)), 'test_datadir')
-#         os.mkdir(self.test_datadir)
+class TestCmip7DatasetWalkDirectories:
+    def test_walking_directories(self, structured_dataset: Cmip7Dataset):
+        filelist = structured_dataset.walk_directory()
+        assert len(filelist) == 2
 
-#     def tearDown(self):
-#         shutil.rmtree(self.test_datadir)
-
-#     @patch('logging.Logger')
-#     def test_walking_directories(self, logger, cmip7_request: Request):
-#         dirlist = ['onm_mip_convert', 'onm_concat', 'onm']
-#         for directory in dirlist:
-#             dirpath = os.path.join(
-#                 self.test_datadir, 'output', directory, 'Omon')
-#             os.makedirs(dirpath)
-#             open(os.path.join(dirpath, "test.nc"), 'w').close()
-#         structured_dataset = Cmip7Dataset(
-#             os.path.join(self.test_datadir, 'output'),
-#             request,
-#             self.mip_tables,
-#             None, None, None, logger, None)
-#         filelist = structured_dataset.walk_directory()
-#         self.assertEqual(len(filelist), 1)
-
-#     @patch('logging.Logger')
-#     def test_walking_directories_with_stream_selection(self, logger):
-#         request = simple_request()
-#         dirlist = ['ap4', 'ap5', 'onm']
-#         for directory in dirlist:
-#             dirpath = os.path.join(
-#                 self.test_datadir, 'output', directory, 'Omon')
-#             os.makedirs(dirpath)
-#             open(os.path.join(dirpath, "test.nc"), 'w').close()
-#         structured_dataset = Cmip7Dataset(
-#             os.path.join(self.test_datadir, 'output'), request,
-#             self.mip_tables, None, None, None, logger, 'ap5')
-#         filelist = structured_dataset.walk_directory()
-#         self.assertEqual(len(filelist), 1)
-
-#     @patch('logging.Logger')
-#     @patch('os.walk')
-#     def test_mip_requested_variable_name_is_present_in_dataset(
-#             self, os_walk, logger):
-#         request = simple_request()
-
-#         class MockedDataset(object):
-
-#             def __init__(self, filepath):
-#                 self._filepath = filepath
-
-#             def __enter__(self):
-#                 return self
-
-#             def __exit__(self, exc_type, exc_val, exc_tb):
-#                 pass
-
-#             def getncattr(self, name):
-#                 return {
-#                     "table_id": "day",
-#                     "source_id": "HadGEM3-GC31-LL",
-#                     "experiment_id": "piControl",
-#                     "sub_experiment_id": "none",
-#                     "grid_label": "gn",
-#                     "variant_label": "r1i1p1f1",
-#                     "frequency": "day",
-#                     "variable_name": "ta27",
-#                     "mip_era": "CMIP6",
-#                     "variable_id": "ta",
-#                 }[name]
-
-#             def hasattr(self, name):
-#                 return True
-
-#             def filepath(self):
-#                 return ""
-
-#         os_walk.return_value = [
-#             ("foo", ("bar",), ("ta_day_HadGEM3-GC31-LL_piControl_"
-#                                "r1i1p1f1_gn_18500101-18591230.nc",))]
-
-#         structured_dataset = Cmip7Dataset('.', request, self.mip_tables,
-#                                           None, None, None, logger)
-#         structured_dataset.load_dataset(MockedDataset)
-#         self.assertEqual({
-#             "CMIP6_HadGEM3-GC31-LL_piControl_none_day_r1i1p1f1_ta_gn": "ta27"
-#         }, structured_dataset.var_names)
+    def test_walking_directories_with_stream_selection(self, structured_dataset: Cmip7Dataset):
+        structured_dataset._stream = "ap5"
+        filelist = structured_dataset.walk_directory()
+        assert len(filelist) == 1

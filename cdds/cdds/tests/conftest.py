@@ -21,8 +21,8 @@ def cmip7_request(tmp_path: Path):
     variable_list_file = tmp_path / "variable_list.txt"
     variable_list_file.write_text("Amon/tas:ap5")
 
-    root_proc_dir = Path(tmp_path, "proc").mkdir()
-    root_data_dir = Path(tmp_path, "data").mkdir()
+    root_proc_dir = Path(tmp_path, "proc")
+    root_data_dir = Path(tmp_path, "data")
 
     cdds_etc_dir = os.environ['CDDS_ETC']
 
