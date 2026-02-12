@@ -4,6 +4,7 @@
 from collections import defaultdict
 import re
 
+from cdds.common.constants import CMIP7_VARIANT_LABEL_FORMAT
 from cdds.qc.plugins.base.dataset import StructuredDataset
 from cdds.qc.plugins.cmip6.validators import parse_date_range, ValidationError
 
@@ -36,14 +37,23 @@ class Cmip7Dataset(StructuredDataset):
         return 'cmip7' == project.lower()
 
     def check_filename(self, ds, filename):
-        """Tests filename's facets against a CV, e.g.
-        <variable_id>   tasself._loader_class
-        <table_id>      Amon
-        <source_id>     hadgem3-es
-        <experiment_id> piCtrl
-        <member_id>     r1i1p1f1
-        <grid_label>    gn
-        [<time_range>]  201601-210012
+        """Checks a filename's consitency with it's global attributes and performs some validation.
+
+        Example
+        -------
+        An example CMIP7 filename.
+
+        tas_tavg-h2m-hxy-u_day_glb_gn_UKESM1-3-LL_1pctCO2_r1i1p1f3_19560101-19561230.nc
+
+        <variable_id>      tas
+        <branding_suffix>  tavg-h2m-hxy-u
+        <frequency>        day
+        <region>           glb
+        <grid_label>       gn
+        <source_id>        UKESEM1-3-LL
+        <experiment_id>    1pctCO2
+        <variant_label>    r1i1p1f3
+        [<time_range>]     19560101-19561230
         .nc
 
         Parameters
@@ -57,9 +67,8 @@ class Cmip7Dataset(StructuredDataset):
         bool, list
             check's results (valid or not) and error messages
         """
-        # tas_tavg-h2m-hxy-u_day_glb_gn_UKESM1-3-LL_1pctCO2_r1i1p1f3_19560101-19561230
         filename_parts = filename.split('.')[0].split('_')
-        template_dict = {
+        facet_dict = {
             "variable_id": 0,
             "branding_suffix": 1,
             "frequency": 2,
@@ -73,54 +82,38 @@ class Cmip7Dataset(StructuredDataset):
         messages = []
         valid_filename = True
 
-        for cv in template_dict:
+        for facet, part_index in facet_dict.items():
             try:
                 # test it against stored global attribute
-                attr = self.global_attributes_cache.getncattr(cv, ds)
-                if attr != filename_parts[template_dict[cv]]:
+                attr = self.global_attributes_cache.getncattr(facet, ds)
+                if attr != filename_parts[part_index]:
                     valid_filename = False
                     messages.append(
-                        "{}'s value '{}' doesn't match filename {}".format(
-                            cv, attr, filename))
+                        f"{facet}'s value '{attr}' doesn't match filename {filename}")
 
             except AttributeError:
                 # raised if something's wrong with global attributes
                 # it should be validated again by the global attributes checker
-                messages.append("Attribute '{}' missing from the ncdf "
-                                "file".format(cv))
+                messages.append(f"Global Attribute '{facet}' missing from the NetCDF file")
 
-        # member_id might be just a variant_label or contain a subexperiment_id
-        member_id = filename_parts[7]
-
-        label_candidate = member_id
-        if re.match(r"^r\d+i\d+p\d+f\d+$", label_candidate) is None:
+        variant_label = filename_parts[facet_dict["variant_label"]]
+        if re.match(CMIP7_VARIANT_LABEL_FORMAT, variant_label) is None:
             valid_filename = False
-            messages.append("Invalid variant_label {}".format(label_candidate))
-        else:
-            variant_label = self.global_attributes_cache.getncattr("variant_label", ds)
-            if variant_label != label_candidate:
-                valid_filename = False
-                messages.append(
-                    "Variant label {} is not consistent with file "
-                    "contents ({})".format(label_candidate, variant_label))
+            messages.append(f"Invalid variant_label {variant_label}")
+
         table = self.global_attributes_cache.getncattr("table_id", ds)
-
+        variable = filename_parts[0] + "_" + filename_parts[1]
         if table in self._mip_tables.tables:
-            if filename_parts[0] + "_" + filename_parts[1] not in (
-                    self._mip_tables.get_variables(table)):
+            if variable not in (self._mip_tables.get_variables(table)):
                 valid_filename = False
-                messages.append(
-                    "Invalid variable {} in the filename {}".format(
-                        filename_parts[0], filename))
+                messages.append(f"Invalid variable {variable} in the filename {filename}")
         else:
             valid_filename = False
-            messages.append(
-                "Invalid MIP table {} in the filename {}".format(
-                    filename_parts[1], filename))
+            messages.append(f"Invalid MIP table {table} in the filename {filename}")
 
-        if len(filename_parts) == 7:
+        if filename_parts[8]:
             try:
-                _, _ = parse_date_range(filename_parts[6],
+                _, _ = parse_date_range(filename_parts[8],
                                         self.global_attributes_cache.getncattr("frequency", ds),
                                         self._request.metadata.calendar)
             except AttributeError:
