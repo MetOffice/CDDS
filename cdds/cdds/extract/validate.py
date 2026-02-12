@@ -60,6 +60,8 @@ def validate_streams(streams, args):
 
     stream_validation = StreamValidationResult(stream)
 
+    stream_validation.add_mappings(mappings)
+
     if stream in mapping_status:
         data_target = get_data_target(os.path.join(plugin.data_directory(request), 'input'),
                                       request.data.model_workflow_id, stream)

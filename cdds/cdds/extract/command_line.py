@@ -140,7 +140,7 @@ def main_validate_streams(arguments=None):
     log_name = update_log_dir(log_name, request, 'extract')
 
     # Create the configured logger.
-    configure_logger(log_name, request.common.log_level, False)
+    configure_logger(log_name, request.common.log_level, False, show_stacktrace=False)
 
     # Retrieve the logger.
     logger = logging.getLogger(__name__)

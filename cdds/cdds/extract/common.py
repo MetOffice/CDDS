@@ -550,6 +550,17 @@ class StreamValidationResult(object):
         self.file_names_expected = None
         self.file_names_actual = None
         self.file_errors = {}
+        self.mappings = None
+
+    def add_mappings(self, mappings):
+        """Adds mappings for this stream.
+
+        Parameters
+        ----------
+        mappings: dict
+            Mappings for this stream.
+        """
+        self.mappings = mappings
 
     def add_file_names(self, expected_files, actual_files):
         """Stores expected and actual files for a given stream.
@@ -609,12 +620,75 @@ class StreamValidationResult(object):
 
                 if self.file_errors:
                     msg += "Problems detected with the following files:\n"
+                    # Collect problematic STASH codes while reporting file errors
+                    problematic_stash_codes = set()
                     for _, file_error in self.file_errors.items():
                         msg += "{}: {}\n".format(file_error.filepath, file_error.error_message)
                         if isinstance(file_error, StashError):
-                            msg += "\t\tSuspected STASH codes: {}\n".format(", ".join(file_error.stash_errors))
+                            msg += "\t\tMissing STASH codes: {}\n".format(", ".join(file_error.stash_errors))
+                            problematic_stash_codes.update(file_error.stash_errors)
+
+                    # Cross-reference missing STASH with requested variables
+                    affected_variables = self._get_affected_variables(problematic_stash_codes)
+                    if affected_variables:
+                        msg += "\nAs a result, these variables cannot be produced:\n"
+                        for table in sorted(affected_variables.keys()):
+                            var_list = ", ".join(sorted(affected_variables[table]))
+                            msg += "\t{}: {}\n".format(table, var_list)
+
                 fn.write(msg)
                 logger.critical(msg)
+
+    def _get_affected_variables(self, problematic_stash_codes):
+        """Determines which variables cannot be produced due to file errors by cross-referencing
+        the problematic STASH codes with the variable mappings for this stream. Requires that
+        mappings have been set via add_mappings() before calling this method.
+
+        Parameters
+        ----------
+        problematic_stash_codes : set
+            Set of STASH codes that are missing or problematic in the data files
+
+        Returns
+        -------
+        dict
+            Dictionary mapping MIP table names to sets of affected variable names. Returns
+            an empty dict if mappings are not set or the stream has no mappings.
+
+        Raises
+        ------
+        RuntimeError
+            If mappings have not been set for this stream validation result
+        """
+        affected_vars = defaultdict(set)
+
+        # Ensure mappings have been set
+        if self.mappings is None:
+            logger = logging.getLogger(__name__)
+            msg = logger.critical("Mappings not found for stream {}".format(self.stream))
+            logger.critical(msg)
+            raise RuntimeError(msg)
+
+        # Get the mappings for this stream
+        stream_mappings = self.mappings.get_mappings()
+        if self.stream not in stream_mappings:
+            return affected_vars
+
+        # Check each variable's constraints against problematic STASH codes
+        for var_dict in stream_mappings[self.stream]:
+            if "constraint" not in var_dict:
+                continue
+            for constraint in var_dict["constraint"]:
+                if "stash" in constraint:
+                    stash = get_stash(constraint["stash"])
+                    if stash in problematic_stash_codes:
+                        var_name = var_dict.get("name")
+                        mip_table = var_dict.get("table")
+                        # Group by MIP table
+                        affected_vars[mip_table].add(var_name)
+                        break
+
+        return affected_vars
 
     @property
     def valid(self):
@@ -681,7 +755,7 @@ def stream_file_template(stream, model_workflow_id):
     elif stream.startswith('i'):
         filename_templates = ['cice_{}i_1{}_*'.format(model_workflow_id.split('-')[1], stream[2])]
     else:
-        raise InputError('Unknown stream type')
+        raise RuntimeError('Unknown stream type')
     return filename_templates
 
 
