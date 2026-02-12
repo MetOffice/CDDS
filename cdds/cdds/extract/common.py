@@ -636,7 +636,6 @@ class StreamValidationResult(object):
                             var_list = ", ".join(sorted(affected_variables[table]))
                             msg += "\t{}: {}\n".format(table, var_list)
 
-                # breakpoint()
                 fn.write(msg)
                 logger.critical(msg)
 
@@ -756,7 +755,7 @@ def stream_file_template(stream, model_workflow_id):
     elif stream.startswith('i'):
         filename_templates = ['cice_{}i_1{}_*'.format(model_workflow_id.split('-')[1], stream[2])]
     else:
-        raise InputError('Unknown stream type')
+        raise RuntimeError('Unknown stream type')
     return filename_templates
 
 
