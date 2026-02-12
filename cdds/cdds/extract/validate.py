@@ -206,7 +206,6 @@ def check_expected_stash(
     expected_stash : set[int]
         The set of expected stash codes.
     """
-
     for file, stash in stash_in_file.items():
         if expected_stash.difference(set(stash.keys())):
             stash_diff = expected_stash.difference(set(stash.keys()))
