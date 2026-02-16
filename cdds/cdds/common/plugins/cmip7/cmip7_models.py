@@ -28,6 +28,7 @@ class Cmip7ModelId(ModelId):
 
     UKESM1_3_LL = 'UKESM1-3-LL'
     UKCM2_0_LL = 'UKCM2-0-LL'
+    UKCM2A_0_HH = 'UKCM2a-0-HH'
 
 
 class UKESM1_3_LL_Params(BaseModelParameters):

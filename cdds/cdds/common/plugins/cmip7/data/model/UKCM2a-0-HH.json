@@ -34,7 +34,7 @@
     "ind": "P1Y",
     "inm": "P5Y",
     "ond": "P3M",
-    "onm": "P2Y"
+    "onm": "P6M"
   },
   "memory": {
     "ap4": "80G",
@@ -49,11 +49,11 @@
     "ind": "8G",
     "inm": "8G",
     "ond": "32G",
-    "onm": "16G"
+    "onm": "80G"
   },
   "temp_space": {
     "ap4": 98304,
-    "ap5": 100000,
+    "ap5": 200000,
     "apm": 8192,
     "apu": 100000,
     "ap6": 98304,
@@ -64,7 +64,7 @@
     "ind": 8192,
     "inm": 8192,
     "ond": 32768,
-    "onm": 32768
+    "onm": 200000
   },
   "sizing_info": {
     "mon": {
@@ -125,10 +125,7 @@
       "latitude": 960,
       "v_latitude": 961,
       "levels": 85,
-      "ancil_filenames": [
-        "qrparm.landfrac.pp",
-        "qrparm.soil.pp"
-      ],
+      "ancil_filenames": [],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
         "atmosphere_rho_levels_86.txt"
@@ -141,13 +138,7 @@
       "latitude": 3604,
       "levels": 75,
       "replacement_coordinates_file": "",
-      "ancil_filenames": [
-        "ocean_constants.nc",
-        "ocean_byte_masks.nc",
-        "ocean_basin.nc",
-        "diaptr_basin_masks.nc",
-        "ocean_zostoga.nc"
-      ],
+      "ancil_filenames": [],
       "bounds_coordinates": {
         "onm-grid-T": [
           "bounds_nav_lon",

@@ -35,7 +35,7 @@ class Cmip7GlobalAttributes(GlobalAttributes):
                                                          self._request.metadata.experiment_id,
                                                          self._request.metadata.sub_experiment_id,
                                                          self._request.metadata.variant_label)
-        return None
+        return further_info_url
 
 
 class AttributesValidator:
