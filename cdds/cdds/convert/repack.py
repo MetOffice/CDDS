@@ -206,10 +206,10 @@ def repack_files(nc_files: List[Path]) -> None:
 
         if failure_exception:
             logger.critical(f"Files failed: {failure_count}")
-            for exc in failure_exception:
+            for exception in failure_exception:
                 # Remove unnecessary "NO INPUT FILES CHECKED" from exception before logging.
-                exc.args = (exc.args[0].split("\n")[0],)
-                logger.debug(exc)
+                exception.args = (exception.args[0].split("\n")[0],)
+                logger.debug(exception)
             raise failure_exception[-1]  # Raise the last exception for visibility
 
 
