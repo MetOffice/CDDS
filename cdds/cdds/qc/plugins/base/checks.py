@@ -146,7 +146,6 @@ class VariableAttributesCheckTask(CheckTask):
         }
         var_meta = self._cache.mip_tables.get_variable_meta(attr_dict["table_id"], attr_dict["variable_id"])
         # check variable attributes
-
         external_vars = []
         for attr_key in var_attr:
             try:

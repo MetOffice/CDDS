@@ -61,7 +61,7 @@ class CF17Check(CF1_7Check):
             Result of the version validation
         """
 
-        valid_conventions = ["CF-1.7", "CF-1.11", "CMIP-6.2"]
+        valid_conventions = ["CF-1.7", "CF-1.11", "CF-1.12", "CMIP-6.2"]
         conventions = self.global_attributes_cache.getncattr("Conventions", ds, True)
         if conventions is not None:
             conventions = re.split(r",|\s+", conventions)
