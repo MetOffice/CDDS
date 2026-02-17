@@ -145,6 +145,11 @@ class QCRunner(object):
                 "standard_names_dir": request.common.standard_names_dir,
                 "global_attributes_cache": self.dataset.global_attributes_cache
             },
+            "cdds_cf:1.11": {
+                "standard_names_version": request.common.standard_names_version,
+                "standard_names_dir": request.common.standard_names_dir,
+                "global_attributes_cache": self.dataset.global_attributes_cache
+            },
             "cordex": {
                 "mip_tables_dir": mip_tables_dir,
                 "cv_location": cv_location,
@@ -224,7 +229,7 @@ class QCRunner(object):
                     if request.common.force_plugin == 'CORDEX':
                         output = self.check_suite.run(ds, conf, [], "cdds_cf:1.7", "cordex")
                     elif request.metadata.mip_era == 'CMIP7':
-                        output = self.check_suite.run(ds, conf, [], "cdds_cf:1.7", "cmip7")
+                        output = self.check_suite.run(ds, conf, [], "cdds_cf:1.11", "cmip7")
                     else:
                         output = self.check_suite.run(ds, conf, [], "cdds_cf:1.7", "cmip6")
                 invalid = self._parse_and_log(cursor, output, qc_dataset_id)
