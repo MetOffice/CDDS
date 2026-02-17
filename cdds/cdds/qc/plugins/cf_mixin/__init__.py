@@ -37,43 +37,6 @@ class CFMixin:
         self._std_names = StandardNameTable(
             os.path.join(standard_names_dir, table_file))
 
-    def check_conventions_version(self, ds):
-        """Check the global attribute conventions to contain CF-1.7
-        CF 2.6.1 the NUG defined global attribute Conventions to the string
-        value "CF-1.7" or "CMIP 6.2"
-
-        Parameters
-        ----------
-        ds : netCDF4.Dataset
-            An open netCDF dataset
-
-        Returns
-        -------
-        compliance_checker.base.Result
-            Result of the version validation
-        """
-
-        valid_conventions = ["CF-1.7", "CF-1.11", "CF-1.12", "CMIP-6.2"]
-        conventions = self.global_attributes_cache.getncattr("Conventions", ds, True)
-        if conventions is not None:
-            conventions = re.split(r",|\s+", conventions)
-            if any((c.strip() in valid_conventions for c in conventions)):
-                valid = True
-                reasoning = []
-            else:
-                valid = False
-                reasoning = ["Conventions global attribute does not contain "
-                             "'CF-1.7'. The CF Checker only supports "
-                             "CF-1.7-ish at this time."]
-        else:
-            valid = False
-            reasoning = ["Conventions field is not present"]
-        return Result(
-            BaseCheck.MEDIUM, valid,
-            "2.6.1 Global Attribute Conventions includes CF-1.7",
-            msgs=reasoning
-        )
-
     def check_cell_measures(self, ds):
         """7.2 To indicate extra information about the spatial properties of a
         variable's grid cells, a cell_measures attribute may be defined for a
