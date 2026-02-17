@@ -14,7 +14,6 @@ class CF17Check(CFMixin, CF1_7Check):
     _cc_spec_version = "1.7"
     _cc_spec = "cf17"
     register_checker = True
-    name = "cf17"
     supported_ds = [Dataset]
 
     def check_conventions_version(self, ds):
