@@ -12,7 +12,7 @@ from cdds.qc.plugins.cf_mixin import CFMixin
 
 class CF17Check(CFMixin, CF1_7Check):
     _cc_spec_version = "1.7"
-    _cc_spec = "cf17"
+    _cc_spec = "cdds_cf"
     register_checker = True
     supported_ds = [Dataset]
 
