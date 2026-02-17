@@ -1,23 +1,15 @@
 # (C) British Crown Copyright 2017-2025, Met Office.
 # Please see LICENSE.md for license details.
 
-import numpy as np
-import re
 import os
-from compliance_checker.base import Result, BaseCheck, TestCtx
-from compliance_checker.cf.cf import CF1_7Check
+import re
+
+import numpy as np
+from compliance_checker.base import BaseCheck, Result, TestCtx
 from compliance_checker.cf.util import StandardNameTable
-from netCDF4 import Dataset
 
 
-class CF17Check(CF1_7Check):
-    """The CF1.7 checker class"""
-    _cc_spec_version = "1.7"
-    _cc_spec = "cf17"
-    register_checker = True
-    name = "cf17"
-    supported_ds = [Dataset]
-
+class CFMixin:
     def __init__(self, **kwargs):
         """CFBaseCheck uses a global attribute to determine version of the
         standard names table, and if it does not find it, uses a packaged
@@ -25,7 +17,7 @@ class CF17Check(CF1_7Check):
         which also allows us to add some not-yet-standardised names to the
         xml file.
         """
-        super(CF17Check, self).__init__()
+        super(CFMixin, self).__init__()
         try:
             standard_names_dir = kwargs["config"]["standard_names_dir"]
         except KeyError:
