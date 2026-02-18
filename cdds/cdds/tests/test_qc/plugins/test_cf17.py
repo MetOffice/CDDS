@@ -4,7 +4,7 @@
 import os
 import unittest
 from unittest.mock import patch
-from cdds.qc.plugins.cf17 import CF17Check
+from cdds.qc.plugins.cf1_7 import CF17Check
 
 STANDARD_NAMES_DIR = os.path.join(os.environ['CDDS_ETC'], "standard_names")
 STANDARD_NAMES_VERSION = 62
