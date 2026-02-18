@@ -37,6 +37,7 @@ from cdds.qc.models import (
     setup_db,
 )
 from cdds.qc.plugins.base.dataset import StructuredDataset
+from cdds.qc.suite import QCSuite
 
 
 class QCRunner(object):
@@ -60,12 +61,12 @@ class QCRunner(object):
         self.db = setup_db(db_path)
         self.logger = logging.getLogger(__name__)
 
-    def init_suite(self, check_suite, dataset, relaxed_cmor=False):
+    def init_suite(self, check_suite: QCSuite, dataset: StructuredDataset, relaxed_cmor=False):
         """Configures IOOS QC checker and prepares a dataset to be checked
 
         Parameters
         ----------
-        check_suite: CheckSuite
+        check_suite: QCSuite
             An instance of ioos qc checker
         dataset: StructuredDataset
             An instance of a dataset to be qc-ed
@@ -76,7 +77,7 @@ class QCRunner(object):
         assert isinstance(check_suite, CheckSuite)
         assert isinstance(dataset, StructuredDataset)
 
-        self.check_suite = check_suite
+        self.check_suite: QCSuite = check_suite
         self.check_suite.load_all_available_checkers()
         self.relaxed_cmor = relaxed_cmor
         self.dataset = dataset
@@ -167,6 +168,9 @@ class QCRunner(object):
             message = 'No data found for QC to check.'
             self.logger.critical(message)
             raise NoDataForQualityCheck(message)
+
+        if self.check_suite is None:
+            raise Exception("Check suite is not configured, please run init_suite() first")
 
         if run_id is None:
             run_id = int(time.time())
