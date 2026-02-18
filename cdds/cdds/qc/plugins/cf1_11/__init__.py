@@ -7,7 +7,7 @@ from compliance_checker.base import BaseCheck, Result
 from compliance_checker.cf.cf import CF1_11Check
 from netCDF4 import Dataset
 
-from cdds.qc.plugins.cf_mixin import CFMixin
+from cdds.qc.plugins.base import CFMixin
 
 
 class CF111Check(CFMixin, CF1_11Check):
