@@ -20,7 +20,7 @@ class CF111Check(CFMixin, CF1_11Check):
         """Check the global attribute 'Conventions' contains at least one of CF-1.11, CF-1.12, or CMIP-7.0.
 
         Files that follow this version of the CF Conventions must indicate this by setting the NUG defined global
-        attribute Conventions to a string value that contains 'CF-1.11'. (2.4.1 of the CF Conventions 1.11 document)
+        attribute Conventions to a string value that contains 'CF-1.11'. (2.6.1 of the CF Conventions 1.11 document)
 
         Parameters
         ----------

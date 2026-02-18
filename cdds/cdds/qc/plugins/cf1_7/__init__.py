@@ -20,7 +20,7 @@ class CF17Check(CFMixin, CF1_7Check):
         """Check the global attribute 'Conventions' contains at least one of CF-1.7, CF-1.11, or CMIP-6.2.
 
         We recommend that netCDF files that follow these conventions indicate this by setting the NUG defined
-        global attribute Conventions to the string value 'CF-1.7'. (2.4.1 of the CF Conventions 1.7 document)
+        global attribute Conventions to the string value 'CF-1.7'. (2.6.1 of the CF Conventions 1.7 document)
 
         Parameters
         ----------
