@@ -629,7 +629,6 @@ class StreamValidationResult(object):
                             problematic_stash_codes.update(file_error.stash_errors)
 
                     # Cross-reference missing STASH with requested variables
-                    # breakpoint()
                     affected_variables = self._get_affected_variables(problematic_stash_codes)
                     if affected_variables:
                         msg += "\nAs a result, these variables cannot be produced:\n"
