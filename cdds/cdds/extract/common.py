@@ -385,7 +385,7 @@ def get_stash(fullstash):
     str
         short stash code
     """
-    stash = fullstash[4:6].lstrip("0") + fullstash[7:10]
+    stash = fullstash[4:6].lstrip("0") + fullstash[7:10].lstrip("0")
     return stash
 
 
@@ -629,6 +629,7 @@ class StreamValidationResult(object):
                             problematic_stash_codes.update(file_error.stash_errors)
 
                     # Cross-reference missing STASH with requested variables
+                    # breakpoint()
                     affected_variables = self._get_affected_variables(problematic_stash_codes)
                     if affected_variables:
                         msg += "\nAs a result, these variables cannot be produced:\n"
@@ -680,6 +681,7 @@ class StreamValidationResult(object):
                 continue
             for constraint in var_dict["constraint"]:
                 if "stash" in constraint:
+                    breakpoint()
                     stash = get_stash(constraint["stash"])
                     if stash in problematic_stash_codes:
                         var_name = var_dict.get("name")
