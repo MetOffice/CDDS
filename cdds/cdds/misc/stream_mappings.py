@@ -26,6 +26,10 @@ def read_variables_file(filepath):
     variables = {}
     with open(filepath) as fp:
         for line in fp:
+            if line.startswith("#"):
+                continue
+            if "#" in line:
+                line = line.split("#")[0]
             if ':' in line:
                 mip_table_var, stream = line.strip().split(':')
             else:
