@@ -82,11 +82,11 @@
     {% endif %}
 
     {% if RUN_TRANSFER %}
-        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_qc_{{ STREAM }} => run_transfer_{{ STREAM }}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_qc_{{ STREAM }} = run_transfer_{{ STREAM }} => run_sim_review
     {% endif %}
 
         R1/{{ FINAL_CYCLE_POINT }} = """
-            COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => run_sim_review => workflow_complete
+            COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => workflow_complete
         """
 {% endfor %}
 
