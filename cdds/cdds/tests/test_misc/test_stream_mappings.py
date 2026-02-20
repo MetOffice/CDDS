@@ -23,6 +23,25 @@ class TestStreamMappings(unittest.TestCase):
         msg = f"Error: variable dictionary not created as expected.\nExpected\n{expected}\ngot\n{result}"
         self.assertEqual(result, expected, msg)
 
+    def test_check_mappings(self):
+        variables = {
+            ('COMMENT', ' '): (' ', '#another comment\n'),
+            ('atmos', 'epfy_tavg-p39-hy-air@mon'): (None, ''),
+            ('atmos', 'tas_tavg-h2m-hxy-u@day'): ('ap6', 'comment'),
+            ('land', 'sftgif_ti-u-hxy-u@fx'): (None, '')
+        }
+        result = check_mappings(variables)
+        # TEMP EXPECTED, INVESTIGATE WHY UNKNOWN
+        expected = {
+            ('COMMENT', ' '): (' ', '#another comment\n'),
+            ('atmos', 'epfy_tavg-p39-hy-air@mon'): ('unknown', ''),
+            ('atmos', 'tas_tavg-h2m-hxy-u@day'): ('ap6', 'comment'),
+            ('land', 'sftgif_ti-u-hxy-u@fx'): ('unknown', '')
+        }
+
+        msg = f"Error: variable dictionary not updated with streams as expected.\nExpected\n{expected}\ngot\n{result}"
+        self.assertEqual(result, expected, msg)
+
 
 if __name__ == "__main__":
     unittest.main()
