@@ -346,12 +346,14 @@ mkdir -p {{ BASE_OUTPUT }}
     {% endif %}
 {% endfor %} # STREAM LOOP END
 
+    {% if RUN_TRANSFER %}
     [[run_sim_review]]
         inherit = {{ PLATFORM }}
         [[[environment]]]
             ROSE_TASK_APP = run_sim_review
         [[[directives]]]
             --ntasks = 1
+    {% endif %}
 
     [[workflow_complete]]
         script = sleep 5
