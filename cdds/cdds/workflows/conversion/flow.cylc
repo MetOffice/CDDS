@@ -85,9 +85,14 @@
         R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_qc_{{ STREAM }} => run_transfer_{{ STREAM }}
     {% endif %}
 
-        R1/{{ FINAL_CYCLE_POINT }} = """
+        {% if RUN_TRANSFER %}
             COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => run_sim_review => workflow_complete
-        """
+        {% else %}
+            R1/{{ FINAL_CYCLE_POINT }} = """
+                COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => workflow_complete
+            """
+        {% endif %}
+
 {% endfor %}
 
 [runtime]
@@ -346,12 +351,14 @@ mkdir -p {{ BASE_OUTPUT }}
     {% endif %}
 {% endfor %} # STREAM LOOP END
 
+    {% if RUN_TRANSFER %}
     [[run_sim_review]]
         inherit = {{ PLATFORM }}
         [[[environment]]]
             ROSE_TASK_APP = run_sim_review
         [[[directives]]]
             --ntasks = 1
+    {% endif %}
 
     [[workflow_complete]]
         script = sleep 5
