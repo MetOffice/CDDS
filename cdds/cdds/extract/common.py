@@ -385,7 +385,7 @@ def get_stash(fullstash):
     str
         short stash code
     """
-    stash = fullstash[4:6].lstrip("0") + fullstash[7:10].lstrip("0")
+    stash = fullstash[4:6].lstrip("0") + fullstash[7:10]
     return stash
 
 
@@ -623,6 +623,7 @@ class StreamValidationResult(object):
                     # Collect problematic STASH codes while reporting file errors
                     problematic_stash_codes = set()
                     for _, file_error in self.file_errors.items():
+                        # breakpoint()
                         msg += "{}: {}\n".format(file_error.filepath, file_error.error_message)
                         if isinstance(file_error, StashError):
                             msg += "\t\tMissing STASH codes: {}\n".format(", ".join(file_error.stash_errors))
@@ -680,8 +681,8 @@ class StreamValidationResult(object):
                 continue
             for constraint in var_dict["constraint"]:
                 if "stash" in constraint:
-                    breakpoint()
-                    stash = get_stash(constraint["stash"])
+                    # breakpoint()
+                    stash = get_stash(constraint["stash"]).lstrip("0")
                     if stash in problematic_stash_codes:
                         var_name = var_dict.get("name")
                         mip_table = var_dict.get("table")
