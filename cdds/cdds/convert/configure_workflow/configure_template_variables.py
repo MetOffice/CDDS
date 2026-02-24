@@ -13,6 +13,7 @@ from cdds.common.cdds_files.cdds_directories import (
     output_data_directory,
 )
 from cdds.common.request.request import Request
+from cdds.common.constants import ALTERNATIVE_CALENDAR_NAMES
 from cdds.convert.arguments import ConvertArguments
 from cdds.convert.constants import NTHREADS_CONCATENATE, PARALLEL_TASKS
 
@@ -121,6 +122,10 @@ class ConfigureTemplateVariables:
             self.logger.info(
                 "Environment variable CDDS_DIR not found. Skipping interpolation into rose suite"
             )
+
+        calendar = general_variables["CALENDAR"]
+        if calendar in ALTERNATIVE_CALENDAR_NAMES.keys():
+            general_variables["CALENDAR"] == ALTERNATIVE_CALENDAR_NAMES[calendar]
 
         return general_variables
 
