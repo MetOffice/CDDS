@@ -125,7 +125,7 @@ class ConfigureTemplateVariables:
 
         calendar = general_variables["CALENDAR"]
         if calendar in ALTERNATIVE_CALENDAR_NAMES.keys():
-            general_variables["CALENDAR"] == ALTERNATIVE_CALENDAR_NAMES[calendar]
+            general_variables["CALENDAR"] = ALTERNATIVE_CALENDAR_NAMES[calendar]
 
         return general_variables
 
