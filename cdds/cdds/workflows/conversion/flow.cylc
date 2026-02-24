@@ -86,7 +86,9 @@
     {% endif %}
 
         {% if RUN_TRANSFER %}
-            COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => run_sim_review => workflow_complete
+            R1/{{ FINAL_CYCLE_POINT }} = """
+                COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => run_sim_review => workflow_complete
+            """
         {% else %}
             R1/{{ FINAL_CYCLE_POINT }} = """
                 COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => workflow_complete
