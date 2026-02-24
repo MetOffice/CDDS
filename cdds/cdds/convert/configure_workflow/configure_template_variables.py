@@ -123,7 +123,7 @@ class ConfigureTemplateVariables:
                 "Environment variable CDDS_DIR not found. Skipping interpolation into rose suite"
             )
 
-        calendar = general_variables["CALENDAR"]
+        calendar = str(general_variables["CALENDAR"])
         if calendar in ALTERNATIVE_CALENDAR_NAMES.keys():
             general_variables["CALENDAR"] = ALTERNATIVE_CALENDAR_NAMES[calendar]
 
