@@ -235,6 +235,7 @@ class QCRunner(object):
                     elif request.metadata.mip_era == 'CMIP7':
                         output = self.check_suite.run(ds, conf, [], "cdds_cf:1.11", "cmip7")
                     else:
+                        # all other projects (CMIP6Plus, GCModelDev) use CF-1.7 and CMIP6 style checks.
                         output = self.check_suite.run(ds, conf, [], "cdds_cf:1.7", "cmip6")
                 invalid = self._parse_and_log(cursor, output, qc_dataset_id)
                 if data_file in crs[1] and crs[1][data_file]:
