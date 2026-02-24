@@ -112,8 +112,8 @@ setup(
     include_package_data=True,
     zip_safe=False,
     entry_points={'compliance_checker.suites': [
-        'cdds_cf = cdds.qc.plugins.cf1_7:CF17Check',
-        'cdds_cf = cdds.qc.plugins.cf1_11:CF111Check',
+        'cdds_cf_1.7 = cdds.qc.plugins.cf1_7:CF17Check',
+        'cdds_cf_1.11 = cdds.qc.plugins.cf1_11:CF111Check',
         'cmip6 = cdds.qc.plugins.cmip6:CMIP6Check',
         'cmip7 = cdds.qc.plugins.cmip7:CMIP7Check',
         'cordex = cdds.qc.plugins.cordex:CordexCheck'
