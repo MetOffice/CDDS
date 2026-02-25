@@ -12,7 +12,6 @@ real height.
 # The inheritance hierarchy is a bit messy: suspect there is some refactoring to
 # do around here to seperate out the nature of the axis from the way it is generated
 
-import logging
 import numpy
 import os
 
@@ -434,7 +433,6 @@ class AxisHybridHeight(AbstractBoundCmpAxis, AbstractZCheckedAxis):
     units = 'm'
 
     def __init__(self, name, a, a_bounds, b, b_bounds, orog, orog_units):
-        self.logger = logging.getLogger(__name__)
         self.name = name
         self._values = a
         self._bounds = a_bounds
