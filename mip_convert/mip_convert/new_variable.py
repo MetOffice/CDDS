@@ -381,8 +381,11 @@ class Variable(object):
             return
 
         z = axes_directions_names["Z"]
-        axis_info = self.mip_metadata.axes["hybrid_height_half"]
-        z_bounds_factors = axis_info.get("z_bounds_factors")
+        axis_info = self.mip_metadata.axes.get("hybrid_height_half")
+        if axis_info is not None:
+            z_bounds_factors = axis_info.get("z_bounds_factors")
+        else:
+            z_bounds_factors = None
 
         if z == "hybrid_height_half" and z_bounds_factors == "":
             self.logger.debug(
