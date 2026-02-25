@@ -12,7 +12,7 @@ class DatasetFactory:
 
     @classmethod
     def of(cls, mip_era, root, request, mip_tables, mip_table=None, start=None, end=None, logger=None, stream=None):
-        for dataset_clazz in DatasetFactory.DATASET_CLASSES:
-            if dataset_clazz.is_responsible(mip_era):
-                return dataset_clazz(root, request, mip_tables, mip_table, start, end, logger, stream)
-        raise KeyError('Found no structured dataset class for project: {}'.format(mip_era))
+        for structured_dataset_class in DatasetFactory.DATASET_CLASSES:
+            if structured_dataset_class.is_responsible(mip_era):
+                return structured_dataset_class(root, request, mip_tables, mip_table, start, end, logger, stream)
+        raise KeyError('Found no StructuredDataset Class responsible for project: {}'.format(mip_era))
