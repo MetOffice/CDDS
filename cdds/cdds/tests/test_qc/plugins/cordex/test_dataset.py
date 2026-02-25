@@ -1,9 +1,9 @@
-# (C) British Crown Copyright 2018-2025, Met Office.
+# (C) British Crown Copyright 2018-2026, Met Office.
 # Please see LICENSE.md for license details.
 
 import unittest
 from cdds.common.mip_tables import MipTables
-from cdds.qc.plugins.cordex.dataset import CordexDataset
+from cdds.qc.dataset.cordex import CordexDataset
 from cdds.tests.test_qc.plugins.constants import CORDEX_MIP_TABLES_DIR
 from cdds.tests.factories.request_factory import simple_request
 from unittest.mock import patch

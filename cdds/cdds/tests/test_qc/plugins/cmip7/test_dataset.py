@@ -9,7 +9,7 @@ import pytest
 
 from cdds.common.mip_tables import MipTables
 from cdds.common.request.request import Request
-from cdds.qc.plugins.cmip7.dataset import Cmip7Dataset
+from cdds.qc.dataset.cmip7 import Cmip7Dataset
 from cdds.tests.test_qc.plugins.constants import CMIP7_MIP_TABLES_DIR
 
 
