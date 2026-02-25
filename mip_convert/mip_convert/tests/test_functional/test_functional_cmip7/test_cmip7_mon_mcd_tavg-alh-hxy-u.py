@@ -32,7 +32,7 @@ class TestCmip7_mcd_tavg_alh_hxy_u(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '2000-01-01T00:00:00 2000-03-01T00:00:00',
                     'suite_id': 'u-dv623',
-                    'mip_convert_plugin': 'UKCM2'
+                    'mip_convert_plugin': 'UKESM1p3'
                 },
                 streams={
                     'ap5': {'CMIP7_atmos@mon': 'mcd_tavg-alh-hxy-u'}

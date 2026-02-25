@@ -110,7 +110,6 @@ class CmorWrapper(ObjectWithLogger):
 
     def zfactor(self, *args, **kwargs):
         self._debug_on_args('zfactor', args, kwargs)
-        # breakpoint()
         cmor.zfactor(*args, **kwargs)
 
     def set_frequency(self, frequency, **kwargs):

@@ -358,6 +358,7 @@ class Variable(object):
         self._ensure_masked_arrays()
         self._apply_removal()
         self._apply_mask()
+        self._remove_alevhalf_bounds()
         self._apply_expression()
         if self._force_coordinate_rotation:
             self._rotated_coords()
@@ -366,6 +367,35 @@ class Variable(object):
             self._update_time_units()
         if hasattr(self.model_to_mip_mapping, 'valid_min'):
             self._apply_valid_min_correction()
+
+    def _remove_alevhalf_bounds(self):
+        """
+        Remove bounds from vertical coordinates in input cubes if the MIP table specifies
+        'hybrid_height_half' as the Z axis and 'z_bounds_factors' is empty.
+
+        Iterates through input cubes and removes bounds from coordinates named 'altitude'
+        , 'sigma', or 'level_height'.
+        """
+        axes_directions_names = self._mip_axes_directions_names
+        if "Z" not in axes_directions_names:
+            return
+
+        z = axes_directions_names["Z"]
+        axis_info = self.mip_metadata.axes["hybrid_height_half"]
+        z_bounds_factors = axis_info.get("z_bounds_factors")
+
+        if z == "hybrid_height_half" and z_bounds_factors == "":
+            self.logger.debug(
+                "z_bounds_factors is empty in MIP table for hybrid_height_half,"
+                " removing bounds from vertical coordinates"
+            )
+            coord_names_to_remove_bounds = ["altitude", "sigma", "level_height"]
+            for cube in self.input_variables.values():
+                for coord_name in coord_names_to_remove_bounds:
+                    z_coord = cube.coord(coord_name)
+                    if z_coord.has_bounds():
+                        z_coord.bounds = None
+                        self.logger.debug(f'Removed bounds from coordinate "{z_coord.name()}" on cube "{cube.name()}"')
 
     def _remove_units_from_input_variables_as_necessary(self):
         # To prevent the Iris error "Cannot use <operator> with

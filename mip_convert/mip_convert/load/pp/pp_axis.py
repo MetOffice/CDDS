@@ -449,10 +449,6 @@ class AxisHybridHeight(AbstractBoundCmpAxis, AbstractZCheckedAxis):
 
     def getBbounds(self):
         """Return the bounds of the b values for the hybrid height axis."""
-        # breakpoint()
-        if self.name == "hybrid_height_half":
-            self.logger.warning('"hybrid_height_half" bounds found. Returned as None to prevent cmor.zfactor error')
-            return None
         return self._b_bounds
 
     def getOrography(self):
