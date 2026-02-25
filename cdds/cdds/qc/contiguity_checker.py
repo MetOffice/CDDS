@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2025, Met Office.
+# (C) British Crown Copyright 2018-2026, Met Office.
 # Please see LICENSE.md for license details.
 
 
@@ -8,9 +8,9 @@ from typing import DefaultDict, List, Dict, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from cdds.common.request.request import Request
-from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
-from cdds.qc.plugins.cmip7.dataset import Cmip7Dataset
-from cdds.qc.plugins.cordex.dataset import CordexDataset
+from cdds.qc.dataset.cmip6 import Cmip6Dataset
+from cdds.qc.dataset.cmip7 import Cmip7Dataset
+from cdds.qc.dataset.cordex import CordexDataset
 from cdds.qc.common import equal_with_tolerance, DatetimeCalculator
 from cdds.qc.constants import DIURNAL_CLIMATOLOGY, HOURLY_OFFSET, DIURNAL_OFFSETS, TIME_TOLERANCE
 

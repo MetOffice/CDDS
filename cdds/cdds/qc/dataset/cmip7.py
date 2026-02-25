@@ -1,11 +1,11 @@
-# (C) British Crown Copyright 2023-2025, Met Office.
+# (C) British Crown Copyright 2023-2026, Met Office.
 # Please see LICENSE.md for license details.
 
 from collections import defaultdict
 import re
 
 from cdds.common.constants import CMIP7_VARIANT_LABEL_FORMAT
-from cdds.qc.plugins.base.dataset import StructuredDataset
+from cdds.qc.dataset.dataset import StructuredDataset
 from cdds.qc.plugins.cmip6.validators import parse_date_range, ValidationError
 
 
