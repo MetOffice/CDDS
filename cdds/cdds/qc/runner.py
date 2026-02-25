@@ -36,7 +36,7 @@ from cdds.qc.models import (
     get_validated_variables,
     setup_db,
 )
-from cdds.qc.plugins.base.dataset import StructuredDataset
+from cdds.qc.dataset.dataset import StructuredDataset
 from cdds.qc.suite import QCSuite
 
 
