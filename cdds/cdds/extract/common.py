@@ -373,8 +373,13 @@ def merge_dicts(dict1, dict2):
 
 
 def get_stash(fullstash):
-    """Converts full UM stash definition to basic stash code.
-    e.g. converts m01s15i226 to 15226
+    """Converts full UM stash definition to basic stash code with leading zeros removed.
+
+    Examples:
+        m01s15i226 -> 15226
+        m01s02i302 -> 2302
+        m01s00i001 -> 1
+        m01s03i010 -> 3010
 
     Parameters
     ----------
@@ -383,10 +388,10 @@ def get_stash(fullstash):
     Returns
     -------
     str
-        short stash code
+        short stash code with leading zeros removed
     """
     stash = fullstash[4:6].lstrip("0") + fullstash[7:10]
-    return stash
+    return stash.lstrip("0")
 
 
 def process_info(args):
