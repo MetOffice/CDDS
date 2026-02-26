@@ -371,23 +371,21 @@ class Variable(object):
     def _remove_alevhalf_bounds(self):
         """
         Remove bounds from vertical coordinates in input cubes if the MIP table specifies
-        'hybrid_height_half' as the Z axis and 'z_bounds_factors' is empty.
+        'hybrid_height_half' as the Z axis and 'z_bounds_factors' is present and empty.
 
-        Iterates through input cubes and removes bounds from coordinates named 'altitude'
-        , 'sigma', or 'level_height'.
+        If 'z_bounds_factors' is missing or not empty, this function does nothing.
+
+        Iterates through input cubes and removes bounds from coordinates named 'altitude',
+        'sigma', or 'level_height'.
         """
         axes_directions_names = self._mip_axes_directions_names
         if "Z" not in axes_directions_names:
             return
 
-        z = axes_directions_names["Z"]
+        z_axis = axes_directions_names["Z"]
         axis_info = self.mip_metadata.axes.get("hybrid_height_half")
-        if axis_info is not None:
-            z_bounds_factors = axis_info.get("z_bounds_factors")
-        else:
-            z_bounds_factors = None
 
-        if z == "hybrid_height_half" and z_bounds_factors == "":
+        if z_axis == "hybrid_height_half" and axis_info.get("z_bounds_factors") == "":
             self.logger.debug(
                 "z_bounds_factors is empty in MIP table for hybrid_height_half,"
                 " removing bounds from vertical coordinates"
