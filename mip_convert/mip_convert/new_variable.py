@@ -413,7 +413,7 @@ class Variable(object):
             try:
                 cube.remove_coord("forecast_period")
                 self.logger.debug(f'Removed coordinate "forecast_period" from {cube} variable ')
-            except iris.exceptions.CoordinateNotFoundError:
+            except CoordinateNotFoundError:
                 pass
 
     def _ensure_masked_arrays(self):
@@ -567,7 +567,7 @@ class Variable(object):
         if self._variable_metadata.reference_time:
             try:
                 self.cube.remove_coord("forecast_period")
-            except iris.exceptions.CoordinateNotFoundError:
+            except CoordinateNotFoundError:
                 pass
             for (coord, axis_direction) in self._matched_coords:
                 if coord.standard_name == 'forecast_reference_time':
@@ -801,7 +801,7 @@ class Variable(object):
                 # coordinate as a last resort.
                 try:
                     coord = self.cube.coord(axis=mip_axis_direction, dim_coords=True)
-                except iris.exceptions.CoordinateNotFoundError:
+                except CoordinateNotFoundError:
                     coord = None
                 if coord is not None:
                     matched_axis_direction = mip_axis_direction
