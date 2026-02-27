@@ -57,7 +57,6 @@ class QCRunner(object):
             raise Exception(
                 "Database file {} does not exist, provide a correct location"
                 " or run models.py to initialise it".format(db_path))
-        self.check_suite = None
         self.db = setup_db(db_path)
         self.logger = logging.getLogger(__name__)
 
