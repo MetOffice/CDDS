@@ -11,24 +11,6 @@ class CordexDataset(StructuredDataset):
     Can be sliced by a MIP table and time period.
     """
 
-    def __init__(self, root, request, mip_tables, mip_table=None, start=None, end=None, logger=None, stream=None):
-        super(CordexDataset, self).__init__(root, request, mip_tables, mip_table, start, end, logger, stream)
-
-    def load_dataset(self, loader_class):
-        """A utility method necessary to make this class testable.
-        Walks the root directory and gathers ncdf files.
-
-        Parameters
-        ----------
-        loader_class : type
-            A type of dataset loader (e.g. netCDF4.Dataset)
-        """
-        self._loader_class = loader_class
-        self._dataset = self.walk_directory()
-        aggregated, var_names = self._aggregate_files()
-        self._aggregated = aggregated
-        self._var_names = var_names
-
     @classmethod
     def is_responsible(cls, project):
         return 'cordex' == project.lower()

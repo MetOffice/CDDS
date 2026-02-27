@@ -43,8 +43,8 @@ class CordexDatasetTestCase(unittest.TestCase):
         filename = (
             "hus1000_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc"
         )
-        structured_dataset = CordexDataset('.', request, self.mip_tables,
-                                           None, None, None, logger)
+        structured_dataset = CordexDataset('.', request, self.mip_tables, logger,
+                                           None, None, None)
         passed, messages = structured_dataset.check_filename(ds, filename)
 
         self.assertTrue(passed)
@@ -93,8 +93,8 @@ class CordexDatasetTestCase(unittest.TestCase):
         filename = (
             "hus1000_EUR-11_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_day_20220101-20231230.nc"
         )
-        structured_dataset = CordexDataset('.', request, self.mip_tables,
-                                           None, None, None, logger)
+        structured_dataset = CordexDataset('.', request, self.mip_tables, logger,
+                                           None, None, None)
         passed, messages = structured_dataset.check_filename(ds, filename)
         self.assertFalse(passed)
         self.assertListEqual(expected_errors, messages)
@@ -111,8 +111,8 @@ class CordexDatasetTestCase(unittest.TestCase):
         structured_dataset = CordexDataset(
             os.path.join(self.test_datadir, 'output'),
             request,
-            self.mip_tables,
-            None, None, None, logger, None)
+            self.mip_tables, logger,
+            None, None, None, None)
         filelist = structured_dataset.walk_directory()
         self.assertEqual(len(filelist), 1)
 
@@ -127,7 +127,7 @@ class CordexDatasetTestCase(unittest.TestCase):
             open(os.path.join(dirpath, "test.nc"), 'w').close()
         structured_dataset = CordexDataset(
             os.path.join(self.test_datadir, 'output'), request,
-            self.mip_tables, None, None, None, logger, 'ap5')
+            self.mip_tables, logger, None, None, None, 'ap5')
         filelist = structured_dataset.walk_directory()
         self.assertEqual(len(filelist), 1)
 

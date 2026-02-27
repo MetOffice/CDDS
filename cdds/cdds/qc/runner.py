@@ -57,7 +57,6 @@ class QCRunner(object):
             raise Exception(
                 "Database file {} does not exist, provide a correct location"
                 " or run models.py to initialise it".format(db_path))
-        self.check_suite = None
         self.db = setup_db(db_path)
         self.logger = logging.getLogger(__name__)
 
@@ -168,9 +167,6 @@ class QCRunner(object):
             message = 'No data found for QC to check.'
             self.logger.critical(message)
             raise NoDataForQualityCheck(message)
-
-        if self.check_suite is None:
-            raise Exception("Check suite is not configured, please run init_suite() first")
 
         if run_id is None:
             run_id = int(time.time())
