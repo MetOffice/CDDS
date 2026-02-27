@@ -58,13 +58,12 @@ class StructuredDataset(object, metaclass=ABCMeta):
         self._mip_table = mip_table
         self._start = start
         self._end = end
-        self._loader_class = None
         self._mip_tables = mip_tables
         self._stream = stream
         self._logger: Logger = logger
-        self._dataset = []
-        self._aggregated = {}
-        self._var_names = {}
+        self._dataset: list = []
+        self._aggregated: dict = {}
+        self._var_names: dict = {}
         self.global_attributes_cache = GlobalAttributesCache()
 
     @classmethod
