@@ -168,9 +168,6 @@ class QCRunner(object):
             self.logger.critical(message)
             raise NoDataForQualityCheck(message)
 
-        if self.check_suite is None:
-            raise Exception("Check suite is not configured, please run init_suite() first")
-
         if run_id is None:
             run_id = int(time.time())
         self.logger.info("Starting QC tests")
