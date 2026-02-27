@@ -99,9 +99,20 @@ class StructuredDataset(object, metaclass=ABCMeta):
     def var_names(self):
         return self._var_names
 
-    @abstractmethod
     def load_dataset(self, loader_class):
-        pass
+        """A utility method necessary to make this class testable.
+        Walks the root directory and gathers ncdf files.
+
+        Parameters
+        ----------
+        loader_class : type
+            A type of dataset loader (e.g. netCDF4.Dataset)
+        """
+        self._loader_class = loader_class
+        self._dataset = self.walk_directory()
+        aggregated, var_names = self._aggregate_files()
+        self._aggregated = aggregated
+        self._var_names = var_names
 
     def check_filenames_and_sizes(self):
         """Tests all filenames and file sizes in this dataset
@@ -193,7 +204,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
         return (time_axis, time_bnds, frequency)
 
     @abstractmethod
-    def _aggregate_files(self):
+    def _aggregate_files(self) -> tuple[dict, dict]:
         pass
 
     def walk_directory(self):
