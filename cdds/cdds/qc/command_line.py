@@ -154,13 +154,13 @@ def run_and_report(args: Namespace, request: Request) -> dict:  # TODO: kerstin 
 
     ds: Union[Cmip6Dataset, Cmip7Dataset, CordexDataset]
     if request.common.force_plugin == 'CORDEX':
-        ds = CordexDataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
+        ds = CordexDataset(basedir, request, mip_tables, logging.getLogger(__name__), args.mip_table, None, None,
                            args.stream)
     elif request.metadata.mip_era == 'CMIP7':
-        ds = Cmip7Dataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
+        ds = Cmip7Dataset(basedir, request, mip_tables, logging.getLogger(__name__), args.mip_table, None, None,
                           args.stream)
     else:
-        ds = Cmip6Dataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
+        ds = Cmip6Dataset(basedir, request, mip_tables, logging.getLogger(__name__), args.mip_table, None, None,
                           args.stream)
 
     ds.load_dataset(Dataset)
