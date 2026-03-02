@@ -62,7 +62,7 @@ class AttributesValidator:
             raise ValueError('Request must contain a model ID')
         if not request.metadata.experiment_id:
             raise ValueError('Request must contain an experiment ID')
-        if not request.metadata.sub_experiment_id:
-            raise ValueError('Request must contain a sub experiment ID')
+        # if not request.metadata.sub_experiment_id:
+        #     raise ValueError('Request must contain a sub experiment ID')
         if not request.metadata.variant_label:
             raise ValueError('Request must contain a variant label')

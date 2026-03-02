@@ -28,6 +28,7 @@ class Cmip7ModelId(ModelId):
 
     UKESM1_3_LL = 'UKESM1-3-LL'
     UKCM2_0_LL = 'UKCM2-0-LL'
+    UKCM2A_0_HH = 'UKCM2a-0-HH'
 
 
 class UKESM1_3_LL_Params(BaseModelParameters):
@@ -72,7 +73,7 @@ class UKESM1_3_LL_Params(BaseModelParameters):
 
 
 class UKCM2_0_LL_Params(BaseModelParameters):
-    """Class to store the parameters for the UKESM1_3_LL model."""
+    """Class to store the parameters for the UKCM2.0 model."""
 
     def __init__(self) -> None:
         super(UKCM2_0_LL_Params, self).__init__(Cmip7ModelId.UKCM2_0_LL)
@@ -80,34 +81,75 @@ class UKCM2_0_LL_Params(BaseModelParameters):
 
     @property
     def model_version(self) -> str:
-        """Returns the model version of the UKESM1_3_LL model.
+        """Returns the model version of the UKCM2.0 model.
 
         Returns
         -------
         str
-            Model version of UKESM1_3_LL
+            Model version of UKCM2.0
         """
         return '1.0'
 
     @property
     def data_request_version(self) -> str:
-        """Returns the data request version of the UKESM1_3_LL model.
+        """Returns the data request version of the UKCM2.0 model.
 
         Returns
         -------
         str
-            Data request version of UKESM1_3_LL
+            Data request version of UKCM2.0
         """
         return '01.00.17'
 
     @property
     def um_version(self) -> str:
-        """Returns the UM version of the UKESM1_3_LL model.
+        """Returns the UM version of the UKCM2.0 model.
 
         Returns
         -------
         str
-            UM version of UKESM1_3_LL
+            UM version of UKCM2.0
+        """
+        return '10.8'
+
+
+class UKCM2a_0_HH_Params(BaseModelParameters):
+    """Class to store the parameters for the UKCM2a high res model."""
+
+    def __init__(self) -> None:
+        super(UKCM2a_0_HH_Params, self).__init__(Cmip7ModelId.UKCM2A_0_HH)
+        self._grid_mappings: CMIP7GridMapping = CMIP7GridMapping()
+
+    @property
+    def model_version(self) -> str:
+        """Returns the model version of the UKCM2a model.
+
+        Returns
+        -------
+        str
+            Model version of UKCM2a
+        """
+        return '1.0'
+
+    @property
+    def data_request_version(self) -> str:
+        """Returns the data request version of the UKCM2a model.
+
+        Returns
+        -------
+        str
+            Data request version of UKCM2a
+        """
+        return '01.00.17'
+
+    @property
+    def um_version(self) -> str:
+        """Returns the UM version of the UKCM2a model.
+
+        Returns
+        -------
+        str
+            UM version of UKCM2a
         """
         return '10.8'
 
@@ -124,6 +166,7 @@ class Cmip7ModelsStore(BaseModelStore):
         model_instances: List[BaseModelParameters] = [
             UKESM1_3_LL_Params(),
             UKCM2_0_LL_Params(),
+            UKCM2a_0_HH_Params(),
         ]
         super(Cmip7ModelsStore, self).__init__(model_instances)
         self.logger = logging.getLogger(self.__class__.__name__)
