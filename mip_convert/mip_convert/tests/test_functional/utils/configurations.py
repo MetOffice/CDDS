@@ -112,8 +112,8 @@ class CommonInfo:
             },
             cmor_dataset={
                 'calendar': '360_day',
-                'grid_label': 'gn',
-                'institution_id': 'PCMDI',
+                'grid_label': 'g100',
+                'institution_id': 'MOHC',
             }
         )
 
@@ -222,15 +222,16 @@ class ProjectInfo:
                 'license': CMIP7_LICENSE,
                 'mip': 'CMIP',
                 'mip_era': 'CMIP7',
-                'model_id': 'PCMDI-test-1-0',
+                'model_id': 'UKESM1-3-LL',
                 'nominal_resolution': '250 km',
-                'variant_label': 'r1i1dp1f1',
+                'variant_label': 'r1i1p1f3',
                 'parent_base_date': '1850-01-01T00:00:00',
                 'parent_experiment_id': 'piControl',
                 'parent_mip_era': 'CMIP7',
-                'parent_model_id': 'PCMDI-test-1-0',
+                'parent_model_id': 'UKESM1-3-LL',
                 'parent_time_units': 'days since 1850-01-01',
-                'parent_variant_label': 'r1i1p1f1'
+                'parent_variant_label': 'r1i1p1f1',
+                'sub_experiment_id': 'none'
             },
             request={
                 'base_date': '1850-01-01T00:00:00',
@@ -240,6 +241,9 @@ class ProjectInfo:
                 'archive_id': 'WCRP',
                 'host_collection': 'CMIP7',
                 'region': "glb",
+                'drs_specs': 'MIP-DRS7',
+                'data_specs_version': 'MIP-DS7.0.0.0',
+                'further_info_url': 'https://furtherinfo.es-doc.org/CMIP7.MOHC.UKCM2-0-LL.1pctCO2.none.r1i1p1f3'
             }
         )
 
