@@ -6,6 +6,10 @@ select = [
     #pycodestyle
     "E",
     "W",
+    "CPY"
 ]
 ignore = []
 preview = true
+
+[lint.flake8-copyright]
+notice-rgx = '^(#!/usr/bin/env python3\n)?# \(C\) British Crown Copyright 20\d{2}(-20\d{2})?, Met Office\.\n# Please see LICENSE\.md for license details\.'
