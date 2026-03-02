@@ -250,6 +250,6 @@ USER_CONFIG_OPTIONS = {
 VARIANT_LABEL_FORMAT = r'^r(\d+)i(\d+)p(\d+)f(\d+)$'
 CMIP7_VARIANT_LABEL_FORMAT = r'^(r\d{1,6})(i\d{1,6}[a-e]?)(p\d{1,6})(f\d{1,6})$'
 PRINT_STACK_TRACE = True
-ALTERNATIVE_CALENDAR_NAMES = {
+CALENDAR_MAPPING_CDDS_TO_CYLC = {
     "standard": "gregorian"
 }

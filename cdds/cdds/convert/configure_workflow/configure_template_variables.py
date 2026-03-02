@@ -13,7 +13,7 @@ from cdds.common.cdds_files.cdds_directories import (
     output_data_directory,
 )
 from cdds.common.request.request import Request
-from cdds.common.constants import ALTERNATIVE_CALENDAR_NAMES
+from cdds.common.constants import CALENDAR_MAPPING_CDDS_TO_CYLC
 from cdds.convert.arguments import ConvertArguments
 from cdds.convert.constants import NTHREADS_CONCATENATE, PARALLEL_TASKS
 
@@ -124,8 +124,8 @@ class ConfigureTemplateVariables:
             )
 
         calendar = str(general_variables["CALENDAR"])
-        if calendar in ALTERNATIVE_CALENDAR_NAMES.keys():
-            general_variables["CALENDAR"] = ALTERNATIVE_CALENDAR_NAMES[calendar]
+        if calendar in CALENDAR_MAPPING_CDDS_TO_CYLC:
+            general_variables["CALENDAR"] = CALENDAR_MAPPING_CDDS_TO_CYLC[calendar]
 
         return general_variables
 
