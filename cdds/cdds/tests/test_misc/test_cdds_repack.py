@@ -86,7 +86,8 @@ class TestRunCheckCmip7Packing(unittest.TestCase):
         try:
             with self.assertRaises(RuntimeError) as context:
                 run_check_cmip7_packing(temp_filename)
-            self.assertIn("check_cmip7_packing failed with exit code 5", str(context.exception))
+            self.assertIn("check_cmip7_packing failed", str(context.exception))
+            self.assertIn("with exit code 5", str(context.exception))
         finally:
             if os.path.exists(temp_filename):
                 os.unlink(temp_filename)

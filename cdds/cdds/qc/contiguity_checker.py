@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2025, Met Office.
+# (C) British Crown Copyright 2018-2026, Met Office.
 # Please see LICENSE.md for license details.
 
 
@@ -8,8 +8,10 @@ from typing import DefaultDict, List, Dict, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from cdds.common.request.request import Request
-from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
-from cdds.qc.plugins.cordex.dataset import CordexDataset
+from cdds.common.constants import CALENDAR_MAPPING_CDDS_TO_CYLC
+from cdds.qc.dataset.cmip6 import Cmip6Dataset
+from cdds.qc.dataset.cmip7 import Cmip7Dataset
+from cdds.qc.dataset.cordex import CordexDataset
 from cdds.qc.common import equal_with_tolerance, DatetimeCalculator
 from cdds.qc.constants import DIURNAL_CLIMATOLOGY, HOURLY_OFFSET, DIURNAL_OFFSETS, TIME_TOLERANCE
 
@@ -18,13 +20,15 @@ class CollectionsCheck(object):
     """Time contiguity checker for a set of ncdf files."""
 
     name = "collections"
-    supported_ds = [Cmip6Dataset, CordexDataset]
+    supported_ds = [Cmip6Dataset, Cmip7Dataset, CordexDataset]
 
     def __init__(self, request: "Request"):
         """A constructor."""
         self.request = request
-        self.calendar_calculator = DatetimeCalculator(
-            self.request.metadata.calendar, self.request.metadata.base_date)
+        calendar = self.request.metadata.calendar
+        if calendar in CALENDAR_MAPPING_CDDS_TO_CYLC:
+            calendar = CALENDAR_MAPPING_CDDS_TO_CYLC[calendar]
+        self.calendar_calculator = DatetimeCalculator(calendar, self.request.metadata.base_date)
         self.results: DefaultDict[str, List[Dict[str, str]]] = defaultdict(list)
 
     def perform_checks(self, ds):

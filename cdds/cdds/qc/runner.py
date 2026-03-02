@@ -1,31 +1,43 @@
-# (C) British Crown Copyright 2018-2025, Met Office.
+# (C) British Crown Copyright 2018-2026, Met Office.
 # Please see LICENSE.md for license details.
 
-import logging
 import datetime
-import time
-import os
 import inspect
 import json
+import logging
+import os
+import time
+
 from compliance_checker.runner import CheckSuite
+
 from cdds.common.constants import (
-    APPROVED_VARS_FILENAME_TEMPLATE,
     APPROVED_VARS_FILENAME_STREAM_TEMPLATE,
+    APPROVED_VARS_FILENAME_TEMPLATE,
 )
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.sqlite import execute_insert_query
-from cdds.qc.plugins.base.dataset import StructuredDataset
 from cdds.qc.common import NoDataForQualityCheck
-from cdds.qc.models import (
-    setup_db,
-    get_qc_runs, get_qc_files, get_error_counts, get_aggregated_errors,
-    get_validated_variables
-)
 from cdds.qc.constants import (
-    STATUS_ERROR, STATUS_WARNING, STATUS_IGNORED,
-    SUMMARY_STARTED, SUMMARY_FAILED, SUMMARY_PASSED,
-    QC_REPORT_STREAM_FILENAME, QC_REPORT_FILENAME)
+    QC_REPORT_FILENAME,
+    QC_REPORT_STREAM_FILENAME,
+    STATUS_ERROR,
+    STATUS_IGNORED,
+    STATUS_WARNING,
+    SUMMARY_FAILED,
+    SUMMARY_PASSED,
+    SUMMARY_STARTED,
+)
 from cdds.qc.contiguity_checker import CollectionsCheck
+from cdds.qc.models import (
+    get_aggregated_errors,
+    get_error_counts,
+    get_qc_files,
+    get_qc_runs,
+    get_validated_variables,
+    setup_db,
+)
+from cdds.qc.dataset.dataset import StructuredDataset
+from cdds.qc.suite import QCSuite
 
 
 class QCRunner(object):
@@ -45,16 +57,15 @@ class QCRunner(object):
             raise Exception(
                 "Database file {} does not exist, provide a correct location"
                 " or run models.py to initialise it".format(db_path))
-        self.check_suite = None
         self.db = setup_db(db_path)
         self.logger = logging.getLogger(__name__)
 
-    def init_suite(self, check_suite, dataset, relaxed_cmor=False):
+    def init_suite(self, check_suite: QCSuite, dataset: StructuredDataset, relaxed_cmor=False):
         """Configures IOOS QC checker and prepares a dataset to be checked
 
         Parameters
         ----------
-        check_suite: CheckSuite
+        check_suite: QCSuite
             An instance of ioos qc checker
         dataset: StructuredDataset
             An instance of a dataset to be qc-ed
@@ -65,7 +76,7 @@ class QCRunner(object):
         assert isinstance(check_suite, CheckSuite)
         assert isinstance(dataset, StructuredDataset)
 
-        self.check_suite = check_suite
+        self.check_suite: QCSuite = check_suite
         self.check_suite.load_all_available_checkers()
         self.relaxed_cmor = relaxed_cmor
         self.dataset = dataset
@@ -122,7 +133,19 @@ class QCRunner(object):
                 "relaxed_cmor": self.relaxed_cmor,
                 "global_attributes_cache": self.dataset.global_attributes_cache
             },
-            "cf17": {
+            "cmip7": {
+                "mip_tables_dir": mip_tables_dir,
+                "cv_location": cv_location,
+                "request": request,
+                "relaxed_cmor": self.relaxed_cmor,
+                "global_attributes_cache": self.dataset.global_attributes_cache
+            },
+            "cdds_cf:1.7": {
+                "standard_names_version": request.common.standard_names_version,
+                "standard_names_dir": request.common.standard_names_dir,
+                "global_attributes_cache": self.dataset.global_attributes_cache
+            },
+            "cdds_cf:1.11": {
                 "standard_names_version": request.common.standard_names_version,
                 "standard_names_dir": request.common.standard_names_dir,
                 "global_attributes_cache": self.dataset.global_attributes_cache
@@ -204,9 +227,12 @@ class QCRunner(object):
                 qc_dataset_id = cursor.lastrowid
                 with self.check_suite.load_dataset(data_file) as ds:
                     if request.common.force_plugin == 'CORDEX':
-                        output = self.check_suite.run(ds, conf, [], "cf17", "cordex")
+                        output = self.check_suite.run(ds, conf, [], "cdds_cf:1.7", "cordex")
+                    elif request.metadata.mip_era == 'CMIP7':
+                        output = self.check_suite.run(ds, conf, [], "cdds_cf:1.11", "cmip7")
                     else:
-                        output = self.check_suite.run(ds, conf, [], "cf17", "cmip6")
+                        # all other projects (CMIP6, CMIP6Plus, GCModelDev) use CF-1.7 and CMIP6 style checks.
+                        output = self.check_suite.run(ds, conf, [], "cdds_cf:1.7", "cmip6")
                 invalid = self._parse_and_log(cursor, output, qc_dataset_id)
                 if data_file in crs[1] and crs[1][data_file]:
                     for msg in crs[1][data_file]:

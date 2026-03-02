@@ -23,7 +23,7 @@ CMIP6_LICENSE = ('CMIP6 model data produced by MOHC is licensed '
                  'liability arising in negligence) are excluded to '
                  'the fullest extent permitted by law.')
 
-CMIP7_LICENSE = "CC BY 4.0"
+CMIP7_LICENSE = "CC-BY-4-0"
 
 CORDEX_LICENSE = 'https://cordex.org/data-access/cordex-cmip6-data/cordex-cmip6-terms-of-use'
 

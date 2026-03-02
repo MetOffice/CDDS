@@ -308,7 +308,6 @@ class Filters(object):
 
             # condense duplicated constraints in stream
             condensed_constraints = condense_constraints(self.mappings.get(stream))
-
             # generate filter blocks from each constraint and concatenate them
             for serialised_constraints, corresponding_stashes in condensed_constraints.items():
                 filter_block = "begin\n"
@@ -321,7 +320,7 @@ class Filters(object):
 
                 # format and collate corresponding stash codes
                 stashes = []
-                stashes.extend(get_stash(unformatted_stash).lstrip("0") for unformatted_stash in corresponding_stashes)
+                stashes.extend(get_stash(unformatted_stash) for unformatted_stash in corresponding_stashes)
                 stash_codes.update(stashes)
                 stash_values = ",".join(map(str, stashes))
                 filter_block += f" stash=({stash_values})\n" if len(stashes) > 1 else f" stash={stash_values}\n"

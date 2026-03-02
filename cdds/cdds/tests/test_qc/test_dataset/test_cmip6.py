@@ -1,9 +1,9 @@
-# (C) British Crown Copyright 2018-2025, Met Office.
+# (C) British Crown Copyright 2018-2026, Met Office.
 # Please see LICENSE.md for license details.
 
 import unittest
 from cdds.common.mip_tables import MipTables
-from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
+from cdds.qc.dataset.cmip6 import Cmip6Dataset
 from cdds.tests.test_qc.plugins.constants import MIP_TABLES_DIR
 from cdds.tests.factories.request_factory import simple_request
 from unittest.mock import patch
@@ -46,8 +46,8 @@ class Cmip6DatasetTestCase(unittest.TestCase):
             "ta_day_HadGEM3-GC31-LL_piControl_r1i1p1f1_gn_18500101-"
             "18591230.nc"
         )
-        structured_dataset = Cmip6Dataset('.', request, self.mip_tables,
-                                          None, None, None, logger)
+        structured_dataset = Cmip6Dataset('.', request, self.mip_tables, logger,
+                                          None, None, None)
         passed, messages = structured_dataset.check_filename(ds, filename)
         self.assertTrue(passed)
         self.assertEqual([], messages)
@@ -114,8 +114,8 @@ class Cmip6DatasetTestCase(unittest.TestCase):
             "ta_day_HadGEM3-GC31-LL_piControl_r1i1p1f1_gn_18500101-"
             "18591230.nc"
         )
-        structured_dataset = Cmip6Dataset('.', request, self.mip_tables,
-                                          None, None, None, logger)
+        structured_dataset = Cmip6Dataset('.', request, self.mip_tables, logger,
+                                          None, None, None)
         passed, messages = structured_dataset.check_filename(ds, filename)
         self.assertFalse(passed)
         self.assertCountEqual(expected_errors, messages)
@@ -132,8 +132,8 @@ class Cmip6DatasetTestCase(unittest.TestCase):
         structured_dataset = Cmip6Dataset(
             os.path.join(self.test_datadir, 'output'),
             request,
-            self.mip_tables,
-            None, None, None, logger, None)
+            self.mip_tables, logger,
+            None, None, None, None)
         filelist = structured_dataset.walk_directory()
         self.assertEqual(len(filelist), 1)
 
@@ -148,7 +148,7 @@ class Cmip6DatasetTestCase(unittest.TestCase):
             open(os.path.join(dirpath, "test.nc"), 'w').close()
         structured_dataset = Cmip6Dataset(
             os.path.join(self.test_datadir, 'output'), request,
-            self.mip_tables, None, None, None, logger, 'ap5')
+            self.mip_tables, logger, None, None, None, 'ap5')
         filelist = structured_dataset.walk_directory()
         self.assertEqual(len(filelist), 1)
 
@@ -193,8 +193,8 @@ class Cmip6DatasetTestCase(unittest.TestCase):
             ("foo", ("bar",), ("ta_day_HadGEM3-GC31-LL_piControl_"
                                "r1i1p1f1_gn_18500101-18591230.nc",))]
 
-        structured_dataset = Cmip6Dataset('.', request, self.mip_tables,
-                                          None, None, None, logger)
+        structured_dataset = Cmip6Dataset('.', request, self.mip_tables, logger,
+                                          None, None, None)
         structured_dataset.load_dataset(MockedDataset)
         self.assertEqual({
             "CMIP6_HadGEM3-GC31-LL_piControl_none_day_r1i1p1f1_ta_gn": "ta27"

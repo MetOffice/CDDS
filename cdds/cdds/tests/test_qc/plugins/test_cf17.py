@@ -1,10 +1,10 @@
-# (C) British Crown Copyright 2018-2025, Met Office.
+# (C) British Crown Copyright 2018-2026, Met Office.
 # Please see LICENSE.md for license details.
 
 import os
 import unittest
 from unittest.mock import patch
-from cdds.qc.plugins.cf17 import CF17Check
+from cdds.qc.plugins.cf1_7 import CF17Check
 
 STANDARD_NAMES_DIR = os.path.join(os.environ['CDDS_ETC'], "standard_names")
 STANDARD_NAMES_VERSION = 62
