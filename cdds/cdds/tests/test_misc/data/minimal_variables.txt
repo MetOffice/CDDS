@@ -1,4 +1,0 @@
-atmos/tas_tavg-h2m-hxy-u@day:ap6 #comment
-#another comment
-atmos/epfy_tavg-p39-hy-air@mon
-land/sftgif_ti-u-hxy-u@fx

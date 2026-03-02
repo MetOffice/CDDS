@@ -89,7 +89,7 @@ def save_mappings(filepath: str, variables: dict) -> None:
             mip_table, variable = key
             stream, comment = value
             variable_line = (f'{mip_table}/{variable}:{stream} # {comment}\n' if comment
-                             else f'{mip_table}/{variable}:{stream}')
+                             else f'{mip_table}/{variable}:{stream}\n')
 
             fp.write(comment) if mip_table == "COMMENT" else fp.write(variable_line)
 
