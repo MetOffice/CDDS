@@ -9,6 +9,8 @@ from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
 from cdds.qc.constants import DIURNAL_CLIMATOLOGY, EXCLUDE_DIRECTORIES_REGEXP, FREQ_DICT, SECONDS_IN_DAY
 from cdds.qc.common import GlobalAttributesCache
+from cdds.common.request.request import Request
+from cdds.common.mip_tables import MipTables
 
 
 class StructuredDataset(object, metaclass=ABCMeta):
@@ -16,29 +18,36 @@ class StructuredDataset(object, metaclass=ABCMeta):
     Can be sliced by a MIP table and time period.
     """
 
-    def __init__(self, root, request, mip_tables, mip_table=None, start=None,
-                 end=None, logger=None, stream=None):
+    def __init__(
+        self,
+        root: str,
+        request: Request,
+        mip_tables: MipTables,
+        logger: Logger,
+        mip_table: str | None = None,
+        start: str | None = None,
+        end: str | None = None,
+        stream: str | None = None,
+    ):
         """Initializes the dataset.
 
         Parameters
         ----------
-        root: string
+        root: str
             Path to the root directory of the dataset.
-        request: cdds.common.request.request.Request
+        request: Request
             The |Request| cfg file.
-        mip_tables: cdds_qc_plugin_cmip6.MipTables
+        mip_tables: MipTables
             An object containing information about mip tables associated with the processed request.
-        mip_table: str
-            The MIP table to consider if not given all will consider.
-        start: string
-            A string representation of a date being the start of a date
-            range.
-        end: string
-            A string representation of a date being the end of a date
-            range.
-        logger: logging.Logger
-            A logger instance
-        stream: str
+        logger: Logger
+            A logger instance.
+        mip_table: str | None
+            The MIP table to consider (if not given all tables will be considered).
+        start: str | None
+            A string representation of a date being the start of a date range.
+        end: str | None
+            A string representation of a date being the end of a date range.
+        stream: str | None
             The stream to consider.
         """
         if not os.path.isdir(root):
@@ -49,13 +58,12 @@ class StructuredDataset(object, metaclass=ABCMeta):
         self._mip_table = mip_table
         self._start = start
         self._end = end
-        self._loader_class = None
         self._mip_tables = mip_tables
         self._stream = stream
-        self._logger: Logger | None = logger
-        self._dataset = []
-        self._aggregated = {}
-        self._var_names = {}
+        self._logger: Logger = logger
+        self._dataset: list = []
+        self._aggregated: dict = {}
+        self._var_names: dict = {}
         self.global_attributes_cache = GlobalAttributesCache()
 
     @classmethod
@@ -91,9 +99,20 @@ class StructuredDataset(object, metaclass=ABCMeta):
     def var_names(self):
         return self._var_names
 
-    @abstractmethod
     def load_dataset(self, loader_class):
-        pass
+        """A utility method necessary to make this class testable.
+        Walks the root directory and gathers ncdf files.
+
+        Parameters
+        ----------
+        loader_class : type
+            A type of dataset loader (e.g. netCDF4.Dataset)
+        """
+        self._loader_class = loader_class
+        self._dataset = self.walk_directory()
+        aggregated, var_names = self._aggregate_files()
+        self._aggregated = aggregated
+        self._var_names = var_names
 
     def check_filenames_and_sizes(self):
         """Tests all filenames and file sizes in this dataset
@@ -185,7 +204,7 @@ class StructuredDataset(object, metaclass=ABCMeta):
         return (time_axis, time_bnds, frequency)
 
     @abstractmethod
-    def _aggregate_files(self):
+    def _aggregate_files(self) -> tuple[dict, dict]:
         pass
 
     def walk_directory(self):

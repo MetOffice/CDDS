@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2025, Met Office.
+# (C) British Crown Copyright 2018-2026, Met Office.
 # Please see LICENSE.md for license details.
 
 import argparse
@@ -21,9 +21,9 @@ from cdds import __version__
 from cdds.qc.constants import COMPONENT, QC_DB_FILENAME
 from cdds.qc.suite import QCSuite
 from cdds.qc.runner import QCRunner
-from cdds.qc.plugins.cmip6.dataset import Cmip6Dataset
-from cdds.qc.plugins.cmip7.dataset import Cmip7Dataset
-from cdds.qc.plugins.cordex.dataset import CordexDataset
+from cdds.qc.dataset.cmip6 import Cmip6Dataset
+from cdds.qc.dataset.cmip7 import Cmip7Dataset
+from cdds.qc.dataset.cordex import CordexDataset
 
 
 QC_LOG_NAME = 'cdds_qc'
@@ -154,13 +154,13 @@ def run_and_report(args: Namespace, request: Request) -> dict:  # TODO: kerstin 
 
     ds: Union[Cmip6Dataset, Cmip7Dataset, CordexDataset]
     if request.common.force_plugin == 'CORDEX':
-        ds = CordexDataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
+        ds = CordexDataset(basedir, request, mip_tables, logging.getLogger(__name__), args.mip_table, None, None,
                            args.stream)
     elif request.metadata.mip_era == 'CMIP7':
-        ds = Cmip7Dataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
+        ds = Cmip7Dataset(basedir, request, mip_tables, logging.getLogger(__name__), args.mip_table, None, None,
                           args.stream)
     else:
-        ds = Cmip6Dataset(basedir, request, mip_tables, args.mip_table, None, None, logging.getLogger(__name__),
+        ds = Cmip6Dataset(basedir, request, mip_tables, logging.getLogger(__name__), args.mip_table, None, None,
                           args.stream)
 
     ds.load_dataset(Dataset)
