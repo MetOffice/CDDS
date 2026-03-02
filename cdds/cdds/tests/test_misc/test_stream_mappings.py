@@ -11,7 +11,7 @@ class TestStreamMappings(unittest.TestCase):
     def test_read_variables_file(self):
         expected = {
             ('day', 'tas'): (None, 'comment'),
-            ('COMMENT', ' '): (' ', '#another comment\n'),
+            ('comment', ' '): (' ', '#another comment\n'),
             ('EmonZ', 'epfy'): (None, ''),
             ('fx', 'sftgif'): (None, '')
         }
@@ -23,13 +23,13 @@ class TestStreamMappings(unittest.TestCase):
     def test_check_mappings(self):
         variables = {
             ('day', 'tas'): (None, 'comment'),
-            ('COMMENT', ' '): (' ', '#another comment\n'),
+            ('comment', ' '): (' ', '#another comment\n'),
             ('EmonZ', 'epfy'): (None, ''),
             ('fx', 'sftgif'): (None, '')
         }
         expected = {
             ('day', 'tas'): ('ap6', 'comment'),
-            ('COMMENT', ' '): (' ', '#another comment\n'),
+            ('comment', ' '): (' ', '#another comment\n'),
             ('EmonZ', 'epfy'): ('ap5', ''),
             ('fx', 'sftgif'): ('ancil', '')
         }
@@ -42,7 +42,7 @@ class TestStreamMappings(unittest.TestCase):
         filepath = 'cdds/cdds/tests/test_misc/data/outputs/minimal_variables_final_output.txt'
         variables = {
             ('day', 'tas'): ('ap6', 'comment'),
-            ('COMMENT', ' '): (' ', '#another comment\n'),
+            ('comment', ' '): (' ', '#another comment\n'),
             ('EmonZ', 'epfy'): ('ap5', ''),
             ('fx', 'sftgif'): ('ancil', '')
         }
