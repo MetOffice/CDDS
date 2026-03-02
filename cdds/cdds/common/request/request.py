@@ -24,6 +24,7 @@ from cdds.common.request.rose_suite.validation import validate_rose_suite
 from cdds.common.request.request_validations import validate_request
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.plugins import PluginStore
+from cdds.common.constants import CALENDAR_MAPPING_CDDS_TO_CYLC
 
 
 @dataclass
@@ -203,6 +204,8 @@ def read_request(request_path: str) -> Request:
 
     load_cdds_plugins(request_config)
     calendar = request_config.get('metadata', 'calendar')
+    if calendar in CALENDAR_MAPPING_CDDS_TO_CYLC:
+        calendar = CALENDAR_MAPPING_CDDS_TO_CYLC[calendar]
     Calendar.default().set_mode(calendar)
 
     request = Request.from_config(request_config)
