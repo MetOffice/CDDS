@@ -7,6 +7,8 @@ import argparse
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.plugins.plugins import PluginStore
 
+COMMENT_FLAG = "comment"
+
 
 def read_variables_file(filepath: str) -> dict:
     """Reads variables file. Each line is then checked for comments. Lines that are purely comment are ignored and
@@ -29,7 +31,7 @@ def read_variables_file(filepath: str) -> dict:
             # Check each line for comments.
             comment = ""
             if line.startswith("#"):
-                variables[("COMMENT", " ")] = (" ", line)
+                variables[(COMMENT_FLAG, " ")] = (" ", line)
                 continue
             if "#" in line:
                 comment = " ".join(line.split("#")[1:]).strip("\n")
@@ -90,14 +92,14 @@ def save_mappings(filepath: str, variables: dict) -> None:
             variable_line = (f'{mip_table}/{variable}:{stream} # {comment}\n' if comment
                              else f'{mip_table}/{variable}:{stream}\n')
 
-            fp.write(comment) if mip_table == "COMMENT" else fp.write(variable_line)
+            fp.write(comment) if mip_table == COMMENT_FLAG else fp.write(variable_line)
 
 
 def main_stream_mappings():
     """Holds the main body of the script."""
     parser = argparse.ArgumentParser()
-    parser.add_argument('--varfile', help='Path to file with variables list to be produced.')
-    parser.add_argument('--outfile', help='New filename. If no argument is provided, the input --varfile will be'
+    parser.add_argument('varfile', help='Path to file with variables list to be produced.')
+    parser.add_argument('outfile', help='New filename. If no argument is provided, the input --varfile will be'
                         'overriden with the changes.')
     args = parser.parse_args()
     variables = read_variables_file(args.varfile)
