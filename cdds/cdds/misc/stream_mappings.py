@@ -63,7 +63,6 @@ def check_mappings(variables: dict) -> dict:
     load_plugin('CMIP6')
     plugin = PluginStore.instance().get_plugin()
     streams = plugin.stream_info()
-    breakpoint()
     for key, (stream, comment) in variables.items():
         if stream is None:
             streaminfo = streams.retrieve_stream_id(key[1], key[0])
