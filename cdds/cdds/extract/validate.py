@@ -148,7 +148,6 @@ def validate_streams(streams: list, args: argparse.Namespace) -> StreamValidatio
         An object to hold results from the stream validation.
     """
     logger = logging.getLogger(__name__)
-    breakpoint()
     request = read_request(args.request)
     plugin = PluginStore.instance().get_plugin()
     stream = streams[0]
@@ -197,7 +196,7 @@ def validate(path: str, stream: dict, stash_codes: set, validation_result: Strea
         The frequency.
     """
     streamtype = get_streamtype(stream)
-    validate_file_names(path, validation_result, filenames, streamtype)
+    validate_file_names(path, streamtype, filenames, validation_result)
     if streamtype == STREAMTYPE_PP:
         logger = logging.getLogger(__name__)
         logger.info("Checking STASH fields")
@@ -208,7 +207,7 @@ def validate(path: str, stream: dict, stash_codes: set, validation_result: Strea
         validate_directory_netcdf(path, validation_result)
 
 
-def validate_file_names(path: str, file_type: StreamValidationResult, filenames: list,
+def validate_file_names(path: str, file_type: str, filenames: list,
                         validation_result: StreamValidationResult) -> None:
     """Compare a list of expected files against the files on disk. If strict=True then validation will fail if there are
     additional files that are not expected.
@@ -217,7 +216,7 @@ def validate_file_names(path: str, file_type: StreamValidationResult, filenames:
     ----------
     path: str
         Path to the dataset.
-    file_type: StreamValidationResult
+    file_type: str
         File type.
     filenames: list
         A list of all found files.
