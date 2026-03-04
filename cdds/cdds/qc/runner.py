@@ -207,6 +207,21 @@ class QCRunner(object):
                         "variable_name": self.dataset.var_names[index],
                         "grid": drs[4],
                     })
+                elif request.metadata.mip_era == 'CMIP7':
+                    execute_insert_query(cursor, "qc_dataset", {
+                        "qc_run_id": qc_run_id,
+                        "filename": os.path.basename(data_file),
+                        "variable_directory": os.path.dirname(data_file),
+                        "summary": SUMMARY_STARTED,
+                        "realization_index": index,
+                        "model": drs[1],
+                        "experiment": drs[2],
+                        "mip_table": drs[4] + "@" + drs[5],
+                        "variant": drs[3],
+                        "variable": drs[6],
+                        "variable_name": self.dataset.var_names[index],
+                        "grid": drs[7],
+                    })
                 else:
                     execute_insert_query(cursor, "qc_dataset", {
                         "qc_run_id": qc_run_id,
@@ -599,6 +614,10 @@ class QCRunner(object):
                 "Misinterpretation of hybrid height coordinates."),
             "7.1 Cell Boundaries: The points specified by the coordinate variable lat"
             " (0.0) lie outside the boundary of the cell specified by the associated boundary variable lat_bnds": (
-                "This must be an error in checker.")
+                "This must be an error in checker."),
+            "4.4.1 Calendar": (
+                "4.4.1 Calendar"),
+            "3.1.2 Temperature units": (
+                "3.1.2 Temperature units")
         }
         return msg_dictionary
