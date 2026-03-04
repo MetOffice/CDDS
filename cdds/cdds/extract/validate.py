@@ -272,7 +272,7 @@ def validate_directory_netcdf(path: str, validation_result: StreamValidationResu
 
 
 def get_stash_fields(path: str, validation_result: StreamValidationResult) -> dict[str, dict[str, int]]:
-    """Validates if pp files in a given location contain all requiredmstash codes.
+    """Validates if pp files in a given location contain all required stash codes.
 
     Parameters
     ----------
