@@ -1,0 +1,72 @@
+{
+  "experiment_id":"piControl",
+  "history":[
+    {
+      "comment":"Requested variables file created.",
+      "time":"2026-03-04T09:17:13.845839"
+    }
+  ],
+  "metadata":{},
+  "mip":"CMIP",
+  "mip_era":"CMIP6",
+  "model_id":"UKESM1-0-LL",
+  "model_type":"AOGCM BGC AER CHEM",
+  "production_info":"Produced using CDDS Prepare version \"3.3.0.dev0+513_refactor_extract_validation.52e95fcf\"",
+  "requested_variables":[
+    {
+      "active":true,
+      "cell_methods":"area: time: mean",
+      "comments":[],
+      "dimensions":[
+        "longitude",
+        "latitude",
+        "time"
+      ],
+      "frequency":"mon",
+      "in_mappings":true,
+      "in_model":true,
+      "label":"emiso2",
+      "miptable":"AERmon",
+      "producible":"yes",
+      "stream":"ap4"
+    },
+    {
+      "active":true,
+      "cell_methods":"area: time: mean",
+      "comments":[],
+      "dimensions":[
+        "longitude",
+        "latitude",
+        "time"
+      ],
+      "frequency":"mon",
+      "in_mappings":true,
+      "in_model":true,
+      "label":"rsds",
+      "miptable":"Amon",
+      "producible":"yes",
+      "stream":"ap5"
+    },
+    {
+      "active":true,
+      "cell_methods":"area: mean where land time: mean",
+      "comments":[],
+      "dimensions":[
+        "longitude",
+        "latitude",
+        "time"
+      ],
+      "frequency":"mon",
+      "in_mappings":true,
+      "in_model":true,
+      "label":"mrso",
+      "miptable":"Lmon",
+      "producible":"yes",
+      "stream":"ap5"
+    }
+  ],
+  "status":"ok",
+  "suite_branch":"cdds",
+  "suite_id":"u-aw310",
+  "suite_revision":"HEAD"
+}

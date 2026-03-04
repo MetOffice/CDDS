@@ -28,13 +28,36 @@ from cdds.extract.filters import Filters
 from cdds.common.request.request import Request
 
 
-def configure_mapping_for_each_variable(plugin: CddsPlugin, request: Request, stream: str) -> Filters:
+def setup_mappings(request: Request, plugin: CddsPlugin) -> Filters:
+    """Sets up the basic mapping information.
+
+    Parameters
+    ----------
+    request: Request
+        Object that stores the information about the request.
+    plugin: CddsPlugin
+        CDDS plugin interface for supported models.
+
+    Returns
+    -------
+    mappings: Filters
+        The basic mapping information for the data request.
+    """
+    var_list = configure_variables(os.path.join(component_directory(request, "prepare"),
+                                                plugin.requested_variables_list_filename(request)))
+    mappings = Filters(plugin.proc_directory(request), var_list)
+    mappings.set_mappings(request)
+
+    return mappings
+
+
+def configure_mapping_for_each_variable(mappings: Filters, request: Request, stream: str) -> Filters:
     """Constructs the mapping information for each variable in a single stream using the given request.
 
     Parameters
     ----------
-    plugin: CddsPlugin
-        CDDS plugin interface for supported models.
+    mappings: Filters
+        The mappings for the data request.
     request: Request
         Object that stores the information about the request.
     stream: str
@@ -43,12 +66,8 @@ def configure_mapping_for_each_variable(plugin: CddsPlugin, request: Request, st
     Returns
     -------
     Filters
-        The mappings for the data request.
+        The complete mappings for the data request.
     """
-    var_list = configure_variables(os.path.join(component_directory(request, "prepare"),
-                                                plugin.requested_variables_list_filename(request)))
-    mappings = Filters(plugin.proc_directory(request), var_list)
-    mappings.set_mappings(request)
     mappings.stream = stream
     if request.data.mass_ensemble_member:
         mappings.ensemble_member_id = request.data.mass_ensemble_member
@@ -151,7 +170,8 @@ def validate_streams(streams: list, args: argparse.Namespace) -> StreamValidatio
     request = read_request(args.request)
     plugin = PluginStore.instance().get_plugin()
     stream = streams[0]
-    mappings = configure_mapping_for_each_variable(plugin, request, stream)
+    mappings = setup_mappings(request, plugin)
+    mappings = configure_mapping_for_each_variable(mappings, request, stream)
     mapping_status = configure_mappings(mappings)
     file_frequency = calculate_file_frequency(plugin, request, stream)
     stream_validation = StreamValidationResult(stream)
@@ -175,7 +195,7 @@ def validate_streams(streams: list, args: argparse.Namespace) -> StreamValidatio
     return stream_validation
 
 
-def validate(path: str, stream: dict, stash_codes: set, validation_result: StreamValidationResult, filenames: list,
+def validate(path: str, stream: str, stash_codes: set, validation_result: StreamValidationResult, filenames: list,
              file_frequency: str) -> None:
     """Simple validation based on checking correct number of files have been extracted, and stash codes comparison in
     the case of pp streams. In the case of ncdf files, it tests if they can be opened at all.
@@ -184,7 +204,7 @@ def validate(path: str, stream: dict, stash_codes: set, validation_result: Strea
     ----------
     path: str
         Directory path containing files to validate.
-    stream: dict
+    stream: str
         Stream attributes.
     stash_codes: set
         A set of short stash codes appearing in filters.
@@ -279,13 +299,13 @@ def get_stash_fields(path: str, validation_result: StreamValidationResult) -> di
     return stash_in_file
 
 
-def check_expected_stash(stash_in_file: dict[str, dict[int, int]], validation_result: StreamValidationResult, path: str,
+def check_expected_stash(stash_in_file: dict[str, dict], validation_result: StreamValidationResult, path: str,
                          expected_stash: set[int]) -> None:
     """Checks that all the expected stash codes are found in each file.
 
     Parameters
     ----------
-    stash_in_file: dict[str, dict[int, int]]
+    stash_in_file: dict[str, dict]
         Stash entries in files.
     validation_result: StreamValidationResult
         Validation results for a given stream.
