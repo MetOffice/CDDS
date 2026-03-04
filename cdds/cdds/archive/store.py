@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2025, Met Office.
+# (C) British Crown Copyright 2019-2026, Met Office.
 # Please see LICENSE.md for license details.
 """The :mod:`mass` module contains the code required to archive |output netCDF files| to MASS."""
 import datetime
@@ -6,20 +6,22 @@ import functools
 import logging
 import os
 import re
-
-from typing import List, Dict, Any
+from re import Match, Pattern
+from typing import Any, Dict, List
 
 from cdds.archive.constants import DATA_PUBLICATION_STATUS_DICT
 from cdds.archive.exception import NoDataToArchiveError
 from cdds.archive.mass import (archive_files, construct_mass_paths, construct_archive_dir_mass_path,
                                check_stored_status, cleanup_archive_dir)
 from cdds.common import get_most_recent_file
-from cdds.common.constants import (APPROVED_VARS_PREFIX,
-                                   APPROVED_VARS_VARIABLE_REGEX,
-                                   APPROVED_VARS_FILENAME_REGEX,
-                                   APPROVED_VARS_FILENAME_STREAM_REGEX,
-                                   DATESTAMP_TEMPLATE, DATESTAMP_PARSER_STR)
 from cdds.common.cdds_files.cdds_directories import requested_variables_file
+from cdds.common.constants import (
+    APPROVED_VARS_FILENAME_REGEX,
+    APPROVED_VARS_FILENAME_STREAM_REGEX,
+    APPROVED_VARS_PREFIX,
+    DATESTAMP_PARSER_STR,
+    DATESTAMP_TEMPLATE,
+)
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request
 from cdds.common.variables import RequestedVariablesList
@@ -158,11 +160,13 @@ def get_approved_variables(
         Approved variables as list of variables directories
     """
     logger = logging.getLogger(__name__)
+    plugin = PluginStore.instance().get_plugin()
+    regex = plugin.model_file_info()._approved_variables_regex
     if mip_approved_variables_path:
         logger.info('Getting variables to process from approved variables list at supplied location:\n{path}'
                     ''.format(path=mip_approved_variables_path))
 
-        approved_list = read_approved_vars_from_file(mip_approved_variables_path)
+        approved_list = read_approved_vars_from_file(mip_approved_variables_path, regex)
     else:
         if selected_stream:
             app_var_regex = APPROVED_VARS_FILENAME_STREAM_REGEX
@@ -170,8 +174,6 @@ def get_approved_variables(
         else:
             app_var_regex = APPROVED_VARS_FILENAME_REGEX
             prefix = APPROVED_VARS_PREFIX
-
-        plugin = PluginStore.instance().get_plugin()
         proc_directory = plugin.proc_directory(request)
         component_directory = os.path.join(proc_directory, 'qualitycheck')
 
@@ -185,7 +187,7 @@ def get_approved_variables(
 
         logger.info('Getting variables to process from approved variables list in proc directory:\n{path}'
                     ''.format(path=mip_approved_variables_path))
-        approved_list = read_approved_vars_from_file(mip_approved_variables_path)
+        approved_list = read_approved_vars_from_file(mip_approved_variables_path, regex)
 
     return approved_list
 
@@ -213,7 +215,7 @@ def get_active_variables(request_vars_path: str) -> List[Dict[str, str]]:
     return active_vars
 
 
-def read_approved_vars_from_file(mip_approved_variables_path: str) -> List[Dict[str, str]]:
+def read_approved_vars_from_file(mip_approved_variables_path: str, approved_vars_regex) -> List[Dict[str, str]]:
     """Read in the list of |MIP output variables| that have been approved for publication.
 
     Parameters
@@ -231,8 +233,8 @@ def read_approved_vars_from_file(mip_approved_variables_path: str) -> List[Dict[
     with open(mip_approved_variables_path, 'r') as approved_variable_file:
         mip_approved_variables_raw = approved_variable_file.readlines()
 
-    def process_approved_var_str(pattern, var_str):
-        match = pattern.search(var_str)
+    def process_approved_var_str(pattern: Pattern, var_str):
+        match: Match = pattern.search(var_str)
         _check_variable_match(match, var_str, pattern)
 
         output_dir = match.group('outdir')
@@ -242,9 +244,14 @@ def read_approved_vars_from_file(mip_approved_variables_path: str) -> List[Dict[
                          'output_dir': output_dir,
                          'out_var_name': out_var_name,
                          }
+        try:
+            variable_dict.update({'frequency': match.group('frequency')})
+        except IndexError:
+            pass
+
         return variable_dict
 
-    variable_pattern = re.compile(APPROVED_VARS_VARIABLE_REGEX)
+    variable_pattern = re.compile(approved_vars_regex)
     filter_func = functools.partial(process_approved_var_str, variable_pattern)
     mip_approved_variables = [filter_func(variable) for variable in mip_approved_variables_raw]
     return mip_approved_variables

@@ -1,14 +1,14 @@
-# (C) British Crown Copyright 2023-2025, Met Office.
+# (C) British Crown Copyright 2023-2026, Met Office.
 # Please see LICENSE.md for license details.
 # mypy: ignore-errors
 # Ignore errors because code is old and will be updated soon
 import os.path
 import re
 from abc import ABCMeta, abstractmethod
-from typing import TYPE_CHECKING, List, Tuple, Dict
+from typing import TYPE_CHECKING, Dict, List, Tuple
 
-from metomi.isodatetime.data import TimePoint, Duration
-from metomi.isodatetime.parsers import TimePointParser, DurationParser
+from metomi.isodatetime.data import Duration, TimePoint
+from metomi.isodatetime.parsers import DurationParser, TimePointParser
 
 from cdds.archive.constants import OUTPUT_FILE_DT_STR
 
@@ -64,6 +64,11 @@ class ModelFileInfo(object, metaclass=ABCMeta):
     @property
     @abstractmethod
     def _nc_files_to_archive_regex(self) -> str:
+        pass
+
+    @property
+    @abstractmethod
+    def _approved_variables_regex(self) -> str:
         pass
 
     @property
@@ -190,6 +195,10 @@ class GlobalModelFileInfo(ModelFileInfo):
     _MASS_ROOT_LOCATION_FACET = 'mip_era|mip|institution_id|model_id|experiment_id|variant_label'
     _MASS_SUFFIX_LOCATION_FACET = '|mip_table_id|out_var_name|grid_label'
 
+    _APPROVED_VARS_VARIABLE_REGEX = ('(?P<mip_table_id>[a-zA-Z0-9]+)/'
+                                    '(?P<variable_id>[a-zA-Z0-9]+);'
+                                    '(?P<outdir>[a-zA-Z0-9-/_.]+)')
+
     def __init__(self):
         super(GlobalModelFileInfo, self).__init__()
 
@@ -243,6 +252,10 @@ class GlobalModelFileInfo(ModelFileInfo):
     @property
     def _nc_files_to_archive_regex(self) -> str:
         return self._NC_FILES_TO_ARCHIVE_REGEX
+
+    @property
+    def _approved_variables_regex(self) -> str:
+        return self._APPROVED_VARS_VARIABLE_REGEX
 
     @property
     def output_file_template(self) -> str:
@@ -317,6 +330,88 @@ class CMIP7GlobalModelFileInfo(GlobalModelFileInfo):
         r'(r\d{1,6}i\d{1,6}[a-e]?p\d{1,6}f\d{1,6})',  # variant label
         r'((\d+)-(\d+))(-clim)?.nc'])  # time range
 
+    _NC_FILES_TO_ARCHIVE_REGEX = r'_'.join([
+        r'(?P<out_var_name>[a-zA-Z0-9-]+)',  # variable id
+        r'(?P<mip_table_id>[a-zA-Z0-9-]+)',  # branding suffix
+        r'(?P<frequency>[a-zA-Z0-9]+)',  # frequency
+        r'(?P<region>[a-zA-Z0-9]+)',  # region
+        r'(?P<grid>[a-zA-Z0-9]+)',  # grid label
+        r'(?P<model_id>[a-zA-Z0-9-]+)',  # model id
+        r'(?P<experiment_id>[a-zA-Z0-9-]+)',  # experiment id
+        r'(?P<variant_label>r\d{1,6}i\d{1,6}[a-e]?p\d{1,6}f\d{1,6})',  # variant label
+        r'(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+).nc'])
+
+    _APPROVED_VARS_VARIABLE_REGEX = r''.join([
+        r'(?P<mip_table_id>[a-zA-Z]+)@'
+        r'(?P<frequency>[a-zA-Z0-9]+)/'
+        r'(?P<variable_id>[a-zA-Z0-9_-]+);'
+        r'(?P<outdir>[a-zA-Z0-9-/_.]+)'])
+
+    def is_relevant_for_archiving(
+            self, request: 'Request', variable_dict: Dict[str, str], nc_file: str) -> bool:
+        """Checks if the given |Output netCDF file| is ready for archiving by checking if it matches the expected
+        file pattern by using the given information of the request and variable information.
+
+        Parameters
+        ----------
+        request : Request
+            The information about the request being processed
+        variable_dict : Dict[str, str]
+            Information about the MIP approved variable
+        nc_file : str
+            Path to the netCDF file to archive
+
+        Returns
+        -------
+        bool
+            True if the netCDF file can be archived otherwise False
+        """
+        # pattern = re.compile(self._NC_FILES_TO_ARCHIVE_REGEX)
+        # match = pattern.search(nc_file)
+        # if not match:
+        #     return False
+        # if request.metadata.experiment_id != match.group('experiment_id'):
+        #     return False
+        # if (request.metadata.sub_experiment_id == 'none' and
+        #         request.metadata.variant_label != match.group('variant_label')):
+        #     return False
+        # if (request.metadata.sub_experiment_id != 'none' and
+        #         match.group('variant_label') !=
+        #         '{}-{}'.format(request.metadata.sub_experiment_id, request.metadata.variant_label)):
+        #     return False
+        # if request.metadata.model_id != match.group('model_id'):
+        #     return False
+        # if variable_dict['out_var_name'] != match.group('out_var_name'):
+        #     return False
+        # if variable_dict['mip_table_id'] != match.group('mip_table_id'):
+        #     return False
+        return True
+
+    def mass_location_suffix(
+            self, request: 'Request', mip_table: str, variable: str, grid_label: str, frequency: str) -> str:
+        """Returns the suffix to the MASS location for the simulation model files of a variable
+
+        Parameters
+        ----------
+        request : Request
+            The information about the request being processed
+        mip_table : str
+            MIP table
+        variable : str
+            Variable
+        grid_label : str
+            Grid label
+        frequency : str
+            Frequency of the variable
+
+        Returns
+        -------
+        str
+            The suffix to the MASS location for the simulation model files of a variable
+        """
+        mass_root_location = self.mass_root_location_suffix(request)
+        return os.path.join(mass_root_location, mip_table, frequency, variable, grid_label)
+
 
 class RegionalModelFileInfo(ModelFileInfo):
     """Provides methods to manage and check netCDF files from regional simulation models"""
@@ -338,6 +433,10 @@ class RegionalModelFileInfo(ModelFileInfo):
 
     _OUTPUT_FILE_TEMPLATE = ('<variable_id><domain_id><driving_source_id><driving_experiment_id><driving_variant_label>'
                              '<institution_id><source_id><version_realization><frequency>')
+
+    _APPROVED_VARS_VARIABLE_REGEX = ('(?P<mip_table_id>[a-zA-Z0-9]+)/'
+                                    '(?P<variable_id>[a-zA-Z0-9]+);'
+                                    '(?P<outdir>[a-zA-Z0-9-/_.]+)')
 
     def __init__(self):
         super(RegionalModelFileInfo, self).__init__()
@@ -401,6 +500,10 @@ class RegionalModelFileInfo(ModelFileInfo):
     @property
     def _nc_files_to_archive_regex(self) -> str:
         return self._NC_FILES_TO_ARCHIVE_REGEX
+
+    @property
+    def _approved_variables_regex(self) -> str:
+        return self._APPROVED_VARS_VARIABLE_REGEX
 
     @property
     def output_file_template(self) -> str:
