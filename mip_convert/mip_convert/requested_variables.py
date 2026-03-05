@@ -119,7 +119,8 @@ def produce_mip_requested_variable(
     variable = load(filenames, variable_metadata)
     logger.debug('Variable object contains: {}'.format(variable.info))
 
-    saver = cmor_lite.get_saver(mip_table.name, variable_name, cache_key=frequency)
+    # Create the CMOR saver.
+    saver = cmor_lite.get_saver(mip_table.name, variable_name)
     # set the frequency to use if needed
     if frequency:
         saver.cmor.set_frequency(frequency)

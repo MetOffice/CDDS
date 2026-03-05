@@ -141,7 +141,7 @@ def setup_and_dataset(setup_conf, meta_data):
     dataset(meta_data)
 
 
-def get_saver(mip_table_id, variable_name, outputs_per_file=None, cache_key=None):
+def get_saver(mip_table_id, variable_name, outputs_per_file=None):
     """Return a saver callable for this ``variable_name`` from the
     ``mip_table_id``.
 
@@ -165,7 +165,7 @@ def get_saver(mip_table_id, variable_name, outputs_per_file=None, cache_key=None
     """
     if _FACTORY is None:
         raise CmorOutputError('setup_and_dataset should be called before get_saver')
-    return _FACTORY.getSaver(mip_table_id, variable_name, outputs_per_file, cache_key)
+    return _FACTORY.getSaver(mip_table_id, variable_name, outputs_per_file)
 
 
 def close(variable_id=None):

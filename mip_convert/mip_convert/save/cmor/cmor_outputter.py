@@ -134,7 +134,7 @@ class MipTableVariable(object):
                    'day': EndOfMultipleYears(5),
                    'sem': SeasonalDecade()}  # hard code for now
 
-    def __init__(self, table, entry, domain_factory, cache_key=None):
+    def __init__(self, table, entry, domain_factory):
         """return an object that can coordinate the generation of
         cmor axis ids
 
@@ -149,7 +149,7 @@ class MipTableVariable(object):
         """
         self.table = table
         self.entry = entry
-        self._domain = domain_factory.getCmorDomain(self.table, self.entry, cache_key=cache_key)
+        self._domain = domain_factory.getCmorDomain(self.table, self.entry)
 
     def has_time(self):
         return self._domain.has_time()
@@ -199,9 +199,9 @@ class CmorSaverFactory(object):
         self.domain_factory = domain_factory
         self.domain_factory.cmor = self.cmor
 
-    def getSaver(self, table, entry, outputs_per_file=None, cache_key=None):
+    def getSaver(self, table, entry, outputs_per_file=None):
         """return object that will deal with output for var_request"""
-        entry = MipTableVariable(table, entry, self.domain_factory, cache_key=cache_key)
+        entry = MipTableVariable(table, entry, self.domain_factory)
 
         if outputs_per_file is not None:
             return MultiFileOutputter(entry, outputs_per_file, self.cmor)
@@ -475,7 +475,7 @@ class CmorDomainFactory(object):
     def _getTable(self, table_name):
         return self.table_factory.getTable(table_name)
 
-    def getCmorDomain(self, table_name, variable_entry, cache_key=None):
+    def getCmorDomain(self, table_name, variable_entry):
         """return the relevant CmorDomain for the variable_entry in table_name
 
         Parameters
@@ -489,7 +489,7 @@ class CmorDomainFactory(object):
         if not table.hasVariable(variable_entry):
             raise CmorOutputError('variable "%s" not in table "%s"' % (variable_entry, table_name))
         mip_variable = table.getVariable(variable_entry)
-        return CmorDomain(AxisMakerFactory(table, mip_variable, self.cmor), cache_key)
+        return CmorDomain(AxisMakerFactory(table, mip_variable, self.cmor))
 
 
 class CmorStandardGridMaker(object):
@@ -577,19 +577,16 @@ class CmorGridMaker(object):
 
 class CmorDomain(object):
 
-    def __init__(self, axis_maker_factory, cache_key=None):
+    def __init__(self, axis_maker_factory):
         """
         Parameters
         ----------
         axis_maker_factory: L{AxisMakerFactory}
             object used to generate axis makers for this domain
-        cache_key: string, optional
-            the cache key for the domain
         """
         self.axis_maker_factory = axis_maker_factory
         self.axis_ids = dict()
         self.grid_maker = None
-        self.cache_key = cache_key
 
     def getAxisIds(self, variable):
         """assign cmor axis ids for each of the axis of the variable
@@ -686,7 +683,7 @@ class CmorDomain(object):
          :
             the axis maker for the variable axis in direction axis_dir
         """
-        return self.axis_maker_factory.getAxisMaker(axis_dir, variable, self.cache_key)
+        return self.axis_maker_factory.getAxisMaker(axis_dir, variable)
 
     @staticmethod
     def _check_scalar(axis):
@@ -810,7 +807,7 @@ class AxisMakerFactory(object):
         return result
 
     # TODO: this may live elsewhere
-    def getAxisMaker(self, axis_dir, variable, cache_key=None):
+    def getAxisMaker(self, axis_dir, variable):
         """return an AxisMaker for the axis from the variable in the direction axis_dir
 
         Parameters
@@ -819,25 +816,21 @@ class AxisMakerFactory(object):
             the axis direction: one of "X", "Y", "Z", "T"
         variable
             variable to return the AxisMaker for.
-        cache_key: string, optional
-            The cache key for the domain.
 
         The details of the axes depend on the variable - for instance whether it
         is on hybrid heights.
         """
         axis = variable.getAxis(axis_dir)
         if axis.axis == TIME_TYPE:
-            result = TimeAxisMaker(self._table_name, self._entry(axis_dir), axis, self._cmor, cache_key)
+            result = TimeAxisMaker(self._table_name, self._entry(axis_dir), axis, self._cmor)
         elif axis.axis == SITE_TYPE:
-            result = SiteAxisMaker(self._table_name, self._entry(axis_dir), axis, self._cmor, cache_key)
+            result = SiteAxisMaker(self._table_name, self._entry(axis_dir), axis, self._cmor)
         elif axis.is_hybrid_height:
-            result = HybridHeightAxisMaker(self._table_name, axis, self._cmor, cache_key)
+            result = HybridHeightAxisMaker(self._table_name, axis, self._cmor)
         elif axis.axis == REFTIME_TYPE:
-            result = SimpleAxisMaker(self._table_name, "reftime1", axis, self._cmor, cache_key)
+            result = SimpleAxisMaker(self._table_name, "reftime1", axis, self._cmor)
         else:
-            result = SimpleAxisMaker(
-                self._table_name, self._entry_name(axis_dir, variable), axis, self._cmor, cache_key
-            )
+            result = SimpleAxisMaker(self._table_name, self._entry_name(axis_dir, variable), axis, self._cmor)
         return result
 
     def _generic_level(self, dim_name):
@@ -898,7 +891,7 @@ class AbstractAxisMaker(object):
 
     axis_cache = dict()
 
-    def __init__(self, table, entry, axis, cmor, cache_key=None):
+    def __init__(self, table, entry, axis, cmor):
         """
         Parameters
         ----------
@@ -915,7 +908,6 @@ class AbstractAxisMaker(object):
         self.entry = entry
         self.cmor = cmor
         self.table = table
-        self.cache_key = cache_key
 
     def cmorId(self):
         """return the axis id generated by a call to cmor.axis"""
@@ -956,7 +948,7 @@ class AbstractAxisMaker(object):
 
     def _cache_key(self):
         """return the key value for use in the dictionary cache"""
-        return self.table + self.entry + repr(self._keywords()) + str(self.cache_key)
+        return self.table + self.entry + repr(self._keywords())
 
 
 class SimpleAxisMaker(AbstractAxisMaker):
@@ -976,7 +968,7 @@ class HybridHeightAxisMaker(SimpleAxisMaker):
     # hard coded for CMIP5 - and duplicates information
     OROG = 'orog'
 
-    def __init__(self, table, axis, cmor, cache_key=None):
+    def __init__(self, table, axis, cmor):
         """
         Parameters
         ----------
@@ -987,7 +979,7 @@ class HybridHeightAxisMaker(SimpleAxisMaker):
         cmor
             an object with a cmor like interface.
         """
-        super(HybridHeightAxisMaker, self).__init__(table, axis.name, axis, cmor, cache_key=cache_key)
+        super(HybridHeightAxisMaker, self).__init__(table, axis.name, axis, cmor)
         self._axis_name = axis.name
         self.horiz_ids = None
 
