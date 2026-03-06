@@ -1172,6 +1172,11 @@ def calc_zostoga(thetao, thkcello, areacello, zfullo_0, so_0, rho_0_mean, deptho
         Intercomparison Project. Geoscientific Model Development,
         9(9), pp.3231-3296.
     """
+    # Ensure the vertical coordinate is named consistently before processing
+    for cube in [thetao, thkcello]:
+        if not cube.coords('depth'):
+            _z_axis(cube).rename('depth')
+
     rho_mean = iris.cube.CubeList()
 
     so_0 = iris.util.squeeze(so_0)
@@ -1196,6 +1201,11 @@ def calc_zostoga(thetao, thkcello, areacello, zfullo_0, so_0, rho_0_mean, deptho
     zostoga = deptho_0_mean.data * (1. - rho_t)
     zostoga = rho_mean.copy(zostoga)
     zostoga.units = Unit('m')
+
+    # for coord_name in ['latitude', 'longitude', 'depth']:
+    #     if zostoga.coords(coord_name):
+    #         zostoga.remove_coord(coord_name)
+
     return zostoga
 
 
