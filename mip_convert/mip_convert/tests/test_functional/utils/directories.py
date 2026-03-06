@@ -12,6 +12,7 @@ ROOT_OUTPUT_CASES_DIR = os.path.join(ROOT_OUTPUT_DATA_DIR, 'testdata', 'function
 TEST_DIR_NAME_TEMPLATE = 'test_{project}_{mip_table}_{variable}'
 
 ROOT_ANCIL_DIR = os.path.join(CDDS_ETC, 'ancil')
+ROOT_ANCIL_TESTING_DIR = os.path.join(CDDS_ETC, 'ancil_testing')
 
 ROOT_MIP_TABLES_DIR = os.path.join(CDDS_ETC, 'mip_tables')
 CORDEX_MIP_TABLE_DIR = '{}/CORDEX/cordex-cmip6-cmor-tables/Tables'.format(ROOT_MIP_TABLES_DIR)
