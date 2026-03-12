@@ -8,6 +8,7 @@ from typing import DefaultDict, List, Dict, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from cdds.common.request.request import Request
+from cdds.common.constants import CALENDAR_MAPPING_CDDS_TO_CYLC
 from cdds.qc.dataset.cmip6 import Cmip6Dataset
 from cdds.qc.dataset.cmip7 import Cmip7Dataset
 from cdds.qc.dataset.cordex import CordexDataset
@@ -24,8 +25,10 @@ class CollectionsCheck(object):
     def __init__(self, request: "Request"):
         """A constructor."""
         self.request = request
-        self.calendar_calculator = DatetimeCalculator(
-            self.request.metadata.calendar, self.request.metadata.base_date)
+        calendar = self.request.metadata.calendar
+        if calendar in CALENDAR_MAPPING_CDDS_TO_CYLC:
+            calendar = CALENDAR_MAPPING_CDDS_TO_CYLC[calendar]
+        self.calendar_calculator = DatetimeCalculator(calendar, self.request.metadata.base_date)
         self.results: DefaultDict[str, List[Dict[str, str]]] = defaultdict(list)
 
     def perform_checks(self, ds):
