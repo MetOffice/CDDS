@@ -30,7 +30,9 @@ class TestCmip7_zostoga_tavg_u_hm_sea(AbstractFunctionalTests):
                     'model_id': 'UKCM2-0-LL',
                     'parent_model_id': 'UKCM2-0-LL',
                     'variant_label': 'r2i1p1f1',
-                    'calendar': 'gregorian'
+                    'calendar': 'standard',
+                    'branch_date_in_child': "1850-01-01T00:00:00",
+                    'branch_date_in_parent': "1850-01-01T00:00:00",
                 },
                 request={
                     'ancil_files': ' '.join([
