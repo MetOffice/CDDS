@@ -1201,7 +1201,6 @@ def calc_zostoga(thetao, thkcello, areacello, zfullo_0, so_0, rho_0_mean, deptho
     zostoga = deptho_0_mean.data * (1. - rho_t)
     zostoga = rho_mean.copy(zostoga)
     zostoga.units = Unit('m')
-
     return zostoga
 
 
