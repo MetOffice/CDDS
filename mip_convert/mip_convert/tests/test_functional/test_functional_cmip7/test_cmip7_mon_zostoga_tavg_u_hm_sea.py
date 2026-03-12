@@ -57,6 +57,7 @@ class TestCmip7_zostoga_tavg_u_hm_sea(AbstractFunctionalTests):
                 }
             )
         )
+
     @pytest.mark.slow
     def test_cmip7_mon_zostoga(self):
         self.maxDiff = True
