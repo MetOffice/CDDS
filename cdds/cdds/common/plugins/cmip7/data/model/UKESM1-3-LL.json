@@ -32,7 +32,7 @@
     "apt": "P3M",
     "ind": "P1Y",
     "inm": "P5Y",
-    "ond": "P1Y",
+    "ond": "P3M",
     "onm": "P2Y"
   },
   "memory": {
@@ -210,48 +210,53 @@
       ],
       "bounds_coordinates": {
         "onm-grid-T": [
-          "bounds_nav_lon",
+          "bounds_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
           "deptht_bounds"
         ],
         "onm-grid-U": [
-          "bounds_nav_lon",
+          "bounds_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
           "depthu_bounds"
         ],
         "onm-grid-V": [
-          "bounds_nav_lon",
+          "bounds_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
           "depthv_bounds"
         ],
         "onm-grid-W": [
-          "bounds_nav_lon",
+          "bounds_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
           "depthw_bounds"
         ],
         "onm-grid-X": [
-          "bounds_nav_lon",
+          "bounds_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
           "deptht_bounds"
         ],
         "ond-grid-T": [
-          "bounds_nav_lon",
+          "bounds_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
           "deptht_bounds"
         ],
         "ond-grid-U": [
-          "bounds_nav_lon",
+          "bounds_lon",
           "bounds_nav_lat",
           "time_centered_bounds"
         ],
         "ond-grid-V": [
-          "bounds_nav_lon",
+          "bounds_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds"
+        ],
+        "ond-grid-W": [
+          "bounds_lon",
           "bounds_nav_lat",
           "time_centered_bounds"
         ],
