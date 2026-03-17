@@ -39,6 +39,7 @@
   "memory": {
     "ap4": "80G",
     "ap5": "80G",
+<<<<<<< 811_missing_surface_altitude
     "apm": "8G",
     "apu": "8G",
     "ap6": "30G",
@@ -64,6 +65,33 @@
     "ind": 8192,
     "inm": 8192,
     "ond": 32768,
+=======
+    "apm": "80G",
+    "apu": "80G",
+    "ap6": "80G",
+    "ap7": "80G",
+    "ap8": "80G",
+    "ap9": "80G",
+    "apt": "80G",
+    "ind": "80G",
+    "inm": "80G",
+    "ond": "80G",
+    "onm": "80G"
+  },
+  "temp_space": {
+    "ap4": 200000,
+    "ap5": 200000,
+    "apm": 200000,
+    "apu": 200000,
+    "ap6": 200000,
+    "ap7": 200000,
+    "ap8": 200000,
+    "ap9": 200000,
+    "apt": 200000,
+    "ind": 200000,
+    "inm": 200000,
+    "ond": 200000,
+>>>>>>> main
     "onm": 200000
   },
   "sizing_info": {
@@ -125,11 +153,15 @@
       "latitude": 960,
       "v_latitude": 961,
       "levels": 85,
+<<<<<<< 811_missing_surface_altitude
       "ancil_filenames": [
         "qrparm.orog.pp",
         "qrparm.landfrac.pp",
         "qrparm.soil.pp"
       ],
+=======
+      "ancil_filenames": [],
+>>>>>>> main
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
         "atmosphere_rho_levels_86.txt"
@@ -142,9 +174,13 @@
       "latitude": 3604,
       "levels": 75,
       "replacement_coordinates_file": "",
+<<<<<<< 811_missing_surface_altitude
       "ancil_filenames": [
         "ocean_byte_masks_HH.nc"
       ],
+=======
+      "ancil_filenames": [],
+>>>>>>> main
       "bounds_coordinates": {
         "onm-grid-T": [
           "bounds_nav_lon",
