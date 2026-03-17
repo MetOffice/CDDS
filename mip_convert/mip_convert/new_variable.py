@@ -392,7 +392,11 @@ class Variable(object):
             )
             coord_names_to_remove_bounds = ["altitude", "sigma", "level_height"]
             for cube in self.input_variables.values():
+                if not cube.coords(axis='Z'):
+                    continue
                 for coord_name in coord_names_to_remove_bounds:
+                    if not cube.coords(coord_name):
+                        continue
                     z_coord = cube.coord(coord_name)
                     if z_coord.has_bounds():
                         z_coord.bounds = None
