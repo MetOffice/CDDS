@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+# (C) British Crown Copyright 2026, Met Office.
+# Please see LICENSE.md for license details.
+
+"""Climate Data Dissemination System script to handle critical errors produced during MIP convert"""
+
+import sys
+from cdds.critical_check.command_line import main_cdds_critical_check
+
+
+if __name__ == "__main__":
+    sys.exit(main_cdds_critical_check())
