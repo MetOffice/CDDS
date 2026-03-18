@@ -35,7 +35,8 @@ def main_cdds_critical_check(arguments=None):
         critical_issues = read_critical_log_file(cdds_convert_proc_dir, stream)
         critical_issues_key_info = process_critical_issues(critical_issues)
         num_cycles = calc_num_cycles(critical_issues)
-        summary_list = summarise_critical_issues(critical_issues_key_info, num_cycles)
+        summary_list = summarise_critical_issues(critical_issues_key_info, cdds_convert_proc_dir, num_cycles)
 
-        for line in summary_list:
+        summary_set = set(summary_list)
+        for line in summary_set:
             logger.info(line)
