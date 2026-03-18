@@ -358,8 +358,8 @@ class Variable(object):
         self._ensure_masked_arrays()
         self._apply_removal()
         self._apply_mask()
-        self._remove_alevhalf_bounds()
         self._apply_expression()
+        self._remove_alevhalf_bounds()
         if self._force_coordinate_rotation:
             self._rotated_coords()
         self._validate_cube()
@@ -391,16 +391,13 @@ class Variable(object):
                 " removing bounds from vertical coordinates"
             )
             coord_names_to_remove_bounds = ["altitude", "sigma", "level_height"]
-            for cube in self.input_variables.values():
-                if not cube.coords(axis='Z'):
+            for coord_name in coord_names_to_remove_bounds:
+                if not self.cube.coords(coord_name):
                     continue
-                for coord_name in coord_names_to_remove_bounds:
-                    if not cube.coords(coord_name):
-                        continue
-                    z_coord = cube.coord(coord_name)
-                    if z_coord.has_bounds():
-                        z_coord.bounds = None
-                        self.logger.debug(f'Removed bounds from coordinate "{z_coord.name()}" on cube "{cube.name()}"')
+                z_coord = self.cube.coord(coord_name)
+                if z_coord.has_bounds():
+                    z_coord.bounds = None
+                    self.logger.debug(f'Removed bounds from coordinate "{z_coord.name()}" on cube "{self.cube.name()}"')
 
     def _remove_units_from_input_variables_as_necessary(self):
         # To prevent the Iris error "Cannot use <operator> with
