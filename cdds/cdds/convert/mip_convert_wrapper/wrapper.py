@@ -180,7 +180,7 @@ def run_mip_convert_wrapper():
     # but log the failure in a critical issues log.
     if exit_code > 0:
         manage_critical_issues(
-            cdds_convert_proc_dir, mip_convert_log,
+            cdds_convert_proc_dir, mip_convert_log, stream,
             fields_to_log=[cylc_task_name, cylc_task_cycle_point, cylc_task_try])
         mip_convert_internal_failure = (exit_code == 1 or exit_code == 2)
         if mip_convert_internal_failure and request.conversion.continue_if_mip_convert_failed:
