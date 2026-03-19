@@ -34,14 +34,20 @@ def parse_cdds_critical_check_command_line(user_arguments: str) -> argparse.Name
     return arguments
 
 
-def main_cdds_critical_check(arguments=None):
+def main_cdds_critical_check(arguments=None) -> int:
     """Check and process any criticla errors produced during MIP convert via the command line.
 
     Parameters
     ----------
     arguments: str
         The command line argument (the request file location).
+
+    Returns
+    -------
+    int
+        The exit code (0 if success, 1 if failure).
     """
+    exit_code = 0
     args = parse_cdds_critical_check_command_line(arguments)
     request = read_request(args.request)
 
@@ -54,13 +60,16 @@ def main_cdds_critical_check(arguments=None):
         logger.info(f"Checking critical erros for stream {stream}...")
         try:
             critical_issues = read_critical_log_file(cdds_convert_proc_dir, stream)
+            critical_issues_key_info = process_critical_issues(critical_issues)
+            num_cycles = calc_num_cycles(critical_issues)
+            summary_list = summarise_critical_issues(critical_issues_key_info, cdds_convert_proc_dir, num_cycles)
+
+            summary_set = set(summary_list)
+            for line in summary_set:
+                logger.info(line)
+            exit_code = 1
         except FileNotFoundError:
             logger.info(f"No critical issues found for stream {stream}")
             continue
-        critical_issues_key_info = process_critical_issues(critical_issues)
-        num_cycles = calc_num_cycles(critical_issues)
-        summary_list = summarise_critical_issues(critical_issues_key_info, cdds_convert_proc_dir, num_cycles)
 
-        summary_set = set(summary_list)
-        for line in summary_set:
-            logger.info(line)
+    return exit_code
