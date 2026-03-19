@@ -255,8 +255,9 @@ class Filters(object):
         self.target = target
         self.stream = stream
         code = None
-
+        logger = logging.getLogger(__name__)
         if self.moo_get:
+            logger.info("Generating moo get command instead of select/filter")
             if get_streamtype(stream) == STREAMTYPE_PP:
                 status, self.mass_cmd, error, code = self._mass_cmd_get_pp()
             elif get_streamtype(stream) == STREAMTYPE_NC:
@@ -836,11 +837,9 @@ class Filters(object):
 
         error = ""
         status = {"val": "ok"}        # dummy value for consistency with pp
-        logger = logging.getLogger(__name__)
         file_frequency = self.model_parameters._stream_file_info.file_frequencies[self.stream].frequency
 
         datestamps, _ = generate_datestamps_nc(self.start_date, self.end_date, file_frequency)
-
         start_tup = self.start_date.year, self.start_date.month_of_year, self.start_date.day_of_month
         end_tup = self.end_date.year, self.end_date.month_of_year, self.end_date.day_of_month
 
