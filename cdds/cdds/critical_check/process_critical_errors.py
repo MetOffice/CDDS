@@ -45,7 +45,6 @@ def check_issues_in_cmor_write(issue, msg, cmor_logs):
                     next(cmor_logs)]
             for text in snippet:
                 if b"Error" in text:
-
                     return msg + text.decode()[:200] + "..."
 
 
@@ -57,8 +56,7 @@ def check_issues_in_cmor_variable(issue, msg, cmor_logs):
                     next(cmor_logs)]
             for text in snippet:
                 if b"Error" in text and variable.split("_")[0].encode() in text:
-
-                    return msg + text.decode()
+                    return msg + text.decode()[:200] + "..."
 
 
 def check_issues_in_cmor_zfactor(msg, cmor_logs):
@@ -68,9 +66,7 @@ def check_issues_in_cmor_zfactor(msg, cmor_logs):
                     next(cmor_logs)]
             for text in snippet:
                 if b"Error" in text:
-                    msg = msg + text.decode()
-
-    return msg
+                    return msg + text.decode()[:200] + "..."
 
 
 def check_issues_in_cmor_axis(msg, cmor_logs):
@@ -80,9 +76,7 @@ def check_issues_in_cmor_axis(msg, cmor_logs):
                     next(cmor_logs)]
             for text in snippet:
                 if b"Error" in text:
-                    msg = msg + text.decode()
-
-    return msg
+                    return msg + text.decode()[:200] + "..."
 
 
 def get_detail_from_cmor_logs(issue, cdds_convert_proc_dir):
