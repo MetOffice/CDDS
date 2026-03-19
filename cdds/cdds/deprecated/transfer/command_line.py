@@ -6,6 +6,7 @@ command line scripts in the ``bin`` directory.
 import argparse
 import logging
 
+
 from argparse import Namespace
 from typing import List
 
