@@ -31,7 +31,7 @@ class Filters(object):
     """
 
     def __init__(self, procdir=None, var_list=None,
-                 simulation=False):
+                 simulation=False, moo_get=False):
         """Initialises Filters object
 
         Parameters
@@ -42,13 +42,14 @@ class Filters(object):
             list of variables (dicts) to be processed
         simulation: bool
             If true MASS commands will be simulated
-
+        moo_get: bool
+            If true, moo get commands will be generated instead of moo select/filter
         """
         self.source = ""
         self.target = ""
         self.procdir = procdir
         self.stream = ""
-        self.get_mode = False
+        self.moo_get = moo_get
 
         self.var_status = ""
         self.var_list = {"variables": var_list}
@@ -255,7 +256,7 @@ class Filters(object):
         self.stream = stream
         code = None
 
-        if self.get_mode:
+        if self.moo_get:
             if get_streamtype(stream) == STREAMTYPE_PP:
                 status, self.mass_cmd, error, code = self._mass_cmd_get_pp()
             elif get_streamtype(stream) == STREAMTYPE_NC:
