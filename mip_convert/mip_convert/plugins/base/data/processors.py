@@ -1949,6 +1949,45 @@ def remove_altitude_coords(cube):
     for coord in cube.coords():
         if coord.name() == 'surface_altitude':
             cube.remove_coord(coord)
+    return cube
+
+
+def replace_altitude_with_height2m(cube):
+    """Return a cube with the altitude-related coordinates removed and a
+    height2m scalar coordinate added.
+
+    This enables arithmetic to be performed between cubes, where one
+    cube was created by selecting a single level from hybrid height
+    levels.
+
+    This processor also removes the ``HybridHeightFactory`` from the
+    cube, see https://scitools.org.uk/iris/docs/latest/whitepapers/\
+    um_files_loading.html#vertical-coordinates for more details.
+
+    A scalar coordinate named ``height2m`` is added to the cube to
+    indicate that the data represents a quantity at 2 metres above
+    the surface.
+
+    Parameters
+    ----------
+    cube: :class:`iris.cube.Cube`
+        A cube containing altitude-related coordinates sampled at
+        2 metres above the surface.
+
+    Returns
+    -------
+    : :class:`iris.cube.Cube`
+        A cube with the altitude-related coordinates removed and a
+        scalar height coordinate at 2.0 m added.
+    """
+    logger = logging.getLogger(__name__)
+    try:
+        cube.remove_aux_factory(cube.aux_factory())
+    except CoordinateNotFoundError:
+        logger.debug('Cannot remove non-existent aux factory from cube "{}"'.format(repr(cube)))
+    for coord in cube.coords():
+        if coord.name() == 'surface_altitude':
+            cube.remove_coord(coord)
 
     height2m_coord = iris.coords.AuxCoord(
         np.float32(2.0),
@@ -1959,7 +1998,6 @@ def remove_altitude_coords(cube):
         attributes={'positive': 'up'}
     )
     cube.add_aux_coord(height2m_coord)
-    # breakpoint()
     return cube
 
 
