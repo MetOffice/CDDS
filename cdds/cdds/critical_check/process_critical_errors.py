@@ -37,16 +37,16 @@ def get_cmor_log_file_location(critical_issues_key_info, cdds_convert_proc_dir):
     return cmor_log_file_location
 
 
-def check_issues_in_cmor_write(msg, cmor_logs):
+def check_issues_in_cmor_write(issue, msg, cmor_logs):
+    variable = issue.split("|")[3]
     for item in cmor_logs:
         if b"cmor_write_var_to_file" in item:
             snippet = [item, next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs),
                     next(cmor_logs)]
             for text in snippet:
                 if b"Error" in text:
-                    msg = msg + text.decode()
 
-    return msg
+                    return msg + text.decode()[:200] + "..."
 
 
 def check_issues_in_cmor_variable(issue, msg, cmor_logs):
@@ -57,9 +57,8 @@ def check_issues_in_cmor_variable(issue, msg, cmor_logs):
                     next(cmor_logs)]
             for text in snippet:
                 if b"Error" in text and variable.split("_")[0].encode() in text:
-                    msg = msg + text.decode()
 
-    return msg
+                    return msg + text.decode()
 
 
 def check_issues_in_cmor_zfactor(msg, cmor_logs):
@@ -94,7 +93,7 @@ def get_detail_from_cmor_logs(issue, cdds_convert_proc_dir):
         with gzip.open(cmor_log_file_location, "rb") as infile:
             cmor_logs = iter([item.strip() for item in infile])
             if "Problem with 'cmor.write'" in msg:
-                msg = check_issues_in_cmor_write(msg, cmor_logs)
+                msg = check_issues_in_cmor_write(issue, msg, cmor_logs)
             elif "Problem with 'cmor.variable'" in msg:
                 msg = check_issues_in_cmor_variable(issue, msg, cmor_logs)
             elif "Problem with 'cmor.zfactor'" in msg:
