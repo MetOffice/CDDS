@@ -370,17 +370,15 @@ class Variable(object):
 
     def _remove_alevhalf_bounds(self):
         """
-        Remove bounds from vertical coordinates in the output cube if the MIP table specifies
+        Remove bounds from vertical coordinates in 'self.cube' if the MIP table specifies
         'hybrid_height_half' as the Z axis and 'z_bounds_factors' is present and empty.
 
-        If 'z_bounds_factors' is missing or not empty, this function does nothing.
+        If 'z_bounds_factors' is missing or not empty, this function should do nothing.
 
-        Operates on the output cube after the expression has been applied, rather than on the
-        input cubes, to avoid issues where expressions take multiple input cubes of mixed
-        dimensionality.
-
-        Removes bounds from coordinates named 'altitude', 'sigma', or 'level_height' if
-        present on the output cube.
+        Notes
+        -----
+        Operates after self._apply_expression() has been applied, to avoid issues where
+        expressions take multiple input cubes of mixed dimensionality.
         """
         axes_directions_names = self._mip_axes_directions_names
         if "Z" not in axes_directions_names:
