@@ -59,14 +59,13 @@ def process_critical_issues(critical_issues: list) -> list:
     return critical_issues_key_info
 
 
-def get_cmor_log_file_location(critical_issues_key_info: list, cdds_convert_proc_dir: str) -> Path:
+def get_cmor_log_file_location(issue: str, cdds_convert_proc_dir: str) -> Path:
     """Returns the location of the cmor log file.
 
     Parameters
     ----------
-    critical_issues_key_info: list
-        The key information about each critical issue where each item in the list is the key information of a new
-        critical issue.
+    issue: str
+        The key information about a single critical issue.
     cdds_convert_proc_dir: str
         The path to the cdds convert proc directory.
 
@@ -75,7 +74,7 @@ def get_cmor_log_file_location(critical_issues_key_info: list, cdds_convert_proc
     Path
         The path to the cmor log file for a given cylce point(timestamp).
     """
-    grid, timestamp, mip_log_file, _, _, _ = critical_issues_key_info.split("|")
+    grid, timestamp, mip_log_file, _, _, _ = issue.split("|")
     subdir = "_".join(grid.split("_")[2:]).strip("first_")
     cmor_log_filename = f'{mip_log_file.replace("mip_convert_", "cmor.")}.gz'
     cmor_log_file_location = Path(cdds_convert_proc_dir) / "log" / subdir / timestamp / "cmor_logs" / cmor_log_filename
@@ -106,6 +105,8 @@ def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator[bytes]) -> str:
                 if b"Error" in text:
                     return msg + text.decode()[:200] + "..."
 
+    return msg
+
 
 def check_issues_in_cmor_variable(issue: str, msg: str, cmor_logs: Iterator[bytes]) -> str:
     """Checks the cmor log file for any additional information on cmor.variable errors for a single critical issue.
@@ -133,6 +134,8 @@ def check_issues_in_cmor_variable(issue: str, msg: str, cmor_logs: Iterator[byte
                 if b"Error" in text and variable.split("_")[0].encode() in text:
                     return msg + text.decode()[:200] + "..."
 
+    return msg
+
 
 def check_issues_in_cmor_zfactor(msg: str, cmor_logs: Iterator[bytes]) -> str:
     """Checks the cmor log file for any additional information on cmor.zfactor errors for a single critical issue.
@@ -156,6 +159,8 @@ def check_issues_in_cmor_zfactor(msg: str, cmor_logs: Iterator[bytes]) -> str:
             for text in snippet:
                 if b"Error" in text:
                     return msg + text.decode()[:200] + "..."
+
+    return msg
 
 
 def check_issues_in_cmor_axis(msg: str, cmor_logs: Iterator[bytes]) -> str:
@@ -181,6 +186,8 @@ def check_issues_in_cmor_axis(msg: str, cmor_logs: Iterator[bytes]) -> str:
                 if b"Error" in text:
                     return msg + text.decode()[:200] + "..."
 
+    return msg
+
 
 def get_detail_from_cmor_logs(issue: str, cdds_convert_proc_dir: str):
     """Applies extra detail to a single critical issue if the issue references a cmor error.
@@ -203,7 +210,7 @@ def get_detail_from_cmor_logs(issue: str, cdds_convert_proc_dir: str):
         with gzip.open(cmor_log_file_location, "rb") as infile:
             cmor_logs = iter([item.strip() for item in infile])
             if "Problem with 'cmor.write'" in msg:
-                msg = check_issues_in_cmor_write(issue, msg, cmor_logs)
+                msg = check_issues_in_cmor_write(msg, cmor_logs)
             elif "Problem with 'cmor.variable'" in msg:
                 msg = check_issues_in_cmor_variable(issue, msg, cmor_logs)
             elif "Problem with 'cmor.zfactor'" in msg:
