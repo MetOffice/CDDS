@@ -1,12 +1,12 @@
 # (C) British Crown Copyright 2026, Met Office.
 # Please see LICENSE.md for license details.
-"""Tests for cdds.process_critical_errors"""
+"""Tests for cdds.deprecated.transfer.process_critical_errors"""
 
 import unittest
 
 from pathlib import Path
 
-from cdds.critical_check.process_critical_errors import (process_critical_issues, get_cmor_log_file_location,
+from cdds.deprecated.transfer.process_critical_errors import (process_critical_issues, get_cmor_log_file_location,
                                                          check_issues_in_cmor_write, check_issues_in_cmor_variable,
                                                          check_issues_in_cmor_axis, check_issues_in_cmor_zfactor,
                                                          calc_num_cycles, calc_num_occurances,
@@ -52,7 +52,7 @@ class TestGetCmorLogFileLocation(unittest.TestCase):
 class TestCheckIssuesInCmor(unittest.TestCase):
 
     def setUp(self):
-        with open("cdds/cdds/tests/test_critical_check/data/test_cmor.log.gz", "rb") as infile:
+        with open("cdds/cdds/tests/test_deprecated/test_transfer/data/test_cmor.log.gz", "rb") as infile:
             self.cmor_logs = iter([item.strip() for item in infile])
 
     def test_check_issues_in_cmor_write(self):
