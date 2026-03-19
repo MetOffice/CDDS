@@ -87,11 +87,11 @@
 
         {% if RUN_TRANSFER %}
             R1/{{ FINAL_CYCLE_POINT }} = """
-                COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => run_critical_check => run_sim_review => workflow_complete
+                COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => run_sim_review => workflow_complete
             """
         {% else %}
             R1/{{ FINAL_CYCLE_POINT }} = """
-                COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => run_critical_check => workflow_complete
+                COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => workflow_complete
             """
         {% endif %}
 
@@ -352,15 +352,6 @@ mkdir -p {{ BASE_OUTPUT }}
             --ntasks = 1
     {% endif %}
 {% endfor %} # STREAM LOOP END
-
-    {% if RUN_CRITICAL_CHECK %}
-    [[run_critical_check]]
-        inherit = {{ PLATFORM }}
-        [[[environment]]]
-            ROSE_TASK_APP = run_critical_check
-        [[[directives]]]
-            --ntasks = 1
-    {% endif %}
 
     {% if RUN_TRANSFER %}
     [[run_sim_review]]
