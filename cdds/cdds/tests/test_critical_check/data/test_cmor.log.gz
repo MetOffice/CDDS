@@ -1,0 +1,57 @@
+[2;34;47mC Traceback:
+In function: [0m
+
+[1;34;47m!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! Warning: Your input attribute license "CC-BY-4-0" will be replaced with 
+! "CC-BY-4-0; CMIP7 data produced by MOHC is licensed under a Creative Commons Attribution 4.0 International License (https://creativecommons.org/licenses/by/4.0). Consult [TODO terms of use link] for terms of use governing CMIP7 output, including citation requirements and proper acknowledgment. The data producers and data providers make no warranty, either express or implied, including, but not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from the supply of the information (including any liability arising in negligence) are excluded to the fullest extent permitted by law." as defined in your Controlled Vocabulary file.
+! 
+!
+!!!!!!!!!!!!!!!!!!!!!!!!![0m
+
+
+[2;31;47mC Traceback:
+! In function: [0m
+
+[1;31;47m!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! Error: The interval values used for the time axis differ from those defined for the frequency "yr" used for by variable 'baresoilFrac' (table land)
+! 
+!
+!!!!!!!!!!!!!!!!!!!!!!!!![0m
+
+
+[2;34;47mC Traceback:
+In function: cmor_write_var_to_file
+! called from: cmor_create_var_attributes
+! [0m
+
+[1;34;47m!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! Warning: Invalid value(s) detected for variable 'longitude' (table: grids): 73023 values were lower than minimum valid value (0). Minimum encountered bad value (-180) was at (axis: index/value): j: 48/48 i: 107/107
+!
+!!!!!!!!!!!!!!!!!!!!!!!!![0m
+
+
+[2;31;47mC Traceback:
+! In function: cmor_variable
+! called from: cmor_zfactor
+! [0m
+
+[1;31;47m!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! Error: Could not find a matching variable for name: 'b_half_bnds'
+!
+!!!!!!!!!!!!!!!!!!!!!!!!![0m
+
+
+[2;31;47mC Traceback:
+! In function: cmor_treat_axis_values
+! called from: cmor_axis
+! [0m
+
+[1;31;47m!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+! Error: requested value 2.500000 for axis tau (table: atmos) was not found
+!
+!!!!!!!!!!!!!!!!!!!!!!!!![0m

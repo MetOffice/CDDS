@@ -99,10 +99,10 @@ def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator[bytes]) -> str:
     """
     for item in cmor_logs:
         if b"cmor_write_var_to_file" in item:
-            snippet = [item, next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs),
-                    next(cmor_logs)]
+            snippet = [item, next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs),
+                       next(cmor_logs)]
             for text in snippet:
-                if b"Error" in text:
+                if b"Error" in text or b"Warning" in text:
                     return msg + text.decode()[:200] + "..."
 
     return msg
@@ -133,6 +133,8 @@ def check_issues_in_cmor_variable(issue: str, msg: str, cmor_logs: Iterator[byte
             for text in snippet:
                 if b"Error" in text and variable.split("_")[0].encode() in text:
                     return msg + text.decode()[:200] + "..."
+        elif variable.split("_")[0].encode() in item:
+            return msg + item.decode()[:200] + "..."
 
     return msg
 
