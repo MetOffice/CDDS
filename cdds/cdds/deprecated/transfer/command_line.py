@@ -10,8 +10,7 @@ from argparse import Namespace
 from typing import List
 
 from cdds.common import configure_logger, common_command_line_args, check_directory
-from cdds.common.cdds_files.cdds_directories import update_log_dir, component_directory
-from cdds.common.request.request import read_request, Request
+from cdds.common.request.request import read_request
 from cdds.common.plugins.plugin_loader import load_plugin
 
 from cdds import __version__
@@ -21,10 +20,6 @@ from cdds.deprecated.transfer.sim_review import do_sim_review
 from cdds.deprecated.transfer.state import known_states
 from cdds.deprecated.transfer.state_change import run_move_in_mass
 from cdds.deprecated.transfer.constants import KNOWN_RABBITMQ_QUEUES
-from cdds.deprecated.transfer.process_critical_errors import (read_critical_log_file,
-                                                         process_critical_issues,
-                                                         calc_num_cycles,
-                                                         summarise_critical_issues)
 from cdds.common.constants import PRINT_STACK_TRACE
 
 PACKAGE = 'cdds.deprecated.transfer'
@@ -136,7 +131,6 @@ def main_sim_review() -> int:
 
     try:
         do_sim_review(request, args.request)
-        main_cdds_critical_check(request)
         exit_code = 0
     except BaseException as exc:
         exit_code = 1
@@ -158,35 +152,6 @@ def parse_sim_review_args() -> Namespace:
     common_command_line_args(parser, log_name, logging.INFO, __version__)
 
     return parser.parse_args()
-
-
-def main_cdds_critical_check(request: Request) -> None:
-    """Check and process any criticla errors produced during MIP convert via the command line.
-
-    Parameters
-    ----------
-    request: Request
-        The request file.
-    """
-    configure_logger("cdds_critical_check", request.common.log_level, False)
-    logger = logging.getLogger(__name__)
-
-    cdds_convert_proc_dir = component_directory(request, 'convert')
-
-    for stream in request.data.streams:
-        logger.info(f"Checking critical erros for stream {stream}...")
-        try:
-            critical_issues = read_critical_log_file(cdds_convert_proc_dir, stream)
-            critical_issues_key_info = process_critical_issues(critical_issues)
-            num_cycles = calc_num_cycles(critical_issues)
-            summary_list = summarise_critical_issues(critical_issues_key_info, cdds_convert_proc_dir, num_cycles)
-
-            summary_set = set(summary_list)
-            for line in summary_set:
-                logger.info(line)
-        except FileNotFoundError:
-            logger.info(f"No critical issues found for stream {stream}")
-            continue
 
 
 def main_list_queue() -> int:

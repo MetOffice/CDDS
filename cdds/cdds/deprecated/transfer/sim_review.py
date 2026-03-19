@@ -13,6 +13,9 @@ from cdds.common.io import read_json
 from cdds.common import get_most_recent_file_by_stream
 from cdds.common.request.request import Request
 from cdds.common.plugins.plugins import PluginStore
+from cdds.common.cdds_files.cdds_directories import component_directory
+from cdds.deprecated.transfer.process_critical_errors import (read_critical_log_file, process_critical_issues,
+                                                              calc_num_cycles, summarise_critical_issues)
 
 
 def filter_critical_issues(issue_list: list[str]) -> list:
@@ -60,7 +63,7 @@ def remove_empty_list_elements(output_list: list[str]) -> list[str]:
     return output_list
 
 
-def check_critical_issues(proc_dir: str) -> None:
+def check_critical_issues(request: Request, proc_dir: str) -> None:
     """Look for critical issues in the component proc directories. This function also checks for errors in transfer for
     legacy reasons, and for the presence of a critical_isues.log file in the convert proc dir, which is where
     mip_convert critical issues are reported.
@@ -90,19 +93,21 @@ def check_critical_issues(proc_dir: str) -> None:
         except RuntimeError as e1:
             logger.exception(e1)
 
-    convert_critical_issues_path = os.path.join(proc_dir, 'convert', 'critical_issues.log')
-    if os.path.isfile(convert_critical_issues_path):
-        with open(convert_critical_issues_path) as ccif:
-            raw_issues = ccif.readlines()
-            convert_critical_issues = filter_critical_issues(raw_issues)
-            cci_msg_str = '\n'.join(convert_critical_issues)
+    for stream in request.data.streams:
+        convert_critical_issues_path = os.path.join(proc_dir, 'convert', f'critical_issues_{stream}.log')
+        if os.path.isfile(convert_critical_issues_path):
+            with open(convert_critical_issues_path) as ccif:
+                raw_issues = ccif.readlines()
+                convert_critical_issues = filter_critical_issues(raw_issues)
+                cci_msg_str = '\n'.join(convert_critical_issues)
 
-        msg = (
-            'Critical issues found for CDDS convert. '
-            'Contents of file {0}:\n{1}'.format(convert_critical_issues_path, cci_msg_str))
-        logger.info(msg)
-    else:
-        logger.info('No convert critical issues log file found.')
+            msg = (
+                f'Critical issues found for CDDS convert for stream {stream}. '
+                'Contents of file {0}:\n{1}'.format(convert_critical_issues_path, cci_msg_str))
+            logger.info(msg)
+            do_critical_check(request, stream)
+        else:
+            logger.info(f'No convert critical issues log file found for {stream}.')
 
 
 def check_intermediate_files(data_dir: str) -> None:
@@ -248,6 +253,31 @@ def show_submission_command(request_file_path: str, recent_approved_path: str) -
                 ''.format(request=request_file_path, recent_approved_path=recent_approved_path))
 
 
+def do_critical_check(request: Request, stream) -> None:
+    """Check and process any criticla errors produced during MIP convert via the command line.
+
+    Parameters
+    ----------
+    request: Request
+        The request file.
+    """
+    logger = logging.getLogger(__name__)
+
+    cdds_convert_proc_dir = component_directory(request, 'convert')
+
+    logger.info("-----")
+    logger.info(f"Checking critical errors for stream {stream}...")
+
+    critical_issues = read_critical_log_file(cdds_convert_proc_dir, stream)
+    critical_issues_key_info = process_critical_issues(critical_issues)
+    num_cycles = calc_num_cycles(critical_issues)
+    summary_list = summarise_critical_issues(critical_issues_key_info, cdds_convert_proc_dir, num_cycles)
+
+    summary_set = set(summary_list)
+    for line in summary_set:
+        logger.info(line)
+
+
 def do_sim_review(request: Request, request_file_path: str) -> None:
     """The main work function for the simulation review script.
 
@@ -278,7 +308,7 @@ def do_sim_review(request: Request, request_file_path: str) -> None:
 
     qc_dir = os.path.join(proc_dir, 'qualitycheck')
 
-    check_critical_issues(proc_dir)
+    check_critical_issues(request, proc_dir)
 
     check_intermediate_files(data_dir)
 
