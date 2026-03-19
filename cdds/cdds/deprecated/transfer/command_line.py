@@ -11,6 +11,7 @@ from argparse import Namespace
 from typing import List
 
 from cdds.common import configure_logger, common_command_line_args, check_directory
+from cdds.common.cdds_files.cdds_directories import update_log_dir
 from cdds.common.request.request import read_request
 from cdds.common.plugins.plugin_loader import load_plugin
 
