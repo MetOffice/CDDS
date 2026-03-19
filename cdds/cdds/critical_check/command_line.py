@@ -32,7 +32,11 @@ def main_cdds_critical_check(arguments=None):
 
     for stream in request.data.streams:
         logger.info(f"Checking critical erros for stream {stream}...")
-        critical_issues = read_critical_log_file(cdds_convert_proc_dir, stream)
+        try:
+            critical_issues = read_critical_log_file(cdds_convert_proc_dir, stream)
+        except FileNotFoundError:
+            logger.info(f"No critical issues found for stream {stream}")
+            continue
         critical_issues_key_info = process_critical_issues(critical_issues)
         num_cycles = calc_num_cycles(critical_issues)
         summary_list = summarise_critical_issues(critical_issues_key_info, cdds_convert_proc_dir, num_cycles)
