@@ -1949,6 +1949,17 @@ def remove_altitude_coords(cube):
     for coord in cube.coords():
         if coord.name() == 'surface_altitude':
             cube.remove_coord(coord)
+
+    height2m_coord = iris.coords.AuxCoord(
+        np.float32(2.0),
+        standard_name='height',
+        long_name='height2m',
+        var_name='height2m',
+        units=Unit('m'),
+        attributes={'positive': 'up'}
+    )
+    cube.add_aux_coord(height2m_coord)
+    # breakpoint()
     return cube
 
 
