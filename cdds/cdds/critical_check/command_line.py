@@ -1,5 +1,6 @@
 # (C) British Crown Copyright 2026, Met Office.
 # Please see LICENSE.md for license details.
+"""The :mod:`command_line` module contains the main functions for the command line scripts in the ``bin`` directory."""
 import argparse
 import logging
 
@@ -12,9 +13,21 @@ from cdds.critical_check.process_critical_errors import (read_critical_log_file,
                                                          summarise_critical_issues)
 
 
-def parse_cdds_critical_check_command_line(user_arguments):
+def parse_cdds_critical_check_command_line(user_arguments: str) -> argparse.Namespace:
+    """Processes and returns the command line arguments for ``cdds_critical_check``.
 
-    parser = argparse.ArgumentParser(description='Check output logs for critical errors.')
+    Parameters
+    ----------
+    user_arguments: str
+        The command line argument to be parsed.
+
+    Returns
+    -------
+    argparse.Namespace
+        The given command line argument (the request file location).
+    """
+    description = "Checks output logs for critical errors and summarises them to single strings."
+    parser = argparse.ArgumentParser(description=description)
     parser.add_argument('request', help='The full path to the cfg file containing the information from the request.')
     arguments = parser.parse_args(user_arguments)
 
@@ -22,6 +35,13 @@ def parse_cdds_critical_check_command_line(user_arguments):
 
 
 def main_cdds_critical_check(arguments=None):
+    """Check and process any criticla errors produced during MIP convert via the command line.
+
+    Parameters
+    ----------
+    arguments: str
+        The command line argument (the request file location).
+    """
     args = parse_cdds_critical_check_command_line(arguments)
     request = read_request(args.request)
 
