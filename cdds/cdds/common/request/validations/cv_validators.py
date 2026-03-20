@@ -44,7 +44,11 @@ class CVValidatorFactory:
         def validate(cv_config: CVConfig, request: 'Request'):
             cv_institution = cv_config.institution(request.metadata.institution_id)
             if cv_institution == 'unknown':
-                raise CVEntryError('Unknown "institution_id".')
+                valid_institutions = list(cv_config.get_collection('institution_id').keys())
+                raise CVEntryError(
+                    f'Unknown institution_id "{request.metadata.institution_id}". '
+                    f'Valid options: {valid_institutions}'
+                )
         return validate
 
     @classmethod
@@ -59,7 +63,11 @@ class CVValidatorFactory:
         def validate(cv_config: CVConfig, request: 'Request'):
             source = cv_config.source(request.metadata.model_id)
             if source == 'unknown':
-                raise CVEntryError('Unknown "model_id".')
+                valid_models = list(cv_config.get_collection('source_id').keys())
+                raise CVEntryError(
+                    f'Unknown model_id "{request.metadata.model_id}". '
+                    f'Valid options: {valid_models}'
+                )
         return validate
 
     @classmethod
@@ -74,12 +82,20 @@ class CVValidatorFactory:
         def validate(cv_config: CVConfig, request: 'Request'):
             experiment = cv_config.experiment(request.metadata.experiment_id)
             if experiment == 'unknown':
-                raise CVEntryError('Unknown experiment_id')
+                valid_experiments = list(cv_config.get_collection('experiment_id').keys())
+                raise CVEntryError(
+                    f'Unknown experiment_id "{request.metadata.experiment_id}". '
+                    f'Valid options: {valid_experiments}'
+                )
 
             if request.metadata.sub_experiment_id != 'none':
                 sub_experiment = cv_config.sub_experiment(request.metadata.sub_experiment_id)
                 if sub_experiment == 'unknown':
-                    raise CVEntryError('Sub experiment not conform with CV')
+                    valid_sub_experiments = list(cv_config.get_collection('sub_experiment_id').keys())
+                    raise CVEntryError(
+                        f'Unknown sub_experiment_id "{request.metadata.sub_experiment_id}". '
+                        f'Valid options: {valid_sub_experiments}'
+                    )
         return validate
 
     @classmethod
@@ -98,13 +114,22 @@ class CVValidatorFactory:
 
             valid_model_types = set(model_types).issubset(set(allowed_model_types))
             if not valid_model_types:
-                raise CVEntryError('Not all model types are allowed by the CV')
+                invalid_types = set(model_types) - set(allowed_model_types)
+                raise CVEntryError(
+                    f'Invalid model type(s) {invalid_types}. '
+                    f'Allowed types for experiment_id "{request.metadata.experiment_id}": {allowed_model_types}'
+                )
 
             required_model_types = cv_config.required_source_type(request.metadata.experiment_id)
             if required_model_types:
                 contain_required_model_types = set(required_model_types).issubset(set(model_types))
                 if not contain_required_model_types:
-                    raise CVEntryError('not all required model types are given.')
+                    missing_types = set(required_model_types) - set(model_types)
+                    raise CVEntryError(
+                        f'Missing required model type(s) {missing_types} '
+                        f'for experiment_id "{request.metadata.experiment_id}". '
+                        f'Provided types: {model_types}'
+                    )
         return validate
 
     @classmethod
@@ -123,7 +148,13 @@ class CVValidatorFactory:
 
             cv_parent_experiment = cv_config.parent_experiment_id(experiment)
             if cv_parent_experiment == 'unknown':
-                raise CVEntryError('Unknown parent experiment id')
+                raise CVEntryError(
+                    f'Unknown parent experiment configuration for experiment_id "{experiment}". '
+                    'Check CV configuration.'
+                )
             if parent_experiment not in cv_parent_experiment:
-                raise CVEntryError('Parent experiment id does not match with id in CV config')
+                raise CVEntryError(
+                    f'Invalid parent_experiment_id "{parent_experiment}" for experiment "{experiment}". '
+                    f'Valid options: {cv_parent_experiment}'
+                )
         return validate
