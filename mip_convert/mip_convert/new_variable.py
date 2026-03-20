@@ -358,8 +358,8 @@ class Variable(object):
         self._ensure_masked_arrays()
         self._apply_removal()
         self._apply_mask()
-        self._remove_alevhalf_bounds()
         self._apply_expression()
+        self._remove_alevhalf_bounds()
         if self._force_coordinate_rotation:
             self._rotated_coords()
         self._validate_cube()
@@ -370,13 +370,15 @@ class Variable(object):
 
     def _remove_alevhalf_bounds(self):
         """
-        Remove bounds from vertical coordinates in input cubes if the MIP table specifies
+        Remove bounds from vertical coordinates in 'self.cube' if the MIP table specifies
         'hybrid_height_half' as the Z axis and 'z_bounds_factors' is present and empty.
 
-        If 'z_bounds_factors' is missing or not empty, this function does nothing.
+        If 'z_bounds_factors' is missing or not empty, this function should do nothing.
 
-        Iterates through input cubes and removes bounds from coordinates named 'altitude',
-        'sigma', or 'level_height'.
+        Notes
+        -----
+        Operates after self._apply_expression() has been applied, to avoid issues where
+        expressions take multiple input cubes of mixed dimensionality.
         """
         axes_directions_names = self._mip_axes_directions_names
         if "Z" not in axes_directions_names:
@@ -391,12 +393,13 @@ class Variable(object):
                 " removing bounds from vertical coordinates"
             )
             coord_names_to_remove_bounds = ["altitude", "sigma", "level_height"]
-            for cube in self.input_variables.values():
-                for coord_name in coord_names_to_remove_bounds:
-                    z_coord = cube.coord(coord_name)
-                    if z_coord.has_bounds():
-                        z_coord.bounds = None
-                        self.logger.debug(f'Removed bounds from coordinate "{z_coord.name()}" on cube "{cube.name()}"')
+            for coord_name in coord_names_to_remove_bounds:
+                if not self.cube.coords(coord_name):
+                    continue
+                z_coord = self.cube.coord(coord_name)
+                if z_coord.has_bounds():
+                    z_coord.bounds = None
+                    self.logger.debug(f'Removed bounds from coordinate "{z_coord.name()}" on cube "{self.cube.name()}"')
 
     def _remove_units_from_input_variables_as_necessary(self):
         # To prevent the Iris error "Cannot use <operator> with
