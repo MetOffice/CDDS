@@ -107,6 +107,7 @@ def check_critical_issues(request: Request, proc_dir: str) -> None:
             logger.info(msg)
             do_critical_check(request, stream)
         else:
+            logger.info("-----")
             logger.info(f'No convert critical issues log file found for {stream}.')
 
 
