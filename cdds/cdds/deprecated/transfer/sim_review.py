@@ -94,7 +94,7 @@ def check_critical_issues(request: Request, proc_dir: str) -> None:
             logger.exception(e1)
 
     for stream in request.data.streams:
-        convert_critical_issues_path = os.path.join(proc_dir, 'convert', f'critical_issues_{stream}.log')
+        convert_critical_issues_path = os.path.join(proc_dir, 'convert', 'log', f'critical_issues_{stream}.log')
         if os.path.isfile(convert_critical_issues_path):
             with open(convert_critical_issues_path) as ccif:
                 raw_issues = ccif.readlines()
