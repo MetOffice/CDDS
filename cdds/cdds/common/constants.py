@@ -250,4 +250,10 @@ USER_CONFIG_OPTIONS = {
 VARIANT_LABEL_FORMAT = r'^r(\d+)i(\d+)p(\d+)f(\d+)$'
 CMIP7_VARIANT_LABEL_FORMAT = r'^(r\d{1,6})(i\d{1,6}[a-e]?)(p\d{1,6})(f\d{1,6})$'
 PRINT_STACK_TRACE = True
+<<<<<<< 844_test_run_UKESM1-3
 DOBSON_UNIT_TO_METRE = 1e-5
+=======
+CALENDAR_MAPPING_CDDS_TO_CYLC = {
+    "standard": "gregorian"
+}
+>>>>>>> main

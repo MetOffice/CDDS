@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2023-2025, Met Office.
+# (C) British Crown Copyright 2023-2026, Met Office.
 # Please see LICENSE.md for license details.
 import os
 import unittest
@@ -107,6 +107,7 @@ class TestWriteRequest(TestCase):
         request.data.output_mass_suffix = 'development'
         request.data.data_version = data_version.strftime('v%Y%m%d')
         request.data.variable_list_file = ''
+        request.data.moo_get = False
 
         request.conversion.mip_convert_plugin = 'HadGEM3'
         request.conversion.mip_convert_external_plugin = ''

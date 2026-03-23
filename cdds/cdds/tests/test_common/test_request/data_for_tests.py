@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2023-2025, Met Office.
+# (C) British Crown Copyright 2023-2026, Met Office.
 # Please see LICENSE.md for license details.
 from datetime import datetime
 from metomi.isodatetime.data import TimePoint
@@ -86,7 +86,8 @@ def expected_test_data():
         'streams': ['ap4', 'ap5'],
         'variable_list_file': '',
         'output_mass_root': 'moose:/adhoc/projects/cdds/',
-        'output_mass_suffix': 'development'
+        'output_mass_suffix': 'development',
+        'moo_get': False
     }
 
 
@@ -206,7 +207,8 @@ def expected_test_minimal_data(data_version: datetime):
         'variable_list_file': '',
         'model_workflow_branch': 'cdds',
         'model_workflow_id': 'u-aw310',
-        'model_workflow_revision': 'HEAD'
+        'model_workflow_revision': 'HEAD',
+        'moo_get': False
     }
 
 

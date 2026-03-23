@@ -22,6 +22,7 @@ from cdds.extract.constants import MOOSE_CALL_LIMIT
 from cdds.extract.common import (check_moo_cmd, chunk_by_files_and_tapes, fetch_filelist_from_mass, get_streamtype,
                                  get_stash, get_tape_limit, run_moo_cmd, condense_constraints)
 from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES, STREAMTYPE_PP, STREAMTYPE_NC
+from cdds.common import generate_datestamps_nc
 
 
 class Filters(object):
@@ -30,7 +31,7 @@ class Filters(object):
     """
 
     def __init__(self, procdir=None, var_list=None,
-                 simulation=False):
+                 simulation=False, moo_get=False):
         """Initialises Filters object
 
         Parameters
@@ -41,12 +42,14 @@ class Filters(object):
             list of variables (dicts) to be processed
         simulation: bool
             If true MASS commands will be simulated
-
+        moo_get: bool
+            If true, moo get commands will be generated instead of moo select/filter
         """
         self.source = ""
         self.target = ""
         self.procdir = procdir
         self.stream = ""
+        self.moo_get = moo_get
 
         self.var_status = ""
         self.var_list = {"variables": var_list}
@@ -252,12 +255,20 @@ class Filters(object):
         self.target = target
         self.stream = stream
         code = None
-        if get_streamtype(stream) == STREAMTYPE_PP:
-            status, self.mass_cmd, error, code = self._mass_cmd_pp(
-                self.start_date, self.end_date)
-        elif get_streamtype(stream) == STREAMTYPE_NC:
-            status, self.mass_cmd, error, code = self._mass_cmd_nc(
-                self.start_date, self.end_date)
+        logger = logging.getLogger(__name__)
+        if self.moo_get:
+            logger.info("Generating moo get command instead of select/filter")
+            if get_streamtype(stream) == STREAMTYPE_PP:
+                status, self.mass_cmd, error, code = self._mass_cmd_get_pp()
+            elif get_streamtype(stream) == STREAMTYPE_NC:
+                status, self.mass_cmd, error, code = self._mass_cmd_get_nc()
+        else:
+            if get_streamtype(stream) == STREAMTYPE_PP:
+                status, self.mass_cmd, error, code = self._mass_cmd_pp(
+                    self.start_date, self.end_date)
+            elif get_streamtype(stream) == STREAMTYPE_NC:
+                status, self.mass_cmd, error, code = self._mass_cmd_nc(
+                    self.start_date, self.end_date)
 
         return status, self.mass_cmd, error, code
 
@@ -565,6 +576,30 @@ class Filters(object):
 
         return "ok", self.mass_cmd, "", 1
 
+    def _mass_cmd_get_pp(self) -> Tuple[str, List[Dict], str, int]:
+        """Create a moo get command for retrieving .pp files.
+
+        Returns
+        -------
+        Tuple[str, List[Dict], str, int]
+            A list of mass cmds represented as dictionaries.
+        """
+        self.mass_cmd = []
+
+        filelist = self._create_pp_filelist(self.start_date, self.end_date)
+        moo_uris = [self.source + "/" + file["filename"] for file in filelist]
+        start_tup = self.start_date.year, self.start_date.month_of_year, self.start_date.day_of_month
+        end_tup = self.end_date.year, self.end_date.month_of_year, self.end_date.day_of_month
+
+        cmd = {"moo_cmd": "get",
+               "param_args": ["-i"] + moo_uris + [self.target],
+               "start": start_tup,
+               "end": end_tup}
+
+        self.mass_cmd.append(cmd)
+
+        return "ok", self.mass_cmd, "", 1
+
     def _create_filterfile_pp(self, chunk: List[Dict], test_mode: bool) -> str:
         """_summary_
 
@@ -781,6 +816,44 @@ class Filters(object):
             if count == 0:
                 error = "no matching variables to retrieve"
                 status["val"] = "stop"
+        return status["val"], self.mass_cmd, error, None
+
+    def _mass_cmd_get_nc(self):
+        """Create a moo get command for retrieving .nc files.
+
+        Returns
+        -------
+        str
+            action status - ok|skip|stop
+        list of dict
+            MOOSE requests required to extract data from current stream
+             - dict per request
+        str
+            message detailing nature of error
+        str
+            Status code (for consistency with _mass_cmd_pp)
+        """
+        self.mass_cmd = []
+
+        error = ""
+        status = {"val": "ok"}        # dummy value for consistency with pp
+        file_frequency = self.model_parameters._stream_file_info.file_frequencies[self.stream].frequency
+
+        datestamps, _ = generate_datestamps_nc(self.start_date, self.end_date, file_frequency)
+        start_tup = self.start_date.year, self.start_date.month_of_year, self.start_date.day_of_month
+        end_tup = self.end_date.year, self.end_date.month_of_year, self.end_date.day_of_month
+
+        for substream in self.filters:
+            filenames = self.generate_filenames_nc(datestamps, substream)
+            moo_uris = [self.source + "/" + file for file in filenames]
+
+            self.mass_cmd.append({
+                "moo_cmd": "get",
+                "param_args": ["-i"] + moo_uris + [self.target],
+                "start": start_tup,
+                "end": end_tup,
+            })
+
         return status["val"], self.mass_cmd, error, None
 
     def generate_filenames_nc(self, datestamps: List[str], sub_stream: str) -> List[str]:
