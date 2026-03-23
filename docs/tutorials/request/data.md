@@ -41,6 +41,11 @@ The `data` section in the request configuration contains all settings that are u
 
     **Default:** `HEAD`
 
+`moo_get`
+:   Use `moo get` commands instead of `select` and `filter`.
+
+    **Default:** `False`
+
 `streams`
 :   restrict only to these streams. If empty, all streams will be processed.
 
@@ -63,6 +68,7 @@ The `data` section in the request configuration contains all settings that are u
     mass_data_class = crum
     mass_ensemble_member = 
     max_file_size = 20e9
+    moo_get = False
     start_date = 1979-01-01T00:00:00Z
     model_workflow_id = u-bp880
     model_workflow_branch = cdds

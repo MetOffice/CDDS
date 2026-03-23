@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2023-2025, Met Office.
+# (C) British Crown Copyright 2023-2026, Met Office.
 # Please see LICENSE.md for license details.
 from datetime import datetime
 from unittest import TestCase, mock
@@ -18,7 +18,8 @@ class TestDataDefaults(TestCase):
             'streams': 'ap4 ap5 ap6 inm onm',
             'model_workflow_branch': 'cdds',
             'model_workflow_revision': 'HEAD',
-            'max_file_size': 20e9
+            'max_file_size': 20e9,
+            'moo_get': False
         }
 
         defaults = data_defaults()
