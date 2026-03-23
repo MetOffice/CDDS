@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2025, Met Office.
+# (C) British Crown Copyright 2019-2026, Met Office.
 # Please see LICENSE.md for license details.
 """CDDS class for setting up and running Extract processes."""
 
@@ -61,7 +61,8 @@ class ExtractRunner(object):
             mappings = Filters(
                 proc_directory,
                 var_list,
-                request.common.simulation
+                request.common.simulation,
+                request.data.moo_get,
             )
             mappings.set_mappings(request)
             mapping_status = configure_mappings(mappings)

@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2023-2025, Met Office.
+# (C) British Crown Copyright 2023-2026, Met Office.
 # Please see LICENSE.md for license details.
 """Module to handle the data section in the request configuration"""
 from configparser import ConfigParser
@@ -30,6 +30,7 @@ def data_defaults() -> Dict[str, Any]:
         'model_workflow_branch': 'cdds',
         'model_workflow_revision': 'HEAD',
         'max_file_size': 20e9,
+        'moo_get': False
     }
 
 
@@ -49,6 +50,7 @@ class DataSection(Section):
     output_mass_root: str = ''
     output_mass_suffix: str = ''
     max_file_size: float = 20e9  # maximum file size in bytes
+    moo_get: bool = False
 
     def __post_init__(self):
         """Pre-validates the values of the section before create it"""
