@@ -1,7 +1,7 @@
-# (C) British Crown Copyright 2022-2025, Met Office.
+# (C) British Crown Copyright 2022-2026, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
-"""Tests for coding standards and copyright headers."""
+"""Test for copyright headers."""
 import os
 import re
 import unittest
@@ -15,8 +15,8 @@ COPYRIGHT_TEMPLATE = ('{start_comment} (C) British Crown Copyright {years}, Met 
 
 
 @pytest.mark.style
-class TestCodingStandards(unittest.TestCase):
-    """Tests for coding standards."""
+class TestCopyrightHeaders(unittest.TestCase):
+    """Test for copyright headers."""
 
     def setUp(self):
         cdds_dir = Path(cdds.__file__).parent.absolute()
@@ -45,7 +45,7 @@ class TestCodingStandards(unittest.TestCase):
 
     def get_copyright_files(self):
         self.exclude_patterns.extend(
-            ['egg-info', 'EGG-INFO', 'dist', '.pyc', 'doctrees', 'html', 'cfg', 'clyc',
+            ['egg-info', 'EGG-INFO', 'dist', '.pyc', 'doctrees', 'html', 'clyc',
              'pylintrc', 'TAGS', 'json', 'todel', 'nfsc', 'txt', 'ini', 'conf', 'workflows']
         )
 
