@@ -74,8 +74,9 @@ class TestCheckIssuesInCmor(unittest.TestCase):
 
     def test_check_issues_in_cmor_axis(self):
         msg = "Problem with 'cmor.axis'. Please check the logfile (if defined)"
-        expected = "Problem with 'cmor.axis'. Please check the logfile (if defined)"
-
+        expected = ("Problem with 'cmor.axis'. Please check the logfile (if defined): The interval values used for the "
+                    "time axis differ from those defined for the frequency " + '"yr"' + " used for by variable "
+                    "'baresoilFrac' (table land)...")
         output = check_issues_in_cmor_axis(msg, self.cmor_logs, self.variable)
         err_msg = f"Failed to grep further info from cmor log:\nexpected:\n{expected}\ngot:\n{output}"
         self.assertEqual(output, expected, err_msg)

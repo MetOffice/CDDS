@@ -195,6 +195,31 @@ def check_issues_in_cmor_axis(msg: str, cmor_logs: Iterator[bytes], variable: st
     return msg
 
 
+def check_issues_for_variable(msg: str, cmor_logs: Iterator[bytes], variable: str) -> str:
+    """Checks the cmor log file for any additional information where the variables are explicitly mentioned.
+
+    Parameters
+    ----------
+    msg: str
+        The current error message.
+    cmor_logs: Iterator[bytes]
+        The content of the cmor log file as an iterator.
+    variable: str
+        The variable associated with the error.
+
+    Returns
+    -------
+    str
+        The error message updated with additional info from the cmor file.
+    """
+    for item in cmor_logs:
+        if variable.encode() in item:
+            if b"Error" or b"Warning" in item:
+                return msg + ": " + item.decode()[:200].strip("! Error: ") + "..."
+
+    return msg
+
+
 def get_detail_from_cmor_logs(issue: str, cdds_convert_proc_dir: str):
     """Applies extra detail to a single critical issue if the issue references a cmor error.
 
@@ -224,6 +249,8 @@ def get_detail_from_cmor_logs(issue: str, cdds_convert_proc_dir: str):
                 msg = check_issues_in_cmor_zfactor(msg, cmor_logs, variable)
             elif "Problem with 'cmor.axis'" in msg:
                 msg = check_issues_in_cmor_axis(msg, cmor_logs, variable)
+            else:
+                check_issues_for_variable(cmor_logs)
 
     return msg
 
