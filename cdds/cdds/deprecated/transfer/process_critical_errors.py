@@ -250,7 +250,7 @@ def get_detail_from_cmor_logs(issue: str, cdds_convert_proc_dir: str):
             elif "Problem with 'cmor.axis'" in msg:
                 msg = check_issues_in_cmor_axis(msg, cmor_logs, variable)
             else:
-                check_issues_for_variable(cmor_logs)
+                check_issues_for_variable(msg, cmor_logs, variable)
 
     return msg
 

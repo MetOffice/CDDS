@@ -9,8 +9,8 @@ from pathlib import Path
 from cdds.deprecated.transfer.process_critical_errors import (process_critical_issues, get_cmor_log_file_location,
                                                          check_issues_in_cmor_write, check_issues_in_cmor_variable,
                                                          check_issues_in_cmor_axis, check_issues_in_cmor_zfactor,
-                                                         calc_num_cycles, calc_num_occurrences,
-                                                         summarise_critical_issues)
+                                                         check_issues_for_variable, calc_num_cycles,
+                                                         calc_num_occurrences, summarise_critical_issues)
 
 
 class TestProcessCriticalissues(unittest.TestCase):
@@ -74,9 +74,7 @@ class TestCheckIssuesInCmor(unittest.TestCase):
 
     def test_check_issues_in_cmor_axis(self):
         msg = "Problem with 'cmor.axis'. Please check the logfile (if defined)"
-        expected = ("Problem with 'cmor.axis'. Please check the logfile (if defined): The interval values used for the "
-                    "time axis differ from those defined for the frequency " + '"yr"' + " used for by variable "
-                    "'baresoilFrac' (table land)...")
+        expected = "Problem with 'cmor.axis'. Please check the logfile (if defined)"
         output = check_issues_in_cmor_axis(msg, self.cmor_logs, self.variable)
         err_msg = f"Failed to grep further info from cmor log:\nexpected:\n{expected}\ngot:\n{output}"
         self.assertEqual(output, expected, err_msg)
@@ -88,6 +86,15 @@ class TestCheckIssuesInCmor(unittest.TestCase):
         output = check_issues_in_cmor_zfactor(msg, self.cmor_logs, self.variable)
         err_msg = f"Failed to grep further info from cmor log:\nexpected:\n{expected}\ngot:\n{output}"
         self.assertEqual(output, expected, err_msg)
+
+    def test_check_issues_for_variable(self):
+        msg = "A test cmor error"
+        expected = ("A test cmor error: The interval values used for the time axis differ from those defined for the "
+                    "frequency " + '"yr"' + " used for by variable 'baresoilFrac' (table land)...")
+
+        output = check_issues_for_variable(msg, self.cmor_logs, self.variable)
+        msg = f"Failed to grep variable specific info from cmor log:\nexpected:\n{expected}\ngot:\n{output}"
+        self.assertEqual(output, expected, msg)
 
 
 class TestCycleCalculations(unittest.TestCase):
