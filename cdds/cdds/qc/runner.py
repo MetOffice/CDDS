@@ -614,10 +614,6 @@ class QCRunner(object):
                 "Misinterpretation of hybrid height coordinates."),
             "7.1 Cell Boundaries: The points specified by the coordinate variable lat"
             " (0.0) lie outside the boundary of the cell specified by the associated boundary variable lat_bnds": (
-                "This must be an error in checker."),
-            "4.4.1 Calendar": (
-                "4.4.1 Calendar"),
-            "3.1.2 Temperature units": (
-                "3.1.2 Temperature units")
+                "This must be an error in checker.")
         }
         return msg_dictionary
