@@ -366,25 +366,20 @@ class CMIP7GlobalModelFileInfo(GlobalModelFileInfo):
         bool
             True if the netCDF file can be archived otherwise False
         """
-        # pattern = re.compile(self._NC_FILES_TO_ARCHIVE_REGEX)
-        # match = pattern.search(nc_file)
-        # if not match:
-        #     return False
-        # if request.metadata.experiment_id != match.group('experiment_id'):
-        #     return False
-        # if (request.metadata.sub_experiment_id == 'none' and
-        #         request.metadata.variant_label != match.group('variant_label')):
-        #     return False
-        # if (request.metadata.sub_experiment_id != 'none' and
-        #         match.group('variant_label') !=
-        #         '{}-{}'.format(request.metadata.sub_experiment_id, request.metadata.variant_label)):
-        #     return False
-        # if request.metadata.model_id != match.group('model_id'):
-        #     return False
-        # if variable_dict['out_var_name'] != match.group('out_var_name'):
-        #     return False
-        # if variable_dict['mip_table_id'] != match.group('mip_table_id'):
-        #     return False
+        pattern = re.compile(self._NC_FILES_TO_ARCHIVE_REGEX)
+        match = pattern.search(nc_file)
+        if not match:
+            return False
+        if request.metadata.experiment_id != match.group('experiment_id'):
+            return False
+        if request.metadata.variant_label != match.group('variant_label'):
+            return False
+        if request.metadata.model_id != match.group('model_id'):
+            return False
+        if variable_dict['out_var_name'] != match.group('out_var_name'):
+            return False
+        if variable_dict['frequency'] != match.group('frequency'):
+            return False
         return True
 
     def mass_location_suffix(
