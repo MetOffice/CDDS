@@ -218,7 +218,7 @@ class QCRunner(object):
                         "experiment": drs[2],
                         "mip_table": drs[4] + "@" + drs[5],
                         "variant": drs[3],
-                        "variable": drs[6],
+                        "variable": drs[6] + "_" + drs[7],
                         "variable_name": self.dataset.var_names[index],
                         "grid": drs[7],
                     })
