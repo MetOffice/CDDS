@@ -1928,8 +1928,8 @@ def remove_altitude_coords(cube):
     levels.
 
     This processor also removes the ``HybridHeightFactory`` from the
-    cube, see https://scitools.org.uk/iris/docs/latest/whitepapers/\
-    um_files_loading.html#vertical-coordinates for more details.
+    cube, see https://scitools-iris.readthedocs.io/en/stable/further_topics/um_files\
+    _loading.html#vertical-coordinates for more details.
 
     Parameters
     ----------
@@ -1961,8 +1961,8 @@ def replace_altitude_with_height2m(cube):
     levels.
 
     This processor also removes the ``HybridHeightFactory`` from the
-    cube, see https://scitools.org.uk/iris/docs/latest/whitepapers/\
-    um_files_loading.html#vertical-coordinates for more details.
+    cube, see https://scitools-iris.readthedocs.io/en/stable/further_\
+    topics/um_files_loading.html#vertical-coordinates for more details.
 
     A scalar coordinate named ``height2m`` is added to the cube to
     indicate that the data represents a quantity at 2 metres above
