@@ -130,8 +130,8 @@ def check_issues_in_cmor_variable(msg: str, cmor_logs: Iterator[bytes], variable
     """
     for item in cmor_logs:
         if b"cmor_variable" in item:
-            snippet = [item, next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs),
-                    next(cmor_logs)]
+            snippet = [item, next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs),
+                       next(cmor_logs)]
             for text in snippet:
                 if b"Error" in text and variable.encode() in text:
                     return "Problem with cmor_variable: " + text.decode()[:200].strip("! Error: ") + "..."

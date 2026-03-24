@@ -9,7 +9,7 @@ from pathlib import Path
 from cdds.deprecated.transfer.process_critical_errors import (process_critical_issues, get_cmor_log_file_location,
                                                          check_issues_in_cmor_write, check_issues_in_cmor_variable,
                                                          check_issues_in_cmor_axis, check_issues_in_cmor_zfactor,
-                                                         calc_num_cycles, calc_num_occurances,
+                                                         calc_num_cycles, calc_num_occurrences,
                                                          summarise_critical_issues)
 
 
@@ -54,45 +54,37 @@ class TestCheckIssuesInCmor(unittest.TestCase):
     def setUp(self):
         with open("cdds/cdds/tests/test_deprecated/test_transfer/data/test_cmor.log.gz", "rb") as infile:
             self.cmor_logs = iter([item.strip() for item in infile])
+        self.variable = "baresoilFrac"
 
     def test_check_issues_in_cmor_write(self):
         msg = "Problem with 'cmor.write'. Please check the logfile (if defined)"
-        expected = ("Problem with 'cmor.write'. Please check the logfile (if defined)! Warning: Invalid value(s) "
-                    "detected for variable 'longitude' (table: grids): 73023 values were lower than minimum valid "
-                    "value (0). Minimum encountered bad value (-180) was at (axis: index/value): j: ...")
+        expected = "Problem with 'cmor.write'. Please check the logfile (if defined)"
 
-        output = check_issues_in_cmor_write(msg, self.cmor_logs)
+        output = check_issues_in_cmor_write(msg, self.cmor_logs, self.variable)
         err_msg = f"Failed to grep further info from cmor log:\nexpected:\n{expected}\ngot:\n{output}"
         self.assertEqual(output, expected, err_msg)
 
     def test_check_issues_in_cmor_variable(self):
-        issue = ('mip_convert_ap5_atmos-native|19000101T0000Z|mip_convert_2026-03-17T1502Z.log|'
-                 'baresoilFrac_tavg-alh-hxy-u|CMIP7_land|"Problem with "cmor.variable". Please check the logfile '
-                 '(if defined)')
         msg = "Problem with 'cmor.variable'. Please check the logfile (if defined)"
-        expected = ("Problem with 'cmor.variable'. Please check the logfile (if defined)! Error: The interval values "
-                    "used for the time axis differ from those defined for the frequency " + '"yr"' + " used for by "
-                    "variable 'baresoilFrac' (table land)...")
+        expected = "Problem with 'cmor.variable'. Please check the logfile (if defined)"
 
-        output = check_issues_in_cmor_variable(issue, msg, self.cmor_logs)
+        output = check_issues_in_cmor_variable(msg, self.cmor_logs, self.variable)
         err_msg = f"Failed to grep further info from cmor log:\nexpected:\n{expected}\ngot:\n{output}"
         self.assertEqual(output, expected, err_msg)
 
     def test_check_issues_in_cmor_axis(self):
         msg = "Problem with 'cmor.axis'. Please check the logfile (if defined)"
-        expected = ("Problem with 'cmor.axis'. Please check the logfile (if defined)! Error: requested value 2.500000 "
-                    "for axis tau (table: atmos) was not found...")
+        expected = "Problem with 'cmor.axis'. Please check the logfile (if defined)"
 
-        output = check_issues_in_cmor_axis(msg, self.cmor_logs)
+        output = check_issues_in_cmor_axis(msg, self.cmor_logs, self.variable)
         err_msg = f"Failed to grep further info from cmor log:\nexpected:\n{expected}\ngot:\n{output}"
         self.assertEqual(output, expected, err_msg)
 
     def test_check_issues_in_cmor_zfactor(self):
         msg = "Problem with 'cmor.zfactor'. Please check the logfile (if defined)"
-        expected = ("Problem with 'cmor.zfactor'. Please check the logfile (if defined)! Error: Could not find a "
-                    "matching variable for name: 'b_half_bnds'...")
+        expected = "Problem with 'cmor.zfactor'. Please check the logfile (if defined)"
 
-        output = check_issues_in_cmor_zfactor(msg, self.cmor_logs)
+        output = check_issues_in_cmor_zfactor(msg, self.cmor_logs, self.variable)
         err_msg = f"Failed to grep further info from cmor log:\nexpected:\n{expected}\ngot:\n{output}"
         self.assertEqual(output, expected, err_msg)
 
@@ -118,14 +110,14 @@ class TestCycleCalculations(unittest.TestCase):
     def test_calc_num_occurances(self):
         expected = 2
 
-        msg = ('mip_convert_ap5_atmos-native|19000101T0000Z|1|mip_convert_2026-03-17T1502Z.log|2026-03-17 15:59:28 '
-               'mip_convert.request.convert CRITICAL: Unable to produce MIP requested variable '
-               '"rlucs4co2_tavg-alh-hxy-u" for "CMIP7_atmos": "Expected to find exactly 1 "altitude" coordinate, but '
-               'found none.')
-        output = calc_num_occurances(self.critical_issues, msg)
-        err_msg = (f"Failed to identify the number of occurances of the same error across all cycles:\nexpected:"
+        search_line = ('mip_convert_ap5_atmos-native|19000101T0000Z|1|mip_convert_2026-03-17T1502Z.log|2026-03-17 15:59'
+                       ':28 mip_convert.request.convert CRITICAL: Unable to produce MIP requested variable '
+                       '"rlucs4co2_tavg-alh-hxy-u" for "CMIP7_atmos": "Expected to find exactly 1 "altitude" coordinate'
+                       ', but found none.')
+        output = calc_num_occurrences(self.critical_issues, search_line)
+        msg = (f"Failed to identify the number of occurances of the same error across all cycles:\nexpected:"
                    f"\n{expected}\ngot:\n{output}")
-        self.assertEqual(output, expected, err_msg)
+        self.assertEqual(output, expected, msg)
 
 
 class TestSummmariseCriticalIssues(unittest.TestCase):
