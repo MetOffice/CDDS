@@ -72,7 +72,7 @@ def get_cmor_log_file_location(issue: str, cdds_convert_proc_dir: str) -> Path:
     Returns
     -------
     Path
-        The path to the cmor log file for a given cylce point(timestamp).
+        The path to the cmor log file for a given cycle point(timestamp).
     """
     grid, timestamp, mip_log_file, _, _, _ = issue.split("|")
     subdir = "_".join(grid.split("_")[2:]).strip("first_")
@@ -82,7 +82,7 @@ def get_cmor_log_file_location(issue: str, cdds_convert_proc_dir: str) -> Path:
     return cmor_log_file_location
 
 
-def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator[bytes]) -> str:
+def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator[bytes], variable: str) -> str:
     """Checks the cmor log file for any additional information on cmor.write errors for a single critical issue.
 
     Parameters
@@ -91,6 +91,9 @@ def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator[bytes]) -> str:
         The current error message.
     cmor_logs: Iterator[bytes]
         The content of the cmor log file as an iterator.
+    variable: str
+        The variable associated with the error.
+
 
     Returns
     -------
@@ -102,44 +105,41 @@ def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator[bytes]) -> str:
             snippet = [item, next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs),
                        next(cmor_logs)]
             for text in snippet:
-                if b"Error" in text or b"Warning" in text:
-                    return msg + text.decode()[:200] + "..."
+                if b"Error" in text and variable.encode() in text:
+                    return "Problem with cmor_write_var_to_file: " + text.decode()[:200].strip("! Error: ") + "..."
 
     return msg
 
 
-def check_issues_in_cmor_variable(issue: str, msg: str, cmor_logs: Iterator[bytes]) -> str:
+def check_issues_in_cmor_variable(msg: str, cmor_logs: Iterator[bytes], variable: str) -> str:
     """Checks the cmor log file for any additional information on cmor.variable errors for a single critical issue.
 
     Parameters
     ----------
-    issue: str
-        The key information for a single critical issue.
     msg: str
         The current error message.
     cmor_logs: Iterator[bytes]
         The content of the cmor log file as an iterator.
+    variable: str
+        The variable associated with the error.
 
     Returns
     -------
     str
         The error message updated with additional info from the cmor file.
     """
-    variable = issue.split("|")[3]
     for item in cmor_logs:
         if b"cmor_variable" in item:
             snippet = [item, next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs),
                     next(cmor_logs)]
             for text in snippet:
-                if b"Error" in text and variable.split("_")[0].encode() in text:
-                    return msg + text.decode()[:200] + "..."
-        elif variable.split("_")[0].encode() in item:
-            return msg + item.decode()[:200] + "..."
+                if b"Error" in text and variable.encode() in text:
+                    return "Problem with cmor_variable: " + text.decode()[:200].strip("! Error: ") + "..."
 
     return msg
 
 
-def check_issues_in_cmor_zfactor(msg: str, cmor_logs: Iterator[bytes]) -> str:
+def check_issues_in_cmor_zfactor(msg: str, cmor_logs: Iterator[bytes], variable: str) -> str:
     """Checks the cmor log file for any additional information on cmor.zfactor errors for a single critical issue.
 
     Parameters
@@ -148,6 +148,8 @@ def check_issues_in_cmor_zfactor(msg: str, cmor_logs: Iterator[bytes]) -> str:
         The current error message.
     cmor_logs: Iterator[bytes]
         The content of the cmor log file as an iterator.
+    variable: str
+        The variable associated with the error.
 
     Returns
     -------
@@ -159,13 +161,13 @@ def check_issues_in_cmor_zfactor(msg: str, cmor_logs: Iterator[bytes]) -> str:
             snippet = [item, next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs),
                     next(cmor_logs)]
             for text in snippet:
-                if b"Error" in text:
-                    return msg + text.decode()[:200] + "..."
+                if b"Warning" in text and variable.encode() in text:
+                    return "Problem with cmor_zfactor: " + text.decode()[:200].strip("! Error: ") + "..."
 
     return msg
 
 
-def check_issues_in_cmor_axis(msg: str, cmor_logs: Iterator[bytes]) -> str:
+def check_issues_in_cmor_axis(msg: str, cmor_logs: Iterator[bytes], variable: str) -> str:
     """Checks the cmor log file for any additional information on cmor.axis errors for a single critical issue.
 
     Parameters
@@ -174,6 +176,8 @@ def check_issues_in_cmor_axis(msg: str, cmor_logs: Iterator[bytes]) -> str:
         The current error message.
     cmor_logs: Iterator[bytes]
         The content of the cmor log file as an iterator.
+    variable: str
+        The variable associated with the error.
 
     Returns
     -------
@@ -185,8 +189,8 @@ def check_issues_in_cmor_axis(msg: str, cmor_logs: Iterator[bytes]) -> str:
             snippet = [item, next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs),
                     next(cmor_logs)]
             for text in snippet:
-                if b"Error" in text:
-                    return msg + text.decode()[:200] + "..."
+                if b"Error" in text and variable.encode() in text:
+                    return "Problem with cmor_axis: " + text.decode()[:200].strip("! Error: ") + "..."
 
     return msg
 
@@ -211,20 +215,21 @@ def get_detail_from_cmor_logs(issue: str, cdds_convert_proc_dir: str):
     if "Problem with 'cmor" in msg:
         with gzip.open(cmor_log_file_location, "rb") as infile:
             cmor_logs = iter([item.strip() for item in infile])
+            variable = issue.split("|")[3].split("_")[0]
             if "Problem with 'cmor.write'" in msg:
-                msg = check_issues_in_cmor_write(msg, cmor_logs)
+                msg = check_issues_in_cmor_write(msg, cmor_logs, variable)
             elif "Problem with 'cmor.variable'" in msg:
-                msg = check_issues_in_cmor_variable(issue, msg, cmor_logs)
+                msg = check_issues_in_cmor_variable(msg, cmor_logs, variable)
             elif "Problem with 'cmor.zfactor'" in msg:
-                msg = check_issues_in_cmor_zfactor(msg, cmor_logs)
+                msg = check_issues_in_cmor_zfactor(msg, cmor_logs, variable)
             elif "Problem with 'cmor.axis'" in msg:
-                msg = check_issues_in_cmor_axis(msg, cmor_logs)
+                msg = check_issues_in_cmor_axis(msg, cmor_logs, variable)
 
     return msg
 
 
 def calc_num_cycles(critical_issues: list) -> int:
-    """Calcualtes the number of cycle points across the workflow.
+    """Calculates the number of cycle points across the workflow.
 
     Parameters
     ----------
@@ -235,7 +240,7 @@ def calc_num_cycles(critical_issues: list) -> int:
     Returns
     -------
     int
-        The number of cylce points in the workflow.
+        The number of cycle points in the workflow.
     """
     cycle_points = set()
     for item in critical_issues:
@@ -244,7 +249,7 @@ def calc_num_cycles(critical_issues: list) -> int:
     return len(cycle_points)
 
 
-def calc_num_occurances(critical_issues_key_info: list, search_line: str) -> int:
+def calc_num_occurrences(critical_issues_key_info: list, search_line: str) -> int:
     """Calculates the number of instances of a single critical issue over all cycle points.
 
     Parameters
@@ -258,22 +263,22 @@ def calc_num_occurances(critical_issues_key_info: list, search_line: str) -> int
     Returns
     -------
     int
-        The number of occurances of a single critical issue across all cycle points.
+        The number of occurrences of a single critical issue across all cycle points.
     """
-    occurances = 0
+    occurrences = 0
     for issue in critical_issues_key_info:
         issue = issue.split("|")[3:]
         if issue == search_line.split("|")[3:]:
-            occurances += 1
+            occurrences += 1
 
-    return occurances
+    return occurrences
 
 
 def summarise_critical_issues(critical_issues_key_info: list, cdds_convert_proc_dir: str, num_cycles: int) -> set:
     """Summarises each critical issue into a single string noting the variable affected, its realm, the error triggered
-    and how many cycles the error occured in. we would expect that if the error occurs in one cycle then it should occur
-    in all cycles. However this isnt always the case and it this does occur it is very important information to have
-    available during the debugging process.
+    and how many cycles the error occurred in. we would expect that if the error occurs in one cycle then it should
+    occur in all cycles. However this isn't always the case and it this does occur it is very important information to
+    have available during the debugging process.
 
     Parameters
     ----------
@@ -288,17 +293,17 @@ def summarise_critical_issues(critical_issues_key_info: list, cdds_convert_proc_
     Returns
     -------
     set
-        A set of summarised critical issues oting the variable affected, its realm, the error triggered and how many
-        cycles the error occured in.
+        A set of summarised critical issues quoting the variable affected, its realm, the error triggered and how many
+        cycles the error occurred in.
     """
     summarised_issues = set()
     for issue in critical_issues_key_info:
-        num_occurances = calc_num_occurances(critical_issues_key_info, issue)
+        num_occurrences = calc_num_occurrences(critical_issues_key_info, issue)
         _, _, _, variable, realm, msg = issue.split("|")
         msg = get_detail_from_cmor_logs(issue, cdds_convert_proc_dir)
-        if num_occurances > num_cycles:
-            num_occurances = num_cycles
+        if num_occurrences > num_cycles:
+            num_occurrences = num_cycles
         summarised_issues.add(f"'{variable}' for '{realm}' could not be produced due the error '{msg}' occuring in "
-                              f"{num_occurances} of {num_cycles} cycles")
+                              f"{num_occurrences} of {num_cycles} cycles")
 
     return summarised_issues

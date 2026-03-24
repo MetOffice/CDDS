@@ -70,6 +70,8 @@ def check_critical_issues(request: Request, proc_dir: str) -> None:
 
     Parameters
     ----------
+    request: Request
+        The request file object.
     proc_dir: str
         Path to the proc directory for this package.
     """
@@ -96,16 +98,10 @@ def check_critical_issues(request: Request, proc_dir: str) -> None:
     for stream in request.data.streams:
         convert_critical_issues_path = os.path.join(proc_dir, 'convert', 'log', f'critical_issues_{stream}.log')
         if os.path.isfile(convert_critical_issues_path):
-            with open(convert_critical_issues_path) as ccif:
-                raw_issues = ccif.readlines()
-                convert_critical_issues = filter_critical_issues(raw_issues)
-                cci_msg_str = '\n'.join(convert_critical_issues)
-
             msg = (
                 f'Critical issues found for CDDS convert for stream {stream}. '
-                'Contents of file {0}:\n{1}'.format(convert_critical_issues_path, cci_msg_str))
+                'Contents of file {0}:\n{1}'.format(convert_critical_issues_path, do_critical_check(request, stream)))
             logger.info(msg)
-            do_critical_check(request, stream)
         else:
             logger.info("-----")
             logger.info(f'No convert critical issues log file found for {stream}.')
@@ -254,20 +250,22 @@ def show_submission_command(request_file_path: str, recent_approved_path: str) -
                 ''.format(request=request_file_path, recent_approved_path=recent_approved_path))
 
 
-def do_critical_check(request: Request, stream) -> None:
-    """Check and process any criticla errors produced during MIP convert via the command line.
+def do_critical_check(request: Request, stream: str) -> str:
+    """Check and process any critical errors produced during MIP convert.
 
     Parameters
     ----------
     request: Request
-        The request file.
+        The request file object.
+    stream: str
+        The stream to check for critical errors.
+
+    Returns
+    -------
+    str
+        A unique set of error messages in the form of a string delimited by new lines.
     """
-    logger = logging.getLogger(__name__)
-
     cdds_convert_proc_dir = component_directory(request, 'convert')
-
-    logger.info("-----")
-    logger.info(f"Checking critical errors for stream {stream}...")
 
     critical_issues = read_critical_log_file(cdds_convert_proc_dir, stream)
     critical_issues_key_info = process_critical_issues(critical_issues)
@@ -275,8 +273,11 @@ def do_critical_check(request: Request, stream) -> None:
     summary_list = summarise_critical_issues(critical_issues_key_info, cdds_convert_proc_dir, num_cycles)
 
     summary_set = set(summary_list)
+    msg = ""
     for line in summary_set:
-        logger.info(line)
+        msg = msg + line + "\n"
+
+    return msg
 
 
 def do_sim_review(request: Request, request_file_path: str) -> None:
