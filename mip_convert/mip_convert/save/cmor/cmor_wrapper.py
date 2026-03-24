@@ -113,5 +113,5 @@ class CmorWrapper(ObjectWithLogger):
         cmor.zfactor(*args, **kwargs)
 
     def set_frequency(self, frequency, **kwargs):
-        self._debug_on_args('frequency', frequency, kwargs)
+        self._debug_on_args('frequency', [frequency], kwargs)
         cmor.cmor.set_cur_dataset_attribute('frequency', frequency)

@@ -40,7 +40,7 @@ class Cmip7GridLabel(GridLabel):
     NATIVE = 'native', 'g100', False
     NATIVE_ZONAL = 'native-zonal', 'g100z', False
     REGRIDDED = 'regridded', 'g100', False
-    GLOBAL_MEAN = 'global-mean', 'g100m', False
+    GLOBAL_MEAN = 'global-mean', 'g100', False
     UGRID = 'ugrid', 'g100', True
     VGRID = 'vgrid', 'g100', True
     UVGRID = 'uvgrid', 'g100', True
