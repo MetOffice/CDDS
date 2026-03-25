@@ -1,3 +1,7 @@
+## Release 3.3.1, March 25, 2026
+
+-   Fix to processor divide_by_mask used by clisccp to avoid edge case where iris cube is created with dimensions in a different order leading to garbled files (#678)
+
 ## Release 3.3.0, October 16, 2025
 
 -   The removal of halo data (additional rows and columns) from NEMO and MEDUSA output files has been moved from the extraction step to the conversion step within CDDS. This both reduces load on the MASS archive when extracting data and makes it more straightforward for CDDS to be used without MASS. The removal of halo data is controlled by additional fields within the model config files that are embedded in CDDS with the model plugins or provided by users when they wish to override CDDS defaults. The remove_halo script has been retired as a result (#547)
