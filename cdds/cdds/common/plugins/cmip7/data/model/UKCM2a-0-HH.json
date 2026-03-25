@@ -125,7 +125,11 @@
       "latitude": 960,
       "v_latitude": 961,
       "levels": 85,
-      "ancil_filenames": [],
+      "ancil_filenames": [
+        "qrparm.orog.pp",
+        "qrparm.landfrac.pp",
+        "qrparm.soil.pp"
+      ],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
         "atmosphere_rho_levels_86.txt"
@@ -138,7 +142,9 @@
       "latitude": 3604,
       "levels": 75,
       "replacement_coordinates_file": "",
-      "ancil_filenames": [],
+      "ancil_filenames": [
+        "ocean_byte_masks_HH.nc"
+      ],
       "bounds_coordinates": {
         "onm-grid-T": [
           "bounds_nav_lon",
