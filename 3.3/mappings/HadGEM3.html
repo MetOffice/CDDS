@@ -100,7 +100,7 @@ $(document).ready(function () {
      visibility: visible;
    }
    </style>
-<body><h2>Variable Mappings for HadGEM3 (Created with CDDS v3.3.0)</h2><h2>STASHmaster vn13.1<p> </p><p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p><table border=1, id="table_id", class="display">
+<body><h2>Variable Mappings for HadGEM3 (Created with CDDS v3.3.1)</h2><h2>STASHmaster vn13.1<p> </p><p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p><table border=1, id="table_id", class="display">
   <thead>
    <tr bgcolor="#E0EEFF">
      <th>Variable</th>
@@ -9470,6 +9470,25 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P150<span clas
      <td>HadGEM3_mappings.cfg</td>
   </tr>
   <tr bgcolor="#FFFFFF">
+     <td>hus19</td>
+     <td>APmon</td>
+   <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
+Specific humidity on pressure levels. At T-points in the horizontal. Set to
+zero when pressure level is below ground or above model top: must be
+divided by heavyside function (30304) to obtain correct mean.
+Dimensionless: kg/kg</span></div>[blev=<div class="tooltip">PLEV19<span class="tooltiptext">1000.0 925.0 850.0 700.0 600.0 500.0 400.0 300.0 250.0 200.0 150.0 100.0 70.0 50.0 30.0 20.0 10.0 5.0 1.0</span></div>, lbproc=128] / <div class="tooltip">m01s30i304<span class="tooltiptext">HEAVYSIDE FN ON P LEV/T GRID
+Fraction of time pressure level has been above ground and below the model
+top. Is required to normalise pressure-level fields 30293-30298. Valid on
+pressure levels and at T-points in the horizontal.
+Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV19<span class="tooltiptext">1000.0 925.0 850.0 700.0 600.0 500.0 400.0 300.0 250.0 200.0 150.0 100.0 70.0 50.0 30.0 20.0 10.0 5.0 1.0</span></div>, lbproc=128]</code></pre></td>
+     <td></td>
+     <td>longitude latitude plev19 time</td>
+     <td>1</td>
+     <td>atmos-physics</td>
+     <td>ok</td>
+     <td>HadGEM3_mappings.cfg</td>
+  </tr>
+  <tr bgcolor="#E0EEFF">
      <td>hus20</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9488,7 +9507,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P20<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>hus200</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9507,7 +9526,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>hus250</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9526,7 +9545,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P250<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>hus27</td>
      <td>Emon APmon</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9545,7 +9564,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV27<span cl
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>hus30</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9564,7 +9583,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P30<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>hus300</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9583,7 +9602,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P30<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>hus4</td>
      <td>6hrPlev AP6hr</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9602,7 +9621,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV4<span cla
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>hus400</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9621,7 +9640,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P400<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>hus50</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9640,7 +9659,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P50<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>hus500</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9659,7 +9678,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>hus600</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9678,7 +9697,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P600<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>hus70</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9697,7 +9716,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P70<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>hus700</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9716,7 +9735,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>hus7h</td>
      <td>6hrPlevPt AP6hrPt</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9735,7 +9754,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV7H<span cl
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>hus850</td>
      <td>GCAmon GCday Eday APday</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9754,7 +9773,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P850<span clas
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>hus925</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i295<span class="tooltiptext">SPECIFIC HUMIDITY ON P LEV/T GRID
@@ -9773,7 +9792,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P925<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>huss</td>
      <td>Amon day APmon APday</td>
    <td><pre><code><div class="tooltip">m01s03i237<span class="tooltiptext">SPECIFIC HUMIDITY  AT 1.5M
@@ -9790,7 +9809,7 @@ Available on all timesteps.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>intuadse</td>
      <td>Emon APmon</td>
    <td><pre><code><div class="tooltip">SPECIFIC_HEAT_OF_DRY_AIR<span class="tooltiptext">1005.</span></div> * m01s30i425[lbproc=128] + m01s30i422[lbproc=128]</code></pre></td>
@@ -9801,7 +9820,7 @@ Available on all timesteps.</span></div>[lbproc=128]</code></pre></td>
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>intuaw</td>
      <td>Emon APmon</td>
    <td><pre><code><div class="tooltip">m01s30i462<span class="tooltiptext">TOTAL MOISTURE FLUX U  RHO GRID
@@ -9815,7 +9834,7 @@ Units are kg m^-1 s^-1</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>intvadse</td>
      <td>Emon APmon</td>
    <td><pre><code><div class="tooltip">SPECIFIC_HEAT_OF_DRY_AIR<span class="tooltiptext">1005.</span></div> * m01s30i426[lbproc=128] + m01s30i423[lbproc=128]</code></pre></td>
@@ -9826,7 +9845,7 @@ Units are kg m^-1 s^-1</span></div>[lbproc=128]</code></pre></td>
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>intvaw</td>
      <td>Emon APmon</td>
    <td><pre><code><div class="tooltip">m01s30i463<span class="tooltiptext">TOTAL MOISTURE FLUX V  RHO GRID
@@ -9840,7 +9859,7 @@ Units are kg m^-1 s^-1</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>isop</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code>(<div class="tooltip">MOLECULAR_MASS_OF_AIR<span class="tooltiptext">28.97</span></div> / <div class="tooltip">MOLECULAR_MASS_OF_ISOPRENE<span class="tooltiptext">68.</span></div>) * <div class="tooltip">m01s34i027<span class="tooltiptext">C5H8 MASS MIXING RATIO AFTER TSTEP
@@ -9852,7 +9871,7 @@ Isoprene Mass Mixing Ratio in kg/kg(Air)</span></div>[lbproc=128]</code></pre></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>jno2</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code><div class="tooltip">m01s50i229<span class="tooltiptext">JNO2 (s-1)
@@ -9868,7 +9887,7 @@ Available if chemistry and photolysis are turned ON in UKCA</span></div>[lbproc=
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>jo2</td>
      <td>EmonZ APmonZ</td>
    <td><pre><code><div class="tooltip">m01s52i245<span class="tooltiptext">JO2 (s-1) on pressure levels
@@ -9885,7 +9904,7 @@ and 50 items on pressure levels.</span></div>[blev=<div class="tooltip">PLEV3<sp
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>jo3</td>
      <td>EmonZ APmonZ</td>
    <td><pre><code><div class="tooltip">m01s52i246<span class="tooltiptext">JO3P (s-1) on pressure levels
@@ -9902,7 +9921,7 @@ and 50 items on pressure levels.</span></div>[blev=<div class="tooltip">PLEV3<sp
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>jpdftaureicemodis</td>
      <td>Emon Eday APmon APday</td>
    <td><pre><code>jpdftaure_divide_by_mask(m01s02i469[lbproc=128], <div class="tooltip">m01s02i330<span class="tooltiptext">COSP: ISCCP/MISR/MODIS CLOUD WEIGHTS
@@ -9917,7 +9936,7 @@ diagnostics.</span></div>[lbproc=128])</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>jpdftaureliqmodis</td>
      <td>Emon Eday APmon APday</td>
    <td><pre><code>jpdftaure_divide_by_mask(m01s02i468[lbproc=128], <div class="tooltip">m01s02i330<span class="tooltiptext">COSP: ISCCP/MISR/MODIS CLOUD WEIGHTS
@@ -9932,7 +9951,7 @@ diagnostics.</span></div>[lbproc=128])</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>lai</td>
      <td>Lmon LPmon</td>
    <td><pre><code>land_class_mean(<div class="tooltip">m01s03i318<span class="tooltiptext">LEAF AREA INDICES ON PFTS
@@ -9977,7 +9996,7 @@ land_class='natural')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>loaddust</td>
      <td>Emon Eday APmon APday</td>
    <td><pre><code>calc_loaddust(<div class="tooltip">m01s17i257<span class="tooltiptext">TOTAL DUST CONC (microg/m3)
@@ -10002,7 +10021,7 @@ Note:This field is only valid for model quantities held on theta points
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>lossch4</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code><div class="tooltip">m01s50i247<span class="tooltiptext">RXN FLX: CH4 OXIDATION
@@ -10029,7 +10048,7 @@ Note:This field is only valid for model quantities held on theta points
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>lossco</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code><div class="tooltip">m01s50i071<span class="tooltiptext">CO BUDGET: CO LOSS VIA OH+CO
@@ -10060,7 +10079,7 @@ Note:This field is only valid for model quantities held on theta points
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>lwp</td>
      <td>AERmon AEmon</td>
    <td><pre><code><div class="tooltip">m01s02i391<span class="tooltiptext">LARGE SCALE LIQUID WATER PATH kg/m2
@@ -10074,7 +10093,7 @@ To output this diagnostic specify a single level domain</span></div>[lbproc=128]
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>masscello</td>
      <td>Omon OPmonLev</td>
    <td><pre><code>masscello</code></pre></td>
@@ -10089,7 +10108,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>masso</td>
      <td>Omon OPmon</td>
    <td><pre><code>scvoltot * <div class="tooltip">SEAWATER_DENSITY<span class="tooltiptext">1026.</span></div></code></pre></td>
@@ -10100,7 +10119,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>maxpblz</td>
      <td>AERday AEday</td>
    <td><pre><code><div class="tooltip">m01s03i304<span class="tooltiptext">TURBULENT MIXING HT AFTER B.LAYER m
@@ -10120,7 +10139,7 @@ Available on all timesteps.</span></div>[lbproc=8192]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>mc</td>
      <td>Amon CFday APmonLev APdayLev</td>
    <td><pre><code>(<div class="tooltip">m01s05i250<span class="tooltiptext">UPDRAUGHT MASS FLUX (Pa/s)
@@ -10137,7 +10156,7 @@ Available on all timesteps.</span></div>[lbproc=128]) / <div class="tooltip">ACC
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>mcd</td>
      <td>CFmon APmonLev</td>
    <td><pre><code><div class="tooltip">m01s05i251<span class="tooltiptext">DOWNDRAUGHT MASS FLUX (PA/S)
@@ -10151,7 +10170,7 @@ Available on all timesteps.</span></div>[lbproc=128] / <div class="tooltip">ACCE
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>mcu</td>
      <td>CFmon APmonLev</td>
    <td><pre><code><div class="tooltip">m01s05i250<span class="tooltiptext">UPDRAUGHT MASS FLUX (Pa/s)
@@ -10165,7 +10184,7 @@ Available on all timesteps.</span></div>[lbproc=128] / <div class="tooltip">ACCE
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>meanage</td>
      <td>AERmonZ AEmonZ</td>
    <td><pre><code>(<div class="tooltip">m01s51i150<span class="tooltiptext">AGE OF AIR (SEC) ON PRESS LEVELS
@@ -10180,7 +10199,7 @@ and 50 items on pressure levels.</span></div>[blev=<div class="tooltip">PLEV3<sp
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>minpblz</td>
      <td>AERday AEday</td>
    <td><pre><code><div class="tooltip">m01s03i304<span class="tooltiptext">TURBULENT MIXING HT AFTER B.LAYER m
@@ -10200,7 +10219,7 @@ Available on all timesteps.</span></div>[lbproc=4096]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>mlotst</td>
      <td>Omon Eday OPmon OPday</td>
    <td><pre><code>mlotst</code></pre></td>
@@ -10211,7 +10230,7 @@ Available on all timesteps.</span></div>[lbproc=4096]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>mlotstmax</td>
      <td>Omon OPmon</td>
    <td><pre><code>mlotstmax</code></pre></td>
@@ -10222,7 +10241,7 @@ Available on all timesteps.</span></div>[lbproc=4096]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>mlotstmin</td>
      <td>Omon OPmon</td>
    <td><pre><code>mlotstmin</code></pre></td>
@@ -10233,7 +10252,7 @@ Available on all timesteps.</span></div>[lbproc=4096]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>mlotstsq</td>
      <td>Omon OPmon</td>
    <td><pre><code>mlotstsq</code></pre></td>
@@ -10244,7 +10263,7 @@ Available on all timesteps.</span></div>[lbproc=4096]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>mmrbc</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code><div class="tooltip">m01s34i105<span class="tooltiptext">AITKEN MODE (SOLUBLE) BC MMR
@@ -10264,7 +10283,7 @@ Mass Mixing Ratio in kg/kg(Air)</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>mmrdust</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code>m01s00i431[lbproc=128] + m01s00i432[lbproc=128] + m01s00i433[lbproc=128] + m01s00i434[lbproc=128] + m01s00i435[lbproc=128] + m01s00i436[lbproc=128]</code></pre></td>
@@ -10275,7 +10294,7 @@ Mass Mixing Ratio in kg/kg(Air)</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>mmroa</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code><div class="tooltip">m01s34i106<span class="tooltiptext">AITKEN MODE (SOLUBLE) OM MMR
@@ -10297,7 +10316,7 @@ Mass Mixing Ratio in kg/kg(Air)</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>mmrso4</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code>(<div class="tooltip">MOLECULAR_MASS_OF_SO4<span class="tooltiptext">96.</span></div> / <div class="tooltip">MOLECULAR_MASS_OF_H2SO4<span class="tooltiptext">98.</span></div>) * (<div class="tooltip">m01s34i102<span class="tooltiptext">NUCLEATION MODE (SOLUBLE) H2SO4 MMR
@@ -10316,7 +10335,7 @@ in kg/kg(Air)</span></div>[lbproc=128])</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>mmrss</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code><div class="tooltip">m01s34i111<span class="tooltiptext">ACCUMULATION MODE (SOL) SEA SALT MMR
@@ -10331,7 +10350,7 @@ in kg/kg(Air)</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>mrfso</td>
      <td>Lmon LPmon</td>
    <td><pre><code>level_sum(<div class="tooltip">m01s08i223<span class="tooltiptext">SOIL MOISTURE CONTENT IN A LAYER
@@ -10363,7 +10382,7 @@ Available on land points only.</span></div>[lbproc=128]))</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>mrfsofr</td>
      <td>Eday LPday</td>
    <td><pre><code><div class="tooltip"><div class="tooltip">m01s08i230<span class="tooltiptext">FROZEN SOIL MOISTURE FRACTION
@@ -10389,7 +10408,7 @@ Available on land points only.</span></div>[lbproc=128])</code></pre></td>
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>mrlqso</td>
      <td>Eday LPday</td>
    <td><pre><code><div class="tooltip"><div class="tooltip">m01s08i229<span class="tooltiptext">UNFROZEN SOIL MOISTURE FRACTION
@@ -10415,7 +10434,7 @@ Available on land points only.</span></div>[lbproc=128])</code></pre></td>
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>mrlso</td>
      <td>Emon LPmon</td>
    <td><pre><code>level_sum(<div class="tooltip">m01s08i223<span class="tooltiptext">SOIL MOISTURE CONTENT IN A LAYER
@@ -10447,7 +10466,7 @@ Available on land points only.</span></div>[lbproc=128]))</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>mrro</td>
      <td>3hr day Lmon LP3hr LPday LPmon</td>
    <td><pre><code><div class="tooltip">m01s08i234<span class="tooltiptext">SURFACE RUNOFF RATE          KG/M2/S
@@ -10464,7 +10483,7 @@ Available on land points only.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>mrrob</td>
      <td>GCLmon Eday LPday</td>
    <td><pre><code><div class="tooltip">m01s08i235<span class="tooltiptext">SUB-SURFACE RUNOFF RATE      KG/M2/S
@@ -10478,7 +10497,7 @@ Available on land points only.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>mrros</td>
      <td>Lmon Eday LPmon LPday</td>
    <td><pre><code><div class="tooltip">m01s08i234<span class="tooltiptext">SURFACE RUNOFF RATE          KG/M2/S
@@ -10492,7 +10511,7 @@ Available on land points only.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>mrsfl</td>
      <td>Emon Eday LPmon LPday</td>
    <td><pre><code><div class="tooltip">m01s08i223<span class="tooltiptext">SOIL MOISTURE CONTENT IN A LAYER
@@ -10524,7 +10543,7 @@ Available on land points only.</span></div>[lbproc=128])</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>mrsll</td>
      <td>Emon Eday LPmon LPday</td>
    <td><pre><code><div class="tooltip">m01s08i223<span class="tooltiptext">SOIL MOISTURE CONTENT IN A LAYER
@@ -10556,7 +10575,7 @@ Available on land points only.</span></div>[lbproc=128])</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>mrso</td>
      <td>day Lmon LPday LPmon</td>
    <td><pre><code>level_sum(<div class="tooltip">m01s08i223<span class="tooltiptext">SOIL MOISTURE CONTENT IN A LAYER
@@ -10573,7 +10592,7 @@ Note: Includes the "wilting point" soil moisture.</span></div>[lbproc=128])</cod
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>mrsofc</td>
      <td>fx LPfx</td>
    <td><pre><code>mask_zeros(m01s00i041 * <div class="tooltip">FRESHWATER_DENSITY<span class="tooltiptext">1000.</span></div>)</code></pre></td>
@@ -10585,7 +10604,7 @@ Note: Includes the "wilting point" soil moisture.</span></div>[lbproc=128])</cod
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>mrsol</td>
      <td>Emon Eday LPmon LPday</td>
    <td><pre><code><div class="tooltip">m01s08i223<span class="tooltiptext">SOIL MOISTURE CONTENT IN A LAYER
@@ -10602,7 +10621,7 @@ Note: Includes the "wilting point" soil moisture.</span></div>[lbproc=128]</code
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>mrsos</td>
      <td>day Lmon LPday LPmon</td>
    <td><pre><code><div class="tooltip">m01s08i223<span class="tooltiptext">SOIL MOISTURE CONTENT IN A LAYER
@@ -10619,7 +10638,7 @@ Note: Includes the "wilting point" soil moisture.</span></div>[blev=0.05, lbproc
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>msftbarot</td>
      <td>Omon OPmon</td>
    <td><pre><code>ocean_quasi_barotropic_streamfunc(umo_vint, areacello, cube_mask=mask_2D_T)</code></pre></td>
@@ -10631,7 +10650,7 @@ Note: Includes the "wilting point" soil moisture.</span></div>[blev=0.05, lbproc
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>msftyz</td>
      <td>Omon OPmonLev</td>
    <td><pre><code><div class="tooltip">SEAWATER_DENSITY<span class="tooltiptext">1026.</span></div> * combine_cubes_to_basin_coord(zomsfglo, zomsfatl, zomsfipc, mask_global=global_ocean_2D_V, mask_atl=atlantic_arctic_ocean_2D_V, mask_indpac=indian_pacific_ocean_2D_V)</code></pre></td>
@@ -10648,7 +10667,7 @@ red_sea basin.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>msftyzmpa</td>
      <td>Omon OPmonLev</td>
    <td><pre><code><div class="tooltip">SEAWATER_DENSITY<span class="tooltiptext">1026.</span></div> * combine_cubes_to_basin_coord(zomsfeivglo, zomsfeivatl, zomsfeivipc, mask_global=global_ocean_2D_V, mask_atl=atlantic_arctic_ocean_2D_V, mask_indpac=indian_pacific_ocean_2D_V)</code></pre></td>
@@ -10665,7 +10684,7 @@ red_sea basin.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>n2o</td>
      <td>Amon APmon</td>
    <td><pre><code>(<div class="tooltip">MOLECULAR_MASS_OF_AIR<span class="tooltiptext">28.97</span></div> / <div class="tooltip">MOLECULAR_MASS_OF_N2O<span class="tooltiptext">44.</span></div>) * <div class="tooltip">m01s51i049<span class="tooltiptext">N2O MASS MIXING RATIO ON PRESS LEVS
@@ -10680,7 +10699,7 @@ and 50 items on pressure levels.</span></div>[blev=<div class="tooltip">PLEV19<s
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>n2oglobal</td>
      <td>Amon APmon</td>
    <td><pre><code>mmr2molefrac(<div class="tooltip">m01s50i063<span class="tooltiptext">AIR MASS DIAGNOSTIC (WHOLE ATMOS)
@@ -10694,7 +10713,7 @@ Nitrous Oxide Mass Mixing Ratio in kg/kg(Air)</span></div>[lbproc=128], <div cla
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>no</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code>(<div class="tooltip">MOLECULAR_MASS_OF_AIR<span class="tooltiptext">28.97</span></div> / <div class="tooltip">MOLECULAR_MASS_OF_NO<span class="tooltiptext">30.</span></div>) * <div class="tooltip">m01s34i002<span class="tooltiptext">NO MASS MIXING RATIO AFTER TIMESTEP
@@ -10706,7 +10725,7 @@ Nitric Oxide Mass Mixing Ratio in kg/kg(Air)</span></div>[lbproc=128]</code></pr
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>no2</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code>(<div class="tooltip">MOLECULAR_MASS_OF_AIR<span class="tooltiptext">28.97</span></div> / <div class="tooltip">MOLECULAR_MASS_OF_NO<span class="tooltiptext">30.</span></div>2) * <div class="tooltip">m01s34i996<span class="tooltiptext">NO2 MASS MIXING RATIO AFTER TIMESTEP
@@ -10719,7 +10738,7 @@ This variable is a prognostic but is not advected.</span></div>[lbproc=128]</cod
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>noy</td>
      <td>AERmonZ AEmonZ</td>
    <td><pre><code><div class="tooltip">MOLECULAR_MASS_OF_AIR<span class="tooltiptext">28.97</span></div> * ((<div class="tooltip">m01s51i002<span class="tooltiptext">NO MASS MIXING RATIO ON PRESS LEVS
@@ -10754,7 +10773,7 @@ and 50 items on pressure levels.</span></div>[blev=<div class="tooltip">PLEV3<sp
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>o3</td>
      <td>Amon APmon</td>
    <td><pre><code>(<div class="tooltip">MOLECULAR_MASS_OF_AIR<span class="tooltiptext">28.97</span></div> / <div class="tooltip">MOLECULAR_MASS_OF_O3<span class="tooltiptext">48.</span></div>) * <div class="tooltip">m01s51i001<span class="tooltiptext">O3 MASS MIXING RATIO ON PRESS LEVS
@@ -10769,7 +10788,7 @@ and 50 items on pressure levels.</span></div>[blev=<div class="tooltip">PLEV19<s
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>o3loss</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code>(<div class="tooltip">m01s50i011<span class="tooltiptext">Ox LOSS: O(1D)+H2O
@@ -10829,7 +10848,7 @@ Note:This field is only valid for model quantities held on theta points
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>o3prod</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code>(<div class="tooltip">m01s50i001<span class="tooltiptext">Ox PROD: HO2+NO
@@ -10880,7 +10899,7 @@ Note:This field is only valid for model quantities held on theta points
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>obvfsq</td>
      <td>Omon OPmonLev</td>
    <td><pre><code>mask_copy(obvfsq, mask_3D_T)</code></pre></td>
@@ -10895,7 +10914,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>od440aer</td>
      <td>AERmon AEmon</td>
    <td><pre><code><div class="tooltip">m01s02i285<span class="tooltiptext">MINERAL DUST OPTICAL DEPTH IN RADN.
@@ -10955,7 +10974,7 @@ of the available wavelengths are to be output.</span></div>[lbplev=2, lbproc=128
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>od443dust</td>
      <td>Emon APmon</td>
    <td><pre><code><div class="tooltip">m01s02i285<span class="tooltiptext">MINERAL DUST OPTICAL DEPTH IN RADN.
@@ -10975,7 +10994,7 @@ of the available wavelengths are to be output.</span></div>[lbplev=2, lbproc=128
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>od550aer</td>
      <td>AERmon AERday AEmon AEday</td>
    <td><pre><code><div class="tooltip">m01s02i285<span class="tooltiptext">MINERAL DUST OPTICAL DEPTH IN RADN.
@@ -11034,7 +11053,7 @@ of the available wavelengths are to be output.</span></div>[lbplev=3, lbproc=128
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>od550aerso</td>
      <td>Emon APmon</td>
    <td><pre><code><div class="tooltip">m01s02i251<span class="tooltiptext">AITKEN (SOLUBLE) STRATO  AOD
@@ -11086,7 +11105,7 @@ of the available wavelengths are to be output.</span></div>[lbplev=3, lbproc=128
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>od550dust</td>
      <td>AERmon AEmon</td>
    <td><pre><code><div class="tooltip">m01s02i285<span class="tooltiptext">MINERAL DUST OPTICAL DEPTH IN RADN.
@@ -11105,7 +11124,7 @@ of the available wavelengths are to be output.</span></div>[lbplev=3, lbproc=128
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>od550lt1aer</td>
      <td>AERmon AEmon</td>
    <td><pre><code><div class="tooltip">m01s02i300<span class="tooltiptext">AITKEN MODE (SOLUBLE) OPTICAL DEPTH
@@ -11147,7 +11166,7 @@ of the available wavelengths are to be output.</span></div>[lbplev=3, lbproc=128
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>od865dust</td>
      <td>Emon APmon</td>
    <td><pre><code><div class="tooltip">m01s02i285<span class="tooltiptext">MINERAL DUST OPTICAL DEPTH IN RADN.
@@ -11167,7 +11186,7 @@ of the available wavelengths are to be output.</span></div>[lbplev=5, lbproc=128
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>od870aer</td>
      <td>AERmon AEmon</td>
    <td><pre><code><div class="tooltip">m01s02i285<span class="tooltiptext">MINERAL DUST OPTICAL DEPTH IN RADN.
@@ -11227,7 +11246,7 @@ of the available wavelengths are to be output.</span></div>[lbplev=5, lbproc=128
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>oh</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code>(<div class="tooltip">MOLECULAR_MASS_OF_AIR<span class="tooltiptext">28.97</span></div> / <div class="tooltip">MOLECULAR_MASS_OF_OH<span class="tooltiptext">17.</span></div>) * <div class="tooltip">m01s34i081<span class="tooltiptext">OH MASS MIXING RATIO AFTER TIMESTEP
@@ -11239,7 +11258,7 @@ Hydroxyl radical Mass Mixing Ratio in kg/kg(Air)</span></div>[lbproc=128]</code>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>opottempdiff</td>
      <td>Emon OPmonLev</td>
    <td><pre><code>opottempdiff</code></pre></td>
@@ -11254,7 +11273,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>opottempmint</td>
      <td>Emon OPmon</td>
    <td><pre><code>opottempmint</code></pre></td>
@@ -11266,7 +11285,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>opottemppmdiff</td>
      <td>Emon OPmonLev</td>
    <td><pre><code>opottemppmdiff</code></pre></td>
@@ -11281,7 +11300,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>opottemprmadvect</td>
      <td>Emon OPmonLev</td>
    <td><pre><code>opottempadvect</code></pre></td>
@@ -11296,7 +11315,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>opottemptend</td>
      <td>Emon OPmonLev</td>
    <td><pre><code>opottemptend</code></pre></td>
@@ -11311,7 +11330,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>orog</td>
      <td>fx LPfx</td>
    <td><pre><code>m01s00i033</code></pre></td>
@@ -11322,7 +11341,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>osaltdiff</td>
      <td>Emon OPmonLev</td>
    <td><pre><code>osaltdiff</code></pre></td>
@@ -11337,7 +11356,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>osaltpmdiff</td>
      <td>Emon OPmonLev</td>
    <td><pre><code>osaltpmdiff</code></pre></td>
@@ -11352,7 +11371,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>osaltrmadvect</td>
      <td>Emon OPmonLev</td>
    <td><pre><code>osaltadvect</code></pre></td>
@@ -11367,7 +11386,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>osalttend</td>
      <td>Emon OPmonLev</td>
    <td><pre><code>osalttend</code></pre></td>
@@ -11382,7 +11401,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>pan</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code>(<div class="tooltip">MOLECULAR_MASS_OF_AIR<span class="tooltiptext">28.97</span></div> / <div class="tooltip">MOLECULAR_MASS_OF_PAN<span class="tooltiptext">121.</span></div>) * <div class="tooltip">m01s34i017<span class="tooltiptext">PAN MASS MIXING RATIO AFTER TSTEP
@@ -11394,7 +11413,7 @@ Peroxy Acetyl Nitrate Mass Mixing Ratio in kg/kg(Air)</span></div>[lbproc=128]</
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>parasolRefl</td>
      <td>Emon Eday APmon APday</td>
    <td><pre><code>fix_parasol_sza_axis(<div class="tooltip">m01s02i348<span class="tooltiptext">COSP: PARASOL TOA REFLECTANCE
@@ -11409,7 +11428,7 @@ and relative azimuth angle 320 degrees).</span></div>[lbproc=128])</code></pre><
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>pathetao</td>
      <td>Emon OPmonLev</td>
    <td><pre><code>pathetao</code></pre></td>
@@ -11420,7 +11439,7 @@ and relative azimuth angle 320 degrees).</span></div>[lbproc=128])</code></pre><
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>pbo</td>
      <td>Omon OPmon</td>
    <td><pre><code>pbo</code></pre></td>
@@ -11431,7 +11450,7 @@ and relative azimuth angle 320 degrees).</span></div>[lbproc=128])</code></pre><
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>pctisccp</td>
      <td>CFmon CFday APmon APday</td>
    <td><pre><code><div class="tooltip">m01s02i333<span class="tooltiptext">COSP: ISCCP WEIGHTED CLOUD TOP PRES.
@@ -11449,7 +11468,7 @@ It needs mask 2.330.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>pfull</td>
      <td>AERmon CFday AEmonLev APdayLev</td>
    <td><pre><code>m01s00i408[lbproc=128]</code></pre></td>
@@ -11460,7 +11479,7 @@ It needs mask 2.330.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>phalf</td>
      <td>AERmon CFday AEmonLev APdayLev</td>
    <td><pre><code>m01s00i407[lbproc=128]</code></pre></td>
@@ -11472,7 +11491,7 @@ It needs mask 2.330.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>photo1d</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code><div class="tooltip">m01s50i228<span class="tooltiptext">JO1D (s-1)
@@ -11488,7 +11507,7 @@ Available if chemistry and photolysis are turned ON in UKCA</span></div>[lbproc=
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>pr</td>
      <td>3hr 6hrPlev Amon E1hr day CresAERday AP1hr AP3hr AP6hr APday APmon mon 1hr</td>
    <td><pre><code><div class="tooltip">m01s05i216<span class="tooltiptext">TOTAL PRECIPITATION RATE     KG/M2/S
@@ -11502,7 +11521,7 @@ at the surface.e.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>prc</td>
      <td>Amon 3hr E1hr day APmon AP3hr AP1hr APday</td>
    <td><pre><code><div class="tooltip">m01s05i205<span class="tooltiptext">CONVECTIVE RAINFALL RATE     KG/M2/S
@@ -11519,7 +11538,7 @@ mean value.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>prcprof</td>
      <td>CF3hr AP3hrPtLev</td>
    <td><pre><code><div class="tooltip">m01s05i227<span class="tooltiptext">NOMINAL 3D CONVECTIVE RAINFALL RATE
@@ -11533,7 +11552,7 @@ Rate at which convective rainfall is falling through the model layer
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>prlsns</td>
      <td>CF3hr AP3hrPtLev</td>
    <td><pre><code><div class="tooltip">m01s04i223<span class="tooltiptext">SNOWFALL RATE OUT OF MODEL LEVELS
@@ -11554,7 +11573,7 @@ use diagnostic (1 4 323)</span></div>[lbproc=0]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>prlsprof</td>
      <td>CF3hr AP3hrPtLev</td>
    <td><pre><code><div class="tooltip">m01s04i222<span class="tooltiptext">RAINFALL RATE OUT OF MODEL LEVELS
@@ -11570,7 +11589,7 @@ by diagnostic 1 4 203</span></div>[lbproc=0]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>prra</td>
      <td>E3hr</td>
    <td><pre><code><div class="tooltip">m01s05i214<span class="tooltiptext">TOTAL RAINFALL RATE: LS+CONV KG/M2/S
@@ -11583,7 +11602,7 @@ This is the sum of the large scale and convective rainfall at the surface.</span
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>prrc</td>
      <td>E3hr Eday AP3hr APday</td>
    <td><pre><code><div class="tooltip">m01s05i205<span class="tooltiptext">CONVECTIVE RAINFALL RATE     KG/M2/S
@@ -11597,7 +11616,7 @@ mean value.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>prsn</td>
      <td>Amon 3hr day APmon AP3hr APday</td>
    <td><pre><code><div class="tooltip">m01s05i215<span class="tooltiptext">TOTAL SNOWFALL RATE: LS+CONV KG/M2/S
@@ -11610,7 +11629,7 @@ This is the sum of the large scale and convective snowfall at the surface.</span
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>prthetao</td>
      <td>Emon OPmonLev</td>
    <td><pre><code>prthetao</code></pre></td>
@@ -11621,7 +11640,7 @@ This is the sum of the large scale and convective snowfall at the surface.</span
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>prw</td>
      <td>Amon Eday APmon APday</td>
    <td><pre><code><div class="tooltip">m01s30i461<span class="tooltiptext">TOTAL COLUMN Q (WATER VAPOUR PATH)
@@ -11634,7 +11653,7 @@ Units are kg m^-2</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ps</td>
      <td>Amon AERhr CFmon AERmon Emon CFday APmon AP1hr APday</td>
    <td><pre><code>m01s00i409[lbproc=128]</code></pre></td>
@@ -11645,7 +11664,7 @@ Units are kg m^-2</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>psl</td>
      <td>6hrPlev Amon day APmon AP6hr APday</td>
    <td><pre><code>m01s16i222[lbproc=128]</code></pre></td>
@@ -11656,7 +11675,7 @@ Units are kg m^-2</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ptp</td>
      <td>AERmon AEmon</td>
    <td><pre><code>m01s30i451[lbproc=128]</code></pre></td>
@@ -11667,7 +11686,7 @@ Units are kg m^-2</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>reffcclwtop</td>
      <td>Eday APday</td>
    <td><pre><code>mask_using_cube(<div class="tooltip">m01s01i245<span class="tooltiptext">2-D RE DISTRIBUTION * 2-D RE WEIGHT
@@ -11689,7 +11708,7 @@ To output this diagnostic specify a single level domain</span></div>[lbproc=128]
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>reffclic</td>
      <td>Emon APmonLev</td>
    <td><pre><code>0.5 * <div class="tooltip">m01s02i398<span class="tooltiptext">L-S ICE WEIGHTED EFFECTIVE DIMENSION
@@ -11704,7 +11723,7 @@ Grid box average of large-scale ice cloud fraction</span></div>[lbproc=128]</cod
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>reffclis</td>
      <td>Emon APmonLev</td>
    <td><pre><code>0.5 * <div class="tooltip">m01s02i398<span class="tooltiptext">L-S ICE WEIGHTED EFFECTIVE DIMENSION
@@ -11719,7 +11738,7 @@ Grid box average of large-scale ice cloud fraction</span></div>[lbproc=128]</cod
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>reffclwc</td>
      <td>Emon APmonLev</td>
    <td><pre><code><div class="tooltip">m01s02i397<span class="tooltiptext">L-S LIQ WEIGHTED EFFECTIVE DIMENSION
@@ -11734,7 +11753,7 @@ Grid box average of large-scale liquid cloud fraction</span></div>[lbproc=128]</
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>reffclws</td>
      <td>Emon APmonLev</td>
    <td><pre><code><div class="tooltip">m01s02i397<span class="tooltiptext">L-S LIQ WEIGHTED EFFECTIVE DIMENSION
@@ -11749,7 +11768,7 @@ Grid box average of large-scale liquid cloud fraction</span></div>[lbproc=128]</
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>reffclwtop</td>
      <td>AERmon AEmon</td>
    <td><pre><code><div class="tooltip">m01s01i245<span class="tooltiptext">2-D RE DISTRIBUTION * 2-D RE WEIGHT
@@ -11764,7 +11783,7 @@ Weight for diagnostic.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>reffsclwtop</td>
      <td>Eday APday</td>
    <td><pre><code>mask_using_cube(<div class="tooltip">m01s01i245<span class="tooltiptext">2-D RE DISTRIBUTION * 2-D RE WEIGHT
@@ -11792,7 +11811,7 @@ To output this diagnostic specify a single level domain</span></div>[lbproc=128]
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>residualFrac</td>
      <td>Lmon LPmon</td>
    <td><pre><code>land_class_area(<div class="tooltip">m01s03i317<span class="tooltiptext">SURFACE TILE FRACTIONS
@@ -11827,7 +11846,7 @@ land_class='residual')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rld</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s02i218<span class="tooltiptext">DOWNWARD LW FLUX ON LEVELS
@@ -11850,7 +11869,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lbproc=128])</code>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rld4co2</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s02i522<span class="tooltiptext">DOWNWARD LW FLUX ON LEVS W/ GHG FORC
@@ -11875,7 +11894,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lbproc=128])</code>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rldcs</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s02i220<span class="tooltiptext">CLEAR-SKY DOWNWARD LW FLUX ON LEVELS
@@ -11898,7 +11917,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lbproc=128])</code>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rldcs4co2</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s02i524<span class="tooltiptext">CLR DOWN LW FLUX ON LEVS W/ GHG FORC
@@ -11923,7 +11942,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lbproc=128])</code>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rlds</td>
      <td>Amon 3hr day APmon AP3hr APday</td>
    <td><pre><code><div class="tooltip">m01s02i207<span class="tooltiptext">DOWNWARD LW RAD FLUX: SURFACE
@@ -11937,7 +11956,7 @@ The diagnostic is calculated only on LW radiation timesteps.</span></div>[lbproc
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rldscs</td>
      <td>Amon 3hr CFday APmon AP3hr APday</td>
    <td><pre><code><div class="tooltip">m01s02i208<span class="tooltiptext">CLEAR-SKY (II) DOWN SURFACE LW FLUX
@@ -11952,7 +11971,7 @@ The diagnostic is calculated only on LW radiation timesteps.</span></div>[lbproc
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rls</td>
      <td>Emon Eday APmon</td>
    <td><pre><code><div class="tooltip">m01s02i201<span class="tooltiptext">NET DOWN SURFACE LW RAD FLUX
@@ -11973,7 +11992,7 @@ is calculated only on LW radiation timesteps.</span></div>[lbproc=128])</code></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rlu</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>hotspot(<div class="tooltip">m01s02i217<span class="tooltiptext">UPWARD LW FLUX ON LEVELS
@@ -12002,7 +12021,7 @@ is calculated only on LW radiation timesteps.</span></div>[lbproc=128])</code></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rlu4co2</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>hotspot(<div class="tooltip">m01s02i521<span class="tooltiptext">UPWARD LW FLUX ON LEVELS W/ GHG FORC
@@ -12034,7 +12053,7 @@ is calculated only on LW radiation timesteps.</span></div>[lbproc=128])</code></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rlucs</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>hotspot(<div class="tooltip">m01s02i219<span class="tooltiptext">CLEAR-SKY UPWARD LW FLUX ON LEVELS
@@ -12063,7 +12082,7 @@ is calculated only on LW radiation timesteps.</span></div>[lbproc=128])</code></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rlucs4co2</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>hotspot(<div class="tooltip">m01s02i523<span class="tooltiptext">CLEAR UP LW FLUX ON LEVS W/ GHG FORC
@@ -12095,7 +12114,7 @@ is calculated only on LW radiation timesteps.</span></div>[lbproc=128])</code></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rlus</td>
      <td>Amon 3hr day APmon AP3hr APday</td>
    <td><pre><code><div class="tooltip">m01s02i207<span class="tooltiptext">DOWNWARD LW RAD FLUX: SURFACE
@@ -12119,7 +12138,7 @@ is calculated only on LW radiation timesteps.</span></div>[lbproc=128]</code></p
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rlut</td>
      <td>Amon day APmon APday</td>
    <td><pre><code><div class="tooltip">m01s03i332<span class="tooltiptext">TOA OUTGOING LW RAD AFTER B.LAYER
@@ -12135,7 +12154,7 @@ Available on all timesteps.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rlut4co2</td>
      <td>CFmon APmon</td>
    <td><pre><code>remove_altitude_coords(<div class="tooltip">m01s02i521<span class="tooltiptext">UPWARD LW FLUX ON LEVELS W/ GHG FORC
@@ -12167,7 +12186,7 @@ is calculated only on LW radiation timesteps.</span></div>[lbproc=128]</code></p
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rlutaf</td>
      <td>AERmon AEmon</td>
    <td><pre><code>remove_altitude_coords(<div class="tooltip">m01s02i517<span class="tooltiptext">CLEAN-AIR UPWARD LW FLUX ON LEVELS
@@ -12197,7 +12216,7 @@ is calculated only on LW radiation timesteps.</span></div>[lbproc=128]</code></p
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rlutcs</td>
      <td>Amon CFday APmon APday</td>
    <td><pre><code><div class="tooltip">m01s02i206<span class="tooltiptext">CLEAR-SKY (II) UPWARD LW FLUX (TOA)
@@ -12218,7 +12237,7 @@ is calculated only on LW radiation timesteps.</span></div>[lbproc=128]</code></p
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rlutcs4co2</td>
      <td>CFmon APmon</td>
    <td><pre><code>remove_altitude_coords(<div class="tooltip">m01s02i523<span class="tooltiptext">CLEAR UP LW FLUX ON LEVS W/ GHG FORC
@@ -12250,7 +12269,7 @@ is calculated only on LW radiation timesteps.</span></div>[lbproc=128]</code></p
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rlutcsaf</td>
      <td>AERmon AEmon</td>
    <td><pre><code>remove_altitude_coords(<div class="tooltip">m01s02i519<span class="tooltiptext">CLEAR-CLEAN UPWARD LW FLUX ON LEVELS
@@ -12280,7 +12299,7 @@ is calculated only on LW radiation timesteps.</span></div>[lbproc=128]</code></p
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsd</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s01i218<span class="tooltiptext">DOWNWARD SW FLUX ON LEVELS
@@ -12303,7 +12322,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lbproc=128])</code>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsd4co2</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s01i522<span class="tooltiptext">DOWNWARD SW FLUX ON LEVS W/ GHG FORC
@@ -12328,7 +12347,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lbproc=128])</code>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsdcs</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s01i220<span class="tooltiptext">CLEAR-SKY DOWNWARD SW FLUX ON LEVELS
@@ -12351,7 +12370,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lbproc=128])</code>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsdcs4co2</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s01i524<span class="tooltiptext">CLR DOWN SW FLUX ON LEVS W/ GHG FORC
@@ -12376,7 +12395,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lbproc=128])</code>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsdcsaf</td>
      <td>E3hrPt AE3hrPtLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s01i520<span class="tooltiptext">CLEAR-CLEAN DOWNWARD SW FLUX ON LEVS
@@ -12399,7 +12418,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lbproc=0])</code></
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsdcsafbnd</td>
      <td>E3hrPt AE3hrPtLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s01i528<span class="tooltiptext">CLR DOWN SW FLUX LVS/BNDS W/GHG FORC
@@ -12427,7 +12446,7 @@ Pseudo-levels should be set to SW bands (1 to 6 for GA7 spectral files).</span><
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsdcsbnd</td>
      <td>E3hrPt AP3hrPtLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s01i512<span class="tooltiptext">CLEAR DOWN SW FLUX ON LEVS AND BANDS
@@ -12453,7 +12472,7 @@ Pseudo-levels should be set to SW bands (1 to 6 for GA7 spectral files).</span><
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsdo</td>
      <td>Omon OPmonLev</td>
    <td><pre><code>rsdo</code></pre></td>
@@ -12468,7 +12487,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsdoabsorb</td>
      <td>Emon OPmonLev</td>
    <td><pre><code>rsdoabsorb</code></pre></td>
@@ -12483,7 +12502,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsds</td>
      <td>Amon 3hr day APmon AP3hr APday</td>
    <td><pre><code><div class="tooltip">m01s01i235<span class="tooltiptext">TOTAL DOWNWARD SURFACE SW FLUX
@@ -12498,7 +12517,7 @@ timesteps.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsdscs</td>
      <td>Amon 3hr CFday APmon AP3hr APday</td>
    <td><pre><code><div class="tooltip">m01s01i210<span class="tooltiptext">CLEAR-SKY (II) DOWN SURFACE SW FLUX
@@ -12517,7 +12536,7 @@ the radiative effects of clouds are ignored.</span></div>[lbproc=128]</code></pr
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsdscsaf</td>
      <td>E3hrPt AE3hrPt</td>
    <td><pre><code><div class="tooltip">m01s01i520<span class="tooltiptext">CLEAR-CLEAN DOWNWARD SW FLUX ON LEVS
@@ -12540,7 +12559,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lblev=1, lbproc=0]<
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsdscsafbnd</td>
      <td>E3hrPt AE3hrPt</td>
    <td><pre><code><div class="tooltip">m01s01i528<span class="tooltiptext">CLR DOWN SW FLUX LVS/BNDS W/GHG FORC
@@ -12568,7 +12587,7 @@ Pseudo-levels should be set to SW bands (1 to 6 for GA7 spectral files).</span><
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsdscsbnd</td>
      <td>E3hrPt AP3hrPt</td>
    <td><pre><code><div class="tooltip">m01s01i512<span class="tooltiptext">CLEAR DOWN SW FLUX ON LEVS AND BANDS
@@ -12594,7 +12613,7 @@ Pseudo-levels should be set to SW bands (1 to 6 for GA7 spectral files).</span><
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsdsdiff</td>
      <td>3hr Emon Eday AP3hr APmon APday</td>
    <td><pre><code><div class="tooltip">m01s01i216<span class="tooltiptext">DIFFUSE SURFACE SW FLUX : CORRECTED
@@ -12610,7 +12629,7 @@ solar zenith angle that is valid for the model timestep.
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsdt</td>
      <td>Amon CFday APmon APday</td>
    <td><pre><code><div class="tooltip">m01s01i207<span class="tooltiptext">INCOMING SW RAD FLUX (TOA): ALL TSS
@@ -12623,7 +12642,7 @@ is calculated for all timesteps.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rss</td>
      <td>Emon APmon</td>
    <td><pre><code><div class="tooltip">m01s01i201<span class="tooltiptext">NET DOWN SURFACE SW FLUX: SW TS ONLY
@@ -12649,7 +12668,7 @@ diagnostic.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsu</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s01i217<span class="tooltiptext">UPWARD SW FLUX ON LEVELS
@@ -12672,7 +12691,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lbproc=128])</code>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsu4co2</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s01i521<span class="tooltiptext">UPWARD SW FLUX ON LEVELS W/ GHG FORC
@@ -12697,7 +12716,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lbproc=128])</code>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsucs</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s01i219<span class="tooltiptext">CLEAR-SKY UPWARD SW FLUX ON LEVELS
@@ -12720,7 +12739,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lbproc=128])</code>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsucs4co2</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s01i523<span class="tooltiptext">CLEAR UP SW FLUX ON LEVS W/ GHG FORC
@@ -12745,7 +12764,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lbproc=128])</code>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsucsaf</td>
      <td>E3hrPt AE3hrPtLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s01i519<span class="tooltiptext">CLEAR-CLEAN UPWARD SW FLUX ON LEVELS
@@ -12768,7 +12787,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lbproc=0])</code></
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsucsafbnd</td>
      <td>E3hrPt AE3hrPtLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s01i527<span class="tooltiptext">CLR UP SW FLUX LEVS/BNDS W/ GHG FORC
@@ -12796,7 +12815,7 @@ Pseudo-levels should be set to SW bands (1 to 6 for GA7 spectral files).</span><
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsucsbnd</td>
      <td>E3hrPt AP3hrPtLev</td>
    <td><pre><code>correct_multilevel_metadata(<div class="tooltip">m01s01i511<span class="tooltiptext">CLEAR UP SW FLUX ON LEVELS AND BANDS
@@ -12822,7 +12841,7 @@ Pseudo-levels should be set to SW bands (1 to 6 for GA7 spectral files).</span><
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsus</td>
      <td>Amon 3hr day APmon AP3hr APday</td>
    <td><pre><code><div class="tooltip">m01s01i235<span class="tooltiptext">TOTAL DOWNWARD SURFACE SW FLUX
@@ -12852,7 +12871,7 @@ diagnostic.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsuscs</td>
      <td>Amon 3hr CFday APmon AP3hr APday</td>
    <td><pre><code><div class="tooltip">m01s01i211<span class="tooltiptext">CLEAR-SKY (II) UP SURFACE SW FLUX
@@ -12877,7 +12896,7 @@ flux-weighting of the diagnostic.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsuscsaf</td>
      <td>E3hrPt AE3hrPt</td>
    <td><pre><code><div class="tooltip">m01s01i519<span class="tooltiptext">CLEAR-CLEAN UPWARD SW FLUX ON LEVELS
@@ -12900,7 +12919,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lblev=1, lbproc=0]<
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsuscsafbnd</td>
      <td>E3hrPt AE3hrPt</td>
    <td><pre><code><div class="tooltip">m01s01i527<span class="tooltiptext">CLR UP SW FLUX LEVS/BNDS W/ GHG FORC
@@ -12928,7 +12947,7 @@ Pseudo-levels should be set to SW bands (1 to 6 for GA7 spectral files).</span><
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsuscsbnd</td>
      <td>E3hrPt AP3hrPt</td>
    <td><pre><code><div class="tooltip">m01s01i511<span class="tooltiptext">CLEAR UP SW FLUX ON LEVELS AND BANDS
@@ -12954,7 +12973,7 @@ Pseudo-levels should be set to SW bands (1 to 6 for GA7 spectral files).</span><
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsut</td>
      <td>Amon CFday APmon APday</td>
    <td><pre><code><div class="tooltip">m01s01i208<span class="tooltiptext">OUTGOING SW RAD FLUX (TOA)
@@ -12980,7 +12999,7 @@ from the meaned fluxes.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsut4co2</td>
      <td>CFmon APmon</td>
    <td><pre><code><div class="tooltip">m01s01i521<span class="tooltiptext">UPWARD SW FLUX ON LEVELS W/ GHG FORC
@@ -13005,7 +13024,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lblev=86, lbproc=12
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsutaf</td>
      <td>AERmon AEmon</td>
    <td><pre><code><div class="tooltip">m01s01i517<span class="tooltiptext">CLEAN-AIR UPWARD SW FLUX ON LEVELS
@@ -13028,7 +13047,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lblev=86, lbproc=12
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsutcs</td>
      <td>Amon E3hr CFday APmon AP3hr APday</td>
    <td><pre><code><div class="tooltip">m01s01i209<span class="tooltiptext">CLEAR-SKY (II) UPWARD SW FLUX (TOA)
@@ -13058,7 +13077,7 @@ defined from the meaned fluxes.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rsutcs4co2</td>
      <td>CFmon APmon</td>
    <td><pre><code><div class="tooltip">m01s01i523<span class="tooltiptext">CLEAR UP SW FLUX ON LEVS W/ GHG FORC
@@ -13083,7 +13102,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lblev=86, lbproc=12
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rsutcsaf</td>
      <td>AERmon AEmon</td>
    <td><pre><code><div class="tooltip">m01s01i519<span class="tooltiptext">CLEAR-CLEAN UPWARD SW FLUX ON LEVELS
@@ -13106,7 +13125,7 @@ height between rho(ATMOS_TOP) and ATMOS_TOP+1.)</span></div>[lblev=86, lbproc=12
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>rtmt</td>
      <td>Amon APmon</td>
    <td><pre><code><div class="tooltip">m01s01i207<span class="tooltiptext">INCOMING SW RAD FLUX (TOA): ALL TSS
@@ -13138,7 +13157,7 @@ Available on all timesteps.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>rv850</td>
      <td>6hrPlev AP6hr</td>
    <td><pre><code><div class="tooltip">m01s30i455<span class="tooltiptext">VORTICITY 850
@@ -13156,7 +13175,7 @@ VORTICITY 850
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sbl</td>
      <td>LImon Eday LIday</td>
    <td><pre><code>land_class_mean(<div class="tooltip">m01s03i331<span class="tooltiptext">SUBLIMATION MOISTURE FLUX ON TILES
@@ -13191,7 +13210,7 @@ Available on all timesteps.</span></div>[lbproc=128], land_class='all')</code></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sci</td>
      <td>Amon APmon</td>
    <td><pre><code><div class="tooltip">m01s05i270<span class="tooltiptext">SHALLOW CONVECTION INDICATOR
@@ -13206,7 +13225,7 @@ Available on all timesteps.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>scldncl</td>
      <td>Eday APday</td>
    <td><pre><code>mask_using_cube(<div class="tooltip">m01s01i298<span class="tooltiptext">CDNC @CLOUD TOP * WEIGHT
@@ -13234,7 +13253,7 @@ To output this diagnostic specify a single level domain</span></div>[lbproc=128]
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sconcdust</td>
      <td>Emon APmon</td>
    <td><pre><code><div class="tooltip">m01s17i257<span class="tooltiptext">TOTAL DUST CONC (microg/m3)
@@ -13250,7 +13269,7 @@ Units are microgrammes per cubic metre.</span></div>[lblev=1, lbproc=128]</code>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sfcWind</td>
      <td>Amon E3hr day 6hrPlev APmon APday</td>
    <td><pre><code><div class="tooltip">m01s03i230<span class="tooltiptext">10 METRE WIND SPEED ON C GRID
@@ -13262,7 +13281,7 @@ No help entry available.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sfcWindmax</td>
      <td>Emon APmon</td>
    <td><pre><code>mon_mean_from_day(<div class="tooltip">m01s03i230<span class="tooltiptext">10 METRE WIND SPEED ON C GRID
@@ -13274,7 +13293,7 @@ No help entry available.</span></div>[lbproc=8192])</code></pre></td>
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sfdsi</td>
      <td>Omon OPmon</td>
    <td><pre><code>siflsaltbot</code></pre></td>
@@ -13285,7 +13304,7 @@ No help entry available.</span></div>[lbproc=8192])</code></pre></td>
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sfno2</td>
      <td>AERhr AE1hr</td>
    <td><pre><code>(<div class="tooltip">MOLECULAR_MASS_OF_AIR<span class="tooltiptext">28.97</span></div> / <div class="tooltip">MOLECULAR_MASS_OF_NO<span class="tooltiptext">30.</span></div>2) * <div class="tooltip">m01s34i996<span class="tooltiptext">NO2 MASS MIXING RATIO AFTER TIMESTEP
@@ -13298,7 +13317,7 @@ This variable is a prognostic but is not advected.</span></div>[lblev=1, lbproc=
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sfo3</td>
      <td>AERhr AE1hr</td>
    <td><pre><code>(<div class="tooltip">MOLECULAR_MASS_OF_AIR<span class="tooltiptext">28.97</span></div> / <div class="tooltip">MOLECULAR_MASS_OF_O3<span class="tooltiptext">48.</span></div>) * <div class="tooltip">m01s34i001<span class="tooltiptext">O3 MASS MIXING RATIO AFTER TIMESTEP
@@ -13310,7 +13329,7 @@ Ozone Mass Mixing Ratio in kg/kg(Air)</span></div>[lblev=1, lbproc=128]</code></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sfo3max</td>
      <td>AERday AEday</td>
    <td><pre><code>(<div class="tooltip">MOLECULAR_MASS_OF_AIR<span class="tooltiptext">28.97</span></div> / <div class="tooltip">MOLECULAR_MASS_OF_O3<span class="tooltiptext">48.</span></div>) * <div class="tooltip">m01s34i001<span class="tooltiptext">O3 MASS MIXING RATIO AFTER TIMESTEP
@@ -13322,7 +13341,7 @@ Ozone Mass Mixing Ratio in kg/kg(Air)</span></div>[lblev=1, lbproc=8192]</code><
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sftgif</td>
      <td>fx LPfx</td>
    <td><pre><code><div class="tooltip">m01s03i317<span class="tooltiptext">SURFACE TILE FRACTIONS
@@ -13354,7 +13373,7 @@ Available on all timesteps.</span></div></code></pre></td>
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sftlf</td>
      <td>fx APfx</td>
    <td><pre><code>m01s00i505</code></pre></td>
@@ -13365,7 +13384,7 @@ Available on all timesteps.</span></div></code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sftof</td>
      <td>Ofx OPfx</td>
    <td><pre><code>sftof</code></pre></td>
@@ -13376,7 +13395,7 @@ Available on all timesteps.</span></div></code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>shrubFrac</td>
      <td>Lmon LPmon</td>
    <td><pre><code>land_class_area(<div class="tooltip">m01s03i317<span class="tooltiptext">SURFACE TILE FRACTIONS
@@ -13409,7 +13428,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>siage</td>
      <td>SImon</td>
    <td><pre><code>iage * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div> * <div class="tooltip">DAYS_IN_YEAR<span class="tooltiptext">360.</span></div></code></pre></td>
@@ -13420,7 +13439,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sicompstren</td>
      <td>SImon</td>
    <td><pre><code>sicompstren</code></pre></td>
@@ -13431,7 +13450,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>siconc</td>
      <td>SImon</td>
    <td><pre><code>aice</code></pre></td>
@@ -13442,7 +13461,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>siconca</td>
      <td>SImon SIday</td>
    <td><pre><code>m01s00i031[lbproc=128]</code></pre></td>
@@ -13453,7 +13472,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sidconcdyn</td>
      <td>SImon</td>
    <td><pre><code>sidconcdyn</code></pre></td>
@@ -13464,7 +13483,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sidconcth</td>
      <td>SImon</td>
    <td><pre><code>sidconcth</code></pre></td>
@@ -13475,7 +13494,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sidmassdyn</td>
      <td>SImon</td>
    <td><pre><code>dvidtd * <div class="tooltip">ICE_DENSITY<span class="tooltiptext">917.</span></div> / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -13486,7 +13505,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sidmassevapsubl</td>
      <td>SImon</td>
    <td><pre><code>-1 * evap_ai * <div class="tooltip">FRESHWATER_DENSITY<span class="tooltiptext">1000.</span></div> / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -13497,7 +13516,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sidmassgrowthbot</td>
      <td>SImon</td>
    <td><pre><code>congel * <div class="tooltip">ICE_DENSITY<span class="tooltiptext">917.</span></div> / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -13508,7 +13527,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sidmassgrowthwat</td>
      <td>SImon</td>
    <td><pre><code>frazil * <div class="tooltip">ICE_DENSITY<span class="tooltiptext">917.</span></div> / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -13519,7 +13538,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sidmasslat</td>
      <td>SImon</td>
    <td><pre><code>-1 * meltl * <div class="tooltip">ICE_DENSITY<span class="tooltiptext">917.</span></div> / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -13530,7 +13549,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sidmassmeltbot</td>
      <td>SImon</td>
    <td><pre><code>-1 * meltb * <div class="tooltip">ICE_DENSITY<span class="tooltiptext">917.</span></div> / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -13541,7 +13560,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sidmassmelttop</td>
      <td>SImon</td>
    <td><pre><code>-1 * meltt * <div class="tooltip">ICE_DENSITY<span class="tooltiptext">917.</span></div> / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -13552,7 +13571,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sidmasssi</td>
      <td>SImon</td>
    <td><pre><code>snoice * <div class="tooltip">ICE_DENSITY<span class="tooltiptext">917.</span></div> / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -13563,7 +13582,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sidmassth</td>
      <td>SImon</td>
    <td><pre><code>dvidtt * <div class="tooltip">ICE_DENSITY<span class="tooltiptext">917.</span></div> / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -13574,7 +13593,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sidmasstranx</td>
      <td>SImon</td>
    <td><pre><code>sidmasstranx</code></pre></td>
@@ -13585,7 +13604,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sidmasstrany</td>
      <td>SImon</td>
    <td><pre><code>sidmasstrany</code></pre></td>
@@ -13596,7 +13615,7 @@ land_class='shrub')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sidragtop</td>
      <td>SImon</td>
    <td><pre><code><div class="tooltip">m01s03i538<span class="tooltiptext">SEA AND SEA ICE DRAG COEFFICIENT
@@ -13609,7 +13628,7 @@ This is field cd_ssi in JULES routine sf_exch. (dimensionless)</span></div>[lbpr
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sifb</td>
      <td>SImon</td>
    <td><pre><code>sifb</code></pre></td>
@@ -13620,7 +13639,7 @@ This is field cd_ssi in JULES routine sf_exch. (dimensionless)</span></div>[lbpr
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>siflcondbot</td>
      <td>SImon</td>
    <td><pre><code>siflcondbot</code></pre></td>
@@ -13631,7 +13650,7 @@ This is field cd_ssi in JULES routine sf_exch. (dimensionless)</span></div>[lbpr
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>siflcondtop</td>
      <td>SImon</td>
    <td><pre><code>siflcondtop</code></pre></td>
@@ -13642,7 +13661,7 @@ This is field cd_ssi in JULES routine sf_exch. (dimensionless)</span></div>[lbpr
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>siflfwbot</td>
      <td>SImon</td>
    <td><pre><code>((meltt + meltb + meltl - congel - frazil) * <div class="tooltip">ICE_DENSITY<span class="tooltiptext">917.</span></div> + melts * <div class="tooltip">SNOW_DENSITY<span class="tooltiptext">330.</span></div>) / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -13653,7 +13672,7 @@ This is field cd_ssi in JULES routine sf_exch. (dimensionless)</span></div>[lbpr
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>siflfwdrain</td>
      <td>SImon</td>
    <td><pre><code>(meltt * <div class="tooltip">ICE_DENSITY<span class="tooltiptext">917.</span></div> + melts * <div class="tooltip">SNOW_DENSITY<span class="tooltiptext">330.</span></div>) / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -13664,7 +13683,7 @@ This is field cd_ssi in JULES routine sf_exch. (dimensionless)</span></div>[lbpr
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sifllatstop</td>
      <td>SImon</td>
    <td><pre><code>-1. * flat_ai / aice</code></pre></td>
@@ -13675,7 +13694,7 @@ This is field cd_ssi in JULES routine sf_exch. (dimensionless)</span></div>[lbpr
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sifllwdtop</td>
      <td>SImon</td>
    <td><pre><code><div class="tooltip">m01s02i501<span class="tooltiptext">LW DOWN OVER ICE, WGHTD (aggr)(W/m2)
@@ -13688,7 +13707,7 @@ Downward longwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sifllwutop</td>
      <td>SImon</td>
    <td><pre><code><div class="tooltip">m01s03i531<span class="tooltiptext">LW UP OVER ICE, WEIGHTED(aggr)(W/m2)
@@ -13702,7 +13721,7 @@ Upward longwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>siflsenstop</td>
      <td>SImon</td>
    <td><pre><code>-1. * <div class="tooltip">m01s03i533<span class="tooltiptext">SENS. HF OVER ICE, WGTED(aggr)(W/m2)
@@ -13715,7 +13734,7 @@ Sensible heat flux multiplied by sea-ice fraction
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>siflsensupbot</td>
      <td>SImon</td>
    <td><pre><code>siflsensupbot</code></pre></td>
@@ -13726,7 +13745,7 @@ Sensible heat flux multiplied by sea-ice fraction
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>siflswdtop</td>
      <td>SImon</td>
    <td><pre><code><div class="tooltip">m01s01i501<span class="tooltiptext">SW DOWN OVER ICE, WGHTD (aggr)(W/m2)
@@ -13739,7 +13758,7 @@ Downward shortwave radiation multiplied by sea-ice fraction
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>siflswutop</td>
      <td>SImon</td>
    <td><pre><code><div class="tooltip">m01s01i503<span class="tooltiptext">SW UP OVER ICE, WGHTED (aggr)(W/m2)
@@ -13752,7 +13771,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>siforcecoriolx</td>
      <td>SImon</td>
    <td><pre><code>siforcecoriolx</code></pre></td>
@@ -13763,7 +13782,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>siforcecorioly</td>
      <td>SImon</td>
    <td><pre><code>siforcecorioly</code></pre></td>
@@ -13774,7 +13793,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>siforceintstrx</td>
      <td>SImon</td>
    <td><pre><code>siforceintstrx</code></pre></td>
@@ -13785,7 +13804,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>siforceintstry</td>
      <td>SImon</td>
    <td><pre><code>siforceintstry</code></pre></td>
@@ -13796,7 +13815,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>siforcetiltx</td>
      <td>SImon</td>
    <td><pre><code>siforcetiltx</code></pre></td>
@@ -13807,7 +13826,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>siforcetilty</td>
      <td>SImon</td>
    <td><pre><code>siforcetilty</code></pre></td>
@@ -13818,7 +13837,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sihc</td>
      <td>SImon</td>
    <td><pre><code>sihc</code></pre></td>
@@ -13829,7 +13848,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>siitdconc</td>
      <td>SImon</td>
    <td><pre><code>aicen</code></pre></td>
@@ -13840,7 +13859,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>siitdsnconc</td>
      <td>SImon</td>
    <td><pre><code>snowfracn</code></pre></td>
@@ -13851,7 +13870,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>siitdsnthick</td>
      <td>SImon</td>
    <td><pre><code>vsnon / aicen</code></pre></td>
@@ -13862,7 +13881,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>siitdthick</td>
      <td>SImon</td>
    <td><pre><code>vicen / aicen</code></pre></td>
@@ -13873,7 +13892,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>simass</td>
      <td>SImon</td>
    <td><pre><code>hi * <div class="tooltip">ICE_DENSITY<span class="tooltiptext">917.</span></div></code></pre></td>
@@ -13884,7 +13903,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>simpconc</td>
      <td>SImon</td>
    <td><pre><code>apond_ai / aice</code></pre></td>
@@ -13896,7 +13915,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>simpmass</td>
      <td>SImon</td>
    <td><pre><code>hpond_ai / aice</code></pre></td>
@@ -13908,7 +13927,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>simprefrozen</td>
      <td>SImon</td>
    <td><pre><code>ipond_ai / apond_ai</code></pre></td>
@@ -13920,7 +13939,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sipr</td>
      <td>SImon</td>
    <td><pre><code>rain_ai * <div class="tooltip">FRESHWATER_DENSITY<span class="tooltiptext">1000.</span></div> / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -13931,7 +13950,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sirdgconc</td>
      <td>SImon</td>
    <td><pre><code>ardg</code></pre></td>
@@ -13942,7 +13961,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sirdgthick</td>
      <td>SImon</td>
    <td><pre><code>vrdg / ardg</code></pre></td>
@@ -13953,7 +13972,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sisaltmass</td>
      <td>SImon</td>
    <td><pre><code>sisaltmass</code></pre></td>
@@ -13964,7 +13983,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sisnconc</td>
      <td>SImon</td>
    <td><pre><code>snowfrac / aice</code></pre></td>
@@ -13975,7 +13994,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sisnhc</td>
      <td>SImon</td>
    <td><pre><code>sisnhc</code></pre></td>
@@ -13986,7 +14005,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sisnmass</td>
      <td>SImon</td>
    <td><pre><code>hs * <div class="tooltip">SNOW_DENSITY<span class="tooltiptext">330.</span></div></code></pre></td>
@@ -13997,7 +14016,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sisnthick</td>
      <td>SImon</td>
    <td><pre><code>sisnthick</code></pre></td>
@@ -14008,7 +14027,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sispeed</td>
      <td>SImon</td>
    <td><pre><code>sispeed</code></pre></td>
@@ -14019,7 +14038,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sistrxdtop</td>
      <td>SImon</td>
    <td><pre><code>sistrxdtop</code></pre></td>
@@ -14030,7 +14049,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sistrxubot</td>
      <td>SImon</td>
    <td><pre><code>sistrxubot</code></pre></td>
@@ -14041,7 +14060,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sistrydtop</td>
      <td>SImon</td>
    <td><pre><code>sistrydtop</code></pre></td>
@@ -14052,7 +14071,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sistryubot</td>
      <td>SImon</td>
    <td><pre><code>sistryubot</code></pre></td>
@@ -14063,7 +14082,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sitempbot</td>
      <td>SImon</td>
    <td><pre><code>sitempbot</code></pre></td>
@@ -14074,7 +14093,7 @@ Upward shortwave radiation multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sitemptop</td>
      <td>SImon SIday</td>
    <td><pre><code><div class="tooltip">m01s03i535<span class="tooltiptext">TSTAR OVER ICE, WEIGHTED(aggr)(K)
@@ -14087,7 +14106,7 @@ Sea-ice surface temperature multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sithick</td>
      <td>SImon</td>
    <td><pre><code>sithick</code></pre></td>
@@ -14098,7 +14117,7 @@ Sea-ice surface temperature multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sitimefrac</td>
      <td>SImon</td>
    <td><pre><code>ice_present</code></pre></td>
@@ -14109,7 +14128,7 @@ Sea-ice surface temperature multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>siu</td>
      <td>SImon</td>
    <td><pre><code>siu</code></pre></td>
@@ -14120,7 +14139,7 @@ Sea-ice surface temperature multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>siv</td>
      <td>SImon</td>
    <td><pre><code>siv</code></pre></td>
@@ -14131,7 +14150,7 @@ Sea-ice surface temperature multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sivol</td>
      <td>SImon</td>
    <td><pre><code>hi</code></pre></td>
@@ -14142,7 +14161,7 @@ Sea-ice surface temperature multiplied by sea-ice fraction
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sltbasin</td>
      <td>EmonZ OPmonZ</td>
    <td><pre><code>1.026 * combine_cubes_to_basin_coord(sltbasin_global, sltbasin_atlantic, sltbasin_indopacific, mask_global=global_ocean_1D_V, mask_atl=atlantic_arctic_ocean_1D_V, mask_indpac=indian_pacific_ocean_1D_V)</code></pre></td>
@@ -14160,7 +14179,7 @@ native grid and NOT with respect to true north as requested.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sltovgyre</td>
      <td>Omon OPmonZ</td>
    <td><pre><code>1.026 * combine_cubes_to_basin_coord(sltovgyre_global, sltovgyre_atlantic, sltovgyre_indopacific, mask_global=global_ocean_1D_V, mask_atl=atlantic_arctic_ocean_1D_V, mask_indpac=indian_pacific_ocean_1D_V)</code></pre></td>
@@ -14178,7 +14197,7 @@ native grid and NOT with respect to true north as requested.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sltovovrt</td>
      <td>Omon OPmonZ</td>
    <td><pre><code>1.026 * combine_cubes_to_basin_coord(sltovovrt_global, sltovovrt_atlantic, sltovovrt_indopacific, mask_global=global_ocean_1D_V, mask_atl=atlantic_arctic_ocean_1D_V, mask_indpac=indian_pacific_ocean_1D_V)</code></pre></td>
@@ -14196,7 +14215,7 @@ native grid and NOT with respect to true north as requested.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>snc</td>
      <td>day LImon LIday</td>
    <td><pre><code>snc_calc(<div class="tooltip">m01s08i236<span class="tooltiptext">SNOW AMOUNT ON TILES           KG/M2
@@ -14232,7 +14251,7 @@ This item is the fraction of land in the gridbox.</span></div>[lbproc=128])</cod
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>snd</td>
      <td>LImon Eday LIday</td>
    <td><pre><code>land_class_mean(<div class="tooltip">m01s08i376<span class="tooltiptext">SNOW DEPTH ON GROUND ON TILES (M)
@@ -14268,7 +14287,7 @@ Available on all timesteps.</span></div>[lbproc=128], land_class='all')</code></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sndmassdyn</td>
      <td>SImon</td>
    <td><pre><code>dvsdtd * <div class="tooltip">SNOW_DENSITY<span class="tooltiptext">330.</span></div> / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -14279,7 +14298,7 @@ Available on all timesteps.</span></div>[lbproc=128], land_class='all')</code></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sndmassmelt</td>
      <td>SImon</td>
    <td><pre><code>-1 * melts * <div class="tooltip">SNOW_DENSITY<span class="tooltiptext">330.</span></div> / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -14290,7 +14309,7 @@ Available on all timesteps.</span></div>[lbproc=128], land_class='all')</code></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sndmasssi</td>
      <td>SImon</td>
    <td><pre><code>-1 * snoice * <div class="tooltip">ICE_DENSITY<span class="tooltiptext">917.</span></div> / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -14301,7 +14320,7 @@ Available on all timesteps.</span></div>[lbproc=128], land_class='all')</code></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sndmasssnf</td>
      <td>SImon</td>
    <td><pre><code>snow_ai * <div class="tooltip">FRESHWATER_DENSITY<span class="tooltiptext">1000.</span></div> / (100. * <div class="tooltip">SECONDS_IN_DAY<span class="tooltiptext">86400.</span></div>)</code></pre></td>
@@ -14312,7 +14331,7 @@ Available on all timesteps.</span></div>[lbproc=128], land_class='all')</code></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>snm</td>
      <td>LImon Eday LIday</td>
    <td><pre><code>land_class_mean(<div class="tooltip">m01s08i237<span class="tooltiptext">SNOW MELT RATE ON TILES      KG/M2/S
@@ -14346,7 +14365,7 @@ Available on all timesteps.</span></div>[lbproc=128], land_class='all')</code></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>snw</td>
      <td>day LImon LIday</td>
    <td><pre><code>land_class_mean(<div class="tooltip">m01s08i236<span class="tooltiptext">SNOW AMOUNT ON TILES           KG/M2
@@ -14381,7 +14400,7 @@ Available on all timesteps.</span></div>[lbproc=128], land_class='all')</code></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>so</td>
      <td>Omon OPmonLev</td>
    <td><pre><code>so</code></pre></td>
@@ -14396,7 +14415,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>so2</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code><div class="tooltip">m01s34i072<span class="tooltiptext">SO2 MASS MIXING RATIO AFTER TIMESTEP
@@ -14408,7 +14427,7 @@ Sulphur dioxide Mass Mixing Ratio in kg/kg(Air)</span></div>[lbproc=128] * (<div
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sob</td>
      <td>Omon OPmon</td>
    <td><pre><code>sob</code></pre></td>
@@ -14419,7 +14438,7 @@ Sulphur dioxide Mass Mixing Ratio in kg/kg(Air)</span></div>[lbproc=128] * (<div
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>soga</td>
      <td>Omon OPmon</td>
    <td><pre><code>soga</code></pre></td>
@@ -14430,7 +14449,7 @@ Sulphur dioxide Mass Mixing Ratio in kg/kg(Air)</span></div>[lbproc=128] * (<div
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>solbnd</td>
      <td>E3hrPt AP3hrPt</td>
    <td><pre><code><div class="tooltip">m01s01i510<span class="tooltiptext">DOWNWARD SW FLUX ON LEVELS AND BANDS
@@ -14456,7 +14475,7 @@ Pseudo-levels should be set to SW bands (1 to 6 for GA7 spectral files).</span><
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>somint</td>
      <td>Emon OPmon</td>
    <td><pre><code>somint</code></pre></td>
@@ -14468,7 +14487,7 @@ Pseudo-levels should be set to SW bands (1 to 6 for GA7 spectral files).</span><
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sos</td>
      <td>Oday Omon OPday OPmon</td>
    <td><pre><code>sos</code></pre></td>
@@ -14479,7 +14498,7 @@ Pseudo-levels should be set to SW bands (1 to 6 for GA7 spectral files).</span><
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sosga</td>
      <td>Omon OPmon</td>
    <td><pre><code>area_mean(sos, areacello)</code></pre></td>
@@ -14490,7 +14509,7 @@ Pseudo-levels should be set to SW bands (1 to 6 for GA7 spectral files).</span><
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>sossq</td>
      <td>Oday Omon OPday OPmon</td>
    <td><pre><code>sossq</code></pre></td>
@@ -14501,7 +14520,7 @@ Pseudo-levels should be set to SW bands (1 to 6 for GA7 spectral files).</span><
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>sweLut</td>
      <td>Emon LPmon</td>
    <td><pre><code>land_use_tile_mean( <div class="tooltip">m01s08i236<span class="tooltiptext">SNOW AMOUNT ON TILES           KG/M2
@@ -14535,7 +14554,7 @@ Available on all timesteps.</span></div>[lbproc=128])</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>t2</td>
      <td>Emon APmonLev</td>
    <td><pre><code>m01s30i044[lbproc=128] / <div class="tooltip">m01s30i115<span class="tooltiptext">DRY MASS WEIGHTING MODEL LEV  KG/M2
@@ -14574,7 +14593,7 @@ of fluxes is required then these diagnostics may be more useful than the
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>t20d</td>
      <td>Emon Eday OPmon OPday</td>
    <td><pre><code>t20d</code></pre></td>
@@ -14585,7 +14604,7 @@ of fluxes is required then these diagnostics may be more useful than the
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ta</td>
      <td>Amon Eday APmon</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14604,7 +14623,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV19<span cl
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>ta10</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14623,7 +14642,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ta100</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14642,7 +14661,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>ta1000</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14661,7 +14680,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ta150</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14680,7 +14699,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P150<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>ta20</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14699,7 +14718,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P20<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ta200</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14718,7 +14737,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>ta250</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14737,7 +14756,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P250<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ta27</td>
      <td>Emon APmon</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14756,7 +14775,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV27<span cl
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>ta30</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14775,7 +14794,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P30<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ta300</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14794,7 +14813,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P30<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>ta400</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14813,7 +14832,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P400<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ta50</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14832,7 +14851,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P50<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>ta500</td>
      <td>GCAmon GCday Eday APday</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14851,7 +14870,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ta600</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14870,7 +14889,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P600<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>ta70</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14889,7 +14908,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P70<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ta700</td>
      <td>GCAmon GCday CFday APday</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14908,7 +14927,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>ta7h</td>
      <td>6hrPlevPt E3hrPt AP6hrPt AP3hrPt</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14927,7 +14946,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV7H<span cl
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ta850</td>
      <td>GCAmon GCday Eday APday</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14946,7 +14965,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P850<span clas
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>ta925</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i294<span class="tooltiptext">TEMPERATURE ON P LEV/T GRID
@@ -14965,7 +14984,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P925<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tas</td>
      <td>6hrPlev Amon day CresAERday Cres1HrMn AP6hr APday APmon mon 1hr</td>
    <td><pre><code><div class="tooltip">m01s03i236<span class="tooltiptext">TEMPERATURE AT 1.5M
@@ -14981,7 +15000,7 @@ Available on all timesteps.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tasmax</td>
      <td>Amon APmon</td>
    <td><pre><code>mon_mean_from_day(<div class="tooltip">m01s03i236<span class="tooltiptext">TEMPERATURE AT 1.5M
@@ -14997,7 +15016,7 @@ Available on all timesteps.</span></div>[lbproc=8192])</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tasmin</td>
      <td>Amon APmon</td>
    <td><pre><code>mon_mean_from_day(<div class="tooltip">m01s03i236<span class="tooltiptext">TEMPERATURE AT 1.5M
@@ -15013,7 +15032,7 @@ Available on all timesteps.</span></div>[lbproc=4096])</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tatp</td>
      <td>AERmon AEmon</td>
    <td><pre><code>m01s30i452[lbproc=128]</code></pre></td>
@@ -15024,7 +15043,7 @@ Available on all timesteps.</span></div>[lbproc=4096])</code></pre></td>
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tauu</td>
      <td>Amon Eday APmon APday</td>
    <td><pre><code><div class="tooltip">m01s03i460<span class="tooltiptext">X-COMP SURFACE BL STRESS
@@ -15039,7 +15058,7 @@ around.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tauuo</td>
      <td>Omon OPmon</td>
    <td><pre><code>mask_copy(tauuo, mask_2D_U)</code></pre></td>
@@ -15050,7 +15069,7 @@ around.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tauupbl</td>
      <td>Eday APday</td>
    <td><pre><code><div class="tooltip">m01s03i460<span class="tooltiptext">X-COMP SURFACE BL STRESS
@@ -15064,7 +15083,7 @@ around.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tauv</td>
      <td>Amon Eday APmon APday</td>
    <td><pre><code><div class="tooltip">m01s03i461<span class="tooltiptext">Y-COMP SURFACE BL STRESS
@@ -15079,7 +15098,7 @@ around.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tauvo</td>
      <td>Omon OPmon</td>
    <td><pre><code>mask_copy(tauvo, mask_2D_V)</code></pre></td>
@@ -15090,7 +15109,7 @@ around.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tauvpbl</td>
      <td>Eday APday</td>
    <td><pre><code><div class="tooltip">m01s03i461<span class="tooltiptext">Y-COMP SURFACE BL STRESS
@@ -15104,7 +15123,7 @@ around.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tdps</td>
      <td>Emon Eday APmon APday</td>
    <td><pre><code>m01s03i250[lbproc=128]</code></pre></td>
@@ -15115,7 +15134,7 @@ around.</span></div>[lbproc=128]</code></pre></td>
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tgs</td>
      <td>Eday LPday</td>
    <td><pre><code><div class="tooltip">m01s03i316<span class="tooltiptext">SURFACE TEMP ON TILES              K
@@ -15129,7 +15148,7 @@ Available on all timesteps.</span></div>[lbplev=8, lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>thetao</td>
      <td>Omon OPmonLev</td>
    <td><pre><code>thetao</code></pre></td>
@@ -15144,7 +15163,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>thetaoga</td>
      <td>Omon OPmon</td>
    <td><pre><code>thetaoga</code></pre></td>
@@ -15155,7 +15174,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>thetaot</td>
      <td>Emon OPmon</td>
    <td><pre><code>level_mean(thetao, thkcello)</code></pre></td>
@@ -15166,7 +15185,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>thetaot2000</td>
      <td>Emon OPmon</td>
    <td><pre><code>level_mean(thetao[depth<2025], thkcello[depth<2025])</code></pre></td>
@@ -15177,7 +15196,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>thetaot300</td>
      <td>Emon OPmon</td>
    <td><pre><code>level_mean(thetao[depth<300], thkcello[depth<300])</code></pre></td>
@@ -15188,7 +15207,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>thetaot700</td>
      <td>Emon OPmon</td>
    <td><pre><code>level_mean(thetao[depth<735], thkcello[depth<735])</code></pre></td>
@@ -15199,7 +15218,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>thkcello</td>
      <td>Omon OPmonLev</td>
    <td><pre><code>thkcello</code></pre></td>
@@ -15214,7 +15233,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tnhus</td>
      <td>CFmon APmonLev</td>
    <td><pre><code><div class="tooltip">m01s30i182<span class="tooltiptext">Q TOTAL INCREMENT ON MODEL LEVELS
@@ -15227,7 +15246,7 @@ Units kg/kg/timestep.</span></div>[lbproc=128] / ATMOS_TIMESTEP</code></pre></td
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tnhusa</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>(<div class="tooltip">m01s12i182<span class="tooltiptext">Q INCR: advect      kg/kg/timestep
@@ -15249,7 +15268,7 @@ Units kg/kg/timestep.</span></div>[lbproc=128]) / ATMOS_TIMESTEP</code></pre></t
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tnhusc</td>
      <td>CFmon APmonLev</td>
    <td><pre><code><div class="tooltip">m01s05i162<span class="tooltiptext">SPECIFIC HUMIDITY INCR: convection
@@ -15263,7 +15282,7 @@ This diagnostic gives the total increment from  convection per model timestep.</
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tnhusmp</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>(<div class="tooltip">m01s01i182<span class="tooltiptext">SPECIFIC HUMIDITY INCR: swrad scheme
@@ -15330,7 +15349,7 @@ Increment of q done by the SPT (kg/kg).</span></div>[lbproc=128] ) / ATMOS_TIMES
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tnhuspbl</td>
      <td>Emon APmonLev</td>
    <td><pre><code><div class="tooltip">m01s03i190<span class="tooltiptext">TOTAL (LIQ) WATER INCR: bdy layer
@@ -15352,7 +15371,7 @@ Available on all timesteps.</span></div>[lbproc=128] / ATMOS_TIMESTEP</code></pr
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tnhusscp</td>
      <td>Emon APmonLev</td>
    <td><pre><code>(<div class="tooltip">m01s01i182<span class="tooltiptext">SPECIFIC HUMIDITY INCR: swrad scheme
@@ -15430,7 +15449,7 @@ contacting the cloud scheme code owner.</span></div>[lbproc=128]) / ATMOS_TIMEST
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tnhusscpbl</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>(<div class="tooltip">m01s01i182<span class="tooltiptext">SPECIFIC HUMIDITY INCR: swrad scheme
@@ -15498,7 +15517,7 @@ contacting the cloud scheme code owner.</span></div>[lbproc=128]) / ATMOS_TIMEST
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tnkebto</td>
      <td>Oyr OPyr</td>
    <td><pre><code>tnkebto</code></pre></td>
@@ -15509,7 +15528,7 @@ contacting the cloud scheme code owner.</span></div>[lbproc=128]) / ATMOS_TIMEST
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tnpeo</td>
      <td>Oyr OPyr</td>
    <td><pre><code>tnpeo</code></pre></td>
@@ -15520,7 +15539,7 @@ contacting the cloud scheme code owner.</span></div>[lbproc=128]) / ATMOS_TIMEST
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tnt</td>
      <td>CFmon APmonLev</td>
    <td><pre><code><div class="tooltip">m01s30i181<span class="tooltiptext">T TOTAL INCREMENT ON MODEL LEVELS
@@ -15533,7 +15552,7 @@ Units K/timestep.</span></div>[lbproc=128] / ATMOS_TIMESTEP</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tnta</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>(<div class="tooltip">m01s10i181<span class="tooltiptext">dT SOLVER INC ON MODEL LEVELS
@@ -15558,7 +15577,7 @@ Units K/timestep.</span></div>[lbproc=128]) / ATMOS_TIMESTEP</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tntc</td>
      <td>CFmon APmonLev</td>
    <td><pre><code><div class="tooltip">m01s05i161<span class="tooltiptext">TEMPERATURE       INCR: convection
@@ -15572,7 +15591,7 @@ This diagnostic gives the total increment from  convection per model timestep.</
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tntmp</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>(<div class="tooltip">m01s14i181<span class="tooltiptext">TEMPERATURE INCR: En cor K/Timestep
@@ -15632,7 +15651,7 @@ Units: Temperature (K)</span></div>[lbproc=128]) / ATMOS_TIMESTEP</code></pre></
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tntpbl</td>
      <td>Emon APmonLev</td>
    <td><pre><code><div class="tooltip">m01s03i189<span class="tooltiptext">LIQUID WATER TEMP INCR: bdy layer
@@ -15651,7 +15670,7 @@ Available on all timesteps.</span></div>[lbproc=128] / ATMOS_TIMESTEP</code></pr
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tntr</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>(<div class="tooltip">m01s01i161<span class="tooltiptext">TEMPERATURE INCR: swrad MINUS LH PC2
@@ -15670,7 +15689,7 @@ Available on all timesteps.</span></div>[lbproc=128]) / ATMOS_TIMESTEP</code></p
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tntrl</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code><div class="tooltip">m01s02i161<span class="tooltiptext">TEMPERATURE       INCR: lwrad - pc2
@@ -15686,7 +15705,7 @@ Available on all timesteps.</span></div>[lbproc=128] / ATMOS_TIMESTEP</code></pr
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tntrlcs</td>
      <td>Emon APmonLev</td>
    <td><pre><code><div class="tooltip">m01s02i233<span class="tooltiptext">CLEAR-SKY LW HEATING RATES
@@ -15701,7 +15720,7 @@ claulated only on LW radiative timesteps.</span></div>[lbproc=128]</code></pre><
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tntrs</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code><div class="tooltip">m01s01i161<span class="tooltiptext">TEMPERATURE INCR: swrad MINUS LH PC2
@@ -15717,7 +15736,7 @@ Available on all timesteps.</span></div>[lbproc=128] / ATMOS_TIMESTEP</code></pr
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tntrscs</td>
      <td>Emon APmonLev</td>
    <td><pre><code><div class="tooltip">m01s01i233<span class="tooltiptext">CLEAR-SKY SW HEATING RATES
@@ -15735,7 +15754,7 @@ since the effects of clouds in other layers are ignored.</span></div>[lbproc=128
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tntscp</td>
      <td>Emon APmonLev</td>
    <td><pre><code>(<div class="tooltip">m01s03i181<span class="tooltiptext">TEMPERATURE       INCR: bdy layer
@@ -15800,7 +15819,7 @@ This diagnostic gives the total increment from  convection per model timestep.</
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tntscpbl</td>
      <td>CFmon APmonLev</td>
    <td><pre><code>(<div class="tooltip">m01s03i181<span class="tooltiptext">TEMPERATURE       INCR: bdy layer
@@ -15858,7 +15877,7 @@ This diagnostic gives the total increment from  convection per model timestep.</
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tob</td>
      <td>Omon OPmon</td>
    <td><pre><code>tob</code></pre></td>
@@ -15869,7 +15888,7 @@ This diagnostic gives the total increment from  convection per model timestep.</
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tos</td>
      <td>Oday Omon OPmon OPday</td>
    <td><pre><code>tos</code></pre></td>
@@ -15880,7 +15899,7 @@ This diagnostic gives the total increment from  convection per model timestep.</
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tosga</td>
      <td>Omon OPmon</td>
    <td><pre><code>area_mean(tos, areacello)</code></pre></td>
@@ -15891,7 +15910,7 @@ This diagnostic gives the total increment from  convection per model timestep.</
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tossq</td>
      <td>Oday Omon OPday OPmon</td>
    <td><pre><code>tossq</code></pre></td>
@@ -15902,7 +15921,7 @@ This diagnostic gives the total increment from  convection per model timestep.</
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>toz</td>
      <td>AERmon AEmon</td>
    <td><pre><code><div class="tooltip">m01s50i219<span class="tooltiptext">Ozone column in Dobson Units
@@ -15918,7 +15937,7 @@ Valid on all timesteps</span></div>[lblev=1, lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tran</td>
      <td>Lmon Eday LPmon LPday</td>
    <td><pre><code><div class="tooltip">m01s03i539<span class="tooltiptext">TRANSPIRATION GRIDBOX MEAN (kg/m2/s)
@@ -15931,7 +15950,7 @@ calculated from transpiration on tiles.</span></div>[lbproc=128]</code></pre></t
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>treeFrac</td>
      <td>Lmon LPmon</td>
    <td><pre><code>land_class_area(<div class="tooltip">m01s03i317<span class="tooltiptext">SURFACE TILE FRACTIONS
@@ -15964,7 +15983,7 @@ land_class='tree')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>treeFracBdlDcd</td>
      <td>Emon LPmon</td>
    <td><pre><code>land_class_area(<div class="tooltip">m01s03i317<span class="tooltiptext">SURFACE TILE FRACTIONS
@@ -15997,7 +16016,7 @@ land_class='broadLeafTreeDeciduous')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>treeFracNdlEvg</td>
      <td>Emon LPmon</td>
    <td><pre><code>land_class_area(<div class="tooltip">m01s03i317<span class="tooltiptext">SURFACE TILE FRACTIONS
@@ -16030,7 +16049,7 @@ land_class='needleLeafTreeEvergreen')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tropoz</td>
      <td>AERmon AEmon</td>
    <td><pre><code>trop_o3col(<div class="tooltip">m01s34i001<span class="tooltiptext">O3 MASS MIXING RATIO AFTER TIMESTEP
@@ -16047,7 +16066,7 @@ Valid only on chemical timesteps</span></div>[lbproc=128])</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ts</td>
      <td>Amon Eday APmon APday</td>
    <td><pre><code>m01s00i024[lbproc=128]</code></pre></td>
@@ -16058,7 +16077,7 @@ Valid only on chemical timesteps</span></div>[lbproc=128])</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>tsl</td>
      <td>Lmon Eday LPmon LPday</td>
    <td><pre><code><div class="tooltip">m01s08i225<span class="tooltiptext">DEEP SOIL TEMP. AFTER HYDROLOGY DEGK
@@ -16070,7 +16089,7 @@ Available on land points only.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>tsns</td>
      <td>Eday APday</td>
    <td><pre><code>m01s00i024[lbproc=128]</code></pre></td>
@@ -16081,7 +16100,7 @@ Available on land points only.</span></div>[lbproc=128]</code></pre></td>
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>u2</td>
      <td>Emon APmonLev</td>
    <td><pre><code>m01s30i011[lbproc=128] / <div class="tooltip">m01s30i115<span class="tooltiptext">DRY MASS WEIGHTING MODEL LEV  KG/M2
@@ -16120,7 +16139,7 @@ of fluxes is required then these diagnostics may be more useful than the
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ua</td>
      <td>Amon Eday APmon</td>
    <td><pre><code><div class="tooltip">m01s30i201<span class="tooltiptext">U COMPNT OF WIND ON P LEV/UV GRID
@@ -16141,7 +16160,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV19<span cl
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>ua10</td>
      <td>AERday AEday</td>
    <td><pre><code><div class="tooltip">m01s30i201<span class="tooltiptext">U COMPNT OF WIND ON P LEV/UV GRID
@@ -16153,6 +16172,27 @@ Units are m s^-1</span></div>[blev=<div class="tooltip">P10<span class="tooltipt
      <td><div class="tooltip">comment<span class="tooltiptext">A division by the Heaviside function, as used in UKESM1-0-LL has been removed from the mapping used to calculate this variable. As the 10 hPa level is well above the surface everywhere this should have no impact on the scientific content of this variable</span></div>
 </td>
      <td>longitude latitude p10 time</td>
+     <td>m s-1</td>
+     <td>atmos-physics</td>
+     <td>ok</td>
+     <td>HadGEM3_mappings.cfg</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+     <td>ua19</td>
+     <td>APmon</td>
+   <td><pre><code><div class="tooltip">m01s30i201<span class="tooltiptext">U COMPNT OF WIND ON P LEV/UV GRID
+Zonal wind on pressure levels. Horizontally regridded to UV-points, i.e.
+the corners of T-point grid cells. Set to zero when pressure level is
+below ground or above model top: must be divided by heavyside function
+(30301) to obtain correct mean.
+Units are m s^-1</span></div>[blev=<div class="tooltip">PLEV19<span class="tooltiptext">1000.0 925.0 850.0 700.0 600.0 500.0 400.0 300.0 250.0 200.0 150.0 100.0 70.0 50.0 30.0 20.0 10.0 5.0 1.0</span></div>, lbproc=128] / <div class="tooltip">m01s30i301<span class="tooltiptext">HEAVYSIDE FN ON P LEV/UV GRID
+Fraction of time pressure level has been above ground and below the model
+top. Is required to normalise pressure-level fields 30201-30288. Valid on
+pressure levels and at UV-points in the horizontal, i.e. the corners of
+T-point grid cells.
+Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV19<span class="tooltiptext">1000.0 925.0 850.0 700.0 600.0 500.0 400.0 300.0 250.0 200.0 150.0 100.0 70.0 50.0 30.0 20.0 10.0 5.0 1.0</span></div>, lbproc=128]</code></pre></td>
+     <td></td>
+     <td>longitude latitude plev19 time</td>
      <td>m s-1</td>
      <td>atmos-physics</td>
      <td>ok</td>
@@ -16788,6 +16828,27 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>HadGEM3_mappings.cfg</td>
   </tr>
   <tr bgcolor="#E0EEFF">
+     <td>va19</td>
+     <td>APmon</td>
+   <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
+Meridional wind on pressure levels. Horizontally regridded to UV-points,
+i.e. the corners of T-point grid cells. Set to zero when pressure level is
+below ground or above model top: must be divided by heavyside function
+(30301) to obtain correct mean.
+Units are m s^-1</span></div>[blev=<div class="tooltip">PLEV19<span class="tooltiptext">1000.0 925.0 850.0 700.0 600.0 500.0 400.0 300.0 250.0 200.0 150.0 100.0 70.0 50.0 30.0 20.0 10.0 5.0 1.0</span></div>, lbproc=128] / <div class="tooltip">m01s30i301<span class="tooltiptext">HEAVYSIDE FN ON P LEV/UV GRID
+Fraction of time pressure level has been above ground and below the model
+top. Is required to normalise pressure-level fields 30201-30288. Valid on
+pressure levels and at UV-points in the horizontal, i.e. the corners of
+T-point grid cells.
+Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV19<span class="tooltiptext">1000.0 925.0 850.0 700.0 600.0 500.0 400.0 300.0 250.0 200.0 150.0 100.0 70.0 50.0 30.0 20.0 10.0 5.0 1.0</span></div>, lbproc=128]</code></pre></td>
+     <td></td>
+     <td>longitude latitude plev19 time</td>
+     <td>m s-1</td>
+     <td>atmos-physics</td>
+     <td>ok</td>
+     <td>HadGEM3_mappings.cfg</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
      <td>va100</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -16808,7 +16869,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>va1000</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -16829,7 +16890,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>va100m</td>
      <td>6hrPlev AP6hr</td>
    <td><pre><code>primavera_make_uva100m(m01s00i003[lbproc=128, lblev=4])</code></pre></td>
@@ -16841,7 +16902,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>va150</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -16862,7 +16923,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P150<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>va20</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -16883,7 +16944,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P20<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>va200</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -16904,7 +16965,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>va250</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -16925,7 +16986,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P250<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>va27</td>
      <td>Emon APmon</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -16946,7 +17007,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV27<span cl
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>va30</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -16967,7 +17028,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P30<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>va300</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -16988,7 +17049,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P30<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>va400</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -17009,7 +17070,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P400<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>va50</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -17030,7 +17091,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P50<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>va500</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -17051,7 +17112,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>va600</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -17072,7 +17133,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P600<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>va70</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -17093,7 +17154,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P70<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>va700</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -17114,7 +17175,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>va850</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -17135,7 +17196,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P850<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>va925</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i202<span class="tooltiptext">V COMPNT OF WIND ON P LEV/UV GRID
@@ -17156,7 +17217,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P925<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>vas</td>
      <td>6hrPlev Amon E3hr day AP3hr AP6hr APday APmon</td>
    <td><pre><code>m01s03i210[lbproc=128]</code></pre></td>
@@ -17167,7 +17228,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P925<span clas
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>vegFrac</td>
      <td>Emon LPmon</td>
    <td><pre><code>land_class_area(<div class="tooltip">m01s03i317<span class="tooltiptext">SURFACE TILE FRACTIONS
@@ -17200,7 +17261,7 @@ land_class='natural')</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>vmo</td>
      <td>Omon OPmonLev</td>
    <td><pre><code>mask_copy(vmo, mask_3D_V)</code></pre></td>
@@ -17215,7 +17276,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>vmrox</td>
      <td>EmonZ ACmonZ</td>
    <td><pre><code>(<div class="tooltip">MOLECULAR_MASS_OF_AIR<span class="tooltiptext">28.97</span></div> / <div class="tooltip">MOLECULAR_MASS_OF_O3<span class="tooltiptext">48.</span></div>) * (<div class="tooltip">m01s51i997<span class="tooltiptext">O(1D) MASS MIXING RATIO ON PRESSURE LEVELS
@@ -17235,7 +17296,7 @@ and 50 items on pressure levels.</span></div>[blev=<div class="tooltip">PLEV3<sp
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>vo</td>
      <td>Omon OPmonLev</td>
    <td><pre><code>mask_copy(vo, mask_3D_V)</code></pre></td>
@@ -17250,7 +17311,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>volcello</td>
      <td>Omon OPmonLev</td>
    <td><pre><code>volcello(thkcello, areacello)</code></pre></td>
@@ -17265,7 +17326,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>volo</td>
      <td>Omon OPmon</td>
    <td><pre><code>scvoltot</code></pre></td>
@@ -17276,7 +17337,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>vortmean</td>
      <td>6hrPlevPt AP6hrPt</td>
    <td><pre><code>vortmean(<div class="tooltip">m01s30i457<span class="tooltiptext">VORTICITY TC
@@ -17294,7 +17355,7 @@ Vorticity TC
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>vqint</td>
      <td>Emon APmon</td>
    <td><pre><code>m01s30i429[lbproc=128]</code></pre></td>
@@ -17306,7 +17367,7 @@ Vorticity TC
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>vt</td>
      <td>Emon APmonLev</td>
    <td><pre><code>m01s30i024[lbproc=128] / <div class="tooltip">m01s30i115<span class="tooltiptext">DRY MASS WEIGHTING MODEL LEV  KG/M2
@@ -17345,7 +17406,7 @@ of fluxes is required then these diagnostics may be more useful than the
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>vtem</td>
      <td>EdayZ EmonZ APmonZ APdayZ</td>
    <td><pre><code>mask_vtem(<div class="tooltip">m01s30i310<span class="tooltiptext">RESIDUAL MN MERID. CIRC. VSTARBAR
@@ -17367,7 +17428,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV3<span cla
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wa</td>
      <td>AERmon AEmonLev</td>
    <td><pre><code>m01s00i150[lbproc=128]</code></pre></td>
@@ -17378,7 +17439,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV3<span cla
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wa10</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17399,7 +17460,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wa100</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17420,7 +17481,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wa1000</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17441,7 +17502,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wa150</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17462,7 +17523,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P150<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wa20</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17483,7 +17544,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P20<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wa200</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17504,7 +17565,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wa250</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17525,7 +17586,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P250<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wa30</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17546,7 +17607,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P30<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wa300</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17567,7 +17628,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P30<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wa400</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17588,7 +17649,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P400<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wa50</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17609,7 +17670,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P50<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wa500</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17630,7 +17691,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wa600</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17651,7 +17712,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P600<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wa70</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17672,7 +17733,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P70<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wa700</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17693,7 +17754,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wa850</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17714,7 +17775,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P850<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wa925</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i203<span class="tooltiptext">W COMPNT OF WIND ON P LEV/UV GRID
@@ -17735,7 +17796,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P925<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wap</td>
      <td>Amon Eday APmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -17754,7 +17815,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV19<span cl
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wap10</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -17773,7 +17834,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wap100</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -17792,7 +17853,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wap1000</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -17811,7 +17872,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wap150</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -17830,7 +17891,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P150<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wap20</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -17849,7 +17910,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P20<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wap200</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -17868,7 +17929,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wap250</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -17887,7 +17948,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P250<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wap30</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -17906,7 +17967,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P30<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wap300</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -17925,7 +17986,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P30<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wap4</td>
      <td>6hrPlev AP6hr</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -17944,7 +18005,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV4<span cla
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wap400</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -17963,7 +18024,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P400<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wap50</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -17982,7 +18043,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P50<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wap500</td>
      <td>GCAmon CFday APday</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -18001,7 +18062,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wap600</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -18020,7 +18081,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P600<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wap70</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -18039,7 +18100,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P70<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wap700</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -18058,7 +18119,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wap7h</td>
      <td>E3hrPt AP3hrPt</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -18077,7 +18138,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV7H<span cl
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wap850</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -18096,7 +18157,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P850<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wap925</td>
      <td>GCAmon</td>
    <td><pre><code><div class="tooltip">m01s30i298<span class="tooltiptext">OMEGA ON P LEV/T GRID
@@ -18115,7 +18176,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P925<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wbptemp7h</td>
      <td>6hrPlevPt AP6hrPt</td>
    <td><pre><code>m01s16i205[blev=<div class="tooltip">PLEV7H<span class="tooltiptext">925.0 850.0 700.0 600.0 500.0 250.0 50.0</span></div>, lbproc=0] / <div class="tooltip">m01s30i304<span class="tooltiptext">HEAVYSIDE FN ON P LEV/T GRID
@@ -18130,7 +18191,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV7H<span cl
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wetdust</td>
      <td>AERmon AEmon</td>
    <td><pre><code><div class="tooltip">m01s04i231<span class="tooltiptext">Dust wet dep flux ls precip  div 1
@@ -18165,7 +18226,7 @@ precipitation. (kg m-2 s-1)</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wetlandCH4</td>
      <td>Emon LPmon</td>
    <td><pre><code><div class="tooltip">m01s08i242<span class="tooltiptext">CH4 WETLAND FLUX(FOR UKCA) UG C/M2/S
@@ -18179,7 +18240,7 @@ Available on land points only.</span></div>[lbproc=128] * <div class="tooltip">M
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wetlandFrac</td>
      <td>Emon LPmon</td>
    <td><pre><code>m01s08i248[lbproc=128] * <div class="tooltip">m01s03i395<span class="tooltiptext">FRACTION OF LAND
@@ -18191,7 +18252,7 @@ This item is the fraction of land in the gridbox.</span></div>[lbproc=128]</code
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wfo</td>
      <td>Omon OPmon</td>
    <td><pre><code>-1 * (sowaflup + sowflisf)</code></pre></td>
@@ -18202,7 +18263,7 @@ This item is the fraction of land in the gridbox.</span></div>[lbproc=128]</code
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wmo</td>
      <td>Omon OPmonLev</td>
    <td><pre><code>mask_copy(wmo, mask_3D_T)</code></pre></td>
@@ -18217,7 +18278,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wo</td>
      <td>Omon OPmonLev</td>
    <td><pre><code>mask_copy(wo, mask_3D_T)</code></pre></td>
@@ -18232,7 +18293,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wsgmax10m</td>
      <td>6hrPlev AP6hr</td>
    <td><pre><code><div class="tooltip">m01s03i463<span class="tooltiptext">WIND GUST (M/S)
@@ -18244,7 +18305,7 @@ Maximum gust windspeed at 10m. Single level available every timestep.</span></di
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>wtd</td>
      <td>Emon Eday LPmon LPday</td>
    <td><pre><code>m01s08i249[lbproc=128]</code></pre></td>
@@ -18255,7 +18316,7 @@ Maximum gust windspeed at 10m. Single level available every timestep.</span></di
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>wtem</td>
      <td>EdayZ EmonZ APdayZ APmonZ</td>
    <td><pre><code>mask_polar_column_zonal_means( <div class="tooltip">m01s30i311<span class="tooltiptext">RESIDUAL MN MERID. CIRC. WSTARBAR
@@ -18275,7 +18336,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV3<span cla
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>zfull</td>
      <td>CF3hr AP3hrPtLev</td>
    <td><pre><code>m01s15i101[lbproc=0]</code></pre></td>
@@ -18286,7 +18347,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV3<span cla
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>zfullo</td>
      <td>Omon OPmonLev</td>
    <td><pre><code>zfull</code></pre></td>
@@ -18301,7 +18362,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>zg</td>
      <td>Amon Eday APmon</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18320,7 +18381,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV19<span cl
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>zg10</td>
      <td>AERday AEday</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18339,7 +18400,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>zg100</td>
      <td>AERday AEday</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18358,7 +18419,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>zg1000</td>
      <td>GCAmon GCday 6hrPlev AERday AP6hr APday</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18377,7 +18438,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P10<span class
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>zg200</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18396,7 +18457,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>zg250</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18415,7 +18476,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P250<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>zg27</td>
      <td>Emon APmon</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18434,7 +18495,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV27<span cl
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>zg300</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18453,7 +18514,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P30<span class
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>zg400</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18472,7 +18533,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P400<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>zg500</td>
      <td>GCAmon GCday AERday AEday</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18491,7 +18552,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>zg600</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18510,7 +18571,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P600<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>zg700</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18529,7 +18590,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip"><div class="to
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>zg7h</td>
      <td>6hrPlevPt AP6hrPt</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18548,7 +18609,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">PLEV7H<span cl
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>zg850</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18567,7 +18628,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P850<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>zg925</td>
      <td>GCAmon GCday</td>
    <td><pre><code><div class="tooltip">m01s30i297<span class="tooltiptext">GEOPOTENTIAL HEIGHT ON P LEV/T GRID
@@ -18586,7 +18647,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P925<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>zhalf</td>
      <td>CF3hr AP3hrPtLev</td>
    <td><pre><code>m01s15i102[lbproc=0]</code></pre></td>
@@ -18597,7 +18658,7 @@ Dimensionless (range 0-1).</span></div>[blev=<div class="tooltip">P925<span clas
      <td>embargoed</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>zhalfo</td>
      <td>Omon OPmonLev</td>
    <td><pre><code>zhalf</code></pre></td>
@@ -18612,7 +18673,7 @@ variables thkcello or zfullo.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>zmla</td>
      <td>Eday APday</td>
    <td><pre><code><div class="tooltip">m01s03i304<span class="tooltiptext">TURBULENT MIXING HT AFTER B.LAYER m
@@ -18632,7 +18693,7 @@ Available on all timesteps.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>zos</td>
      <td>Omon OPmon</td>
    <td><pre><code>zos</code></pre></td>
@@ -18643,7 +18704,7 @@ Available on all timesteps.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>zossq</td>
      <td>Omon OPmon</td>
    <td><pre><code>zossq</code></pre></td>
@@ -18654,7 +18715,7 @@ Available on all timesteps.</span></div>[lbproc=128]</code></pre></td>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#FFFFFF">
+  <tr bgcolor="#E0EEFF">
      <td>zostoga</td>
      <td>Omon OPmon</td>
    <td><pre><code>calc_zostoga(thetao, thkcello, areacello,
@@ -18668,7 +18729,7 @@ of the corresponding piControl experiment as the reference state.</span></div>
      <td>ok</td>
      <td>HadGEM3_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>ztp</td>
      <td>AERmon AEmon</td>
    <td><pre><code>m01s30i453[lbproc=128] + m01s00i033[lbproc=128]</code></pre></td>
