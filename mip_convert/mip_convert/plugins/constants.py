@@ -34,6 +34,7 @@ def constants():
         'C_TO_N_RATIO_ZOO': '5.625',  # mol C (mol N)-1 (Molar C to N ratio of zooplankton in marine bgc model)
         'CONV_C_ORGM': '1.4',  # C/ Organic matter ratio
         'DAYS_IN_YEAR': '360.',  # day year-1  # TODO: remove or update appropriately.
+        'DOBSON_UNIT_TO_METRES': '1.00E-5',
         'FE_TO_N_RATIO': '3.00E-05',  # mol Fe (mol N)-1 (Molar Fe to N ratio in marine bgc model)
         'FRESHWATER_DENSITY': '1000.',  # kg m-3
         'ICE_DENSITY': '917.',  # kg m-3
