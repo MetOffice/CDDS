@@ -215,13 +215,49 @@ def get_active_variables(request_vars_path: str) -> List[Dict[str, str]]:
     return active_vars
 
 
-def read_approved_vars_from_file(mip_approved_variables_path: str, approved_vars_regex) -> List[Dict[str, str]]:
+def process_approved_var_str(pattern: Pattern, var_str: str) -> dict[str, str]:
+    """Process an approved variable list string and return a dictionary of its components.
+
+    Parameters
+    ----------
+    pattern : Pattern
+        An _APPROVED_VARS_VARIABLE_REGEX provided by a plugin.
+    var_str : str
+        A single line from an approved variables file.
+
+    Returns
+    -------
+    dict[str, str]
+        A dictionary with specific components of an approved variable.
+    """
+    match: Match = pattern.search(var_str)
+    _check_variable_match(match, var_str, pattern)
+
+    output_dir = match.group('outdir')
+    out_var_name = [data for data in output_dir.split(os.path.sep) if data != ''][-1]
+    variable_dict = {
+        "mip_table_id": match.group("mip_table_id"),
+        "variable_id": match.group("variable_id"),
+        "output_dir": output_dir,
+        "out_var_name": out_var_name,
+    }
+    try:
+        variable_dict.update({'frequency': match.group('frequency')})
+    except IndexError:
+        pass
+
+    return variable_dict
+
+
+def read_approved_vars_from_file(mip_approved_variables_path: str, approved_vars_regex: str) -> List[Dict[str, str]]:
     """Read in the list of |MIP output variables| that have been approved for publication.
 
     Parameters
     ----------
     mip_approved_variables_path : str
         The path to the mip approved variables file.
+    approved_vars_regex : str
+        The regular expression to use to parse the approved variables file, provided by the plugin.
 
     Returns
     -------
@@ -232,24 +268,6 @@ def read_approved_vars_from_file(mip_approved_variables_path: str, approved_vars
     # Retrieve the list of 'output netCDF files' to put in MASS.
     with open(mip_approved_variables_path, 'r') as approved_variable_file:
         mip_approved_variables_raw = approved_variable_file.readlines()
-
-    def process_approved_var_str(pattern: Pattern, var_str):
-        match: Match = pattern.search(var_str)
-        _check_variable_match(match, var_str, pattern)
-
-        output_dir = match.group('outdir')
-        out_var_name = [data for data in output_dir.split(os.path.sep) if data != ''][-1]
-        variable_dict = {'mip_table_id': match.group('mip_table_id'),
-                         'variable_id': match.group('variable_id'),
-                         'output_dir': output_dir,
-                         'out_var_name': out_var_name,
-                         }
-        try:
-            variable_dict.update({'frequency': match.group('frequency')})
-        except IndexError:
-            pass
-
-        return variable_dict
 
     variable_pattern = re.compile(approved_vars_regex)
     filter_func = functools.partial(process_approved_var_str, variable_pattern)
