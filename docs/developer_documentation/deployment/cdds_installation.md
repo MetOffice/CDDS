@@ -6,32 +6,34 @@
           ```bash
           xsudo -u cdds bash -l
           ```
-    - [x] Activate the base `conda` environment
+    - [x] Activate the base `conda` environment.
           ```bash
           conda activate
           ```
-    - [x] Obtain the conda environment file
+    - [x] Create a folder to work from and enter it.
+          ```bash
+          mkdir temporary_installation_folder && temporary_installation_folder
+          ```
+    - [x] Obtain the conda environment file (replace "<tagname>" with the version you're installing e.g. "v3.3.1").
           ```bash
           wget https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/<tagname>/environment.yml
           ```
-    - [x] Update locations pointed to within the environment file:
+    - [x] Update locations pointed to within the environment file (replace "X.Y.Z" with the version you're installing e.g. "3.3.1"):
           ```bash
           sed -i "s/<location>/X.Y.Z/" environment.yml
           ```
-    - [x] Create environment
+    - [x] Create environment (replace "X.Y.Z" with the version you're installing e.g. "3.3.1").
           ```bash
           conda env create -f environment.yml -p $HOME/conda_environments/cdds-X.Y.Z
           ```
-          where `X.Y.Z` is the new version number of CDDS
 
-    - [x] Activate environment and set `CDDS_ENV_COMMAND` variable:
+    - [x] Activate environment and set `CDDS_ENV_COMMAND` variable (replace "X.Y.Z" with the version you're    installing e.g. "3.3.1"):
           ```bash
-          conda activate cdds-X.Y.Z
+          conda activate $HOME/conda_environments/cdds-X.Y.Z
           conda env config vars set CDDS_ENV_COMMAND="conda activate $HOME/conda_environments/cdds-X.Y.Z"
           ```
-          where `X.Y.Z` is the new version number of CDDS
 
-    - [x] Set the `CDDS_PLATFORM` and `CDDS_ETC` variables
+    - [x] Set the `CDDS_PLATFORM` and `CDDS_ETC` variables.
           ```bash
           conda env config vars set CDDS_PLATFORM=AZURE
           conda env config vars set CDDS_ETC=$HOME/etc
@@ -54,7 +56,7 @@
           | `$TZ`               | `UTC` |
           | `$CDDS_PLATFORM`    | `AZURE` |
           | `$CDDS_ETC`         | `$HOME/etc` |
-          | `$CDDS_ENV_COMMAND` | `$conda activate $HOME/conda_environments/cdds-3.2.0` |
+          | `$CDDS_ENV_COMMAND` | `$conda activate $HOME/conda_environments/cdds-X.Y.Z` (X.Y.Z should be set to the environment you've created e.g.3.3.1) |
 
 
 
@@ -74,7 +76,7 @@
           sed -i "s/<location>/X.Y.Z/" environment.yml
           ```
 
-    - [x] Create environment, where `X.Y.Z` is the new version number of CDDS
+    - [x] Create environment, where `X.Y.Z` is the new version number of CDDS (replace "X.Y.Z" with the version you're installing e.g. "3.3.1").
           ```bash
           conda env create -f environment.yml -p $HOME/conda_environments/cdds-X.Y.Z
           ```
@@ -86,7 +88,7 @@
           conda env config vars set CDDS_ETC=$HOME/etc
           ```
 
-    - [x] Set the `CDDS_ENV_COMMAND` variable making sure to substitue `X.Y.Z` with the appropriate version number.
+    - [x] Set the `CDDS_ENV_COMMAND` variable making sure to substitute `X.Y.Z` with the appropriate version number.
           ```bash
           conda env config vars set CDDS_ENV_COMMAND="$HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z"
           ```
@@ -145,6 +147,10 @@
     and does not indicate the tests fail (see `transfer.tests.test_command_line.TestMainStore.test_transfer_functional_failing_moo()` 
     for details).
 
+- [x] The folder you created at the start to undertake the installation process can now be deleted.
+      ```bash
+      rm -r temporary_installation_folder
+      ```
 
 ## Troubleshooting
 
