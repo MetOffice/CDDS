@@ -97,6 +97,8 @@ This will allow you cherry-pick release notes from the release branch into main.
 
 > **Note:** The default documentation version shown should always be the latest major release (e.g., `3.1`). In the above command, `<major_release_version>` refers to the version to set as default (e.g., `3.1`).
 
+For more information on documentation, visit [documentation_practices.md](../documentation_practices.md).
+
 If you have any doubts, please speak to Jared or Matthew.
 
 
