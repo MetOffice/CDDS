@@ -45,7 +45,7 @@ class TestCopyrightHeaders(unittest.TestCase):
 
     def get_copyright_files(self):
         self.exclude_patterns.extend(
-            ['egg-info', 'EGG-INFO', 'dist', '.pyc', 'doctrees', 'html', 'clyc',
+            ['egg-info', 'EGG-INFO', 'dist', '.pyc', 'doctrees', 'cfg', 'html', 'cylc',
              'pylintrc', 'TAGS', 'json', 'todel', 'nfsc', 'txt', 'ini', 'conf', 'workflows']
         )
 
