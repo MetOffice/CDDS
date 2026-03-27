@@ -404,9 +404,9 @@ class CMIP7GlobalModelFileInfo(GlobalModelFileInfo):
         str
             The suffix to the MASS location for the simulation model files of a variable
         """
-        variable, branding_suffix = variable.split('_')
+        variable_id, branding_suffix = variable.split('_')
         mass_root_location = self.mass_root_location_suffix(request)
-        return os.path.join("MIP-DRS7", mass_root_location, "glb", frequency, variable, branding_suffix, grid_label)
+        return os.path.join("MIP-DRS7", mass_root_location, "glb", frequency, variable_id, branding_suffix, grid_label)
 
 
 class RegionalModelFileInfo(ModelFileInfo):
