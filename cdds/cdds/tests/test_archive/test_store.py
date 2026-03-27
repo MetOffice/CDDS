@@ -47,6 +47,10 @@ class TestGetVariables(unittest.TestCase):
 
     @unittest.mock.patch('builtins.open')
     def test_read_approved_vars_from_file(self, mock_open):
+        load_plugin("CMIP6")
+        plugin = PluginStore.instance().get_plugin()
+        regex = plugin.model_file_info()._approved_variables_regex
+
         dummy_out_root_dir = cdds.tests.test_archive.common.DUMMY_VAR_OUT_DIR
         dummy_approved_vars_file = '''Amon/tas;{dir}stream1/Amon/tas
 day/ua;{dir}stream1/day/ua
@@ -57,7 +61,7 @@ Emon/hus27;{dir}stream1/Emon/hus
         dummy_approved_vars_path = '/path/to/dummy/approved/vars/file.txt'
         mock_open.return_value = StringIO(dedent(dummy_approved_vars_file))
         output_approved_vars = cdds.archive.store.read_approved_vars_from_file(
-            dummy_approved_vars_path)
+            dummy_approved_vars_path, regex)
 
         reference_vars = (
             cdds.tests.test_archive.common.APPROVED_VARIABLES_FILE_REFERENCE)
