@@ -94,7 +94,10 @@ This will allow you cherry-pick release notes from the release branch into main.
     ```bash
     mike deploy <major_release_version> latest --update-aliases --push
     ```
-For more information, see [Documentation](documentation.md). If you have any doubts, please speak to Jared or Matthew.
+
+> **Note:** The default documentation version shown should always be the latest major release (e.g., `3.1`). In the above command, `<major_release_version>` refers to the version to set as default (e.g., `3.1`).
+
+If you have any doubts, please speak to Jared or Matthew.
 
 
 ## Create a tag
