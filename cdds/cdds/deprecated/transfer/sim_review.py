@@ -101,7 +101,7 @@ def check_critical_issues(request: Request, proc_dir: str) -> None:
             msg = (
                 f'Critical issues found for CDDS convert for stream {stream}. '
                 'Contents of file {0}:\n{1}'.format(convert_critical_issues_path, do_critical_check(request, stream)))
-            logger.info(msg)
+            logger.info(msg.strip("\n"))
         else:
             logger.info("-----")
             logger.info(f'No convert critical issues log file found for {stream}.')
