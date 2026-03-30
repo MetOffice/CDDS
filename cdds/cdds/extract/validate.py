@@ -227,8 +227,7 @@ def validate(path: str, stream: str, stash_codes: set, validation_result: Stream
         validate_directory_netcdf(path, validation_result)
 
 
-def validate_file_names(path: str, file_type: str, filenames: list,
-                        validation_result: StreamValidationResult) -> None:
+def validate_file_names(path: str, file_type: str, filenames: list, validation_result: StreamValidationResult) -> None:
     """Compare a list of expected files against the files on disk. If strict=True then validation will fail if there are
     additional files that are not expected.
 
@@ -295,6 +294,7 @@ def get_stash_fields(path: str, validation_result: StreamValidationResult) -> di
                 validation_result.add_file_content_error(
                     FileContentError(os.path.join(path, pp_file), "unreadable file"))
             stash_in_file[pp_file] = stash
+    breakpoint()
 
     return stash_in_file
 
