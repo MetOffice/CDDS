@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#release-331-march-25-2026" class="md-skip">
+        <a href="#release-332-march-30-2026" class="md-skip">
           Skip to content
         </a>
       
@@ -380,8 +380,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#release-331-march-25-2026" class="md-nav__link">
-    Release 3.3.1, March 25, 2026
+  <a href="#release-332-march-30-2026" class="md-nav__link">
+    Release 3.3.2, March 30, 2026
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-331-march-25-2026g" class="md-nav__link">
+    Release 3.3.1, March 25, 2026G
   </a>
   
 </li>
@@ -2152,8 +2159,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#release-331-march-25-2026" class="md-nav__link">
-    Release 3.3.1, March 25, 2026
+  <a href="#release-332-march-30-2026" class="md-nav__link">
+    Release 3.3.2, March 30, 2026
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#release-331-march-25-2026g" class="md-nav__link">
+    Release 3.3.1, March 25, 2026G
   </a>
   
 </li>
@@ -2826,7 +2840,11 @@
 
   <h1>Changelog (CDDS)</h1>
 
-<h2 id="release-331-march-25-2026">Release 3.3.1, March 25, 2026</h2>
+<h2 id="release-332-march-30-2026">Release 3.3.2, March 30, 2026</h2>
+<ul>
+<li>Fix for zfactor err required for CMIP6Plus and CMIP7 development introduced. (#870)</li>
+</ul>
+<h2 id="release-331-march-25-2026g">Release 3.3.1, March 25, 2026G</h2>
 <ul>
 <li>
 <p>Introduces cdds_retrieve_data to allow easy extraction of data from MASS (#628)</p>
@@ -2844,7 +2862,7 @@
 <h2 id="release-330-october-16-2025">Release 3.3.0, October 16, 2025</h2>
 <ul>
 <li>
-<p>The removal of halo data (additional rows and columns) from NEMO and MEDUSA output files has been moved from the extraction step to the conversion step within <abbr title="Climate Data Dissemination System">CDDS</abbr>. This both reduces load on the MASS archive when extracting data and makes it more straightforward for <abbr title="Climate Data Dissemination System">CDDS</abbr> to be used without MASS. The removal of halo data is controlled by additional fields within the model config files that are embedded in <abbr title="Climate Data Dissemination System">CDDS</abbr> with the model plugins or provided by users when they wish to override <abbr title="Climate Data Dissemination System">CDDS</abbr> defaults. The remove_halo script has been retired as a result (#547)</p>
+<p>The removal of halo data (additional rows and columns) from NEMO and MEDUSA output files has been moved f<img alt="alt text" src="image.png" />rom the extraction step to the conversion step within <abbr title="Climate Data Dissemination System">CDDS</abbr>. This both reduces load on the MASS archive when extracting data and makes it more straightforward for <abbr title="Climate Data Dissemination System">CDDS</abbr> to be used without MASS. The removal of halo data is controlled by additional fields within the model config files that are embedded in <abbr title="Climate Data Dissemination System">CDDS</abbr> with the model plugins or provided by users when they wish to override <abbr title="Climate Data Dissemination System">CDDS</abbr> defaults. The remove_halo script has been retired as a result (#547)</p>
 </li>
 <li>
 <p>The archiving step within <abbr title="Climate Data Dissemination System">CDDS</abbr> can now correctly append/prepend to existing data sets where the variable is sampled instantaneously, which leads to a gap in the time bounds between files (#635)</p>
