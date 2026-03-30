@@ -283,6 +283,7 @@ def get_stash_fields(path: str, validation_result: StreamValidationResult) -> di
     Returns
     -------
     dict[str, dict[str, int]]
+        The stash codes in each file.
     """
     stash_in_file = {}
     pp_files = [file for file in os.listdir(path) if file.endswith('.pp')]
@@ -294,7 +295,6 @@ def get_stash_fields(path: str, validation_result: StreamValidationResult) -> di
                 validation_result.add_file_content_error(
                     FileContentError(os.path.join(path, pp_file), "unreadable file"))
             stash_in_file[pp_file] = stash
-    breakpoint()
 
     return stash_in_file
 
