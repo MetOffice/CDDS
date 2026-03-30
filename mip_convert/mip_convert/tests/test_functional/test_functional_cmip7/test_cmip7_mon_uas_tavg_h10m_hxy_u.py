@@ -45,6 +45,7 @@ class TestCmip7_uas_tavg_h10m_hxy_u(AbstractFunctionalTests):
             )
         )
 
+    @pytest.mark.xfail(reason="Development tables lost CMIP7 not fully integrated in v3.3.x")
     @pytest.mark.slow
     def test_cmip7_amon_tasmax(self):
         self.maxDiff = True

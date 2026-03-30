@@ -373,6 +373,7 @@ class Variable(object):
         self._apply_removal()
         self._apply_mask()
         self._apply_expression()
+        self._remove_alevhalf_bounds()
         if self._force_coordinate_rotation:
             self._rotated_coords()
         self._validate_cube()
@@ -380,6 +381,39 @@ class Variable(object):
             self._update_time_units()
         if hasattr(self.model_to_mip_mapping, 'valid_min'):
             self._apply_valid_min_correction()
+
+    def _remove_alevhalf_bounds(self):
+        """
+        Remove bounds from vertical coordinates in 'self.cube' if the MIP table specifies
+        'hybrid_height_half' as the Z axis and 'z_bounds_factors' is present and empty.
+
+        If 'z_bounds_factors' is missing or not empty, this function should do nothing.
+
+        Notes
+        -----
+        Operates after self._apply_expression() has been applied, to avoid issues where
+        expressions take multiple input cubes of mixed dimensionality.
+        """
+        axes_directions_names = self._mip_axes_directions_names
+        if "Z" not in axes_directions_names:
+            return
+
+        z_axis = axes_directions_names["Z"]
+        axis_info = self.mip_metadata.axes.get("hybrid_height_half")
+
+        if z_axis == "hybrid_height_half" and axis_info.get("z_bounds_factors") == "":
+            self.logger.debug(
+                "z_bounds_factors is empty in MIP table for hybrid_height_half,"
+                " removing bounds from vertical coordinates"
+            )
+            coord_names_to_remove_bounds = ["altitude", "sigma", "level_height"]
+            for coord_name in coord_names_to_remove_bounds:
+                if not self.cube.coords(coord_name):
+                    continue
+                z_coord = self.cube.coord(coord_name)
+                if z_coord.has_bounds():
+                    z_coord.bounds = None
+                    self.logger.debug(f'Removed bounds from coordinate "{z_coord.name()}" on cube "{self.cube.name()}"')
 
     def _remove_units_from_input_variables_as_necessary(self):
         # To prevent the Iris error "Cannot use <operator> with
@@ -396,7 +430,7 @@ class Variable(object):
             try:
                 cube.remove_coord("forecast_period")
                 self.logger.debug(f'Removed coordinate "forecast_period" from {cube} variable ')
-            except iris.exceptions.CoordinateNotFoundError:
+            except CoordinateNotFoundError:
                 pass
 
     def _ensure_masked_arrays(self):
@@ -555,7 +589,7 @@ class Variable(object):
         if self._variable_metadata.reference_time:
             try:
                 self.cube.remove_coord("forecast_period")
-            except iris.exceptions.CoordinateNotFoundError:
+            except CoordinateNotFoundError:
                 pass
             for (coord, axis_direction) in self._matched_coords:
                 if coord.standard_name == 'forecast_reference_time':
@@ -790,7 +824,7 @@ class Variable(object):
                 # coordinate as a last resort.
                 try:
                     coord = self.cube.coord(axis=mip_axis_direction, dim_coords=True)
-                except iris.exceptions.CoordinateNotFoundError:
+                except CoordinateNotFoundError:
                     coord = None
                 if coord is not None:
                     matched_axis_direction = mip_axis_direction
