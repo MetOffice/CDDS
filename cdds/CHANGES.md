@@ -1,4 +1,8 @@
-## Release 3.3.1, March 25, 2026
+## Release 3.3.2, March 30, 2026
+
+-   Fix for zfactor err required for CMIP6Plus and CMIP7 development introduced. (#870)
+
+## Release 3.3.1, March 25, 2026G
 
 -   Introduces cdds_retrieve_data to allow easy extraction of data from MASS (#628)
 -   Adds UKESM1-0-LL and HadGEM3-GC31-MM models for CMIP6Plus use (#763)
@@ -7,7 +11,7 @@
 
 ## Release 3.3.0, October 16, 2025
 
--   The removal of halo data (additional rows and columns) from NEMO and MEDUSA output files has been moved from the extraction step to the conversion step within CDDS. This both reduces load on the MASS archive when extracting data and makes it more straightforward for CDDS to be used without MASS. The removal of halo data is controlled by additional fields within the model config files that are embedded in CDDS with the model plugins or provided by users when they wish to override CDDS defaults. The remove_halo script has been retired as a result (#547)
+-   The removal of halo data (additional rows and columns) from NEMO and MEDUSA output files has been moved f![alt text](image.png)rom the extraction step to the conversion step within CDDS. This both reduces load on the MASS archive when extracting data and makes it more straightforward for CDDS to be used without MASS. The removal of halo data is controlled by additional fields within the model config files that are embedded in CDDS with the model plugins or provided by users when they wish to override CDDS defaults. The remove_halo script has been retired as a result (#547)
 -   The archiving step within CDDS can now correctly append/prepend to existing data sets where the variable is sampled instantaneously, which leads to a gap in the time bounds between files (#635)
 -   The submission code now supports running outside specific hosts (#630)
 -   A CMIP7 plugin has been added to facilitate CMIP7 development (#600)

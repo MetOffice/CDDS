@@ -1,3 +1,7 @@
+## Release 3.3.2, March 30, 2026
+
+-   Fix for zfactor err required for CMIP6Plus and CMIP7 development introduced. (#870)
+
 ## Release 3.3.1, March 25, 2026
 
 -   Fix to processor divide_by_mask used by clisccp to avoid edge case where iris cube is created with dimensions in a different order leading to garbled files (#678)
