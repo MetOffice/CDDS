@@ -1,3 +1,7 @@
+## Release 3.3.2, March 30, 2026
+
+-   No changes.
+
 ## Release 3.3.1, March 25, 2026
 
 -   Introduces cdds_retrieve_data to allow easy extraction of data from MASS (#628)
