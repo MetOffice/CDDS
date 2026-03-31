@@ -6,6 +6,10 @@
           ```bash
           xsudo -u cdds bash -l
           ```
+    - [x] Navigate to `cdds` home.
+          ```bash
+          cd ~cdds
+          ```
     - [x] Activate the base `conda` environment.
           ```bash
           conda activate
