@@ -1917,7 +1917,7 @@ It also serves as the location for the configured cylc processing workflow when 
 <p><div class="highlight"><pre><span></span><code>proc
 └── GCModelDev
     └── MOHCCP
-        └── request_id
+        └── HadGEM3-GC31-LL_my-experiment-id_r1i1p1f3
             └── round-1
                 ├── archive
                 ├── configure
@@ -1931,13 +1931,11 @@ A similar hierarchical structure is created for all
 <div class="highlight"><pre><span></span><code>data
 └── GCModelDev
     └── MOHCCP
-        └── HadGEM3-GC31-LL
-            └── my-experiment-id
-                └── r1i1p1f3
-                    └── round-1
-                        ├── input
-                        │   └── u-bg466
-                        └── output
+        └── HadGEM3-GC31-LL_my-experiment-id_r1i1p1f3
+            └── round-1
+                ├── input
+                │   └── u-bg466
+                └── output
 </code></pre></div></p>
 </details>
 </li>
@@ -2053,7 +2051,7 @@ The full list of configuration options available in the request can be found in 
 Each output variable must be specified on a separate line and follow the below format.</p>
 <div class="highlight"><pre><span></span><code>&lt;mip table&gt;/&lt;variable name&gt;:&lt;stream&gt;
 </code></pre></div>
-<p>If you do not know the <stream> for each variable and your model follows a typical <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> configuration, you can omit the <code>:&lt;stream&gt;</code> and use the <code>stream_mappings</code> command to add this information for you.</p>
+<p>If you do not know the <code>stream</code> for each variable and your model follows a typical <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> configuration, you can omit the <code>:&lt;stream&gt;</code> and use the <code>stream_mappings</code> command to add this information for you.</p>
 <div class="highlight"><pre><span></span><code>stream_mappings<span class="w"> </span>--varfile<span class="w"> </span>variables.txt<span class="w"> </span>--outfile<span class="w"> </span>vairables_with_streams.txt
 </code></pre></div>
 <p>Finally, you must update the <code>streams</code> option in the <code>request.cfg</code> with the names of any additional <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr>.
@@ -2079,15 +2077,13 @@ Any key=value pairs in this section will be written out to every output netcdf f
 The typical directory structure <abbr title="Climate Data Dissemination System">CDDS</abbr> creates looks like this (individual <code>.pp</code> and <code>.nc</code> files not shown).</p>
 <div class="highlight"><pre><span></span><code>└── CMIP6
     └── ScenarioMIP
-        └── UKESM1-0-LL
-            └── ssp126
-                └── r1i1p1f2
-                    └── cdds_request_ssp126
-                        ├── input
-                            └── u-dn300
-                                ├── ap4
-                                ├── ap5
-                                └── onm
+        └── UKESM1-0-LL_ssp126_r1i1p1f2
+            └── round-1
+                ├── input
+                    └── u-dn300
+                        ├── ap4
+                        ├── ap5
+                        └── onm
 </code></pre></div>
 <p>Having made sure you have run the <code>cdds_create_cdds_directories</code> first you can then run the arrange script.
 Where <code>/path/to/model/data</code> is the location on disk containing your <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr>.</p>
@@ -2102,18 +2098,16 @@ medusa_dn300o_1m_20150101-20150201_diad-T.nc
 <p>After running <code>cdds_arrange_input_data</code> it would <code>symlink</code> the files like so.</p>
 <div class="highlight"><pre><span></span><code>└── CMIP6
     └── ScenarioMIP
-        └── UKESM1-0-LL
-            └── ssp126
-                └── r1i1p1f2
-                    └── cdds_request_ssp126
-                        ├── input
-                            └── u-dn300
-                                ├── ap4
-                                    └── dn300a.p42015apr.pp
-                                ├── ap5
-                                    └── dn300a.p42015apr.pp
-                                └── onm
-                                    └── medusa_dn300o_1m_20150101-20150201_diad-T.nc
+        └── UKESM1-0-LL_ssp126_r1i1p1f2
+            └── round-1
+                ├── input
+                    └── u-dn300
+                        ├── ap4
+                            └── dn300a.p42015apr.pp
+                        ├── ap5
+                            └── dn300a.p42015apr.pp
+                        └── onm
+                            └── medusa_dn300o_1m_20150101-20150201_diad-T.nc
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>

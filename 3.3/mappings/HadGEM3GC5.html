@@ -100,7 +100,7 @@ $(document).ready(function () {
      visibility: visible;
    }
    </style>
-<body><h2>Variable Mappings for HadGEM3GC5 (Created with CDDS v3.3.3)</h2><h2>STASHmaster vn13.1<p> </p><p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p><table border=1, id="table_id", class="display">
+<body><h2>Variable Mappings for HadGEM3GC5 (Created with CDDS v3.3.0.dev0+main.20d078bd)</h2><h2>STASHmaster vn13.1<p> </p><p>Use the search box to filter rows, e.g. search for "tas" or "Amon tas".</p><table border=1, id="table_id", class="display">
   <thead>
    <tr bgcolor="#E0EEFF">
      <th>Variable</th>
@@ -126,6 +126,45 @@ $(document).ready(function () {
    </tr>
    </thead>
   <tr bgcolor="#FFFFFF">
+     <td>tos_tavg-u-hm-sea</td>
+     <td>ocean</td>
+   <td><pre><code>area_mean(tos, areacello)</code></pre></td>
+     <td></td>
+     <td>longitude latitude time</td>
+     <td>degC</td>
+     <td>-</td>
+     <td>embargoed</td>
+     <td>HadGEM3GC5_mappings.cfg</td>
+  </tr>
+  <tr bgcolor="#E0EEFF">
+     <td>zostoga_tavg-u-hm-sea</td>
+     <td>ocean</td>
+   <td><pre><code>calc_zostoga(thetao, thkcello, areacello,
+zfullo_0, so_0, rho_0_mean, deptho_0_mean)</code></pre></td>
+     <td></td>
+     <td>time</td>
+     <td>m</td>
+     <td>-</td>
+     <td>embargoed</td>
+     <td>HadGEM3GC5_mappings.cfg</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+     <td>tas_tavg-h2m-hxy-u</td>
+     <td>atmos</td>
+   <td><pre><code><div class="tooltip">m01s03i236<span class="tooltiptext">TEMPERATURE AT 1.5M
+Estimate of atmospheric temperature (K) at 1.5m (screen level).
+Calculated by integrating the similarity equations from the
+surface to 1.5m.
+
+Available on all timesteps.</span></div>[lbproc=128]</code></pre></td>
+     <td></td>
+     <td>longitude latitude height2m time</td>
+     <td>K</td>
+     <td>-</td>
+     <td>embargoed</td>
+     <td>HadGEM3GC5_mappings.cfg</td>
+  </tr>
+  <tr bgcolor="#E0EEFF">
      <td>uas_tavg-h10m-hxy-u</td>
      <td>atmos</td>
    <td><pre><code>m01s03i209[lbproc=128]</code></pre></td>
@@ -136,13 +175,35 @@ $(document).ready(function () {
      <td>embargoed</td>
      <td>HadGEM3GC5_mappings.cfg</td>
   </tr>
-  <tr bgcolor="#E0EEFF">
+  <tr bgcolor="#FFFFFF">
      <td>vas_tavg-h10m-hxy-u</td>
      <td>atmos</td>
    <td><pre><code>m01s03i210[lbproc=128]</code></pre></td>
      <td></td>
      <td>longitude latitude height2m time</td>
      <td>m s-1</td>
+     <td>-</td>
+     <td>embargoed</td>
+     <td>HadGEM3GC5_mappings.cfg</td>
+  </tr>
+  <tr bgcolor="#E0EEFF">
+     <td>slthick_ti-sl-hxy-lnd</td>
+     <td>land</td>
+   <td><pre><code>calc_slthick(m01s00i009, m01s00i216, ice_class='ice')</code></pre></td>
+     <td></td>
+     <td>longitude latitude sdepth</td>
+     <td>m</td>
+     <td>-</td>
+     <td>embargoed</td>
+     <td>HadGEM3GC5_mappings.cfg</td>
+  </tr>
+  <tr bgcolor="#FFFFFF">
+     <td>rootd_ti-u-hxy-lnd</td>
+     <td>land</td>
+   <td><pre><code>calc_rootd(m01s00i009, m01s00i216, ice_class='ice')</code></pre></td>
+     <td></td>
+     <td>longitude latitude</td>
+     <td>m</td>
      <td>-</td>
      <td>embargoed</td>
      <td>HadGEM3GC5_mappings.cfg</td>
