@@ -12,8 +12,14 @@
     ]
   },
   "cycle_length": {},
-  "memory": {},
-  "temp_space": {},
+  "memory": {
+    "afx": "8G",
+    "ofx": "8G"
+  },
+  "temp_space": {
+    "afx": 8192,
+    "ofx": 8192
+  },
   "sizing_info": {},
   "subdaily_streams": [],
   "halo_removal": {

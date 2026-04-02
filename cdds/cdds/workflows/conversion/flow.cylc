@@ -24,8 +24,11 @@
 
     [[graph]]
 {% for STREAM in STREAMS.keys() %}
-    {% if {{STREAM}} == 'ancil' %}
-    R1 = 
+    {% if STREAM in SINGLE_TASKS %}
+    {% for COMPONENT in STREAM_COMPONENTS[STREAM] %}
+        {% set SUFFIX = STREAM ~ '_' ~ COMPONENT %}
+        R1 = setup_output_dir_{{ STREAM }} => mip_convert_single_{{ SUFFIX }}
+    {% endfor %}
     {% else %}
 
         # {{ STREAM }} extract and extract validation
@@ -261,6 +264,7 @@ mkdir -p {{ BASE_OUTPUT }}
             --gres = tmp:{{ MIP_CONVERT_TMP_SPACE[STREAM] }} # Allocate an amount of temp space in MB for mip_convert
             {% endif %}
 
+    {% if STREAM not in SINGLE_TASKS %}
         {% if DO_CONVERT_ALIGNMENT_CYCLE[STREAM] %}
     [[mip_convert_first_{{ SUFFIX }}]]
         inherit = MIP_CONVERT_{{ SUFFIX }}
@@ -272,6 +276,10 @@ mkdir -p {{ BASE_OUTPUT }}
         inherit = MIP_CONVERT_{{ SUFFIX  }}
         [[[environment]]]
             CYCLE_DURATION = {{ CYCLING_FREQUENCY[STREAM] }}
+    {% else %}
+    [[mip_convert_single_{{ SUFFIX }}]]
+        inherit = MIP_CONVERT_{{ SUFFIX }}
+    {% endif %}
     {% endfor %} # COMPONENT LOOP END
 
 ##### SETUP_OUTPUT_DIR EXTRACT VALIDATE_EXTRACT QC TRANSFER ###############################

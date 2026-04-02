@@ -44,7 +44,7 @@ def run_mip_convert_wrapper():
         # Collect required environment variables
         max_temp_space_in_mb = int(os.environ['ALLOCATED_TMPDIR_SPACE_IN_MB'])
         component = os.environ['COMPONENT']
-        cycle_duration = os.environ['CYCLE_DURATION']
+        cycle_duration = os.environ.get('CYCLE_DURATION', None)
         cylc_task_name = os.environ['CYLC_TASK_NAME']
         cylc_task_try = os.environ['CYLC_TASK_TRY_NUMBER']
         cylc_task_work_dir = os.environ['CYLC_TASK_WORK_DIR']
@@ -104,42 +104,49 @@ def run_mip_convert_wrapper():
     except KeyError:
         filepath_type = FILEPATH_METOFFICE
 
-    (expected_files,
-     old_input_dir,
-     new_input_dir) = get_paths(suite_name,
-                                request.metadata.model_id,
-                                stream,
-                                substream,
-                                start_date,
-                                end_date,
-                                input_dir,
-                                work_dir,
-                                filepath_type=filepath_type
-                                )
-    if staging_dir:
-        num_files_processed = copy_to_staging_dir(expected_files,
-                                                  old_input_dir,
-                                                  new_input_dir,
-                                                  )
-        # Check the current disk usage of $TMPDIR and throw an exception if
-        # usage is already exceeding the $TMPDIR allocation.
-        check_disk_usage(staging_dir, max_temp_space_in_mb)
-    else:
-        # Set up symlinks to the data
-        try:
-            num_files_processed, new_input_dir = link_data(expected_files,
-                                                           old_input_dir,
-                                                           new_input_dir,
-                                                           )
-        except Exception as error:
-            logger.critical('link_data failed with error: "{}"'.format(error))
-            logger.info(print_env())
-            raise error
+    ancil_stream = cycle_duration is None
 
-    # If nothing linked then log a critical failure and exit
-    if num_files_processed == 0:
-        err_msg = 'No files processed for this job step, but work is expected.'
-        raise WrapperMissingFilesError(err_msg)
+    if not ancil_stream:
+        (expected_files,
+         old_input_dir,
+         new_input_dir) = get_paths(suite_name,
+                                    request.metadata.model_id,
+                                    stream,
+                                    substream,
+                                    start_date,
+                                    end_date,
+                                    input_dir,
+                                    work_dir,
+                                    filepath_type=filepath_type
+                                    )
+        if staging_dir:
+            num_files_processed = copy_to_staging_dir(expected_files,
+                                                      old_input_dir,
+                                                      new_input_dir,
+                                                      )
+            # Check the current disk usage of $TMPDIR and throw an exception if
+            # usage is already exceeding the $TMPDIR allocation.
+            check_disk_usage(staging_dir, max_temp_space_in_mb)
+        else:
+            # Set up symlinks to the data
+            try:
+                num_files_processed, new_input_dir = link_data(expected_files,
+                                                               old_input_dir,
+                                                               new_input_dir,
+                                                               )
+            except Exception as error:
+                logger.critical('link_data failed with error: "{}"'.format(error))
+                logger.info(print_env())
+                raise error
+
+        # If nothing linked then log a critical failure and exit
+        if num_files_processed == 0:
+            err_msg = 'No files processed for this job step, but work is expected.'
+            raise WrapperMissingFilesError(err_msg)
+    else:
+        logger.info('Stream "{}" reads from local ancil files; skipping MASS file staging.'.format(stream))
+        new_input_dir = work_dir
+        os.makedirs(work_dir, exist_ok=True)
 
     cmor_log_file = CMOR_LOG_FILENAME_TEMPLATE.format(timestamp)
     # Write out config file

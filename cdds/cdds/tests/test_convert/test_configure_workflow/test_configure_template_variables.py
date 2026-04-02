@@ -64,6 +64,7 @@ class TestConfigureTemplateVariables:
             "RUN_TRANSFER": True,
             "RELAXED_CMOR": False,
             "CONTINUE_IF_MIP_CONVERT_FAILED": False,
+            "SINGLE_TASKS": [],
         }
 
         assert expected == template_variables.flag_variables()

@@ -184,6 +184,17 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
         """
         return self._cycle_lengths[stream_id]
 
+    def is_single_run_stream(self, stream_id: str) -> bool:
+        """Returns whether the given stream runs only once rather than cycling.
+        Override in subclasses for models that have single-run streams.
+
+        Returns
+        -------
+        bool
+            True if the stream is processed in a single non-cycling task.
+        """
+        return False
+
     def sizing_info(self, frequency: str, shape: str) -> float:
         """Returns the sizing info for a specific period. The period is specified
         by the given frequency and shape coordinates.

@@ -83,6 +83,7 @@ class TestCyclingFrequency:
                                                         self.components)
         model_params = Mock()
         model_params.cycle_length.return_value = "P2Y"
+        model_params.is_single_run_stream.return_value = False
         stream_model_parameters._model_params = model_params
 
         expected = Duration(years=2)
@@ -96,6 +97,7 @@ class TestCyclingFrequency:
                                                         self.components)
         model_params = Mock()
         model_params.cycle_length.return_value = "P2Y"
+        model_params.is_single_run_stream.return_value = False
         stream_model_parameters._model_params = model_params
 
         expected = Duration(years=5)

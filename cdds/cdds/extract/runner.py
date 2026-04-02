@@ -74,8 +74,8 @@ class ExtractRunner(object):
         stream_success = {}
         for stream in streams:
             stream_success[stream] = True
-            # Skip the ancil stream as fixed fields are read from local files
-            if stream == "ancil":
+            # Skip afx/ofx streams as fixed fields are read from local ancil files
+            if stream in ("afx", "ofx"):
                 logger.info(self.lang["stream_ancil"])
                 continue
             # loop over streams in order requested, omit streams set to 'skip'

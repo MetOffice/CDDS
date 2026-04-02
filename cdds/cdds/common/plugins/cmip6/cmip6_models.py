@@ -12,6 +12,18 @@ from cdds.common.plugins.common import LoadResults
 from cdds.common.plugins.base.base_models import BaseModelParameters, ModelId, BaseModelStore
 
 
+CMIP6_SINGLE_RUN_STREAMS = frozenset({'afx', 'ofx'})
+
+
+class Cmip6BaseModelParameters(BaseModelParameters):
+    """Base class for all CMIP6 model parameter classes.
+    Provides shared behaviour such as identifying single-run (ancil) streams.
+    """
+
+    def is_single_run_stream(self, stream_id: str) -> bool:
+        return stream_id in CMIP6_SINGLE_RUN_STREAMS
+
+
 class Cmip6ModelId(ModelId):
     """Represents the ID of a CMIP6 model."""
 
@@ -36,7 +48,7 @@ class Cmip6ModelId(ModelId):
     UKESM1_ICE_LL = 'UKESM1-ice-LL'
 
 
-class HadREM3_GA7_05_Params(BaseModelParameters):
+class HadREM3_GA7_05_Params(Cmip6BaseModelParameters):
     """Class to store the parameters for the HadREM3_GA7_05 model.
     Note: At the moment, there are no sizing info, memory parameters,
     cycle length parameters, temp space parameters or data request
@@ -80,7 +92,7 @@ class HadREM3_GA7_05_Params(BaseModelParameters):
         return '10.9'
 
 
-class HadGEM3_GC31_LL_Params(BaseModelParameters):
+class HadGEM3_GC31_LL_Params(Cmip6BaseModelParameters):
     """Class to store the parameters for the HadGEM3_GC31_LL model."""
 
     def __init__(self) -> None:
@@ -120,7 +132,7 @@ class HadGEM3_GC31_LL_Params(BaseModelParameters):
         return '10.7'
 
 
-class HadGEM3_GC31_MM_Params(BaseModelParameters):
+class HadGEM3_GC31_MM_Params(Cmip6BaseModelParameters):
     """Class to store the parameters for the HadGEM3_GC31_MM model."""
 
     def __init__(self) -> None:
@@ -160,7 +172,7 @@ class HadGEM3_GC31_MM_Params(BaseModelParameters):
         return '10.7'
 
 
-class HadGEM3_GC31_HM_Params(BaseModelParameters):
+class HadGEM3_GC31_HM_Params(Cmip6BaseModelParameters):
     """Class to store the parameters for the HadGEM3_GC31_HM model."""
 
     def __init__(self) -> None:
@@ -200,7 +212,7 @@ class HadGEM3_GC31_HM_Params(BaseModelParameters):
         return '10.7'
 
 
-class HadGEM3_GC31_MH_Params(BaseModelParameters):
+class HadGEM3_GC31_MH_Params(Cmip6BaseModelParameters):
     """Class to store the parameters for the HadGEM3_GC31_MH model."""
 
     def __init__(self) -> None:
@@ -240,7 +252,7 @@ class HadGEM3_GC31_MH_Params(BaseModelParameters):
         return '10.7'
 
 
-class HadGEM3_GC31_HH_Params(BaseModelParameters):
+class HadGEM3_GC31_HH_Params(Cmip6BaseModelParameters):
     """Class to store the parameters for the HadGEM3_GC31_HH model."""
 
     def __init__(self) -> None:
@@ -280,7 +292,7 @@ class HadGEM3_GC31_HH_Params(BaseModelParameters):
         return '10.7'
 
 
-class UKESM1_0_LL_Params(BaseModelParameters):
+class UKESM1_0_LL_Params(Cmip6BaseModelParameters):
     """Class to store the parameters for the UKESM1_0_LL model."""
 
     def __init__(self) -> None:
@@ -320,7 +332,7 @@ class UKESM1_0_LL_Params(BaseModelParameters):
         return '10.8'
 
 
-class UKESM1_1_LL_Params(BaseModelParameters):
+class UKESM1_1_LL_Params(Cmip6BaseModelParameters):
     """Class to store the parameters for the UKESM1_0_LL model."""
 
     def __init__(self) -> None:
@@ -360,7 +372,7 @@ class UKESM1_1_LL_Params(BaseModelParameters):
         return '10.8'
 
 
-class UKESM1_ice_LL_Params(BaseModelParameters):
+class UKESM1_ice_LL_Params(Cmip6BaseModelParameters):
     """Class to store the parameters for the UKESM1_ice_LL model."""
 
     def __init__(self) -> None:
