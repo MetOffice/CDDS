@@ -24,6 +24,10 @@
 
     [[graph]]
 {% for STREAM in STREAMS.keys() %}
+    {% if {{STREAM}} == 'ancil' %}
+    R1 = 
+    {% else %}
+
         # {{ STREAM }} extract and extract validation
     {% if RUN_EXTRACT and RUN_EXTRACT_VALIDATION %}
         R1 = run_extract_{{ STREAM }} => validate_extract_{{ STREAM }} => setup_output_dir_{{ STREAM }}
@@ -93,6 +97,7 @@
             R1/{{ FINAL_CYCLE_POINT }} = """
                 COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => workflow_complete
             """
+        {% endif %}
         {% endif %}
 
 {% endfor %}
