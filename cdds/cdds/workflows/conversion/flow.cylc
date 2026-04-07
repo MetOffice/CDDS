@@ -27,7 +27,7 @@
     {% if STREAM in SINGLE_TASKS %}
     {% for COMPONENT in STREAM_COMPONENTS[STREAM] %}
         {% set SUFFIX = STREAM ~ '_' ~ COMPONENT %}
-        R1 = setup_output_dir_{{ STREAM }} => mip_convert_single_{{ SUFFIX }}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = setup_output_dir_{{ STREAM }} => mip_convert_single_{{ SUFFIX }}
     {% endfor %}
     {% else %}
 
