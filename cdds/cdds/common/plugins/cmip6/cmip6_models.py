@@ -17,7 +17,7 @@ CMIP6_SINGLE_RUN_STREAMS = frozenset({'afx', 'ofx'})
 
 class Cmip6BaseModelParameters(BaseModelParameters):
     """Base class for all CMIP6 model parameter classes.
-    Provides shared behaviour such as identifying single-run (ancil) streams.
+    Provides shared behaviour such as identifying single-run (fixed field) streams.
     """
 
     def is_single_run_stream(self, stream_id: str) -> bool:
