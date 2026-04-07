@@ -67,6 +67,9 @@ class CollectionsCheck(object):
         # checks only if more than one file in the aggregated dict
         for var_key, filepaths in list(aggregated.items()):
             time_axis, time_bounds, frequency = ds.variable_time_axis(var_key, self.request.misc.atmos_timestep)
+            if time_axis is None:
+                # Fixed-field variables (frequency="fx") have no time dimension; skip contiguity check.
+                continue
             run_start = self.request.data.start_date
             run_end = self.request.data.end_date
             self.check_contiguity(var_key, time_axis, time_bounds, frequency, run_start, run_end)
