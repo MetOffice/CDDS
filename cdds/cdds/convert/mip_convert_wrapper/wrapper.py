@@ -145,6 +145,8 @@ def run_mip_convert_wrapper():
             raise WrapperMissingFilesError(err_msg)
     else:
         logger.info('Stream "{}" reads from local ancil files; skipping MASS file staging.'.format(stream))
+        # work_dir is normally created by link_data/copy_to_staging_dir, which
+        # are skipped for ancil streams, so ensure it exists here.
         new_input_dir = work_dir
         os.makedirs(work_dir, exist_ok=True)
 
