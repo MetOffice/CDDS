@@ -258,6 +258,16 @@ class ModelParameters(object, metaclass=ABCMeta):
         """
         pass
 
+    def is_single_run_stream(self, stream_id: str) -> bool:
+        """Returns whether the given stream runs only once rather than cycling.
+
+        Returns
+        -------
+        bool
+            True if the stream is processed in a single non-cycling task.
+        """
+        return False
+
 
 class ModelsStore(object, metaclass=ABCMeta):
     """Singleton class to store for each model the corresponding parameters.
