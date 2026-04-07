@@ -279,6 +279,8 @@ mkdir -p {{ BASE_OUTPUT }}
     {% else %}
     [[mip_convert_single_{{ SUFFIX }}]]
         inherit = MIP_CONVERT_{{ SUFFIX }}
+        [[[environment]]]
+            OUTPUT_DIR = {{ BASE_OUTPUT }}
     {% endif %}
     {% endfor %} # COMPONENT LOOP END
 
