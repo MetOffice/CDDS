@@ -114,6 +114,8 @@ def check_state_extending_published(var_dict):
 
 
 def _calculate_extending_state(var_dict, archived_data):
+    if var_dict['date_range'] == (None, None):
+        return None
     model_file_info = PluginStore.instance().get_plugin().model_file_info()
     file_list = [os.path.split(file_name)[-1]
                  for date, file_list in list(archived_data.items())
@@ -174,6 +176,8 @@ def check_state_recovery_continuation(var_dict):
                  for f1 in dt_list
                  ]
     if not file_list:
+        return None
+    if var_dict['date_range'] == (None, None):
         return None
     start_dt, end_dt = model_file_info.get_date_range(file_list, var_dict['frequency'])
     new_data_start, new_data_end = var_dict['date_range']

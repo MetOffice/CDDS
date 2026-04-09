@@ -234,7 +234,7 @@ def process_approved_var_str(pattern: Pattern, var_str: str) -> dict[str, str]:
     _check_variable_match(match, var_str, pattern)
 
     output_dir = match.group('outdir')
-    out_var_name = [data for data in output_dir.split(os.path.sep) if data != ''][-1]
+    out_var_name = match.group("variable_id")
     variable_dict = {
         "mip_table_id": match.group("mip_table_id"),
         "variable_id": match.group("variable_id"),

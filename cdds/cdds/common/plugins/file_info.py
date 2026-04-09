@@ -134,6 +134,8 @@ class ModelFileInfo(object, metaclass=ABCMeta):
         """
         filename_pattern = re.compile(self._nc_files_to_archive_regex)
         file_match = filename_pattern.search(nc_files[0])
+        if file_match is None or file_match.group('start_date') is None:
+            return None, None
         file_start = TimePointParser().strptime(file_match.group('start_date'),
                                                 strptime_format_string=OUTPUT_FILE_DT_STR[frequency]['str'])
         start_date = TimePoint(year=file_start.year, month_of_year=file_start.month_of_year,
@@ -189,8 +191,8 @@ class GlobalModelFileInfo(ModelFileInfo):
     _NC_FILES_TO_ARCHIVE_REGEX = (
         '(?P<out_var_name>[a-zA-Z0-9-]+)_(?P<mip_table_id>[a-zA-Z0-9-]+)_'
         '(?P<model_id>[a-zA-Z0-9-]+)_(?P<experiment_id>[a-zA-Z0-9-]+)_'
-        '(?P<variant_label>[a-zA-Z0-9-]+)_(?P<grid>[a-zA-Z0-9]+)_'
-        '(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+)(?P<climatology>-clim)?.nc')
+        '(?P<variant_label>[a-zA-Z0-9-]+)_(?P<grid>[a-zA-Z0-9]+)'
+        '(?:_(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+)(?P<climatology>-clim)?)?.nc')
 
     _MASS_ROOT_LOCATION_FACET = 'mip_era|mip|institution_id|model_id|experiment_id|variant_label'
     _MASS_SUFFIX_LOCATION_FACET = '|mip_table_id|out_var_name|grid_label'
@@ -298,6 +300,9 @@ class GlobalModelFileInfo(ModelFileInfo):
         pattern = re.compile(self._NC_FILES_TO_ARCHIVE_REGEX)
         match = pattern.search(nc_file)
         if not match:
+            return False
+        # Guard for variables that might incorrectly missing a start date.
+        if match.group('start_date') is None and variable_dict['mip_table_id'] != 'fx':
             return False
         if request.metadata.experiment_id != match.group('experiment_id'):
             return False
