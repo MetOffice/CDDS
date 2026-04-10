@@ -125,6 +125,16 @@ def produce_mip_requested_variable(
     if frequency:
         saver.cmor.set_frequency(frequency)
 
+    # Apply cell_measures if a <mip_era>_cell_measures.json file exists
+    saver.cmor.apply_cell_measures(
+        user_config.mip_era,
+        user_config.inpath,
+        mip_table.id,
+        variable_name,
+        frequency,
+        user_config.global_attributes['region'],
+        saver.varid)
+
     # Process the data by performing the appropriate 'model to MIP mapping', then save the 'MIP output variable'
     # to an 'output netCDF file'.
     period = user_config.slicing.get(stream_id, 'year')

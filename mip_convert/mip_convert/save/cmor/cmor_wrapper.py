@@ -1,6 +1,8 @@
 # (C) British Crown Copyright 2009-2025, Met Office.
 # Please see LICENSE.md for license details.
 from collections import OrderedDict
+import os
+import json
 
 import cmor
 
@@ -115,3 +117,32 @@ class CmorWrapper(ObjectWithLogger):
     def set_frequency(self, frequency, **kwargs):
         self._debug_on_args('frequency', [frequency], kwargs)
         cmor.cmor.set_cur_dataset_attribute('frequency', frequency)
+
+    def apply_cell_measures(self, mip_era, mip_table_dir, realm, variable, frequency, region, variable_id):
+        # self._debug_on_args('apply_cell_measures', [mip_table_dir])
+        """
+        Add cell measures read from json file in with mip tables
+        """
+
+        cell_measures_file = os.path.join(mip_table_dir, f'{mip_era}_cell_measures.json')
+
+        if os.path.exists(cell_measures_file):
+            with open(cell_measures_file) as fh:
+                cell_measures = json.load(fh)
+            if 'cell_measures' not in cell_measures:
+                self.logger.debug(f'"cell_measures" key not found in {cell_measures_file}')
+                return
+            cell_measures = cell_measures['cell_measures']
+
+            root_label, branding = variable.split('_')
+            key = f'{realm}.{root_label}.{branding}.{frequency}.{region}'
+            if key in cell_measures:
+                retval = cmor.cmor.set_variable_attribute(
+                    variable_id,
+                    'cell_measures',
+                    'c',
+                    cell_measures[key])
+                if retval != 0:
+                    self.logger.debug('cell_measures assignment failed. Check cmor log file for details')
+        else:
+            self.logger.debug(f'Cell_measures file "{cell_measures_file}" not found. Continuing')
