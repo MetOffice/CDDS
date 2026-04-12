@@ -1707,8 +1707,8 @@ This means there is currently a mix of docstring formats used
 throughout the <code>CDDS</code> code.</p>
 </div>
 <ul>
-<li>Docstrings should now be written using <a href="https://numpy.org/doc/1.19/docs/howto_document.html">NumPy</a>.</li>
-<li>A detailed example of NumPy style docstrings can be found <a href="https://numpy.org/doc/1.19/docs/howto_document.html">here</a><ul>
+<li>Docstrings should now be written using <a href="https://docutils.sourceforge.io/rst.html">reStructuredText</a> as recommended by <a href="https://www.python.org/dev/peps/pep-0287/">pep 287</a>.</li>
+<li>A detailed example of the reStructuredText style docstrings can be found <a href="https://sphinx-rtd-tutorial.readthedocs.io/en/latest/docstrings.html">here</a><ul>
 <li>Use double backticks `` around argument names </li>
 <li>Use the appropriate substitutions for glossary terms.</li>
 <li>Make use of the <a href="http://www.python.org/dev/peps/pep-0257">docstring conventions</a>.</li>
@@ -1717,7 +1717,7 @@ throughout the <code>CDDS</code> code.</p>
 </li>
 <li>It is not necessary to write docstrings for non-public classes, methods and functions, see <code>cdds/pylintrc</code> and <code>mip_convert/pylintrc</code>. (The maintenance overhead is reduced when refactoring non-public classes, methods and functions).</li>
 </ul>
-<p>Below is an example NumPy Docstring Example docstring incorporating all of the guidelines above.</p>
+<p>Below is an example reStructuredText Docstring Example docstring incorporating all of the guidelines above.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">my_function</span><span class="p">(</span><span class="n">my_param1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">my_param2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return something.</span>
@@ -1725,22 +1725,13 @@ throughout the <code>CDDS</code> code.</p>
 <span class="sd">    Here&#39;s a longer description about the something that is returned.</span>
 <span class="sd">    It&#39;s so long, it goes over one line!</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    my_param1: float</span>
-<span class="sd">        Description of the first parameter ``my_param1``.</span>
-<span class="sd">    my_param2: string</span>
-<span class="sd">        Description of the second parameter ``my_param2``.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    int</span>
-<span class="sd">        Description of anonymous integer return value.</span>
-
-<span class="sd">    Raises</span>
-<span class="sd">    ------</span>
-<span class="sd">    ValueError</span>
-<span class="sd">        If ``my_param1`` is less than 0.</span>
+<span class="sd">    :param my_param1: Description of the first parameter ``my_param1``.</span>
+<span class="sd">    :type my_param1: float</span>
+<span class="sd">    :param my_param2: Description of the second parameter ``my_param2``.</span>
+<span class="sd">    :type my_param2: string</span>
+<span class="sd">    :raises ValueError If ``my_param1`` is less than 0.</span>
+<span class="sd">    :return: Description of anonymous integer return value.</span>
+<span class="sd">    :rtype: int</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div>
 <h2 id="doctest">Doctest</h2>
