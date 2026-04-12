@@ -33,7 +33,7 @@ model_type = AOGCM AER
 [common]
 external_plugin = 
 external_plugin_location = 
-mip_table_dir = $CDDS_ETC/mip_tables/GCModelDev/0.0.23
+mip_table_dir = $CDDS_ETC/mip_tables/GCModelDev/0.0.25
 mode = relaxed
 package = round-1
 workflow_basename = request_id
