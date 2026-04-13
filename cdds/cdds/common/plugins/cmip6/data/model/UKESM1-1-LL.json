@@ -192,7 +192,8 @@
       "levels": 85,
       "ancil_filenames": [
         "qrparm.landfrac.pp",
-        "qrparm.soil.pp"
+        "qrparm.soil.pp",
+        "qrparm.orog.pp"
       ],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
