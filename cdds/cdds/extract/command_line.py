@@ -211,8 +211,7 @@ def symlink_files(links,  input_dir):
     for file_workflow_id, stream, directory, filename in links:
         source = os.path.abspath(os.path.join(directory, filename))
         destination = os.path.join(input_dir, stream, filename)
-        if not os.path.exists(os.path.join(input_dir, stream)):
-            os.mkdir(os.path.join(input_dir, stream))
+        os.makedirs(os.path.join(input_dir, stream), exist_ok=True)
         print('Linking {} to {}'.format(destination, source))
         try:
             os.symlink(source, destination)
