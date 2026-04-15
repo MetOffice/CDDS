@@ -1,5 +1,9 @@
 ## Release 3.3.2, March 30, 2026
 
+-   No changes.
+
+## Release 3.3.2, March 30, 2026
+
 -   Fix for zfactor error, triggered by MIP tables not allowing bounds for variables on atmosphere half levels, required for CMIP6Plus production. (#870)
 
 ## Release 3.3.1, March 25, 2026
