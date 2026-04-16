@@ -1,3 +1,7 @@
+## Release 3.3.3, April 15, 2026
+
+- Introduces bug fix to ensure cdds_arrange_input_data symlinks correct directory structure.(#895)
+
 ## Release 3.3.2, March 30, 2026
 
 -   No changes.
