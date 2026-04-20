@@ -84,8 +84,19 @@ def check_critical_issues(request: Request, proc_dir: str) -> None:
             output = subprocess.check_output(cmd1, universal_newlines=True)
             output_lines = remove_empty_list_elements(output.split('\n'))
             compact_output = '\n'.join(filter_critical_issues(output_lines))
-            logger.info('Critical issues in {0}:'.format(component))
-            logger.info(compact_output)
+            if component == "convert":
+                for stream in request.data.streams:
+                    convert_critical_issues_path = os.path.join(proc_dir, 'convert', 'log',
+                                                                f'critical_issues_{stream}.log')
+                    if os.path.isfile(convert_critical_issues_path):
+                        msg = (
+                            f'Critical issues in convert for stream {stream}. '
+                            'Contents of file {0}:\n{1}'.format(convert_critical_issues_path,
+                                                                do_critical_check(request, stream)))
+                        logger.info(msg.strip("\n"))
+            else:
+                logger.info('Critical issues in {0}:'.format(component))
+                logger.info(compact_output)
         except subprocess.CalledProcessError as e1:
             # If the return code is 1, then no critical issues were found.
             if e1.returncode == 1:
@@ -94,17 +105,6 @@ def check_critical_issues(request: Request, proc_dir: str) -> None:
                 logger.exception(e1)
         except RuntimeError as e1:
             logger.exception(e1)
-
-    for stream in request.data.streams:
-        convert_critical_issues_path = os.path.join(proc_dir, 'convert', 'log', f'critical_issues_{stream}.log')
-        if os.path.isfile(convert_critical_issues_path):
-            msg = (
-                f'Critical issues found for CDDS convert for stream {stream}. '
-                'Contents of file {0}:\n{1}'.format(convert_critical_issues_path, do_critical_check(request, stream)))
-            logger.info(msg.strip("\n"))
-        else:
-            logger.info("-----")
-            logger.info(f'No convert critical issues log file found for {stream}.')
 
 
 def check_intermediate_files(data_dir: str) -> None:
