@@ -59,6 +59,7 @@ class QCSuite(CheckSuite):
         instances.
         Returns a dictionary mapping checker names to a 2-tuple of their
         grouped scores and errors/exceptions while running checks.
+        Any checks that are encountered from the skip_checks dictionary will be skipped.
         """
         logger = logging.getLogger(__name__)
 
@@ -84,9 +85,9 @@ class QCSuite(CheckSuite):
             vals = []
             errs = {}  # check method name -> (exc, traceback)
             for c, max_level in checks:
+                if c.__func__.__name__ in skip_checks:
+                    continue
                 try:
-                    if "check_cell_boundaries_interval" in c.__func__.__name__:
-                        breakpoint()
                     vals.extend(self._run_check(c, ds, max_level))
                 except Exception as e:
                     logger.critical(traceback.format_exc())
