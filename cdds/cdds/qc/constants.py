@@ -53,3 +53,4 @@ SUMMARY_STARTED = 0
 SUMMARY_FAILED = 2
 SUMMARY_PASSED = 1
 TIME_TOLERANCE = 1e-5  # Tolerance for time comparisons in days = ~1s
+CMIP7_SKIP_QC_CHECKS = ["check_cell_boundaries_interval"]

@@ -85,6 +85,8 @@ class QCSuite(CheckSuite):
             errs = {}  # check method name -> (exc, traceback)
             for c, max_level in checks:
                 try:
+                    if "check_cell_boundaries_interval" in c.__func__.__name__:
+                        breakpoint()
                     vals.extend(self._run_check(c, ds, max_level))
                 except Exception as e:
                     logger.critical(traceback.format_exc())
