@@ -101,11 +101,11 @@ def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator, variable: str) -> 
         The error message updated with additional info from the cmor file.
     """
     for item in cmor_logs:
-        if b"cmor_write_var_to_file" in item:
+        if "cmor_write_var_to_file" in item:
             snippet = [item, [next(cmor_logs) for i in range(6)]]
             for text in snippet:
-                if b"Error" in text and variable.encode() in text:
-                    return "Problem with cmor_write_var_to_file: " + text.decode()[:200].strip("! Error: ") + "..."
+                if "Error" in text and variable in text:
+                    return "Problem with cmor_write_var_to_file: " + text[:200].strip("! Error: ") + "..."
 
     return msg
 

@@ -52,7 +52,7 @@ class TestGetCmorLogFileLocation(unittest.TestCase):
 class TestCheckIssuesInCmor(unittest.TestCase):
 
     def setUp(self):
-        with open("cdds/cdds/tests/test_deprecated/test_transfer/data/test_cmor.log.gz", "rb") as infile:
+        with open("cdds/cdds/tests/test_deprecated/test_transfer/data/test_cmor.log.gz", "r") as infile:
             self.cmor_logs = iter([item.strip() for item in infile])
         self.variable = "baresoilFrac"
 
