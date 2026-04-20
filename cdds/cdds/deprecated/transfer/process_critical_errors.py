@@ -82,14 +82,14 @@ def get_cmor_log_file_location(issue: str, cdds_convert_proc_dir: str) -> Path:
     return cmor_log_file_location
 
 
-def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator[bytes], variable: str) -> str:
+def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator, variable: str) -> str:
     """Checks the cmor log file for any additional information on cmor.write errors for a single critical issue.
 
     Parameters
     ----------
     msg: str
         The current error message.
-    cmor_logs: Iterator[bytes]
+    cmor_logs: Iterator
         The content of the cmor log file as an iterator.
     variable: str
         The variable associated with the error.
@@ -102,8 +102,7 @@ def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator[bytes], variable: s
     """
     for item in cmor_logs:
         if b"cmor_write_var_to_file" in item:
-            snippet = [item, next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs),
-                       next(cmor_logs)]
+            snippet = [item, [next(cmor_logs) for i in range(6)]]
             for text in snippet:
                 if b"Error" in text and variable.encode() in text:
                     return "Problem with cmor_write_var_to_file: " + text.decode()[:200].strip("! Error: ") + "..."
@@ -111,14 +110,14 @@ def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator[bytes], variable: s
     return msg
 
 
-def check_issues_in_cmor_variable(msg: str, cmor_logs: Iterator[bytes], variable: str) -> str:
+def check_issues_in_cmor_variable(msg: str, cmor_logs: Iterator, variable: str) -> str:
     """Checks the cmor log file for any additional information on cmor.variable errors for a single critical issue.
 
     Parameters
     ----------
     msg: str
         The current error message.
-    cmor_logs: Iterator[bytes]
+    cmor_logs: Iterator
         The content of the cmor log file as an iterator.
     variable: str
         The variable associated with the error.
@@ -129,24 +128,23 @@ def check_issues_in_cmor_variable(msg: str, cmor_logs: Iterator[bytes], variable
         The error message updated with additional info from the cmor file.
     """
     for item in cmor_logs:
-        if b"cmor_variable" in item:
-            snippet = [item, next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs),
-                       next(cmor_logs)]
+        if "cmor_variable" in item:
+            snippet = [item, [next(cmor_logs) for i in range(6)]]
             for text in snippet:
-                if b"Error" in text and variable.encode() in text:
-                    return "Problem with cmor_variable: " + text.decode()[:200].strip("! Error: ") + "..."
+                if "Error" in text and variable in text:
+                    return "Problem with cmor_variable: " + text[:200].strip("! Error: ") + "..."
 
     return msg
 
 
-def check_issues_in_cmor_zfactor(msg: str, cmor_logs: Iterator[bytes], variable: str) -> str:
+def check_issues_in_cmor_zfactor(msg: str, cmor_logs: Iterator, variable: str) -> str:
     """Checks the cmor log file for any additional information on cmor.zfactor errors for a single critical issue.
 
     Parameters
     ----------
     msg: str
         The current error message.
-    cmor_logs: Iterator[bytes]
+    cmor_logs: Iterator
         The content of the cmor log file as an iterator.
     variable: str
         The variable associated with the error.
@@ -157,24 +155,23 @@ def check_issues_in_cmor_zfactor(msg: str, cmor_logs: Iterator[bytes], variable:
         The error message updated with additional info from the cmor file.
     """
     for item in cmor_logs:
-        if b"cmor_zfactor" in item:
-            snippet = [item, next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs),
-                    next(cmor_logs)]
+        if "cmor_zfactor" in item:
+            snippet = [item, [next(cmor_logs) for i in range(6)]]
             for text in snippet:
-                if b"Warning" in text and variable.encode() in text:
-                    return "Problem with cmor_zfactor: " + text.decode()[:200].strip("! Error: ") + "..."
+                if "Warning" in text and variable in text:
+                    return "Problem with cmor_zfactor: " + text[:200].strip("! Error: ") + "..."
 
     return msg
 
 
-def check_issues_in_cmor_axis(msg: str, cmor_logs: Iterator[bytes], variable: str) -> str:
+def check_issues_in_cmor_axis(msg: str, cmor_logs: Iterator, variable: str) -> str:
     """Checks the cmor log file for any additional information on cmor.axis errors for a single critical issue.
 
     Parameters
     ----------
     msg: str
         The current error message.
-    cmor_logs: Iterator[bytes]
+    cmor_logs: Iterator
         The content of the cmor log file as an iterator.
     variable: str
         The variable associated with the error.
@@ -185,24 +182,23 @@ def check_issues_in_cmor_axis(msg: str, cmor_logs: Iterator[bytes], variable: st
         The error message updated with additional info from the cmor file.
     """
     for item in cmor_logs:
-        if b"cmor_axis" in item:
-            snippet = [item, next(cmor_logs), next(cmor_logs), next(cmor_logs), next(cmor_logs),
-                    next(cmor_logs)]
+        if "cmor_axis" in item:
+            snippet = [item, [next(cmor_logs) for i in range(6)]]
             for text in snippet:
-                if b"Error" in text and variable.encode() in text:
-                    return "Problem with cmor_axis: " + text.decode()[:200].strip("! Error: ") + "..."
+                if "Error" in text and variable in text:
+                    return "Problem with cmor_axis: " + text[:200].strip("! Error: ") + "..."
 
     return msg
 
 
-def check_issues_for_variable(msg: str, cmor_logs: Iterator[bytes], variable: str) -> str:
+def check_issues_for_variable(msg: str, cmor_logs: Iterator, variable: str) -> str:
     """Checks the cmor log file for any additional information where the variables are explicitly mentioned.
 
     Parameters
     ----------
     msg: str
         The current error message.
-    cmor_logs: Iterator[bytes]
+    cmor_logs: Iterator
         The content of the cmor log file as an iterator.
     variable: str
         The variable associated with the error.
@@ -213,9 +209,9 @@ def check_issues_for_variable(msg: str, cmor_logs: Iterator[bytes], variable: st
         The error message updated with additional info from the cmor file.
     """
     for item in cmor_logs:
-        if variable.encode() in item:
-            if b"Error" or b"Warning" in item:
-                return msg + ": " + item.decode()[:200].strip("! Error: ") + "..."
+        if variable in item:
+            if "Error" or "Warning" in item:
+                return msg + ": " + item[:200].strip("! Error: ") + "..."
 
     return msg
 
@@ -238,7 +234,7 @@ def get_detail_from_cmor_logs(issue: str, cdds_convert_proc_dir: str):
     cmor_log_file_location = get_cmor_log_file_location(issue, cdds_convert_proc_dir)
     msg = issue.split("|")[-1]
     if "Problem with 'cmor" in msg:
-        with gzip.open(cmor_log_file_location, "rb") as infile:
+        with gzip.open(cmor_log_file_location, "r") as infile:
             cmor_logs = iter([item.strip() for item in infile])
             variable = issue.split("|")[3].split("_")[0]
             if "Problem with 'cmor.write'" in msg:
