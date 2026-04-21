@@ -201,7 +201,9 @@
       "longitude": 360,
       "latitude": 330,
       "levels": 75,
-      "replacement_coordinates_file": "",
+      "replacement_coordinate_files": [
+        "nemo_eORCA1_grid-T.nc"
+      ],
       "ancil_filenames": [
         "ocean_constants.nc",
         "ocean_byte_masks.nc",

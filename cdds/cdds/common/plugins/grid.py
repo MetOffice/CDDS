@@ -198,7 +198,7 @@ class GridInfo(object, metaclass=ABCMeta):
 
     @property
     @abstractmethod
-    def replacement_coordinates_file(self) -> str:
+    def replacement_coordinates_file(self) -> list:
         """Returns the name of the replacement coordinate file.
 
         Returns
