@@ -302,7 +302,7 @@ class GlobalModelFileInfo(ModelFileInfo):
         if not match:
             return False
         # Guard for variables that might incorrectly missing a start date.
-        if match.group('start_date') is None and variable_dict['mip_table_id'] != 'fx':
+        if match.group('start_date') is None and not variable_dict['mip_table_id'].endswith('fx'):
             return False
         if request.metadata.experiment_id != match.group('experiment_id'):
             return False
