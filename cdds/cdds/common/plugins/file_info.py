@@ -134,7 +134,7 @@ class ModelFileInfo(object, metaclass=ABCMeta):
         """
         filename_pattern = re.compile(self._nc_files_to_archive_regex)
         file_match = filename_pattern.search(nc_files[0])
-        if file_match is None or file_match.group('start_date') is None:
+        if file_match.group('start_date') is None:
             return None, None
         file_start = TimePointParser().strptime(file_match.group('start_date'),
                                                 strptime_format_string=OUTPUT_FILE_DT_STR[frequency]['str'])
