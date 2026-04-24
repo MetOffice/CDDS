@@ -338,8 +338,7 @@ class CMIP7GlobalModelFileInfo(GlobalModelFileInfo):
         r'((\d+)-(\d+))(-clim)?.nc'])  # time range
 
     _NC_FILES_TO_ARCHIVE_REGEX = r'_'.join([
-        r'(?P<out_var_name>[a-zA-Z0-9-]+)',  # variable id
-        r'(?P<mip_table_id>[a-zA-Z0-9-]+)',  # branding suffix
+        r'(?P<out_var_name>[a-zA-Z0-9-]+_[a-zA-Z0-9-]+)',  # variable id + branding suffix (e.g. tas_tavg-h2m-hxy-u)
         r'(?P<frequency>[a-zA-Z0-9]+)',  # frequency
         r'(?P<region>[a-zA-Z0-9]+)',  # region
         r'(?P<grid>[a-zA-Z0-9]+)',  # grid label
