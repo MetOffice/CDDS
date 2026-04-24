@@ -82,6 +82,35 @@ def get_cmor_log_file_location(issue: str, cdds_convert_proc_dir: str) -> Path:
     return cmor_log_file_location
 
 
+def _summarise_cmor_error(line, cmor_logs, flag, variable, prefix):
+    """Uses the defined flag and prefix to summarise the cmor error for the given variable.
+
+    Parameters
+    ----------
+    line: str
+        The current line in the cmor logs that is being read.
+    cmor_logs: Iterator
+        The full content of the cmor logs as an iterator.
+    flag: str
+        The error or warning statement used to differentiate general cmor log info from a specific error or warning.
+        This is typically as simple as 'Error' or 'Warning'.
+    variable: str
+        The variable being processed.
+    prefix: str
+        The string prepended to the summarised issue to identify the type of cmor error (e.g. 'Problem with
+        cmor_write_var_to_file')
+
+    Returns
+    -------
+    str
+        Summarised cmor error.
+    """
+    snippet = [line, [next(cmor_logs) for i in range(6)]]
+    for text in snippet:
+        if flag in text and variable in text:
+            return prefix + ": " + text[:200].strip("! Error: ") + "..."
+
+
 def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator, variable: str) -> str:
     """Checks the cmor log file for any additional information on cmor.write errors for a single critical issue.
 
@@ -100,12 +129,9 @@ def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator, variable: str) -> 
     str
         The error message updated with additional info from the cmor file.
     """
-    for item in cmor_logs:
-        if "cmor_write_var_to_file" in item:
-            snippet = [item, [next(cmor_logs) for i in range(6)]]
-            for text in snippet:
-                if "Error" in text and variable in text:
-                    return "Problem with cmor_write_var_to_file: " + text[:200].strip("! Error: ") + "..."
+    for line in cmor_logs:
+        if "cmor_write_var_to_file" in line:
+            return _summarise_cmor_error(line, cmor_logs, "Error", variable, "Problem with cmor_write_var_to_file")
 
     return msg
 
@@ -127,12 +153,9 @@ def check_issues_in_cmor_variable(msg: str, cmor_logs: Iterator, variable: str) 
     str
         The error message updated with additional info from the cmor file.
     """
-    for item in cmor_logs:
-        if "cmor_variable" in item:
-            snippet = [item, [next(cmor_logs) for i in range(6)]]
-            for text in snippet:
-                if "Error" in text and variable in text:
-                    return "Problem with cmor_variable: " + text[:200].strip("! Error: ") + "..."
+    for line in cmor_logs:
+        if "cmor_variable" in line:
+            return _summarise_cmor_error(line, cmor_logs, "Error", variable, "Problem with cmor_variable")
 
     return msg
 
@@ -154,12 +177,9 @@ def check_issues_in_cmor_zfactor(msg: str, cmor_logs: Iterator, variable: str) -
     str
         The error message updated with additional info from the cmor file.
     """
-    for item in cmor_logs:
-        if "cmor_zfactor" in item:
-            snippet = [item, [next(cmor_logs) for i in range(6)]]
-            for text in snippet:
-                if "Warning" in text and variable in text:
-                    return "Problem with cmor_zfactor: " + text[:200].strip("! Error: ") + "..."
+    for line in cmor_logs:
+        if "cmor_zfactor" in line:
+            return _summarise_cmor_error(line, cmor_logs, "Warning", variable, "Problem with cmor_zfactor")
 
     return msg
 
@@ -181,12 +201,9 @@ def check_issues_in_cmor_axis(msg: str, cmor_logs: Iterator, variable: str) -> s
     str
         The error message updated with additional info from the cmor file.
     """
-    for item in cmor_logs:
-        if "cmor_axis" in item:
-            snippet = [item, [next(cmor_logs) for i in range(6)]]
-            for text in snippet:
-                if "Error" in text and variable in text:
-                    return "Problem with cmor_axis: " + text[:200].strip("! Error: ") + "..."
+    for line in cmor_logs:
+        if "cmor_axis" in line:
+            return _summarise_cmor_error(line, cmor_logs, "Error", variable, "Problem with cmor_axis")
 
     return msg
 
