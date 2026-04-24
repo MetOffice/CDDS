@@ -623,6 +623,12 @@ class QCRunner(object):
             "7.1 Cell Boundaries: Bounds variable lev_bnds and parent variable lev have the following matching": (
                 "This is a non-mandatory recommendation."),
             " has a temperature related standard_name and it is recommended that the units_metadata": (
+                "This is a non-mandatory recommendation."),
+            "4.4 Time Coordinate: Variable time has a calendar attribute of standard": (
+            "This is a non-mandatory recommendation."),
+            "7.1 Cell Boundaries: Bounds variable vertices_latitude and parent variable latitude have the following": (
+                "This is a non-mandatory recommendation."),
+            "7.1 Cell Boundaries: Bounds variable vertices_longitude and parent variable longitude have the following": (
                 "This is a non-mandatory recommendation.")
-        }
+            }
         return msg_dictionary
