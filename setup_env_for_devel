@@ -5,12 +5,10 @@ export CDDS_PACKAGES="cdds mip_convert"
 
 CDDS_HOME=$(readlink -f ~cdds)
 DEV_ENV='cdds-3.4_dev-5'
-CDDS_PLATFORM=AZURE
-CDDS_ETC=/home/users/cdds/etc
 
 if [[ "$(hostname -f)" =~ "spice.sc" ]]; then
     CONDA=/opt/conda/bin/activate
-    DEV_ENV="/home/users/edward.gillett/.conda/envs/cmorupdate3142"
+    DEV_ENV="${CDDS_HOME}/conda_environments/${DEV_ENV}"
 elif [[ "$(hostname -f)" =~ "jasmin" ]]; then
     CONDA=${CDDS_HOME}/software/miniforge3/bin/activate
     DEV_ENV="${CDDS_HOME}/conda_environments/${DEV_ENV}"
