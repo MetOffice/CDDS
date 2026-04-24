@@ -131,9 +131,11 @@ def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator, variable: str) -> 
     """
     for line in cmor_logs:
         if "cmor_write_var_to_file" in line:
-            return _summarise_cmor_error(line, cmor_logs, "Error", variable, "Problem with cmor_write_var_to_file")
-
-    return msg
+            err = _summarise_cmor_error(line, cmor_logs, "Error", variable, "Problem with cmor_write_var_to_file")
+    if err:
+        return err
+    else:
+        return msg
 
 
 def check_issues_in_cmor_variable(msg: str, cmor_logs: Iterator, variable: str) -> str:
@@ -155,9 +157,11 @@ def check_issues_in_cmor_variable(msg: str, cmor_logs: Iterator, variable: str) 
     """
     for line in cmor_logs:
         if "cmor_variable" in line:
-            return _summarise_cmor_error(line, cmor_logs, "Error", variable, "Problem with cmor_variable")
-
-    return msg
+            err = _summarise_cmor_error(line, cmor_logs, "Error", variable, "Problem with cmor_variable")
+    if err:
+        return err
+    else:
+        return msg
 
 
 def check_issues_in_cmor_zfactor(msg: str, cmor_logs: Iterator, variable: str) -> str:
@@ -179,9 +183,11 @@ def check_issues_in_cmor_zfactor(msg: str, cmor_logs: Iterator, variable: str) -
     """
     for line in cmor_logs:
         if "cmor_zfactor" in line:
-            return _summarise_cmor_error(line, cmor_logs, "Warning", variable, "Problem with cmor_zfactor")
-
-    return msg
+            err = _summarise_cmor_error(line, cmor_logs, "Warning", variable, "Problem with cmor_zfactor")
+    if err:
+        return err
+    else:
+        return msg
 
 
 def check_issues_in_cmor_axis(msg: str, cmor_logs: Iterator, variable: str) -> str:
@@ -203,9 +209,11 @@ def check_issues_in_cmor_axis(msg: str, cmor_logs: Iterator, variable: str) -> s
     """
     for line in cmor_logs:
         if "cmor_axis" in line:
-            return _summarise_cmor_error(line, cmor_logs, "Error", variable, "Problem with cmor_axis")
-
-    return msg
+            err = _summarise_cmor_error(line, cmor_logs, "Error", variable, "Problem with cmor_axis")
+    if err:
+        return err
+    else:
+        return msg
 
 
 def check_issues_for_variable(msg: str, cmor_logs: Iterator, variable: str) -> str:
