@@ -192,6 +192,7 @@ class GlobalModelFileInfo(ModelFileInfo):
         '(?P<out_var_name>[a-zA-Z0-9-]+)_(?P<mip_table_id>[a-zA-Z0-9-]+)_'
         '(?P<model_id>[a-zA-Z0-9-]+)_(?P<experiment_id>[a-zA-Z0-9-]+)_'
         '(?P<variant_label>[a-zA-Z0-9-]+)_(?P<grid>[a-zA-Z0-9]+)'
+        # optional time range (as doesn't appear on fx files):
         '(?:_(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+)(?P<climatology>-clim)?)?.nc')
 
     _MASS_ROOT_LOCATION_FACET = 'mip_era|mip|institution_id|model_id|experiment_id|variant_label'
@@ -345,7 +346,7 @@ class CMIP7GlobalModelFileInfo(GlobalModelFileInfo):
         r'(?P<model_id>[a-zA-Z0-9-]+)',  # model id
         r'(?P<experiment_id>[a-zA-Z0-9-]+)',  # experiment id
         r'(?P<variant_label>r\d{1,6}i\d{1,6}[a-e]?p\d{1,6}f\d{1,6})',  # variant label
-        r'(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+).nc'])
+    ]) + r'(?:_(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+))?.nc'  # optional time range (as doesn't appear on fx files)
 
     _APPROVED_VARS_VARIABLE_REGEX = r''.join([
         r'(?P<mip_table_id>[a-zA-Z]+)@'
