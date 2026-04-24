@@ -350,7 +350,7 @@ def main_cdds_retrieve_data() -> None:
 
     for folder_path, file_data in dir_path_key_dict.items():
         if args.moose_base_location:
-            base_output_folder = folder_path.replace(args.moose_base_location, "")    
+            base_output_folder = folder_path.replace(args.moose_base_location, "")
         else:
             base_output_folder = folder_path.replace(DEFAULT_MOOSE_BASE_PATH, "")
         output_dir = create_output_dir(
