@@ -225,8 +225,7 @@ def report_disk_usage(staging_dir):
     logger.info(du_msg)
 
 
-def manage_critical_issues(mip_convert_config_dir, mip_convert_log,
-                           fields_to_log=None):
+def manage_critical_issues(mip_convert_config_dir, mip_convert_log, stream, fields_to_log=None):
     """Identify critical issues logged by MIP Convert and copy them to a
     central log file so that users can keep an eye on them.
 
@@ -236,6 +235,8 @@ def manage_critical_issues(mip_convert_config_dir, mip_convert_log,
         Name of directory containing MIP Convert config files.
     mip_convert_log: str
         The file name of the mip convert log for this task.
+    stream: str
+        The stream of the variables that the critical errors belong to.
     fields_to_log : list, optional
         Information to insert into the critical issues file along
         with the CRITICAL log messages.
@@ -248,10 +249,8 @@ def manage_critical_issues(mip_convert_config_dir, mip_convert_log,
     if fields_to_log is None:
         fields_to_log = []
     logger = logging.getLogger(__name__)
-    critical_issues_file = os.path.join(mip_convert_config_dir, 'log',
-                                        'critical_issues.log')
-    logger.debug('Searching "{}" for CRITICAL messages'
-                 ''.format(mip_convert_log))
+    critical_issues_file = os.path.join(mip_convert_config_dir, 'log', f'critical_issues_{stream}.log')
+    logger.debug('Searching "{}" for CRITICAL messages'.format(mip_convert_log))
     critical_issues_list = []
     with open(mip_convert_log) as log_file_handle:
         for line in log_file_handle.readlines():
@@ -261,7 +260,6 @@ def manage_critical_issues(mip_convert_config_dir, mip_convert_log,
     if not critical_issues_list:
         logger.debug('No CRITICAL messages found')
     else:
-
         with open(critical_issues_file, 'a') as critical_issues_log:
             for issue in critical_issues_list:
                 line = '|'.join(fields_to_log + [mip_convert_log, issue])
