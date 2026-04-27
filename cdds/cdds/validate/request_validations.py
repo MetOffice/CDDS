@@ -41,6 +41,7 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
     load_cdds_plugins(request_config)
 
     calendar = request_config.get('metadata', 'calendar')
+    calendar = "gregorian" if calendar == "standard" else calendar
     Calendar.default().set_mode(calendar)
 
     try:
