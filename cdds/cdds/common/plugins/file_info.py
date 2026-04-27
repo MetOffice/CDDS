@@ -338,7 +338,11 @@ class CMIP7GlobalModelFileInfo(GlobalModelFileInfo):
         r'((\d+)-(\d+))(-clim)?.nc'])  # time range
 
     _NC_FILES_TO_ARCHIVE_REGEX = r'_'.join([
-        r'(?P<out_var_name>[a-zA-Z0-9-]+_[a-zA-Z0-9-]+)',  # variable id + branding suffix (e.g. tas_tavg-h2m-hxy-u)
+        # out_var_name = variable id + branding suffix as a single group (e.g. tas_tavg-h2m-hxy-u)
+        # For CMIP7, both standard and fx files use this combined format in filenames and the approved variables file
+        # (e.g. "atmos@mon/tas_tavg-h2m-hxy-u;..."). This ensures out_var_name matches both types correctly
+        # for comparison and archiving logic.
+        r'(?P<out_var_name>[a-zA-Z0-9-]+_[a-zA-Z0-9-]+)',
         r'(?P<frequency>[a-zA-Z0-9]+)',  # frequency
         r'(?P<region>[a-zA-Z0-9]+)',  # region
         r'(?P<grid>[a-zA-Z0-9]+)',  # grid label
