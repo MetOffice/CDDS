@@ -434,8 +434,9 @@ class RegionalModelFileInfo(ModelFileInfo):
                                   '(?P<institution_id>[a-zA-Z0-9-]+)_'
                                   '(?P<model_id>[a-zA-Z0-9-]+)_'
                                   '(?P<version>[a-zA-Z0-9-]+)_'
-                                  '(?P<frequency>[a-zA-Z0-9-]+)_'
-                                  '(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+).nc')
+                                  '(?P<frequency>[a-zA-Z0-9-]+)'
+                                  # Date bounds optional due to fx files not having them.
+                                  '(?:_(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+))?.nc')
 
     _OUTPUT_FILE_TEMPLATE = ('<variable_id><domain_id><driving_source_id><driving_experiment_id><driving_variant_label>'
                              '<institution_id><source_id><version_realization><frequency>')
