@@ -630,5 +630,5 @@ class QCRunner(object):
                 "This is a non-mandatory recommendation."),
             "7.1 Cell Boundaries: Bounds variable vertices_longitude and parent variable longitude have the following": (
                 "This is a non-mandatory recommendation.")
-            }
+        }
         return msg_dictionary
