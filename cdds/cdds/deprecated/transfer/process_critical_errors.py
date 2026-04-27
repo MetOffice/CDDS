@@ -259,7 +259,7 @@ def get_detail_from_cmor_logs(issue: str, cdds_convert_proc_dir: str):
     cmor_log_file_location = get_cmor_log_file_location(issue, cdds_convert_proc_dir)
     msg = issue.split("|")[-1]
     if "Problem with 'cmor" in msg:
-        with gzip.open(cmor_log_file_location, "r") as infile:
+        with gzip.open(cmor_log_file_location, "rt") as infile:
             cmor_logs = iter([item.strip() for item in infile])
             variable = issue.split("|")[3].split("_")[0]
             if "Problem with 'cmor.write'" in msg:
