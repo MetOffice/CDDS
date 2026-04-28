@@ -238,7 +238,7 @@ Next step is to implement the `GridInfo` classes.
             pass
 
         @property
-        def replacement_coordinates_file(self) -> str:
+        def replacement_coordinate_files(self) -> str:
             pass
     
         def ancil_filenames(self) -> List[str]:
@@ -289,7 +289,7 @@ Next step is to implement the `GridInfo` classes.
             pass
 
         @property
-        def replacement_coordinates_file(self) -> str:
+        def replacement_coordinate_files(self) -> str:
             pass
 
         def ancil_filenames(self) -> List[str]:

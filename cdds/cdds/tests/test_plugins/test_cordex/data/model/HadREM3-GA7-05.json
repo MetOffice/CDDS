@@ -92,7 +92,7 @@
       "longitude": null,
       "latitude": null,
       "levels": null,
-      "replacement_coordinates_file": null,
+      "replacement_coordinate_files": null,
       "ancil_filenames": [],
       "hybrid_heights_files": [],
       "masked": {}
