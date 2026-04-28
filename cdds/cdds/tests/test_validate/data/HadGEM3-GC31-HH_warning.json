@@ -194,7 +194,7 @@
       "longitude": 4320,
       "latitude": 3604,
       "levels": 75,
-      "replacement_coordinates_file": null,
+      "replacement_coordinate_files": null,
       "ancil_filenames": [],
       "hybrid_heights_files": [],
       "masked": {
