@@ -17,7 +17,7 @@ class ConvertArguments:
     streams: List[str] = field(default_factory=list)
     no_submit: bool = False
     ancil_files: str = ''
-    replacement_coordinates_file: str = ''
+    replacement_coordinate_files: str = ''
     hybrid_heights_files: str = ''
     requested_variables_list_file: str = ''
     output_cfg_dir: str = ''
@@ -44,14 +44,14 @@ def add_user_config_data_files(arguments: ConvertArguments, request: Request) ->
         Updated commandline convert arguments
     """
     ancil_files = get_ancil_files(request)
-    replacment_coordinates_file = get_replacement_coordinates_file(request)
+    replacment_coordinates_file = get_replacement_coordinate_files(request)
     hybrid_heights_files = get_hybrid_heights_files(request)
 
     output_cfg_dir = get_component_dir(request, 'configure')
     requested_variables_list_file = requested_variables_file(request)
 
     arguments.ancil_files = ancil_files
-    arguments.replacement_coordinates_file = replacment_coordinates_file
+    arguments.replacement_coordinate_files = replacment_coordinates_file
     arguments.hybrid_heights_files = hybrid_heights_files
     arguments.requested_variables_list_file = requested_variables_list_file
     arguments.output_cfg_dir = output_cfg_dir
@@ -97,7 +97,7 @@ def get_ancil_files(request: Request) -> str:
     return ' '.join(ancil_files)
 
 
-def get_replacement_coordinates_file(request: Request) -> str:
+def get_replacement_coordinate_files(request: Request) -> str:
     """Construct the full paths to the replacement coordinates file.
 
     Parameters
@@ -112,7 +112,7 @@ def get_replacement_coordinates_file(request: Request) -> str:
     """
     plugin = PluginStore.instance().get_plugin()
     grid_info = plugin.grid_info(request.metadata.model_id, GridType.OCEAN)
-    filename = grid_info.replacement_coordinates_file
+    filename = grid_info.replacement_coordinate_files
     if filename:
         return os.path.join(request.common.root_replacement_coordinates_dir, filename)
     return ''

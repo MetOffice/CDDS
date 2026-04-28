@@ -92,8 +92,8 @@ def request_config():
     config['hybrid_heights_files'] = _get_config(
         'hybrid_heights_files', section, value_type='multiple',
         default_value=True, check_function=check_files)
-    config['replacement_coordinates_file'] = _get_config(
-        'replacement_coordinates_file', section, default_value=True)
+    config['replacement_coordinate_files'] = _get_config(
+        'replacement_coordinate_files', section, default_value=True)
     config['run_bounds'] = _get_config(
         'run_bounds', section, value_type='multiple',
         required_by_mip_convert=True,

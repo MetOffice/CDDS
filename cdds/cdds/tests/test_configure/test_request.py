@@ -90,7 +90,7 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
                                 os.environ['CDDS_ETC'], 'vertical_coordinates', 'atmosphere_theta_levels_85.txt ') +
                             os.path.join(
                                 os.environ['CDDS_ETC'], 'vertical_coordinates', 'atmosphere_rho_levels_86.txt')),
-                        'replacement_coordinates_file': (
+                        'replacement_coordinate_files': (
                             os.path.join(
                                 os.environ['CDDS_ETC'], 'horizontal_coordinates', 'cice_eORCA1_coords.nc')),
                         'shuffle': True,
@@ -155,7 +155,7 @@ class TestRetrieveRequestMetadataForCordex(unittest.TestCase):
                                          'atmosphere_theta_levels_85.txt'),
                             os.path.join(os.environ['CDDS_ETC'], 'vertical_coordinates',
                                          'atmosphere_rho_levels_86.txt')]),
-                        'replacement_coordinates_file': '',
+                        'replacement_coordinate_files': '',
                         'deflate_level': '2',
                         'sites_file': os.path.join(os.environ['CDDS_ETC'], 'cfmip2', 'cfmip2-sites-orog.txt'),
                         'shuffle': True

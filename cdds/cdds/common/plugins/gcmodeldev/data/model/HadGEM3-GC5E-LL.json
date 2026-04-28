@@ -268,7 +268,7 @@
       "longitude": 360,
       "latitude": 330,
       "levels": 75,
-      "replacement_coordinates_file": "",
+      "replacement_coordinate_files": "",
       "ancil_filenames": [],
       "masked": {
         "grid-V": {
