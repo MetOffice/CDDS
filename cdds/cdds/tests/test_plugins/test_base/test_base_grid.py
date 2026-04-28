@@ -17,7 +17,7 @@ class TestOceanGridInfo(TestCase):
             "longitude": 360,
             "latitude": 330,
             "levels": 75,
-            "replacement_coordinates_file": "cice_eORCA1_coords.nc",
+            "replacement_coordinate_files": "cice_eORCA1_coords.nc",
             "masked": {
                 "grid-V": {
                     "slice_latitude": [-1, 1, 1],
@@ -63,9 +63,9 @@ class TestOceanGridInfo(TestCase):
         levels = self.ocean_grid_info.levels
         self.assertEqual(levels, 75)
 
-    def test_replacement_coordinates_file(self):
-        replacement_coordinates_file = self.ocean_grid_info.replacement_coordinates_file
-        self.assertEqual(replacement_coordinates_file, 'cice_eORCA1_coords.nc')
+    def test_replacement_coordinate_files(self):
+        replacement_coordinate_files = self.ocean_grid_info.replacement_coordinate_files
+        self.assertEqual(replacement_coordinate_files, 'cice_eORCA1_coords.nc')
 
     def test_masks(self):
         masks = self.ocean_grid_info.masks

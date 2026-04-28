@@ -71,8 +71,8 @@ def convert(parameters):
 
     # Load the replacement coordinates file.
     replacement_coordinates = None
-    if user_config.replacement_coordinates_file:
-        replacement_coordinates = iris.load(user_config.replacement_coordinates_file.split())
+    if user_config.replacement_coordinate_files:
+        replacement_coordinates = iris.load(user_config.replacement_coordinate_files.split())
 
     # Retrieve the 'MIP requested variable names' from the 'user configuration file'.
     requested_variables = get_requested_variables(user_config, parameters.stream_identifiers)

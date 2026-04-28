@@ -104,7 +104,7 @@ class BaseGridInfo(GridInfo, metaclass=ABCMeta):
         return self._to_int(value)
 
     @property
-    def replacement_coordinates_file(self) -> list:
+    def replacement_coordinate_files(self) -> list:
         """Returns the name of the replacement coordinate file.
 
         Returns
