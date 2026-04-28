@@ -93,7 +93,7 @@ class Cmip7Dataset(StructuredDataset):
             valid_filename = False
             messages.append(f"Invalid table_id Global Attribute {table} in file {filename}")
 
-        if filename_parts[8]:
+        if len(filename_parts) > 8 and filename_parts[8]:
             try:
                 _, _ = parse_date_range(filename_parts[8],
                                         self.global_attributes_cache.getncattr("frequency", ds),

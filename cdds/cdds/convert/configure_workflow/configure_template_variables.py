@@ -2,7 +2,7 @@
 # Please see LICENSE.md for license details.
 import logging
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from metomi.isodatetime.parsers import TimePointParser
 
@@ -24,6 +24,7 @@ class ConfigureTemplateVariables:
     _arguments: ConvertArguments
     _request: Request
     stream_config: dict
+    single_tasks: list = field(default_factory=list)
 
     def __post_init__(self) -> None:
         """Assign the logger."""
@@ -78,6 +79,7 @@ class ConfigureTemplateVariables:
             "RUN_EXTRACT": not self._request.conversion.skip_extract,
             "RUN_EXTRACT_VALIDATION": not self._request.conversion.skip_extract_validation,
             "RUN_QC": not self._request.conversion.skip_qc,
+            "SINGLE_TASKS": self.single_tasks,
             "RUN_TRANSFER": not self._request.conversion.skip_archive,
             "RELAXED_CMOR": self._request.common.is_relaxed_cmor(),
             "CONTINUE_IF_MIP_CONVERT_FAILED": self._request.conversion.continue_if_mip_convert_failed,

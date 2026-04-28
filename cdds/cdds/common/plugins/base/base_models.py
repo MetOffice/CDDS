@@ -15,7 +15,7 @@ from cdds.common.enum_utils import ABCEnumMeta
 from cdds.common.io import read_json
 from cdds.common.plugins.common import LoadResult, LoadResults
 from cdds.common.plugins.grid_mapping import GridMapping
-from cdds.common.plugins.models import ModelParameters, ModelsStore
+from cdds.common.plugins.models import ModelParameters, ModelsStore, SINGLE_RUN_STREAMS
 from cdds.common.plugins.base.base_grid import BaseGridInfo, AtmosBaseGridInfo, OceanBaseGridInfo
 from cdds.common.plugins.base.base_grid_mapping import BaseGridMapping
 from cdds.common.plugins.streams import StreamFileInfo, StreamFileFrequency
@@ -251,6 +251,21 @@ class BaseModelParameters(ModelParameters, metaclass=ABCMeta):
             Grids mappings for the MIP requested variables
         """
         return self._grid_mappings
+
+    def is_single_run_stream(self, stream_id: str) -> bool:
+        """Returns whether the given stream runs only once rather than cycling.
+
+        Parameters
+        ----------
+        stream_id : str
+            Stream ID
+
+        Returns
+        -------
+        bool
+            True if the stream is processed in a single non-cycling task.
+        """
+        return stream_id in SINGLE_RUN_STREAMS
 
     def load_parameters(self, dir_path: str) -> LoadResult:
         """Loads parameters from json files contained in the given directory.

@@ -26,6 +26,9 @@ from cdds.qc.constants import (
     SUMMARY_FAILED,
     SUMMARY_PASSED,
     SUMMARY_STARTED,
+    CMIP6_SKIP_QC_CHECKS,
+    CMIP7_SKIP_QC_CHECKS,
+    CORDEX_SKIP_QC_CHECKS,
 )
 from cdds.qc.contiguity_checker import CollectionsCheck
 from cdds.qc.models import (
@@ -242,12 +245,12 @@ class QCRunner(object):
                 qc_dataset_id = cursor.lastrowid
                 with self.check_suite.load_dataset(data_file) as ds:
                     if request.common.force_plugin == 'CORDEX':
-                        output = self.check_suite.run(ds, conf, [], "cdds_cf:1.7", "cordex")
+                        output = self.check_suite.run(ds, conf, CORDEX_SKIP_QC_CHECKS, "cdds_cf:1.7", "cordex")
                     elif request.metadata.mip_era == 'CMIP7':
-                        output = self.check_suite.run(ds, conf, [], "cdds_cf:1.11", "cmip7")
+                        output = self.check_suite.run(ds, conf, CMIP7_SKIP_QC_CHECKS, "cdds_cf:1.11", "cmip7")
                     else:
                         # all other projects (CMIP6, CMIP6Plus, GCModelDev) use CF-1.7 and CMIP6 style checks.
-                        output = self.check_suite.run(ds, conf, [], "cdds_cf:1.7", "cmip6")
+                        output = self.check_suite.run(ds, conf, CMIP6_SKIP_QC_CHECKS, "cdds_cf:1.7", "cmip6")
                 invalid = self._parse_and_log(cursor, output, qc_dataset_id)
                 if data_file in crs[1] and crs[1][data_file]:
                     for msg in crs[1][data_file]:
@@ -620,6 +623,16 @@ class QCRunner(object):
             "7.1 Cell Boundaries: Bounds variable lev_bnds and parent variable lev have the following matching": (
                 "This is a non-mandatory recommendation."),
             " has a temperature related standard_name and it is recommended that the units_metadata": (
-                "This is a non-mandatory recommendation.")
+                "This is a non-mandatory recommendation."),
+            "4.4 Time Coordinate: Variable time has a calendar attribute of standard": (
+            "This is a non-mandatory recommendation."),
+            "7.1 Cell Boundaries: Bounds variable vertices_latitude and parent variable latitude have the following": (
+                "This is a non-mandatory recommendation."),
+            (
+                "7.1 Cell Boundaries: Bounds variable vertices_longitude "
+                "and parent variable longitude have the following"
+            ): (
+                "This is a non-mandatory recommendation."
+            )
         }
         return msg_dictionary
