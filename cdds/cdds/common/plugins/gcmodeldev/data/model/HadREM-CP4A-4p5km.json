@@ -41,7 +41,8 @@
     "apq": "90G",
     "apr": "90G",
     "apm": "90G",
-    "afx": "8G"
+    "afx": "8G",
+    "ofx": "8G"
   },
   "temp_space": {
     "apa": 131072,
@@ -55,7 +56,8 @@
     "apq": 131072,
     "apr": 131072,
     "apm": 16384,
-    "afx": 8192
+    "afx": "8192",
+    "ofx": "8192"
   },
   "sizing_info": {
     "1hr": {
@@ -116,7 +118,9 @@
       "latitude": 2000,
       "v_latitude": 2001,
       "levels": 85,
-      "ancil_filenames": ["qrparm.mask_cci.pp"],
+      "ancil_filenames": [
+        "qrparm.mask_cci.pp"
+      ],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
         "atmosphere_rho_levels_86.txt"
