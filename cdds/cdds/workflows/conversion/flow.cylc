@@ -310,6 +310,7 @@ mkdir -p {{ BASE_OUTPUT }}
         [[[directives]]]
             --mem = {{ MEMORY_QC }}
             --ntasks = 1
+            --partition = cpu-long
     {% endif %}
 
     {% if RUN_QC %}
