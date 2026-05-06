@@ -311,11 +311,11 @@ mkdir -p {{ BASE_OUTPUT }}
         [[[directives]]]
             --mem = {{ MEMORY_QC }}
             --ntasks = 1
-            {% if PLATFORM == 'AZURE' %}
-                --partition = cpu-long
-            {% elif PLATFORM == 'JASMIN' %}
-                --qos = long
-            {% endif %}
+        {% if PLATFORM == 'AZURE' %}
+            --partition = cpu-long
+        {% elif PLATFORM == 'JASMIN' %}
+            --qos = long
+        {% endif %}
     {% endif %}
 
     {% if RUN_QC %}
