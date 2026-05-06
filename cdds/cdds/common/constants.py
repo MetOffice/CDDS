@@ -243,7 +243,7 @@ USER_CONFIG_OPTIONS = {
             'base_date', 'model_output_dir', 'run_bounds', 'suite_id'],
         'optional': [
             'ancil_files', 'atmos_timestep', 'deflate_level',
-            'hybrid_heights_files', 'replacement_coordinates_file', 'shuffle',
+            'hybrid_heights_files', 'replacement_coordinate_files', 'shuffle',
             'sites_file', 'reference_time'],
     },
 }

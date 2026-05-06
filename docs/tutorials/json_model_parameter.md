@@ -208,7 +208,7 @@ Following information should be provided:
 :   the ancillary file names. These are looked for in the directory `<root_ancil_dir>/<source_id>` as specified in the 
     request config file
 
-`replacement_coordinates_file`
+`replacement_coordinate_files`
 :   the replacement coordinates file for CICE model output
 
 `hybrid_heights_files`
@@ -313,7 +313,7 @@ Following information should be provided:
                 "longitude": 360,
                 "latitude": 330,
                 "levels": 75,
-                "replacement_coordinates_file": "cice_eORCA1_coords.nc",
+                "replacement_coordinate_files": "cice_eORCA1_coords.nc",
                 "ancil_filenames": [
                     "ocean_constants.nc",
                     "ocean_byte_masks.nc",

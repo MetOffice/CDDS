@@ -199,7 +199,7 @@
       "longitude": 4320,
       "latitude": 3604,
       "levels": 75,
-      "replacement_coordinates_file": "cice_eORCA12_coords.nc",
+      "replacement_coordinate_files": "cice_eORCA12_coords.nc",
       "ancil_filenames": [],
       "masked": {
         "grid-V": {

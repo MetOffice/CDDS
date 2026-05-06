@@ -195,7 +195,7 @@
       "longitude": 1440,
       "latitude": 1205,
       "levels": 75,
-      "replacement_coordinates_file": "cice_eORCA025_coords.nc",
+      "replacement_coordinate_files": "cice_eORCA025_coords.nc",
       "ancil_filenames": [
         "ocean_constants.nc",
         "ocean_byte_masks.nc",

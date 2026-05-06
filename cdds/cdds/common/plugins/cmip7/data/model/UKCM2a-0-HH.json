@@ -141,7 +141,7 @@
       "longitude": 4320,
       "latitude": 3604,
       "levels": 75,
-      "replacement_coordinates_file": "",
+      "replacement_coordinate_files": "",
       "ancil_filenames": [
         "ocean_byte_masks_HH.nc"
       ],

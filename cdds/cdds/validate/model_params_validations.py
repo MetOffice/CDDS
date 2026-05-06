@@ -224,7 +224,7 @@ class ModelParamsFileValidator:
             self._warning = True
             self._warning_messages.append(message)
 
-        if not ocean_grid_info['replacement_coordinates_file']:
+        if not ocean_grid_info['replacement_coordinate_files']:
             message = 'There is no replacement coordinates file defined in the ocean grid info'
             self._warning = True
             self._warning_messages.append(message)

@@ -120,7 +120,7 @@ class TestMain(unittest.TestCase):
         plugin = PluginStore.instance().get_plugin()
         grid_info = plugin.grid_info(self.model_id, GridType.ATMOS)
         self.nominal_resolution = grid_info.nominal_resolution
-        self.replacement_coordinates_file = os.path.join(os.environ['CDDS_ETC'],
+        self.replacement_coordinate_files = os.path.join(os.environ['CDDS_ETC'],
                                                          'horizontal_coordinates', 'cice_eORCA1_coords.nc')
         self.mip_convert_plugin = 'HadGEM3'
         self.cmor_setup_format = (
@@ -161,12 +161,12 @@ class TestMain(unittest.TestCase):
             '[request]\nancil_files = {}\nancil_variables = {}\natmos_timestep = 1200\nbase_date = {}\n'
             'deflate_level = {}\nforce_coordinate_rotation = {}\nhybrid_heights_files = {}\n'
             'mip_convert_external_plugin = \nmip_convert_external_plugin_location = \n'
-            'mip_convert_plugin = {}\nmodel_output_dir = {}\nreplacement_coordinates_file = {}\n'
+            'mip_convert_plugin = {}\nmodel_output_dir = {}\nreplacement_coordinate_files = {}\n'
             'run_bounds = {}\nshuffle = {}\nsites_file = {}\nsuite_id = {}\n\n')
         self.request_section = self.request_format.format(
             self.ancil_files, self. ancil_variables, self.base_date, self.deflate_level,
             self.force_coordinate_rotation, self.hybrid_heights_files, self.mip_convert_plugin,
-            self.model_output_dir, self.replacement_coordinates_file, self.run_bounds, self.shuffle,
+            self.model_output_dir, self.replacement_coordinate_files, self.run_bounds, self.shuffle,
             self.sites_file, self.suite_id)
         self.stream_section = '[stream_ap5]\nCMIP6_Amon = tas\n\n'
         self.masking_section = ('[masking]\n'
