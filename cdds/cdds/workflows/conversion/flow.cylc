@@ -304,7 +304,7 @@ mkdir -p {{ BASE_OUTPUT }}
     {% if RUN_EXTRACT_VALIDATION %}
     [[validate_extract_{{ STREAM }}]]
         inherit = {{ PLATFORM }}
-        execution time limit = P1D
+        execution time limit = P2D
         [[[environment]]]
             ROSE_TASK_APP = validate_extract
             STREAM = {{ STREAM }}
