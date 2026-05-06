@@ -240,7 +240,7 @@ def mass_list_files_recursively(mass_path, simulation):
         if m[0] == 'F':
             elems = [s1 for s1 in m.split()]
             (mip, institution, model, experiment, variant, mip_table, variable, grid, status,
-             timestamp, filename) = elems[8].split('/')[6:]
+             timestamp, filename) = elems[8].split('/')[-11:]
             if filename.endswith('.nc'):
                 dataset_id = '{}.{}.{}.{}.{}.{}.{}.{}.{}'.format(
                     'CMIP6', mip, institution, model, experiment, variant, mip_table, variable, grid)
