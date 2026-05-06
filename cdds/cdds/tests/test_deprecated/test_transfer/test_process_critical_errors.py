@@ -139,10 +139,10 @@ class TestSummmariseCriticalIssues(unittest.TestCase):
                                     'lbtim_ib=2" within "1900-01-01T000000" and "1905-01-01T000000"']
         cdds_convert_proc_dir = "proc_dir"
         num_cycles = 2
-        expected = {'\'rlucs4co2_tavg-alh-hxy-u\' for \'CMIP7_atmos\' could not be produced due the error \'"Expected '
-                    'to find exactly 1 "altitude" coordinate, but found none.\' occuring in 1 of 2 cycles', '\''
-                    'rlutcso3ref_tavg-u-hxy-u\' for \'CMIP7_atmosChem\' could not be produced due the error \'No cubes '
-                    'found using constraints "lbuser4=2419, lblev=86, lbproc=128, lbtim_ia=1, lbtim_ib=2" within '
+        expected = {'    \'rlucs4co2_tavg-alh-hxy-u\' for \'CMIP7_atmos\' could not be produced due the error \''
+                    '"Expected to find exactly 1 "altitude" coordinate, but found none.\' occuring in 1 of 2 cycles', ''
+                    '    \'rlutcso3ref_tavg-u-hxy-u\' for \'CMIP7_atmosChem\' could not be produced due the error \'No '
+                    'cubes found using constraints "lbuser4=2419, lblev=86, lbproc=128, lbtim_ia=1, lbtim_ib=2" within '
                     '"1900-01-01T000000" and "1905-01-01T000000"\' occuring in 1 of 2 cycles'}
 
         output = summarise_critical_issues(critical_issues_key_info, cdds_convert_proc_dir, num_cycles)
