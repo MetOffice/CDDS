@@ -19,11 +19,39 @@
         [[[concatenation_queue]]]
             limit = 1
 {% for STREAM in STREAMS.keys() %}
+    {% if STREAM not in SINGLE_TASKS %}
             members = MIP_CONCATENATE_{{ STREAM }}
+    {% endif %}
 {% endfor %}
 
     [[graph]]
 {% for STREAM in STREAMS.keys() %}
+    {% if STREAM in SINGLE_TASKS %}
+    {% for COMPONENT in STREAM_COMPONENTS[STREAM] %}
+        {% set SUFFIX = STREAM ~ '_' ~ COMPONENT %}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = setup_output_dir_{{ STREAM }} => mip_convert_single_{{ SUFFIX }} => run_repack_{{ STREAM }}
+    {% endfor %}
+    {% if RUN_QC %}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_repack_{{ STREAM }} => run_qc_{{ STREAM }}
+    {% endif %}
+    {% if RUN_TRANSFER %}
+    {% if RUN_QC %}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_qc_{{ STREAM }} => run_transfer_{{ STREAM }}
+    {% else %}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_repack_{{ STREAM }} => run_transfer_{{ STREAM }}
+    {% endif %}
+    {% endif %}
+        {% if RUN_TRANSFER %}
+            R1/{{ FINAL_CYCLE_POINT }} = """
+                COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => run_sim_review => workflow_complete
+            """
+        {% else %}
+            R1/{{ FINAL_CYCLE_POINT }} = """
+                COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => workflow_complete
+            """
+        {% endif %}
+    {% else %}
+
         # {{ STREAM }} extract and extract validation
     {% if RUN_EXTRACT and RUN_EXTRACT_VALIDATION %}
         R1 = run_extract_{{ STREAM }} => validate_extract_{{ STREAM }} => setup_output_dir_{{ STREAM }}
@@ -93,6 +121,7 @@
             R1/{{ FINAL_CYCLE_POINT }} = """
                 COMPLETION_FAMILY_{{ STREAM }}[{{ FINAL_CONCATENATION_CYCLE[STREAM] }}]:succeed-all => workflow_complete
             """
+        {% endif %}
         {% endif %}
 
 {% endfor %}
@@ -183,6 +212,7 @@ mkdir -p {{ BASE_OUTPUT }}
             CALENDAR = {{ CALENDAR }}
             REF_DATE = {{ REF_DATE }}
             STREAM = {{ STREAM }}
+    {% if STREAM not in SINGLE_TASKS %}
     [[organise_files_{{ STREAM }}]]
         inherit = ORGANISE_FILES_{{ STREAM }}
         [[[environment]]]
@@ -228,6 +258,7 @@ mkdir -p {{ BASE_OUTPUT }}
         [[[environment]]]
             ROSE_TASK_APP = concatenate_batch
             STREAM = {{ STREAM }}
+    {% endif %} # STREAM not in SINGLE_TASKS
 
 ##### MIP CONVERT #########################################################################
     {% for COMPONENT in STREAM_COMPONENTS[STREAM] %} # COMPONENT LOOP
@@ -256,6 +287,7 @@ mkdir -p {{ BASE_OUTPUT }}
             --gres = tmp:{{ MIP_CONVERT_TMP_SPACE[STREAM] }} # Allocate an amount of temp space in MB for mip_convert
             {% endif %}
 
+    {% if STREAM not in SINGLE_TASKS %}
         {% if DO_CONVERT_ALIGNMENT_CYCLE[STREAM] %}
     [[mip_convert_first_{{ SUFFIX }}]]
         inherit = MIP_CONVERT_{{ SUFFIX }}
@@ -267,6 +299,12 @@ mkdir -p {{ BASE_OUTPUT }}
         inherit = MIP_CONVERT_{{ SUFFIX  }}
         [[[environment]]]
             CYCLE_DURATION = {{ CYCLING_FREQUENCY[STREAM] }}
+    {% else %}
+    [[mip_convert_single_{{ SUFFIX }}]]
+        inherit = MIP_CONVERT_{{ SUFFIX }}
+        [[[environment]]]
+            OUTPUT_DIR = {{ BASE_OUTPUT }}
+    {% endif %}
     {% endfor %} # COMPONENT LOOP END
 
 ##### SETUP_OUTPUT_DIR EXTRACT VALIDATE_EXTRACT QC TRANSFER ###############################

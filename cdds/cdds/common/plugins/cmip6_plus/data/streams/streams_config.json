@@ -1,2 +1,7 @@
 {
+    "default": {
+        "Efx": "afx",
+        "Ofx": "ofx",
+        "fx": "afx"
+    }
 }

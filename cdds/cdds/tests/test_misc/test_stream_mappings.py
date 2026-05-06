@@ -31,7 +31,7 @@ class TestStreamMappings(unittest.TestCase):
             ('day', 'tas'): ('ap6', 'comment'),
             ('comment', ' '): (' ', '#another comment\n'),
             ('EmonZ', 'epfy'): ('ap5', ''),
-            ('fx', 'sftgif'): ('ancil', '')
+            ('fx', 'sftgif'): ('afx', '')
         }
 
         result = check_mappings(variables)
@@ -44,9 +44,9 @@ class TestStreamMappings(unittest.TestCase):
             ('day', 'tas'): ('ap6', 'comment'),
             ('comment', ' '): (' ', '#another comment\n'),
             ('EmonZ', 'epfy'): ('ap5', ''),
-            ('fx', 'sftgif'): ('ancil', '')
+            ('fx', 'sftgif'): ('afx', '')
         }
-        expected = 'day/tas:ap6 # comment\n#another comment\nEmonZ/epfy:ap5\nfx/sftgif:ancil\n'
+        expected = 'day/tas:ap6 # comment\n#another comment\nEmonZ/epfy:ap5\nfx/sftgif:afx\n'
 
         save_mappings(filepath, variables)
         with open(filepath, "r") as f:
