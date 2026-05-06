@@ -351,7 +351,7 @@ def summarise_critical_issues(critical_issues_key_info: list, cdds_convert_proc_
         msg = get_detail_from_cmor_logs(issue, cdds_convert_proc_dir)
         if num_occurrences > num_cycles:
             num_occurrences = num_cycles
-        summarised_issues.add(f"'{variable}' for '{realm}' could not be produced due the error '{msg}' occuring in "
+        summarised_issues.add(f"    '{variable}' for '{realm}' could not be produced due the error '{msg}' occuring in "
                               f"{num_occurrences} of {num_cycles} cycles")
 
     return summarised_issues
