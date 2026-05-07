@@ -16,7 +16,7 @@
           ```
     - [x] Create a folder to work from and enter it.
           ```bash
-          mkdir temporary_installation_folder && temporary_installation_folder
+          mkdir temporary_installation_folder &&  cd temporary_installation_folder
           ```
     - [x] Obtain the conda environment file (replace "<tagname>" with the version you're installing e.g. "v3.3.1").
           ```bash
@@ -122,6 +122,24 @@
           | `$CDDS_PLATFORM`    | `JASMIN` |
           | `$CDDS_ETC`         | `$HOME/etc` |
           | `$CDDS_ENV_COMMAND` | `$HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z` |
+
+## Manually add `nccmp` to the new environment
+
+!!! info
+      The `nccmp` package currently causes the environment to fail solving due to a dependency conflict involving 
+      `libnetcdf`. Until this is fixed, we have to manually add the package to new environments after they're created
+      with the following steps.
+
+- [x] cd into the `bin` directory of the environment you've created within `$HOME/conda_environments/`
+
+- [x] Run this command to manually add nccmp to the environment:
+      ```bash
+      ln -s $HOME/conda_environments/cdds-3.3.3/bin/nccmp nccmp
+      ```
+
+!!! warning
+    This should be done by creation of a symlink (as demonstrated above). If you were to copy the nccmp folder instead
+     of symlinking, there will be test failures.
 
 ## Ensure all the tests pass in the 'real live environment'
 
