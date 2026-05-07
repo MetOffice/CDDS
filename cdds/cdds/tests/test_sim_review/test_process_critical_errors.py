@@ -6,7 +6,7 @@ import unittest
 
 from pathlib import Path
 
-from cdds.deprecated.transfer.process_critical_errors import (process_critical_issues, get_cmor_log_file_location,
+from cdds.sim_review.process_critical_errors import (process_critical_issues, get_cmor_log_file_location,
                                                          check_issues_in_cmor_write, check_issues_in_cmor_variable,
                                                          check_issues_in_cmor_axis, check_issues_in_cmor_zfactor,
                                                          check_issues_for_variable, calc_num_cycles,
