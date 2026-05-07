@@ -982,20 +982,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../documentation/" class="md-nav__link">
-        Documentation
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../infrastructure/" class="md-nav__link">
         Infrastructure
       </a>
@@ -1099,7 +1085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../building_documentation/" class="md-nav__link">
+      <a href="../../documentation_practices/" class="md-nav__link">
         Documentation
       </a>
     </li>
@@ -1552,30 +1538,34 @@
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Login to the <code>cdds</code> account.
       <div class="highlight"><pre><span></span><code>xsudo<span class="w"> </span>-u<span class="w"> </span>cdds<span class="w"> </span>bash<span class="w"> </span>-l
 </code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate the base <code>conda</code> environment
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Navigate to <code>cdds</code> home.
+      <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~cdds
+</code></pre></div></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate the base <code>conda</code> environment.
       <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate
 </code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Obtain the conda environment file
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a folder to work from and enter it.
+      <div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>temporary_installation_folder<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>temporary_installation_folder
+</code></pre></div></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Obtain the conda environment file (replace "<tagname>" with the version you're installing e.g. "v3.3.1").
       <div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/&lt;tagname&gt;/environment.yml
 </code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Update locations pointed to within the environment file:
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Update locations pointed to within the environment file (replace "X.Y.Z" with the version you're installing e.g. "3.3.1"):
       <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/&lt;location&gt;/X.Y.Z/&quot;</span><span class="w"> </span>environment.yml
 </code></pre></div></li>
 <li class="task-list-item">
-<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create environment
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create environment (replace "X.Y.Z" with the version you're installing e.g. "3.3.1").
       <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
-</code></pre></div>
-      where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr></p>
+</code></pre></div></p>
 </li>
 <li class="task-list-item">
-<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate environment and set <code>CDDS_ENV_COMMAND</code> variable:
-      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>cdds-X.Y.Z
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate environment and set <code>CDDS_ENV_COMMAND</code> variable (replace "X.Y.Z" with the version you're    installing e.g. "3.3.1"):
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
 conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_ENV_COMMAND</span><span class="o">=</span><span class="s2">&quot;conda activate </span><span class="nv">$HOME</span><span class="s2">/conda_environments/cdds-X.Y.Z&quot;</span>
-</code></pre></div>
-      where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr></p>
+</code></pre></div></p>
 </li>
 <li class="task-list-item">
-<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>CDDS_PLATFORM</code> and <code>CDDS_ETC</code> variables
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>CDDS_PLATFORM</code> and <code>CDDS_ETC</code> variables.
       <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_PLATFORM</span><span class="o">=</span>AZURE
 conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_ETC</span><span class="o">=</span><span class="nv">$HOME</span>/etc
 </code></pre></div></p>
@@ -1619,7 +1609,7 @@ conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> <
 </tr>
 <tr>
 <td><code>$CDDS_ENV_COMMAND</code></td>
-<td><code>$conda activate $HOME/conda_environments/cdds-3.2.0</code></td>
+<td><code>$conda activate $HOME/conda_environments/cdds-X.Y.Z</code> (X.Y.Z should be set to the environment you've created e.g.3.3.1)</td>
 </tr>
 </tbody>
 </table>
@@ -1645,7 +1635,7 @@ conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> <
 </code></pre></div></p>
 </li>
 <li class="task-list-item">
-<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create environment, where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr>
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create environment, where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr> (replace "X.Y.Z" with the version you're installing e.g. "3.3.1").
       <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
 </code></pre></div></p>
 </li>
@@ -1657,7 +1647,7 @@ conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> <
 </code></pre></div></p>
 </li>
 <li class="task-list-item">
-<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>CDDS_ENV_COMMAND</code> variable making sure to substitue <code>X.Y.Z</code> with the appropriate version number.
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>CDDS_ENV_COMMAND</code> variable making sure to substitute <code>X.Y.Z</code> with the appropriate version number.
       <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_ENV_COMMAND</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/software/miniforge3/bin/activate </span><span class="nv">$HOME</span><span class="s2">/conda_environments/cdds-X.Y.Z&quot;</span>
 </code></pre></div></p>
 </li>
@@ -1724,7 +1714,7 @@ conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> <
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> The tests must be executed as the <code>cdds</code> user</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the following environment variable, making sure to replace <code>X.Y.Z</code> with the relevant version.
-      <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SRCDIR</span><span class="o">=</span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z/lib/python3.10/site-packages
+      <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SRCDIR</span><span class="o">=</span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z/lib/python3.12/site-packages
 </code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Run the following tests.
       <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;# Executing tests for cdds:&quot;</span>
@@ -1744,6 +1734,11 @@ pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR
 and does not indicate the tests fail (see <code>transfer.tests.test_command_line.TestMainStore.test_transfer_functional_failing_moo()</code> 
 for details).</p>
 </div>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> The folder you created at the start to undertake the installation process can now be deleted.
+      <div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-r<span class="w"> </span>temporary_installation_folder
+</code></pre></div></li>
+</ul>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -1788,13 +1783,13 @@ for details).</p>
       
       
         
-        <a href="../documentation/" class="md-footer__link md-footer__link--next" aria-label="Next: Documentation" rel="next">
+        <a href="../infrastructure/" class="md-footer__link md-footer__link--next" aria-label="Next: Infrastructure" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Documentation
+              Infrastructure
             </div>
           </div>
           <div class="md-footer__button md-icon">
