@@ -139,7 +139,7 @@
 
 !!! warning
     This should be done by creation of a symlink (as demonstrated above). If you were to copy the nccmp folder instead
-     of symlinking, there will be test failures.
+     of symlinking, there would be test failures.
 
 ## Ensure all the tests pass in the 'real live environment'
 
