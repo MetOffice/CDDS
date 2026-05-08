@@ -63,6 +63,8 @@ class StreamModelParameters:
         Duration
             A isodatetime Duration representing the cycling frequency.
         """
+        if self.is_single_run:
+            return Duration(years=1)
         default_cycling_frequency = self._model_params.cycle_length(self.stream)
 
         cycle_overrides = {}
@@ -138,6 +140,11 @@ class StreamModelParameters:
             The requested memory.
         """
         return self._model_params.temp_space(self.stream)
+
+    @property
+    def is_single_run(self) -> bool:
+        """Returns True if this stream is processed in a single non-cycling task."""
+        return self._model_params.is_single_run_stream(self.stream)
 
     def as_jinja2(self) -> dict:
         """A helper method that provides a dictionary with the needed jinja2 template variables.

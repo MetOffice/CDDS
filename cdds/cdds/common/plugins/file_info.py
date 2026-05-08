@@ -134,6 +134,8 @@ class ModelFileInfo(object, metaclass=ABCMeta):
         """
         filename_pattern = re.compile(self._nc_files_to_archive_regex)
         file_match = filename_pattern.search(nc_files[0])
+        if file_match.group('start_date') is None:
+            return None, None
         file_start = TimePointParser().strptime(file_match.group('start_date'),
                                                 strptime_format_string=OUTPUT_FILE_DT_STR[frequency]['str'])
         start_date = TimePoint(year=file_start.year, month_of_year=file_start.month_of_year,
@@ -189,8 +191,9 @@ class GlobalModelFileInfo(ModelFileInfo):
     _NC_FILES_TO_ARCHIVE_REGEX = (
         '(?P<out_var_name>[a-zA-Z0-9-]+)_(?P<mip_table_id>[a-zA-Z0-9-]+)_'
         '(?P<model_id>[a-zA-Z0-9-]+)_(?P<experiment_id>[a-zA-Z0-9-]+)_'
-        '(?P<variant_label>[a-zA-Z0-9-]+)_(?P<grid>[a-zA-Z0-9]+)_'
-        '(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+)(?P<climatology>-clim)?.nc')
+        '(?P<variant_label>[a-zA-Z0-9-]+)_(?P<grid>[a-zA-Z0-9]+)'
+        # optional time range (as doesn't appear on fx files):
+        '(?:_(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+)(?P<climatology>-clim)?)?.nc')
 
     _MASS_ROOT_LOCATION_FACET = 'mip_era|mip|institution_id|model_id|experiment_id|variant_label'
     _MASS_SUFFIX_LOCATION_FACET = '|mip_table_id|out_var_name|grid_label'
@@ -299,6 +302,10 @@ class GlobalModelFileInfo(ModelFileInfo):
         match = pattern.search(nc_file)
         if not match:
             return False
+        # Guard for variables that might incorrectly missing a start date.
+        if match.group('start_date') is None and (
+            variable_dict['frequency'] != 'fx'):
+            return False
         if request.metadata.experiment_id != match.group('experiment_id'):
             return False
         if (request.metadata.sub_experiment_id == 'none' and
@@ -331,15 +338,18 @@ class CMIP7GlobalModelFileInfo(GlobalModelFileInfo):
         r'((\d+)-(\d+))(-clim)?.nc'])  # time range
 
     _NC_FILES_TO_ARCHIVE_REGEX = r'_'.join([
-        r'(?P<out_var_name>[a-zA-Z0-9-]+)',  # variable id
-        r'(?P<mip_table_id>[a-zA-Z0-9-]+)',  # branding suffix
+        # out_var_name = variable id + branding suffix as a single group (e.g. tas_tavg-h2m-hxy-u)
+        # For CMIP7, both standard and fx files use this combined format in filenames and the approved variables file
+        # (e.g. "atmos@mon/tas_tavg-h2m-hxy-u;..."). This ensures out_var_name matches both types correctly
+        # for comparison and archiving logic.
+        r'(?P<out_var_name>[a-zA-Z0-9-]+_[a-zA-Z0-9-]+)',
         r'(?P<frequency>[a-zA-Z0-9]+)',  # frequency
         r'(?P<region>[a-zA-Z0-9]+)',  # region
         r'(?P<grid>[a-zA-Z0-9]+)',  # grid label
         r'(?P<model_id>[a-zA-Z0-9-]+)',  # model id
         r'(?P<experiment_id>[a-zA-Z0-9-]+)',  # experiment id
         r'(?P<variant_label>r\d{1,6}i\d{1,6}[a-e]?p\d{1,6}f\d{1,6})',  # variant label
-        r'(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+).nc'])
+    ]) + r'(?:_(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+))?.nc'  # optional time range (as doesn't appear on fx files)
 
     _APPROVED_VARS_VARIABLE_REGEX = r''.join([
         r'(?P<mip_table_id>[a-zA-Z]+)@'
@@ -424,8 +434,9 @@ class RegionalModelFileInfo(ModelFileInfo):
                                   '(?P<institution_id>[a-zA-Z0-9-]+)_'
                                   '(?P<model_id>[a-zA-Z0-9-]+)_'
                                   '(?P<version>[a-zA-Z0-9-]+)_'
-                                  '(?P<frequency>[a-zA-Z0-9-]+)_'
-                                  '(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+).nc')
+                                  '(?P<frequency>[a-zA-Z0-9-]+)'
+                                  # Date bounds optional due to fx files not having them.
+                                  '(?:_(?P<start_date>[0-9]+)-(?P<end_date>[0-9]+))?.nc')
 
     _OUTPUT_FILE_TEMPLATE = ('<variable_id><domain_id><driving_source_id><driving_experiment_id><driving_variant_label>'
                              '<institution_id><source_id><version_realization><frequency>')

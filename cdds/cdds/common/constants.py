@@ -13,6 +13,7 @@ ANCIL_VARIABLES = [
     'm01s00i216',
     # land frac
     'm01s00i505',  # Land fraction in grid box
+    'm01s00i030',  # LAND MASK 1 OR 0
     # soil
     'm01s00i008',  # SOIL BULK DENSITY   KG/M3 (retd)
     'm01s00i040',  # VOL SMC AT WILTING AFTER TIMESTEP

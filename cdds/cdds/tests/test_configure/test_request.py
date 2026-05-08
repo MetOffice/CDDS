@@ -79,6 +79,7 @@ class TestRetrieveRequestMetadata(unittest.TestCase):
                             [os.path.join(os.environ['CDDS_ETC'], 'ancil', 'UKESM1-0-LL', ancil_file)
                              for ancil_file in ['qrparm.landfrac.pp',
                                                 'qrparm.soil.pp',
+                                                'qrparm.orog.pp',
                                                 'ocean_constants.nc',
                                                 'ocean_byte_masks.nc',
                                                 'ocean_basin.nc',
