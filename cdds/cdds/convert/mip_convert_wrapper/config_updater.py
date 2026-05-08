@@ -24,8 +24,9 @@ def calculate_mip_convert_run_bounds(
     ----------
     start_point : str
         Starting point of this run.
-    cycle_duration : str
-        Duration of this cycle according to cylc.
+    cycle_duration : str or None
+        Duration of this cycle according to cylc. If None, the end date is
+        set to simulation_end (used for single-run streams such as afx/ofx).
     simulation_end : TimePoint
         Simulation end date for processing.
 
@@ -36,7 +37,10 @@ def calculate_mip_convert_run_bounds(
     """
 
     job_start_dt = TimePointParser().parse(start_point, dump_format=CYLC_DATE_FORMAT)
-    job_end_dt = TimePointParser().parse(start_point) + DurationParser().parse(cycle_duration)
+    if cycle_duration is None:
+        job_end_dt = simulation_end
+    else:
+        job_end_dt = TimePointParser().parse(start_point) + DurationParser().parse(cycle_duration)
 
     if job_end_dt > simulation_end:
         job_end_dt = simulation_end

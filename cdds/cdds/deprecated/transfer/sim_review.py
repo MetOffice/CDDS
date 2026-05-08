@@ -13,6 +13,9 @@ from cdds.common.io import read_json
 from cdds.common import get_most_recent_file_by_stream
 from cdds.common.request.request import Request
 from cdds.common.plugins.plugins import PluginStore
+from cdds.common.cdds_files.cdds_directories import component_directory
+from cdds.deprecated.transfer.process_critical_errors import (read_critical_log_file, process_critical_issues,
+                                                              calc_num_cycles, summarise_critical_issues)
 
 
 def filter_critical_issues(issue_list: list[str]) -> list:
@@ -32,9 +35,9 @@ def filter_critical_issues(issue_list: list[str]) -> list:
     filtered_issues = []
     for issue_str in issue_list:
         try:
-            filtered_issues += [' '.join(issue_str.split(' ')[4:])]
+            filtered_issues += ["    " + ' '.join(issue_str.split(' ')[4:])]
         except IndexError:
-            filtered_issues += [issue_str]
+            filtered_issues += ["    " + issue_str]
 
     return sorted(set(filtered_issues))
 
@@ -60,13 +63,15 @@ def remove_empty_list_elements(output_list: list[str]) -> list[str]:
     return output_list
 
 
-def check_critical_issues(proc_dir: str) -> None:
+def check_critical_issues(request: Request, proc_dir: str) -> None:
     """Look for critical issues in the component proc directories. This function also checks for errors in transfer for
     legacy reasons, and for the presence of a critical_isues.log file in the convert proc dir, which is where
     mip_convert critical issues are reported.
 
     Parameters
     ----------
+    request: Request
+        The request file object.
     proc_dir: str
         Path to the proc directory for this package.
     """
@@ -74,13 +79,24 @@ def check_critical_issues(proc_dir: str) -> None:
     logger.info('Checking for critical issues in CDDS components.')
     for component in COMPONENT_LIST:
         package_dir = os.path.join(proc_dir, component)
-        cmd1 = ['grep', '-irI', 'critical', package_dir, '--exclude', '*.py', '--exclude', '*.svn*']
+        cmd1 = ['grep', '-rI', '-e', 'Critical', '-e', 'CRITICAL', '-e', 'CRIT', package_dir, '--exclude', '*.py',
+                '--exclude', '*.svn*']
         try:
             output = subprocess.check_output(cmd1, universal_newlines=True)
             output_lines = remove_empty_list_elements(output.split('\n'))
-            compact_output = '\n'.join(filter_critical_issues(output_lines))
-            logger.info('Critical issues in {0}:'.format(component))
-            logger.info(compact_output)
+            compact_output = '\n'.join([item for item in filter_critical_issues(output_lines) if item.strip()])
+            if component == "convert":
+                for stream in request.data.streams:
+                    convert_critical_issues_path = os.path.join(proc_dir, 'convert', 'log',
+                                                                f'critical_issues_{stream}.log')
+                    if os.path.isfile(convert_critical_issues_path):
+                        msg = (
+                            f'Critical issues in convert for stream {stream}. '
+                            'Contents of file {0}:\n{1}'.format(convert_critical_issues_path,
+                                                                do_critical_check(request, stream)))
+                        logger.info(msg.strip("\n"))
+            else:
+                logger.info('Critical issues in {0}:\n{1}'.format(component, compact_output))
         except subprocess.CalledProcessError as e1:
             # If the return code is 1, then no critical issues were found.
             if e1.returncode == 1:
@@ -89,20 +105,6 @@ def check_critical_issues(proc_dir: str) -> None:
                 logger.exception(e1)
         except RuntimeError as e1:
             logger.exception(e1)
-
-    convert_critical_issues_path = os.path.join(proc_dir, 'convert', 'critical_issues.log')
-    if os.path.isfile(convert_critical_issues_path):
-        with open(convert_critical_issues_path) as ccif:
-            raw_issues = ccif.readlines()
-            convert_critical_issues = filter_critical_issues(raw_issues)
-            cci_msg_str = '\n'.join(convert_critical_issues)
-
-        msg = (
-            'Critical issues found for CDDS convert. '
-            'Contents of file {0}:\n{1}'.format(convert_critical_issues_path, cci_msg_str))
-        logger.info(msg)
-    else:
-        logger.info('No convert critical issues log file found.')
 
 
 def check_intermediate_files(data_dir: str) -> None:
@@ -151,7 +153,6 @@ def check_qc_report(qc_dir: str) -> None:
         Path to the `qualitycheck` proc directory for this package.
     """
     logger = logging.getLogger(__name__)
-    logger.info('Checking QC report.')
     prefix = 'report'
     # Note that the report file name uses a similar format to the approved vars file, hence the use of the approved
     # variables regex
@@ -159,17 +160,17 @@ def check_qc_report(qc_dir: str) -> None:
     reports_dict = get_most_recent_file_by_stream(qc_dir, prefix, report_name_regex_str)
     # Loop over each report and flag up issues if there are items in the QC reports
     for report_path in reports_dict.values():
-        logger.info('Reading QC report "{0}"'.format(report_path))
+        report_msg = 'Checking QC report "{0}"'.format(report_path)
 
         report = read_json(report_path)
 
         for section in ['aggregated_summary', 'details']:
             if report[section] == []:
-                logger.info('Nothing reported in {0} in QC report.'.format(section))
+                outcome_msg = '    Nothing reported in {0} in QC report.'.format(section)
             else:
-                msg = ('Problems reported in {0} of report {1}, please investigate further.'.format(section,
-                                                                                                    report_path))
-                logger.critical(msg)
+                outcome_msg = ('    Problems reported in {0} of report {1}, please investigate further.'
+                               .format(section, report_path))
+            logger.info('\n'.join([report_msg, outcome_msg]))
 
 
 def display_approved_variables(qc_dir: str) -> str:
@@ -188,7 +189,6 @@ def display_approved_variables(qc_dir: str) -> str:
         The path to the most recent approved variables list.
     """
     logger = logging.getLogger(__name__)
-    logger.info('Opening approved variables files.')
     approved_prefix = 'approved_variables'
     approved_regex = approved_prefix + '_' + APPROVED_VARS_DATETIME_STREAM_REGEX + '\\.txt'
 
@@ -197,17 +197,21 @@ def display_approved_variables(qc_dir: str) -> str:
     # amalgamate the per stream approved variables files.
     if None in recent_approved_path_dict:
         recent_approved_path_file = recent_approved_path_dict[None]
-        logger.info('Found whole package approved variables file: "{}"'.format(recent_approved_path_file))
+        path_info_msg = '    Found whole package approved variables file: "{}"'.format(recent_approved_path_file)
     else:
         recent_approved_path_file = _join_approved_files(recent_approved_path_dict)
+        path_info_msg = ''
 
     # Append the approved variable file to the logs
     with open(recent_approved_path_file, "r") as fh:
         approved_variables = remove_empty_list_elements(fh.read().split('\n'))
-        approved_variable_output = '\n'.join(approved_variables)
-        logger.info("-----")
-        logger.info(approved_variable_output)
-        logger.info("-----")
+        approved_variable_output = '\n'.join(["    " + item for item in approved_variables])
+        if approved_variable_output:
+            bar = "    " + ("-" * 10)
+            var_file_msg = bar + "\n" + approved_variable_output + "\n" + bar
+        else:
+            var_file_msg = "    Empty approved variables file {}".format(recent_approved_path_file)
+        logger.info('\n'.join(["Opening approved variables files.", path_info_msg, var_file_msg]))
 
     return recent_approved_path_file
 
@@ -242,10 +246,41 @@ def show_submission_command(request_file_path: str, recent_approved_path: str) -
         The path to the most recent approved variables list.
     """
     logger = logging.getLogger(__name__)
-    logger.info('Command for data submission:')
-    logger.info('move_in_mass {request} -o . \\\n--original_state=embargoed --new_state=available '
-                '\\\n--approved_variables_path={recent_approved_path}'
+    logger.info('Command for data submission:\n'
+                '    move_in_mass {request} -o . \\\n'
+                '    --original_state=embargoed --new_state=available \\\n'
+                '    --approved_variables_path={recent_approved_path}'
                 ''.format(request=request_file_path, recent_approved_path=recent_approved_path))
+
+
+def do_critical_check(request: Request, stream: str) -> str:
+    """Check and process any critical errors produced during MIP convert.
+
+    Parameters
+    ----------
+    request: Request
+        The request file object.
+    stream: str
+        The stream to check for critical errors.
+
+    Returns
+    -------
+    str
+        A unique set of error messages in the form of a string delimited by new lines.
+    """
+    cdds_convert_proc_dir = component_directory(request, 'convert')
+
+    critical_issues = read_critical_log_file(cdds_convert_proc_dir, stream)
+    critical_issues_key_info = process_critical_issues(critical_issues)
+    num_cycles = calc_num_cycles(critical_issues)
+    summary_list = summarise_critical_issues(critical_issues_key_info, cdds_convert_proc_dir, num_cycles)
+
+    summary_set = set(summary_list)
+    msg = ""
+    for line in summary_set:
+        msg = msg + line + "\n"
+
+    return msg
 
 
 def do_sim_review(request: Request, request_file_path: str) -> None:
@@ -278,7 +313,7 @@ def do_sim_review(request: Request, request_file_path: str) -> None:
 
     qc_dir = os.path.join(proc_dir, 'qualitycheck')
 
-    check_critical_issues(proc_dir)
+    check_critical_issues(request, proc_dir)
 
     check_intermediate_files(data_dir)
 

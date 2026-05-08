@@ -182,6 +182,9 @@ class StructuredDataset(object, metaclass=ABCMeta):
         frequency = None
         for filepath in filepaths:
             with self._loader_class(filepath) as nc_file:
+                # Fixed-field files (frequency="fx") have no time dimension; skip them.
+                if self.global_attributes_cache.getncattr("frequency", nc_file) == "fx":
+                    return (None, None, None)
                 time_axis[filepath] = nc_file.variables["time"][:].data
                 if "time_bnds" in nc_file.variables:
                     time_bnds[filepath] = nc_file.variables["time_bnds"][:].data
