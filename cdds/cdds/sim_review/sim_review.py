@@ -14,7 +14,7 @@ from cdds.common import get_most_recent_file_by_stream
 from cdds.common.request.request import Request
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.cdds_files.cdds_directories import component_directory
-from cdds.deprecated.transfer.process_critical_errors import (read_critical_log_file, process_critical_issues,
+from cdds.sim_review.process_critical_errors import (read_critical_log_file, process_critical_issues,
                                                               calc_num_cycles, summarise_critical_issues)
 
 

@@ -81,6 +81,7 @@ nav:
     - cdds.convert: subpackages/convert.md
     - cdds.extract: subpackages/extract.md
     - cdds.qc: subpackages/qc.md
+    - cdds.sim_review: subpackages/sim_review.md
     - cdds.transfer: subpackages/transfer.md
   - Mappings: mappings/index.md
 markdown_extensions:
