@@ -2500,7 +2500,21 @@ def calc_rootd(soil_cube, frac_cube, ice_class=None):
 
 
 def apply_ocean_coordinates(cube, coordinate_cube):
-    cube.coord("latitude") = coordinate_cube.coord("latitude")
-    cube.coord("longitude") = coordinate_cube.coord("longitude")
+    if isinstance(coordinate_cube, iris.cube.CubeList):
+        coord_cubes = coordinate_cube
+    else:
+        coord_cubes = iris.cube.CubeList([coordinate_cube])
+
+    ref_cube = None
+    for candidate_cube in coord_cubes:
+        if candidate_cube.var_name in ('u_coord_reference', 'v_coord_reference'):
+            ref_cube = candidate_cube
+            break
+
+    if ref_cube is None:
+        return cube
+
+    cube.replace_coord(ref_cube.coord('latitude').copy())
+    cube.replace_coord(ref_cube.coord('longitude').copy())
 
     return cube
