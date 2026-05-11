@@ -28,11 +28,11 @@
     "ap6": "P1Y",
     "ap7": "P3M",
     "ap8": "P1Y",
-    "ap9": "P1Y",
+    "ap9": "P3M",
     "apt": "P3M",
     "ind": "P1Y",
     "inm": "P5Y",
-    "ond": "P3M",
+    "ond": "P1Y",
     "onm": "P2Y"
   },
   "memory": {
@@ -47,7 +47,7 @@
     "apt": "12G",
     "ind": "8G",
     "inm": "8G",
-    "ond": "32G",
+    "ond": "64G",
     "onm": "16G"
   },
   "temp_space": {
@@ -62,7 +62,7 @@
     "apt": 32768,
     "ind": 8192,
     "inm": 8192,
-    "ond": 32768,
+    "ond": 64000,
     "onm": 32768
   },
   "sizing_info": {
