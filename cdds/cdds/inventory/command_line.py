@@ -8,7 +8,7 @@ import os
 import shutil
 
 from cdds import __version__
-from cdds.common import configure_logger, common_command_line_args, get_log_datestamp, mass_output_args
+from cdds.common import configure_logger, common_command_line_args, get_log_datestamp
 from cdds.common.constants import INVENTORY_DB_FILENAME, INVENTORY_FACET_LIST
 from cdds.common.mass import mass_list_dir, mass_list_files_recursively
 from cdds.inventory.dao import DBVariableStatus
@@ -42,9 +42,8 @@ def main_populate_inventory(arguments=None):
             logger.info('Creating inventory file {} from CREPP at {}'.format(new_inventory_path, args.crepp_filepath))
             populate_inventory_from_file(db_connection, args.crepp_filepath)
         else:
-            mass_path = os.path.join(args.output_mass_root, args.output_mass_suffix)
-            logger.info('Creating inventory file {} from MASS location {}'.format(new_inventory_path, mass_path))
-            populate_inventory_from_mass(db_connection, mass_path)
+            logger.info('Creating inventory file {} from MASS location {}'.format(new_inventory_path, args.mass_path))
+            populate_inventory_from_mass(db_connection, args.mass_path)
         archive_and_replace_file(new_inventory_path, old_inventory_path)
         exit_code = 0
     except BaseException as exc:
@@ -76,13 +75,15 @@ def parse_args(arguments):
         description=__doc__.replace('|', ''),
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
-        '-i', '--root_inventory_dir', type=str, default=arguments.root_inventory_dir,
+        '-i', '--root_inventory_dir', type=str,
         help=('The name of the directory that will contain the constructed inventory.'))
     parser.add_argument(
         '-j', '--crepp_filepath', type=str, default=None,
         help=('Location of CREPP inventory'))
+    parser.add_argument(
+        '-p', '--mass_path', type=str, default=None,
+        help=('Path to the MASS location to build inventory for.'))
 
-    mass_output_args(parser, arguments.output_mass_suffix, arguments.output_mass_root)
     # Add arguments common to all scripts.
     common_command_line_args(parser, 'inventory', logging.INFO, __version__)
     parsed_arguments = parser.parse_args(arguments)
