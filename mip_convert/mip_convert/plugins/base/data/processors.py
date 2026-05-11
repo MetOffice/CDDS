@@ -2497,3 +2497,10 @@ def calc_rootd(soil_cube, frac_cube, ice_class=None):
     )
 
     return rootd_cube
+
+
+def apply_ocean_coordinates(cube, coordinate_cube):
+    cube.coord("latitude") = coordinate_cube.coord("latitude")
+    cube.coord("longitude") = coordinate_cube.coord("longitude")
+
+    return cube
