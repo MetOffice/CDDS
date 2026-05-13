@@ -41,7 +41,7 @@ class TestCmip7_fx_rootd_ti_u_hxy_lnd(AbstractFunctionalTests):
                     'ancil': {'CMIP7_land@fx': 'rootd_ti-u-hxy-lnd'}
                 },
                 other={
-                    'reference_version': 'v3',
+                    'reference_version': 'v5',
                     'filenames': ['rootd_ti-u-hxy-lnd_fx_glb_g100_UKESM1-3-LL_1pctCO2_r1i1p1f3.nc'],
                     'ignore_history': True,
                 }

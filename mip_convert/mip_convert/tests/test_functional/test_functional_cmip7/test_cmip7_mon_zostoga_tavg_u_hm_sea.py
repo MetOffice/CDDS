@@ -51,7 +51,7 @@ class TestCmip7_zostoga_tavg_u_hm_sea(AbstractFunctionalTests):
                     'onm': '1:-1,1:-1'
                 },
                 other={
-                    'reference_version': 'v1',
+                    'reference_version': 'v3',
                     'filenames': ['zostoga_tavg-u-hm-sea_mon_glb_g100_UKCM2-0-LL_1pctCO2_r2i1p1f1_190001-190001.nc'],
                     'ignore_history': True,
                 }
