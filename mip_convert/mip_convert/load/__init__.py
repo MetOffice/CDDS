@@ -59,9 +59,9 @@ def load(filenames, variable_metadata):
     for axis in ['Y', 'X']:
         if cube.coords(axis=axis):
             try:
-                var_names = [c.coord(axis=axis).var_name
-                             for c in input_variables.values()
-                             if not (c.var_name or '').endswith('_coord_reference')]
+                var_names = [cube.coord(axis=axis).var_name
+                             for cube in input_variables.values()
+                             if not cube.var_name.endswith('_coord_reference')]
             except iris.exceptions.CoordinateNotFoundError:
                 # crude hack to account for ancils that don't have all coordinates
                 var_names = []
