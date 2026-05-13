@@ -198,10 +198,13 @@ def load_cubes(all_input_data, run_bounds, loadable, ancil_variables):
         logger.debug('Loading cube using Iris constraints')
         load_constraints = constraint_constructor.load_constraints(loadable)
 
+    # Static coord-reference ancils have a fixed timestamp that won't match
+    # later cycle run_bounds, so skip time filtering for them.
+    effective_run_bounds = None if loadable.name.endswith('_coord_reference') else run_bounds
     if loadable.is_pp():
         merged_cubes = load_cubes_from_pp(all_input_data, load_constraints, run_bounds, ancil_variables)
     else:
-        merged_cubes = load_cubes_from_nc(all_input_data, load_constraints, run_bounds)
+        merged_cubes = load_cubes_from_nc(all_input_data, load_constraints, effective_run_bounds)
 
     if not merged_cubes:
         error_msg = 'No cubes found using constraints "{}" within "{}"'
