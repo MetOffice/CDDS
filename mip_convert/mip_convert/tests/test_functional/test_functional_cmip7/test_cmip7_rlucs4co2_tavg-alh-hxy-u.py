@@ -42,9 +42,6 @@ class TestCmip7_rlucs4co2_tavg_alh_hxy_u(AbstractFunctionalTests):
                     "run_bounds": "1900-01-01T00:00:00 1900-03-01T00:00:00",
                     "suite_id": "u-dw498",
                 },
-                global_attributes={
-                    "further_info_url": "https://furtherinfo.es-doc.org/CMIP7.MOHC.UKESM1-3-LL.esm-piControl.none.r1i1p1f1"
-                },
                 streams={"ap5": {"CMIP7_atmos@mon": "rlucs4co2_tavg-alh-hxy-u"}},
                 other={
                     "reference_version": "v1",

@@ -272,7 +272,8 @@ def get_global_attributes(request):
         Global attributes as dictionary
     """
     global_attributes = OrderedDict()
-    global_attributes['further_info_url'] = get_further_info_url(request)
+    if request.metadata.mip_era != "CMIP7":
+        global_attributes['further_info_url'] = get_further_info_url(request)
     if request.items_global_attributes:
         global_attributes.update(request.items_global_attributes)
     return global_attributes
