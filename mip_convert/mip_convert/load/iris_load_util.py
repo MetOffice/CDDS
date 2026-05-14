@@ -394,8 +394,8 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
 
     cubes = iris.cube.CubeList()
     if merged_cubes:
-        # Apply the time constraint.
-        time_constraint = setup_time_constraint(run_bounds)
+        # Apply the time constraint (skipped if run_bounds is None, e.g. for static ancils).
+        time_constraint = setup_time_constraint(run_bounds) if run_bounds is not None else None
         for merged_cube in merged_cubes:
             promote_aux_time_coord_to_dim(merged_cube)
             # Add the fill_value as an attribute on the cube to workaround the
@@ -403,9 +403,12 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
             if hasattr(merged_cube.lazy_data(), 'fill_value'):
                 merged_cube.attributes['fill_value'] = merged_cube.lazy_data().fill_value
 
-            cube = apply_time_constraint(merged_cube, time_constraint)
-            if cube is not None:
-                cubes.append(cube)
+            if time_constraint is None:
+                cubes.append(merged_cube)
+            else:
+                cube = apply_time_constraint(merged_cube, time_constraint)
+                if cube is not None:
+                    cubes.append(cube)
     return cubes
 
 
