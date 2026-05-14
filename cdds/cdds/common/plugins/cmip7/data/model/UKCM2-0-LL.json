@@ -218,6 +218,10 @@
         "nemo_eORCA1_grid-U.nc",
         "nemo_eORCA1_grid-V.nc"
       ],
+      "ancil_variables": [
+        "u_coord_reference",
+        "v_coord_reference"
+      ],
       "bounds_coordinates": {
         "onm-grid-T": [
           "bounds_nav_lon",
