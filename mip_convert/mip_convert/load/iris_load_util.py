@@ -575,14 +575,9 @@ def pp_filter(field, pp_info, run_bounds, ancil_variables):
     result = False
     matches = []
 
-    # Always include the orography when it is being loaded as an ancillary
-    # reference (i.e. orography is not the requested variable). This allows
-    # iris to use it for hybrid-height coordinate conversion.
-    # When orography IS the requested variable (('lbuser4', 33) in pp_info),
-    # fall through to normal constraint matching so that only fields satisfying
-    # all constraints (lbproc, lbtim, etc.) are loaded.  Without this, both
-    # static 2-D and time-varying 3-D orography fields can be picked up from
-    # files that contain mixed ancil types, causing concatenation to fail.
+    # Always include orography as an ancillary reference, unless it is the
+    # requested variable, in which case apply normal constraint matching to
+    # avoid loading mixed 2-D/3-D fields that cannot be concatenated.
     if field.lbuser[3] == 33 and ('lbuser4', 33) not in pp_info:
         result = True
     else:
