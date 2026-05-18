@@ -537,7 +537,10 @@ def pp_filter(field, pp_info, run_bounds, ancil_variables):
     the ``run_bounds`` argument matches with the corresponding PP field
     header information in the single PP field provided to the ``field``
     argument, the single PP field will be included when creating the
-    Iris cube. Any orography fields will always be included.
+    Iris cube. Orography fields are always included when they are not
+    the requested variable (so that iris can use them for hybrid-height
+    coordinate conversion). When orography is the requested variable,
+    normal constraint matching is applied.
 
     The tuples in the list provided to the ``pp_info`` argument are the
     PP-related constraint information in the form ``(the name of the PP
@@ -566,8 +569,10 @@ def pp_filter(field, pp_info, run_bounds, ancil_variables):
     result = False
     matches = []
 
-    # Always include the orography.
-    if field.lbuser[3] == 33:
+    # Always include orography as an ancillary reference, unless it is the
+    # requested variable, in which case apply normal constraint matching to
+    # avoid loading mixed 2-D/3-D fields that cannot be concatenated.
+    if field.lbuser[3] == 33 and ('lbuser4', 33) not in pp_info:
         result = True
     else:
         for header_element_name, value in pp_info:
