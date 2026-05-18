@@ -14,7 +14,7 @@ from cdds.common.plugins.streams import StreamFileInfo
 from cdds.common.plugins.grid_mapping import GridMapping
 
 
-SINGLE_RUN_STREAMS = ('afx', 'ofx', 'fx')
+SINGLE_RUN_STREAMS = ('afx', 'ofx')
 
 
 class ModelParameters(object, metaclass=ABCMeta):
