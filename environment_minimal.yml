@@ -6,7 +6,7 @@ dependencies:
   - cf-units=3.2.0
   - cftime=1.6.5
   - cmip7-repack=0.6
-  - cmor=3.14.3
+  - cmor=3.15.0
   - compliance-checker=5.4.2
   - dask-core=2025.12.0
   - debugpy=1.8.19
