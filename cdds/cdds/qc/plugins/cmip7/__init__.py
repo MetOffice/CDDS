@@ -116,7 +116,7 @@ class CMIP7Check(BaseNCCheck):
             "mip_era": None,
             "source_id": None,
             "institution_id": None,
-            "table_id": None,
+            "realm": None,
             "variable_id": None,
         }
         # populate attribute dictionary with values
