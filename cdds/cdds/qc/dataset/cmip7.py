@@ -83,7 +83,7 @@ class Cmip7Dataset(StructuredDataset):
             valid_filename = False
             messages.append(f"Invalid variant_label {variant_label}")
 
-        table = self.global_attributes_cache.getncattr("realm", ds)
+        table = self.global_attributes_cache.getncattr("realm", ds).split(" ")[0].strip()
         variable = filename_parts[0] + "_" + filename_parts[1]
         if table in self._mip_tables.tables:
             if variable not in (self._mip_tables.get_variables(table)):
