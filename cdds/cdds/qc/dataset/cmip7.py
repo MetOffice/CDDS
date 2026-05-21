@@ -142,6 +142,5 @@ class Cmip7Dataset(StructuredDataset):
                     aggregated_dataset[file_index].append(filepath)
 
                 except AttributeError as e:
-                    print("FAILED!")
                     self._logger.error("Error when parsing dataset {}: {}".format(filepath, str(e)))
         return aggregated_dataset, variable_names
