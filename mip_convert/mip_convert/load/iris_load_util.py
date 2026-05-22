@@ -540,7 +540,9 @@ def pp_filter(field, pp_info, run_bounds, ancil_variables):
     Iris cube. Orography fields are always included when they are not
     the requested variable (so that iris can use them for hybrid-height
     coordinate conversion). When orography is the requested variable,
-    normal constraint matching is applied.
+    it is included without constraint matching if it comes from an
+    ancillary file (lbtim=0); otherwise normal constraint matching is
+    applied to avoid loading mixed 2-D/3-D fields from stream data.
 
     The tuples in the list provided to the ``pp_info`` argument are the
     PP-related constraint information in the form ``(the name of the PP
@@ -570,13 +572,10 @@ def pp_filter(field, pp_info, run_bounds, ancil_variables):
     matches = []
 
     # Always include orography as an ancillary reference, unless it is the
-    # requested variable, in which case apply normal constraint matching to
-    # avoid loading mixed 2-D/3-D fields that cannot be concatenated.
-    if field.lbuser[3] == 33 and ('lbuser4', 33) not in pp_info:
-        result = True
-    elif field.lbuser[3] == 33 and ('lbuser4', 33) in pp_info and field.lbtim == 0:
-        # Orog requested from an ancillary file (lbtim=0): include without
-        # time-processing constraints, which do not apply to ancil fields.
+    # requested variable from a stream (lbtim != 0), in which case apply normal
+    # constraint matching to avoid loading mixed 2-D/3-D fields that cannot be
+    # concatenated. Ancillary files have lbtim=0 so are always safe to include.
+    if field.lbuser[3] == 33 and (('lbuser4', 33) not in pp_info or field.lbtim == 0):
         result = True
     else:
         for header_element_name, value in pp_info:
