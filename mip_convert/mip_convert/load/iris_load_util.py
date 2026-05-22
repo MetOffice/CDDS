@@ -576,12 +576,6 @@ def pp_filter(field, pp_info, run_bounds, ancil_variables):
         result = True
     else:
         for header_element_name, value in pp_info:
-            # Don't apply lbtim constraints to fields from ancillary files —
-            # ancil files have lbtim=0 regardless of the processing expected
-            # for stream data.
-            if header_element_name.startswith('lbtim') and str(field.stash) in ancil_variables:
-                matches.append(True)
-                continue
             header_element_value = get_field_value(field, header_element_name)
             is_equal = compare_values(header_element_value, value)
             if not is_equal:
