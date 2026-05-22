@@ -29,8 +29,9 @@
     {% if STREAM in SINGLE_TASKS %}
     {% for COMPONENT in STREAM_COMPONENTS[STREAM] %}
         {% set SUFFIX = STREAM ~ '_' ~ COMPONENT %}
-        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = setup_output_dir_{{ STREAM }} => mip_convert_single_{{ SUFFIX }} => run_repack_{{ STREAM }}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = setup_output_dir_{{ STREAM }} => mip_convert_single_{{ SUFFIX }} => organise_fx_files_{{ STREAM }}
     {% endfor %}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = organise_fx_files_{{ STREAM }} => run_repack_{{ STREAM }}
     {% if RUN_QC %}
         R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_repack_{{ STREAM }} => run_qc_{{ STREAM }}
     {% endif %}
@@ -306,6 +307,14 @@ mkdir -p {{ BASE_OUTPUT }}
             OUTPUT_DIR = {{ BASE_OUTPUT }}
     {% endif %}
     {% endfor %} # COMPONENT LOOP END
+
+    {% if STREAM in SINGLE_TASKS %}
+    [[organise_fx_files_{{ STREAM }}]]
+        inherit = {{ PLATFORM }}
+        [[[environment]]]
+            OUTPUT_DIR = {{ BASE_OUTPUT }}
+            ROSE_TASK_APP = organise_fx_output
+    {% endif %}
 
 ##### SETUP_OUTPUT_DIR EXTRACT VALIDATE_EXTRACT QC TRANSFER ###############################
     {% if RUN_EXTRACT %}
