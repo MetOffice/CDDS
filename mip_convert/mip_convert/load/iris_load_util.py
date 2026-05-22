@@ -574,6 +574,10 @@ def pp_filter(field, pp_info, run_bounds, ancil_variables):
     # avoid loading mixed 2-D/3-D fields that cannot be concatenated.
     if field.lbuser[3] == 33 and ('lbuser4', 33) not in pp_info:
         result = True
+    elif field.lbuser[3] == 33 and ('lbuser4', 33) in pp_info and field.lbtim == 0:
+        # Orog requested from an ancillary file (lbtim=0): include without
+        # time-processing constraints, which do not apply to ancil fields.
+        result = True
     else:
         for header_element_name, value in pp_info:
             header_element_value = get_field_value(field, header_element_name)
