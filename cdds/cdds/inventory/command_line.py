@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2025, Met Office.
+# (C) British Crown Copyright 2020-2026, Met Office.
 # Please see LICENSE.md for license details.
 """Populate the dataset inventory."""
 import argparse
@@ -8,20 +8,15 @@ import os
 import shutil
 
 from cdds import __version__
-from cdds.common import configure_logger, common_command_line_args, get_log_datestamp, mass_output_args
+from cdds.common import common_command_line_args, configure_logger, get_log_datestamp
 from cdds.common.constants import INVENTORY_DB_FILENAME, INVENTORY_FACET_LIST
 from cdds.common.mass import mass_list_dir, mass_list_files_recursively
-from cdds.inventory.dao import DBVariableStatus
-from cdds.inventory.db_models import (get_row_id_by_column_value, execute_insert_query, populate_dataset_dictionary,
-                                      setup_db)
-
-
-JASMIN_STATUS_MAP = {
-    'completed': DBVariableStatus.AVAILABLE,
-    'in progress': DBVariableStatus.IN_PROGRESS,
-    'failed': DBVariableStatus.IN_PROGRESS,
-    'inconsistent state': DBVariableStatus.IN_PROGRESS,
-}
+from cdds.inventory.db_models import (
+    execute_insert_query,
+    get_row_id_by_column_value,
+    populate_dataset_dictionary,
+    setup_db,
+)
 
 
 def main_populate_inventory(arguments=None):
@@ -33,18 +28,13 @@ def main_populate_inventory(arguments=None):
 
     datestamp = get_log_datestamp()
     inventory_filename = '{}_{}'.format(INVENTORY_DB_FILENAME, datestamp)
-    new_inventory_path = os.path.join(args.root_inventory_dir, inventory_filename + '.db')
-    old_inventory_path = os.path.join(args.root_inventory_dir, INVENTORY_DB_FILENAME + '.db')
+    new_inventory_path = os.path.join(args.inventory_dir, inventory_filename + '.db')
+    old_inventory_path = os.path.join(args.inventory_dir, INVENTORY_DB_FILENAME + '.db')
     db_connection = setup_db(new_inventory_path)
 
     try:
-        if args.crepp_filepath:
-            logger.info('Creating inventory file {} from CREPP at {}'.format(new_inventory_path, args.crepp_filepath))
-            populate_inventory_from_file(db_connection, args.crepp_filepath)
-        else:
-            mass_path = os.path.join(args.output_mass_root, args.output_mass_suffix)
-            logger.info('Creating inventory file {} from MASS location {}'.format(new_inventory_path, mass_path))
-            populate_inventory_from_mass(db_connection, mass_path)
+        logger.info('Creating inventory file {} from MASS location {}'.format(new_inventory_path, args.mass_path))
+        populate_inventory_from_mass(db_connection, args.mass_path)
         archive_and_replace_file(new_inventory_path, old_inventory_path)
         exit_code = 0
     except BaseException as exc:
@@ -76,65 +66,16 @@ def parse_args(arguments):
         description=__doc__.replace('|', ''),
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
-        '-i', '--root_inventory_dir', type=str, default=arguments.root_inventory_dir,
-        help=('The name of the directory that will contain the constructed inventory.'))
+        'inventory_dir', type=str,
+        help=('Destination directory for the constructed inventory.'))
     parser.add_argument(
-        '-j', '--crepp_filepath', type=str, default=None,
-        help=('Location of CREPP inventory'))
+        'mass_path', type=str,
+        help=('The moose URI to build an inventory from.'))
 
-    mass_output_args(parser, arguments.output_mass_suffix, arguments.output_mass_root)
     # Add arguments common to all scripts.
     common_command_line_args(parser, 'inventory', logging.INFO, __version__)
     parsed_arguments = parser.parse_args(arguments)
     return parsed_arguments
-
-
-def parse_line(line):
-    """Parse a line containing a CREPP dataset
-
-    Parameters
-    ----------
-    line : str
-        Line containing dataset_id and status
-
-    Returns
-    -------
-    tuple(str, str)
-        Dataset id and status
-    """
-    line_elems = line.split()
-    dataset_id = line_elems[0]
-    status = line_elems[1] if len(line_elems) == 2 else ' '.join(line_elems[1:])
-    return dataset_id, JASMIN_STATUS_MAP[status].value
-
-
-def populate_inventory_from_file(db_connection, crepp_filepath):
-    """Opens and parses the contents of CREPP dataset dump, and populates inventory's dataset table.
-
-    Parameters
-    ----------
-    db_conn : sqlite3.Connection
-        Database connection instance
-    crepp_filepath : str
-        Location of CREPP dataset dump
-    """
-    cursor = db_connection.cursor()
-    with open(crepp_filepath) as fp:
-        for line in fp:
-            try:
-                dataset_id, status = parse_line(line)
-                dataset_facets = dataset_id.split('.')
-                facet_dict = build_facet_dictionary(dataset_facets, INVENTORY_FACET_LIST)
-                dataset_dict = populate_dataset_dictionary(cursor, facet_dict)
-                dataset_dict['variant'] = dataset_facets[5]
-                dataset_dict['status_id'] = get_row_id_by_column_value(cursor, 'status', status)
-                dataset_dict['timestamp'] = dataset_facets[9]
-                dataset_dict['dataset_id'] = dataset_id
-                execute_insert_query(cursor, 'dataset', dataset_dict)
-            except ValueError:
-                pass
-        db_connection.commit()
-        return
 
 
 def walk_mass_dir(root, facet_list, inventory):
