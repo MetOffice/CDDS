@@ -50,6 +50,8 @@
     "inm": "8G",
     "ond": "64G",
     "onm": "20G"
+    "afx": "8G",
+    "ofx": "8G"
   },
   "temp_space": {
     "ap4": 98304,
@@ -65,6 +67,8 @@
     "inm": 8192,
     "ond": 64000,
     "onm": 32768
+    "afx": 8192,
+    "ofx": 8192
   },
   "sizing_info": {
     "mon": {
@@ -175,6 +179,14 @@
     "ond": {
       "longitude": "1:-1",
       "latitude": "1:-1"
+    },
+    "inm": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
+    },
+    "ind": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
     }
   },
   "grid_info": {
@@ -188,7 +200,8 @@
       "levels": 85,
       "ancil_filenames": [
         "qrparm.landfrac.pp",
-        "qrparm.soil.pp"
+        "qrparm.soil.pp",
+        "qrparm.orog.pp"
       ],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",

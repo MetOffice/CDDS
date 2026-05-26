@@ -114,10 +114,18 @@ def run_cdds_convert(arguments: ConvertArguments, request: "Request") -> None:
 
     stream_variables = stream_jinja2_variables(request, stream_components)
 
+    # Single-run streams (e.g. afx, ofx) are processed only once rather than cycling.
+    # They need separate task handling in the workflow.
+    single_tasks = [
+        stream for stream in stream_components.active_streams
+        if StreamModelParameters(request=request, stream=stream, components=stream_components).is_single_run
+    ]
+
     workflow_configuration = ConfigureTemplateVariables(
         arguments,
         request,
         stream_variables,
+        single_tasks,
     )
 
     workflow_manager = WorkflowManager(request, workflow_configuration)

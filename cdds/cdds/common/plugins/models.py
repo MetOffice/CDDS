@@ -14,6 +14,9 @@ from cdds.common.plugins.streams import StreamFileInfo
 from cdds.common.plugins.grid_mapping import GridMapping
 
 
+SINGLE_RUN_STREAMS = ('afx', 'ofx')
+
+
 class ModelParameters(object, metaclass=ABCMeta):
     """Abstract class to store the parameters for a specific model."""
 
@@ -255,6 +258,22 @@ class ModelParameters(object, metaclass=ABCMeta):
         -------
         GridMapping
             Grids mappings for the MIP requested variables
+        """
+        pass
+
+    @abstractmethod
+    def is_single_run_stream(self, stream_id: str) -> bool:
+        """Returns whether the given stream runs only once rather than cycling.
+
+        Parameters
+        ----------
+        stream_id : str
+            Stream ID
+
+        Returns
+        -------
+        bool
+            True if the stream is processed in a single non-cycling task.
         """
         pass
 

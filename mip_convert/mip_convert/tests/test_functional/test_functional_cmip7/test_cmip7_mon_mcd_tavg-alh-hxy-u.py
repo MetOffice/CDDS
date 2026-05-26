@@ -34,11 +34,14 @@ class TestCmip7_mcd_tavg_alh_hxy_u(AbstractFunctionalTests):
                     'suite_id': 'u-dv623',
                     'mip_convert_plugin': 'UKESM1p3'
                 },
+                global_attributes={
+                    "table_id": "atmos"
+                },
                 streams={
                     'ap5': {'CMIP7_atmos@mon': 'mcd_tavg-alh-hxy-u'}
                 },
                 other={
-                    'reference_version': 'v1',
+                    'reference_version': 'v2',
                     'filenames': ['mcd_tavg-alh-hxy-u_mon_glb_g100_UKESM1-3-LL_1pctCO2_r1i1p1f3_200001-200002.nc'],
                     'ignore_history': True,
                 }

@@ -43,11 +43,12 @@ class TestCmip7_rlucs4co2_tavg_alh_hxy_u(AbstractFunctionalTests):
                     "suite_id": "u-dw498",
                 },
                 global_attributes={
-                    "further_info_url": "https://furtherinfo.es-doc.org/CMIP7.MOHC.UKESM1-3-LL.esm-piControl.none.r1i1p1f1"
+                    "further_info_url": "https://furtherinfo.es-doc.org/CMIP7.MOHC.UKESM1-3-LL.esm-piControl.none.r1i1p1f1",
+                    "table_id": "atmos"
                 },
                 streams={"ap5": {"CMIP7_atmos@mon": "rlucs4co2_tavg-alh-hxy-u"}},
                 other={
-                    "reference_version": "v1",
+                    "reference_version": "v2",
                     "filenames": [
                         "rlucs4co2_tavg-alh-hxy-u_mon_glb_g100_UKESM1-3-LL_esm-piControl_r1i1p1f1_190001-190002.nc"
                     ],

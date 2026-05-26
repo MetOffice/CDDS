@@ -18,7 +18,7 @@ def nc_dataset():
 
     def ncattrs(name):
         return {
-            "table_id": "atmos",
+            "realm": "atmos",
             "source_id": "UKESM1-3-LL",
             "experiment_id": "1pctCO2",
             "grid_label": "gn",

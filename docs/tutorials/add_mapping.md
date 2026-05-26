@@ -154,7 +154,7 @@ The following constraints can currently be used in an ``expression``:
 
 !!! note
     If you want to contribute your changes to CDDS then you must follow the development workflow.
-    See the [Developer Documentation](../developer_documentation/development_practices.md) pages for guidance.
+    See the [Developer Documentation](../developer_documentation/development_workflow.md) pages for guidance.
 
 
 ### Required Information

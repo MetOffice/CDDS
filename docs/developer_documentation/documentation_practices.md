@@ -54,4 +54,27 @@ However, rather than displaying the docs in your `CWD`, this will serve the docs
 
 ## Managing Versions and Deployment in Practice
 
-Deploying the documentation in practice
+
+### Documentation Versioning Policy
+
+CDDS uses an `X.Y.Z` versioning system for releases, but for documentation, only the most recent bugfix release is published. For example, `1.0.0` is published as `1.0`, and any following bugfix releases (e.g., `1.0.1`) overwrite the existing `1.0` deployment.
+
+Documentation can be published independently of the release process, as long as it does not reference unreleased changes or functionality.
+
+### How to Set the Latest Version
+
+The default documentation version shown should always be the latest major release (e.g., `3.1`). If you need to change this, update the default version as follows:
+
+1. Deploy the newest documentation as the default:
+    ```bash
+    mike deploy X.Y latest --update-aliases
+    ```
+    where `X.Y` is the version to set as default (e.g., `3.1`).
+2. Verify the default documentation is set as expected:
+    ```bash
+    mike serve
+    ```
+3. Push the local commit by `mike` to the `gh-pages` branch:
+    ```bash
+    git push origin gh-pages
+    ```

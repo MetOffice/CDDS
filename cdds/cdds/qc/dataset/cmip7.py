@@ -83,7 +83,7 @@ class Cmip7Dataset(StructuredDataset):
             valid_filename = False
             messages.append(f"Invalid variant_label {variant_label}")
 
-        table = self.global_attributes_cache.getncattr("table_id", ds)
+        table = self.global_attributes_cache.getncattr("realm", ds)
         variable = filename_parts[0] + "_" + filename_parts[1]
         if table in self._mip_tables.tables:
             if variable not in (self._mip_tables.get_variables(table)):
@@ -93,7 +93,7 @@ class Cmip7Dataset(StructuredDataset):
             valid_filename = False
             messages.append(f"Invalid table_id Global Attribute {table} in file {filename}")
 
-        if filename_parts[8]:
+        if len(filename_parts) > 8 and filename_parts[8]:
             try:
                 _, _ = parse_date_range(filename_parts[8],
                                         self.global_attributes_cache.getncattr("frequency", ds),
@@ -126,7 +126,7 @@ class Cmip7Dataset(StructuredDataset):
                     'source_id',
                     'experiment_id',
                     'variant_label',
-                    'table_id',
+                    'realm',
                     'frequency',
                     'variable_name',
                     'grid_label',

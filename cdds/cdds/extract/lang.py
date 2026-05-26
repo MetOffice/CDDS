@@ -101,7 +101,7 @@ def set_language():
         "extract_unknown": "failed / unrecognised status [{}]",
 
         # streams (data items)
-        "stream_ancil": "\"ancil\" stream not retrieved from MASS",
+        "stream_ancil": "\"afx\"/\"ofx\" stream uses local ancil files, skipping MASS retrieval",
         "stream_size_fail": "CRITICAL: could not establish number of MASS"
                             " requests required [error: {} ]",
         "stream_exists_ok": "archive data exists for dataset {}",

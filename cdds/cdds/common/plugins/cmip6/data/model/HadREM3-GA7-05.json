@@ -12,8 +12,14 @@
     ]
   },
   "cycle_length": {},
-  "memory": {},
-  "temp_space": {},
+  "memory": {
+    "afx": "8G",
+    "ofx": "8G"
+  },
+  "temp_space": {
+    "afx": 8192,
+    "ofx": 8192
+  },
   "sizing_info": {},
   "subdaily_streams": [],
   "halo_removal": {
@@ -37,7 +43,8 @@
       "levels": null,
       "ancil_filenames": [
         "qrparm.landfrac.pp",
-        "qrparm.soil.pp"
+        "qrparm.soil.pp",
+        "qrparm.orog.pp"
       ],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",

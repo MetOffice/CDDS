@@ -20,7 +20,7 @@ APPROVED_VARIABLES_FILE_REFERENCE = [
      'out_var_name': 'tos'},
     {'mip_table_id': 'Emon', 'variable_id': 'hus27',
      'output_dir': DUMMY_VAR_OUT_DIR + 'stream1/Emon/hus',
-     'out_var_name': 'hus'},
+     'out_var_name': 'hus27'},
 ]
 
 ACTIVE_VARS_REFERENCE = [
@@ -40,7 +40,7 @@ APPROVED_REF_WITH_STREAM = [
      'out_var_name': 'tos'},
     {'mip_table_id': 'Emon', 'variable_id': 'hus27', 'stream_id': 'ap5',
      'frequency': 'mon', 'output_dir': DUMMY_VAR_OUT_DIR + 'ap5/Emon/hus',
-     'out_var_name': 'hus'},
+     'out_var_name': 'hus27'},
 ]
 
 APPROVED_REF_WITH_FILES = [
