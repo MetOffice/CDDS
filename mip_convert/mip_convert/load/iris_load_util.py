@@ -477,10 +477,18 @@ def load_cubes_from_pp(all_input_data, pp_info, run_bounds, ancil_variables):
         cube.attributes['model_component'] = 'um'
         fixed_cubes.append(cube)
 
-    # If the PP-related constraint information contain the constraints
-    # for the orography, don't remove the orograpy before merging.
+    # When orography is requested, the loaded cubes can contain both:
+    # - timeless ancil orography (2D, no time coord), and
+    # - time-varying stream orography (3D, has time coord).
+    # If both are present, drop the timeless one to avoid mixed 2D/3D
+    # concatenation errors (this occurs because timeless ancil orography can
+    # also pass through pp_filter).
     if ('lbuser4', 33) in pp_info:
-        cubes = fixed_cubes
+        orog_cubes = [c for c in fixed_cubes if c.attributes.get('STASH') == 'm01s00i033']
+        if any(c.coords('time') for c in orog_cubes):
+            cubes = [c for c in fixed_cubes if c.attributes.get('STASH') != 'm01s00i033' or c.coords('time')]
+        else:
+            cubes = fixed_cubes
     else:
         cubes = [cube for cube in fixed_cubes if cube.attributes['STASH'] != 'm01s00i033']
 
