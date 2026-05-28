@@ -28,20 +28,6 @@ class TestCmip6EmonOrog(AbstractFunctionalTests):
                 },
                 cmor_dataset={
                     'output_dir': get_output_dir(test_location),
-                    'experiment_id': 'piControl',
-                    'grid': 'Native N96 grid; 192 x 144 longitude/latitude',
-                    'model_type': 'AOGCM BGC AER CHEM',
-                    'nominal_resolution': '250 km',
-                    'variant_label': 'r1i1p1f2',
-                    'branch_method': 'standard',
-                    'branch_date_in_child': '1960-01-01T00:00:00',
-                    'branch_date_in_parent': '1960-01-01T00:00:00',
-                    'parent_experiment_id': 'piControl-spinup',
-                    'parent_base_date': '1850-01-01T00:00:00',
-                    'parent_mip_era': 'CMIP6',
-                    'parent_model_id': 'UKESM1-0-LL',
-                    'parent_time_units': 'days since 1850-01-01',
-                    'parent_variant_label': 'r1i1p1f2',
                 },
                 request={
                     'ancil_files': os.path.join(ROOT_ANCIL_DIR, 'UKESM1-0-LL', 'qrparm.orog.pp'),
@@ -51,15 +37,13 @@ class TestCmip6EmonOrog(AbstractFunctionalTests):
                     'mip_convert_plugin': 'UKESM1',
                     'base_date': '1850-01-01T00:00:00'
                 },
-                global_attributes={
-                    'further_info_url': 'https://furtherinfo.es-doc.org/CMIP6.MOHC.UKESM1-0-LL.piControl.none.r1i1p1f2'
-                },
                 streams={
-                    'ap5': {'CMIP6_Emon': 'orog'}
+                    'ap5': {'CMIP6_Emon': 'orog'},
+                    'afx': {'CMIP6_fx': 'orog'}
                 },
                 other={
                     'reference_version': 'v1',
-                    'filenames': ['orog_Emon_UKESM1-0-LL_piControl_r1i1p1f2_gn_200001-200001.nc'],
+                    'filenames': ['orog_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_200001-200001.nc', 'orog_fx_UKESM1-0-LL_amip_r1i1p1f1_gn.nc'],
                     'ignore_history': True,
                 }
             )
