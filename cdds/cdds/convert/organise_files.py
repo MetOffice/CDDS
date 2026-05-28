@@ -211,24 +211,24 @@ def identify_files_to_move(location, start_date, end_date):
 
 
 def organise_fx_output_dir(output_dir: str) -> None:
-    """Move fx output files from component subdirectories into
+    """Move fx output files from source subdirectories into
     mip_table/variable subdirectories within output_dir.
 
-    Files of the form ``<output_dir>/<component>/<variable>_<mip_table>_*.nc``
+    Files of the form ``<output_dir>/<source_subdirectory>/<variable>_<mip_table>_*.nc``
     are moved to ``<output_dir>/<mip_table>/<variable>/<variable>_<mip_table>_*.nc``.
 
     Parameters
     ----------
     output_dir : str
-        Root output directory containing component subdirectories with nc files.
+        Root output directory containing source subdirectories with nc files.
     """
     logger = logging.getLogger(__name__)
     logger.info('Organising fx output directory: {}'.format(output_dir))
     for entry in sorted(os.listdir(output_dir)):
-        component_dir = os.path.join(output_dir, entry)
-        if not os.path.isdir(component_dir):
+        source_dir = os.path.join(output_dir, entry)
+        if not os.path.isdir(source_dir):
             continue
-        for filename in sorted(os.listdir(component_dir)):
+        for filename in sorted(os.listdir(source_dir)):
             if not filename.endswith('.nc'):
                 continue
             parts = filename.split('_')
@@ -241,14 +241,14 @@ def organise_fx_output_dir(output_dir: str) -> None:
             if not os.path.isdir(dest_dir):
                 logger.info('Creating directory {}'.format(dest_dir))
                 os.makedirs(dest_dir)
-            src_path = os.path.join(component_dir, filename)
+            src_path = os.path.join(source_dir, filename)
             logger.info('Moving {} to {}'.format(src_path, dest_dir))
             shutil.move(src_path, dest_dir)
-        # Remove the component directory if it is now empty
+        # Remove the source directory if it is now empty
         try:
-            os.rmdir(component_dir)
+            os.rmdir(source_dir)
         except OSError:
-            logger.debug('Directory not removed (may still contain non-nc files): {}'.format(component_dir))
+            logger.debug('Directory not removed (may still contain non-nc files): {}'.format(source_dir))
 
 
 def write_mip_concatenate_cfg(config_filename, **kwargs):
