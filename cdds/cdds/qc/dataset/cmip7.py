@@ -83,15 +83,15 @@ class Cmip7Dataset(StructuredDataset):
             valid_filename = False
             messages.append(f"Invalid variant_label {variant_label}")
 
-        table = self.global_attributes_cache.getncattr("realm", ds).split(" ")[0]
+        primary_table = self.global_attributes_cache.getncattr("realm", ds).split(" ")[0]
         variable = filename_parts[0] + "_" + filename_parts[1]
-        if table in self._mip_tables.tables:
-            if variable not in (self._mip_tables.get_variables(table)):
+        if primary_table in self._mip_tables.tables:
+            if variable not in (self._mip_tables.get_variables(primary_table)):
                 valid_filename = False
                 messages.append(f"Invalid variable {variable} in the filename {filename}")
         else:
             valid_filename = False
-            messages.append(f"Invalid table_id Global Attribute {table} in file {filename}")
+            messages.append(f"Invalid table_id Global Attribute {primary_table} in file {filename}")
 
         if len(filename_parts) > 8 and filename_parts[8]:
             try:
