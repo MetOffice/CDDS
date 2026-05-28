@@ -43,7 +43,8 @@ class TestCmip6EmonOrog(AbstractFunctionalTests):
                 },
                 other={
                     'reference_version': 'v1',
-                    'filenames': ['orog_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_200001-200001.nc', 'orog_fx_UKESM1-0-LL_amip_r1i1p1f1_gn.nc'],
+                    'filenames': ['orog_Emon_UKESM1-0-LL_amip_r1i1p1f1_gn_200001-200001.nc',
+                                  'orog_fx_UKESM1-0-LL_amip_r1i1p1f1_gn.nc'],
                     'ignore_history': True,
                 }
             )
