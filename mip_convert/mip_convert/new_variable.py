@@ -846,9 +846,7 @@ class Variable(object):
 
     def _slice_input_variables(self, date_time, date_times):
         input_variables = {}
-        if date_time is date_times[-1]:
-            new_year_midnight = True
-        elif len(date_time) > 1 and date_time[1] != 12:
+        if (len(date_time) > 1 and date_time[1] != 12) and date_time != date_times[-1]:
             # don't attach New Year midnight to other months
             new_year_midnight = False
         else:
@@ -1230,9 +1228,10 @@ class VariableMIPMetadata(object):
 
 def _setup_time_constraint(date_time, with_new_year_midnight=True):
     def time_constraint(cell):
+        new_month = PartialDateTime(date_time[0], date_time[1] + 1, 1, 0, 0, 0, 0) if len(date_time) > 1 else ""
         return (PartialDateTime(*date_time) == cell.point or
                 PartialDateTime(date_time[0] + 1, 1, 1, 0, 0, 0, 0) == cell.point or
-                PartialDateTime(date_time[0], date_time[1] + 1, 1, 0, 0, 0, 0) == cell.point)
+                new_month == cell.point)
 
     def time_constraint2(cell):
         return PartialDateTime(*date_time) == cell.point
