@@ -37,6 +37,16 @@ class Cmip7GridLabel(GridLabel):
                 return grid_label
         raise KeyError('Not supported grid labels for {}'.format(name))
 
+    LATLON_NATIVE = 'latlon-native', 'g110', False
+    LATLON_UVGRID = 'latlon-uvgrid', 'g115', False
+    LATLON_UGRID = 'latlon-ugrid', 'g108', False
+    LATLON_VGRID = 'latlon-vgrid', 'g109', False
+
+    TRIPOLAR_NATIVE = 'tripolar-native', 'g126', False
+    TRIPOLAR_UGRID = 'tripolar-ugrid', 'g125', False
+    TRIPOLAR_VGRID = 'tripolar-vgrid', 'g124', False
+
+    #  Old grid labels, to be removed before merging into main.
     NATIVE = 'native', 'g100', False
     NATIVE_ZONAL = 'native-zonal', 'g100z', False
     REGRIDDED = 'regridded', 'g100', False
