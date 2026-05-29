@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2015-2025, Met Office.
+# (C) British Crown Copyright 2015-2026, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable=no-member, eval-used, wildcard-import
 # pylint: disable=unused-wildcard-import
@@ -231,7 +231,7 @@ class Variable(object):
                 # Slice the 'input variable(s)', since they have not yet been processed.
                 message = '-'.join([str(items) for items in date_time])
                 self.logger.debug('Creating data for "{}"'.format(message))
-                sliced_input_variables = self._slice_input_variables(date_time)
+                sliced_input_variables = self._slice_input_variables(date_time, date_times)
                 yield Variable(sliced_input_variables, self._variable_metadata)
             else:
                 # Slice the 'MIP output variable'.
@@ -844,9 +844,11 @@ class Variable(object):
             raise ValueError(message)
         return data_dimension
 
-    def _slice_input_variables(self, date_time):
+    def _slice_input_variables(self, date_time, date_times):
         input_variables = {}
-        if len(date_time) > 1 and date_time[1] != 12:
+        if date_time is date_times[-1]:
+            new_year_midnight = True
+        elif len(date_time) > 1 and date_time[1] != 12:
             # don't attach New Year midnight to other months
             new_year_midnight = False
         else:
@@ -1229,7 +1231,8 @@ class VariableMIPMetadata(object):
 def _setup_time_constraint(date_time, with_new_year_midnight=True):
     def time_constraint(cell):
         return (PartialDateTime(*date_time) == cell.point or
-                PartialDateTime(date_time[0] + 1, 1, 1, 0, 0, 0, 0) == cell.point)
+                PartialDateTime(date_time[0] + 1, 1, 1, 0, 0, 0, 0) == cell.point or
+                PartialDateTime(date_time[0], date_time[1] + 1, 1, 0, 0, 0, 0) == cell.point)
 
     def time_constraint2(cell):
         return PartialDateTime(*date_time) == cell.point
