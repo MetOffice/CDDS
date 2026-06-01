@@ -188,6 +188,8 @@ class StructuredDataset(object, metaclass=ABCMeta):
                 time_axis[filepath] = nc_file.variables["time"][:].data
                 if "time_bnds" in nc_file.variables:
                     time_bnds[filepath] = nc_file.variables["time_bnds"][:].data
+                if "climatology_bnds" in nc_file.variables:
+                    time_bnds[filepath] = nc_file.variables["climatology_bnds"][:].data
                 frequency_code = self.global_attributes_cache.getncattr("frequency", nc_file)
                 variable_id = self.global_attributes_cache.getncattr("variable_id", nc_file)
                 if frequency_code == 'subhrPt':
