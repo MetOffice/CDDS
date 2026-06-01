@@ -224,22 +224,16 @@ def organise_fx_output_dir(output_dir: str) -> None:
     """
     logger = logging.getLogger(__name__)
     logger.info('Organising fx output directory: {}'.format(output_dir))
-    for entry in sorted(os.listdir(output_dir)):
-        source_dir = os.path.join(output_dir, entry)
-        if not os.path.isdir(source_dir):
+    for entry in os.listdir(output_dir):
+        source_path = os.path.join(output_dir, entry)
+        # Guard in case stray/temp files in output_dir and only process source directories.
+        if not os.path.isdir(source_path):
             continue
+        source_dir = source_path
 
-        for filename in sorted(os.listdir(source_dir)):
+        for filename in os.listdir(source_dir):
             src_path = os.path.join(source_dir, filename)
-            if not filename.endswith('.nc') or not os.path.isfile(src_path):
-                continue
-
-            name_parts = filename.split('_', 2)
-            if len(name_parts) < 2:
-                logger.warning('Skipping file with unrecognised name: {}'.format(filename))
-                continue
-
-            variable, mip_table = name_parts[:2]
+            variable, mip_table = filename.split('_', 2)[:2]
             dest_dir = os.path.join(output_dir, mip_table, variable)
             if not os.path.isdir(dest_dir):
                 logger.info('Creating directory {}'.format(dest_dir))
