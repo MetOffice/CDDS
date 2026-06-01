@@ -220,7 +220,7 @@ def organise_fx_output_dir(output_dir: str) -> None:
     Parameters
     ----------
     output_dir : str
-        Root output directory containing source subdirectories with nc files.
+        Root output directory containing source subdirectories with fx files.
     """
     logger = logging.getLogger(__name__)
     logger.info('Organising fx output directory: {}'.format(output_dir))

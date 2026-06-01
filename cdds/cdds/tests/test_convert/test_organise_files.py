@@ -2,6 +2,8 @@
 # Please see LICENSE.md for license details.
 """Tests for the file organisation tools module."""
 import datetime
+import os
+import tempfile
 import unittest
 
 import dateutil.relativedelta
@@ -195,6 +197,27 @@ class TestOrganiseFiles(unittest.TestCase):
                                     call('tos_O_date2.nc', 'location/O/tos'),
                                     call('sos_O_date1.nc', 'location/O/sos'),
                                     call('sos_O_date2.nc', 'location/O/sos')])
+
+    def test_organise_fx_output_dir(self):
+        """Test organise_fx_output_dir moves fx files into table/variable dirs."""
+        with tempfile.TemporaryDirectory() as output_dir:
+            atmos_dir = os.path.join(output_dir, 'atmos-native')
+            os.makedirs(atmos_dir)
+
+            # Add a non-directory entry in output root; guard should ignore this.
+            with open(os.path.join(output_dir, 'organise.log'), 'w') as fhandle:
+                fhandle.write('log')
+
+            atmos_file = 'areacella_fx_UKESM1-0-LL_piControl_r1i1p1f2_gn.nc'
+            with open(os.path.join(atmos_dir, atmos_file), 'w') as fhandle:
+                fhandle.write('')
+
+            cdds.convert.organise_files.organise_fx_output_dir(output_dir)
+
+            self.assertTrue(
+                os.path.exists(os.path.join(output_dir, 'fx', 'areacella', atmos_file))
+            )
+            self.assertFalse(os.path.exists(atmos_dir))
 
 
 if __name__ == '__main__':
