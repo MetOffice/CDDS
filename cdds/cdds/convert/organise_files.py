@@ -228,22 +228,26 @@ def organise_fx_output_dir(output_dir: str) -> None:
         source_dir = os.path.join(output_dir, entry)
         if not os.path.isdir(source_dir):
             continue
+
         for filename in sorted(os.listdir(source_dir)):
-            if not filename.endswith('.nc'):
+            src_path = os.path.join(source_dir, filename)
+            if not filename.endswith('.nc') or not os.path.isfile(src_path):
                 continue
-            parts = filename.split('_')
-            if len(parts) < 2:
+
+            name_parts = filename.split('_', 2)
+            if len(name_parts) < 2:
                 logger.warning('Skipping file with unrecognised name: {}'.format(filename))
                 continue
-            variable = parts[0]
-            mip_table = parts[1]
+
+            variable, mip_table = name_parts[:2]
             dest_dir = os.path.join(output_dir, mip_table, variable)
             if not os.path.isdir(dest_dir):
                 logger.info('Creating directory {}'.format(dest_dir))
-                os.makedirs(dest_dir)
-            src_path = os.path.join(source_dir, filename)
+            os.makedirs(dest_dir, exist_ok=True)
+
             logger.info('Moving {} to {}'.format(src_path, dest_dir))
             shutil.move(src_path, dest_dir)
+
         # Remove the source directory if it is now empty
         try:
             os.rmdir(source_dir)
