@@ -642,6 +642,8 @@ class QCRunner(object):
             "contains these attributes": "non-mandatory",
             "Cell Boundaries: Bounds variable vertices_latitude and parent variable latitude have the following "
             "matching attributes ['units'].  It is recommended that only the parent variable of the bounds variable "
-            "contains these attributes": "non-mandatory"
+            "contains these attributes": "non-mandatory",
+            'Climatological Statistics: The \"time: method within years/days over years/days\" format is not correct in'
+            'variable': "removed to allow production of tas and sfcWind in CMIP7"
         }
         return msg_dictionary
