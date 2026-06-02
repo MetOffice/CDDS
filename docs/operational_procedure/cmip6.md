@@ -228,9 +228,11 @@ If running a single request configuration, please follow the standard process as
    cdds_convert <the path to your request.cfg>
    ```
 
-Further guidence on this process can be found in the [Quickstart tutorial](https://metoffice.github.io/CDDS/latest/tutorials/quickstart/).
+This process can be monitored via the cylc gui or cylc review. Further guidence on this process can be found in the [Quickstart tutorial](https://metoffice.github.io/CDDS/latest/tutorials/quickstart/).
 
 ## Checkout and configure the CDDS workflow for a batch of requests
+
+Alternatively, if you will be running a large batch of request files, it may be more valuable to use the processing workflow tool.
 
 1. Run the following command after replacing values within `<>`:
    ```bash
