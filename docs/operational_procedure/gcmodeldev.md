@@ -143,7 +143,32 @@ You also need to set following values manually:
 
 2. Set the value `variable_list_file` in the request configuration to the path of the created variable file.
 
-## Checkout and configure the CDDS workflow
+## Run the CDDS workflow for a single request
+
+If running a single request configuration, please follow the standard process as described in the [Quickstart tutorial](https://metoffice.github.io/CDDS/latest/tutorials/quickstart/). Assuming you have your request file and variable list set up, this simply involves running the following 4 commands:
+
+1. Activate the environment:
+   ```bash
+   source ~cdds/bin/setup_env_for_cdds <the version of CDDS you are using, e.g. 3.3.3>
+   ```
+2. Create the directory structure:
+   ```bash
+   create_cdds_directory_structure <the path to your request.cfg>
+   ```
+3. Create the internal variable lists used by CDDS:
+   ```bash
+   prepare_generate_variable_list <the path to your request.cfg>
+   ```
+4. Launch the cylc conversion workflow:
+   ```bash
+   cdds_convert <the path to your request.cfg>
+   ```
+
+This process can be monitored via the cylc gui or cylc review. Further guidence on this process can be found in the [Quickstart tutorial](https://metoffice.github.io/CDDS/latest/tutorials/quickstart/).
+
+## Checkout and configure the CDDS workflow for a batch of requests
+
+Alternatively, if you will be running a large batch of request files, it may be more valuable to use the processing workflow tool.
 
 1. Run the following command after replacing values within `<>`:
    ```bash
