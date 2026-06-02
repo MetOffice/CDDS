@@ -27,7 +27,7 @@ class Cmip7GlobalAttributes(GlobalAttributes):
         str
             The further info url for CMIP7
         """
-        return 'none'
+        pass
 
 
 class AttributesValidator:
