@@ -44,6 +44,9 @@ class TestCmip7_zostoga_tavg_u_hm_sea(AbstractFunctionalTests):
                     'suite_id': 'u-dv623',
                     'mip_convert_plugin': 'UKCM2'
                 },
+                global_attributes={
+                    "table_id": "ocean"
+                },
                 streams={
                     'onm': {'CMIP7_ocean@mon': 'zostoga_tavg-u-hm-sea'}
                 },

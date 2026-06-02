@@ -633,6 +633,15 @@ class QCRunner(object):
                 "and parent variable longitude have the following"
             ): (
                 "This is a non-mandatory recommendation."
-            )
+            ),
+            "Time Coordinate: Variable time has a calendar attribute of standard and it is recommended that the "
+            "units_metadata attribute is present and has one of the values ['leap_seconds: none', 'leap_seconds: utc', "
+            "'leap_seconds: unknown']": "non-mandatory",
+            "Cell Boundaries: Bounds variable vertices_longitude and parent variable longitude have the following "
+            "matching attributes ['units'].  It is recommended that only the parent variable of the bounds variable "
+            "contains these attributes": "non-mandatory",
+            "Cell Boundaries: Bounds variable vertices_latitude and parent variable latitude have the following "
+            "matching attributes ['units'].  It is recommended that only the parent variable of the bounds variable "
+            "contains these attributes": "non-mandatory"
         }
         return msg_dictionary

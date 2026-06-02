@@ -34,6 +34,9 @@ class TestCmip7_mcd_tavg_alh_hxy_u(AbstractFunctionalTests):
                     'suite_id': 'u-dv623',
                     'mip_convert_plugin': 'UKESM1p3'
                 },
+                global_attributes={
+                    "table_id": "atmos"
+                },
                 streams={
                     'ap5': {'CMIP7_atmos@mon': 'mcd_tavg-alh-hxy-u'}
                 },

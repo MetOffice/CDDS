@@ -11,6 +11,7 @@
 | `misc`             | - |
 | `prepare`          | The cdds_prepare package enables a user to create the requested variables list and directory structures in preparation for subsequent CDDS components to be run. |
 | `qc`               | The cdds_qc package enables a user to check whether the output netCDF files conform to the WGCM CMIP standards. |
+| `sim_review`       | The cdds_sim_review package enables a user to extract information to facilitate reviewing whether simulation tickets have been correctly processed before the data is submitted for publication. |
 
 
 ## Special Plugin Components

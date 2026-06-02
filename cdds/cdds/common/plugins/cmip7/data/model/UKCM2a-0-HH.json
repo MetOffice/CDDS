@@ -118,6 +118,14 @@
     "ond": {
       "longitude": "1:-1",
       "latitude": "1:-1"
+    },
+    "inm": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
+    },
+    "ind": {
+      "longitude": "1:-1",
+      "latitude": "1:-1"
     }
   },
   "grid_info": {

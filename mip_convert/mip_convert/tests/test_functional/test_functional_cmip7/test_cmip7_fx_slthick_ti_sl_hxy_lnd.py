@@ -37,6 +37,9 @@ class TestCmip7_fx_slthick_ti_sl_hxy_lnd(AbstractFunctionalTests):
                     'suite_id': 'u-dk469',
                     'mip_convert_plugin': 'HadGEM3GC5'
                 },
+                global_attributes={
+                    "table_id": "land"
+                },
                 streams={
                     'ancil': {'CMIP7_land@fx': 'slthick_ti-sl-hxy-lnd'}
                 },

@@ -142,21 +142,6 @@ def common_command_line_args(parser, default_log_name, log_level, version):
             '%(prog)s {version}'.format(version=version)))
 
 
-def mass_output_args(parser, output_mass_suffix, output_mass_root):
-    help_msg = ('Sub-directory in MASS to use when moving data. This '
-                'directory is appended to the default root CDDS mass '
-                'location - {cdds_mass}. '
-                ''.format(cdds_mass=output_mass_suffix))
-    parser.add_argument('--output_mass_suffix',
-                        default=output_mass_suffix,
-                        help=help_msg)
-    help_msg = ('Full path to the root mass location to use for archiving the '
-                'output data.')
-    parser.add_argument('--output_mass_root',
-                        default=output_mass_root,
-                        help=help_msg)
-
-
 def root_dir_args(parser, default_root_proc_dir, default_root_data_dir):
     """Add arguments relating to the root cdds directories to the argument parser
     object.
