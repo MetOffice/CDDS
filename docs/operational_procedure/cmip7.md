@@ -183,7 +183,15 @@ This process can be monitored via the cylc gui or cylc review. If a workflow has
 
 Alternatively, if you will be running a large batch of request files, it may be more valuable to use the processing workflow tool.
 
-1. Run the following command after replacing values within `<>`:
+1. Set up a working directory
+    ```bash
+    mkdir cdds-example-1
+    cd cdds-example-1
+    export WORKING_DIR=`pwd`
+    ```
+    Add the location of your working directory to the *CDDS operational simulation ticket*.
+
+2. Run the following command after replacing values within `<>`:
    ```bash
    checkout_processing_workflow <name for processing workflow> \
    <path to request configuration> \
@@ -202,7 +210,7 @@ Alternatively, if you will be running a large batch of request files, it may be 
         A directory containing a rose workflow will be placed in a subdirectory under the location specified in `--workflow_destination`.  
         If this is not specified it will be checked out under `~/roses/`
 
-2. **This step is optional:** Set some useful environmental variables to access the CDDS directories:
+3. **This step is optional:** Set some useful environmental variables to access the CDDS directories:
    ```bash
    export CDDS_PROC_DIR=/<root_proc_dir>/<mip_era>/<mip>/<model_id>_<experiment_id>_<variant_label>/<package>/
    export CDDS_DATA_DIR=/<root_data_dir>/<mip_era>/<mip>/<model_id>_<experiment_id>_<variant_label>/<package>/
@@ -226,7 +234,7 @@ Alternatively, if you will be running a large batch of request files, it may be 
         export CDDS_DATA_DIR=/home/foo/cdds-example-1/data/CMIP7/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
         ```
 
-3. Run the workflow:
+4. Run the workflow:
    ```bash
    cd <name for processing workflow>
    cylc vip .
