@@ -23,6 +23,7 @@ nav:
     - Changelog (Mip Convert): changes_mip_convert.md
   - Operational Procedures:
     - operational_procedure/index.md
+    - CMIP7: operational_procedure/cmip7.md
     - CMIP6 and CMIP6 Plus: operational_procedure/cmip6.md
     - GCModelDev: 
       -  operational_procedure/gcmodeldev.md
