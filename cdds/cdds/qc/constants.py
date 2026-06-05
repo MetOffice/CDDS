@@ -53,15 +53,8 @@ SUMMARY_STARTED = 0
 SUMMARY_FAILED = 2
 SUMMARY_PASSED = 1
 TIME_TOLERANCE = 1e-5  # Tolerance for time comparisons in days = ~1s
-CMIP6_SKIP_QC_CHECKS = {
-    'check_cell_boundaries_interval': 'Fault in IOOS Compliance Checker #IOOS issue',
-    'check_geographic_region': 'IOOS checker requires string which is not used in CMIP',
-}
-CMIP7_SKIP_QC_CHECKS = {
-    'check_cell_boundaries_interval': 'Fault in IOOS Compliance Checker #IOOS issue',
-    'check_geographic_region': 'IOOS checker requires string which is not used in CMIP',
-}
-CORDEX_SKIP_QC_CHECKS = {
-    'check_cell_boundaries_interval': 'Fault in IOOS Compliance Checker #IOOS issue',
-    'check_geographic_region': 'IOOS checker requires string which is not used in CMIP',
-}
+# These skip checks were used for previous IOOS Compliance Checker errors which are now fixed.
+# Leaving empty implementation in case check skipping needed in future.
+CMIP6_SKIP_QC_CHECKS = {}
+CMIP7_SKIP_QC_CHECKS = {}
+CORDEX_SKIP_QC_CHECKS = {}
