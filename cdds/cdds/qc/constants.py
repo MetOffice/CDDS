@@ -5,6 +5,8 @@ be changes by a user and exist for readability and maintainability
 purposes) for the CDDS QC component.
 """
 
+from typing import Any, Dict
+
 COMPONENT = 'qualitycheck'
 DIURNAL_CLIMATOLOGY = '1hrCM'
 DS_TYPE_SINGLE_FILE = 1
@@ -55,6 +57,6 @@ SUMMARY_PASSED = 1
 TIME_TOLERANCE = 1e-5  # Tolerance for time comparisons in days = ~1s
 # These skip checks were used for previous IOOS Compliance Checker errors which are now fixed.
 # Leaving empty implementation in case check skipping needed in future.
-CMIP6_SKIP_QC_CHECKS = {}
-CMIP7_SKIP_QC_CHECKS = {}
-CORDEX_SKIP_QC_CHECKS = {}
+CMIP6_SKIP_QC_CHECKS: Dict[str, Any] = {}
+CMIP7_SKIP_QC_CHECKS: Dict[str, Any] = {}
+CORDEX_SKIP_QC_CHECKS: Dict[str, Any] = {}
