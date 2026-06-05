@@ -132,7 +132,7 @@ def produce_mip_requested_variable(
         mip_table.id,
         variable_name,
         frequency,
-        user_config.global_attributes['region'],
+        user_config.global_attributes.get('region', ''),
         saver.varid)
 
     # Process the data by performing the appropriate 'model to MIP mapping', then save the 'MIP output variable'
