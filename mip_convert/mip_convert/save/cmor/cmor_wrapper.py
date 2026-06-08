@@ -120,7 +120,13 @@ class CmorWrapper(ObjectWithLogger):
 
     def apply_cell_measures(self, mip_era, mip_table_dir, realm, variable, frequency, region, variable_id):
         """
-        Add cell measures read from json file in with mip tables
+        Set the cell_measures attribute on a CMOR variable using a lookup in
+        ``{mip_era}_cell_measures.json`` from the MIP tables directory. Returns
+        silently if the file does not exist.
+
+        The lookup key has the form ``{realm}.{root_label}.{branding}.{frequency}.{region}``
+        (variable name split on ``_``), so entries in the JSON must follow the
+        convention used for CMIP7.
         """
         self._debug_on_args('apply_cell_measures', [mip_era, mip_table_dir, realm, variable, frequency, region, variable_id], {})
 

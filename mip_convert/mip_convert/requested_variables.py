@@ -139,8 +139,7 @@ def produce_mip_requested_variable(
         # cell_measures attribute via cmor.set_variable_attribute).
         cmor_variable = create_cmor_variable(time_slice)
         if not cell_measures_applied:
-            if saver.varid is None:
-                saver._getVarId(cmor_variable)
+            saver._getVarId(cmor_variable)
             # Apply cell_measures if a <mip_era>_cell_measures.json file exists.
             saver.cmor.apply_cell_measures(
                 user_config.mip_era,
