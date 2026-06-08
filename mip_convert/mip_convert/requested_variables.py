@@ -134,13 +134,14 @@ def produce_mip_requested_variable(
         logger.debug('MIP output variable contains: {}'.format(time_slice.info))
 
         # Build the CMOR variable first so the CMOR varid can be created
-        # before any write, allowing variable attributes to be set safely.
+        # before any write, allowing variable attributes to be set safely
+        # (a valid varid is required by apply_cell_measures to set the
+        # cell_measures attribute via cmor.set_variable_attribute).
         cmor_variable = create_cmor_variable(time_slice)
         if not cell_measures_applied:
             if saver.varid is None:
                 saver._getVarId(cmor_variable)
             # Apply cell_measures if a <mip_era>_cell_measures.json file exists.
-            # Must be called before the first write to satisfy CMOR.
             saver.cmor.apply_cell_measures(
                 user_config.mip_era,
                 user_config.inpath,
