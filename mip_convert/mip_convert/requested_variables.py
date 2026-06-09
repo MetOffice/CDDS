@@ -14,7 +14,7 @@ from mip_convert.new_variable import VariableMetadata
 from mip_convert.configuration.json_config import MIPConfig
 from mip_convert.configuration.python_config import ModelToMIPMappingConfig
 
-from mip_convert.save import create_cmor_variable
+from mip_convert.save import save
 from mip_convert.save.cmor import cmor_lite
 from mip_convert.mip_table import get_variable_model_to_mip_mapping, get_variable_mip_metadata
 
@@ -128,30 +128,19 @@ def produce_mip_requested_variable(
     # Process the data by performing the appropriate 'model to MIP mapping', then save the 'MIP output variable'
     # to an 'output netCDF file'.
     period = user_config.slicing.get(stream_id, 'year')
-    cell_measures_applied = False
+
+    cell_measures_config = (
+        user_config.mip_era,
+        user_config.inpath,
+        mip_table.id,
+        variable_name,
+        frequency,
+        user_config.global_attributes.get('region', ''))
+
     for time_slice in variable.slices_over(period):
-        time_slice.process()
+        time_slice.process(saver, cell_measures_config)
         logger.debug('MIP output variable contains: {}'.format(time_slice.info))
-
-        # Build the CMOR variable first so the CMOR varid can be created
-        # before any write, allowing variable attributes to be set safely
-        # (a valid varid is required by apply_cell_measures to set the
-        # cell_measures attribute via cmor.set_variable_attribute).
-        cmor_variable = create_cmor_variable(time_slice)
-        if not cell_measures_applied:
-            saver._getVarId(cmor_variable)
-            # Apply cell_measures if a <mip_era>_cell_measures.json file exists.
-            saver.cmor.apply_cell_measures(
-                user_config.mip_era,
-                user_config.inpath,
-                mip_table.id,
-                variable_name,
-                frequency,
-                user_config.global_attributes.get('region', ''),
-                saver.varid)
-            cell_measures_applied = True
-
-        saver(cmor_variable)
+        save(time_slice, saver)
 
     # Close the 'output netCDF file'.
     cmor_lite.close(saver.varid)
