@@ -38,6 +38,7 @@ import os.path
 from mip_convert import mip_parser
 import mip_convert.common
 from mip_convert.common import RelativePathChecker
+from mip_convert.save import create_cmor_variable
 from mip_convert.save.mip_config import MipTableFactory
 
 
@@ -300,6 +301,17 @@ class AbstractCmorOutputter(object):
         if hasattr(variable, 'comment'):
             kwargs['comment'] = self._name_space.namespace_stamp(variable.comment)
         return kwargs
+
+    def apply_cell_measures(self, mip_output_variable, *cell_measures_config):
+        """Apply cell measures to this CMOR variable.
+
+        Ensures the CMOR variable ID exists (creating it if needed), then
+        sets the cell_measures attribute via the CMOR wrapper.
+        """
+        if self.varid is None:
+            cmor_variable = create_cmor_variable(mip_output_variable)
+            self._getVarId(cmor_variable)
+            self.cmor.apply_cell_measures(*cell_measures_config, self.varid)
 
     def _close_file(self):
         self.cmor.close(self.varid, preserve=True)

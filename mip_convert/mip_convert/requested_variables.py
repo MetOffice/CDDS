@@ -128,8 +128,17 @@ def produce_mip_requested_variable(
     # Process the data by performing the appropriate 'model to MIP mapping', then save the 'MIP output variable'
     # to an 'output netCDF file'.
     period = user_config.slicing.get(stream_id, 'year')
+
+    cell_measures_config = (
+        user_config.mip_era,
+        user_config.inpath,
+        mip_table.id,
+        variable_name,
+        frequency,
+        user_config.global_attributes.get('region', ''))
+
     for time_slice in variable.slices_over(period):
-        time_slice.process()
+        time_slice.process(saver, cell_measures_config)
         logger.debug('MIP output variable contains: {}'.format(time_slice.info))
         save(time_slice, saver)
 
