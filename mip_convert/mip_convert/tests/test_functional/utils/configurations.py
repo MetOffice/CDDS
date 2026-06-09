@@ -243,7 +243,6 @@ class ProjectInfo:
                 'region': "glb",
                 'drs_specs': 'MIP-DRS7',
                 'data_specs_version': 'MIP-DS7.0.0.0',
-                'further_info_url': 'https://furtherinfo.es-doc.org/CMIP7.MOHC.UKCM2-0-LL.1pctCO2.none.r1i1p1f3'
             }
         )
 

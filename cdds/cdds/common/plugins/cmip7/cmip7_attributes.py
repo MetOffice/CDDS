@@ -27,15 +27,7 @@ class Cmip7GlobalAttributes(GlobalAttributes):
         str
             The further info url for CMIP7
         """
-        root_url = 'https://furtherinfo.es-doc.org'
-        further_info_url = '{}/{}.{}.{}.{}.{}.{}'.format(root_url,
-                                                         self._mip_era,
-                                                         self._request.metadata.institution_id,
-                                                         self._request.metadata.model_id,
-                                                         self._request.metadata.experiment_id,
-                                                         self._request.metadata.sub_experiment_id,
-                                                         self._request.metadata.variant_label)
-        return further_info_url
+        pass
 
 
 class AttributesValidator:
