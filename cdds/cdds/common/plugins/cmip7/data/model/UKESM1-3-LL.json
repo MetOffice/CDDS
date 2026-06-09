@@ -1,7 +1,6 @@
 {
   "stream_file_frequency": {
     "quarterly": [
-      "ond"
     ],
     "monthly": [
       "ap4",
@@ -10,7 +9,8 @@
       "apu",
       "inm",
       "ind",
-      "onm"
+      "onm",
+      "ond"
     ],
     "10 day": [
       "ap6",
@@ -32,7 +32,7 @@
     "apt": "P3M",
     "ind": "P1Y",
     "inm": "P5Y",
-    "ond": "P1Y",
+    "ond": "P6M",
     "onm": "P2Y"
   },
   "memory": {
@@ -60,7 +60,7 @@
     "ap8": 32768,
     "ap9": 32768,
     "apt": 32768,
-    "ind": 8192,
+    "ind": 10000,
     "inm": 8192,
     "ond": 64000,
     "onm": 32768
