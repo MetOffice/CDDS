@@ -658,6 +658,6 @@ class QCRunner(object):
             ): (
                 "Locally ignored: recurring CF checker warning for "
                 "longitude/vertices_longitude on native eORCA1 tripolar grid outputs."
-            )
+            ),
         }
         return msg_dictionary
