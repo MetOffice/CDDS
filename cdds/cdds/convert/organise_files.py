@@ -210,6 +210,45 @@ def identify_files_to_move(location, start_date, end_date):
     return dirs_to_remove, files_to_move
 
 
+def organise_fx_output_dir(output_dir: str) -> None:
+    """Move fx output files from source subdirectories into
+    mip_table/variable subdirectories within output_dir.
+
+    Files of the form ``<output_dir>/<source_subdirectory>/<variable>_<mip_table>_*.nc``
+    are moved to ``<output_dir>/<mip_table>/<variable>/<variable>_<mip_table>_*.nc``.
+
+    Parameters
+    ----------
+    output_dir : str
+        Root output directory containing source subdirectories with fx files.
+    """
+    logger = logging.getLogger(__name__)
+    logger.info('Organising fx output directory: {}'.format(output_dir))
+    for entry in os.listdir(output_dir):
+        source_path = os.path.join(output_dir, entry)
+        # Guard in case stray/temp files in output_dir and only process source directories.
+        if not os.path.isdir(source_path):
+            continue
+        source_dir = source_path
+
+        for filename in os.listdir(source_dir):
+            src_path = os.path.join(source_dir, filename)
+            variable, mip_table = filename.split('_', 2)[:2]
+            dest_dir = os.path.join(output_dir, mip_table, variable)
+            if not os.path.isdir(dest_dir):
+                logger.info('Creating directory {}'.format(dest_dir))
+            os.makedirs(dest_dir, exist_ok=True)
+
+            logger.info('Moving {} to {}'.format(src_path, dest_dir))
+            shutil.move(src_path, dest_dir)
+
+        # Remove the source directory if it is now empty
+        try:
+            os.rmdir(source_dir)
+        except OSError:
+            logger.debug('Directory not removed (may still contain non-nc files): {}'.format(source_dir))
+
+
 def write_mip_concatenate_cfg(config_filename, **kwargs):
     """Write the mip_concatenate_setup.cfg file based on the kwargs
     dictionary.

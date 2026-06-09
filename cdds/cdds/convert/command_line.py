@@ -3,6 +3,7 @@
 """Command line interfaces for cdds_convert and mip_concatenate tasks."""
 import argparse
 import logging
+import os
 
 from cdds.common import configure_logger
 from cdds.common.plugins.plugin_loader import load_plugin, PluginStore
@@ -13,7 +14,7 @@ from cdds.convert.exceptions import (OrganiseEnvironmentError,
 from cdds.convert.concatenation import batch_concatenation
 from cdds.convert.concatenation.concatenation_setup import concatenation_setup
 from cdds.convert.mip_convert_wrapper.wrapper import run_mip_convert_wrapper
-from cdds.convert.organise_files import organise_files
+from cdds.convert.organise_files import organise_files, organise_fx_output_dir
 
 COMPONENT = 'convert'
 CONVERT_LOG_NAME = 'cdds_convert'
@@ -134,5 +135,30 @@ def main_organise_files():
         exit_code = 3
     except BaseException as exc:
         logging.exception(exc)
+        exit_code = 1
+    return exit_code
+
+
+def main_organise_fx_output():
+    """Reorganise fx output files into mip_table/variable subdirectories.
+
+    Reads OUTPUT_DIR from environment variables.
+
+    Returns
+    -------
+    int
+        Exit code: 0 on success, 1 on failure.
+    """
+    exit_code = 0
+    logger = logging.getLogger(__name__)
+    try:
+        output_dir = os.environ['OUTPUT_DIR']
+    except KeyError as err:
+        logger.error('Required environment variable not found: {}'.format(err))
+        return 1
+    try:
+        organise_fx_output_dir(output_dir)
+    except BaseException as exc:
+        logger.exception(exc)
         exit_code = 1
     return exit_code
