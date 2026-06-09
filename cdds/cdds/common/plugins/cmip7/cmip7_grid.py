@@ -46,17 +46,6 @@ class Cmip7GridLabel(GridLabel):
     TRIPOLAR_UGRID = 'tripolar-ugrid', 'g125', False
     TRIPOLAR_VGRID = 'tripolar-vgrid', 'g124', False
 
-    #  Old grid labels, to be removed before merging into main.
-    NATIVE = 'native', 'g100', False
-    NATIVE_ZONAL = 'native-zonal', 'g100z', False
-    REGRIDDED = 'regridded', 'g100', False
-    GLOBAL_MEAN = 'global-mean', 'g100', False
-    UGRID = 'ugrid', 'g100', True
-    VGRID = 'vgrid', 'g100', True
-    UVGRID = 'uvgrid', 'g100', True
-    UVGRID_ZONAL = 'uvgrid-zonal', 'g100z', True
-    SITES = 'sites', 'g100', False
-
 
 class Cmip7GridLabelHH(GridLabel):
     """Represents grid labels. Each grid label consists of:
