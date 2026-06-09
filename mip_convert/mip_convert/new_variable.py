@@ -371,7 +371,8 @@ class Variable(object):
             self.apply_cell_measures(saver, cell_measures_config)
 
     def apply_cell_measures(self, saver, cell_measures_config):
-        """Apply cell measures to the CMOR variable if not already applied.        Parameters
+        """Apply cell measures to the CMOR variable if not already applied.
+        Parameters
         ----------
         saver:
             The CMOR outputter for this variable.
@@ -379,7 +380,11 @@ class Variable(object):
             Arguments forwarded to cmor_wrapper.apply_cell_measures,
             in the form (mip_era, mip_table_dir, realm, variable, frequency, region).
         """
-        saver.apply_cell_measures(self, *cell_measures_config)
+        if saver.varid is None:
+            from mip_convert.save import create_cmor_variable  # deferred to avoid circular import
+            cmor_variable = create_cmor_variable(self)
+            saver._getVarId(cmor_variable)
+            saver.cmor.apply_cell_measures(*cell_measures_config, saver.varid)
 
     def _remove_alevhalf_bounds(self):
         """
