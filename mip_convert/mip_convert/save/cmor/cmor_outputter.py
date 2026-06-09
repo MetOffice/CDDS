@@ -311,7 +311,7 @@ class AbstractCmorOutputter(object):
         if self.varid is None:
             cmor_variable = create_cmor_variable(mip_output_variable)
             self._getVarId(cmor_variable)
-        self.cmor.apply_cell_measures(*cell_measures_config, self.varid)
+            self.cmor.apply_cell_measures(*cell_measures_config, self.varid)
 
     def _close_file(self):
         self.cmor.close(self.varid, preserve=True)
