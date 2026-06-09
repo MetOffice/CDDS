@@ -642,6 +642,20 @@ class QCRunner(object):
             "contains these attributes": "non-mandatory",
             "Cell Boundaries: Bounds variable vertices_latitude and parent variable latitude have the following "
             "matching attributes ['units'].  It is recommended that only the parent variable of the bounds variable "
-            "contains these attributes": "non-mandatory"
+            "contains these attributes": "non-mandatory",
+            (
+                "the coordinate variable 'latitude' lie outside the bounding box of the "
+                "associated boundary variable 'vertices_latitude'"
+            ): (
+                "Locally ignored: recurring CF checker warning for "
+                "latitude/vertices_latitude on native eORCA1 tripolar grid outputs."
+            ),
+            (
+                "the coordinate variable 'longitude' lie outside the bounding box of the "
+                "associated boundary variable 'vertices_longitude'"
+            ): (
+                "Locally ignored: recurring CF checker warning for "
+                "longitude/vertices_longitude on native eORCA1 tripolar grid outputs."
+            ),
         }
         return msg_dictionary
