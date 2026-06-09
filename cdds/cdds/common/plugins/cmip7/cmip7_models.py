@@ -11,6 +11,8 @@ from typing import List
 from cdds.common.plugins.common import LoadResults
 from cdds.common.plugins.base.base_models import BaseModelParameters, ModelId, BaseModelStore
 from cdds.common.plugins.cmip7.cmip7_grid_mapping import CMIP7GridMapping
+from cdds.common.plugins.cmip7.cmip7_grid import Cmip7GridLabel, Cmip7GridLabelHH
+from cdds.common.plugins.grid import GridLabel
 
 
 class Cmip7ModelId(ModelId):
@@ -71,6 +73,16 @@ class UKESM1_3_LL_Params(BaseModelParameters):
         """
         return '10.8'
 
+    def grid_labels(self) -> Type[GridLabel]:
+        """Returns the grid labels related to CMIP7 models.
+
+        Returns
+        -------
+        Cmip7GridLabel
+            Grid labels
+        """
+        return Cmip7GridLabel
+
 
 class UKCM2_0_LL_Params(BaseModelParameters):
     """Class to store the parameters for the UKCM2.0 model."""
@@ -112,6 +124,16 @@ class UKCM2_0_LL_Params(BaseModelParameters):
         """
         return '10.8'
 
+    def grid_labels(self) -> Type[GridLabel]:
+        """Returns the grid labels related to CMIP7 models.
+
+        Returns
+        -------
+        Cmip7GridLabel
+            Grid labels
+        """
+        return Cmip7GridLabel
+
 
 class UKCM2a_0_HH_Params(BaseModelParameters):
     """Class to store the parameters for the UKCM2a high res model."""
@@ -152,6 +174,16 @@ class UKCM2a_0_HH_Params(BaseModelParameters):
             UM version of UKCM2a
         """
         return '10.8'
+
+    def grid_labels(self) -> Type[GridLabel]:
+        """Returns the grid labels related to CMIP7 models.
+
+        Returns
+        -------
+        Cmip7GridLabel
+            Grid labels
+        """
+        return Cmip7GridLabelHH
 
 
 class Cmip7ModelsStore(BaseModelStore):

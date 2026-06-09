@@ -56,3 +56,44 @@ class Cmip7GridLabel(GridLabel):
     UVGRID = 'uvgrid', 'g100', True
     UVGRID_ZONAL = 'uvgrid-zonal', 'g100z', True
     SITES = 'sites', 'g100', False
+
+
+class Cmip7GridLabelHH(GridLabel):
+    """Represents grid labels. Each grid label consists of:
+    * the grid name, for example: 'native'
+    * the label, for example: 'gn'
+    * a flag to specify if label requires extra information
+    """
+
+    def __init__(self, grid_name: str, label: str, extra_info: bool) -> None:
+        self.grid_name = grid_name
+        self.label = label
+        self.extra_info = extra_info
+
+    @classmethod
+    def from_name(cls, name: str) -> 'GridLabel':
+        """Returns the corresponding GridLabel enum for the grid with the given name
+
+        Parameters
+        ----------
+        name : str
+            Name of the grid
+
+        Returns
+        -------
+        GridLabel
+            Corresponding GridLabel enum
+        """
+        for grid_label in Cmip7GridLabelHH:
+            if grid_label.grid_name == name.lower():
+                return grid_label
+        raise KeyError('Not supported grid labels for {}'.format(name))
+
+    LATLON_NATIVE = 'latlon-native', 'g137', False
+    LATLON_UVGRID = 'latlon-uvgrid', 'g138', False
+    LATLON_UGRID = 'latlon-ugrid', 'g139', False
+    LATLON_VGRID = 'latlon-vgrid', 'g140', False
+
+    TRIPOLAR_NATIVE = 'tripolar-native', 'g154', False
+    TRIPOLAR_UGRID = 'tripolar-ugrid', 'g155', False
+    TRIPOLAR_VGRID = 'tripolar-vgrid', 'g153', False
