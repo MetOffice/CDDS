@@ -38,7 +38,8 @@ class VariableMetadata(object):
     def __init__(self, variable_name, stream_id, substream, mip_table_name, mip_metadata, site_information,
                  hybrid_height_information, replacement_coordinates, model_to_mip_mapping, timestep, run_bounds,
                  calendar, base_date, deflate_level, shuffle, ancil_variables, force_coordinate_rotation=False,
-                 reference_time=None, masking=None, removal=None):
+                 reference_time=None, masking=None, removal=None,
+                 mip_era=None, mip_table_dir=None, mip_table_id=None, frequency=None, region=''):
         """
         Parameters
         ----------
@@ -104,6 +105,11 @@ class VariableMetadata(object):
         if ancil_variables:
             self.ancil_variables.extend(ancil_variables)
         self.force_coordinate_rotation = force_coordinate_rotation
+        self.mip_era = mip_era
+        self.mip_table_dir = mip_table_dir
+        self.mip_table_id = mip_table_id
+        self.frequency = frequency
+        self.region = region
         self._validate_timestep()
 
     def _validate_timestep(self):
@@ -337,7 +343,7 @@ class Variable(object):
 
         return self._ordered_coords
 
-    def process(self, saver=None, cell_measures_config=None):
+    def process(self, saver=None):
         """Process the data.
 
         The units of the data of the |MIP requested variable| are the
@@ -367,24 +373,23 @@ class Variable(object):
             self._update_time_units()
         if hasattr(self.model_to_mip_mapping, 'valid_min'):
             self._apply_valid_min_correction()
-        if saver is not None and cell_measures_config is not None:
-            self.apply_cell_measures(saver, cell_measures_config)
+        if saver is not None:
+            self.apply_cell_measures(saver)
 
-    def apply_cell_measures(self, saver, cell_measures_config):
-        """Apply cell measures to the CMOR variable if not already applied.
-        Parameters
-        ----------
-        saver:
-            The CMOR outputter for this variable.
-        cell_measures_config: tuple
-            Arguments forwarded to cmor_wrapper.apply_cell_measures,
-            in the form (mip_era, mip_table_dir, realm, variable, frequency, region).
-        """
+    def apply_cell_measures(self, saver):
+        """Apply cell measures to the CMOR variable if not already applied."""
         if saver.varid is None:
             from mip_convert.save import create_cmor_variable  # deferred to avoid circular import
             cmor_variable = create_cmor_variable(self)
             saver._getVarId(cmor_variable)
-            saver.cmor.apply_cell_measures(*cell_measures_config, saver.varid)
+            saver.cmor.apply_cell_measures(
+                self._variable_metadata.mip_era,
+                self._variable_metadata.mip_table_dir,
+                self._variable_metadata.mip_table_id,
+                self.variable_name,
+                self._variable_metadata.frequency,
+                self._variable_metadata.region,
+                saver.varid)
 
     def _remove_alevhalf_bounds(self):
         """

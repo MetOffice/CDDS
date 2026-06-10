@@ -111,7 +111,12 @@ def produce_mip_requested_variable(
         user_config.atmos_timestep, user_config.run_bounds, user_config.calendar, user_config.base_date,
         user_config.deflate_level, user_config.shuffle, user_config.ancil_variables,
         user_config.force_coordinate_rotation, user_config.reference_time, user_config.masking,
-        user_config.halo_removals
+        user_config.halo_removals,
+        mip_era=user_config.mip_era,
+        mip_table_dir=user_config.inpath,
+        mip_table_id=mip_table.id,
+        frequency=frequency,
+        region=user_config.global_attributes.get('region', '')
     )
 
     # Load the data from the 'model output files' and store each 'input variable' in the 'Variable' object
@@ -128,17 +133,8 @@ def produce_mip_requested_variable(
     # Process the data by performing the appropriate 'model to MIP mapping', then save the 'MIP output variable'
     # to an 'output netCDF file'.
     period = user_config.slicing.get(stream_id, 'year')
-
-    cell_measures_config = (
-        user_config.mip_era,
-        user_config.inpath,
-        mip_table.id,
-        variable_name,
-        frequency,
-        user_config.global_attributes.get('region', ''))
-
     for time_slice in variable.slices_over(period):
-        time_slice.process(saver, cell_measures_config)
+        time_slice.process(saver)
         logger.debug('MIP output variable contains: {}'.format(time_slice.info))
         save(time_slice, saver)
 
