@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2015-2025, Met Office.
+# (C) British Crown Copyright 2015-2026, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable=no-member, eval-used, wildcard-import
 # pylint: disable=unused-wildcard-import
@@ -231,7 +231,7 @@ class Variable(object):
                 # Slice the 'input variable(s)', since they have not yet been processed.
                 message = '-'.join([str(items) for items in date_time])
                 self.logger.debug('Creating data for "{}"'.format(message))
-                sliced_input_variables = self._slice_input_variables(date_time)
+                sliced_input_variables = self._slice_input_variables(date_time, date_times)
                 yield Variable(sliced_input_variables, self._variable_metadata)
             else:
                 # Slice the 'MIP output variable'.
@@ -862,10 +862,10 @@ class Variable(object):
             raise ValueError(message)
         return data_dimension
 
-    def _slice_input_variables(self, date_time):
+    def _slice_input_variables(self, date_time, date_times):
         input_variables = {}
-        if len(date_time) > 1 and date_time[1] != 12:
-            # don't attach New Year midnight to other months
+        if (len(date_time) > 1 and date_time[1] != 12) and date_time != date_times[-1]:
+            # don't attach New Year midnight to months that are not december or the final chunk in the slice,
             new_year_midnight = False
         else:
             new_year_midnight = True
@@ -1246,10 +1246,16 @@ class VariableMIPMetadata(object):
 
 def _setup_time_constraint(date_time, with_new_year_midnight=True):
     def time_constraint(cell):
+        """Runs only if with_new_year_midnight evaluates to True. Checks the current cell point and confirms if it
+        signifies a new year (e.g. 1980-01-01) or a new month (e.g. 1980-04-01). If so, it returns that value and
+        ensures that the data point is kept, hence maintaining time contiguity between slices."""
+        new_month = PartialDateTime(date_time[0], date_time[1] + 1, 1, 0, 0, 0, 0) if len(date_time) > 1 else ""
         return (PartialDateTime(*date_time) == cell.point or
-                PartialDateTime(date_time[0] + 1, 1, 1, 0, 0, 0, 0) == cell.point)
+                PartialDateTime(date_time[0] + 1, 1, 1, 0, 0, 0, 0) == cell.point or
+                new_month == cell.point)
 
     def time_constraint2(cell):
+        # Returns the original input cell point if with_new_year_midnight evaluates to false.
         return PartialDateTime(*date_time) == cell.point
 
     return time_constraint if with_new_year_midnight else time_constraint2

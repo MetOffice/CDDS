@@ -367,12 +367,18 @@ mkdir -p {{ BASE_OUTPUT }}
     {% if RUN_QC %}
     [[run_qc_{{ STREAM }}]]
         inherit = {{ PLATFORM }}, COMPLETION_FAMILY_{{ STREAM }}
+        execution time limit = P1D
         [[[environment]]]
             ROSE_TASK_APP = run_qc
             STREAM = {{ STREAM }}
         [[[directives]]]
             --mem = {{ MEMORY_QC }}
             --ntasks = 1
+        {% if PLATFORM == 'AZURE' %}
+            --partition = cpu-long
+        {% elif PLATFORM == 'JASMIN' %}
+            --qos = long
+        {% endif %}
     {% endif %}
 
     [[run_repack_{{ STREAM }}]]
