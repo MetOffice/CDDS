@@ -395,6 +395,9 @@ def land_class_mean(variable_cube, tile_cube, land_class=None):
     """
     pseudo_constraint = _pseudo_constraint(land_class)
     result = variable_cube.extract(pseudo_constraint)
+    if not result:
+        raise RuntimeError(f"Unable to apply pseudo constraint `{pseudo_constraint}` to variable cube:\n{variable_cube}"
+                           "\nThis may be due to a missing pseudo constraint axis or missing levels within that axis.")
     tile_cube = tile_cube.extract(pseudo_constraint)
     result = _collapse_pseudo(result, MEAN, weights=tile_cube.data)
     return result
