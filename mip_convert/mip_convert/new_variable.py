@@ -337,7 +337,7 @@ class Variable(object):
 
         return self._ordered_coords
 
-    def process(self, saver=None, cell_measures_config=None):
+    def process(self):
         """Process the data.
 
         The units of the data of the |MIP requested variable| are the
@@ -367,24 +367,6 @@ class Variable(object):
             self._update_time_units()
         if hasattr(self.model_to_mip_mapping, 'valid_min'):
             self._apply_valid_min_correction()
-        if saver is not None and cell_measures_config is not None:
-            self.apply_cell_measures(saver, cell_measures_config)
-
-    def apply_cell_measures(self, saver, cell_measures_config):
-        """Apply cell measures to the CMOR variable if not already applied.
-        Parameters
-        ----------
-        saver:
-            The CMOR outputter for this variable.
-        cell_measures_config: tuple
-            Arguments forwarded to cmor_wrapper.apply_cell_measures,
-            in the form (mip_era, mip_table_dir, realm, variable, frequency, region).
-        """
-        if saver.varid is None:
-            from mip_convert.save import create_cmor_variable  # deferred to avoid circular import
-            cmor_variable = create_cmor_variable(self)
-            saver._getVarId(cmor_variable)
-            saver.cmor.apply_cell_measures(*cell_measures_config, saver.varid)
 
     def _remove_alevhalf_bounds(self):
         """

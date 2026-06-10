@@ -137,8 +137,10 @@ def produce_mip_requested_variable(
         frequency,
         user_config.global_attributes.get('region', ''))
 
+    saver.cmor.apply_cell_measures(*cell_measures_config, 0)
+
     for time_slice in variable.slices_over(period):
-        time_slice.process(saver, cell_measures_config)
+        time_slice.process()
         logger.debug('MIP output variable contains: {}'.format(time_slice.info))
         save(time_slice, saver)
 
