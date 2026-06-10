@@ -119,16 +119,10 @@ class CmorWrapper(ObjectWithLogger):
         cmor.cmor.set_cur_dataset_attribute('frequency', frequency)
 
     def apply_cell_measures(self, mip_era, mip_table_dir, realm, variable, frequency, region, variable_id):
+        # self._debug_on_args('apply_cell_measures', [mip_table_dir])
         """
-        Set the cell_measures attribute on a CMOR variable using a lookup in
-        ``{mip_era}_cell_measures.json`` from the MIP tables directory. Returns
-        silently if the file does not exist.
-
-        The lookup key has the form ``{realm}.{root_label}.{branding}.{frequency}.{region}``
-        (variable name split on ``_``), so entries in the JSON must follow the
-        convention used for CMIP7.
+        Add cell measures read from json file in with mip tables
         """
-        self._debug_on_args('apply_cell_measures', [mip_era, mip_table_dir, realm, variable, frequency, region, variable_id], {})
 
         cell_measures_file = os.path.join(mip_table_dir, f'{mip_era}_cell_measures.json')
 

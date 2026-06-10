@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2015-2026, Met Office.
+# (C) British Crown Copyright 2015-2025, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable=no-member, eval-used, wildcard-import
 # pylint: disable=unused-wildcard-import
@@ -38,8 +38,7 @@ class VariableMetadata(object):
     def __init__(self, variable_name, stream_id, substream, mip_table_name, mip_metadata, site_information,
                  hybrid_height_information, replacement_coordinates, model_to_mip_mapping, timestep, run_bounds,
                  calendar, base_date, deflate_level, shuffle, ancil_variables, force_coordinate_rotation=False,
-                 reference_time=None, masking=None, removal=None,
-                 mip_era=None, mip_table_dir=None, mip_table_id=None, frequency=None, region=''):
+                 reference_time=None, masking=None, removal=None):
         """
         Parameters
         ----------
@@ -105,11 +104,6 @@ class VariableMetadata(object):
         if ancil_variables:
             self.ancil_variables.extend(ancil_variables)
         self.force_coordinate_rotation = force_coordinate_rotation
-        self.mip_era = mip_era
-        self.mip_table_dir = mip_table_dir
-        self.mip_table_id = mip_table_id
-        self.frequency = frequency
-        self.region = region
         self._validate_timestep()
 
     def _validate_timestep(self):
@@ -237,7 +231,7 @@ class Variable(object):
                 # Slice the 'input variable(s)', since they have not yet been processed.
                 message = '-'.join([str(items) for items in date_time])
                 self.logger.debug('Creating data for "{}"'.format(message))
-                sliced_input_variables = self._slice_input_variables(date_time, date_times)
+                sliced_input_variables = self._slice_input_variables(date_time)
                 yield Variable(sliced_input_variables, self._variable_metadata)
             else:
                 # Slice the 'MIP output variable'.
@@ -343,7 +337,7 @@ class Variable(object):
 
         return self._ordered_coords
 
-    def process(self, saver=None):
+    def process(self):
         """Process the data.
 
         The units of the data of the |MIP requested variable| are the
@@ -373,23 +367,6 @@ class Variable(object):
             self._update_time_units()
         if hasattr(self.model_to_mip_mapping, 'valid_min'):
             self._apply_valid_min_correction()
-        if saver is not None:
-            self.apply_cell_measures(saver)
-
-    def apply_cell_measures(self, saver):
-        """Apply cell measures to the CMOR variable if not already applied."""
-        if saver.varid is None:
-            from mip_convert.save import create_cmor_variable  # deferred to avoid circular import
-            cmor_variable = create_cmor_variable(self)
-            saver._getVarId(cmor_variable)
-            saver.cmor.apply_cell_measures(
-                self._variable_metadata.mip_era,
-                self._variable_metadata.mip_table_dir,
-                self._variable_metadata.mip_table_id,
-                self.variable_name,
-                self._variable_metadata.frequency,
-                self._variable_metadata.region,
-                saver.varid)
 
     def _remove_alevhalf_bounds(self):
         """
@@ -867,10 +844,10 @@ class Variable(object):
             raise ValueError(message)
         return data_dimension
 
-    def _slice_input_variables(self, date_time, date_times):
+    def _slice_input_variables(self, date_time):
         input_variables = {}
-        if (len(date_time) > 1 and date_time[1] != 12) and date_time != date_times[-1]:
-            # don't attach New Year midnight to months that are not december or the final chunk in the slice,
+        if len(date_time) > 1 and date_time[1] != 12:
+            # don't attach New Year midnight to other months
             new_year_midnight = False
         else:
             new_year_midnight = True
@@ -1251,16 +1228,10 @@ class VariableMIPMetadata(object):
 
 def _setup_time_constraint(date_time, with_new_year_midnight=True):
     def time_constraint(cell):
-        """Runs only if with_new_year_midnight evaluates to True. Checks the current cell point and confirms if it
-        signifies a new year (e.g. 1980-01-01) or a new month (e.g. 1980-04-01). If so, it returns that value and
-        ensures that the data point is kept, hence maintaining time contiguity between slices."""
-        new_month = PartialDateTime(date_time[0], date_time[1] + 1, 1, 0, 0, 0, 0) if len(date_time) > 1 else ""
         return (PartialDateTime(*date_time) == cell.point or
-                PartialDateTime(date_time[0] + 1, 1, 1, 0, 0, 0, 0) == cell.point or
-                new_month == cell.point)
+                PartialDateTime(date_time[0] + 1, 1, 1, 0, 0, 0, 0) == cell.point)
 
     def time_constraint2(cell):
-        # Returns the original input cell point if with_new_year_midnight evaluates to false.
         return PartialDateTime(*date_time) == cell.point
 
     return time_constraint if with_new_year_midnight else time_constraint2
