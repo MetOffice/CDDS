@@ -19,7 +19,7 @@ from mip_convert.variable import (CoordinateDomain, PolePoint, TripolarGrid,
                                   make_masked)
 
 
-def save(mip_output_variable, saver):
+def save(mip_output_variable, saver, cell_measures_config=None):
     """Save the |MIP output variable| to an |output netCDF file|
     using |CMOR|.
 
@@ -41,10 +41,17 @@ def save(mip_output_variable, saver):
         The |MIP output variable|.
     saver: callable
         A function with the signature ``function(object)``
+    cell_measures_config: tuple, optional
+        Arguments for :meth:`cmor_wrapper.apply_cell_measures` (excluding
+        ``variable_id``).  When provided, cell measures are applied once,
+        after the CMOR variable is registered but before data is written.
     """
     logger = logging.getLogger(__name__)
     logger.debug('Saving MIP output variable to an output netCDF file')
     cmor_variable = create_cmor_variable(mip_output_variable)
+    if cell_measures_config is not None and saver.varid is None:
+        saver._getVarId(cmor_variable)
+        saver.cmor.apply_cell_measures(*cell_measures_config, saver.varid)
     saver(cmor_variable)
 
 

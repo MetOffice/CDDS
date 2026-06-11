@@ -119,10 +119,10 @@ class CmorWrapper(ObjectWithLogger):
         cmor.cmor.set_cur_dataset_attribute('frequency', frequency)
 
     def apply_cell_measures(self, mip_era, mip_table_dir, realm, variable, frequency, region, variable_id):
-        # self._debug_on_args('apply_cell_measures', [mip_table_dir])
         """
         Add cell measures read from json file in with mip tables
         """
+        self._debug_on_args('apply_cell_measures', [mip_era, mip_table_dir, realm, variable, frequency, region, variable_id], {})
 
         cell_measures_file = os.path.join(mip_table_dir, f'{mip_era}_cell_measures.json')
 
