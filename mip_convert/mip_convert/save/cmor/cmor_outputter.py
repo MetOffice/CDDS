@@ -34,6 +34,7 @@ Some implementation notes:
 """
 from copy import copy
 import os.path
+import numpy as np
 
 from mip_convert import mip_parser
 import mip_convert.common
@@ -624,6 +625,9 @@ class CmorDomain(object):
     def _make_z_axis(self, variable):  # move to maker?
         for axis_dir in self.axis_maker_factory.z_axis():
             maker = self._get_maker(axis_dir, variable)
+            if maker.entry == 'osurf':
+                maker.axis._values = np.array(["ocean_surface_layer"])
+                maker.axis.units = ""
             maker.set_horizontal(self._my_horizontal_ids(variable))
             self.axis_ids[axis_dir] = maker.cmorId()
 

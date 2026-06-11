@@ -1113,6 +1113,7 @@ def MIP_to_model_axis_name_mapping():
         'basin': 'region',
         'effectRadLi': 'height',
         'effectRadIc': 'height',
+        'Z': 'osurf'
     }
 
 
