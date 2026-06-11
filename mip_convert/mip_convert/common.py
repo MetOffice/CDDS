@@ -1112,8 +1112,7 @@ def MIP_to_model_axis_name_mapping():
         'spectband': 'pseudo_level',
         'basin': 'region',
         'effectRadLi': 'height',
-        'effectRadIc': 'height',
-        'Z': 'osurf'
+        'effectRadIc': 'height'
     }
 
 
