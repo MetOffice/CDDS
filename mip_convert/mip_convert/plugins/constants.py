@@ -60,7 +60,7 @@ def constants():
         'MOLECULAR_MASS_OF_CFC12': '121.',  # g mol-1 (CF2Cl2)
         'MOLECULAR_MASS_OF_DMS': '62.1',  # g mol-1 (dimethyl sulfide, C2H6S)
         'MOLECULAR_MASS_OF_H2': '2.0',  # g mol-1 (PRESUMED)
-        'MOLECULAR_MASS_OF_H2O': '18.015', # g mol-1
+        'MOLECULAR_MASS_OF_H2O': '18.015',  # g mol-1
         'MOLECULAR_MASS_OF_HBR': '81.',  # g mol-1
         'MOLECULAR_MASS_OF_HOBR': '97.',  # g mol-1
         'MOLECULAR_MASS_OF_HCHO': '30.',  # g mol-1
