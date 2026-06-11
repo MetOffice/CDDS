@@ -125,6 +125,7 @@ def produce_mip_requested_variable(
     if frequency:
         saver.cmor.set_frequency(frequency)
 
+    # Assemble the arguments needed to apply cell measures when saving.
     cell_measures_config = (
         user_config.mip_era,
         user_config.inpath,

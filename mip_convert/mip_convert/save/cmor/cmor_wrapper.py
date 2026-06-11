@@ -119,10 +119,38 @@ class CmorWrapper(ObjectWithLogger):
         cmor.cmor.set_cur_dataset_attribute('frequency', frequency)
 
     def apply_cell_measures(self, mip_era, mip_table_dir, realm, variable, frequency, region, variable_id):
+        """Set the ``cell_measures`` attribute on a registered CMOR variable.
+
+        Looks up ``{mip_table_dir}/{mip_era}_cell_measures.json`` and, if a
+        matching entry is found, calls ``cmor.set_variable_attribute`` to
+        attach the cell-measures string to the variable before any data are
+        written.  If the file does not exist, or no matching key is found,
+        the method returns silently.
+
+        This method must be called after ``cmor.variable()`` has registered
+        the variable (so that ``variable_id`` is valid) and before
+        ``cmor.write()`` is called.
+
+        Parameters
+        ----------
+        mip_era: str
+            The MIP era (e.g. ``"CMIP7"``).
+        mip_table_dir: str
+            Directory containing the MIP tables and the cell-measures JSON.
+        realm: str
+            The MIP table identifier (e.g. ``"Amon"``).
+        variable: str
+            The variable name in ``{root_label}_{branding}`` form.
+        frequency: str or None
+            The output frequency (e.g. ``"mon"``).
+        region: str
+            The region string (e.g. ``""`` for global).
+        variable_id: int
+            The integer handle returned by ``cmor.variable()``.
         """
-        Add cell measures read from json file in with mip tables
-        """
-        self._debug_on_args('apply_cell_measures', [mip_era, mip_table_dir, realm, variable, frequency, region, variable_id], {})
+        self._debug_on_args(
+            "apply_cell_measures", [mip_era, mip_table_dir, realm, variable, frequency, region, variable_id], {}
+        )
 
         cell_measures_file = os.path.join(mip_table_dir, f'{mip_era}_cell_measures.json')
 

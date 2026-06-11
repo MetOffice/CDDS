@@ -6,6 +6,7 @@
 import copy
 import logging
 from operator import attrgetter
+from typing import Optional, Tuple
 
 import iris
 import numpy as np
@@ -14,12 +15,17 @@ from mip_convert.common import (
     DEFAULT_FILL_VALUE, has_auxiliary_latitude_longitude, check_values_equal)
 from mip_convert.load.pp.pp_axis import (BoundedAxis, AxisHybridHeight,
                                          TimeSeriesSiteAxis, ReferenceTimeAxis)
+from mip_convert.save.cmor.cmor_outputter import AbstractCmorOutputter
 from mip_convert.variable import Variable as CMORVariable
 from mip_convert.variable import (CoordinateDomain, PolePoint, TripolarGrid,
                                   make_masked)
 
 
-def save(mip_output_variable, saver, cell_measures_config=None):
+def save(
+    mip_output_variable,
+    saver: AbstractCmorOutputter,
+    cell_measures_config: Optional[Tuple[str, str, str, str, Optional[str], str]] = None,
+):
     """Save the |MIP output variable| to an |output netCDF file|
     using |CMOR|.
 
