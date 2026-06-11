@@ -47,7 +47,7 @@ class TestCmip7_rlucs4co2_tavg_alh_hxy_u(AbstractFunctionalTests):
                 },
                 streams={"ap5": {"CMIP7_atmos@mon": "rlucs4co2_tavg-alh-hxy-u"}},
                 other={
-                    "reference_version": "v3",
+                    "reference_version": "v4",
                     "filenames": [
                         "rlucs4co2_tavg-alh-hxy-u_mon_glb_g100_UKESM1-3-LL_esm-piControl_r1i1p1f1_190001-190002.nc"
                     ],
