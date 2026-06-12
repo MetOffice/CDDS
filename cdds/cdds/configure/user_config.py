@@ -273,13 +273,8 @@ def get_global_attributes(request):
         Global attributes as dictionary
     """
     global_attributes = OrderedDict()
-
-    mip_era = request.metadata.mip_era
-    if request.common.mip_table_dir:
-        cv_path = os.path.join(request.common.mip_table_dir, '{}_CV.json'.format(mip_era))
-    else:
-        plugin = PluginStore.instance().get_plugin()
-        cv_path = os.path.join(plugin.mip_table_dir(), '{}_CV.json'.format(mip_era))
+    project_id = request.netcdf_global_attributes.attributes["project_id"]
+    cv_path = os.path.join(request.common.mip_table_dir, '{}_CV.json'.format(project_id))
     cv_config = CVConfig(cv_path)
 
     if "further_info_url" in cv_config.required_global_attributes:
