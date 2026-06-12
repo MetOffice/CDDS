@@ -55,3 +55,26 @@ def add_op20bar_axis(cube):
     cube.add_aux_coord(op20bar_coord)
 
     return cube
+
+
+def add_depth1000m_axis(cube):
+    logger = logging.getLogger(__name__)
+    try:
+        cube.remove_aux_factory(cube.aux_factory())
+    except CoordinateNotFoundError:
+        logger.debug('Cannot remove non-existent aux factory from cube "{}"'.format(repr(cube)))
+    for coord in cube.coords():
+        if coord.name() == 'depth':
+            cube.remove_coord(coord)
+
+    depth1000m_coord = iris.coords.AuxCoord(
+        np.array([1000.]),
+        standard_name='depth',
+        long_name='depth',
+        var_name='depth1000m',
+        units='m',
+        attributes={'positive': 'down'}
+    )
+    cube.add_aux_coord(depth1000m_coord)
+
+    return cube
