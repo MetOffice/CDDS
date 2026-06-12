@@ -21,7 +21,7 @@
     ]
   },
   "cycle_length": {
-    "ap4": "P5Y",
+    "ap4": "P2Y",
     "ap5": "P5Y",
     "apm": "P5Y",
     "apu": "P5Y",
@@ -36,7 +36,7 @@
     "onm": "P2Y"
   },
   "memory": {
-    "ap4": "24G",
+    "ap4": "16G",
     "ap5": "8G",
     "apm": "8G",
     "apu": "24G",
