@@ -76,6 +76,7 @@ def constants():
         'MOLECULAR_MASS_OF_ME2CO': '58.',  # g mol-1 (ACETONE)
         'MOLECULAR_MASS_OF_MECHO': '44.',  # g mol-1
         'MOLECULAR_MASS_OF_MEOH': '32.',  # g mol-1
+        'MOLECULAR_MASS_OF_METHANOL': '32.04',  # g mol-1
         'MOLECULAR_MASS_OF_MONOTERPENE': '136.24',  # g mol-1 (C10H16)
         'MOLECULAR_MASS_OF_MEONO2': '77.',  # g mol-1
         'MOLECULAR_MASS_OF_NITROGEN': '14.',  # g mol-1
