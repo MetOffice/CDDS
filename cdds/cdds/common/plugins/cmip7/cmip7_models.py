@@ -6,7 +6,7 @@ handle model parameters information for CMIP7 models.
 import logging
 import os
 
-from typing import List
+from typing import List, Type
 
 from cdds.common.plugins.common import LoadResults
 from cdds.common.plugins.base.base_models import BaseModelParameters, ModelId, BaseModelStore
