@@ -39,9 +39,6 @@ class TestCmip7_mmraerh2o_tavg_h2m_hxy_u(AbstractFunctionalTests):
                     'suite_id': 'u-dv623',
                     'mip_convert_plugin': 'UKCM2'
                 },
-                global_attributes={
-                    'further_info_url': 'https://furtherinfo.es-doc.org/CMIP7.MOHC.UKCM2-0-LL.1pctCO2.none.r2i1p1f1'
-                },
                 streams={
                     'ap6': {'CMIP7_aerosol@day': 'mmraerh2o_tavg-h2m-hxy-u'}
                 },
