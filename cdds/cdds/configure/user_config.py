@@ -280,10 +280,13 @@ def get_global_attributes(request):
         plugin = PluginStore.instance().get_plugin()
         cv_path = os.path.join(plugin.mip_table_dir(), '{}_CV.json'.format(mip_era))
     # In some cases (e.g. CORDEX) CV file names are prepended with the project ID. If no CV file exists with the
-    # standard filename format, attempt to use the project_id format instead.
+    # standard CV filename format, attempt to use the project_id format instead.
     if not os.path.exists(cv_path):
         project_id = request.netcdf_global_attributes.attributes["project_id"]
         cv_path = os.path.join(request.common.mip_table_dir, '{}_CV.json'.format(project_id))
+        if not os.path.exists(cv_path):
+            raise FileNotFoundError(f"CV file '{cv_path} does not exist. If using CORDEX, please confirm that the "
+                                    "project ID is declared correctly.")
     cv_config = CVConfig(cv_path)
 
     if "further_info_url" in cv_config.required_global_attributes:
