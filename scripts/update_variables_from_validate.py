@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2025, Met Office.
+# (C) British Crown Copyright 2026, Met Office.
 # Please see LICENSE.md for license details.
 """
 This script removes variables from the variable list that have been identifies by extract validate as containing
