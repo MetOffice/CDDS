@@ -285,7 +285,7 @@ def get_global_attributes(request):
         project_id = request.netcdf_global_attributes.attributes["project_id"]
         cv_path = os.path.join(request.common.mip_table_dir, '{}_CV.json'.format(project_id))
         if not os.path.exists(cv_path):
-            raise FileNotFoundError(f"CV file '{cv_path} does not exist. If using CORDEX, please confirm that the "
+            raise FileNotFoundError(f"CV file '{cv_path}' does not exist. If using CORDEX, please confirm that the "
                                     "project ID is declared correctly.")
     cv_config = CVConfig(cv_path)
 
