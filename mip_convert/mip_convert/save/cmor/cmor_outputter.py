@@ -625,6 +625,8 @@ class CmorDomain(object):
     def _make_z_axis(self, variable):  # move to maker?
         for axis_dir in self.axis_maker_factory.z_axis():
             maker = self._get_maker(axis_dir, variable)
+           # Intercept "osurf" axis and update value from the dummy integer 0, to character string.
+           # Dummy value is required until this point to avoid iris z axis errors.
             if maker.entry == 'osurf':
                 maker.axis._values = np.array(["ocean_surface_layer"])
                 maker.axis.units = ""
