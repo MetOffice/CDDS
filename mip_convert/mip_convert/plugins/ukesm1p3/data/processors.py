@@ -47,7 +47,7 @@ def add_op20bar_axis(cube):
     op20bar_coord = iris.coords.AuxCoord(
         np.array([20.2]),
         standard_name='sea_water_pressure_due_to_sea_water',
-        long_name='ydrostatic Pressure 20.2 bar',
+        long_name='hydrostatic Pressure 20.2 bar',
         var_name='op20bar',
         units='bar',
         attributes={'positive': 'down'}
