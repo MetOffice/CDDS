@@ -41,7 +41,7 @@ class TestCmip7_mcd_tavg_alh_hxy_u(AbstractFunctionalTests):
                     'ap5': {'CMIP7_atmos@mon': 'mcd_tavg-alh-hxy-u'}
                 },
                 other={
-                    'reference_version': 'v3',
+                    'reference_version': 'v4',
                     'filenames': ['mcd_tavg-alh-hxy-u_mon_glb_g100_UKESM1-3-LL_1pctCO2_r1i1p1f3_200001-200002.nc'],
                     'ignore_history': True,
                 }
