@@ -1,6 +1,6 @@
 # (C) British Crown Copyright 2026, Met Office.
 # Please see LICENSE.md for license details.
-"""Module containing processor functions.  These processors can be referred to from |model to MIP mapping| expressions.
+"""Module containing processor functions. These processors can be referred to from |model to MIP mapping| expressions.
 """
 import iris
 import logging
@@ -10,8 +10,21 @@ import numpy as np
 from iris.exceptions import CoordinateNotFoundError
 
 
-def add_osurf_axis(cube):
-    """"""
+def add_osurf_axis(cube: iris.cube.Cube):
+    """Removes any existing depth axis and replaces it with the `Ocean surface coordinate` (osurf) axis. This axis has
+    a true value of type `str` np.array(["ocean_surface_layer"]). However, in order to avoid iris errors, an initial
+    dummy value of 0 is given. This is later updated to its true value in mip_convert.save.cmor.cmor_outputter.
+
+    Parameters
+    ----------
+    cube: iris.cube.Cube
+        The original cube.
+
+    Returns
+    -------
+    iris.cube.Cube
+        The update cube with depth axis replaced by an osurf axis with a dummy value of 0.
+    """
     logger = logging.getLogger(__name__)
     try:
         cube.remove_aux_factory(cube.aux_factory())
@@ -22,7 +35,7 @@ def add_osurf_axis(cube):
             cube.remove_coord(coord)
 
     osurf_coord = iris.coords.AuxCoord(
-        0,
+        0,  # Dummy value to avoid iris errors, later updated to np.array(["ocean_surface_layer"])
         standard_name='',
         long_name='Ocean surface coordinate',
         var_name='osurf',
@@ -35,6 +48,18 @@ def add_osurf_axis(cube):
 
 
 def add_op20bar_axis(cube):
+    """Removes any existing depth axis and replaces it with the `hydrostatic Pressure 20.2 bar` (op20bar) axis.
+
+    Parameters
+    ----------
+    cube: iris.cube.Cube
+        The original cube.
+
+    Returns
+    -------
+    iris.cube.Cube
+        The update cube with depth axis replaced by an op20bar axis with a single value of 20.2 bar.
+    """
     logger = logging.getLogger(__name__)
     try:
         cube.remove_aux_factory(cube.aux_factory())
@@ -58,6 +83,18 @@ def add_op20bar_axis(cube):
 
 
 def add_depth1000m_axis(cube):
+    """Removes any existing depth axis and replaces it with a new depth axis with a single value of 1000m.
+
+    Parameters
+    ----------
+    cube: iris.cube.Cube
+        The original cube.
+
+    Returns
+    -------
+    iris.cube.Cube
+        The update cube with depth axis replaced by a new depth axis with a single value of 1000m.
+    """
     logger = logging.getLogger(__name__)
     try:
         cube.remove_aux_factory(cube.aux_factory())
