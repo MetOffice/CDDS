@@ -125,13 +125,22 @@ def produce_mip_requested_variable(
     if frequency:
         saver.cmor.set_frequency(frequency)
 
+    # Assemble the arguments needed to apply cell measures when saving.
+    cell_measures_config = (
+        user_config.mip_era,
+        user_config.inpath,
+        mip_table.id,
+        variable_name,
+        frequency,
+        user_config.global_attributes.get('region', ''))
+
     # Process the data by performing the appropriate 'model to MIP mapping', then save the 'MIP output variable'
     # to an 'output netCDF file'.
     period = user_config.slicing.get(stream_id, 'year')
     for time_slice in variable.slices_over(period):
         time_slice.process()
         logger.debug('MIP output variable contains: {}'.format(time_slice.info))
-        save(time_slice, saver)
+        save(time_slice, saver, cell_measures_config=cell_measures_config)
 
     # Close the 'output netCDF file'.
     cmor_lite.close(saver.varid)
