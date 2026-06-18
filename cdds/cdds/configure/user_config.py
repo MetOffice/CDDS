@@ -9,6 +9,7 @@ from copy import deepcopy
 import logging
 import os
 
+from mip_convert.configuration.cv_config import CVConfig
 from mip_convert.configuration.python_config import PythonConfig
 
 from cdds.common.plugins.plugins import PluginStore
@@ -272,7 +273,24 @@ def get_global_attributes(request):
         Global attributes as dictionary
     """
     global_attributes = OrderedDict()
-    global_attributes['further_info_url'] = get_further_info_url(request)
+    mip_era = request.metadata.mip_era
+    if request.common.mip_table_dir:
+        cv_path = os.path.join(request.common.mip_table_dir, '{}_CV.json'.format(mip_era))
+    else:
+        plugin = PluginStore.instance().get_plugin()
+        cv_path = os.path.join(plugin.mip_table_dir(), '{}_CV.json'.format(mip_era))
+    # In some cases (e.g. CORDEX) CV file names are prepended with the project ID. If no CV file exists with the
+    # standard CV filename format, attempt to use the project_id format instead.
+    if not os.path.exists(cv_path):
+        project_id = request.netcdf_global_attributes.attributes["project_id"]
+        cv_path = os.path.join(request.common.mip_table_dir, '{}_CV.json'.format(project_id))
+        if not os.path.exists(cv_path):
+            raise FileNotFoundError(f"CV file '{cv_path}' does not exist. If using CORDEX, please confirm that the "
+                                    "project ID is declared correctly.")
+    cv_config = CVConfig(cv_path)
+
+    if "further_info_url" in cv_config.required_global_attributes:
+        global_attributes['further_info_url'] = get_further_info_url(request)
     if request.items_global_attributes:
         global_attributes.update(request.items_global_attributes)
     return global_attributes

@@ -38,6 +38,7 @@ import os.path
 from mip_convert import mip_parser
 import mip_convert.common
 from mip_convert.common import RelativePathChecker
+from mip_convert.save.cmor.cmor_wrapper import CmorWrapper
 from mip_convert.save.mip_config import MipTableFactory
 
 
@@ -219,7 +220,7 @@ class AbstractCmorOutputter(object):
     """
 
     def __init__(self, entry, cmor_wrapper):
-        self.cmor = cmor_wrapper
+        self.cmor: CmorWrapper = cmor_wrapper
         self.entry = entry
         self._name_space = MoNameSpace()
         self.varid = None

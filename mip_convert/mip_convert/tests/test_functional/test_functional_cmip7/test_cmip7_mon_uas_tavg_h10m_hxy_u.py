@@ -34,11 +34,14 @@ class TestCmip7_uas_tavg_h10m_hxy_u(AbstractFunctionalTests):
                     'suite_id': 'u-aw310',
                     'mip_convert_plugin': 'HadGEM3GC5'
                 },
+                global_attributes={
+                    "table_id": "atmos"
+                },
                 streams={
                     'ap5': {'CMIP7_atmos@mon': 'uas_tavg-h10m-hxy-u'}
                 },
                 other={
-                    'reference_version': 'v5',
+                    'reference_version': 'v8',
                     'filenames': ['uas_tavg-h10m-hxy-u_mon_glb_g100_UKESM1-3-LL_1pctCO2_r1i1p1f3_196002-196003.nc'],
                     'ignore_history': True,
                 }

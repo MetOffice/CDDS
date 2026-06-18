@@ -6,8 +6,8 @@ dependencies:
   - cf-units=3.2.0
   - cftime=1.6.5
   - cmip7-repack=0.6
-  - cmor=3.13.2
-  - compliance-checker=5.4.2
+  - cmor=3.15.1
+  - compliance-checker=6.1.0
   - dask-core=2025.12.0
   - debugpy=1.8.19
   - gsw=3.6.19
@@ -25,13 +25,12 @@ dependencies:
   - mkdocstrings=0.24.1
   - mkdocstrings-python=1.9.0
   - mo_pack=0.3.1
-  - nccmp=1.10.0.0
-  - nco=5.3.4
+  - nco=5.3.9
   - numpy=2.4.1
-  - mypy
-  - mypy_extensions
+  - mypy=2.1.0
+  - mypy_extensions=1.1.0
   - myst-parser=0.18.1
-  - netcdf4=1.7.2
+  - netcdf4=1.7.4
   - pandas=2.3.3
   - pep8=1.7.1
   - pika=1.2.0
