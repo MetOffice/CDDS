@@ -659,5 +659,7 @@ class QCRunner(object):
                 "Locally ignored: recurring CF checker warning for "
                 "longitude/vertices_longitude on native eORCA1 tripolar grid outputs."
             ),
+            ("Vertical Coordinate: \u00a74.3.1 seasurface's units must be defined for vertical coordinates, there is "
+             "no default"): "seasurface/osurf is a character string and hence has no units.",
         }
         return msg_dictionary

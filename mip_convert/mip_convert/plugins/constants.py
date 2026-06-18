@@ -60,6 +60,7 @@ def constants():
         'MOLECULAR_MASS_OF_CFC12': '121.',  # g mol-1 (CF2Cl2)
         'MOLECULAR_MASS_OF_DMS': '62.1',  # g mol-1 (dimethyl sulfide, C2H6S)
         'MOLECULAR_MASS_OF_H2': '2.0',  # g mol-1 (PRESUMED)
+        'MOLECULAR_MASS_OF_H2O': '18.015',  # g mol-1
         'MOLECULAR_MASS_OF_HBR': '81.',  # g mol-1
         'MOLECULAR_MASS_OF_HOBR': '97.',  # g mol-1
         'MOLECULAR_MASS_OF_HCHO': '30.',  # g mol-1
@@ -75,6 +76,7 @@ def constants():
         'MOLECULAR_MASS_OF_ME2CO': '58.',  # g mol-1 (ACETONE)
         'MOLECULAR_MASS_OF_MECHO': '44.',  # g mol-1
         'MOLECULAR_MASS_OF_MEOH': '32.',  # g mol-1
+        'MOLECULAR_MASS_OF_METHANOL': '32.04',  # g mol-1
         'MOLECULAR_MASS_OF_MONOTERPENE': '136.24',  # g mol-1 (C10H16)
         'MOLECULAR_MASS_OF_MEONO2': '77.',  # g mol-1
         'MOLECULAR_MASS_OF_NITROGEN': '14.',  # g mol-1
