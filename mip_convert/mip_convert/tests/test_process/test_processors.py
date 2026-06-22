@@ -18,8 +18,9 @@ import numpy as np
 from mip_convert.plugins.base.data.processors import (
     area_mean, areacella, calc_rho_mean, calc_zostoga, combine_cubes_to_basin_coord, eos_insitu, fix_clmisr_height,
     land_class_area, land_class_mean, level_sum, mask_copy, mask_zeros, mask_polar_column_zonal_means,
-    mon_mean_from_day, ocean_quasi_barotropic_streamfunc, tile_ids_for_class, volcello, vortmean,
-    annual_from_monthly_2d, annual_from_monthly_3d, calculate_thkcello_weights, check_data_is_monthly)
+    mon_mean_from_day, ocean_quasi_barotropic_streamfunc, replace_altitude_with_height2m, tile_ids_for_class,
+    remove_altitude_coords, volcello, vortmean, annual_from_monthly_2d, annual_from_monthly_3d, calculate_thkcello_weights,
+    check_data_is_monthly)
 from mip_convert.tests.common import dummy_cube
 from functools import reduce
 
@@ -43,6 +44,16 @@ def _cube_with_tbounds(bounds, unit=_DEFAULT_UNIT):
     times = _time_with_bounds(bounds, unit)
     return Cube(np.arange(len(times.points)),
                 dim_coords_and_dims=[(times, 0)])
+
+
+def _cube_with_surface_altitude():
+    """Return a minimal cube with a 2D surface_altitude aux coord."""
+    lat = DimCoord([0.], long_name='lat')
+    lon = DimCoord([0.], long_name='lon')
+    surface_altitude = AuxCoord(np.zeros((1, 1)), standard_name='surface_altitude')
+    cube = Cube(np.ones((1, 1)), dim_coords_and_dims=[(lat, 0), (lon, 1)])
+    cube.add_aux_coord(surface_altitude, (0, 1))
+    return cube
 
 
 class TestMonMeanFromDay(unittest.TestCase):
@@ -983,6 +994,34 @@ class TestAnnualFromMonthly3D(unittest.TestCase):
         expected = np.array([286.0 + 2 / 3] * 8 + [280.0] * 8 + [313.0 + 1 / 3] * 8).reshape(
             self.YEARS, self.NX, self.NY, self.NZ)
         np.testing.assert_array_almost_equal(result.data, expected, decimal=12)
+
+
+class TestReplaceAltitudeWithHeight2m(unittest.TestCase):
+
+    def setUp(self):
+        self.cube = _cube_with_surface_altitude()
+
+    def test_surface_altitude_coord_is_removed(self):
+        result = replace_altitude_with_height2m(self.cube)
+        coord_names = [c.name() for c in result.coords()]
+        self.assertNotIn('surface_altitude', coord_names)
+
+    def test_height2m_scalar_coord_is_added(self):
+        result = replace_altitude_with_height2m(self.cube)
+        height_coord = result.coord('height')
+        self.assertEqual(height_coord.points[0], np.float32(2.0))
+        self.assertEqual(str(height_coord.units), 'm')
+
+
+class TestRemoveAltitudeCoords(unittest.TestCase):
+
+    def setUp(self):
+        self.cube = _cube_with_surface_altitude()
+
+    def test_surface_altitude_coord_is_removed(self):
+        result = remove_altitude_coords(self.cube)
+        coord_names = [c.name() for c in result.coords()]
+        self.assertNotIn('surface_altitude', coord_names)
 
 
 if __name__ == '__main__':
