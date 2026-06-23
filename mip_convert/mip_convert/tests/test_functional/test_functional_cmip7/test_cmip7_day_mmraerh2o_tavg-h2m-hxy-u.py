@@ -43,7 +43,7 @@ class TestCmip7_mmraerh2o_tavg_h2m_hxy_u(AbstractFunctionalTests):
                     'ap6': {'CMIP7_aerosol@day': 'mmraerh2o_tavg-h2m-hxy-u'}
                 },
                 other={
-                    'reference_version': 'v1',
+                    'reference_version': 'v2',
                         'filenames': [
                             'mmraerh2o_tavg-h2m-hxy-u_day_glb_g100_UKCM2-0-LL_1pctCO2_r2i1p1f1_19000101-19000131.nc'
                         ],
