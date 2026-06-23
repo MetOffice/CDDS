@@ -19,8 +19,8 @@ from mip_convert.plugins.base.data.processors import (
     area_mean, areacella, calc_rho_mean, calc_zostoga, combine_cubes_to_basin_coord, eos_insitu, fix_clmisr_height,
     land_class_area, land_class_mean, level_sum, mask_copy, mask_zeros, mask_polar_column_zonal_means,
     mon_mean_from_day, ocean_quasi_barotropic_streamfunc, replace_altitude_with_height2m, tile_ids_for_class,
-    remove_altitude_coords, volcello, vortmean, annual_from_monthly_2d, annual_from_monthly_3d, calculate_thkcello_weights,
-    check_data_is_monthly)
+    remove_altitude_coords, volcello, vortmean, annual_from_monthly_2d, annual_from_monthly_3d,
+    calculate_thkcello_weights, check_data_is_monthly)
 from mip_convert.tests.common import dummy_cube
 from functools import reduce
 
