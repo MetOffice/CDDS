@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 
 
-def configure_logger(log_name: Path, log_level: str, append_log: bool, show_stacktrace=True) -> None:
+def configure_logger(log_name: str, log_level: str, append_log: bool, show_stacktrace=True) -> None:
     """Create the configured logger.
 
     Parameters
@@ -87,7 +87,7 @@ def get_logger(request: dict) -> logging.Logger:
         raise FileNotFoundError(f"Prepare directory: '{prepare_dir}' does not exist.")
     log_name = prepare_dir / f"update_variable_list_from_validate"
 
-    configure_logger(log_name, "DEBUG", append_log=True)
+    configure_logger(str(log_name), "DEBUG", append_log=True)
 
     return logging.getLogger(__name__)
 
@@ -155,7 +155,7 @@ def generate_full_procdir(request: dict) -> Path:
     return log_dir
 
 
-def get_newest_validate_log(logs_for_stream: list) -> str:
+def get_newest_validate_log(logs_for_stream: list):
     """Identifies the most recent log from the list of given log files for a single stream.
 
     Parameters
@@ -165,8 +165,8 @@ def get_newest_validate_log(logs_for_stream: list) -> str:
 
     Returns
     -------
-    str
-        The name of the most recent extract validate log file.
+    :
+        The path of the most recent extract validate log file or an empty string if no log file is found.
     """
     logger = logging.getLogger(__name__)
     # If there are more than one extract validate log files find the most recent
@@ -191,7 +191,7 @@ def get_newest_validate_log(logs_for_stream: list) -> str:
     return log
 
 
-def get_validate_log(log_dir: Path, stream: str) -> Path:
+def get_validate_log(log_dir: Path, stream: str):
     """Identify the extract validate log to read for a single stream.
 
     Parameters
@@ -203,8 +203,8 @@ def get_validate_log(log_dir: Path, stream: str) -> Path:
 
     Returns
     -------
-    Path
-        The path to the latest validate log file for a single stream.
+    :
+        The path to the latest validate log file for a single stream or an empty string if none exists.
     """
     logs_for_stream = []
     for (root, dirs, files) in os.walk(log_dir):
@@ -295,7 +295,9 @@ def read_variable_list(variable_list_file: Path) -> list:
         with open(variable_list_file, "r") as f:
             variable_list = [line.strip() for line in f]
     except FileNotFoundError:
-        with open(variable_list_file.replace("~", str(Path.home())), "r") as f:
+        home_dir = Path.home()
+        variable_list_file = Path(str(variable_list_file).replace("~", str(home_dir)))
+        with open(variable_list_file, "r") as f:
             variable_list = [line.strip() for line in f]
 
     if not variable_list:
