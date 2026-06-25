@@ -11,6 +11,7 @@ from cdds.common.plugins.streams import StreamInfo
 from cdds.common.plugins.base.base_plugin import BasePlugin, MipEra
 from cdds.common.plugins.base.base_models import BaseModelParameters
 from cdds.common.plugins.cmip7.cmip7_attributes import Cmip7GlobalAttributes
+from cdds.common.plugins.cmip7.cmip7_grid import Cmip7GridLabelUKCM_LL
 from cdds.common.plugins.cmip7.cmip7_models import Cmip7ModelsStore
 from cdds.common.plugins.cmip7.cmip7_streams import Cmip7StreamStore
 if TYPE_CHECKING:
@@ -54,6 +55,16 @@ class Cmip7Plugin(BasePlugin):
         """
         models_store = Cmip7ModelsStore.instance()
         models_store.overload_params(source_dir)
+
+    def grid_labels(self) -> Type[GridLabel]:
+        """Returns the grid labels related to CMIP7 models.
+
+        Returns
+        -------
+        Cmip7GridLabelUKCM_LL
+            Grid labels
+        """
+        return Cmip7GridLabelUKCM_LL
 
     def stream_info(self) -> StreamInfo:
         """Returns the information of streams related to CMIP7.
