@@ -6,7 +6,7 @@ handle grid information for CMIP7 models.
 from cdds.common.plugins.grid import GridLabel
 
 
-class Cmip7GridLabel(GridLabel):
+class Cmip7GridLabelUKCM_LL(GridLabel):
     """Represents grid labels. Each grid label consists of:
     * the grid name, for example: 'native'
     * the label, for example: 'gn'
@@ -32,7 +32,7 @@ class Cmip7GridLabel(GridLabel):
         GridLabel
             Corresponding GridLabel enum
         """
-        for grid_label in Cmip7GridLabel:
+        for grid_label in Cmip7GridLabelUKCM_LL:
             if grid_label.grid_name == name.lower():
                 return grid_label
         raise KeyError('Not supported grid labels for {}'.format(name))
@@ -47,7 +47,7 @@ class Cmip7GridLabel(GridLabel):
     TRIPOLAR_VGRID = 'tripolar-vgrid', 'g124', False
 
 
-class Cmip7GridLabelHH(GridLabel):
+class Cmip7GridLabelUKCM_HH(GridLabel):
     """Represents grid labels. Each grid label consists of:
     * the grid name, for example: 'native'
     * the label, for example: 'gn'
@@ -73,7 +73,7 @@ class Cmip7GridLabelHH(GridLabel):
         GridLabel
             Corresponding GridLabel enum
         """
-        for grid_label in Cmip7GridLabelHH:
+        for grid_label in Cmip7GridLabelUKCM_HH:
             if grid_label.grid_name == name.lower():
                 return grid_label
         raise KeyError('Not supported grid labels for {}'.format(name))

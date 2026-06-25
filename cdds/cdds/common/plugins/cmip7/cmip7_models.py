@@ -11,7 +11,7 @@ from typing import List, Type
 from cdds.common.plugins.common import LoadResults
 from cdds.common.plugins.base.base_models import BaseModelParameters, ModelId, BaseModelStore
 from cdds.common.plugins.cmip7.cmip7_grid_mapping import CMIP7GridMapping
-from cdds.common.plugins.cmip7.cmip7_grid import Cmip7GridLabel, Cmip7GridLabelHH
+from cdds.common.plugins.cmip7.cmip7_grid import Cmip7GridLabelUKCM_LL, Cmip7GridLabelUKCM_HH
 from cdds.common.plugins.grid import GridLabel
 
 
@@ -81,7 +81,7 @@ class UKESM1_3_LL_Params(BaseModelParameters):
         Cmip7GridLabel
             Grid labels
         """
-        return Cmip7GridLabel
+        return Cmip7GridLabelUKCM_LL  # TODO: Update before CMIP7 production to return the correct grid label class
 
 
 class UKCM2_0_LL_Params(BaseModelParameters):
@@ -132,7 +132,7 @@ class UKCM2_0_LL_Params(BaseModelParameters):
         Cmip7GridLabel
             Grid labels
         """
-        return Cmip7GridLabel
+        return Cmip7GridLabelUKCM_LL
 
 
 class UKCM2a_0_HH_Params(BaseModelParameters):
@@ -183,7 +183,7 @@ class UKCM2a_0_HH_Params(BaseModelParameters):
         Cmip7GridLabel
             Grid labels
         """
-        return Cmip7GridLabelHH
+        return Cmip7GridLabelUKCM_HH
 
 
 class Cmip7ModelsStore(BaseModelStore):
