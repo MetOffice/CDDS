@@ -6,6 +6,7 @@ import logging
 import re
 
 from cdds.deprecated.transfer import config, state
+from cdds.deprecated.transfer.constants import OPTIONAL_FACETS
 
 
 class DrsException(Exception):
@@ -315,10 +316,14 @@ class DataRefSyntax(object):
         if facet_builder_to_match.state != self.state:
             return False
         facets_to_match_dict = facet_builder_to_match.facets
+
         for attr in facets_to_match_dict:
+            if attr in OPTIONAL_FACETS and attr not in self._facets:
+                continue
             if self._facets[attr] != facets_to_match_dict[attr]:
                 matches = False
                 break
+
         return matches
 
     def is_drs_name(self, name):
