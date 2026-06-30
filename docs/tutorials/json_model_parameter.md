@@ -313,7 +313,7 @@ Following information should be provided:
                 "longitude": 360,
                 "latitude": 330,
                 "levels": 75,
-                "replacement_coordinate_files": "cice_eORCA1_coords.nc",
+                "replacement_coordinate_files": ["cice_eORCA1_coords.nc"],
                 "ancil_filenames": [
                     "ocean_constants.nc",
                     "ocean_byte_masks.nc",

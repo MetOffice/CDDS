@@ -17,7 +17,7 @@ class TestOceanGridInfo(TestCase):
             "longitude": 360,
             "latitude": 330,
             "levels": 75,
-            "replacement_coordinate_files": "cice_eORCA1_coords.nc",
+            "replacement_coordinate_files": ["cice_eORCA1_coords.nc"],
             "masked": {
                 "grid-V": {
                     "slice_latitude": [-1, 1, 1],
