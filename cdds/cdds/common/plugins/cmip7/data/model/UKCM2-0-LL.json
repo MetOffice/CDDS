@@ -218,6 +218,7 @@
       "replacement_coordinates_file": "",
       "ancil_filenames": [
         "nemo_eORCA1_grid-V.nc",
+        "nemo_eORCA1_grid-U.nc",
         "ocean_constants_UKCM2.nc",
         "ocean_byte_masks.nc",
         "ocean_basin_UKCM2.nc",
