@@ -12,61 +12,13 @@ The log file produced with this script can be found in the $proc_dir/prepare/log
 """
 import argparse
 import configparser
-import datetime
 import logging
 import os
-import sys
 
 from pathlib import Path
 
-
-def configure_logger(log_name: str, log_level: str, append_log: bool, show_stacktrace=True) -> None:
-    """Create the configured logger.
-
-    Parameters
-    ----------
-    log_name: str
-        The name of the log.
-    log_level: str
-        The level of the log.
-    append_log: bool
-        Whether to append to the log.
-    show_stacktrace: bool, optional
-        If specified true (default) show stracktrace
-    """
-    # Determine whether to append to the log.
-    log_mode = 'a' if append_log else "w"
-    datestamp = datetime.datetime.now().strftime("%Y-%m-%dT%H%M")
-    log_name = '{}_{}.log'.format(log_name, datestamp)
-
-    # Create the logger (do not give the root logger a name!).
-    logger = logging.getLogger()
-    logger.setLevel(logging.DEBUG)
-    logging.captureWarnings(True)
-
-    # Remove any current handlers and create a file handler for the logger
-    logger.handlers = []
-
-    file_handler = logging.FileHandler(log_name, log_mode)
-    file_handler.setLevel(logging.DEBUG)
-    file_formatter = logging.Formatter(
-        '%(asctime)s %(name)s.%(funcName)s %(levelname)s: %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S')
-    file_handler.setFormatter(file_formatter)
-    logger.addHandler(file_handler)
-
-    # Create a console handler for the logger.
-    console_formatter = logging.Formatter('%(message)s')
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(log_level)
-    console_handler.setFormatter(console_formatter)
-    logger.addHandler(console_handler)
-
-    if show_stacktrace:
-        console_handler_err = logging.StreamHandler(sys.stderr)
-        console_handler_err.setLevel(logging.ERROR)
-        console_handler_err.setFormatter(console_formatter)
-        logger.addHandler(console_handler_err)
+from cdds.common import configure_logger
+from cdds.common.request.request import read_request
 
 
 def get_logger(request: dict) -> logging.Logger:
@@ -109,32 +61,6 @@ def arg_parser() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def read_request() -> dict:
-    """Reads the required fields from the request configuration file into a dictionary.
-
-    Returns
-    -------
-    dict
-        Key information from the request including: experiment_id, mip, mip_era, model_id, package, proc_dir, streams,
-        variable list path and variant label.
-    """
-    args = arg_parser()
-    config = configparser.ConfigParser()
-    config.read(args.request)
-
-    return {
-        "experiment_id": config["metadata"]["experiment_id"],
-        "mip": config["metadata"]["mip"],
-        "mip_era": config["metadata"]["mip_era"],
-        "model_id": config["metadata"]["model_id"],
-        "package": config["common"]["package"],
-        "proc_dir": config["common"]["root_proc_dir"],
-        "streams": config["data"]["streams"].split(" "),
-        "variable_list": config["data"]["variable_list_file"],
-        "variant_label": config["metadata"]["variant_label"]
-    }
-
-
 def generate_full_procdir(request: dict) -> Path:
     """Generates the full path to the proc directory using key information from the request.
 
@@ -148,9 +74,9 @@ def generate_full_procdir(request: dict) -> Path:
     Path
         The full path to the proc directory using key information from the request.
     """
-    log_dir = (Path(request.get("proc_dir")) / request.get("mip_era") / request.get("mip") /
-               f"{request.get('model_id')}_{request.get('experiment_id')}_{request.get('variant_label')}" /
-                 request.get("package"))
+    log_dir = (Path(request.common.root_proc_dir) / request.metadata.mip_era / request.metadata.mip /
+               f"{request.metadata.model_id}_{request.metadata.experiment_id}_{request.metadata.variant_label}" /
+                 request.common.package)
 
     return log_dir
 
@@ -317,7 +243,7 @@ def save_new_variable_list(request: dict, updated_variable_list: list) -> None:
         The list of ammended lines for the variable list with faulty variables commented out. This will override the
         old variable list.
     """
-    with open(request.get("variable_list"), "w") as f:
+    with open(request.data.variable_list_file, "w") as f:
         for line in updated_variable_list:
             f.write(f"{line}\n")
 
@@ -325,17 +251,13 @@ def save_new_variable_list(request: dict, updated_variable_list: list) -> None:
 def main_update_variables_from_validate() -> None:
     """Main"""
     args = arg_parser()
-    request = read_request()
+    request = read_request(args.request)
     logger = get_logger(request)
 
-    # Using tilda (~) in the request configuration for paths causes confusion in the python interpreter, if the given
-    # path cant be found, attempt to replace any instance of ~ with path home.
-    if not Path(request.get("variable_list")).exists():
-        request["variable_list"] = request.get("variable_list").replace("~", str(Path.home()))
-    variable_list = read_variable_list(request.get("variable_list"))
-    logger.info(f"Reading variable list file `{request.get('variable_list')}`")
+    variable_list = read_variable_list(request.data.variable_list_file)
+    logger.info(f"Reading variable list file `{request.data.variable_list_file}`")
 
-    streams = request.get("streams") if not args.streams else args.streams
+    streams = request.data.streams if not args.streams else args.streams
     extract_log_dir = generate_full_procdir(request) / "extract" / "log"
     count = 0
     for stream in streams:
@@ -358,4 +280,4 @@ def main_update_variables_from_validate() -> None:
             logger.info(f"  No variables with stash errors in {stream}")
 
     save_new_variable_list(request, variable_list)
-    logger.info(f"Variable list {request.get('variable_list')} successfully updated. Removed {count} variables.")
+    logger.info(f"Variable list {request.data.variable_list_file} successfully updated. Removed {count} variables.")
