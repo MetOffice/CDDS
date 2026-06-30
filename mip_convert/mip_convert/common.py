@@ -7,6 +7,7 @@ import regex as re
 
 from cftime import datetime
 import iris
+from iris.cube import Cube, CubeList
 from iris.fileformats.pp import STASH
 import numpy as np
 from scipy.spatial import distance
@@ -1071,7 +1072,7 @@ def promote_aux_time_coord_to_dim(input_variable):
                 iris.util.promote_aux_coord_to_dim_coord(input_variable, aux_coord)
 
 
-def replace_coordinates(cube, replacement_coordinates):
+def replace_coordinates(cube: Cube, replacement_coordinates: CubeList) -> None:
     """Replace the points and bounds of the coordinates in the cube
     provided to the ``cube`` parameter with the points and bounds from
     the area cubes provided to the ``replacement_coordinates``

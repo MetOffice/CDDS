@@ -22,6 +22,7 @@ from iris.fileformats.pp import load, load_pairs_from_fields
 import iris.fileformats.rules
 from iris.time import PartialDateTime
 from iris.util import equalise_attributes
+from iris.cube import CubeList
 import numpy as np
 
 from cdds.common import netCDF_regexp
@@ -212,7 +213,7 @@ def load_cubes(all_input_data, run_bounds, loadable, ancil_variables):
     return merged_cubes
 
 
-def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates, ancil_variables):
+def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates: CubeList, ancil_variables):
     """Load a single merged and concatenated cube
 
     Parameters
@@ -246,14 +247,20 @@ def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates, anc
             iris.util.unify_time_units(merged_cubes)
             cube = merged_cubes.concatenate_cube()
 
-    # Replace the horizonal coordinates in cubes loaded using CICE model output files
+    # Replace the horizonal coordinates in cubes loaded using CICE/NEMO model output files
     # in the final (merged and concatenated) cube rather than via a callback so that
     # the replacement only occurs once.
     if replacement_coordinates is not None:
-        is_cice_file = all(filename.startswith('cice') for filename in all_input_data)
-        has_cice_attributes = ('source' in cube.attributes and 'CICE' in cube.attributes['source'])
-        if is_cice_file or has_cice_attributes:
+        if "model_component" in cube.attributes and cube.attributes["model_component"] == "nemo":
+            constraint = iris.AttributeConstraint(
+                model_component="nemo",
+                substream=cube.attributes.get("substream", None),
+            )
+            replacement_coordinates = replacement_coordinates.extract(constraint)
             replace_coordinates(cube, replacement_coordinates)
+        elif "model_component" in cube.attributes and cube.attributes["model_component"] == "cice":
+            replace_coordinates(cube, replacement_coordinates)
+
     return cube
 
 
