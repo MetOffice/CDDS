@@ -6,6 +6,7 @@
 |multi-dimensional data object|.
 """
 import copy
+from datetime import datetime
 import logging
 import metomi.isodatetime.parsers as parse
 import regex as re
@@ -816,7 +817,24 @@ class Variable(object):
             base_date = format_date(self._base_date, output_format='%Y-%m-%d')
             time_unit = 'days since {date}'.format(date=base_date)
             cf_time_unit = cf_units.Unit(time_unit, calendar=self._calendar)
-            self._time_coord.convert_units(cf_time_unit)
+            if self._calendar == 'proleptic_gregorian':
+                logger = logging.getLogger(__name__)
+                logger.debug('Checking whether gregorian calendar can be used to get around 1582')
+                problem_date = datetime(1582, 10, 5)
+                tc = self.cube.coord(self._time_coord)
+                cube_start = tc.units.num2date(tc.points[0])
+                cube_end = tc.units.num2date(tc.points[-1])
+                if cube_start < problem_date and cube_end > problem_date:
+                    msg = f"Cannot manage proleptic_gregorian calendar around {problem_date}"
+                    logger.critical(msg)
+                    raise ValueError(msg)
+                greg_cf_time_unit = cf_units.Unit(time_unit, calendar='gregorian')
+                self._time_coord.convert_units(greg_cf_time_unit)
+                self._time_coord.units = cf_time_unit
+                logger.debug('Time coord data was converted to the gregorian calendar and units '
+                            'overwritten with the proleptic_gregorian calendar')
+            else:
+                self._time_coord.convert_units(cf_time_unit)
 
     def _apply_valid_min_correction(self):
         # Replace any values lower than 'valid_min' with zero.
