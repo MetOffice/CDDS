@@ -11,25 +11,25 @@ command line usage of:
 The log file produced with this script can be found in the $proc_dir/prepare/log.
 """
 import argparse
-import configparser
 import logging
 import os
 
 from pathlib import Path
 
 from cdds.common import configure_logger
-from cdds.common.request.request import read_request
+from cdds.common.request.request import read_request, Request
 
 
-def get_logger(request: dict) -> logging.Logger:
+def get_logger(request: Request) -> logging.Logger:
     """Configures and set up the log name ready for use.
 
     Parameters
     ----------
-    request: dict
+    request: Request
         The request configuration file.
 
     Returns
+    -------
     logging.Logger
         The logger.
     """
@@ -61,12 +61,12 @@ def arg_parser() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def generate_full_procdir(request: dict) -> Path:
+def generate_full_procdir(request: Request) -> Path:
     """Generates the full path to the proc directory using key information from the request.
 
     Parameters
     ----------
-    request: dict
+    request: Request
         The key information from the request configuration file.
 
     Returns
@@ -199,13 +199,13 @@ def format_to_list(log: list) -> list:
     return variables
 
 
-def read_variable_list(variable_list_file: Path) -> list:
+def read_variable_list(variable_list_file: str) -> list:
     """Reads the variable list line by line into a list
 
     Parameters
     ----------
-    variable_list_file: Path
-        The variable list file path.
+    variable_list_file: str
+        The variable list file path from the request.
 
     Returns
     -------
@@ -222,7 +222,7 @@ def read_variable_list(variable_list_file: Path) -> list:
             variable_list = [line.strip() for line in f]
     except FileNotFoundError:
         home_dir = Path.home()
-        variable_list_file = Path(str(variable_list_file).replace("~", str(home_dir)))
+        variable_list_file = variable_list_file.replace("~", str(home_dir))
         with open(variable_list_file, "r") as f:
             variable_list = [line.strip() for line in f]
 
@@ -232,12 +232,12 @@ def read_variable_list(variable_list_file: Path) -> list:
     return variable_list
 
 
-def save_new_variable_list(request: dict, updated_variable_list: list) -> None:
+def save_new_variable_list(request: Request, updated_variable_list: list) -> None:
     """Saves the new variable list with commented out variable, overriding the old list.
 
     Parameters
     ----------
-    request: dict
+    request: Request
         The key information from the request configuration file.
     updated_variable_list: list
         The list of ammended lines for the variable list with faulty variables commented out. This will override the
