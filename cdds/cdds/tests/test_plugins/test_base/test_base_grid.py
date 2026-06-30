@@ -65,7 +65,7 @@ class TestOceanGridInfo(TestCase):
 
     def test_replacement_coordinate_files(self):
         replacement_coordinate_files = self.ocean_grid_info.replacement_coordinate_files
-        self.assertEqual(replacement_coordinate_files, 'cice_eORCA1_coords.nc')
+        self.assertEqual(replacement_coordinate_files, ['cice_eORCA1_coords.nc'])
 
     def test_masks(self):
         masks = self.ocean_grid_info.masks
