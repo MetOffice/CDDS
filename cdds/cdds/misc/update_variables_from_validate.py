@@ -18,15 +18,18 @@ from pathlib import Path
 
 from cdds.common import configure_logger
 from cdds.common.request.request import read_request, Request
+from cdds.common.plugins.plugins import PluginStore
 
 
-def get_logger(request: Request) -> logging.Logger:
+def get_logger(request: Request, plugin) -> logging.Logger:
     """Configures and set up the log name ready for use.
 
     Parameters
     ----------
     request: Request
         The request configuration file.
+    plugin:
+        The plugin.
 
     Returns
     -------
@@ -34,7 +37,7 @@ def get_logger(request: Request) -> logging.Logger:
         The logger.
     """
     # Create the full log path and filename
-    prepare_dir = generate_full_procdir(request) / "prepare" / "log"
+    prepare_dir = Path(plugin.proc_directory(request)) / "prepare" / "log"
     if not Path.exists(prepare_dir):
         raise FileNotFoundError(f"Prepare directory: '{prepare_dir}' does not exist.")
     log_name = prepare_dir / f"update_variable_list_from_validate"
@@ -59,26 +62,6 @@ def arg_parser() -> argparse.Namespace:
                         "process all streams listed in the request.")
 
     return parser.parse_args()
-
-
-def generate_full_procdir(request: Request) -> Path:
-    """Generates the full path to the proc directory using key information from the request.
-
-    Parameters
-    ----------
-    request: Request
-        The key information from the request configuration file.
-
-    Returns
-    -------
-    Path
-        The full path to the proc directory using key information from the request.
-    """
-    log_dir = (Path(request.common.root_proc_dir) / request.metadata.mip_era / request.metadata.mip /
-               f"{request.metadata.model_id}_{request.metadata.experiment_id}_{request.metadata.variant_label}" /
-                 request.common.package)
-
-    return log_dir
 
 
 def get_newest_validate_log(logs_for_stream: list):
@@ -251,14 +234,15 @@ def save_new_variable_list(request: Request, updated_variable_list: list) -> Non
 def main_update_variables_from_validate() -> None:
     """Main"""
     args = arg_parser()
+    plugin = PluginStore.instance().get_plugin()
     request = read_request(args.request)
-    logger = get_logger(request)
+    logger = get_logger(request, plugin)
 
     variable_list = read_variable_list(request.data.variable_list_file)
     logger.info(f"Reading variable list file `{request.data.variable_list_file}`")
 
     streams = request.data.streams if not args.streams else args.streams
-    extract_log_dir = generate_full_procdir(request) / "extract" / "log"
+    extract_log_dir = Path(plugin.proc_directory(request)) / "extract" / "log"
     count = 0
     for stream in streams:
         logger.info(f"Checking for faulty variables in stream {stream}")
