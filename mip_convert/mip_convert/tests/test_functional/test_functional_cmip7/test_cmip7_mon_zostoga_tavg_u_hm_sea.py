@@ -37,7 +37,7 @@ class TestCmip7_zostoga_tavg_u_hm_sea(AbstractFunctionalTests):
                 request={
                     'ancil_files': ' '.join([
                         os.path.join(ROOT_ANCIL_TESTING_DIR, 'UKCM2-0-LL', 'ocean_zostoga.nc'),
-                        os.path.join(ROOT_ANCIL_TESTING_DIR, 'UKCM2-0-LL', 'ocean_constants_UKCM2.nc')
+                        os.path.join(ROOT_ANCIL_TESTING_DIR, 'UKCM2-0-LL', 'ocean_constants.nc')
                     ]),
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1900-01-01T00:00:00 1900-02-01T00:00:00',
