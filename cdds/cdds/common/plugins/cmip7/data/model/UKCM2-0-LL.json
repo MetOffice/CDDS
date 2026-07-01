@@ -219,10 +219,10 @@
       "ancil_filenames": [
         "nemo_eORCA1_grid-V.nc",
         "nemo_eORCA1_grid-U.nc",
-        "ocean_constants_UKCM2.nc",
+        "ocean_constants.nc",
         "ocean_byte_masks.nc",
-        "ocean_basin_UKCM2.nc",
-        "ocean_diaptr_basin_masks_UKCM2.nc",
+        "ocean_basin.nc",
+        "diaptr_basin_masks.nc",
         "ocean_zostoga.nc"
       ],
       "ancil_variables": [
