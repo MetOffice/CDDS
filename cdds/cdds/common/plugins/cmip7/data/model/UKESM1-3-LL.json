@@ -48,7 +48,9 @@
     "ind": "8G",
     "inm": "8G",
     "ond": "64G",
-    "onm": "16G"
+    "onm": "16G",
+    "afx": "8G",
+    "ofx": "8G"
   },
   "temp_space": {
     "ap4": 98304,
@@ -63,7 +65,9 @@
     "ind": 20000,
     "inm": 8192,
     "ond": 64000,
-    "onm": 32768
+    "onm": 32768,
+    "afx": 8192,
+    "ofx": 8192
   },
   "sizing_info": {
     "mon": {
@@ -187,6 +191,7 @@
       "v_latitude": 145,
       "levels": 85,
       "ancil_filenames": [
+        "qrparm.orog.pp",
         "qrparm.landfrac.pp",
         "qrparm.soil.pp"
       ],
@@ -203,11 +208,11 @@
       "levels": 75,
       "replacement_coordinates_file": "cice_eORCA1_coords.nc",
       "ancil_filenames": [
-        "ocean_constants.nc",
-        "ocean_byte_masks.nc",
-        "ocean_basin.nc",
-        "diaptr_basin_masks.nc",
-        "ocean_zostoga.nc"
+        "ocean_constants_UKESM1-3.nc",
+        "ocean_byte_masks_UKESM1-3.nc",
+        "ocean_basin_UKESM1-3.nc",
+        "ocean_diaptr_basin_masks_UKESM1-3.nc",
+        "ocean_zostoga_UKESM1-3.nc"
       ],
       "bounds_coordinates": {
         "onm-grid-T": [
