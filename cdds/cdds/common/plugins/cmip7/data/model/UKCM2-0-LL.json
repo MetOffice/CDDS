@@ -202,7 +202,7 @@
         "qrparm.landfrac.pp",
         "qrparm.soil.pp",
         "qrparm.orog.pp",
-        "test_slthick_rootd_sftgif.pp"
+        "slthick_rootd_sftgif.pp"
       ],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
