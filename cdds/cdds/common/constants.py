@@ -59,6 +59,8 @@ ANCIL_VARIABLES = [
     'so_0',  # ocean_zostoga
     'rho_0_mean',  # ocean_zostoga
     'deptho_0_mean',  # ocean_zostoga
+    'u_coord_reference',  # nemo_eORCA1_grid-U.nc
+    'v_coord_reference',  # nemo_eORCA1_grid-V.nc
 ]
 APPROVED_VARS_PREFIX = 'approved_variables'
 APPROVED_VARS_FILENAME_TEMPLATE = APPROVED_VARS_PREFIX + '_{dt}.txt'

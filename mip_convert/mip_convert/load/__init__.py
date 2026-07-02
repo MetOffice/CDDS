@@ -53,15 +53,13 @@ def load(filenames, variable_metadata):
         input_variables.update({loadable.constraint: cube})
 
     # Ensure all 'input variables' are on the same grid.
-    # Cubes whose var_name ends with '_coord_reference' are ancil-like cubes
-    # used solely to provide replacement coordinates (e.g. for SI3 U/V grids)
-    # and are intentionally on a different grid, so exclude them from this check.
+    # (Excludes ancillary variables from the grid check.)
     for axis in ['Y', 'X']:
         if cube.coords(axis=axis):
             try:
                 var_names = [cube.coord(axis=axis).var_name
                              for cube in input_variables.values()
-                             if not (cube.var_name or '').endswith('_coord_reference')]
+                             if cube.var_name not in variable_metadata.ancil_variables]
             except iris.exceptions.CoordinateNotFoundError:
                 # crude hack to account for ancils that don't have all coordinates
                 var_names = []
