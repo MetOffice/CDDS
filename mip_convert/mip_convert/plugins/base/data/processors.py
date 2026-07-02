@@ -2500,3 +2500,9 @@ def calc_rootd(soil_cube, frac_cube, ice_class=None):
     )
 
     return rootd_cube
+
+
+def apply_ocean_coordinates(cube, coordinate_cube):
+    cube.coord(axis='Y').points = coordinate_cube.coord(axis='Y').points.copy()
+    cube.coord(axis='X').points = coordinate_cube.coord(axis='X').points.copy()
+    return cube

@@ -53,11 +53,13 @@ def load(filenames, variable_metadata):
         input_variables.update({loadable.constraint: cube})
 
     # Ensure all 'input variables' are on the same grid.
+    # (Excludes ancillary variables from the grid check.)
     for axis in ['Y', 'X']:
         if cube.coords(axis=axis):
             try:
                 var_names = [cube.coord(axis=axis).var_name
-                             for cube in list(input_variables.values())]
+                             for cube in input_variables.values()
+                             if cube.var_name not in variable_metadata.ancil_variables]
             except iris.exceptions.CoordinateNotFoundError:
                 # crude hack to account for ancils that don't have all coordinates
                 var_names = []

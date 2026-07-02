@@ -198,10 +198,13 @@ def load_cubes(all_input_data, run_bounds, loadable, ancil_variables):
         logger.debug('Loading cube using Iris constraints')
         load_constraints = constraint_constructor.load_constraints(loadable)
 
+    # Static coord-reference ancils have a fixed timestamp that won't match
+    # later cycle run_bounds, so skip time filtering for them.
+    effective_run_bounds = None if loadable.name.endswith('_coord_reference') else run_bounds
     if loadable.is_pp():
         merged_cubes = load_cubes_from_pp(all_input_data, load_constraints, run_bounds, ancil_variables)
     else:
-        merged_cubes = load_cubes_from_nc(all_input_data, load_constraints, run_bounds)
+        merged_cubes = load_cubes_from_nc(all_input_data, load_constraints, effective_run_bounds)
 
     if not merged_cubes:
         error_msg = 'No cubes found using constraints "{}" within "{}"'
@@ -391,8 +394,8 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
 
     cubes = iris.cube.CubeList()
     if merged_cubes:
-        # Apply the time constraint.
-        time_constraint = setup_time_constraint(run_bounds)
+        # Apply the time constraint (skipped if run_bounds is None, e.g. for static ancils).
+        time_constraint = setup_time_constraint(run_bounds) if run_bounds is not None else None
         for merged_cube in merged_cubes:
             promote_aux_time_coord_to_dim(merged_cube)
             # Add the fill_value as an attribute on the cube to workaround the
@@ -400,9 +403,12 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
             if hasattr(merged_cube.lazy_data(), 'fill_value'):
                 merged_cube.attributes['fill_value'] = merged_cube.lazy_data().fill_value
 
-            cube = apply_time_constraint(merged_cube, time_constraint)
-            if cube is not None:
-                cubes.append(cube)
+            if time_constraint is None:
+                cubes.append(merged_cube)
+            else:
+                cube = apply_time_constraint(merged_cube, time_constraint)
+                if cube is not None:
+                    cubes.append(cube)
     return cubes
 
 
