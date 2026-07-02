@@ -61,7 +61,7 @@ def load(filenames, variable_metadata):
             try:
                 var_names = [cube.coord(axis=axis).var_name
                              for cube in input_variables.values()
-                             if not (cube.var_name and cube.var_name.endswith('_coord_reference'))]
+                             if not (cube.var_name or '').endswith('_coord_reference')]
             except iris.exceptions.CoordinateNotFoundError:
                 # crude hack to account for ancils that don't have all coordinates
                 var_names = []
