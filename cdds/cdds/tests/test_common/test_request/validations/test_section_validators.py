@@ -97,7 +97,7 @@ class TestMetdataValidator(TestCase):
         valid, messages = validator.validate()
         self.assertFalse(valid)
         self.assertListEqual(
-            messages, 
+            messages,
             ['The "branch_method" must be set to "no parent, standard".',
              'The "calendar" must be set to "360_day, gregorian, 365_day, standard, proleptic_gregorian".'])
 
