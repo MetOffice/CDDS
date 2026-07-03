@@ -2500,3 +2500,23 @@ def calc_rootd(soil_cube, frac_cube, ice_class=None):
     )
 
     return rootd_cube
+
+
+def apply_ocean_coordinates(cube, coordinate_cube):
+    """Update the X and Y coordinate points of a cube from a reference cube.
+
+    Parameters
+    ----------
+    cube: :class:`iris.cube.Cube`
+        The cube whose coordinates will be updated.
+    coordinate_cube: :class:`iris.cube.Cube`
+        The cube containing the reference X and Y coordinates to copy.
+
+    Returns
+    -------
+    :class:`iris.cube.Cube`
+        The input cube with updated X and Y coordinate points.
+    """
+    cube.coord(axis='Y').points = coordinate_cube.coord(axis='Y').points.copy()
+    cube.coord(axis='X').points = coordinate_cube.coord(axis='X').points.copy()
+    return cube
