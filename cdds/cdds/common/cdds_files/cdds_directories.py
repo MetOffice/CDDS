@@ -102,9 +102,9 @@ def replacement_coordinate_files(request: Request) -> str:
     """
     plugin = PluginStore.instance().get_plugin()
     grid_info = plugin.grid_info(request.metadata.model_id, GridType.OCEAN)
-    filename = grid_info.replacement_coordinate_files
-    if filename:
-        return os.path.join(request.common.root_replacement_coordinates_dir, filename)
+    filenames = grid_info.replacement_coordinate_files
+    if filenames:
+        return ' '.join(os.path.join(request.common.root_replacement_coordinates_dir, f) for f in filenames)
     return ''
 
 
