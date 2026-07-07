@@ -52,7 +52,7 @@ def retrieve_request_metadata(request: Request):
     ordered_metadata['request'].update({'ancil_files': get_ancil_files(request)})
     ordered_metadata['request'].update({'ancil_variables': get_ancil_variables(request)})
     ordered_metadata['request'].update({'hybrid_heights_files': get_hybrid_heights_files(request)})
-    ordered_metadata['request'].update({'replacement_coordinates_file': get_replacement_coordinates_file(request)})
+    ordered_metadata['request'].update({'replacement_coordinate_files': get_replacement_coordinate_files(request)})
     ordered_metadata['request'].update({'deflate_level': DEFLATE_LEVEL})
     ordered_metadata['request'].update({'sites_file': request.common.sites_file})
     ordered_metadata['request'].update({'shuffle': SHUFFLE})
@@ -103,16 +103,16 @@ def get_ancil_variables(request):
     return ' '.join(ancil_variables)
 
 
-def get_replacement_coordinates_file(request):
+def get_replacement_coordinate_files(request):
     """Constructs the full paths to the replacement coordinates file for a specific
-    model and makes them available via the ``replacement_coordinates_file`` and
+    model and makes them available via the ``replacement_coordinate_files`` and
     ``args`` attributes.
     """
     root_dir = request.common.root_replacement_coordinates_dir
     plugin = PluginStore.instance().get_plugin()
     grid_info = plugin.grid_info(request.metadata.model_id, GridType.OCEAN)
-    filename = grid_info.replacement_coordinates_file
-    return os.path.join(root_dir, filename) if filename else ''
+    filenames = grid_info.replacement_coordinate_files
+    return ' '.join([os.path.join(root_dir, filename) for filename in filenames]) if filenames else ''
 
 
 def get_hybrid_heights_files(request):
