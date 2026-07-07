@@ -1090,6 +1090,8 @@ def replace_coordinates(cube: Cube, replacement_coordinates: CubeList) -> None:
     """
     for area_cube in replacement_coordinates:
         for area_coord in area_cube.coords():
+            if area_coord.name() == "time":
+                continue
             if cube.coords(var_name=area_coord.var_name):
                 coord = cube.coord(var_name=area_coord.var_name)
                 coord.points = area_coord.points
