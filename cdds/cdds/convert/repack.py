@@ -241,13 +241,12 @@ def verify_repacked_files(nc_files: List[Path]) -> None:
         return_code = run_check_cmip7_packing(str(nc_file))
         if return_code == 1:
             failed_files.append(nc_file)
-            logger.error(f"Packing verification FAILED for: {nc_file}")
 
     if failed_files:
-        raise RuntimeError(
-            f"Packing verification failed for {len(failed_files)} file(s):\n"
-            + "\n".join(str(f) for f in failed_files)
-        )
+        logger.error(f"Packing verification failed for {len(failed_files)} file(s):")
+        for failed_file in failed_files:
+            logger.error(f"{failed_file}")
+        raise RuntimeError
 
     logger.info(f"Packing verification passed for all {len(nc_files)} files.")
 
@@ -413,8 +412,7 @@ def main_repack() -> int:
 
     try:
         verify_repacked_files(nc_files)
-    except RuntimeError as err:
-        logger.critical(f"Runtime error during packing verification. {err}")
+    except RuntimeError:
         return 1
     except FileNotFoundError as err:
         logger.critical(f"Repack tool not found. {err}")
