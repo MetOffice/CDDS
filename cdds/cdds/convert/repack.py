@@ -245,8 +245,8 @@ def verify_repacked_files(nc_files: List[Path]) -> None:
 
     if failed_files:
         raise RuntimeError(
-            f"Packing verification failed for {len(failed_files)} file(s): "
-            + ", ".join(str(f) for f in failed_files)
+            f"Packing verification failed for {len(failed_files)} file(s):\n"
+            + "\n".join(str(f) for f in failed_files)
         )
 
     logger.info(f"Packing verification passed for all {len(nc_files)} files.")
@@ -404,14 +404,21 @@ def main_repack() -> int:
 
     try:
         repack_files(nc_files)
-        verify_repacked_files(nc_files)
-        logger.info("repack completed successfully.")
-        exit_code = 0
     except RuntimeError as err:
         logger.critical(f"Runtime error during repack. {err}")
-        exit_code = 1
+        return 1
     except FileNotFoundError as err:
         logger.critical(f"Repack tool not found. {err}")
-        exit_code = 2
+        return 2
 
-    return exit_code
+    try:
+        verify_repacked_files(nc_files)
+    except RuntimeError as err:
+        logger.critical(f"Runtime error during packing verification. {err}")
+        return 1
+    except FileNotFoundError as err:
+        logger.critical(f"Repack tool not found. {err}")
+        return 2
+
+    logger.info("repack completed successfully.")
+    return 0
