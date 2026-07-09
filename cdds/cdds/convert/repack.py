@@ -243,9 +243,9 @@ def verify_repacked_files(nc_files: List[Path]) -> None:
             failed_files.append(nc_file)
 
     if failed_files:
-        logger.error(f"Packing verification failed for {len(failed_files)} file(s):")
+        logger.critical(f"Packing verification failed for {len(failed_files)} file(s):")
         for failed_file in failed_files:
-            logger.error(f"{failed_file}")
+            logger.critical(f"{failed_file}")
         raise RuntimeError
 
     logger.info(f"Packing verification passed for all {len(nc_files)} files.")
