@@ -355,7 +355,7 @@ def main_repack() -> int:
     else:
         log_name = update_log_dir("cdds_repack", request, "convert")
 
-    configure_logger(log_name, log_level=20, append_log=False, show_stacktrace=False)
+    configure_logger(log_name, log_level=20, append_log=False)
 
     logger = logging.getLogger(__name__)
     logger.info("repack starting...")

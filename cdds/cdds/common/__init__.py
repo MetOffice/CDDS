@@ -31,7 +31,7 @@ def get_log_datestamp():
 
 
 def configure_logger(log_name, log_level, append_log, threaded=False,
-                     datestamp=None, stream=None, show_stacktrace=True):
+                     datestamp=None, stream=None):
     """Create the configured logger.
 
     Parameters
@@ -46,8 +46,6 @@ def configure_logger(log_name, log_level, append_log, threaded=False,
         Include thread name (processName) in log Formatter.
     stream: str, optional
         If specified include in the log name
-    show_stacktrace: bool, optional
-        If specified true (default) show stracktrace
     """
     # Determine whether to append to the log.
     log_mode = 'w'
@@ -88,22 +86,22 @@ def configure_logger(log_name, log_level, append_log, threaded=False,
         file_handler.setFormatter(file_formatter)
         # Configure the logger by adding the file handler.
         logger.addHandler(file_handler)
-
-    # Create a console handler for the logger.
     console_formatter = logging.Formatter('%(message)s')
 
+    # stdout handler: INFO and WARNING only
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(log_level)
+    # Filter to cap stdout at WARNING so ERROR/CRITICAL are only emitted by the stderr handler.
+    # This prevents duplication of logging output.
+    console_handler.addFilter(lambda record: record.levelno < logging.ERROR)
     console_handler.setFormatter(console_formatter)
-    # Configure the logger by adding the console handler.
     logger.addHandler(console_handler)
 
-    if show_stacktrace:
-        console_handler_err = logging.StreamHandler(sys.stderr)
-        console_handler_err.setLevel(logging.ERROR)
-        console_handler_err.setFormatter(console_formatter)
-        # Configure the logger by adding the console handler.
-        logger.addHandler(console_handler_err)
+    # stderr handler: ERROR and CRITICAL only
+    console_handler_err = logging.StreamHandler(sys.stderr)
+    console_handler_err.setLevel(logging.ERROR)
+    console_handler_err.setFormatter(console_formatter)
+    logger.addHandler(console_handler_err)
 
 
 def common_command_line_args(parser, default_log_name, log_level, version):
