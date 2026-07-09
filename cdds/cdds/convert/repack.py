@@ -412,7 +412,8 @@ def main_repack() -> int:
 
     try:
         verify_repacked_files(nc_files)
-    except RuntimeError:
+    except RuntimeError as err:
+        logger.critical(f"Runtime error during verification. {err}")
         return 1
     except FileNotFoundError as err:
         logger.critical(f"Repack tool not found. {err}")
