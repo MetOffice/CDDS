@@ -213,6 +213,44 @@ def repack_files(nc_files: List[Path]) -> None:
             raise failure_exception[-1]  # Raise the last exception for visibility
 
 
+def verify_repacked_files(nc_files: List[Path]) -> None:
+    """
+    Verify all output NetCDF files pass CMIP7 packing checks after repacking.
+
+    Runs check_cmip7_packing on every file. Raises an exception if any file
+    fails the packing check, to catch cases where repacking did not produce
+    a correctly packed file.
+
+    Parameters
+    ----------
+    nc_files : List[Path]
+        List of Path objects pointing to NetCDF files to verify.
+
+    Raises
+    ------
+    RuntimeError
+        If any file fails the packing check or check_cmip7_packing encounters an error.
+    FileNotFoundError
+        If the check_cmip7_packing tool is not found in PATH.
+    """
+    logger = logging.getLogger(__name__)
+    logger.info("Verifying packing of all repacked files...")
+
+    failed_files = []
+    for nc_file in nc_files:
+        return_code = run_check_cmip7_packing(str(nc_file))
+        if return_code == 1:
+            failed_files.append(nc_file)
+
+    if failed_files:
+        logger.critical(f"Repack verification failed for {len(failed_files)} file(s):")
+        for failed_file in failed_files:
+            logger.critical(f"{failed_file}")
+        raise RuntimeError(f"Repack verification failed for {len(failed_files)} file(s)")
+
+    logger.info(f"Packing verification passed for all {len(nc_files)} files.")
+
+
 def run_check_cmip7_packing(file_path: str) -> int:
     """
     Check the packing of a NetCDF file using the check_cmip7_packing tool.
@@ -365,11 +403,21 @@ def main_repack() -> int:
 
     try:
         repack_files(nc_files)
-        logger.info("repack completed successfully.")
-        return 0
     except RuntimeError as err:
         logger.critical(f"Runtime error during repack. {err}")
         return 1
     except FileNotFoundError as err:
         logger.critical(f"Repack tool not found. {err}")
         return 2
+
+    try:
+        verify_repacked_files(nc_files)
+    except RuntimeError as err:
+        logger.critical(f"Runtime error during verification. {err}")
+        return 1
+    except FileNotFoundError as err:
+        logger.critical(f"Repack tool not found. {err}")
+        return 2
+
+    logger.info("repack completed successfully.")
+    return 0
