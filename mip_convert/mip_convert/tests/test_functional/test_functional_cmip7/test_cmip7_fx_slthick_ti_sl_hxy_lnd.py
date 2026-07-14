@@ -35,7 +35,7 @@ class TestCmip7_fx_slthick_ti_sl_hxy_lnd(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '2257-01-01T00:00:00 2257-02-01T00:00:00',
                     'suite_id': 'u-dk469',
-                    'mip_convert_plugin': 'HadGEM3GC5'
+                    'mip_convert_plugin': 'UKCM2'
                 },
                 global_attributes={
                     "table_id": "land"

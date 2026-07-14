@@ -32,7 +32,7 @@ class TestCmip7_uas_tavg_h10m_hxy_u(AbstractFunctionalTests):
                     'model_output_dir': MODEL_OUTPUT_DIR,
                     'run_bounds': '1960-02-01T00:00:00 1960-04-01T00:00:00',
                     'suite_id': 'u-aw310',
-                    'mip_convert_plugin': 'HadGEM3GC5'
+                    'mip_convert_plugin': 'UKCM2'
                 },
                 global_attributes={
                     "table_id": "atmos"

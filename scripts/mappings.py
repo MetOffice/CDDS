@@ -17,6 +17,8 @@ models = {
     "HadREM-CP4A": "vn13.1",
     "HadREM3": "vn13.1",
     "UKESM1": "vn13.1",
+    "UKCM2": "vn13.1",
+    "UKESM1p3": "vn13.1",
 }
 
 
