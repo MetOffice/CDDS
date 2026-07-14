@@ -26,7 +26,7 @@ class TestCmip7_mmraerh2o_tavg_h2m_hxy_u(AbstractFunctionalTests):
                 },
                 cmor_dataset={
                     'output_dir': get_output_dir(test_location),
-                    'calendar': 'standard',
+                    'calendar': 'proleptic_gregorian',
                     'branch_date_in_child': "1850-01-01T00:00:00",
                     'branch_date_in_parent': "1850-01-01T00:00:00",
                     'model_id': 'UKCM2-0-LL',
@@ -43,7 +43,7 @@ class TestCmip7_mmraerh2o_tavg_h2m_hxy_u(AbstractFunctionalTests):
                     'ap6': {'CMIP7_aerosol@day': 'mmraerh2o_tavg-h2m-hxy-u'}
                 },
                 other={
-                    'reference_version': 'v2',
+                    'reference_version': 'v3',
                         'filenames': [
                             'mmraerh2o_tavg-h2m-hxy-u_day_glb_g100_UKCM2-0-LL_1pctCO2_r2i1p1f1_19000101-19000131.nc'
                         ],
