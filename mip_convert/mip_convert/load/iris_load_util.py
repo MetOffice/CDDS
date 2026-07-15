@@ -14,7 +14,6 @@ from functools import reduce
 import warnings
 
 import iris
-import iris.loading
 # TODO: look at whether this can be removed
 from iris.analysis import _dimensional_metadata_comparison
 from iris.coords import CellMethod
