@@ -22,7 +22,7 @@ from iris.fileformats.pp import load, load_pairs_from_fields
 import iris.fileformats.rules
 from iris.time import PartialDateTime
 from iris.util import equalise_attributes
-from iris.warnings import IrisCfMissingVarWarning
+from iris.warnings import IrisCfMissingVarWarning, IrisLoadWarning
 import numpy as np
 
 from cdds.common import netCDF_regexp
@@ -384,7 +384,8 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
         {"message": ".*Missing CF-netCDF boundary variable.*", "category": IrisCfMissingVarWarning},
         {"message": ".*Missing CF-netCDF auxiliary coordinate variable.*", "category": IrisCfMissingVarWarning},
         {"message": ".*Missing CF-netCDF label variable *", "category": IrisCfMissingVarWarning},
-        {"message": ".*invalid units.*", "category": UserWarning}
+        {"message": ".*invalid units.*", "category": UserWarning},
+        {"message": ".*Not all file objects were parsed correctly.*", "category": IrisLoadWarning},
     ]
     with warnings.catch_warnings():
         for warn in userwarnings:
