@@ -11,13 +11,14 @@ from mip_convert.tests.test_functional.utils.directories import (ROOT_ANCIL_TEST
                                                                  ROOT_OUTPUT_CASES_DIR)
 
 
-class TestCmip7_zostoga_tavg_u_hm_sea(AbstractFunctionalTests):
+class TestCmip7_thetao_tavg_ol_hxy_sea(AbstractFunctionalTests):
 
     def get_test_data(self):
-        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP7_ocean_zostoga_tavg-u-hm-sea')
+        test_location = os.path.join(ROOT_OUTPUT_CASES_DIR, 'test_CMIP7_ocean_thetao_tavg-ol-hxy-sea')
+        replacement_file = os.path.join(os.environ['CDDS_ETC'], 'horizontal_coordinates/nemo_eORCA1_grid-T.nc')
         return Cmip7TestData(
             mip_table='ocean',
-            variables=['zostoga_tavg-u-hm-sea'],
+            variables=['thetao_tavg-ol-hxy-sea'],
             specific_info=SpecificInfo(
                 common={
                     'test_location': test_location
@@ -30,7 +31,7 @@ class TestCmip7_zostoga_tavg_u_hm_sea(AbstractFunctionalTests):
                     'model_id': 'UKCM2-0-LL',
                     'parent_model_id': 'UKCM2-0-LL',
                     'variant_label': 'r2i1p1f1',
-                    'calendar': 'proleptic_gregorian',
+                    'calendar': 'standard',
                     'branch_date_in_child': "1850-01-01T00:00:00",
                     'branch_date_in_parent': "1850-01-01T00:00:00",
                 },
@@ -40,6 +41,7 @@ class TestCmip7_zostoga_tavg_u_hm_sea(AbstractFunctionalTests):
                         os.path.join(ROOT_ANCIL_TESTING_DIR, 'UKCM2-0-LL', 'ocean_constants.nc')
                     ]),
                     'model_output_dir': MODEL_OUTPUT_DIR,
+                    'replacement_coordinate_files': replacement_file,
                     'run_bounds': '1900-01-01T00:00:00 1900-02-01T00:00:00',
                     'suite_id': 'u-dv623',
                     'mip_convert_plugin': 'UKCM2'
@@ -48,20 +50,20 @@ class TestCmip7_zostoga_tavg_u_hm_sea(AbstractFunctionalTests):
                     "table_id": "ocean"
                 },
                 streams={
-                    'onm': {'CMIP7_ocean@mon': 'zostoga_tavg-u-hm-sea'}
+                    'onm': {'CMIP7_ocean@mon': 'thetao_tavg-ol-hxy-sea'}
                 },
                 halo_removal={
                     'onm': '1:-1,1:-1'
                 },
                 other={
-                    'reference_version': 'v4',
-                    'filenames': ['zostoga_tavg-u-hm-sea_mon_glb_g100_UKCM2-0-LL_1pctCO2_r2i1p1f1_190001-190001.nc'],
+                    'reference_version': 'v1',
+                    'filenames': ['thetao_tavg-ol-hxy-sea_mon_glb_g100_UKCM2-0-LL_1pctCO2_r2i1p1f1_190001-190001.nc'],
                     'ignore_history': True,
                 }
             )
         )
 
     @pytest.mark.slow
-    def test_cmip7_mon_zostoga(self):
+    def test_cmip7_mon_thetao(self):
         self.maxDiff = True
         self.check_convert(plugin_id="CMIP7")

@@ -31,7 +31,7 @@ def get_log_datestamp():
 
 
 def configure_logger(log_name, log_level, append_log, threaded=False,
-                     datestamp=None, stream=None, show_stacktrace=True):
+                     datestamp=None, stream=None, show_stacktrace=False):
     """Create the configured logger.
 
     Parameters
@@ -47,7 +47,11 @@ def configure_logger(log_name, log_level, append_log, threaded=False,
     stream: str, optional
         If specified include in the log name
     show_stacktrace: bool, optional
-        If specified true (default) show stracktrace
+        If True, adds a stderr handler for ERROR and CRITICAL messages in addition
+        to the stdout handler. Defaults to False to avoid duplicate output in
+        environments where stderr is merged into stdout (e.g. the Cylc mip_convert
+        wrapper). Set to True when stdout is redirected or piped out and you
+        still want errors to appear on stderr.
     """
     # Determine whether to append to the log.
     log_mode = 'w'

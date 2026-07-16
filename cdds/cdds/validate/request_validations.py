@@ -17,6 +17,7 @@ from cdds.common.request.request_validations import validate_request
 from cdds.common.request.validations.exceptions import CVPathError, CVEntryError
 
 from cdds.common.plugins.plugins import PluginStore
+from cdds.common.constants import CALENDAR_MAPPING_CDDS_TO_CYLC
 
 
 def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
@@ -41,7 +42,8 @@ def do_request_validations(request_path: str) -> Tuple[bool, List[str]]:
     load_cdds_plugins(request_config)
 
     calendar = request_config.get('metadata', 'calendar')
-    calendar = "gregorian" if calendar == "standard" else calendar
+    if calendar in CALENDAR_MAPPING_CDDS_TO_CYLC:
+        calendar = CALENDAR_MAPPING_CDDS_TO_CYLC[calendar]
     Calendar.default().set_mode(calendar)
 
     try:

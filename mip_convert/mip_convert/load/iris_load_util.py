@@ -23,6 +23,7 @@ import iris.fileformats.rules
 from iris.time import PartialDateTime
 from iris.util import equalise_attributes
 from iris.cube import CubeList
+from iris.warnings import IrisCfMissingVarWarning, IrisLoadWarning
 import numpy as np
 
 from cdds.common import netCDF_regexp
@@ -386,9 +387,12 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
         a list of merged cubes
     """
     userwarnings = [
-        {"message": ".*Missing CF-netCDF measure variable.*", "category": UserWarning},
-        {"message": ".*Missing CF-netCDF boundary variable.*", "category": UserWarning},
-        {"message": ".*invalid units.*", "category": UserWarning}
+        {"message": ".*Missing CF-netCDF measure variable.*", "category": IrisCfMissingVarWarning},
+        {"message": ".*Missing CF-netCDF boundary variable.*", "category": IrisCfMissingVarWarning},
+        {"message": ".*Missing CF-netCDF auxiliary coordinate variable.*", "category": IrisCfMissingVarWarning},
+        {"message": ".*Missing CF-netCDF label variable *", "category": IrisCfMissingVarWarning},
+        {"message": ".*invalid units.*", "category": UserWarning},
+        {"message": ".*Not all file objects were parsed correctly.*", "category": IrisLoadWarning},
     ]
     with warnings.catch_warnings():
         for warn in userwarnings:
