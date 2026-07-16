@@ -96,8 +96,10 @@ class TestMetdataValidator(TestCase):
         validator = MetadataSectionValidator(section=self.section)
         valid, messages = validator.validate()
         self.assertFalse(valid)
-        self.assertListEqual(messages, ['The "branch_method" must be set to "no parent, standard".',
-                                        'The "calendar" must be set to "360_day, gregorian, 365_day, standard".'])
+        self.assertListEqual(
+            messages,
+            ['The "branch_method" must be set to "no parent, standard".',
+             'The "calendar" must be set to "360_day, gregorian, 365_day, standard, proleptic_gregorian".'])
 
     def test_values_not_set(self):
         self.section.mip = ''
