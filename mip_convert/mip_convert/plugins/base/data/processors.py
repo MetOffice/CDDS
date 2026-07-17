@@ -978,9 +978,9 @@ def eos_insitu(zt, zs, zh):
         stability. Journal of Atmospheric and Oceanic Technology,
         12(2), pp.381-389.
     """
-    zt = np.float64(zt)
-    zs = np.float64(zs)
-    zh = np.float64(zh)
+    zt = zt.astype(np.float64)
+    zs = zs.astype(np.float64)
+    zh = zh.astype(np.float64)
 
     # zb = zbw + ze * zs
     zwrk = (-3.508914e-8 * zt - 1.248266e-8) * zt - 2.595994e-6   # ze
@@ -1106,7 +1106,7 @@ def calc_rho_mean(thetao, so, zfullo, areacello, thkcello):
         raise ValueError(message.format(a=thetao, b=so, c=zfullo, d=thkcello))
 
     # Calculate in-situ density
-    rho = thetao.copy(eos_insitu(thetao.data, so.data, zfullo.data))
+    rho = thetao.copy(eos_insitu(thetao.core_data(), so.core_data(), zfullo.core_data()))
 
     # Set some metadata
     rho.standard_name = 'sea_water_density'
@@ -1114,7 +1114,7 @@ def calc_rho_mean(thetao, so, zfullo, areacello, thkcello):
     rho.units = 'kg m-3'
 
     # Calculate weighted global mean
-    volcello = np.broadcast_to(areacello.data, thkcello.shape) * thkcello.data
+    volcello = areacello.core_data() * thkcello.core_data()
     rho_mean = rho.collapsed(['latitude', 'longitude', 'depth'], iris.analysis.MEAN, weights=volcello)
     return rho_mean
 
@@ -1198,10 +1198,10 @@ def calc_zostoga(thetao, thkcello, areacello, zfullo_0, so_0, rho_0_mean, deptho
         rho_mean += [calc_rho_mean(t_slice, so_0, zfullo_0, areacello, z_slice)]
 
     rho_mean = rho_mean.merge_cube()
-    rho_t = rho_mean.data / rho_0_mean.data
+    rho_t = rho_mean.core_data() / rho_0_mean.core_data()
 
     # zostoga is calculated by restating the change in mean in-situ density as a change in mean sea surface height
-    zostoga = deptho_0_mean.data * (1. - rho_t)
+    zostoga = deptho_0_mean.core_data() * (1. - rho_t)
     zostoga = rho_mean.copy(zostoga)
     zostoga.units = Unit('m')
     return zostoga
