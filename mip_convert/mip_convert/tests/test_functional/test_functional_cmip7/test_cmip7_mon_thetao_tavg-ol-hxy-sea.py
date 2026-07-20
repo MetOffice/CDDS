@@ -56,7 +56,7 @@ class TestCmip7_thetao_tavg_ol_hxy_sea(AbstractFunctionalTests):
                     'onm': '1:-1,1:-1'
                 },
                 other={
-                    'reference_version': 'v1',
+                    'reference_version': 'v2',
                     'filenames': ['thetao_tavg-ol-hxy-sea_mon_glb_g100_UKCM2-0-LL_1pctCO2_r2i1p1f1_190001-190001.nc'],
                     'ignore_history': True,
                 }
