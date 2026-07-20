@@ -872,6 +872,10 @@ class Variable(object):
         time_constraint = _setup_time_constraint(date_time, new_year_midnight)
 
         for constraint_name, cube in list(self.input_variables.items()):
+            # All ancil variables must be included here
+            if cube.var_name in self._variable_metadata.ancil_variables:
+                input_variables[constraint_name] = cube
+                continue
             time_slice = apply_time_constraint(cube, time_constraint)
             if time_slice is None:
                 date_time_str = '-'.join(str(item) for item in date_time)
