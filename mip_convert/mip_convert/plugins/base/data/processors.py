@@ -395,6 +395,9 @@ def land_class_mean(variable_cube, tile_cube, land_class=None):
     """
     pseudo_constraint = _pseudo_constraint(land_class)
     result = variable_cube.extract(pseudo_constraint)
+    if not result:
+        raise RuntimeError(f"Unable to apply pseudo constraint `{pseudo_constraint}` to variable cube:\n{variable_cube}"
+                           "\nThis may be due to a missing pseudo constraint axis or missing levels within that axis.")
     tile_cube = tile_cube.extract(pseudo_constraint)
     result = _collapse_pseudo(result, MEAN, weights=tile_cube.data)
     return result
@@ -2497,3 +2500,23 @@ def calc_rootd(soil_cube, frac_cube, ice_class=None):
     )
 
     return rootd_cube
+
+
+def apply_ocean_coordinates(cube, coordinate_cube):
+    """Update the X and Y coordinate points of a cube from a reference cube.
+
+    Parameters
+    ----------
+    cube: :class:`iris.cube.Cube`
+        The cube whose coordinates will be updated.
+    coordinate_cube: :class:`iris.cube.Cube`
+        The cube containing the reference X and Y coordinates to copy.
+
+    Returns
+    -------
+    :class:`iris.cube.Cube`
+        The input cube with updated X and Y coordinate points.
+    """
+    cube.coord(axis='Y').points = coordinate_cube.coord(axis='Y').points.copy()
+    cube.coord(axis='X').points = coordinate_cube.coord(axis='X').points.copy()
+    return cube

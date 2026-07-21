@@ -22,6 +22,8 @@ from iris.fileformats.pp import load, load_pairs_from_fields
 import iris.fileformats.rules
 from iris.time import PartialDateTime
 from iris.util import equalise_attributes
+from iris.cube import CubeList
+from iris.warnings import IrisCfMissingVarWarning, IrisLoadWarning
 import numpy as np
 
 from cdds.common import netCDF_regexp
@@ -198,10 +200,13 @@ def load_cubes(all_input_data, run_bounds, loadable, ancil_variables):
         logger.debug('Loading cube using Iris constraints')
         load_constraints = constraint_constructor.load_constraints(loadable)
 
+    # Static coord-reference ancils have a fixed timestamp that won't match
+    # later cycle run_bounds, so skip time filtering for them.
+    effective_run_bounds = None if loadable.name.endswith('_coord_reference') else run_bounds
     if loadable.is_pp():
         merged_cubes = load_cubes_from_pp(all_input_data, load_constraints, run_bounds, ancil_variables)
     else:
-        merged_cubes = load_cubes_from_nc(all_input_data, load_constraints, run_bounds)
+        merged_cubes = load_cubes_from_nc(all_input_data, load_constraints, effective_run_bounds)
 
     if not merged_cubes:
         error_msg = 'No cubes found using constraints "{}" within "{}"'
@@ -212,7 +217,7 @@ def load_cubes(all_input_data, run_bounds, loadable, ancil_variables):
     return merged_cubes
 
 
-def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates, ancil_variables):
+def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates: CubeList, ancil_variables):
     """Load a single merged and concatenated cube
 
     Parameters
@@ -246,14 +251,20 @@ def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates, anc
             iris.util.unify_time_units(merged_cubes)
             cube = merged_cubes.concatenate_cube()
 
-    # Replace the horizonal coordinates in cubes loaded using CICE model output files
+    # Replace the horizonal coordinates in cubes loaded using CICE/NEMO model output files
     # in the final (merged and concatenated) cube rather than via a callback so that
     # the replacement only occurs once.
     if replacement_coordinates is not None:
-        is_cice_file = all(filename.startswith('cice') for filename in all_input_data)
-        has_cice_attributes = ('source' in cube.attributes and 'CICE' in cube.attributes['source'])
-        if is_cice_file or has_cice_attributes:
+        if "model_component" in cube.attributes and cube.attributes["model_component"] == "nemo":
+            constraint = iris.AttributeConstraint(
+                model_component="nemo",
+                substream=cube.attributes.get("substream", None),
+            )
+            replacement_coordinates = replacement_coordinates.extract(constraint)
             replace_coordinates(cube, replacement_coordinates)
+        elif "model_component" in cube.attributes and cube.attributes["model_component"] == "cice":
+            replace_coordinates(cube, replacement_coordinates)
+
     return cube
 
 
@@ -376,9 +387,12 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
         a list of merged cubes
     """
     userwarnings = [
-        {"message": ".*Missing CF-netCDF measure variable.*", "category": UserWarning},
-        {"message": ".*Missing CF-netCDF boundary variable.*", "category": UserWarning},
-        {"message": ".*invalid units.*", "category": UserWarning}
+        {"message": ".*Missing CF-netCDF measure variable.*", "category": IrisCfMissingVarWarning},
+        {"message": ".*Missing CF-netCDF boundary variable.*", "category": IrisCfMissingVarWarning},
+        {"message": ".*Missing CF-netCDF auxiliary coordinate variable.*", "category": IrisCfMissingVarWarning},
+        {"message": ".*Missing CF-netCDF label variable *", "category": IrisCfMissingVarWarning},
+        {"message": ".*invalid units.*", "category": UserWarning},
+        {"message": ".*Not all file objects were parsed correctly.*", "category": IrisLoadWarning},
     ]
     with warnings.catch_warnings():
         for warn in userwarnings:
@@ -391,8 +405,8 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
 
     cubes = iris.cube.CubeList()
     if merged_cubes:
-        # Apply the time constraint.
-        time_constraint = setup_time_constraint(run_bounds)
+        # Apply the time constraint (skipped if run_bounds is None, e.g. for static ancils).
+        time_constraint = setup_time_constraint(run_bounds) if run_bounds is not None else None
         for merged_cube in merged_cubes:
             promote_aux_time_coord_to_dim(merged_cube)
             # Add the fill_value as an attribute on the cube to workaround the
@@ -400,9 +414,12 @@ def load_cubes_from_nc(all_input_data, load_constraints, run_bounds):
             if hasattr(merged_cube.lazy_data(), 'fill_value'):
                 merged_cube.attributes['fill_value'] = merged_cube.lazy_data().fill_value
 
-            cube = apply_time_constraint(merged_cube, time_constraint)
-            if cube is not None:
-                cubes.append(cube)
+            if time_constraint is None:
+                cubes.append(merged_cube)
+            else:
+                cube = apply_time_constraint(merged_cube, time_constraint)
+                if cube is not None:
+                    cubes.append(cube)
     return cubes
 
 

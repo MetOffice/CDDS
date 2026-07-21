@@ -301,7 +301,7 @@ class QCRunner(object):
 
     def generate_report(self, run_id, location="", process_all=False,
                         with_details=False):
-        """Generates a json report for a given run_id
+        """Generates a json report for a given run_id as well as the approved variables txt file.
 
         Parameters
         ----------
@@ -356,12 +356,35 @@ class QCRunner(object):
             output["ignored_errors"] = self.get_ignored_messages()
         with open(dest_filename, 'w') as outfile:
             json.dump(output, outfile, indent=4, ensure_ascii=False)
+        # Generate approved variables list for use in archive
         with open(dest_variables, 'w') as outfile:
             for mip_table, var_dir, var_name in get_validated_variables(
                     cursor, run_id).fetchall():
+                mip_table = self._handle_multiple_realms(mip_table)
                 outfile.write("{}/{};{}\n".format(
                     mip_table, var_name, var_dir))
         return output
+
+    def _handle_multiple_realms(self, mip_table):
+        """Identifies the primary realm and reformats the mip_table if the current mip table contains multiple realms.
+
+        Parameters
+        ----------
+        mip_table: str
+            The current mip_table str.
+
+        Returns
+        -------
+        str
+            Reformatted mip_table str to contain only a single realm and its frequency.
+        """
+        tables = mip_table.split(" ")
+        if len(tables) == 1:
+            return mip_table
+        else:
+            primary_table = tables[0]
+            frequency = tables[-1].split("@")[-1]
+            return "{}@{}".format(primary_table, frequency)
 
     def _get_error_details(self, cursor, run_id, process_all):
         """Retrieves and processes error messages
@@ -634,15 +657,26 @@ class QCRunner(object):
             ): (
                 "This is a non-mandatory recommendation."
             ),
-            "Time Coordinate: Variable time has a calendar attribute of standard and it is recommended that the "
-            "units_metadata attribute is present and has one of the values ['leap_seconds: none', 'leap_seconds: utc', "
-            "'leap_seconds: unknown']": "non-mandatory",
-            "Cell Boundaries: Bounds variable vertices_longitude and parent variable longitude have the following "
-            "matching attributes ['units'].  It is recommended that only the parent variable of the bounds variable "
-            "contains these attributes": "non-mandatory",
-            "Cell Boundaries: Bounds variable vertices_latitude and parent variable latitude have the following "
-            "matching attributes ['units'].  It is recommended that only the parent variable of the bounds variable "
-            "contains these attributes": "non-mandatory",
+            (
+                "Time Coordinate: Variable time has a calendar attribute of standard and it is recommended that the "
+                "units_metadata attribute is present and has one of the values ['leap_seconds: none', "
+                "'leap_seconds: utc', 'leap_seconds: unknown']"
+            ): "non-mandatory",
+            (
+                "Time Coordinate: Variable time has a calendar attribute of proleptic_gregorian and it is recommended "
+                "that the units_metadata attribute is present and has one of the values ['leap_seconds: none', "
+                "'leap_seconds: utc', 'leap_seconds: unknown']"
+            ): "non-mandatory",
+            (
+                "Cell Boundaries: Bounds variable vertices_longitude and parent variable longitude have the following "
+                "matching attributes ['units'].  It is recommended that only the parent variable of the bounds "
+                "variable contains these attributes"
+            ): "non-mandatory",
+            (
+                "Cell Boundaries: Bounds variable vertices_latitude and parent variable latitude have the following "
+                "matching attributes ['units'].  It is recommended that only the parent variable of the bounds "
+                "variable contains these attributes"
+            ): "non-mandatory",
             'Climatological Statistics: The \"time: method within years/days over years/days\" format is not correct':
             "removed to allow production of tas and sfcWind in CMIP7",
             (
@@ -659,5 +693,7 @@ class QCRunner(object):
                 "Locally ignored: recurring CF checker warning for "
                 "longitude/vertices_longitude on native eORCA1 tripolar grid outputs."
             ),
+            ("Vertical Coordinate: \u00a74.3.1 seasurface's units must be defined for vertical coordinates, there is "
+             "no default"): "seasurface/osurf is a character string and hence has no units.",
         }
         return msg_dictionary

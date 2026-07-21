@@ -1,26 +1,20 @@
-# Generating CMORised data with CDDS for CMIP6 / CMIP6 Plus simulations using the CDDS Workflow
-
-See also [guidance for adhoc generation of CMORised data](gcmodeldev.md).
+# Generating CMORised data with CDDS for CMIP7 simulations using the CDDS Workflow
 
 !!! tip
     Use `<script> -h` or `<script> --help` to print information about the script, including available parameters.
-
-!!! example
-    A simulation for the pre-industrial control from UKESM will be used as an example in these instructions.
 
 ## Prerequisites
 
 Before running the CDDS Operational Procedure, please ensure that:
 
-- [x] you own a *CDDS operational simulation ticket* (see the [list of CDDS operational simulation tickets](https://code.metoffice.gov.uk/trac/cdds/wiki/CMIP6Simulations)) 
-      that will monitor the processing of a CMIP6 / CMIP6 Plus simulation using CDDS.
+- [x] You own a *CDDS operational simulation ticket* (see the [list of CDDS operational simulation tickets](https://github.com/UKNCSP/CDDS-CMIP7-processing/issues)) that will monitor the processing of a CMIP7 simulation using CDDS. It is important that this is maintained throughout processing to clearly document the process.
 
-- [x] you belong to the `cdds` group
+- [x] You belong to the `cdds` group.
 
     !!! tip 
-        type `groups` on the command line to print the groups a user is in
+        Type `groups` on the command line to print the groups a user is in.
 
-- [x] you have write permissions to `moose:/adhoc/projects/cdds/` on MASS
+- [x] You have write permissions to `moose:/adhoc/projects/cdds/` on MASS.
 
     !!! tip
         You can check if you have correct permissions by running following command and check if your moose username is included 
@@ -29,7 +23,7 @@ Before running the CDDS Operational Procedure, please ensure that:
         moo getacl moose:/adhoc/projects/cdds
         ```
 
-- [x] you use a bash shell. CDDS uses Conda which can experience problems running in a shell other than bash.
+- [x] You use a bash shell. CDDS uses Conda which can experience problems running in a shell other than bash.
 
     !!! tip 
         You can check which shell you use by following command:
@@ -55,9 +49,9 @@ the request configuration itself.
 
 In certain circumstances it may be desirable to process and submit a subset of an entire simulation, i.e. the first 250 
 years of the `esm-piControl` simulation. Please contact the [CDDS Team](mailto:cdds@metoffice.gov.uk) to discuss this 
-prior to starting processing to 
+prior to starting processing to:
 
-1. Get appropriate guidance on the steps needed to correctly construct the requested variables file in CDDS Prepare
+1. Get appropriate guidance on the steps needed to correctly construct the requested variables file in CDDS Prepare.
 2. Arrange for an appropriate [Errata](https://errata.es-doc.org/static/index.html) to be issued following submission of data sets.
 
 ### What to do when things go wrong
@@ -69,8 +63,7 @@ and if support is needed contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
 
 ## Set up the CDDS operational simulation ticket
 
-- [x] Select `start work` on the *CDDS operational simulation ticket* (so that the status is `in_progress`) to 
-      indicate that work is starting. 
+- [x] On the *CDDS operational simulation ticket* add the label `in_progress` to indicate that work is starting. 
 
 ## Activate the CDDS install
 
@@ -80,7 +73,7 @@ and if support is needed contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
        ```bash
        source ~cdds/bin/setup_env_for_cdds <cdds_version>
        ```
-       where `<cdds_version>` is the version of CDDS you wish to use, e.g. `3.0.0`. Unless instructed otherwise 
+       where `<cdds_version>` is the version of CDDS you wish to use, e.g. `3.3.3`. Unless instructed otherwise 
        you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
        this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
        for advice.
@@ -93,7 +86,7 @@ and if support is needed contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
        ```bash
        source ~cdds/bin/setup_env_for_cdds <cdds_version>
        ```
-       where `<cdds_version>` is the version of CDDS you wish to use, e.g. `3.3.0`. Unless instructed otherwise 
+       where `<cdds_version>` is the version of CDDS you wish to use, e.g. `3.3.3`. Unless instructed otherwise 
        you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
        this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
        for advice.
@@ -101,16 +94,16 @@ and if support is needed contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
     2. **Ticket**: Record the version of CDDS being used on the *CDDS operational simulation ticket*.
 
 !!! note
-    * The available version numbers for this script can be found [here](https://github.com/MetOffice/CDDS/tags)
+    * The available version numbers for this script can be found [here](https://github.com/MetOffice/CDDS/tags).
     * If you wish to deactivate the CDDS environment then you can use the command `conda deactivate`.
 
-## Create the request configuration file
+## Create the request configuration file and variable list
 
-The request configuration file is constructed from information in the `rose-suite.info` files within each workflow. 
+The request configuration file is constructed from information submitted for each workflow in the workflow_metadata directory of the [CDDS-simulation-metadata](https://github.com/UKNCSP/CDDS-simulation-metadata/tree/main/workflow_metadata) repository. 
 
 !!! important
-    If the `rose-suite.info` file contains incorrect information, this will be propagated through CDDS. As such it is 
-    critically important that the information in these files is correct
+    If the workflow metadata configuration file contains incorrect information, this will be propagated through CDDS. As such, it is 
+    critically important that the information in these files is correct.
 
 To construct the request configuration file take the following steps
 
@@ -122,28 +115,17 @@ To construct the request configuration file take the following steps
     ```
     Add the location of your working directory to the *CDDS operational simulation ticket*.
 
-2. Collect required information on the rose workflow for the simulation;
-    * workflow id, e.g. `u-aw310`
-    * branch, e.g. `cdds`
-    * revision
+2. Navigate to the issues section of the [CDDS-simulation-metadata](https://github.com/UKNCSP/CDDS-simulation-metadata/issues) repository and create a new  issue using the template titled *Request the Generation Of A CDDS Request File*. You will need to provide the model workflow ID (sometimes known as suite ID) that you wish to generate a request file for, the streams you wish to process with and a package name (see the packages information given above).
+   **Ticket**: Add a note of the issue number for this request file generation to the *CDDS operational simulation ticket*.
 
-    !!! info
-        You can find the revision of the workflow branch for a CMIP6 workflow by using the following command:
-        ```bash 
-        rosie lookup --prefix=u --query project eq u-cmip6 and id eq u-aw310 and branch eq cdds
-        ```
+If you experience any issues that you cannot resolve please contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
 
-3. Create the request configuration file;
-    ```bash
-    write_request <workflow id> <branch> <revision> <package name> [<list of streams>] -c <path to proc dir> -t <path to data dir>
-    ```
+3. Download a copy of the generated request file and its associated variable list, save them to your working directory and attach a copy to the *CDDS operational simulation ticket*. The associated variable list can be found in the `variables/` directory of the [CDDS-simulation-metadata](https://github.com/UKNCSP/CDDS-simulation-metadata/issues) repository. All variable list files are named in the format of `<model_workflow_id>_<experiment>_<model>.txt` (e.g. if you are running u-dv341 using the experiment piControl and the model UKCM2-0-LL, the variable list file will be named `u-dv341_piControl_UKCM2-0-LL.txt`).
 
-    ??? example
-        Create a request configuration file for the rose suite `u-aw310`, branch `cdds` and package `round-20`:
-        ```bash
-        write_request u-aw310 cdds 115492 round-20 ap4 ap5 ap6 onm inm \
-        -c /project/cdds/proc -t /project/cdds_data
-        ```
+    !!! important
+        Do not attempt to edit the request file directly on the [CDDS-simulation-metadata](https://github.com/UKNCSP/CDDS-simulation-metadata) repository. Changes should only be made to your locally downloaded copy. Any changes should be documented in the *CDDS operational simulation ticket*.
+    !!! important
+        You may find that the `variables/` directory contains multiple version subdirectories. Please use the most recent version available to you at that time. These version directories are associated with the version of the data request used to produce the variable list. **Ticket**: Add a note of the version directory that the variable list was obtained from to the *CDDS operational simulation ticket*.
 
 !!! note
     Be careful when re-running CDDS using the same request configuration file: pre-existing data will cause problems for 
@@ -151,37 +133,7 @@ To construct the request configuration file take the following steps
     doubt use a different package name in the request configuration file.
 
 !!! tip
-    If necessary the start and end dates for processing can be overridden using the `--start_date` and `--end_date` 
-    arguments. Please consult with the [CDDS Team](mailto:cdds@metoffice.gov.uk) if you believe this is necessary.
-
-!!! info
-    The log file and request configuration file are written to the current working directory
-
-## Prepare a list of variables to process
-
-!!! warning
-    This method does not refer to the Data Request or CDDS inventory database (to check which Datasets have been previously produced), 
-    so care should be taken with the choice of variables.
-
-1. Create a text file with the list of variables or copy and modify an existing list. Each line in the file should have the form
-   ```bash
-   <mip table>/<variable name>:<stream>
-   ```
-
-    ??? example
-        For example process the variable `tas` for the MIP table `Amon` when processing the `ap5` stream:
-        ```bash
-        Amon/tas:ap5
-        ```
-
-2. Set the value `variable_list_file` in the request configuration to the path of the created variable file.
-
-!!! note
-    If you are using a workflow with the CMIP6 STASH set up then you can add the default stream to a list of variables using the command
-    ```
-    stream_mappings --varfile <filename without streams> --outfile <new file with streams>
-    ```
-    If you are not using a workflow with the CMIP6 STASH configuration then contact us for advice as this process will need to be performed by hand.
+    If necessary ammendments to parameters such as start and end dates for processing can be changed in the request file. Please consult with the [CDDS Team](mailto:cdds@metoffice.gov.uk) if you believe this is necessary and document the change in the *CDDS operational simulation ticket*.
 
 ## Configure request configuration
 !!! important
@@ -190,22 +142,19 @@ To construct the request configuration file take the following steps
 
 You need to adjust your `request.cfg`:
 
-1. Open the `request.cfg` via a text editor, e.g. `vi` or `gedit`
+1. Open the `request.cfg` via a text editor, e.g. `vi` or `gedit`.
 
-2. Following values need to be set manually:
+2. The following values need to be set manually:
 
 | Value                 | Description                                                                       |
 |:----------------------|:----------------------------------------------------------------------------------|
-| `variable_list_file`  | Path to your variables file                                                       |
-| `output_mass_root`    | Path to the moose loction where the data should be archived starts with `moose:`  |
-| `output_mass_suffix`  | Sub-directory in MASS to used when moving data.                                   |
-
+| `variable_list_file`  | Path to your variable list file                                                       |
 
 !!! note
-    Please check the other values as well and do adjustments as needed. For any help, please contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
+    Please check the other values as well and do adjustments as needed. Ensure any adjustments are recorded on the *CDDS operational simulation ticket*. For any help, please contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
 
 !!! info
-    The MIP era (`CMIP6` or `CIMP6 Plus`) you are using is defined in the value `mip_era` of the `metadata` section.
+    The MIP era (`CMIP7`) you are using is defined in the value `mip_era` of the `metadata` section.
 
 ## Run the CDDS workflow for a single request
 
@@ -228,13 +177,21 @@ If running a single request configuration, please follow the standard process as
    cdds_convert <the path to your request.cfg>
    ```
 
-This process can be monitored via the cylc gui or cylc review. Further guidence on this process can be found in the [Quickstart tutorial](https://metoffice.github.io/CDDS/latest/tutorials/quickstart/).
+This process can be monitored via the cylc gui or cylc review. If a workflow has issues, due to task failure, it will stall, and you will receive an e-mail.Further guidence on this process can be found in the [Quickstart tutorial](https://metoffice.github.io/CDDS/latest/tutorials/quickstart/). 
 
 ## Checkout and configure the CDDS workflow for a batch of requests
 
 Alternatively, if you will be running a large batch of request files, it may be more valuable to use the processing workflow tool.
 
-1. Run the following command after replacing values within `<>`:
+1. Set up a working directory
+    ```bash
+    mkdir cdds-example-1
+    cd cdds-example-1
+    export WORKING_DIR=`pwd`
+    ```
+    Add the location of your working directory to the *CDDS operational simulation ticket*.
+
+2. Run the following command after replacing values within `<>`:
    ```bash
    checkout_processing_workflow <name for processing workflow> \
    <path to request configuration> \
@@ -253,7 +210,7 @@ Alternatively, if you will be running a large batch of request files, it may be 
         A directory containing a rose workflow will be placed in a subdirectory under the location specified in `--workflow_destination`.  
         If this is not specified it will be checked out under `~/roses/`
 
-2. **This step is optional:** Set some useful environmental variables to access the CDDS directories:
+3. **This step is optional:** Set some useful environmental variables to access the CDDS directories:
    ```bash
    export CDDS_PROC_DIR=/<root_proc_dir>/<mip_era>/<mip>/<model_id>_<experiment_id>_<variant_label>/<package>/
    export CDDS_DATA_DIR=/<root_data_dir>/<mip_era>/<mip>/<model_id>_<experiment_id>_<variant_label>/<package>/
@@ -268,16 +225,16 @@ Alternatively, if you will be running a large batch of request files, it may be 
 
         * Path to the root proc directory is `/home/foo/cdds-example-1/proc`.
         * Path to the root data directory is `/home/foo/cdds-example-1/data`.
-        * MIP era is `CMIP6` and MIP `CMIP`.
+        * MIP era is `CMIP7` and MIP `CMIP`.
         * Model ID is `UKESM1-0-LL` for experiment `piControl` with variant label `r1i1p1f2` and package `round-1`
 
         Then the command to set the environmental variables is:
         ```bash
-        export CDDS_PROC_DIR=/home/foo/cdds-example-1/data/CMIP6/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
-        export CDDS_DATA_DIR=/home/foo/cdds-example-1/data/CMIP6/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
+        export CDDS_PROC_DIR=/home/foo/cdds-example-1/data/CMIP7/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
+        export CDDS_DATA_DIR=/home/foo/cdds-example-1/data/CMIP7/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
         ```
 
-3. Run the workflow:
+4. Run the workflow:
    ```bash
    cd <name for processing workflow>
    cylc vip .
@@ -297,9 +254,9 @@ Alternatively, if you will be running a large batch of request files, it may be 
     export CYLC_VERSION=8
     ```
 
-## Monitor conversion workflows
+### Monitor conversion workflows
 
-For each stream a CDDS Convert workflow will be triggered by the processing workflow. Each of the workflows launched by CDDS Convert 
+For each stream, a CDDS Convert workflow will be triggered by the processing workflow. Each of the workflows launched by CDDS Convert 
 requires monitoring. This can be done using the command line tool `cylc gui` to obtain a window with an updating summary 
 of workflows progress or equivalently the [Cylc Review](http://fcm1/cylc-review/) online tools.
 
@@ -311,7 +268,7 @@ If you hit issues or are unsure how to proceed update the *CDDS operational simu
 anything you believe is relevant (include the location of your working directory) and contact the [CDDS Team](mailto:cdds@metoffice.gov.uk) 
 for advice.
 
-The conversion workflows run the following steps
+The conversion workflows run the following steps:
 
 - [x] `run_extract_<stream>`
 
@@ -450,11 +407,7 @@ The conversion workflows run the following steps
         This is a dummy task that is the last thing to run in the workflow -- this is to allow inter workflow dependencies by 
         allowing the `CDDS workflow` to monitor whether each per stream workflow has completed.
 
-If all goes well the workflow will complete, and you will receive an email confirming that the workflow has shutdown containing content of the form:
-```
-Message: AUTOMATIC
-See: http://fcm1/cylc-review/taskjobs/<user id>/<workflow name>
-```
+If all goes well the workflow will complete. Please be sure to periodically check on your workflows progress and confirm that it has completed before updating your *CDDS operational simulation ticket*.
 
 ## Prepare *CDDS operational simulation ticket* for review & submission
 
@@ -464,7 +417,7 @@ the Extract, Convert, QC and Transfer tasks have been completed.
 !!! note
     You can check if workflows has completed by using the command `cylc gscan` or using the cylc review tool.
 
-- [x] Copy the request JSON file and any logs to `$CDDS_PROC_DIR`
+- [x] Copy the request JSON file and any logs to `$CDDS_PROC_DIR`.
       ```bash
       cp request.json *.log $CDDS_PROC_DIR/
       ```
@@ -472,7 +425,7 @@ the Extract, Convert, QC and Transfer tasks have been completed.
 - [x] Add a comment to the *CDDS operational simulation ticket* specifying the archived data is ready for submission, 
       and include the full path to your request configuration location.
 
-- [x] Select `assign for review to` on the *CDDS operational simulation ticket* (so that the status is `reviewing`) and 
+- [x] Add the label `assign for review to` to the *CDDS operational simulation ticket* and 
       assign the *CDDS operational simulation ticket* to Matthew Mizielinski by selecting this name from the list.
 
 - [x] The ticket will then be reviewed according to the [CDDS simulation review procedure](sim_review.md) by members of the CDDS team.
@@ -497,6 +450,6 @@ the Extract, Convert, QC and Transfer tasks have been completed.
     cdds_clean <path to the request configuration>
     ```
 
-3. Update and close the *CDDS operational simulation ticket*
+3. Update and close the *CDDS operational simulation ticket*.
   
 

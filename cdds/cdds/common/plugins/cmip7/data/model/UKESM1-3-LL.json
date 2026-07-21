@@ -1,7 +1,6 @@
 {
   "stream_file_frequency": {
     "quarterly": [
-      "ond"
     ],
     "monthly": [
       "ap4",
@@ -10,7 +9,8 @@
       "apu",
       "inm",
       "ind",
-      "onm"
+      "onm",
+      "ond"
     ],
     "10 day": [
       "ap6",
@@ -21,7 +21,7 @@
     ]
   },
   "cycle_length": {
-    "ap4": "P5Y",
+    "ap4": "P2Y",
     "ap5": "P5Y",
     "apm": "P5Y",
     "apu": "P5Y",
@@ -32,14 +32,14 @@
     "apt": "P3M",
     "ind": "P1Y",
     "inm": "P5Y",
-    "ond": "P1Y",
+    "ond": "P6M",
     "onm": "P2Y"
   },
   "memory": {
-    "ap4": "12G",
+    "ap4": "16G",
     "ap5": "8G",
     "apm": "8G",
-    "apu": "8G",
+    "apu": "24G",
     "ap6": "30G",
     "ap7": "32G",
     "ap8": "24G",
@@ -60,7 +60,7 @@
     "ap8": 32768,
     "ap9": 32768,
     "apt": 32768,
-    "ind": 8192,
+    "ind": 20000,
     "inm": 8192,
     "ond": 64000,
     "onm": 32768
@@ -103,7 +103,8 @@
       "40-144-192": 20,
       "85-144-192": 10,
       "85-145-192": 10,
-      "86-144-192": 10
+      "86-144-192": 10,
+      "75-330-360": 5
     },
     "6hr": {
       "default": 10,
@@ -200,7 +201,7 @@
       "longitude": 360,
       "latitude": 330,
       "levels": 75,
-      "replacement_coordinates_file": "cice_eORCA1_coords.nc",
+      "replacement_coordinate_files": ["cice_eORCA1_coords.nc"],
       "ancil_filenames": [
         "ocean_constants.nc",
         "ocean_byte_masks.nc",
@@ -210,53 +211,73 @@
       ],
       "bounds_coordinates": {
         "onm-grid-T": [
-          "bounds_lon",
+          "bounds_nav_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
           "deptht_bounds"
         ],
         "onm-grid-U": [
-          "bounds_lon",
+          "bounds_nav_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
           "depthu_bounds"
         ],
         "onm-grid-V": [
-          "bounds_lon",
+          "bounds_nav_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
           "depthv_bounds"
         ],
         "onm-grid-W": [
-          "bounds_lon",
+          "bounds_nav_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
           "depthw_bounds"
         ],
         "onm-grid-X": [
-          "bounds_lon",
+          "bounds_nav_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
           "deptht_bounds"
         ],
+        "onm-diad-T": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds"
+        ],
+        "onm-ptrc-T": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds"
+        ],
         "ond-grid-T": [
-          "bounds_lon",
+          "bounds_nav_lon",
           "bounds_nav_lat",
           "time_centered_bounds",
           "deptht_bounds"
         ],
         "ond-grid-U": [
-          "bounds_lon",
+          "bounds_nav_lon",
           "bounds_nav_lat",
           "time_centered_bounds"
         ],
         "ond-grid-V": [
-          "bounds_lon",
+          "bounds_nav_lon",
           "bounds_nav_lat",
           "time_centered_bounds"
         ],
         "ond-grid-W": [
-          "bounds_lon",
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds"
+        ],
+        "ond-diad-T": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds"
+        ],
+        "ond-ptrc-T": [
+          "bounds_nav_lon",
           "bounds_nav_lat",
           "time_centered_bounds"
         ],

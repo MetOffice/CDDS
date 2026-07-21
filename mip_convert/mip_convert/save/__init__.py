@@ -6,6 +6,7 @@
 import copy
 import logging
 from operator import attrgetter
+from typing import Optional, Tuple
 
 import iris
 import numpy as np
@@ -14,12 +15,17 @@ from mip_convert.common import (
     DEFAULT_FILL_VALUE, has_auxiliary_latitude_longitude, check_values_equal)
 from mip_convert.load.pp.pp_axis import (BoundedAxis, AxisHybridHeight,
                                          TimeSeriesSiteAxis, ReferenceTimeAxis)
+from mip_convert.save.cmor.cmor_outputter import AbstractCmorOutputter
 from mip_convert.variable import Variable as CMORVariable
 from mip_convert.variable import (CoordinateDomain, PolePoint, TripolarGrid,
                                   make_masked)
 
 
-def save(mip_output_variable, saver):
+def save(
+    mip_output_variable,
+    saver: AbstractCmorOutputter,
+    cell_measures_config: Optional[Tuple[str, str, str, str, Optional[str], str]] = None,
+):
     """Save the |MIP output variable| to an |output netCDF file|
     using |CMOR|.
 
@@ -41,10 +47,17 @@ def save(mip_output_variable, saver):
         The |MIP output variable|.
     saver: callable
         A function with the signature ``function(object)``
+    cell_measures_config: tuple, optional
+        Arguments for :meth:`cmor_wrapper.apply_cell_measures` (excluding
+        ``variable_id``).  When provided, cell measures are applied once,
+        after the CMOR variable is registered but before data is written.
     """
     logger = logging.getLogger(__name__)
     logger.debug('Saving MIP output variable to an output netCDF file')
     cmor_variable = create_cmor_variable(mip_output_variable)
+    if cell_measures_config is not None and saver.varid is None:
+        saver._getVarId(cmor_variable)
+        saver.cmor.apply_cell_measures(*cell_measures_config, saver.varid)
     saver(cmor_variable)
 
 

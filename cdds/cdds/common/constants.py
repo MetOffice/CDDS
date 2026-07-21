@@ -59,6 +59,8 @@ ANCIL_VARIABLES = [
     'so_0',  # ocean_zostoga
     'rho_0_mean',  # ocean_zostoga
     'deptho_0_mean',  # ocean_zostoga
+    'u_coord_reference',  # nemo_eORCA1_grid-U.nc
+    'v_coord_reference',  # nemo_eORCA1_grid-V.nc
 ]
 APPROVED_VARS_PREFIX = 'approved_variables'
 APPROVED_VARS_FILENAME_TEMPLATE = APPROVED_VARS_PREFIX + '_{dt}.txt'
@@ -244,7 +246,7 @@ USER_CONFIG_OPTIONS = {
             'base_date', 'model_output_dir', 'run_bounds', 'suite_id'],
         'optional': [
             'ancil_files', 'atmos_timestep', 'deflate_level',
-            'hybrid_heights_files', 'replacement_coordinates_file', 'shuffle',
+            'hybrid_heights_files', 'replacement_coordinate_files', 'shuffle',
             'sites_file', 'reference_time'],
     },
 }
@@ -252,5 +254,6 @@ VARIANT_LABEL_FORMAT = r'^r(\d+)i(\d+)p(\d+)f(\d+)$'
 CMIP7_VARIANT_LABEL_FORMAT = r'^(r\d{1,6})(i\d{1,6}[a-e]?)(p\d{1,6})(f\d{1,6})$'
 PRINT_STACK_TRACE = True
 CALENDAR_MAPPING_CDDS_TO_CYLC = {
-    "standard": "gregorian"
+    "standard": "gregorian",
+    "proleptic_gregorian": "gregorian"
 }

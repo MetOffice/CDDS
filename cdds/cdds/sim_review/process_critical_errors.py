@@ -75,7 +75,7 @@ def get_cmor_log_file_location(issue: str, cdds_convert_proc_dir: str) -> Path:
         The path to the cmor log file for a given cycle point(timestamp).
     """
     grid, timestamp, mip_log_file, _, _, _ = issue.split("|")
-    subdir = "_".join(grid.split("_")[2:]).strip("first_")
+    subdir = "_".join(grid.split("_")[2:]).replace("first_", "")
     cmor_log_filename = f'{mip_log_file.replace("mip_convert_", "cmor.")}.gz'
     cmor_log_file_location = Path(cdds_convert_proc_dir) / "log" / subdir / timestamp / "cmor_logs" / cmor_log_filename
 
@@ -129,6 +129,7 @@ def check_issues_in_cmor_write(msg: str, cmor_logs: Iterator, variable: str) -> 
     str
         The error message updated with additional info from the cmor file.
     """
+    err = ""
     for line in cmor_logs:
         if "cmor_write_var_to_file" in line:
             err = _summarise_cmor_error(line, cmor_logs, "Error", variable, "Problem with cmor_write_var_to_file")
@@ -155,6 +156,7 @@ def check_issues_in_cmor_variable(msg: str, cmor_logs: Iterator, variable: str) 
     str
         The error message updated with additional info from the cmor file.
     """
+    err = ""
     for line in cmor_logs:
         if "cmor_variable" in line:
             err = _summarise_cmor_error(line, cmor_logs, "Error", variable, "Problem with cmor_variable")
@@ -181,6 +183,7 @@ def check_issues_in_cmor_zfactor(msg: str, cmor_logs: Iterator, variable: str) -
     str
         The error message updated with additional info from the cmor file.
     """
+    err = ""
     for line in cmor_logs:
         if "cmor_zfactor" in line:
             err = _summarise_cmor_error(line, cmor_logs, "Warning", variable, "Problem with cmor_zfactor")
@@ -207,6 +210,7 @@ def check_issues_in_cmor_axis(msg: str, cmor_logs: Iterator, variable: str) -> s
     str
         The error message updated with additional info from the cmor file.
     """
+    err = ""
     for line in cmor_logs:
         if "cmor_axis" in line:
             err = _summarise_cmor_error(line, cmor_logs, "Error", variable, "Problem with cmor_axis")

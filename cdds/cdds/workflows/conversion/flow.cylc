@@ -384,6 +384,7 @@ mkdir -p {{ BASE_OUTPUT }}
     [[run_repack_{{ STREAM }}]]
         inherit = MIP_CONCATENATE_{{ STREAM }}, {{ PLATFORM }}, COMPLETION_FAMILY_{{ STREAM }}
         execution time limit = P2D
+        execution retry delays =
         [[[environment]]]
             ROSE_TASK_APP = repack_output
             STREAM = {{ STREAM }}

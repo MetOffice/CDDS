@@ -34,10 +34,12 @@ Some implementation notes:
 """
 from copy import copy
 import os.path
+import numpy as np
 
 from mip_convert import mip_parser
 import mip_convert.common
 from mip_convert.common import RelativePathChecker
+from mip_convert.save.cmor.cmor_wrapper import CmorWrapper
 from mip_convert.save.mip_config import MipTableFactory
 
 
@@ -219,7 +221,7 @@ class AbstractCmorOutputter(object):
     """
 
     def __init__(self, entry, cmor_wrapper):
-        self.cmor = cmor_wrapper
+        self.cmor: CmorWrapper = cmor_wrapper
         self.entry = entry
         self._name_space = MoNameSpace()
         self.varid = None
@@ -624,6 +626,11 @@ class CmorDomain(object):
     def _make_z_axis(self, variable):  # move to maker?
         for axis_dir in self.axis_maker_factory.z_axis():
             maker = self._get_maker(axis_dir, variable)
+            #  Intercept "osurf" axis and update value from the dummy integer 0, to character string.
+            #  Dummy value is required until this point to avoid iris z axis errors.
+            if maker.entry == 'osurf':
+                maker.axis._values = np.array(["ocean_surface_layer"])
+                maker.axis.units = ""
             maker.set_horizontal(self._my_horizontal_ids(variable))
             self.axis_ids[axis_dir] = maker.cmorId()
 
