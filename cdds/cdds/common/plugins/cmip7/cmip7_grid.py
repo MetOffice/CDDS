@@ -128,4 +128,4 @@ class Cmip7GridLabelUKESM1p3(GridLabel):
     TRIPOLAR_UGRID = 'tripolar-ugrid', 'g125', False
     TRIPOLAR_VGRID = 'tripolar-vgrid', 'g124', False
 
-    SEAICE_NATIVE = 'seaice-native', 'g999', False
+    SEAICE_NATIVE = 'seaice-native', 'g216', False
