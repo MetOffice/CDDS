@@ -141,7 +141,8 @@
       "ancil_filenames": [
         "qrparm.orog.pp",
         "qrparm.landfrac.pp",
-        "qrparm.soil.pp"
+        "qrparm.soil.pp",
+        "slthick_rootd_sftgif.pp"
       ],
       "hybrid_heights_files": [
         "atmosphere_theta_levels_85.txt",
