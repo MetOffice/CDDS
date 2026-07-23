@@ -533,7 +533,7 @@ class TestZostoga(unittest.TestCase):
         thetao_ref = thetao.copy()
         zfullo_ref = zfullo.copy()
         cube = calc_rho_mean(thetao, so, zfullo, areacello, thkcello)
-        ref = eos_insitu(40., 40., 10000.)
+        ref = eos_insitu(np.array(40.), np.array(40.), np.array(10000.))
 
         self.assertIsInstance(cube, Cube)
         self.assertEqual(cube.shape, (2,))
