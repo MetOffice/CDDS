@@ -154,13 +154,18 @@
       "longitude": 4320,
       "latitude": 3604,
       "levels": 75,
-      "replacement_coordinate_files": "",
+      "replacement_coordinate_files": [
+        "nemo_eORCA12_grid-U.nc",
+        "nemo_eORCA12_grid-V.nc"
+      ],
       "ancil_filenames": [
-        "ocean_byte_masks_HH.nc",
+        "ocean_basin.nc",
         "ocean_constants.nc",
         "ocean_zostoga.nc",
-        "nemo_eORCA1_grid-U.nc",
-        "nemo_eORCA1_grid-V.nc"
+        "ocean_byte_masks.nc",
+        "ocean_diaptr_basin_masks.nc",
+        "nemo_eORCA12_grid-U.nc",
+        "nemo_eORCA12_grid-V.nc"
       ],
       "ancil_variables": [
         "u_coord_reference",
