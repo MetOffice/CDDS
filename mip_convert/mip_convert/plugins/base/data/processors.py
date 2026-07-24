@@ -7,10 +7,13 @@ to from |model to MIP mapping| expressions.
 from itertools import chain
 import datetime
 import logging
+import os
+import time
 import regex as re
 import warnings
 
 import numpy as np
+import psutil
 
 from cf_units import Unit
 import iris
@@ -25,6 +28,24 @@ from iris.util import equalise_attributes, guess_coord_axis, new_axis, is_masked
 from mip_convert.common import guess_bounds_if_needed
 from mip_convert.constants import (JPDFTAUREICEMODIS_POINTS, JPDFTAUREICEMODIS_BOUNDS,
                                    JPDFTAURELIQMODIS_POINTS, JPDFTAURELIQMODIS_BOUNDS)
+
+
+def _log_memory_usage(logger, stage):
+    """Log the current process' memory usage (RSS) to help diagnose OOM kills.
+
+    Parameters
+    ----------
+    logger: :class:`logging.Logger`
+        The logger to write the memory usage to.
+    stage: str
+        A short description of the point in the code the measurement was
+        taken at, included in the log message.
+    """
+    try:
+        rss_bytes = psutil.Process(os.getpid()).memory_info().rss
+        logger.info('[memory profile!] %s: RSS=%.1f MB', stage, rss_bytes / (1024. ** 2))
+    except Exception:
+        logger.debug('[memory profile!] Unable to determine memory usage at stage "%s"', stage)
 
 
 def _check_daily_cube(cube):
@@ -978,9 +999,17 @@ def eos_insitu(zt, zs, zh):
         stability. Journal of Atmospheric and Oceanic Technology,
         12(2), pp.381-389.
     """
+    logger = logging.getLogger(__name__)
+    logger.debug('eos_insitu: input shapes zt=%s zs=%s zh=%s (dtype=%s)',
+                getattr(zt, 'shape', None), getattr(zs, 'shape', None),
+                getattr(zh, 'shape', None), getattr(zt, 'dtype', None))
+    _log_memory_usage(logger, 'eos_insitu: start')
+    start_time = time.time()
+
     zt = zt.astype(np.float64)
     zs = zs.astype(np.float64)
     zh = zh.astype(np.float64)
+    _log_memory_usage(logger, 'eos_insitu: after cast to float64')
 
     # zb = zbw + ze * zs
     zwrk = (-3.508914e-8 * zt - 1.248266e-8) * zt - 2.595994e-6   # ze
@@ -1021,6 +1050,9 @@ def eos_insitu(zt, zs, zh):
 
     # rho = zrhop / (1. - zh / (zk0 - zh * (za - zh * zb)))
     zrho = zwrk / zrho
+
+    _log_memory_usage(logger, 'eos_insitu: end')
+    logger.debug('eos_insitu: completed in %.2f s', time.time() - start_time)
     return zrho
 
 
@@ -1088,6 +1120,23 @@ def calc_rho_mean(thetao, so, zfullo, areacello, thkcello):
     -----
     This is an :class:`iris.cube.Cube` wrapper to `eos_insitu`.
 
+    To limit peak memory usage on high-resolution grids (where a full 3D
+    field can be many GB), the in-situ density and volume weighting are
+    computed one vertical level at a time rather than for the whole 3D
+    field at once. The volume-weighted mean over ``latitude`` and
+    ``longitude`` is calculated for each level, and these per-level means
+    are then combined into an overall mean weighted by the total volume of
+    each level. This is mathematically equivalent to weighting every grid
+    cell by its own volume in a single pass, since a weighted mean is
+    associative.
+
+    A dask-lazy rechunked version of this function (relying on iris's lazy
+    weighted MEAN aggregator) was benchmarked as an alternative but was
+    found to use *more* peak memory than even the original whole-field
+    implementation (likely because iris/dask's lazy weighted-average
+    reduction does not stream through chunks as cheaply as a plain
+    per-level Python loop), so the explicit manual loop below is retained.
+
     References
     ----------
     .. [calc_rho_mean_1]
@@ -1096,6 +1145,11 @@ def calc_rho_mean(thetao, so, zfullo, areacello, thkcello):
         stability. Journal of Atmospheric and Oceanic Technology,
         12(2), pp.381-389.
     """
+    logger = logging.getLogger(__name__)
+    _log_memory_usage(logger, 'calc_rho_mean: start')
+    logger.info('calc_rho_mean: [fix=level-chunked-eos-insitu active] processing vertical levels one at a '
+               'time instead of the whole 3D field to limit peak memory usage')
+
     # Check data are consistent in shape
     if len({thetao.shape, so.shape, zfullo.shape, thkcello.shape}) > 1:
         message = ('Input arguments have inconsistent shapes: '
@@ -1105,17 +1159,55 @@ def calc_rho_mean(thetao, so, zfullo, areacello, thkcello):
                    '\n\tthkcello = {d.shape}')
         raise ValueError(message.format(a=thetao, b=so, c=zfullo, d=thkcello))
 
-    # Calculate in-situ density
-    rho = thetao.copy(eos_insitu(thetao.core_data(), so.core_data(), zfullo.core_data()))
+    logger.debug('calc_rho_mean: cube shape=%s', thetao.shape)
+    start_time = time.time()
+
+    # Identify the vertical coordinate on each input cube. Shapes have
+    # already been checked to match above, so the levels line up positionally
+    # even if the vertical coordinate has a different name on each cube.
+    thetao_z_name = _z_axis(thetao).name()
+    so_z_name = _z_axis(so).name()
+    zfullo_z_name = _z_axis(zfullo).name()
+    thkcello_z_name = _z_axis(thkcello).name()
+
+    level_means = iris.cube.CubeList()
+    level_index = -1
+    for level_index, (t_level, so_level, zfullo_level, thkcello_level) in enumerate(zip(
+            thetao.slices_over(thetao_z_name),
+            so.slices_over(so_z_name),
+            zfullo.slices_over(zfullo_z_name),
+            thkcello.slices_over(thkcello_z_name))):
+
+        rho_level = t_level.copy(eos_insitu(t_level.core_data(), so_level.core_data(), zfullo_level.core_data()))
+        weight_level = areacello.core_data() * thkcello_level.core_data()
+        level_mean = rho_level.collapsed(['latitude', 'longitude'], iris.analysis.MEAN, weights=weight_level)
+        # Fill with 0.0 rather than leaving this as a masked constant: a level that is masked
+        # everywhere (e.g. the deepest model level, below the seafloor at every grid point) has
+        # zero volume, and merge_cube() cannot hash a MaskedConstant coordinate value.
+        level_volume_sum = np.ma.filled(np.ma.sum(weight_level), 0.0)
+        level_volume = iris.coords.AuxCoord(level_volume_sum, long_name='level_volume', units=Unit('m3'))
+        level_mean.add_aux_coord(level_volume)
+        level_means.append(level_mean)
+
+        if level_index == 0:
+            _log_memory_usage(logger, 'calc_rho_mean: after processing first level')
+
+    logger.debug('calc_rho_mean: processed %d vertical levels in %.2f s', level_index + 1, time.time() - start_time)
+    _log_memory_usage(logger, 'calc_rho_mean: after per-level loop')
+
+    rho_by_level = level_means.merge_cube()
 
     # Set some metadata
-    rho.standard_name = 'sea_water_density'
-    rho.long_name = 'In situ density'
-    rho.units = 'kg m-3'
+    rho_by_level.standard_name = 'sea_water_density'
+    rho_by_level.long_name = 'In situ density'
+    rho_by_level.units = 'kg m-3'
 
-    # Calculate weighted global mean
-    volcello = areacello.core_data() * thkcello.core_data()
-    rho_mean = rho.collapsed(['latitude', 'longitude', 'depth'], iris.analysis.MEAN, weights=volcello)
+    # Combine the per-level means into the overall volume-weighted mean, using
+    # the total volume of each level (accumulated above) as the weight.
+    level_volumes = rho_by_level.coord('level_volume').points
+    rho_mean = rho_by_level.collapsed('depth', iris.analysis.MEAN, weights=level_volumes)
+    rho_mean.remove_coord('level_volume')
+    _log_memory_usage(logger, 'calc_rho_mean: end (after collapse)')
     return rho_mean
 
 
@@ -1180,12 +1272,15 @@ def calc_zostoga(thetao, thkcello, areacello, zfullo_0, so_0, rho_0_mean, deptho
         if not cube.coords('depth'):
             _z_axis(cube).rename('depth')
 
+    logger = logging.getLogger(__name__)
+    _log_memory_usage(logger, 'calc_zostoga: start')
+
     rho_mean = iris.cube.CubeList()
 
     so_0 = iris.util.squeeze(so_0)
     zfullo_0 = iris.util.squeeze(zfullo_0)
 
-    for t_slice, z_slice in zip(thetao.slices_over('time'), thkcello.slices_over('time')):
+    for index, (t_slice, z_slice) in enumerate(zip(thetao.slices_over('time'), thkcello.slices_over('time'))):
         # Check that thetao and thkcello have the same time coordinate
         t_time = t_slice.coord('time')
         z_time = z_slice.coord('time')
@@ -1194,10 +1289,18 @@ def calc_zostoga(thetao, thkcello, areacello, zfullo_0, so_0, rho_0_mean, deptho
             message = 'Time coordinates of thetao and thkcello do not match:\n\tthetao: {}\n\tthkcello: {}'
             raise ValueError(message.format(t_time, z_time))
 
+        _log_memory_usage(logger, 'calc_zostoga: before processing time step {}'.format(index))
+        step_start_time = time.time()
+
         # Change in mean in-situ density due to temperature (vs reference state)
         rho_mean += [calc_rho_mean(t_slice, so_0, zfullo_0, areacello, z_slice)]
 
+        logger.debug('calc_zostoga: time step %d processed in %.2f s', index, time.time() - step_start_time)
+        _log_memory_usage(logger, 'calc_zostoga: after processing time step {}'.format(index))
+
+    _log_memory_usage(logger, 'calc_zostoga: before merge_cube')
     rho_mean = rho_mean.merge_cube()
+    _log_memory_usage(logger, 'calc_zostoga: after merge_cube')
     rho_t = rho_mean.core_data() / rho_0_mean.core_data()
 
     # zostoga is calculated by restating the change in mean in-situ density as a change in mean sea surface height
