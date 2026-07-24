@@ -18,7 +18,7 @@ if TYPE_CHECKING:
     from cdds.common.request.request import Request
 
 
-CMIP7_LICENSE = "CC-BY-4-0"
+CMIP7_LICENSE = "CC-BY-4.0"
 
 
 class Cmip7Plugin(BasePlugin):
