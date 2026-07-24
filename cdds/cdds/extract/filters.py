@@ -569,7 +569,7 @@ class Filters(object):
                     "Could not create a sizing file in {}".format(self.procdir))
             # add a single command
             cmd = {"moo_cmd": "select",
-                   "param_args": ["-i", "-d", filterfile, self.source, self.target],
+                   "param_args": ["-i", filterfile, self.source, self.target],
                    "start": start_tup,
                    "end": end_tup}
             self.mass_cmd.append(cmd)
@@ -807,7 +807,7 @@ class Filters(object):
                             self.procdir))
                 try:
                     regexp = netCDF_regexp()
-                    moo_args = ["-i", "-d", file_name]
+                    moo_args = ["-i", file_name]
                     self._update_mass_cmd(regexp, filelist, start, end, "filter", moo_args, substream)
                 except MooseException as e:
                     error = str(e)
@@ -940,7 +940,7 @@ class Filters(object):
                     regexp, files_found, MOOSE_MAX_NC_FILES
                 )
             )
-        tape_limit, error = get_tape_limit(simulation=self.simulation)
+        tape_limit, error = 50, ""
         if error:
             raise MooseException(error)
         chunks = chunk_by_files_and_tapes(files_on_tapes, tape_limit, MOOSE_MAX_NC_FILES)
