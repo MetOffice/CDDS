@@ -940,7 +940,8 @@ class Filters(object):
                     regexp, files_found, MOOSE_MAX_NC_FILES
                 )
             )
-        tape_limit, error = 50, ""
+       # set tape limit manually. This will be removed in a future version of CDDS
+       tape_limit, error = 50, ""
         if error:
             raise MooseException(error)
         chunks = chunk_by_files_and_tapes(files_on_tapes, tape_limit, MOOSE_MAX_NC_FILES)

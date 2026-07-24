@@ -965,6 +965,7 @@ def fetch_filelist_from_mass(mass_dir, simulation=False):
             for fileline in filelines:
                 try:
                     filepath = fileline
+                    # set tape id to "01" as not relevant with Az MASS
                     files.append(("01", filepath))
                 except ValueError:
                     # skip files which hasn't been completely written to the tape system yet
