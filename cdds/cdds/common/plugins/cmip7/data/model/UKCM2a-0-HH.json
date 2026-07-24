@@ -34,7 +34,7 @@
     "ind": "P1Y",
     "inm": "P5Y",
     "ond": "P3M",
-    "onm": "P6M"
+    "onm": "P2M"
   },
   "memory": {
     "ap4": "80G",
@@ -49,7 +49,7 @@
     "ind": "80G",
     "inm": "80G",
     "ond": "80G",
-    "onm": "80G",
+    "onm": "100G",
     "afx": "8G",
     "ofx": "8G"
   },
@@ -154,9 +154,22 @@
       "longitude": 4320,
       "latitude": 3604,
       "levels": 75,
-      "replacement_coordinate_files": "",
+      "replacement_coordinate_files": [
+        "nemo_eORCA12_grid-U.nc",
+        "nemo_eORCA12_grid-V.nc"
+      ],
       "ancil_filenames": [
-        "ocean_byte_masks_HH.nc"
+        "ocean_basin.nc",
+        "ocean_constants.nc",
+        "ocean_zostoga.nc",
+        "ocean_byte_masks.nc",
+        "ocean_diaptr_basin_masks.nc",
+        "nemo_eORCA12_grid-U.nc",
+        "nemo_eORCA12_grid-V.nc"
+      ],
+      "ancil_variables": [
+        "u_coord_reference",
+        "v_coord_reference"
       ],
       "bounds_coordinates": {
         "onm-grid-T": [
