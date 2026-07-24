@@ -10,7 +10,7 @@ from typing import List, Type
 
 from cdds.common.plugins.common import LoadResults
 from cdds.common.plugins.base.base_models import BaseModelParameters, ModelId, BaseModelStore
-from cdds.common.plugins.cmip7.cmip7_grid_mapping import CMIP7GridMapping
+from cdds.common.plugins.cmip7.cmip7_grid_mapping import CMIP7GridMapping, CMIP7GridMappingUKESM1p3
 from cdds.common.plugins.cmip7.cmip7_grid import Cmip7GridLabelUKCM_LL, Cmip7GridLabelUKCM_HH
 from cdds.common.plugins.grid import GridLabel
 
@@ -38,7 +38,7 @@ class UKESM1_3_LL_Params(BaseModelParameters):
 
     def __init__(self) -> None:
         super(UKESM1_3_LL_Params, self).__init__(Cmip7ModelId.UKESM1_3_LL)
-        self._grid_mappings: CMIP7GridMapping = CMIP7GridMapping()
+        self._grid_mappings: CMIP7GridMappingUKESM1p3 = CMIP7GridMappingUKESM1p3()
 
     @property
     def model_version(self) -> str:

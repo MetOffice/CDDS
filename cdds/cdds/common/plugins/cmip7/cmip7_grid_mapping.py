@@ -36,3 +36,35 @@ class CMIP7GridMapping(BaseGridMapping):
         """
 
         return os.path.join(self.data_folder, "grids.cfg")
+
+
+class CMIP7GridMappingUKESM1p3(BaseGridMapping):
+    data_folder = os.path.join(os.path.dirname(__file__), "data", "grid_mapping")
+
+    @property
+    def additional_default_grids_file(self) -> str:
+        """Returns the path to an additional default grid configuration that overrides the values
+        in the basic default grid information.
+
+        Returns
+        -------
+        unknown
+            Path to the default grid information file
+
+
+        :rtype; str
+        """
+        return os.path.join(self.data_folder, "default_grids.cfg")
+
+    @property
+    def additional_grids_file(self) -> str:
+        """Returns the path to an additional default grid configuration that overrides the values
+        in the basic default grid information.
+
+        Returns
+        -------
+        str
+            Path to the grid information file
+        """
+
+        return os.path.join(self.data_folder, "grids_ukesm1p3.cfg")
