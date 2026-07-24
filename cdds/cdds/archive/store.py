@@ -72,7 +72,8 @@ def store_mip_output_data(request: Request, stream: str, mip_approved_variables_
 
     # Clean up archive directory to avoid left empty directories
     archive_dir = construct_archive_dir_mass_path(mass_path_root, request)
-    cleanup_archive_dir(archive_dir, mip_approved_variables, request.common.simulation)
+    # TODO gh#1013
+    # cleanup_archive_dir(archive_dir, mip_approved_variables, request.common.simulation)
 
     mip_approved_variables, invalid_variables = check_stored_status(mip_approved_variables, archive_dir)
 
