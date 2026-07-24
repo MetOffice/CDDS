@@ -229,7 +229,7 @@
         "ocean_constants.nc",
         "ocean_byte_masks.nc",
         "ocean_basin.nc",
-        "diaptr_basin_masks.nc",
+        "ocean_diaptr_basin_masks.nc",
         "ocean_zostoga.nc"
       ],
       "ancil_variables": [
