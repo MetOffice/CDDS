@@ -45,7 +45,7 @@ class TestFilters(unittest.TestCase):
         root = "moose:/crum/u-aw310/inm.nc.file/"
         tape = "TAPE1"
         expected_command = (
-            "moo filter -i -d foo/extract/inm_defaults.dff "
+            "moo filter -i foo/extract/inm_defaults.dff "
             "{root}cice_aw310i_1m_19900101-19900201.nc "
             "{root}cice_aw310i_1m_19900201-19900301.nc "
             "{root}cice_aw310i_1m_19900301-19900401.nc "
@@ -110,7 +110,7 @@ class TestFilters(unittest.TestCase):
         tape = "TAPE1"
         expected_commands = [
             (
-                "moo filter -i -d foo/extract/inm_defaults.dff "
+                "moo filter -i foo/extract/inm_defaults.dff "
                 "{root}cice_aw310i_1m_19900101-19900201.nc "
                 "{root}cice_aw310i_1m_19900201-19900301.nc "
                 "{root}cice_aw310i_1m_19900301-19900401.nc "
@@ -119,7 +119,7 @@ class TestFilters(unittest.TestCase):
                 "foo"
             ).format(root=root),
             (
-                "moo filter -i -d foo/extract/inm_defaults.dff "
+                "moo filter -i foo/extract/inm_defaults.dff "
                 "{root}cice_aw310i_1m_19900601-19900701.nc "
                 "{root}cice_aw310i_1m_19900701-19900801.nc "
                 "{root}cice_aw310i_1m_19900801-19900901.nc "
@@ -128,7 +128,7 @@ class TestFilters(unittest.TestCase):
                 "foo"
             ).format(root=root),
             (
-                "moo filter -i -d foo/extract/inm_defaults.dff "
+                "moo filter -i foo/extract/inm_defaults.dff "
                 "{root}cice_aw310i_1m_19901101-19901201.nc "
                 "{root}cice_aw310i_1m_19901201-19910101.nc "
                 "foo"
@@ -183,7 +183,7 @@ class TestFilters(unittest.TestCase):
         tape = "TAPE1"
         expected_commands = [
             (
-                "moo filter -i -d foo/extract/inm_defaults.dff "
+                "moo filter -i foo/extract/inm_defaults.dff "
                 "{root}cice_aw310i_1m_19900101-19900201.nc "
                 "{root}cice_aw310i_1m_19900201-19900301.nc "
                 "{root}cice_aw310i_1m_19900301-19900401.nc "
@@ -192,7 +192,7 @@ class TestFilters(unittest.TestCase):
                 "foo"
             ).format(root=root),
             (
-                "moo filter -i -d foo/extract/inm_defaults.dff "
+                "moo filter -i foo/extract/inm_defaults.dff "
                 "{root}cice_aw310i_1m_19900601-19900701.nc "
                 "{root}cice_aw310i_1m_19900701-19900801.nc "
                 "{root}cice_aw310i_1m_19900801-19900901.nc "

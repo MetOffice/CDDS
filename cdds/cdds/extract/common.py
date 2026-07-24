@@ -960,12 +960,13 @@ def fetch_filelist_from_mass(mass_dir, simulation=False):
     error = None
     if not simulation:
         try:
-            cmd_out = run_command(["moo", "ls", "-m", mass_dir])
+            cmd_out = run_command(["moo", "ls", mass_dir, "--page=1-10:50000"])
             filelines = cmd_out.split('\n')[0:-1]
             for fileline in filelines:
                 try:
-                    _, tape, _, _, _, filepath = fileline.split()
-                    files.append((tape, filepath))
+                    filepath = fileline
+                    # set tape id to "01" as not relevant with Az MASS
+                    files.append(("01", filepath))
                 except ValueError:
                     # skip files which hasn't been completely written to the tape system yet
                     pass

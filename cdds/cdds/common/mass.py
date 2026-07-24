@@ -450,7 +450,7 @@ def mass_move(src_mass_files, dest_mass_path, simulation, check_mass_location):
 
 def mass_rmdir(mass_dir, simulation):
     logger = logging.getLogger(__name__)
-    moo_cmd = ['moo', 'rmdir', mass_dir]
+    moo_cmd = ['moo', 'rmdir', '--force', mass_dir]
     if simulation:
         logger.info('simulating mass command: {cmd}'
                     ''.format(cmd=moo_cmd))
@@ -535,7 +535,7 @@ def mass_info(simulation):
         return False, {}
 
     processable = False
-    cmds = {}
+    cmds = {"GET": True, "PUT": True}
     try:
         logger.debug('Check if MASS can process commands')
         stdout = run_mass_command(moo_cmd)
@@ -547,11 +547,11 @@ def mass_info(simulation):
         logger.critical('MASS is not available: {}'.format(str(e)))
         raise e
 
-    cmd_pattern = '([A-Z]*) commands enabled: ([A-Za-z]*)'
-    for line in stdout.split('\n'):
-        match = re.search(cmd_pattern, line)
-        if match is not None:
-            cmds[match.group(1)] = match.group(2).lower() == 'true'
+    # cmd_pattern = '([A-Z]*) commands enabled: ([A-Za-z]*)'
+    # for line in stdout.split('\n'):
+    #     match = re.search(cmd_pattern, line)
+    #     if match is not None:
+    #         cmds[match.group(1)] = match.group(2).lower() == 'true'
 
     return processable, cmds
 
@@ -577,7 +577,7 @@ def run_mass_command(command):
     (stdout, stderr) = process.communicate()
     return_code = process.returncode
 
-    if return_code == 2 and 'TSSC_FILE_DOES_NOT_EXIST' in stderr:
+    if return_code == 2 and 'NOT_FOUND' in stderr:
         not_exist_error = MassFailure.NOT_EXIST_ERROR
         logger.debug(not_exist_error.get_message(command, stdout, stderr))
         raise FileNotExistMassError(command)
