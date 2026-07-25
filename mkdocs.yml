@@ -21,10 +21,11 @@ nav:
     - About: index.md
     - Changelog (CDDS): changes_cdds.md
     - Changelog (Mip Convert): changes_mip_convert.md
+    - CMIP7 operational procedure: operational_procedure/cmip7.md
   - Operational Procedures:
     - operational_procedure/index.md
     - CMIP7: operational_procedure/cmip7.md
-    - CMIP6 and CMIP6 Plus: operational_procedure/cmip6.md
+    - CMIP6 and CMIP6Plus: operational_procedure/cmip6.md
     - GCModelDev: 
       -  operational_procedure/gcmodeldev.md
       - GCModelDev HadGEM3-GC31-LL Request: operational_procedure/gcmodeldev_examples/HadGEM3-GC31-LL.md
