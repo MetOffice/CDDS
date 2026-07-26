@@ -511,6 +511,8 @@ the logs and usually require user intervention. Many simple issues (MASS/MOOSE o
 by re-triggering tasks. When you take any action please ensure that you update your *CDDS operational simulation issue* 
 and if support is needed add the `help needed` label and mention `@UKNCSP/cdds` to alert the CDDS team.
 
+A page describing [common issues](common_issues.md) will be extended as new issues and their solutions are discovered.
+
 ## 8. Prepare *CDDS operational simulation issue* for review & submission
 
 Once the workflows for a particular package have completed update your *CDDS operational simulation issue* confirming that 

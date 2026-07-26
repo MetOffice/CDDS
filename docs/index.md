@@ -20,6 +20,8 @@ You can contact the CDDS team via cdds@metoffice.gov.uk.
 
 See [here](operational_procedure/cmip7.md) for the process for running CDDS for CMIP7
 
+Explanations, and possibly solutions, to common issues can be found [here](operational_procedure/common_issues.md).
+
 ## Adhoc processing
 
 See the [quick start guide](tutorials/quickstart.md) for information on using CDDS for adhoc processing.
