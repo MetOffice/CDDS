@@ -339,7 +339,7 @@ Alternatively, if you will be running a large batch of request files, it may be 
 
 ### Monitor conversion workflow
 
-A single cylc workflow will be launched by the `cdds_convert` command which requires monitoring by the user to handle an issues encountered. 
+A single cylc workflow will be launched by the `cdds_convert` command which requires monitoring by the user to handle any issues encountered. 
 This can be done using cylchub, the cylc tui command or the cylc review service.
 
 Conversion workflows will usually be named `cdds_<workflow_base_name>_<stream>` and each stream will 

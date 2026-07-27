@@ -43,7 +43,7 @@ before retriggering the failed task.
 
 ## 3. Extract validation failure
 
-e.g. the following appears in the extract_validate log for a the ap5 stream
+e.g. the following appears in the extract_validate log for the ap5 stream
 
 
     As a result, these variables cannot be produced:
