@@ -1,3 +1,23 @@
+## Release 4.0.0, July 28, 2026
+
+-   Adaptations for CMIP7 including adding UKCM2, UKCM2a and UKESM1-3 models (#662, #668, #607, #675, #701, #736, #747, #820, #810, #887, #959, #724, #981, #1005)
+-   Improved logging and testing (#512, #654, #680, #743)
+-   Change to proc and data directory structures used on disk for consistency (#686)
+-   Update to compliance-checker version and  message filters in QC (#675, #792, #925, #905)
+-   Improved consistency of docstring format (#719)
+-   Introduced repacking stage using cmip7repack (#694, #753, #982) 
+-   Introduced ruff (#473, #835)
+-   Added sim review task into CDDS workflow (#750, #784, #902)
+-   Allowed comments to be included in variable lists (#742)
+-   Updates to environment including python 3.12 and CMOR 3.15.1, (#648, #768, #865, #905)
+-   Add GET option to CDDS extract to allow SELECT issues with MASS to be worked around (#842)
+-   Added tasks to support generation of fixed fields such as land-sea masks and grid cell areas (#888, #924)
+-   Add task to highlight CRITICAL error messages to users (#535)
+-   Add tool to switch off variables that have failed the Extract validate step (#957)
+-   Allow "proleptic_gregorian" calendar to be used (#976)
+-   Updated operational procedure (#727)
+-   Adaptations to deal with Azure MASS (#744)
+
 ## Release 3.3.3, April 15, 2026
 
 - Introduces bug fix to ensure cdds_arrange_input_data symlinks correct directory structure.(#895)
