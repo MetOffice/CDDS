@@ -234,8 +234,9 @@ def save_new_variable_list(request: Request, updated_variable_list: list) -> Non
 def main_update_variables_from_validate() -> None:
     """Main"""
     args = arg_parser()
-    plugin = PluginStore.instance().get_plugin()
     request = read_request(args.request)
+    plugin = PluginStore.instance().get_plugin()
+    
     logger = get_logger(request, plugin)
 
     variable_list = read_variable_list(request.data.variable_list_file)
