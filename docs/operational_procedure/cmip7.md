@@ -66,8 +66,8 @@ unique for the simulation being processed.
 
 Note that certain fields within the request need to be manually updated and paths updated prior to use.
 
-    !!! important
-        Do not attempt to edit the request file directly on the [CDDS-simulation-metadata](https://github.com/UKNCSP/CDDS-simulation-metadata) repository. Changes should only be made to your locally downloaded copy. Any changes should be documented in the *CDDS operational simulation issue* (created in the next step).
+!!! important
+    Do not attempt to edit the request file directly on the [CDDS-simulation-metadata](https://github.com/UKNCSP/CDDS-simulation-metadata) repository. Changes should only be made to your locally downloaded copy. Any changes should be documented in the *CDDS operational simulation issue* (created in the next step).
 
 
 ### Streams
@@ -247,15 +247,18 @@ If running a single request configuration, please follow the standard process as
    ```
 2. Create the directory structure:
    ```
-   create_cdds_directory_structure <the path to your request.cfg>
+   create_cdds_directory_structure <path to your request.cfg>
    ```
+   . The output of this script suggests two symbolic links are created or the environment variables
+   `$CDDS_DATA_DIR` and `$CDDS_PROC_DIR` are set. These variables will be used in examples below.
+
 3. Create the internal variable lists used by CDDS:
    ```
-   prepare_generate_variable_list <the path to your request.cfg>
+   prepare_generate_variable_list <path to your request.cfg>
    ```
 4. Launch the cylc conversion workflow:
    ```
-   cdds_convert <the path to your request.cfg>
+   cdds_convert <path to your request.cfg>
    ```
 
 This process can be monitored via the cylc gui or cylc review. If a workflow has issues, due to task failure, it will stall, and you will receive an e-mail.Further guidence on this process can be found in the [Quickstart tutorial](https://metoffice.github.io/CDDS/latest/tutorials/quickstart/). 
@@ -535,14 +538,17 @@ the Extract, Convert, QC and Transfer tasks have been completed.
 ## 9. Run CDDS Teardown
 
 1. Once the approved issue has been returned to you following submission, delete the contents of the data directory:
-    ```
-    cd <path to the data directory>
-    rm -rf input output
-    ```
+    
+       ```
+       cd <path to the data directory>;   
+       rm -rf input output
+       ```
+
 2. Delete all workflows used:
-    ```
-    cdds_clean <path to the request configuration>
-    ```
+
+       ```    
+       cdds_clean <path to the request configuration>
+       ```
 
 3. Update and close the *CDDS operational simulation issue*.
   
