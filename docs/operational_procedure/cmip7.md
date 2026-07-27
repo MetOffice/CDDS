@@ -139,7 +139,7 @@ Download the request config file and variables list and make any modifications u
 
 You will need to adjust your `request.cfg`:
 
-1. Open the `request.cfg` via a text editor, e.g. `vi` or `gedit`.
+1. Open the `request.cfg` via a text editor, e.g. `vim` or `gedit`.
 
 2. The following values need to be set manually:
 
