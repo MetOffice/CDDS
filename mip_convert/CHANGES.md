@@ -1,3 +1,13 @@
+## Release 4.0.0, July 28th, 2026
+
+-   Adaptations for CMIP7 (#662, #601, #920, #950, #915)
+-   Added mappings plugins for UKESM1p3 and UKCM2 (#708, #736, #803, #995, #1024)
+-   Improved consistency of docstring format (#719)
+-   Added or improve processors and associated tests (#724, #723, #803, #811, #799, #871, #1007)
+-   Improved logging (#988, #996)
+-   Implemented coordinate replacement for NEMO & SI3 data to avoid -1 values in latitude and longitude coordinate data (#861)
+-   Updates to the version of CMOR being used, eventually reaching v3.15.1 (#648, #865, #905)
+
 ## Release 3.3.3, April 15, 2026
 
 -   No changes.
@@ -14,7 +24,7 @@
 
 -   The removal of halo data (additional rows and columns) from NEMO and MEDUSA output files has been moved from the extraction step to the conversion step within CDDS. This both reduces load on the MASS archive when extracting data and makes it more straightforward for CDDS to be used without MASS. The removal of halo data is controlled by additional fields within the model config files that are embedded in CDDS with the model plugins or provided by users when they wish to override CDDS defaults. The remove_halo script has been retired as a result (#547)
 -   The CMOR version has been updated to `3.11.0` (#487)
--   Added early support for the CMIP7 CV's and Mip Tables (#583, #586, #462)
+-   Added early support for the CMIP7 CV's and MIP Tables (#583, #586, #462)
 
 ## Release 3.2.1, August 29, 2025
 
