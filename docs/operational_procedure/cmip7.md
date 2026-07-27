@@ -6,7 +6,7 @@
 ## Outline of CDDS processing
 
 The following diagram gives a rough outline of the path for processing for CMIP7. 
-Clicking on boxes with either take you directly to the appropriate form (UKCNSP github membership required) or to the
+Clicking on boxes will either take you directly to the appropriate form (UKCNSP github membership required) or to the
 appropriate section of this document.
 
 <div align="center">
