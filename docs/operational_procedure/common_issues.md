@@ -56,6 +56,6 @@ To deactivate these variables
 
 1. Run `update_variables_from_validate <request file>` to automatically comment the variables from the variable list
 2. Run `prepare_generate_variable_list <request file> -r` to update the config files within CDDS
-3. "set" the corresponding `validate_extract_<stream>` task 
+3. Retrigger the corresponding `validate_extract_<stream>` task 
 
 The cdds_convert workflow should then proceed.
