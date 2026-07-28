@@ -3,7 +3,7 @@
 -   Adaptations for CMIP7 (#662, #601, #920, #950, #915)
 -   Added mappings plugins for UKESM1p3 and UKCM2 (#708, #736, #803, #995, #1024)
 -   Improved consistency of docstring format (#719)
--   Added or improve processors and associated tests (#724, #723, #803, #811, #799, #871, #1007)
+-   Added or improved processors and associated tests (#724, #723, #803, #811, #799, #871, #1007)
 -   Improved logging (#988, #996)
 -   Implemented coordinate replacement for NEMO & SI3 data to avoid -1 values in latitude and longitude coordinate data (#861)
 -   Updates to the version of CMOR being used, eventually reaching v3.15.1 (#648, #865, #905)
