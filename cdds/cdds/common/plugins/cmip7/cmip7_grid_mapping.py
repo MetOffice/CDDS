@@ -54,7 +54,7 @@ class CMIP7GridMappingUKESM1p3(BaseGridMapping):
 
         :rtype; str
         """
-        return os.path.join(self.data_folder, "default_grids.cfg")
+        return os.path.join(self.data_folder, "grids_ukesm1p3.cfg")
 
     @property
     def additional_grids_file(self) -> str:

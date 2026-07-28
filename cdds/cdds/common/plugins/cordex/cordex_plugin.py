@@ -57,7 +57,7 @@ class CordexPlugin(BasePlugin):
         model_store = CordexModelStore.instance()
         model_store.overload_params(source_dir)
 
-    def grid_labels(self) -> Type[GridLabel]:
+    def grid_labels(self, model_id) -> Type[GridLabel]:
         """Returns the grid labels related to CORDEX models.
 
         Returns

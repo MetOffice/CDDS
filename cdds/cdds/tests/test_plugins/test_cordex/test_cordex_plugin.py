@@ -13,7 +13,7 @@ class TestCmip6Plugin(TestCase):
         self.plugin = CordexPlugin()
 
     def test_grid_labels(self):
-        result = self.plugin.grid_labels()
+        result = self.plugin.grid_labels("HadREM3-GA7-05")
         self.assertEqual(result, CordexGridLabel)
 
     def test_mip_era(self):

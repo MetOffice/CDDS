@@ -104,7 +104,7 @@ class CddsPlugin(object, metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def grid_labels(self) -> Type[GridLabel]:
+    def grid_labels(self, model_id: str) -> Type[GridLabel]:
         """Returns the grid labels related to models that are supported by that plugin.
         The grid labels are designed as an enum and must implement the enum interface
         "GridLabel".
