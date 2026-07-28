@@ -160,7 +160,6 @@ If you are working with data on disk, e.g. retrieved manually or through MOOMIN,
 | Section | Key | Value | Description |
 |:----|:---|:---|:---|
 | `[conversion]` | `skip_extract` | True | skip the extract tasks |
-| `[conversion]` | `skip_extract_validation` | True | skip the extract validation tasks |
 
 To link your local data to the CDDS data input directory, activate the cdds installation (see [below](#6-activate-cdds-install)) and run
 
@@ -169,6 +168,13 @@ cdds_arrange_input_data <request file> <directory to search for data>
 ```
 
 This will search the directory you specify for model output to be used and create **symbolic links** to each file.
+
+!!! important
+    It is critially important that the data provided on disk covers the complete time range specified in the request file.
+    Please ensure that in particular all data for the last and first years is present before proceeding with processing. 
+    Recovering from a missing month at the start or end of the process may be difficult so please ensure that any issues
+    identified by the validation tasks are dealt with. Failing to do this may be difficult to recover from.
+
 
 
 ## 5. Prerequisites for running
