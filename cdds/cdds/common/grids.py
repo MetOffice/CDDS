@@ -26,7 +26,7 @@ class Grid(object):
         self.grid_type = grid_type
         self.grid_name = grid_name
         self.plugin = PluginStore.instance().get_plugin()
-        self.grid_labels = self.plugin.grid_labels()
+        self.grid_labels = self.plugin.grid_labels(model_id)
         self.grid_info = self.plugin.grid_info(model_id, self.grid_type_enum)
 
     @property

@@ -13,7 +13,7 @@ class TestCmip6Plugin(TestCase):
         self.plugin = Cmip6Plugin()
 
     def test_grid_labels(self):
-        result = self.plugin.grid_labels()
+        result = self.plugin.grid_labels("HadGEM3-GC31-LL")
         self.assertEqual(result, Cmip6GridLabel)
 
     def test_mip_era(self):

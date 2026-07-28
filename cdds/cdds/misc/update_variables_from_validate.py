@@ -236,7 +236,7 @@ def main_update_variables_from_validate() -> None:
     args = arg_parser()
     request = read_request(args.request)
     plugin = PluginStore.instance().get_plugin()
-    
+
     logger = get_logger(request, plugin)
 
     variable_list = read_variable_list(request.data.variable_list_file)

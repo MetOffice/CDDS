@@ -73,7 +73,7 @@ class Cmip6Plugin(BasePlugin):
         models_store = Cmip6ModelsStore.instance()
         models_store.overload_params(source_dir)
 
-    def grid_labels(self) -> Type[GridLabel]:
+    def grid_labels(self, model_id) -> Type[GridLabel]:
         """Returns the grid labels related to CMIP6 models.
 
         Returns

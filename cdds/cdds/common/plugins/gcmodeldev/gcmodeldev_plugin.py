@@ -55,7 +55,7 @@ class GCModelDevPlugin(BasePlugin):
         models_store = GCModelDevStore.instance()
         models_store.overload_params(source_dir)
 
-    def grid_labels(self) -> Type[GridLabel]:
+    def grid_labels(self, model_id: str) -> Type[GridLabel]:
         """Returns the grid labels related to CMIP6 models.
 
         Returns
