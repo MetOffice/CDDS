@@ -6,6 +6,7 @@ theme:
     - navigation.expand
     - content.tabs.link
   palette: 
+    - primary: teal
     # Palette toggle for light mode
     - scheme: default
       toggle:
@@ -20,11 +21,12 @@ nav:
   - Home:
     - About: index.md
     - Changelog (CDDS): changes_cdds.md
-    - Changelog (Mip Convert): changes_mip_convert.md
+    - Changelog (MIP Convert): changes_mip_convert.md
+    - CMIP7 operational procedure: operational_procedure/cmip7.md
   - Operational Procedures:
     - operational_procedure/index.md
     - CMIP7: operational_procedure/cmip7.md
-    - CMIP6 and CMIP6 Plus: operational_procedure/cmip6.md
+    - CMIP6 and CMIP6Plus: operational_procedure/cmip6.md
     - GCModelDev: 
       -  operational_procedure/gcmodeldev.md
       - GCModelDev HadGEM3-GC31-LL Request: operational_procedure/gcmodeldev_examples/HadGEM3-GC31-LL.md
@@ -32,6 +34,7 @@ nav:
       - GCModelDev HadGEM3-GC31-MM Request: operational_procedure/gcmodeldev_examples/HadGEM3-GC31-MM.md
       - GCModelDev UKESM1-0-LL Request: operational_procedure/gcmodeldev_examples/UKESM1-0-LL.md
     - Simulation Review Procedure: operational_procedure/sim_review.md
+    - Common Issues: operational_procedure/common_issues.md
   - Tutorials:
     - Quickstart: tutorials/quickstart.md
     - Search Inventory: tutorials/search_inventory.md
