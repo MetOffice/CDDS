@@ -1,6 +1,6 @@
 # (C) British Crown Copyright 2026, Met Office.
 # Please see LICENSE.md for license details.
-
+from pathlib import Path
 import unittest
 
 from cdds.misc.stream_mappings import read_variables_file, check_mappings, save_mappings
@@ -16,7 +16,7 @@ class TestStreamMappings(unittest.TestCase):
             ('fx', 'sftgif'): (None, '')
         }
 
-        result = read_variables_file("cdds/cdds/tests/test_misc/data/inputs/minimal_variables.txt")
+        result = read_variables_file(Path(__file__).parent / "data" / "inputs" / "minimal_variables.txt")
         msg = f"Error: variable dictionary not created as expected.\nExpected\n{expected}\ngot\n{result}"
         self.assertEqual(result, expected, msg)
 
@@ -39,7 +39,7 @@ class TestStreamMappings(unittest.TestCase):
         self.assertEqual(result, expected, msg)
 
     def test_save_mappings(self):
-        filepath = 'cdds/cdds/tests/test_misc/data/outputs/minimal_variables_final_output.txt'
+        filepath = Path(__file__).parent / 'data' / 'outputs' / 'minimal_variables_final_output.txt'
         variables = {
             ('day', 'tas'): ('ap6', 'comment'),
             ('comment', ' '): (' ', '#another comment\n'),

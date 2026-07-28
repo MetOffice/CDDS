@@ -2,7 +2,7 @@
 # Please see LICENSE.md for license details.
 
 """Tests for validate in the extract module"""
-
+from pathlib import Path
 import unittest
 
 from cdds.common.plugins.plugins import PluginStore
@@ -14,8 +14,8 @@ from cdds.extract.validate import configure_mapping_for_each_variable, calculate
 
 class TestValidate(unittest.TestCase):
     def setUp(self):
-        request_filepath = "cdds/cdds/tests/test_extract/data/test_request_minimal.cfg"
-        variables_json_filepath = "cdds/cdds/tests/test_extract/data/CMIP6_CMIP_piControl_UKESM1-0-LL_ap5.json"
+        request_filepath = Path(__file__).parent / "data" / "test_request_minimal.cfg"
+        variables_json_filepath = Path(__file__).parent / "data" / "CMIP6_CMIP_piControl_UKESM1-0-LL_ap5.json"
         self.request = read_request(request_filepath)
         self.stream = "ap5"
         self.plugin = PluginStore.instance().get_plugin()
