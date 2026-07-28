@@ -6,6 +6,7 @@ theme:
     - navigation.expand
     - content.tabs.link
   palette: 
+    - primary: teal
     # Palette toggle for light mode
     - scheme: default
       toggle:
