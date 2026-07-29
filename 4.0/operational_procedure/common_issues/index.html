@@ -1638,7 +1638,8 @@ Until further notice use the following process to work around this.</p>
 <h3 id="deactivate-a-set-of-variables-in-the-correponding-stream">Deactivate a set of variables in the correponding <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr>.</h3>
 <p>Edit the variables file indicated in the <abbr title="Information about a simulation used by all CDDS components.">request file</abbr> and prefix a number of lines (e.g. 10) with <code>#</code> and
 then run the command</p>
-<p><code>prepare_generate_variable_list &lt;request config file&gt; -r</code></p>
+<div class="highlight"><pre><span></span><code>prepare_generate_variable_list &lt;request config file&gt; -r
+</code></pre></div>
 <p>and then retrigger the failed task</p>
 <p>Note that if this leaves some of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert tasks with no work to do, they will fail and modifications to the <code>rose-suite.conf</code> file will be needed.
 In this case contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team (@UKNCSP/cdds)</p>

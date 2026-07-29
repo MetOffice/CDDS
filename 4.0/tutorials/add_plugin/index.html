@@ -1777,34 +1777,36 @@
 <details class="example">
 <summary>Example</summary>
 <p>To make sure that the <abbr title="Climate Data Dissemination System">CDDS</abbr> project is in your Python path by using a script
-```bash
-load_conda() {
-    # load conda environment
-    . ~cdds/software/miniconda3/bin/activate <cdds_conda_version>
-}</p>
-<p>setup_cdds_package() {
-    # add cdds_common containing plugins implementation to PATH
-    # Setup <abbr title="Climate Data Dissemination System">CDDS</abbr> project
-    local cdds_dir=<path-to-cdds-project>
-    local cdds_package="cdds"</p>
-<pre><code># Update PATH:
-if [ -d $cdds_dir/$cdds_package/bin ]; then
-    export PATH=$cdds_dir/$cdds_package/bin:$PATH
-fi
+<div class="highlight"><pre><span></span><code>load_conda<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="c1"># load conda environment</span>
+<span class="w">    </span>.<span class="w"> </span>~cdds/software/miniconda3/bin/activate<span class="w"> </span>&lt;cdds_conda_version&gt;
+<span class="o">}</span>
 
-# Update PYTHONPATH:
-if [ -d $cdds_dir/$cdds_package]; then
-    export PYTHONPATH=$cdds_dir/$cdds_package:$PYTHONPATH
-fi
-</code></pre>
-<p>}</p>
-<p>setup_project() {
-    <setup-your-project>
-}</p>
-<p>load_conda
+setup_cdds_package<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="c1"># add cdds_common containing plugins implementation to PATH</span>
+<span class="w">    </span><span class="c1"># Setup CDDS project</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">cdds_dir</span><span class="o">=</span>&lt;path-to-cdds-project&gt;
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">cdds_package</span><span class="o">=</span><span class="s2">&quot;cdds&quot;</span>
+
+<span class="w">    </span><span class="c1"># Update PATH:</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$cdds_dir</span>/<span class="nv">$cdds_package</span>/bin<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$cdds_dir</span>/<span class="nv">$cdds_package</span>/bin:<span class="nv">$PATH</span>
+<span class="w">    </span><span class="k">fi</span>
+
+<span class="w">    </span><span class="c1"># Update PYTHONPATH:</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$cdds_dir</span>/<span class="nv">$cdds_package</span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$cdds_dir</span>/<span class="nv">$cdds_package</span>:<span class="nv">$PYTHONPATH</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+setup_project<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>&lt;setup-your-project&gt;
+<span class="o">}</span>
+
+load_conda
 setup_cdds_package
 setup_project
-```</p>
+</code></pre></div></p>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set <code>&lt;cdds_conda_version&gt;</code> to the conda version of the <abbr title="Climate Data Dissemination System">CDDS</abbr> project you want to use (e.g. <code>cdds-3.0_dev-0</code>)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>&lt;path-to-cdds-project&gt;</code> to the path to the <abbr title="Climate Data Dissemination System">CDDS</abbr> project.</li>
@@ -1815,11 +1817,11 @@ setup_project
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a module <code>&lt;my&gt;_plugin.py</code> where <code>&lt;my&gt;</code> can be replaced with any name you like. A good choice would be the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> era that the plugin should support.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import <code>CddsPlugin</code> from <abbr title="Climate Data Dissemination System">CDDS</abbr> project:
-      <code>python
-      from cdds.common.plugins.plugins import CddsPlugin</code></li>
+      <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cdds.common.plugins.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">CddsPlugin</span>
+</code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a plugin class that extends from the <code>CddsPlugin</code> class:
-      <code>python
-      class MyPlugin(CddsPlugin):</code></li>
+      <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">MyPlugin</span><span class="p">(</span><span class="n">CddsPlugin</span><span class="p">):</span>
+</code></pre></div></li>
 </ul>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -1835,29 +1837,31 @@ imports that are needed.</p>
 </ul>
 <details class="example">
 <summary>Example</summary>
-<p>```python
-from typing import Type</p>
-<p>from cdds_common.cdds_plugins.grid import GridLabel
-from cdds_common.cdds_plugins.models import ModelParameters
-from cdds_common.cdds_plugins.plugins import CddsPlugin
-from cdds_common.cdds_plugins.<abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> import StreamInfo</p>
-<p>class MyPlugin(CddsPlugin):</p>
-<pre><code>def __init__(self):
-    super(MyPlugin, self).__init__('my_mip_era')
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Type</span>
 
-def models_parameters(self, model_id: str) -&gt; ModelParameters:
-    pass
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdds_common.cdds_plugins.grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridLabel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdds_common.cdds_plugins.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelParameters</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdds_common.cdds_plugins.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">CddsPlugin</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdds_common.cdds_plugins.streams</span><span class="w"> </span><span class="kn">import</span> <span class="n">StreamInfo</span>
 
-def overload_models_parameters(self, source_dir: str) -&gt; None:
-    pass
 
-def grid_labels(self) -&gt; Type[GridLabel]:
-    pass
+<span class="k">class</span><span class="w"> </span><span class="nc">MyPlugin</span><span class="p">(</span><span class="n">CddsPlugin</span><span class="p">):</span>
 
-def stream_info(self) -&gt; StreamInfo:
-    pass
-</code></pre>
-<p>```</p>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MyPlugin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;my_mip_era&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">models_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModelParameters</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">overload_models_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">grid_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">GridLabel</span><span class="p">]:</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">stream_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StreamInfo</span><span class="p">:</span>
+        <span class="k">pass</span>
+</code></pre></div>
 </details>
 <p>For the moment, we leave the plugin class like it is and take a look at the <code>ModelParameters</code> class and <code>GridLabel</code> class 
 and <code>StreamInfo</code> class. We will come back to the plugin class later again.</p>
@@ -1871,58 +1875,60 @@ that is related to the model parameters.</p>
 </div>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import the <code>ModelParameters</code> class from the <abbr title="Climate Data Dissemination System">CDDS</abbr> project:
-      <code>python
-      from cdds.common.plugins.models import ModelParameters</code></li>
+      <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cdds.common.plugins.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelParameters</span>
+</code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a class that extends from the <code>ModelParameters</code></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Add the abstract methods that must be implemented (Pycharm can help you with that see in the First Step)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Add default <code>__init__</code> method.</li>
 </ul>
 <details class="example">
 <summary>Example</summary>
-<p>```python
-from typing import List, Dict</p>
-<p>from cdds_common.cdds_plugins.grid import GridType, GridInfo
-from cdds_common.cdds_plugins.models import ModelParameters</p>
-<p>class MyModelParams(ModelParameters):
-    def <strong>init</strong>(self):
-        super(MyModelParams, self).<strong>init</strong>()</p>
-<pre><code>@property
-def model_version(self) -&gt; str:
-    pass
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
 
-@property
-def data_request_version(self) -&gt; str:
-    pass
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdds_common.cdds_plugins.grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridType</span><span class="p">,</span> <span class="n">GridInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdds_common.cdds_plugins.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelParameters</span>
 
-@property
-def um_version(self) -&gt; str:
-    pass
 
-def grid_info(self, grid_type: GridType) -&gt; GridInfo:
-    pass
+<span class="k">class</span><span class="w"> </span><span class="nc">MyModelParams</span><span class="p">(</span><span class="n">ModelParameters</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MyModelParams</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-def temp_space(self, stream_id: str) -&gt; int:
-    pass
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-def memory(self, stream_id: str) -&gt; str:
-    pass
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data_request_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-def cycle_length(self, stream_id: str) -&gt; str:
-    pass
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">um_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-def sizing_info(self, frequency: str, shape: str) -&gt; float:
-    pass
+    <span class="k">def</span><span class="w"> </span><span class="nf">grid_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid_type</span><span class="p">:</span> <span class="n">GridType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GridInfo</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-def full_sizing_info(self) -&gt; Dict[str, Dict[str, float]]:
-    pass
+    <span class="k">def</span><span class="w"> </span><span class="nf">temp_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-def is_model(self, model_id: str) -&gt; bool:
-    pass
+    <span class="k">def</span><span class="w"> </span><span class="nf">memory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-def subdaily_streams(self) -&gt; List[str]:
-    pass
-</code></pre>
-<p>```</p>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cycle_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">sizing_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">full_sizing_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">subdaily_streams</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">pass</span>
+</code></pre></div>
 </details>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Implement all method except the <code>grid_info</code> method.</li>
@@ -1936,8 +1942,8 @@ that is related to the grid information.</p>
 </div>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import the <code>GridInfo</code> class and <code>GridType</code> enum from the <abbr title="Climate Data Dissemination System">CDDS</abbr> project:
-      <code>python
-      from cdds.common.plugins.grid import GridType, GridInfo</code></li>
+      <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cdds.common.plugins.grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridType</span><span class="p">,</span> <span class="n">GridInfo</span>
+</code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> For each grid type, there should be an own grid information class. So, create two classes that extends from the 
       <code>GridInfo</code> - one for the atmosphere grid and one for the ocean grid.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Add the abstract methods that must be implemented (Pycharm can help you with that see in the First Step)</li>
@@ -1950,100 +1956,103 @@ that is related to the grid information.</p>
 </div>
 <details class="example">
 <summary>Example class for atmosphere grid</summary>
-<p>```python
-from typing import List, Dict</p>
-<p>from cdds.common.plugins.grid import GridType, GridInfo, OceanGridPolarMask</p>
-<p>class MyAtmosGridInfo(GridInfo):
-    def <strong>init</strong>(self):
-        super(MyAtmosGridInfo, self).<strong>init</strong>(GridType.ATMOS)</p>
-<pre><code>@property
-def model_info(self) -&gt; str:
-    pass
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
 
-@property
-def nominal_resolution(self) -&gt; str:
-    pass
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdds.common.plugins.grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridType</span><span class="p">,</span> <span class="n">GridInfo</span><span class="p">,</span> <span class="n">OceanGridPolarMask</span>
 
-@property
-def longitude(self) -&gt; int:
-    pass
+<span class="k">class</span><span class="w"> </span><span class="nc">MyAtmosGridInfo</span><span class="p">(</span><span class="n">GridInfo</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MyAtmosGridInfo</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">GridType</span><span class="o">.</span><span class="n">ATMOS</span><span class="p">)</span>
 
-@property
-def latitude(self) -&gt; int:
-    pass
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-@property
-def v_latitude(self) -&gt; int:
-    pass
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nominal_resolution</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-@property
-def levels(self) -&gt; int:
-    pass
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">longitude</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-@property
-def masks(self) -&gt; Dict[str, OceanGridPolarMask]:
-    pass
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-@property
-def replacement_coordinate_files(self) -&gt; str:
-    pass
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">v_latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-def ancil_filenames(self) -&gt; List[str]:
-    pass
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">levels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-def hybrid_heights_files(self) -&gt; List[str]:
-    pass
-</code></pre>
-<p>```</p>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">masks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">OceanGridPolarMask</span><span class="p">]:</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">replacement_coordinate_files</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">ancil_filenames</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">hybrid_heights_files</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">pass</span>
+</code></pre></div>
 </details>
 <details class="example">
 <summary>Example class for ocean grid</summary>
-<p>```python
-from typing import List, Dict</p>
-<p>from cdds.common.plugins.grid import GridType, GridInfo, OceanGridPolarMask</p>
-<p>class MyOceanGridInfo(GridInfo):</p>
-<pre><code>def __init__(self):
-    super(MyOceanGridInfo, self).__init__(GridType.OCEAN)
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
 
-@property
-def model_info(self) -&gt; str:
-    pass
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdds.common.plugins.grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridType</span><span class="p">,</span> <span class="n">GridInfo</span><span class="p">,</span> <span class="n">OceanGridPolarMask</span>
 
-@property
-def nominal_resolution(self) -&gt; str:
-    pass
 
-@property
-def longitude(self) -&gt; int:
-    pass
+<span class="k">class</span><span class="w"> </span><span class="nc">MyOceanGridInfo</span><span class="p">(</span><span class="n">GridInfo</span><span class="p">):</span>
 
-@property
-def latitude(self) -&gt; int:
-    pass
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MyOceanGridInfo</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">GridType</span><span class="o">.</span><span class="n">OCEAN</span><span class="p">)</span>
 
-@property
-def v_latitude(self) -&gt; int:
-    pass
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-@property
-def levels(self) -&gt; int:
-    pass
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nominal_resolution</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-@property
-def masks(self) -&gt; Dict[str, OceanGridPolarMask]:
-    pass
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">longitude</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-@property
-def replacement_coordinate_files(self) -&gt; str:
-    pass
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-def ancil_filenames(self) -&gt; List[str]:
-    pass
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">v_latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-def hybrid_heights_files(self) -&gt; List[str]:git 
-    pass
-</code></pre>
-<p>```</p>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">levels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">masks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">OceanGridPolarMask</span><span class="p">]:</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">replacement_coordinate_files</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">ancil_filenames</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">hybrid_heights_files</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span><span class="n">git</span> 
+        <span class="k">pass</span>
+</code></pre></div>
 </details>
 <p>The next step is to use your grid information classes in your model parameters class.</p>
 <h2 id="step-4-use-your-grid-information-classes-in-your-model-parameters-class">Step 4: Use your grid information classes in your model parameters class</h2>
@@ -2052,14 +2061,14 @@ def hybrid_heights_files(self) -&gt; List[str]:git
 </ul>
 <details class="example">
 <summary>Example</summary>
-<p><code>python
-def grid_info(self, grid_type: GridType) -&gt; GridInfo:
-    if grid_type == GridType.ATMOS:
-         return MyAtmosGridInfo()
-    elif grid_type == GridType.OCEAN:
-         return MyOceanGridInfo()
-    else:
-         raise ValueError("Unsupported grid type: {}".format(GridType))</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">grid_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid_type</span><span class="p">:</span> <span class="n">GridType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GridInfo</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">grid_type</span> <span class="o">==</span> <span class="n">GridType</span><span class="o">.</span><span class="n">ATMOS</span><span class="p">:</span>
+         <span class="k">return</span> <span class="n">MyAtmosGridInfo</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">grid_type</span> <span class="o">==</span> <span class="n">GridType</span><span class="o">.</span><span class="n">OCEAN</span><span class="p">:</span>
+         <span class="k">return</span> <span class="n">MyOceanGridInfo</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unsupported grid type: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">GridType</span><span class="p">))</span>
+</code></pre></div>
 </details>
 <h3 id="step-5-use-your-model-parameters-class-in-your-plugin">Step 5: Use your model parameters class in your plugin</h3>
 <ul class="task-list">
@@ -2068,12 +2077,12 @@ def grid_info(self, grid_type: GridType) -&gt; GridInfo:
 </ul>
 <details class="example">
 <summary>Example</summary>
-<p><code>python
-def models_parameters(self, model_id: str) -&gt; ModelParameters:
-    model_params = {
-        'MyModel': MyModelParams()
-    }
-    return model_params[model_id]</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">models_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModelParameters</span><span class="p">:</span>
+    <span class="n">model_params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;MyModel&#39;</span><span class="p">:</span> <span class="n">MyModelParams</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">model_params</span><span class="p">[</span><span class="n">model_id</span><span class="p">]</span>
+</code></pre></div>
 </details>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> If you allow overloading the defined parameters in your <code>ModelParameters</code> classes, then implement the <code>overload_models_parameters</code> method.</li>
@@ -2082,25 +2091,24 @@ def models_parameters(self, model_id: str) -&gt; ModelParameters:
 <h3 id="step-6-implement-the-grid-labels">Step 6: Implement the grid labels</h3>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import the <code>GridLabel</code> class from <abbr title="Climate Data Dissemination System">CDDS</abbr>:
-      <code>python
-      from cdds.common.plugins.grid import GridLabel</code></li>
+      <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cdds.common.plugins.grid</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridLabel</span>
+</code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a class your own grid label enum class that extend from GridLabel with a <code>__init__</code> method that as the arguments <code>grid_name</code>, 
       <code>label</code> and <code>extra_info</code></li>
 </ul>
 <details class="example">
 <summary>Example</summary>
-<p>```python
-class MyGridLabel(GridLabel):</p>
-<pre><code>def __init__(self, grid_name: str, label: str, extra_info: bool) -&gt; None:
-    self.grid_name = grid_name
-    self.label = label
-    self.extra_info = extra_info
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">MyGridLabel</span><span class="p">(</span><span class="n">GridLabel</span><span class="p">):</span>
 
-@classmethod
-def from_name(cls, name: str) -&gt; 'GridLabel':
-    pass
-</code></pre>
-<p>```</p>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">extra_info</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_name</span> <span class="o">=</span> <span class="n">grid_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extra_info</span> <span class="o">=</span> <span class="n">extra_info</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;GridLabel&#39;</span><span class="p">:</span>
+        <span class="k">pass</span>
+</code></pre></div>
 </details>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Add the grid label you want to support.</li>
@@ -2108,24 +2116,23 @@ def from_name(cls, name: str) -&gt; 'GridLabel':
 <details class="example">
 <summary>Example</summary>
 <p>Here, <code>MyGridLabel</code> should support <code>NATIVE</code> or <code>NATIVE_ZONAL</code>.
-```python
-class MyGridLabel(GridLabel):</p>
-<pre><code>def __init__(self, grid_name: str, label: str, extra_info: bool) -&gt; None:
-    self.grid_name = grid_name
-    self.label = label
-    self.extra_info = extra_info
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">MyGridLabel</span><span class="p">(</span><span class="n">GridLabel</span><span class="p">):</span>
 
-@classmethod
-def from_name(cls, name: str) -&gt; 'GridLabel':
-    for grid_label in MyGridLabel:
-        if grid_label.grid_name == name.lower():
-            return grid_label
-    raise KeyError('Not supported grid labels for {}'.format(name))
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">extra_info</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_name</span> <span class="o">=</span> <span class="n">grid_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extra_info</span> <span class="o">=</span> <span class="n">extra_info</span>
 
-NATIVE = 'native', 'gn', False
-NATIVE_ZONAL = 'native-zonal', 'gnz', False
-</code></pre>
-<p>```</p>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;GridLabel&#39;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">grid_label</span> <span class="ow">in</span> <span class="n">MyGridLabel</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">grid_label</span><span class="o">.</span><span class="n">grid_name</span> <span class="o">==</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">grid_label</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;Not supported grid labels for </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+
+    <span class="n">NATIVE</span> <span class="o">=</span> <span class="s1">&#39;native&#39;</span><span class="p">,</span> <span class="s1">&#39;gn&#39;</span><span class="p">,</span> <span class="kc">False</span>
+    <span class="n">NATIVE_ZONAL</span> <span class="o">=</span> <span class="s1">&#39;native-zonal&#39;</span><span class="p">,</span> <span class="s1">&#39;gnz&#39;</span><span class="p">,</span> <span class="kc">False</span>
+</code></pre></div></p>
 </details>
 <h2 id="step-7-use-your-grid-labels-in-your-plugin">Step 7: Use your grid labels in your plugin</h2>
 <ul class="task-list">
@@ -2133,16 +2140,16 @@ NATIVE_ZONAL = 'native-zonal', 'gnz', False
 </ul>
 <details class="example">
 <summary>Example</summary>
-<p><code>python
-def grid_labels(self) -&gt; Type[GridLabel]:
-    return MyGridLabel</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">grid_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">GridLabel</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="n">MyGridLabel</span>
+</code></pre></div>
 </details>
 <h2 id="step-8-implement-the-stream-info-class">Step 8: Implement the <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> info class</h2>
 <p>You should create a <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> info class for all information around <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr>.</p>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import the <code>StreamInfo</code> class from the <abbr title="Climate Data Dissemination System">CDDS</abbr> project:
-      <code>python
-      from cdds.common.plugins.streams import StreamInfo</code></li>
+      <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">cdds.common.plugins.streams</span><span class="w"> </span><span class="kn">import</span> <span class="n">StreamInfo</span>
+</code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a class that extends from the <code>StreamInfo</code></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Add the abstract methods that must be implemented (Pycharm can help you with that see in the First Step)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Add <code>__init__</code> method</li>
@@ -2150,17 +2157,16 @@ def grid_labels(self) -&gt; Type[GridLabel]:
 </ul>
 <details class="example">
 <summary>Example</summary>
-<p>```python
-class MyStreamInfo(StreamInfo):
-    def <strong>init</strong>(self, config_path: str = '') -&gt; None:
-        super(Cmip6StreamInfo, self).<strong>init</strong>(config_path)</p>
-<pre><code>def _load_streams(self, configuration: Dict[str, Any]) -&gt; None:
-    pass
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">MyStreamInfo</span><span class="p">(</span><span class="n">StreamInfo</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Cmip6StreamInfo</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span>
 
-def retrieve_stream_id(self, variable: str, mip_table: str) -&gt; Tuple[str, str]:
-    pass
-</code></pre>
-<p>```</p>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_streams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">retrieve_stream_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mip_table</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="k">pass</span>
+</code></pre></div>
 </details>
 <h3 id="step-9-use-your-stream-info-in-your-plugin">Step 9: Use your <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> info in your plugin</h3>
 <ul class="task-list">
@@ -2168,9 +2174,9 @@ def retrieve_stream_id(self, variable: str, mip_table: str) -&gt; Tuple[str, str
 </ul>
 <details class="example">
 <summary>Example</summary>
-<p><code>python
-def stream_info(self) -&gt; StreamInfo:
-    return MyStreamInfo()</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">stream_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StreamInfo</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">MyStreamInfo</span><span class="p">()</span>
+</code></pre></div>
 </details>
 <p>Congratulations, you finished to implement the plugin. Now, you can use it with <abbr title="Climate Data Dissemination System">CDDS</abbr>.</p>
 <h3 id="step-10-use-your-plugin-with-cdds">Step 10: Use your plugin with <abbr title="Climate Data Dissemination System">CDDS</abbr></h3>
@@ -2181,8 +2187,9 @@ def stream_info(self) -&gt; StreamInfo:
 </ul>
 <details class="example">
 <summary>Example: Change values for the ARISE plugin</summary>
-<p><code>external_plugin_location = /project/cdds/arise
-external_plugin = arise.plugin</code></p>
+<div class="highlight"><pre><span></span><code>external_plugin_location = /project/cdds/arise
+external_plugin = arise.plugin
+</code></pre></div>
 </details>
 
 

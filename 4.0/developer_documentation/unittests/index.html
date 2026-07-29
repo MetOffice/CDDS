@@ -1222,20 +1222,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#c-british-crown-copyright-2015-2025-met-office" class="md-nav__link">
-    (C) British Crown Copyright 2015-2025, Met Office.
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#please-see-licensemd-for-license-details" class="md-nav__link">
-    Please see LICENSE.md for license details.
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1585,20 +1571,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#c-british-crown-copyright-2015-2025-met-office" class="md-nav__link">
-    (C) British Crown Copyright 2015-2025, Met Office.
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#please-see-licensemd-for-license-details" class="md-nav__link">
-    Please see LICENSE.md for license details.
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1614,6 +1586,8 @@
                   
 
 
+  <h1>Unit Testing</h1>
+
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This documentation is currently under construction and may not be up to date.</p>
@@ -1624,22 +1598,22 @@
 <li>Start by navigating to the root directory of the <abbr title="Climate Data Dissemination System">CDDS</abbr> source code.</li>
 <li>Ensure the development environment is correctly setup by running:</li>
 </ol>
-<p><code>bash
-source setup_env_for_devel</code>
+<p><div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>setup_env_for_devel
+</code></pre></div>
 Then, you can run on of the following commands to run tests:</p>
 <p>Run all tests on SPICE: </p>
-<p><code>bash
-sbatch submit_run_all_tests.batch</code></p>
+<div class="highlight"><pre><span></span><code>sbatch<span class="w"> </span>submit_run_all_tests.batch
+</code></pre></div>
 <p>Run all tests locally:</p>
-<p><code>bash
-./run_all_tests</code></p>
+<div class="highlight"><pre><span></span><code>./run_all_tests
+</code></pre></div>
 <p>Run tests for a particular <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> <code>cdds</code> </p>
-<p><code>bash
-pytest cdds
-pytest mip_convert</code></p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>cdds
+pytest<span class="w"> </span>mip_convert
+</code></pre></div>
 <p>Run tests for a particular test module:</p>
-<p><code>bash
-py.test hadsdk/hadsdk/tests/test_common.py</code></p>
+<div class="highlight"><pre><span></span><code>py.test<span class="w"> </span>hadsdk/hadsdk/tests/test_common.py
+</code></pre></div>
 <h2 id="writing-unit-tests">Writing Unit Tests</h2>
 <p>On some occasions Coding Guidelines WIP | Doctests may be sufficient as unit tests.</p>
 <div class="admonition note">
@@ -1654,43 +1628,42 @@ py.test hadsdk/hadsdk/tests/test_common.py</code></p>
 </div>
 <p>Unit Test Example</p>
 <p><code>my_module.py</code></p>
-<p>```python</p>
-<h1 id="c-british-crown-copyright-2015-2025-met-office">(C) British Crown Copyright 2015-2025, Met Office.</h1>
-<h1 id="please-see-licensemd-for-license-details">Please see LICENSE.md for license details.</h1>
-<p>"""
-My module.
-"""
-def my_function():
-    [...]
-class MyClass():
-    def my_method1(self):
-        [...]
-    def my_method2(self):
-        [...]
-```</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># (C) British Crown Copyright 2015-2025, Met Office.</span>
+<span class="c1"># Please see LICENSE.md for license details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">My module.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_function</span><span class="p">():</span>
+    <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">my_method1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">my_method2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</code></pre></div>
 <p><code>test_my_module.py</code></p>
-<p><code>python
-import unittest
-class TestMyClass(unittest.TestCase):
-    """
-    Tests for MyClass in my_module.py.
-    """
-    def test_&lt;class_test_description&gt;(self):
-        [...]
-    def test_my_method1_&lt;test_description&gt;(self):
-        [...]
-    def test_my_method2_&lt;test_description&gt;(self):
-        [...]
-class TestMyFunction(unittest.TestCase):
-    """
-    Tests for my_function in my_module.py.
-    """
-    def test_&lt;first_test_description&gt;(self):
-        [...]
-    def test_&lt;second_test_description&gt;(self):
-        [...]
-if __name__ == '__main__':
-    unittest.main()</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TestMyClass</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tests for MyClass in my_module.py.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_</span><span class="o">&lt;</span><span class="n">class_test_description</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_my_method1_</span><span class="o">&lt;</span><span class="n">test_description</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_my_method2_</span><span class="o">&lt;</span><span class="n">test_description</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TestMyFunction</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tests for my_function in my_module.py.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_</span><span class="o">&lt;</span><span class="n">first_test_description</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_</span><span class="o">&lt;</span><span class="n">second_test_description</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</code></pre></div>
 
 
 

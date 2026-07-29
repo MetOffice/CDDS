@@ -1535,8 +1535,8 @@
 </li>
 <li>
 <p>Import the functional tests class for <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> convert tests</p>
-<p><code>python
-from mip_convert.tests.test_functional.test_command_line import AbstractFunctionalTests</code></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">mip_convert.tests.test_functional.test_command_line</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractFunctionalTests</span>
+</code></pre></div>
 </li>
 <li>
 <p>Extends your test class from the <code>AbstractFuntionalTests</code></p>
@@ -1556,8 +1556,8 @@ This function will trigger <abbr title="Model Intercomparison Project, e.g. Scen
 </li>
 <li>
 <p>Mark your test as a slow test by add following annotation to your test method</p>
-<p><code>python
-@pytest.mark.slow</code></p>
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span>
+</code></pre></div>
 </li>
 </ol>
 <div class="admonition note">

@@ -2071,7 +2071,8 @@ not set all values, it must be adjusted manually.</p>
 </tbody>
 </table>
 <p>To link your local data to the <abbr title="Climate Data Dissemination System">CDDS</abbr> data input directory, activate the cdds installation (see <a href="#6-activate-cdds-install">below</a>) and run</p>
-<p><code>cdds_arrange_input_data &lt;request file&gt; &lt;directory to search for data&gt;</code></p>
+<div class="highlight"><pre><span></span><code>cdds_arrange_input_data &lt;request file&gt; &lt;directory to search for data&gt;
+</code></pre></div>
 <p>This will search the directory you specify for model output to be used and create <strong>symbolic links</strong> to each file.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -2096,7 +2097,8 @@ identified by the validation tasks are dealt with. Failing to do this may be dif
 <p class="admonition-title">Tip</p>
 <p>You can check if you have correct permissions by running following command and check if your moose username is included 
 in the access control list output:
-<code>moo getacl moose:/adhoc/projects/cdds</code>
+<div class="highlight"><pre><span></span><code>moo getacl moose:/adhoc/projects/cdds
+</code></pre></div>
 If your user id is not included with the <code>readwrite-delete</code> permissions listed please contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team so that you can be given the required permissions to archive data.</p>
 </div>
 </li>
@@ -2105,9 +2107,11 @@ If your user id is not included with the <code>readwrite-delete</code> permissio
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>You can check which shell you use by following command:
-<code>echo $SHELL</code>
+<div class="highlight"><pre><span></span><code>echo $SHELL
+</code></pre></div>
 If the result is not <code>/bin/bash</code>, you can switch to a bash shell by running:
-<code>/bin/bash</code></p>
+<div class="highlight"><pre><span></span><code>/bin/bash
+</code></pre></div></p>
 </div>
 </li>
 </ul>
@@ -2119,7 +2123,8 @@ If the result is not <code>/bin/bash</code>, you can switch to a bash shell by r
 <ol>
 <li>
 <p>Setup the environment to use the central installation of <abbr title="Climate Data Dissemination System">CDDS</abbr> and its dependencies:
-   <code>source ~cdds/bin/setup_env_for_cdds &lt;cdds_version&gt;</code>
+   <div class="highlight"><pre><span></span><code>source ~cdds/bin/setup_env_for_cdds &lt;cdds_version&gt;
+</code></pre></div>
    where <code>&lt;cdds_version&gt;</code> is the version of <abbr title="Climate Data Dissemination System">CDDS</abbr> you wish to use, e.g. <code>4.0.0</code>. Unless instructed otherwise 
    you should use the most recent version of <abbr title="Climate Data Dissemination System">CDDS</abbr> available (to ensure that all bugfixes are picked up), and 
    this version should be used in all stages of the <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> being processed. If in doubt contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team 
@@ -2134,7 +2139,8 @@ If the result is not <code>/bin/bash</code>, you can switch to a bash shell by r
 <ol>
 <li>
 <p>Setup the environment to use the central installation of <abbr title="Climate Data Dissemination System">CDDS</abbr> and its dependencies:
-   <code>source ~cdds/bin/setup_env_for_cdds &lt;cdds_version&gt;</code>
+   <div class="highlight"><pre><span></span><code>source ~cdds/bin/setup_env_for_cdds &lt;cdds_version&gt;
+</code></pre></div>
    where <code>&lt;cdds_version&gt;</code> is the version of <abbr title="Climate Data Dissemination System">CDDS</abbr> you wish to use, e.g. <code>4.0.0</code>. Unless instructed otherwise 
    you should use the most recent version of <abbr title="Climate Data Dissemination System">CDDS</abbr> available (to ensure that all bugfixes are picked up), and 
    this version should be used in all stages of the <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> being processed. If in doubt contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team 
@@ -2158,19 +2164,23 @@ If the result is not <code>/bin/bash</code>, you can switch to a bash shell by r
 <p>If running a single <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr>, please follow the standard process as described in the <a href="https://metoffice.github.io/CDDS/latest/tutorials/quickstart/">Quickstart tutorial</a>. Assuming you have your <abbr title="Information about a simulation used by all CDDS components.">request file</abbr> and variable list set up, this simply involves running the following 4 commands:</p>
 <ol>
 <li>Activate the environment:
-   <code>source ~cdds/bin/setup_env_for_cdds &lt;the version of CDDS you are using, e.g. 4.0.0&gt;</code></li>
+   <div class="highlight"><pre><span></span><code>source ~cdds/bin/setup_env_for_cdds &lt;the version of CDDS you are using, e.g. 4.0.0&gt;
+</code></pre></div></li>
 <li>
 <p>Create the directory structure:
-   <code>create_cdds_directory_structure &lt;path to your request.cfg&gt;</code>
+   <div class="highlight"><pre><span></span><code>create_cdds_directory_structure &lt;path to your request.cfg&gt;
+</code></pre></div>
    . The output of this script suggests two symbolic links are created or the environment variables
    <code>$CDDS_DATA_DIR</code> and <code>$CDDS_PROC_DIR</code> are set. These variables will be used in examples below.</p>
 </li>
 <li>
 <p>Create the internal variable lists used by <abbr title="Climate Data Dissemination System">CDDS</abbr>:
-   <code>prepare_generate_variable_list &lt;path to your request.cfg&gt;</code></p>
+   <div class="highlight"><pre><span></span><code>prepare_generate_variable_list &lt;path to your request.cfg&gt;
+</code></pre></div></p>
 </li>
 <li>Launch the cylc conversion workflow:
-   <code>cdds_convert &lt;path to your request.cfg&gt;</code></li>
+   <div class="highlight"><pre><span></span><code>cdds_convert &lt;path to your request.cfg&gt;
+</code></pre></div></li>
 </ol>
 <p>This process can be monitored via the cylc gui or cylc review. If a workflow has issues, due to task failure, it will stall, and you will receive an e-mail.Further guidence on this process can be found in the <a href="https://metoffice.github.io/CDDS/latest/tutorials/quickstart/">Quickstart tutorial</a>. </p>
 <!--
@@ -2179,39 +2189,35 @@ If the result is not <code>/bin/bash</code>, you can switch to a bash shell by r
 Alternatively, if you will be running a large batch of request files, it may be more valuable to use the processing workflow tool.
 
 1. Set up a working directory
-    ```
-    mkdir cdds-example-1
-    cd cdds-example-1
-    export WORKING_DIR=`pwd`
-    ```
+    <div class="highlight"><pre><span></span><code>mkdir cdds-example-1
+cd cdds-example-1
+export WORKING_DIR=`pwd`
+</code></pre></div>
     Add the location of your working directory to the *CDDS operational simulation issue*.
 
 2. Run the following command after replacing values within `<>`:
-   ```
-   checkout_processing_workflow <name for processing workflow> \
-   <path to request configuration> \
-   --workflow_destination .
-   ```
+   <div class="highlight"><pre><span></span><code>checkout_processing_workflow &lt;name for processing workflow&gt; \
+&lt;path to request configuration&gt; \
+--workflow_destination .
+</code></pre></div>
 
     ??? example
         Checkout the CDDS processing workflow with the name `my-cdds-test` and the request file location `/home/foo/cdds-example-1/request.cfg`:
-        ```
-        checkout_processing_workflow my-cdds-test \
-        /home/foo/cdds-example-1/request.cfg \
-        --workflow_destination .
-        ```
+        <div class="highlight"><pre><span></span><code>checkout_processing_workflow my-cdds-test \
+/home/foo/cdds-example-1/request.cfg \
+--workflow_destination .
+</code></pre></div>
 
     !!! info
         A directory containing a rose workflow will be placed in a subdirectory under the location specified in `--workflow_destination`.  
         If this is not specified it will be checked out under `~/roses/`
 
 3. **This step is optional:** Set some useful environmental variables to access the CDDS directories:
-   ```
-   export CDDS_PROC_DIR=/<root_proc_dir>/<mip_era>/<mip>/<model_id>_<experiment_id>_<variant_label>/<package>/
-   export CDDS_DATA_DIR=/<root_data_dir>/<mip_era>/<mip>/<model_id>_<experiment_id>_<variant_label>/<package>/
-   ls $CDDS_PROC_DIR
-   ls $CDDS_DATA_DIR
-   ```
+   <div class="highlight"><pre><span></span><code>export CDDS_PROC_DIR=/&lt;root_proc_dir&gt;/&lt;mip_era&gt;/&lt;mip&gt;/&lt;model_id&gt;_&lt;experiment_id&gt;_&lt;variant_label&gt;/&lt;package&gt;/
+export CDDS_DATA_DIR=/&lt;root_data_dir&gt;/&lt;mip_era&gt;/&lt;mip&gt;/&lt;model_id&gt;_&lt;experiment_id&gt;_&lt;variant_label&gt;/&lt;package&gt;/
+ls $CDDS_PROC_DIR
+ls $CDDS_DATA_DIR
+</code></pre></div>
    where you must replace all values within `<>`. The `root_proc_dir` and `root_data_dir` are the values that has been 
    specified in the request configuration.
 
@@ -2224,30 +2230,26 @@ Alternatively, if you will be running a large batch of request files, it may be 
         * Model ID is `UKESM1-0-LL` for experiment `piControl` with variant label `r1i1p1f2` and package `round-1`
 
         Then the command to set the environmental variables is:
-        ```
-        export CDDS_PROC_DIR=/home/foo/cdds-example-1/data/CMIP7/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
-        export CDDS_DATA_DIR=/home/foo/cdds-example-1/data/CMIP7/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
-        ```
+        <div class="highlight"><pre><span></span><code>export CDDS_PROC_DIR=/home/foo/cdds-example-1/data/CMIP7/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
+export CDDS_DATA_DIR=/home/foo/cdds-example-1/data/CMIP7/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
+</code></pre></div>
 
 4. Run the workflow:
-   ```
-   cd <name for processing workflow>
-   cylc vip .
-   ```
+   <div class="highlight"><pre><span></span><code>cd &lt;name for processing workflow&gt;
+cylc vip .
+</code></pre></div>
 
     ??? example
         If the name of the processing workflow is `my-cdds-test`, then run:
-        ```
-        cd my-cdds-test
-        cylc vip .
-        ```
+        <div class="highlight"><pre><span></span><code>cd my-cdds-test
+cylc vip .
+</code></pre></div>
 
 !!! info
     Cylc 8 is used for running the processing workflow. You can do this by running following command before 
     running the workflow:
-    ```
-    export CYLC_VERSION=8
-    ```
+    <div class="highlight"><pre><span></span><code>export CYLC_VERSION=8
+</code></pre></div>
 -->
 
 <h3 id="monitor-conversion-workflow">Monitor conversion workflow</h3>
@@ -2273,10 +2275,12 @@ email the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Disse
 <li>The extraction task will automatically resubmit 4 times if it fails and manual intervention is required to proceed.</li>
 <li>Most issues are related to either MASS (i.e. moo commands failing), file system anomalies (failure to create files /directories) or running out of time.</li>
 <li>Identify issues either by searching for "CRITICAL" in the <code>job.out</code> logs in Cylc Review or by using 
-  <code>grep CRITICAL $CDDS_PROC_DIR/extract/log/cdds_extract_&lt;stream&gt;_&lt;date stamp&gt;.log</code></li>
+  <div class="highlight"><pre><span></span><code>grep CRITICAL $CDDS_PROC_DIR/extract/log/cdds_extract_&lt;stream&gt;_&lt;date stamp&gt;.log
+</code></pre></div></li>
 <li>If the issue appears to be due to MASS issues you can re-run the failed <abbr title="Climate Data Dissemination System">CDDS</abbr> Extract job by re-triggering the 
   <code>run_extract_&lt;stream&gt;</code> task via the cylc gui or via the cylc command line tools:
-  <code>cylc trigger cdds_&lt;workflow_base_name&gt;_&lt;stream&gt; run_extract_&lt;stream&gt;:failed</code></li>
+  <div class="highlight"><pre><span></span><code>cylc trigger cdds_&lt;workflow_base_name&gt;_&lt;stream&gt; run_extract_&lt;stream&gt;:failed
+</code></pre></div></li>
 <li>If in doubt update your <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> issue</em> and contact <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> for advice.</li>
 </ul>
 </details>
@@ -2334,9 +2338,11 @@ optimise use of SLURM queues.</p>
 <summary>Organise Files</summary>
 <ul>
 <li>Re-arranges the output files on disk from a directory structure created by the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert tasks of the form 
-<code>$CDDS_DATA_DIR/output/&lt;stream&gt;_mip_convert/&lt;YYYY-MM-DD&gt;/&lt;grid&gt;/&lt;files&gt;</code>
+<div class="highlight"><pre><span></span><code>$CDDS_DATA_DIR/output/&lt;stream&gt;_mip_convert/&lt;YYYY-MM-DD&gt;/&lt;grid&gt;/&lt;files&gt;
+</code></pre></div>
 to 
-<code>$CDDS_DATA_DIR/output/&lt;stream&gt;_concat/&lt;MIP table&gt;/&lt;variable name&gt;/&lt;files&gt;</code></li>
+<div class="highlight"><pre><span></span><code>$CDDS_DATA_DIR/output/&lt;stream&gt;_concat/&lt;MIP table&gt;/&lt;variable name&gt;/&lt;files&gt;
+</code></pre></div></li>
 <li>Ready for concatenation. A variation named <code>organise_files_final_&lt;stream&gt;</code> does the same thing but at the end 
   of the conversion process.</li>
 </ul>
@@ -2361,11 +2367,13 @@ to
   (failures are usually due to running out of time while performing a concatenation).</li>
 <li>Only one <code>mip_concatenate_batch_&lt;stream&gt;</code> task can run at one time.</li>
 <li>Issues can be identified using:
-  <code>grep CRITICAL $CDDS_PROC_DIR/convert/log/mip_concatenate_*.log</code>
+  <div class="highlight"><pre><span></span><code>grep CRITICAL $CDDS_PROC_DIR/convert/log/mip_concatenate_*.log
+</code></pre></div>
   If any critical issues arise or tasks fail update your <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> issue</em> and 
   tag <code>@UKNCSP/cdds</code> or contact the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> for advice.</li>
 <li>Output data is written to 
-  <code>$CDDS_DATA_DIR/output/&lt;stream&gt;/&lt;MIP table&gt;/&lt;variable name&gt;/&lt;files&gt;</code></li>
+  <div class="highlight"><pre><span></span><code>$CDDS_DATA_DIR/output/&lt;stream&gt;/&lt;MIP table&gt;/&lt;variable name&gt;/&lt;files&gt;
+</code></pre></div></li>
 </ul>
 </details>
 </li>
@@ -2383,13 +2391,17 @@ to
 <ul>
 <li>Run the QC process on output data for this <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr></li>
 <li>Produces a report at:
-  <code>$CDDS_PROC_DIR/qualitycheck/report_&lt;stream&gt;_&lt;datestamp&gt;.json</code>
+  <div class="highlight"><pre><span></span><code>$CDDS_PROC_DIR/qualitycheck/report_&lt;stream&gt;_&lt;datestamp&gt;.json
+</code></pre></div>
   and a list of variables which pass the quality checks at:
-  <code>$CDDS_PROC_DIR/qualitycheck/approved_variables_&lt;stream&gt;_&lt;datestamp&gt;.txt</code>
+  <div class="highlight"><pre><span></span><code>$CDDS_PROC_DIR/qualitycheck/approved_variables_&lt;stream&gt;_&lt;datestamp&gt;.txt
+</code></pre></div>
   and a log file at:
-  <code>$CDDS_PROC_DIR/qualitycheck/log/qc_run_and_report_&lt;stream&gt;_&lt;datestamp&gt;.log</code></li>
+  <div class="highlight"><pre><span></span><code>$CDDS_PROC_DIR/qualitycheck/log/qc_run_and_report_&lt;stream&gt;_&lt;datestamp&gt;.log
+</code></pre></div></li>
 <li>The approved variables file will have one line per successfully produced <abbr title="A group of data containing some or all of the model output files from a single model simulation (i.e., model output files from a single realization of a single experiment from a single model).">Dataset</abbr> of the form: 
-  <code>&lt;MIP table&gt;/&lt;variable name&gt;;&lt;Directory containing files&gt;</code></li>
+  <div class="highlight"><pre><span></span><code>&lt;MIP table&gt;/&lt;variable name&gt;;&lt;Directory containing files&gt;
+</code></pre></div></li>
 <li>This task will fail if any QC issues are found and will not resubmit. If this occurs please update your <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> issue</em> 
   and contact the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> for advice. </li>
 </ul>
@@ -2407,7 +2419,8 @@ to
   specified in the <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> file.</li>
 <li>Task will fail if</li>
 <li>There are MASS issues: For example if the following command returns anything there has been a MASS outage and you can re-trigger the task:
-    <code>grep SSC_STORAGE_SYSTEM_UNAVAILABLE $CDDS_PROC_DIR/archive/log/cdds_store_&lt;stream&gt;_&lt;date stamp&gt;.log</code></li>
+    <div class="highlight"><pre><span></span><code>grep SSC_STORAGE_SYSTEM_UNAVAILABLE $CDDS_PROC_DIR/archive/log/cdds_store_&lt;stream&gt;_&lt;date stamp&gt;.log
+</code></pre></div></li>
 <li>An attempt is made to archive data that already exists in MASS. If this occurs please update your <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> issue</em> 
     and tag <code>@UKNCSP/cdds</code> add the <code>help needed</code> label to your issue  or contact the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> for advice.</li>
 </ul>
@@ -2446,7 +2459,8 @@ the Extract, Convert, QC and Transfer tasks have been completed.</p>
 <ul class="task-list">
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Copy the request JSON file and any logs to <code>$CDDS_PROC_DIR</code>.
-      <code>cp request.json *.log $CDDS_PROC_DIR/</code></p>
+      <div class="highlight"><pre><span></span><code>cp request.json *.log $CDDS_PROC_DIR/
+</code></pre></div></p>
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Add a comment to the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> issue</em> specifying the archived data is ready for submission, 
@@ -2464,12 +2478,14 @@ the Extract, Convert, QC and Transfer tasks have been completed.</p>
 <ol>
 <li>
 <p>Once the approved issue has been returned to you following submission, delete the contents of the data directory:</p>
-<p><code>cd &lt;path to the data directory&gt;;   
-   rm -rf input output</code></p>
+<div class="highlight"><pre><span></span><code>cd &lt;path to the data directory&gt;;   
+rm -rf input output
+</code></pre></div>
 </li>
 <li>
 <p>Delete all workflows used:</p>
-<p><code>cdds_clean &lt;path to the request configuration&gt;</code></p>
+<div class="highlight"><pre><span></span><code>cdds_clean &lt;path to the request configuration&gt;
+</code></pre></div>
 </li>
 <li>
 <p>Update and close the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> issue</em>.</p>

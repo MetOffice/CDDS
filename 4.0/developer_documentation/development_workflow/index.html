@@ -1863,15 +1863,16 @@ Before creating a new issue, look through the current issues and milestones to c
 <h4 id="create-a-new-branch-for-an-issue">Create a new branch for an issue</h4>
 <p>Identify where your new branch should start from, e.g. is this for an update going into the next bug fix or is this targetted at the next minor version of <abbr title="Climate Data Dissemination System">CDDS</abbr>.
 For a bugfix ensure that you are working off the corresponding release branch, e.g</p>
-<p><code>bash
-git switch v3.2_release</code>
+<p><div class="highlight"><pre><span></span><code>git<span class="w"> </span>switch<span class="w"> </span>v3.2_release
+</code></pre></div>
 while for a larger developments switch to <code>main</code>.</p>
 <p>The branch name should be start with the issue number and has a brief description of the task.
 Use underscores in the branch name to separate words.</p>
-<p><code>bash
-git checkout -b &lt;issue_number&gt;_&lt;brief_description&gt;</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>&lt;issue_number&gt;_&lt;brief_description&gt;
+</code></pre></div>
 <p>The commit message should be:</p>
-<p><code>&lt;issue_number&gt;: Create a new branch for &lt;brief_description&gt;</code></p>
+<div class="highlight"><pre><span></span><code>&lt;issue_number&gt;: Create a new branch for &lt;brief_description&gt;
+</code></pre></div>
 <p>Don’t wrap the line of the commit message and don’t use more than 72 characters.
 If you need a longer commit message.
 Leave one empty line after the first line and then give a more detailed description (now you can wrap this description).
@@ -1890,15 +1891,16 @@ After creating the branch, your working copy is already on this branch (provided
 <p>Not more than 72 characters per line</p>
 <p>The first line should start with the issue number and have a really short brief description</p>
 <p>If more descriptions are necessary, leave an empty line and then write more text, e.g.</p>
-<p><code>Issue #109 Merge fixing duplicate coordinates error from cmor
+<div class="highlight"><pre><span></span><code>Issue #109 Merge fixing duplicate coordinates error from cmor
 * Add functional tests for ARISE model
-* Simplify mean cube calculation</code></p>
+* Simplify mean cube calculation
+</code></pre></div>
 <p>Push changes to github using</p>
-<p><code>bash
-git push origin</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin
+</code></pre></div>
 <p>To be more explicit, you can add the branch name you want to commit to:</p>
-<p><code>bash
-git push origin &lt;branch_name_to_commit_to&gt;</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>&lt;branch_name_to_commit_to&gt;
+</code></pre></div>
 <h3 id="tests">Tests</h3>
 <p>Make sure that unit tests covers your code changes and pass! the <code>run_all_tests</code> script at the root of the repository should take around 10-15 minutes to run all tests, but commands such as <code>pytest cdds</code> can be used during development.</p>
 <p>Any changes in the submission code (check with <abbr title="Climate Data Dissemination System">CDDS</abbr> team) should be done with extreme care and frequent testing.</p>
@@ -1936,17 +1938,17 @@ git push origin &lt;branch_name_to_commit_to&gt;</code></p>
 <h3 id="merge-to-parent-branch">Merge to parent branch</h3>
 <h4 id="via-command-line">Via Command Line</h4>
 <p>Go to the parent branch to merge to (normally: main or the release branch)</p>
-<p><code>bash
-git checkout &lt;branch_to_merge_to&gt;</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>&lt;branch_to_merge_to&gt;
+</code></pre></div>
 <p>Make sure that the branch is up-to-date:</p>
-<p><code>bash
-git pull</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>pull
+</code></pre></div>
 <p>Merge the issue branch:</p>
-<p><code>bash
-git merge &lt;your_branch_to_merge&gt;</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>merge<span class="w"> </span>&lt;your_branch_to_merge&gt;
+</code></pre></div>
 <p>As commit message for a merge use:</p>
-<p><code>bash
-&lt;issue-number&gt;: Completed work to &lt;short_brief_description_of_task&gt;</code></p>
+<div class="highlight"><pre><span></span><code>&lt;issue-number&gt;:<span class="w"> </span>Completed<span class="w"> </span>work<span class="w"> </span>to<span class="w"> </span>&lt;short_brief_description_of_task&gt;
+</code></pre></div>
 <p>You could face merging conflicts that you need to solve before you can end the merge.</p>
 <h4 id="using-github">Using Github</h4>
 <ol>
@@ -1968,31 +1970,32 @@ git merge &lt;your_branch_to_merge&gt;</code></p>
 <h4 id="via-command-line_1">Via Command Line</h4>
 <p>Find the commit id of the merge commit into the parent branch, you have done in the previous step:</p>
 <p>Go to the parent branch</p>
-<p><code>bash
-git checkout &lt;parent-branch&gt;</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>&lt;parent-branch&gt;
+</code></pre></div>
 <p>Find your commit ID:</p>
-<p><code>bash
-git log</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>log
+</code></pre></div>
 <p>This list all the previous commits in decreasing order. Each merge entry looks like:</p>
-<p><code>commit &lt;commit-id&gt; (&lt;merge-branches&gt;)
+<div class="highlight"><pre><span></span><code>commit &lt;commit-id&gt; (&lt;merge-branches&gt;)
 Merge: &lt;merge-ids&gt;
 Author: &lt;author-details&gt;
 Date:   &lt;timestamp&gt;
 &lt;commit-message&gt;
-Use the &lt;commit-id&gt; of your merge commit.</code></p>
+Use the &lt;commit-id&gt; of your merge commit.
+</code></pre></div>
 <p>Remember your <commit-id>! You will need it for the next steps.</p>
 <p>Do the cherry pick:</p>
 <p>Go to the branch you want to cherry-pick to:</p>
-<p><code>bash
-git checkout &lt;branch-to-cherry-pick-to&gt;</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>&lt;branch-to-cherry-pick-to&gt;
+</code></pre></div>
 <p>Cherry pick:</p>
-<p><code>bash
-git cherry-pick &lt;commit-id&gt; --no-commit</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>cherry-pick<span class="w"> </span>&lt;commit-id&gt;<span class="w"> </span>--no-commit
+</code></pre></div>
 <p>This will add the commit’s changes to your working copy without directly committing them. You need to do a git commit by yourself.</p>
 <p>Commit the changes and check if everything is fine:</p>
 <p>Check the changes. If they are fine, commit them:</p>
-<p><code>bash
-git commit</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>commit
+</code></pre></div>
 <p>Use the key-word cherry-pick in your commit message to make clear that this commit is a cherry-pick.</p>
 <p>Check if all (unit) tests succeed!</p>
 <p>Push the changes </p>

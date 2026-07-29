@@ -1618,26 +1618,28 @@ the mapping plugin must inherit from the <code>MappingPlugin</code>.</p>
 </li>
 </ul>
 <p>To create the folders and files structure, you can paste following content into a bash script file:
-```bash
-   #!/bin/bash</p>
-<p>MODEL="${@:1:1}"</p>
-<p>LOWER_MODEL=$(echo ${MODEL} | tr A-Z- a-z_)</p>
-<p>mkdir -p mip_convert/mip_convert/plugins/${LOWER_MODEL}
-   mkdir -p mip_convert/mip_convert/plugins/${LOWER_MODEL}/data
-   touch mip_convert/mip_convert/plugins/${LOWER_MODEL}/<strong>init</strong>.py
-   touch mip_convert/mip_convert/plugins/${LOWER_MODEL}/${LOWER_MODEL}_plugin.py
-   touch mip_convert/mip_convert/plugins/${LOWER_MODEL}/data/<strong>init</strong>.py
-   touch mip_convert/mip_convert/plugins/${LOWER_MODEL}/data/processors.py
-```</p>
+<div class="highlight"><pre><span></span><code><span class="w">   </span><span class="c1">#!/bin/bash</span>
+
+<span class="w">   </span><span class="nv">MODEL</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="p">@:</span><span class="nv">1</span><span class="p">:</span><span class="nv">1</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="w">   </span><span class="nv">LOWER_MODEL</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">MODEL</span><span class="si">}</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>A-Z-<span class="w"> </span>a-z_<span class="k">)</span>
+
+<span class="w">   </span>mkdir<span class="w"> </span>-p<span class="w"> </span>mip_convert/mip_convert/plugins/<span class="si">${</span><span class="nv">LOWER_MODEL</span><span class="si">}</span>
+<span class="w">   </span>mkdir<span class="w"> </span>-p<span class="w"> </span>mip_convert/mip_convert/plugins/<span class="si">${</span><span class="nv">LOWER_MODEL</span><span class="si">}</span>/data
+<span class="w">   </span>touch<span class="w"> </span>mip_convert/mip_convert/plugins/<span class="si">${</span><span class="nv">LOWER_MODEL</span><span class="si">}</span>/__init__.py
+<span class="w">   </span>touch<span class="w"> </span>mip_convert/mip_convert/plugins/<span class="si">${</span><span class="nv">LOWER_MODEL</span><span class="si">}</span>/<span class="si">${</span><span class="nv">LOWER_MODEL</span><span class="si">}</span>_plugin.py
+<span class="w">   </span>touch<span class="w"> </span>mip_convert/mip_convert/plugins/<span class="si">${</span><span class="nv">LOWER_MODEL</span><span class="si">}</span>/data/__init__.py
+<span class="w">   </span>touch<span class="w"> </span>mip_convert/mip_convert/plugins/<span class="si">${</span><span class="nv">LOWER_MODEL</span><span class="si">}</span>/data/processors.py
+</code></pre></div></p>
 <p>You can run the script file from your <abbr title="Climate Data Dissemination System">CDDS</abbr> work directory by using following command:
-<code>commandline
-   sh &lt;name_of_your_script_file&gt; &lt;model_name&gt;</code></p>
+<div class="highlight"><pre><span></span><code>   sh &lt;name_of_your_script_file&gt; &lt;model_name&gt;
+</code></pre></div></p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>The script file name is <code>create_plugin_structure.sh</code> and the model you like to create the mapping plugin is <code>HadGEM2</code>. 
 Then, you must run following command:
-<code>commandline
-   sh create_plugin_structure.sh HadGEM2</code></p>
+<div class="highlight"><pre><span></span><code>   sh create_plugin_structure.sh HadGEM2
+</code></pre></div></p>
 </div>
 <h3 id="create-mapping-plugin-using-base-mapping-plugin">Create Mapping Plugin Using Base Mapping Plugin</h3>
 <p>Following steps shows how to create a mapping plugin by using the <code>BaseMappingPlugin</code> as parent:</p>
@@ -1663,24 +1665,23 @@ Then, you must run following command:
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> In the <code>__init__</code> method, create the paths to the <code>data</code> directory containing the corresponding mapping configurations:
-      ```python
-      def <strong>init</strong>(self):
-           data_dir = os.path.join(os.path.dirname(os.path.realpath(<strong>file</strong>)), 'data')
-           super(<model>MappingPlugin, self).<strong>init</strong>('<model>', data_dir)</p>
-<pre><code>   self.input_variables: Dict[str, iris.cube.Cube] = {}
-</code></pre>
-<p>```
-  where <model> is the name of the model that should be supported.</p>
+      <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+     <span class="n">data_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span>
+     <span class="nb">super</span><span class="p">(</span><span class="o">&lt;</span><span class="n">model</span><span class="o">&gt;</span><span class="n">MappingPlugin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;&lt;model&gt;&#39;</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">)</span>
+
+     <span class="bp">self</span><span class="o">.</span><span class="n">input_variables</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">Cube</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</code></pre></div>
+      where <model> is the name of the model that should be supported.</p>
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Import everything defined in <code>processors.py</code> by doing the wildcard <code>*</code></p>
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Implement the <code>evaluate_expression</code>:
-      <code>python
-      def evaluate_expression(self, expression: Any, input_variables: Dict[str, iris.cube.Cube]) -&gt; iris.cube.Cube:
-          self.input_variables = input_variables
-          return eval(expression)</code></p>
+      <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">evaluate_expression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">input_variables</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">Cube</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">iris</span><span class="o">.</span><span class="n">cube</span><span class="o">.</span><span class="n">Cube</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">input_variables</span> <span class="o">=</span> <span class="n">input_variables</span>
+    <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span>
+</code></pre></div></p>
 </li>
 </ul>
 

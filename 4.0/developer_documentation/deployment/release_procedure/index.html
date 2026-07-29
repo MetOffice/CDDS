@@ -1722,34 +1722,34 @@
    cherry-pick id: "Update CHANGES.md"</code></pre>
 <h2 id="create-the-deployment-branch">Create the Deployment Branch</h2>
 <p>If this is a new major or minor release i.e <code>X.Y.0</code>, you will need to create a <code>vX.Y_release</code> branch from <code>main</code> if one does not already exist.</p>
-<p><code>bash
-git checkout main
-git checkout -b v&lt;X.Y&gt;_release
-git push origin v&lt;X.Y&gt;_release</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>v&lt;X.Y&gt;_release
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v&lt;X.Y&gt;_release
+</code></pre></div>
 <details class="example">
 <summary>Example</summary>
-<p><code>bash
-git checkout main
-git checkout -b v3.2_release
-git push origin v3.2_release</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>v3.2_release
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v3.2_release
+</code></pre></div>
 </details>
 <p>Once the release branch has been created, or if it already exists, create the deployment branch for this release.</p>
-<p><code>bash
-git checkout v&lt;X.Y&gt;_release
-git checkout -b &lt;gh-issue&gt;_v&lt;X.Y.Z&gt;_release</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>v&lt;X.Y&gt;_release
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>&lt;gh-issue&gt;_v&lt;X.Y.Z&gt;_release
+</code></pre></div>
 <details class="example">
 <summary>Example</summary>
-<p><code>bash
-git checkout v3.2_release
-git checkout -b 123_v3.2.1_release</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>v3.2_release
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>123_v3.2.1_release
+</code></pre></div>
 </details>
 <h2 id="prepare-the-deployment-branch">Prepare the Deployment Branch</h2>
 <p>Each of these steps should be made as separate commits to allow for cherry picking the <code>CHANGES.md</code> on to <code>main</code>.</p>
 <ol>
 <li>
 <p>Update the <code>_DEV</code> flag in <code>cdds/cdds/__init__.py</code> and <code>mip_covert/mip_convert/__init__.py</code> to <code>False</code>
-    <code>bash
-    sed -i "s/_DEV = True/_DEV = False/" */*/__init__.py</code></p>
+    <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/_DEV = True/_DEV = False/&quot;</span><span class="w"> </span>*/*/__init__.py
+</code></pre></div></p>
 </li>
 <li>
 <p>Check that <code>_NUMERICAL_VERSION</code> in <code>cdds/cdds/__init__.py</code> and <code>mip_covert/mip_convert/__init__.py</code> matches the release <code>X.Y.Z</code> you are preparing.
@@ -1769,18 +1769,18 @@ This will allow you cherry-pick release notes from the release branch into main.
 <h2 id="publish-the-documentation">Publish the Documentation</h2>
 <ol>
 <li>Deploy the new version of the documentation.
-    <code>bash
-    mike deploy &lt;last_major_release_version&gt;</code>
+    <div class="highlight"><pre><span></span><code>mike<span class="w"> </span>deploy<span class="w"> </span>&lt;last_major_release_version&gt;
+</code></pre></div>
     where <code>last_major_release_version</code> is the last major release version, e.g <code>3.1</code></li>
 <li>Verify the new deployment works as expected.
-    <code>bash
-    mike serve</code></li>
+    <div class="highlight"><pre><span></span><code>mike<span class="w"> </span>serve
+</code></pre></div></li>
 <li>Publish the new documentation version:
-    <code>bash
-    git push origin gh-pages</code></li>
+    <div class="highlight"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>gh-pages
+</code></pre></div></li>
 <li>If a major version is released then the new documentation version must be set as default:
-    <code>bash
-    mike deploy &lt;major_release_version&gt; latest --update-aliases --push</code></li>
+    <div class="highlight"><pre><span></span><code>mike<span class="w"> </span>deploy<span class="w"> </span>&lt;major_release_version&gt;<span class="w"> </span>latest<span class="w"> </span>--update-aliases<span class="w"> </span>--push
+</code></pre></div></li>
 </ol>
 <blockquote>
 <p><strong>Note:</strong> The default documentation version shown should always be the latest major release (e.g., <code>3.1</code>). In the above command, <code>&lt;major_release_version&gt;</code> refers to the version to set as default (e.g., <code>3.1</code>).</p>
@@ -1797,28 +1797,28 @@ This will allow you cherry-pick release notes from the release branch into main.
 <li>Switch to the branch you want to tag (normally, the release branch) and <strong><em>make sure you have pulled changes on github to your local branch – 
     failure to do this can lead to installation errors that manifest as failure to build wheels</em></strong></li>
 <li>Create the tag:
-        <code>bash
-        git tag &lt;tagname&gt; -a</code>
+        <div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>&lt;tagname&gt;<span class="w"> </span>-a
+</code></pre></div>
         The <code>&lt;tagname&gt;</code> normally is the release version, e.g. <code>v3.1.0</code>.</li>
 <li>Push the tag to the branch:
-        <code>bash
-        git push origin &lt;tagname&gt;</code></li>
+        <div class="highlight"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>&lt;tagname&gt;
+</code></pre></div></li>
 <li>To show all tags and check if your tag is successfully created, run:
-        <code>bash
-        git tag -l</code></li>
+        <div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>-l
+</code></pre></div></li>
 </ol>
 <h2 id="install-the-code">Install the code</h2>
 <p>Follow the instructions provided in the <a href="../cdds_installation/">Installation</a> guide.</p>
 <h2 id="restore-development-mode-and-bump-version">Restore development mode and bump version</h2>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Update the development tag and version number in <code>&lt;cdds_component&gt;/&lt;cdds_component&gt;/__init__.py</code>:
-      <code>bash
-      _DEV = True
-      _NUMERICAL_VERSION = '&lt;next_version&gt;'</code>
+      <div class="highlight"><pre><span></span><code><span class="nv">_DEV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>True
+<span class="nv">_NUMERICAL_VERSION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&lt;next_version&gt;&#39;</span>
+</code></pre></div>
       where <code>&lt;next_version&gt;</code> is the next minor version, e.g. <code>3.1.1</code>.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Commit and push the change directly to the release branch. The commit message should be:
-      <code>bash
-      &lt;ticket_number&gt;: Restore development mode.</code></li>
+      <div class="highlight"><pre><span></span><code>&lt;ticket_number&gt;:<span class="w"> </span>Restore<span class="w"> </span>development<span class="w"> </span>mode.
+</code></pre></div></li>
 </ul>
 <h2 id="propagate-release-note-to-main">Propagate Release Note to main</h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Using cherry-pick</label><label for="__tabbed_1_2">Using merge</label></div>
@@ -1827,11 +1827,11 @@ This will allow you cherry-pick release notes from the release branch into main.
 <ol>
 <li>
 <p>Ensure local copy of both <code>main</code> and <code>release_branch</code> are up to date.
-<code>bash
-git checkout main
-git pull main
-git checkout vX.Y_release
-git pull checkout vX.Y_release</code></p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
+git<span class="w"> </span>pull<span class="w"> </span>main
+git<span class="w"> </span>checkout<span class="w"> </span>vX.Y_release
+git<span class="w"> </span>pull<span class="w"> </span>checkout<span class="w"> </span>vX.Y_release
+</code></pre></div></p>
 </li>
 <li>
 <p>On the main branch use the <code>git cherry-pick</code> command to pull in just the <code>CHANGES.md</code> updates with release notes and commit them.</p>

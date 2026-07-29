@@ -1672,17 +1672,21 @@ The current documentation is based upon <code>mkdocs</code> and is built and man
 <p>The source files are written in markdown, and are kept in the <code>docs</code> directory of the repository.
 Configuration of the building of mkdocs is done using the <code>mkdocs.yml</code> file.</p>
 <p>Whilst editing or adding documentation you can preview changes in realtime using by starting a local server.</p>
-<p><code>mkdocs serve</code></p>
+<div class="highlight"><pre><span></span><code>mkdocs serve
+</code></pre></div>
 <p>To generate the actual site that can be uploaded to a web server you would use.</p>
-<p><code>mkdocs build</code></p>
+<div class="highlight"><pre><span></span><code>mkdocs build
+</code></pre></div>
 <p>However, it should not be needed to run this command directly in order to build and deploy the docs.
 This is done using the <code>mike</code> <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> (see next section).</p>
 <h2 id="working-with-mike">Working with <code>mike</code></h2>
 <p>It is worth familiarising with the overview of <code>mike</code> here.
 In short though, <code>mike</code> makes it relatively straightforward to manage multiple versions of docs by running the <code>mkdocs build</code> command and automatically commiting this to the <code>gh-pages</code> branch.</p>
-<p><code>mike deploy 3.0</code></p>
+<div class="highlight"><pre><span></span><code>mike deploy 3.0
+</code></pre></div>
 <p>Similarly to <code>mkdocs serve</code>, you can use the following command to start a local server to preview the docs.</p>
-<p><code>mike serve</code></p>
+<div class="highlight"><pre><span></span><code>mike serve
+</code></pre></div>
 <p>However, rather than displaying the docs in your <code>CWD</code>, this will serve the docs from the <code>gh-pages</code> branch.</p>
 <h2 id="managing-versions-and-deployment-in-practice">Managing Versions and Deployment in Practice</h2>
 <h3 id="documentation-versioning-policy">Documentation Versioning Policy</h3>
@@ -1692,15 +1696,15 @@ In short though, <code>mike</code> makes it relatively straightforward to manage
 <p>The default documentation version shown should always be the latest major release (e.g., <code>3.1</code>). If you need to change this, update the default version as follows:</p>
 <ol>
 <li>Deploy the newest documentation as the default:
-    <code>bash
-    mike deploy X.Y latest --update-aliases</code>
+    <div class="highlight"><pre><span></span><code>mike<span class="w"> </span>deploy<span class="w"> </span>X.Y<span class="w"> </span>latest<span class="w"> </span>--update-aliases
+</code></pre></div>
     where <code>X.Y</code> is the version to set as default (e.g., <code>3.1</code>).</li>
 <li>Verify the default documentation is set as expected:
-    <code>bash
-    mike serve</code></li>
+    <div class="highlight"><pre><span></span><code>mike<span class="w"> </span>serve
+</code></pre></div></li>
 <li>Push the local commit by <code>mike</code> to the <code>gh-pages</code> branch:
-    <code>bash
-    git push origin gh-pages</code></li>
+    <div class="highlight"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>gh-pages
+</code></pre></div></li>
 </ol>
 
 

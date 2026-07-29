@@ -2057,10 +2057,11 @@ See the <a href="../../developer_documentation/development_workflow/">Developer 
 <details class="tip">
 <summary>Searching for variable in mapping configuration files</summary>
 <p>You can use the grep command to search if a mapping for a variable is already defined:
-<code>bash
-grep &lt;variable_name&gt; &lt;cdds_directory&gt;/mip_convert/mip_convert/plugins/&lt;lowercase_base_model_name&gt;/data/*_mappings.cfg</code>
+<div class="highlight"><pre><span></span><code>grep<span class="w"> </span>&lt;variable_name&gt;<span class="w"> </span>&lt;cdds_directory&gt;/mip_convert/mip_convert/plugins/&lt;lowercase_base_model_name&gt;/data/*_mappings.cfg
+</code></pre></div>
 For example: Searching in mappings for the variable <code>tas</code> in the <code>UKESM1</code>:
-<code>grep tas &lt;cdds_directory&gt;/mip_convert/mip_convert/plugins/ukesm1/data/*_mappings.cfg</code></p>
+<div class="highlight"><pre><span></span><code>grep tas &lt;cdds_directory&gt;/mip_convert/mip_convert/plugins/ukesm1/data/*_mappings.cfg
+</code></pre></div></p>
 </details>
 <h3 id="add-the-model-to-mip-mapping-to-the-appropriate-configuration-file">Add the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping to the appropriate configuration file.</h3>
 <ol>

@@ -1686,82 +1686,82 @@ It currently serves two main functions.</p>
 <li>Link to the <a href="https://docs.pytest.org/en/7.1.x/reference/reference.html">pytest 7.1.x API</a></li>
 </ul>
 <h2 id="pytest-configuration">Pytest Configuration</h2>
-<p><code>cfg
-[tool:pytest]
-python_files = test_*.py
-python_functions = test_*
-console_output_style = progress
-addopts = -m 'not slow and not integration and not rabbitMQ and not data_request'
-markers =
-    slow
-    rabbitMQ
-    data_request
-    integration
-    style</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">[tool:pytest]</span>
+<span class="na">python_files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">test_*.py</span>
+<span class="na">python_functions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">test_*</span>
+<span class="na">console_output_style</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">progress</span>
+<span class="na">addopts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">-m &#39;not slow and not integration and not rabbitMQ and not data_request&#39;</span>
+<span class="na">markers</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">slow</span>
+<span class="w">    </span><span class="na">rabbitMQ</span>
+<span class="w">    </span><span class="na">data_request</span>
+<span class="w">    </span><span class="na">integration</span>
+<span class="w">    </span><span class="na">style</span>
+</code></pre></div>
 <h2 id="running-pytest">Running pytest</h2>
 <p><abbr title="Climate Data Dissemination System">CDDS</abbr> already provides a script to run all tests via pytest:</p>
 <p>Activate the conda environment:
-<code>bash
-source setup_env_for_devel</code></p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>setup_env_for_devel
+</code></pre></div></p>
 <p>Run the run_all_tests script:</p>
-<p><code>bash
-./run_all_tests</code></p>
+<div class="highlight"><pre><span></span><code>./run_all_tests
+</code></pre></div>
 <p>The script runs all unit tests including all integration and slow tests.
 It does not run the RabbitMQ tests!
 Tests failures will be logged in the cdds_test_failures.log file.</p>
 <p>Run RabbitMQ tests
 The RabbitMQ tests needs a proper RabbitMQ installation. Only, the server els055 and els056 have RabbitMQ properly installed for <abbr title="Climate Data Dissemination System">CDDS</abbr>. </p>
 <p>RabbitMQ needs credentials that are specified in your home directory $HOME/.cdds_credentials and has following content:</p>
-<p><code>cfg
-[rabbit]
-host = &lt;hostname&gt;
-port = &lt;port number&gt;
-userid = &lt;user id&gt;
-use_plain = true
-vhost = dds_dev
-password = &lt;password&gt;
-For the correct values of the fields, please contact @Matthew Mizielinski .</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">[rabbit]</span>
+<span class="na">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;hostname&gt;</span>
+<span class="na">port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;port number&gt;</span>
+<span class="na">userid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;user id&gt;</span>
+<span class="na">use_plain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">true</span>
+<span class="na">vhost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">dds_dev</span>
+<span class="na">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;password&gt;</span>
+<span class="na">For the correct values of the fields, please contact @Matthew Mizielinski .</span>
+</code></pre></div>
 <p>Connect to one of the servers via ssh, e.g:</p>
-<p><code>bash
-ssh els055</code></p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>els055
+</code></pre></div>
 <p>Go to your workspace directory for <abbr title="Climate Data Dissemination System">CDDS</abbr>. (the same as on your local VM)</p>
 <p>Activate the conda environment:</p>
-<p><code>bash
-source setup_env_for_devel</code></p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>setup_env_for_devel
+</code></pre></div>
 <p>Run the test script:</p>
-<p><code>bash
-./run_rabbitmq_tests</code></p>
+<div class="highlight"><pre><span></span><code>./run_rabbitmq_tests
+</code></pre></div>
 <p>Any test failures will be recorded in the cdds_rabbitmq_test_failures.log file.</p>
 <p>Run single tests
 Run all tests in a specific <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr></p>
-<p><code>bash
-pytest -s &lt;package-folder&gt;</code></p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>-s<span class="w"> </span>&lt;package-folder&gt;
+</code></pre></div>
 <p>For example: run all tests in mip_convert:</p>
-<p><code>bash
-pytest -s mip_convert</code> </p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>-s<span class="w"> </span>mip_convert
+</code></pre></div>
 <p>Run all tests in a specific module</p>
-<p><code>bash
-pytest &lt;test_module.py&gt;</code></p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>&lt;test_module.py&gt;
+</code></pre></div>
 <p>For example: Run tests in test_coding_standards.py:</p>
-<p><code>bash
-pytest test_coding_standards.py</code></p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>test_coding_standards.py
+</code></pre></div>
 <p>Run specific test in a TestCase class</p>
 <p>One option is to us <code>-k</code>.
 The <code>-k</code> command line option to specify an expression which implements a sub-string match on the test names:</p>
-<p><code>bash
-pytest &lt;test_module.py&gt; -k &lt;TestClass&gt;</code></p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>&lt;test_module.py&gt;<span class="w"> </span>-k<span class="w"> </span>&lt;TestClass&gt;
+</code></pre></div>
 <p>For example run all tests implemented in TestLoadCmipPlugin class in the module test_plugin_loader:</p>
-<p><code>bash
-pytest test_plugin_loader.py -k TestLoadCmipPlugin</code></p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>test_plugin_loader.py<span class="w"> </span>-k<span class="w"> </span>TestLoadCmipPlugin
+</code></pre></div>
 <p>Additional, you can also use Node IDs to run all tests of a specific class. How to do this, see next section.</p>
 <p>Run specific test
 To run a specific test, pytest use Node IDs that is assigned to each collected test and which consists of the module filename followed by specifiers like class names, function names and parameters from parametrization separated by :: characters. </p>
 <p>A specific test implemented in a specific TestClass can be run by using</p>
-<p><code>bash
-pytest &lt;test_module.py&gt;::&lt;TestClass&gt;::&lt;test_method&gt;</code></p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>&lt;test_module.py&gt;::&lt;TestClass&gt;::&lt;test_method&gt;
+</code></pre></div>
 <p>For example, run the test test_load_cdds_plugin in the module test_plugin_loader.py:</p>
-<p><code>bash
-pytest test_plugin_loader.py::TestLoadPlugin::test_load_cdds_plugin</code></p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>test_plugin_loader.py::TestLoadPlugin::test_load_cdds_plugin
+</code></pre></div>
 <p>Node IDs are of the form module.py::class::method or module.py::function. Node IDs control which tests are collected, so module.py::class will select all test methods on the class. </p>
 <h2 id="useful-command-line-options">Useful Command Line Options</h2>
 <p>There are many other options that can be used to configure pytest.</p>
@@ -1819,25 +1819,25 @@ pytest test_plugin_loader.py::TestLoadPlugin::test_load_cdds_plugin</code></p>
 <p>Annotation</p>
 <p>Description</p>
 <p>Link</p>
-<p><code>python
-@pytest.mark.skip(message)</code></p>
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</code></pre></div>
 <p>Skip an executing test with the given message.</p>
-<p><code>python
-@pytest.mark.parametrize(input_parameter, test_data)</code></p>
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="n">input_parameter</span><span class="p">,</span> <span class="n">test_data</span><span class="p">)</span>
+</code></pre></div>
 <p>It allows one to define multiple sets of arguments and fixtures at the test function or class.</p>
 <p>Parametrizing fixtures and test functions — pytest documentation </p>
 <h2 id="using-nosetests-attributes">Using nosetests attributes</h2>
 <p>We still use the nosetests attributes to specify slow tests, integration tests, etc. These attributes can still be used because of pytest-attrib 
 Test can be run with an -a option:</p>
-<p><code>bash
-pytest -a slow</code>
+<p><div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>-a<span class="w"> </span>slow
+</code></pre></div>
 This runs all slow tests.
 If you want to not run the slow tests, you can do this as followed:</p>
-<p><code>bash
-pytest -a "not slow"</code></p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>-a<span class="w"> </span><span class="s2">&quot;not slow&quot;</span>
+</code></pre></div>
 <p>The expression given in the -a argument can be even more complex, for example:</p>
-<p><code>bash
-pytest -a "slow and integration"</code></p>
+<div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>-a<span class="w"> </span><span class="s2">&quot;slow and integration&quot;</span>
+</code></pre></div>
 <h2 id="plugins">Plugins</h2>
 <p>Pytest has a large plugin ecosystem.</p>
 <h3 id="pytest-cov">pytest-cov</h3>

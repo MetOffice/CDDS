@@ -1615,20 +1615,22 @@ can be used locally or via SPICE.</p>
 </ol>
 <details class="example">
 <summary>Example</summary>
-<p><code>cdds_retrieve_data CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2 variables_file desired/output/directory</code></p>
+<div class="highlight"><pre><span></span><code>cdds_retrieve_data CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2 variables_file desired/output/directory
+</code></pre></div>
 </details>
 <h2 id="usage-via-spice">Usage via SPICE</h2>
 <p>Below is a template example script that would be run via a sbatch command.</p>
 <details class="example">
 <summary>Example</summary>
-<p>```bash</p>
-<h1 id="binbash-l">!/bin/bash -l</h1>
-<h1 id="sbatch-mail-typeend">SBATCH --mail-type=END</h1>
-<h1 id="sbatch-mem5g">SBATCH --mem=5G</h1>
-<h1 id="sbatch-qosnormal">SBATCH --qos=normal</h1>
-<h1 id="sbatch-time30">SBATCH --time=30</h1>
-<p>cdds_retrieve_data <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr>.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2 variables_file desired/output/directory
-```</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash -l</span>
+
+<span class="c1">#SBATCH --mail-type=END</span>
+<span class="c1">#SBATCH --mem=5G</span>
+<span class="c1">#SBATCH --qos=normal</span>
+<span class="c1">#SBATCH --time=30</span>
+
+cdds_retrieve_data<span class="w"> </span>CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2<span class="w"> </span>variables_file<span class="w"> </span>desired/output/directory
+</code></pre></div>
 </details>
 
 

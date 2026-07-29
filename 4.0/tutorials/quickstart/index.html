@@ -1747,80 +1747,85 @@ This request is provided to many <code>cdds</code> commands as a positional argu
 Each option belongs to a particular section and is documented in <a href="../request/config_request/">Request Configuration</a>.</p>
 <details class="example">
 <summary>An Explicit Request Example Including Unused Fields</summary>
-<p>```ini
-[metadata]
-branch_date_in_child = 
-branch_date_in_parent = 
-branch_method = no parent
-base_date = 1850-01-01T00:00:00Z
-calendar = 360_day
-experiment_id = my-<abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr>-id
-institution_id = MOHC
-license = GCModelDev model data is licensed under the Open Government License v3 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
-mip = MOHCCP
-mip_era = GCModelDev
-parent_base_date = 1850-01-01T00:00:00Z
-parent_experiment_id = 
-parent_mip = 
-parent_mip_era = 
-parent_model_id = HadGEM3-GC31-LL
-parent_time_units = days since 1850-01-01
-parent_variant_label = 
-sub_experiment_id = none
-variant_label = r1i1p1f3
-model_id = HadGEM3-GC31-LL
-model_type = AOGCM AER</p>
-<p>[netcdf_global_attributes]</p>
-<p>[common]
-external_plugin = 
-external_plugin_location = 
-mip_table_dir = $CDDS_ETC/mip_tables/GCModelDev/0.0.25
-mode = relaxed
-<abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> = round-1
-workflow_basename = request_id
-root_proc_dir = $SCRATCH/cdds_proc  # A reasonable default for Met Office, change for JASMIN
-root_data_dir = $SCRATCH/cdds_data  # A reasonable default for Met Office, change for JASMIN
-root_ancil_dir = $CDDS_ETC/ancil/
-root_hybrid_heights_dir = $CDDS_ETC/vertical_coordinates/
-root_replacement_coordinates_dir = $CDDS_ETC/horizontal_coordinates/
-sites_file = $CDDS_ETC/cfmip2/cfmip2-sites-orog.txt
-standard_names_version = latest
-standard_names_dir = $CDDS_ETC/standard_names/
-<abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> = False
-log_level = INFO</p>
-<p>[data]
-data_version =<br />
-end_date = 2015-01-01T00:00:00Z
-mass_data_class = crum
-mass_ensemble_member = 
-start_date = 1950-01-01T00:00:00Z
-model_workflow_id = u-bg466
-model_workflow_branch = trunk
-model_workflow_revision = not used except with <abbr title="Information describing which MIP requested variables need to be produced for a given MIP-experiment combination. For CMIP6, see the CMIP6 Data Request.">Data Request</abbr>
-<abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> = ap5 onm
-variable_list_file = <must be included>
-output_mass_root = moose:/adhoc/users/<moose user id>  # Update with user id
-output_mass_suffix = testing  # This is appended to output_mass_root</p>
-<p>[misc]
-atmos_timestep = 1200  # This is model dependent
-use_proc_dir = True
-no_overwrite = False</p>
-<p>[inventory]
-inventory_check = False
-inventory_database_location = </p>
-<p>[conversion]
-skip_extract = False
-skip_extract_validation = False
-skip_configure = False
-skip_qc = False
-skip_archive = False
-cylc_args = -v
-no_email_notifications = True
-scale_memory_limits = 
-override_cycling_frequency = 
-model_params_dir = 
-continue_if_mip_convert_failed = False
-```</p>
+<div class="highlight"><pre><span></span><code><span class="k">[metadata]</span>
+<span class="na">branch_date_in_child</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="na">branch_date_in_parent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="na">branch_method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">no parent</span>
+<span class="na">base_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1850-01-01T00:00:00Z</span>
+<span class="na">calendar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">360_day</span>
+<span class="na">experiment_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">my-experiment-id</span>
+<span class="na">institution_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">MOHC</span>
+<span class="na">license</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">GCModelDev model data is licensed under the Open Government License v3 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)</span>
+<span class="na">mip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">MOHCCP</span>
+<span class="na">mip_era</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">GCModelDev</span>
+<span class="na">parent_base_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1850-01-01T00:00:00Z</span>
+<span class="na">parent_experiment_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="na">parent_mip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="na">parent_mip_era</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="na">parent_model_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">HadGEM3-GC31-LL</span>
+<span class="na">parent_time_units</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">days since 1850-01-01</span>
+<span class="na">parent_variant_label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="na">sub_experiment_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">none</span>
+<span class="na">variant_label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">r1i1p1f3</span>
+<span class="na">model_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">HadGEM3-GC31-LL</span>
+<span class="na">model_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">AOGCM AER</span>
+
+<span class="k">[netcdf_global_attributes]</span>
+
+<span class="k">[common]</span>
+<span class="na">external_plugin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="na">external_plugin_location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="na">mip_table_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$CDDS_ETC/mip_tables/GCModelDev/0.0.25</span>
+<span class="na">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">relaxed</span>
+<span class="na">package</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">round-1</span>
+<span class="na">workflow_basename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">request_id</span>
+<span class="na">root_proc_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$SCRATCH/cdds_proc</span><span class="w">  </span><span class="c1"># A reasonable default for Met Office, change for JASMIN</span>
+<span class="na">root_data_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$SCRATCH/cdds_data</span><span class="w">  </span><span class="c1"># A reasonable default for Met Office, change for JASMIN</span>
+<span class="na">root_ancil_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$CDDS_ETC/ancil/</span>
+<span class="na">root_hybrid_heights_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$CDDS_ETC/vertical_coordinates/</span>
+<span class="na">root_replacement_coordinates_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$CDDS_ETC/horizontal_coordinates/</span>
+<span class="na">sites_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$CDDS_ETC/cfmip2/cfmip2-sites-orog.txt</span>
+<span class="na">standard_names_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">latest</span>
+<span class="na">standard_names_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$CDDS_ETC/standard_names/</span>
+<span class="na">simulation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">log_level</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">INFO</span>
+
+<span class="k">[data]</span>
+<span class="na">data_version</span><span class="w"> </span><span class="o">=</span><span class="w">  </span>
+<span class="na">end_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">2015-01-01T00:00:00Z</span>
+<span class="na">mass_data_class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">crum</span>
+<span class="na">mass_ensemble_member</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="na">start_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1950-01-01T00:00:00Z</span>
+<span class="na">model_workflow_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">u-bg466</span>
+<span class="na">model_workflow_branch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">trunk</span>
+<span class="na">model_workflow_revision</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">not used except with Data Request</span>
+<span class="na">streams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ap5 onm</span>
+<span class="na">variable_list_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;must be included&gt;</span>
+<span class="na">output_mass_root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">moose:/adhoc/users/&lt;moose user id&gt;</span><span class="w">  </span><span class="c1"># Update with user id</span>
+<span class="na">output_mass_suffix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">testing</span><span class="w">  </span><span class="c1"># This is appended to output_mass_root</span>
+
+<span class="k">[misc]</span>
+<span class="na">atmos_timestep</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1200</span><span class="w">  </span><span class="c1"># This is model dependent</span>
+<span class="na">use_proc_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
+<span class="na">no_overwrite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+
+<span class="k">[inventory]</span>
+<span class="na">inventory_check</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">inventory_database_location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+
+<span class="k">[conversion]</span>
+<span class="na">skip_extract</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">skip_extract_validation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">skip_configure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">skip_qc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">skip_archive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">cylc_args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">-v</span>
+<span class="na">no_email_notifications</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
+<span class="na">scale_memory_limits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="na">override_cycling_frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="na">model_params_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="na">continue_if_mip_convert_failed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+</code></pre></div>
 </details>
 <p>For simplicity this tutorial relies on many of the default values, and eliminates unused options to reduce the request to its most minimal form.
 Below two example requests are provided, one for use at the Met Office and other on JASMIN.
@@ -1828,81 +1833,85 @@ The highlighted lines in each request indicate fields that the user may need to 
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Met Office request.cfg</label><label for="__tabbed_1_2">JASMIN request.cfg</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p>```ini hl_lines="19 20 28 29"
-[metadata]
-branch_method = no parent
-base_date = 1850-01-01T00:00:00Z
-calendar = 360_day
-experiment_id = my-<abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr>-id
-institution_id = MOHC
-license = GCModelDev model data is licensed under the Open Government License v3 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
-mip = MOHCCP
-mip_era = GCModelDev
-sub_experiment_id = none
-variant_label = r1i1p1f3
-model_id = HadGEM3-GC31-LL
-model_type = AOGCM AER</p>
-<p>[common]
-mip_table_dir = $CDDS_ETC/mip_tables/GCModelDev/0.0.25
-mode = relaxed
-<abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> = round-1
-root_proc_dir = $DATADIR/cdds_quickstart_tutorial/proc
-root_data_dir = $DATADIR/cdds_quickstart_tutorial/data</p>
-<p>[data]
-end_date = 1955-01-01T00:00:00Z
-mass_data_class = crum
-start_date = 1950-01-01T00:00:00Z
-model_workflow_id = u-bg466
-<abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> = ap5
-variable_list_file = $DATADIR/cdds_quickstart_tutorial/variables.txt
-output_mass_root = moose:/adhoc/users/<moose user id>
-output_mass_suffix = quickstart</p>
-<p>[conversion]
-skip_extract = False
-skip_extract_validation = False
-skip_configure = False
-skip_qc = False
-skip_archive = False
-mip_convert_plugin = HadGEM3
-```</p>
+<div class="highlight"><pre><span></span><code><span class="k">[metadata]</span>
+<span class="na">branch_method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">no parent</span>
+<span class="na">base_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1850-01-01T00:00:00Z</span>
+<span class="na">calendar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">360_day</span>
+<span class="na">experiment_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">my-experiment-id</span>
+<span class="na">institution_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">MOHC</span>
+<span class="na">license</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">GCModelDev model data is licensed under the Open Government License v3 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)</span>
+<span class="na">mip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">MOHCCP</span>
+<span class="na">mip_era</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">GCModelDev</span>
+<span class="na">sub_experiment_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">none</span>
+<span class="na">variant_label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">r1i1p1f3</span>
+<span class="na">model_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">HadGEM3-GC31-LL</span>
+<span class="na">model_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">AOGCM AER</span>
+
+<span class="k">[common]</span>
+<span class="na">mip_table_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$CDDS_ETC/mip_tables/GCModelDev/0.0.25</span>
+<span class="na">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">relaxed</span>
+<span class="na">package</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">round-1</span>
+<span class="hll"><span class="na">root_proc_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$DATADIR/cdds_quickstart_tutorial/proc</span>
+</span><span class="hll"><span class="na">root_data_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$DATADIR/cdds_quickstart_tutorial/data</span>
+</span>
+<span class="k">[data]</span>
+<span class="na">end_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1955-01-01T00:00:00Z</span>
+<span class="na">mass_data_class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">crum</span>
+<span class="na">start_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1950-01-01T00:00:00Z</span>
+<span class="na">model_workflow_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">u-bg466</span>
+<span class="na">streams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ap5</span>
+<span class="hll"><span class="na">variable_list_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$DATADIR/cdds_quickstart_tutorial/variables.txt</span>
+</span><span class="hll"><span class="na">output_mass_root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">moose:/adhoc/users/&lt;moose user id&gt;</span>
+</span><span class="na">output_mass_suffix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">quickstart</span>
+
+<span class="k">[conversion]</span>
+<span class="na">skip_extract</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">skip_extract_validation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">skip_configure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">skip_qc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">skip_archive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">mip_convert_plugin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">HadGEM3</span>
+</code></pre></div>
 </div>
 <div class="tabbed-block">
-<p>```ini hl_lines="19 20 28 36"
-[metadata]
-branch_method = no parent
-base_date = 1850-01-01T00:00:00Z
-calendar = 360_day
-experiment_id = my-<abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr>-id
-institution_id = MOHC
-license = GCModelDev model data is licensed under the Open Government License v3 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
-mip = MOHCCP
-mip_era = GCModelDev
-sub_experiment_id = none
-variant_label = r1i1p1f3
-model_id = HadGEM3-GC31-LL
-model_type = AOGCM AER</p>
-<p>[common]
-mip_table_dir = $CDDS_ETC/mip_tables/GCModelDev/0.0.25
-mode = relaxed
-<abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> = round-1
-root_proc_dir = $HOME/cdds_quickstart_tutorial/proc
-root_data_dir = $HOME/cdds_quickstart_tutorial/data</p>
-<p>[data]
-end_date = 1955-01-01T00:00:00Z
-mass_data_class = crum
-start_date = 1950-01-01T00:00:00Z
-model_workflow_id = u-bg466
-<abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> = ap5
-variable_list_file = $HOME/cdds_quickstart_tutorial/variables.txt</p>
-<p>[conversion]
-skip_extract = False
-skip_extract_validation = False
-skip_configure = False
-skip_qc = False
-skip_archive = True
-jasmin_account =
-mip_convert_plugin = HadGEM3
-```</p>
+<div class="highlight"><pre><span></span><code><span class="k">[metadata]</span>
+<span class="na">branch_method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">no parent</span>
+<span class="na">base_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1850-01-01T00:00:00Z</span>
+<span class="na">calendar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">360_day</span>
+<span class="na">experiment_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">my-experiment-id</span>
+<span class="na">institution_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">MOHC</span>
+<span class="na">license</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">GCModelDev model data is licensed under the Open Government License v3 (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)</span>
+<span class="na">mip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">MOHCCP</span>
+<span class="na">mip_era</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">GCModelDev</span>
+<span class="na">sub_experiment_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">none</span>
+<span class="na">variant_label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">r1i1p1f3</span>
+<span class="na">model_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">HadGEM3-GC31-LL</span>
+<span class="na">model_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">AOGCM AER</span>
+
+<span class="k">[common]</span>
+<span class="na">mip_table_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$CDDS_ETC/mip_tables/GCModelDev/0.0.25</span>
+<span class="na">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">relaxed</span>
+<span class="na">package</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">round-1</span>
+<span class="hll"><span class="na">root_proc_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$HOME/cdds_quickstart_tutorial/proc</span>
+</span><span class="hll"><span class="na">root_data_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$HOME/cdds_quickstart_tutorial/data</span>
+</span>
+<span class="k">[data]</span>
+<span class="na">end_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1955-01-01T00:00:00Z</span>
+<span class="na">mass_data_class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">crum</span>
+<span class="na">start_date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">1950-01-01T00:00:00Z</span>
+<span class="na">model_workflow_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">u-bg466</span>
+<span class="na">streams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ap5</span>
+<span class="hll"><span class="na">variable_list_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$HOME/cdds_quickstart_tutorial/variables.txt</span>
+</span>
+<span class="k">[conversion]</span>
+<span class="na">skip_extract</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">skip_extract_validation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">skip_configure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">skip_qc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">False</span>
+<span class="na">skip_archive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">True</span>
+<span class="hll"><span class="na">jasmin_account</span><span class="w"> </span><span class="o">=</span>
+</span><span class="na">mip_convert_plugin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">HadGEM3</span>
+</code></pre></div>
 </div>
 </div>
 </div>
@@ -1916,11 +1925,12 @@ The basic principles of running <abbr title="Climate Data Dissemination System">
 <ol>
 <li>Create a working directory for the <code>request.cfg</code>, and the <code>proc</code> and <code>data</code> directories.
    It doesn't have to be the same as those used in the following example, just be sure to update the <code>request.cfg</code> appropriately. 
-   <code>cd $DATADIR
-   mkdir cdds_quickstart_tutorial
-   cd cdds_quickstart_tutorial
-   mkdir proc data
-   touch request.cfg</code>
+   <div class="highlight"><pre><span></span><code>cd $DATADIR
+mkdir cdds_quickstart_tutorial
+cd cdds_quickstart_tutorial
+mkdir proc data
+touch request.cfg
+</code></pre></div>
    Note that it isn't a requirement to have the <code>request.cfg</code> in the same directory as the <code>proc</code> and <code>data</code> directories.</li>
 <li>Copy the above example <code>request.cfg</code> into your empty <code>request.cfg</code> file.</li>
 <li>Update fields in the <code>request.cfg</code>.<ol>
@@ -1930,12 +1940,14 @@ The basic principles of running <abbr title="Climate Data Dissemination System">
 </ol>
 </li>
 <li>Create an empty <code>variables.txt</code> file and add the following line.
-   <code>Amon/tas:ap5</code></li>
+   <div class="highlight"><pre><span></span><code>Amon/tas:ap5
+</code></pre></div></li>
 <li>Activate the <abbr title="Climate Data Dissemination System">CDDS</abbr> environment 
-   <code>bash
-   source ~cdds/bin/setup_env_for_cdds &lt;the version of CDDS you're using, e.g. 3.2.1&gt;</code></li>
+   <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~cdds/bin/setup_env_for_cdds<span class="w"> </span>&lt;the<span class="w"> </span>version<span class="w"> </span>of<span class="w"> </span>CDDS<span class="w"> </span>you<span class="err">&#39;</span>re<span class="w"> </span>using,<span class="w"> </span>e.g.<span class="w"> </span><span class="m">3</span>.2.1&gt;
+</code></pre></div></li>
 <li>Validate the <code>request.cfg</code>.
-   <code>validate_request request.cfg</code>
+   <div class="highlight"><pre><span></span><code>validate_request request.cfg
+</code></pre></div>
    If any errors are reported and you are not able to fix please contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team for help.</li>
 </ol>
 <h3 id="preparing-for-processing">Preparing for Processing</h3>
@@ -1943,13 +1955,14 @@ The basic principles of running <abbr title="Climate Data Dissemination System">
 <ol>
 <li>
 <p>Create the directory structure for storing the log and data files created during processing.</p>
-<p><code>create_cdds_directory_structure request.cfg</code></p>
+<div class="highlight"><pre><span></span><code>create_cdds_directory_structure request.cfg
+</code></pre></div>
 <details class="info">
 <summary>Info</summary>
 <p>This will use the <code>root_proc_dir</code> and <code>root_data_dir</code> paths within the request to create the following directory structures.
 The <code>proc</code> directory is used for log files created during processing by various <code>cdds</code> commands.
 It also serves as the location for the configured cylc processing workflow when runnning <code>cdds_convert</code>, and the internally used variable list created by <code>prepare_generate_variable_list</code>. </p>
-<p><code>proc
+<p><div class="highlight"><pre><span></span><code>proc
 └── GCModelDev
     └── MOHCCP
         └── HadGEM3-GC31-LL_my-experiment-id_r1i1p1f3
@@ -1959,67 +1972,71 @@ It also serves as the location for the configured cylc processing workflow when 
                 ├── convert
                 ├── extract
                 ├── prepare
-                └── qualitycheck</code>
+                └── qualitycheck
+</code></pre></div>
 The <code>data</code> directory will home the input model data e.g. <code>.pp</code> files as well as the output CMORised <code>.nc</code> output.
 A similar hierarchical structure is created for all
-<code>data
+<div class="highlight"><pre><span></span><code>data
 └── GCModelDev
     └── MOHCCP
         └── HadGEM3-GC31-LL_my-experiment-id_r1i1p1f3
             └── round-1
                 ├── input
                 │   └── u-bg466
-                └── output</code></p>
+                └── output
+</code></pre></div></p>
 </details>
 </li>
 <li>
 <p>Create the internal variables list used by <code>cdds</code>.</p>
-<p><code>prepare_generate_variable_list request.cfg</code></p>
+<div class="highlight"><pre><span></span><code>prepare_generate_variable_list request.cfg
+</code></pre></div>
 <details class="info">
 <summary>Info</summary>
 <p>This takes the user variables file provided by the <code>variable_list_file</code> option, and creates an internally used <code>.json</code> version which includes additional metadata.
 The file can be found in the <code>prepare</code> proc sub-directory.
-<code>proc/GCModelDev/MOHCCP/request_id/round-1/prepare/GCModelDev_MOHCCP_my-experiment-id_HadGEM3-GC31-LL.json</code></p>
-<p><code>json
-{
-"checksum":"md5: 89a430535551e97433fd8a22edcfec24",
-"experiment_id":"my-experiment-id",
-"history":[
-    {
-    "comment":"Requested variables file created.",
-    "time":"2025-05-07T07:40:21.049522"
-    }
-],
-"metadata":{},
-"mip":"MOHCCP",
-"mip_era":"GCModelDev",
-"model_id":"HadGEM3-GC31-LL",
-"model_type":"AOGCM AER",
-"production_info":"Produced using CDDS Prepare version \"3.1.2\"",
-"requested_variables":[
-    {
-    "active":true,
-    "cell_methods":"area: time: mean",
-    "comments":[],
-    "dimensions":[
-        "longitude",
-        "latitude",
-        "time",
-        "height2m"
-    ],
-    "frequency":"mon",
-    "in_mappings":true,
-    "in_model":true,
-    "label":"tas",
-    "miptable":"Amon",
-    "producible":"yes",
-    "stream":"ap5"
-    }
-],
-"status":"ok",
-"suite_branch":"cdds",
-"suite_id":"u-bg466",
-"suite_revision":"HEAD"</code></p>
+<div class="highlight"><pre><span></span><code>proc/GCModelDev/MOHCCP/request_id/round-1/prepare/GCModelDev_MOHCCP_my-experiment-id_HadGEM3-GC31-LL.json
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="nt">&quot;checksum&quot;</span><span class="p">:</span><span class="s2">&quot;md5: 89a430535551e97433fd8a22edcfec24&quot;</span><span class="p">,</span>
+<span class="nt">&quot;experiment_id&quot;</span><span class="p">:</span><span class="s2">&quot;my-experiment-id&quot;</span><span class="p">,</span>
+<span class="nt">&quot;history&quot;</span><span class="p">:[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;comment&quot;</span><span class="p">:</span><span class="s2">&quot;Requested variables file created.&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;2025-05-07T07:40:21.049522&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">],</span>
+<span class="nt">&quot;metadata&quot;</span><span class="p">:{},</span>
+<span class="nt">&quot;mip&quot;</span><span class="p">:</span><span class="s2">&quot;MOHCCP&quot;</span><span class="p">,</span>
+<span class="nt">&quot;mip_era&quot;</span><span class="p">:</span><span class="s2">&quot;GCModelDev&quot;</span><span class="p">,</span>
+<span class="nt">&quot;model_id&quot;</span><span class="p">:</span><span class="s2">&quot;HadGEM3-GC31-LL&quot;</span><span class="p">,</span>
+<span class="nt">&quot;model_type&quot;</span><span class="p">:</span><span class="s2">&quot;AOGCM AER&quot;</span><span class="p">,</span>
+<span class="nt">&quot;production_info&quot;</span><span class="p">:</span><span class="s2">&quot;Produced using CDDS Prepare version \&quot;3.1.2\&quot;&quot;</span><span class="p">,</span>
+<span class="nt">&quot;requested_variables&quot;</span><span class="p">:[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;cell_methods&quot;</span><span class="p">:</span><span class="s2">&quot;area: time: mean&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;comments&quot;</span><span class="p">:[],</span>
+<span class="w">    </span><span class="nt">&quot;dimensions&quot;</span><span class="p">:[</span>
+<span class="w">        </span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;time&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;height2m&quot;</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;frequency&quot;</span><span class="p">:</span><span class="s2">&quot;mon&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;in_mappings&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;in_model&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="s2">&quot;tas&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;miptable&quot;</span><span class="p">:</span><span class="s2">&quot;Amon&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;producible&quot;</span><span class="p">:</span><span class="s2">&quot;yes&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;stream&quot;</span><span class="p">:</span><span class="s2">&quot;ap5&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">],</span>
+<span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;ok&quot;</span><span class="p">,</span>
+<span class="nt">&quot;suite_branch&quot;</span><span class="p">:</span><span class="s2">&quot;cdds&quot;</span><span class="p">,</span>
+<span class="nt">&quot;suite_id&quot;</span><span class="p">:</span><span class="s2">&quot;u-bg466&quot;</span><span class="p">,</span>
+<span class="nt">&quot;suite_revision&quot;</span><span class="p">:</span><span class="s2">&quot;HEAD&quot;</span>
+</code></pre></div>
 </details>
 </li>
 </ol>
@@ -2029,21 +2046,24 @@ The file can be found in the <code>prepare</code> proc sub-directory.
 <div class="tabbed-block">
 <ol>
 <li>Launch the <code>cylc</code> conversion workflow.
-    <code>cdds_convert request.cfg</code></li>
+    <div class="highlight"><pre><span></span><code>cdds_convert request.cfg
+</code></pre></div></li>
 </ol>
 </div>
 <div class="tabbed-block">
 <ol>
 <li>On Jasmin Cylc workflows must be launched from <code>cylc2.jasmin.ac.uk</code>.
-    <code>ssh &lt;username&gt;@cylc2.jasmin.ac.uk -XYA</code></li>
+    <div class="highlight"><pre><span></span><code>ssh &lt;username&gt;@cylc2.jasmin.ac.uk -XYA
+</code></pre></div></li>
 <li>You may need to <code>cd</code> back to the directory containing your <code>request.cfg</code>.
-    <code>bash
-    cd $HOME/cdds_quickstart_tutorial</code></li>
+    <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/cdds_quickstart_tutorial
+</code></pre></div></li>
 <li>Reactivate the <abbr title="Climate Data Dissemination System">CDDS</abbr> environment.
-    <code>bash
-    source ~cdds/bin/setup_env_for_cdds 3.2.0</code></li>
+    <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~cdds/bin/setup_env_for_cdds<span class="w"> </span><span class="m">3</span>.2.0
+</code></pre></div></li>
 <li>Launch the <code>cylc</code> conversion workflow.
-    <code>cdds_convert request.cfg</code></li>
+    <div class="highlight"><pre><span></span><code>cdds_convert request.cfg
+</code></pre></div></li>
 </ol>
 </div>
 </div>
@@ -2060,13 +2080,15 @@ You can monitor this workflow in the ususal way using <code>cylc tui</code> or <
 <h3 id="inspecting-your-data">Inspecting Your Data</h3>
 <p>When the workflow has completed successfully you can inspect the CMORised data.
 On disk the CMORised output can be found by descending the <code>root_data_dir</code> directory until the until reaching the <code>output</code> directory.</p>
-<p><code>$DATADIR/cdds_quickstart_tutorial/data/GCModelDev/MOHCCP/HadGEM3-GC31-LL/my-experiment-id/r1i1p1f3/round-1/output</code></p>
+<div class="highlight"><pre><span></span><code>$DATADIR/cdds_quickstart_tutorial/data/GCModelDev/MOHCCP/HadGEM3-GC31-LL/my-experiment-id/r1i1p1f3/round-1/output
+</code></pre></div>
 <p>Within this directory you will find the following hierarchy.
 The <code>&lt;stream&gt;_concat</code> and <code>&lt;stream&gt;_mip_convert</code> directories are only used during processing and do not contain </p>
-<p><code>├── &lt;stream&gt;
+<div class="highlight"><pre><span></span><code>├── &lt;stream&gt;
 │   └── &lt;MIP Table&gt;
 │       └── &lt;variable&gt;
-│           └── &lt;file(s)&gt;</code></p>
+│           └── &lt;file(s)&gt;
+</code></pre></div>
 <p>If you are running the example at the Met Office and you did <em>not</em> switch off archiving (e.g. <code>skip_archive = True</code>), then the CMORised output will also have been archived to <code>mass</code>.
 This will be stored in a location based on the request fields <code>output_mass_root</code> <code>output_mass_suffix</code> e.g., <code>moo ls moose:/adhoc/users/&lt;username&gt;/quickstart</code>.</p>
 <h2 id="useful-configuration-options">Useful Configuration Options</h2>
@@ -2075,32 +2097,33 @@ The full list of configuration options available in the request can be found in 
 <h3 id="how-do-i-add-more-output-variables">How do I add more output variables?</h3>
 <p>To process more variables you will need to add the appropriate entry to your <code>variables.txt</code> file.
 Each output variable must be specified on a separate line and follow the below format.</p>
-<p><code>&lt;mip table&gt;/&lt;variable name&gt;:&lt;stream&gt;</code></p>
+<div class="highlight"><pre><span></span><code>&lt;mip table&gt;/&lt;variable name&gt;:&lt;stream&gt;
+</code></pre></div>
 <p>If you do not know the <code>stream</code> for each variable and your model follows a typical <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> configuration, you can omit the <code>:&lt;stream&gt;</code> and use the <code>stream_mappings</code> command to add this information for you.</p>
-<p><code>bash
-stream_mappings --varfile variables.txt --outfile vairables_with_streams.txt</code></p>
+<div class="highlight"><pre><span></span><code>stream_mappings<span class="w"> </span>--varfile<span class="w"> </span>variables.txt<span class="w"> </span>--outfile<span class="w"> </span>vairables_with_streams.txt
+</code></pre></div>
 <p>Finally, you must update the <code>streams</code> option in the <code>request.cfg</code> with the names of any additional <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr>.
 For example if you added a variable from the monthly ocean <code>onm</code> <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr>.</p>
-<p><code>ini
-[conversion]
-streams = ap5 onm</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">[conversion]</span>
+<span class="na">streams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">ap5 onm</span>
+</code></pre></div>
 <h3 id="how-do-i-process-data-with-arbitrary-metadata-eg-custom-experiment-names">How do I process data with arbitrary metadata e.g. custom <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> names?</h3>
 <p>The example <code>request.cfg</code> configuration given in this tutorial runs in "relaxed" mode.
 This allows the user to provide arbitrary metadata values that do not exist in the <abbr title="It is a pre-defined set of terms describing acceptable values for various quantities.">Controlled Vocabulary</abbr>, and is particularly useful for model development work.
 If you want to ensure that the metadata is consistent with the <abbr title="It is a pre-defined set of terms describing acceptable values for various quantities.">Controlled Vocabulary</abbr> you must change the mode to <code>strict</code>.</p>
-<p><code>ini
-[common]
-mode = strict</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">[common]</span>
+<span class="na">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">strict</span>
+</code></pre></div>
 <h3 id="how-do-i-add-extra-global-attributes-to-my-netcdf-output">How do I add extra global attributes to my <abbr title="Network Common Data Form">netCDF</abbr> output?</h3>
 <p>Arbitrary netcdf global attributes can be added to the CMORised files by adding a section <code>[netcdf_global_attributes]</code> to a <code>.request.cfg</code> file.
 Any key=value pairs in this section will be written out to every output netcdf file as global attributes..</p>
-<p><code>ini
-[netcdf_global_attributes]
-foo = bar</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">[netcdf_global_attributes]</span>
+<span class="na">foo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">bar</span>
+</code></pre></div>
 <h3 id="i-dont-need-to-retrieve-data-from-mass-its-already-on-disk-how-do-i-use-it-with-cdds">I don't need to retrieve data from MASS it's already on disk, how do I use it with <abbr title="Climate Data Dissemination System">CDDS</abbr>?</h3>
 <p><abbr title="Climate Data Dissemination System">CDDS</abbr> provides a utitily script called <code>cdds_arrange_input_data</code> which will <code>symlink</code> the files you already have on disk to the appropriate directories.
 The typical directory structure <abbr title="Climate Data Dissemination System">CDDS</abbr> creates looks like this (individual <code>.pp</code> and <code>.nc</code> files not shown).</p>
-<p><code>└── CMIP6
+<div class="highlight"><pre><span></span><code>└── CMIP6
     └── ScenarioMIP
         └── UKESM1-0-LL_ssp126_r1i1p1f2
             └── round-1
@@ -2108,18 +2131,20 @@ The typical directory structure <abbr title="Climate Data Dissemination System">
                     └── u-dn300
                         ├── ap4
                         ├── ap5
-                        └── onm</code></p>
+                        └── onm
+</code></pre></div>
 <p>Having made sure you have run the <code>cdds_create_cdds_directories</code> first you can then run the arrange script.
 Where <code>/path/to/model/data</code> is the location on disk containing your <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr>.</p>
-<p><code>bash
-cdds_arrange_input_data request.cfg /path/to/model/data</code></p>
+<div class="highlight"><pre><span></span><code>cdds_arrange_input_data<span class="w"> </span>request.cfg<span class="w"> </span>/path/to/model/data
+</code></pre></div>
 <p>The directory structure that your data is in should not matter as the mapping from file to <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> is performed using regular expressions.
 For example, the contents of <code>/path/to/model/data</code> could contain a flat hierarchy with all model files together in one directory.</p>
-<p><code>dn300a.p52015apr.pp
+<div class="highlight"><pre><span></span><code>dn300a.p52015apr.pp
 dn300a.p42015apr.pp
-medusa_dn300o_1m_20150101-20150201_diad-T.nc</code></p>
+medusa_dn300o_1m_20150101-20150201_diad-T.nc
+</code></pre></div>
 <p>After running <code>cdds_arrange_input_data</code> it would <code>symlink</code> the files like so.</p>
-<p><code>└── CMIP6
+<div class="highlight"><pre><span></span><code>└── CMIP6
     └── ScenarioMIP
         └── UKESM1-0-LL_ssp126_r1i1p1f2
             └── round-1
@@ -2130,7 +2155,8 @@ medusa_dn300o_1m_20150101-20150201_diad-T.nc</code></p>
                         ├── ap5
                             └── dn300a.p42015apr.pp
                         └── onm
-                            └── medusa_dn300o_1m_20150101-20150201_diad-T.nc</code></p>
+                            └── medusa_dn300o_1m_20150101-20150201_diad-T.nc
+</code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The <code>cdds_arrange_input_data</code> will <code>symlink</code> <em>all</em> files that match the filepatterns.

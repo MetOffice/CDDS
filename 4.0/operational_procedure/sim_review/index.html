@@ -1614,9 +1614,9 @@ steps can only be performed by a member of the <abbr title="Climate Data Dissemi
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>All the following checks can be combined in a single command by running:
-  <code>bash
-  . ~cdds/bin/setup_env_for_cdds &lt;version&gt;
-  cdds_sim_review &lt;location of request.cfg&gt;</code></p>
+  <div class="highlight"><pre><span></span><code>.<span class="w"> </span>~cdds/bin/setup_env_for_cdds<span class="w"> </span>&lt;version&gt;
+cdds_sim_review<span class="w"> </span>&lt;location<span class="w"> </span>of<span class="w"> </span>request.cfg&gt;
+</code></pre></div></p>
 </div>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Check the critical issues log in the <code>critical_issues.log</code> for each component. 
@@ -1625,8 +1625,8 @@ steps can only be performed by a member of the <abbr title="Climate Data Dissemi
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>You can use following command to check for critical logs:
-<code>bash
-grep -irn "critical"  $CDDS_PROC_DIR --exclude "*.py" --exclude "*.svn*"</code></p>
+<div class="highlight"><pre><span></span><code>grep<span class="w"> </span>-irn<span class="w"> </span><span class="s2">&quot;critical&quot;</span><span class="w">  </span><span class="nv">$CDDS_PROC_DIR</span><span class="w"> </span>--exclude<span class="w"> </span><span class="s2">&quot;*.py&quot;</span><span class="w"> </span>--exclude<span class="w"> </span><span class="s2">&quot;*.svn*&quot;</span>
+</code></pre></div></p>
 </div>
 <ul class="task-list">
 <li class="task-list-item">
@@ -1646,14 +1646,14 @@ grep -irn "critical"  $CDDS_PROC_DIR --exclude "*.py" --exclude "*.svn*"</code><
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>You can check the premissions for <code>proc/archive/log</code> by running following command:
-<code>bash
-ls -l $CDDS_PROC_DIR/transfer/ | grep log</code>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>-l<span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span>/transfer/<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>log
+</code></pre></div>
 The permission should be <code>drwxrwxrwx</code> for the log directory.</p>
 </div>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Look for any partial files left over from the concatenation process using the find command:
-      <code>bash
-      find $CDDS_DATA_DIR/output/*_* -type f</code></li>
+      <div class="highlight"><pre><span></span><code>find<span class="w"> </span><span class="nv">$CDDS_DATA_DIR</span>/output/*_*<span class="w"> </span>-type<span class="w"> </span>f
+</code></pre></div></li>
 </ul>
 <h2 id="submission-for-publication">Submission for publication</h2>
 <p>In order to complete the submission, you will need access to the <code>els055</code> server. Only members of the <abbr title="Climate Data Dissemination System">CDDS</abbr> team are 
@@ -1671,8 +1671,8 @@ expected to do this part.</p>
 </ul>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<p><code>bash
-move_in_mass request.json -p --original_state=embargoed --new_state=available --mass_location=production --variables_list_file=approved_variables_YYYY-MM-DDThhmmss.txt</code></p>
+<div class="highlight"><pre><span></span><code>move_in_mass<span class="w"> </span>request.json<span class="w"> </span>-p<span class="w"> </span>--original_state<span class="o">=</span>embargoed<span class="w"> </span>--new_state<span class="o">=</span>available<span class="w"> </span>--mass_location<span class="o">=</span>production<span class="w"> </span>--variables_list_file<span class="o">=</span>approved_variables_YYYY-MM-DDThhmmss.txt
+</code></pre></div>
 </div>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> When <code>move_in_mass</code> has completed, check for errors in the log file: <code>$CDDS_PROC_DIR/archive/log/move_in_mass_&lt;date-time&gt;.log</code></li>
@@ -1680,8 +1680,8 @@ move_in_mass request.json -p --original_state=embargoed --new_state=available --
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>Use <code>grep</code> to search for any <code>CRITICAL</code> messages in the log file:
-<code>bash
-grep "CRITICAL" $CDDS_PROC_DIR/archive/log/move_in_mass_&lt;date-time&gt;.log</code>
+<div class="highlight"><pre><span></span><code>grep<span class="w"> </span><span class="s2">&quot;CRITICAL&quot;</span><span class="w"> </span><span class="nv">$CDDS_PROC_DIR</span>/archive/log/move_in_mass_&lt;date-time&gt;.log
+</code></pre></div>
 The <code>&lt;date-time&gt;</code> must be replaced to the time stamp of the log file.</p>
 </div>
 <ul class="task-list">
@@ -1696,11 +1696,11 @@ The <code>&lt;date-time&gt;</code> must be replaced to the time stamp of the log
 <p class="admonition-title">Info</p>
 <ul>
 <li>For <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr>, you can use following command to confirm that shows the messages are waiting for processing:
-  <code>bash
-  list_queue CMIP6_available</code></li>
+  <div class="highlight"><pre><span></span><code>list_queue<span class="w"> </span>CMIP6_available
+</code></pre></div></li>
 <li>For CMIP6Plus, you can use following command to confirm that shows the messages are waiting for processing:
-  <code>bash
-  list_queue CMIP6Plus_available</code></li>
+  <div class="highlight"><pre><span></span><code>list_queue<span class="w"> </span>CMIP6Plus_available
+</code></pre></div></li>
 </ul>
 </div>
 <ul class="task-list">

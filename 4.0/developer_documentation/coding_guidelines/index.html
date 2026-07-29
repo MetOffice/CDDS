@@ -1766,32 +1766,31 @@ throughout the <code>CDDS</code> code.</p>
 <li>It is not necessary to write docstrings for non-public classes, methods and functions, see <code>cdds/pylintrc</code> and <code>mip_convert/pylintrc</code>. (The maintenance overhead is reduced when refactoring non-public classes, methods and functions).</li>
 </ul>
 <p>Below is an example NumPy Docstring Example docstring incorporating all of the guidelines above.</p>
-<p>```python
-def my_function(my_param1: float, my_param2: str) -&gt; int:
-    """
-    Return something.</p>
-<pre><code>Here's a longer description about the something that is returned.
-It's so long, it goes over one line!
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">my_function</span><span class="p">(</span><span class="n">my_param1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">my_param2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return something.</span>
 
-Parameters
-----------
-my_param1: float
-    Description of the first parameter ``my_param1``.
-my_param2: string
-    Description of the second parameter ``my_param2``.
+<span class="sd">    Here&#39;s a longer description about the something that is returned.</span>
+<span class="sd">    It&#39;s so long, it goes over one line!</span>
 
-Returns
--------
-int
-    Description of anonymous integer return value.
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    my_param1: float</span>
+<span class="sd">        Description of the first parameter ``my_param1``.</span>
+<span class="sd">    my_param2: string</span>
+<span class="sd">        Description of the second parameter ``my_param2``.</span>
 
-Raises
-------
-ValueError
-    If ``my_param1`` is less than 0.
-"""
-</code></pre>
-<p>```</p>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int</span>
+<span class="sd">        Description of anonymous integer return value.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If ``my_param1`` is less than 0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</code></pre></div>
 <h2 id="doctest">Doctest</h2>
 <ul>
 <li><a href="https://docs.python.org/3.8/library/doctest.html">Doctests</a> have been included historically in <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert and <abbr title="Climate Data Dissemination System">CDDS</abbr>, but we recommend adding code to test modules instead</li>
@@ -1802,25 +1801,24 @@ ValueError
 <li>It is recommended that scripts call a main() function located in an importable module so that it is possible to run the code in the script from the Python interpreter / a test module e.g., <code>import my_module; my_module.main()</code>.</li>
 <li><a href="https://docs.python.org/3.8/library/argparse.html">Argparse</a> should be used to parse command line options.</li>
 </ul>
-<p>```python
-def main(args):
-    # Parse the arguments.
-    args = parse_args(args)</p>
-<pre><code># Create the configured logger.
-configure_logger(args.log_name, args.log_level, args.append_log)
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="c1"># Parse the arguments.</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-# Retrieve the logger.
-logger = logging.getLogger(__name__)
+    <span class="c1"># Create the configured logger.</span>
+    <span class="n">configure_logger</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">log_name</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">log_level</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">append_log</span><span class="p">)</span>
 
-try:
-    exit_code = my_func(args)
-except BaseException as exc:
-    exit_code = 1
-    logger.exception(exc)
+    <span class="c1"># Retrieve the logger.</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-return exit_code
-</code></pre>
-<p>```</p>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">exit_code</span> <span class="o">=</span> <span class="n">my_func</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="n">exit_code</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">exit_code</span>
+</code></pre></div>
 <h2 id="bash-scripts">Bash Scripts</h2>
 <ul>
 <li>Use the <a href="https://google.github.io/styleguide/shellguide.html">Google Styleguide</a> for bash scripts as recommended by the <a href="https://cylc.github.io/cylc-doc/stable/html/workflow-design-guide/general-principles.html#coding-standards">Cylc documentation</a></li>

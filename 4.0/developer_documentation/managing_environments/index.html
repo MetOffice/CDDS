@@ -1711,14 +1711,15 @@ Examples of such changes could include</p>
 </ul>
 <h3 id="managing-development-environments">Managing Development Environments</h3>
 <p>Regarding point two, the naming conventions used for cdds development environments have been somewhat inconsistent and can at times lead to confusion. Here are a selection of cdds conda development environments.</p>
-<p><code>cdds-2.1_dev-1
+<div class="highlight"><pre><span></span><code>cdds-2.1_dev-1
 cdds-2.1_dev-1
 cdds-2.3.2_dev
 cdds-2.3_dev
 cdds-2.4.0_dev
 cdds-2.4.0_dev-1
 cdds-2.4_dev_3
-cdds-2.5.0_dev-1</code></p>
+cdds-2.5.0_dev-1
+</code></pre></div>
 <p>A first step would be sticking with dev environments not being tied to specific hotfix versions. This is something that we have already done for some versions and not for others eg. </p>
 <p>Going forward I think it would be best to adopt the convention that does not reference a specific hotfix version such as (examples given for cdds version 2.5.0).</p>
 <ul>
@@ -1761,13 +1762,14 @@ cdds-2.5.0_dev-1</code></p>
 </li>
 <li>The resultant list of environments would look something like this.</li>
 </ol>
-<p><code>cdds-2.5_dev-1
+<div class="highlight"><pre><span></span><code>cdds-2.5_dev-1
 cdds-2.6_dev-0
 cdds-2.6_dev-1
 cdds-2.6_dev-2
 cdds-2.5_dev-2
 cdds-2.6_dev-3
-cdds-2.7_dev-0</code></p>
+cdds-2.7_dev-0
+</code></pre></div>
 <p>A downside of the above convention is that there will be a duplicated environment for every 2.X release which differs only in name. I.e, in the above example cdds-2.7_dev-0 and cdds-2.6_dev-3 should be exactly the same, aside from having different names. However, I think this an acceptable inefficiency for preventing confusion around environment versioning.</p>
 <h2 id="conda-good-to-know">Conda Good to Know</h2>
 <ul>

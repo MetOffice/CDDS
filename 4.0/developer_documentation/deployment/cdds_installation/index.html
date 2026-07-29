@@ -1612,49 +1612,49 @@
 <div class="tabbed-block">
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Login to the <code>cdds</code> account.
-      <code>bash
-      xsudo -u cdds bash -l</code></li>
+      <div class="highlight"><pre><span></span><code>xsudo<span class="w"> </span>-u<span class="w"> </span>cdds<span class="w"> </span>bash<span class="w"> </span>-l
+</code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Navigate to <code>cdds</code> home.
-      <code>bash
-      cd ~cdds</code></li>
+      <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~cdds
+</code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate the base <code>conda</code> environment.
-      <code>bash
-      conda activate</code></li>
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate
+</code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a folder to work from and enter it.
-      <code>bash
-      mkdir temporary_installation_folder &amp;&amp;  cd temporary_installation_folder</code></li>
+      <div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>temporary_installation_folder<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w">  </span><span class="nb">cd</span><span class="w"> </span>temporary_installation_folder
+</code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Obtain the conda environment file (replace "<tagname>" with the version you're installing e.g. "v3.3.1").
-      <code>bash
-      wget https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/&lt;tagname&gt;/environment.yml</code></li>
+      <div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/&lt;tagname&gt;/environment.yml
+</code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Update locations pointed to within the environment file (replace "X.Y.Z" with the version you're installing e.g. "3.3.1"):
-      <code>bash
-      sed -i "s/&lt;location&gt;/X.Y.Z/" environment.yml</code></li>
+      <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/&lt;location&gt;/X.Y.Z/&quot;</span><span class="w"> </span>environment.yml
+</code></pre></div></li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create environment (replace "X.Y.Z" with the version you're installing e.g. "3.3.1").
-      <code>bash
-      conda env create -f environment.yml -p $HOME/conda_environments/cdds-X.Y.Z</code></p>
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
+</code></pre></div></p>
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate environment and set <code>CDDS_ENV_COMMAND</code> variable (replace "X.Y.Z" with the version you're    installing e.g. "3.3.1"):
-      <code>bash
-      conda activate $HOME/conda_environments/cdds-X.Y.Z
-      conda env config vars set CDDS_ENV_COMMAND="conda activate $HOME/conda_environments/cdds-X.Y.Z"</code></p>
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
+conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_ENV_COMMAND</span><span class="o">=</span><span class="s2">&quot;conda activate </span><span class="nv">$HOME</span><span class="s2">/conda_environments/cdds-X.Y.Z&quot;</span>
+</code></pre></div></p>
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>CDDS_PLATFORM</code> and <code>CDDS_ETC</code> variables.
-      <code>bash
-      conda env config vars set CDDS_PLATFORM=AZURE
-      conda env config vars set CDDS_ETC=$HOME/etc</code></p>
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_PLATFORM</span><span class="o">=</span>AZURE
+conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_ETC</span><span class="o">=</span><span class="nv">$HOME</span>/etc
+</code></pre></div></p>
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Confirm environment variables:
-      <code>bash
-      echo $CYLC_VERSION
-      echo $LC_ALL
-      echo $TZ
-      echo $CDDS_PLATFORM
-      echo $CDDS_ETC
-      echo $CDDS_ENV_COMMAND</code></p>
+      <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$CYLC_VERSION</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$LC_ALL</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$TZ</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_PLATFORM</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_ETC</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_ENV_COMMAND</span>
+</code></pre></div></p>
 <table>
 <thead>
 <tr>
@@ -1699,49 +1699,50 @@
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Activate the <code>base</code> miniforge <code>conda</code> environment
-      <code>source $HOME/software/miniforge3/bin/activate</code></p>
+      <div class="highlight"><pre><span></span><code>source $HOME/software/miniforge3/bin/activate
+</code></pre></div></p>
 </li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Obtain the conda environment file for the release.
-      <code>bash
-      wget https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/&lt;tagname&gt;/environment.yml</code></li>
+      <div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/&lt;tagname&gt;/environment.yml
+</code></pre></div></li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Update locations pointed to within the environment file (omitting the leading <code>v</code>)
-      <code>bash
-      sed -i "s/&lt;location&gt;/X.Y.Z/" environment.yml</code></p>
+      <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/&lt;location&gt;/X.Y.Z/&quot;</span><span class="w"> </span>environment.yml
+</code></pre></div></p>
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create environment, where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr> (replace "X.Y.Z" with the version you're installing e.g. "3.3.1").
-      <code>bash
-      conda env create -f environment.yml -p $HOME/conda_environments/cdds-X.Y.Z</code></p>
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
+</code></pre></div></p>
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>CDDS_PLATFORM</code> and <code>CDDS_ETC</code> variables
-      <code>bash
-      conda activate cdds-X.Y.Z
-      conda env config vars set CDDS_PLATFORM=JASMIN
-      conda env config vars set CDDS_ETC=$HOME/etc</code></p>
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>cdds-X.Y.Z
+conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_PLATFORM</span><span class="o">=</span>JASMIN
+conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_ETC</span><span class="o">=</span><span class="nv">$HOME</span>/etc
+</code></pre></div></p>
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>CDDS_ENV_COMMAND</code> variable making sure to substitute <code>X.Y.Z</code> with the appropriate version number.
-      <code>bash
-      conda env config vars set CDDS_ENV_COMMAND="$HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z"</code></p>
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_ENV_COMMAND</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/software/miniforge3/bin/activate </span><span class="nv">$HOME</span><span class="s2">/conda_environments/cdds-X.Y.Z&quot;</span>
+</code></pre></div></p>
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Deactivate the environment
-      <code>bash
-      conda deactivate</code></p>
+      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>deactivate
+</code></pre></div></p>
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Confirm that the environment variables were set correctly.
-      <code>bash
-      $HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z</code>
-      <code>bash
-      echo $CYLC_VERSION
-      echo $LC_ALL
-      echo $TZ
-      echo $CDDS_PLATFORM
-      echo $CDDS_ETC
-      echo $CDDS_ENV_COMMAND</code></p>
+      <div class="highlight"><pre><span></span><code><span class="nv">$HOME</span>/software/miniforge3/bin/activate<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
+</code></pre></div>
+      <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$CYLC_VERSION</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$LC_ALL</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$TZ</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_PLATFORM</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_ETC</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_ENV_COMMAND</span>
+</code></pre></div></p>
 <table>
 <thead>
 <tr>
@@ -1794,8 +1795,8 @@
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Run this command to manually add nccmp to the environment:
-      <code>bash
-      ln -s $HOME/conda_environments/cdds-3.3.3/bin/nccmp nccmp</code></p>
+      <div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-3.3.3/bin/nccmp<span class="w"> </span>nccmp
+</code></pre></div></p>
 </li>
 </ul>
 <div class="admonition warning">
@@ -1811,19 +1812,19 @@
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> The tests must be executed as the <code>cdds</code> user</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the following environment variable, making sure to replace <code>X.Y.Z</code> with the relevant version.
-      <code>bash
-      export SRCDIR=$HOME/conda_environments/cdds-X.Y.Z/lib/python3.12/site-packages</code></li>
+      <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SRCDIR</span><span class="o">=</span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z/lib/python3.12/site-packages
+</code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Run the following tests.
-      <code>bash
-      echo "# Executing tests for cdds:"
-      pytest -s $SRCDIR/cdds --doctest-modules -m 'not slow and not integration and not rabbitMQ and not data_request'
-      pytest -s $SRCDIR/cdds -m slow
-      pytest -s $SRCDIR/cdds -m integration
-      pytest -s $SRCDIR/cdds -m data_request
-      echo "# Executing tests for mip_convert:"
-      pytest -s $SRCDIR/mip_convert --doctest-modules -m 'not slow and not mappings and not superslow'
-      pytest -s $SRCDIR/mip_convert -m mappings
-      pytest -s $SRCDIR/mip_convert -m slow</code></li>
+      <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;# Executing tests for cdds:&quot;</span>
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>--doctest-modules<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;not slow and not integration and not rabbitMQ and not data_request&#39;</span>
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>-m<span class="w"> </span>slow
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>-m<span class="w"> </span>integration
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>-m<span class="w"> </span>data_request
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;# Executing tests for mip_convert:&quot;</span>
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/mip_convert<span class="w"> </span>--doctest-modules<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;not slow and not mappings and not superslow&#39;</span>
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/mip_convert<span class="w"> </span>-m<span class="w"> </span>mappings
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/mip_convert<span class="w"> </span>-m<span class="w"> </span>slow
+</code></pre></div></li>
 </ul>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -1833,8 +1834,8 @@ for details).</p>
 </div>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> The folder you created at the start to undertake the installation process can now be deleted.
-      <code>bash
-      rm -r temporary_installation_folder</code></li>
+      <div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-r<span class="w"> </span>temporary_installation_folder
+</code></pre></div></li>
 </ul>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <div class="admonition info">
