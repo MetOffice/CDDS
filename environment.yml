@@ -247,8 +247,8 @@ dependencies:
   - zlib-ng=2.3.3=hceb46e0_1
   - zstd=1.5.7=hb78ec9c_6
   - pip:
-    # - git+https://git@github.com/MetOffice/CDDS.git@v<location>#egg=cdds&subdirectory=cdds
-    # - git+https://git@github.com/MetOffice/CDDS.git@v<location>#egg=mip_convert&subdirectory=mip_convert
+     - git+https://git@github.com/MetOffice/CDDS.git@fix_config_parser_tests#egg=cdds&subdirectory=cdds
+     - git+https://git@github.com/MetOffice/CDDS.git@fix_config_parser_tests#egg=mip_convert&subdirectory=mip_convert
 variables:
   CYLC_VERSION: 8
   LC_ALL: en_GB.UTF-8
