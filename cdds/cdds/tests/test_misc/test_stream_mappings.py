@@ -3,7 +3,11 @@
 
 import unittest
 
+from pathlib import Path
+
 from cdds.misc.stream_mappings import read_variables_file, check_mappings, save_mappings
+
+DATA_DIR = Path(__file__).parent / "data"
 
 
 class TestStreamMappings(unittest.TestCase):
@@ -16,7 +20,7 @@ class TestStreamMappings(unittest.TestCase):
             ('fx', 'sftgif'): (None, '')
         }
 
-        result = read_variables_file("cdds/cdds/tests/test_misc/data/inputs/minimal_variables.txt")
+        result = read_variables_file(str(DATA_DIR / "inputs" / "minimal_variables.txt"))
         msg = f"Error: variable dictionary not created as expected.\nExpected\n{expected}\ngot\n{result}"
         self.assertEqual(result, expected, msg)
 
@@ -39,7 +43,7 @@ class TestStreamMappings(unittest.TestCase):
         self.assertEqual(result, expected, msg)
 
     def test_save_mappings(self):
-        filepath = 'cdds/cdds/tests/test_misc/data/outputs/minimal_variables_final_output.txt'
+        filepath = str(DATA_DIR / "outputs" / "minimal_variables_final_output.txt")
         variables = {
             ('day', 'tas'): ('ap6', 'comment'),
             ('comment', ' '): (' ', '#another comment\n'),
