@@ -16,3 +16,8 @@ and Met Office Enterprise M365 Copilot. Personal or individually licensed
 Copilot accounts are not approved for use on this repository. The Met Office
 reserves the right to revoke the approval of any GenAI tool at any time for
 any reason.
+
+Note: You must verify and amend as necessary all GenAI output that you intend
+to incorporate into CDDS as you would any non-AI assisted content you produce.
+For example: editing, proof reading, sense checking, code review, testing,
+vulnerability scanning etc.
