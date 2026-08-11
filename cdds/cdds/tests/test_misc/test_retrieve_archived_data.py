@@ -6,7 +6,7 @@ from pathlib import Path
 from tempfile import mkdtemp
 from unittest.mock import patch
 
-from cdds.misc.retrieve_mass_data import transfer_files
+from cdds.misc.retrieve_archived_data import transfer_files
 
 
 class TestTransferFiles(unittest.TestCase):
@@ -22,7 +22,7 @@ class TestTransferFiles(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.tmp_output_dir)
 
-    @patch("cdds.misc.retrieve_mass_data.run_mass_command")
+    @patch("cdds.misc.retrieve_archived_data.run_mass_command")
     @patch("logging.getLogger")
     def test_transfer_files_dry_run(self, mock_get_logger, mock_run_mass_command):
         mock_logger = mock_get_logger.return_value
@@ -33,7 +33,7 @@ class TestTransferFiles(unittest.TestCase):
         self.assertIn(self.MASS_COMMAND_OUTPUT, info_msgs)
 
     @patch(
-        "cdds.misc.retrieve_mass_data.run_mass_command",
+        "cdds.misc.retrieve_archived_data.run_mass_command",
         side_effect=RuntimeError("fail"),
     )
     @patch("logging.getLogger")

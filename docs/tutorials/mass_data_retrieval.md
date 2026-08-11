@@ -1,6 +1,6 @@
 # Mass data retrieval
 
-Data can be retrieved from MASS using our cdds_retrieve_data tool. This
+Data can be retrieved from MASS using our cdds_retrieve_archived_data tool. This
 can be used locally or via SPICE.
 
 It's benefits include:
@@ -25,7 +25,7 @@ The tool takes six arguments:
 
 ???example
     ```
-    cdds_retrieve_data CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2 variables_file desired/output/directory
+    cdds_retrieve_archived_data CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2 variables_file desired/output/directory
     ```
 
 ## Usage via SPICE
@@ -41,7 +41,7 @@ Below is a template example script that would be run via a sbatch command.
     #SBATCH --qos=normal
     #SBATCH --time=30
 
-    cdds_retrieve_data CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2 variables_file desired/output/directory
+    cdds_retrieve_archived_data CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2 variables_file desired/output/directory
     ```
 
 
