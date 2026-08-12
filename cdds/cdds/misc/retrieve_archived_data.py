@@ -12,7 +12,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Dict, List
 
 from cdds.common import configure_logger
-from cdds.common.mass import mass_list_files_recursively, run_mass_command
+from cdds.common.mass import mass_list_files_recursively_with_checksums, run_mass_command
 
 DEFAULT_MOOSE_BASE_PATH = "moose:/adhoc/projects/cdds/production/"
 try:
@@ -330,7 +330,7 @@ def main_cdds_retrieve_archived_data() -> None:
     )
 
     variable_list = read_variables_file(args.variables_file)
-    mass_file_list = mass_list_files_recursively(
+    mass_file_list = mass_list_files_recursively_with_checksums(
         mass_path=full_moose_dir, simulation=None
     )
     variable_info_dict = filter_mass_files(mass_file_list, variable_list)
