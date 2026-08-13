@@ -151,7 +151,7 @@ def check_moo_cmd(code, output):
     ]
     SKIP_ERRORS = [
         'EXCEEDS_DATA_VOLUME_LIMIT', 'EXCEEDS_FILE_NUMBER_LIMIT', 'SPANS_TOO_MANY_RESOURCES',
-        'QUERY_MATCHES_TOO_MANY_RESULTS', 'does not match',
+        'QUERY_MATCHES_TOO_MANY_RESULTS', 'does not match', 'OPERATION_FAILED',
         'ncks: ERROR'
     ]
     OK_ERRORS = ['PATH_ALREADY_EXISTS']
