@@ -1,5 +1,6 @@
 # (C) British Crown Copyright 2023-2025, Met Office.
 # Please see LICENSE.md for license details.
+import os
 import re
 import unittest
 from unittest import TestCase
@@ -61,6 +62,25 @@ class TestCMIP7GlobalModelFileIsCmorFile(TestCase):
         filename = 'uas_tavg-h10m-hxy-u_mon_glb_gn_PCMDI-test-1-0_1pctCO2_r1i1dp1f1_196002-196003.nc'
         result = self.model_file_info.is_cmor_file(filename)
         self.assertTrue(result)
+
+
+class TestCMIP7GlobalModelFileMassLocationSuffix(TestCase):
+
+    def setUp(self):
+        self.model_file_info = CMIP7GlobalModelFileInfo()
+        self.request = simple_request()
+        self.request.metadata.mip_era = 'CMIP7'
+        self.request.metadata.mip = 'CMIP'
+        self.request.metadata.institution_id = 'UKNCSP'
+        self.request.metadata.model_id = 'UKCM2a-0-HH'
+        self.request.metadata.experiment_id = 'historical'
+        self.request.metadata.variant_label = 'r2i1p1f1'
+
+    def test_mass_root_location_suffix_includes_mip_drs7(self):
+        result = self.model_file_info.mass_root_location_suffix(self.request)
+        breakpoint()
+        expected = os.path.join('MIP-DRS7', 'CMIP7', 'CMIP', 'UKNCSP', 'UKCM2a-0-HH', 'historical', 'r2i1p1f1')
+        self.assertEqual(expected, result)
 
 
 class TestGlobalModelFileIsRelevantForArchiving(TestCase):
