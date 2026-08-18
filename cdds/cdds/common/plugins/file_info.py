@@ -416,7 +416,22 @@ class CMIP7GlobalModelFileInfo(GlobalModelFileInfo):
         """
         variable_id, branding_suffix = variable.split('_')
         mass_root_location = self.mass_root_location_suffix(request)
-        return os.path.join("MIP-DRS7", mass_root_location, "glb", frequency, variable_id, branding_suffix, grid_label)
+        return os.path.join(mass_root_location, "glb", frequency, variable_id, branding_suffix, grid_label)
+
+    def mass_root_location_suffix(self, request: 'Request') -> str:
+        """Returns the suffix to the MASS root location that contains all simulation model files
+
+        Parameters
+        ----------
+        request : Request
+            The information about the request being processed
+
+        Returns
+        -------
+        str
+            The suffix to the MASS root location containing all simulation model files
+        """
+        return os.path.join("MIP-DRS7", super().mass_root_location_suffix(request))
 
 
 class RegionalModelFileInfo(ModelFileInfo):
