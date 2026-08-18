@@ -78,7 +78,6 @@ class TestCMIP7GlobalModelFileMassLocationSuffix(TestCase):
 
     def test_mass_root_location_suffix_includes_mip_drs7(self):
         result = self.model_file_info.mass_root_location_suffix(self.request)
-        breakpoint()
         expected = os.path.join('MIP-DRS7', 'CMIP7', 'CMIP', 'UKNCSP', 'UKCM2a-0-HH', 'historical', 'r2i1p1f1')
         self.assertEqual(expected, result)
 
