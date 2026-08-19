@@ -17,6 +17,7 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 from pathlib import Path, PurePosixPath
 from typing import Any, Dict, List, Optional
 
@@ -49,7 +50,9 @@ def parse_args() -> argparse.Namespace:
         "dataset_id",
         help="Full CMIP6 dataset_id, e.g. CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2.Amon.tas.gn",
     )
-    parser.add_argument("destination", help="Destination directory")
+    if len(sys.argv) > 1 and sys.argv[1] == "get":
+        parser.add_argument("destination", help="Destination directory")
+
     parser.add_argument(
         "--create-directories-false",
         action="store_false",
@@ -63,14 +66,16 @@ def parse_args() -> argparse.Namespace:
         help=f"Root location in MASS (default: {DEFAULT_MOOSE_BASE_PATH})",
     )
     parser.add_argument(
-        "--chunk-size",
-        type=int,
-        default=100,
-        help="Chunk size in GB for file retrieval. Default size is 100.",
-    )
-    parser.add_argument(
         "--dry-run", action="store_true", help="Print actions without retrieving files"
     )
+
+    if len(sys.argv) > 1 and sys.argv[1] == "get":
+        parser.add_argument(
+            "--chunk-size",
+            type=int,
+            default=100,
+            help="Chunk size in GB for file retrieval. Default size is 100.",
+        )
     return parser.parse_args()
 
 
@@ -502,11 +507,11 @@ def main_crepp_retrieve_archived_dataset() -> Optional[int]:
 
     args = parse_args()
 
-    if args.dry_run:
-        logger.info("Dry run mode enabled. No files will be retrieved.")
-
     if args.action == "ls":
         return run_ls_action(args.dataset_id, args.mass_root)
+
+    if args.dry_run:
+        logger.info("Dry run mode enabled. No files will be retrieved.")
 
     return run_get_action(
         args.dataset_id,
