@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
-"""Retrieve archived data from MASS whilst replicating it's directory structure."""
+"""Retrieve archvived data from MASS whilst replicating it's directory structure."""
 
 import argparse
 import logging
@@ -12,7 +12,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Dict, List
 
 from cdds.common import configure_logger
-from cdds.common.mass import mass_list_files_recursively_with_checksums, run_mass_command
+from cdds.common.mass import mass_list_files_recursively, run_mass_command
 
 DEFAULT_MOOSE_BASE_PATH = "moose:/adhoc/projects/cdds/production/"
 try:
@@ -304,15 +304,15 @@ def transfer_files_to_final_dir(
             shutil.move(str(temporary_filepath), str(destination_filepath))
 
 
-def main_cdds_retrieve_archived_data() -> None:
-    """Main function to retrieve archived data from MOOSE using CDDS.
+def main_cdds_retrieve_data() -> None:
+    """Main function to retrieve data from MOOSE using CDDS.
 
     Returns
     -------
     None
     """
     configure_logger(
-        log_name="retrieve_archived_data",
+        log_name="retrieve_mass_data",
         log_level=20,
         append_log=False,
     )
@@ -330,7 +330,7 @@ def main_cdds_retrieve_archived_data() -> None:
     )
 
     variable_list = read_variables_file(args.variables_file)
-    mass_file_list = mass_list_files_recursively_with_checksums(
+    mass_file_list = mass_list_files_recursively(
         mass_path=full_moose_dir, simulation=None
     )
     variable_info_dict = filter_mass_files(mass_file_list, variable_list)
