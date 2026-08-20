@@ -69,6 +69,7 @@ class DataTransfer(object):
         state: state.State
             state the filesets should be placed in
         """
+        raise RuntimeError('This must not be run')
         if not state.can_be_put():
             raise ValueError("Cannot send files to MASS in state \"{}\""
                              "".format(state))
@@ -98,6 +99,7 @@ class DataTransfer(object):
         timestamp: str
             date the initial "send" method was run
         """
+        raise RuntimeError('This must not be run')
         if not state.can_be_put():
             raise ValueError("Cannot send files to MASS in state \"{}\""
                              "".format(state))
@@ -444,6 +446,10 @@ class DataTransfer(object):
                 logging.info("Simulating publishing message changing state "
                              "to \"{}\". Message contents: \"{}\""
                              "".format(state, repr(message.content)))
+                if self._comm is None:
+                    self._comm = msg.Communication(self._config)
+
+                self._comm.store_message(message)
             else:
                 if self._comm is None:
                     self._comm = msg.Communication(self._config)
@@ -574,10 +580,20 @@ class DataTransfer(object):
         :class:`cdds.deprecated.transfer.msg.MooseMessage`
             Message to be sent.
         """
+        logger = logging.getLogger(__name__)
+        # the following is a somewhat unpleasant requirement to identify the version number
+        # without major disruption to the code
+
+        dataset_version_number = os.path.basename(mass_dir)
+        logger.debug(f'Inserting dataset version number "{dataset_version_number}" into message')
+        drs_facet_builder.facets['directoryDateDD'] = dataset_version_number
+        dataset_id = '.'.join([drs_facet_builder.dataset_id(), dataset_version_number])
+
         msg_content = {
-            "mass_dir": mass_dir, "state": state.name(),
+            "mass_dir": mass_dir,
+            "state": state.name(),
             "facets": drs_facet_builder.facets,
-            "dataset_id": drs_facet_builder.dataset_id()
+            "dataset_id": dataset_id
         }
         # The following is not ideal, but a signficant amount of effort
         # is needed to force all tests to use the facet "mip_era" rather than
@@ -587,6 +603,8 @@ class DataTransfer(object):
             msg_content["mip_era"] = drs_facet_builder.facets["mip_era"]
         else:
             msg_content["mip_era"] = drs_facet_builder.facets["project"]
+
+        logger.debug('Message content: ' + json.dumps(msg_content))
         message = msg.MooseMessage(content=msg_content)
         return message
 

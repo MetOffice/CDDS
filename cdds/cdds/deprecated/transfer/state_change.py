@@ -5,6 +5,7 @@ submission of data (embargoed -> available) and retraction (available ->
 withdrawn).
 """
 import logging
+import re
 
 from argparse import Namespace
 
@@ -123,8 +124,10 @@ def read_variables_list_file(file_name):
     variable_list = []
     with open(file_name) as file_handle:
         for i, line in enumerate(file_handle.readlines()):
+            frequency = None
+            result = None
             try:
-                if ';' in line:
+                if ';' in line and '@' not in line:
                     variable_string, data_path = line.split(';')
                     mip_table, var_name = variable_string.strip().split('/')
                     # use last two directories in the directory path to work out
@@ -142,12 +145,17 @@ def read_variables_list_file(file_name):
                             ''.format(var_name, out_name))
                         var_name = out_name
 
+                    result = (mip_table, var_name)
+                elif '@' in line:
+                    variable_string, data_path = line.split(';')
+                    _, frequency, var_name = re.split('[@/]', variable_string)
+                    result = (frequency, var_name)
                 else:
-                    mip_table, var_name = line.strip().split('/')
-
+                    mip_table, var_name = line.strip().split(';')[0].split('/')
+                    result = (mip_table, var_name)
             except ValueError:
                 raise RuntimeError(
                     'Could not interpret line {} ("{}") from file "{}" as a '
                     'variable'.format(i, line, file_name))
-            variable_list.append((mip_table, var_name))
+            variable_list.append(result)
     return variable_list

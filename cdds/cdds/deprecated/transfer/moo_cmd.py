@@ -50,7 +50,7 @@ def rmdir(moose_dir, simulation=False):
     simulation: bool
         if true simulate moo command.
     """
-    moo.run_moo_cmd("rmdir", [moose_dir], simulation=simulation)
+    moo.run_moo_cmd("rmdir", ["--force", moose_dir], simulation=simulation)
     return
 
 
@@ -184,9 +184,9 @@ def ls_tree(moose_dir, simulation=False):
         if true simulate moo command.
     """
     if simulation == LS_ONLY:
-        result = moo.run_moo_cmd("ls", ["-xR", "-p1-1000:25000", moose_dir])
+        result = moo.run_moo_cmd("ls", ["-xR", "-p", "1-1000:25000", moose_dir])
     else:
-        result = moo.run_moo_cmd("ls", ["-xR", "-p1-1000:25000", moose_dir],
+        result = moo.run_moo_cmd("ls", ["-xR", "-p", "1-1000:25000", moose_dir],
                                  simulation=simulation)
     return result
 
