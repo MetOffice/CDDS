@@ -28,8 +28,6 @@ class DataTransfer(object):
     find_mass_facets -- search MASS directories for matching facets
     inform -- inform BADC of significant MASS state changes
     rerun_change_mass_state -- complete a move that failed part-way through
-    rerun_send_to_mass -- complete a send that failed part-way through
-    send_to_mass -- copy facets from local directory to MASS
     serialise_facets -- serialise facets to a form that can be saved
     """
 
@@ -52,90 +50,6 @@ class DataTransfer(object):
         self._moo_top = self._config.attr("mass", "top_dir")
         self._simulation = simulation
         self._stream = {}
-
-    def send_to_mass(self, local_top, filesets, state):
-        """Send facet(s) to MASS in the specified state.
-
-        Locates filesets on local disk, deduces their path on MASS and
-        copies them across. If the specified state is one that BADC
-        are informed about, messages will be sent.
-
-        Parameters
-        ----------
-        local_top: str
-            path to top of local directory
-        filesets: drs.AtomicDatasetCollection
-            fileset(s) to send
-        state: state.State
-            state the filesets should be placed in
-        """
-        raise RuntimeError('This must not be run')
-        if not state.can_be_put():
-            raise ValueError("Cannot send files to MASS in state \"{}\""
-                             "".format(state))
-        for fileset in filesets:
-            self._run_put(local_top, fileset, state, moo_cmd.put)
-        return
-
-    def rerun_send_to_mass(self, local_top, filesets, state, timestamp):
-        """Re-run a MASS send that failed part way through.
-
-        Locates facets on local disk, deduces their path on MASS and
-        copies them across if necessary. If the specified state is one
-        that BADC are informed about, messages will be sent.
-
-        You need to specify the date that the original "send_to_mass"
-        was run so that the code can identify the directories that
-        should exist on MASS for the supplied facets.
-
-        Parameters
-        ----------
-        local_top: str
-            path to top of local directory
-        filesets: drs.AtomicDatasetCollection
-            fileset(s) to send
-        state: state.State
-            state the filesets should be placed in
-        timestamp: str
-            date the initial "send" method was run
-        """
-        raise RuntimeError('This must not be run')
-        if not state.can_be_put():
-            raise ValueError("Cannot send files to MASS in state \"{}\""
-                             "".format(state))
-        (last_id, last_var) = self._find_last_successful(
-            filesets, state, timestamp)
-        if last_id is None and last_var is None:
-            # We didn't successfully run anything, so we can just run
-            # a normal send.
-            self.send_to_mass(local_top, filesets, state)
-            return
-        # Last successful data set may have died partway through.
-        self._run_put(
-            local_top, filesets.get_drs_facet_builder(last_id, last_var),
-            state, moo_cmd.put_safe_overwrite, timestamp=timestamp)
-        # Finish off any remaining vars in the last successful id...
-        drs_vars = filesets.drs_variables(last_id)
-        if last_var != drs_vars[-1]:
-            last_loc = drs_vars.index(last_var)
-            for drs_var in drs_vars[last_loc + 1:]:
-                self._run_put(
-                    local_top,
-                    filesets.get_drs_facet_builder(last_id, drs_var),
-                    state, moo_cmd.put, timestamp=timestamp)
-        dataset_ids = filesets.dataset_ids()
-        if last_id == dataset_ids[-1]:
-            # We have nothing else left to put.
-            return
-        # and then send any remaining data sets.
-        last_loc = dataset_ids.index(last_id)
-        for dataset_id in dataset_ids[last_loc + 1:]:
-            for drs_var in filesets.drs_variables(dataset_id):
-                self._run_put(
-                    local_top,
-                    filesets.get_drs_facet_builder(dataset_id, drs_var),
-                    state, moo_cmd.put, timestamp=timestamp)
-        return
 
     def change_mass_state(
             self, filesets, old_state, new_state, timestamp=None):
