@@ -24,6 +24,4 @@ def print_queue(queue_name, full=False):
     for i, message in enumerate(comm.get_all_messages(queue)):
         print(i, message.dataset_id)
         if full:
-            # breakpoint()
-            message_data = vars(message)
             print(json.dumps(message.content, indent=2, sort_keys=True).replace('\\"', '"'))

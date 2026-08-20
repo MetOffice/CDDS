@@ -446,10 +446,6 @@ class DataTransfer(object):
                 logging.info("Simulating publishing message changing state "
                              "to \"{}\". Message contents: \"{}\""
                              "".format(state, repr(message.content)))
-                if self._comm is None:
-                    self._comm = msg.Communication(self._config)
-
-                self._comm.store_message(message)
             else:
                 if self._comm is None:
                     self._comm = msg.Communication(self._config)

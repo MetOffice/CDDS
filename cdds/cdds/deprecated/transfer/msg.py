@@ -157,7 +157,6 @@ class Message(object):
 
     def _initialise_from_content(self, content):
         self.content = content
-        self.body = None  # self._body_from_content(content)
         return
 
     def _get_from_content(self, attr_name):
@@ -738,7 +737,7 @@ class MessageStore(object):
         logger.debug('Writing message to file "{}"'.format(msg_file))
 
         with open(msg_file, "w") as fh:
-            json.dump(content, fh)
+            json.dump(content, fh, indent=2, sort_keys=True)
 
         return
 
