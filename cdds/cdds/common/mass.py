@@ -3,8 +3,6 @@
 """The :mod:`mass` module interact with the MASS archiving system."""
 import logging
 import subprocess
-import re
-import xml.etree.ElementTree as ET
 
 from cdds.common.mass_exception import (MassError, DirAlreadyExistMassError, FileNotExistMassError,
                                         VariableArchivingError, MassFailure)
@@ -251,80 +249,6 @@ def mass_list_files_recursively(mass_path, simulation):
                     'filename': filename,
                     'mass_path': elems[6]
                 })
-    return datasets
-
-
-def mass_list_files_recursively_with_checksums(mass_path, simulation):
-    """List the contents of a directory in the MASS archive, including checksums.
-
-    Uses ``moo ls -Rlxm`` (XML output including media/checksum details) instead of
-    the plain-text ``-Rl`` listing used by :func:`mass_list_files_recursively`, so
-    each file's MD5 checksum can be captured alongside its size and path.
-
-    Parameters
-    ----------
-    mass_path: str
-        The location in mass to list the contents of.
-    simulation: bool
-        If true, do not execute MASS commands, but output the command that
-        would be run to the log.
-
-    Returns
-    -------
-    dict
-        Dictionary of datasets, keyed by dataset_id, each containing the
-        status, timestamp and a list of files with filesize, filename,
-        mass_path and checksum.
-    """
-    logger = logging.getLogger(__name__)
-    moo_cmd = ['moo', 'ls', '-Rlxm', mass_path]
-    if simulation:
-        logger.info('simulating mass command: {cmd}'
-                    ''.format(cmd=' '.join(moo_cmd)))
-        return {}
-    try:
-        stdout_str = run_mass_command(moo_cmd)
-    except subprocess.CalledProcessError:
-        stdout_str = ''
-        logger.critical('Error getting listing of a directory in MASS.')
-    except RuntimeError as e:
-        logger.critical(str(e))
-        raise e
-
-    datasets = {}
-    if not stdout_str:
-        return datasets
-
-    root = ET.fromstring(stdout_str)
-    for node in root.findall('node'):
-        if node.get('kind') != 'F':
-            continue
-        mass_file_path = node.get('url')
-        if mass_file_path is None:
-            continue
-        size_elem = node.find('size')
-        filesize = size_elem.text if size_elem is not None else None
-        checksum_elem = node.find('checksum/value')
-        checksum = checksum_elem.text if checksum_elem is not None else None
-
-        (mip, institution, model, experiment, variant, mip_table, variable, grid, status,
-         timestamp, filename) = mass_file_path.split('/')[-11:]
-
-        if filename.endswith('.nc'):
-            dataset_id = '{}.{}.{}.{}.{}.{}.{}.{}.{}'.format(
-                'CMIP6', mip, institution, model, experiment, variant, mip_table, variable, grid)
-            if dataset_id not in datasets:
-                datasets[dataset_id] = {
-                    'status': status,
-                    'timestamp': timestamp,
-                    'files': []
-                }
-            datasets[dataset_id]['files'].append({
-                'filesize': filesize,
-                'filename': filename,
-                'mass_path': mass_file_path,
-                'checksum': checksum
-            })
     return datasets
 
 

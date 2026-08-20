@@ -17,11 +17,12 @@ import re
 import shutil
 import subprocess
 import sys
+import xml.etree.ElementTree as ET
 from pathlib import Path, PurePosixPath
 from typing import Any, Dict, List, Optional
 
 from cdds.common import configure_logger
-from cdds.common.mass import mass_list_files_recursively_with_checksums, run_mass_command
+from cdds.common.mass import run_mass_command
 from cdds.common.mass_exception import FileNotExistMassError, MassError, MassFailure
 from cdds.misc.retrieve_archived_data import create_output_dir, gb_to_bytes
 
@@ -30,6 +31,104 @@ try:
     TMPDIR = os.environ["TMPDIR"]
 except KeyError:
     raise RuntimeError("Environment variable TMPDIR must be set.")
+
+
+def _parse_mass_file_path(mass_file_path: str, mass_root: str) -> tuple[str, str, str, str]:
+    """Extract dataset metadata from a MASS file path.
+
+    MASS paths follow the structure::
+
+        <mass_root>/<facets...>/<status>/<version>/<filename>
+
+    where ``<facets...>`` yields the dot-separated dataset_id,
+    ``<status>`` is ``available`` or ``embargoed``, and ``<version>``
+    is the datestamp (e.g. ``v20200828``).
+
+    Parameters
+    ----------
+    mass_file_path : str
+        A single MASS file URL.
+    mass_root : str
+        The root path used for the listing (e.g.
+        ``moose:/adhoc/projects/cdds/production/``).
+
+    Returns
+    -------
+    tuple of (str, str, str, str)
+        ``(dataset_id, status, version, filename)``.
+    """
+    prefix = mass_root.rstrip('/')
+    relative = mass_file_path[len(prefix):].lstrip('/')
+    parts = relative.split('/')
+    dataset_id = '.'.join(parts[:-3])
+    status = parts[-3]
+    version = parts[-2]
+    filename = parts[-1]
+    return dataset_id, status, version, filename
+
+
+def _list_mass_files_with_checksums(mass_path: str, mass_root: str, dry_run: bool) -> dict:
+    """List files in a MASS dataset directory, including sizes and checksums.
+
+    Uses ``moo ls -Rlxm`` (XML output) to capture each file's MD5 checksum
+    alongside its size and path.
+
+    Parameters
+    ----------
+    mass_path : str
+        The dataset directory in MASS to list.
+    mass_root : str
+        The root path under which datasets are stored (e.g.
+        ``moose:/adhoc/projects/cdds/production/``).
+    dry_run : bool
+        If True, log the command that would be run without executing it.
+
+    Returns
+    -------
+    dict
+        Dictionary of datasets keyed by dataset_id, each containing the
+        status, timestamp and a list of files with filesize, filename,
+        mass_path and checksum.
+    """
+    logger = logging.getLogger(__name__)
+    moo_cmd = ['moo', 'ls', '-Rlxm', mass_path]
+    if dry_run:
+        logger.info('simulating mass command: {cmd}'.format(cmd=' '.join(moo_cmd)))
+        return {}
+    stdout_str = run_mass_command(moo_cmd)
+
+    datasets: dict = {}
+    if not stdout_str:
+        return datasets
+
+    root = ET.fromstring(stdout_str)
+    for node in root.findall('node'):
+        if node.get('kind') != 'F':
+            continue
+        mass_file_path = node.get('url')
+        if mass_file_path is None:
+            continue
+        size_elem = node.find('size')
+        filesize = size_elem.text if size_elem is not None else None
+        checksum_elem = node.find('checksum/value')
+        checksum = checksum_elem.text if checksum_elem is not None else None
+
+        dataset_id, status, timestamp, filename = _parse_mass_file_path(mass_file_path, mass_root)
+
+        if filename.endswith('.nc'):
+            if dataset_id not in datasets:
+                datasets[dataset_id] = {
+                    'status': status,
+                    'timestamp': timestamp,
+                    'files': []
+                }
+            datasets[dataset_id]['files'].append({
+                'filesize': filesize,
+                'filename': filename,
+                'mass_path': mass_file_path,
+                'checksum': checksum
+            })
+    return datasets
 
 
 def parse_args() -> argparse.Namespace:
@@ -272,7 +371,7 @@ def _parse_dataset_id(dataset_id: str) -> tuple[str, str]:
         The 9-facet base id and the version string (e.g. ``'v20200828'``).
     """
     facets = dataset_id.split(".")
-    return ".".join(facets[:9]), facets[-1]
+    return ".".join(facets[:-1]), facets[-1]
 
 
 def _mass_error_exit_code(error: MassError) -> int:
@@ -312,8 +411,8 @@ def run_ls_action(dataset_id: str, mass_root: str) -> int:
     base_dataset_id, version = _parse_dataset_id(dataset_id)
     mass_path = str(PurePosixPath(mass_root) / base_dataset_id.replace(".", "/"))
     try:
-        mass_file_list = mass_list_files_recursively_with_checksums(
-            mass_path=mass_path, simulation=None
+        mass_file_list = _list_mass_files_with_checksums(
+            mass_path=mass_path, mass_root=mass_root, dry_run=False
         )
     except FileNotExistMassError:
         # moo command itself failed: the MASS path does not exist at all.
@@ -378,8 +477,8 @@ def run_get_action(
     base_dataset_id, version = _parse_dataset_id(dataset_id)
     mass_path = str(PurePosixPath(mass_root) / base_dataset_id.replace(".", "/"))
     try:
-        mass_file_list = mass_list_files_recursively_with_checksums(
-            mass_path=mass_path, simulation=None
+        mass_file_list = _list_mass_files_with_checksums(
+            mass_path=mass_path, mass_root=mass_root, dry_run=False
         )
     except FileNotExistMassError:
         # moo command itself failed: the MASS path does not exist at all.
