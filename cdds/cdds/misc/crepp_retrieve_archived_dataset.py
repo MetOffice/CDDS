@@ -10,7 +10,6 @@ Met Office bulk retrieval, use ``cdds_retrieve_archived_data`` instead.
 """
 
 import argparse
-import hashlib
 import json
 import logging
 import os
@@ -24,6 +23,7 @@ from typing import Any, Dict, List, Optional
 from cdds.common import configure_logger
 from cdds.common.mass import mass_list_files_recursively_with_checksums, run_mass_command
 from cdds.common.mass_exception import FileNotExistMassError, MassError, MassFailure
+from cdds.misc.retrieve_archived_data import create_output_dir, gb_to_bytes
 
 DEFAULT_MOOSE_BASE_PATH = "moose:/adhoc/projects/cdds/production/"
 try:
@@ -79,22 +79,6 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def gb_to_bytes(chunk_size: int) -> int:
-    """Convert gigabytes to bytes.
-
-    Parameters
-    ----------
-    chunk_size : int
-        Size in gigabytes.
-
-    Returns
-    -------
-    int
-        Size in bytes.
-    """
-    return int(chunk_size * 1024 * 1024 * 1024)
-
-
 def group_files_by_folder(files: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
     """Group a dataset's files by their parent MASS folder.
 
@@ -122,35 +106,6 @@ def group_files_by_folder(files: List[Dict[str, Any]]) -> Dict[str, List[Dict[st
                 f"'available' or 'embargoed' not found in source filepath: {folder_path}"
             )
     return dir_path_key_dict
-
-
-def create_output_dir(
-    base_output_folder: str, destination: Path, dry_run: bool = False
-) -> Path:
-    """Create output directory if it does not exist and return a Path object.
-
-    Parameters
-    ----------
-    base_output_folder : str
-        Base output folder name.
-    destination : str or Path
-        Destination directory.
-    dry_run : bool, optional
-        If True, skip directory creation (default is False).
-
-    Returns
-    -------
-    Path
-        Path object for the created output directory.
-    """
-    parts = Path(base_output_folder).parts
-    # Remove "status" (available/embargoed) folder from path
-    status_removed = parts[:-2] + (parts[-1],)
-    output_dir = Path(destination).joinpath(*status_removed)
-
-    if not dry_run:
-        output_dir.mkdir(parents=True, exist_ok=True)
-    return output_dir
 
 
 def chunk_files(
@@ -208,41 +163,6 @@ def chunk_files(
         list_of_chunks.append(chunk)
 
     return list_of_chunks
-
-
-def verify_checksum(filepath: Path, expected_checksum: Optional[str]) -> None:
-    """Verify the MD5 checksum of a downloaded file against the checksum reported by MASS.
-
-    Parameters
-    ----------
-    filepath : Path
-        Path to the local file to verify.
-    expected_checksum : str or None
-        Expected MD5 checksum from MASS. If None, verification is skipped (with a warning),
-        since not all MASS listings are guaranteed to include a checksum.
-
-    Returns
-    -------
-    None
-
-    Raises
-    ------
-    ValueError
-        If the computed checksum does not match the expected checksum.
-    """
-    logger = logging.getLogger(__name__)
-    if expected_checksum is None:
-        logger.warning(f"No checksum available for {filepath}; skipping verification.")
-        return
-
-    with open(filepath, "rb") as f:
-        actual_checksum = hashlib.md5(f.read()).hexdigest()
-
-    if actual_checksum != expected_checksum:
-        raise ValueError(
-            f"Checksum mismatch for {filepath}: expected {expected_checksum}, got {actual_checksum}"
-        )
-    logger.info(f"Checksum matches for {filepath}")
 
 
 def transfer_files(
@@ -317,7 +237,6 @@ def transfer_files_to_final_dir(
         destination_filepath = Path(output_dir) / filename
         if not dry_run:
             shutil.move(str(temporary_filepath), str(destination_filepath))
-            verify_checksum(destination_filepath, file_info.get("checksum"))
 
 
 _VERSION_RE = re.compile(r"/v\d{8}/")
