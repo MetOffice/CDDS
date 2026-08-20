@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
-"""Retrieve archvived data from MASS whilst replicating it's directory structure."""
+"""Retrieve archived data from MASS whilst replicating it's directory structure."""
 
 import argparse
 import logging
