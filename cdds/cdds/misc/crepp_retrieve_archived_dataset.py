@@ -258,6 +258,23 @@ def _filter_versioned_files(files: List[Dict[str, Any]]) -> List[Dict[str, Any]]
     return [f for f in files if _VERSION_RE.search(f["mass_path"])]
 
 
+def _parse_dataset_id(dataset_id: str) -> tuple[str, str]:
+    """Split a dataset_id into its 9-facet base and version string.
+
+    Parameters
+    ----------
+    dataset_id : str
+        Dataset identifier ending with a version facet (e.g. ``v20200828``).
+
+    Returns
+    -------
+    tuple of (str, str)
+        The 9-facet base id and the version string (e.g. ``'v20200828'``).
+    """
+    facets = dataset_id.split(".")
+    return ".".join(facets[:9]), facets[-1]
+
+
 def _mass_error_exit_code(error: MassError) -> int:
     """Map a MassError to a CLI exit code.
 
@@ -292,7 +309,8 @@ def run_ls_action(dataset_id: str, mass_root: str) -> int:
         Exit code: 0 success, 1 not found, 2 credentials/permissions error, 3 other error.
     """
     logger = logging.getLogger(__name__)
-    mass_path = str(PurePosixPath(mass_root) / dataset_id.replace(".", "/"))
+    base_dataset_id, version = _parse_dataset_id(dataset_id)
+    mass_path = str(PurePosixPath(mass_root) / base_dataset_id.replace(".", "/"))
     try:
         mass_file_list = mass_list_files_recursively_with_checksums(
             mass_path=mass_path, simulation=None
@@ -306,12 +324,13 @@ def run_ls_action(dataset_id: str, mass_root: str) -> int:
         return _mass_error_exit_code(e)
 
     # moo command succeeded, but no files matched this exact dataset_id.
-    dataset = mass_file_list.get(dataset_id)
+    dataset = mass_file_list.get(base_dataset_id)
     if not dataset:
         logger.critical(f"Dataset not found in MASS: {dataset_id}")
         return 1
 
     files = _filter_versioned_files(dataset["files"])
+    files = [f for f in files if f"/{version}/" in f["mass_path"]]
     if not files:
         logger.critical(f"No versioned files found in MASS for dataset: {dataset_id}")
         return 1
@@ -356,7 +375,8 @@ def run_get_action(
         Exit code: 0 success, 1 not found, 2 credentials/permissions error, 3 other error.
     """
     logger = logging.getLogger(__name__)
-    mass_path = str(PurePosixPath(mass_root) / dataset_id.replace(".", "/"))
+    base_dataset_id, version = _parse_dataset_id(dataset_id)
+    mass_path = str(PurePosixPath(mass_root) / base_dataset_id.replace(".", "/"))
     try:
         mass_file_list = mass_list_files_recursively_with_checksums(
             mass_path=mass_path, simulation=None
@@ -370,12 +390,13 @@ def run_get_action(
         return _mass_error_exit_code(e)
 
     # moo command succeeded, but no files matched this exact dataset_id.
-    dataset = mass_file_list.get(dataset_id)
+    dataset = mass_file_list.get(base_dataset_id)
     if not dataset:
         logger.critical(f"Dataset not found in MASS: {dataset_id}")
         return 1
 
     files = _filter_versioned_files(dataset["files"])
+    files = [f for f in files if f"/{version}/" in f["mass_path"]]
     if not files:
         logger.critical(f"No versioned files found in MASS for dataset: {dataset_id}")
         return 1
