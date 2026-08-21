@@ -16,6 +16,19 @@ from cdds.common.request.misc_section import MiscSection
 from cdds.common.request.request import Request
 
 
+@pytest.fixture(autouse=True)
+def cdds_dir_env(monkeypatch):
+    """Ensure CDDS_DIR is set for tests whose .cfg files use $CDDS_DIR-relative paths,
+    even if the devel environment has not been sourced.
+
+    Parameters
+    ----------
+    monkeypatch : pytest.MonkeyPatch
+        object used to patch environment
+    """
+    monkeypatch.setenv("CDDS_DIR", str(Path(__file__).parents[3]))
+
+
 @pytest.fixture
 def cmip7_request(tmp_path: Path):
     variable_list_file = tmp_path / "variable_list.txt"
