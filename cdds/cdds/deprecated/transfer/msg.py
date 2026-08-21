@@ -93,28 +93,18 @@ class Message(object):
                 "Message must have been published to be sortable")
         return key
 
-    def __init__(self, content=None, body=None):
+    def __init__(self, content=None):
         """Create a new Message object.
 
-        Messages can be created either using a content dict, or using
-        a body (str in JSON format). You must supply one of the
-        arguments, and can't supply both.
+        Messages can be created using a content dict
 
         Parameters
         ----------
         content: dict
             message content
-        body: str
-            message content in JSON format
         """
-        if content and body:
-            raise ValueError("Need only one of content or body")
-        if not content and not body:
-            raise ValueError("Need content or body")
         if content:
             self._initialise_from_content(content)
-        if body:
-            self._initialise_from_body(body)
         self.delivery_tag = None
 
     def queue_prefix(self):
@@ -134,7 +124,6 @@ class Message(object):
         UTC.
         """
         self.content["published"] = Message._utc_now_timestamp()
-        self.body = self._body_from_content(self.content)
 
     def timeless_content(self):
         """Return a copy of my message with publication date removed."""
@@ -166,22 +155,8 @@ class Message(object):
         now = datetime.utcnow()
         return now.strftime(Message.TS_FMT)
 
-    @staticmethod
-    def _body_from_content(content):
-        return json.dumps(content)
-
-    @staticmethod
-    def _content_from_body(body):
-        return json.loads(body)
-
     def _initialise_from_content(self, content):
         self.content = content
-        self.body = self._body_from_content(content)
-        return
-
-    def _initialise_from_body(self, body):
-        self.body = body
-        self.content = self._content_from_body(body)
         return
 
     def _get_from_content(self, attr_name):
@@ -222,7 +197,7 @@ class MooseMessage(Message):
 
     TYPE = "moose"
 
-    def __init__(self, content=None, body=None):
+    def __init__(self, content=None):
         """Create a MOOSE message object.
 
         You must supply one (and only one) of either content or body
@@ -236,7 +211,7 @@ class MooseMessage(Message):
             message content in JSON format
         """
         # self.type = MooseMessage.TYPE
-        super(MooseMessage, self).__init__(content, body)
+        super(MooseMessage, self).__init__(content)
         self.dataset_id = self.content.get('dataset_id', None)
 
     def queue_prefix(self):
@@ -326,21 +301,18 @@ class AdminMessage(Message):
         """Return queue prefix (str) for admin messages."""
         return AdminMessage.TYPE
 
-    def __init__(self, content=None, body=None):
+    def __init__(self, content):
         """Create a new admin message object.
 
-        You must supply one (and only one) of content or body to
-        create the message.
+        You must supply content to create the message.
 
         Parameters
         ----------
         content: dict
             message content
-        body: str
-            message content in JSON format
         """
         # self.type = AdminMessage.TYPE
-        super(AdminMessage, self).__init__(content, body)
+        super(AdminMessage, self).__init__(content)
 
     def queue_suffix(self):
         """Return the queue suffix (str) for this message."""
@@ -561,7 +533,7 @@ class Communication(object):
                          ''.format(queue.queue_name,
                                    message.queue().queue_name))
         published = False
-        channel_callable = rabbit.PersistentPublish(queue, message.body)
+        channel_callable = rabbit.PersistentPublish(queue, message.content)
         if self._rabbit_mgr.call(channel_callable):
             published = True
         if not published:
@@ -590,8 +562,8 @@ class Communication(object):
         channel_callable = rabbit.GetFirst(queue)
         result = self._rabbit_mgr.call(channel_callable)
         if result:
-            (method_frame, body) = result
-            message = self._make_message(queue, method_frame, body)
+            (method_frame, content) = result
+            message = self._make_message(queue, method_frame, content)
         return message
 
     def get_all_messages(self, queue):
@@ -616,8 +588,8 @@ class Communication(object):
         result = self._rabbit_mgr.call(channel_callable)
         if result:
             for msg in result:
-                (method_frame, body) = msg
-                message = self._make_message(queue, method_frame, body)
+                (method_frame, content) = msg
+                message = self._make_message(queue, method_frame, content)
                 messages.append(message)
         return messages
 
@@ -652,10 +624,10 @@ class Communication(object):
         message_store.store_message(message)
         return
 
-    def _make_message(self, queue, method_frame, body):
+    def _make_message(self, queue, method_frame, content):
         msg_type = queue.message_class()
         if msg_type:
-            message = msg_type(body=body)
+            message = msg_type(content=json.loads(content))
             message.delivery_tag = method_frame.delivery_tag
         else:
             message = None
@@ -764,18 +736,18 @@ class MessageStore(object):
 
         logger.debug('Writing message to file "{}"'.format(msg_file))
 
-        fh = open(msg_file, "w")
-        json.dump(content, fh)
-        fh.close()
+        with open(msg_file, "w") as fh:
+            json.dump(content, fh, indent=2, sort_keys=True)
+
         return
 
     def _read_message(self, msg_base):
         msg_file = self._msg_full_path(msg_base)
         if not os.path.exists(msg_file):
             raise IOError("No message file %s" % msg_file)
-        fh = open(msg_file)
-        content = json.load(fh)
-        fh.close()
+        with open(msg_file) as fh:
+            content = json.load(fh)
+
         return content
 
     def _msg_full_path(self, msg_base):

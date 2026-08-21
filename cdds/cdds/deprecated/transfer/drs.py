@@ -948,8 +948,18 @@ def filter_filesets(atomic_dataset_collection, variables_to_operate_on):
     """
     logger = logging.getLogger(__name__)
     for drs_facet_builder in atomic_dataset_collection:
-        key = (drs_facet_builder.facets['table_id'],
-               drs_facet_builder.facets['variable'])
+        if 'CMIP6' in drs_facet_builder.facets['mip_era']:
+            key = (
+                drs_facet_builder.facets['table_id'],
+                drs_facet_builder.facets['variable'])
+        elif 'CMIP7' in drs_facet_builder.facets['mip_era']:
+            # need to make this more intelligent to filter on grid label too
+            key = (
+                drs_facet_builder.facets['frequency'],
+                '{}_{}'.format(
+                    drs_facet_builder.facets['variable'],
+                    drs_facet_builder.facets['branding']))
+
         if key not in variables_to_operate_on:
             logger.info('Dataset "{}/{}" not included in variables list. '
                         'Skipping.'.format(*key))
