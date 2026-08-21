@@ -601,7 +601,12 @@ def pp_filter(field, pp_info, run_bounds, ancil_variables):
     # constraint matching to avoid loading mixed 2-D/3-D fields that cannot be
     # concatenated. Ancillary files have lbtim=0 so are always safe to include.
     if field.lbuser[3] == 33 and (('lbuser4', 33) not in pp_info or field.lbtim == 0):
-        result = True
+        # Filter out any orog fields that fall outside of the run bounds to avoid interpolation that prevents concat
+        start_date = f"{field.lbyr}-{field.lbmon}-{field.lbdat}"
+        if start_date < run_bounds[0]:
+            result = False
+        else:
+            result = True
     else:
         for header_element_name, value in pp_info:
             header_element_value = get_field_value(field, header_element_name)
