@@ -36,12 +36,12 @@ def check_environment_variables():
         # If path var is unset, continue to avoid path expansion error.
         if not path:
             continue
-        # Expand and validate path environment variables.
-        expanded_value = os.path.expandvars(path)
-        if expanded_value.startswith('source '):
-            expanded_value = expanded_value[len('source '):].strip()
+        # Expand path environment variables. The value may be a command
+        # (e.g. "source <path>" or "conda activate <path>"), so only the
+        # final whitespace-separated token is treated as the path.
+        expanded_value = os.path.expandvars(path).split()[-1]
         if not os.path.exists(expanded_value):
-            unresolved_paths.append(required_path_variable)
+            unresolved_paths.append((required_path_variable, expanded_value))
 
     if unset_vars or unresolved_paths:
         print("\nIssues detected with environment variables:")
