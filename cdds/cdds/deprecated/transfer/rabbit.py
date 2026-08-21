@@ -5,6 +5,7 @@ import logging
 import pika
 import ssl
 import time
+import json
 
 
 class RabbitMqManager(object):
@@ -300,7 +301,7 @@ class PersistentPublish(ChannelCallable):
         """
         self.queue = queue
         self._queue_name = queue.queue_name
-        self._body = body
+        self._body = json.dumps(body)
 
     def call(self, channel, exchange):
         """Run basic_publish to publish our message on the channel.

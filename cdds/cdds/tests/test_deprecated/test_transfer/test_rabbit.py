@@ -119,7 +119,7 @@ class TestRabbit(unittest.TestCase):
         result = self.RABBIT_MANAGER.call(getter)
         self.assertTrue(result is not None)
         self.assertEqual(self._msg_count(self.available), before_get)
-        self.assertEqual(result[1], b"test message 0")
+        self.assertEqual(result[1], b'"test message 0"')
 
     def test_get_all(self):
         self._publish_mixed_topics()
@@ -127,7 +127,7 @@ class TestRabbit(unittest.TestCase):
         messages = self.RABBIT_MANAGER.call(getter)
         self.assertEqual(len(messages), 3)
         for i in range(3):
-            self.assertEqual(messages[i][1], b"test message %d" % i)
+            self.assertEqual(messages[i][1], b'"test message %d"' % i)
 
     def test_publish(self):
         before_publish = self._msg_count(self.available)
