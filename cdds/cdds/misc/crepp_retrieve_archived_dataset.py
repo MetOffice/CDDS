@@ -325,11 +325,6 @@ def transfer_files_to_final_dir(
     Returns
     -------
     None
-
-    Raises
-    ------
-    ValueError
-        If a file's checksum does not match the value reported by MASS.
     """
     for file_info in chunk:
         filename = Path(file_info["mass_path"]).name
@@ -359,7 +354,7 @@ def filter_versioned_files(files: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
 
 
 def parse_dataset_id(dataset_id: str) -> tuple[str, str]:
-    """Split a dataset_id into its 9-facet base and version string.
+    """Split a dataset_id into its base facets and version string.
 
     Parameters
     ----------
@@ -369,7 +364,8 @@ def parse_dataset_id(dataset_id: str) -> tuple[str, str]:
     Returns
     -------
     tuple of (str, str)
-        The 9-facet base id and the version string (e.g. ``'v20200828'``).
+        The base dataset id (all facets except the last) and the version string
+        (e.g. ``'v20200828'``).
     """
     facets = dataset_id.split(".")
     return ".".join(facets[:-1]), facets[-1]
@@ -393,20 +389,28 @@ def mass_error_exit_code(error: MassError) -> int:
     return 3
 
 
-def run_ls_action(dataset_id: str, mass_root: str) -> int:
-    """List the files, sizes and checksums of a single dataset in MASS, as JSON on stdout.
+def fetch_versioned_files(
+    dataset_id: str, mass_root: str
+) -> tuple[list, str] | int:
+    """Look up a dataset in MASS and return its versioned files and MASS path.
+
+    Combines the MASS listing, dataset lookup, and version filtering steps
+    shared by :func:`run_ls_action` and :func:`run_get_action`.
 
     Parameters
     ----------
     dataset_id : str
-        Full CMIP6 dataset identifier.
+        Full dataset identifier including version facet.
     mass_root : str
         Root location in MASS.
 
     Returns
     -------
+    tuple of (list, str)
+        ``(files, mass_path)`` on success, where ``files`` is the filtered
+        list of file info dicts and ``mass_path`` is the MASS directory path.
     int
-        Exit code: 0 success, 1 not found, 2 credentials/permissions error, 3 other error.
+        An exit code (1, 2, or 3) if the lookup fails.
     """
     logger = logging.getLogger(__name__)
     base_dataset_id, version = parse_dataset_id(dataset_id)
@@ -416,14 +420,12 @@ def run_ls_action(dataset_id: str, mass_root: str) -> int:
             mass_path=mass_path, mass_root=mass_root, dry_run=False
         )
     except FileNotExistMassError:
-        # moo command itself failed: the MASS path does not exist at all.
         logger.critical(f"Dataset not found in MASS: {dataset_id}")
         return 1
     except MassError as e:
         logger.critical(str(e))
         return mass_error_exit_code(e)
 
-    # moo command succeeded, but no files matched this exact dataset_id.
     dataset = mass_file_list.get(base_dataset_id)
     if not dataset:
         logger.critical(f"Dataset not found in MASS: {dataset_id}")
@@ -434,6 +436,29 @@ def run_ls_action(dataset_id: str, mass_root: str) -> int:
     if not files:
         logger.critical(f"No versioned files found in MASS for dataset: {dataset_id}")
         return 1
+
+    return files, mass_path
+
+
+def run_ls_action(dataset_id: str, mass_root: str) -> int:
+    """List the files, sizes and checksums of a single dataset in MASS, as JSON on stdout.
+
+    Parameters
+    ----------
+    dataset_id : str
+        Full dataset identifier.
+    mass_root : str
+        Root location in MASS.
+
+    Returns
+    -------
+    int
+        Exit code: 0 success, 1 not found, 2 credentials/permissions error, 3 other error.
+    """
+    result = fetch_versioned_files(dataset_id, mass_root)
+    if isinstance(result, int):
+        return result
+    files, mass_path = result
 
     payload = {
         "dataset_id": dataset_id,
@@ -457,7 +482,7 @@ def run_get_action(
     Parameters
     ----------
     dataset_id : str
-        Full CMIP6 dataset identifier.
+        Full dataset identifier.
     mass_root : str
         Root location in MASS.
     destination : str
@@ -475,31 +500,10 @@ def run_get_action(
         Exit code: 0 success, 1 not found, 2 credentials/permissions error, 3 other error.
     """
     logger = logging.getLogger(__name__)
-    base_dataset_id, version = parse_dataset_id(dataset_id)
-    mass_path = str(PurePosixPath(mass_root) / base_dataset_id.replace(".", "/"))
-    try:
-        mass_file_list = list_mass_files_with_checksums(
-            mass_path=mass_path, mass_root=mass_root, dry_run=False
-        )
-    except FileNotExistMassError:
-        # moo command itself failed: the MASS path does not exist at all.
-        logger.critical(f"Dataset not found in MASS: {dataset_id}")
-        return 1
-    except MassError as e:
-        logger.critical(str(e))
-        return mass_error_exit_code(e)
-
-    # moo command succeeded, but no files matched this exact dataset_id.
-    dataset = mass_file_list.get(base_dataset_id)
-    if not dataset:
-        logger.critical(f"Dataset not found in MASS: {dataset_id}")
-        return 1
-
-    files = filter_versioned_files(dataset["files"])
-    files = [f for f in files if f"/{version}/" in f["mass_path"]]
-    if not files:
-        logger.critical(f"No versioned files found in MASS for dataset: {dataset_id}")
-        return 1
+    result = fetch_versioned_files(dataset_id, mass_root)
+    if isinstance(result, int):
+        return result
+    files, mass_path = result
 
     try:
         chunk_size_as_bytes = gb_to_bytes(chunk_size)
