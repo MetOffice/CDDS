@@ -111,7 +111,8 @@ def list_mass_files_with_checksums(mass_path: str, mass_root: str, dry_run: bool
         size_elem = node.find('size')
         filesize = size_elem.text if size_elem is not None else None
         checksum_elem = node.find('checksum/value')
-        checksum = checksum_elem.text if checksum_elem is not None else None
+        checksum_value = checksum_elem.text if checksum_elem is not None else None
+        checksum = f"md5:{checksum_value}" if checksum_value is not None else None
 
         dataset_id, status, timestamp, filename = parse_mass_file_path(mass_file_path, mass_root)
 
